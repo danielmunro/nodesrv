@@ -1,0 +1,17 @@
+{
+  "name": "nodesrv",
+  "version": "0.0.1",
+  "description": "A minimal broadcast server",
+  "main": "server2.js",
+  "scripts": {
+    "start": "node server2.js"
+  },
+  "repository": "https://github.com/danielmunro/nodesrv",
+  "keywords": [],
+  "author": "Dan Munro",
+  "license": "CC0-1.0",
+  "devDependencies": {},
+  "dependencies": {
+    "ws": "^3.3.3"
+  }
+}
