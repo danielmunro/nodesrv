@@ -1,5 +1,7 @@
 export const DOMAINS = {
-  room: 'room'
+  room: 'room',
+  player: 'player',
+  mob: 'mob'
 }
 
 export const PORT = 5151
