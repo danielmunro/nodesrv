@@ -1,3 +1,6 @@
+# App specific ephemeral files
+fixture-ids.txt
+
 # Logs
 logs
 *.log
@@ -56,4 +59,3 @@ typings/
 
 # dotenv environment variables file
 .env
-
