@@ -1,5 +1,8 @@
 {
-  "presets": ["env"],
+  "presets": [
+    ["env"],
+    ["typescript"]
+  ],
   "plugins": [
     ["transform-class-properties"],
     ["module-resolver", {
