@@ -4,10 +4,10 @@ export const DIRECTIONS = {
   east: 'east',
   west: 'west',
   up: 'up',
-  down: 'down'
+  down: 'down',
 }
 
-export function directionsForRoom (room) {
+export function directionsForRoom(room) {
   return Object.keys(DIRECTIONS).filter(d => room[d])
 }
 

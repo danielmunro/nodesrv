@@ -4,37 +4,31 @@ import { ROOM_DOMAIN } from 'config'
 import { directionsForRoom } from 'room'
 
 const Room = model(db, ROOM_DOMAIN)
+const rooms = {}
 
-function newRoomSavePromise (model) {
+function newRoomSavePromise(theModel) {
   return new Promise((resolve, reject) =>
-    Room.save(model, (err, node) => {
+    Room.save(theModel, (err, node) => {
       if (err) {
         reject(err)
       }
+      rooms[node.name] = node.id
       resolve(node)
     }))
 }
 
-function saveAllModels (models) {
-  return models.map(model => newRoomSavePromise(model))
+function saveAllModels(models) {
+  return models.map(m => newRoomSavePromise(m))
 }
 
-function createRelationships (newModels) {
-  const idNameMap = getIdNameMap(newModels)
+function createRelationships(newModels) {
   newModels.map(m =>
     directionsForRoom(m).map(d =>
-      db.relate(m.id, d, idNameMap[m[d]], {}, () => {})))
+      db.relate(m.id, d, rooms[m[d]], {}, () => {})))
 }
 
-function getIdNameMap (models) {
-  let idNameMap = {}
-  for (let m of models) {
-    idNameMap[m.name] = m.id
-  }
-
-  return idNameMap
-}
-
-export function save (models) {
+export function saveModels(models) {
   Promise.all(saveAllModels(models)).then(createRelationships)
 }
+
+export default Room

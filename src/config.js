@@ -5,7 +5,7 @@ export const MOB_DOMAIN = 'mob'
 export const DOMAINS = [
   ROOM_DOMAIN,
   PLAYER_DOMAIN,
-  MOB_DOMAIN
+  MOB_DOMAIN,
 ]
 
 export const PORT = 5151
