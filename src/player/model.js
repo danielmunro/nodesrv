@@ -1,5 +1,5 @@
 import { db } from 'db'
 import model from 'seraph-model'
-import { DOMAINS } from 'config'
+import { PLAYER_DOMAIN } from 'config'
 
-export const Player = model(db, DOMAINS.player)
+export const Player = model(db, PLAYER_DOMAIN)

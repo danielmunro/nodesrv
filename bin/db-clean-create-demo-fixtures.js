@@ -1,8 +1,7 @@
+import fs from 'fs'
 import { save as roomSave } from 'room/model'
 import { Player } from 'player/model'
-import { generateName } from 'room'
-import fs from 'fs'
-import { db } from 'db'
+import { db, generateName } from 'db'
 
 const room1 = generateName()
 const room2 = generateName()

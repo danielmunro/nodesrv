@@ -1,9 +1,9 @@
 import { db } from 'db'
 import model from 'seraph-model'
-import { DOMAINS } from 'config'
+import { ROOM_DOMAIN } from 'config'
 import { directionsForRoom } from 'room'
 
-const Room = model(db, DOMAINS.room)
+const Room = model(db, ROOM_DOMAIN)
 
 function newRoomSavePromise (model) {
   return new Promise((resolve, reject) =>

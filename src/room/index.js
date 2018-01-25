@@ -1,6 +1,3 @@
-import slugify from 'slugify'
-import sillyname from 'sillyname'
-
 export const DIRECTIONS = {
   north: 'north',
   south: 'south',
@@ -8,12 +5,6 @@ export const DIRECTIONS = {
   west: 'west',
   up: 'up',
   down: 'down'
-}
-
-export function generateName () {
-  return slugify(sillyname(), {
-    lower: true
-  })
 }
 
 export function directionsForRoom (room) {

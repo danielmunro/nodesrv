@@ -1,4 +1,4 @@
-import { find } from '../model'
+import { find } from '../db'
 import { ws as WebSocket } from 'ws'
 
 const ERROR_CONNECTION_RESET = 'read ECONNRESET'

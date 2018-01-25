@@ -1,13 +1,14 @@
 {
   "name": "nodesrv",
   "version": "0.0.1",
-  "description": "A minimal broadcast server",
+  "description": "A minimal server",
   "main": "index.js",
   "scripts": {
-    "start": "tsc --target es6 --moduleResolution node && babel-node --extensions '.ts,.js' index.js",
+    "start": "npm run typecheck && babel-node --extensions '.ts,.js' index.js",
     "lint": "eslint .",
-    "create-fixtures": "babel-node src/demo/fixtures.js .",
-    "typecheck": "tsc"
+    "create-fixtures": "babel-node bin/db-clean-create-demo-fixtures.js .",
+    "typecheck": "tsc --target es6 --moduleResolution node",
+    "check": "npm run lint && npm run typecheck"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],
@@ -25,10 +26,13 @@
     "babel-preset-stage-2": "^7.0.0-beta.3",
     "babel-preset-typescript": "^7.0.0-alpha.19",
     "eslint": "^4.14.0",
+    "eslint-config-airbnb": "^16.1.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-standard": "^3.0.1",
     "sillyname": "^0.1.0",
     "slugify": "^1.2.9"
