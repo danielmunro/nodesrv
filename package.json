@@ -2,9 +2,9 @@
   "name": "nodesrv",
   "version": "0.0.1",
   "description": "A minimal server",
-  "main": "index.js",
+  "main": "bin/start-game-server.js",
   "scripts": {
-    "start": "npm run typecheck && babel-node --extensions '.ts,.js' index.js",
+    "start": "npm run typecheck && babel-node --extensions '.ts,.js' bin/start-game-server.js",
     "lint": "eslint .",
     "create-fixtures": "babel-node bin/db-clean-create-demo-fixtures.js .",
     "typecheck": "tsc --target es6 --moduleResolution node",
