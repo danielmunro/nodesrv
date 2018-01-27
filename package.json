@@ -4,11 +4,10 @@
   "description": "A minimal server",
   "main": "bin/start-game-server.js",
   "scripts": {
-    "start": "npm run typecheck && babel-node --extensions '.ts,.js' bin/start-game-server.js",
+    "start": "yarn run flow && babel-node bin/start-game-server.js",
     "lint": "eslint .",
     "create-fixtures": "babel-node bin/db-clean-create-demo-fixtures.js .",
-    "typecheck": "tsc --target es6 --moduleResolution node",
-    "check": "npm run lint && npm run typecheck"
+    "check": "yarn run lint && yarn run flow"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],
@@ -23,8 +22,8 @@
     "babel-polyfill": "^7.0.0-beta.3",
     "babel-preset-env": "^2.0.0-alpha.20",
     "babel-preset-es2015": "^7.0.0-beta.3",
+    "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-2": "^7.0.0-beta.3",
-    "babel-preset-typescript": "^7.0.0-alpha.19",
     "eslint": "^4.14.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-standard": "^11.0.0-beta.0",
@@ -34,6 +33,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-standard": "^3.0.1",
+    "flow-bin": "^0.64.0",
     "sillyname": "^0.1.0",
     "slugify": "^1.2.9"
   },

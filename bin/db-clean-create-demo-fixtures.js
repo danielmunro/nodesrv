@@ -1,7 +1,9 @@
+// @flow
+
 import fs from 'fs'
-import { saveModels } from 'room/model'
-import Player from 'player/model'
-import { db, generateName } from 'db'
+import { saveModels } from './../src/room/model'
+import Player from './../src/player/model'
+import { db, generateName } from './../src/db'
 
 const room1 = generateName()
 const room2 = generateName()

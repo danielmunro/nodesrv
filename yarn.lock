@@ -563,6 +563,10 @@ babel-plugin-syntax-export-extensions@7.0.0-beta.3:
   version "7.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-export-extensions/-/babel-plugin-syntax-export-extensions-7.0.0-beta.3.tgz#eb6891a63f86652e2f09c332f2ff06a83c07da28"
 
+babel-plugin-syntax-flow@^6.18.0:
+  version "6.18.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-syntax-flow/-/babel-plugin-syntax-flow-6.18.0.tgz#4c3ab20a2af26aa20cd25995c398c4eb70310c8d"
+
 babel-plugin-syntax-function-sent@7.0.0-beta.3:
   version "7.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-function-sent/-/babel-plugin-syntax-function-sent-7.0.0-beta.3.tgz#bd217b5441f64fbeeaaf65512ccdeb05094457c3"
@@ -570,10 +574,6 @@ babel-plugin-syntax-function-sent@7.0.0-beta.3:
 babel-plugin-syntax-numeric-separator@7.0.0-beta.3:
   version "7.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-numeric-separator/-/babel-plugin-syntax-numeric-separator-7.0.0-beta.3.tgz#c94cc94985f55fa62a1f270ad6d48458459589fe"
-
-babel-plugin-syntax-object-rest-spread@7.0.0-alpha.19:
-  version "7.0.0-alpha.19"
-  resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-7.0.0-alpha.19.tgz#f68e6b6622ce4c66a858d25442352ff3f4880642"
 
 babel-plugin-syntax-object-rest-spread@7.0.0-beta.0:
   version "7.0.0-beta.0"
@@ -606,10 +606,6 @@ babel-plugin-syntax-throw-expressions@7.0.0-beta.3:
 babel-plugin-syntax-trailing-function-commas@7.0.0-beta.0:
   version "7.0.0-beta.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-trailing-function-commas/-/babel-plugin-syntax-trailing-function-commas-7.0.0-beta.0.tgz#aa213c1435e2bffeb6fca842287ef534ad05d5cf"
-
-babel-plugin-syntax-typescript@7.0.0-alpha.19:
-  version "7.0.0-alpha.19"
-  resolved "https://registry.yarnpkg.com/babel-plugin-syntax-typescript/-/babel-plugin-syntax-typescript-7.0.0-alpha.19.tgz#fc5876863db297549f5d840d248eac3310241f84"
 
 babel-plugin-transform-async-generator-functions@7.0.0-beta.2:
   version "7.0.0-beta.2"
@@ -933,6 +929,13 @@ babel-plugin-transform-export-namespace@7.0.0-beta.3:
   dependencies:
     babel-plugin-syntax-export-extensions "7.0.0-beta.3"
 
+babel-plugin-transform-flow-strip-types@^6.22.0:
+  version "6.22.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-flow-strip-types/-/babel-plugin-transform-flow-strip-types-6.22.0.tgz#84cb672935d43714fdc32bce84568d87441cf7cf"
+  dependencies:
+    babel-plugin-syntax-flow "^6.18.0"
+    babel-runtime "^6.22.0"
+
 babel-plugin-transform-function-sent@7.0.0-beta.3:
   version "7.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-function-sent/-/babel-plugin-transform-function-sent-7.0.0-beta.3.tgz#a9f59630c1347cfe16a1af62102c287e9e7a6045"
@@ -991,12 +994,6 @@ babel-plugin-transform-throw-expressions@7.0.0-beta.3:
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-throw-expressions/-/babel-plugin-transform-throw-expressions-7.0.0-beta.3.tgz#89daad94f2fb5b671c75942bbdd527844751e711"
   dependencies:
     babel-plugin-syntax-throw-expressions "7.0.0-beta.3"
-
-babel-plugin-transform-typescript@7.0.0-alpha.19:
-  version "7.0.0-alpha.19"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-typescript/-/babel-plugin-transform-typescript-7.0.0-alpha.19.tgz#9b06c066393d6752e6e539e8b0b5929a78feb5b1"
-  dependencies:
-    babel-plugin-syntax-typescript "7.0.0-alpha.19"
 
 babel-plugin-transform-unicode-property-regex@^2.0.5:
   version "2.0.5"
@@ -1085,6 +1082,12 @@ babel-preset-es2015@^7.0.0-beta.3:
     babel-plugin-transform-es2015-unicode-regex "7.0.0-beta.3"
     babel-plugin-transform-regenerator "7.0.0-beta.3"
 
+babel-preset-flow@^6.23.0:
+  version "6.23.0"
+  resolved "https://registry.yarnpkg.com/babel-preset-flow/-/babel-preset-flow-6.23.0.tgz#e71218887085ae9a24b5be4169affb599816c49d"
+  dependencies:
+    babel-plugin-transform-flow-strip-types "^6.22.0"
+
 babel-preset-stage-2@^7.0.0-beta.3:
   version "7.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/babel-preset-stage-2/-/babel-preset-stage-2-7.0.0-beta.3.tgz#219016653baac15e3137d8ce153718fd5cd696f5"
@@ -1106,13 +1109,6 @@ babel-preset-stage-3@7.0.0-beta.3:
     babel-plugin-transform-optional-catch-binding "7.0.0-beta.3"
     babel-plugin-transform-unicode-property-regex "^2.0.5"
 
-babel-preset-typescript@^7.0.0-alpha.19:
-  version "7.0.0-alpha.19"
-  resolved "https://registry.yarnpkg.com/babel-preset-typescript/-/babel-preset-typescript-7.0.0-alpha.19.tgz#32b8590c87a050faeb44db332db9f9106e5170e7"
-  dependencies:
-    babel-plugin-syntax-object-rest-spread "7.0.0-alpha.19"
-    babel-plugin-transform-typescript "7.0.0-alpha.19"
-
 babel-register@7.0.0-beta.3:
   version "7.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/babel-register/-/babel-register-7.0.0-beta.3.tgz#9543472da6f016b39dddc8166f21841e2445e0c2"
@@ -1126,7 +1122,7 @@ babel-register@7.0.0-beta.3:
     pirates "^3.0.1"
     source-map-support "^0.4.2"
 
-babel-runtime@^6.18.0, babel-runtime@^6.26.0:
+babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -1897,6 +1893,10 @@ flat-cache@^1.2.1:
     del "^2.0.2"
     graceful-fs "^4.1.2"
     write "^0.2.1"
+
+flow-bin@^0.64.0:
+  version "0.64.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.64.0.tgz#ddd3fb3b183ab1ab35a5d5dec9caf5ebbcded167"
 
 for-in@^1.0.1:
   version "1.0.2"
