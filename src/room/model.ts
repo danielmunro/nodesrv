@@ -1,7 +1,7 @@
-import * as model from 'seraph-model'
-import { db } from './../db'
-import { ROOM_DOMAIN } from './../config'
-import { directionsForRoom } from './index'
+import * as model from "seraph-model"
+import { ROOM_DOMAIN } from "./../config"
+import { db } from "./../db"
+import { directionsForRoom } from "./index"
 
 const Room = model(db, ROOM_DOMAIN)
 const rooms = {}
@@ -18,12 +18,12 @@ function newRoomSavePromise(theModel) {
 }
 
 function saveAllModels(models) {
-  return models.map(m => newRoomSavePromise(m))
+  return models.map((m) => newRoomSavePromise(m))
 }
 
 function createRelationships(newModels) {
-  newModels.map(m =>
-    directionsForRoom(m).map(d =>
+  newModels.map((m) =>
+    directionsForRoom(m).map((d) =>
       db.relate(m.id, d, rooms[m[d]], {}, () => {})))
 }
 

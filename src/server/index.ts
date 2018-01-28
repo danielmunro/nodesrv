@@ -1,11 +1,11 @@
-import { Server } from 'ws'
-import { find } from '../db'
-import onError from './error'
+import { Server } from "ws"
+import { find } from "../db"
+import onError from "./error"
 
 const EVENTS = {
-  MESSAGE: 'message',
-  ERROR: 'error',
-  CONNECTION: 'connection'
+  CONNECTION: "connection",
+  ERROR: "error",
+  MESSAGE: "message",
 }
 
 function send(ws, data): void {
@@ -25,13 +25,13 @@ function onMessage(ws, data): void {
   const message = JSON.parse(data)
   const { request, label, name } = message
 
-  if (request === 'node') {
+  if (request === "node") {
     findNodes(request, label, name, (nodes) => send(ws, nodes))
   }
 }
 
 function newConnection(ws): void {
-  ws.on(EVENTS.MESSAGE, data => onMessage(ws, data))
+  ws.on(EVENTS.MESSAGE, (data) => onMessage(ws, data))
   ws.on(EVENTS.ERROR, onError)
 }
 

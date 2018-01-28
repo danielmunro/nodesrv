@@ -5,7 +5,13 @@
     ],
     "jsRules": {},
     "rules": {
-        "semicolon": [true, "never"]
+        "semicolon": [true, "never"],
+        "no-console": {
+            "severity": "warning"
+        },
+        "no-empty": {
+            "severity": "warning"
+        }
     },
     "rulesDirectory": []
 }

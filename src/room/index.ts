@@ -1,33 +1,14 @@
-import Room from './model'
+import Room from "./model"
 
 export const DIRECTIONS = {
-  north: 'north',
-  south: 'south',
-  east: 'east',
-  west: 'west',
-  up: 'up',
-  down: 'down',
+  down: "down",
+  east: "east",
+  north: "north",
+  south: "south",
+  up: "up",
+  west: "west",
 }
 
 export function directionsForRoom(room: Room) {
-  return Object.keys(DIRECTIONS).filter(d => room[d])
+  return Object.keys(DIRECTIONS).filter((d) => room[d])
 }
-
-/**
-function reverseDirection (direction) {
-  switch (direction) {
-    case 'north':
-      return 'south'
-    case 'south':
-      return 'north'
-    case 'east':
-      return 'west'
-    case 'west':
-      return 'east'
-    case 'up':
-      return 'down'
-    case 'down':
-      return 'up'
-  }
-}
-*/
