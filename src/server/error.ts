@@ -1,8 +1,6 @@
-// @flow
-
 const CONNECTION_RESET = 'Error: read ECONNRESET'
 
-function isInterestingError(error): boolean {
+function isInterestingError(error: Error): boolean {
   return error.toString() !== CONNECTION_RESET
 }
 

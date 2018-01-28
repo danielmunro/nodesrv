@@ -1,6 +1,4 @@
-// @flow
-
-import model from 'seraph-model'
+import * as model from 'seraph-model'
 import { db } from './../db'
 import { ROOM_DOMAIN } from './../config'
 import { directionsForRoom } from './index'
@@ -29,7 +27,7 @@ function createRelationships(newModels) {
       db.relate(m.id, d, rooms[m[d]], {}, () => {})))
 }
 
-export function saveModels(models: any) {
+export function saveModels(models) {
   Promise.all(saveAllModels(models)).then(createRelationships)
 }
 

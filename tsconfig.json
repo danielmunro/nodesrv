@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "target": "es2015",
+        "allowJs": true,
+        "outDir": "./build/",
+        "moduleResolution": "node"
+    }
+}

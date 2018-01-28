@@ -1,5 +1,3 @@
-// @flow
-
 import Room from './model'
 
 export const DIRECTIONS = {

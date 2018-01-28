@@ -1,6 +1,4 @@
-// @flow
-
-import model from 'seraph-model'
+import * as model from 'seraph-model'
 import { db } from './../db'
 import { PLAYER_DOMAIN } from './../config'
 

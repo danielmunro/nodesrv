@@ -4,14 +4,15 @@
   "description": "A minimal server",
   "main": "bin/start-game-server.js",
   "scripts": {
-    "start": "yarn run flow && babel-node bin/start-game-server.js",
-    "create-fixtures": "babel-node bin/db-clean-create-demo-fixtures.js ."
+    "start": "ts-node --no-cache bin/start-game-server.ts",
+    "create-fixtures": "ts-node --no-cache bin/db-clean-create-demo-fixtures.ts ."
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],
   "author": "Dan Munro",
   "license": "CC0-1.0",
   "devDependencies": {
+    "@types/core-js": "^0.9.35",
     "adjective-adjective-animal": "^1.3.3",
     "babel-cli": "^7.0.0-beta.3",
     "babel-node": "^7.0.0-beta.3",
@@ -20,16 +21,22 @@
     "babel-polyfill": "^7.0.0-beta.3",
     "babel-preset-env": "^2.0.0-alpha.20",
     "babel-preset-es2015": "^7.0.0-beta.3",
-    "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-2": "^7.0.0-beta.3",
-    "flow-bin": "^0.64.0",
+    "babel-preset-typescript": "^7.0.0-alpha.19",
+    "fs": "^0.0.1-security",
     "sillyname": "^0.1.0",
-    "slugify": "^1.2.9"
+    "slugify": "^1.2.9",
+    "ts-node": "^4.1.0",
+    "tslint": "^5.9.1",
+    "typescript": "^2.6.2"
   },
   "dependencies": {
+    "@types/jest": "^22.1.0",
+    "@types/node": "^9.4.0",
+    "@types/ws": "^4.0.0",
     "neo4j": "^2.0.0-RC2",
     "seraph": "^0.15.3",
     "seraph-model": "^0.10.1",
-    "ws": "^3.3.3"
+    "ws": "^4.0.0"
   }
 }

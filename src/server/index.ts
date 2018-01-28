@@ -1,5 +1,3 @@
-// @flow
-
 import { Server } from 'ws'
 import { find } from '../db'
 import onError from './error'
