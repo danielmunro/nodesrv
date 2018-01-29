@@ -1,6 +1,6 @@
 import { Server } from "ws"
-import { find } from "../db"
 import onError from "./error"
+import { handlers } from "./handler/index"
 
 const EVENTS = {
   CONNECTION: "connection",
@@ -12,22 +12,16 @@ function send(ws, data): void {
   ws.send(JSON.stringify(data))
 }
 
-function findNodes(request, label, name, cb): void {
-  find(label, { name }, (err, nodes) => {
-    if (err) {
-      throw err
-    }
-    cb(nodes)
-  })
-}
-
 function onMessage(ws, data): void {
   const message = JSON.parse(data)
   const { request, label, name } = message
 
-  if (request === "node") {
-    findNodes(request, label, name, (nodes) => send(ws, nodes))
+  if (handlers[request]) {
+    handlers[request](label, name, (nodes) => send(ws, nodes))
+    return
   }
+
+  send(ws, {message: "what was that?"})
 }
 
 function newConnection(ws): void {
