@@ -13,7 +13,7 @@ db.query("MATCH (n) DETACH DELETE n", () => {
     {
       brief: "Inn at the Lodge",
       description: "Flickering torches provide the only light in the large main messhall. "
-      + "The room is filled with the chatter of travellers, eating, drinking, and preparing for the journey ahead.",
+      + "The room is filled with the chatter of travellers preparing for the journey ahead.",
       name: room1,
       north: room2,
       south: room3,
