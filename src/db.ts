@@ -5,10 +5,10 @@ import * as sillyname from 'sillyname'
 
 export const db = seraph(DB_CONNECTION_STRING)
 
-export function find(domain, params, cb) {
+export function find(domain, params, cb): any {
   db.find(params, cb)
 }
 
-export function generateName() {
+export function generateName(): string {
   return slugify(sillyname(), { lower: true })
 }
