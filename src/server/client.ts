@@ -15,8 +15,16 @@ export class Client {
     this.ws.send(JSON.stringify(data))
   }
 
-  private onMessage(data): void {
-    const message = JSON.parse(data)
+  private onMessage(messageEvent: MessageEvent): void {
+    let message
+
+    try {
+      message = JSON.parse(messageEvent.data)
+    } catch (e) {
+      console.log("error parsing message from client", messageEvent.data)
+      return
+    }
+    
     const { request, label, name } = message
 
     if (handlers[request]) {

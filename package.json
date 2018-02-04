@@ -7,7 +7,7 @@
     "start": "npm run lint && ts-node --no-cache bin/start-game-server.ts",
     "create-fixtures": "npm run lint && ts-node --no-cache bin/db-clean-create-demo-fixtures.ts .",
     "lint": "tslint bin/**/*.ts src/**/*.ts",
-    "test": "jest src/**/*.test.ts"
+    "test": "jest"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],

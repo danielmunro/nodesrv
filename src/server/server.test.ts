@@ -1,5 +1,5 @@
 import { Server, WebSocket } from "mock-socket"
-import { GameServer } from "./server";
+import { GameServer } from "./server"
 import { ImmediateTimer } from "./timer/immediate-timer"
 
 let ws
@@ -13,7 +13,7 @@ function startGameServer(gs): void {
 }
 
 beforeEach(() => {
-  ws = new Server('ws://localhost:1234')
+  ws = new Server("ws://localhost:1234")
 })
 
 afterEach(() => {
@@ -27,7 +27,7 @@ describe("the server should", () => {
     startGameServer(server)
     expect(server.isStarted()).toBe(true)
   })
-  
+
   test("not start again if already started", () => {
     const server = getGameServer()
     startGameServer(server)

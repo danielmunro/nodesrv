@@ -40,17 +40,29 @@ export class GameServer {
     this.status = Status.Terminated
   }
 
+  public addWS(ws): void {
+    const client = new Client(ws)
+    this.clients.push(client)
+    ws.onclose = () => this.removeClient(client)
+  }
+
+  public isInitialized(): boolean {
+    return this.status === Status.Initialized
+  }
+
+  public isStarted(): boolean {
+    return this.status === Status.Started
+  }
+
+  public isTerminated(): boolean {
+    return this.status === Status.Terminated
+  }
+
   private registerTickTimeout(): void {
     setTimeout(
       this.tick.bind(this),
       this.timer.getRandomTickLength(),
     )
-  }
-
-  public addWS(ws): void {
-    const client = new Client(ws)
-    this.clients.push(client)
-    ws.onclose = () => this.removeClient(client)
   }
 
   private tick(): void {
@@ -67,21 +79,5 @@ export class GameServer {
 
   private removeClient(client): void {
     this.clients = this.clients.filter((it) => it !== client)
-  }
-
-  public isInitialized(): boolean {
-    return this.status === Status.Initialized
-  }
-
-  public isStarted(): boolean {
-    return this.status === Status.Started
-  }
-
-  public isTerminated(): boolean {
-    return this.status === Status.Terminated
-  }
-
-  public getClientCount(): number {
-    return this.clients.length
   }
 }

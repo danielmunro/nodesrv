@@ -1,6 +1,6 @@
 import * as model from "seraph-model"
-import { ROOM_DOMAIN } from "./../config"
 import { db } from "./../db"
+import { ROOM_DOMAIN } from "./../domain"
 import { directionsForRoom } from "./index"
 
 const Room = model(db, ROOM_DOMAIN)
