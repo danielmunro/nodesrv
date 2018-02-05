@@ -1,6 +1,7 @@
 import { EVENTS } from "./constants"
 import onError from "./error"
 import { handlers } from "./handler/index"
+import { MessageHandler } from "./handler/messageHandler"
 
 export class Client {
   private ws: WebSocket
@@ -15,7 +16,7 @@ export class Client {
     this.ws.send(JSON.stringify(data))
   }
 
-  private onMessage(messageEvent: MessageEvent): void {
+  public getNewHandlerFromEvent(messageEvent: MessageEvent): MessageHandler {
     let message
 
     try {
@@ -24,14 +25,17 @@ export class Client {
       console.log("error parsing message from client", messageEvent.data)
       return
     }
-    
+
     const { request, label, name } = message
 
-    if (handlers[request]) {
-      handlers[request](label, name, (response) => this.send(response))
-      return
-    }
+    return new MessageHandler(request, label, name)
+  }
 
-    this.send({message: "what was that?"})
+  private onMessage(messageEvent: MessageEvent): void {
+    this.getNewHandlerFromEvent(messageEvent).applyHandlers(
+      handlers,
+      (response) => this.send(response),
+      () => this.send({message: "what was that?"}),
+    )
   }
 }
