@@ -1,5 +1,7 @@
+import { Handler } from "./constants"
+
 export class MessageHandler {
-  private request
+  private request: Handler
   private label
   private name
 
@@ -10,8 +12,9 @@ export class MessageHandler {
   }
 
   public applyHandlers(handlers, success, failure) {
-    if (handlers[this.request]) {
-      handlers[this.request](this.label, this.name, success)
+    const handler = handlers.find((it) => it.handler === this.request)
+    if (handler) {
+      handler.callback(this.label, this.name, success)
       return
     }
 
