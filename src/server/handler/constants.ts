@@ -1,3 +1,4 @@
 export enum Handler {
-  Node = "node"
+  Node = "node",
+  Social = "social",
 }

@@ -1,23 +1,32 @@
 import { Handler } from "./constants"
+import { Player } from "../../player/player"
 
 export class MessageHandler {
+  private player: Player
   private request: Handler
-  private label
-  private name
+  private args
 
-  constructor(request, label, name) {
+  constructor(player: Player, request: Handler, args) {
+    this.player = player
     this.request = request
-    this.label = label
-    this.name = name
+    this.args = args
   }
 
   public applyHandlers(handlers, success, failure) {
     const handler = handlers.find((it) => it.handler === this.request)
     if (handler) {
-      handler.callback(this.label, this.name, success)
+      handler.callback(this, success)
       return
     }
 
     failure()
+  }
+
+  public getArgs() {
+    return this.args
+  }
+
+  public getPlayer(): Player {
+    return this.player
   }
 }

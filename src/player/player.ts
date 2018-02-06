@@ -1,10 +1,12 @@
+import { v4 } from "uuid"
 import { Attributes } from "../attributes/attributes"
 import { HitDam } from "../attributes/hitdam"
 import { Stats } from "../attributes/stats"
 import { Vitals } from "../attributes/vitals"
-import { Client } from "../server/client"
+import { Client } from "../client"
 
-class Player {
+export class Player {
+  private id: string
   private client: Client
   private attributes: Attributes = new Attributes(
     new HitDam(1, 2),
@@ -14,5 +16,14 @@ class Player {
 
   constructor(client) {
     this.client = client
+    this.id = v4()
+  }
+
+  public getId(): string {
+    return this.id
+  }
+
+  public toString(): string {
+    return this.getId()
   }
 }

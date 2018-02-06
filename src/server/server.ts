@@ -1,7 +1,8 @@
 import { v4 } from "uuid"
 import { Server } from "ws"
 import roll from "../dice"
-import { Client } from "./client"
+import { Message } from "../social/message"
+import { Client } from "./../client"
 import { EVENTS } from "./constants"
 import { Timer } from "./timer/timer"
 
@@ -12,24 +13,27 @@ enum Status {
 }
 
 export class GameServer {
-  private status: Status = Status.Initialized
   private wss: Server
-  private clients: Client[] = []
   private timer: Timer
+  private status: Status = Status.Initialized
+  private clients: Client[] = []
+  private readMessages: () => Message[]
 
-  constructor(wss) {
+  constructor(wss, timer, readMessages: () => Message[]) {
     this.wss = wss
+    this.timer = timer
+    this.readMessages = readMessages
   }
 
-  public start(timer): void {
+  public start(): void {
     if (!this.isInitialized()) {
       throw new Error("Status must be initialized to start")
     }
 
     this.status = Status.Started
-    this.timer = timer
     this.wss.on(EVENTS.CONNECTION, this.addWS.bind(this))
     this.registerTickTimeout()
+    this.registerChatTimeout()
   }
 
   public terminate(): void {
@@ -58,11 +62,32 @@ export class GameServer {
     return this.status === Status.Terminated
   }
 
+  public chat(): void {
+    this.broadcastMessagestoClients()
+
+    if (this.isStarted()) {
+      this.registerChatTimeout()
+    }
+  }
+
+  private broadcastMessagestoClients(): void {
+    this.readMessages().forEach((message) =>
+      this.clients.forEach((client) =>
+        this.sendToClientIfNotSender(client, message)))
+  }
+
+  private sendToClientIfNotSender(client, message): void {
+    if (!client.isMessageSender(message)) {
+      client.sendMessage(message)
+    }
+  }
+
   private registerTickTimeout(): void {
-    setTimeout(
-      this.tick.bind(this),
-      this.timer.getRandomTickLength(),
-    )
+    setTimeout(this.tick.bind(this), this.timer.getRandomTickLength())
+  }
+
+  private registerChatTimeout(): void {
+    setTimeout(this.chat.bind(this), 100)
   }
 
   private tick(): void {
