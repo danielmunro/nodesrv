@@ -32,7 +32,7 @@ export class Client {
     return new MessageHandler(this.player, message.request, message)
   }
 
-  public isMessageSender(message: Message): boolean {
+  public isOwnMessage(message: Message): boolean {
     return message.getSender() === this.player
   }
 
@@ -42,6 +42,10 @@ export class Client {
       message: message.getMessage(),
       sender: message.getSender().toString(),
     })
+  }
+
+  public getPlayer(): Player {
+    return this.player
   }
 
   private onMessage(messageEvent: MessageEvent): void {

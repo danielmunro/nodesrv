@@ -76,8 +76,8 @@ export class GameServer {
         this.sendToClientIfNotSender(client, message)))
   }
 
-  private sendToClientIfNotSender(client, message): void {
-    if (!client.isMessageSender(message)) {
+  private sendToClientIfNotSender(client: Client, message: Message): void {
+    if (!client.isOwnMessage(message)) {
       client.sendMessage(message)
     }
   }
