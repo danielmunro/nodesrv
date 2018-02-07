@@ -1,10 +1,10 @@
 import { WebSocket } from "mock-socket"
+import { Channel } from "./../social/channel"
+import { Message } from "./../social/message"
 import { Client } from "./client"
-import { Message } from "./social/message"
-import { Channel } from "./social/channel"
 
 function getNewTestClient(): Client {
-  return new Client(new WebSocket('ws://localhost:1111'))
+  return new Client(new WebSocket("ws://localhost:1111"))
 }
 
 test("isOwnMessage() sanity checks", () => {

@@ -1,9 +1,9 @@
-import { Player } from "./player/player"
-import { Message } from "./social/message"
-import { EVENTS } from "./server/constants"
-import onError from "./server/error"
-import { handlers } from "./server/handler/index"
-import { MessageHandler } from "./server/handler/messageHandler"
+import { Player } from "./../player/player"
+import { EVENTS } from "./../server/constants"
+import onError from "./../server/error"
+import { handlers } from "./../server/handler/index"
+import { MessageHandler } from "./../server/handler/messageHandler"
+import { Message } from "./../social/message"
 
 export class Client {
   private ws: WebSocket
@@ -46,6 +46,10 @@ export class Client {
 
   public getPlayer(): Player {
     return this.player
+  }
+
+  public close(): void {
+    this.ws.close()
   }
 
   private onMessage(messageEvent: MessageEvent): void {

@@ -2,7 +2,7 @@ import { v4 } from "uuid"
 import { Server } from "ws"
 import roll from "../dice"
 import { Message } from "../social/message"
-import { Client } from "./../client"
+import { Client } from "./../client/client"
 import { EVENTS } from "./constants"
 import { Timer } from "./timer/timer"
 
@@ -42,6 +42,7 @@ export class GameServer {
     }
 
     this.status = Status.Terminated
+    this.clients.map((client) => client.close())
   }
 
   public addWS(ws): void {
@@ -62,28 +63,12 @@ export class GameServer {
     return this.status === Status.Terminated
   }
 
-  public chat(): void {
+  private chat(): void {
     this.broadcastMessagestoClients()
 
     if (this.isStarted()) {
       this.registerChatTimeout()
     }
-  }
-
-  private broadcastMessagestoClients(): void {
-    this.readMessages().forEach((message) =>
-      this.clients.forEach((client) =>
-        this.sendToClientIfNotSender(client, message)))
-  }
-
-  private sendToClientIfNotSender(client: Client, message: Message): void {
-    if (!client.isOwnMessage(message)) {
-      client.sendMessage(message)
-    }
-  }
-
-  private registerTickTimeout(): void {
-    setTimeout(this.tick.bind(this), this.timer.getRandomTickLength())
   }
 
   private registerChatTimeout(): void {
@@ -102,7 +87,23 @@ export class GameServer {
     }
   }
 
+  private registerTickTimeout(): void {
+    setTimeout(this.tick.bind(this), this.timer.getRandomTickLength())
+  }
+
   private removeClient(client): void {
     this.clients = this.clients.filter((it) => it !== client)
+  }
+
+  private broadcastMessagestoClients(): void {
+    this.readMessages().forEach((message) =>
+      this.clients.forEach((client) =>
+        this.sendToClientIfNotSender(client, message)))
+  }
+
+  private sendToClientIfNotSender(client: Client, message: Message): void {
+    if (!client.isOwnMessage(message)) {
+      client.sendMessage(message)
+    }
   }
 }

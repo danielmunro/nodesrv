@@ -3,7 +3,7 @@ import { Attributes } from "../attributes/attributes"
 import { HitDam } from "../attributes/hitdam"
 import { Stats } from "../attributes/stats"
 import { Vitals } from "../attributes/vitals"
-import { Client } from "../client"
+import { Client } from "../client/client"
 
 export class Player {
   private id: string
