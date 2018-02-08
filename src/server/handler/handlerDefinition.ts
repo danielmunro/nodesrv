@@ -1,19 +1,20 @@
-import { Handler } from "./constants";
+import { RequestType } from "./constants"
+import { Request } from "./request"
 
 export class HandlerDefinition {
-  private handler: Handler
-  private callback: (handler: Handler, cb: (result) => void) => void
+  private requestType: RequestType
+  private callback: (request: Request, cb: (result) => void) => void
 
-  constructor(handler, callback) {
-    this.handler = handler
+  constructor(requestType: RequestType, callback) {
+    this.requestType = requestType
     this.callback = callback
   }
 
-  public isHandlerMatch(handler: Handler): boolean {
-    return this.handler === handler
+  public isMatch(requestType: RequestType): boolean {
+    return this.requestType === requestType
   }
 
-  public applyCallback(cb: (response) => void) {
-    this.callback(this.handler, cb)
+  public applyCallback(request: Request, cb: (response) => void) {
+    this.callback(request, cb)
   }
 }

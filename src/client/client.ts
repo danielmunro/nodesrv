@@ -2,7 +2,7 @@ import { Player } from "./../player/player"
 import { EVENTS } from "./../server/constants"
 import onError from "./../server/error"
 import { handlers } from "./../server/handler/index"
-import { MessageHandler } from "./../server/handler/messageHandler"
+import { Request } from "./../server/handler/request"
 import { Message } from "./../social/message"
 
 export class Client {
@@ -19,7 +19,7 @@ export class Client {
     this.ws.send(JSON.stringify(data))
   }
 
-  public getNewHandlerFromEvent(messageEvent: MessageEvent): MessageHandler {
+  public getNewHandlerFromEvent(messageEvent: MessageEvent): Request {
     let message
 
     try {
@@ -29,7 +29,7 @@ export class Client {
       return
     }
 
-    return new MessageHandler(this.player, message.request, message)
+    return new Request(this.player, message.request, message)
   }
 
   public isOwnMessage(message: Message): boolean {
@@ -53,7 +53,7 @@ export class Client {
   }
 
   private onMessage(messageEvent: MessageEvent): void {
-    this.getNewHandlerFromEvent(messageEvent).applyHandlers(
+    this.getNewHandlerFromEvent(messageEvent).applyHandlerDefinitionsToRequest(
       handlers,
       (response) => this.send(response),
       () => this.send({message: "what was that?"}),

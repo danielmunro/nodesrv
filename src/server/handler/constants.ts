@@ -1,4 +1,4 @@
-export enum Handler {
+export enum RequestType {
   Node = "node",
   Social = "social",
   Move = "move",

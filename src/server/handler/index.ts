@@ -1,22 +1,22 @@
-import { Handler } from "./constants"
-import { MessageHandler } from "./messageHandler"
+import { RequestType } from "./constants"
+import { Request } from "./messageHandler"
 import { findNodes } from "./node"
 import { gossip } from "./social"
 import { HandlerDefinition } from "./handlerDefinition"
 
 export const handlers = [
   new HandlerDefinition(
-    Handler.Node,
-    (messageHandler: MessageHandler, cb) => {
-      const { label, name } = messageHandler.getArgs()
+    RequestType.Node,
+    (request: Request, cb) => {
+      const { label, name } = request.getArgs()
       findNodes(label, name, (nodes) => cb(nodes))
     }
   ),
   new HandlerDefinition(
-    Handler.Social,
-    (messageHandler: MessageHandler, cb) => {
-      const { message } = messageHandler.getArgs()
-      gossip(messageHandler.getPlayer(), message)
+    RequestType.Social,
+    (request: Request, cb) => {
+      const { message } = request.getArgs()
+      gossip(request.getPlayer(), message)
       cb({ acknowledged: true })
     }
   ),
