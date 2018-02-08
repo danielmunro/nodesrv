@@ -14,13 +14,10 @@ export class Request {
   }
 
   public applyHandlerDefinitionsToRequest(handlerDefinitions: HandlerDefinition[], success: (response) => void, failure: () => void) {
-    const handler = handlerDefinitions.find((it) => it.isMatch(this.request))
-    if (handler) {
-      handler.applyCallback(this, success)
-      return
-    }
-
-    failure()
+    this.getHandlerDefinition(
+      handlerDefinitions,
+      new HandlerDefinition(RequestType.Noop, () => {})
+    ).applyCallback(this, success)
   }
 
   public getArgs() {
@@ -29,5 +26,14 @@ export class Request {
 
   public getPlayer(): Player {
     return this.player
+  }
+
+  private getHandlerDefinition(defs: HandlerDefinition[], defaultHandlerDefinition: HandlerDefinition): HandlerDefinition {
+    const handler = defs.find((it) => it.isMatch(this.request))
+    if (handler) {
+      return handler
+    }
+
+    return defaultHandlerDefinition
   }
 }
