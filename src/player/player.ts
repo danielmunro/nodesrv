@@ -7,15 +7,13 @@ import { Client } from "../client/client"
 
 export class Player {
   private id: string
-  private client: Client
   private attributes: Attributes = new Attributes(
     new HitDam(1, 2),
     new Stats(1, 1, 1, 1, 1, 1),
     new Vitals(20, 100, 100),
   )
 
-  constructor(client) {
-    this.client = client
+  constructor() {
     this.id = v4()
   }
 

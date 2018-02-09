@@ -1,8 +1,9 @@
 import { v4 } from "uuid"
 import { Server } from "ws"
 import roll from "../dice"
-import { Message } from "../social/message"
 import { Client } from "./../client/client"
+import { Player } from "./../player/player"
+import { Message } from "./../social/message"
 import { EVENTS } from "./constants"
 import { Timer } from "./timer/timer"
 
@@ -46,7 +47,7 @@ export class GameServer {
   }
 
   public addWS(ws): void {
-    const client = new Client(ws)
+    const client = new Client(ws, new Player())
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)
   }
@@ -80,7 +81,7 @@ export class GameServer {
     const timestamp = new Date()
     const payload = {tick: { id, timestamp }}
 
-    this.clients.map((it) => it.send(payload))
+    this.clients.map((it) => it.tick(id, timestamp))
 
     if (this.isStarted()) {
       this.registerTickTimeout()

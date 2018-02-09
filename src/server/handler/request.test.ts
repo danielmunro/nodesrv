@@ -1,14 +1,12 @@
-import { WebSocket } from "mock-socket"
 import { Request } from "./request"
 import { Player } from "../../player/player"
-import { Client } from "../../client/client"
 import { RequestType } from "./constants"
 import { HandlerDefinition } from "./handlerDefinition"
 import { handlers } from "./index"
 
 function getRequest(handler: RequestType): Request {
   return new Request(
-    new Player(new Client(new WebSocket('ws://localhost:1111'))),
+    new Player(),
     handler
   )
 }

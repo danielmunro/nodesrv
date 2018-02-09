@@ -7,27 +7,21 @@ import { Message } from "./../social/message"
 
 export class Client {
   private ws: WebSocket
-  private player: Player = new Player(this)
+  private player: Player
 
-  constructor(ws: WebSocket) {
+  constructor(ws: WebSocket, player: Player) {
     this.ws = ws
+    this.player = player
     this.ws.onmessage = (data) => this.onMessage(data)
     this.ws.onerror = (event) => onError(new Error())
   }
 
-  public send(data): void {
-    this.ws.send(JSON.stringify(data))
+  public tick(id: string, timestamp: Date): void {
+    this.send({ tick: { id, timestamp }})
   }
 
-  public getNewHandlerFromEvent(messageEvent: MessageEvent): Request {
-    let message
-
-    try {
-      message = JSON.parse(messageEvent.data)
-    } catch (e) {
-      console.log("error parsing message from client", messageEvent.data)
-      return
-    }
+  public getNewRequestFromEvent(messageEvent: MessageEvent): Request {
+    const message = JSON.parse(messageEvent.data)
 
     return new Request(this.player, message.request, message)
   }
@@ -52,8 +46,12 @@ export class Client {
     this.ws.close()
   }
 
+  private send(data): void {
+    this.ws.send(JSON.stringify(data))
+  }
+
   private onMessage(messageEvent: MessageEvent): void {
-    this.getNewHandlerFromEvent(messageEvent).applyHandlerDefinitionsToRequest(
+    this.getNewRequestFromEvent(messageEvent).applyHandlerDefinitionsToRequest(
       handlers,
       (response) => this.send(response),
       () => this.send({message: "what was that?"}),

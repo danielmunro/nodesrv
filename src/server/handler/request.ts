@@ -14,7 +14,7 @@ export class Request {
   }
 
   public applyHandlerDefinitionsToRequest(handlerDefinitions: HandlerDefinition[], success: (response) => void, failure: () => void) {
-    this.getHandlerDefinition(
+    this.getHandlerDefinitionMatchingRequest(
       handlerDefinitions,
       new HandlerDefinition(RequestType.Noop, () => {})
     ).applyCallback(this, success)
@@ -28,7 +28,7 @@ export class Request {
     return this.player
   }
 
-  private getHandlerDefinition(defs: HandlerDefinition[], defaultHandlerDefinition: HandlerDefinition): HandlerDefinition {
+  private getHandlerDefinitionMatchingRequest(defs: HandlerDefinition[], defaultHandlerDefinition: HandlerDefinition): HandlerDefinition {
     const handler = defs.find((it) => it.isMatch(this.request))
     if (handler) {
       return handler
