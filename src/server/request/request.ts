@@ -1,6 +1,6 @@
-import { RequestType } from "./constants"
+import { RequestType } from "./../handler/constants"
+import { HandlerDefinition } from "./../handler/handlerDefinition"
 import { Player } from "../../player/player"
-import { HandlerDefinition } from "./handlerDefinition";
 
 export class Request {
   private player: Player
@@ -28,8 +28,12 @@ export class Request {
     return this.player
   }
 
+  public getRequestType(): RequestType {
+    return this.request
+  }
+
   private getHandlerDefinitionMatchingRequest(defs: HandlerDefinition[], defaultHandlerDefinition: HandlerDefinition): HandlerDefinition {
-    const handler = defs.find((it) => it.isMatch(this.request))
+    const handler = defs.find((it) => it.isAbleToHandleRequestType(this.request))
     if (handler) {
       return handler
     }

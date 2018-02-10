@@ -2,7 +2,7 @@ import { Player } from "./../player/player"
 import { EVENTS } from "./../server/constants"
 import onError from "./../server/error"
 import { handlers } from "./../server/handler/index"
-import { Request } from "./../server/handler/request"
+import { Request } from "./../server/request/request"
 import { Message } from "./../social/message"
 
 export class Client {

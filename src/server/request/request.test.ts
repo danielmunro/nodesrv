@@ -1,8 +1,8 @@
 import { Request } from "./request"
 import { Player } from "../../player/player"
-import { RequestType } from "./constants"
-import { HandlerDefinition } from "./handlerDefinition"
-import { handlers } from "./index"
+import { RequestType } from "./../handler/constants"
+import { HandlerDefinition } from "./../handler/handlerDefinition"
+import { handlers } from "./../handler/index"
 
 function getRequest(handler: RequestType): Request {
   return new Request(

@@ -1,5 +1,6 @@
 import { RequestType } from "./constants"
-import { Request } from "./request"
+import { RequestTypeMismatch } from "./exceptions"
+import { Request } from "./../request/request"
 
 export class HandlerDefinition {
   private requestType: RequestType
@@ -10,11 +11,14 @@ export class HandlerDefinition {
     this.callback = callback
   }
 
-  public isMatch(requestType: RequestType): boolean {
+  public isAbleToHandleRequestType(requestType: RequestType): boolean {
     return this.requestType === requestType
   }
 
   public applyCallback(request: Request, cb: (response) => void) {
+    if (!this.isAbleToHandleRequestType(request.getRequestType())) {
+      throw new RequestTypeMismatch()
+    }
     this.callback(request, cb)
   }
 }

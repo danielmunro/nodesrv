@@ -1,34 +1,19 @@
 import * as model from "seraph-model"
 import { db } from "./../db"
 import { ROOM_DOMAIN } from "./../domain"
+import { saveModels as parentSaveAllModels } from "./../model"
 import { directionsForRoom } from "./index"
 
 const Room = model(db, ROOM_DOMAIN)
 const rooms = {}
 
-function newRoomSavePromise(theModel) {
-  return new Promise((resolve, reject) =>
-    Room.save(theModel, (err, node) => {
-      if (err) {
-        reject(err)
-      }
-      rooms[node.name] = node.id
-      resolve(node)
-    }))
-}
-
-function saveAllModels(models) {
-  return models.map((m) => newRoomSavePromise(m))
-}
-
-function createRelationships(newModels) {
-  newModels.map((m) =>
-    directionsForRoom(m).map((d) =>
-      db.relate(m.id, d, rooms[m[d]], {}, () => {})))
-}
-
-export function saveModels(models) {
-  Promise.all(saveAllModels(models)).then(createRelationships)
+export function saveModels(dataSet) {
+  parentSaveAllModels(Room, dataSet, (newModels) => {
+    newModels.map((m) => rooms[m.name] = m.id)
+    newModels.map((m) =>
+      directionsForRoom(m).map((d) =>
+        db.relate(m.id, d, rooms[m[d]], {}, () => {})))
+  })
 }
 
 export default Room

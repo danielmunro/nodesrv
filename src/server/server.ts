@@ -2,6 +2,7 @@ import { v4 } from "uuid"
 import { Server } from "ws"
 import roll from "../dice"
 import { Client } from "./../client/client"
+import { saveModels } from "./../player/model"
 import { Player } from "./../player/player"
 import { Message } from "./../social/message"
 import { EVENTS } from "./constants"
@@ -81,6 +82,7 @@ export class GameServer {
     const timestamp = new Date()
     const payload = {tick: { id, timestamp }}
 
+    saveModels(this.clients.map((it) => it.getPlayer()))
     this.clients.map((it) => it.tick(id, timestamp))
 
     if (this.isStarted()) {

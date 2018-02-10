@@ -14,7 +14,7 @@ const rollDataSet = [
   [20, 100],
 ]
 
-test("dice roll should always be within specified min/max", () => {
+test("dice roll should always be sane (within min/max possibilities)", () => {
   rollDataSet.map((d) => {
     const expectation = expect(roll(d[0], d[1]))
     
