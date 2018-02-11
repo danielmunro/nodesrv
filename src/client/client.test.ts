@@ -9,26 +9,31 @@ function getNewTestClient(player = new Player()): Client {
   return new Client(new WebSocket("ws://localhost:1111"), player)
 }
 
-test("getPlayer()", () => {
-  const player = new Player()
-  const client = getNewTestClient(player)
-  expect(client.getPlayer()).toEqual(player)
-})
+describe("clients", () => {
+  it("should return the expected player", () => {
+    const player = new Player()
+    const client = getNewTestClient(player)
+    expect(client.getPlayer()).toEqual(player)
+  })
 
-test("isOwnMessage()", () => {
-  const client = getNewTestClient()
-  const message = new Message(client.getPlayer(), Channel.Gossip, "this is a test of the public broadcasting system")
-  expect(client.isOwnMessage(message)).toBe(true)
+  it("should recognize its own messages as its own and not others", () => {
+    const client = getNewTestClient()
+    const message = client.createMessage(
+      Channel.Gossip,
+      "this is a test of the public broadcasting system",
+    )
+    expect(client.isOwnMessage(message)).toBe(true)
 
-  const anotherClient = getNewTestClient()
-  const newMessage = new Message(anotherClient.getPlayer(), Channel.Gossip, "hullo")
-  expect(client.isOwnMessage(newMessage)).toBe(false)
-})
+    const anotherClient = getNewTestClient()
+    const newMessage = anotherClient.createMessage(Channel.Gossip, "hullo")
+    expect(client.isOwnMessage(newMessage)).toBe(false)
+  })
 
-test("getNewRequestFromMessageEvent()", () => {
-  const messageEvent = new MessageEvent("test", {data: "{\"message\": \"hello world\"}"})
-  const client = getNewTestClient()
-  const request = client.getNewRequestFromEvent(messageEvent)
-  expect(request.getPlayer()).toBe(client.getPlayer())
-  expect(request.getArgs()).toEqual({ message: "hello world" })
+  it("should be able to get a request from a message event", () => {
+    const messageEvent = new MessageEvent("test", {data: "{\"message\": \"hello world\"}"})
+    const client = getNewTestClient()
+    const request = client.getNewRequestFromEvent(messageEvent)
+    expect(request.getPlayer()).toBe(client.getPlayer())
+    expect(request.getArgs()).toEqual({ message: "hello world" })
+  })
 })

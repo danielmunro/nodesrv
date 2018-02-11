@@ -3,6 +3,7 @@ import { EVENTS } from "./../server/constants"
 import onError from "./../server/error"
 import { handlers } from "./../server/handler/index"
 import { Request } from "./../server/request/request"
+import { Channel } from "./../social/channel"
 import { Message } from "./../social/message"
 
 export class Client {
@@ -24,6 +25,10 @@ export class Client {
     const message = JSON.parse(messageEvent.data)
 
     return new Request(this.player, message.request, message)
+  }
+
+  public createMessage(channel: Channel, message: string) {
+    return new Message(this.player, channel, message)
   }
 
   public isOwnMessage(message: Message): boolean {
