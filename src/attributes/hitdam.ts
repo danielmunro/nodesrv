@@ -1,13 +1,10 @@
 import roll from "./../dice"
 
 export class HitDam {
-  private hit: number
-  private dam: number
+  public readonly hit: number
+  public readonly dam: number
 
-  constructor(
-    hit,
-    dam,
-  ) {
+  constructor(hit, dam) {
     this.hit = hit
     this.dam = dam
   }

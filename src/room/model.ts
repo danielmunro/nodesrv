@@ -4,7 +4,7 @@ import { ROOM_DOMAIN } from "./../domain"
 import { saveModels as parentSaveAllModels } from "./../model"
 import { directionsForRoom } from "./index"
 
-const Room = model(db, ROOM_DOMAIN)
+export const Room = model(db, ROOM_DOMAIN)
 const rooms = {}
 
 export function saveModels(dataSet) {
@@ -15,5 +15,3 @@ export function saveModels(dataSet) {
         db.relate(m.id, d, rooms[m[d]], {}, () => {})))
   })
 }
-
-export default Room

@@ -1,17 +1,19 @@
 import { WebSocket } from "mock-socket"
 import { v4 } from "uuid"
 import { Player } from "./../player/player"
+import { Room } from "./../room/room"
 import { Channel } from "./../social/channel"
 import { Message } from "./../social/message"
+import { getTestPlayer } from "./../test/common"
 import { Client } from "./client"
 
-function getNewTestClient(player = new Player()): Client {
+function getNewTestClient(player = getTestPlayer()): Client {
   return new Client(new WebSocket("ws://localhost:1111"), player)
 }
 
 describe("clients", () => {
   it("should return the expected player", () => {
-    const player = new Player()
+    const player = getTestPlayer()
     const client = getNewTestClient(player)
     expect(client.getPlayer()).toEqual(player)
   })

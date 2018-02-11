@@ -3,10 +3,11 @@ import { Player } from "../../player/player"
 import { RequestType } from "./../handler/constants"
 import { HandlerDefinition } from "./../handler/handlerDefinition"
 import { handlers } from "./../handler/index"
+import { getTestPlayer } from "./../../test/common"
 
 function getRequest(handler: RequestType): Request {
   return new Request(
-    new Player(),
+    getTestPlayer(),
     handler
   )
 }

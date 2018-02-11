@@ -1,7 +1,7 @@
 export class Vitals {
-  private hp: number
-  private mana: number
-  private mv: number
+  public readonly hp: number
+  public readonly mana: number
+  public readonly mv: number
 
   constructor(
     hp,

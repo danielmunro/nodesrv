@@ -1,10 +1,10 @@
 export class Stats {
-  private str: number
-  private int: number
-  private wis: number
-  private dex: number
-  private con: number
-  private sta: number
+  public readonly str: number
+  public readonly int: number
+  public readonly wis: number
+  public readonly dex: number
+  public readonly con: number
+  public readonly sta: number
 
   constructor(
     str,

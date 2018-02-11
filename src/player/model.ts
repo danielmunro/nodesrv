@@ -6,6 +6,7 @@ import { saveModels as parentSaveAllModels } from "./../model"
 const Player = model(db, PLAYER_DOMAIN)
 
 export function saveModels(models) {
+  console.log(models)
   parentSaveAllModels(Player, models, () => {})
 }
 

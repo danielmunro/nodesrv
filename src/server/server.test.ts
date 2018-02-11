@@ -1,12 +1,19 @@
 import { Server, WebSocket } from "mock-socket"
+import { Player } from "./../player/player"
+import { Room } from "./../room/room"
 import { readMessages } from "./../social/chat"
 import { GameServer } from "./server"
 import { ImmediateTimer } from "./timer/immediate-timer"
 
 let ws
+const defaultRoom = new Room("test room")
+
+function playerProvider(name: string): Player {
+  return new Player("test player", defaultRoom)
+}
 
 function getGameServer(): GameServer {
-  return new GameServer(ws, new ImmediateTimer(), readMessages)
+  return new GameServer(ws, new ImmediateTimer(), readMessages, playerProvider)
 }
 
 function startGameServer(gs): void {

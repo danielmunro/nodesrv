@@ -3,6 +3,7 @@ import { RequestTypeMismatch } from "./exceptions"
 import { HandlerDefinition } from "./handlerDefinition"
 import { Request } from "../request/request"
 import { Player } from "../../player/player"
+import { getTestPlayer } from "./../../test/common"
 
 function getNewHandlerDefinition(): HandlerDefinition {
   return new HandlerDefinition(
@@ -26,7 +27,7 @@ describe("HandlerDefinition", () => {
 
     expect(() => {
       def.applyCallback(
-        new Request(new Player(), RequestType.Move, []),
+        new Request(getTestPlayer(), RequestType.Move, []),
         () => {}
       )
     }).toThrowError()
@@ -36,7 +37,7 @@ describe("HandlerDefinition", () => {
     const def = getNewHandlerDefinition()
     const callback = jest.fn()
     def.applyCallback(
-      new Request(new Player(), RequestType.Noop, []),
+      new Request(getTestPlayer(), RequestType.Noop, []),
       callback
     )
     expect(callback).toBeCalled()

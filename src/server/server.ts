@@ -4,6 +4,7 @@ import roll from "../dice"
 import { Client } from "./../client/client"
 import { saveModels } from "./../player/model"
 import { Player } from "./../player/player"
+import { Room } from "./../room/room"
 import { Message } from "./../social/message"
 import { EVENTS } from "./constants"
 import { Timer } from "./timer/timer"
@@ -19,12 +20,19 @@ export class GameServer {
   private timer: Timer
   private status: Status = Status.Initialized
   private clients: Client[] = []
+  private playerProvider: (name: string) => Player
   private readMessages: () => Message[]
 
-  constructor(wss, timer, readMessages: () => Message[]) {
+  constructor(
+    wss,
+    timer,
+    readMessages: () => Message[],
+    playerProvider: (name: string) => Player,
+  ) {
     this.wss = wss
     this.timer = timer
     this.readMessages = readMessages
+    this.playerProvider = playerProvider
   }
 
   public start(): void {
@@ -48,7 +56,7 @@ export class GameServer {
   }
 
   public addWS(ws): void {
-    const client = new Client(ws, new Player())
+    const client = new Client(ws, this.playerProvider("demo name"))
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)
   }
@@ -80,9 +88,8 @@ export class GameServer {
   private tick(): void {
     const id = v4()
     const timestamp = new Date()
-    const payload = {tick: { id, timestamp }}
 
-    saveModels(this.clients.map((it) => it.getPlayer()))
+    saveModels(this.clients.map((it) => it.getPlayer().getModel()))
     this.clients.map((it) => it.tick(id, timestamp))
 
     if (this.isStarted()) {

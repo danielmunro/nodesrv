@@ -1,10 +1,11 @@
 import { Player } from "./../player/player"
+import { getTestPlayer } from "./../test/common"
 import { Channel } from "./channel"
 import { broadcastMessage, readMessages } from "./chat"
 
 describe("chat", () => {
   it("should be able to broadcast and receive messages", () => {
-    const player = new Player()
+    const player = getTestPlayer()
     const message = "hello world"
     broadcastMessage(
       player,

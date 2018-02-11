@@ -4,17 +4,22 @@ import { HitDam } from "../attributes/hitdam"
 import { Stats } from "../attributes/stats"
 import { Vitals } from "../attributes/vitals"
 import { Client } from "../client/client"
+import { Room } from "../room/room"
 
 export class Player {
-  private id: string
+  private readonly id: string
+  private readonly name: string
+  private room
   private attributes: Attributes = new Attributes(
     new HitDam(1, 2),
     new Stats(1, 1, 1, 1, 1, 1),
     new Vitals(20, 100, 100),
   )
 
-  constructor() {
+  constructor(name: string, room: Room) {
     this.id = v4()
+    this.name = name
+    this.room = room
   }
 
   public getId(): string {
@@ -23,5 +28,14 @@ export class Player {
 
   public toString(): string {
     return this.getId()
+  }
+
+  public getModel(): object {
+    return {
+      ...this.attributes.getModel(),
+      id: this.id,
+      name: this.name,
+      room: this.room.name,
+    }
   }
 }
