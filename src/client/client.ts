@@ -3,7 +3,7 @@ import { EVENTS } from "./../server/constants"
 import onError from "./../server/error"
 import { handlers } from "./../server/handler/index"
 import { Request } from "./../server/request/request"
-import { Channel } from "./../social/channel"
+import { Channel } from "./../social/constants"
 import { Message } from "./../social/message"
 
 export class Client {
@@ -32,14 +32,14 @@ export class Client {
   }
 
   public isOwnMessage(message: Message): boolean {
-    return message.getSender() === this.player
+    return message.sender === this.player
   }
 
   public sendMessage(message: Message): void {
     this.send({
-      channel: message.getChannel(),
-      message: message.getMessage(),
-      sender: message.getSender().toString(),
+      channel: message.channel,
+      message: message.message,
+      sender: message.sender.toString(),
     })
   }
 

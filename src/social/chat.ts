@@ -1,5 +1,5 @@
 import { Player } from "../player/player"
-import { Channel } from "./channel"
+import { Channel } from "./constants"
 import { Message } from "./message"
 
 let buf = []

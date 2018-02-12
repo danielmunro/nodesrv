@@ -1,6 +1,6 @@
 import { Player } from "./../player/player"
 import { getTestPlayer } from "./../test/common"
-import { Channel } from "./channel"
+import { Channel } from "./constants"
 import { broadcastMessage, readMessages } from "./chat"
 
 describe("chat", () => {
@@ -14,9 +14,21 @@ describe("chat", () => {
     )
     const messages = readMessages()
     expect(messages.length).toBe(1)
-    expect(messages[0].getSender()).toBe(player)
-    expect(messages[0].getChannel()).toBe(Channel.Gossip)
-    expect(messages[0].getMessage()).toBe(message)
+    expect(messages[0].sender).toBe(player)
+    expect(messages[0].channel).toBe(Channel.Gossip)
+    expect(messages[0].message).toBe(message)
+  })
+
+  it("should not broadcast the same message more than once", () => {
+    const player = getTestPlayer()
+    const message = "hello world"
+    expect(readMessages().length).toBe(0)
+    broadcastMessage(
+      player,
+      Channel.Gossip,
+      message,
+    )
+    expect(readMessages().length).toBe(1)
     expect(readMessages().length).toBe(0)
   })
 })
