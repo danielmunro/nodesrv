@@ -7,8 +7,8 @@ import { Channel } from "./../social/channel"
 import { Message } from "./../social/message"
 
 export class Client {
-  private ws: WebSocket
-  private player: Player
+  private readonly ws: WebSocket
+  private readonly player: Player
 
   constructor(ws: WebSocket, player: Player) {
     this.ws = ws

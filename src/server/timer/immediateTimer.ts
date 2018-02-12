@@ -1,5 +1,4 @@
 import { Timer } from './timer'
-import roll from "../../dice"
 
 export class ImmediateTimer implements Timer {
   public getRandomTickLength(): number {

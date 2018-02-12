@@ -1,6 +1,6 @@
 import { v4 } from "uuid"
 import { Server } from "ws"
-import roll from "../dice"
+import roll from "../dice/dice"
 import { Client } from "./../client/client"
 import { saveModels } from "./../player/model"
 import { Player } from "./../player/player"
@@ -16,12 +16,12 @@ enum Status {
 }
 
 export class GameServer {
-  private wss: Server
-  private timer: Timer
+  private readonly wss: Server
+  private readonly timer: Timer
+  private readonly playerProvider: (name: string) => Player
+  private readonly readMessages: () => Message[]
   private status: Status = Status.Initialized
   private clients: Client[] = []
-  private playerProvider: (name: string) => Player
-  private readMessages: () => Message[]
 
   constructor(
     wss,

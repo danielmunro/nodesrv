@@ -3,9 +3,9 @@ import { HandlerDefinition } from "./../handler/handlerDefinition"
 import { Player } from "../../player/player"
 
 export class Request {
-  private player: Player
-  private request: RequestType
-  private args: any[]
+  private readonly player: Player
+  private readonly request: RequestType
+  private readonly args: any[]
 
   constructor(player: Player, request: RequestType, args = []) {
     this.player = player

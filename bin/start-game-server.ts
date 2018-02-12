@@ -3,7 +3,7 @@ import { PORT } from "./../src/config"
 import { Player } from "./../src/player/player"
 import { Room } from "./../src/room/room"
 import { GameServer } from "./../src/server/index"
-import { LiveTimer } from "./../src/server/timer/live-timer"
+import { LiveTimer } from "./../src/server/timer/liveTimer"
 import { readMessages } from "./../src/social/chat"
 
 const startRoom = new Room("default name")

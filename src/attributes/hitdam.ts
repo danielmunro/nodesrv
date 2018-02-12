@@ -1,4 +1,4 @@
-import roll from "./../dice"
+import roll from "./../dice/dice"
 
 export class HitDam {
   public readonly hit: number

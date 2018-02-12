@@ -1,12 +1,12 @@
-import roll from "./../dice"
+import roll from "./../dice/dice"
 import { HitDam } from "./hitdam"
 import { Stats } from "./stats"
 import { Vitals } from "./vitals"
 
 export class Attributes {
-  private hitDam: HitDam
-  private stats: Stats
-  private vitals: Vitals
+  private readonly hitDam: HitDam
+  private readonly stats: Stats
+  private readonly vitals: Vitals
 
   constructor(
     hitDam,

@@ -3,8 +3,8 @@ import { RequestTypeMismatch } from "./exceptions"
 import { Request } from "./../request/request"
 
 export class HandlerDefinition {
-  private requestType: RequestType
-  private callback: (request: Request, cb: (result) => void) => void
+  private readonly requestType: RequestType
+  private readonly callback: (request: Request, cb: (result) => void) => void
 
   constructor(requestType: RequestType, callback) {
     this.requestType = requestType

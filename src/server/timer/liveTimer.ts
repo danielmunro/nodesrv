@@ -1,5 +1,5 @@
 import { Timer } from './timer'
-import roll from "../../dice"
+import roll from "../../dice/dice"
 
 export class LiveTimer implements Timer {
   public getRandomTickLength(): number {

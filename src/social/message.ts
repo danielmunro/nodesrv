@@ -2,9 +2,9 @@ import { Player } from "../player/player"
 import { Channel } from "./channel"
 
 export class Message {
-  private sender: Player
-  private channel: Channel
-  private message: string
+  private readonly sender: Player
+  private readonly channel: Channel
+  private readonly message: string
 
   constructor(sender: Player, channel: Channel, message: string) {
     this.sender = sender

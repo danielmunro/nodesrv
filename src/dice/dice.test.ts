@@ -17,10 +17,10 @@ const rollDataSet = [
 test("dice roll should always be sane (within min/max possibilities)", () => {
   rollDataSet.map((d) => {
     const expectation = expect(roll(d[0], d[1]))
-    
+
     // if every dice roll returns 1:
     expectation.toBeGreaterThanOrEqual(d[0])
-    
+
     // if every dice roll returns its max value:
     expectation.toBeLessThanOrEqual(d[0] * d[1])
   })

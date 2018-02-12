@@ -3,7 +3,7 @@ import { Player } from "./../player/player"
 import { Room } from "./../room/room"
 import { readMessages } from "./../social/chat"
 import { GameServer } from "./server"
-import { ImmediateTimer } from "./timer/immediate-timer"
+import { ImmediateTimer } from "./timer/immediateTimer"
 
 let ws
 const defaultRoom = new Room("test room")
