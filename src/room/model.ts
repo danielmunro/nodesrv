@@ -24,8 +24,7 @@ function createDirectionalRelationshipsBetweenRoomModels(models) {
 }
 
 export function saveRooms(rooms: Room[]) {
-  const dataSet = rooms.map((r) => r.getModel())
-  parentSaveAllModels(RoomModel, dataSet, createDirectionalRelationshipsBetweenRoomModels)
+  parentSaveAllModels(RoomModel, rooms, createDirectionalRelationshipsBetweenRoomModels)
 }
 
 export default RoomModel

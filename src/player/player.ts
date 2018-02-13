@@ -4,9 +4,10 @@ import { HitDam } from "../attributes/hitdam"
 import { Stats } from "../attributes/stats"
 import { Vitals } from "../attributes/vitals"
 import { Client } from "../client/client"
+import { Modellable } from "../model"
 import { Room } from "../room/room"
 
-export class Player {
+export class Player implements Modellable {
   private readonly id: string
   private readonly name: string
   private room
