@@ -1,7 +1,10 @@
 import * as fs from "fs"
 import { db, generateName } from "./../src/db"
 import Player from "./../src/player/model"
-import { saveModels } from "./../src/room/model"
+import { Direction } from "./../src/room/constants"
+import { Exit } from "./../src/room/exit"
+import { saveRooms } from "./../src/room/model"
+import { Room } from "./../src/room/room"
 
 const room1 = generateName()
 const room2 = generateName()
@@ -9,27 +12,33 @@ const room3 = generateName()
 const player = generateName()
 
 db.query("MATCH (n) DETACH DELETE n", () => {
-  saveModels([
-    {
-      brief: "Inn at the Lodge",
-      description: "Flickering torches provide the only light in the large main messhall. "
+  saveRooms([
+    new Room(
+      room1,
+      "Inn at the lodge",
+      "Flickering torches provide the only light in the large main mess hall. "
       + "The room is filled with the chatter of travellers preparing for the journey ahead.",
-      name: room1,
-      north: room2,
-      south: room3,
-    },
-    {
-      brief: "A cozy room at the Inn",
-      description: "Something cool.",
-      name: room2,
-      south: room1,
-    },
-    {
-      brief: "At the crossroads",
-      description: "Something cool.",
-      name: room3,
-      north: room1,
-    },
+      [
+        new Exit(room2, Direction.North),
+        new Exit(room3, Direction.South),
+      ],
+    ),
+    new Room(
+      room2,
+      "A cozy room at the Inn",
+      "Something about a room in the inn.",
+      [
+        new Exit(room1, Direction.South),
+      ],
+    ),
+    new Room(
+      room3,
+      "At the crossroads",
+      "Something about crossroads.",
+      [
+        new Exit(room1, Direction.North),
+      ],
+    ),
   ])
 
   Player.save({

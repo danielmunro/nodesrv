@@ -1,23 +1,22 @@
 import { Server } from "ws"
-import { PORT } from "./../src/config"
+import { PORT } from "./../src/constants"
 import { Player } from "./../src/player/player"
 import { Room } from "./../src/room/room"
 import { GameServer } from "./../src/server/index"
 import { LiveTimer } from "./../src/server/timer/liveTimer"
 import { readMessages } from "./../src/social/chat"
 
-const startRoom = new Room("default name")
+const startRoom = new Room(1, "default name")
 
 function playerProvider(name: string): Player {
   return new Player(name, startRoom)
 }
 
-const gs = new GameServer(
+new GameServer(
   new Server({ port: PORT }),
   new LiveTimer(),
   readMessages,
   playerProvider,
-)
-gs.start()
+).start()
 
 console.log("server listening on port", PORT)

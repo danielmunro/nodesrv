@@ -2,16 +2,30 @@ import * as model from "seraph-model"
 import { db } from "./../db"
 import { ROOM_DOMAIN } from "./../domain"
 import { saveModels as parentSaveAllModels } from "./../model"
-import { directionsForRoom } from "./index"
+import { allDirections } from "./constants"
+import { Room } from "./room"
 
-export const Room = model(db, ROOM_DOMAIN)
-const rooms = {}
+const RoomModel = model(db, ROOM_DOMAIN)
 
-export function saveModels(dataSet) {
-  parentSaveAllModels(Room, dataSet, (newModels) => {
-    newModels.map((m) => rooms[m.name] = m.id)
-    newModels.map((m) =>
-      directionsForRoom(m).map((d) =>
-        db.relate(m.id, d, rooms[m[d]], {}, () => {})))
-  })
+function directionsForRoom(room) {
+  return allDirections.filter((d) => room[d])
 }
+
+function createDirectionalRelationshipsBetweenRoomModels(models) {
+  const nameMap = {}
+
+  // create a map of name => id (both unique)
+  models.map((m) => nameMap[m.name] = m.id)
+
+  // use the name map to relate rooms
+  models.map((m) =>
+    directionsForRoom(m).map((d) =>
+      db.relate(m.id, d, nameMap[m[d]], {}, () => {})))
+}
+
+export function saveRooms(rooms: Room[]) {
+  const dataSet = rooms.map((r) => r.getModel())
+  parentSaveAllModels(RoomModel, dataSet, createDirectionalRelationshipsBetweenRoomModels)
+}
+
+export default RoomModel

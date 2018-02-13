@@ -1,5 +1,5 @@
 import * as seraph from 'seraph'
-import { DB_CONNECTION_STRING } from './config'
+import { DB_CONNECTION_STRING } from './constants'
 import * as slugify from 'slugify'
 import * as sillyname from 'sillyname'
 

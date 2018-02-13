@@ -1,4 +1,5 @@
 function newModelSavePromise(model, data) {
+  console.log("data", data)
   return new Promise((resolve, reject) =>
     model.save(data, (err, node) => {
       if (err) {
