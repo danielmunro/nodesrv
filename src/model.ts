@@ -3,6 +3,7 @@ function newModelSavePromise(model, data) {
     model.save(data, (err, node) => {
       if (err) {
         reject(err)
+        return
       }
       resolve(node)
     })
