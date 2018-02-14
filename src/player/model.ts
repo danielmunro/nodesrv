@@ -1,12 +1,12 @@
 import * as model from "seraph-model"
 import { db } from "./../db"
 import { PLAYER_DOMAIN } from "./../domain"
-import { saveModels as parentSaveAllModels, Modellable } from "./../model"
+import { Modellable, saveDataSet } from "./../model"
 
 const Player = model(db, PLAYER_DOMAIN)
 
-export function saveModels(models: Modellable[]) {
-  parentSaveAllModels(Player, models)
+export function savePlayers(players: Modellable[]) {
+  saveDataSet(Player, players)
 }
 
 export default Player

@@ -1,4 +1,4 @@
-function newModelSavePromise(model, data) {
+function newModelSavePromise(model, data): Promise<object> {
   return new Promise((resolve, reject) =>
     model.save(data, (err, node) => {
       if (err) {
@@ -10,12 +10,11 @@ function newModelSavePromise(model, data) {
   )
 }
 
-function saveAllModels(model, dataSet: Modellable[]) {
-  return dataSet.map((data) => newModelSavePromise(model, data.getModel()))
-}
-
-export function saveModels(model, dataSet: Modellable[], callback = null): void {
-  const promise = Promise.all(saveAllModels(model, dataSet))
+export function saveDataSet(model, dataSet: Modellable[], callback = null): void {
+  const promise = Promise.all(
+    dataSet.map((data) => 
+      newModelSavePromise(model, data.getModel())))
+  
   if (callback) {
     promise.then(callback)
   }

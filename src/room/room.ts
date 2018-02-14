@@ -1,6 +1,6 @@
+import { Modellable } from "./../model"
 import { Direction } from "./constants"
 import { Exit } from "./exit"
-import { Modellable } from "./../model"
 
 export class Room implements Modellable {
   public readonly name: string

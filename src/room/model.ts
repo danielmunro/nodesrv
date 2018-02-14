@@ -1,7 +1,7 @@
 import * as model from "seraph-model"
 import { db } from "./../db"
 import { ROOM_DOMAIN } from "./../domain"
-import { saveModels as parentSaveAllModels } from "./../model"
+import { saveDataSet } from "./../model"
 import { allDirections } from "./constants"
 import { Room } from "./room"
 
@@ -24,7 +24,7 @@ function createDirectionalRelationshipsBetweenRoomModels(models) {
 }
 
 export function saveRooms(rooms: Room[]) {
-  parentSaveAllModels(RoomModel, rooms, createDirectionalRelationshipsBetweenRoomModels)
+  saveDataSet(RoomModel, rooms, createDirectionalRelationshipsBetweenRoomModels)
 }
 
 export default RoomModel

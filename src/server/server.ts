@@ -2,7 +2,7 @@ import { v4 } from "uuid"
 import { Server } from "ws"
 import roll from "../dice/dice"
 import { Client } from "./../client/client"
-import { saveModels } from "./../player/model"
+import { savePlayers } from "./../player/model"
 import { Player } from "./../player/player"
 import { Room } from "./../room/room"
 import { Message } from "./../social/message"
@@ -89,7 +89,7 @@ export class GameServer {
     const id = v4()
     const timestamp = new Date()
 
-    saveModels(this.clients.map((it) => it.getPlayer().getModel()))
+    savePlayers(this.clients.map((it) => it.getPlayer()))
     this.clients.map((it) => it.tick(id, timestamp))
 
     if (this.isStarted()) {
