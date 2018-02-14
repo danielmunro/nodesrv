@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "allowJs": true,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "lib": ["es2017"]
     }
 }
