@@ -1,12 +1,13 @@
 import { v4 } from "uuid"
 import { Server } from "ws"
-import roll from "../dice/dice"
 import { Client } from "./../client/client"
 import { savePlayers } from "./../player/model"
 import { Player } from "./../player/player"
 import { Room } from "./../room/room"
 import { Message } from "./../social/message"
+import { poll } from "./../poll"
 import { EVENTS } from "./constants"
+import { Observer } from "./observers/observer"
 import { Timer } from "./timer/timer"
 
 enum Status {
@@ -17,21 +18,13 @@ enum Status {
 
 export class GameServer {
   private readonly wss: Server
-  private readonly timer: Timer
   private readonly playerProvider: (name: string) => Player
-  private readonly readMessages: () => Message[]
   private status: Status = Status.Initialized
   private clients: Client[] = []
+  private observers: Observer[] = []
 
-  constructor(
-    wss,
-    timer,
-    readMessages: () => Message[],
-    playerProvider: (name: string) => Player,
-  ) {
+  constructor(wss, playerProvider: (name: string) => Player) {
     this.wss = wss
-    this.timer = timer
-    this.readMessages = readMessages
     this.playerProvider = playerProvider
   }
 
@@ -42,8 +35,6 @@ export class GameServer {
 
     this.status = Status.Started
     this.wss.on(EVENTS.CONNECTION, this.addWS.bind(this))
-    this.registerTickTimeout()
-    this.registerChatTimeout()
   }
 
   public terminate(): void {
@@ -73,47 +64,11 @@ export class GameServer {
     return this.status === Status.Terminated
   }
 
-  private chat(): void {
-    this.broadcastMessagestoClients()
-
-    if (this.isStarted()) {
-      this.registerChatTimeout()
-    }
-  }
-
-  private registerChatTimeout(): void {
-    setTimeout(this.chat.bind(this), 100)
-  }
-
-  private tick(): void {
-    const id = v4()
-    const timestamp = new Date()
-
-    savePlayers(this.clients.map((it) => it.getPlayer()))
-    this.clients.map((it) => it.tick(id, timestamp))
-
-    if (this.isStarted()) {
-      this.registerTickTimeout()
-    }
-  }
-
-  private registerTickTimeout(): void {
-    setTimeout(this.tick.bind(this), this.timer.getRandomTickLength())
+  public addObserver(observer: Observer, time: Timer): void {
+    poll(() => observer.notify(this.clients), time)
   }
 
   private removeClient(client): void {
     this.clients = this.clients.filter((it) => it !== client)
-  }
-
-  private broadcastMessagestoClients(): void {
-    this.readMessages().forEach((message) =>
-      this.clients.forEach((client) =>
-        this.sendToClientIfNotSender(client, message)))
-  }
-
-  private sendToClientIfNotSender(client: Client, message: Message): void {
-    if (!client.isOwnMessage(message)) {
-      client.sendMessage(message)
-    }
   }
 }

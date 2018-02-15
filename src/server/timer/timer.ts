@@ -1,3 +1,3 @@
 export interface Timer {
-  getRandomTickLength(): number
+  getTimerLength(): number
 }

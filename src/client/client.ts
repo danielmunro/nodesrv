@@ -56,10 +56,9 @@ export class Client {
   }
 
   private onMessage(messageEvent: MessageEvent): void {
-    this.getNewRequestFromEvent(messageEvent).applyHandlerDefinitionsToRequest(
-      handlers,
-      (response) => this.send(response),
-      () => this.send({message: "what was that?"}),
-    )
+    const success = (response) => this.send(response)
+    const failure = () => this.send({message: "what was that?"})
+    this.getNewRequestFromEvent(messageEvent)
+        .applyHandlerDefinitionsToRequest(handlers, success, failure)
   }
 }
