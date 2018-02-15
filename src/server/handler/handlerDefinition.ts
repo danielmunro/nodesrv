@@ -16,7 +16,7 @@ export class HandlerDefinition {
   }
 
   public applyCallback(request: Request, cb: (response) => void) {
-    if (!this.isAbleToHandleRequestType(request.getRequestType())) {
+    if (!this.isAbleToHandleRequestType(request.requestType)) {
       throw new RequestTypeMismatch()
     }
     this.callback(request, cb)

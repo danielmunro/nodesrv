@@ -1,11 +1,11 @@
 import * as model from "seraph-model"
 import { db } from "./../db"
-import { ROOM_DOMAIN } from "./../domain"
+import { Domain } from "./../domain"
 import { saveDataSet } from "./../model"
 import { allDirections } from "./constants"
 import { Room } from "./room"
 
-const RoomModel = model(db, ROOM_DOMAIN)
+const RoomModel = model(db, Domain.Room)
 
 function directionsForRoom(room) {
   return allDirections.filter((d) => room[d])

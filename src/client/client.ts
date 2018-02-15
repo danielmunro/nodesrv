@@ -1,6 +1,8 @@
 import { Player } from "./../player/player"
 import { EVENTS } from "./../server/constants"
 import onError from "./../server/error"
+import { RequestType } from "./../server/handler/constants"
+import { HandlerDefinition } from "./../server/handler/handlerDefinition"
 import { handlers } from "./../server/handler/index"
 import { Request } from "./../server/request/request"
 import { Channel } from "./../social/constants"
@@ -51,14 +53,26 @@ export class Client {
     this.ws.close()
   }
 
+  public onMessage(messageEvent: MessageEvent): void {
+    const success = (response) => this.send(response)
+    const request = this.getNewRequestFromEvent(messageEvent)
+    this.getHandlerDefinitionMatchingRequest(request.requestType, handlers)
+        .applyCallback(request, success)
+  }
+
   private send(data): void {
     this.ws.send(JSON.stringify(data))
   }
 
-  private onMessage(messageEvent: MessageEvent): void {
-    const success = (response) => this.send(response)
-    const failure = () => this.send({message: "what was that?"})
-    this.getNewRequestFromEvent(messageEvent)
-        .applyHandlerDefinitionsToRequest(handlers, success, failure)
+  private getHandlerDefinitionMatchingRequest(requestType: RequestType, defs: HandlerDefinition[]): HandlerDefinition {
+    const handler = defs.find((it) => it.isAbleToHandleRequestType(requestType))
+    if (handler) {
+      return handler
+    }
+    return this.getDefaultRequestHandler()
+  }
+
+  private getDefaultRequestHandler(): HandlerDefinition {
+    return new HandlerDefinition(RequestType.Noop, () => this.send({message: "what was that?"}))
   }
 }

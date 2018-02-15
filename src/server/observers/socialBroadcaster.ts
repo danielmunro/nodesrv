@@ -10,7 +10,7 @@ function sendToClientIfNotSender(client: Client, message: Message): void {
   }
 }
 
-export class Social implements Observer {
+export class SocialBroadcaster implements Observer {
   public notify(clients: Client[]): void {
     readMessages().forEach((message) =>
       clients.forEach((client) =>

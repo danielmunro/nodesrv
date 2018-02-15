@@ -2,6 +2,8 @@ import { WebSocket } from "mock-socket"
 import { v4 } from "uuid"
 import { Player } from "./../player/player"
 import { Room } from "./../room/room"
+import { RequestType } from "./../server/handler/constants"
+import { Request } from "./../server/request/request"
 import { Channel } from "./../social/constants"
 import { Message } from "./../social/message"
 import { getTestPlayer } from "./../test/common"
@@ -9,6 +11,10 @@ import { Client } from "./client"
 
 function getNewTestClient(player = getTestPlayer()): Client {
   return new Client(new WebSocket("ws://localhost:1111"), player)
+}
+
+function getRequest(requestType: RequestType): Request {
+  return new Request(getTestPlayer(), requestType)
 }
 
 describe("clients", () => {
@@ -35,7 +41,7 @@ describe("clients", () => {
     const messageEvent = new MessageEvent("test", {data: "{\"message\": \"hello world\"}"})
     const client = getNewTestClient()
     const request = client.getNewRequestFromEvent(messageEvent)
-    expect(request.getPlayer()).toBe(client.getPlayer())
-    expect(request.getArgs()).toEqual({ message: "hello world" })
+    expect(request.player).toBe(client.getPlayer())
+    expect(request.args).toEqual({ message: "hello world" })
   })
 })
