@@ -4,7 +4,7 @@ import onError from "./../server/error"
 import { RequestType } from "./../server/handler/constants"
 import { HandlerDefinition } from "./../server/handler/handlerDefinition"
 import { handlers } from "./../server/handler/index"
-import { Request } from "./../server/request/request"
+import { getNewRequestFromMessageEvent, Request } from "./../server/request/request"
 import { Channel } from "./../social/constants"
 import { Message } from "./../social/message"
 
@@ -15,18 +15,12 @@ export class Client {
   constructor(ws: WebSocket, player: Player) {
     this.ws = ws
     this.player = player
-    this.ws.onmessage = (data) => this.onMessage(data)
+    this.ws.onmessage = (data) => this.onRequest(getNewRequestFromMessageEvent(this.player, data))
     this.ws.onerror = (event) => onError(new Error())
   }
 
   public tick(id: string, timestamp: Date): void {
     this.send({ tick: { id, timestamp }})
-  }
-
-  public getNewRequestFromEvent(messageEvent: MessageEvent): Request {
-    const message = JSON.parse(messageEvent.data)
-
-    return new Request(this.player, message.request, message)
   }
 
   public createMessage(channel: Channel, message: string) {
@@ -53,11 +47,9 @@ export class Client {
     this.ws.close()
   }
 
-  public onMessage(messageEvent: MessageEvent): void {
-    const success = (response) => this.send(response)
-    const request = this.getNewRequestFromEvent(messageEvent)
+  public onRequest(request: Request): void {
     this.getHandlerDefinitionMatchingRequest(request.requestType, handlers)
-        .applyCallback(request, success)
+        .applyCallback(request, (response) => this.send(response))
   }
 
   private send(data): void {

@@ -3,7 +3,7 @@ import { v4 } from "uuid"
 import { Player } from "./../player/player"
 import { Room } from "./../room/room"
 import { RequestType } from "./../server/handler/constants"
-import { Request } from "./../server/request/request"
+import { getNewRequestFromMessageEvent, Request } from "./../server/request/request"
 import { Channel } from "./../social/constants"
 import { Message } from "./../social/message"
 import { getTestPlayer } from "./../test/common"
@@ -40,7 +40,7 @@ describe("clients", () => {
   it("should be able to get a request from a message event", () => {
     const messageEvent = new MessageEvent("test", {data: "{\"message\": \"hello world\"}"})
     const client = getNewTestClient()
-    const request = client.getNewRequestFromEvent(messageEvent)
+    const request = getNewRequestFromMessageEvent(client.getPlayer(), messageEvent)
     expect(request.player).toBe(client.getPlayer())
     expect(request.args).toEqual({ message: "hello world" })
   })
