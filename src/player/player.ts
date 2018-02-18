@@ -10,7 +10,7 @@ import { Room } from "../room/room"
 export class Player implements Modellable {
   private readonly id: string
   private readonly name: string
-  private room
+  private room: Room
   private attributes: Attributes = new Attributes(
     new HitDam(1, 2),
     new Stats(1, 1, 1, 1, 1, 1),
@@ -25,6 +25,10 @@ export class Player implements Modellable {
 
   public getId(): string {
     return this.id
+  }
+
+  public getRoomName(): string {
+    return this.room.name
   }
 
   public toString(): string {

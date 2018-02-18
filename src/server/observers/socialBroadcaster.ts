@@ -1,4 +1,4 @@
-import { Client } from "../../client/client"
+import { Client } from "./../../client/client"
 import { Observer } from "./observer"
 import { savePlayers } from "./../../player/model"
 import { readMessages } from "./../../social/chat"
