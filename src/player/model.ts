@@ -1,7 +1,7 @@
 import * as model from "seraph-model"
-import { db } from "./../db"
+import { db } from "./../db/db"
+import { Modellable, saveDataSet } from "./../db/model"
 import { Domain } from "./../domain"
-import { Modellable, saveDataSet } from "./../model"
 
 const Player = model(db, Domain.Player)
 

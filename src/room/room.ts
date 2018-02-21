@@ -1,4 +1,4 @@
-import { Modellable } from "./../model"
+import { Modellable } from "./../db/model"
 import { Direction } from "./constants"
 import { Exit } from "./exit"
 
@@ -13,6 +13,10 @@ export class Room implements Modellable {
     this.brief = brief
     this.description = description
     this.exits = exits
+  }
+
+  public getExit(direction: Direction): Exit | null {
+    return this.exits.find((exit) => exit.direction === direction)
   }
 
   public getModel(): object {

@@ -4,7 +4,9 @@ import { HitDam } from "../attributes/hitdam"
 import { Stats } from "../attributes/stats"
 import { Vitals } from "../attributes/vitals"
 import { Client } from "../client/client"
-import { Modellable } from "../model"
+import { Modellable } from "../db/model"
+import { Direction } from "../room/constants"
+import { Exit } from "../room/exit"
 import { Room } from "../room/room"
 
 export class Player implements Modellable {
@@ -29,6 +31,14 @@ export class Player implements Modellable {
 
   public getRoomName(): string {
     return this.room.name
+  }
+
+  public getExit(direction: Direction): Exit | null {
+    return this.room.getExit(direction)
+  }
+
+  public moveTo(room: Room) {
+    this.room = room
   }
 
   public toString(): string {

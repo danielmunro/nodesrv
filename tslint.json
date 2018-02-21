@@ -11,7 +11,8 @@
         },
         "no-empty": {
             "severity": "warning"
-        }
+        },
+        "interface-name": [true, "never-prefix"]
     },
     "rulesDirectory": []
 }

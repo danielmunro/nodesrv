@@ -1,7 +1,7 @@
 import * as model from "seraph-model"
-import { db } from "./../db"
+import { db } from "./../db/db"
+import { saveDataSet } from "./../db/model"
 import { Domain } from "./../domain"
-import { saveDataSet } from "./../model"
 import { allDirections } from "./constants"
 import { Room } from "./room"
 

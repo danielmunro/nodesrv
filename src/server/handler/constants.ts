@@ -1,7 +1,8 @@
 export enum RequestType {
   Node = "node",
   Social = "social",
-  Move = "move",
   Look = "look",
+  North = "north",
+  South = "south",
   Noop = "noop",
 }

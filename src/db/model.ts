@@ -6,15 +6,15 @@ function newModelSavePromise(model, data): Promise<object> {
         return
       }
       resolve(node)
-    })
+    }),
   )
 }
 
 export function saveDataSet(model, dataSet: Modellable[], callback = null): void {
   const promise = Promise.all(
-    dataSet.map((data) => 
+    dataSet.map((data) =>
       newModelSavePromise(model, data.getModel())))
-  
+
   if (callback) {
     promise.then(callback)
   }
