@@ -4,5 +4,9 @@ export enum RequestType {
   Look = "look",
   North = "north",
   South = "south",
+  East = "east",
+  West = "west",
+  Up = "up",
+  Down = "down",
   Noop = "noop",
 }

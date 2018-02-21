@@ -12,11 +12,11 @@ export class HandlerDefinition {
   }
 
   public isAbleToHandleRequestType(requestType: RequestType): boolean {
-    return this.requestType === requestType
+    return this.requestType.startsWith(requestType)
   }
 
   public applyCallback(request: Request, cb: (response) => void) {
-    if (!this.isAbleToHandleRequestType(request.requestType)) {
+    if (!this.isAbleToHandleRequestType(request.requestType) && this.requestType !== RequestType.Noop) {
       throw new RequestTypeMismatch()
     }
     this.callback(request, cb)

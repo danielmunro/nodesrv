@@ -37,6 +37,10 @@ export class Player implements Modellable {
     return this.room.getExit(direction)
   }
 
+  public getRoomModel() {
+    return this.room.getModel()
+  }
+
   public moveTo(room: Room) {
     this.room = room
   }
