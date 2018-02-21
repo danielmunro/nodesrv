@@ -16,14 +16,10 @@ import { ShortIntervalTimer } from "./../src/server/timer/shortIntervalTimer"
 const startRoomName = process.argv[2]
 
 findRoom(process.argv[2]).then((startRoom) => {
-  function playerProvider(name: string): Player {
+  const playerProvider = (name: string): Player => {
     return new Player(name, startRoom)
   }
-
-  const gameServer = new GameServer(
-    new Server({ port: PORT }),
-    playerProvider,
-  )
+  const gameServer = new GameServer(new Server({ port: PORT }), playerProvider)
   gameServer.addObserver(
     new Tick(),
     new RandomTickTimer(
