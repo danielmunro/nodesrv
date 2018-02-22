@@ -1,5 +1,5 @@
 import * as fs from "fs"
-import { db, generateName } from "./../src/db"
+import { db, generateName } from "./../src/db/db"
 import Player from "./../src/player/model"
 import { Direction } from "./../src/room/constants"
 import { Exit } from "./../src/room/exit"
@@ -9,6 +9,8 @@ import { Room } from "./../src/room/room"
 const room1 = generateName()
 const room2 = generateName()
 const room3 = generateName()
+const room4 = generateName()
+const room5 = generateName()
 const player = generateName()
 
 db.query("MATCH (n) DETACH DELETE n", () => {
@@ -20,6 +22,8 @@ db.query("MATCH (n) DETACH DELETE n", () => {
       + "The room is filled with the chatter of travellers preparing for the journey ahead.",
       [
         new Exit(room2, Direction.North),
+        new Exit(room4, Direction.East),
+        new Exit(room5, Direction.West),
         new Exit(room3, Direction.South),
       ],
     ),
@@ -37,6 +41,22 @@ db.query("MATCH (n) DETACH DELETE n", () => {
       "Something about crossroads.",
       [
         new Exit(room1, Direction.North),
+      ],
+    ),
+    new Room(
+      room4,
+      "A cozy room at the Inn",
+      "Something about a room in the inn.",
+      [
+        new Exit(room1, Direction.West),
+      ],
+    ),
+    new Room(
+      room5,
+      "A cozy room at the Inn",
+      "Something about a room in the inn.",
+      [
+        new Exit(room1, Direction.East),
       ],
     ),
   ])
