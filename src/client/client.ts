@@ -8,6 +8,10 @@ import { getNewRequestFromMessageEvent, Request } from "./../server/request/requ
 import { Channel } from "./../social/constants"
 import { Message } from "./../social/message"
 
+function getDefaultUnhandledMessage() {
+  return { message: "what was that?" }
+}
+
 export class Client {
   private readonly ws: WebSocket
   private readonly player: Player
@@ -49,7 +53,9 @@ export class Client {
 
   public onRequest(request: Request): void {
     this.getHandlerDefinitionMatchingRequest(request.requestType, handlers)
-        .applyCallback(request, (response) => this.send(response))
+      .handle(request)
+      .then((response) => this.send(response))
+      .catch(() => this.send({message: "Something bad happened."}))
   }
 
   private send(data): void {
@@ -65,6 +71,6 @@ export class Client {
   }
 
   private getDefaultRequestHandler(): HandlerDefinition {
-    return new HandlerDefinition(RequestType.Noop, () => this.send({message: "what was that?"}))
+    return new HandlerDefinition(RequestType.Any, () => getDefaultUnhandledMessage())
   }
 }

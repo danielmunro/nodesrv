@@ -4,7 +4,7 @@ import { Request } from "./../request/request"
 
 export class HandlerDefinition {
   private readonly requestType: RequestType
-  private readonly callback: (request: Request, cb: (result) => void) => void
+  private readonly callback: (request: Request) => void
 
   constructor(requestType: RequestType, callback) {
     this.requestType = requestType
@@ -12,13 +12,20 @@ export class HandlerDefinition {
   }
 
   public isAbleToHandleRequestType(requestType: RequestType): boolean {
-    return this.requestType.startsWith(requestType)
+    return this.requestType.startsWith(requestType) || this.requestType === RequestType.Any
   }
 
-  public applyCallback(request: Request, cb: (response) => void) {
-    if (!this.isAbleToHandleRequestType(request.requestType) && this.requestType !== RequestType.Noop) {
+  public handle(request: Request): Promise<any> {
+    if (!this.isAbleToHandleRequestType(request.requestType)) {
       throw new RequestTypeMismatch()
     }
-    this.callback(request, cb)
+
+    return new Promise((resolve, reject) => {
+      try {
+        resolve(this.callback(request))
+      } catch (exception) {
+        reject(request)
+      }
+    })
   }
 }

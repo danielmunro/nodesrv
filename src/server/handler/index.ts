@@ -9,16 +9,15 @@ import { Room } from "../../room/room"
 import { findRoom } from "../../room/repository"
 import { Player } from "../../player/player"
 
-function move(player: Player, direction: Direction, cb) {
+function move(player: Player, direction: Direction) {
   const exit = player.getExit(direction)
   if (!exit) {
-    cb({ message: 'Alas, that direction does not exist.' })
-    return
+    return { message: 'Alas, that direction does not exist.' }
   }
-  findRoom(exit.roomName)
+  return findRoom(exit.roomName)
     .then((room: Room) => {
       player.moveTo(room)
-      cb({ room: room.getModel() })
+      return { room: room.getModel() }
     })
 }
 
@@ -26,31 +25,28 @@ function handler(requestType: RequestType, cb) {
   return new HandlerDefinition(requestType, cb)
 }
 
+function look(request) {
+  return { room: request.player.getRoomModel() }
+}
+
 export const handlers = [
-  handler(RequestType.Look, (request: Request, cb) =>
-    cb({ room: request.player.getRoomModel() })),
+  // interacting with room
+  handler(RequestType.Look, (request: Request) => look(request)),
   
-  handler(RequestType.North, (request: Request, cb) =>
-    move(request.player, Direction.North, cb)),
-  
-  handler(RequestType.South, (request: Request, cb) =>
-    move(request.player, Direction.South, cb)),
-  
-  handler(RequestType.East, (request: Request, cb) =>
-    move(request.player, Direction.East, cb)),
-  
-  handler(RequestType.West, (request: Request, cb) =>
-    move(request.player, Direction.West, cb)),
-  
-  handler(RequestType.Up, (request: Request, cb) =>
-    move(request.player, Direction.Up, cb)),
+  // moving around
+  handler(RequestType.North, (request: Request) => move(request.player, Direction.North)),
+  handler(RequestType.South, (request: Request) => move(request.player, Direction.South)),
+  handler(RequestType.East, (request: Request) => move(request.player, Direction.East)),
+  handler(RequestType.West, (request: Request) => move(request.player, Direction.West)),
+  handler(RequestType.Up, (request: Request) => move(request.player, Direction.Up)),
+  handler(RequestType.Down, (request: Request) => move(request.player, Direction.Down)),
 
-  handler(RequestType.Down, (request: Request, cb) =>
-    move(request.player, Direction.Down, cb)),
-
-  handler(RequestType.Social, (request: Request, cb) => {
+  // social
+  handler(RequestType.Gossip, (request: Request) => {
     const { message } = request.args
     gossip(request.player, message)
-    cb({ acknowledged: true })
+    return {
+      message: "You gossip, '" + message + "'"  
+    }
   }),
 ]
