@@ -15,7 +15,7 @@ import { ShortIntervalTimer } from "./../src/server/timer/shortIntervalTimer"
 
 const startRoomName = process.argv[2]
 
-findRoom(process.argv[2]).then((startRoom) => {
+findRoom(startRoomName).then((startRoom) => {
   const playerProvider = (name: string): Player => {
     return new Player(name, startRoom)
   }
