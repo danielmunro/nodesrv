@@ -1,23 +1,20 @@
 import { v4 } from "uuid"
-import { Attributes } from "../attributes/attributes"
-import { HitDam } from "../attributes/hitdam"
-import { Stats } from "../attributes/stats"
-import { Vitals } from "../attributes/vitals"
-import { Client } from "../client/client"
-import { Modellable } from "../db/model"
-import { Direction } from "../room/constants"
-import { Exit } from "../room/exit"
-import { Room } from "../room/room"
+import { Attributes } from "./../attributes/attributes"
+import { HitDam } from "./../attributes/hitdam"
+import { Stats } from "./../attributes/stats"
+import { Vitals } from "./../attributes/vitals"
+import { Client } from "./../client/client"
+import { Modellable } from "./../db/model"
+import { Mob } from "./../mob/mob"
+import { Direction } from "./../room/constants"
+import { Exit } from "./../room/exit"
+import { Room } from "./../room/room"
 
 export class Player implements Modellable {
   private readonly id: string
   private readonly name: string
   private room: Room
-  private attributes: Attributes = new Attributes(
-    new HitDam(1, 2),
-    new Stats(1, 1, 1, 1, 1, 1),
-    new Vitals(20, 100, 100),
-  )
+  private mob: Mob
 
   constructor(name: string, room: Room) {
     this.id = v4()
@@ -51,10 +48,14 @@ export class Player implements Modellable {
 
   public getModel(): object {
     return {
-      ...this.attributes.getModel(),
+      ...this.mob.getModel(),
       id: this.id,
       name: this.name,
       room: this.room.name,
     }
+  }
+
+  public hydrate(data) {
+
   }
 }

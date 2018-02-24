@@ -6,7 +6,11 @@ import { Player } from "../../player/player"
 import { getTestPlayer } from "./../../test/common"
 
 function getNewHandlerDefinition(requestType = RequestType.Noop): HandlerDefinition {
-  return new HandlerDefinition(requestType, (request, callback) => callback())
+  return new HandlerDefinition(requestType, () => {})
+}
+
+function getNewTestRequest(requestType: RequestType): Request {
+  return new Request(getTestPlayer(), requestType)
 }
 
 describe("HandlerDefinition", () => {
@@ -17,15 +21,16 @@ describe("HandlerDefinition", () => {
   })
 
   it("applyCallback should fail on different request types", () => {
-    expect(() => {
-      getNewHandlerDefinition(RequestType.Noop).handle(new Request(getTestPlayer(), RequestType.Gossip, []))
-    }).toThrowError()
+    expect(() => 
+      getNewHandlerDefinition(RequestType.Noop)
+        .handle(getNewTestRequest(RequestType.Gossip))
+    ).toThrowError()
   })
 
   it("applyCallback should succeed on matching request types", () => {
     const callback = jest.fn()
     getNewHandlerDefinition(RequestType.Noop)
-      .handle(new Request(getTestPlayer(), RequestType.Noop, []))
+      .handle(getNewTestRequest(RequestType.Noop))
       .then(callback)
       .then(() => expect(callback).toBeCalled())
   })

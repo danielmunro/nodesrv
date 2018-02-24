@@ -1,5 +1,5 @@
 import { Modellable } from "./../db/model"
-import { Direction } from "./constants"
+import { allDirections, Direction } from "./constants"
 import { Exit } from "./exit"
 
 export class Room implements Modellable {
@@ -26,6 +26,16 @@ export class Room implements Modellable {
       name: this.name,
       ...this.flattenExits(),
     }
+  }
+
+  public hydrate(data) {
+    return new Room(
+      data.name,
+      data.brief,
+      data.description,
+      allDirections.map(
+        (direction) => data[direction] ? new Exit(data[direction], direction) : null)
+        .filter((result) => result !== null))
   }
 
   private flattenExits() {

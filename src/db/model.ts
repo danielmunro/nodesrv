@@ -22,4 +22,5 @@ export function saveDataSet(model, dataSet: Modellable[], callback = null): void
 
 export interface Modellable {
   getModel(): object
+  hydrate(data): void
 }
