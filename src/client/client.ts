@@ -55,7 +55,10 @@ export class Client {
     this.getHandlerDefinitionMatchingRequest(request.requestType, handlers)
       .handle(request)
       .then((response) => this.send(response))
-      .catch(() => this.send({message: "Something bad happened."}))
+      .catch((e) => {
+        console.log("exception in request promise", e)
+        this.send({message: "Something bad happened."})
+      })
   }
 
   private send(data): void {
