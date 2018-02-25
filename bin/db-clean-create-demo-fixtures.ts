@@ -66,16 +66,14 @@ db.query("MATCH (n) DETACH DELETE n", () => {
     room: room1,
   })
 
-  function getModelJSON() {
-    return JSON.stringify({
-      player,
-      room1,
-      room2,
-      room3,
-    }, null, 2)
-  }
-
-  const modelJSON = getModelJSON()
+  const modelJSON = JSON.stringify({
+    player,
+    room1,
+    room2,
+    room3,
+    room4,
+    room5,
+  }, null, 2)
 
   fs.writeFile(
     `${process.argv[2]}/fixture-ids.txt`,
