@@ -1,4 +1,4 @@
-import { Modellable } from "./../db/model"
+import { ModelHydrator, Modellable } from "./../db/model"
 import { HitDam } from "./hitdam"
 import { Stats } from "./stats"
 import { Vitals } from "./vitals"

@@ -43,8 +43,9 @@ export const handlers = [
 
   // social
   handler(RequestType.Gossip, (request: Request) => {
-    const { message } = request.args
-    gossip(request.player, message)
+    console.log('request args', request.args)
+    const message = request.args.request.split(" ").slice(1).join(" ")
+    gossip(request.player, request.player.getMob().getName()+ " gossips, \"" + message + "\"")
     return {
       message: "You gossip, '" + message + "'"  
     }

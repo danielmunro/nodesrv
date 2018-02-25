@@ -1,7 +1,10 @@
 import { Server } from "ws"
+import { Attributes } from "./../src/attributes/attributes"
 import { PORT, TICK } from "./../src/constants"
 import { DiceRoller } from "./../src/dice/dice"
 import { Domain } from "./../src/domain"
+import { Mob } from "./../src/mob/mob"
+import { Race } from "./../src/mob/race/race"
 import { Player } from "./../src/player/player"
 import { findRoom } from "./../src/room/repository"
 import { Room } from "./../src/room/room"
@@ -15,18 +18,28 @@ import { ShortIntervalTimer } from "./../src/server/timer/shortIntervalTimer"
 
 const startRoomName = process.argv[2]
 
-findRoom(startRoomName).then((startRoom) => {
-  const playerProvider = (name: string): Player => {
-    return new Player(name, startRoom)
-  }
-  const gameServer = new GameServer(new Server({ port: PORT }), playerProvider)
+function addObservers(gameServer: GameServer): GameServer {
   gameServer.addObserver(
     new Tick(),
     new RandomTickTimer(
       new DiceRoller(TICK.DICE.SIDES, TICK.DICE.ROLLS, TICK.DICE.MODIFIER)))
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
   gameServer.addObserver(new SocialBroadcaster(), new ShortIntervalTimer())
-  gameServer.start()
+
+  return gameServer
+}
+
+function getPlayerProvider(startRoom: Room) {
+  return (name: string): Player => {
+    const player = new Player(name, startRoom)
+    player.setMob(new Mob("pat", Race.Human, 1, 0, 0, Attributes.withNoAttributes()))
+
+    return player
+  }
+}
+
+findRoom(startRoomName).then((startRoom) => {
+  addObservers(new GameServer(new Server({ port: PORT }), getPlayerProvider(startRoom))).start()
 
   console.log("server listening", { port: PORT, startRoomName })
 }).catch(() => console.log("failed to start server, start room not found"))

@@ -3,9 +3,10 @@ import { HandlerDefinition } from "./../handler/handlerDefinition"
 import { Player } from "../../player/player"
 
 export function getNewRequestFromMessageEvent(player: Player, messageEvent: MessageEvent): Request {
-  const message = JSON.parse(messageEvent.data)
+  const data = JSON.parse(messageEvent.data)
+  const requestArgs = data.request.split(" ")
 
-  return new Request(player, message.request, message)
+  return new Request(player, requestArgs[0], data)
 }
 
 export class Request {

@@ -1,33 +1,36 @@
+import { AttributesHydrator } from "./../attributes/attributeHydrator"
 import { Attribute, Attributes } from "./../attributes/attributes"
 import { Vitals } from "./../attributes/vitals"
-import { Modellable } from "./../db/model"
+import { ModelHydrator, Modellable } from "./../db/model"
 import { Race } from "./race/race"
 
 export class Mob implements Modellable {
-  private name: string
-  private race: Race
+  private readonly name: string
+  private readonly race: Race
   private level: number
   private trains: number
   private practices: number
   private attributes: Attributes
   private vitals: Vitals
 
-  constructor(name: string, race: Race, level: number, startingAttributes: Attributes) {
+  constructor(
+    name: string,
+    race: Race,
+    level: number,
+    trains: number,
+    practices: number,
+    startingAttributes: Attributes,
+  ) {
     this.name = name
     this.race = race
     this.level = level
+    this.trains = trains
+    this.practices = practices
     this.attributes = startingAttributes
     this.vitals = new Vitals(
       startingAttributes.vitals.hp,
       startingAttributes.vitals.mana,
       startingAttributes.vitals.mv)
-  }
-
-  public hydrate(data) {
-    this.name = data.name
-    this.race = data.race
-    this.level = data.level
-    this.attributes = this.attributes.hydrate(data)
   }
 
   public levelUp(): void {
@@ -41,11 +44,17 @@ export class Mob implements Modellable {
     return this.attributes
   }
 
+  public getName(): string {
+    return this.name
+  }
+
   public getModel(): object {
     return {
       level: this.level,
       name: this.name,
+      practices: this.practices,
       race: this.race,
+      trains: this.trains,
       ...this.attributes.getModel(),
     }
   }

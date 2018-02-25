@@ -22,6 +22,10 @@ export class Player implements Modellable {
     this.room = room
   }
 
+  public setMob(mob: Mob) {
+    this.mob = mob
+  }
+
   public getId(): string {
     return this.id
   }
@@ -38,6 +42,10 @@ export class Player implements Modellable {
     return this.room.getModel()
   }
 
+  public getMob(): Mob {
+    return this.mob
+  }
+
   public moveTo(room: Room) {
     this.room = room
   }
@@ -48,14 +56,9 @@ export class Player implements Modellable {
 
   public getModel(): object {
     return {
-      ...this.mob.getModel(),
       id: this.id,
       name: this.name,
       room: this.room.name,
     }
-  }
-
-  public hydrate(data) {
-
   }
 }
