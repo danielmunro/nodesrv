@@ -4,7 +4,7 @@ export class HitDam {
   public readonly hit: number
   public readonly dam: number
 
-  constructor(hit, dam) {
+  constructor(hit: number, dam: number) {
     this.hit = hit
     this.dam = dam
   }

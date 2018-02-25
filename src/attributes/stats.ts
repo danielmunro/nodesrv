@@ -7,12 +7,12 @@ export class Stats {
   public readonly sta: number
 
   constructor(
-    str,
-    int,
-    wis,
-    dex,
-    con,
-    sta,
+    str: number,
+    int: number,
+    wis: number,
+    dex: number,
+    con: number,
+    sta: number,
   ) {
     this.str = str
     this.int = int

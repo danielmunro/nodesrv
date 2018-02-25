@@ -4,9 +4,9 @@ export class Vitals {
   public readonly mv: number
 
   constructor(
-    hp,
-    mana,
-    mv,
+    hp: number,
+    mana: number,
+    mv: number,
   ) {
     this.hp = hp
     this.mana = mana
