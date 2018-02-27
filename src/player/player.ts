@@ -11,54 +11,47 @@ import { Exit } from "./../room/exit"
 import { Room } from "./../room/room"
 
 export class Player implements Modellable {
-  private readonly id: string
+  private readonly identifier: string
   private readonly name: string
-  private room: Room
   private mob: Mob
 
-  constructor(name: string, room: Room) {
-    this.id = v4()
+  constructor(name: string) {
+    this.identifier = v4()
     this.name = name
-    this.room = room
   }
 
   public setMob(mob: Mob) {
     this.mob = mob
   }
 
-  public getId(): string {
-    return this.id
+  public getIdentifier(): string {
+    return this.identifier
   }
 
-  public getRoomName(): string {
-    return this.room.name
+  public getRoom(): Room {
+    return this.mob.getRoom()
   }
 
   public getExit(direction: Direction): Exit | null {
-    return this.room.getExit(direction)
-  }
-
-  public getRoomModel() {
-    return this.room.getModel()
+    return this.mob.getExit(direction)
   }
 
   public getMob(): Mob {
     return this.mob
   }
 
-  public moveTo(room: Room) {
-    this.room = room
+  public moveTo(room: Room): void {
+    this.mob.moveTo(room)
   }
 
   public toString(): string {
-    return this.getId()
+    return this.getIdentifier()
   }
 
   public getModel(): object {
     return {
-      id: this.id,
+      id: this.identifier,
       name: this.name,
-      room: this.room.name,
     }
   }
 }

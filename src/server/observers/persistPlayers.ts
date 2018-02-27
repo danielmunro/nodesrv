@@ -1,4 +1,3 @@
-import { v4 } from "uuid"
 import { Client } from "../../client/client"
 import { Observer } from "./observer"
 import { savePlayers } from "./../../player/model"

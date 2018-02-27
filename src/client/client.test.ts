@@ -38,10 +38,10 @@ describe("clients", () => {
   })
 
   it("should be able to get a request from a message event", () => {
-    const messageEvent = new MessageEvent("test", {data: "{\"message\": \"hello world\"}"})
+    const messageEvent = new MessageEvent("test", {data: "{\"request\": \"hello world\"}"})
     const client = getNewTestClient()
     const request = getNewRequestFromMessageEvent(client.getPlayer(), messageEvent)
     expect(request.player).toBe(client.getPlayer())
-    expect(request.args).toEqual({ message: "hello world" })
+    expect(request.args).toEqual({ request: "hello world" })
   })
 })

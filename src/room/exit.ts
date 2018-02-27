@@ -2,11 +2,11 @@ import { Direction } from "./constants"
 import { Room } from "./room"
 
 export class Exit {
-  public readonly roomName: string
+  public readonly roomID: string
   public readonly direction: Direction
 
-  constructor(roomName: string, direction: Direction) {
-    this.roomName = roomName
+  constructor(roomID: string, direction: Direction) {
+    this.roomID = roomID
     this.direction = direction
   }
 }

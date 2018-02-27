@@ -16,7 +16,12 @@ function createExitsFromData(data): Exit[] {
 }
 
 export class RoomHydrator implements ModelHydrator {
-  public hydrate(data): Room {
-    return new Room(data.name, data.brief, data.description, createExitsFromData(data))
+  public hydrate(data): Promise<Room> {
+    return new Promise((resolve) => resolve(
+      new Room(
+        data.id,
+        data.name,
+        data.description,
+        createExitsFromData(data))))
   }
 }

@@ -6,18 +6,13 @@ function newModelSavePromise(model, data): Promise<object> {
         return
       }
       resolve(node)
-    }),
-  )
+    }))
 }
 
-export function saveDataSet(model, dataSet: Modellable[], callback = null): void {
-  const promise = Promise.all(
+export function saveDataSet(model, dataSet: Modellable[]): Promise<any> {
+  return Promise.all(
     dataSet.map((data) =>
       newModelSavePromise(model, data.getModel())))
-
-  if (callback) {
-    promise.then(callback)
-  }
 }
 
 export interface Modellable {
@@ -25,5 +20,5 @@ export interface Modellable {
 }
 
 export interface ModelHydrator {
-  hydrate(data): Modellable
+  hydrate(data): Promise<Modellable>
 }

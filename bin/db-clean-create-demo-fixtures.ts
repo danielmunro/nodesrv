@@ -1,17 +1,18 @@
 import * as fs from "fs"
-import { db, generateName } from "./../src/db/db"
+import { v4 } from "uuid"
+import { db } from "./../src/db/db"
 import Player from "./../src/player/model"
 import { Direction } from "./../src/room/constants"
 import { Exit } from "./../src/room/exit"
 import { saveRooms } from "./../src/room/model"
 import { Room } from "./../src/room/room"
 
-const room1 = generateName()
-const room2 = generateName()
-const room3 = generateName()
-const room4 = generateName()
-const room5 = generateName()
-const player = generateName()
+const room1 = v4()
+const room2 = v4()
+const room3 = v4()
+const room4 = v4()
+const room5 = v4()
+const player = v4()
 
 db.query("MATCH (n) DETACH DELETE n", () => {
   saveRooms([

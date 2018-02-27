@@ -6,7 +6,7 @@
   "scripts": {
     "start": "yarn lint && ts-node --no-cache bin/start-game-server.ts",
     "create-fixtures": "yarn lint && ts-node --no-cache bin/db-clean-create-demo-fixtures.ts .",
-    "lint": "tslint bin/**/*.ts src/**/*.ts",
+    "lint": "tslint -p . bin/**/*.ts src/**/*.ts",
     "test": "jest --verbose"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
@@ -14,8 +14,8 @@
   "author": "Dan Munro",
   "license": "CC0-1.0",
   "devDependencies": {
-    "@types/jest": "^22.1.0",
     "@types/core-js": "^0.9.35",
+    "@types/jest": "^22.1.0",
     "adjective-adjective-animal": "^1.3.3",
     "babel-cli": "^7.0.0-beta.3",
     "babel-node": "^7.0.0-beta.3",
@@ -40,6 +40,7 @@
     "@types/node": "^9.4.0",
     "@types/uuid": "^3.4.3",
     "@types/ws": "^4.0.0",
+    "is-uuid": "^1.0.2",
     "neo4j": "^2.0.0-RC2",
     "seraph": "^0.15.3",
     "seraph-model": "^0.10.1",

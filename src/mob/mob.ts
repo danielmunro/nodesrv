@@ -2,6 +2,9 @@ import { AttributesHydrator } from "./../attributes/attributeHydrator"
 import { Attribute, Attributes } from "./../attributes/attributes"
 import { Vitals } from "./../attributes/vitals"
 import { ModelHydrator, Modellable } from "./../db/model"
+import { Direction } from "./../room/constants"
+import { Exit } from "./../room/exit"
+import { Room } from "./../room/room"
 import { Race } from "./race/race"
 
 export class Mob implements Modellable {
@@ -12,6 +15,7 @@ export class Mob implements Modellable {
   private practices: number
   private attributes: Attributes
   private vitals: Vitals
+  private room: Room
 
   constructor(
     name: string,
@@ -20,6 +24,7 @@ export class Mob implements Modellable {
     trains: number,
     practices: number,
     startingAttributes: Attributes,
+    room: Room,
   ) {
     this.name = name
     this.race = race
@@ -31,6 +36,11 @@ export class Mob implements Modellable {
       startingAttributes.vitals.hp,
       startingAttributes.vitals.mana,
       startingAttributes.vitals.mv)
+    this.room = room
+  }
+
+  public getExit(direction: Direction): Exit | null {
+    return this.room.getExit(direction)
   }
 
   public levelUp(): void {
@@ -48,14 +58,23 @@ export class Mob implements Modellable {
     return this.name
   }
 
+  public getRoom(): Room {
+    return this.room
+  }
+
   public getModel(): object {
     return {
       level: this.level,
       name: this.name,
       practices: this.practices,
       race: this.race,
+      room: this.room.identifier,
       trains: this.trains,
       ...this.attributes.getModel(),
     }
+  }
+
+  public moveTo(room: Room) {
+    this.room = room
   }
 }

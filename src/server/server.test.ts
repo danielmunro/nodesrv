@@ -6,14 +6,14 @@ import { GameServer } from "./server"
 import { ImmediateTimer } from "./timer/immediateTimer"
 
 let ws
-const defaultRoom = new Room(1, "test room")
+const defaultRoom = new Room("uuid", "name", "test room", [])
 
 function playerProvider(name: string): Player {
-  return new Player("test player", defaultRoom)
+  return new Player("test player")
 }
 
 function getGameServer(): GameServer {
-  return new GameServer(ws, new ImmediateTimer(), readMessages, playerProvider)
+  return new GameServer(ws, playerProvider)
 }
 
 function startGameServer(gs): void {

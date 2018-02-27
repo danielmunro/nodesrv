@@ -12,19 +12,19 @@ function directionsForRoom(room) {
 }
 
 function createDirectionalRelationshipsBetweenRoomModels(models) {
-  const nameMap = {}
+  const idMap = {}
 
-  // create a map of name => id (both unique)
-  models.map((m) => nameMap[m.name] = m.id)
+  models.map((m) => idMap[m.identifier] = m.id)
 
   // use the name map to relate rooms
   models.map((m) =>
-    directionsForRoom(m).map((d) =>
-      db.relate(m.id, d, nameMap[m[d]], {}, () => {})))
+    directionsForRoom(m).map((direction) =>
+      db.relate(m.id, "direction", idMap[m[direction]], { direction }, () => {})))
 }
 
 export function saveRooms(rooms: Room[]) {
-  saveDataSet(RoomModel, rooms, createDirectionalRelationshipsBetweenRoomModels)
+  saveDataSet(RoomModel, rooms)
+    .then(createDirectionalRelationshipsBetweenRoomModels)
 }
 
 export default RoomModel

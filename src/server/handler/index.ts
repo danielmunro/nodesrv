@@ -1,6 +1,5 @@
 import { RequestType } from "./constants"
 import { Request } from "./../request/request"
-import { findNode } from "./../../db/db"
 import { gossip } from "./social"
 import { HandlerDefinition } from "./handlerDefinition"
 import { Domain } from "../../domain"
@@ -14,7 +13,7 @@ function move(player: Player, direction: Direction) {
   if (!exit) {
     return { message: 'Alas, that direction does not exist.' }
   }
-  return findRoom(exit.roomName)
+  return findRoom(exit.roomID)
     .then((room: Room) => {
       player.moveTo(room)
       return { room: room.getModel() }
@@ -25,8 +24,8 @@ function handler(requestType: RequestType, cb) {
   return new HandlerDefinition(requestType, cb)
 }
 
-function look(request) {
-  return { room: request.player.getRoomModel() }
+function look(request: Request) {
+  return { room: request.player.getRoom().getModel() }
 }
 
 export const handlers = [
@@ -43,7 +42,6 @@ export const handlers = [
 
   // social
   handler(RequestType.Gossip, (request: Request) => {
-    console.log('request args', request.args)
     const message = request.args.request.split(" ").slice(1).join(" ")
     gossip(request.player, request.player.getMob().getName()+ " gossips, \"" + message + "\"")
     return {
