@@ -11,4 +11,12 @@ export class Message {
     this.channel = channel
     this.message = message
   }
+
+  public getData() {
+    return {
+      channel: this.channel,
+      message: this.message,
+      sender: this.sender.toString(),
+    }
+  }
 }

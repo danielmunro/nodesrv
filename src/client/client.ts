@@ -24,25 +24,13 @@ export class Client {
     this.ws.onmessage = (data) => this.onRequest(getNewRequestFromMessageEvent(this.player, data))
     this.ws.onerror = (event) => onError(new Error())
   }
-
-  public tick(id: string, timestamp: Date): void {
-    this.send({ tick: { id, timestamp }})
-  }
-
+  
   public createMessage(channel: Channel, message: string) {
     return new Message(this.player, channel, message)
   }
 
   public isOwnMessage(message: Message): boolean {
     return message.sender === this.player
-  }
-
-  public sendMessage(message: Message): void {
-    this.send({
-      channel: message.channel,
-      message: message.message,
-      sender: message.sender.toString(),
-    })
   }
 
   public getPlayer(): Player {
@@ -56,13 +44,9 @@ export class Client {
         this.send(response)
         return response
       })
-      .catch((e) => {
-        console.log("exception in request promise", e)
-        this.send({message: "Something bad happened."})
-      })
   }
 
-  private send(data): void {
+  public send(data): void {
     this.ws.send(JSON.stringify(data))
   }
 

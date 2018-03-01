@@ -6,7 +6,7 @@ import { Message } from "./../../social/message"
 
 function sendToClientIfNotSender(client: Client, message: Message): void {
   if (!client.isOwnMessage(message)) {
-    client.sendMessage(message)
+    client.send(message.getData())
   }
 }
 

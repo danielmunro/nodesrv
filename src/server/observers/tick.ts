@@ -7,6 +7,6 @@ export class Tick implements Observer {
     const id = v4()
     const timestamp = new Date()
 
-    clients.map((it) => it.tick(id, timestamp))
+    clients.map((it) => it.send({tick: { id, timestamp }}))
   }
 }
