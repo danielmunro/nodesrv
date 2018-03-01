@@ -7,14 +7,20 @@ import { getNewRequestFromMessageEvent, Request } from "./../server/request/requ
 import { Channel } from "./../social/constants"
 import { Message } from "./../social/message"
 import { getTestPlayer } from "./../test/common"
-import { Client } from "./client"
+import { Client, getDefaultUnhandledMessage } from "./client"
+import { handlers, look } from "./../server/handler/index"
+import { HandlerDefinition } from "../server/handler/handlerDefinition";
 
 function getNewTestClient(player = getTestPlayer()): Client {
-  return new Client(new WebSocket("ws://localhost:1111"), player)
+  return new Client(new WebSocket("ws://localhost:1111"), player, handlers)
 }
 
 function getRequest(requestType: RequestType): Request {
   return new Request(getTestPlayer(), requestType)
+}
+
+function getNewTestMessageEvent(message = "hello world") {
+  return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
 }
 
 describe("clients", () => {
@@ -38,10 +44,27 @@ describe("clients", () => {
   })
 
   it("should be able to get a request from a message event", () => {
-    const messageEvent = new MessageEvent("test", {data: "{\"request\": \"hello world\"}"})
     const client = getNewTestClient()
-    const request = getNewRequestFromMessageEvent(client.getPlayer(), messageEvent)
+    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent())
     expect(request.player).toBe(client.getPlayer())
     expect(request.args).toEqual({ request: "hello world" })
+  })
+
+  it("should use the default handler when no handlers match", () => {
+    const client = getNewTestClient()
+    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent())
+
+    expect.assertions(1)
+    return client.onRequest(request)
+      .then((response) => expect(response).toEqual(getDefaultUnhandledMessage()))
+  })
+
+  it("should be able to invoke a valid handler", () => {
+    const client = getNewTestClient()
+    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("look"))
+
+    expect.assertions(1)
+    return client.onRequest(request)
+      .then((response) => expect(response).toEqual(look(request)))
   })
 })

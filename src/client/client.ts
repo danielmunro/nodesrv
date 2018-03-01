@@ -8,17 +8,19 @@ import { getNewRequestFromMessageEvent, Request } from "./../server/request/requ
 import { Channel } from "./../social/constants"
 import { Message } from "./../social/message"
 
-function getDefaultUnhandledMessage() {
+export function getDefaultUnhandledMessage() {
   return { message: "what was that?" }
 }
 
 export class Client {
   private readonly ws: WebSocket
   private readonly player: Player
+  private readonly handlers: HandlerDefinition[]
 
-  constructor(ws: WebSocket, player: Player) {
+  constructor(ws: WebSocket, player: Player, handlers: HandlerDefinition[]) {
     this.ws = ws
     this.player = player
+    this.handlers = handlers
     this.ws.onmessage = (data) => this.onRequest(getNewRequestFromMessageEvent(this.player, data))
     this.ws.onerror = (event) => onError(new Error())
   }
@@ -47,14 +49,13 @@ export class Client {
     return this.player
   }
 
-  public close(): void {
-    this.ws.close()
-  }
-
-  public onRequest(request: Request): void {
-    this.getHandlerDefinitionMatchingRequest(request.requestType, handlers)
+  public onRequest(request: Request): Promise<any> {
+    return this.getHandlerDefinitionMatchingRequest(request.requestType)
       .handle(request)
-      .then((response) => this.send(response))
+      .then((response) => {
+        this.send(response)
+        return response
+      })
       .catch((e) => {
         console.log("exception in request promise", e)
         this.send({message: "Something bad happened."})
@@ -65,8 +66,8 @@ export class Client {
     this.ws.send(JSON.stringify(data))
   }
 
-  private getHandlerDefinitionMatchingRequest(requestType: RequestType, defs: HandlerDefinition[]): HandlerDefinition {
-    const handler = defs.find((it) => it.isAbleToHandleRequestType(requestType))
+  private getHandlerDefinitionMatchingRequest(requestType: RequestType): HandlerDefinition {
+    const handler = this.handlers.find((it) => it.isAbleToHandleRequestType(requestType))
     if (handler) {
       return handler
     }

@@ -19,7 +19,7 @@ export class RoomHydrator implements ModelHydrator {
   public hydrate(data): Promise<Room> {
     return new Promise((resolve) => resolve(
       new Room(
-        data.id,
+        data.identifier,
         data.name,
         data.description,
         createExitsFromData(data))))

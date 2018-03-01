@@ -29,16 +29,6 @@ export class Room implements Modellable {
     }
   }
 
-  public hydrate(data) {
-    return new Room(
-      data.identifier,
-      data.name,
-      data.description,
-      allDirections.map(
-        (direction) => data[direction] ? new Exit(data[direction], direction) : null)
-        .filter((result) => result !== null))
-  }
-
   private flattenExits() {
     const exits = {}
     this.exits.map((e) => exits[e.direction] = e.roomID)

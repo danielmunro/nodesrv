@@ -9,6 +9,7 @@ import { Message } from "./../social/message"
 import { EVENTS } from "./constants"
 import { Observer } from "./observers/observer"
 import { Timer } from "./timer/timer"
+import { handlers } from "./handler";
 
 enum Status {
   Initialized,
@@ -38,16 +39,12 @@ export class GameServer {
   }
 
   public terminate(): void {
-    if (!this.isStarted()) {
-      throw new Error("Status must be started to terminate")
-    }
-
     this.status = Status.Terminated
-    this.clients.map((client) => client.close())
+    this.wss.close()
   }
 
   public addWS(ws): void {
-    const client = new Client(ws, this.playerProvider("demo name"))
+    const client = new Client(ws, this.playerProvider("demo name"), handlers)
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)
   }

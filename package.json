@@ -7,7 +7,8 @@
     "start": "yarn lint && ts-node --no-cache bin/start-game-server.ts",
     "create-fixtures": "yarn lint && ts-node --no-cache bin/db-clean-create-demo-fixtures.ts .",
     "lint": "tslint -p . bin/**/*.ts src/**/*.ts",
-    "test": "jest --verbose"
+    "test": "jest",
+    "test-coverage": "jest --coverage"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],
@@ -54,6 +55,11 @@
     "moduleFileExtensions": [
       "ts",
       "js"
+    ],
+    "collectCoverageFrom": [
+      "**/*.ts",
+      "!**/node_modules/**",
+      "!**/vendor/**"
     ]
   }
 }

@@ -22,8 +22,11 @@ function createDirectionalRelationshipsBetweenRoomModels(models) {
       db.relate(m.id, "direction", idMap[m[direction]], { direction }, () => {})))
 }
 
-export function saveRooms(rooms: Room[]) {
-  saveDataSet(RoomModel, rooms)
+/**
+ * BUG - always creates, never updates
+ */
+export function saveRooms(rooms: Room[]): Promise<any> {
+  return saveDataSet(RoomModel, rooms)
     .then(createDirectionalRelationshipsBetweenRoomModels)
 }
 

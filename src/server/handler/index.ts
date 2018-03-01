@@ -24,7 +24,7 @@ function handler(requestType: RequestType, cb) {
   return new HandlerDefinition(requestType, cb)
 }
 
-function look(request: Request) {
+export function look(request: Request) {
   return { room: request.player.getRoom().getModel() }
 }
 
