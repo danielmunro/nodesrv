@@ -40,7 +40,7 @@ function addObservers(gameServer: GameServer): GameServer {
 function getPlayerProvider(startRoom: Room) {
   return (name: string): Player => {
     const player = new Player(name)
-    player.setMob(new Mob("pat", Race.Human, 1, 0, 0, Attributes.withNoAttributes(), startRoom))
+    player.setMob(new Mob("identifier", "pat", Race.Human, 1, 0, 0, Attributes.withNoAttributes(), startRoom))
 
     return player
   }

@@ -9,7 +9,8 @@ import { Message } from "./../social/message"
 import { EVENTS } from "./constants"
 import { Observer } from "./observers/observer"
 import { Timer } from "./timer/timer"
-import { handlers } from "./handler";
+import { handlers } from "./handler"
+import { ImmediateTimer } from "./timer/immediateTimer";
 
 enum Status {
   Initialized,
@@ -61,8 +62,15 @@ export class GameServer {
     return this.status === Status.Terminated
   }
 
-  public addObserver(observer: Observer, time: Timer): void {
-    poll(() => observer.notify(this.clients), time)
+  public addObserver(observer: Observer, timer: Timer): void {
+    poll(() => observer.notify(this.clients), timer)
+    if (timer instanceof ImmediateTimer) {
+      observer.notify(this.clients)
+    }
+  }
+
+  public getClientCount(): number {
+    return this.clients.length
   }
 
   private removeClient(client): void {

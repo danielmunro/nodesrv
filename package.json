@@ -59,7 +59,11 @@
     "collectCoverageFrom": [
       "**/*.ts",
       "!**/node_modules/**",
-      "!**/vendor/**"
+      "!**/vendor/**",
+      "!**/bin/**"
+    ],
+    "coveragePathIgnorePatterns": [
+      "constants.ts"
     ]
   }
 }

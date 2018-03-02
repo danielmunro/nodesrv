@@ -8,6 +8,7 @@ import { Room } from "./../room/room"
 import { Race } from "./race/race"
 
 export class Mob implements Modellable {
+  private readonly identifier: string
   private readonly name: string
   private readonly race: Race
   private level: number
@@ -18,6 +19,7 @@ export class Mob implements Modellable {
   private room: Room
 
   constructor(
+    identifier: string,
     name: string,
     race: Race,
     level: number,
@@ -26,6 +28,7 @@ export class Mob implements Modellable {
     startingAttributes: Attributes,
     room: Room,
   ) {
+    this.identifier = identifier
     this.name = name
     this.race = race
     this.level = level
@@ -64,6 +67,7 @@ export class Mob implements Modellable {
 
   public getModel(): object {
     return {
+      identifier: this.identifier,
       level: this.level,
       name: this.name,
       practices: this.practices,

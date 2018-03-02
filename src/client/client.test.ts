@@ -9,7 +9,7 @@ import { Message } from "./../social/message"
 import { getTestPlayer } from "./../test/common"
 import { Client, getDefaultUnhandledMessage } from "./client"
 import { handlers, look } from "./../server/handler/index"
-import { HandlerDefinition } from "../server/handler/handlerDefinition";
+import { HandlerDefinition } from "../server/handler/handlerDefinition"
 
 function getNewTestClient(player = getTestPlayer()): Client {
   return new Client(new WebSocket("ws://localhost:1111"), player, handlers)

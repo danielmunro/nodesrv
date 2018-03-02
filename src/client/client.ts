@@ -1,6 +1,5 @@
 import { Player } from "./../player/player"
 import { EVENTS } from "./../server/constants"
-import onError from "./../server/error"
 import { RequestType } from "./../server/handler/constants"
 import { HandlerDefinition } from "./../server/handler/handlerDefinition"
 import { handlers } from "./../server/handler/index"
@@ -22,9 +21,9 @@ export class Client {
     this.player = player
     this.handlers = handlers
     this.ws.onmessage = (data) => this.onRequest(getNewRequestFromMessageEvent(this.player, data))
-    this.ws.onerror = (event) => onError(new Error())
+    this.ws.onerror = (event) => console.log("error event", event)
   }
-  
+
   public createMessage(channel: Channel, message: string) {
     return new Message(this.player, channel, message)
   }

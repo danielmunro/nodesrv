@@ -11,7 +11,7 @@ function combineWithStats(attributes: Attributes, stats: Stats): Attributes {
   return attributes.combine(Attributes.withStats(stats))
 }
 
-const warriorModifier = (race: Race, attributes: Attributes): Attributes => {
+export const warriorModifier = (race: Race, attributes: Attributes): Attributes => {
   if (isWarrior(race)) {
     return attributes.combine(
       Attributes.withHitDamStats(
@@ -21,35 +21,35 @@ const warriorModifier = (race: Race, attributes: Attributes): Attributes => {
   return attributes
 }
 
-const thiefModifier = (race: Race, attributes: Attributes): Attributes => {
+export const thiefModifier = (race: Race, attributes: Attributes): Attributes => {
   if (isThief(race)) {
     return combineWithStats(attributes, new Stats(0, -1, -2, 2, 0, 1))
   }
   return attributes
 }
 
-const wizardModifier = (race: Race, attributes: Attributes): Attributes => {
+export const wizardModifier = (race: Race, attributes: Attributes): Attributes => {
   if (isWizard(race)) {
     return combineWithStats(attributes, new Stats(-2, 2, 1, 0, -1, 0))
   }
   return attributes
 }
 
-const clericModifier = (race: Race, attributes: Attributes): Attributes => {
+export const clericModifier = (race: Race, attributes: Attributes): Attributes => {
   if (isCleric(race)) {
     return combineWithStats(attributes, new Stats(-1, 1, 2, -1, -1, 0))
   }
   return attributes
 }
 
-const tinyModifier = (race: Race, attributes: Attributes): Attributes => {
+export const tinyModifier = (race: Race, attributes: Attributes): Attributes => {
   if (isTiny(race)) {
     return combineWithStats(attributes, new Stats(-1, 0, 0, 1, -1, 1))
   }
   return attributes
 }
 
-const largeModifier = (race: Race, attributes: Attributes): Attributes => {
+export const largeModifier = (race: Race, attributes: Attributes): Attributes => {
   if (isLarge(race)) {
     return combineWithStats(attributes, new Stats(1, 0, 0, -1, 1, -1))
   }

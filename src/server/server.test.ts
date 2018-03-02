@@ -6,6 +6,7 @@ import { GameServer } from "./server"
 import { ImmediateTimer } from "./timer/immediateTimer"
 import { Observer } from "./observers/observer"
 import { Client } from "../client/client"
+import { ShortIntervalTimer } from "./timer/shortIntervalTimer"
 
 let ws
 const defaultRoom = new Room("uuid", "name", "test room", [])
@@ -48,30 +49,45 @@ describe("the server", () => {
   })
 
   test("with new WS connections should add a client", () => {
-    class TestObserver implements Observer {
-      public notify(clients: Client[]) {
-        expect(clients.length).toBe(1)
-      }
-    }
-
     const server = getGameServer()
     startGameServer(server)
     server.addWS({})
-    expect(server.addObserver(new TestObserver(), new ImmediateTimer()))
+    expect(server.getClientCount()).toBe(1)
   })
 
   test("should remove clients that have been closed", () => {
-    class TestObserver implements Observer {
-      public notify(clients: Client[]) {
-        expect(clients.length).toBe(0)
-      }
-    }
-    
     const server = getGameServer()
     startGameServer(server)
     const client = {onclose: () => {}}
     server.addWS(client)
     client.onclose()
-    expect(server.addObserver(new TestObserver(), new ImmediateTimer()))
+    expect(server.getClientCount()).toBe(0)
+  })
+
+  test("should notify an observer immediately if it is added with an immediate timer", () => {
+    class TestObserver implements Observer {
+      public notify(clients) {
+        expect(clients.length).toBe(1)
+      }
+    }
+    const server = getGameServer()
+    startGameServer(server)
+    server.addWS({})
+    expect.assertions(1)
+    server.addObserver(new TestObserver(), new ImmediateTimer())
+  })
+
+  test("should not notify an observer immediately if a timeout larger than 0 is specified", () => {
+    class TestObserver implements Observer {
+      public notify(clients) {}
+    }
+    const server = getGameServer()
+    startGameServer(server)
+    server.addWS({})
+    const observer = new TestObserver()
+    const spy = jest.spyOn(observer, "notify")
+    const shortIntervalTimer = new ShortIntervalTimer()
+    server.addObserver(observer, shortIntervalTimer)
+    expect(spy).not.toBeCalled()
   })
 })

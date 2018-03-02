@@ -2,7 +2,7 @@ import { Attributes } from "../../attributes/attributes"
 import { HitDam } from "../../attributes/hitdam"
 import { Stats } from "../../attributes/stats"
 import { Vitals } from "../../attributes/vitals"
-import { modifiers, Modifier } from "./modifier"
+import { modifiers } from "./modifier"
 
 const startingVitals = new Vitals(20, 100, 100)
 const baseStat = 15
@@ -19,6 +19,19 @@ export enum Race {
   HalfOrc,
   Giant,
 }
+
+export const allRaces = [
+  Race.Human,
+  Race.Dwarf,
+  Race.Elf,
+  Race.Drow,
+  Race.Kender,
+  Race.Halfling,
+  Race.Gnome,
+  Race.Faerie,
+  Race.HalfOrc,
+  Race.Giant,
+]
 
 export function isWarrior(race: Race) {
   return race == Race.Dwarf || race == Race.Kender || race == Race.HalfOrc || race == Race.Giant
@@ -56,7 +69,6 @@ export function isShortLiving(race: Race) {
 export function isAdventurous(race: Race) {
   return race == Race.Human || race == Race.Kender || race == Race.Drow || race == Race.Gnome
 }
-*/
 
 function getAttributesFromRace(race: Race): Attributes {
   let hit = 1
@@ -76,3 +88,4 @@ function getAttributesFromRace(race: Race): Attributes {
       new Stats(str, int, wis, dex, con, sta),
       startingVitals))
 }
+*/
