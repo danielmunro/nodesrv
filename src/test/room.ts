@@ -1,8 +1,7 @@
 import * as v4 from "uuid"
+import { Direction } from "./../room/constants"
+import { Exit } from "./../room/exit"
 import { Room } from "./../room/room"
-import { getTestMob } from "./mob"
-import { Exit } from "../room/exit";
-import { Direction } from "../room/constants";
 
 export function getTestRoom(): Room {
   return new Room(

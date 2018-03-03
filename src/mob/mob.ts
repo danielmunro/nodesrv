@@ -11,6 +11,8 @@ export class Mob implements Modellable {
   private readonly name: string
   private readonly race: Race
   private level: number
+  // private experience: number
+  // private xpPerLevel: number
   private trains: number
   private practices: number
   private attributes: Attributes
@@ -25,7 +27,7 @@ export class Mob implements Modellable {
     trains: number,
     practices: number,
     startingAttributes: Attributes,
-    room: Room,
+    room: Room = null,
   ) {
     this.identifier = identifier
     this.name = name
