@@ -8,8 +8,9 @@ export const Mob = model(db, Domain.Mob)
 function createMobRoomRelationships(models) {
   models.map((m) =>
       db.relate(m.id, "in", m.room, {}, () => {}))
+  return models
 }
 
-export function saveMobs(mobs: Modellable[]) {
-  saveDataSet(Mob, mobs).then(createMobRoomRelationships)
+export function saveMobs(mobs: Modellable[]): Promise<any> {
+  return saveDataSet(Mob, mobs).then(createMobRoomRelationships)
 }

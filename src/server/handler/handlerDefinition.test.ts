@@ -3,7 +3,7 @@ import { RequestTypeMismatch } from "./exceptions"
 import { HandlerDefinition } from "./handlerDefinition"
 import { Request } from "../request/request"
 import { Player } from "../../player/player"
-import { getTestPlayer } from "./../../test/common"
+import { getTestPlayer } from "./../../test/player"
 
 function getNewHandlerDefinition(requestType = RequestType.Noop): HandlerDefinition {
   return new HandlerDefinition(requestType, () => {})

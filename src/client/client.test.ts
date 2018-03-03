@@ -2,7 +2,7 @@ import { WebSocket } from "mock-socket"
 import { handlers, look } from "./../server/handler/index"
 import { getNewRequestFromMessageEvent } from "./../server/request/request"
 import { Channel } from "./../social/constants"
-import { getTestPlayer } from "./../test/common"
+import { getTestPlayer } from "./../test/player"
 import { Client, getDefaultUnhandledMessage } from "./client"
 
 function getNewTestClient(player = getTestPlayer()): Client {

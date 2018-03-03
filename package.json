@@ -63,7 +63,9 @@
       "!**/bin/**"
     ],
     "coveragePathIgnorePatterns": [
-      "constants.ts"
+      "constants.ts",
+      "dontExecuteTestObserver.ts",
+      "src/server/timer"
     ]
   }
 }

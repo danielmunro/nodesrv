@@ -1,4 +1,4 @@
-import { getTestPlayer } from "./../test/common"
+import { getTestPlayer } from "./../test/player"
 import { broadcastMessage, readMessages } from "./chat"
 import { Channel } from "./constants"
 

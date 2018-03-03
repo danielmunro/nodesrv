@@ -20,12 +20,8 @@ export class HandlerDefinition {
       throw new RequestTypeMismatch()
     }
 
-    return new Promise((resolve, reject) => {
-      try {
-        resolve(this.callback(request))
-      } catch (exception) {
-        reject(request)
-      }
+    return new Promise((resolve) => {
+      resolve(this.callback(request))
     })
   }
 }
