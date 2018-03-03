@@ -3,6 +3,7 @@ import { Attributes } from "./../attributes/attributes"
 import { Mob } from "./../mob/mob"
 import { Race } from "./../mob/race/race"
 import { Room } from "./../room/room"
+import { getTestRoom } from "./room"
 
 export function getTestMob(): Mob {
   return new Mob(
@@ -13,11 +14,6 @@ export function getTestMob(): Mob {
     0,
     0,
     Attributes.withNoAttributes(),
-    new Room(
-      v4(),
-      "room name",
-      "description",
-      [],
-    ),
+    getTestRoom(),
   )
 }

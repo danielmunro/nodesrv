@@ -1,4 +1,3 @@
-import { v4 } from "uuid"
 import { Modellable } from "./../db/model"
 import { Mob } from "./../mob/mob"
 import { Direction } from "./../room/constants"
@@ -10,8 +9,8 @@ export class Player implements Modellable {
   private readonly name: string
   private mob: Mob
 
-  constructor(name: string) {
-    this.identifier = v4()
+  constructor(identifier: string, name: string) {
+    this.identifier = identifier
     this.name = name
   }
 
@@ -45,7 +44,7 @@ export class Player implements Modellable {
 
   public getModel(): object {
     return {
-      id: this.identifier,
+      identifier: this.identifier,
       name: this.name,
     }
   }

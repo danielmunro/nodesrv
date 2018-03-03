@@ -5,8 +5,8 @@ import { Domain } from "./../domain"
 
 const Player = model(db, Domain.Player)
 
-export function savePlayers(players: Modellable[]) {
-  saveDataSet(Player, players)
+export function savePlayers(players: Modellable[]): Promise<any> {
+  return saveDataSet(Player, players)
 }
 
 export default Player
