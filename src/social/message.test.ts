@@ -1,6 +1,6 @@
-import { Message } from "./message"
 import { getTestPlayer } from "./../test/common"
 import { Channel } from "./constants"
+import { Message } from "./message"
 
 describe("message", () => {
   it("should include relevant data in getData() request", () => {

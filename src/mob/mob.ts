@@ -1,7 +1,6 @@
-import { AttributesHydrator } from "./../attributes/attributeHydrator"
-import { Attribute, Attributes } from "./../attributes/attributes"
+import { Attributes } from "./../attributes/attributes"
 import { Vitals } from "./../attributes/vitals"
-import { ModelHydrator, Modellable } from "./../db/model"
+import { Modellable } from "./../db/model"
 import { Direction } from "./../room/constants"
 import { Exit } from "./../room/exit"
 import { Room } from "./../room/room"
@@ -15,7 +14,7 @@ export class Mob implements Modellable {
   private trains: number
   private practices: number
   private attributes: Attributes
-  private vitals: Vitals
+  // private vitals: Vitals
   private room: Room
 
   constructor(
@@ -35,10 +34,10 @@ export class Mob implements Modellable {
     this.trains = trains
     this.practices = practices
     this.attributes = startingAttributes
-    this.vitals = new Vitals(
-      startingAttributes.vitals.hp,
-      startingAttributes.vitals.mana,
-      startingAttributes.vitals.mv)
+    // this.vitals = new Vitals(
+    //   startingAttributes.vitals.hp,
+    //   startingAttributes.vitals.mana,
+    //   startingAttributes.vitals.mv)
     this.room = room
   }
 

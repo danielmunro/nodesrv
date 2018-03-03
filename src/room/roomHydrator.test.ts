@@ -1,9 +1,9 @@
-import { Room } from "./room"
 import { v4 } from "uuid"
-import { Exit } from "./exit"
 import { Direction } from "./constants"
+import { Exit } from "./exit"
 import { saveRooms } from "./model"
 import { findRoom } from "./repository"
+import { Room } from "./room"
 
 describe("room hydrator", () => {
   it("should be able to hydrate an identical copy room", () => {

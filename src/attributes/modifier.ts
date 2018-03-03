@@ -1,6 +1,4 @@
-import { Race } from "./../mob/race/race"
-import { Attributes } from "./attributes"
+// import { Race } from "./../mob/race/race"
+// import { Attributes } from "./attributes"
 
-export interface Modifier {
-  (race: Race, attributes: Attributes): Attributes
-}
+// type Modifier = (race: Race, attributes: Attributes) => Attributes

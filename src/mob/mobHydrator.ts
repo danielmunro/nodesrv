@@ -2,7 +2,6 @@ import { AttributesHydrator } from "./../attributes/attributeHydrator"
 import { ModelHydrator } from "./../db/model"
 import { findRoom } from "./../room/repository"
 import { Mob } from "./mob"
-import { Race } from "./race/race"
 
 export class MobHydrator implements ModelHydrator {
   public hydrate(data): Promise<Mob> {

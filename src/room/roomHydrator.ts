@@ -1,5 +1,5 @@
 import { ModelHydrator } from "./../db/model"
-import { allDirections, Direction } from "./constants"
+import { allDirections } from "./constants"
 import { Exit } from "./exit"
 import { Room } from "./room"
 

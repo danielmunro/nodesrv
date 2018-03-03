@@ -1,16 +1,12 @@
-import { v4 } from "uuid"
 import { Server } from "ws"
 import { Client } from "./../client/client"
-import { savePlayers } from "./../player/model"
 import { Player } from "./../player/player"
 import { poll } from "./../poll"
-import { Room } from "./../room/room"
-import { Message } from "./../social/message"
 import { EVENTS } from "./constants"
-import { Observer } from "./observers/observer"
-import { Timer } from "./timer/timer"
 import { handlers } from "./handler"
-import { ImmediateTimer } from "./timer/immediateTimer";
+import { Observer } from "./observers/observer"
+import { ImmediateTimer } from "./timer/immediateTimer"
+import { Timer } from "./timer/timer"
 
 enum Status {
   Initialized,
@@ -23,7 +19,6 @@ export class GameServer {
   private readonly playerProvider: (name: string) => Player
   private status: Status = Status.Initialized
   private clients: Client[] = []
-  private observers: Observer[] = []
 
   constructor(wss, playerProvider: (name: string) => Player) {
     this.wss = wss

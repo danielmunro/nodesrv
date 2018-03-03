@@ -1,5 +1,4 @@
 import { Direction } from "./constants"
-import { Room } from "./room"
 
 export class Exit {
   public readonly roomID: string

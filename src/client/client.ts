@@ -1,8 +1,6 @@
 import { Player } from "./../player/player"
-import { EVENTS } from "./../server/constants"
 import { RequestType } from "./../server/handler/constants"
 import { HandlerDefinition } from "./../server/handler/handlerDefinition"
-import { handlers } from "./../server/handler/index"
 import { getNewRequestFromMessageEvent, Request } from "./../server/request/request"
 import { Channel } from "./../social/constants"
 import { Message } from "./../social/message"

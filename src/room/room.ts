@@ -1,6 +1,5 @@
-import { v4 } from "uuid"
 import { Modellable } from "./../db/model"
-import { allDirections, Direction } from "./constants"
+import { Direction } from "./constants"
 import { Exit } from "./exit"
 
 export class Room implements Modellable {

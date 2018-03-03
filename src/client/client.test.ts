@@ -1,22 +1,12 @@
 import { WebSocket } from "mock-socket"
-import { v4 } from "uuid"
-import { Player } from "./../player/player"
-import { Room } from "./../room/room"
-import { RequestType } from "./../server/handler/constants"
-import { getNewRequestFromMessageEvent, Request } from "./../server/request/request"
+import { handlers, look } from "./../server/handler/index"
+import { getNewRequestFromMessageEvent } from "./../server/request/request"
 import { Channel } from "./../social/constants"
-import { Message } from "./../social/message"
 import { getTestPlayer } from "./../test/common"
 import { Client, getDefaultUnhandledMessage } from "./client"
-import { handlers, look } from "./../server/handler/index"
-import { HandlerDefinition } from "../server/handler/handlerDefinition"
 
 function getNewTestClient(player = getTestPlayer()): Client {
   return new Client(new WebSocket("ws://localhost:1111"), player, handlers)
-}
-
-function getRequest(requestType: RequestType): Request {
-  return new Request(getTestPlayer(), requestType)
 }
 
 function getNewTestMessageEvent(message = "hello world") {

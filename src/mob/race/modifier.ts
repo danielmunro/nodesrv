@@ -3,10 +3,6 @@ import { Attributes } from "../../attributes/attributes"
 import { HitDam } from "../../attributes/hitdam"
 import { Stats } from "../../attributes/stats"
 
-export interface Modifier {
-  (race: Race, attributes: Attributes): Attributes
-}
-
 function combineWithStats(attributes: Attributes, stats: Stats): Attributes {
   return attributes.combine(Attributes.withStats(stats))
 }

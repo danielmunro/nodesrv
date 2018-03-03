@@ -1,11 +1,11 @@
-import { Mob } from "./mob"
-import { Race } from "./race/race"
 import { Attributes } from "./../attributes/attributes"
-import { Room } from "./../room/room"
-import { Exit } from "./../room/exit"
 import { Direction } from "./../room/constants"
-import { MobHydrator } from "./mobHydrator";
-import { saveRooms } from "../room/model";
+import { Exit } from "./../room/exit"
+import { saveRooms } from "./../room/model"
+import { Room } from "./../room/room"
+import { Mob } from "./mob"
+import { MobHydrator } from "./mobHydrator"
+import { Race } from "./race/race"
 
 describe("mob hydrator", () => {
   it("should be able to produce a copy of a mob from its model", () => {
@@ -13,7 +13,7 @@ describe("mob hydrator", () => {
       "id",
       "name",
       "description",
-      [new Exit("room-id", Direction.South)]
+      [new Exit("room-id", Direction.South)],
     )
     expect.assertions(1)
     return saveRooms([room]).then(() => {
@@ -25,7 +25,7 @@ describe("mob hydrator", () => {
         0,
         0,
         Attributes.withNoAttributes(),
-        room
+        room,
       )
       return new MobHydrator().hydrate(mob.getModel()).then((hydratedMob) => {
         expect(hydratedMob).toEqual(mob)
