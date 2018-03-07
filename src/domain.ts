@@ -1,5 +1,6 @@
 export enum Domain {
-  Room = 'room',
-  Player = 'player',
-  Mob = 'mob',
+  Attributes = 'Attributes',
+  Room = 'Room',
+  Player = 'Player',
+  Mob = 'Mob',
 }

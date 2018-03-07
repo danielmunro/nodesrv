@@ -1,33 +1,47 @@
-import * as model from "seraph-model"
-import { db } from "./../db/db"
-import { saveDataSet } from "./../db/model"
-import { Domain } from "./../domain"
-import { allDirections } from "./constants"
-import { Room } from "./room"
+import { Direction } from "./constants"
 
-const RoomModel = model(db, Domain.Room)
-
-function directionsForRoom(room) {
-  return allDirections.filter((d) => room[d])
+function reverse(direction: Direction) {
+  switch (direction) {
+    case Direction.Up:
+      return Direction.Down
+    case Direction.Down:
+      return Direction.Up
+    case Direction.East:
+      return Direction.West
+    case Direction.West:
+      return Direction.East
+    case Direction.North:
+      return Direction.South
+    case Direction.South:
+      return Direction.North
+  }
 }
 
-function createDirectionalRelationshipsBetweenRoomModels(models) {
-  const idMap = {}
-
-  models.map((m) => idMap[m.identifier] = m.id)
-
-  // use the name map to relate rooms
-  models.map((m) =>
-    directionsForRoom(m).map((direction) =>
-      db.relate(m.id, "direction", idMap[m[direction]], { direction }, () => {})))
+export default {
+  description: "string",
+  exits: {
+    direction: "out",
+    properties: {
+      direction: "string",
+    },
+    relationship: "exit",
+    type: "relationship",
+  },
+  mobs: {
+    direction: "out",
+    relationship: "mob",
+    type: "relationship",
+  },
+  name: "string",
+  room_id: {
+    primary: true,
+    type: "uuid",
+  },
 }
 
-/**
- * BUG - always creates, never updates
- */
-export function saveRooms(rooms: Room[]): Promise<any> {
-  return saveDataSet(RoomModel, rooms)
-    .then(createDirectionalRelationshipsBetweenRoomModels)
+export function addReciprocalExit(n1, direction: Direction, n2): Promise<any> {
+  return Promise.all([
+    n1.relateTo(n2, "exits", { direction }),
+    n2.relateTo(n1, "exits", { direction: reverse(direction)}),
+  ])
 }
-
-export default RoomModel
