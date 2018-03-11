@@ -1,6 +1,6 @@
-import { gossip } from "./social"
-import { getTestPlayer } from "../../test/player"
 import { readMessages } from "../../social/chat"
+import { getTestPlayer } from "../../test/player"
+import { gossip } from "./social"
 
 describe("social", () => {
   it("gossip should produce a message to the social buffer", () => {

@@ -1,4 +1,4 @@
-import { Timer } from './timer'
+import { Timer } from "./timer"
 
 const SHORT_INTERVAL_IN_MS = 100
 

@@ -1,12 +1,12 @@
+import { Player } from "../../player/model/player"
+import { Request } from "../request/request"
+import { getTestPlayer } from "./../../test/player"
 import { RequestType } from "./constants"
 import { RequestTypeMismatch } from "./exceptions"
 import { HandlerDefinition } from "./handlerDefinition"
-import { Request } from "../request/request"
-import { Player } from "../../player/model/player"
-import { getTestPlayer } from "./../../test/player"
 
 function getNewHandlerDefinition(requestType = RequestType.Noop): HandlerDefinition {
-  return new HandlerDefinition(requestType, () => new Promise(resolve => resolve()))
+  return new HandlerDefinition(requestType, () => new Promise((resolve) => resolve()))
 }
 
 function getNewTestRequest(requestType: RequestType): Request {
@@ -21,10 +21,9 @@ describe("HandlerDefinition", () => {
   })
 
   it("applyCallback should fail on different request types", () => {
-    expect(() => 
+    expect(() =>
       getNewHandlerDefinition(RequestType.Noop)
-        .handle(getNewTestRequest(RequestType.Gossip))
-    ).toThrowError()
+        .handle(getNewTestRequest(RequestType.Gossip))).toThrowError()
   })
 
   it("applyCallback should succeed on matching request types", () => {

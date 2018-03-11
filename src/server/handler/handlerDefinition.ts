@@ -1,6 +1,6 @@
+import { Request } from "./../request/request"
 import { RequestType } from "./constants"
 import { RequestTypeMismatch } from "./exceptions"
-import { Request } from "./../request/request"
 
 export class HandlerDefinition {
   private readonly requestType: RequestType

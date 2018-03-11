@@ -1,21 +1,21 @@
-import { RequestType } from "./constants"
-import { Request } from "./../request/request"
-import { gossip } from "./social"
-import { HandlerDefinition } from "./handlerDefinition"
 import { Domain } from "../../domain"
-import { Direction, allDirections } from "../../room/constants"
-import { findRoom, findExit } from "../../room/repository"
 import { Player } from "../../player/model/player"
+import { allDirections, Direction } from "../../room/constants"
 import { Room } from "../../room/model/room"
+import { findExit, findRoom } from "../../room/repository"
+import { Request } from "./../request/request"
+import { RequestType } from "./constants"
+import { HandlerDefinition } from "./handlerDefinition"
+import { gossip } from "./social"
 
 async function move(player: Player, direction: Direction): Promise<any> {
   const exit = player.getExit(direction)
   if (!exit) {
-    return new Promise((resolve) => resolve({ message: 'Alas, that direction does not exist.' }))
+    return new Promise((resolve) => resolve({ message: "Alas, that direction does not exist." }))
   }
   const destination = await exit.destination
-  return findExit(exit.id).then((exit) => 
-    findRoom(exit.destination.id).then(room => {
+  return findExit(exit.id).then((e) =>
+    findRoom(e.destination.id).then((room) => {
       player.moveTo(room)
       return { room }
     }))
@@ -32,7 +32,7 @@ export function look(request: Request): Promise<any> {
 export const handlers = [
   // interacting with room
   handler(RequestType.Look, (request: Request) => look(request)),
-  
+
   // moving around
   handler(RequestType.North, (request: Request) => move(request.player, Direction.North)),
   handler(RequestType.South, (request: Request) => move(request.player, Direction.South)),
@@ -44,9 +44,9 @@ export const handlers = [
   // social
   handler(RequestType.Gossip, (request: Request) => {
     const message = request.args.request.split(" ").slice(1).join(" ")
-    gossip(request.player, request.player.sessionMob.name+ " gossips, \"" + message + "\"")
+    gossip(request.player, request.player.sessionMob.name + " gossips, \"" + message + "\"")
     return {
-      message: "You gossip, '" + message + "'"  
+      message: "You gossip, '" + message + "'",
     }
   }),
 ]

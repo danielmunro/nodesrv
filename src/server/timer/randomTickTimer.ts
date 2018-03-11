@@ -1,5 +1,5 @@
-import { Timer } from './timer'
 import roll, { DiceRoller } from "../../dice/dice"
+import { Timer } from "./timer"
 
 export class RandomTickTimer implements Timer {
   private readonly diceRoll: DiceRoller
