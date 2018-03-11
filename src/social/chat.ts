@@ -1,4 +1,4 @@
-import { Player } from "../player/player"
+import { Player } from "../player/model/player"
 import { Channel } from "./constants"
 import { Message } from "./message"
 

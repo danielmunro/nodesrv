@@ -1,6 +1,6 @@
 import { Server } from "ws"
 import { Client } from "./../client/client"
-import { Player } from "./../player/player"
+import { Player } from "./../player/model/player"
 import { poll } from "./../poll"
 import { EVENTS } from "./constants"
 import { handlers } from "./handler"

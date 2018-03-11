@@ -5,7 +5,7 @@ import { HandlerDefinition } from "./handlerDefinition"
 import { Domain } from "../../domain"
 import { Direction, allDirections } from "../../room/constants"
 import { findRoom, findExit } from "../../room/repository"
-import { Player } from "../../player/player"
+import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
 
 async function move(player: Player, direction: Direction): Promise<any> {
@@ -26,7 +26,7 @@ function handler(requestType: RequestType, cb) {
 }
 
 export function look(request: Request): Promise<any> {
-  return new Promise((resolve) => resolve({ room: request.player.getRoom() }))
+  return new Promise((resolve) => resolve({ room: request.getRoom() }))
 }
 
 export const handlers = [
@@ -44,7 +44,7 @@ export const handlers = [
   // social
   handler(RequestType.Gossip, (request: Request) => {
     const message = request.args.request.split(" ").slice(1).join(" ")
-    gossip(request.player, request.player.getMob().getName()+ " gossips, \"" + message + "\"")
+    gossip(request.player, request.player.sessionMob.name+ " gossips, \"" + message + "\"")
     return {
       message: "You gossip, '" + message + "'"  
     }

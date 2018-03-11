@@ -25,4 +25,10 @@ export class Room {
 
     @OneToMany(type => Mob, mob => mob.room)
     mobs: Mob[] = []
+
+    addMob(mob: Mob): void {
+      mob.room.mobs = mob.room.mobs.filter((m) => m !== mob)
+      mob.room = this
+      this.mobs.push(mob)
+    }
 }

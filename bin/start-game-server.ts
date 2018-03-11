@@ -2,7 +2,7 @@ import { Server } from "ws"
 import { PORT, TICK } from "./../src/constants"
 import { DiceRoller } from "./../src/dice/dice"
 import { Mob } from "./../src/mob/model/mob"
-import { Player } from "./../src/player/player"
+import { Player } from "./../src/player/model/player"
 import { Room } from "./../src/room/model/room"
 import { findRoom } from "./../src/room/repository"
 import { PersistMobs } from "./../src/server/observers/persistMobs"
@@ -30,13 +30,13 @@ function addObservers(gameServer: GameServer): GameServer {
 
 function getPlayerProvider(startRoom: Room) {
   return (name: string): Player => {
-    const player = new Player("identifier", name)
     const mob = new Mob()
     mob.name = "pat"
     mob.description = "a description for Pat."
     mob.room = startRoom
-
-    player.setMob(mob)
+    const player = new Player()
+    player.name = "pat"
+    player.mobs.push(mob)
 
     return player
   }

@@ -1,4 +1,4 @@
-import { Player } from "../player/player"
+import { Player } from "../player/model/player"
 import { Channel } from "./constants"
 
 export class Message {
@@ -16,7 +16,7 @@ export class Message {
     return {
       channel: this.channel,
       message: this.message,
-      sender: this.sender.toString(),
+      sender: this.sender,
     }
   }
 }

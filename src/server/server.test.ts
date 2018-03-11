@@ -1,5 +1,5 @@
 import { Server } from "mock-socket"
-import { Player } from "./../player/player"
+import { Player } from "./../player/model/player"
 import { DontExecuteTestObserver } from "./../test/dontExecuteTestObserver"
 import { ExpectTestObserver } from "./../test/expectTestObserver"
 import { getTestPlayer } from "./../test/player"

@@ -1,4 +1,4 @@
-import { Player } from "./../player/player"
+import { Player } from "./../player/model/player"
 import { RequestType } from "./../server/handler/constants"
 import { HandlerDefinition } from "./../server/handler/handlerDefinition"
 import { getNewRequestFromMessageEvent, Request } from "./../server/request/request"
