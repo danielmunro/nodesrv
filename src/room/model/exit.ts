@@ -1,18 +1,18 @@
-import {Entity, PrimaryGeneratedColumn, Column, Generated, ManyToOne, OneToOne} from "typeorm"
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm"
 import { Direction } from "../constants"
 import { Room } from "./room"
 
 @Entity()
 export class Exit {
     @PrimaryGeneratedColumn()
-    id: number
+    public id: number
 
     @Column("text")
-    direction: Direction
+    public direction: Direction
 
-    @ManyToOne(type => Room, room => room.exits)
-    source: Room
+    @ManyToOne((type) => Room, (room) => room.exits)
+    public source: Room
 
-    @ManyToOne(type => Room)
-    destination: Room
+    @ManyToOne((type) => Room)
+    public destination: Room
 }

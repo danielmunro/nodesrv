@@ -1,32 +1,32 @@
-import {Entity, PrimaryGeneratedColumn, Column, Generated, OneToMany} from "typeorm"
-import { Exit } from "./exit"
+import {Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn} from "typeorm"
 import { Mob } from "../../mob/model/mob"
+import { Exit } from "./exit"
 
 @Entity()
 export class Room {
     @PrimaryGeneratedColumn()
-    id: number
+    public id: number
 
     @Column("text")
     @Generated("uuid")
-    uuid: string
+    public uuid: string
 
     @Column("text")
-    name: string
+    public name: string
 
     @Column("text")
-    description: string
+    public description: string
 
-    @OneToMany(type => Exit, exit => exit.source, { eager: true })
-    exits: Exit[] = []
+    @OneToMany((type) => Exit, (exit) => exit.source, { eager: true })
+    public exits: Exit[] = []
 
-    @OneToMany(type => Exit, exit => exit.destination, { eager: true })
-    entrances: Exit[] = []
+    @OneToMany((type) => Exit, (exit) => exit.destination, { eager: true })
+    public entrances: Exit[] = []
 
-    @OneToMany(type => Mob, mob => mob.room)
-    mobs: Mob[] = []
+    @OneToMany((type) => Mob, (mob) => mob.room)
+    public mobs: Mob[] = []
 
-    addMob(mob: Mob): void {
+    public addMob(mob: Mob): void {
       mob.room.mobs = mob.room.mobs.filter((m) => m !== mob)
       mob.room = this
       this.mobs.push(mob)

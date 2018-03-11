@@ -1,7 +1,7 @@
-import { Race, isWarrior, isThief, isWizard, isCleric, isTiny, isLarge } from "./race"
 import { Attributes } from "../../attributes/attributes"
 import { HitDam } from "../../attributes/hitdam"
 import { Stats } from "../../attributes/stats"
+import { isCleric, isLarge, isThief, isTiny, isWarrior, isWizard, Race } from "./race"
 
 function combineWithStats(attributes: Attributes, stats: Stats): Attributes {
   return attributes.combine(Attributes.withStats(stats))

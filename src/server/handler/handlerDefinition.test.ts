@@ -1,8 +1,6 @@
-import { Player } from "../../player/model/player"
 import { Request } from "../request/request"
 import { getTestPlayer } from "./../../test/player"
 import { RequestType } from "./constants"
-import { RequestTypeMismatch } from "./exceptions"
 import { HandlerDefinition } from "./handlerDefinition"
 
 function getNewHandlerDefinition(requestType = RequestType.Noop): HandlerDefinition {

@@ -2,8 +2,8 @@ export const PORT = 5151
 
 export const TICK = {
   DICE: {
-    SIDES: 1000,
-    ROLLS: 20,
     MODIFIER: 20000,
+    ROLLS: 20,
+    SIDES: 1000,
   },
 }

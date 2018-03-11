@@ -1,6 +1,6 @@
-import { allRaces, isLarge, isTiny, isWizard, isCleric, isWarrior, isThief } from "./race"
 import { Attributes } from "./../../attributes/attributes"
-import { largeModifier, tinyModifier, wizardModifier, clericModifier, warriorModifier, thiefModifier } from "./modifier"
+import { clericModifier, largeModifier, thiefModifier, tinyModifier, warriorModifier, wizardModifier } from "./modifier"
+import { allRaces, isCleric, isLarge, isThief, isTiny, isWarrior, isWizard } from "./race"
 
 describe("race modifiers", () => {
   it("modifiers", () => {

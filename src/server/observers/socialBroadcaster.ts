@@ -1,7 +1,7 @@
 import { Client } from "./../../client/client"
-import { Observer } from "./observer"
 import { readMessages } from "./../../social/chat"
 import { Message } from "./../../social/message"
+import { Observer } from "./observer"
 
 function sendToClientIfNotSender(client: Client, message: Message): void {
   if (!client.isOwnMessage(message)) {

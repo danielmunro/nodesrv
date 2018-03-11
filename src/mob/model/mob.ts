@@ -1,25 +1,25 @@
-import {Entity, PrimaryGeneratedColumn, Column, Generated, ManyToOne} from "typeorm"
-import { Room } from "../../room/model/room"
+import {Column, Entity, Generated, ManyToOne, PrimaryGeneratedColumn} from "typeorm"
 import { Player } from "../../player/model/player"
+import { Room } from "../../room/model/room"
 
 @Entity()
 export class Mob {
     @PrimaryGeneratedColumn()
-    id: number
+    public id: number
 
     @Column("text")
     @Generated("uuid")
-    uuid: string
+    public uuid: string
 
     @Column("text")
-    name: string
+    public name: string
 
     @Column("text")
-    description: string
+    public description: string
 
-    @ManyToOne(type => Room, room => room.mobs)
-    room: Room
+    @ManyToOne((type) => Room, (room) => room.mobs)
+    public room: Room
 
-    @ManyToOne(type => Player, player => player.mobs)
-    player: Player
+    @ManyToOne((type) => Player, (player) => player.mobs)
+    public player: Player
 }

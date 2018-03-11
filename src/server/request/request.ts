@@ -1,7 +1,6 @@
-import { RequestType } from "./../handler/constants"
-import { HandlerDefinition } from "./../handler/handlerDefinition"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
+import { RequestType } from "./../handler/constants"
 
 export function getNewRequestFromMessageEvent(player: Player, messageEvent: MessageEvent): Request {
   const data = JSON.parse(messageEvent.data)
@@ -21,7 +20,7 @@ export class Request {
     this.args = args
   }
 
-  getRoom(): Room {
+  public getRoom(): Room {
     return this.player.sessionMob.room
   }
 }

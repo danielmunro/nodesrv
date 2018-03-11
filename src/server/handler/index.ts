@@ -1,7 +1,5 @@
-import { Domain } from "../../domain"
 import { Player } from "../../player/model/player"
-import { allDirections, Direction } from "../../room/constants"
-import { Room } from "../../room/model/room"
+import { Direction } from "../../room/constants"
 import { findExit, findRoom } from "../../room/repository"
 import { Request } from "./../request/request"
 import { RequestType } from "./constants"
@@ -13,7 +11,6 @@ async function move(player: Player, direction: Direction): Promise<any> {
   if (!exit) {
     return new Promise((resolve) => resolve({ message: "Alas, that direction does not exist." }))
   }
-  const destination = await exit.destination
   return findExit(exit.id).then((e) =>
     findRoom(e.destination.id).then((room) => {
       player.moveTo(room)

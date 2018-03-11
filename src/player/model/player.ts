@@ -1,31 +1,31 @@
-import {Entity, PrimaryGeneratedColumn, Column, Generated, OneToOne, OneToMany} from "typeorm"
+import {Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn} from "typeorm"
+import { Mob } from "../../mob/model/mob"
 import { Direction } from "../../room/constants"
 import { Exit } from "../../room/model/exit"
 import { Room } from "../../room/model/room"
-import { Mob } from "../../mob/model/mob"
 
 @Entity()
 export class Player {
     @PrimaryGeneratedColumn()
-    id: number
+    public id: number
 
     @Column("text")
     @Generated("uuid")
-    uuid: string
+    public uuid: string
 
     @Column("text")
-    name: string
+    public name: string
 
-    @OneToMany(type => Mob, mob => mob.player)
-    mobs: Mob[] = []
+    @OneToMany((type) => Mob, (mob) => mob.player)
+    public mobs: Mob[] = []
 
-    sessionMob: Mob
+    public sessionMob: Mob
 
-    moveTo(room: Room): void {
+    public moveTo(room: Room): void {
       room.addMob(this.sessionMob)
     }
 
-    getExit(direction: Direction): Exit | null {
+    public getExit(direction: Direction): Exit | null {
       return this.sessionMob.room.exits.find((exit) => exit.direction === direction.toString())
     }
 }
