@@ -1,5 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, Generated, ManyToOne} from "typeorm"
-import { Room } from "../../room/model/room";
+import { Room } from "../../room/model/room"
+import { Player } from "../../player/model/player"
 
 @Entity()
 export class Mob {
@@ -18,4 +19,7 @@ export class Mob {
 
     @ManyToOne(type => Room, room => room.mobs)
     room: Room
+
+    @ManyToOne(type => Player, player => player.mobs)
+    player: Player
 }

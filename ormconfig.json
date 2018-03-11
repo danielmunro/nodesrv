@@ -4,7 +4,9 @@
   "synchronize": false,
   "logging": false,
   "entities": [
-    "src/room/model/*.ts"
+    "src/room/model/*.ts",
+    "src/mob/model/*.ts",
+    "src/player/model/*.ts"
   ],
   "migrations": [
     "src/migration/**/*.ts"

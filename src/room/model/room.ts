@@ -1,6 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, Generated, OneToMany} from "typeorm"
 import { Exit } from "./exit"
-import { Mob } from "../../mob/model/mob";
+import { Mob } from "../../mob/model/mob"
 
 @Entity()
 export class Room {

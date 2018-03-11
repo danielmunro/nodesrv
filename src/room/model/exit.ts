@@ -4,7 +4,6 @@ import { Room } from "./room"
 
 @Entity()
 export class Exit {
-
     @PrimaryGeneratedColumn()
     id: number
 
