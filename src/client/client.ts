@@ -1,3 +1,4 @@
+import * as stringify from "json-stringify-safe"
 import { Player } from "./../player/model/player"
 import { RequestType } from "./../server/handler/constants"
 import { HandlerDefinition } from "./../server/handler/handlerDefinition"
@@ -44,7 +45,7 @@ export class Client {
   }
 
   public send(data): void {
-    this.ws.send(JSON.stringify(data))
+    this.ws.send(stringify(data))
   }
 
   private getHandlerDefinitionMatchingRequest(requestType: RequestType): HandlerDefinition {

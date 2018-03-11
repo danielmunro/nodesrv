@@ -5,6 +5,7 @@ export function getTestMob(): Mob {
   const mob = new Mob()
   mob.name = "test"
   mob.room = getTestRoom()
+  mob.room.addMob(mob)
 
   return mob
 }

@@ -17,15 +17,15 @@ export class Player {
     name: string
 
     @OneToMany(type => Mob, mob => mob.player)
-    mobs: Mob[]
+    mobs: Mob[] = []
 
     sessionMob: Mob
 
-    public moveTo(room: Room): void {
+    moveTo(room: Room): void {
       room.addMob(this.sessionMob)
     }
 
-    public getExit(direction: Direction): Exit | null {
+    getExit(direction: Direction): Exit | null {
       return this.sessionMob.room.exits.find((exit) => exit.direction === direction.toString())
     }
 }

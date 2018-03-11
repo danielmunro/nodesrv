@@ -1,3 +1,4 @@
+import * as stringify from "json-stringify-safe"
 import * as v4 from "uuid"
 import { getTestPlayer } from "./../test/player"
 import { Channel } from "./constants"
@@ -13,7 +14,7 @@ describe("message", () => {
       Channel.Gossip,
       messageString,
     )
-    const data = JSON.stringify(message.getData())
+    const data = stringify(message.getData())
     expect(data).toContain(messageString)
     expect(data).toContain(player.uuid)
     expect(data).toContain(Channel.Gossip)

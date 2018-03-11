@@ -42,6 +42,7 @@
     "@types/uuid": "^3.4.3",
     "@types/ws": "^4.0.0",
     "is-uuid": "^1.0.2",
+    "json-stringify-safe": "^5.0.1",
     "neo4j": "^2.0.0-RC2",
     "reflect-metadata": "^0.1.12",
     "seraph": "^0.15.3",

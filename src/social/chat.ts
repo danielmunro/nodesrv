@@ -4,8 +4,11 @@ import { Message } from "./message"
 
 let buf = []
 
-export function broadcastMessage(sender: Player, channel: Channel, message: string): void {
-  buf.push(new Message(sender, channel, message))
+export function broadcastMessage(sender: Player, channel: Channel, messageStr: string): Message {
+  const message = new Message(sender, channel, messageStr)
+  buf.push(message)
+
+  return message
 }
 
 export function readMessages(): Message[] {

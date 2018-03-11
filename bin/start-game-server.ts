@@ -37,6 +37,7 @@ function getPlayerProvider(startRoom: Room) {
     const player = new Player()
     player.name = "pat"
     player.mobs.push(mob)
+    player.sessionMob = mob
 
     return player
   }
