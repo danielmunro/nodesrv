@@ -1,12 +1,9 @@
 import * as fs from "fs"
-import { Domain } from "./../src/domain"
+import { getConnection } from "./../src/db/connection"
 import { Direction } from "./../src/room/constants"
-import { Room } from "../src/room/model/room"
-import { Exit } from "../src/room/model/exit"
-import { reverse } from "../src/room/direction"
-import { getConnection } from "../src/db/connection"
-import { findRoom } from "../src/room/repository";
-import { createConnection } from "typeorm";
+import { reverse } from "./../src/room/direction"
+import { Exit } from "./../src/room/model/exit"
+import { Room } from "./../src/room/model/room"
 
 function newRoom(name: string, description: string): Room {
   const room = new Room()
@@ -28,12 +25,12 @@ function newExit(direction: Direction, source: Room, destination: Room): Exit {
 function newReciprocalExit(direction: Direction, source: Room, destination: Room): Exit[] {
   return [
     newExit(direction, source, destination),
-    newExit(reverse(direction), destination, source)
+    newExit(reverse(direction), destination, source),
   ]
 }
 
 fs.unlink("database.db", () => {
-  getConnection().then(connection => {
+  getConnection().then((connection) => {
     const exitRepository = connection.getRepository(Exit)
     const roomRepository = connection.getRepository(Room)
     Promise.all([
@@ -53,10 +50,10 @@ fs.unlink("database.db", () => {
       newRoom(
         "At the crossroads",
         "Something about crossroads."),
-    ].map(room => roomRepository.save(room))).then((rooms) => {
+    ].map((room) => roomRepository.save(room))).then((rooms) => {
       [
         ...newReciprocalExit(Direction.North, rooms[0], rooms[1]),
-        ...newReciprocalExit(Direction.West, rooms[0], rooms[2])
+        ...newReciprocalExit(Direction.West, rooms[0], rooms[2]),
       ].map((exit) => exitRepository.save(exit))
     })
   })

@@ -56,7 +56,7 @@ describe("clients", () => {
     expect.assertions(1)
     return Promise.all([
       client.onRequest(request),
-      look(request)
+      look(request),
     ]).then(([response, lookResponse]) => expect(response).toEqual(lookResponse))
   })
 })

@@ -1,12 +1,10 @@
 import { Server } from "ws"
-import { Attributes } from "./../src/attributes/attributes"
 import { PORT, TICK } from "./../src/constants"
 import { DiceRoller } from "./../src/dice/dice"
-import { Mob } from "./../src/mob/mob"
-import { Race } from "./../src/mob/race/race"
+import { Mob } from "./../src/mob/model/mob"
 import { Player } from "./../src/player/player"
-import { findRoom } from "./../src/room/repository"
 import { Room } from "./../src/room/model/room"
+import { findRoom } from "./../src/room/repository"
 import { PersistMobs } from "./../src/server/observers/persistMobs"
 import { PersistPlayers } from "./../src/server/observers/persistPlayers"
 import { SocialBroadcaster } from "./../src/server/observers/socialBroadcaster"
@@ -15,7 +13,6 @@ import { GameServer } from "./../src/server/server"
 import { MinuteTimer } from "./../src/server/timer/minuteTimer"
 import { RandomTickTimer } from "./../src/server/timer/randomTickTimer"
 import { ShortIntervalTimer } from "./../src/server/timer/shortIntervalTimer"
-import { createConnection } from "typeorm"
 
 const startRoomID = +process.argv[2]
 
@@ -34,7 +31,12 @@ function addObservers(gameServer: GameServer): GameServer {
 function getPlayerProvider(startRoom: Room) {
   return (name: string): Player => {
     const player = new Player("identifier", name)
-    player.setMob(new Mob("identifier", "pat", Race.Human, 1, 0, 0, Attributes.withNoAttributes(), startRoom))
+    const mob = new Mob()
+    mob.name = "pat"
+    mob.description = "a description for Pat."
+    mob.room = startRoom
+
+    player.setMob(mob)
 
     return player
   }
