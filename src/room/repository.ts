@@ -1,11 +1,13 @@
-import { findNode } from "./../db/db"
-import { RoomHydrator } from "./roomHydrator"
+import { getRepository } from "typeorm"
+import { Room } from "./model/room"
+import { getConnection } from "../db/connection"
+import { Exit } from "./model/exit"
 
-// export function find(identifier: string): Promise<any> {
-//   query("START room = node({id}) MATCH room - [direction] WHERE room")
-// }
+export async function findRoom(id: number): Promise<Room> {
+  return await getConnection().then(connection => connection.getRepository(Room).findOneById(id))
+}
 
-export function findRoom(identifier: string): Promise<any> {
-  return findNode({ identifier })
-          .then((node) => new RoomHydrator().hydrate(node))
+export async function findExit(id: number): Promise<Exit> {
+  return await getConnection().then(connection => 
+    connection.getRepository(Exit).findOneById(id, {relations: ["source", "destination"]}))
 }

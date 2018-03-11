@@ -4,7 +4,7 @@ import { Request } from "./../request/request"
 
 export class HandlerDefinition {
   private readonly requestType: RequestType
-  private readonly callback: (request: Request) => void
+  private readonly callback: (request: Request) => Promise<any>
 
   constructor(requestType: RequestType, callback) {
     this.requestType = requestType
@@ -20,8 +20,6 @@ export class HandlerDefinition {
       throw new RequestTypeMismatch()
     }
 
-    return new Promise((resolve) => {
-      resolve(this.callback(request))
-    })
+    return new Promise((resolve) => this.callback(request).then((result) => resolve(result)))
   }
 }

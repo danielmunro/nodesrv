@@ -1,15 +1,11 @@
 import * as v4 from "uuid"
 import { Direction } from "./../room/constants"
-import { Exit } from "./../room/exit"
-import { Room } from "./../room/room"
+import { Exit } from "./../room/model/exit"
+import { Room } from "./../room/model/room"
 
 export function getTestRoom(): Room {
-  return new Room(
-    v4(),
-    "test room name",
-    "test room description",
-    [
-      new Exit("test-room-id-1", Direction.Up),
-      new Exit("test-room-id-2", Direction.Down),
-    ])
+  const room1 = new Room()
+  room1.name = "Test room 1"
+  room1.description = "This is a test room."
+  return room1
 }

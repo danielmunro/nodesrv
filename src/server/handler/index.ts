@@ -4,28 +4,29 @@ import { gossip } from "./social"
 import { HandlerDefinition } from "./handlerDefinition"
 import { Domain } from "../../domain"
 import { Direction, allDirections } from "../../room/constants"
-import { Room } from "../../room/room"
-import { findRoom } from "../../room/repository"
+import { findRoom, findExit } from "../../room/repository"
 import { Player } from "../../player/player"
+import { Room } from "../../room/model/room"
 
-function move(player: Player, direction: Direction) {
+async function move(player: Player, direction: Direction): Promise<any> {
   const exit = player.getExit(direction)
   if (!exit) {
-    return { message: 'Alas, that direction does not exist.' }
+    return new Promise((resolve) => resolve({ message: 'Alas, that direction does not exist.' }))
   }
-  return findRoom(exit.roomID)
-    .then((room: Room) => {
+  const destination = await exit.destination
+  return findExit(exit.id).then((exit) => 
+    findRoom(exit.destination.id).then(room => {
       player.moveTo(room)
-      return { room: room.getModel() }
-    })
+      return { room }
+    }))
 }
 
 function handler(requestType: RequestType, cb) {
   return new HandlerDefinition(requestType, cb)
 }
 
-export function look(request: Request) {
-  return { room: request.player.getRoom().getModel() }
+export function look(request: Request): Promise<any> {
+  return new Promise((resolve) => resolve({ room: request.player.getRoom() }))
 }
 
 export const handlers = [

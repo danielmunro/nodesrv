@@ -1,0 +1,15 @@
+{
+  "type": "sqlite",
+  "database": "database.db",
+  "synchronize": false,
+  "logging": false,
+  "entities": [
+    "src/room/model/*.ts"
+  ],
+  "migrations": [
+    "src/migration/**/*.ts"
+  ],
+  "subscribers": [
+    "src/subscriber/**/*.ts"
+  ]
+}

@@ -1,12 +1,11 @@
 import { Attributes } from "./../attributes/attributes"
 import { Vitals } from "./../attributes/vitals"
-import { Modellable } from "./../db/model"
 import { Direction } from "./../room/constants"
-import { Exit } from "./../room/exit"
-import { Room } from "./../room/room"
+import { Exit } from "./../room/model/exit"
+import { Room } from "./../room/model/room"
 import { Race } from "./race/race"
 
-export class Mob implements Modellable {
+export class Mob {
   private readonly identifier: string
   private readonly name: string
   private readonly race: Race
@@ -44,7 +43,7 @@ export class Mob implements Modellable {
   }
 
   public getExit(direction: Direction): Exit | null {
-    return this.room.getExit(direction)
+    return this.room.exits.find(exit => exit.direction === direction.toString())
   }
 
   public levelUp(): void {
@@ -64,19 +63,6 @@ export class Mob implements Modellable {
 
   public getRoom(): Room {
     return this.room
-  }
-
-  public getModel(): object {
-    return {
-      identifier: this.identifier,
-      level: this.level,
-      name: this.name,
-      practices: this.practices,
-      race: this.race,
-      room: this.room.identifier,
-      trains: this.trains,
-      ...this.attributes.getModel(),
-    }
   }
 
   public moveTo(room: Room) {

@@ -6,7 +6,7 @@ import { Player } from "../../player/player"
 import { getTestPlayer } from "./../../test/player"
 
 function getNewHandlerDefinition(requestType = RequestType.Noop): HandlerDefinition {
-  return new HandlerDefinition(requestType, () => {})
+  return new HandlerDefinition(requestType, () => new Promise(resolve => resolve()))
 }
 
 function getNewTestRequest(requestType: RequestType): Request {

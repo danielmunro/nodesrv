@@ -1,4 +1,3 @@
-import * as isUUID from "is-uuid"
 import { Server } from "ws"
 import { Attributes } from "./../src/attributes/attributes"
 import { PORT, TICK } from "./../src/constants"
@@ -7,7 +6,7 @@ import { Mob } from "./../src/mob/mob"
 import { Race } from "./../src/mob/race/race"
 import { Player } from "./../src/player/player"
 import { findRoom } from "./../src/room/repository"
-import { Room } from "./../src/room/room"
+import { Room } from "./../src/room/model/room"
 import { PersistMobs } from "./../src/server/observers/persistMobs"
 import { PersistPlayers } from "./../src/server/observers/persistPlayers"
 import { SocialBroadcaster } from "./../src/server/observers/socialBroadcaster"
@@ -16,13 +15,9 @@ import { GameServer } from "./../src/server/server"
 import { MinuteTimer } from "./../src/server/timer/minuteTimer"
 import { RandomTickTimer } from "./../src/server/timer/randomTickTimer"
 import { ShortIntervalTimer } from "./../src/server/timer/shortIntervalTimer"
+import { createConnection } from "typeorm"
 
-const startRoomID = process.argv[2]
-
-if (!isUUID.v4(startRoomID)) {
-  console.log("need a valid room ID to start with")
-  process.exit(1)
-}
+const startRoomID = +process.argv[2]
 
 function addObservers(gameServer: GameServer): GameServer {
   gameServer.addObserver(
@@ -53,4 +48,3 @@ findRoom(startRoomID)
       new GameServer(
         new Server({ port: PORT }),
         getPlayerProvider(startRoom))).start())
-  .catch(() => console.log("start up failed"))

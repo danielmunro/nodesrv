@@ -4,8 +4,8 @@
   "description": "A minimal server",
   "main": "bin/start-game-server.js",
   "scripts": {
-    "start": "yarn lint && ts-node --no-cache bin/start-game-server.ts",
-    "create-fixtures": "yarn lint && ts-node --no-cache bin/db-clean-create-demo-fixtures.ts .",
+    "start": "ts-node --no-cache bin/start-game-server.ts",
+    "create-fixtures": "ts-node --no-cache bin/db-clean-create-demo-fixtures.ts .",
     "lint": "tslint -p . bin/**/*.ts src/**/*.ts",
     "test": "jest",
     "test-coverage": "jest --coverage"
@@ -43,8 +43,11 @@
     "@types/ws": "^4.0.0",
     "is-uuid": "^1.0.2",
     "neo4j": "^2.0.0-RC2",
+    "reflect-metadata": "^0.1.12",
     "seraph": "^0.15.3",
     "seraph-model": "^0.10.1",
+    "sqlite3": "^3.1.13",
+    "typeorm": "^0.1.16",
     "ws": "^4.0.0"
   },
   "jest": {

@@ -1,10 +1,9 @@
-import { Modellable } from "./../db/model"
 import { Mob } from "./../mob/mob"
 import { Direction } from "./../room/constants"
-import { Exit } from "./../room/exit"
-import { Room } from "./../room/room"
+import { Exit } from "./../room/model/exit"
+import { Room } from "./../room/model/room"
 
-export class Player implements Modellable {
+export class Player {
   private readonly identifier: string
   private readonly name: string
   private mob: Mob
@@ -40,12 +39,5 @@ export class Player implements Modellable {
 
   public toString(): string {
     return this.getIdentifier()
-  }
-
-  public getModel(): object {
-    return {
-      identifier: this.identifier,
-      name: this.name,
-    }
   }
 }

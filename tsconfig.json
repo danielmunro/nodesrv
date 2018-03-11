@@ -1,7 +1,9 @@
 {
-    "compilerOptions": {
-        "allowJs": true,
-        "moduleResolution": "node",
-        "lib": ["es2017", "dom"]
-    }
+  "compilerOptions": {
+    "allowJs": true,
+    "moduleResolution": "node",
+    "lib": ["es2017", "dom"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  }
 }

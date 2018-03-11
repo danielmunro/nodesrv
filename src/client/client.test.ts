@@ -54,7 +54,9 @@ describe("clients", () => {
     const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("look"))
 
     expect.assertions(1)
-    return client.onRequest(request)
-      .then((response) => expect(response).toEqual(look(request)))
+    return Promise.all([
+      client.onRequest(request),
+      look(request)
+    ]).then(([response, lookResponse]) => expect(response).toEqual(lookResponse))
   })
 })
