@@ -1,6 +1,7 @@
 import * as stringify from "json-stringify-safe"
 import { Player } from "./../player/model/player"
 import { RequestType } from "./../server/handler/constants"
+import { HandlerCollection } from "./../server/handler/handlerCollection"
 import { HandlerDefinition } from "./../server/handler/handlerDefinition"
 import { getNewRequestFromMessageEvent, Request } from "./../server/request/request"
 import { Channel } from "./../social/constants"
@@ -13,9 +14,9 @@ export function getDefaultUnhandledMessage() {
 export class Client {
   private readonly ws: WebSocket
   private readonly player: Player
-  private readonly handlers: HandlerDefinition[]
+  private readonly handlers: HandlerCollection
 
-  constructor(ws: WebSocket, player: Player, handlers: HandlerDefinition[]) {
+  constructor(ws: WebSocket, player: Player, handlers: HandlerCollection) {
     this.ws = ws
     this.player = player
     this.handlers = handlers
@@ -36,24 +37,18 @@ export class Client {
   }
 
   public onRequest(request: Request): Promise<any> {
-    return this.getHandlerDefinitionMatchingRequest(request.requestType)
-      .handle(request)
-      .then((response) => {
-        this.send(response)
-        return response
-      })
+    return this.handlers.getMatchingHandlerDefinitionForRequestType(
+      request.requestType,
+      this.getDefaultRequestHandler())
+        .handle(request)
+        .then((response) => {
+          this.send(response)
+          return response
+        })
   }
 
   public send(data): void {
     this.ws.send(stringify(data))
-  }
-
-  private getHandlerDefinitionMatchingRequest(requestType: RequestType): HandlerDefinition {
-    const handler = this.handlers.find((it) => it.isAbleToHandleRequestType(requestType))
-    if (handler) {
-      return handler
-    }
-    return this.getDefaultRequestHandler()
   }
 
   private getDefaultRequestHandler(): HandlerDefinition {

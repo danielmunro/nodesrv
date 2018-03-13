@@ -1,5 +1,5 @@
 import { WebSocket } from "mock-socket"
-import { handlers, look } from "./../server/handler/index"
+import { handlers, look } from "./../server/handler/handlers"
 import { getNewRequestFromMessageEvent } from "./../server/request/request"
 import { Channel } from "./../social/constants"
 import { getTestPlayer } from "./../test/player"

@@ -4,6 +4,7 @@ import { findOneExit } from "../../room/repository/exit"
 import { findOneRoom } from "../../room/repository/room"
 import { Request } from "./../request/request"
 import { RequestType } from "./constants"
+import { HandlerCollection } from "./handlerCollection"
 import { HandlerDefinition } from "./handlerDefinition"
 import { gossip } from "./social"
 
@@ -27,7 +28,7 @@ export function look(request: Request): Promise<any> {
   return new Promise((resolve) => resolve({ room: request.getRoom() }))
 }
 
-export const handlers = [
+export const handlers = new HandlerCollection([
   // interacting with room
   handler(RequestType.Look, (request: Request) => look(request)),
 
@@ -43,8 +44,8 @@ export const handlers = [
   handler(RequestType.Gossip, (request: Request) => {
     const message = request.args.request.split(" ").slice(1).join(" ")
     gossip(request.player, request.player.sessionMob.name + " gossips, \"" + message + "\"")
-    return {
-      message: "You gossip, '" + message + "'",
-    }
+    return new Promise((resolve) => {
+      return resolve({ message: "You gossip, '" + message + "'"})
+    })
   }),
-]
+])
