@@ -4,6 +4,8 @@ import { Direction } from "./../src/room/constants"
 import { reverse } from "./../src/room/direction"
 import { Exit } from "./../src/room/model/exit"
 import { Room } from "./../src/room/model/room"
+import { getExitRepository } from "../src/room/repository/exit";
+import { getRoomRepository } from "../src/room/repository/room";
 
 function newRoom(name: string, description: string): Room {
   const room = new Room()
@@ -30,10 +32,11 @@ function newReciprocalExit(direction: Direction, source: Room, destination: Room
 }
 
 fs.unlink("database.db", () => {
-  getConnection().then((connection) => {
-    const exitRepository = connection.getRepository(Exit)
-    const roomRepository = connection.getRepository(Room)
+  getConnection().then((connection) =>
     Promise.all([
+      getExitRepository(),
+      getRoomRepository(),
+    ]).then(([exitRepository, roomRepository]) => Promise.all([
       newRoom(
         "Inn at the lodge",
         "Flickering torches provide the only light in the large main mess hall. "
@@ -55,6 +58,5 @@ fs.unlink("database.db", () => {
         ...newReciprocalExit(Direction.North, rooms[0], rooms[1]),
         ...newReciprocalExit(Direction.West, rooms[0], rooms[2]),
       ].map((exit) => exitRepository.save(exit))
-    })
-  })
+    })))
 })

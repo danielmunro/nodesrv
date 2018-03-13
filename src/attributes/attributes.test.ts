@@ -1,21 +1,23 @@
-import { Attributes } from "./attributes"
-import { HitDam } from "./hitdam"
-import { Stats } from "./stats"
-import { Vitals } from "./vitals"
+import Attributes from "./model/attributes"
+import Hitroll from "./model/hitroll"
+import Stats from "./model/stats"
+import Vitals from "./model/vitals"
 
 const TEST_ATTRIBUTES_VALUE = 1
 
 function getNewTestAttributes(): Attributes {
-  return new Attributes(
-    new HitDam(TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE),
-    new Stats(
-      TEST_ATTRIBUTES_VALUE,
-      TEST_ATTRIBUTES_VALUE,
-      TEST_ATTRIBUTES_VALUE,
-      TEST_ATTRIBUTES_VALUE,
-      TEST_ATTRIBUTES_VALUE,
-      TEST_ATTRIBUTES_VALUE),
-    new Vitals(TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE))
+  const attributes = new Attributes()
+  attributes.hitroll = Hitroll.create(TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE)
+  attributes.stats = Stats.create(
+    TEST_ATTRIBUTES_VALUE,
+    TEST_ATTRIBUTES_VALUE,
+    TEST_ATTRIBUTES_VALUE,
+    TEST_ATTRIBUTES_VALUE,
+    TEST_ATTRIBUTES_VALUE,
+    TEST_ATTRIBUTES_VALUE)
+  attributes.vitals = Vitals.create(TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE)
+
+  return attributes
 }
 
 describe("attributes", () => {
@@ -23,8 +25,8 @@ describe("attributes", () => {
     const attrs = getNewTestAttributes()
       .combine(getNewTestAttributes())
       .combine(getNewTestAttributes())
-    expect(attrs.hitDam.hit).toBe(TEST_ATTRIBUTES_VALUE * 3)
-    expect(attrs.hitDam.dam).toBe(TEST_ATTRIBUTES_VALUE * 3)
+    expect(attrs.hitroll.hit).toBe(TEST_ATTRIBUTES_VALUE * 3)
+    expect(attrs.hitroll.dam).toBe(TEST_ATTRIBUTES_VALUE * 3)
     expect(attrs.stats.str).toBe(TEST_ATTRIBUTES_VALUE * 3)
     expect(attrs.stats.int).toBe(TEST_ATTRIBUTES_VALUE * 3)
     expect(attrs.stats.wis).toBe(TEST_ATTRIBUTES_VALUE * 3)

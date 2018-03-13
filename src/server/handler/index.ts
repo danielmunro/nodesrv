@@ -1,6 +1,7 @@
 import { Player } from "../../player/model/player"
 import { Direction } from "../../room/constants"
-import { findExit, findRoom } from "../../room/repository"
+import { findOneExit } from "../../room/repository/exit"
+import { findOneRoom } from "../../room/repository/room"
 import { Request } from "./../request/request"
 import { RequestType } from "./constants"
 import { HandlerDefinition } from "./handlerDefinition"
@@ -11,8 +12,8 @@ async function move(player: Player, direction: Direction): Promise<any> {
   if (!exit) {
     return new Promise((resolve) => resolve({ message: "Alas, that direction does not exist." }))
   }
-  return findExit(exit.id).then((e) =>
-    findRoom(e.destination.id).then((room) => {
+  return findOneExit(exit.id).then((e) =>
+    findOneRoom(e.destination.id).then((room) => {
       player.moveTo(room)
       return { room }
     }))

@@ -6,7 +6,8 @@
   "entities": [
     "src/room/model/*.ts",
     "src/mob/model/*.ts",
-    "src/player/model/*.ts"
+    "src/player/model/*.ts",
+    "src/attributes/model/*.ts"
   ],
   "migrations": [
     "src/migration/**/*.ts"

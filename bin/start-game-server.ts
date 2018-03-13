@@ -1,10 +1,11 @@
 import { Server } from "ws"
 import { PORT, TICK } from "./../src/constants"
+import { getConnection } from "./../src/db/connection"
 import { DiceRoller } from "./../src/dice/dice"
 import { Mob } from "./../src/mob/model/mob"
 import { Player } from "./../src/player/model/player"
 import { Room } from "./../src/room/model/room"
-import { findRoom } from "./../src/room/repository"
+import { findOneRoom } from "./../src/room/repository/room"
 import { PersistMobs } from "./../src/server/observers/persistMobs"
 import { PersistPlayers } from "./../src/server/observers/persistPlayers"
 import { SocialBroadcaster } from "./../src/server/observers/socialBroadcaster"
@@ -44,10 +45,8 @@ function getPlayerProvider(startRoom: Room) {
 }
 
 console.log("starting up", { port: PORT, startRoomID })
-
-findRoom(startRoomID)
-  .then((startRoom) =>
-    addObservers(
-      new GameServer(
-        new Server({ port: PORT }),
-        getPlayerProvider(startRoom))).start())
+findOneRoom(startRoomID).then((startRoom) =>
+  addObservers(
+    new GameServer(
+      new Server({ port: PORT }),
+      getPlayerProvider(startRoom))).start())

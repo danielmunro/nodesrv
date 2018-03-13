@@ -1,10 +1,10 @@
-import { Attributes } from "./../../attributes/attributes"
+import Attributes from "./../../attributes/model/attributes"
 import { clericModifier, largeModifier, thiefModifier, tinyModifier, warriorModifier, wizardModifier } from "./modifier"
 import { allRaces, isCleric, isLarge, isThief, isTiny, isWarrior, isWizard } from "./race"
 
 describe("race modifiers", () => {
   it("modifiers", () => {
-    const testAttributes = Attributes.withNoAttributes()
+    const testAttributes = new Attributes()
     allRaces.forEach((race) => {
       expectRaceModifier(isLarge, largeModifier, race, testAttributes)
       expectRaceModifier(isTiny, tinyModifier, race, testAttributes)
