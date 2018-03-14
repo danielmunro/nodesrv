@@ -8,6 +8,10 @@ import { HandlerCollection } from "./handlerCollection"
 import { HandlerDefinition } from "./handlerDefinition"
 import { gossip } from "./social"
 
+function allButFirstWord(str: string): string {
+  return str.substring(str.indexOf(" ") + 1)
+}
+
 async function move(player: Player, direction: Direction): Promise<any> {
   const exit = player.getExit(direction)
   if (!exit) {
@@ -32,13 +36,46 @@ function inventory(request: Request): Promise<any> {
   return new Promise((resolve) => resolve({ inventory: request.player.getInventory()}))
 }
 
+function get(request: Request): Promise<any> {
+  const roomInv = request.getRoom().inventory
+  const item = roomInv.items.find((i) => i.name.startsWith(allButFirstWord(request.args.request)))
+
+  return new Promise((resolve) => {
+    if (!item) {
+      return resolve({ message: "You can't find that anywhere." })
+    }
+
+    roomInv.items = roomInv.items.filter((i) => i !== item)
+    request.player.getInventory().items.push(item)
+
+    return resolve({ message: "You pick up " + item.name + "." })
+  })
+}
+
+function drop(request: Request): Promise<any> {
+  const playerInv = request.player.getInventory()
+  const item = playerInv.items.find((i) => i.name.startsWith(allButFirstWord(request.args.request)))
+
+  return new Promise((resolve) => {
+    if (!item) {
+      return resolve({ message: "You don't have that." })
+    }
+
+    playerInv.items = playerInv.items.filter((i) => i !== item)
+    request.getRoom().inventory.items.push(item)
+
+    return resolve({ message: "You drop " + item.name + "." })
+  })
+}
+
 export const handlers = new HandlerCollection([
   // interacting with room
   handler(RequestType.Look, look),
 
+  // items
   handler(RequestType.Inventory, inventory),
-  handler(RequestType.Get, (request: Request) => {}),
-  handler(RequestType.Drop, (request: Request) => {}),
+  handler(RequestType.Get, get),
+  handler(RequestType.Drop, drop),
 
   // moving around
   handler(RequestType.North, (request: Request) => move(request.player, Direction.North)),
