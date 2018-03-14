@@ -1,4 +1,5 @@
-import {Column, Entity, Generated, ManyToOne, PrimaryGeneratedColumn} from "typeorm"
+import {Column, Entity, Generated, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm"
+import { Inventory } from "../../item/model/inventory"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
 
@@ -22,4 +23,7 @@ export class Mob {
 
     @ManyToOne((type) => Player, (player) => player.mobs)
     public player: Player
+
+    @OneToOne((type) => Inventory)
+    public inventory = new Inventory()
 }

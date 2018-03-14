@@ -28,9 +28,17 @@ export function look(request: Request): Promise<any> {
   return new Promise((resolve) => resolve({ room: request.getRoom() }))
 }
 
+function inventory(request: Request): Promise<any> {
+  return new Promise((resolve) => resolve({ inventory: request.player.getInventory()}))
+}
+
 export const handlers = new HandlerCollection([
   // interacting with room
-  handler(RequestType.Look, (request: Request) => look(request)),
+  handler(RequestType.Look, look),
+
+  handler(RequestType.Inventory, inventory),
+  handler(RequestType.Get, (request: Request) => {}),
+  handler(RequestType.Drop, (request: Request) => {}),
 
   // moving around
   handler(RequestType.North, (request: Request) => move(request.player, Direction.North)),

@@ -1,6 +1,9 @@
 export enum RequestType {
   Node = "node",
   Gossip = "gossip",
+  Get = "get",
+  Drop = "drop",
+  Inventory = "inventory",
   Look = "look",
   North = "north",
   South = "south",

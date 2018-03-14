@@ -1,4 +1,5 @@
-import {Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn} from "typeorm"
+import {Column, Entity, Generated, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
+import { Inventory } from "../../item/model/inventory"
 import { Mob } from "../../mob/model/mob"
 import { Exit } from "./exit"
 
@@ -25,6 +26,9 @@ export class Room {
 
     @OneToMany((type) => Mob, (mob) => mob.room)
     public mobs: Mob[] = []
+
+    @OneToOne((type) => Inventory)
+    public inventory = new Inventory()
 
     public addMob(mob: Mob): void {
       mob.room.mobs = mob.room.mobs.filter((m) => m !== mob)

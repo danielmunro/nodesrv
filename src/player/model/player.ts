@@ -1,4 +1,5 @@
 import {Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn} from "typeorm"
+import { Inventory } from "../../item/model/inventory"
 import { Mob } from "../../mob/model/mob"
 import { Direction } from "../../room/constants"
 import { Exit } from "../../room/model/exit"
@@ -27,5 +28,9 @@ export class Player {
 
     public getExit(direction: Direction): Exit | null {
       return this.sessionMob.room.exits.find((exit) => exit.direction === direction.toString())
+    }
+
+    public getInventory(): Inventory {
+      return this.sessionMob.inventory
     }
 }

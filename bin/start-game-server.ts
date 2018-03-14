@@ -2,6 +2,7 @@ import { Server } from "ws"
 import { PORT, TICK } from "./../src/constants"
 import { getConnection } from "./../src/db/connection"
 import { DiceRoller } from "./../src/dice/dice"
+import { Item } from "./../src/item/model/item"
 import { Mob } from "./../src/mob/model/mob"
 import { Player } from "./../src/player/model/player"
 import { Room } from "./../src/room/model/room"
@@ -35,6 +36,11 @@ function getPlayerProvider(startRoom: Room) {
     mob.name = "pat"
     mob.description = "a description for Pat."
     mob.room = startRoom
+    const item = new Item()
+    item.name = "a wooden practice sword"
+    item.description = "A small wooden practice sword has been left here."
+    item.inventory = mob.inventory
+    mob.inventory.items.push(item)
     const player = new Player()
     player.name = "pat"
     player.mobs.push(mob)
@@ -45,6 +51,7 @@ function getPlayerProvider(startRoom: Room) {
 }
 
 console.log("starting up", { port: PORT, startRoomID })
+
 findOneRoom(startRoomID).then((startRoom) =>
   addObservers(
     new GameServer(
