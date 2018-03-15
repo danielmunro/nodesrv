@@ -17,4 +17,8 @@ export class Inventory {
 
     @OneToOne((type) => Room, (room) => room.inventory)
     public room: Room
+
+    public findItem(search: string): Item | null {
+      return this.items.find((i) => i.matches(search))
+    }
 }
