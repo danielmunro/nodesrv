@@ -13,11 +13,20 @@ export class Request {
   public readonly player: Player
   public readonly requestType: RequestType
   public readonly args
+  public readonly command: string
+  public readonly subject: string
+  public readonly message: string
 
   constructor(player: Player, requestType: RequestType, args = {}) {
     this.player = player
     this.requestType = requestType
     this.args = args
+    if (this.args.request) {
+      const r = this.args.request.split(" ")
+      this.command = r[0]
+      this.subject = r[1]
+      this.message = r.slice(1).join(" ")
+    }
   }
 
   public getRoom(): Room {

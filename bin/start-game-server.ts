@@ -2,6 +2,7 @@ import { Server } from "ws"
 import { PORT, TICK } from "./../src/constants"
 import { getConnection } from "./../src/db/connection"
 import { DiceRoller } from "./../src/dice/dice"
+import { Equipment } from "./../src/item/equipment"
 import { Item } from "./../src/item/model/item"
 import { Mob } from "./../src/mob/model/mob"
 import { Player } from "./../src/player/model/player"
@@ -39,6 +40,7 @@ function getPlayerProvider(startRoom: Room) {
     const item = new Item()
     item.name = "a wooden practice sword"
     item.description = "A small wooden practice sword has been left here."
+    item.equipment = Equipment.Weapon
     item.inventory = mob.inventory
     mob.inventory.items.push(item)
     const player = new Player()

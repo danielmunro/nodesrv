@@ -4,8 +4,8 @@ import { Direction } from "./../src/room/constants"
 import { reverse } from "./../src/room/direction"
 import { Exit } from "./../src/room/model/exit"
 import { Room } from "./../src/room/model/room"
-import { getExitRepository } from "../src/room/repository/exit";
-import { getRoomRepository } from "../src/room/repository/room";
+import { getExitRepository } from "./../src/room/repository/exit"
+import { getRoomRepository } from "./../src/room/repository/room"
 
 function newRoom(name: string, description: string): Room {
   const room = new Room()

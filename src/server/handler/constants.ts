@@ -11,6 +11,9 @@ export enum RequestType {
   West = "west",
   Up = "up",
   Down = "down",
+  Wear = "wear",
+  Remove = "remove",
+  Equipped = "equipped",
   Noop = "noop",
   Any = "any",
 }

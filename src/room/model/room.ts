@@ -27,7 +27,7 @@ export class Room {
     @OneToMany((type) => Mob, (mob) => mob.room)
     public mobs: Mob[] = []
 
-    @OneToOne((type) => Inventory)
+    @OneToOne((type) => Inventory, (inventory) => inventory.room)
     public inventory = new Inventory()
 
     public addMob(mob: Mob): void {

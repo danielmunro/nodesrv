@@ -5,16 +5,13 @@ import { Room } from "../../room/model/room"
 import { Item } from "./item"
 
 @Entity()
-export class Inventory {
+export class Equipped {
     @PrimaryGeneratedColumn()
     public id: number
 
     @OneToMany((type) => Item, (item) => item.inventory)
     public items: Item[] = []
 
-    @OneToOne((type) => Mob, (mob) => mob.inventory)
+    @OneToOne((type) => Mob, (mob) => mob.equipped)
     public mob: Mob
-
-    @OneToOne((type) => Room, (room) => room.inventory)
-    public room: Room
 }
