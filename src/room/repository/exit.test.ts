@@ -1,6 +1,4 @@
 import { Repository } from "typeorm"
-import { getConnection } from "../../db/connection"
-import { getTestRoom } from "../../test/room"
 import { Direction } from "../constants"
 import { Exit } from "../model/exit"
 import { Room } from "../model/room"

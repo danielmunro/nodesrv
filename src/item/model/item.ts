@@ -1,6 +1,4 @@
-import {Column, Entity, Generated, ManyToOne, PrimaryGeneratedColumn} from "typeorm"
-import { Player } from "../../player/model/player"
-import { Room } from "../../room/model/room"
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm"
 import { Equipment } from "../equipment"
 import { Inventory } from "./inventory"
 

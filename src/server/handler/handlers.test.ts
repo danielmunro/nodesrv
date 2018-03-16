@@ -1,5 +1,4 @@
 import { getTestPlayer } from "../../test/player"
-import { getTestRoom } from "../../test/room"
 import { Request } from "../request/request"
 import { RequestType } from "./constants"
 import { HandlerDefinition } from "./handlerDefinition"

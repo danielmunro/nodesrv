@@ -1,6 +1,5 @@
 import { Server } from "ws"
 import { PORT, TICK } from "./../src/constants"
-import { getConnection } from "./../src/db/connection"
 import { DiceRoller } from "./../src/dice/dice"
 import { Equipment } from "./../src/item/equipment"
 import { Item } from "./../src/item/model/item"
