@@ -27,6 +27,16 @@ export function look(request: Request): Promise<any> {
   return new Promise((resolve) => resolve({ room: request.getRoom() }))
 }
 
+export function doWithItemOrElse(item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
+  return new Promise((resolve) => {
+    if (!item) {
+      return resolve({message: ifNotItemMessage})
+    }
+
+    return resolve(ifItem(item))
+  })
+}
+
 function handler(requestType: RequestType, cb) {
   return new HandlerDefinition(requestType, cb)
 }
@@ -92,16 +102,6 @@ function remove(request: Request): Promise<any> {
       return { message: "You remove " + item.name + " and put it in your inventory." }
     },
     "You aren't wearing that.")
-}
-
-export function doWithItemOrElse(item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
-  return new Promise((resolve) => {
-    if (!item) {
-      return resolve({message: ifNotItemMessage})
-    }
-
-    return resolve(ifItem(item))
-  })
 }
 
 function removeEq(playerEq: Equipped, receivingInventory: Inventory, item: Item) {

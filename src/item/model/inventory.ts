@@ -26,6 +26,7 @@ export class Inventory {
     }
 
     public addItem(item: Item): void {
+      item.inventory = this
       this.items.push(item)
     }
 }

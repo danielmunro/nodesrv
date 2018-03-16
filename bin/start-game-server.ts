@@ -2,6 +2,7 @@ import { Server } from "ws"
 import { PORT, TICK } from "./../src/constants"
 import { DiceRoller } from "./../src/dice/dice"
 import { Equipment } from "./../src/item/equipment"
+import { newWeapon } from "./../src/item/factory"
 import { Item } from "./../src/item/model/item"
 import { Mob } from "./../src/mob/model/mob"
 import { Player } from "./../src/player/model/player"
@@ -33,21 +34,17 @@ function addObservers(gameServer: GameServer): GameServer {
 function getPlayerProvider(startRoom: Room) {
   return (name: string): Player => {
     const mob = new Mob()
-    mob.name = "pat"
+    mob.name = "Pat"
     mob.description = "a description for Pat."
     mob.room = startRoom
-    const item1 = new Item()
-    item1.name = "a wooden practice sword"
-    item1.description = "A small wooden practice sword has been left here."
-    item1.equipment = Equipment.Weapon
-    item1.inventory = mob.inventory
-    mob.inventory.items.push(item1)
-    const item2 = new Item()
-    item2.name = "a wooden practice mace"
-    item2.description = "A small wooden practice mace has been left here."
-    item2.equipment = Equipment.Weapon
-    item2.inventory = mob.inventory
-    mob.inventory.items.push(item2)
+    mob.inventory.addItem(
+      newWeapon(
+        "a wooden practice sword",
+        "A small wooden practice sword has been left here."))
+    mob.inventory.addItem(
+      newWeapon(
+        "a wooden practice mace",
+        "A small wooden practice mace has been left here."))
     const player = new Player()
     player.name = "pat"
     player.mobs.push(mob)

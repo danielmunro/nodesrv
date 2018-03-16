@@ -17,6 +17,7 @@ describe("handlers", () => {
         expect(response.message).toContain("You gossip, 'hello world'")
       })
   })
+
   it("should do with item or else", () => {
     const doNotUseCallback = jest.fn()
     doWithItemOrElse(
