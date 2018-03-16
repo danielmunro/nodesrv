@@ -1,6 +1,7 @@
+import { Item } from "../../item/model/item"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
-import { RequestType } from "./../handler/constants"
+import { RequestType } from "../handler/constants"
 
 export function getNewRequestFromMessageEvent(player: Player, messageEvent: MessageEvent): Request {
   const data = JSON.parse(messageEvent.data)
@@ -31,5 +32,9 @@ export class Request {
 
   public getRoom(): Room {
     return this.player.sessionMob.room
+  }
+
+  public findItemInSessionMobInventory(): Item | null {
+    return this.player.sessionMob.inventory.findItem(this.subject)
   }
 }

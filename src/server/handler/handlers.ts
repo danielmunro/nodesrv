@@ -11,10 +11,6 @@ import { HandlerCollection } from "./handlerCollection"
 import { HandlerDefinition } from "./handlerDefinition"
 import { gossip } from "./social"
 
-function allButFirstWord(str: string): string {
-  return str.substring(str.indexOf(" ") + 1)
-}
-
 function move(player: Player, direction: Direction): Promise<any> {
   const exit = player.getExit(direction)
   if (!exit) {
@@ -41,79 +37,76 @@ function inventory(request: Request): Promise<any> {
 
 function get(request: Request): Promise<any> {
   const roomInv = request.getRoom().inventory
-  const item = roomInv.findItem(request.subject)
 
-  return new Promise((resolve) => {
-    if (!item) {
-      return resolve({ message: "You can't find that anywhere." })
-    }
+  return doWithItemOrElse(
+    roomInv.findItem(request.subject),
+    (item: Item) => {
+      roomInv.removeItem(item)
+      request.player.getInventory().addItem(item)
 
-    roomInv.items = roomInv.items.filter((i) => i !== item)
-    request.player.getInventory().items.push(item)
-
-    return resolve({ message: "You pick up " + item.name + "." })
-  })
+      return { message: "You pick up " + item.name + "." }
+    },
+    "You can't find that anywhere.")
 }
 
 function drop(request: Request): Promise<any> {
-  const playerInv = request.player.getInventory()
-  const item = playerInv.findItem(request.subject)
+  return doWithItemOrElse(
+    request.findItemInSessionMobInventory(),
+    (item: Item) => {
+      request.player.getInventory().removeItem(item)
+      request.getRoom().inventory.addItem(item)
 
-  return new Promise((resolve) => {
-    if (!item) {
-      return resolve({ message: "You don't have that." })
-    }
-
-    playerInv.items = playerInv.items.filter((i) => i !== item)
-    request.getRoom().inventory.items.push(item)
-
-    return resolve({ message: "You drop " + item.name + "." })
-  })
+      return { message: "You drop " + item.name + "." }
+    },
+    "You don't have that.")
 }
 
 function wear(request: Request): Promise<any> {
-  const playerInv = request.player.getInventory()
-  const item = playerInv.findItem(request.subject)
+  return doWithItemOrElse(
+    request.findItemInSessionMobInventory(),
+    (item: Item) => {
+      const playerInv = request.player.getInventory()
+      const playerEquipped = request.player.sessionMob.equipped
+      const currentlyEquippedItem = playerEquipped.items.find((eq) => eq.equipment === item.equipment)
 
-  return new Promise((resolve) => {
-    if (!item) {
-      return resolve({ message: "You don't have that." })
-    }
+      let removal = ""
+      if (currentlyEquippedItem) {
+        removeEq(playerEquipped, playerInv, currentlyEquippedItem)
+        removal = " remove " + currentlyEquippedItem.name + " and"
+      }
 
-    const playerEquipped = request.player.sessionMob.equipped
-    const currentlyEquippedItem = playerEquipped.items.find((eq) => eq.equipment === item.equipment)
+      playerInv.removeItem(item)
+      playerEquipped.items.push(item)
 
-    let removal = ""
-    if (currentlyEquippedItem) {
-      doRemove(playerEquipped, playerInv, currentlyEquippedItem)
-      removal = " remove " + currentlyEquippedItem.name + " and"
-    }
-
-    playerInv.items = playerInv.items.filter((i) => i !== item)
-    playerEquipped.items.push(item)
-
-    return resolve({ message: "You" + removal + " wear " + item.name + "." })
-  })
+      return { message: "You" + removal + " wear " + item.name + "." }
+    },
+    "You don't have that.")
 }
 
 function remove(request: Request): Promise<any> {
   const playerEquipped = request.player.sessionMob.equipped
-  const item = playerEquipped.items.find((i) => i.matches(request.subject))
+  return doWithItemOrElse(
+    playerEquipped.items.find((i) => i.matches(request.subject)),
+    (item: Item) => {
+      removeEq(playerEquipped, request.player.getInventory(), item)
+      return { message: "You remove " + item.name + " and put it in your inventory." }
+    },
+    "You aren't wearing that.")
+}
 
+function doWithItemOrElse(item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
   return new Promise((resolve) => {
     if (!item) {
-      return resolve({ message: "You aren't wearing that." })
+      return resolve({message: ifNotItemMessage})
     }
 
-    doRemove(playerEquipped, request.player.getInventory(), item)
-
-    return resolve({ message: "You remove " + item.name + " and put it in your inventory." })
+    return resolve(ifItem(item))
   })
 }
 
-function doRemove(playerEq: Equipped, playerInv: Inventory, item: Item) {
+function removeEq(playerEq: Equipped, receivingInventory: Inventory, item: Item) {
   playerEq.items = playerEq.items.filter((i) => i !== item)
-  playerInv.items.push(item)
+  receivingInventory.addItem(item)
 }
 
 function equipped(request: Request): Promise<any> {
@@ -124,8 +117,8 @@ function equipped(request: Request): Promise<any> {
 }
 
 function gossipHandler(request: Request): Promise<any> {
-  gossip(request.player, request.player.sessionMob.name + " gossips, \"" + request.message + "\"")
   return new Promise((resolve) => {
+    gossip(request.player, request.player.sessionMob.name + " gossips, \"" + request.message + "\"")
     return resolve({ message: "You gossip, '" + request.message + "'"})
   })
 }
