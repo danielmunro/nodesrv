@@ -94,7 +94,7 @@ function remove(request: Request): Promise<any> {
     "You aren't wearing that.")
 }
 
-function doWithItemOrElse(item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
+export function doWithItemOrElse(item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
   return new Promise((resolve) => {
     if (!item) {
       return resolve({message: ifNotItemMessage})
