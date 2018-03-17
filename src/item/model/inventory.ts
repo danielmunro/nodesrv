@@ -29,4 +29,9 @@ export class Inventory {
       item.inventory = this
       this.items.push(item)
     }
+
+    public getItemFrom(item: Item, fromInventory: Inventory): void {
+      fromInventory.removeItem(item)
+      this.addItem(item)
+    }
 }

@@ -49,8 +49,7 @@ function get(request: Request): Promise<any> {
   return doWithItemOrElse(
     request.findItemInRoomInventory(),
     (item: Item) => {
-      request.getRoom().inventory.removeItem(item)
-      request.player.getInventory().addItem(item)
+      request.player.getInventory().getItemFrom(item, request.getRoom().inventory)
 
       return { message: "You pick up " + item.name + "." }
     },
@@ -61,8 +60,7 @@ function drop(request: Request): Promise<any> {
   return doWithItemOrElse(
     request.findItemInSessionMobInventory(),
     (item: Item) => {
-      request.player.getInventory().removeItem(item)
-      request.getRoom().inventory.addItem(item)
+      request.getRoom().inventory.getItemFrom(item, request.player.getInventory())
 
       return { message: "You drop " + item.name + "." }
     },
