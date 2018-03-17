@@ -24,15 +24,21 @@ export class Room {
     @OneToMany((type) => Exit, (exit) => exit.destination, { eager: true })
     public entrances: Exit[] = []
 
-    @OneToMany((type) => Mob, (mob) => mob.room)
+    @OneToMany((type) => Mob, (mob) => mob.room, { cascadeInsert: true })
     public mobs: Mob[] = []
 
     @OneToOne((type) => Inventory, (inventory) => inventory.room)
     public inventory = new Inventory()
 
     public addMob(mob: Mob): void {
-      mob.room.mobs = mob.room.mobs.filter((m) => m !== mob)
+      if (mob.room) {
+        mob.room.removeMob(mob)
+      }
       mob.room = this
       this.mobs.push(mob)
+    }
+
+    public removeMob(mob: Mob): void {
+      this.mobs = this.mobs.filter((m) => m !== mob)
     }
 }

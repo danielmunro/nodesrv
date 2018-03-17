@@ -46,12 +46,10 @@ function inventory(request: Request): Promise<any> {
 }
 
 function get(request: Request): Promise<any> {
-  const roomInv = request.getRoom().inventory
-
   return doWithItemOrElse(
-    roomInv.findItem(request.subject),
+    request.findItemInRoomInventory(),
     (item: Item) => {
-      roomInv.removeItem(item)
+      request.getRoom().inventory.removeItem(item)
       request.player.getInventory().addItem(item)
 
       return { message: "You pick up " + item.name + "." }
@@ -94,11 +92,11 @@ function wear(request: Request): Promise<any> {
 }
 
 function remove(request: Request): Promise<any> {
-  const playerEquipped = request.player.sessionMob.equipped
+  const eq = request.player.sessionMob.equipped
   return doWithItemOrElse(
-    playerEquipped.items.find((i) => i.matches(request.subject)),
+    eq.items.find((i) => i.matches(request.subject)),
     (item: Item) => {
-      removeEq(playerEquipped, request.player.getInventory(), item)
+      removeEq(eq, request.player.getInventory(), item)
       return { message: "You remove " + item.name + " and put it in your inventory." }
     },
     "You aren't wearing that.")
@@ -127,14 +125,6 @@ export const handlers = new HandlerCollection([
   // interacting with room
   handler(RequestType.Look, look),
 
-  // items
-  handler(RequestType.Inventory, inventory),
-  handler(RequestType.Get, get),
-  handler(RequestType.Drop, drop),
-  handler(RequestType.Wear, wear),
-  handler(RequestType.Remove, remove),
-  handler(RequestType.Equipped, equipped),
-
   // moving
   handler(RequestType.North, (request: Request) => move(request.player, Direction.North)),
   handler(RequestType.South, (request: Request) => move(request.player, Direction.South)),
@@ -142,6 +132,14 @@ export const handlers = new HandlerCollection([
   handler(RequestType.West, (request: Request) => move(request.player, Direction.West)),
   handler(RequestType.Up, (request: Request) => move(request.player, Direction.Up)),
   handler(RequestType.Down, (request: Request) => move(request.player, Direction.Down)),
+
+  // items
+  handler(RequestType.Inventory, inventory),
+  handler(RequestType.Get, get),
+  handler(RequestType.Drop, drop),
+  handler(RequestType.Wear, wear),
+  handler(RequestType.Remove, remove),
+  handler(RequestType.Equipped, equipped),
 
   // social
   handler(RequestType.Gossip, gossipHandler),

@@ -59,4 +59,31 @@ describe("clients", () => {
       look(request),
     ]).then(([response, lookResponse]) => expect(response).toEqual(lookResponse))
   })
+
+  it("should invoke east before equipped", () => {
+    const client = getNewTestClient()
+    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("e"))
+
+    expect.assertions(1)
+    return client.onRequest(request).then((response) =>
+      expect(response.message).toContain("that direction does not exist"))
+  })
+
+  it("should invoke west before wear", () => {
+    const client = getNewTestClient()
+    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("w"))
+
+    expect.assertions(1)
+    return client.onRequest(request).then((response) =>
+      expect(response.message).toContain("that direction does not exist"))
+  })
+
+  it("should invoke get before gossip", () => {
+    const client = getNewTestClient()
+    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("g"))
+
+    expect.assertions(1)
+    return client.onRequest(request).then((response) =>
+      expect(response.message).toContain("You can't find that anywhere."))
+  })
 })

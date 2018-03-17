@@ -1,10 +1,10 @@
 import { Server } from "ws"
 import { PORT, TICK } from "./../src/constants"
 import { DiceRoller } from "./../src/dice/dice"
-import { Equipment } from "./../src/item/equipment"
-import { newWeapon } from "./../src/item/factory"
-import { Item } from "./../src/item/model/item"
-import { Mob } from "./../src/mob/model/mob"
+import { newShield, newWeapon } from "./../src/item/factory"
+import { newMob } from "./../src/mob/factory"
+import { Race } from "./../src/mob/race/race"
+import { newPlayer } from "./../src/player/factory"
 import { Player } from "./../src/player/model/player"
 import { Room } from "./../src/room/model/room"
 import { findOneRoom } from "./../src/room/repository/room"
@@ -33,24 +33,19 @@ function addObservers(gameServer: GameServer): GameServer {
 
 function getPlayerProvider(startRoom: Room) {
   return (name: string): Player => {
-    const mob = new Mob()
-    mob.name = "Pat"
-    mob.description = "a description for Pat."
-    mob.room = startRoom
-    mob.inventory.addItem(
-      newWeapon(
-        "a wooden practice sword",
-        "A small wooden practice sword has been left here."))
-    mob.inventory.addItem(
-      newWeapon(
-        "a wooden practice mace",
-        "A small wooden practice mace has been left here."))
-    const player = new Player()
-    player.name = "pat"
-    player.mobs.push(mob)
-    player.sessionMob = mob
+    const mob = newMob(
+      "a test mob",
+      "A description for this test mob.",
+      Race.Human, [
+        newWeapon(
+          "a wooden practice sword",
+          "A small wooden practice sword has been left here."),
+        newShield(
+          "a cracked wooden practice shield",
+          "A wooden practice shield has been carelessly left here.")])
+    startRoom.addMob(mob)
 
-    return player
+    return newPlayer("Test Testerson", mob)
   }
 }
 

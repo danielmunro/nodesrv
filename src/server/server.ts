@@ -68,7 +68,8 @@ export class GameServer {
     return this.clients.length
   }
 
-  private removeClient(client): void {
+  private removeClient(client: Client): void {
     this.clients = this.clients.filter((it) => it !== client)
+    client.shutdown()
   }
 }

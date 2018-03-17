@@ -34,7 +34,11 @@ export class Request {
     return this.player.sessionMob.room
   }
 
-  public findItemInSessionMobInventory(): Item | null {
+  public findItemInSessionMobInventory(): Item | undefined {
     return this.player.sessionMob.inventory.findItem(this.subject)
+  }
+
+  public findItemInRoomInventory(): Item | undefined {
+    return this.player.sessionMob.room.inventory.findItem(this.subject)
   }
 }

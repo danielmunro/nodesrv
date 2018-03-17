@@ -51,6 +51,12 @@ export class Client {
     this.ws.send(stringify(data))
   }
 
+  public shutdown(): void {
+    if (this.player.sessionMob && this.player.sessionMob.room) {
+      this.player.sessionMob.room.removeMob(this.player.sessionMob)
+    }
+  }
+
   private getDefaultRequestHandler(): HandlerDefinition {
     return new HandlerDefinition(RequestType.Any, () => new Promise((resolve) => resolve(getDefaultUnhandledMessage())))
   }

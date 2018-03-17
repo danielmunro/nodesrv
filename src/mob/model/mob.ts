@@ -3,6 +3,7 @@ import { Equipped } from "../../item/model/equipped"
 import { Inventory } from "../../item/model/inventory"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
+import { Race } from "../race/race"
 
 @Entity()
 export class Mob {
@@ -18,6 +19,9 @@ export class Mob {
 
     @Column("text")
     public description: string
+
+    @Column("text")
+    public race: Race
 
     @ManyToOne((type) => Room, (room) => room.mobs)
     public room: Room
