@@ -1,4 +1,6 @@
-import { Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Item } from "../../item/model/item"
+import { Mob } from "../../mob/model/mob"
 import Hitroll from "./hitroll"
 import Stats from "./stats"
 import Vitals from "./vitals"
@@ -29,6 +31,12 @@ export default class Attributes {
 
   @PrimaryGeneratedColumn()
   public id: number
+
+  @ManyToOne((type) => Mob, (mob) => mob.attributes)
+  public mob: Mob
+
+  @OneToOne((type) => Item, (item) => item.attributes)
+  public item: Item
 
   @OneToOne((type) => Hitroll)
   public hitroll = new Hitroll()

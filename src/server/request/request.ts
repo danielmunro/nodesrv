@@ -35,10 +35,10 @@ export class Request {
   }
 
   public findItemInSessionMobInventory(): Item | undefined {
-    return this.player.sessionMob.inventory.findItem(this.subject)
+    return this.player.sessionMob.inventory.findItemByName(this.subject)
   }
 
   public findItemInRoomInventory(): Item | undefined {
-    return this.player.sessionMob.room.inventory.findItem(this.subject)
+    return this.player.sessionMob.room.inventory.findItemByName(this.subject)
   }
 }

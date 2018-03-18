@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Mob } from "../../mob/model/mob"
 
 @Entity()
 export default class Vitals {
@@ -22,4 +23,7 @@ export default class Vitals {
 
   @Column("integer")
   public mv: number
+
+  @OneToOne((type) => Mob, (mob) => mob.vitals)
+  public mob: Mob
 }

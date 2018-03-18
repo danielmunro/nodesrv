@@ -1,11 +1,12 @@
 import { Equipped } from "../../item/model/equipped"
 import { Inventory } from "../../item/model/inventory"
 import { Item } from "../../item/model/item"
+import { addFight, Fight } from "../../mob/fight"
 import { Player } from "../../player/model/player"
 import { Direction } from "../../room/constants"
 import { findOneExit } from "../../room/repository/exit"
 import { findOneRoom } from "../../room/repository/room"
-import { Request } from "./../request/request"
+import { Request } from "../request/request"
 import { RequestType } from "./constants"
 import { HandlerCollection } from "./handlerCollection"
 import { HandlerDefinition } from "./handlerDefinition"
@@ -73,16 +74,15 @@ function wear(request: Request): Promise<any> {
     (item: Item) => {
       const playerInv = request.player.getInventory()
       const playerEquipped = request.player.sessionMob.equipped
-      const currentlyEquippedItem = playerEquipped.items.find((eq) => eq.equipment === item.equipment)
+      const currentlyEquippedItem = playerEquipped.inventory.find((eq) => eq.equipment === item.equipment)
 
       let removal = ""
       if (currentlyEquippedItem) {
-        removeEq(playerEquipped, playerInv, currentlyEquippedItem)
+        playerInv.getItemFrom(currentlyEquippedItem, playerEquipped.inventory)
         removal = " remove " + currentlyEquippedItem.name + " and"
       }
 
-      playerInv.removeItem(item)
-      playerEquipped.items.push(item)
+      playerEquipped.inventory.getItemFrom(item, playerInv)
 
       return { message: "You" + removal + " wear " + item.name + "." }
     },
@@ -90,25 +90,21 @@ function wear(request: Request): Promise<any> {
 }
 
 function remove(request: Request): Promise<any> {
-  const eq = request.player.sessionMob.equipped
+  const eq = request.player.sessionMob.equipped.inventory
   return doWithItemOrElse(
-    eq.items.find((i) => i.matches(request.subject)),
+    eq.findItemByName(request.subject),
     (item: Item) => {
-      removeEq(eq, request.player.getInventory(), item)
+      request.player.getInventory().getItemFrom(item, eq)
       return { message: "You remove " + item.name + " and put it in your inventory." }
     },
     "You aren't wearing that.")
 }
 
-function removeEq(playerEq: Equipped, receivingInventory: Inventory, item: Item) {
-  playerEq.items = playerEq.items.filter((i) => i !== item)
-  receivingInventory.addItem(item)
-}
-
 function equipped(request: Request): Promise<any> {
   return new Promise((resolve) =>
     resolve({
-      message: "You are wearing:\n" + request.player.sessionMob.equipped.items.map((item) => item.name).join("\n"),
+      message: "You are wearing:\n" +
+        request.player.sessionMob.equipped.inventory.getItems().map((item) => item.name).join("\n"),
     }))
 }
 
@@ -116,6 +112,18 @@ function gossipHandler(request: Request): Promise<any> {
   return new Promise((resolve) => {
     gossip(request.player, request.player.sessionMob.name + " gossips, \"" + request.message + "\"")
     return resolve({ message: "You gossip, '" + request.message + "'"})
+  })
+}
+
+function kill(request: Request): Promise<any> {
+  return new Promise((resolve) => {
+    const target = request.getRoom().mobs.find((mob) => mob.matches(request.subject))
+    if (!target) {
+      return resolve({ message: "They aren't here." })
+    }
+    const fight = new Fight(request.player.sessionMob, target)
+    addFight(fight)
+    return resolve({ message: "You scream and attack!" })
   })
 }
 
@@ -138,6 +146,9 @@ export const handlers = new HandlerCollection([
   handler(RequestType.Wear, wear),
   handler(RequestType.Remove, remove),
   handler(RequestType.Equipped, equipped),
+
+  // fighting
+  handler(RequestType.Kill, kill),
 
   // social
   handler(RequestType.Gossip, gossipHandler),

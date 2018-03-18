@@ -1,20 +1,14 @@
 import * as fs from "fs"
+import { newVitals } from "./../src/attributes/factory"
+import Attributes from "./../src/attributes/model/attributes"
 import { getConnection } from "./../src/db/connection"
+import { newMob } from "./../src/mob/factory"
 import { Mob } from "./../src/mob/model/mob"
 import { Race } from "./../src/mob/race/race"
 import { Direction } from "./../src/room/constants"
 import { newReciprocalExit, newRoom } from "./../src/room/factory"
 import { getExitRepository } from "./../src/room/repository/exit"
 import { getRoomRepository } from "./../src/room/repository/room"
-
-function newMob(name: string, description: string, race: Race): Mob {
-  const mob = new Mob()
-  mob.name = name
-  mob.description = description
-  mob.race = race
-
-  return mob
-}
 
 fs.unlink("database.db", () => {
   getConnection().then((connection) =>
@@ -31,6 +25,8 @@ fs.unlink("database.db", () => {
           "an old traveller",
           "an old traveller sits at the bar, studying a small pamphlet",
           Race.Human,
+          newVitals(100, 100, 100),
+          Attributes.withVitals(newVitals(100, 100, 100)),
         ),
       ]),
       newRoom(

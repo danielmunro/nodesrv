@@ -14,6 +14,7 @@ export enum RequestType {
   Wear = "wear",
   Remove = "remove",
   Equipped = "equipped",
+  Kill = "kill",
   Noop = "noop",
   Any = "any",
 }
