@@ -1,5 +1,3 @@
-import { Equipped } from "../../item/model/equipped"
-import { Inventory } from "../../item/model/inventory"
 import { Item } from "../../item/model/item"
 import { addFight, Fight } from "../../mob/fight"
 import { findOneMob } from "../../mob/repository/mob"

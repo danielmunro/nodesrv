@@ -1,6 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm"
-import { Mob } from "../../mob/model/mob"
-import Attributes from "./attributes"
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
 export default class Vitals {

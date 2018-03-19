@@ -1,10 +1,8 @@
 import * as fs from "fs"
-import { newAttributes, newHitroll,  newStats, newVitals } from "./../src/attributes/factory"
-import Attributes from "./../src/attributes/model/attributes"
+import { newAttributes, newHitroll, newVitals } from "./../src/attributes/factory"
 import Stats from "./../src/attributes/model/stats"
 import { getConnection } from "./../src/db/connection"
 import { newMob } from "./../src/mob/factory"
-import { Mob } from "./../src/mob/model/mob"
 import { Race } from "./../src/mob/race/race"
 import { Direction } from "./../src/room/constants"
 import { newReciprocalExit, newRoom } from "./../src/room/factory"
@@ -30,7 +28,7 @@ fs.unlink("database.db", () => {
           newAttributes(
             newVitals(100, 100, 100),
             new Stats(),
-            newHitroll(1, 1)),
+            newHitroll(2, 3)),
         ),
       ]),
       newRoom(

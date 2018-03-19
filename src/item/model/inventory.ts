@@ -1,7 +1,4 @@
-import {Entity, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
-import { Mob } from "../../mob/model/mob"
-import { Room } from "../../room/model/room"
-import { Equipped } from "./equipped"
+import {Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm"
 import { Item } from "./item"
 
 @Entity()

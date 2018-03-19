@@ -1,6 +1,4 @@
 import { newAttributes, newHitroll, newStats, newVitals } from "../attributes/factory"
-import Attributes from "../attributes/model/attributes"
-import Vitals from "../attributes/model/vitals"
 import { newMob } from "./factory"
 import { Fight } from "./fight"
 import { Race } from "./race/race"

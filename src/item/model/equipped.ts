@@ -1,7 +1,5 @@
-import {Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
-import { Mob } from "../../mob/model/mob"
+import {Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm"
 import { Inventory } from "./inventory"
-import { Item } from "./item"
 
 @Entity()
 export class Equipped {

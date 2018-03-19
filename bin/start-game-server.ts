@@ -1,8 +1,6 @@
 import { Server } from "ws"
 import { newAttributes, newHitroll, newVitals } from "./../src/attributes/factory"
-import Attributes from "./../src/attributes/model/attributes"
 import Stats from "./../src/attributes/model/stats"
-import Vitals from "./../src/attributes/model/vitals"
 import { PORT, TICK } from "./../src/constants"
 import { DiceRoller } from "./../src/dice/dice"
 import { newShield, newWeapon } from "./../src/item/factory"
