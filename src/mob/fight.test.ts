@@ -14,7 +14,7 @@ describe("fight", () => {
       "agressor",
       Race.Human,
       v1,
-      newAttributes(newVitals(20, 100, 100), newStats(0, 0, 0, 0, 0, 0), newHitroll(1, 1)))
+      newAttributes(newVitals(20, 100, 100), newStats(0, 0, 0, 0, 0, 0), newHitroll(2, 3)))
     const target = newMob(
       "target",
       "target",

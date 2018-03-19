@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import Attributes from "./attributes"
 
 @Entity()
 export default class Stats {
@@ -17,20 +18,20 @@ export default class Stats {
   public id: number
 
   @Column("integer")
-  public str: number
+  public str: number = 0
 
   @Column("integer")
-  public int: number
+  public int: number = 0
 
   @Column("integer")
-  public wis: number
+  public wis: number = 0
 
   @Column("integer")
-  public dex: number
+  public dex: number = 0
 
   @Column("integer")
-  public con: number
+  public con: number = 0
 
   @Column("integer")
-  public sta: number
+  public sta: number = 0
 }

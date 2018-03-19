@@ -1,4 +1,4 @@
-import {Entity, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
+import {Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
 import { Mob } from "../../mob/model/mob"
 import { Inventory } from "./inventory"
 import { Item } from "./item"
@@ -8,9 +8,7 @@ export class Equipped {
     @PrimaryGeneratedColumn()
     public id: number
 
-    @OneToOne((type) => Inventory, (inventory) => inventory.equipped)
+    @OneToOne((type) => Inventory)
+    @JoinColumn()
     public inventory: Inventory = new Inventory()
-
-    @OneToOne((type) => Mob, (mob) => mob.equipped)
-    public mob: Mob
 }

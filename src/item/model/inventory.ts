@@ -9,15 +9,6 @@ export class Inventory {
     @PrimaryGeneratedColumn()
     public id: number
 
-    @OneToOne((type) => Mob, (mob) => mob.inventory)
-    public mob: Mob
-
-    @OneToOne((type) => Room, (room) => room.inventory)
-    public room: Room
-
-    @OneToOne((type) => Equipped, (equipped) => equipped.inventory)
-    public equipped: Equipped
-
     @OneToMany((type) => Item, (item) => item.inventory)
     public items: Item[] = []
 

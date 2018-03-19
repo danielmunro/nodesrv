@@ -2,6 +2,7 @@ import { Equipped } from "../../item/model/equipped"
 import { Inventory } from "../../item/model/inventory"
 import { Item } from "../../item/model/item"
 import { addFight, Fight } from "../../mob/fight"
+import { findOneMob } from "../../mob/repository/mob"
 import { Player } from "../../player/model/player"
 import { Direction } from "../../room/constants"
 import { findOneExit } from "../../room/repository/exit"
@@ -121,9 +122,12 @@ function kill(request: Request): Promise<any> {
     if (!target) {
       return resolve({ message: "They aren't here." })
     }
-    const fight = new Fight(request.player.sessionMob, target)
-    addFight(fight)
-    return resolve({ message: "You scream and attack!" })
+    return findOneMob(target.id).then((mobTarget) => {
+      console.log("TEST")
+      const fight = new Fight(request.player.sessionMob, mobTarget)
+      addFight(fight)
+      return resolve({ message: "You scream and attack!" })
+    })
   })
 }
 

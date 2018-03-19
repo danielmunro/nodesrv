@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import Attributes from "./attributes"
 
 @Entity()
 export default class Hitroll {
@@ -13,8 +14,8 @@ export default class Hitroll {
   public id: number
 
   @Column("integer")
-  public hit: number
+  public hit: number = 0
 
   @Column("integer")
-  public dam: number
+  public dam: number = 0
 }

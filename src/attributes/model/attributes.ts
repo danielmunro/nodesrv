@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import { Item } from "../../item/model/item"
 import { Mob } from "../../mob/model/mob"
 import Hitroll from "./hitroll"
@@ -38,13 +38,16 @@ export default class Attributes {
   @OneToOne((type) => Item, (item) => item.attributes)
   public item: Item
 
-  @OneToOne((type) => Hitroll)
+  @OneToOne((type) => Hitroll, { eager: true, cascadeAll: true })
+  @JoinColumn()
   public hitroll = new Hitroll()
 
-  @OneToOne((type) => Vitals)
+  @OneToOne((type) => Vitals, { eager: true, cascadeAll: true })
+  @JoinColumn()
   public vitals = new Vitals()
 
-  @OneToOne((type) => Stats)
+  @OneToOne((type) => Stats, { eager: true, cascadeAll: true })
+  @JoinColumn()
   public stats = new Stats()
 
   public combine(withAttributes: Attributes): Attributes {

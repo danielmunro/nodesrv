@@ -49,7 +49,7 @@ export class Fight {
 
   private turnFor(x: Mob, y: Mob): Attack {
     const attack = this.attack(x, y)
-    if (y.vitals.hp <= 0) {
+    if (y.vitals.hp < 0) {
       this.status = Status.Done
       this.winner = x
     }

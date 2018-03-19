@@ -1,4 +1,4 @@
-import {Column, Entity, Generated, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
+import {Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import { newAttributes, newHitroll, newStats, newVitals } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
@@ -30,10 +30,11 @@ export class Mob {
     @Column("integer")
     public level: number = 1
 
-    @OneToOne((type) => Vitals, (vitals) => vitals.mob)
+    @OneToOne((type) => Vitals, { cascadeInsert: true, eager: true })
+    @JoinColumn()
     public vitals: Vitals = new Vitals()
 
-    @OneToMany((type) => Attributes, (attributes) => attributes.mob)
+    @OneToMany((type) => Attributes, (attributes) => attributes.mob, { cascadeInsert: true, eager: true })
     public attributes: Attributes[] = []
 
     @ManyToOne((type) => Room, (room) => room.mobs)
@@ -42,10 +43,12 @@ export class Mob {
     @ManyToOne((type) => Player, (player) => player.mobs)
     public player: Player
 
-    @OneToOne((type) => Inventory, (inventory) => inventory.mob)
+    @OneToOne((type) => Inventory, { cascadeInsert: true, eager: true })
+    @JoinColumn()
     public inventory = new Inventory()
 
-    @OneToOne((type) => Equipped, (equipped) => equipped.mob)
+    @OneToOne((type) => Equipped, { cascadeInsert: true, eager: true })
+    @JoinColumn()
     public equipped = new Equipped()
 
     public getCombinedAttributes(): Attributes {

@@ -1,6 +1,7 @@
 import * as fs from "fs"
-import { newVitals } from "./../src/attributes/factory"
+import { newAttributes, newHitroll,  newStats, newVitals } from "./../src/attributes/factory"
 import Attributes from "./../src/attributes/model/attributes"
+import Stats from "./../src/attributes/model/stats"
 import { getConnection } from "./../src/db/connection"
 import { newMob } from "./../src/mob/factory"
 import { Mob } from "./../src/mob/model/mob"
@@ -26,7 +27,10 @@ fs.unlink("database.db", () => {
           "an old traveller sits at the bar, studying a small pamphlet",
           Race.Human,
           newVitals(100, 100, 100),
-          Attributes.withVitals(newVitals(100, 100, 100)),
+          newAttributes(
+            newVitals(100, 100, 100),
+            new Stats(),
+            newHitroll(1, 1)),
         ),
       ]),
       newRoom(

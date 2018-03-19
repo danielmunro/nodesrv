@@ -1,4 +1,4 @@
-import {Column, Entity, Generated, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
+import {Column, Entity, Generated, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
 import { Inventory } from "../../item/model/inventory"
 import { Mob } from "../../mob/model/mob"
 import { Exit } from "./exit"
@@ -27,7 +27,8 @@ export class Room {
     @OneToMany((type) => Mob, (mob) => mob.room, { cascadeInsert: true })
     public mobs: Mob[] = []
 
-    @OneToOne((type) => Inventory, (inventory) => inventory.room)
+    @OneToOne((type) => Inventory)
+    @JoinColumn()
     public inventory = new Inventory()
 
     public addMob(mob: Mob): void {

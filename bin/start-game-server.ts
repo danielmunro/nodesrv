@@ -1,6 +1,7 @@
 import { Server } from "ws"
-import { newAttributes, newVitals } from "./../src/attributes/factory"
+import { newAttributes, newHitroll, newVitals } from "./../src/attributes/factory"
 import Attributes from "./../src/attributes/model/attributes"
+import Stats from "./../src/attributes/model/stats"
 import Vitals from "./../src/attributes/model/vitals"
 import { PORT, TICK } from "./../src/constants"
 import { DiceRoller } from "./../src/dice/dice"
@@ -40,7 +41,10 @@ function addObservers(gameServer: GameServer): GameServer {
 function getPlayerProvider(startRoom: Room) {
   return (name: string): Player => {
     const vitals = newVitals(20, 100, 100)
-    const attributes = Attributes.withVitals(newVitals(20, 100, 100))
+    const attributes = newAttributes(
+      newVitals(20, 100, 100),
+      new Stats(),
+      newHitroll(1, 1))
     const mob = newMob(
       "a test mob",
       "A description for this test mob.",

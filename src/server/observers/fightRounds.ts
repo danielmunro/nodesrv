@@ -9,12 +9,12 @@ import { Observer } from "./observer"
 function attackMessage(attack: Attack, client: Client) {
   const sessionMob = client.getPlayer().sessionMob
   if (attack.attacker === sessionMob) {
-    client.send({ message: "You hit " + attack.defender.name })
+    client.send({ message: "You hit " + attack.defender.name + "." })
     if (!attack.isDefenderAlive) {
       client.send({ message: attack.defender.name + " has DIED!" })
     }
   } else if (attack.defender === sessionMob) {
-    client.send({ message: attack.attacker.name + " hits you." })
+    client.send({ message: attack.attacker.name + " hits you. " })
     if (!attack.isDefenderAlive) {
       client.send({ message: "You have DIED!" })
     }
