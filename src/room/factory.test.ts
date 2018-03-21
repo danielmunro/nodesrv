@@ -15,7 +15,7 @@ describe("room factory", () => {
     expect(room.name).toBe(name)
     expect(room.description).toBe(description)
     expect(room.mobs).toBe(mobs)
-    expect(newRoom("name", "description").mobs).toBe([])
+    expect(newRoom("name", "description").mobs).toEqual([])
   })
 
   it("should be able to create reciprocal exits between rooms", () => {

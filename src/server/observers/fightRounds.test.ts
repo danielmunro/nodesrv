@@ -1,4 +1,4 @@
-import { Attack, AttackResult } from "../../mob/attack"
+import { Attack, AttackResult } from "../../mob/fight/attack"
 import { getTestMob } from "../../test/mob"
 import { attackMessage, getHealthIndicator } from "./fightRounds"
 

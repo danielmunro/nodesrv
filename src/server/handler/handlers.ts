@@ -1,5 +1,5 @@
 import { Item } from "../../item/model/item"
-import { addFight, Fight } from "../../mob/fight"
+import { addFight, Fight } from "../../mob/fight/fight"
 import { findOneMob } from "../../mob/repository/mob"
 import { Player } from "../../player/model/player"
 import { Direction } from "../../room/constants"
@@ -10,6 +10,9 @@ import { RequestType } from "./constants"
 import { HandlerCollection } from "./handlerCollection"
 import { HandlerDefinition } from "./handlerDefinition"
 import { gossip } from "./social"
+
+export const MOB_NOT_FOUND = "They aren't here."
+export const ATTACK_MOB = "You scream and attack!"
 
 function move(player: Player, direction: Direction): Promise<any> {
   const exit = player.getExit(direction)
@@ -56,7 +59,7 @@ function get(request: Request): Promise<any> {
     "You can't find that anywhere.")
 }
 
-function drop(request: Request): Promise<any> {
+export function drop(request: Request): Promise<any> {
   return doWithItemOrElse(
     request.findItemInSessionMobInventory(),
     (item: Item) => {
@@ -114,16 +117,16 @@ function gossipHandler(request: Request): Promise<any> {
   })
 }
 
-function kill(request: Request): Promise<any> {
+export function kill(request: Request): Promise<any> {
   return new Promise((resolve) => {
     const target = request.getRoom().mobs.find((mob) => mob.matches(request.subject))
     if (!target) {
-      return resolve({ message: "They aren't here." })
+      return resolve({ message: MOB_NOT_FOUND })
     }
     return findOneMob(target.id).then((mobTarget) => {
       const fight = new Fight(request.player.sessionMob, mobTarget)
       addFight(fight)
-      return resolve({ message: "You scream and attack!" })
+      return resolve({ message: ATTACK_MOB })
     })
   })
 }

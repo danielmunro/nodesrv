@@ -1,9 +1,9 @@
-import { newAttributes, newHitroll, newStartingVitals, newStats } from "../attributes/factory"
-import Hitroll from "../attributes/model/hitroll"
-import { newMob } from "./factory"
+import { newAttributes, newHitroll, newStartingVitals, newStats } from "../../attributes/factory"
+import Hitroll from "../../attributes/model/hitroll"
+import { newMob } from "../factory"
+import { Mob } from "../model/mob"
+import { Race } from "../race/race"
 import { Fight } from "./fight"
-import { Mob } from "./model/mob"
-import { Race } from "./race/race"
 
 function newFightingMob(name: string, hitroll: Hitroll): Mob {
   return newMob(

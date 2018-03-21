@@ -1,5 +1,5 @@
+import { Mob } from "../model/mob"
 import { Attack, AttackResult } from "./attack"
-import { Mob } from "./model/mob"
 import { Round } from "./round"
 
 enum Status {

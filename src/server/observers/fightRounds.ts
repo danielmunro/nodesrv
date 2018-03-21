@@ -1,8 +1,8 @@
 import { Client } from "../../client/client"
-import { Attack } from "../../mob/attack"
-import { filterCompleteFights, getFights } from "../../mob/fight"
+import { Attack } from "../../mob/fight/attack"
+import { filterCompleteFights, getFights } from "../../mob/fight/fight"
+import { Round } from "../../mob/fight/round"
 import { Mob } from "../../mob/model/mob"
-import { Round } from "../../mob/round"
 import { Observer } from "./observer"
 
 export function getHealthIndicator(percent): string {
