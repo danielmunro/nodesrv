@@ -40,6 +40,10 @@ export class Mob {
     @ManyToOne((type) => Room, (room) => room.mobs)
     public room: Room
 
+    @ManyToOne((type) => Room)
+    @JoinColumn()
+    public startRoom: Room
+
     @ManyToOne((type) => Player, (player) => player.mobs)
     public player: Player
 

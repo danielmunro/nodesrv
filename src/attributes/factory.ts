@@ -3,6 +3,15 @@ import Hitroll from "./model/hitroll"
 import Stats from "./model/stats"
 import Vitals from "./model/vitals"
 
+export function newStartingVitals(): Vitals {
+  const vitals = new Vitals()
+  vitals.hp = 20
+  vitals.mana = 100
+  vitals.mv = 100
+
+  return vitals
+}
+
 export function newVitals(hp: number, mana: number, mv: number): Vitals {
   const vitals = new Vitals()
   vitals.hp = hp

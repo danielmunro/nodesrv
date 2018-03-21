@@ -17,6 +17,8 @@ export function newExit(direction: Direction, source: Room, destination: Room): 
   exit.direction = direction
   exit.source = source
   exit.destination = destination
+  source.exits.push(exit)
+  destination.exits.push(exit)
 
   return exit
 }

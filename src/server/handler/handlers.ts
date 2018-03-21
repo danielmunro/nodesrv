@@ -121,7 +121,6 @@ function kill(request: Request): Promise<any> {
       return resolve({ message: "They aren't here." })
     }
     return findOneMob(target.id).then((mobTarget) => {
-      console.log("TEST")
       const fight = new Fight(request.player.sessionMob, mobTarget)
       addFight(fight)
       return resolve({ message: "You scream and attack!" })

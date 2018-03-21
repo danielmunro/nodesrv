@@ -59,9 +59,9 @@ export class Fight {
 
   private attack(x: Mob, y: Mob): Attack {
     const attributes = x.getCombinedAttributes()
-    const attack = new Attack(x, y, AttackResult.Hit, Math.pow(attributes.hitroll.dam, attributes.hitroll.hit))
-    y.vitals.hp -= attack.damage
+    const damage = Math.random() * Math.pow(attributes.hitroll.dam, attributes.hitroll.hit)
+    y.vitals.hp -= damage
 
-    return attack
+    return new Attack(x, y, AttackResult.Hit, damage)
   }
 }

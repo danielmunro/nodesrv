@@ -1,21 +1,59 @@
 import { Client } from "../../client/client"
 import { Attack } from "../../mob/attack"
 import { filterCompleteFights, getFights } from "../../mob/fight"
+import { Mob } from "../../mob/model/mob"
+import { Round } from "../../mob/round"
 import { Observer } from "./observer"
 
-// @todo de-dup
-function attackMessage(attack: Attack, client: Client) {
-  const sessionMob = client.getPlayer().sessionMob
-  if (attack.attacker === sessionMob) {
-    client.send({ message: "You hit " + attack.defender.name + "." })
+export function getHealthIndicator(percent): string {
+  if (percent === 1) {
+    return "is in excellent condition"
+  } else if (percent > .9) {
+    return "has a few scratches"
+  } else if (percent > .75) {
+    return "has some small wounds and bruises"
+  } else if (percent > .5) {
+    return "has quite a few wounds"
+  } else if (percent > .3) {
+    return "has some big nasty wounds and scratches"
+  } else if (percent > .15) {
+    return "looks pretty hurt"
+  } else if (percent > 0) {
+    return "is in awful condition"
+  }
+
+  return "is bleeding to death"
+}
+
+export function attackMessage(attack: Attack, mob: Mob): string {
+  let message = ""
+  if (attack.attacker === mob) {
+    message = "You hit " + attack.defender.name + "."
     if (!attack.isDefenderAlive) {
-      client.send({ message: attack.defender.name + " has DIED!" })
+      message += "\n" + attack.defender.name + " has DIED!"
     }
-  } else if (attack.defender === sessionMob) {
-    client.send({ message: attack.attacker.name + " hits you." })
+  } else if (attack.defender === mob) {
+    message = attack.attacker.name + " hits you."
     if (!attack.isDefenderAlive) {
-      client.send({ message: "You have DIED!" })
+      message += "\nYou have DIED!"
     }
+  }
+
+  return message
+}
+
+function createMessageFromFightRound(round: Round, sessionMob: Mob) {
+  if (round.attack.attacker === sessionMob || round.attack.defender === sessionMob) {
+    let message = attackMessage(round.attack, sessionMob)
+    if (round.counter) {
+      message += "\n" + attackMessage(round.counter, sessionMob)
+    }
+    const opponent = round.attack.attacker === sessionMob ? round.attack.defender : round.attack.attacker
+    if (!round.isFatality) {
+      message += "\n" + opponent.name + " " + getHealthIndicator(
+        opponent.vitals.hp / opponent.getCombinedAttributes().vitals.hp) + "."
+    }
+    return message
   }
 }
 
@@ -25,9 +63,9 @@ export class FightRounds implements Observer {
     filterCompleteFights()
     clients.map((client) =>
       rounds.map((round) => {
-        attackMessage(round.attack, client)
-        if (round.counter) {
-          attackMessage(round.counter, client)
+        const message = createMessageFromFightRound(round, client.getPlayer().sessionMob)
+        if (message) {
+          client.send({ message })
         }
       }))
   }
