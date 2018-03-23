@@ -1,13 +1,9 @@
-import { WebSocket } from "mock-socket"
-import { handlers, look } from "./../server/handler/handlers"
+import { look } from "./../server/handler/handlers"
 import { getNewRequestFromMessageEvent } from "./../server/request/request"
 import { Channel } from "./../social/constants"
+import { getTestClient } from "./../test/client"
 import { getTestPlayer } from "./../test/player"
 import { Client, getDefaultUnhandledMessage } from "./client"
-
-function getNewTestClient(player = getTestPlayer()): Client {
-  return new Client(new WebSocket("ws://localhost:1111"), player, handlers)
-}
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
@@ -16,32 +12,32 @@ function getNewTestMessageEvent(message = "hello world") {
 describe("clients", () => {
   it("should return the expected player", () => {
     const player = getTestPlayer()
-    const client = getNewTestClient(player)
+    const client = getTestClient(player)
     expect(client.getPlayer()).toEqual(player)
   })
 
   it("should recognize its own messages as its own and not others", () => {
-    const client = getNewTestClient()
+    const client = getTestClient()
     const message = client.createMessage(
       Channel.Gossip,
       "this is a test of the public broadcasting system",
     )
     expect(client.isOwnMessage(message)).toBe(true)
 
-    const anotherClient = getNewTestClient()
+    const anotherClient = getTestClient()
     const newMessage = anotherClient.createMessage(Channel.Gossip, "hullo")
     expect(client.isOwnMessage(newMessage)).toBe(false)
   })
 
   it("should be able to get a request from a message event", () => {
-    const client = getNewTestClient()
+    const client = getTestClient()
     const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent())
     expect(request.player).toBe(client.getPlayer())
     expect(request.args).toEqual({ request: "hello world" })
   })
 
   it("should use the default handler when no handlers match", () => {
-    const client = getNewTestClient()
+    const client = getTestClient()
     const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent())
 
     expect.assertions(1)
@@ -50,7 +46,7 @@ describe("clients", () => {
   })
 
   it("should be able to invoke a valid handler", () => {
-    const client = getNewTestClient()
+    const client = getTestClient()
     const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("look"))
 
     expect.assertions(1)
@@ -61,7 +57,7 @@ describe("clients", () => {
   })
 
   it("should invoke east before equipped", () => {
-    const client = getNewTestClient()
+    const client = getTestClient()
     const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("e"))
 
     expect.assertions(1)
@@ -70,7 +66,7 @@ describe("clients", () => {
   })
 
   it("should invoke west before wear", () => {
-    const client = getNewTestClient()
+    const client = getTestClient()
     const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("w"))
 
     expect.assertions(1)
@@ -79,7 +75,7 @@ describe("clients", () => {
   })
 
   it("should invoke get before gossip", () => {
-    const client = getNewTestClient()
+    const client = getTestClient()
     const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("g"))
 
     expect.assertions(1)
