@@ -57,6 +57,10 @@ export class Client {
     }
   }
 
+  public tick(id: string, timestamp: Date) {
+    this.send({ tick: { id, timestamp }})
+  }
+
   private getDefaultRequestHandler(): HandlerDefinition {
     return new HandlerDefinition(RequestType.Any, () => new Promise((resolve) => resolve(getDefaultUnhandledMessage())))
   }
