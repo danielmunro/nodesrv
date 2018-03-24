@@ -7,7 +7,7 @@ import { SocialBroadcaster } from "./socialBroadcaster"
 
 jest.mock("../../client/client")
 
-function getTestClient(): Client {
+function getMockClient(): Client {
   const client = new Client()
   client.player = new Player()
   client.getPlayer = () => client.player
@@ -19,9 +19,9 @@ function getTestClient(): Client {
 describe("socialBroadcaster", () => {
   it("should notify all clients when a client sends a message, except the sender", () => {
     const socialBroadcaster = new SocialBroadcaster()
-    const client1 = getTestClient()
-    const client2 = getTestClient()
-    const client3 = getTestClient()
+    const client1 = getMockClient()
+    const client2 = getMockClient()
+    const client3 = getMockClient()
 
     broadcastMessage(client1.getPlayer(), Channel.Gossip, "hello world")
     socialBroadcaster.notify([

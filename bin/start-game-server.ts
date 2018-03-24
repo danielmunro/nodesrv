@@ -11,7 +11,6 @@ import { Player } from "./../src/player/model/player"
 import { Room } from "./../src/room/model/room"
 import { findOneRoom } from "./../src/room/repository/room"
 import { FightRounds } from "./../src/server/observers/fightRounds"
-import { PersistMobs } from "./../src/server/observers/persistMobs"
 import { PersistPlayers } from "./../src/server/observers/persistPlayers"
 import { SocialBroadcaster } from "./../src/server/observers/socialBroadcaster"
 import { Tick } from "./../src/server/observers/tick"
@@ -29,7 +28,6 @@ function addObservers(gameServer: GameServer): GameServer {
     new RandomTickTimer(
       new DiceRoller(TICK.DICE.SIDES, TICK.DICE.ROLLS, TICK.DICE.MODIFIER)))
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
-  gameServer.addObserver(new PersistMobs(), new MinuteTimer())
   gameServer.addObserver(new SocialBroadcaster(), new ShortIntervalTimer())
   gameServer.addObserver(new FightRounds(), new SecondIntervalTimer())
 

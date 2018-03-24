@@ -57,22 +57,28 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob) {
   }
 }
 
+function sendToClientIfSessionMobIsFighting(clientMobMap, mob, round) {
+  const c = clientMobMap[mob.name]
+  if (c) {
+    c.send({ message: createMessageFromFightRound(round, mob) })
+  }
+}
+
+export function createClientMobMap(clients: Client[]): object {
+  const clientMobMap = {}
+  clients.forEach((client) => clientMobMap[client.getPlayer().sessionMob.name] = client)
+
+  return clientMobMap
+}
+
 export class FightRounds implements Observer {
   public notify(clients: Client[]): void {
     const rounds = getFights().map((fight) => fight.round())
-    const clientMobMap = {}
-    clients.forEach((client) => clientMobMap[client.getPlayer().sessionMob.name] = client)
+    const clientMobMap = createClientMobMap(clients)
     filterCompleteFights()
     rounds.forEach((round) => {
-      const c1 = clientMobMap[round.attack.attacker.name]
-      if (c1) {
-        c1.send({ message: createMessageFromFightRound(round, c1.getPlayer().sessionMob) })
-      }
-
-      const c2 = clientMobMap[round.attack.defender.name]
-      if (c2) {
-        c2.send({ message: createMessageFromFightRound(round, c2.getPlayer().sessionMob) })
-      }
+      sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.attacker, round)
+      sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.defender, round)
     })
   }
 }
