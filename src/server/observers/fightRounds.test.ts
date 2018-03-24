@@ -1,4 +1,5 @@
 import { Attack, AttackResult } from "../../mob/fight/attack"
+import { addFight, Fight, getFights, filterCompleteFights } from "../../mob/fight/fight"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
 import { attackMessage, createClientMobMap, getHealthIndicator } from "./fightRounds"
@@ -29,6 +30,23 @@ describe("fight rounds", () => {
     const keys = Object.keys(map)
     expect(keys.length).toBe(3)
     keys.forEach((key, i) => expect(map[key]).toBe(clients[i]))
+  })
+  it("should filter complete fights", () => {
+    // Setup
+    const mob = getTestMob()
+    mob.vitals.hp = 0
+    const fight = new Fight(getTestMob(), mob)
+    addFight(fight)
+    expect(getFights().length).toBe(1)
+    expect(fight.isInProgress()).toBe(true)
+
+    // Given
+    fight.round()
+    filterCompleteFights()
+
+    // Then
+    expect(fight.isInProgress()).toBe(false)
+    expect(getFights().length).toBe(0)
   })
 })
 
