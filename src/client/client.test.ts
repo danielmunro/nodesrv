@@ -3,7 +3,7 @@ import { getNewRequestFromMessageEvent } from "./../server/request/request"
 import { Channel } from "./../social/constants"
 import { getTestClient } from "./../test/client"
 import { getTestPlayer } from "./../test/player"
-import { Client, getDefaultUnhandledMessage } from "./client"
+import { getDefaultUnhandledMessage } from "./client"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})

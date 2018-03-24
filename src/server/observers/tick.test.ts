@@ -1,5 +1,4 @@
 import { Client } from "../../client/client"
-import { getTestClient } from "../../test/client"
 import { Tick } from "./tick"
 
 jest.mock("../../client/client")

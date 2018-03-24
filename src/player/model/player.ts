@@ -17,7 +17,7 @@ export class Player {
     @Column("text")
     public name: string
 
-    @OneToMany((type) => Mob, (mob) => mob.player)
+    @OneToMany((type) => Mob, (mob) => mob.player, { cascadeInsert: true, cascadeUpdate: true })
     public mobs: Mob[] = []
 
     public sessionMob: Mob
