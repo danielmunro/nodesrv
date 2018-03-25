@@ -5,3 +5,5 @@ cache:
   yarn: true
 node_js:
   - "8"
+before_script:
+  - yarn create-fixtures
