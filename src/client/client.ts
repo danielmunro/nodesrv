@@ -52,9 +52,7 @@ export class Client {
   }
 
   public shutdown(): void {
-    if (this.player.sessionMob && this.player.sessionMob.room) {
-      this.player.sessionMob.room.removeMob(this.player.sessionMob)
-    }
+    this.player.closeSession()
   }
 
   public tick(id: string, timestamp: Date) {

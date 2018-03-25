@@ -1,9 +1,10 @@
+import { HandlerCollection } from "../server/handler/handlerCollection"
 import { look } from "./../server/handler/handlers"
 import { getNewRequestFromMessageEvent } from "./../server/request/request"
 import { Channel } from "./../social/constants"
 import { getTestClient } from "./../test/client"
 import { getTestPlayer } from "./../test/player"
-import { getDefaultUnhandledMessage } from "./client"
+import { Client, getDefaultUnhandledMessage } from "./client"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
@@ -81,5 +82,21 @@ describe("clients", () => {
     expect.assertions(1)
     return client.onRequest(request).then((response) =>
       expect(response.message).toContain("You can't find that anywhere."))
+  })
+
+  it("should pass tick info through the socket", () => {
+    const buf = []
+    const ws = jest.fn(() => {
+      return {
+        send: (message) => buf.push(message),
+      }
+    })
+    const client = new Client(ws(), getTestPlayer(), new HandlerCollection([]))
+    const id = "test-tick-id"
+    const timestamp = new Date()
+    expect(buf).toEqual([])
+    client.tick(id, timestamp)
+    expect(buf.length).toBe(1)
+    expect(buf[0]).toContain("tick")
   })
 })

@@ -33,4 +33,10 @@ export class Player {
     public getInventory(): Inventory {
       return this.sessionMob.inventory
     }
+
+    public closeSession(): void {
+      if (this.sessionMob) {
+        this.sessionMob.room.removeMob(this.sessionMob)
+      }
+    }
 }

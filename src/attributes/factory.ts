@@ -49,3 +49,19 @@ export function newAttributes(vitals: Vitals, stats: Stats, hitroll: Hitroll): A
 
   return attributes
 }
+
+export function newAttributesWithStats(stats: Stats): Attributes {
+  return newAttributes(
+    newVitals(0, 0, 0),
+    stats,
+    newHitroll(0, 0),
+  )
+}
+
+export function newAttributesWithHitrollStats(hitroll: Hitroll, stats: Stats): Attributes {
+  return newAttributes(
+    newVitals(0, 0, 0),
+    stats,
+    hitroll,
+  )
+}

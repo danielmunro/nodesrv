@@ -7,28 +7,6 @@ import Vitals from "./vitals"
 
 @Entity()
 export default class Attributes {
-  public static withStats(stats: Stats): Attributes {
-    const attributes = new Attributes()
-    attributes.stats = stats
-
-    return attributes
-  }
-
-  public static withVitals(vitals: Vitals): Attributes {
-    const attributes = new Attributes()
-    attributes.vitals = vitals
-
-    return attributes
-  }
-
-  public static withHitrollStats(hitroll: Hitroll, stats: Stats) {
-    const attributes = new Attributes()
-    attributes.hitroll = hitroll
-    attributes.stats = stats
-
-    return attributes
-  }
-
   @PrimaryGeneratedColumn()
   public id: number
 
