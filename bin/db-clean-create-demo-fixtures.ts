@@ -9,8 +9,11 @@ import { newReciprocalExit, newRoom } from "./../src/room/factory"
 import { getExitRepository } from "./../src/room/repository/exit"
 import { getRoomRepository } from "./../src/room/repository/room"
 
+const ormConfig = JSON.parse(fs.readFileSync("ormconfig.json").toString())
+ormConfig.synchronize = true
+
 fs.unlink("database.db", () => {
-  getConnection().then((connection) =>
+  getConnection(ormConfig).then((connection) =>
     Promise.all([
       getExitRepository(),
       getRoomRepository(),
