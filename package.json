@@ -66,8 +66,7 @@
     "coveragePathIgnorePatterns": [
       "constants.ts",
       "dontExecuteTestObserver.ts",
-      "src/server/timer",
-      "src/domain.ts"
+      "src/server/timer"
     ]
   }
 }
