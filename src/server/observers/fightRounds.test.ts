@@ -1,8 +1,8 @@
 import { Attack, AttackResult } from "../../mob/fight/attack"
-import { addFight, Fight, getFights, filterCompleteFights } from "../../mob/fight/fight"
+import { addFight, Fight, filterCompleteFights, getFights } from "../../mob/fight/fight"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
-import { attackMessage, createClientMobMap, getHealthIndicator } from "./fightRounds"
+import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
 
 describe("fight rounds", () => {
   it("should generate accurate attack messages", () => {
@@ -20,6 +20,7 @@ describe("fight rounds", () => {
     expect(attackMessage(attack2, mob1)).toContain("You have DIED")
     expect(attackMessage(attack2, mob2)).toContain("mob1 has DIED")
   })
+
   it("should be able to create a map between clients and session mobs", () => {
     const clients = [
       getTestClient(),
@@ -31,6 +32,7 @@ describe("fight rounds", () => {
     expect(keys.length).toBe(3)
     keys.forEach((key, i) => expect(map[key]).toBe(clients[i]))
   })
+
   it("should filter complete fights", () => {
     // Setup
     const mob = getTestMob()
@@ -40,7 +42,7 @@ describe("fight rounds", () => {
     expect(getFights().length).toBe(1)
     expect(fight.isInProgress()).toBe(true)
 
-    // Given
+    // When
     fight.round()
     filterCompleteFights()
 
@@ -48,12 +50,37 @@ describe("fight rounds", () => {
     expect(fight.isInProgress()).toBe(false)
     expect(getFights().length).toBe(0)
   })
+
+  it("should be able to use fight rounds", () => {
+    // Setup
+    const client = getTestClient()
+    client.getPlayer().sessionMob.vitals.hp = 1
+    const fight = new Fight(getTestMob(), client.getPlayer().sessionMob)
+    addFight(fight)
+    const fightRounds = new FightRounds()
+
+    // When
+    fightRounds.notify([client])
+
+    // Then
+    expect(getFights().length).toBe(1)
+    expect(fight.isInProgress()).toBe(true)
+
+    // When a fight is completed
+    while (fight.isInProgress()) {
+      fightRounds.notify([client])
+    }
+
+    // Then
+    expect(getFights().length).toBe(0)
+    expect(fight.isInProgress()).toBe(false)
+  })
 })
 
 describe("health indicator", () => {
   it("should be able to provide a string description for any level of health", () => {
     let i = 100
-    while (i > 0) {
+    while (i > -1) {
       const indicator = getHealthIndicator(i / 100)
       expect(indicator.length).toBeGreaterThan(0)
       i--
