@@ -1,6 +1,6 @@
 import { WebSocket } from "mock-socket"
 import { Client } from "../client/client"
-import { handlers } from "../server/handler/handlers"
+import { handlers } from "../handler/action/actions"
 import { getTestPlayer } from "./player"
 
 export function getTestClient(player = getTestPlayer()): Client {

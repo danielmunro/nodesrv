@@ -1,5 +1,5 @@
-import { HandlerCollection } from "../server/handler/handlerCollection"
-import { look } from "./../server/handler/handlers"
+import { HandlerCollection } from "../handler/handlerCollection"
+import look from "./../handler/action/look"
 import { getNewRequestFromMessageEvent } from "./../server/request/request"
 import { Channel } from "./../social/constants"
 import { getTestClient } from "./../test/client"

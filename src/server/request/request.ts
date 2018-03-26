@@ -1,7 +1,7 @@
+import { RequestType } from "../../handler/constants"
 import { Item } from "../../item/model/item"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
-import { RequestType } from "../handler/constants"
 
 export function getNewRequestFromMessageEvent(player: Player, messageEvent: MessageEvent): Request {
   const data = JSON.parse(messageEvent.data)

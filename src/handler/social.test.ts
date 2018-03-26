@@ -1,5 +1,5 @@
-import { readMessages } from "../../social/chat"
-import { getTestPlayer } from "../../test/player"
+import { readMessages } from "../social/chat"
+import { getTestPlayer } from "../test/player"
 import { gossip } from "./social"
 
 describe("social", () => {

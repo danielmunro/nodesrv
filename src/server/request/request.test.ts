@@ -1,7 +1,7 @@
+import { RequestType } from "../../handler/constants"
 import { Equipment } from "../../item/equipment"
 import { Item } from "../../item/model/item"
 import { getTestPlayer } from "../../test/player"
-import { RequestType } from "../handler/constants"
 import { Request } from "./request"
 
 describe("request", () => {

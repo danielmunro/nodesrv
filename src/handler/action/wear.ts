@@ -1,0 +1,24 @@
+import { Item } from "../../item/model/item"
+import { Request } from "../../server/request/request"
+import { doWithItemOrElse } from "./actions"
+
+export default function(request: Request): Promise<any> {
+  return doWithItemOrElse(
+    request.findItemInSessionMobInventory(),
+    (item: Item) => {
+      const playerInv = request.player.getInventory()
+      const playerEquipped = request.player.sessionMob.equipped
+      const currentlyEquippedItem = playerEquipped.inventory.find((eq) => eq.equipment === item.equipment)
+
+      let removal = ""
+      if (currentlyEquippedItem) {
+        playerInv.getItemFrom(currentlyEquippedItem, playerEquipped.inventory)
+        removal = " remove " + currentlyEquippedItem.name + " and"
+      }
+
+      playerEquipped.inventory.getItemFrom(item, playerInv)
+
+      return { message: "You" + removal + " wear " + item.name + "." }
+    },
+    "You don't have that.")
+}
