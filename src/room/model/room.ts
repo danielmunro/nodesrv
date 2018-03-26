@@ -42,4 +42,8 @@ export class Room {
     public removeMob(mob: Mob): void {
       this.mobs = this.mobs.filter((m) => m !== mob)
     }
+
+    public findMobByName(search: string): Mob | undefined {
+      return this.mobs.find((m) => m.matches(search))
+    }
 }

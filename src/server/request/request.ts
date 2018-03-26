@@ -1,5 +1,6 @@
 import { RequestType } from "../../handler/constants"
 import { Item } from "../../item/model/item"
+import { Mob } from "../../mob/model/mob"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
 
@@ -40,5 +41,9 @@ export class Request {
 
   public findItemInRoomInventory(): Item | undefined {
     return this.player.sessionMob.room.inventory.findItemByName(this.subject)
+  }
+
+  public findMobInRoom(): Mob | undefined {
+    return this.player.sessionMob.room.findMobByName(this.subject)
   }
 }
