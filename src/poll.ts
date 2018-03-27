@@ -1,4 +1,4 @@
-import { Timer } from "./server/timer/timer"
+import { Timer } from "./timer/timer"
 
 export function poll(callback, time: Timer): void {
   setTimeout(() => {

@@ -15,10 +15,10 @@ import { PersistPlayers } from "./../src/server/observers/persistPlayers"
 import { SocialBroadcaster } from "./../src/server/observers/socialBroadcaster"
 import { Tick } from "./../src/server/observers/tick"
 import { GameServer } from "./../src/server/server"
-import { MinuteTimer } from "./../src/server/timer/minuteTimer"
-import { RandomTickTimer } from "./../src/server/timer/randomTickTimer"
-import { SecondIntervalTimer } from "./../src/server/timer/secondTimer"
-import { ShortIntervalTimer } from "./../src/server/timer/shortIntervalTimer"
+import { MinuteTimer } from "./../src/timer/minuteTimer"
+import { RandomTickTimer } from "./../src/timer/randomTickTimer"
+import { SecondIntervalTimer } from "./../src/timer/secondTimer"
+import { ShortIntervalTimer } from "./../src/timer/shortIntervalTimer"
 
 const startRoomID = +process.argv[2]
 

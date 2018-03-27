@@ -1,11 +1,11 @@
 import { Server } from "mock-socket"
-import { Player } from "./../player/model/player"
-import { DontExecuteTestObserver } from "./../test/dontExecuteTestObserver"
-import { ExpectTestObserver } from "./../test/expectTestObserver"
-import { getTestPlayer } from "./../test/player"
+import { Player } from "../player/model/player"
+import { DontExecuteTestObserver } from "../test/dontExecuteTestObserver"
+import { ExpectTestObserver } from "../test/expectTestObserver"
+import { getTestPlayer } from "../test/player"
+import { ImmediateTimer } from "../timer/immediateTimer"
+import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
 import { GameServer } from "./server"
-import { ImmediateTimer } from "./timer/immediateTimer"
-import { ShortIntervalTimer } from "./timer/shortIntervalTimer"
 
 let ws
 

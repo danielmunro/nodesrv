@@ -3,10 +3,10 @@ import { Client } from "../client/client"
 import { handlers } from "../handler/action/actions"
 import { Player } from "../player/model/player"
 import { poll } from "../poll"
+import { ImmediateTimer } from "../timer/immediateTimer"
+import { Timer } from "../timer/timer"
 import { EVENTS } from "./constants"
 import { Observer } from "./observers/observer"
-import { ImmediateTimer } from "./timer/immediateTimer"
-import { Timer } from "./timer/timer"
 
 enum Status {
   Initialized,
