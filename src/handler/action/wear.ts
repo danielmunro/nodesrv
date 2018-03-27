@@ -2,6 +2,8 @@ import { Item } from "../../item/model/item"
 import { Request } from "../../server/request/request"
 import { doWithItemOrElse } from "./actions"
 
+export const ITEM_NOT_FOUND = "You don't have that."
+
 export default function(request: Request): Promise<any> {
   return doWithItemOrElse(
     request.findItemInSessionMobInventory(),
@@ -20,5 +22,5 @@ export default function(request: Request): Promise<any> {
 
       return { message: "You" + removal + " wear " + item.name + "." }
     },
-    "You don't have that.")
+    ITEM_NOT_FOUND)
 }

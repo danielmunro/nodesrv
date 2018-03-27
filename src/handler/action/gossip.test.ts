@@ -8,7 +8,7 @@ it("should be to handle gossiping", () => {
   const request = new Request(getTestPlayer(), RequestType.Gossip, {request: "gossip hello world"})
   const handler = handlers.getMatchingHandlerDefinitionForRequestType(
     request.requestType,
-    new HandlerDefinition(RequestType.Noop, () => {}))
+    new HandlerDefinition(RequestType.Noop, jest.fn()))
   expect.assertions(1)
   return handler.handle(request)
     .then((response) => {
