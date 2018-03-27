@@ -1,6 +1,6 @@
 import { Request } from "../../server/request/request"
 
-const NOT_FOUND = "You don't see that anywhere."
+export const NOT_FOUND = "You don't see that anywhere."
 
 export default function(request: Request): Promise<any> {
   return new Promise((resolve) => {

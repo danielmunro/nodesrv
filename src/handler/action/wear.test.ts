@@ -32,15 +32,18 @@ describe("wear", () => {
     const player = getTestPlayer()
     player.sessionMob.inventory.addItem(getHatOfMight())
     expect.assertions(1)
+
     return wear(new Request(player, RequestType.Wear, {request: "wear hat"}))
       .then((response) => expect(response.message).toBe("You wear the hat of might."))
   })
 
   it("will remove an equipped item and wear a new item", () => {
     const player = getTestPlayer()
-    player.sessionMob.inventory.addItem(getHatOfMight())
-    player.sessionMob.inventory.addItem(getPirateHat())
+    const inventory = player.sessionMob.inventory
+    inventory.addItem(getHatOfMight())
+    inventory.addItem(getPirateHat())
     expect.assertions(1)
+
     return wear(new Request(player, RequestType.Wear, {request: "wear pirate"}))
       .then(() => wear(new Request(player, RequestType.Wear, {request: "wear might"}))
       .then((response) =>
