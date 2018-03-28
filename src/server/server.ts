@@ -43,6 +43,7 @@ export class GameServer {
     const client = new Client(ws, this.playerProvider("demo name"), handlers)
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)
+    client.send({ player: client.getPlayer() })
   }
 
   public isInitialized(): boolean {
