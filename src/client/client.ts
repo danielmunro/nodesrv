@@ -15,12 +15,13 @@ export class Client {
   private readonly ws: WebSocket
   private readonly player: Player
   private readonly handlers: HandlerCollection
+  private requests: Request[] = []
 
   constructor(ws: WebSocket, player: Player, handlers: HandlerCollection) {
     this.ws = ws
     this.player = player
     this.handlers = handlers
-    this.ws.onmessage = (data) => this.onRequest(getNewRequestFromMessageEvent(this.player, data))
+    this.ws.onmessage = (data) => this.handleRequest(getNewRequestFromMessageEvent(this.player, data))
     this.ws.onerror = (event) => console.log("error event", event)
   }
 
@@ -36,7 +37,11 @@ export class Client {
     return this.player
   }
 
-  public onRequest(request: Request): Promise<any> {
+  public onRequest(request: Request): void {
+    this.requests.push(request)
+  }
+
+  public handleRequest(request: Request): Promise<any> {
     return this.handlers.getMatchingHandlerDefinitionForRequestType(
       request.requestType,
       this.getDefaultRequestHandler())

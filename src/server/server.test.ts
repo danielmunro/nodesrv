@@ -21,6 +21,8 @@ function startGameServer(gs): void {
   gs.start(new ImmediateTimer())
 }
 
+const mockWs = jest.fn(() => ({send: () => {}}))
+
 beforeEach(() => {
   ws = new Server("ws://localhost:1234")
 })
@@ -49,14 +51,14 @@ describe("the server", () => {
   test("with new WS connections should add a client", () => {
     const server = getGameServer()
     startGameServer(server)
-    server.addWS({})
+    server.addWS(mockWs())
     expect(server.getClientCount()).toBe(1)
   })
 
   test("should remove clients that have been closed", () => {
     const server = getGameServer()
     startGameServer(server)
-    const client = {onclose: () => {}}
+    const client = mockWs()
     server.addWS(client)
     client.onclose()
     expect(server.getClientCount()).toBe(0)
@@ -65,7 +67,7 @@ describe("the server", () => {
   test("should notify an observer immediately if it is added with an immediate timer", () => {
     const server = getGameServer()
     startGameServer(server)
-    server.addWS({})
+    server.addWS(mockWs())
     expect.assertions(1)
     server.addObserver(new ExpectTestObserver(), new ImmediateTimer())
   })
@@ -73,7 +75,7 @@ describe("the server", () => {
   test("should not notify an observer immediately if a timeout larger than 0 is specified", () => {
     const server = getGameServer()
     startGameServer(server)
-    server.addWS({})
+    server.addWS(mockWs())
     const observer = new DontExecuteTestObserver()
     const spy = jest.spyOn(observer, "notify")
     const shortIntervalTimer = new ShortIntervalTimer()

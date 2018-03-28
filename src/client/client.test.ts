@@ -42,7 +42,7 @@ describe("clients", () => {
     const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent())
 
     expect.assertions(1)
-    return client.onRequest(request)
+    return client.handleRequest(request)
       .then((response) => expect(response).toEqual(getDefaultUnhandledMessage()))
   })
 
@@ -52,7 +52,7 @@ describe("clients", () => {
 
     expect.assertions(1)
     return Promise.all([
-      client.onRequest(request),
+      client.handleRequest(request),
       look(request),
     ]).then(([response, lookResponse]) => expect(response).toEqual(lookResponse))
   })
@@ -62,7 +62,7 @@ describe("clients", () => {
     const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("e"))
 
     expect.assertions(1)
-    return client.onRequest(request).then((response) =>
+    return client.handleRequest(request).then((response) =>
       expect(response.message).toContain("that direction does not exist"))
   })
 
@@ -71,7 +71,7 @@ describe("clients", () => {
     const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("w"))
 
     expect.assertions(1)
-    return client.onRequest(request).then((response) =>
+    return client.handleRequest(request).then((response) =>
       expect(response.message).toContain("that direction does not exist"))
   })
 
@@ -80,7 +80,7 @@ describe("clients", () => {
     const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("g"))
 
     expect.assertions(1)
-    return client.onRequest(request).then((response) =>
+    return client.handleRequest(request).then((response) =>
       expect(response.message).toContain("You can't find that anywhere."))
   })
 
