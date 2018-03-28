@@ -50,6 +50,8 @@ fs.unlink("database.db", () => {
       [
         ...newReciprocalExit(Direction.North, rooms[0], rooms[1]),
         ...newReciprocalExit(Direction.West, rooms[0], rooms[2]),
+        ...newReciprocalExit(Direction.East, rooms[0], rooms[3]),
+        ...newReciprocalExit(Direction.South, rooms[0], rooms[4]),
       ].map((exit) => exitRepository.save(exit))
     })))
 })
