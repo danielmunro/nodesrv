@@ -2,6 +2,8 @@ import { Item } from "../../item/model/item"
 import { Request } from "../../server/request/request"
 import { doWithItemOrElse } from "./actions"
 
+export const MESSAGE_FAIL = "You aren't wearing that."
+
 export default function(request: Request): Promise<any> {
   const eq = request.player.sessionMob.equipped.inventory
   return doWithItemOrElse(
@@ -10,5 +12,5 @@ export default function(request: Request): Promise<any> {
       request.player.getInventory().getItemFrom(item, eq)
       return { message: "You remove " + item.name + " and put it in your inventory." }
     },
-    "You aren't wearing that.")
+    MESSAGE_FAIL)
 }
