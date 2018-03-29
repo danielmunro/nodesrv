@@ -33,6 +33,10 @@ export function newStats(str: number, int: number, wis: number, dex: number, con
   return stats
 }
 
+export function newStartingStats(): Stats {
+  return newStats(15, 15, 15, 15, 15, 15)
+}
+
 export function newHitroll(hit: number, dam: number): Hitroll {
   const hitroll = new Hitroll()
   hitroll.hit = hit
