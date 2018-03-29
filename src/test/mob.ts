@@ -13,7 +13,7 @@ export function getTestMob(name: string = sillyname()): Mob {
     newStartingVitals(),
     newAttributes(
       newStartingVitals(),
-      newStats(0, 0, 0, 0, 0, 0),
+      newStats(15, 15, 15, 15, 15, 15),
       newHitroll(1, 1)))
   mob.room = getTestRoom()
   mob.room.addMob(mob)

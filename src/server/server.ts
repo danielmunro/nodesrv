@@ -4,8 +4,12 @@ import { handlers } from "../handler/action/actions"
 import { Player } from "../player/model/player"
 import { poll } from "../poll"
 import { ImmediateTimer } from "../timer/immediateTimer"
+import { SecondIntervalTimer } from "../timer/secondTimer"
+import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
 import { Timer } from "../timer/timer"
 import { EVENTS } from "./constants"
+import { DecrementPlayerDelay } from "./observers/decrementPlayerDelay"
+import { HandleClientRequests } from "./observers/handleClientRequests"
 import { Observer } from "./observers/observer"
 
 enum Status {
@@ -32,6 +36,8 @@ export class GameServer {
 
     this.status = Status.Started
     this.wss.on(EVENTS.CONNECTION, this.addWS.bind(this))
+    this.addObserver(new DecrementPlayerDelay(), new SecondIntervalTimer())
+    this.addObserver(new HandleClientRequests(), new ShortIntervalTimer())
   }
 
   public terminate(): void {

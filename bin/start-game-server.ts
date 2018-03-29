@@ -5,7 +5,9 @@ import { PORT, TICK } from "./../src/constants"
 import { DiceRoller } from "./../src/dice/dice"
 import { newShield, newWeapon } from "./../src/item/factory"
 import { newMob } from "./../src/mob/factory"
+import { Skill } from "./../src/mob/model/skill"
 import { Race } from "./../src/mob/race/race"
+import { SkillType } from "./../src/mob/skillType"
 import { newPlayer } from "./../src/player/factory"
 import { Player } from "./../src/player/model/player"
 import { Room } from "./../src/room/model/room"
@@ -54,6 +56,9 @@ function getPlayerProvider(startRoom: Room) {
         newShield(
           "a cracked wooden practice shield",
           "A wooden practice shield has been carelessly left here.")])
+    const skill = new Skill()
+    skill.skillType = SkillType.Bash
+    mob.skills.push(skill)
     startRoom.addMob(mob)
 
     return newPlayer("Test Testerson", mob)

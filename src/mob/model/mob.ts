@@ -1,4 +1,6 @@
 import {Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import * as v4 from "uuid"
+import { Affect } from "../../affect/constants"
 import { newAttributes, newHitroll, newStats, newVitals } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
@@ -8,6 +10,7 @@ import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
 import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
+import { Skill } from "./skill"
 
 @Entity()
 export class Mob {
@@ -16,7 +19,7 @@ export class Mob {
 
     @Column("text")
     @Generated("uuid")
-    public uuid: string
+    public uuid: string = v4()
 
     @Column("text")
     public name: string
@@ -29,6 +32,9 @@ export class Mob {
 
     @Column("integer")
     public level: number = 1
+
+    @Column("simple-array")
+    public affects: Affect[] = []
 
     @OneToOne((type) => Vitals, { cascadeInsert: true, eager: true })
     @JoinColumn()
@@ -54,6 +60,9 @@ export class Mob {
     @OneToOne((type) => Equipped, { cascadeInsert: true, eager: true })
     @JoinColumn()
     public equipped = new Equipped()
+
+    @OneToMany((type) => Skill, (skill) => skill.mob, { cascadeInsert: true, cascadeUpdate: true })
+    public skills: Skill[] = []
 
     public getCombinedAttributes(): Attributes {
       let attributes = newAttributes(newVitals(0, 0, 0), newStats(0, 0, 0, 0, 0, 0), newHitroll(0, 0))

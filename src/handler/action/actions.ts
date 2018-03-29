@@ -4,6 +4,7 @@ import { Request } from "../../server/request/request"
 import { RequestType } from "../constants"
 import { HandlerCollection } from "../handlerCollection"
 import { HandlerDefinition } from "../handlerDefinition"
+import bash from "./bash"
 import drop from "./drop"
 import equipped from "./equipped"
 import get from "./get"
@@ -33,6 +34,9 @@ function handler(requestType: RequestType, cb) {
 }
 
 export const handlers = new HandlerCollection([
+  // skills
+  handler(RequestType.Bash, bash),
+
   // interacting with room
   handler(RequestType.Look, look),
 

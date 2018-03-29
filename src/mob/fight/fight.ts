@@ -22,14 +22,26 @@ export function filterCompleteFights() {
 }
 
 export class Fight {
-  private readonly aggressor: Mob
-  private readonly target: Mob
+  public readonly aggressor: Mob
+  public readonly target: Mob
   private status: Status = Status.InProgress
   private winner: Mob
 
   constructor(aggressor: Mob, target: Mob) {
     this.aggressor = aggressor
     this.target = target
+  }
+
+  public isParticipant(mob: Mob): boolean {
+    return mob.uuid === this.aggressor.uuid || mob.uuid === this.target.uuid
+  }
+
+  public getOpponentFor(mob: Mob): Mob {
+    if (!this.isParticipant(mob)) {
+      return
+    }
+
+    return mob === this.aggressor ? this.aggressor : this.target
   }
 
   public round(): Round {

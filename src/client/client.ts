@@ -21,7 +21,7 @@ export class Client {
     this.ws = ws
     this.player = player
     this.handlers = handlers
-    this.ws.onmessage = (data) => this.handleRequest(getNewRequestFromMessageEvent(this.player, data))
+    this.ws.onmessage = (data) => this.onRequest(getNewRequestFromMessageEvent(this.player, data))
     this.ws.onerror = (event) => console.log("error event", event)
   }
 
@@ -37,8 +37,16 @@ export class Client {
     return this.player
   }
 
+  public hasRequests(): boolean {
+    return this.requests.length > 0
+  }
+
   public onRequest(request: Request): void {
     this.requests.push(request)
+  }
+
+  public handleNextRequest() {
+    this.handleRequest(this.requests.shift())
   }
 
   public handleRequest(request: Request): Promise<any> {

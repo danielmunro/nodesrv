@@ -22,6 +22,8 @@ export class Player {
 
     public sessionMob: Mob
 
+    public delay: number = 0
+
     public moveTo(room: Room): void {
       room.addMob(this.sessionMob)
     }
