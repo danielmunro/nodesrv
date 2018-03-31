@@ -1,10 +1,10 @@
-import { addFight, Fight } from "../../mob/fight/fight"
-import { Skill } from "../../mob/model/skill"
-import { SkillType } from "../../mob/skillType"
-import { Request } from "../../server/request/request"
-import { getTestMob } from "../../test/mob"
-import { getTestPlayer } from "../../test/player"
-import { RequestType } from "../constants"
+import { addFight, Fight } from "../../../mob/fight/fight"
+import { Skill } from "../../../mob/model/skill"
+import { SkillType } from "../../../mob/skillType"
+import { Request } from "../../../server/request/request"
+import { getTestMob } from "../../../test/mob"
+import { getTestPlayer } from "../../../test/player"
+import { RequestType } from "../../constants"
 import bash, { MESSAGE_FAIL, MESSAGE_NO_SKILL, MESSAGE_NO_TARGET } from "./bash"
 
 describe("bash", () => {

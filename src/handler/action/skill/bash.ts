@@ -1,7 +1,7 @@
-import roll from "../../dice/dice"
-import { getFights } from "../../mob/fight/fight"
-import { SkillType } from "../../mob/skillType"
-import { Request } from "../../server/request/request"
+import roll from "../../../dice/dice"
+import { getFights } from "../../../mob/fight/fight"
+import { SkillType } from "../../../mob/skillType"
+import { Request } from "../../../server/request/request"
 
 export const DELAY = 2
 export const MESSAGE_NO_SKILL = "You bash around helplessly."
@@ -11,9 +11,7 @@ export const MESSAGE_FAIL = "You fall flat on your face!"
 export default function(request: Request): Promise<any> {
   return new Promise((resolve) => {
     const sessionMob = request.player.sessionMob
-    const fight = getFights().find((f) => {
-      return f.isParticipant(sessionMob)
-    })
+    const fight = getFights().find((f) => f.isParticipant(sessionMob))
 
     if (!fight) {
       return resolve({ message: MESSAGE_NO_TARGET })
