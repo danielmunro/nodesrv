@@ -1,6 +1,6 @@
 import { Server } from "ws"
 import { Client } from "../client/client"
-import { handlers } from "../handler/action/actions"
+import { actions } from "../handler/actions"
 import { Player } from "../player/model/player"
 import { poll } from "../poll"
 import { ImmediateTimer } from "../timer/immediateTimer"
@@ -46,7 +46,7 @@ export class GameServer {
   }
 
   public addWS(ws): void {
-    const client = new Client(ws, this.playerProvider("demo name"), handlers)
+    const client = new Client(ws, this.playerProvider("demo name"), actions)
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)
     client.send({ player: client.getPlayer() })

@@ -1,8 +1,8 @@
 import { Request } from "../../server/request/request"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
+import { ATTACK_MOB, MOB_NOT_FOUND } from "../actions"
 import { RequestType } from "../constants"
-import { ATTACK_MOB, MOB_NOT_FOUND } from "./actions"
 import kill from "./kill"
 
 describe("kill", () => {

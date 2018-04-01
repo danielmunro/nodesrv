@@ -1,4 +1,4 @@
-import { Item } from "../../item/model/item"
+import { Item } from "../item/model/item"
 import { doWithItemOrElse } from "./actions"
 
 describe("handlers", () => {

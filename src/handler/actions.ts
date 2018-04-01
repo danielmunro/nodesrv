@@ -1,20 +1,20 @@
-import { Item } from "../../item/model/item"
-import { Direction } from "../../room/constants"
-import { Request } from "../../server/request/request"
-import { RequestType } from "../constants"
-import { HandlerCollection } from "../handlerCollection"
-import { HandlerDefinition } from "../handlerDefinition"
-import drop from "./drop"
-import equipped from "./equipped"
-import get from "./get"
-import gossip from "./gossip"
-import inventory from "./inventory"
-import kill from "./kill"
-import look from "./look"
-import move from "./move"
-import remove from "./remove"
-import bash from "./skill/bash"
-import wear from "./wear"
+import { Item } from "../item/model/item"
+import { Direction } from "../room/constants"
+import { Request } from "../server/request/request"
+import drop from "./action/drop"
+import equipped from "./action/equipped"
+import get from "./action/get"
+import gossip from "./action/gossip"
+import inventory from "./action/inventory"
+import kill from "./action/kill"
+import look from "./action/look"
+import move from "./action/move"
+import remove from "./action/remove"
+import bash from "./action/skill/bash"
+import wear from "./action/wear"
+import { RequestType } from "./constants"
+import { HandlerCollection } from "./handlerCollection"
+import { HandlerDefinition } from "./handlerDefinition"
 
 export const MOB_NOT_FOUND = "They aren't here."
 export const ATTACK_MOB = "You scream and attack!"
@@ -33,9 +33,12 @@ function handler(requestType: RequestType, cb) {
   return new HandlerDefinition(requestType, cb)
 }
 
-export const handlers = new HandlerCollection([
+export const actions = new HandlerCollection([
   // skills
   handler(RequestType.Bash, bash),
+
+  // casting
+  // handler(RequestType.Cast)
 
   // interacting with room
   handler(RequestType.Look, look),
