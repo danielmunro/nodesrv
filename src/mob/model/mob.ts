@@ -1,6 +1,7 @@
 import {Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import { Affect } from "../../affect/constants"
+import { AffectType } from "../../affect/constants"
+import { Affect } from "../../affect/model/affect"
 import { newAttributes, newHitroll, newStats, newVitals } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
@@ -11,6 +12,7 @@ import { Room } from "../../room/model/room"
 import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
 import { Skill } from "./skill"
+import { Spell } from "./spell"
 
 @Entity()
 export class Mob {
@@ -33,7 +35,7 @@ export class Mob {
     @Column("integer")
     public level: number = 1
 
-    @Column("simple-array")
+    @OneToMany((type) => Affect, (affect) => affect.mob)
     public affects: Affect[] = []
 
     @OneToOne((type) => Vitals, { cascadeInsert: true, eager: true })
@@ -64,6 +66,9 @@ export class Mob {
     @OneToMany((type) => Skill, (skill) => skill.mob, { cascadeInsert: true, cascadeUpdate: true })
     public skills: Skill[] = []
 
+    @OneToMany((type) => Spell, (spell) => spell.mob, { cascadeInsert: true, cascadeUpdate: true })
+    public spells: Spell[] = []
+
     public getCombinedAttributes(): Attributes {
       let attributes = newAttributes(newVitals(0, 0, 0), newStats(0, 0, 0, 0, 0, 0), newHitroll(0, 0))
       this.attributes.map((a) => attributes = attributes.combine(a))
@@ -73,7 +78,14 @@ export class Mob {
       return attributes
     }
 
-    public matches(subject: string): boolean {
-      return this.name.split(" ").find((word) => word.startsWith(subject)) ? true : false
+    public addAffect(affect: Affect) {
+      const current = this.getAffect(affect.affectType)
+      if (!current) {
+        this.affects.push(affect)
+      }
+    }
+
+    public getAffect(affectType: AffectType) {
+      return this.affects.find((a) => a.affectType === affectType)
     }
 }

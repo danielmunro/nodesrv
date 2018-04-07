@@ -1,5 +1,6 @@
 import { RequestType } from "../../handler/constants"
 import { Item } from "../../item/model/item"
+import match from "../../matcher/match"
 import { Mob } from "../../mob/model/mob"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
@@ -18,6 +19,7 @@ export class Request {
   public readonly command: string
   public readonly subject: string
   public readonly message: string
+  public readonly target: Mob | null = null
 
   constructor(player: Player, requestType: RequestType, args = {}) {
     this.player = player
@@ -27,6 +29,8 @@ export class Request {
       const r = this.args.request.split(" ")
       this.command = r[0]
       this.subject = r[1]
+      const find = r[r.length - 1]
+      this.target = this.getRoom().mobs.find((m) => match(m.name, find))
       this.message = r.slice(1).join(" ")
     }
   }
@@ -45,5 +49,9 @@ export class Request {
 
   public findMobInRoom(): Mob | undefined {
     return this.player.sessionMob.room.findMobByName(this.subject)
+  }
+
+  public getTarget(): Mob | undefined {
+    return this.target
   }
 }

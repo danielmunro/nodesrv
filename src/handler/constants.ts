@@ -16,6 +16,14 @@ export enum RequestType {
   Equipped = "equipped",
   Kill = "kill",
   Bash = "bash",
+  Cast = "cast",
+  Affects = "affects",
   Noop = "noop",
   Any = "any",
+}
+
+export enum ActionType {
+  Offensive,
+  Neutral,
+  Defensive,
 }

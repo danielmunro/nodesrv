@@ -8,7 +8,8 @@
     "src/mob/model/*.ts",
     "src/player/model/*.ts",
     "src/attributes/model/*.ts",
-    "src/item/model/*.ts"
+    "src/item/model/*.ts",
+    "src/affect/model/*.ts"
   ],
   "migrations": [
     "src/migration/**/*.ts"

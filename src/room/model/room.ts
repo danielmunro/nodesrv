@@ -1,5 +1,6 @@
 import {Column, Entity, Generated, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
 import { Inventory } from "../../item/model/inventory"
+import match from "../../matcher/match"
 import { Mob } from "../../mob/model/mob"
 import { Exit } from "./exit"
 
@@ -44,6 +45,6 @@ export class Room {
     }
 
     public findMobByName(search: string): Mob | undefined {
-      return this.mobs.find((m) => m.matches(search))
+      return this.mobs.find((m) =>  match(m.name, search))
     }
 }

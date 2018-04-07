@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node --no-cache bin/start-game-server.ts",
     "create-fixtures": "ts-node --no-cache bin/db-clean-create-demo-fixtures.ts .",
-    "lint": "tslint --project .",
+    "clean": "rm -rf ./coverage",
+    "lint": "yarn clean && tslint --project .",
     "test": "jest",
     "test-coverage": "jest --coverage"
   },

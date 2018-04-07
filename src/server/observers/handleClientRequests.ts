@@ -4,7 +4,7 @@ import { Observer } from "./observer"
 export class HandleClientRequests implements Observer {
   public notify(clients: Client[]): void {
     clients.forEach((client) => {
-      if (client.hasRequests() && client.getPlayer().delay === 0) {
+      if (client.canHandleRequests()) {
         client.handleNextRequest()
       }
     })

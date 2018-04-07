@@ -1,6 +1,8 @@
 import { Item } from "../item/model/item"
 import { Direction } from "../room/constants"
 import { Request } from "../server/request/request"
+import affects from "./action/affects"
+import cast from "./action/cast"
 import drop from "./action/drop"
 import equipped from "./action/equipped"
 import get from "./action/get"
@@ -38,7 +40,7 @@ export const actions = new HandlerCollection([
   handler(RequestType.Bash, bash),
 
   // casting
-  // handler(RequestType.Cast)
+  handler(RequestType.Cast, cast),
 
   // interacting with room
   handler(RequestType.Look, look),
@@ -61,6 +63,9 @@ export const actions = new HandlerCollection([
 
   // fighting
   handler(RequestType.Kill, kill),
+
+  // affects
+  handler(RequestType.Affects, affects),
 
   // social
   handler(RequestType.Gossip, gossip),
