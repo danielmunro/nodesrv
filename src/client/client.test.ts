@@ -14,7 +14,7 @@ describe("clients", () => {
   it("should return the expected player", () => {
     const player = getTestPlayer()
     const client = getTestClient(player)
-    expect(client.getPlayer()).toEqual(player)
+    expect(client.player).toEqual(player)
   })
 
   it("should recognize its own messages as its own and not others", () => {
@@ -32,14 +32,14 @@ describe("clients", () => {
 
   it("should be able to get a request from a message event", () => {
     const client = getTestClient()
-    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent())
-    expect(request.player).toBe(client.getPlayer())
+    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent())
+    expect(request.player).toBe(client.player)
     expect(request.args).toEqual({ request: "hello world" })
   })
 
   it("should use the default handler when no handlers match", () => {
     const client = getTestClient()
-    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent())
+    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent())
 
     expect.assertions(1)
     return client.handleRequest(request)
@@ -48,7 +48,7 @@ describe("clients", () => {
 
   it("should be able to invoke a valid handler", () => {
     const client = getTestClient()
-    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("look"))
+    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("look"))
 
     expect.assertions(1)
     return Promise.all([
@@ -59,7 +59,7 @@ describe("clients", () => {
 
   it("should invoke east before equipped", () => {
     const client = getTestClient()
-    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("e"))
+    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("e"))
 
     expect.assertions(1)
     return client.handleRequest(request).then((response) =>
@@ -68,7 +68,7 @@ describe("clients", () => {
 
   it("should invoke west before wear", () => {
     const client = getTestClient()
-    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("w"))
+    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("w"))
 
     expect.assertions(1)
     return client.handleRequest(request).then((response) =>
@@ -77,7 +77,7 @@ describe("clients", () => {
 
   it("should invoke get before gossip", () => {
     const client = getTestClient()
-    const request = getNewRequestFromMessageEvent(client.getPlayer(), getNewTestMessageEvent("g"))
+    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("g"))
 
     expect.assertions(1)
     return client.handleRequest(request).then((response) =>

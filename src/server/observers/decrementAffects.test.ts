@@ -9,7 +9,7 @@ const TEST_TIMEOUT_2 = 122
 describe("decrementAffects", () => {
   it("should decrement all affects for a mob", () => {
     const client = getTestClient()
-    const mob = client.getPlayer().sessionMob
+    const mob = client.player.sessionMob
 
     mob.addAffect(newAffect(AffectType.Dazed, mob, TEST_TIMEOUT_1))
     mob.addAffect(newAffect(AffectType.Shield, mob, TEST_TIMEOUT_2))

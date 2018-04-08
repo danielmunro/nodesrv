@@ -1,7 +1,9 @@
 import Attributes from "../attributes/model/attributes"
 import Vitals from "../attributes/model/vitals"
 import { Item } from "../item/model/item"
+import { SpellType } from "../spell/spellType"
 import { Mob } from "./model/mob"
+import { Spell } from "./model/spell"
 import { Race } from "./race/race"
 import { addMob } from "./table"
 
@@ -17,4 +19,12 @@ export function newMob(
   addMob(mob)
 
   return mob
+}
+
+export function newSpell(spellType: SpellType, level: number) {
+  const spell = new Spell()
+  spell.spellType = spellType
+  spell.level = level
+
+  return spell
 }

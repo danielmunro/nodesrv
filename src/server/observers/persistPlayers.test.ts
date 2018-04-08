@@ -7,8 +7,7 @@ jest.mock("../../client/client")
 
 function getMockClient(): Client {
   const client = new Client()
-  const player = getTestPlayer()
-  client.getPlayer = () => player
+  client.player = getTestPlayer()
 
   return client
 }
@@ -24,9 +23,9 @@ describe("persistPlayers", () => {
           getMockClient(),
           getMockClient(),
         ]
-        clients.forEach((client) => expect(client.getPlayer().id).toBeUndefined())
+        clients.forEach((client) => expect(client.player.id).toBeUndefined())
         return persistPlayers.notify(clients).then(() =>
-          clients.forEach((client) => expect(client.getPlayer().id).toBeGreaterThan(0)))
+          clients.forEach((client) => expect(client.player.id).toBeGreaterThan(0)))
       })
   })
 })

@@ -10,7 +10,6 @@ jest.mock("../../client/client")
 function getMockClient(): Client {
   const client = new Client()
   client.player = new Player()
-  client.getPlayer = () => client.player
   client.isOwnMessage = (m: Message) => m.sender === client.player
 
   return client
@@ -23,7 +22,7 @@ describe("socialBroadcaster", () => {
     const client2 = getMockClient()
     const client3 = getMockClient()
 
-    broadcastMessage(client1.getPlayer(), Channel.Gossip, "hello world")
+    broadcastMessage(client1.player, Channel.Gossip, "hello world")
     socialBroadcaster.notify([
       client1,
       client2,

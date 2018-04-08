@@ -12,9 +12,9 @@ export function getDefaultUnhandledMessage() {
 }
 
 export class Client {
-  private readonly ws: WebSocket
-  private readonly player: Player
-  private readonly handlers: HandlerCollection
+  public readonly ws: WebSocket
+  public readonly player: Player
+  public readonly handlers: HandlerCollection
   private requests: Request[] = []
 
   constructor(ws: WebSocket, player: Player, handlers: HandlerCollection) {
@@ -31,10 +31,6 @@ export class Client {
 
   public isOwnMessage(message: Message): boolean {
     return message.sender === this.player
-  }
-
-  public getPlayer(): Player {
-    return this.player
   }
 
   public hasRequests(): boolean {

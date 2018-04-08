@@ -37,11 +37,19 @@ export class SpellDefinition {
   }
 
   public apply(check: Check) {
+    this.addDelayToPlayer(check)
+    this.checkForNewFight(check)
+  }
+
+  private addDelayToPlayer(check: Check): void {
     if (check.isSuccessful() && check.request.player) {
       check.request.player.delay += DELAY_SUCCESS
     } else if (check.isFailure()) {
       check.request.player.delay += DELAY_FAILURE
     }
+  }
+
+  private checkForNewFight(check: Check): void {
     if (this.actionType === ActionType.Offensive
       && !getFights().find((f) => f.isParticipant(check.caster))
       && check.caster !== check.target) {

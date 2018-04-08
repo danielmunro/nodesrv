@@ -54,8 +54,8 @@ describe("fight rounds", () => {
   it("should be able to use fight rounds", () => {
     // Setup
     const client = getTestClient()
-    client.getPlayer().sessionMob.vitals.hp = 1
-    const fight = new Fight(getTestMob(), client.getPlayer().sessionMob)
+    client.player.sessionMob.vitals.hp = 1
+    const fight = new Fight(getTestMob(), client.player.sessionMob)
     addFight(fight)
     const fightRounds = new FightRounds()
 

@@ -21,6 +21,10 @@ export function filterCompleteFights() {
   fights = fights.filter((fight) => fight.isInProgress())
 }
 
+export function reset() {
+  fights = []
+}
+
 export class Fight {
   public readonly aggressor: Mob
   public readonly target: Mob

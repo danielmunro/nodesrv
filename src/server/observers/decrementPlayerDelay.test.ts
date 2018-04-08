@@ -9,9 +9,9 @@ describe("decrement player delay", () => {
       getTestClient(),
       getTestClient(),
     ]
-    const p1 = clients[0].getPlayer()
-    const p2 = clients[1].getPlayer()
-    const p3 = clients[2].getPlayer()
+    const p1 = clients[0].player
+    const p2 = clients[1].player
+    const p3 = clients[2].player
     p1.delay = 2
     p2.delay = 0
     p3.delay = 1
