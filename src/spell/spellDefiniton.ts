@@ -42,11 +42,12 @@ export class SpellDefinition {
   }
 
   private addDelayToPlayer(check: Check): void {
-    if (check.isSuccessful() && check.request.player) {
+    if (check.isSuccessful()) {
       check.request.player.delay += DELAY_SUCCESS
-    } else if (check.isFailure()) {
-      check.request.player.delay += DELAY_FAILURE
+      return
     }
+
+    check.request.player.delay += DELAY_FAILURE
   }
 
   private checkForNewFight(check: Check): void {

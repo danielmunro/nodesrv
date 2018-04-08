@@ -4,20 +4,29 @@ import { Spell } from "../mob/model/spell"
 import { Request } from "../server/request/request"
 import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
-import { Check } from "./check"
+import { Check, MESSAGE_NO_SPELL } from "./check"
 import spellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
+
+function getTestSpell() {
+  const mm = new Spell()
+  mm.spellType = SpellType.MagicMissile
+  mm.level = 1
+
+  return mm
+}
 
 describe("spell check", () => {
   it("should error out if a mob is casting a spell it does not know", () => {
     const check = new Check(
-      new Request(getTestPlayer(), RequestType.Cast, {request: "cast shield"}),
-      spellCollection[0],
+      new Request(getTestPlayer(), RequestType.Cast, {request: "cast cure"}),
+      spellCollection.find((s) => s.spellType === SpellType.CureLight),
     )
 
     expect(check.isError()).toBe(true)
     expect(check.isFailure()).toBe(false)
     expect(check.isSuccessful()).toBe(false)
+    expect(check.fail).toBe(MESSAGE_NO_SPELL)
   })
 
   it("must specify a target for offensive spells if not in a fight", () => {
@@ -30,15 +39,53 @@ describe("spell check", () => {
   it("does not need a target for offensive spells when in a fight already", () => {
     const player = getTestPlayer()
     const target = getTestMob()
-    const mm = new Spell()
-    mm.spellType = SpellType.MagicMissile
-    mm.mob = player.sessionMob
-    mm.level = 1
-    player.sessionMob.spells.push(mm)
+    player.sessionMob.spells.push(getTestSpell())
     addFight(new Fight(player.sessionMob, target))
     expect(
       new Check(
         new Request(player, RequestType.Cast, {request: "cast magic missile"}),
         spellCollection[0]).isError()).toBe(false)
+  })
+
+  it("gets an appropriate delay on cast failure", () => {
+    const player = getTestPlayer()
+    const target = getTestMob()
+    player.sessionMob.spells.push(getTestSpell())
+    addFight(new Fight(player.sessionMob, target))
+    const check = new Check(
+      new Request(player, RequestType.Cast, {request: "cast magic missile"}),
+      spellCollection[0])
+
+    expect(check.isError()).toBe(false)
+    expect(check.isFailure()).toBe(true)
+
+    expect(player.delay).toBe(0)
+    spellCollection[0].apply(check)
+    expect(player.delay).toBeGreaterThan(0)
+  })
+
+  it("should be able to successfully cast and receive a delay", () => {
+    const player = getTestPlayer()
+    const target = getTestMob()
+    const testSpell = getTestSpell()
+    testSpell.level = 100
+    player.sessionMob.spells.push(testSpell)
+    addFight(new Fight(player.sessionMob, target))
+    const request = new Request(player, RequestType.Cast, {request: "cast magic missile"})
+
+    expect.assertions(3)
+    return Promise.resolve([
+      new Check(request, spellCollection[0]),
+      new Check(request, spellCollection[0]),
+      new Check(request, spellCollection[0]),
+      new Check(request, spellCollection[0]),
+      new Check(request, spellCollection[0]),
+    ]).then((checks) => {
+      const successCheck = checks.find((c) => c.isSuccessful())
+      expect(successCheck).toBeTruthy()
+      expect(player.delay).toBe(0)
+      spellCollection[0].apply(successCheck)
+      expect(player.delay).toBeGreaterThan(0)
+    })
   })
 })
