@@ -9,10 +9,10 @@ import { Equipped } from "../../item/model/equipped"
 import { Inventory } from "../../item/model/inventory"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
+import { Skill } from "../../skill/model/skill"
+import { Spell } from "../../spell/model/spell"
 import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
-import { Skill } from "./skill"
-import { Spell } from "./spell"
 
 @Entity()
 export class Mob {

@@ -1,18 +1,18 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
-import { SpellType } from "../../spell/spellType"
-import { Mob } from "./mob"
+import { Mob } from "../../mob/model/mob"
+import { SkillType } from "../skillType"
 
 @Entity()
-export class Spell {
+export class Skill {
   @PrimaryGeneratedColumn()
   public id: number
 
   @Column("integer")
-  public spellType: SpellType
+  public skillType: SkillType
 
   @Column("integer")
   public level: number = 1
 
-  @OneToMany((type) => Mob, (mob) => mob.spells)
+  @OneToMany((type) => Mob, (mob) => mob.skills)
   public mob: Mob
 }

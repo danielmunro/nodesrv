@@ -1,6 +1,7 @@
 import { Item } from "../item/model/item"
 import { Direction } from "../room/constants"
 import { Request } from "../server/request/request"
+import bash from "../skill/actions/bash"
 import affects from "./action/affects"
 import cast from "./action/cast"
 import drop from "./action/drop"
@@ -12,7 +13,6 @@ import kill from "./action/kill"
 import look from "./action/look"
 import move from "./action/move"
 import remove from "./action/remove"
-import bash from "./action/skill/bash"
 import wear from "./action/wear"
 import { RequestType } from "./constants"
 import { HandlerCollection } from "./handlerCollection"
@@ -36,15 +36,6 @@ function handler(requestType: RequestType, cb) {
 }
 
 export const actions = new HandlerCollection([
-  // skills
-  handler(RequestType.Bash, bash),
-
-  // casting
-  handler(RequestType.Cast, cast),
-
-  // interacting with room
-  handler(RequestType.Look, look),
-
   // moving
   handler(RequestType.North, (request: Request) => move(request.player, Direction.North)),
   handler(RequestType.South, (request: Request) => move(request.player, Direction.South)),
@@ -63,9 +54,14 @@ export const actions = new HandlerCollection([
 
   // fighting
   handler(RequestType.Kill, kill),
+  handler(RequestType.Bash, bash),
 
-  // affects
+  // casting
+  handler(RequestType.Cast, cast),
+
+  // info
   handler(RequestType.Affects, affects),
+  handler(RequestType.Look, look),
 
   // social
   handler(RequestType.Gossip, gossip),

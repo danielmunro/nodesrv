@@ -1,10 +1,10 @@
 import { RequestType } from "../handler/constants"
 import { addFight, Fight } from "../mob/fight/fight"
-import { Spell } from "../mob/model/spell"
 import { Request } from "../server/request/request"
 import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
 import { Check, MESSAGE_NO_SPELL } from "./check"
+import { Spell } from "./model/spell"
 import spellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
 

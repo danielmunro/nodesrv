@@ -1,4 +1,5 @@
-import { Direction } from "./constants"
+import { allDirections, Direction } from "./constants"
+import { Room } from "./model/room"
 
 export function reverse(direction: Direction) {
   switch (direction) {
@@ -15,4 +16,11 @@ export function reverse(direction: Direction) {
     case Direction.West:
       return Direction.East
   }
+}
+
+export function getFreeDirection(room: Room) {
+  const availableDirections = allDirections
+    .filter((d) => !room.exits.find((e) => e.direction === d) && d !== Direction.Up && d !== Direction.Down)
+
+  return availableDirections[Math.floor(Math.random() * availableDirections.length)]
 }

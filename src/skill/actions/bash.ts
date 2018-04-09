@@ -1,7 +1,7 @@
-import roll from "../../../dice/dice"
-import { getFights } from "../../../mob/fight/fight"
-import { SkillType } from "../../../mob/skillType"
-import { Request } from "../../../server/request/request"
+import roll from "../../dice/dice"
+import { getFights } from "../../mob/fight/fight"
+import { Request } from "../../server/request/request"
+import { SkillType } from "../../skill/skillType"
 
 export const DELAY = 2
 export const MESSAGE_NO_SKILL = "You bash around helplessly."

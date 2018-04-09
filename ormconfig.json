@@ -9,7 +9,9 @@
     "src/player/model/*.ts",
     "src/attributes/model/*.ts",
     "src/item/model/*.ts",
-    "src/affect/model/*.ts"
+    "src/affect/model/*.ts",
+    "src/spell/model/*.ts",
+    "src/skill/model/*.ts"
   ],
   "migrations": [
     "src/migration/**/*.ts"
