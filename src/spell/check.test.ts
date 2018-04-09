@@ -20,7 +20,7 @@ describe("spell check", () => {
   it("should error out if a mob is casting a spell it does not know", () => {
     const check = new Check(
       new Request(getTestPlayer(), RequestType.Cast, {request: "cast cure"}),
-      spellCollection.find((s) => s.spellType === SpellType.CureLight),
+      spellCollection.findSpell(SpellType.CureLight),
     )
 
     expect(check.isError()).toBe(true)
@@ -33,7 +33,7 @@ describe("spell check", () => {
     expect(
       new Check(
         new Request(getTestPlayer(), RequestType.Cast, {request: "cast magic missile"}),
-        spellCollection[1]).isError()).toBe(true)
+        spellCollection.findSpell(SpellType.MagicMissile)).isError()).toBe(true)
   })
 
   it("does not need a target for offensive spells when in a fight already", () => {
@@ -44,29 +44,31 @@ describe("spell check", () => {
     expect(
       new Check(
         new Request(player, RequestType.Cast, {request: "cast magic missile"}),
-        spellCollection[0]).isError()).toBe(false)
+        spellCollection.findSpell(SpellType.MagicMissile)).isError()).toBe(false)
   })
 
   it("gets an appropriate delay on cast failure", () => {
     const player = getTestPlayer()
     const target = getTestMob()
+    const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
     player.sessionMob.spells.push(getTestSpell())
     addFight(new Fight(player.sessionMob, target))
     const check = new Check(
       new Request(player, RequestType.Cast, {request: "cast magic missile"}),
-      spellCollection[0])
+      magicMissile)
 
     expect(check.isError()).toBe(false)
     expect(check.isFailure()).toBe(true)
 
     expect(player.delay).toBe(0)
-    spellCollection[0].apply(check)
+    magicMissile.apply(check)
     expect(player.delay).toBeGreaterThan(0)
   })
 
   it("should be able to successfully cast and receive a delay", () => {
     const player = getTestPlayer()
     const target = getTestMob()
+    const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
     const testSpell = getTestSpell()
     testSpell.level = 100
     player.sessionMob.spells.push(testSpell)
@@ -75,16 +77,16 @@ describe("spell check", () => {
 
     expect.assertions(3)
     return Promise.resolve([
-      new Check(request, spellCollection[0]),
-      new Check(request, spellCollection[0]),
-      new Check(request, spellCollection[0]),
-      new Check(request, spellCollection[0]),
-      new Check(request, spellCollection[0]),
+      new Check(request, magicMissile),
+      new Check(request, magicMissile),
+      new Check(request, magicMissile),
+      new Check(request, magicMissile),
+      new Check(request, magicMissile),
     ]).then((checks) => {
       const successCheck = checks.find((c) => c.isSuccessful())
       expect(successCheck).toBeTruthy()
       expect(player.delay).toBe(0)
-      spellCollection[0].apply(successCheck)
+      magicMissile.apply(successCheck)
       expect(player.delay).toBeGreaterThan(0)
     })
   })

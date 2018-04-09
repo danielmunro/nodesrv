@@ -14,14 +14,14 @@ export class SpellDefinition {
   public readonly actionType: ActionType
   public readonly damageType: DamageType
   public readonly manaCost: number
-  public readonly cast: (request: Request, check: Check) => any
+  public readonly cast: (check: Check) => void
 
   constructor(
     spellType: SpellType,
     level: number,
     actionType: ActionType,
     manaCost: number,
-    cast: (request: Request, check: Check) => any,
+    cast: (check: Check) => void,
     damageType: DamageType = null,
   ) {
     this.spellType = spellType

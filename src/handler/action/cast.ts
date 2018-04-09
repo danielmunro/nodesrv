@@ -13,7 +13,7 @@ export default function(request: Request): Promise<any> {
       return resolve({ message: MESSAGE_NO_SPELL })
     }
 
-    const spellDefinition = spellCollection.find((spell) => spell.spellType.startsWith(request.subject))
+    const spellDefinition = spellCollection.collection.find((spell) => spell.spellType.startsWith(request.subject))
 
     if (!spellDefinition) {
       return resolve({ message: MESSAGE_SPELL_DOES_NOT_EXIST })

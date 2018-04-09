@@ -1,21 +1,34 @@
-import { AffectType } from "../affect/constants"
-import { newAffect } from "../affect/factory"
 import { DamageType } from "../damage/damageType"
-import roll from "../dice/dice"
 import { ActionType } from "../handler/constants"
-import { Request } from "../server/request/request"
 import { SpellType } from "../spell/spellType"
-import { Check } from "./check"
+import cureLight from "./actions/cureLight"
+import curePoison from "./actions/curePoison"
+import lightningBolt from "./actions/lightningBolt"
+import magicMissile from "./actions/magicMissile"
+import poison from "./actions/poison"
+import shield from "./actions/shield"
 import { SpellDefinition } from "./spellDefiniton"
 
-export default [
+class SpellCollection {
+  public readonly collection
+
+  constructor(collection: SpellDefinition[]) {
+    this.collection = collection
+  }
+
+  public findSpell(spellType: SpellType) {
+    return this.collection.find((s) => s.spellType === spellType)
+  }
+}
+
+export default new SpellCollection([
   // Attack
   new SpellDefinition(
     SpellType.MagicMissile,
     1,
     ActionType.Offensive,
     50,
-    (request: Request, check: Check) => check.target.vitals.hp -= roll(1, 4),
+    magicMissile,
     DamageType.Magic,
   ),
   new SpellDefinition(
@@ -23,7 +36,7 @@ export default [
     12,
     ActionType.Offensive,
     100,
-    (request: Request, check: Check) => check.target.vitals.hp -= roll(2, 6),
+    lightningBolt,
     DamageType.Electric,
   ),
 
@@ -33,7 +46,7 @@ export default [
     1,
     ActionType.Defensive,
     50,
-    (request: Request, check: Check) => check.target.vitals.hp += roll(1, 4),
+    cureLight,
   ),
 
   // Benedictions
@@ -42,7 +55,24 @@ export default [
     5,
     ActionType.Defensive,
     100,
-    (request: Request, check: Check) =>
-      check.target.addAffect(newAffect(AffectType.Shield, check.target, check.caster.level)),
+    shield,
   ),
-]
+
+  // Maladictions
+  new SpellDefinition(
+    SpellType.Poison,
+    20,
+    ActionType.Offensive,
+    100,
+    poison,
+  ),
+
+  // Curative
+  new SpellDefinition(
+    SpellType.CurePoison,
+    20,
+    ActionType.Defensive,
+    100,
+    curePoison,
+  ),
+])

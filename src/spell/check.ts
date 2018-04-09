@@ -2,6 +2,7 @@ import roll from "../dice/dice"
 import { ActionType } from "../handler/constants"
 import { getFights } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
+import { Spell } from "../mob/model/spell"
 import { Request } from "../server/request/request"
 import { SpellDefinition } from "./spellDefiniton"
 
@@ -21,6 +22,7 @@ export class Check {
   public readonly fail: string
   public readonly caster: Mob
   public readonly target: Mob
+  public readonly spell: Spell
   public readonly request: Request
 
   constructor(request: Request, spellDefinition: SpellDefinition) {
@@ -34,15 +36,15 @@ export class Check {
       return
     }
 
-    const spell = this.caster.spells.find((s) => s.spellType === spellDefinition.spellType)
+    this.spell = this.caster.spells.find((s) => s.spellType === spellDefinition.spellType)
 
-    if (!spell) {
+    if (!this.spell) {
       this.status = Status.Error
       this.fail = MESSAGE_NO_SPELL
       return
     }
 
-    if (roll(1, spell.level) - roll(1, target.getCombinedAttributes().stats.int * 3) < 0) {
+    if (roll(1, this.spell.level) - roll(1, target.getCombinedAttributes().stats.int * 3) < 0) {
       this.status = Status.Fail
       this.fail = MESSAGE_FAIL
       return

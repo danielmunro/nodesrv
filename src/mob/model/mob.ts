@@ -1,6 +1,6 @@
 import {Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import { AffectType } from "../../affect/constants"
+import { AffectType } from "../../affect/affectType"
 import { Affect } from "../../affect/model/affect"
 import { newAttributes, newHitroll, newStats, newVitals } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
@@ -82,6 +82,7 @@ export class Mob {
       const current = this.getAffect(affect.affectType)
       if (!current) {
         this.affects.push(affect)
+        affect.mob = this
       }
     }
 

@@ -1,4 +1,4 @@
-import { AffectType } from "../../affect/constants"
+import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import { getTestClient } from "../../test/client"
 import { DecrementAffects } from "./decrementAffects"
@@ -11,8 +11,8 @@ describe("decrementAffects", () => {
     const client = getTestClient()
     const mob = client.player.sessionMob
 
-    mob.addAffect(newAffect(AffectType.Dazed, mob, TEST_TIMEOUT_1))
-    mob.addAffect(newAffect(AffectType.Shield, mob, TEST_TIMEOUT_2))
+    mob.addAffect(newAffect(AffectType.Dazed, TEST_TIMEOUT_1))
+    mob.addAffect(newAffect(AffectType.Shield, TEST_TIMEOUT_2))
 
     new DecrementAffects().notify([client])
 
