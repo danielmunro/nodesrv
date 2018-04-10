@@ -37,10 +37,12 @@ describe("spell check", () => {
   })
 
   it("does not need a target for offensive spells when in a fight already", () => {
+    // Setup
     const player = getTestPlayer()
     const target = getTestMob()
     player.sessionMob.spells.push(getTestSpell())
     addFight(new Fight(player.sessionMob, target))
+
     expect(
       new Check(
         new Request(player, RequestType.Cast, {request: "cast magic missile"}),
@@ -48,6 +50,7 @@ describe("spell check", () => {
   })
 
   it("gets an appropriate delay on cast failure", () => {
+    // Setup
     const player = getTestPlayer()
     const target = getTestMob()
     const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
@@ -57,15 +60,20 @@ describe("spell check", () => {
       new Request(player, RequestType.Cast, {request: "cast magic missile"}),
       magicMissile)
 
+    // Expect
     expect(check.isError()).toBe(false)
     expect(check.isFailure()).toBe(true)
-
     expect(player.delay).toBe(0)
+
+    // Given
     magicMissile.apply(check)
+
+    // Then
     expect(player.delay).toBeGreaterThan(0)
   })
 
   it("should be able to successfully cast and receive a delay", () => {
+    // Setup
     const player = getTestPlayer()
     const target = getTestMob()
     const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
@@ -84,9 +92,15 @@ describe("spell check", () => {
       new Check(request, magicMissile),
     ]).then((checks) => {
       const successCheck = checks.find((c) => c.isSuccessful())
+
+      // Expect
       expect(successCheck).toBeTruthy()
       expect(player.delay).toBe(0)
+
+      // Given
       magicMissile.apply(successCheck)
+
+      // Then
       expect(player.delay).toBeGreaterThan(0)
     })
   })
