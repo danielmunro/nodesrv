@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    volumes:
+         - ./sql/1-init.sql:/docker-entrypoint-initdb.d/1-init.sql
+         - ./sql/2-data.sql:/docker-entrypoint-initdb.d/2-data.sql
+    environment:
+      POSTGRES_PASSWORD: nodesrv
+    ports:
+      - "5431:5432"

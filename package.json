@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node --no-cache bin/start-game-server.ts",
     "create-fixtures": "ts-node --no-cache bin/db-clean-create-demo-fixtures.ts .",
+    "sync-orm": "ts-node --no-cache bin/sync-orm-config.ts",
     "clean": "rm -rf ./coverage",
     "lint": "yarn clean && tslint --project .",
     "test": "jest",
@@ -44,6 +45,7 @@
     "@types/ws": "^4.0.0",
     "is-uuid": "^1.0.2",
     "json-stringify-safe": "^5.0.1",
+    "pg": "^7.4.1",
     "reflect-metadata": "^0.1.12",
     "sqlite3": "^3.1.13",
     "typeorm": "^0.1.16",
