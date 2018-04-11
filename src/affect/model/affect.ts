@@ -1,4 +1,5 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import Attributes from "../../attributes/model/attributes"
 import { Mob } from "../../mob/model/mob"
 import { AffectType } from "../affectType"
 
@@ -15,4 +16,8 @@ export class Affect {
 
   @Column("integer")
   public timeout: number
+
+  @OneToOne((type) => Attributes)
+  @JoinColumn()
+  public attributes: Attributes = new Attributes()
 }
