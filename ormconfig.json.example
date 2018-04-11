@@ -1,0 +1,26 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5431,
+  "username": "postgres",
+  "password": "nodesrv",
+  "database": "nodesrv",
+  "synchronize": false,
+  "logging": false,
+  "entities": [
+    "src/room/model/*.ts",
+    "src/mob/model/*.ts",
+    "src/player/model/*.ts",
+    "src/attributes/model/*.ts",
+    "src/item/model/*.ts",
+    "src/affect/model/*.ts",
+    "src/spell/model/*.ts",
+    "src/skill/model/*.ts"
+  ],
+  "migrations": [
+    "src/migration/**/*.ts"
+  ],
+  "subscribers": [
+    "src/subscriber/**/*.ts"
+  ]
+}

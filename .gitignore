@@ -1,5 +1,6 @@
 # App specific ephemeral files
 fixture-ids.txt
+ormconfig.json # secrets
 
 # Logs
 logs
