@@ -5,7 +5,7 @@
   "username": "postgres",
   "password": "nodesrv",
   "database": "nodesrv",
-  "synchronize": false,
+  "synchronize": true,
   "logging": false,
   "entities": [
     "src/room/model/*.ts",

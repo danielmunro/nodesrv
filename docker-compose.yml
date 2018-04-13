@@ -4,11 +4,18 @@ services:
 
   db:
     image: postgres
-    restart: always
     volumes:
          - ./sql/1-init.sql:/docker-entrypoint-initdb.d/1-init.sql
          - ./sql/2-data.sql:/docker-entrypoint-initdb.d/2-data.sql
     environment:
       POSTGRES_PASSWORD: nodesrv
+  
+  nodesrv:
+    build: .
     ports:
-      - "5431:5432"
+      - "5151:5151"
+    depends_on:
+      - db
+    working_dir: "/app"
+    command: npm run sync-orm
+    entrypoint: npm run start 5

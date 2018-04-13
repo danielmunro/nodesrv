@@ -8,5 +8,4 @@ import { newRoom } from "../src/room/factory"
 
 const ormConfig = JSON.parse(fs.readFileSync("ormconfig.json").toString())
 ormConfig.synchronize = true
-ormConfig.logging = true
 getConnection(ormConfig)
