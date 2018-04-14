@@ -686,31 +686,31 @@ COPY public.equipped (id, "inventoryId") FROM stdin;
 --
 
 COPY public.exit (id, direction, "sourceId", "destinationId") FROM stdin;
-1	west	1	2
-2	east	1	3
-3	east	2	1
-4	south	5	1
-5	north	1	5
-6	north	4	1
-7	south	1	4
-8	west	3	1
-9	east	4	9
-10	west	9	4
-11	east	7	8
-12	west	10	9
-13	west	7	6
-14	east	9	10
-15	east	6	7
-16	west	6	10
-17	east	10	6
-18	west	8	7
-19	south	11	12
-20	north	11	4
-21	north	12	11
-22	south	4	11
-23	east	13	14
-24	east	12	13
-25	west	13	12
+1	north	1	2
+2	south	2	1
+3	east	4	1
+4	west	1	4
+5	east	1	5
+6	south	1	3
+7	north	3	1
+8	west	5	1
+9	south	3	9
+10	north	9	3
+11	south	9	10
+12	north	10	9
+13	south	10	6
+14	north	6	10
+15	south	6	7
+16	north	7	6
+17	south	7	8
+18	north	8	7
+19	east	3	11
+20	west	11	3
+21	east	11	12
+22	west	12	11
+23	east	12	13
+24	west	13	12
+25	east	13	14
 26	west	14	13
 \.
 
@@ -746,7 +746,7 @@ COPY public.item (id, name, description, equipment, "inventoryId") FROM stdin;
 --
 
 COPY public.mob (id, uuid, name, description, race, level, "vitalsId", "roomId", "startRoomId", "playerId", "inventoryId", "equippedId") FROM stdin;
-1	b35386b5-20c1-4136-802e-9efcc7825d23	an old traveller	an old traveller sits at the bar, studying a small pamphlet	0	1	1	1	\N	\N	1	1
+1	f1e67ed8-b484-45eb-a22d-63320aa09c42	an old traveller	an old traveller sits at the bar, studying a small pamphlet	0	1	1	1	\N	\N	1	1
 \.
 
 
@@ -763,20 +763,20 @@ COPY public.player (id, uuid, name) FROM stdin;
 --
 
 COPY public.room (id, uuid, name, description, "inventoryId") FROM stdin;
-1	1b8ad2ce-068f-4dcc-920c-e7360bd5e3e6	Inn at the lodge	Flickering torches provide the only light in the large main mess hall. The room is filled with the chatter of travellers preparing for the journey ahead.	\N
-2	bc668a52-1593-471b-bf1f-552b679a35b5	A cozy room at the Inn	Something about a room in the inn.	\N
-3	586d6686-b7c1-4ac6-aee4-7ee4b5fd8fb7	A cozy room at the Inn	Something about a room in the inn.	\N
-4	6bde71af-6a49-442e-ab86-0dfccf61067d	A clearing in the woods	A small patch of land has been cleared of trees. On it sits a modest inn, tending to weary travellers.	\N
-5	9ce9828a-7d07-4708-930d-deafd4359afc	A cozy room at the Inn	Something about a room in the inn.	\N
-6	5deaf187-a4b6-495c-9dea-9086004a420a	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
-7	a335e2c0-d2cb-4da3-a0d7-9d8eecd6ddf4	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
-8	b26099b7-4de1-4405-aefc-ff8ad9b121b9	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
-9	19d2974a-a248-40ee-a43b-16e583e5fdac	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
-10	9f2be197-9536-4237-b0c9-85b27c37738e	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
-11	52d451bf-ef46-4952-9023-3b48b1e08db2	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
-12	fd571d22-8109-4cfa-9c8c-a2ef0973b82b	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
-13	3f9d761a-3d20-4ad1-83f6-cd5147b0aa5a	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
-14	1b641688-7d6e-4910-9c85-4be51649556d	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
+1	aef0f877-e367-45aa-ab38-1ac5ee071f8e	Inn at the lodge	Flickering torches provide the only light in the large main mess hall. The room is filled with the chatter of travellers preparing for the journey ahead.	\N
+2	bac67d7f-a5e6-43b9-9e01-c312001f5a06	A cozy room at the Inn	Something about a room in the inn.	\N
+3	fcb3769d-e62f-40fc-91f1-96165216541e	A clearing in the woods	A small patch of land has been cleared of trees. On it sits a modest inn, tending to weary travellers.	\N
+4	dc04376a-ce3b-4a83-a006-d49eb18a0293	A cozy room at the Inn	Something about a room in the inn.	\N
+5	64853499-9dce-4577-933b-74a747a82936	A cozy room at the Inn	Something about a room in the inn.	\N
+6	5c6b11bb-7b01-48a4-a38f-eadabad1b5a4	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
+7	cd8cc1e0-fa63-4376-8656-5ad27bb155ed	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
+8	f008d49f-57cc-4448-9e17-9ece4e06a204	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
+9	7c955965-284f-4755-8743-79cdef0670ea	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
+10	544be5fb-6af0-4ee0-9d06-d3a38396609b	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
+11	0da60e10-c67f-4cd3-bcd4-29fcde5f2d82	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
+12	3ed1aafe-293d-4bd0-b6dc-70e0852e6f55	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
+13	2e2e6ecc-909f-48f2-b618-1b45a7a66c02	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
+14	7219ce69-1706-4d84-b8e5-738a1c166301	A trail in the woods	Old growth trees line a narrow and meandering trail. Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs frozen in the canopy, leaving an eerie silence.	\N
 \.
 
 
@@ -826,35 +826,35 @@ SELECT pg_catalog.setval('public.affect_id_seq', 1, false);
 -- Name: attributes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.attributes_id_seq', 1, true);
+SELECT pg_catalog.setval('public.attributes_id_seq', 33, true);
 
 
 --
 -- Name: equipped_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.equipped_id_seq', 1, true);
+SELECT pg_catalog.setval('public.equipped_id_seq', 33, true);
 
 
 --
 -- Name: exit_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.exit_id_seq', 26, true);
+SELECT pg_catalog.setval('public.exit_id_seq', 33, true);
 
 
 --
 -- Name: hitroll_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.hitroll_id_seq', 1, true);
+SELECT pg_catalog.setval('public.hitroll_id_seq', 33, true);
 
 
 --
 -- Name: inventory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.inventory_id_seq', 1, true);
+SELECT pg_catalog.setval('public.inventory_id_seq', 33, true);
 
 
 --
@@ -868,7 +868,7 @@ SELECT pg_catalog.setval('public.item_id_seq', 1, false);
 -- Name: mob_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.mob_id_seq', 1, true);
+SELECT pg_catalog.setval('public.mob_id_seq', 33, true);
 
 
 --
@@ -882,7 +882,7 @@ SELECT pg_catalog.setval('public.player_id_seq', 1, false);
 -- Name: room_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_id_seq', 14, true);
+SELECT pg_catalog.setval('public.room_id_seq', 33, true);
 
 
 --
@@ -903,14 +903,14 @@ SELECT pg_catalog.setval('public.spell_id_seq', 1, false);
 -- Name: stats_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.stats_id_seq', 1, true);
+SELECT pg_catalog.setval('public.stats_id_seq', 33, true);
 
 
 --
 -- Name: vitals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.vitals_id_seq', 2, true);
+SELECT pg_catalog.setval('public.vitals_id_seq', 33, true);
 
 
 --
