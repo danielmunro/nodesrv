@@ -2,6 +2,7 @@ import { newAttributes, newHitroll, newStartingStats, newVitals } from "../attri
 import { newMob } from "../mob/factory"
 import { Race } from "../mob/race/race"
 import { Direction } from "../room/constants"
+import { getFreeDirection } from "../room/direction"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
 import { getExitRepository } from "../room/repository/exit"
@@ -12,6 +13,17 @@ function getRepositories() {
     getExitRepository(),
     getRoomRepository(),
   ])
+}
+
+export function newWorld(rootRoom: Room): Promise<Room[]> {
+  return newInn(rootRoom)
+    .then(() => newTrail(rootRoom, getFreeDirection(rootRoom), 5))
+    .then(() => newTrail(rootRoom, getFreeDirection(rootRoom), 2))
+    .then((rooms) => {
+      const connectorRoom = rooms[rooms.length - 1]
+
+      return newTrail(connectorRoom, getFreeDirection(connectorRoom), 2)
+    })
 }
 
 export function newInn(root: Room): Promise<Room[]> {
