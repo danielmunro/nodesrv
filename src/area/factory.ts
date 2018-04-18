@@ -7,6 +7,8 @@ import { newReciprocalExit, newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
 import { getExitRepository } from "../room/repository/exit"
 import { getRoomRepository } from "../room/repository/room"
+import { Arena } from "./arena"
+import { Size } from "./size"
 
 function getRepositories() {
   return Promise.all([
@@ -15,15 +17,42 @@ function getRepositories() {
   ])
 }
 
-export function newWorld(rootRoom: Room): Promise<Room[]> {
-  return newInn(rootRoom)
-    .then(() => newTrail(rootRoom, getFreeDirection(rootRoom), 5))
-    .then(() => newTrail(rootRoom, getFreeDirection(rootRoom), 2))
-    .then((rooms) => {
-      const connectorRoom = rooms[rooms.length - 1]
+function getRoomCount(baseSize: number, modifier: number) {
+  return Math.ceil(baseSize * modifier)
+}
 
-      return newTrail(connectorRoom, getFreeDirection(connectorRoom), 2)
-    })
+function getRandomRoom(rooms: Room[]) {
+  return rooms[Math.floor(Math.random() * rooms.length)]
+}
+
+function persistAll(rooms, exits): Promise<Room[]> {
+  return getRepositories()
+    .then(([exitRepository, roomRepository]) => Promise.all(
+      rooms.map((room) => roomRepository.save(room)))
+        .then(() => Promise.all(exits.map((exit) => exitRepository.save(exit))))
+          .then(() => rooms))
+}
+
+export function newWorld(rootRoom: Room, size: Size = Size.Medium): Promise<Room[]> {
+  const TRAIL_1_ROOMS_TO_BUILD = 2
+  const TRAIL_2_ROOMS_TO_BUILD = 2
+  const TRAIL_3_ROOMS_TO_BUILD = 4
+  const TRAIL_4_ROOMS_TO_BUILD = 3
+  const ARENA_1_WIDTH = 5
+  const ARENA_1_HEIGHT = 5
+
+  const trail = (room, count) => newTrail(room, getFreeDirection(room), getRoomCount(count, size))
+
+  return newInn(rootRoom)
+    .then(() => trail(rootRoom, TRAIL_1_ROOMS_TO_BUILD))
+    // .then(() => trail(rootRoom, TRAIL_2_ROOMS_TO_BUILD))
+    // .then((rooms1) => trail(getRandomRoom(rooms1), TRAIL_3_ROOMS_TO_BUILD)
+      // .then(() => trail(getRandomRoom(rooms1), TRAIL_4_ROOMS_TO_BUILD))
+      .then((rooms2) =>
+        newArena(
+          getRandomRoom(rooms2),
+          ARENA_1_WIDTH,
+          ARENA_1_HEIGHT))// )
 }
 
 export function newInn(root: Room): Promise<Room[]> {
@@ -85,9 +114,43 @@ export function newTrail(root: Room, direction: Direction, length: number) {
     exits.push(...newReciprocalExit(direction, initialRooms[i - 1], initialRooms[i]))
   }
 
-  return getRepositories()
-    .then(([exitRepository, roomRepository]) => Promise.all(
-      initialRooms.map((room) => roomRepository.save(room)))
-        .then(() => Promise.all(exits.map((exit) => exitRepository.save(exit))))
-          .then(() => initialRooms))
+  return persistAll(initialRooms, exits)
+}
+
+export function newArena(root: Room, width: number, height: number) {
+  const matrix = []
+  for (let y = 0; y < height; y++) {
+    matrix[y] = []
+    for (let x = 0; x < width; x++) {
+      matrix[y][x] = newRoom(root.name, root.description)
+    }
+  }
+  const arena = new Arena()
+  matrix.forEach((row, y) =>
+    row.forEach((pos, x) => {
+      matrix[y][x] = newRoom(root.name, root.description)
+      connectArena(matrix, x, y, arena)
+    }))
+  // todo: ensure matrix[0][0] has a free direction for this room connection
+  addReciprocalExitToArena(getFreeDirection(root), root, matrix[0][0], arena)
+
+  return persistAll(arena.getRooms(), arena.getExits())
+}
+
+function connectArena(matrix: Room[][], x: number, y: number, arena: Arena) {
+  const current = matrix[y][x]
+
+  if (x > 0) {
+    addReciprocalExitToArena(Direction.West, current, matrix[y][x - 1], arena)
+  }
+
+  if (y > 0) {
+    addReciprocalExitToArena(Direction.North, current, matrix[y - 1][x], arena)
+  }
+
+  arena.addRoom(current)
+}
+
+function addReciprocalExitToArena(direction: Direction, room1: Room, room2: Room, arena: Arena) {
+  newReciprocalExit(direction, room1, room2).map((e) => arena.addExit(e))
 }
