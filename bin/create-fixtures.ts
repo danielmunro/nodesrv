@@ -1,7 +1,4 @@
 import { newWorld } from "../src/area/factory"
-import { getConnection } from "../src/db/connection"
-import { Direction } from "../src/room/constants"
-import { getFreeDirection } from "../src/room/direction"
 import { newRoom } from "../src/room/factory"
 
 const rootRoom = newRoom(
