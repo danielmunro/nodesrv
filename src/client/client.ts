@@ -22,7 +22,13 @@ export class Client {
     this.player = player
     this.handlers = handlers
     this.ws.onmessage = (data) => this.addRequest(getNewRequestFromMessageEvent(this.player, data))
-    this.ws.onerror = (event) => console.log("error event", event)
+    this.ws.onerror = this.onError
+  }
+
+  public onError(event: ErrorEvent) {
+    if (event.message !== "read ECONNRESET") {
+      console.log("error event", event)
+    }
   }
 
   public createMessage(channel: Channel, message: string) {
