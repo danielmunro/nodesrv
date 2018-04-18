@@ -23,6 +23,10 @@ export function newExit(direction: Direction, source: Room, destination: Room): 
 }
 
 export function newReciprocalExit(direction: Direction, source: Room, destination: Room): Exit[] {
+  if (source === destination) {
+    throw new Error("Cannot connect a room to itself")
+  }
+
   return [
     newExit(direction, source, destination),
     newExit(reverse(direction), destination, source),

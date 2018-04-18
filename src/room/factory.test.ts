@@ -31,4 +31,9 @@ describe("room factory", () => {
     expect(exit2.source).toBe(room2)
     expect(exit2.destination).toBe(room1)
   })
+
+  it("should not be able to connect a room to itself", () => {
+    const room = new Room()
+    expect(() => newReciprocalExit(Direction.North, room, room)).toThrowError()
+  })
 })
