@@ -1,23 +1,53 @@
+import { Direction } from "../room/constants"
+import { getFreeReciprocalDirection } from "../room/direction"
+import { newReciprocalExit, newRoom } from "../room/factory"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
 
 export class Arena {
-  private rooms: Room[] = []
-  private exits: Exit[] = []
+  public readonly connectingRoom
+  public readonly matrix = []
+  public readonly width
+  public readonly height
+  public readonly rooms: Room[] = []
+  public readonly exits: Exit[] = []
 
-  public addRoom(room) {
-    this.rooms.push(room)
+  constructor(root: Room, width: number, height: number) {
+    this.width = width
+    this.height = height
+    this.buildMatrix(root)
+    this.connectingRoom = this.matrix[0][0]
+    this.addReciprocalExitToArena(
+      getFreeReciprocalDirection(root, this.connectingRoom),
+      root,
+      this.connectingRoom)
   }
 
-  public addExit(exit) {
-    this.exits.push(exit)
+  private buildMatrix(root: Room) {
+    for (let y = 0; y < this.height; y++) {
+      this.matrix[y] = []
+      for (let x = 0; x < this.width; x++) {
+        this.matrix[y][x] = newRoom(root.name, root.description)
+        this.connectRoomAtCoords(x, y)
+      }
+    }
   }
 
-  public getRooms(): Room[] {
-    return this.rooms
+  private connectRoomAtCoords(x: number, y: number) {
+    const current = this.matrix[y][x]
+
+    if (x > 0) {
+      this.addReciprocalExitToArena(Direction.West, current, this.matrix[y][x - 1])
+    }
+
+    if (y > 0) {
+      this.addReciprocalExitToArena(Direction.North, current, this.matrix[y - 1][x])
+    }
+
+    this.rooms.push(current)
   }
 
-  public getExits(): Exit[] {
-    return this.exits
+  private addReciprocalExitToArena(direction: Direction, room1: Room, room2: Room) {
+    newReciprocalExit(direction, room1, room2).map((e) => this.exits.push(e))
   }
 }
