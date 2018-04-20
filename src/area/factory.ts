@@ -1,4 +1,5 @@
 import { newTraveller } from "../mob/factory/inn"
+import { Mob } from "../mob/model/mob"
 import { Direction } from "../room/constants"
 import { getFreeDirection } from "../room/direction"
 import { newReciprocalExit, newRoom } from "../room/factory"
@@ -6,7 +7,6 @@ import { Room } from "../room/model/room"
 import { getExitRepository } from "../room/repository/exit"
 import { getRoomRepository } from "../room/repository/room"
 import { Arena } from "./arena"
-import { Mob } from "../mob/model/mob";
 
 function getRepositories() {
   return Promise.all([
