@@ -1,7 +1,7 @@
 import { getConnection } from "../db/connection"
 import { Direction } from "../room/constants"
 import { newRoom } from "../room/factory"
-import { newArena, newInn, newTrail } from "./factory"
+import { newArena, newInn, newTrail, newWorld } from "./factory"
 
 describe("area factory", () => {
   it("should be able to connect two built structures", () => {
@@ -28,5 +28,18 @@ describe("area factory", () => {
       .then((rooms) => {
         expect(rooms.length).toBe(9)
       })
+  })
+
+  it("a new world should return a lot of rooms", () => {
+    const rootRoom = newRoom("test", "test")
+
+    return Promise.all([
+      newWorld(rootRoom),
+      newInn(rootRoom),
+      newTrail(rootRoom, Direction.West, 1),
+      newArena(rootRoom, 1, 1),
+    ]).then(([world, inn, trail, arena]) => {
+      expect(world.length).toBeGreaterThanOrEqual(inn.length + trail.length + arena.length)
+    })
   })
 })

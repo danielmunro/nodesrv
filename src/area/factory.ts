@@ -66,7 +66,7 @@ export function newInn(root: Room): Promise<Room[]> {
       innRoom([
         newTraveller(
           "a fur trapper",
-          "tall and slender, a middle-age man stands before you. " +
+          "tall and slender, a middle-age man sits at a bench. " +
           "Intent on cleaning and cataloguing his tools, he barely notices your presence.") ]),
       innRoom(),
       innRoom(),
