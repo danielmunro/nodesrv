@@ -1,5 +1,5 @@
 import { pickOne } from "../random/helpers"
-import { allDirections, Direction } from "./constants"
+import { Direction, nsewDirections } from "./constants"
 import { Room } from "./model/room"
 
 export function reverse(direction: Direction) {
@@ -20,15 +20,13 @@ export function reverse(direction: Direction) {
 }
 
 export function getFreeDirection(room: Room) {
-  const availableDirections = allDirections
-    .filter((d) => !room.exits.find((e) => e.direction === d) && d !== Direction.Up && d !== Direction.Down)
+  const availableDirections = nsewDirections.filter((d) => !room.exits.find((e) => e.direction === d))
 
   return pickOne(availableDirections)
 }
 
 export function getFreeReciprocalDirection(source: Room, destination: Room) {
-  const availableDirections = allDirections.filter(
+  const availableDirections = nsewDirections.filter(
     (d) => source.isDirectionFree(d) && destination.isDirectionFree(reverse(d)))
-
   return pickOne(availableDirections)
 }

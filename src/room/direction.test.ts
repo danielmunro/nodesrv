@@ -1,5 +1,5 @@
-import { allDirections, Direction } from "./constants"
-import { getFreeDirection, reverse } from "./direction"
+import { allDirections, Direction, nsewDirections } from "./constants"
+import { getFreeDirection, getFreeReciprocalDirection, reverse } from "./direction"
 import { newExit } from "./factory"
 import { Room } from "./model/room"
 
@@ -26,5 +26,25 @@ describe("direction", () => {
     }
     const NSEW_DIRECTIONS_COUNT = 4
     expect(source.exits.length).toBe(NSEW_DIRECTIONS_COUNT)
+  })
+
+  it("getFreeReciprocalDirection should consider the destination room when finding a random direction", () => {
+    // setup
+    const source = new Room()
+    const destination = new Room()
+    // fill up the destination room exits
+    newExit(Direction.North, destination, new Room())
+    newExit(Direction.South, destination, new Room())
+    newExit(Direction.East, destination, new Room())
+
+    expect(getFreeReciprocalDirection(source, destination)).toBe(Direction.East)
+  })
+
+  it("getFreeReciprocalDirection should not make impossible connections", () => {
+    const source = new Room()
+    const destination = new Room()
+    nsewDirections.forEach((d) => newExit(d, destination, new Room()))
+
+    expect(getFreeReciprocalDirection(source, destination)).toBeUndefined()
   })
 })

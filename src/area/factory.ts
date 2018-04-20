@@ -1,6 +1,4 @@
-import { newAttributes, newHitroll, newStartingStats, newVitals } from "../attributes/factory"
-import { newMob } from "../mob/factory"
-import { Race } from "../mob/race/race"
+import { newTraveller } from "../mob/factory/inn"
 import { Direction } from "../room/constants"
 import { getFreeDirection } from "../room/direction"
 import { newReciprocalExit, newRoom } from "../room/factory"
@@ -8,6 +6,7 @@ import { Room } from "../room/model/room"
 import { getExitRepository } from "../room/repository/exit"
 import { getRoomRepository } from "../room/repository/room"
 import { Arena } from "./arena"
+import { Mob } from "../mob/model/mob";
 
 function getRepositories() {
   return Promise.all([
@@ -30,9 +29,9 @@ function persistAll(rooms, exits): Promise<Room[]> {
 
 export function newWorld(rootRoom: Room): Promise<Room[]> {
   const TRAIL_1_ROOMS_TO_BUILD = 2
-  const TRAIL_2_ROOMS_TO_BUILD = 2
-  const TRAIL_3_ROOMS_TO_BUILD = 4
-  const TRAIL_4_ROOMS_TO_BUILD = 3
+  // const TRAIL_2_ROOMS_TO_BUILD = 2
+  // const TRAIL_3_ROOMS_TO_BUILD = 4
+  // const TRAIL_4_ROOMS_TO_BUILD = 3
   const ARENA_1_WIDTH = 5
   const ARENA_1_HEIGHT = 5
 
@@ -51,9 +50,10 @@ export function newWorld(rootRoom: Room): Promise<Room[]> {
 }
 
 export function newInn(root: Room): Promise<Room[]> {
-  const innRoom = () => newRoom(
+  const innRoom = (mobs: Mob[] = []) => newRoom(
     "A cozy room at the Inn",
-    "Something about a room in the inn.")
+    "Something about a room in the inn.",
+    mobs)
 
   return getRepositories()
     .then(([exitRepository, roomRepository]) =>
@@ -62,19 +62,12 @@ export function newInn(root: Room): Promise<Room[]> {
         "Inn at the lodge",
         "Flickering torches provide the only light in the large main mess hall. "
         + "The room is filled with the chatter of travellers preparing for the journey ahead.",
-      [
-        newMob(
-          "an old traveller",
-          "an old traveller sits at the bar, studying a small pamphlet",
-          Race.Human,
-          newVitals(100, 100, 100),
-          newAttributes(
-            newVitals(100, 100, 100),
-            newStartingStats(),
-            newHitroll(2, 3)),
-        ),
-      ]),
-      innRoom(),
+      [ newTraveller("an old traveller", "an old traveller sits at the bar, studying a small pamphlet") ]),
+      innRoom([
+        newTraveller(
+          "a fur trapper",
+          "tall and slender, a middle-age man stands before you. " +
+          "Intent on cleaning and cataloguing his tools, he barely notices your presence.") ]),
       innRoom(),
       innRoom(),
       root,
@@ -114,7 +107,6 @@ export function newTrail(root: Room, direction: Direction, length: number) {
 
 export function newArena(root: Room, width: number, height: number) {
   const arena = new Arena(root, width, height)
-  console.log(root.id)
 
   return persistAll(arena.rooms, arena.exits)
 }

@@ -1,7 +1,7 @@
 import { getConnection } from "../db/connection"
 import { Direction } from "../room/constants"
 import { newRoom } from "../room/factory"
-import { newInn, newTrail } from "./factory"
+import { newArena, newInn, newTrail } from "./factory"
 
 describe("area factory", () => {
   it("should be able to connect two built structures", () => {
@@ -21,5 +21,12 @@ describe("area factory", () => {
           expect([...new Set(directions)].length).toBe(directions.length)
         })
       })))
+  })
+
+  it("should be able to create an arena (a matrix of rooms)", () => {
+    return newArena(newRoom("name", "description"), 3, 3)
+      .then((rooms) => {
+        expect(rooms.length).toBe(9)
+      })
   })
 })

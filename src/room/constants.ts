@@ -15,3 +15,10 @@ export const allDirections = [
   Direction.East,
   Direction.West,
 ]
+
+export const nsewDirections = [
+  Direction.North,
+  Direction.South,
+  Direction.East,
+  Direction.West,
+]
