@@ -14,6 +14,10 @@ export enum Race {
   Faerie,
   HalfOrc,
   Giant,
+
+  // Nonplayable
+  Insect,
+  Critter,
 }
 
 export const allRaces = [

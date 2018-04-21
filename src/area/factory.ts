@@ -31,10 +31,9 @@ export function newWorld(rootRoom: Room): Promise<Room[]> {
   const TRAIL_1_ROOMS_TO_BUILD = 2
   const ARENA_1_WIDTH = 5
   const ARENA_1_HEIGHT = 5
-  const trail = (room, count) => newTrail(room, getFreeDirection(room), count)
 
   return newInn(rootRoom)
-    .then((roomCollection1) => trail(rootRoom, TRAIL_1_ROOMS_TO_BUILD)
+    .then((roomCollection1) => newTrail(rootRoom, getFreeDirection(rootRoom), TRAIL_1_ROOMS_TO_BUILD)
     .then((roomCollection2) => newArena(getRandomRoom(roomCollection2), ARENA_1_WIDTH, ARENA_1_HEIGHT)
     .then((roomCollection3) => roomCollection1.concat(roomCollection2, roomCollection3))))
 }
@@ -45,33 +44,32 @@ export function newInn(root: Room): Promise<Room[]> {
     "Something about a room in the inn.",
     mobs)
 
-  return getRepositories()
-    .then(([exitRepository, roomRepository]) =>
-     Promise.all([
-      newRoom(
-        "Inn at the lodge",
-        "Flickering torches provide the only light in the large main mess hall. "
-        + "The room is filled with the chatter of travellers preparing for the journey ahead.",
-      [ newTraveller("an old traveller", "an old traveller sits at the bar, studying a small pamphlet") ]),
-      innRoom([
-        newTraveller(
-          "a fur trapper",
-          "tall and slender, a middle-age man sits at a bench. " +
-          "Intent on cleaning and cataloguing his tools, he barely notices your presence.") ]),
-      innRoom(),
-      innRoom(),
-      root,
-    ].map((room) => roomRepository.save(room))).then((rooms) => {
-      const [inn1, inn2, inn3, inn4] = rooms;
-      [
-        ...newReciprocalExit(Direction.North, inn1, inn2),
-        ...newReciprocalExit(Direction.West, inn1, inn3),
-        ...newReciprocalExit(Direction.East, inn1, inn4),
-        ...newReciprocalExit(Direction.South, inn1, root),
-      ].map((exit) => exitRepository.save(exit))
+  const main = newRoom(
+    "Inn at the lodge",
+    "Flickering torches provide the only light in the large main mess hall. "
+    + "The room is filled with the chatter of travellers preparing for the journey ahead.",
+  [ newTraveller("an old traveller", "an old traveller sits at the bar, studying a small pamphlet") ])
+  const inn1 = innRoom([
+    newTraveller(
+      "a fur trapper",
+      "tall and slender, a middle-age man sits at a bench. " +
+      "Intent on cleaning and cataloguing his tools, he barely notices your presence.") ])
+  const inn2 = innRoom()
+  const inn3 = innRoom()
 
-      return rooms
-    }))
+  return persistAll(
+    [
+      main,
+      inn1,
+      inn2,
+      inn3,
+      root,
+    ], [
+      ...newReciprocalExit(Direction.North, main, inn1),
+      ...newReciprocalExit(Direction.West, main, inn2),
+      ...newReciprocalExit(Direction.East, main, inn3),
+      ...newReciprocalExit(getFreeReciprocalDirection(main, root), main, root),
+    ])
 }
 
 export function newTrail(root: Room, direction: Direction, length: number) {
