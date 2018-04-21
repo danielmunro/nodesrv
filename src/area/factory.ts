@@ -1,7 +1,7 @@
 import { newTraveller } from "../mob/factory/inn"
 import { Mob } from "../mob/model/mob"
 import { Direction } from "../room/constants"
-import { getFreeDirection } from "../room/direction"
+import { getFreeDirection, getFreeReciprocalDirection } from "../room/direction"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
 import { getExitRepository } from "../room/repository/exit"
@@ -29,24 +29,14 @@ function persistAll(rooms, exits): Promise<Room[]> {
 
 export function newWorld(rootRoom: Room): Promise<Room[]> {
   const TRAIL_1_ROOMS_TO_BUILD = 2
-  // const TRAIL_2_ROOMS_TO_BUILD = 2
-  // const TRAIL_3_ROOMS_TO_BUILD = 4
-  // const TRAIL_4_ROOMS_TO_BUILD = 3
   const ARENA_1_WIDTH = 5
   const ARENA_1_HEIGHT = 5
-
   const trail = (room, count) => newTrail(room, getFreeDirection(room), count)
 
   return newInn(rootRoom)
-    .then(() => trail(rootRoom, TRAIL_1_ROOMS_TO_BUILD))
-    // .then(() => trail(rootRoom, TRAIL_2_ROOMS_TO_BUILD))
-    // .then((roomCollection1) => trail(getRandomRoom(roomCollection1), TRAIL_3_ROOMS_TO_BUILD)
-    //   .then(() => trail(getRandomRoom(roomCollection1), TRAIL_4_ROOMS_TO_BUILD))
-      .then((roomCollection2) =>
-        newArena(
-          getRandomRoom(roomCollection2),
-          ARENA_1_WIDTH,
-          ARENA_1_HEIGHT)) // )
+    .then((roomCollection1) => trail(rootRoom, TRAIL_1_ROOMS_TO_BUILD)
+    .then((roomCollection2) => newArena(getRandomRoom(roomCollection2), ARENA_1_WIDTH, ARENA_1_HEIGHT)
+    .then((roomCollection3) => roomCollection1.concat(roomCollection2, roomCollection3))))
 }
 
 export function newInn(root: Room): Promise<Room[]> {
@@ -99,7 +89,11 @@ export function newTrail(root: Room, direction: Direction, length: number) {
       exits.push(...newReciprocalExit(direction, root, initialRooms[0]))
       continue
     }
-    exits.push(...newReciprocalExit(direction, initialRooms[i - 1], initialRooms[i]))
+    exits.push(
+      ...newReciprocalExit(
+        getFreeReciprocalDirection(initialRooms[i - 1], initialRooms[i]),
+        initialRooms[i - 1],
+        initialRooms[i]))
   }
 
   return persistAll(initialRooms, exits)

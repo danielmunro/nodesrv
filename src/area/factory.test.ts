@@ -1,6 +1,7 @@
 import { getConnection } from "../db/connection"
 import { Direction } from "../room/constants"
 import { newRoom } from "../room/factory"
+import { Exploration } from "./exploration"
 import { newArena, newInn, newTrail, newWorld } from "./factory"
 
 describe("area factory", () => {
@@ -24,22 +25,36 @@ describe("area factory", () => {
   })
 
   it("should be able to create an arena (a matrix of rooms)", () => {
+    expect.assertions(1)
     return newArena(newRoom("name", "description"), 3, 3)
       .then((rooms) => {
         expect(rooms.length).toBe(9)
       })
   })
 
-  it("a new world should return a lot of rooms", () => {
+  it("a world should contain a lot of rooms", () => {
     const rootRoom = newRoom("test", "test")
+    expect.assertions(1)
 
     return Promise.all([
       newWorld(rootRoom),
       newInn(rootRoom),
       newTrail(rootRoom, Direction.West, 1),
       newArena(rootRoom, 1, 1),
-    ]).then(([world, inn, trail, arena]) => {
-      expect(world.length).toBeGreaterThanOrEqual(inn.length + trail.length + arena.length)
-    })
+    ]).then(([world, inn, trail, arena]) =>
+      expect(world.length).toBeGreaterThanOrEqual(inn.length + trail.length + arena.length))
+  })
+
+  it("every room in a world should be traversable", () => {
+    const rootRoom = newRoom("test", "test")
+    const map = new Map()
+    expect.assertions(1)
+
+    return newWorld(rootRoom)
+      .then((rooms) => {
+        const exploration = new Exploration(rootRoom)
+        exploration.explore()
+        expect(rooms.length).toBe(exploration.map.getRoomCount())
+      })
   })
 })
