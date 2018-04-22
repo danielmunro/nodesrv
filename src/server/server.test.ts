@@ -21,7 +21,7 @@ function startGameServer(gs): void {
   gs.start(new ImmediateTimer())
 }
 
-const mockWs = jest.fn(() => ({send: () => {}}))
+const mockWs = jest.fn(() => ({ send: jest.fn() }))
 
 beforeEach(() => {
   ws = new Server("ws://localhost:1234")

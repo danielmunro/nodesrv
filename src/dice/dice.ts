@@ -1,15 +1,19 @@
-export default function roll(hit: number, dam: number): number {
+export default function roll(dice: number, sides: number): number {
   let value = 0
-  while (hit > 0) {
-    value += getRandomInt(dam)
-    hit--
+  while (dice > 0) {
+    value += getRandomInt(sides)
+    dice--
   }
 
   return value
 }
 
+export function coinFlip(): boolean {
+  return roll(1, 2) === 1
+}
+
 function getRandomInt(max: number): number {
-  return 1 + Math.floor(Math.random() * Math.floor(max - 1))
+  return 1 + Math.floor(Math.random() * Math.floor(max))
 }
 
 export class DiceRoller {

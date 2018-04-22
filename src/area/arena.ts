@@ -1,3 +1,5 @@
+import roll from "../dice/dice"
+import { Mob } from "../mob/model/mob"
 import { Direction } from "../room/constants"
 import { getFreeReciprocalDirection } from "../room/direction"
 import { newReciprocalExit, newRoom } from "../room/factory"
@@ -11,10 +13,12 @@ export class Arena {
   public readonly height
   public readonly rooms: Room[] = []
   public readonly exits: Exit[] = []
+  private readonly mobFactory: () => Mob
 
-  constructor(root: Room, width: number, height: number) {
+  constructor(root: Room, width: number, height: number, mobFactory: () => Mob) {
     this.width = width
     this.height = height
+    this.mobFactory = mobFactory
     this.buildMatrix(root)
     this.connectingRoom = this.matrix[0][0]
     this.addReciprocalExitToArena(
@@ -28,6 +32,9 @@ export class Arena {
       this.matrix[y] = []
       for (let x = 0; x < this.width; x++) {
         this.matrix[y][x] = newRoom(root.name, root.description)
+        if (roll(1, 2) === 1) {
+          this.matrix[y][x].mobs.push(this.mobFactory())
+        }
         this.connectRoomAtCoords(x, y)
       }
     }

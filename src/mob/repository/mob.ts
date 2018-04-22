@@ -10,3 +10,19 @@ export async function findOneMob(id: number): Promise<Mob> {
   return await getMobRepository().then(
     (mobRepository) => mobRepository.findOneById(id))
 }
+
+export async function findWanderingMobs(): Promise<Mob[]> {
+  return await getMobRepository()
+  .then((mobRepository) => mobRepository.find({ relations: ["room"], where: { wanders: true }}))
+}
+
+export async function saveMob(mob: Mob) {
+  console.log("update", mob)
+  return await getMobRepository()
+    .then((repository) =>
+      repository.createQueryBuilder()
+      .update(Mob)
+      .set({ room: mob.room })
+      .where("id = :id", { id: mob.id })
+      .execute())
+}

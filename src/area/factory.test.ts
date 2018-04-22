@@ -42,7 +42,6 @@ describe("area factory", () => {
 
   it("every room in a world should be traversable", () => {
     const rootRoom = newRoom("test", "test")
-    const map = new Map()
     expect.assertions(1)
 
     return newWorld(rootRoom)

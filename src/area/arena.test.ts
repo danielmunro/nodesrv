@@ -1,3 +1,4 @@
+import { newCritter } from "../mob/factory/trail"
 import { Direction } from "../room/constants"
 import { Room } from "../room/model/room"
 import { Arena } from "./arena"
@@ -6,7 +7,7 @@ describe("arena", () => {
   it("should build a matrix of requested size", () => {
     const width = 5
     const height = 6
-    const arena = new Arena(new Room(), width, height)
+    const arena = new Arena(new Room(), width, height, newCritter)
     expect(arena.matrix.length).toBe(height)
     arena.matrix.forEach((row) => expect(row.length).toBe(width))
   })
@@ -14,7 +15,7 @@ describe("arena", () => {
   it("should have directional exits connecting each room", () => {
     const width = 5
     const height = 6
-    const arena = new Arena(new Room(), width, height)
+    const arena = new Arena(new Room(), width, height, newCritter)
 
     arena.matrix.forEach((row, y) => row.forEach((room: Room, x) => {
       // below conditionals cover the random connection of the root room

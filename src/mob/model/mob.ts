@@ -35,6 +35,9 @@ export class Mob {
     @Column("integer")
     public level: number = 1
 
+    @Column("boolean")
+    public wanders: boolean = false
+
     @OneToMany((type) => Affect, (affect) => affect.mob)
     public affects: Affect[] = []
 
@@ -48,7 +51,7 @@ export class Mob {
     @ManyToOne((type) => Room, (room) => room.mobs)
     public room: Room
 
-    @ManyToOne((type) => Room)
+    @ManyToOne((type) => Room, { eager: true })
     @JoinColumn()
     public startRoom: Room
 

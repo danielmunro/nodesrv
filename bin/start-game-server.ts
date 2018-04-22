@@ -17,6 +17,7 @@ import { ObserverChain } from "../src/server/observers/observerChain"
 import { PersistPlayers } from "../src/server/observers/persistPlayers"
 import { SocialBroadcaster } from "../src/server/observers/socialBroadcaster"
 import { Tick } from "../src/server/observers/tick"
+import { Wander } from "../src/server/observers/wander"
 import { GameServer } from "../src/server/server"
 import { Skill } from "../src/skill/model/skill"
 import { SkillType } from "../src/skill/skillType"
@@ -34,6 +35,7 @@ function addObservers(gameServer: GameServer): GameServer {
     new ObserverChain([
       new Tick(),
       new DecrementAffects(),
+      new Wander(),
     ]),
     new RandomTickTimer(
       new DiceRoller(TICK.DICE.SIDES, TICK.DICE.ROLLS, TICK.DICE.MODIFIER)))
@@ -57,6 +59,7 @@ function getPlayerProvider(startRoom: Room) {
       Race.Human,
       vitals,
       attributes,
+      false,
       [
         newWeapon(
           "a wooden practice sword",

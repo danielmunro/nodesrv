@@ -1,4 +1,6 @@
+import roll from "../dice/dice"
 import { newTraveller } from "../mob/factory/inn"
+import { newCritter } from "../mob/factory/trail"
 import { Mob } from "../mob/model/mob"
 import { Direction } from "../room/constants"
 import { getFreeDirection, getFreeReciprocalDirection } from "../room/direction"
@@ -87,6 +89,9 @@ export function newTrail(root: Room, direction: Direction, length: number) {
       exits.push(...newReciprocalExit(direction, root, initialRooms[0]))
       continue
     }
+    if (roll(1, 2) === 1) {
+      initialRooms[i].mobs.push(newCritter())
+    }
     exits.push(
       ...newReciprocalExit(
         getFreeReciprocalDirection(initialRooms[i - 1], initialRooms[i]),
@@ -98,7 +103,7 @@ export function newTrail(root: Room, direction: Direction, length: number) {
 }
 
 export function newArena(root: Room, width: number, height: number) {
-  const arena = new Arena(root, width, height)
+  const arena = new Arena(root, width, height, newCritter)
 
   return persistAll(arena.rooms, arena.exits)
 }
