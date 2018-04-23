@@ -6,27 +6,11 @@ import { Direction } from "../room/constants"
 import { getFreeDirection, getFreeReciprocalDirection } from "../room/direction"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
-import { getExitRepository } from "../room/repository/exit"
-import { getRoomRepository } from "../room/repository/room"
+import { persistAll } from "../room/service"
 import { Arena } from "./arena"
-
-function getRepositories() {
-  return Promise.all([
-    getExitRepository(),
-    getRoomRepository(),
-  ])
-}
 
 function getRandomRoom(rooms: Room[]) {
   return rooms[Math.floor(Math.random() * rooms.length)]
-}
-
-function persistAll(rooms, exits): Promise<Room[]> {
-  return getRepositories()
-    .then(([exitRepository, roomRepository]) => Promise.all(
-      rooms.map((room) => roomRepository.save(room)))
-        .then(() => Promise.all(exits.map((exit) => exitRepository.save(exit))))
-          .then(() => rooms))
 }
 
 export function newWorld(rootRoom: Room): Promise<Room[]> {

@@ -1,4 +1,4 @@
-import roll, { DiceRoller } from "./dice"
+import roll, { coinFlip,  DiceRoller } from "./dice"
 
 const rollDataSet = [
   [1, 4],
@@ -37,5 +37,17 @@ describe("dice roller", () => {
       // if every dice roll returns its max value:
       expectation.toBeLessThanOrEqual(d[0] * d[1])
     })
+  })
+
+  it("coin flip should return a random boolean for every test call", () => {
+    const results = []
+    const testFlips = 100
+
+    for (let i = 0; i < testFlips; i++) {
+      results.push(coinFlip())
+    }
+
+    expect(results.some((r) => r === true))
+    expect(results.some((r) => r === false))
   })
 })
