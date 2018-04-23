@@ -9,7 +9,6 @@ node_js:
   - "8"
 before_script:
   - psql -U postgres < sql/1-init.sql
-  - psql -U postgres < sql/2-data.sql
   - cp ormconfig.json.example ormconfig.json
   - yarn create-fixtures
 script: yarn test-coverage
