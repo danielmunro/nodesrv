@@ -1,9 +1,15 @@
 language: node_js
+services:
+  - postgresql
 cache:
   directories:
     - "node_modules"
   yarn: true
 node_js:
   - "8"
-before_script: yarn create-fixtures
+before_script:
+  - psql -U postgres < sql/1-init.sql
+  - psql -U postgres < sql/2-data.sql
+  - cp ormconfig.json.example ormconfig.json
+  - yarn create-fixtures
 script: yarn test-coverage

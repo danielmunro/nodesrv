@@ -1,9 +1,9 @@
 {
   "type": "postgres",
   "host": "localhost",
-  "port": 5431,
+  "port": 5432,
   "username": "postgres",
-  "password": "nodesrv",
+  "password": "",
   "database": "nodesrv",
   "synchronize": true,
   "logging": false,
