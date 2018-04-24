@@ -15,6 +15,16 @@ function newFightingMob(name: string, hitroll: Hitroll): Mob {
 }
 
 describe("fight", () => {
+  it("getOpponentFor should return null for mobs not in the fight", () => {
+    const mobFactory = (name) => newFightingMob(name, newHitroll(1, 1))
+    const aggressor = mobFactory("aggressor")
+    const target = mobFactory("target")
+    const bystander = mobFactory("collateral")
+
+    const fight = new Fight(aggressor, target)
+    expect(fight.getOpponentFor(bystander)).toBeNull()
+  })
+
   it("should stop when hit points reach zero", () => {
     // SETUP
     const aggressor = newFightingMob("aggressor", newHitroll(2, 3))

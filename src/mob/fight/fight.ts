@@ -42,7 +42,7 @@ export class Fight {
 
   public getOpponentFor(mob: Mob): Mob {
     if (!this.isParticipant(mob)) {
-      return
+      return null
     }
 
     return mob === this.aggressor ? this.aggressor : this.target

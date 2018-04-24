@@ -12,6 +12,12 @@ export function coinFlip(): boolean {
   return roll(1, 2) === 1
 }
 
+export function onCoinFlipSuccess(callback) {
+  if (coinFlip()) {
+    callback()
+  }
+}
+
 function getRandomInt(max: number): number {
   return 1 + Math.floor(Math.random() * Math.floor(max))
 }

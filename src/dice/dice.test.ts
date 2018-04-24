@@ -1,4 +1,4 @@
-import roll, { coinFlip,  DiceRoller } from "./dice"
+import roll, { coinFlip,  DiceRoller, onCoinFlipSuccess } from "./dice"
 
 const rollDataSet = [
   [1, 4],
@@ -13,6 +13,8 @@ const rollDataSet = [
   [20, 20],
   [20, 100],
 ]
+
+const TEST_FLIP_COUNT = 100
 
 describe("dice roller", () => {
   it("should always be sane (within min/max possibilities)", () => {
@@ -41,13 +43,23 @@ describe("dice roller", () => {
 
   it("coin flip should return a random boolean for every test call", () => {
     const results = []
-    const testFlips = 100
 
-    for (let i = 0; i < testFlips; i++) {
+    for (let i = 0; i < TEST_FLIP_COUNT; i++) {
       results.push(coinFlip())
     }
 
     expect(results.some((r) => r === true))
     expect(results.some((r) => r === false))
+  })
+
+  it("onCoinFlipSuccess should only call the callback when the flip is successful", () => {
+    const results = []
+    const successCallback = jest.fn()
+
+    for (let i = 0; i < TEST_FLIP_COUNT; i++) {
+      results.push(onCoinFlipSuccess(successCallback))
+    }
+
+    expect(successCallback.mock.calls.length).toBeLessThan(TEST_FLIP_COUNT)
   })
 })
