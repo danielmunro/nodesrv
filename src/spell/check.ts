@@ -9,6 +9,7 @@ import { SpellDefinition } from "./spellDefiniton"
 export const MESSAGE_NO_SPELL = "You don't know that spell."
 export const MESSAGE_NO_TARGET = "You aren't fighting anyone!"
 export const MESSAGE_FAIL = "You lose concentration."
+export const MESSAGE_NOT_ENOUGH_MANA = "You don't have enough mana."
 
 export enum Status {
   NotEvaluated,
@@ -23,20 +24,22 @@ export class Check {
   public readonly caster: Mob
   public readonly target: Mob
   public readonly spell: Spell
+  public readonly spellDefinition: SpellDefinition
   public readonly request: Request
 
   constructor(request: Request, spellDefinition: SpellDefinition) {
     this.request = request
     this.caster = request.player.sessionMob
-    const target = this.findTarget(request, spellDefinition.actionType)
+    this.target = this.findTarget(request, spellDefinition.actionType)
+    this.spellDefinition = spellDefinition
 
-    if (spellDefinition.actionType === ActionType.Offensive && !target) {
+    if (this.spellDefinition.actionType === ActionType.Offensive && !this.target) {
       this.status = Status.Error
       this.fail = MESSAGE_NO_TARGET
       return
     }
 
-    this.spell = this.caster.spells.find((s) => s.spellType === spellDefinition.spellType)
+    this.spell = this.caster.spells.find((s) => s.spellType === this.spellDefinition.spellType)
 
     if (!this.spell) {
       this.status = Status.Error
@@ -44,14 +47,19 @@ export class Check {
       return
     }
 
-    if (roll(1, this.spell.level) - roll(1, target.getCombinedAttributes().stats.int * 3) < 0) {
+    if (roll(1, this.spell.level) - roll(1, this.target.getCombinedAttributes().stats.int * 3) < 0) {
       this.status = Status.Fail
       this.fail = MESSAGE_FAIL
       return
     }
 
+    if (this.caster.vitals.mana < spellDefinition.manaCost) {
+      this.status = Status.Fail
+      this.fail = MESSAGE_NOT_ENOUGH_MANA
+      return
+    }
+
     this.status = Status.Success
-    this.target = target
   }
 
   public isSuccessful(): boolean {
@@ -64,6 +72,10 @@ export class Check {
 
   public isError(): boolean {
     return this.status === Status.Error
+  }
+
+  public applyManaCost(): void {
+    this.caster.vitals.mana -= this.spellDefinition.manaCost
   }
 
   private findTarget(request: Request, actionType: ActionType): Mob {

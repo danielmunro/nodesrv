@@ -3,6 +3,7 @@ import { ActionType } from "../handler/constants"
 import { SpellType } from "../spell/spellType"
 import cureLight from "./actions/cureLight"
 import curePoison from "./actions/curePoison"
+import giantStrength from "./actions/giantStrength"
 import lightningBolt from "./actions/lightningBolt"
 import magicMissile from "./actions/magicMissile"
 import poison from "./actions/poison"
@@ -16,7 +17,7 @@ class SpellCollection {
     this.collection = collection
   }
 
-  public findSpell(spellType: SpellType) {
+  public findSpell(spellType: SpellType): SpellDefinition | undefined {
     return this.collection.find((s) => s.spellType === spellType)
   }
 }
@@ -55,8 +56,13 @@ export default new SpellCollection([
     5,
     ActionType.Defensive,
     100,
-    shield,
-  ),
+    shield),
+  new SpellDefinition(
+    SpellType.GiantStrength,
+    20,
+    ActionType.Defensive,
+    100,
+    giantStrength),
 
   // Maladictions
   new SpellDefinition(
