@@ -5,7 +5,6 @@ import { Check } from "../check"
 
 export default function(check: Check) {
   const bonus = Math.ceil(check.spell.level / 2)
-  check.applyManaCost()
   check.target.addAffect(
     newAffect(
       AffectType.GiantStrength,

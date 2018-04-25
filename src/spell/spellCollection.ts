@@ -11,7 +11,7 @@ import shield from "./actions/shield"
 import { SpellDefinition } from "./spellDefiniton"
 
 class SpellCollection {
-  public readonly collection
+  public readonly collection: SpellDefinition[]
 
   constructor(collection: SpellDefinition[]) {
     this.collection = collection

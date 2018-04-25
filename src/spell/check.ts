@@ -27,7 +27,7 @@ export class Check {
   public readonly spellDefinition: SpellDefinition
   public readonly request: Request
 
-  constructor(request: Request, spellDefinition: SpellDefinition) {
+  constructor(request: Request, spellDefinition: SpellDefinition, chance = null) {
     this.request = request
     this.caster = request.player.sessionMob
     this.target = this.findTarget(request, spellDefinition.actionType)
@@ -47,7 +47,11 @@ export class Check {
       return
     }
 
-    if (roll(1, this.spell.level) - roll(1, this.target.getCombinedAttributes().stats.int * 3) < 0) {
+    if (chance === null) {
+      chance = () => roll(1, this.spell.level) - roll(1, this.target.getCombinedAttributes().stats.int * 3) >= 0
+    }
+
+    if (!chance()) {
       this.status = Status.Fail
       this.fail = MESSAGE_FAIL
       return

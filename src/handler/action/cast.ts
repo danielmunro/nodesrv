@@ -31,8 +31,6 @@ export default function(request: Request): Promise<any> {
       return resolve({ message: MESSAGE_FAIL })
     }
 
-    spellDefinition.cast(request, check)
-
     return resolve({ message: "You utter the words, '" + spellDefinition.spellType + "'."})
   })
 }

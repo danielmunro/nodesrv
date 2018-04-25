@@ -37,8 +37,13 @@ export class SpellDefinition {
   }
 
   public apply(check: Check) {
+    check.applyManaCost()
     this.addDelayToPlayer(check)
     this.checkForNewFight(check)
+
+    if (check.isSuccessful()) {
+      this.cast(check)
+    }
   }
 
   private addDelayToPlayer(check: Check): void {
