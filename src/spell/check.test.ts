@@ -3,14 +3,14 @@ import { addFight, Fight } from "../mob/fight/fight"
 import { Request } from "../server/request/request"
 import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
-import { Check, MESSAGE_NO_SPELL } from "./check"
+import { Check, MESSAGE_NO_SPELL, MESSAGE_NOT_ENOUGH_MANA } from "./check"
 import { Spell } from "./model/spell"
 import spellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
 
-function getTestSpell() {
+function getTestSpell(spellType = SpellType.MagicMissile) {
   const mm = new Spell()
-  mm.spellType = SpellType.MagicMissile
+  mm.spellType = spellType
   mm.level = 1
 
   return mm
@@ -103,5 +103,21 @@ describe("spell check", () => {
       // Then
       expect(player.delay).toBeGreaterThan(0)
     })
+  })
+
+  it("should not be able to cast if mana is not sufficient", () => {
+    const player = getTestPlayer()
+    player.sessionMob.vitals.mana = 1
+    const testSpell = getTestSpell(SpellType.GiantStrength)
+    testSpell.level = 100
+    player.sessionMob.spells.push(testSpell)
+    const check = new Check(
+      new Request(
+        player,
+        RequestType.Cast,
+        {request: "cast giant strength"}),
+      spellCollection.findSpell(SpellType.GiantStrength))
+    expect(check.isSuccessful()).toBe(false)
+    expect(check.fail).toBe(MESSAGE_NOT_ENOUGH_MANA)
   })
 })
