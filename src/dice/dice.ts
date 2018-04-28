@@ -12,9 +12,9 @@ export function coinFlip(): boolean {
   return roll(1, 2) === 1
 }
 
-export function onCoinFlipSuccess(callback) {
+export function onCoinFlipSuccess(callback): Promise<any> {
   if (coinFlip()) {
-    callback()
+    return callback()
   }
 }
 

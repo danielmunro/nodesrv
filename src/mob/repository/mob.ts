@@ -3,7 +3,7 @@ import { getConnection } from "../../db/connection"
 import { Mob } from "../model/mob"
 
 async function getMobRepository(): Promise<Repository<Mob>> {
-  return getConnection().then((connection) => connection.getRepository(Mob))
+  return await getConnection().then((connection) => connection.getRepository(Mob))
 }
 
 export async function findOneMob(id: number): Promise<Mob> {

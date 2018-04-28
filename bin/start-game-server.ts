@@ -6,6 +6,7 @@ import { DiceRoller } from "../src/dice/dice"
 import { newShield, newWeapon } from "../src/item/factory"
 import { newMob } from "../src/mob/factory"
 import { Race } from "../src/mob/race/race"
+import { findWanderingMobs } from "../src/mob/repository/mob"
 import { addMob } from "../src/mob/table"
 import { newPlayer } from "../src/player/factory"
 import { Player } from "../src/player/model/player"
@@ -35,7 +36,7 @@ function addObservers(gameServer: GameServer): GameServer {
     new ObserverChain([
       new Tick(),
       new DecrementAffects(),
-      new Wander(),
+      new Wander(() => findWanderingMobs()),
     ]),
     new RandomTickTimer(
       new DiceRoller(TICK.DICE.SIDES, TICK.DICE.ROLLS, TICK.DICE.MODIFIER)))
