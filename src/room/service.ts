@@ -20,13 +20,17 @@ export function persistAll(rooms, exits): Promise<Room[]> {
 }
 
 export function moveMob(mob: Mob, direction: Direction): Promise<any> {
-  const exit = mob.room.exits.find((e) => e.direction === direction)
+  return getRoomRepository()
+    .then((roomRepository) => roomRepository.findOneById(mob.room.id)
+    .then((room) => {
+      const exit = room.exits.find((e) => e.direction === direction)
 
-  if (!exit) {
-    throw new Error("cannot move in that direction")
-  }
+      if (!exit) {
+        throw new Error("cannot move in that direction")
+      }
 
-  return findOneExit(exit.id).then((e) =>
-    findOneRoom(e.destination.id).then((room) =>
-      room.addMob(mob)))
+      return findOneExit(exit.id).then((e) =>
+        findOneRoom(e.destination.id).then((destination) =>
+          destination.addMob(mob)))
+    }))
 }
