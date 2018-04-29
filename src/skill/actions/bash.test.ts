@@ -6,6 +6,7 @@ import { Skill } from "../../skill/model/skill"
 import { SkillType } from "../../skill/skillType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
+import { newSkill } from "../factory"
 import bash, { MESSAGE_FAIL, MESSAGE_NO_SKILL, MESSAGE_NO_TARGET } from "./bash"
 
 function createBashRequest(player: Player): Request {
@@ -33,9 +34,7 @@ describe("bash", () => {
 
   it("should be able to trigger a failed bash", async () => {
     const player = getTestPlayer()
-    const skill = new Skill()
-    skill.skillType = SkillType.Bash
-    player.sessionMob.skills.push(skill)
+    player.sessionMob.skills.push(newSkill(SkillType.Bash))
     const target = getTestMob()
     const fight = new Fight(player.sessionMob, target)
     addFight(fight)
@@ -49,10 +48,7 @@ describe("bash", () => {
 
   it("should be able to trigger a successful bash", async () => {
     const player = getTestPlayer()
-    const skill = new Skill()
-    skill.skillType = SkillType.Bash
-    skill.level = 100
-    player.sessionMob.skills.push(skill)
+    player.sessionMob.skills.push(newSkill(SkillType.Bash, 100))
     const target = getTestMob()
     const fight = new Fight(player.sessionMob, target)
     addFight(fight)

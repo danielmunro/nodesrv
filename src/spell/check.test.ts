@@ -4,16 +4,12 @@ import { Request } from "../server/request/request"
 import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
 import { Check, MESSAGE_NO_SPELL, MESSAGE_NOT_ENOUGH_MANA } from "./check"
-import { Spell } from "./model/spell"
+import { newSpell } from "./factory"
 import spellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
 
 function getTestSpell(spellType = SpellType.MagicMissile) {
-  const mm = new Spell()
-  mm.spellType = spellType
-  mm.level = 1
-
-  return mm
+  return newSpell(spellType)
 }
 
 function createTestCastRequest(input: string): Request {

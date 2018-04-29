@@ -19,9 +19,9 @@ import { SocialBroadcaster } from "../src/server/observers/socialBroadcaster"
 import { Tick } from "../src/server/observers/tick"
 import { Wander } from "../src/server/observers/wander"
 import { GameServer } from "../src/server/server"
-import { Skill } from "../src/skill/model/skill"
+import { newSkill } from "../src/skill/factory"
 import { SkillType } from "../src/skill/skillType"
-import { Spell } from "../src/spell/model/spell"
+import { newSpell } from "../src/spell/factory"
 import { SpellType } from "../src/spell/spellType"
 import { MinuteTimer } from "../src/timer/minuteTimer"
 import { RandomTickTimer } from "../src/timer/randomTickTimer"
@@ -68,17 +68,9 @@ function getPlayerProvider(startRoom: Room) {
           "a cracked wooden practice shield",
           "A wooden practice shield has been carelessly left here.")])
 
-    const skill = new Skill()
-    skill.skillType = SkillType.Bash
-    mob.skills.push(skill)
-
-    const mm = new Spell()
-    mm.spellType = SpellType.MagicMissile
-    mob.spells.push(mm)
-
-    const shield = new Spell()
-    shield.spellType = SpellType.Shield
-    mob.spells.push(shield)
+    mob.skills.push(newSkill(SkillType.Bash))
+    mob.spells.push(newSpell(SpellType.MagicMissile))
+    mob.spells.push(newSpell(SpellType.Shield))
     startRoom.addMob(mob)
 
     return newPlayer("Test Testerson", mob)
