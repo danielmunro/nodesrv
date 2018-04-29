@@ -1,7 +1,6 @@
-import { RequestType } from "../handler/constants"
 import { addFight, Fight } from "../mob/fight/fight"
-import { Player } from "../player/model/player"
-import { createRequestArgs, Request } from "../server/request/request"
+import { createCastRequest } from "../server/request/factory"
+import { Request } from "../server/request/request"
 import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
 import { Check, MESSAGE_NO_SPELL, MESSAGE_NOT_ENOUGH_MANA } from "./check"
@@ -17,14 +16,14 @@ function getTestSpell(spellType = SpellType.MagicMissile) {
   return mm
 }
 
-function createCastRequest(input: string, player: Player = getTestPlayer()): Request {
-  return new Request(player, RequestType.Cast, createRequestArgs(input))
+function createTestCastRequest(input: string): Request {
+  return createCastRequest(getTestPlayer(), input)
 }
 
 describe("spell check", () => {
   it("should error out if a mob is casting a spell it does not know", () => {
     const check = new Check(
-      createCastRequest("cast cure"),
+      createTestCastRequest("cast cure"),
       spellCollection.findSpell(SpellType.CureLight),
     )
 
@@ -37,7 +36,7 @@ describe("spell check", () => {
   it("must specify a target for offensive spells if not in a fight", () => {
     expect(
       new Check(
-        createCastRequest("cast magic missile"),
+        createTestCastRequest("cast magic missile"),
         spellCollection.findSpell(SpellType.MagicMissile)).isError()).toBe(true)
   })
 
@@ -50,7 +49,7 @@ describe("spell check", () => {
 
     expect(
       new Check(
-        createCastRequest("cast magic missile", player),
+        createCastRequest(player, "cast magic missile"),
         spellCollection.findSpell(SpellType.MagicMissile)).isError()).toBe(false)
   })
 
@@ -61,7 +60,7 @@ describe("spell check", () => {
     const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
     player.sessionMob.spells.push(getTestSpell())
     addFight(new Fight(player.sessionMob, target))
-    const check = new Check(createCastRequest("cast magic missile", player), magicMissile)
+    const check = new Check(createCastRequest(player, "cast magic missile"), magicMissile)
 
     // Expect
     expect(check.isError()).toBe(false)
@@ -84,7 +83,7 @@ describe("spell check", () => {
     testSpell.level = 100
     player.sessionMob.spells.push(testSpell)
     addFight(new Fight(player.sessionMob, target))
-    const request = createCastRequest("cast magic missile", player)
+    const request = createCastRequest(player, "cast magic missile")
 
     expect.assertions(3)
     return Promise.resolve([
@@ -115,7 +114,7 @@ describe("spell check", () => {
     testSpell.level = 100
     player.sessionMob.spells.push(testSpell)
     const check = new Check(
-      createCastRequest("cast giant strength", player),
+      createCastRequest(player, "cast giant strength"),
       spellCollection.findSpell(SpellType.GiantStrength))
     expect(check.isSuccessful()).toBe(false)
     expect(check.fail).toBe(MESSAGE_NOT_ENOUGH_MANA)

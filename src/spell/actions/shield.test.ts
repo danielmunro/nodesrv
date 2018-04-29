@@ -1,7 +1,6 @@
 import { AffectType } from "../../affect/affectType"
-import { RequestType } from "../../handler/constants"
 import { newSpell } from "../../mob/factory"
-import { createRequestArgs, Request } from "../../server/request/request"
+import { createCastRequest } from "../../server/request/factory"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import reset from "../../test/reset"
@@ -23,10 +22,7 @@ describe("shield", () => {
     mob.level = 20
     mob.spells.push(newSpell(SpellType.Shield, 5))
     room.addMob(target)
-    const check = new Check(
-      new Request(player, RequestType.Cast, createRequestArgs("cast shield alice")),
-      spellDefinition,
-      () => true)
+    const check = new Check(createCastRequest(player, "cast shield alice"), spellDefinition, () => true)
 
     // when
     spellDefinition.apply(check)
