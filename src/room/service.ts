@@ -19,6 +19,10 @@ export function persistAll(rooms, exits): Promise<Room[]> {
           .then(() => rooms))
 }
 
+export function persistRoom(room: Room): Promise<Room> {
+  return getRoomRepository().then((roomRepository) => roomRepository.save(room))
+}
+
 export function moveMob(mob: Mob, direction: Direction): Promise<any> {
   return getRoomRepository()
     .then((roomRepository) => roomRepository.findOneById(mob.room.id)

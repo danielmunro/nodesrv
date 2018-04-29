@@ -1,5 +1,4 @@
 import { Client } from "../../client/client"
-import { onCoinFlipSuccess } from "../../dice/dice"
 import { Mob } from "../../mob/model/mob"
 import { pickOne } from "../../random/helpers"
 import { findOneRoom } from "../../room/repository/room"

@@ -5,6 +5,10 @@ import { Mob } from "../../mob/model/mob"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
 
+export function createRequestArgs(request: string) {
+  return { request }
+}
+
 export function getNewRequestFromMessageEvent(player: Player, messageEvent: MessageEvent): Request {
   const data = JSON.parse(messageEvent.data)
   const requestArgs = data.request.split(" ")

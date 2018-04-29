@@ -1,10 +1,15 @@
 import { RequestType } from "../../handler/constants"
 import { Equipment } from "../../item/equipment"
 import { Item } from "../../item/model/item"
+import { Player } from "../../player/model/player"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import { Request } from "./request"
+import { createRequestArgs, Request } from "./request"
+
+function newLookRequest(player: Player, args: string): Request {
+  return new Request(player, RequestType.Look, createRequestArgs(args))
+}
 
 describe("request", () => {
   it("should be able to find an item in a request session mob's inventory", () => {
@@ -13,12 +18,8 @@ describe("request", () => {
     item.name = "a cracked wooden practice shield"
     item.equipment = Equipment.Shield
     player.getInventory().addItem(item)
-    expect(
-      new Request(player, RequestType.Look, {request: "wear floodle"}).findItemInSessionMobInventory(),
-    ).toBeUndefined()
-    expect(
-      new Request(player, RequestType.Look, {request: "wear practice"}).findItemInSessionMobInventory(),
-    ).toBe(item)
+    expect(newLookRequest(player, "wear floodle").findItemInSessionMobInventory()).toBeUndefined()
+    expect(newLookRequest(player, "wear practice").findItemInSessionMobInventory()).toBe(item)
   })
 
   it("should be able to find a mob in a room", () => {
@@ -31,8 +32,8 @@ describe("request", () => {
     room.addMob(getTestMob("sue"))
     room.addMob(player.sessionMob)
 
-    expect(new Request(player, RequestType.Look, {request: "look alice"}).findMobInRoom()).toBe(alice)
-    expect(new Request(player, RequestType.Look, {request: "look bob"}).findMobInRoom()).toBe(bob)
-    expect(new Request(player, RequestType.Look, {request: "look xander"}).findMobInRoom()).toBeUndefined()
+    expect(newLookRequest(player, "look alice").findMobInRoom()).toBe(alice)
+    expect(newLookRequest(player, "look bob").findMobInRoom()).toBe(bob)
+    expect(newLookRequest(player, "look xander").findMobInRoom()).toBeUndefined()
   })
 })

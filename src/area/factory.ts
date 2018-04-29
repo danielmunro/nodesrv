@@ -1,4 +1,4 @@
-import roll from "../dice/dice"
+import { onCoinFlipSuccess } from "../dice/dice"
 import { newTraveller } from "../mob/factory/inn"
 import { newCritter } from "../mob/factory/trail"
 import { Mob } from "../mob/model/mob"
@@ -73,9 +73,7 @@ export function newTrail(root: Room, direction: Direction, length: number) {
       exits.push(...newReciprocalExit(direction, root, initialRooms[0]))
       continue
     }
-    if (roll(1, 2) === 1) {
-      initialRooms[i].mobs.push(newCritter())
-    }
+    onCoinFlipSuccess(() => initialRooms[i].mobs.push(newCritter()))
     exits.push(
       ...newReciprocalExit(
         getFreeReciprocalDirection(initialRooms[i - 1], initialRooms[i]),

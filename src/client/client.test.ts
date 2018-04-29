@@ -1,6 +1,6 @@
 import { HandlerCollection } from "../handler/handlerCollection"
 import look from "./../handler/action/look"
-import { getNewRequestFromMessageEvent } from "./../server/request/request"
+import { createRequestArgs, getNewRequestFromMessageEvent } from "./../server/request/request"
 import { Channel } from "./../social/constants"
 import { getTestClient } from "./../test/client"
 import { getTestPlayer } from "./../test/player"
@@ -34,7 +34,7 @@ describe("clients", () => {
     const client = getTestClient()
     const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent())
     expect(request.player).toBe(client.player)
-    expect(request.args).toEqual({ request: "hello world" })
+    expect(request.args).toEqual(createRequestArgs("hello world"))
   })
 
   it("should use the default handler when no handlers match", () => {

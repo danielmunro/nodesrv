@@ -22,7 +22,7 @@ class SpellCollection {
   }
 }
 
-export default new SpellCollection([
+const spellCollection = new SpellCollection([
   // Attack
   new SpellDefinition(
     SpellType.MagicMissile,
@@ -82,3 +82,5 @@ export default new SpellCollection([
     curePoison,
   ),
 ])
+
+export default spellCollection

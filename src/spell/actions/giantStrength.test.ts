@@ -1,14 +1,13 @@
 import { AffectType } from "../../affect/affectType"
 import { RequestType } from "../../handler/constants"
 import { newSpell } from "../../mob/factory"
-import { Request } from "../../server/request/request"
+import { createRequestArgs, Request } from "../../server/request/request"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import reset from "../../test/reset"
 import { Check } from "../check"
 import spellCollection from "../spellCollection"
 import { SpellType } from "../spellType"
-import giantStrength from "./giantStrength"
 
 beforeEach(() => reset())
 
@@ -25,7 +24,7 @@ describe("giant strength", () => {
     mob.spells.push(newSpell(SpellType.GiantStrength, 5))
     room.addMob(target)
     const check = new Check(
-      new Request(player, RequestType.Cast, {request: "cast giant strength alice"}),
+      new Request(player, RequestType.Cast, createRequestArgs("cast giant strength alice")),
       spellDefinition,
       () => true)
 
