@@ -4,7 +4,6 @@ import { newAttributesWithHitrollStats, newHitroll, newStats } from "../../attri
 import { Check } from "../check"
 
 export default function(check: Check) {
-  check.target.addAffect(newAffect(AffectType.Poison, check.spell.level))
   check.target.addAffect(
     newAffect(
       AffectType.Poison,
