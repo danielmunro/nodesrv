@@ -47,6 +47,12 @@ export class Check {
       return
     }
 
+    if (this.caster.vitals.mana < spellDefinition.manaCost) {
+      this.status = Status.Fail
+      this.fail = MESSAGE_NOT_ENOUGH_MANA
+      return
+    }
+
     if (chance === null) {
       chance = () => roll(1, this.spell.level) - roll(1, this.target.getCombinedAttributes().stats.int * 3) >= 0
     }
@@ -54,12 +60,6 @@ export class Check {
     if (!chance()) {
       this.status = Status.Fail
       this.fail = MESSAGE_FAIL
-      return
-    }
-
-    if (this.caster.vitals.mana < spellDefinition.manaCost) {
-      this.status = Status.Fail
-      this.fail = MESSAGE_NOT_ENOUGH_MANA
       return
     }
 
