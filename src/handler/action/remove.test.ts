@@ -1,6 +1,7 @@
 import { Equipment } from "../../item/equipment"
 import { Item } from "../../item/model/item"
-import { Request } from "../../server/request/request"
+import { Player } from "../../player/model/player"
+import { createRequestArgs, Request } from "../../server/request/request"
 import { getTestPlayer } from "../../test/player"
 import { RequestType } from "../constants"
 import remove, { MESSAGE_FAIL } from "./remove"
@@ -13,10 +14,14 @@ function getTestShield(): Item {
   return item
 }
 
+function useRemoveRequest(player: Player, input: string) {
+  return remove(new Request(player, RequestType.Remove, createRequestArgs(input)))
+}
+
 describe("remove", () => {
-  it("should not work if an item is not equipped", () => {
+  it("should not work if an item is not equipped", async () => {
     expect.assertions(1)
-    return remove(new Request(getTestPlayer(), RequestType.Remove, {request: "remove foo"}))
+    await useRemoveRequest(getTestPlayer(), "remove foo")
       .then((response) => expect(response.message).toBe(MESSAGE_FAIL))
   })
 
@@ -26,7 +31,7 @@ describe("remove", () => {
 
     expect.assertions(1)
 
-    return remove(new Request(player, RequestType.Remove, {request: "remove shield"}))
+    return useRemoveRequest(player, "remove shield")
       .then((response) => expect(response.message).toContain("You remove"))
   })
 })

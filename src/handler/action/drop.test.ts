@@ -1,5 +1,5 @@
 import { newShield } from "../../item/factory"
-import { Request } from "../../server/request/request"
+import { createRequestArgs, Request } from "../../server/request/request"
 import { getTestPlayer } from "../../test/player"
 import { RequestType } from "../constants"
 import drop from "./drop"
@@ -13,7 +13,7 @@ describe("drop", () => {
     expect(player.sessionMob.room.inventory.items).toHaveLength(0)
 
     expect.assertions(6)
-    return drop(new Request(player, RequestType.Drop, {request: "drop shield"}))
+    return drop(new Request(player, RequestType.Drop, createRequestArgs("drop shield")))
       .then((response) => {
         const message = response.message
         expect(message).toContain("You drop")

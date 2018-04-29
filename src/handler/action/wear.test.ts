@@ -1,6 +1,7 @@
 import { Equipment } from "../../item/equipment"
 import { Item } from "../../item/model/item"
-import { Request } from "../../server/request/request"
+import { Player } from "../../player/model/player"
+import { createRequestArgs, Request } from "../../server/request/request"
 import { getTestPlayer } from "../../test/player"
 import { RequestType } from "../constants"
 import wear, { ITEM_NOT_FOUND } from "./wear"
@@ -21,31 +22,35 @@ function getPirateHat(): Item {
   return item
 }
 
+function useWearRequest(input: string, player: Player = getTestPlayer()) {
+  return wear(new Request(player, RequestType.Wear, createRequestArgs(input)))
+}
+
 describe("wear", () => {
-  it("should not work if an item is not found", () => {
+  it("should not work if an item is not found", async () => {
     expect.assertions(1)
-    return wear(new Request(getTestPlayer(), RequestType.Wear, {request: "wear foo"}))
+    await useWearRequest("wear foo")
       .then((response) => expect(response.message).toBe(ITEM_NOT_FOUND))
   })
 
-  it("can equip an item", () => {
+  it("can equip an item", async () => {
     const player = getTestPlayer()
     player.sessionMob.inventory.addItem(getHatOfMight())
     expect.assertions(1)
 
-    return wear(new Request(player, RequestType.Wear, {request: "wear hat"}))
+    await useWearRequest("wear hat", player)
       .then((response) => expect(response.message).toBe("You wear the hat of might."))
   })
 
-  it("will remove an equipped item and wear a new item", () => {
+  it("will remove an equipped item and wear a new item", async () => {
     const player = getTestPlayer()
     const inventory = player.sessionMob.inventory
     inventory.addItem(getHatOfMight())
     inventory.addItem(getPirateHat())
     expect.assertions(1)
 
-    return wear(new Request(player, RequestType.Wear, {request: "wear pirate"}))
-      .then(() => wear(new Request(player, RequestType.Wear, {request: "wear might"}))
+    await useWearRequest("wear pirate", player)
+      .then(() => useWearRequest("wear might", player)
       .then((response) =>
         expect(response.message).toBe("You remove a well-worn pirate hat and wear the hat of might.")))
   })
