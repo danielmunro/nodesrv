@@ -7,7 +7,6 @@ import { newShield, newWeapon } from "../src/item/factory"
 import { newMob } from "../src/mob/factory"
 import { Race } from "../src/mob/race/race"
 import { findWanderingMobs } from "../src/mob/repository/mob"
-import { addMob } from "../src/mob/table"
 import { newPlayer } from "../src/player/factory"
 import { Player } from "../src/player/model/player"
 import { Room } from "../src/room/model/room"
@@ -80,9 +79,7 @@ function getPlayerProvider(startRoom: Room) {
     const shield = new Spell()
     shield.spellType = SpellType.Shield
     mob.spells.push(shield)
-
     startRoom.addMob(mob)
-    addMob(mob)
 
     return newPlayer("Test Testerson", mob)
   }

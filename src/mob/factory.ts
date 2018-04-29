@@ -5,7 +5,6 @@ import { Spell } from "../spell/model/spell"
 import { SpellType } from "../spell/spellType"
 import { Mob } from "./model/mob"
 import { Race } from "./race/race"
-import { addMob } from "./table"
 
 export function newMob(name: string, description: string, race: Race, vitals: Vitals,
                        attributes: Attributes, wanders: boolean = false, items: Item[] = []): Mob {
@@ -18,7 +17,6 @@ export function newMob(name: string, description: string, race: Race, vitals: Vi
   mob.attributes.push(attributes)
   mob.wanders = wanders
   items.map((item) => mob.inventory.addItem(item))
-  addMob(mob)
 
   return mob
 }
