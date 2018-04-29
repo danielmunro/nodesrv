@@ -38,7 +38,7 @@ export class Mob {
     @Column("boolean")
     public wanders: boolean = false
 
-    @OneToMany((type) => Affect, (affect) => affect.mob)
+    @OneToMany((type) => Affect, (affect) => affect.mob, { cascadeInsert: true, eager: true })
     public affects: Affect[] = []
 
     @OneToOne((type) => Vitals, { cascadeInsert: true, eager: true })

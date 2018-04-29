@@ -7,13 +7,16 @@ async function getMobRepository(): Promise<Repository<Mob>> {
 }
 
 export async function findOneMob(id: number): Promise<Mob> {
-  return await getMobRepository().then(
-    (mobRepository) => mobRepository.findOneById(id))
+  return await getMobRepository().then((mobRepository) => mobRepository.findOneById(id))
 }
 
 export async function findWanderingMobs(): Promise<Mob[]> {
   return await getMobRepository()
     .then((mobRepository) => mobRepository.find({ relations: ["room"], where: { wanders: true }}))
+}
+
+export async function persistMob(mob: Mob) {
+  return await getMobRepository().then((mobRepository) => mobRepository.save(mob))
 }
 
 export async function saveMobRoom(mob: Mob) {
