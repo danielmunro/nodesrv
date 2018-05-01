@@ -5,11 +5,9 @@ import { Exploration } from "./exploration"
 import { newArena, newInn, newTrail, newWorld } from "./factory"
 
 describe("area factory", () => {
-  it("should be able to connect two built structures", () => {
-    const root = newRoom("test", "test")
+  it("should be able to connect two built structures", async () => {
     expect.assertions(25)
-
-    return getConnection().then(() => newInn(root).then((innRooms) =>
+    await getConnection().then(() => newInn(newRoom("test", "test")).then((innRooms) =>
       newTrail(innRooms[innRooms.length - 1], Direction.South, 3)
       .then((trailRooms) => {
         const allRooms = [...innRooms, ...trailRooms]
@@ -24,27 +22,22 @@ describe("area factory", () => {
       })))
   })
 
-  it("should be able to create an arena (a matrix of rooms)", () => {
+  it("should be able to create an arena (a matrix of rooms)", async () => {
     expect.assertions(1)
-    return newArena(newRoom("name", "description"), 3, 3)
-      .then((rooms) => {
-        expect(rooms.length).toBe(9)
-      })
+    await newArena(newRoom("name", "description"), 3, 3)
+      .then((rooms) => expect(rooms.length).toBe(9))
   })
 
-  it("a world should contain rooms", () => {
-    const rootRoom = newRoom("test", "test")
+  it("a world should contain rooms", async () => {
     expect.assertions(1)
-
-    return newWorld(rootRoom).then((world) =>
-      expect(world.length).toBeGreaterThanOrEqual(0))
+    await newWorld(newRoom("test", "test"))
+      .then((world) => expect(world.length).toBeGreaterThanOrEqual(0))
   })
 
-  it("every room in a world should be traversable", () => {
+  it("every room in a world should be traversable", async () => {
     const rootRoom = newRoom("test", "test")
     expect.assertions(1)
-
-    return newWorld(rootRoom)
+    await newWorld(rootRoom)
       .then((rooms) => {
         const exploration = new Exploration(rootRoom)
         exploration.explore()
