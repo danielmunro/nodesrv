@@ -28,7 +28,7 @@ export default function(request: Request): Promise<any> {
     spellDefinition.apply(check)
 
     if (check.status === Status.Fail) {
-      return resolve({ message: MESSAGE_FAIL })
+      return resolve({ message: check.fail })
     }
 
     return resolve({ message: "You utter the words, '" + spellDefinition.spellType + "'."})

@@ -54,7 +54,9 @@ export class Check {
     }
 
     if (chance === null) {
-      chance = () => roll(1, this.spell.level) - roll(1, this.target.getCombinedAttributes().stats.int * 3) >= 0
+      const reduction = this.spellDefinition.actionType === ActionType.Offensive ?
+        roll(1, this.target.getCombinedAttributes().stats.int * 3) : 0
+      chance = () => roll(this.spell.level / 2, this.spell.level) - reduction >= 0
     }
 
     if (!chance()) {

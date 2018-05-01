@@ -29,7 +29,7 @@ export enum SpellType {
   CureBlindness = "cure blindness",
   RemoveCurse = "remove curse",
 
-  // healing
+  // Healing
   CureLight = "cure light",
   CureSerious = "cure serious",
   Heal = "heal",
