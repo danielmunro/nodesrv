@@ -17,8 +17,7 @@ describe("cure light", () => {
     cureLight(
       new Check(
         createCastRequest(player, "cast 'cure light'"),
-        spellCollection.findSpell(SpellType.CureLight),
-        () => false))
+        spellCollection.findSpell(SpellType.CureLight)))
 
     // then
     expect(player.sessionMob.vitals.hp).toBeGreaterThan(1)

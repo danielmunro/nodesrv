@@ -56,7 +56,7 @@ describe("spell check", () => {
     const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
     player.sessionMob.spells.push(getTestSpell())
     addFight(new Fight(player.sessionMob, target))
-    const check = new Check(createCastRequest(player, "cast magic missile"), magicMissile)
+    const check = new Check(createCastRequest(player, "cast magic missile"), magicMissile, () => false)
 
     // Expect
     expect(check.isError()).toBe(false)
