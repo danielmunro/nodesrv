@@ -8,8 +8,8 @@ import { newSpell } from "./factory"
 import spellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
 
-function getTestSpell(spellType = SpellType.MagicMissile) {
-  return newSpell(spellType)
+function getTestSpell() {
+  return newSpell(SpellType.MagicMissile)
 }
 
 function createTestCastRequest(input: string): Request {
@@ -75,9 +75,7 @@ describe("spell check", () => {
     const player = getTestPlayer()
     const target = getTestMob()
     const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
-    const testSpell = getTestSpell()
-    testSpell.level = 100
-    player.sessionMob.spells.push(testSpell)
+    player.sessionMob.spells.push(newSpell(SpellType.MagicMissile, 100))
     addFight(new Fight(player.sessionMob, target))
     const request = createCastRequest(player, "cast magic missile")
 
@@ -104,14 +102,15 @@ describe("spell check", () => {
   })
 
   it("should not be able to cast if mana is not sufficient", () => {
+    // Setup
     const player = getTestPlayer()
     player.sessionMob.vitals.mana = 1
-    const testSpell = getTestSpell(SpellType.GiantStrength)
-    testSpell.level = 100
-    player.sessionMob.spells.push(testSpell)
+    player.sessionMob.spells.push(newSpell(SpellType.GiantStrength, 100))
     const check = new Check(
       createCastRequest(player, "cast giant strength"),
       spellCollection.findSpell(SpellType.GiantStrength))
+
+    // Expect
     expect(check.isSuccessful()).toBe(false)
     expect(check.fail).toBe(MESSAGE_NOT_ENOUGH_MANA)
   })
