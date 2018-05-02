@@ -21,7 +21,7 @@ export function newMob(name: string, description: string, race: Race, vitals: Vi
   return mob
 }
 
-export function newSpell(spellType: SpellType, level: number) {
+export function newSpell(spellType: SpellType, level: number = 1) {
   const spell = new Spell()
   spell.spellType = spellType
   spell.level = level

@@ -64,7 +64,8 @@
       "**/*.ts",
       "!**/node_modules/**",
       "!**/vendor/**",
-      "!**/bin/**"
+      "!**/bin/**",
+      "!**/fixture/**"
     ],
     "coveragePathIgnorePatterns": [
       "constants.ts",
