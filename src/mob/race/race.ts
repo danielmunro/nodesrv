@@ -57,17 +57,17 @@ export function isTiny(race: Race) {
   return race === Race.Faerie || race === Race.Gnome
 }
 
-export function isLongLiving(race: Race) {
-  return race === Race.Dwarf || race === Race.Elf || race === Race.Drow || race === Race.Faerie
-}
+// export function isLongLiving(race: Race) {
+//   return race === Race.Dwarf || race === Race.Elf || race === Race.Drow || race === Race.Faerie
+// }
 
-export function isShortLiving(race: Race) {
-  return race === Race.Kender || race === Race.HalfOrc
-}
+// export function isShortLiving(race: Race) {
+//   return race === Race.Kender || race === Race.HalfOrc
+// }
 
-export function isAdventurous(race: Race) {
-  return race === Race.Human || race === Race.Kender || race === Race.Drow || race === Race.Gnome
-}
+// export function isAdventurous(race: Race) {
+//   return race === Race.Human || race === Race.Kender || race === Race.Drow || race === Race.Gnome
+// }
 
 // function getAttributesFromRace(race: Race): Attributes {
 //   return modifiers.reduce(
