@@ -1,7 +1,7 @@
 import { AffectType } from "../../affect/affectType"
 import { RequestType } from "../../handler/constants"
-import { newSpell } from "../../mob/factory"
 import { createRequestArgs, Request } from "../../server/request/request"
+import { newSpell } from "../../spell/factory"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import reset from "../../test/reset"

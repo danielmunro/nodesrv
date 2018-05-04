@@ -1,5 +1,5 @@
-import { newSpell } from "../../mob/factory"
 import { createCastRequest } from "../../server/request/factory"
+import { newSpell } from "../../spell/factory"
 import { getTestPlayer } from "../../test/player"
 import { Check } from "../check"
 import spellCollection from "../spellCollection"

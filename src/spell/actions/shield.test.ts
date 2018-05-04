@@ -1,6 +1,6 @@
 import { AffectType } from "../../affect/affectType"
-import { newSpell } from "../../mob/factory"
 import { createCastRequest } from "../../server/request/factory"
+import { newSpell } from "../../spell/factory"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import reset from "../../test/reset"
