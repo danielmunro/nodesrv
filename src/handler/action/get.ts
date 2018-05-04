@@ -2,6 +2,8 @@ import { Item } from "../../item/model/item"
 import { Request } from "../../server/request/request"
 import { doWithItemOrElse } from "../actions"
 
+export const MESSAGE_FAIL = "You can't find that anywhere."
+
 export default function(request: Request): Promise<any> {
   return doWithItemOrElse(
     request.findItemInRoomInventory(),
@@ -10,5 +12,5 @@ export default function(request: Request): Promise<any> {
 
       return { message: "You pick up " + item.name + "." }
     },
-    "You can't find that anywhere.")
+    MESSAGE_FAIL)
 }
