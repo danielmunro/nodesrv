@@ -19,14 +19,11 @@ export function reverse(direction: Direction) {
   }
 }
 
-export function getFreeDirection(room: Room) {
-  const availableDirections = nsewDirections.filter((d) => !room.exits.find((e) => e.direction === d))
-
-  return pickOne(availableDirections)
+export function getFreeDirection(room: Room): Direction {
+  return pickOne(nsewDirections.filter((d) => !room.exits.find((e) => e.direction === d)))
 }
 
 export function getFreeReciprocalDirection(source: Room, destination: Room) {
-  const availableDirections = nsewDirections.filter(
-    (d) => source.isDirectionFree(d) && destination.isDirectionFree(reverse(d)))
-  return pickOne(availableDirections)
+  return pickOne(nsewDirections.filter(
+    (d) => source.isDirectionFree(d) && destination.isDirectionFree(reverse(d))))
 }

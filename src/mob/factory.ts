@@ -1,8 +1,6 @@
 import Attributes from "../attributes/model/attributes"
 import Vitals from "../attributes/model/vitals"
 import { Item } from "../item/model/item"
-import { Spell } from "../spell/model/spell"
-import { SpellType } from "../spell/spellType"
 import { Mob } from "./model/mob"
 import { Race } from "./race/race"
 

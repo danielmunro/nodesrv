@@ -1,5 +1,4 @@
 import { Item } from "../item/model/item"
-import { allDirections } from "../room/constants"
 import { createRequestArgs, Request } from "../server/request/request"
 import { getTestPlayer } from "../test/player"
 import { actions, doWithItemOrElse } from "./actions"

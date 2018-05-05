@@ -9,10 +9,6 @@ import { Room } from "../room/model/room"
 import { persistAll } from "../room/service"
 import { Arena } from "./arena"
 
-function getRandomRoom(rooms: Room[]) {
-  return rooms[Math.floor(Math.random() * rooms.length)]
-}
-
 export function newWorld(rootRoom: Room): Promise<Room[]> {
   const TRAIL_1_ROOMS_TO_BUILD = 2
   const ARENA_1_WIDTH = 5
@@ -20,7 +16,7 @@ export function newWorld(rootRoom: Room): Promise<Room[]> {
 
   return newInn(rootRoom)
     .then((roomCollection1) => newTrail(rootRoom, getFreeDirection(rootRoom), TRAIL_1_ROOMS_TO_BUILD)
-    .then((roomCollection2) => newArena(getRandomRoom(roomCollection2), ARENA_1_WIDTH, ARENA_1_HEIGHT)
+    .then((roomCollection2) => newArena(roomCollection2[1], ARENA_1_WIDTH, ARENA_1_HEIGHT)
     .then((roomCollection3) => roomCollection1.concat(roomCollection2, roomCollection3))))
 }
 

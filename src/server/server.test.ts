@@ -64,6 +64,16 @@ describe("the server", () => {
     expect(server.getClientCount()).toBe(0)
   })
 
+  test("closing a client should remove it from the server's clients", () => {
+    const server = getGameServer()
+    startGameServer(server)
+    const wsClient = mockWs()
+    server.addWS(wsClient)
+    expect(server.getClientCount()).toBe(1)
+    wsClient.onclose()
+    expect(server.getClientCount()).toBe(0)
+  })
+
   test("should notify an observer immediately if it is added with an immediate timer", () => {
     const server = getGameServer()
     startGameServer(server)

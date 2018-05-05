@@ -1,15 +1,15 @@
 import { newTrail } from "../../area/factory"
 import { Direction } from "../../room/constants"
-import { moveMob, persistAll, persistRoom } from "../../room/service"
+import { moveMob, persistRoom } from "../../room/service"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
-import { findOneMob, findWanderingMobs, getMobRepository, persistMob, saveMobRoom } from "./mob"
+import { findOneMob, findWanderingMobs, persistMob, saveMobRoom } from "./mob"
 
 describe("mob repository", () => {
   it("should be able to save a mob's room", async () => {
     const root = getTestRoom()
     await persistRoom(root)
-    const trail = await newTrail(root, Direction.West, 2)
+    await newTrail(root, Direction.West, 2)
     const mob = getTestMob()
     root.addMob(mob)
     const exit = root.exits.find((e) => e.direction === Direction.West)
