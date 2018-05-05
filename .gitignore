@@ -1,6 +1,7 @@
 # App specific ephemeral files
 fixture-ids.txt
 ormconfig.json
+.DS_Store
 
 # Logs
 logs
