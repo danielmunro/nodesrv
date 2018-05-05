@@ -1,8 +1,7 @@
 import { Item } from "../../item/model/item"
 import { Request } from "../../server/request/request"
 import { doWithItemOrElse } from "../actions"
-
-export const MESSAGE_FAIL = "You can't find that anywhere."
+import { MESSAGE_ITEM_NOT_FOUND } from "./constants"
 
 export default function(request: Request): Promise<any> {
   return doWithItemOrElse(
@@ -12,5 +11,5 @@ export default function(request: Request): Promise<any> {
 
       return { message: "You pick up " + item.name + "." }
     },
-    MESSAGE_FAIL)
+    MESSAGE_ITEM_NOT_FOUND)
 }

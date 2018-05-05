@@ -30,7 +30,6 @@
     "babel-preset-typescript": "^7.0.0-alpha.19",
     "fs": "^0.0.1-security",
     "jest": "^22.1.4",
-    "mock-socket": "^7.1.0",
     "sillyname": "^0.1.0",
     "slugify": "^1.2.9",
     "ts-jest": "^22.0.3",

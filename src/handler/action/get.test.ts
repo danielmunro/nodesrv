@@ -3,7 +3,8 @@ import { createRequestArgs, Request } from "../../server/request/request"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import { RequestType } from "../constants"
-import get, { MESSAGE_FAIL } from "./get"
+import { MESSAGE_ITEM_NOT_FOUND } from "./constants"
+import get from "./get"
 
 describe("get action handler", () => {
   it("should be able to get an item from a room inventory", async () => {
@@ -40,6 +41,6 @@ describe("get action handler", () => {
 
     // then
     expect(player.sessionMob.inventory.items.length).toBe(0)
-    expect(response.message).toBe(MESSAGE_FAIL)
+    expect(response.message).toBe(MESSAGE_ITEM_NOT_FOUND)
   })
 })

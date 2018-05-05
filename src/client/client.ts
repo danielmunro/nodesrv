@@ -6,9 +6,10 @@ import { Player } from "./../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "./../server/request/request"
 import { Channel } from "./../social/constants"
 import { Message } from "./../social/message"
+import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
 
 export function getDefaultUnhandledMessage() {
-  return { message: "what was that?" }
+  return { message: MESSAGE_NOT_UNDERSTOOD }
 }
 
 export class Client {
