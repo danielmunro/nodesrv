@@ -18,7 +18,7 @@ export function onCoinFlipSuccess(callback): Promise<any> {
   }
 }
 
-function getRandomInt(max: number): number {
+export function getRandomInt(max: number): number {
   return 1 + Math.floor(Math.random() * Math.floor(max))
 }
 
