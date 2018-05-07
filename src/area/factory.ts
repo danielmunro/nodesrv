@@ -9,15 +9,21 @@ import { Room } from "../room/model/room"
 import { persistAll } from "../room/service"
 import { Arena } from "./arena"
 
-export function newWorld(rootRoom: Room): Promise<Room[]> {
-  const TRAIL_1_ROOMS_TO_BUILD = 2
+export async function newWorld(rootRoom: Room): Promise<Room[]> {
+  const TRAIL_1_ROOMS_TO_BUILD = 3
   const ARENA_1_WIDTH = 5
   const ARENA_1_HEIGHT = 5
 
-  return newInn(rootRoom)
-    .then((roomCollection1) => newTrail(rootRoom, getFreeDirection(rootRoom), TRAIL_1_ROOMS_TO_BUILD)
-    .then((roomCollection2) => newArena(roomCollection2[1], ARENA_1_WIDTH, ARENA_1_HEIGHT)
-    .then((roomCollection3) => roomCollection1.concat(roomCollection2, roomCollection3))))
+  const inn = await newInn(rootRoom)
+  const trail1 = await newTrail(rootRoom, getFreeDirection(rootRoom), TRAIL_1_ROOMS_TO_BUILD)
+  const arena = await newArena(trail1[2], ARENA_1_WIDTH, ARENA_1_HEIGHT)
+  // const trail2 = await newTrail(arena.matrix[4][4])
+
+  return [
+    ...inn,
+    ...trail1,
+    ...arena.rooms,
+  ]
 }
 
 export function newInn(root: Room): Promise<Room[]> {
@@ -80,8 +86,10 @@ export function newTrail(root: Room, direction: Direction, length: number) {
   return persistAll(initialRooms, exits)
 }
 
-export function newArena(root: Room, width: number, height: number) {
+export async function newArena(root: Room, width: number, height: number) {
   const arena = new Arena(root, width, height, newCritter)
 
-  return persistAll(arena.rooms, arena.exits)
+  await persistAll(arena.rooms, arena.exits)
+
+  return arena
 }
