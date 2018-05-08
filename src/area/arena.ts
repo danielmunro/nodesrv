@@ -1,13 +1,14 @@
-import roll from "../dice/dice"
+import roll, { coinFlip, getRandomInt } from "../dice/dice"
 import { Mob } from "../mob/model/mob"
-import { Direction } from "../room/constants"
-import { getFreeReciprocalDirection } from "../room/direction"
+import { cardinalDirections, Direction } from "../room/constants"
+import { getFreeReciprocalDirection, isCardinalDirection } from "../room/direction"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
 
 export class Arena {
-  public readonly connectingRoom
+  public readonly connectingRoom: Room
+  public readonly exitRoom: Room
   public readonly matrix = []
   public readonly width
   public readonly height
@@ -20,11 +21,24 @@ export class Arena {
     this.height = height
     this.mobFactory = mobFactory
     this.buildMatrix(root)
-    this.connectingRoom = this.matrix[0][0]
-    this.addReciprocalExitToArena(
-      getFreeReciprocalDirection(root, this.connectingRoom),
-      root,
-      this.connectingRoom)
+    const connectingRooms = this.getConnectingRooms(root)
+    this.connectingRoom = connectingRooms[0]
+    this.exitRoom = connectingRooms[1]
+  }
+
+  private getConnectingRooms(root): Room[] {
+    if (this.hasNoAvailableConnections(root)) {
+      throw new Error("root has no available connections")
+    }
+
+    const connectingRoom = this.getRandomEdge()
+    const exitRoom = this.getRandomEdge()
+
+    if (!getFreeReciprocalDirection(root, connectingRoom)) {
+      return this.getConnectingRooms(root)
+    }
+
+    return [connectingRoom, exitRoom]
   }
 
   private buildMatrix(root: Room) {
@@ -38,6 +52,27 @@ export class Arena {
         this.connectRoomAtCoords(x, y)
       }
     }
+  }
+
+  private getRandomEdge(): Room {
+    const edge = roll(1, 4)
+    let x
+    let y
+    if (edge === 1) {
+      y = 0
+      x = getRandomInt(this.matrix[0].length - 1)
+    } else if (edge === 2) {
+      y = getRandomInt(this.matrix.length - 1)
+      x = this.matrix[0].length - 1
+    } else if (edge === 3) {
+      y = this.matrix.length - 1
+      x = getRandomInt(this.matrix[0].length - 1)
+    } else if (edge === 4) {
+      y = getRandomInt(this.matrix.length - 1)
+      x = 0
+    }
+
+    return this.matrix[y][x]
   }
 
   private connectRoomAtCoords(x: number, y: number) {
@@ -56,5 +91,9 @@ export class Arena {
 
   private addReciprocalExitToArena(direction: Direction, room1: Room, room2: Room) {
     newReciprocalExit(direction, room1, room2).map((e) => this.exits.push(e))
+  }
+
+  private hasNoAvailableConnections(room: Room) {
+    return room.exits.filter((e) => isCardinalDirection(e.direction)).length === cardinalDirections.length
   }
 }

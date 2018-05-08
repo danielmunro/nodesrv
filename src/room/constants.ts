@@ -16,7 +16,7 @@ export const allDirections = [
   Direction.West,
 ]
 
-export const nsewDirections = [
+export const cardinalDirections = [
   Direction.North,
   Direction.South,
   Direction.East,

@@ -88,8 +88,13 @@ export function newTrail(root: Room, direction: Direction, length: number) {
 
 export async function newArena(root: Room, width: number, height: number) {
   const arena = new Arena(root, width, height, newCritter)
+  const exits = newReciprocalExit(
+    getFreeReciprocalDirection(root, arena.connectingRoom),
+    root,
+    arena.connectingRoom,
+  )
 
-  await persistAll(arena.rooms, arena.exits)
+  await persistAll(arena.rooms, [...arena.exits, ...exits])
 
   return arena
 }

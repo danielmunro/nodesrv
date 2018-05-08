@@ -1,5 +1,5 @@
 import { pickOne } from "../random/helpers"
-import { Direction, nsewDirections } from "./constants"
+import { cardinalDirections, Direction } from "./constants"
 import { Room } from "./model/room"
 
 export function reverse(direction: Direction) {
@@ -20,10 +20,17 @@ export function reverse(direction: Direction) {
 }
 
 export function getFreeDirection(room: Room): Direction {
-  return pickOne(nsewDirections.filter((d) => !room.exits.find((e) => e.direction === d)))
+  return pickOne(cardinalDirections.filter((d) => !room.exits.find((e) => e.direction === d)))
 }
 
 export function getFreeReciprocalDirection(source: Room, destination: Room) {
-  return pickOne(nsewDirections.filter(
+  return pickOne(cardinalDirections.filter(
     (d) => source.isDirectionFree(d) && destination.isDirectionFree(reverse(d))))
+}
+
+export function isCardinalDirection(direction: Direction): boolean {
+  return direction === Direction.North
+    || direction === Direction.South
+    || direction === Direction.East
+    || direction === Direction.West
 }

@@ -1,4 +1,4 @@
-import { allDirections, Direction, nsewDirections } from "./constants"
+import { allDirections, Direction, cardinalDirections } from "./constants"
 import { getFreeDirection, getFreeReciprocalDirection, reverse } from "./direction"
 import { newExit } from "./factory"
 import { Room } from "./model/room"
@@ -43,7 +43,7 @@ describe("direction", () => {
   it("getFreeReciprocalDirection should not make impossible connections", () => {
     const source = new Room()
     const destination = new Room()
-    nsewDirections.forEach((d) => newExit(d, destination, new Room()))
+    cardinalDirections.forEach((d) => newExit(d, destination, new Room()))
 
     expect(getFreeReciprocalDirection(source, destination)).toBeUndefined()
   })
