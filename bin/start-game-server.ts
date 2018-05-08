@@ -1,3 +1,4 @@
+import * as assert from "assert"
 import { Server } from "ws"
 import { PORT, TICK } from "../src/constants"
 import { DiceRoller } from "../src/dice/dice"
@@ -17,8 +18,6 @@ import { RandomTickTimer } from "../src/timer/randomTickTimer"
 import { SecondIntervalTimer } from "../src/timer/secondTimer"
 import { ShortIntervalTimer } from "../src/timer/shortIntervalTimer"
 
-const startRoomID = +process.argv[2]
-
 function addObservers(gameServer: GameServer): GameServer {
   gameServer.addObserver(
     new ObserverChain([
@@ -35,6 +34,8 @@ function addObservers(gameServer: GameServer): GameServer {
   return gameServer
 }
 
+const startRoomID = +process.argv[2]
+assert.ok(startRoomID > 0, "start room ID is required to be a number")
 console.log("starting up", { port: PORT, startRoomID })
 
 findOneRoom(startRoomID).then((startRoom) =>
