@@ -55,24 +55,16 @@ export class Arena {
   }
 
   private getRandomEdge(): Room {
-    const edge = roll(1, 4)
-    let x
-    let y
-    if (edge === 1) {
-      y = 0
-      x = getRandomInt(this.matrix[0].length - 1)
-    } else if (edge === 2) {
-      y = getRandomInt(this.matrix.length - 1)
-      x = this.matrix[0].length - 1
-    } else if (edge === 3) {
-      y = this.matrix.length - 1
-      x = getRandomInt(this.matrix[0].length - 1)
-    } else if (edge === 4) {
-      y = getRandomInt(this.matrix.length - 1)
-      x = 0
+    const sideOfMatrix = roll(1, 4)
+    if (sideOfMatrix === 1) {
+      return this.matrix[0][getRandomInt(this.width - 1)]
+    } else if (sideOfMatrix === 2) {
+      return this.matrix[getRandomInt(this.height - 1)][this.width - 1]
+    } else if (sideOfMatrix === 3) {
+      return this.matrix[this.height - 1][getRandomInt(this.width - 1)]
+    } else if (sideOfMatrix === 4) {
+      return this.matrix[getRandomInt(this.height - 1)][0]
     }
-
-    return this.matrix[y][x]
   }
 
   private connectRoomAtCoords(x: number, y: number) {
