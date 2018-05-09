@@ -1,4 +1,4 @@
-import roll, { coinFlip, getRandomInt } from "../dice/dice"
+import roll, { getRandomInt } from "../dice/dice"
 import { Mob } from "../mob/model/mob"
 import { cardinalDirections, Direction } from "../room/constants"
 import { getFreeReciprocalDirection, isCardinalDirection } from "../room/direction"

@@ -1,4 +1,4 @@
-import { allDirections, Direction, cardinalDirections } from "./constants"
+import { allDirections, cardinalDirections, Direction } from "./constants"
 import { getFreeDirection, getFreeReciprocalDirection, reverse } from "./direction"
 import { newExit } from "./factory"
 import { Room } from "./model/room"
@@ -37,14 +37,17 @@ describe("direction", () => {
     newExit(Direction.South, destination, new Room())
     newExit(Direction.East, destination, new Room())
 
+    // expect
     expect(getFreeReciprocalDirection(source, destination)).toBe(Direction.East)
   })
 
   it("getFreeReciprocalDirection should not make impossible connections", () => {
+    // setup
     const source = new Room()
     const destination = new Room()
     cardinalDirections.forEach((d) => newExit(d, destination, new Room()))
 
+    // expect
     expect(getFreeReciprocalDirection(source, destination)).toBeUndefined()
   })
 })
