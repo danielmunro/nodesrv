@@ -13,6 +13,7 @@ import { Skill } from "../../skill/model/skill"
 import { Spell } from "../../spell/model/spell"
 import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
+import { SpecializationType } from "../specialization/specializationType"
 
 @Entity()
 export class Mob {
@@ -29,8 +30,11 @@ export class Mob {
     @Column("text")
     public description: string
 
-    @Column("text")
+    @Column("integer")
     public race: Race
+
+    @Column("integer", { nullable: true })
+    public specialization: SpecializationType
 
     @Column("integer")
     public level: number = 1
