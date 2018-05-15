@@ -1,5 +1,5 @@
 import * as assert from "assert"
-import { Server } from "ws"
+import { Server as WebSocketServer } from "ws"
 import { PORT } from "../src/constants"
 import { getPlayerProvider } from "../src/player/fixture/player"
 import { findOneRoom } from "../src/room/repository/room"
@@ -11,7 +11,4 @@ assert.ok(startRoomID > 0, "start room ID is required to be a number")
 console.log("starting up", { port: PORT, startRoomID })
 
 findOneRoom(startRoomID).then((startRoom) =>
-  addObservers(
-    new GameServer(
-      new Server({ port: PORT }),
-      getPlayerProvider(startRoom))).start())
+  addObservers(new GameServer(new WebSocketServer({ port: PORT }), startRoom)).start())

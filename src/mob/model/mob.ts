@@ -27,13 +27,13 @@ export class Mob {
     @Column("text")
     public name: string
 
-    @Column("text")
+    @Column("text", { nullable: true })
     public description: string
 
-    @Column("integer")
+    @Column("text")
     public race: Race
 
-    @Column("integer", { nullable: true })
+    @Column("text", { nullable: true })
     public specialization: SpecializationType
 
     @Column("integer")
@@ -41,6 +41,12 @@ export class Mob {
 
     @Column("boolean")
     public wanders: boolean = false
+
+    @Column("boolean")
+    public isPlayer: boolean = false
+
+    @Column("text", { nullable: true })
+    public password: string
 
     @OneToMany((type) => Affect, (affect) => affect.mob, { cascadeInsert: true, eager: true })
     public affects: Affect[] = []

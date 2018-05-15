@@ -33,9 +33,11 @@ export class Request {
       const r = this.args.request.split(" ")
       this.command = r[0]
       this.subject = r[1]
-      const find = r[r.length - 1]
-      this.target = this.getRoom().mobs.find((m) => match(m.name, find))
       this.message = r.slice(1).join(" ")
+      if (player) {
+        const find = r[r.length - 1]
+        this.target = this.getRoom().mobs.find((m) => match(m.name, find))
+      }
     }
   }
 

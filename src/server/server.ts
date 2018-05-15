@@ -3,6 +3,7 @@ import { Client } from "../client/client"
 import { actions } from "../handler/actions"
 import { Player } from "../player/model/player"
 import { poll } from "../poll/poll"
+import { Room } from "../room/model/room"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { SecondIntervalTimer } from "../timer/secondTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
@@ -19,14 +20,14 @@ enum Status {
 }
 
 export class GameServer {
+  public readonly startRoom: Room
   private readonly wss: Server
-  private readonly playerProvider: (name: string) => Player
   private status: Status = Status.Initialized
   private clients: Client[] = []
 
-  constructor(wss, playerProvider: (name: string) => Player) {
+  constructor(wss, startRoom: Room) {
     this.wss = wss
-    this.playerProvider = playerProvider
+    this.startRoom = startRoom
   }
 
   public start(): void {
@@ -46,10 +47,10 @@ export class GameServer {
   }
 
   public addWS(ws): void {
-    const client = new Client(ws, this.playerProvider("demo name"), actions)
+    const client = new Client(ws, actions, this.startRoom)
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)
-    client.send({ player: client.player })
+    client.send({ message: client.session.getAuthStepMessage() })
   }
 
   public isInitialized(): boolean {

@@ -7,5 +7,8 @@ const ws = jest.fn(() => ({
 }))
 
 export function getTestClient(player = getTestPlayer()): Client {
-  return new Client(ws(), player, actions)
+  const client = new Client(ws(), actions)
+  client.player = player
+
+  return client
 }

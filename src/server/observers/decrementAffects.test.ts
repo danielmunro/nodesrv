@@ -15,14 +15,10 @@ describe("decrementAffects", () => {
     mob.addAffect(newAffect(AffectType.Shield, TEST_TIMEOUT_2))
     expect.assertions(2)
     await persistMob(mob)
-      .then(async () => {
-        new DecrementAffects().notify([])
-        await findOneMob(mob.id)
-          .then((m) => {
-            expect(m.getAffect(AffectType.Dazed).timeout).toBe(TEST_TIMEOUT_1 - 1)
-            expect(m.getAffect(AffectType.Shield).timeout).toBe(TEST_TIMEOUT_2 - 1)
-          })
-      })
+    new DecrementAffects().notify([])
+    const foundMob = await findOneMob(mob.id)
+    expect(foundMob.getAffect(AffectType.Dazed).timeout).toBe(TEST_TIMEOUT_1 - 1)
+    expect(foundMob.getAffect(AffectType.Shield).timeout).toBe(TEST_TIMEOUT_2 - 1)
   })
 
   it("should an affect once it decrements to zero", async () => {

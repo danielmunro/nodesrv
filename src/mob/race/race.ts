@@ -1,23 +1,18 @@
-// import { Vitals } from "../../attributes/vitals"
-
-// const startingVitals = new Vitals(20, 100, 100)
-// const baseStat = 15
-
 export enum Race {
-  Human,
-  Dwarf,
-  Elf,
-  Drow,
-  Kender,
-  Halfling,
-  Gnome,
-  Faerie,
-  HalfOrc,
-  Giant,
+  Human = "human",
+  Dwarf = "dwarf",
+  Elf = "elf",
+  Drow = "drow",
+  Kender = "kender",
+  Halfling = "halfling",
+  Gnome = "gnome",
+  Faerie = "faerie",
+  HalfOrc = "half-orc",
+  Giant = "giant",
 
   // Nonplayable
-  Insect,
-  Critter,
+  Insect = "insect",
+  Critter = "critter",
 }
 
 export const allRaces = [

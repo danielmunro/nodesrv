@@ -1,11 +1,14 @@
 import * as stringify from "json-stringify-safe"
-import { RequestType } from "./../handler/constants"
-import { HandlerCollection } from "./../handler/handlerCollection"
-import { HandlerDefinition } from "./../handler/handlerDefinition"
-import { Player } from "./../player/model/player"
-import { getNewRequestFromMessageEvent, Request } from "./../server/request/request"
-import { Channel } from "./../social/constants"
-import { Message } from "./../social/message"
+import { RequestType } from "../handler/constants"
+import { HandlerCollection } from "../handler/handlerCollection"
+import { HandlerDefinition } from "../handler/handlerDefinition"
+import { Mob } from "../mob/model/mob"
+import { Player } from "../player/model/player"
+import { Room } from "../room/model/room"
+import { getNewRequestFromMessageEvent, Request } from "../server/request/request"
+import Session from "../session/session"
+import { Channel } from "../social/constants"
+import { Message } from "../social/message"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
 
 export function getDefaultUnhandledMessage() {
@@ -14,15 +17,18 @@ export function getDefaultUnhandledMessage() {
 
 export class Client {
   public readonly ws: WebSocket
-  public readonly player: Player
   public readonly handlers: HandlerCollection
+  public readonly session: Session
+  public readonly startRoom: Room
+  public player: Player
   private requests: Request[] = []
 
-  constructor(ws: WebSocket, player: Player, handlers: HandlerCollection) {
+  constructor(ws: WebSocket, handlers: HandlerCollection, startRoom: Room = null) {
     this.ws = ws
-    this.player = player
     this.handlers = handlers
-    this.ws.onmessage = (data) => this.addRequest(getNewRequestFromMessageEvent(this.player, data))
+    this.startRoom = startRoom
+    this.session = new Session(this)
+    this.ws.onmessage = (data) => this.addRequest(getNewRequestFromMessageEvent(this.session.getPlayer(), data))
   }
 
   public createMessage(channel: Channel, message: string) {
@@ -42,10 +48,19 @@ export class Client {
   }
 
   public canHandleRequests(): boolean {
-    return this.hasRequests() && this.player.delay === 0
+    return this.hasRequests() && this.player && this.player.delay === 0
   }
 
-  public handleNextRequest() {
+  public getSessionMob(): Mob {
+    return this.session.getMob()
+  }
+
+  public handleNextRequest(): void {
+    if (!this.session.isLoggedIn()) {
+      this.session.handleRequest(this.requests.shift())
+      return
+    }
+
     this.handleRequest(this.requests.shift())
   }
 
@@ -65,7 +80,9 @@ export class Client {
   }
 
   public shutdown(): void {
-    this.player.closeSession()
+    if (this.player) {
+      this.player.closeSession()
+    }
   }
 
   public tick(id: string, timestamp: Date) {

@@ -1,6 +1,13 @@
 export enum SpecializationType {
-  Cleric,
-  Mage,
-  Ranger,
-  Warrior,
+  Cleric = "cleric",
+  Mage = "mage",
+  Ranger = "ranger",
+  Warrior = "warrior",
 }
+
+export const allSpecializations = [
+  SpecializationType.Cleric,
+  SpecializationType.Mage,
+  SpecializationType.Ranger,
+  SpecializationType.Warrior,
+]

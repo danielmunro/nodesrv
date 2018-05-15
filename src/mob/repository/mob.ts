@@ -10,6 +10,10 @@ export async function findOneMob(id: number): Promise<Mob> {
   return await getMobRepository().then((mobRepository) => mobRepository.findOneById(id))
 }
 
+export async function findPlayerMobByName(name: string): Promise<Mob> {
+  return await getMobRepository().then((mobRepository) => mobRepository.findOne({ name, isPlayer: true }))
+}
+
 export async function findWanderingMobs(): Promise<Mob[]> {
   return await getMobRepository()
     .then((mobRepository) => mobRepository.find({ where: { wanders: true }}))

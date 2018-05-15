@@ -6,7 +6,6 @@ import { HandlerCollection } from "../handler/handlerCollection"
 import { createRequestArgs, getNewRequestFromMessageEvent, Request } from "../server/request/request"
 import { Channel } from "../social/constants"
 import { getTestClient } from "../test/client"
-import { getTestPlayer } from "../test/player"
 import { Client, getDefaultUnhandledMessage } from "./client"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
 
@@ -121,7 +120,7 @@ describe("clients", () => {
     const ws = jest.fn(() => ({
         send: (message) => buf.push(message),
       }))
-    client = new Client(ws(), getTestPlayer(), new HandlerCollection([]))
+    client = new Client(ws(), new HandlerCollection([]))
     const id = "test-tick-id"
     const timestamp = new Date()
 
@@ -193,7 +192,7 @@ describe("clients", () => {
     const ws = jest.fn(() => ({
       send,
     }))
-    client = new Client(ws(), getTestPlayer(), new HandlerCollection([]))
+    client = new Client(ws(), new HandlerCollection([]))
 
     // expect
     expect(send.mock.calls.length).toBe(0)

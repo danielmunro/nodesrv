@@ -14,7 +14,7 @@ export class Player {
     @Generated("uuid")
     public uuid: string
 
-    @Column("text")
+    @Column("text", { nullable: true })
     public name: string
 
     @OneToMany((type) => Mob, (mob) => mob.player, { cascadeInsert: true, cascadeUpdate: true })
