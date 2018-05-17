@@ -37,6 +37,7 @@ export default class Session {
       this.player.sessionMob = this.mob
       this.player.mobs.push(this.mob)
       savePlayer(this.player)
+      this.client.player = this.player
       this.client.send({ player: this.player })
       this.client.send(await look(new Request(this.player, RequestType.Look, createRequestArgs("look"))))
       return
