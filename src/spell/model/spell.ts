@@ -7,7 +7,7 @@ export class Spell {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("integer")
+  @Column("text")
   public spellType: SpellType
 
   @Column("integer")

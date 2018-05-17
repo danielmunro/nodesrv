@@ -19,12 +19,6 @@ export default class Complete implements AuthStep {
   }
 
   public async processRequest(request: Request): Promise<any> {
-    this.mob.vitals = newStartingVitals()
-    this.mob.attributes.push(newAttributes(
-      newStartingVitals(),
-      newStartingStats(),
-      newHitroll(1, 1),
-    ))
     return this
   }
 }

@@ -7,7 +7,7 @@ export class Skill {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("integer")
+  @Column("text")
   public skillType: SkillType
 
   @Column("integer")

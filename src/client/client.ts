@@ -48,7 +48,11 @@ export class Client {
   }
 
   public canHandleRequests(): boolean {
-    return this.hasRequests() && this.player && this.player.delay === 0
+    if (!this.session.isLoggedIn()) {
+      return this.hasRequests()
+    }
+
+    return this.hasRequests() && this.player.delay === 0
   }
 
   public getSessionMob(): Mob {

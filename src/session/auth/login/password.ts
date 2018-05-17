@@ -1,6 +1,7 @@
 import { Mob } from "../../../mob/model/mob"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
+import Complete from "../complete"
 import { MESSAGE_LOGIN_PASSWORD } from "../constants"
 
 export default class Password implements AuthStep {
@@ -18,7 +19,7 @@ export default class Password implements AuthStep {
     const password = request.command
 
     if (password === this.mob.password) {
-      // success?
+      return new Complete(this.mob)
     }
 
     return this
