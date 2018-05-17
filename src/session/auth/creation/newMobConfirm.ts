@@ -1,3 +1,4 @@
+import { newStartingVitals } from "../../../attributes/factory"
 import { Mob } from "../../../mob/model/mob"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
@@ -25,6 +26,7 @@ export default class NewMobConfirm implements AuthStep {
 
     if (response === "y") {
       const mob = new Mob()
+      mob.vitals = newStartingVitals()
       mob.name = this.name
       mob.isPlayer = true
       return new Password(mob)
