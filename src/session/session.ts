@@ -2,6 +2,7 @@ import { Client } from "../client/client"
 import look from "../handler/action/look"
 import { RequestType } from "../handler/constants"
 import { Mob } from "../mob/model/mob"
+import { newPlayer } from "../player/factory"
 import { Player } from "../player/model/player"
 import { savePlayer } from "../player/service"
 import { createRequestArgs, Request } from "../server/request/request"
@@ -30,16 +31,8 @@ export default class Session {
   public async handleRequest(request: Request) {
     this.authStep = await this.authStep.processRequest(request)
     if (this.authStep instanceof Complete) {
-      this.status = SessionStatus.LoggedIn
-      this.mob = this.authStep.mob
-      this.client.startRoom.addMob(this.mob)
-      this.player = new Player()
-      this.player.sessionMob = this.mob
-      this.player.mobs.push(this.mob)
-      savePlayer(this.player)
-      this.client.player = this.player
-      this.client.send({ player: this.player })
-      this.client.send(await look(new Request(this.player, RequestType.Look, createRequestArgs("look"))))
+      await this.loginWithMob(this.authStep.mob)
+      await savePlayer(this.player)
       return
     }
 
@@ -56,5 +49,15 @@ export default class Session {
 
   public getPlayer() {
     return this.player
+  }
+
+  public async loginWithMob(mob: Mob) {
+    this.mob = mob
+    this.client.startRoom.addMob(this.mob)
+    this.player = newPlayer(mob.name, mob)
+    this.client.player = this.player
+    this.status = SessionStatus.LoggedIn
+    this.client.send({ player: this.player })
+    this.client.send(await look(new Request(this.player, RequestType.Look, createRequestArgs("look"))))
   }
 }

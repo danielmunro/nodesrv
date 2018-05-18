@@ -66,7 +66,9 @@ function sendToClientIfSessionMobIsFighting(clientMobMap, mob, round) {
 
 export function createClientMobMap(clients: Client[]): object {
   const clientMobMap = {}
-  clients.forEach((client) => clientMobMap[client.player.sessionMob.name] = client)
+  clients
+    .filter((c) => c.isLoggedIn())
+    .forEach((client) => clientMobMap[client.player.sessionMob.name] = client)
 
   return clientMobMap
 }

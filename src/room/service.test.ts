@@ -9,10 +9,8 @@ describe("moveMob", () => {
     const mob = getTestMob()
     const source = getTestRoom()
     source.addMob(mob)
-    expect.assertions(1)
-
     await persistRoom(source)
-      .then(() => expect(moveMob(mob, Direction.North)).rejects.toThrowError())
+    expect(moveMob(mob, Direction.North)).rejects.toThrowError()
   })
 
   it("should allow movement where a direction exists", async () => {
@@ -21,10 +19,8 @@ describe("moveMob", () => {
     const destination = getTestRoom()
     const exits = newReciprocalExit(Direction.North, source, destination)
     source.addMob(mob)
-    expect.assertions(1)
-
     await persistAll([source, destination], exits)
-      .then(() => moveMob(mob, Direction.North)
-      .then(() => expect(mob.room.id).toBe(destination.id)))
+    await moveMob(mob, Direction.North)
+    expect(mob.room.id).toBe(destination.id)
   })
 })

@@ -47,8 +47,12 @@ export class Client {
     this.requests.push(request)
   }
 
+  public isLoggedIn(): boolean {
+    return this.session.isLoggedIn()
+  }
+
   public canHandleRequests(): boolean {
-    if (!this.session.isLoggedIn()) {
+    if (!this.isLoggedIn()) {
       return this.hasRequests()
     }
 
