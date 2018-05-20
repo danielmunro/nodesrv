@@ -20,4 +20,6 @@ export function createSpecializationFromType(specializationType: SpecializationT
   if (specializationType === SpecializationType.Warrior) {
     return new Warrior()
   }
+
+  throw new Error("unknown specialization")
 }

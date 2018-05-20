@@ -3,6 +3,7 @@ export enum SpecializationType {
   Mage = "mage",
   Ranger = "ranger",
   Warrior = "warrior",
+  Noop = "noop",
 }
 
 export const allSpecializations = [

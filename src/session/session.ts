@@ -35,7 +35,6 @@ export default class Session {
       await savePlayer(this.player)
       return
     }
-
     this.client.send({ message: this.authStep.getStepMessage() })
   }
 

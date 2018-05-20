@@ -3,6 +3,7 @@ import look from "../handler/action/look"
 import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "../handler/action/move"
 import { RequestType } from "../handler/constants"
 import { HandlerCollection } from "../handler/handlerCollection"
+import { Player } from "../player/model/player"
 import { createRequestArgs, getNewRequestFromMessageEvent, Request } from "../server/request/request"
 import { Channel } from "../social/constants"
 import { getTestClient } from "../test/client"
@@ -149,6 +150,10 @@ describe("clients", () => {
     expect(room.mobs).not.toContain(client.player.sessionMob)
   })
 
+  it("getSessionMob sanity check", () => {
+    expect(client.getSessionMob()).toBe(client.session.getMob())
+  })
+
   it("has requests sanity check", () => {
     // expect
     expect(client.hasRequests()).toBeFalsy()
@@ -213,5 +218,21 @@ describe("clients", () => {
 
     // then
     expect(client.hasRequests()).toBeTruthy()
+  })
+
+  it("not logged in clients should always be able to handle requests if ones are available", () => {
+    // setup
+    const newClient = new Client(jest.fn(), jest.fn())
+    newClient.addRequest(new Request(newClient.player, RequestType.Any))
+    newClient.player = new Player()
+
+    // expect
+    expect(newClient.isLoggedIn()).toBeFalsy()
+
+    // when
+    newClient.player.delay += 1
+
+    // then
+    expect(newClient.canHandleRequests()).toBeTruthy()
   })
 })

@@ -4,7 +4,7 @@ import { moveMob, persistRoom } from "../../room/service"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import { Mob } from "../model/mob"
-import { findOneMob, findWanderingMobs, persistMob, saveMobRoom } from "./mob"
+import { findOneMob, findPlayerMobByName, findWanderingMobs, persistMob, saveMobRoom } from "./mob"
 
 function getTestWanderingMob(): Mob {
   const mob = getTestMob()
@@ -49,5 +49,30 @@ describe("mob repository", () => {
 
     // verify
     wanderers.forEach((wanderer) => expect(wanderer.wanders).toBeTruthy())
+  })
+
+  it("findPlayerMobByName should not return a non-player mob", async () => {
+    // given
+    const name = "alice"
+
+    // when
+    const mob = getTestMob(name)
+    await persistMob(mob)
+
+    // then
+    expect(await findPlayerMobByName("alice")).toBeUndefined()
+  })
+
+  it("findPlayerMobByName should return a player mob", async () => {
+    // given
+    const name = "bob"
+
+    // when
+    const mob = getTestMob(name)
+    mob.isPlayer = true
+    await persistMob(mob)
+
+    // then
+    expect(await findPlayerMobByName("bob")).toBeTruthy()
   })
 })
