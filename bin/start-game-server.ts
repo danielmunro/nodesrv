@@ -1,7 +1,6 @@
 import * as assert from "assert"
 import { Server as WebSocketServer } from "ws"
 import { PORT } from "../src/constants"
-import { getPlayerProvider } from "../src/player/fixture/player"
 import { findOneRoom } from "../src/room/repository/room"
 import addObservers from "../src/server/observerDecorator"
 import { GameServer } from "../src/server/server"

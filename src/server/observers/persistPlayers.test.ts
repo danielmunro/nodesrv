@@ -1,7 +1,5 @@
-import { Client } from "../../client/client"
 import { getPlayerRepository } from "../../player/repository/player"
 import { getTestClient } from "../../test/client"
-import { getTestPlayer } from "../../test/player"
 import { PersistPlayers } from "./persistPlayers"
 
 describe("persistPlayers", () => {

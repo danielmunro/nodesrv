@@ -1,18 +1,12 @@
 import { Server } from "mock-socket"
-import { Player } from "../player/model/player"
 import { DontExecuteTestObserver } from "../test/dontExecuteTestObserver"
 import { ExpectTestObserver } from "../test/expectTestObserver"
-import { getTestPlayer } from "../test/player"
 import { getTestRoom } from "../test/room"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
 import { GameServer } from "./server"
 
 let ws
-
-function playerProvider(name: string): Player {
-  return getTestPlayer()
-}
 
 function getGameServer(): GameServer {
   return new GameServer(ws, getTestRoom())

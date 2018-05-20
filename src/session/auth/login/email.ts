@@ -1,4 +1,3 @@
-import { findPlayerMobByName } from "../../../mob/repository/mob"
 import { findOneByEmail } from "../../../player/repository/player"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"

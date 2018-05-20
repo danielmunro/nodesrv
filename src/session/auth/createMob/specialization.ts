@@ -1,5 +1,4 @@
 import { Mob } from "../../../mob/model/mob"
-import { allRaces } from "../../../mob/race/race"
 import { assignSpecializationToMob } from "../../../mob/service"
 import { createSpecializationFromType } from "../../../mob/specialization/factory"
 import { allSpecializations } from "../../../mob/specialization/specializationType"

@@ -5,7 +5,6 @@ import AuthStep from "../authStep"
 import Complete from "../complete"
 import { MESSAGE_NAME } from "../constants"
 import NewMobConfirm from "../createMob/newMobConfirm"
-import Password from "../login/password"
 
 export default class Name implements AuthStep {
   public readonly player: Player

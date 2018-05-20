@@ -2,14 +2,11 @@ import { Client } from "../client/client"
 import look from "../handler/action/look"
 import { RequestType } from "../handler/constants"
 import { Mob } from "../mob/model/mob"
-import { newPlayer } from "../player/factory"
 import { Player } from "../player/model/player"
-import { savePlayer } from "../player/service"
 import { createRequestArgs, Request } from "../server/request/request"
 import AuthStep from "./auth/authStep"
 import Complete from "./auth/complete"
 import Email from "./auth/login/email"
-import { CreateMobStepStatus } from "./createMobStepStatus"
 import { SessionStatus } from "./status"
 
 export default class Session {
@@ -17,7 +14,6 @@ export default class Session {
   private player: Player
   private mob: Mob
   private status: SessionStatus = SessionStatus.Initialized
-  private createMobStepStatus: CreateMobStepStatus = CreateMobStepStatus.Name
   private authStep: AuthStep = new Email()
 
   constructor(client: Client) {

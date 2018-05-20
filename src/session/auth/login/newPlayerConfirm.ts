@@ -1,5 +1,3 @@
-import { newStartingVitals } from "../../../attributes/factory"
-import { Mob } from "../../../mob/model/mob"
 import { Player } from "../../../player/model/player"
 import { savePlayer } from "../../../player/service"
 import { Request } from "../../../server/request/request"
@@ -7,7 +5,6 @@ import AuthStep from "../authStep"
 import { MESSAGE_NEW_PLAYER_CONFIRM } from "../constants"
 import Email from "./email"
 import Name from "./name"
-import Password from "./password"
 
 export default class NewPlayerConfirm implements AuthStep {
   public readonly email: string

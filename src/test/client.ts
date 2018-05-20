@@ -1,6 +1,5 @@
 import { Client } from "../client/client"
 import { actions } from "../handler/actions"
-import { getTestMob } from "./mob"
 import { getTestPlayer } from "./player"
 import { getTestRoom } from "./room"
 
