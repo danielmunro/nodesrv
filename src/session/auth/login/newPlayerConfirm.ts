@@ -3,8 +3,8 @@ import { savePlayer } from "../../../player/service"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
 import { MESSAGE_NEW_PLAYER_CONFIRM } from "../constants"
+import Password from "../createPlayer/password"
 import Email from "./email"
-import Name from "./name"
 
 export default class NewPlayerConfirm implements AuthStep {
   public readonly email: string
@@ -27,9 +27,8 @@ export default class NewPlayerConfirm implements AuthStep {
     if (response === "y") {
       const player = new Player()
       player.email = this.email
-      await savePlayer(player)
 
-      return new Name(player)
+      return new Password(player)
     }
 
     return this

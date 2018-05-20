@@ -22,6 +22,10 @@ export default class Name implements AuthStep {
     const mob = await findPlayerMobByName(name)
 
     if (mob) {
+      if (mob.player.id !== this.player.id) {
+        return this
+      }
+
       this.player.sessionMob = mob
 
       return new Complete(this.player)

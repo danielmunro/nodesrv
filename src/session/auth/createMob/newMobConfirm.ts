@@ -5,7 +5,7 @@ import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
 import { MESSAGE_NEW_MOB_CONFIRM } from "../constants"
 import Name from "../login/name"
-import Password from "./password"
+import Race from "./race"
 
 export default class NewMobConfirm implements AuthStep {
   public readonly player: Player
@@ -32,7 +32,8 @@ export default class NewMobConfirm implements AuthStep {
       mob.vitals = newStartingVitals()
       mob.name = this.name
       mob.isPlayer = true
-      return new Password(mob)
+      this.player.sessionMob = mob
+      return new Race(this.player)
     }
 
     return this

@@ -1,15 +1,15 @@
-import { Mob } from "../../../mob/model/mob"
 import { allRaces } from "../../../mob/race/race"
+import { Player } from "../../../player/model/player"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
 import { MESSAGE_CHOOSE_RACE } from "../constants"
 import Specialization from "./specialization"
 
 export default class Race implements AuthStep {
-  public readonly mob: Mob
+  public readonly player: Player
 
-  constructor(mob: Mob) {
-    this.mob = mob
+  constructor(player: Player) {
+    this.player = player
   }
 
   public getStepMessage(): string {
@@ -24,7 +24,7 @@ export default class Race implements AuthStep {
       return this
     }
 
-    this.mob.race = race
-    return new Specialization(this.mob)
+    this.player.sessionMob.race = race
+    return new Specialization(this.player)
   }
 }

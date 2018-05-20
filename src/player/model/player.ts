@@ -14,7 +14,7 @@ export class Player {
     @Generated("uuid")
     public uuid: string
 
-    @Column("text", { unique: true })
+    @Column("text", { nullable: true })
     public name: string
 
     @Column("text", { unique: true })

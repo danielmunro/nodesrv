@@ -1,17 +1,17 @@
-import { Mob } from "../../../mob/model/mob"
 import { assignSpecializationToMob } from "../../../mob/service"
 import { createSpecializationFromType } from "../../../mob/specialization/factory"
 import { allSpecializations } from "../../../mob/specialization/specializationType"
+import { Player } from "../../../player/model/player"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
 import Complete from "../complete"
 import { MESSAGE_CHOOSE_SPECIALIZATION } from "../constants"
 
 export default class Specialization implements AuthStep {
-  public readonly mob: Mob
+  public readonly player: Player
 
-  constructor(mob: Mob) {
-    this.mob = mob
+  constructor(player: Player) {
+    this.player = player
   }
 
   public getStepMessage(): string {
@@ -26,8 +26,8 @@ export default class Specialization implements AuthStep {
       return this
     }
 
-    assignSpecializationToMob(this.mob, createSpecializationFromType(specialization))
+    assignSpecializationToMob(this.player.sessionMob, createSpecializationFromType(specialization))
 
-    return new Complete(this.mob)
+    return new Complete(this.player)
   }
 }

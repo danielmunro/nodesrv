@@ -18,6 +18,6 @@ export default class Email implements AuthStep {
       return new Password(player)
     }
 
-    return new NewPlayerConfirm(name)
+    return new NewPlayerConfirm(email)
   }
 }
