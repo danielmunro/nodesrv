@@ -8,7 +8,7 @@ import { savePlayer } from "../player/service"
 import { createRequestArgs, Request } from "../server/request/request"
 import AuthStep from "./auth/authStep"
 import Complete from "./auth/complete"
-import Name from "./auth/name"
+import Email from "./auth/login/email"
 import { CreateMobStepStatus } from "./createMobStepStatus"
 import { SessionStatus } from "./status"
 
@@ -18,7 +18,7 @@ export default class Session {
   private mob: Mob
   private status: SessionStatus = SessionStatus.Initialized
   private createMobStepStatus: CreateMobStepStatus = CreateMobStepStatus.Name
-  private authStep: AuthStep = new Name()
+  private authStep: AuthStep = new Email()
 
   constructor(client: Client) {
     this.client = client
@@ -31,8 +31,7 @@ export default class Session {
   public async handleRequest(request: Request) {
     this.authStep = await this.authStep.processRequest(request)
     if (this.authStep instanceof Complete) {
-      await this.loginWithMob(this.authStep.mob)
-      await savePlayer(this.player)
+      await this.login(this.authStep.player)
       return
     }
     this.client.send({ message: this.authStep.getStepMessage() })
@@ -50,10 +49,10 @@ export default class Session {
     return this.player
   }
 
-  public async loginWithMob(mob: Mob) {
-    this.mob = mob
+  public async login(player: Player) {
+    this.mob = player.sessionMob
+    this.player = player
     this.client.startRoom.addMob(this.mob)
-    this.player = newPlayer(mob.name, mob)
     this.client.player = this.player
     this.status = SessionStatus.LoggedIn
     this.client.send({ player: this.player })

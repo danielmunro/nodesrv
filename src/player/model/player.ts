@@ -17,6 +17,12 @@ export class Player {
     @Column("text", { unique: true })
     public name: string
 
+    @Column("text", { unique: true })
+    public email: string
+
+    @Column("text")
+    public password: string
+
     @OneToMany((type) => Mob, (mob) => mob.player, { cascadeInsert: true, cascadeUpdate: true })
     public mobs: Mob[] = []
 

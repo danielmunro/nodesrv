@@ -45,9 +45,6 @@ export class Mob {
     @Column("boolean")
     public isPlayer: boolean = false
 
-    @Column("text", { nullable: true })
-    public password: string
-
     @OneToMany((type) => Affect, (affect) => affect.mob, { cascadeInsert: true, eager: true })
     public affects: Affect[] = []
 

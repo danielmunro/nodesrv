@@ -1,9 +1,8 @@
 import { Player } from "../../../player/model/player"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
-import Complete from "../complete"
-import { MESSAGE_LOGIN_PASSWORD } from "../constants"
-import Name from "./name"
+import { MESSAGE_NEW_PASSWORD } from "../constants"
+import PasswordConfirm from "./passwordConfirm"
 
 export default class Password implements AuthStep {
   public readonly player: Player
@@ -13,16 +12,12 @@ export default class Password implements AuthStep {
   }
 
   public getStepMessage(): string {
-    return MESSAGE_LOGIN_PASSWORD
+    return MESSAGE_NEW_PASSWORD
   }
 
   public async processRequest(request: Request): Promise<any> {
     const password = request.command
 
-    if (password === this.player.password) {
-      return new Name(this.player)
-    }
-
-    return this
+    return new PasswordConfirm(this.player, password)
   }
 }

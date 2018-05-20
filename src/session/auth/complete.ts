@@ -1,17 +1,16 @@
 import { newAttributes, newHitroll, newStartingStats, newStartingVitals } from "../../attributes/factory"
 import { Mob } from "../../mob/model/mob"
-import { findPlayerMobByName } from "../../mob/repository/mob"
+import { Player } from "../../player/model/player"
 import { Request } from "../../server/request/request"
 import AuthStep from "./authStep"
 import { MESSAGE_COMPLETE } from "./constants"
-import NewMobConfirm from "./creation/newMobConfirm"
 import Password from "./login/password"
 
 export default class Complete implements AuthStep {
-  public readonly mob: Mob
+  public readonly player: Player
 
-  constructor(mob: Mob) {
-    this.mob = mob
+  constructor(player: Player) {
+    this.player = player
   }
 
   public getStepMessage(): string {

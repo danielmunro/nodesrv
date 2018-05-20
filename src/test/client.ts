@@ -11,7 +11,7 @@ const ws = jest.fn(() => ({
 export function getTestClient(player = getTestPlayer()): Client {
   const client = new Client(ws(), actions, getTestRoom())
   client.player = player
-  client.session.loginWithMob(getTestMob())
+  client.session.login(player)
 
   return client
 }

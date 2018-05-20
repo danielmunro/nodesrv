@@ -1,4 +1,6 @@
 export const MESSAGE_NAME_OK = "Ok"
+export const MESSAGE_EMAIL = "Email address:"
+export const MESSAGE_NEW_PLAYER_CONFIRM = "New player. Are you sure?"
 export const MESSAGE_NAME = "By what name do you wish to be known?"
 export const MESSAGE_LOGIN_PASSWORD = "Password:"
 export const MESSAGE_NEW_PASSWORD = "Password:"
