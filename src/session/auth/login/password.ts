@@ -2,15 +2,10 @@ import { Player } from "../../../player/model/player"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
 import { MESSAGE_LOGIN_PASSWORD } from "../constants"
+import PlayerAuthStep from "../playerAuthStep"
 import Name from "./name"
 
-export default class Password implements AuthStep {
-  public readonly player: Player
-
-  constructor(player: Player) {
-    this.player = player
-  }
-
+export default class Password extends PlayerAuthStep implements AuthStep {
   public getStepMessage(): string {
     return MESSAGE_LOGIN_PASSWORD
   }

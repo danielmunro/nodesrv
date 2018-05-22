@@ -1,18 +1,19 @@
 import { Player } from "../../../player/model/player"
+import { savePlayer } from "../../../player/service"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
-import { MESSAGE_NEW_PASSWORD } from "../constants"
+import { MESSAGE_COMPLETE } from "../constants"
+import Name from "../login/name"
 import PlayerAuthStep from "../playerAuthStep"
-import PasswordConfirm from "./passwordConfirm"
 
-export default class Password extends PlayerAuthStep implements AuthStep {
+export default class Complete extends PlayerAuthStep implements AuthStep {
   public getStepMessage(): string {
-    return MESSAGE_NEW_PASSWORD
+    return MESSAGE_COMPLETE
   }
 
   public async processRequest(request: Request): Promise<any> {
-    const password = request.command
+    await savePlayer(this.player)
 
-    return new PasswordConfirm(this.player, password)
+    return new Name(this.player)
   }
 }

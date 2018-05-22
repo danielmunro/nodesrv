@@ -1,8 +1,10 @@
 import { Player } from "../../../player/model/player"
+import { savePlayer } from "../../../player/service"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
 import { MESSAGE_NEW_PASSWORD_CONFIRM } from "../constants"
 import Name from "../login/name"
+import Complete from "./complete"
 import Password from "./password"
 
 export default class PasswordConfirm implements AuthStep {
@@ -27,6 +29,6 @@ export default class PasswordConfirm implements AuthStep {
 
     this.player.password = confirmPassword
 
-    return new Name(this.player)
+    return new Complete(this.player)
   }
 }

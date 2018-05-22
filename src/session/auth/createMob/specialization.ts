@@ -4,16 +4,11 @@ import { allSpecializations } from "../../../mob/specialization/specializationTy
 import { Player } from "../../../player/model/player"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
-import Complete from "../complete"
 import { MESSAGE_CHOOSE_SPECIALIZATION } from "../constants"
+import PlayerAuthStep from "../playerAuthStep"
+import Complete from "./complete"
 
-export default class Specialization implements AuthStep {
-  public readonly player: Player
-
-  constructor(player: Player) {
-    this.player = player
-  }
-
+export default class Specialization extends PlayerAuthStep implements AuthStep {
   public getStepMessage(): string {
     return MESSAGE_CHOOSE_SPECIALIZATION
   }

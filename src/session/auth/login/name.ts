@@ -5,14 +5,9 @@ import AuthStep from "../authStep"
 import Complete from "../complete"
 import { MESSAGE_NAME } from "../constants"
 import NewMobConfirm from "../createMob/newMobConfirm"
+import PlayerAuthStep from "../playerAuthStep"
 
-export default class Name implements AuthStep {
-  public readonly player: Player
-
-  constructor(player: Player) {
-    this.player = player
-  }
-
+export default class Name extends PlayerAuthStep implements AuthStep {
   public getStepMessage(): string {
     return MESSAGE_NAME
   }
