@@ -1,5 +1,4 @@
 import { findPlayerMobByName } from "../../../mob/repository/mob"
-import { Player } from "../../../player/model/player"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
 import Complete from "../complete"

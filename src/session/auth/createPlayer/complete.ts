@@ -1,4 +1,3 @@
-import { Player } from "../../../player/model/player"
 import { savePlayer } from "../../../player/service"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"

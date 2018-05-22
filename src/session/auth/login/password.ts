@@ -1,4 +1,3 @@
-import { Player } from "../../../player/model/player"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
 import { MESSAGE_LOGIN_PASSWORD } from "../constants"
