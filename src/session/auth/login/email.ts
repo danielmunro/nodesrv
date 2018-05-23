@@ -1,3 +1,4 @@
+import { validate } from "email-validator"
 import { findOneByEmail } from "../../../player/repository/player"
 import { Request } from "../../../server/request/request"
 import AuthStep from "../authStep"
@@ -14,10 +15,18 @@ export default class Email implements AuthStep {
     const email = request.command
     const player = await findOneByEmail(email)
 
+    if (!this.isEmailValid(email)) {
+      return this
+    }
+
     if (player) {
       return new Password(player)
     }
 
     return new NewPlayerConfirm(email)
+  }
+
+  private isEmailValid(email: string): boolean {
+    return validate(email)
   }
 }
