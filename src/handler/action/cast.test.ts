@@ -1,4 +1,4 @@
-import { createCastRequest } from "../../server/request/factory"
+import { createCastRequest } from "../../request/factory"
 import { MESSAGE_NOT_ENOUGH_MANA } from "../../spell/check"
 import { newSpell } from "../../spell/factory"
 import { SpellType } from "../../spell/spellType"

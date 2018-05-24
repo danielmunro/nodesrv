@@ -1,5 +1,5 @@
 import { Affect } from "../../affect/model/affect"
-import { Request } from "../../server/request/request"
+import { Request } from "../../request/request"
 
 function reduceAffects(affects) {
   return affects.reduce(

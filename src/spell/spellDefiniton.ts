@@ -1,7 +1,7 @@
 import { DamageType } from "../damage/damageType"
 import { ActionType } from "../handler/constants"
 import { addFight, Fight, getFights } from "../mob/fight/fight"
-import { Request } from "../server/request/request"
+import { Request } from "../request/request"
 import { Check } from "./check"
 import { SpellType } from "./spellType"
 

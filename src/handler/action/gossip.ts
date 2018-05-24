@@ -1,4 +1,4 @@
-import { Request } from "../../server/request/request"
+import { Request } from "../../request/request"
 import { gossip } from "../social"
 
 export default function(request: Request): Promise<any> {

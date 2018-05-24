@@ -1,5 +1,5 @@
 import { Item } from "../../item/model/item"
-import { Request } from "../../server/request/request"
+import { Request } from "../../request/request"
 import { doWithItemOrElse } from "../actions"
 
 export default function(request: Request): Promise<any> {

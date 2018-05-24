@@ -2,7 +2,7 @@ import roll from "../dice/dice"
 import { ActionType } from "../handler/constants"
 import { getFights } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
-import { Request } from "../server/request/request"
+import { Request } from "../request/request"
 import { Spell } from "./model/spell"
 import { SpellDefinition } from "./spellDefiniton"
 

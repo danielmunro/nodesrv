@@ -1,7 +1,7 @@
 import match from "../../matcher/match"
 import { addFight, Fight } from "../../mob/fight/fight"
 import { findOneMob } from "../../mob/repository/mob"
-import { Request } from "../../server/request/request"
+import { Request } from "../../request/request"
 import { ATTACK_MOB, MOB_NOT_FOUND } from "../actions"
 
 export default function(request: Request): Promise<any> {

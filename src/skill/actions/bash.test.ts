@@ -1,7 +1,7 @@
 import { RequestType } from "../../handler/constants"
 import { addFight, Fight, reset } from "../../mob/fight/fight"
 import { Player } from "../../player/model/player"
-import { createRequestArgs, Request } from "../../server/request/request"
+import { createRequestArgs, Request } from "../../request/request"
 import { SkillType } from "../../skill/skillType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"

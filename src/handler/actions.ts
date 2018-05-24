@@ -1,6 +1,6 @@
 import { Item } from "../item/model/item"
 import { Direction } from "../room/constants"
-import { Request } from "../server/request/request"
+import { Request } from "../request/request"
 import bash from "../skill/actions/bash"
 import affects from "./action/affects"
 import cast from "./action/cast"

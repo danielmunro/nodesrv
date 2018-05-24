@@ -1,5 +1,5 @@
 import { Player } from "../../player/model/player"
-import { createRequestArgs, Request } from "../../server/request/request"
+import { createRequestArgs, Request } from "../../request/request"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { ATTACK_MOB, MOB_NOT_FOUND } from "../actions"

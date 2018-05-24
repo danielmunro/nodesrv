@@ -1,4 +1,4 @@
-import { Request } from "../../server/request/request"
+import { Request } from "../../request/request"
 import { Status } from "../../spell/check"
 import spellCollection from "../../spell/spellCollection"
 

@@ -1,6 +1,6 @@
 import { validate } from "email-validator"
 import { findOneByEmail } from "../../../player/repository/player"
-import { Request } from "../../../server/request/request"
+import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
 import { MESSAGE_EMAIL } from "../constants"
 import Password from "../login/password"

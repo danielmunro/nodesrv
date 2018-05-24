@@ -1,5 +1,5 @@
 import { RequestType } from "../../handler/constants"
-import { createRequestArgs, Request } from "../../server/request/request"
+import { createRequestArgs, Request } from "../../request/request"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"

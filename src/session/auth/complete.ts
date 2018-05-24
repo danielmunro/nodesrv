@@ -1,4 +1,4 @@
-import { Request } from "../../server/request/request"
+import { Request } from "../../request/request"
 import AuthStep from "./authStep"
 import { MESSAGE_COMPLETE } from "./constants"
 import PlayerAuthStep from "./playerAuthStep"

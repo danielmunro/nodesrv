@@ -1,6 +1,6 @@
 import { RequestType } from "../../handler/constants"
+import { Request } from "../../request/request"
 import { getTestClient } from "../../test/client"
-import { Request } from "../request/request"
 import { HandleClientRequests } from "./handleClientRequests"
 
 describe("handleClientRequests", () => {

@@ -1,7 +1,7 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import { RequestType } from "../../handler/constants"
-import { Request } from "../../server/request/request"
+import { Request } from "../../request/request"
 import { getTestPlayer } from "../../test/player"
 import reset from "../../test/reset"
 import affects from "./affects"

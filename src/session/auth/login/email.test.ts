@@ -1,7 +1,7 @@
 import { RequestType } from "../../../handler/constants"
 import { getPlayerRepository } from "../../../player/repository/player"
 import { savePlayer } from "../../../player/service"
-import { createRequestArgs, Request } from "../../../server/request/request"
+import { createRequestArgs, Request } from "../../../request/request"
 import { getTestPlayer } from "../../../test/player"
 import AuthStep from "../authStep"
 import Email from "./email"

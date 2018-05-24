@@ -1,5 +1,5 @@
 import { addFight, Fight, getFights, reset } from "../mob/fight/fight"
-import { createCastRequest } from "../server/request/factory"
+import { createCastRequest } from "../request/factory"
 import { newSpell } from "../spell/factory"
 import { getTestClient } from "../test/client"
 import { getTestMob } from "../test/mob"

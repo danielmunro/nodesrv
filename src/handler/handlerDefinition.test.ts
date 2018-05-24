@@ -1,4 +1,4 @@
-import { Request } from "../server/request/request"
+import { Request } from "../request/request"
 import { getTestPlayer } from "./../test/player"
 import { RequestType } from "./constants"
 import { HandlerDefinition } from "./handlerDefinition"

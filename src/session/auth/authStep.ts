@@ -1,4 +1,4 @@
-import { Request } from "../../server/request/request"
+import { Request } from "../../request/request"
 
 export default interface AuthStep {
   getStepMessage(): string

@@ -1,5 +1,5 @@
 import { savePlayer } from "../../../player/service"
-import { Request } from "../../../server/request/request"
+import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
 import { MESSAGE_COMPLETE } from "../constants"
 import Name from "../login/name"

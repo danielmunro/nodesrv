@@ -1,5 +1,5 @@
 import { persistMob } from "../../../mob/repository/mob"
-import { Request } from "../../../server/request/request"
+import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
 import { default as FinalComplete } from "../complete"
 import { MESSAGE_COMPLETE } from "../constants"

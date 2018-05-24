@@ -1,5 +1,5 @@
 import { Player } from "../../../player/model/player"
-import { Request } from "../../../server/request/request"
+import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
 import { MESSAGE_NEW_PLAYER_CONFIRM } from "../constants"
 import Password from "../createPlayer/password"

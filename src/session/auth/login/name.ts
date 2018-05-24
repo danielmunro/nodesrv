@@ -1,5 +1,5 @@
 import { findPlayerMobByName } from "../../../mob/repository/mob"
-import { Request } from "../../../server/request/request"
+import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
 import Complete from "../complete"
 import { MESSAGE_NAME } from "../constants"

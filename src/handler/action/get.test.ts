@@ -1,5 +1,5 @@
 import { newShield } from "../../item/factory"
-import { createRequestArgs, Request } from "../../server/request/request"
+import { createRequestArgs, Request } from "../../request/request"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import { RequestType } from "../constants"

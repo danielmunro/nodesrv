@@ -1,4 +1,4 @@
-import { createRequestArgs, Request } from "../../server/request/request"
+import { createRequestArgs, Request } from "../../request/request"
 import { getTestPlayer } from "../../test/player"
 import { actions } from "../actions"
 import { RequestType } from "../constants"

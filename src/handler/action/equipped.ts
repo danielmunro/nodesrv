@@ -1,4 +1,4 @@
-import { Request } from "../../server/request/request"
+import { Request } from "../../request/request"
 
 export default function(request: Request): Promise<any> {
   return new Promise((resolve) =>

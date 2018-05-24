@@ -1,5 +1,5 @@
 import { allRaces } from "../../../mob/race/race"
-import { Request } from "../../../server/request/request"
+import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
 import { MESSAGE_CHOOSE_RACE } from "../constants"
 import PlayerAuthStep from "../playerAuthStep"

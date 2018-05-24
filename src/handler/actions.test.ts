@@ -1,5 +1,5 @@
 import { Item } from "../item/model/item"
-import { createRequestArgs, Request } from "../server/request/request"
+import { createRequestArgs, Request } from "../request/request"
 import { getTestPlayer } from "../test/player"
 import { actions, doWithItemOrElse } from "./actions"
 import { RequestType } from "./constants"

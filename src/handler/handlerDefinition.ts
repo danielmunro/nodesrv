@@ -1,4 +1,4 @@
-import { Request } from "./../server/request/request"
+import { Request } from "./../request/request"
 import { RequestType } from "./constants"
 import { RequestTypeMismatch } from "./exceptions"
 

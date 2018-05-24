@@ -1,7 +1,7 @@
 import { Equipment } from "../../item/equipment"
 import { Item } from "../../item/model/item"
 import { Player } from "../../player/model/player"
-import { createRequestArgs, Request } from "../../server/request/request"
+import { createRequestArgs, Request } from "../../request/request"
 import { getTestPlayer } from "../../test/player"
 import { RequestType } from "../constants"
 import wear, { ITEM_NOT_FOUND } from "./wear"

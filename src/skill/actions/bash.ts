@@ -1,6 +1,6 @@
 import roll from "../../dice/dice"
 import { getFights } from "../../mob/fight/fight"
-import { Request } from "../../server/request/request"
+import { Request } from "../../request/request"
 import { SkillType } from "../../skill/skillType"
 
 export const DELAY = 2
