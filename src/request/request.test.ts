@@ -1,10 +1,10 @@
-import { RequestType } from "../../handler/constants"
-import { Equipment } from "../../item/equipment"
-import { Item } from "../../item/model/item"
-import { Player } from "../../player/model/player"
-import { getTestMob } from "../../test/mob"
-import { getTestPlayer } from "../../test/player"
-import { getTestRoom } from "../../test/room"
+import { RequestType } from "../handler/constants"
+import { Equipment } from "../item/equipment"
+import { Item } from "../item/model/item"
+import { Player } from "../player/model/player"
+import { getTestMob } from "../test/mob"
+import { getTestPlayer } from "../test/player"
+import { getTestRoom } from "../test/room"
 import { createRequestArgs, Request } from "./request"
 
 function newLookRequest(player: Player, args: string): Request {

@@ -1,5 +1,5 @@
-import { RequestType } from "../../handler/constants"
-import { Player } from "../../player/model/player"
+import { RequestType } from "../handler/constants"
+import { Player } from "../player/model/player"
 import { createRequestArgs, Request } from "./request"
 
 export function createCastRequest(player: Player, input: string): Request {
