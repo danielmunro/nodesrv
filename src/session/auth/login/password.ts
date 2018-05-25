@@ -1,7 +1,8 @@
-import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
-import { MESSAGE_LOGIN_PASSWORD } from "../constants"
+import { MESSAGE_LOGIN_FAILED, MESSAGE_LOGIN_PASSWORD, MESSAGE_NAME_OK } from "../constants"
 import PlayerAuthStep from "../playerAuthStep"
+import Request from "../request"
+import Response from "../response"
 import Name from "./name"
 
 export default class Password extends PlayerAuthStep implements AuthStep {
@@ -9,13 +10,13 @@ export default class Password extends PlayerAuthStep implements AuthStep {
     return MESSAGE_LOGIN_PASSWORD
   }
 
-  public async processRequest(request: Request): Promise<any> {
-    const password = request.command
+  public async processRequest(request: Request): Promise<Response> {
+    const password = request.input
 
     if (password === this.player.password) {
-      return new Name(this.player)
+      return request.ok(new Name(this.player), MESSAGE_NAME_OK)
     }
 
-    return this
+    return request.fail(this, MESSAGE_LOGIN_FAILED)
   }
 }

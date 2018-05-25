@@ -1,8 +1,9 @@
 import { allRaces } from "../../../mob/race/race"
-import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
-import { MESSAGE_CHOOSE_RACE } from "../constants"
+import { MESSAGE_CHOOSE_RACE, MESSAGE_FAIL_RACE_UNAVAILABLE } from "../constants"
 import PlayerAuthStep from "../playerAuthStep"
+import Request from "../request"
+import Response from "../response"
 import Specialization from "./specialization"
 
 export default class Race extends PlayerAuthStep implements AuthStep {
@@ -10,15 +11,14 @@ export default class Race extends PlayerAuthStep implements AuthStep {
     return MESSAGE_CHOOSE_RACE
   }
 
-  public async processRequest(request: Request): Promise<any> {
-    const input = request.command
-    const race = allRaces.find((r) => r.startsWith(input))
+  public async processRequest(request: Request): Promise<Response> {
+    const race = allRaces.find((r) => r.startsWith(request.input))
 
     if (!race) {
-      return this
+      return request.fail(this, MESSAGE_FAIL_RACE_UNAVAILABLE)
     }
 
     this.player.sessionMob.race = race
-    return new Specialization(this.player)
+    return request.ok(new Specialization(this.player))
   }
 }

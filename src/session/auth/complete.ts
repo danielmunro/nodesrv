@@ -1,14 +1,15 @@
-import { Request } from "../../request/request"
 import AuthStep from "./authStep"
 import { MESSAGE_COMPLETE } from "./constants"
 import PlayerAuthStep from "./playerAuthStep"
+import Request from "./request"
+import Response from "./response"
 
 export default class Complete extends PlayerAuthStep implements AuthStep {
   public getStepMessage(): string {
     return MESSAGE_COMPLETE
   }
 
-  public async processRequest(request: Request): Promise<any> {
-    return this
+  public async processRequest(request: Request): Promise<Response> {
+    return request.ok(this)
   }
 }

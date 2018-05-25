@@ -1,7 +1,8 @@
-import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
 import { MESSAGE_NEW_PASSWORD } from "../constants"
 import PlayerAuthStep from "../playerAuthStep"
+import Request from "../request"
+import Response from "../response"
 import PasswordConfirm from "./passwordConfirm"
 
 export default class Password extends PlayerAuthStep implements AuthStep {
@@ -9,9 +10,7 @@ export default class Password extends PlayerAuthStep implements AuthStep {
     return MESSAGE_NEW_PASSWORD
   }
 
-  public async processRequest(request: Request): Promise<any> {
-    const password = request.command
-
-    return new PasswordConfirm(this.player, password)
+  public async processRequest(request: Request): Promise<Response> {
+    return request.ok(new PasswordConfirm(this.player, request.input))
   }
 }

@@ -1,43 +1,76 @@
-import { RequestType } from "../../../handler/constants"
-import { getPlayerRepository } from "../../../player/repository/player"
+import { v4 } from "uuid"
 import { savePlayer } from "../../../player/service"
-import { createRequestArgs, Request } from "../../../request/request"
-import { getTestPlayer } from "../../../test/player"
-import AuthStep from "../authStep"
+import { getTestClient } from "../../../test/client"
+import Request from "../request"
+import Response from "../response"
+import { ResponseStatus } from "../responseStatus"
 import Email from "./email"
 import NewPlayerConfirm from "./newPlayerConfirm"
 import Password from "./password"
 
-function processInput(input: string, player = getTestPlayer()): Promise<AuthStep> {
+function processInput(input: string, client = getTestClient()): Promise<Response> {
   return new Email().processRequest(
-    new Request(player, RequestType.Noop, createRequestArgs(input)))
+    new Request(client, input))
 }
 
 describe("login email auth step", () => {
   it("should disallow invalid email formats", async () => {
-    expect(await processInput("poodlehat")).toBeInstanceOf(Email)
-    expect(await processInput("foo@")).toBeInstanceOf(Email)
-    expect(await processInput("a@b.c")).toBeInstanceOf(Email)
-    expect(await processInput("foo@bar")).toBeInstanceOf(Email)
+    [
+      "poodlehat",
+      "foo@",
+      "a@b.c",
+      "foo@bar",
+      "",
+      null,
+      "abc@123",
+      "foo@bar.com.",
+      "foo@barcom",
+      47,
+      {},
+    ].map(async (badInput) => {
+      const res = await processInput("poodlehat")
+      expect(res.status).toBe(ResponseStatus.FAILED)
+    })
   })
 
   it("should allow valid email formats", async () => {
-    expect(await processInput("foo@bar.com")).toBeInstanceOf(NewPlayerConfirm)
+    // given
+    const email = "foo" + v4() + "@bar.com"
+
+    // when
+    const response = await processInput(email)
+
+    // then
+    expect(response.status).toBe(ResponseStatus.OK)
   })
 
   it("should ask for a password for an existing player", async () => {
     // given
-    const email = "foo@bar.com"
+    const email = "foo" + v4() + "@bar.com"
 
     // setup
-    const player = getTestPlayer()
-    player.email = email
-    await savePlayer(player)
+    const client = getTestClient()
+    client.player.email = email
+    await savePlayer(client.player)
 
-    // expect
-    expect(await processInput(email, player)).toBeInstanceOf(Password)
+    // when
+    const response = await processInput(email, client)
 
-    // cleanup
-    getPlayerRepository().then((repository) => repository.delete(player))
+    // then
+    expect(response.status).toBe(ResponseStatus.OK)
+    expect(response.authStep).toBeInstanceOf(Password)
+  })
+
+  it("should allow creating new players", async () => {
+    // given
+    const email = "foo" + v4() + "@bar.com"
+    const client = getTestClient()
+
+    // when
+    const response = await processInput(email, client)
+
+    // then
+    expect(response.status).toBe(ResponseStatus.OK)
+    expect(response.authStep).toBeInstanceOf(NewPlayerConfirm)
   })
 })

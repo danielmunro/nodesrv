@@ -1,10 +1,11 @@
 import { newStartingVitals } from "../../../attributes/factory"
 import { Mob } from "../../../mob/model/mob"
 import { Player } from "../../../player/model/player"
-import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
-import { MESSAGE_NEW_MOB_CONFIRM } from "../constants"
+import { MESSAGE_NEW_MOB_CONFIRM, MESSAGE_YN_FAILED } from "../constants"
 import Name from "../login/name"
+import Request from "../request"
+import Response from "../response"
 import Race from "./race"
 
 export default class NewMobConfirm implements AuthStep {
@@ -20,11 +21,11 @@ export default class NewMobConfirm implements AuthStep {
     return MESSAGE_NEW_MOB_CONFIRM
   }
 
-  public async processRequest(request: Request): Promise<any> {
-    const response = request.command
+  public async processRequest(request: Request): Promise<Response> {
+    const response = request.input
 
     if (response === "n") {
-      return new Name(this.player)
+      return request.ok(new Name(this.player))
     }
 
     if (response === "y") {
@@ -35,9 +36,9 @@ export default class NewMobConfirm implements AuthStep {
       mob.player = this.player
       this.player.mobs.push(mob)
       this.player.sessionMob = mob
-      return new Race(this.player)
+      return request.ok(new Race(this.player))
     }
 
-    return this
+    return request.fail(this, MESSAGE_YN_FAILED)
   }
 }

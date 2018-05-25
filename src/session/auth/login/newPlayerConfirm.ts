@@ -1,8 +1,9 @@
 import { Player } from "../../../player/model/player"
-import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
-import { MESSAGE_NEW_PLAYER_CONFIRM } from "../constants"
+import { MESSAGE_NEW_PLAYER_CONFIRM, MESSAGE_YN_FAILED } from "../constants"
 import Password from "../createPlayer/password"
+import Request from "../request"
+import Response from "../response"
 import Email from "./email"
 
 export default class NewPlayerConfirm implements AuthStep {
@@ -16,20 +17,20 @@ export default class NewPlayerConfirm implements AuthStep {
     return MESSAGE_NEW_PLAYER_CONFIRM
   }
 
-  public async processRequest(request: Request): Promise<any> {
-    const response = request.command
+  public async processRequest(request: Request): Promise<Response> {
+    const response = request.input
 
     if (response === "n") {
-      return new Email()
+      return request.ok(new Email())
     }
 
     if (response === "y") {
       const player = new Player()
       player.email = this.email
 
-      return new Password(player)
+      return request.ok(new Password(player))
     }
 
-    return this
+    return request.fail(this, MESSAGE_YN_FAILED)
   }
 }

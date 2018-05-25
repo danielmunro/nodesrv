@@ -1,7 +1,8 @@
 import { Player } from "../../../player/model/player"
-import { Request } from "../../../request/request"
 import AuthStep from "../authStep"
-import { MESSAGE_NEW_PASSWORD_CONFIRM } from "../constants"
+import { MESSAGE_FAIL_PASSWORDS_DO_NOT_MATCH, MESSAGE_NEW_PASSWORD_CONFIRM } from "../constants"
+import Request from "../request"
+import Response from "../response"
 import Complete from "./complete"
 import Password from "./password"
 
@@ -18,15 +19,15 @@ export default class PasswordConfirm implements AuthStep {
     return MESSAGE_NEW_PASSWORD_CONFIRM
   }
 
-  public async processRequest(request: Request): Promise<any> {
-    const confirmPassword = request.command
+  public async processRequest(request: Request): Promise<Response> {
+    const confirmPassword = request.input
 
     if (confirmPassword !== this.firstPassword) {
-      return new Password(this.player)
+      return request.fail(new Password(this.player), MESSAGE_FAIL_PASSWORDS_DO_NOT_MATCH)
     }
 
     this.player.password = confirmPassword
 
-    return new Complete(this.player)
+    return request.ok(new Complete(this.player))
   }
 }
