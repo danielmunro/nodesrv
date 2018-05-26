@@ -1,3 +1,4 @@
+import * as sillyname from "sillyname"
 import { newTrail } from "../../area/factory"
 import { Direction } from "../../room/constants"
 import { moveMob, persistRoom } from "../../room/service"
@@ -53,19 +54,19 @@ describe("mob repository", () => {
 
   it("findPlayerMobByName should not return a non-player mob", async () => {
     // given
-    const name = "alice"
+    const name = sillyname()
 
     // when
     const mob = getTestMob(name)
     await persistMob(mob)
 
     // then
-    expect(await findPlayerMobByName("alice")).toBeUndefined()
+    expect(await findPlayerMobByName(sillyname())).toBeUndefined()
   })
 
   it("findPlayerMobByName should return a player mob", async () => {
     // given
-    const name = "bob"
+    const name = sillyname()
 
     // when
     const mob = getTestMob(name)
@@ -73,6 +74,6 @@ describe("mob repository", () => {
     await persistMob(mob)
 
     // then
-    expect(await findPlayerMobByName("bob")).toBeTruthy()
+    expect(await findPlayerMobByName(name)).toBeTruthy()
   })
 })
