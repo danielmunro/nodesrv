@@ -29,4 +29,12 @@ export default class Request {
       message,
     )
   }
+
+  public didConfirm() {
+    return this.input === "y"
+  }
+
+  public didDeny() {
+    return this.input === "n"
+  }
 }

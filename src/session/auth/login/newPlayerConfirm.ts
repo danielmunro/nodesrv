@@ -18,16 +18,11 @@ export default class NewPlayerConfirm implements AuthStep {
   }
 
   public async processRequest(request: Request): Promise<Response> {
-    const response = request.input
-
-    if (response === "n") {
+    if (request.didDeny()) {
       return request.ok(new Email())
-    }
-
-    if (response === "y") {
+    } else if (request.didConfirm()) {
       const player = new Player()
       player.email = this.email
-
       return request.ok(new Password(player))
     }
 

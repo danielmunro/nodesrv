@@ -22,13 +22,9 @@ export default class NewMobConfirm implements AuthStep {
   }
 
   public async processRequest(request: Request): Promise<Response> {
-    const response = request.input
-
-    if (response === "n") {
+    if (request.didDeny()) {
       return request.ok(new Name(this.player))
-    }
-
-    if (response === "y") {
+    } else if (request.didConfirm()) {
       const mob = new Mob()
       mob.vitals = newStartingVitals()
       mob.name = this.name
