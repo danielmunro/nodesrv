@@ -25,16 +25,22 @@ export default class NewMobConfirm implements AuthStep {
     if (request.didDeny()) {
       return request.ok(new Name(this.player))
     } else if (request.didConfirm()) {
-      const mob = new Mob()
-      mob.vitals = newStartingVitals()
-      mob.name = this.name
-      mob.isPlayer = true
-      mob.player = this.player
+      const mob = this.createMob()
       this.player.mobs.push(mob)
       this.player.sessionMob = mob
       return request.ok(new Race(this.player))
     }
 
     return request.fail(this, MESSAGE_YN_FAILED)
+  }
+
+  private createMob(): Mob {
+    const mob = new Mob()
+    mob.vitals = newStartingVitals()
+    mob.name = this.name
+    mob.isPlayer = true
+    mob.player = this.player
+
+    return mob
   }
 }
