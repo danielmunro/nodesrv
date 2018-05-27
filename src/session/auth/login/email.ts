@@ -14,11 +14,12 @@ export default class Email implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     const email = request.input
-    const player = await findOneByEmail(email)
 
     if (!this.isEmailValid(email)) {
       return request.fail(this, MESSAGE_FAIL_EMAIL_ADDRESS_INVALID)
     }
+
+    const player = await findOneByEmail(email)
 
     if (player) {
       return request.ok(new Password(player))
