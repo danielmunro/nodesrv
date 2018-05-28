@@ -6,6 +6,7 @@ import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { Room } from "../room/model/room"
+import { default as AuthRequest } from "../session/auth/request"
 import Session from "../session/session"
 import { Channel } from "../social/constants"
 import { Message } from "../social/message"
@@ -65,7 +66,8 @@ export class Client {
 
   public handleNextRequest(): void {
     if (!this.session.isLoggedIn()) {
-      this.session.handleRequest(this.requests.shift())
+      const request = this.requests.shift()
+      this.session.handleRequest(new AuthRequest(this, request.command))
       return
     }
 

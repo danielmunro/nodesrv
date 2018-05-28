@@ -3,10 +3,11 @@ import look from "../handler/action/look"
 import { RequestType } from "../handler/constants"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
-import { createRequestArgs, Request } from "../request/request"
+import { createRequestArgs, Request as ActionRequest } from "../request/request"
 import AuthStep from "./auth/authStep"
 import Complete from "./auth/complete"
 import Email from "./auth/login/email"
+import Request from "./auth/request"
 import { SessionStatus } from "./status"
 
 export default class Session {
@@ -25,7 +26,11 @@ export default class Session {
   }
 
   public async handleRequest(request: Request) {
-    this.authStep = await this.authStep.processRequest(request)
+    const response = await this.authStep.processRequest(request)
+    this.authStep = response.authStep
+    if (response.message) {
+      this.client.send({ message: response.message })
+    }
     if (this.authStep instanceof Complete) {
       await this.login(this.authStep.player)
       return
@@ -52,6 +57,6 @@ export default class Session {
     this.client.player = this.player
     this.status = SessionStatus.LoggedIn
     this.client.send({ player: this.player })
-    this.client.send(await look(new Request(this.player, RequestType.Look, createRequestArgs("look"))))
+    this.client.send(await look(new ActionRequest(this.player, RequestType.Look, createRequestArgs("look"))))
   }
 }
