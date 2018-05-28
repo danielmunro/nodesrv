@@ -1,6 +1,5 @@
 import * as sillyname from "sillyname"
 import { Client } from "../../../client/client"
-import { getMobRepository, persistMob } from "../../../mob/repository/mob"
 import { savePlayer } from "../../../player/service"
 import { getTestClient } from "../../../test/client"
 import { getTestMob } from "../../../test/mob"
@@ -46,7 +45,7 @@ describe("auth login name", () => {
 
     // setup -- persist some players/mobs
     const client1 = await createAuthUser(player1MobName)
-    const client2 = await createAuthUser(player2MobName)
+    await createAuthUser(player2MobName)
 
     // setup -- create a name auth step
     const name = new Name(client1.player)

@@ -1,6 +1,5 @@
 import { getTestClient } from "../../../test/client"
 import Password from "../createPlayer/password"
-import Name from "../login/name"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Email from "./email"

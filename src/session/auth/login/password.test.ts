@@ -2,7 +2,6 @@ import { savePlayer } from "../../../player/service"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
-import Email from "./email"
 import Name from "./name"
 import Password from "./password"
 
