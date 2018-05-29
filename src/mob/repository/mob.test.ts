@@ -76,4 +76,25 @@ describe("mob repository", () => {
     // then
     expect(await findPlayerMobByName(name)).toBeTruthy()
   })
+
+  it("findWanderingMobs should not return player mobs", async () => {
+    // given
+    const npc = getTestMob()
+    npc.wanders = true
+
+    const player = getTestMob()
+    player.isPlayer = true
+
+    const initial = await findWanderingMobs()
+
+    // setup
+    await persistMob(npc)
+    await persistMob(player)
+
+    // when
+    const mobs = await findWanderingMobs()
+
+    // then
+    expect(mobs.length).toBe(initial.length + 1)
+  })
 })

@@ -16,7 +16,7 @@ export async function findPlayerMobByName(name: string): Promise<Mob> {
 
 export async function findWanderingMobs(): Promise<Mob[]> {
   return await getMobRepository()
-    .then((mobRepository) => mobRepository.find({ where: { wanders: true }}))
+    .then((mobRepository) => mobRepository.find({ where: { wanders: true, isPlayer: false }}))
 }
 
 export async function persistMob(mob: Mob) {
