@@ -6,6 +6,7 @@ import Response from "../response"
 import Name from "./name"
 
 export default class Password extends PlayerAuthStep implements AuthStep {
+  /* istanbul ignore next */
   public getStepMessage(): string {
     return MESSAGE_LOGIN_PASSWORD
   }

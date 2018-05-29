@@ -13,6 +13,7 @@ export default class NewPlayerConfirm implements AuthStep {
     this.email = email
   }
 
+  /* istanbul ignore next */
   public getStepMessage(): string {
     return MESSAGE_NEW_PLAYER_CONFIRM
   }

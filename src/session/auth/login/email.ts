@@ -8,6 +8,7 @@ import NewPlayerConfirm from "./newPlayerConfirm"
 import Password from "./password"
 
 export default class Email implements AuthStep {
+  /* istanbul ignore next */
   public getStepMessage(): string {
     return MESSAGE_EMAIL
   }

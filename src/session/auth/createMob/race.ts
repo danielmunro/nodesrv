@@ -7,6 +7,7 @@ import Response from "../response"
 import Specialization from "./specialization"
 
 export default class Race extends PlayerAuthStep implements AuthStep {
+  /* istanbul ignore next */
   public getStepMessage(): string {
     return MESSAGE_CHOOSE_RACE
   }

@@ -8,6 +8,7 @@ import Request from "../request"
 import Response from "../response"
 
 export default class Name extends PlayerAuthStep implements AuthStep {
+  /* istanbul ignore next */
   public getStepMessage(): string {
     return MESSAGE_NAME
   }

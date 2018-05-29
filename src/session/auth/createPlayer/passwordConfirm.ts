@@ -15,6 +15,7 @@ export default class PasswordConfirm implements AuthStep {
     this.firstPassword = firstPassword
   }
 
+  /* istanbul ignore next */
   public getStepMessage(): string {
     return MESSAGE_NEW_PASSWORD_CONFIRM
   }

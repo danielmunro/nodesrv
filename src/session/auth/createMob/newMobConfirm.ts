@@ -17,6 +17,7 @@ export default class NewMobConfirm implements AuthStep {
     this.name = name
   }
 
+  /* istanbul ignore next */
   public getStepMessage(): string {
     return MESSAGE_NEW_MOB_CONFIRM
   }
