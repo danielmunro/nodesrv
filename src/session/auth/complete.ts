@@ -5,6 +5,7 @@ import Request from "./request"
 import Response from "./response"
 
 export default class Complete extends PlayerAuthStep implements AuthStep {
+  /* istanbul ignore next */
   public getStepMessage(): string {
     return MESSAGE_COMPLETE
   }
