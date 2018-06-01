@@ -1,3 +1,4 @@
+import roll from "../../dice/dice"
 import { Mob } from "../model/mob"
 import { Attack, AttackResult } from "./attack"
 import { Round } from "./round"
@@ -74,10 +75,20 @@ export class Fight {
   }
 
   private attack(x: Mob, y: Mob): Attack {
-    const attributes = x.getCombinedAttributes()
-    const damage = Math.random() * Math.pow(attributes.hitroll.dam, attributes.hitroll.hit)
+    const xAttributes = x.getCombinedAttributes()
+    const yAttributes = y.getCombinedAttributes()
+
+    if (!this.isHit(xAttributes.stats.str, xAttributes.hitroll.hit, yAttributes.ac.slash)) {
+      return new Attack(x, y, AttackResult.Miss, 0)
+    }
+
+    const damage = Math.random() * Math.pow(xAttributes.hitroll.dam, xAttributes.hitroll.hit)
     y.vitals.hp -= damage
 
     return new Attack(x, y, AttackResult.Hit, damage)
+  }
+
+  private isHit(attackStr: number, modifier: number, ac: number): boolean {
+    return roll(1, attackStr) + modifier > ac
   }
 }

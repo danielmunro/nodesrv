@@ -1,6 +1,7 @@
 import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import { Item } from "../../item/model/item"
 import { Mob } from "../../mob/model/mob"
+import Ac from "./ac"
 import Hitroll from "./hitroll"
 import Stats from "./stats"
 import Vitals from "./vitals"
@@ -28,6 +29,10 @@ export default class Attributes {
   @JoinColumn()
   public stats = new Stats()
 
+  @OneToOne((type) => Ac, { eager: true, cascadeAll: true })
+  @JoinColumn()
+  public ac = new Ac()
+
   public combine(withAttributes: Attributes): Attributes {
     const attributes = new Attributes()
     attributes.hitroll.hit = this.hitroll.hit + withAttributes.hitroll.hit
@@ -43,6 +48,11 @@ export default class Attributes {
     attributes.vitals.hp = this.vitals.hp + withAttributes.vitals.hp
     attributes.vitals.mana = this.vitals.mana + withAttributes.vitals.mana
     attributes.vitals.mv = this.vitals.mv + withAttributes.vitals.mv
+
+    attributes.ac.bash = this.ac.bash + withAttributes.ac.bash
+    attributes.ac.slash = this.ac.slash + withAttributes.ac.slash
+    attributes.ac.pierce = this.ac.pierce + withAttributes.ac.pierce
+    attributes.ac.magic = this.ac.magic + withAttributes.ac.magic
 
     return attributes
   }

@@ -85,8 +85,6 @@ describe("mob repository", () => {
     const player = getTestMob()
     player.isPlayer = true
 
-    const initial = await findWanderingMobs()
-
     // setup
     await persistMob(npc)
     await persistMob(player)
@@ -95,6 +93,8 @@ describe("mob repository", () => {
     const mobs = await findWanderingMobs()
 
     // then
-    expect(mobs.length).toBe(initial.length + 1)
+    const mobIds = mobs.map((m) => m.id)
+    expect(mobIds).not.toContain(player.id)
+    expect(mobIds).toContain(npc.id)
   })
 })

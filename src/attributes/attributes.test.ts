@@ -1,3 +1,4 @@
+import Ac from "./model/ac"
 import Attributes from "./model/attributes"
 import Hitroll from "./model/hitroll"
 import Stats from "./model/stats"
@@ -16,6 +17,7 @@ function getNewTestAttributes(): Attributes {
     TEST_ATTRIBUTES_VALUE,
     TEST_ATTRIBUTES_VALUE)
   attributes.vitals = Vitals.create(TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE)
+  attributes.ac = Ac.create(TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE)
 
   return attributes
 }
@@ -36,5 +38,9 @@ describe("attributes", () => {
     expect(attrs.vitals.hp).toBe(TEST_ATTRIBUTES_VALUE * 3)
     expect(attrs.vitals.mana).toBe(TEST_ATTRIBUTES_VALUE * 3)
     expect(attrs.vitals.mv).toBe(TEST_ATTRIBUTES_VALUE * 3)
+    expect(attrs.ac.bash).toBe(TEST_ATTRIBUTES_VALUE * 3)
+    expect(attrs.ac.slash).toBe(TEST_ATTRIBUTES_VALUE * 3)
+    expect(attrs.ac.pierce).toBe(TEST_ATTRIBUTES_VALUE * 3)
+    expect(attrs.ac.magic).toBe(TEST_ATTRIBUTES_VALUE * 3)
   })
 })
