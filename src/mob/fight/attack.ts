@@ -1,3 +1,4 @@
+import { SkillType } from "../../skill/skillType"
 import { Mob } from "../model/mob"
 
 export enum AttackResult {
@@ -5,6 +6,12 @@ export enum AttackResult {
   Miss,
   Dodge,
   Parry,
+}
+
+export function getAttackResultFromSkillType(skill: SkillType) {
+  if (skill === SkillType.Dodge) {
+    return AttackResult.Dodge
+  }
 }
 
 export class Attack {

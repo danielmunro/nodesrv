@@ -2,6 +2,9 @@ import { Item } from "../item/model/item"
 import { Request } from "../request/request"
 import { Direction } from "../room/constants"
 import bash from "../skill/actions/bash"
+import Attempt from "../skill/attempt"
+import Outcome from "../skill/outcome"
+import { SkillType } from "../skill/skillType"
 import affects from "./action/affects"
 import cast from "./action/cast"
 import drop from "./action/drop"
@@ -31,38 +34,45 @@ export function doWithItemOrElse(item: Item, ifItem: (item: Item) => {}, ifNotIt
   })
 }
 
-function handler(requestType: RequestType, cb) {
+function createHandler(requestType: RequestType, cb) {
   return new HandlerDefinition(requestType, cb)
+}
+
+async function doSkill(request: Request, skillType: SkillType, action: (attempt: Attempt) => Promise<Outcome>) {
+  const mob = request.player.sessionMob
+  const skill = mob.skills.find((s) => s.skillType === skillType)
+  return action(
+    new Attempt(mob, request.getTarget(), skill))
 }
 
 export const actions = new HandlerCollection([
   // moving
-  handler(RequestType.North, (request: Request) => move(request.player, Direction.North)),
-  handler(RequestType.South, (request: Request) => move(request.player, Direction.South)),
-  handler(RequestType.East, (request: Request) => move(request.player, Direction.East)),
-  handler(RequestType.West, (request: Request) => move(request.player, Direction.West)),
-  handler(RequestType.Up, (request: Request) => move(request.player, Direction.Up)),
-  handler(RequestType.Down, (request: Request) => move(request.player, Direction.Down)),
+  createHandler(RequestType.North, (request: Request) => move(request.player, Direction.North)),
+  createHandler(RequestType.South, (request: Request) => move(request.player, Direction.South)),
+  createHandler(RequestType.East, (request: Request) => move(request.player, Direction.East)),
+  createHandler(RequestType.West, (request: Request) => move(request.player, Direction.West)),
+  createHandler(RequestType.Up, (request: Request) => move(request.player, Direction.Up)),
+  createHandler(RequestType.Down, (request: Request) => move(request.player, Direction.Down)),
 
   // items
-  handler(RequestType.Inventory, inventory),
-  handler(RequestType.Get, get),
-  handler(RequestType.Drop, drop),
-  handler(RequestType.Wear, wear),
-  handler(RequestType.Remove, remove),
-  handler(RequestType.Equipped, equipped),
+  createHandler(RequestType.Inventory, inventory),
+  createHandler(RequestType.Get, get),
+  createHandler(RequestType.Drop, drop),
+  createHandler(RequestType.Wear, wear),
+  createHandler(RequestType.Remove, remove),
+  createHandler(RequestType.Equipped, equipped),
 
   // fighting
-  handler(RequestType.Kill, kill),
-  handler(RequestType.Bash, bash),
+  createHandler(RequestType.Kill, kill),
+  createHandler(RequestType.Bash, (request: Request) => doSkill(request, SkillType.Bash, bash)),
 
   // casting
-  handler(RequestType.Cast, cast),
+  createHandler(RequestType.Cast, cast),
 
   // info
-  handler(RequestType.Affects, affects),
-  handler(RequestType.Look, look),
+  createHandler(RequestType.Affects, affects),
+  createHandler(RequestType.Look, look),
 
   // social
-  handler(RequestType.Gossip, gossip),
+  createHandler(RequestType.Gossip, gossip),
 ])

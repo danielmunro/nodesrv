@@ -1,6 +1,8 @@
 import roll from "../../dice/dice"
+import { createSkillTriggerEvent } from "../../skill/skillTrigger"
+import { Trigger } from "../../trigger"
 import { Mob } from "../model/mob"
-import { Attack, AttackResult } from "./attack"
+import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import { Round } from "./round"
 
 enum Status {
@@ -74,21 +76,26 @@ export class Fight {
     return attack
   }
 
-  private attack(x: Mob, y: Mob): Attack {
-    const xAttributes = x.getCombinedAttributes()
-    const yAttributes = y.getCombinedAttributes()
+  private attack(attacker: Mob, defender: Mob): Attack {
+    const initialEvent = createSkillTriggerEvent(defender, Trigger.ATTACKED_START)
+    if (initialEvent.wasSkillInvoked()) {
+      return new Attack(attacker, defender, getAttackResultFromSkillType(initialEvent.skill.skillType), 0)
+    }
 
-    if (!this.isHit(xAttributes.stats.str, xAttributes.hitroll.hit, yAttributes.ac.slash)) {
-      return new Attack(x, y, AttackResult.Miss, 0)
+    const xAttributes = attacker.getCombinedAttributes()
+    const yAttributes = defender.getCombinedAttributes()
+
+    if (!this.isTargetAcDefeated(xAttributes.stats.str, xAttributes.hitroll.hit, yAttributes.ac.slash)) {
+      return new Attack(attacker, defender, AttackResult.Miss, 0)
     }
 
     const damage = Math.random() * Math.pow(xAttributes.hitroll.dam, xAttributes.hitroll.hit)
-    y.vitals.hp -= damage
+    defender.vitals.hp -= damage
 
-    return new Attack(x, y, AttackResult.Hit, damage)
+    return new Attack(attacker, defender, AttackResult.Hit, damage)
   }
 
-  private isHit(attackStr: number, modifier: number, ac: number): boolean {
+  private isTargetAcDefeated(attackStr: number, modifier: number, ac: number): boolean {
     return roll(1, attackStr) + modifier > ac
   }
 }
