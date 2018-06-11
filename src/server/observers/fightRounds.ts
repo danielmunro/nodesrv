@@ -74,8 +74,12 @@ export function createClientMobMap(clients: Client[]): object {
 }
 
 export class FightRounds implements Observer {
-  public notify(clients: Client[]): void {
-    const rounds = getFights().map((fight) => fight.round())
+  public async notify(clients: Client[]) {
+    const rounds = []
+    for (const fight of getFights()) {
+      const round = await fight.round()
+      rounds.push(round)
+    }
     const clientMobMap = createClientMobMap(clients)
     filterCompleteFights()
     rounds.forEach((round) => {

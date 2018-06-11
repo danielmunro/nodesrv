@@ -33,7 +33,7 @@ describe("fight rounds", () => {
     keys.forEach((key, i) => expect(map[key]).toBe(clients[i]))
   })
 
-  it("should filter complete fights", () => {
+  it("should filter complete fights", async () => {
     // Setup
     const mob = getTestMob()
     mob.vitals.hp = 0
@@ -43,7 +43,7 @@ describe("fight rounds", () => {
     expect(fight.isInProgress()).toBe(true)
 
     // When
-    fight.round()
+    await fight.round()
     filterCompleteFights()
 
     // Then
@@ -51,7 +51,7 @@ describe("fight rounds", () => {
     expect(getFights().length).toBe(0)
   })
 
-  it("should be able to use fight rounds", () => {
+  it("should be able to use fight rounds", async () => {
     // Setup
     const client = getTestClient()
     client.player.sessionMob.vitals.hp = 1
@@ -60,16 +60,15 @@ describe("fight rounds", () => {
     const fightRounds = new FightRounds()
 
     // When
-    fightRounds.notify([client])
+    await fightRounds.notify([client])
 
     // Then
     expect(getFights().length).toBe(1)
     expect(fight.isInProgress()).toBe(true)
 
-    // When a fight is completed
-    while (fight.isInProgress()) {
-      fightRounds.notify([client])
-    }
+    // When
+    client.player.sessionMob.vitals.hp = -1
+    await fightRounds.notify([client])
 
     // Then
     expect(getFights().length).toBe(0)

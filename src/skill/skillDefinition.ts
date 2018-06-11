@@ -13,4 +13,8 @@ export default class SkillDefinition {
     this.triggers = triggers
     this.action = action
   }
+
+  public isSkillTypeMatch(skillType: SkillType) {
+    return skillType === this.skillType
+  }
 }

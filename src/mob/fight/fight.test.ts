@@ -25,7 +25,7 @@ describe("fight", () => {
     expect(fight.getOpponentFor(bystander)).toBeNull()
   })
 
-  it("should stop when hit points reach zero", () => {
+  it("should stop when hit points reach zero", async () => {
     // SETUP
     const aggressor = newFightingMob("aggressor", newHitroll(2, 3))
     const target = newFightingMob("target", newHitroll(1, 1))
@@ -35,7 +35,7 @@ describe("fight", () => {
     expect(fight.isInProgress()).toBe(true)
 
     while (fight.isInProgress()) {
-      fight.round()
+      await fight.round()
     }
 
     // THEN - a winner will have > 1 hp and the other mob is dead

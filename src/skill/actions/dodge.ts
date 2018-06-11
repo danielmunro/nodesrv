@@ -1,18 +1,23 @@
 import roll from "../../dice/dice"
+import { Mob } from "../../mob/model/mob"
 import Attempt from "../attempt"
+import { Skill } from "../model/skill"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
-import { SkillType } from "../skillType"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
-  const dex = attempt.mob.getCombinedAttributes().stats.dex
-  const level = attempt.skill.level
-  const targetDex = attempt.target.getCombinedAttributes().stats.dex
-  const targetLevel = attempt.target.skills.find((skill) => skill.skillType === SkillType.Dodge).level
-
-  if (roll(1, dex) + roll(1, level) > roll(1, targetDex) + roll(1, targetLevel)) {
+  if (calculateDodgeRoll(attempt.mob, attempt.skill) > calculateHitRoll(attempt.target)) {
     return new Outcome(attempt, OutcomeType.Success, "you dodged!")
   }
 
   return new Outcome(attempt, OutcomeType.Failure, "you failed")
+}
+
+function calculateHitRoll(mob: Mob): number {
+  const attrs = mob.getCombinedAttributes()
+  return roll(1, attrs.stats.dex) + roll(1, attrs.hitroll.hit)
+}
+
+function calculateDodgeRoll(mob: Mob, skill: Skill): number {
+  return roll(1, mob.getCombinedAttributes().stats.dex) + roll(1, skill.level)
 }

@@ -1,3 +1,4 @@
+import Attributes from "../../attributes/model/attributes"
 import roll from "../../dice/dice"
 import { createSkillTriggerEvent } from "../../skill/skillTrigger"
 import { Trigger } from "../../trigger"
@@ -28,7 +29,12 @@ export function reset() {
   fights = []
 }
 
+async function createStartRoundDefenderTrigger(attacker, defender) {
+  return await createSkillTriggerEvent(defender, Trigger.AttackRoundStart, attacker)
+}
+
 export class Fight {
+
   public readonly aggressor: Mob
   public readonly target: Mob
   private status: Status = Status.InProgress
@@ -51,10 +57,10 @@ export class Fight {
     return mob === this.aggressor ? this.aggressor : this.target
   }
 
-  public round(): Round {
+  public async round(): Promise<Round> {
     return new Round(
-      this.turnFor(this.aggressor, this.target),
-      this.status === Status.InProgress ? this.turnFor(this.target, this.aggressor) : null,
+      await this.turnFor(this.aggressor, this.target),
+      this.status === Status.InProgress ? await this.turnFor(this.target, this.aggressor) : null,
     )
   }
 
@@ -66,8 +72,8 @@ export class Fight {
     return this.winner
   }
 
-  private turnFor(x: Mob, y: Mob): Attack {
-    const attack = this.attack(x, y)
+  private async turnFor(x: Mob, y: Mob): Promise<Attack> {
+    const attack = await this.attack(x, y)
     if (y.vitals.hp < 0) {
       this.status = Status.Done
       this.winner = x
@@ -76,26 +82,38 @@ export class Fight {
     return attack
   }
 
-  private attack(attacker: Mob, defender: Mob): Attack {
-    const initialEvent = createSkillTriggerEvent(defender, Trigger.ATTACKED_START)
+  private async attack(attacker: Mob, defender: Mob): Promise<Attack> {
+    const initialEvent = await createStartRoundDefenderTrigger(attacker, defender)
     if (initialEvent.wasSkillInvoked()) {
-      return new Attack(attacker, defender, getAttackResultFromSkillType(initialEvent.skill.skillType), 0)
+      return this.attackDefeated(attacker, defender, getAttackResultFromSkillType(initialEvent.skillType))
     }
 
     const xAttributes = attacker.getCombinedAttributes()
     const yAttributes = defender.getCombinedAttributes()
 
-    if (!this.isTargetAcDefeated(xAttributes.stats.str, xAttributes.hitroll.hit, yAttributes.ac.slash)) {
-      return new Attack(attacker, defender, AttackResult.Miss, 0)
+    if (!this.isTargetAcDefeated(xAttributes, yAttributes)) {
+      return this.attackDefeated(attacker, defender, AttackResult.Miss)
     }
 
-    const damage = Math.random() * Math.pow(xAttributes.hitroll.dam, xAttributes.hitroll.hit)
+    const damage = this.calculateDamageFromAttackerToDefender(xAttributes, yAttributes)
     defender.vitals.hp -= damage
-
     return new Attack(attacker, defender, AttackResult.Hit, damage)
   }
 
-  private isTargetAcDefeated(attackStr: number, modifier: number, ac: number): boolean {
-    return roll(1, attackStr) + modifier > ac
+  private attackDefeated(attacker, defender, result) {
+    return new Attack(attacker, defender, result, 0)
+  }
+
+  private isTargetAcDefeated(attackerAttributes: Attributes, defenderAttributes: Attributes): boolean {
+    const str = attackerAttributes.stats.str
+    const hit = attackerAttributes.hitroll.hit
+    const defense = defenderAttributes.ac.slash
+    return roll(1, str) + hit > defense
+  }
+
+  private calculateDamageFromAttackerToDefender(
+    attackerAttributes: Attributes,
+    defenderAttributes: Attributes): number {
+    return Math.random() * Math.pow(attackerAttributes.hitroll.dam, defenderAttributes.hitroll.hit)
   }
 }
