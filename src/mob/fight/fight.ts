@@ -1,6 +1,6 @@
 import Attributes from "../../attributes/model/attributes"
 import roll from "../../dice/dice"
-import { createSkillTriggerEvent } from "../../skill/skillTrigger"
+import { createSkillTriggerEvent } from "../../skill/trigger/factory"
 import { Trigger } from "../../trigger"
 import { Mob } from "../model/mob"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
