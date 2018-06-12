@@ -13,22 +13,25 @@ function filterBySkillTrigger(skill: Skill, trigger: Trigger) {
   })
 }
 
+function getSkillsByTrigger(mob: Mob, trigger: Trigger) {
+  return mob.skills.filter((skill) => filterBySkillTrigger(skill, trigger))
+}
+
 async function attemptSkillAction(mob: Mob, target: Mob, skill: Skill): Promise<Outcome> {
   return await getSkillAction(skill.skillType).action(new Attempt(mob, target, skill))
 }
 
 export async function createSkillTriggerEvent(
   mob: Mob,
-  skillTrigger: Trigger,
+  trigger: Trigger,
   target: Mob = null,
 ): Promise<Event> {
   if (target === null) {
     target = mob
   }
 
-  const event = new Event(mob, skillTrigger)
-  const skills = mob.skills.filter((skill) => filterBySkillTrigger(skill, skillTrigger))
-  for (const skill of skills) {
+  const event = new Event(mob, trigger)
+  for (const skill of getSkillsByTrigger(mob, trigger)) {
     if ((await attemptSkillAction(mob, target, skill)).wasSuccessful()) {
       event.resolveWith(skill.skillType)
 
