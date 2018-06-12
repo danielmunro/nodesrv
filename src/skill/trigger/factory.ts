@@ -2,7 +2,7 @@ import { Mob } from "../../mob/model/mob"
 import { Trigger } from "../../trigger"
 import Attempt from "../attempt"
 import { Skill } from "../model/skill"
-import { OutcomeType } from "../outcomeType"
+import Outcome from "../outcome"
 import { getSkillAction } from "../skillCollection"
 import { Event } from "../trigger/event"
 import { Resolution } from "../trigger/resolution"
@@ -11,6 +11,10 @@ function filterBySkillTrigger(skill: Skill, trigger: Trigger) {
   return getSkillAction(skill.skillType).triggers.some((skillTrigger) => {
     return skillTrigger === trigger
   })
+}
+
+async function attemptSkillAction(mob: Mob, target: Mob, skill: Skill): Promise<Outcome> {
+  return await getSkillAction(skill.skillType).action(new Attempt(mob, target, skill))
 }
 
 export async function createSkillTriggerEvent(
@@ -25,15 +29,13 @@ export async function createSkillTriggerEvent(
   const event = new Event(mob, skillTrigger)
   const skills = mob.skills.filter((skill) => filterBySkillTrigger(skill, skillTrigger))
   for (const skill of skills) {
-    const skillAction = getSkillAction(skill.skillType)
-    const result = await skillAction.action(new Attempt(mob, target, skill))
-    if (result.outcomeType === OutcomeType.Success) {
-      event.skillType = skill.skillType
-      event.skillEventResolution = Resolution.Invoked
+    if ((await attemptSkillAction(mob, target, skill)).wasSuccessful()) {
+      event.resolveWith(skill.skillType)
 
       return event
     }
   }
+  event.skillEventResolution = Resolution.Failed
 
   return event
 }

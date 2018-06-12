@@ -17,4 +17,9 @@ export class Event {
   public wasSkillInvoked(): boolean {
     return this.skillEventResolution === Resolution.Invoked
   }
+
+  public resolveWith(skillType: SkillType) {
+    this.skillType = skillType
+    this.skillEventResolution = Resolution.Invoked
+  }
 }

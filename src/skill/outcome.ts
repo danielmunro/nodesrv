@@ -11,4 +11,8 @@ export default class Outcome {
     this.outcomeType = outcomeType
     this.message = message
   }
+
+  public wasSuccessful(): boolean {
+    return this.outcomeType === OutcomeType.Success
+  }
 }
