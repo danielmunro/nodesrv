@@ -2,6 +2,7 @@
 fixture-ids.txt
 ormconfig.json
 .DS_Store
+.vscode
 
 # Logs
 logs
