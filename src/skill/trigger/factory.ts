@@ -21,15 +21,7 @@ async function attemptSkillAction(mob: Mob, target: Mob, skill: Skill): Promise<
   return await getSkillAction(skill.skillType).action(new Attempt(mob, target, skill))
 }
 
-export async function createSkillTriggerEvent(
-  mob: Mob,
-  trigger: Trigger,
-  target: Mob = null,
-): Promise<Event> {
-  if (target === null) {
-    target = mob
-  }
-
+export async function createSkillTriggerEvent(mob: Mob, trigger: Trigger, target: Mob): Promise<Event> {
   const event = new Event(mob, trigger)
   for (const skill of getSkillsByTrigger(mob, trigger)) {
     if ((await attemptSkillAction(mob, target, skill)).wasSuccessful()) {
