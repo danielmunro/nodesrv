@@ -6,7 +6,7 @@ import { HandlerCollection } from "../handler/handlerCollection"
 import { Player } from "../player/model/player"
 import { createRequestArgs, getNewRequestFromMessageEvent, Request } from "../request/request"
 import { Channel } from "../social/constants"
-import { getTestClient } from "../test/client"
+import { getTestClient, getTestClientLoggedOut } from "../test/client"
 import { Client, getDefaultUnhandledMessage } from "./client"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
 
@@ -18,6 +18,14 @@ let client: Client
 
 describe("clients", () => {
   beforeEach(() => client = getTestClient())
+  it("should delegate handling requests to the session if not logged in", async () => {
+    const newClient = getTestClientLoggedOut()
+    const authStep = newClient.session.getAuthStepMessage()
+    newClient.addRequest(getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("testemail@email.com")))
+    await newClient.handleNextRequest()
+    expect(newClient.session.getAuthStepMessage()).not.toBe(authStep)
+  })
+
   it("should recognize its own messages as its own and not others", () => {
     // setup
     const message = client.createMessage(

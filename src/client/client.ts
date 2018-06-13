@@ -64,10 +64,10 @@ export class Client {
     return this.session.getMob()
   }
 
-  public handleNextRequest(): void {
+  public async handleNextRequest() {
     if (!this.session.isLoggedIn()) {
       const request = this.requests.shift()
-      this.session.handleRequest(new AuthRequest(this, request.command))
+      await this.session.handleRequest(new AuthRequest(this, request.command))
       return
     }
 
