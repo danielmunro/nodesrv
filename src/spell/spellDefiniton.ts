@@ -1,5 +1,5 @@
 import { DamageType } from "../damage/damageType"
-import { ActionType } from "../handler/constants"
+import { ActionType } from "../handler/actionType"
 import { addFight, Fight, getFights } from "../mob/fight/fight"
 import { Request } from "../request/request"
 import { Check } from "./check"

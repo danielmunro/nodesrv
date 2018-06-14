@@ -1,8 +1,8 @@
 import { Item } from "../item/model/item"
 import { createRequestArgs, Request } from "../request/request"
+import { RequestType } from "../request/requestType"
 import { getTestPlayer } from "../test/player"
 import { actions, doWithItemOrElse } from "./actions"
-import { RequestType } from "../request/requestType"
 import { HandlerDefinition } from "./handlerDefinition"
 
 describe("handlers", () => {

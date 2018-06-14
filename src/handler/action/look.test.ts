@@ -1,10 +1,10 @@
 import { Item } from "../../item/model/item"
 import { Player } from "../../player/model/player"
 import { createRequestArgs, Request } from "../../request/request"
+import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import { RequestType } from "../../request/requestType"
 import look, { NOT_FOUND } from "./look"
 
 function useLookRequest(player: Player, input: string) {

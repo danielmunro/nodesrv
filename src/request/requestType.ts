@@ -1,5 +1,4 @@
 export enum RequestType {
-    Node = "node",
     Gossip = "gossip",
     Get = "get",
     Drop = "drop",

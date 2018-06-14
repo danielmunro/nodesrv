@@ -1,5 +1,5 @@
-import { RequestType } from "../../request/requestType"
 import { Request } from "../../request/request"
+import { RequestType } from "../../request/requestType"
 import { getTestClient } from "../../test/client"
 import { HandleClientRequests } from "./handleClientRequests"
 

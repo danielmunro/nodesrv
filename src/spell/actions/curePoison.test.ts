@@ -1,7 +1,7 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
-import { RequestType } from "../../request/requestType"
 import { createRequestArgs, Request } from "../../request/request"
+import { RequestType } from "../../request/requestType"
 import { newSpell } from "../../spell/factory"
 import { getTestPlayer } from "../../test/player"
 import { Check } from "../check"

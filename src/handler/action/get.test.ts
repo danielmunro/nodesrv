@@ -1,8 +1,8 @@
 import { newShield } from "../../item/factory"
 import { createRequestArgs, Request } from "../../request/request"
+import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import { RequestType } from "../../request/requestType"
 import { MESSAGE_ITEM_NOT_FOUND } from "./constants"
 import get from "./get"
 

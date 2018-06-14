@@ -1,7 +1,7 @@
 import { createRequestArgs, Request } from "../../request/request"
+import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import { actions } from "../actions"
-import { RequestType } from "../../request/requestType"
 import { HandlerDefinition } from "../handlerDefinition"
 
 it("should be to handle gossiping", async () => {

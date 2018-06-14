@@ -1,9 +1,9 @@
-import { RequestType } from "./requestType"
 import { Item } from "../item/model/item"
 import match from "../matcher/match"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
+import { RequestType } from "./requestType"
 
 export function createRequestArgs(request: string) {
   return { request }

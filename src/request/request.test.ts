@@ -1,4 +1,3 @@
-import { RequestType } from "./requestType"
 import { Equipment } from "../item/equipment"
 import { Item } from "../item/model/item"
 import { Player } from "../player/model/player"
@@ -6,6 +5,7 @@ import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
 import { getTestRoom } from "../test/room"
 import { createRequestArgs, Request } from "./request"
+import { RequestType } from "./requestType"
 
 function newLookRequest(player: Player, args: string): Request {
   return new Request(player, RequestType.Look, createRequestArgs(args))

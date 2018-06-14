@@ -1,5 +1,5 @@
 import { DamageType } from "../damage/damageType"
-import { ActionType } from "../handler/constants"
+import { ActionType } from "../handler/actionType"
 import { SpellType } from "../spell/spellType"
 import cureLight from "./actions/cureLight"
 import curePoison from "./actions/curePoison"

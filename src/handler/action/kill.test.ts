@@ -1,9 +1,9 @@
 import { Player } from "../../player/model/player"
 import { createRequestArgs, Request } from "../../request/request"
+import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { ATTACK_MOB, MOB_NOT_FOUND } from "../actions"
-import { RequestType } from "../../request/requestType"
 import kill from "./kill"
 
 function useKillRequest(player: Player, input: string) {

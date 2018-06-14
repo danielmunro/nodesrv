@@ -1,7 +1,7 @@
 import { newShield, newWeapon } from "../../item/factory"
 import { createRequestArgs, Request } from "../../request/request"
-import { getTestPlayer } from "../../test/player"
 import { RequestType } from "../../request/requestType"
+import { getTestPlayer } from "../../test/player"
 import equipped from "./equipped"
 
 describe("equipped", () => {
