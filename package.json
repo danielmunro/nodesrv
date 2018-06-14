@@ -8,8 +8,9 @@
     "create-fixtures": "ts-node --no-cache bin/create-fixtures.ts .",
     "clean": "rm -rf ./coverage",
     "lint": "yarn clean && tslint --project .",
-    "test": "jest --forceExit",
-    "test-coverage": "jest --coverage"
+    "test": "ENV=test jest --forceExit",
+    "reset-test-db": "ts-node bin/reset-test-db.ts",
+    "test-coverage": "ENV=test jest --coverage"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],
