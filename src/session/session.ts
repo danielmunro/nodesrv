@@ -1,6 +1,6 @@
 import { Client } from "../client/client"
 import look from "../handler/action/look"
-import { RequestType } from "../handler/constants"
+import { RequestType } from "../request/requestType"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { createRequestArgs, Request as ActionRequest } from "../request/request"

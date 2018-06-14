@@ -1,7 +1,7 @@
 import { MESSAGE_ITEM_NOT_FOUND } from "../handler/action/constants"
 import look from "../handler/action/look"
 import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "../handler/action/move"
-import { RequestType } from "../handler/constants"
+import { RequestType } from "../request/requestType"
 import { HandlerCollection } from "../handler/handlerCollection"
 import { Player } from "../player/model/player"
 import { createRequestArgs, getNewRequestFromMessageEvent, Request } from "../request/request"

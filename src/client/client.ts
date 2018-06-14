@@ -1,5 +1,5 @@
 import * as stringify from "json-stringify-safe"
-import { RequestType } from "../handler/constants"
+import { RequestType } from "../request/requestType"
 import { HandlerCollection } from "../handler/handlerCollection"
 import { HandlerDefinition } from "../handler/handlerDefinition"
 import { Mob } from "../mob/model/mob"

@@ -1,4 +1,4 @@
-import { RequestType } from "../handler/constants"
+import { RequestType } from "./requestType"
 import { Item } from "../item/model/item"
 import match from "../matcher/match"
 import { Mob } from "../mob/model/mob"

@@ -1,7 +1,7 @@
 import { newShield } from "../../item/factory"
 import { createRequestArgs, Request } from "../../request/request"
 import { getTestPlayer } from "../../test/player"
-import { RequestType } from "../constants"
+import { RequestType } from "../../request/requestType"
 import drop from "./drop"
 
 describe("drop", () => {

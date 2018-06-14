@@ -1,9 +1,12 @@
 export enum SkillType {
-  // Implemented
+  // tested
   Bash = "bash",
 
-  // Planned
+  // implemented
+  Trip = "trip",
   Sneak = "sneak",
+
+  // planned
   Infravision = "infravision",
   Dodge = "dodge",
   Parry = "parry",
@@ -11,9 +14,8 @@ export enum SkillType {
   Berserk = "berserk",
   DirtKick = "dirt kick",
   Disarm = "disarm",
-  Trip = "trip",
 
-  // Weapons
+  // weapons -- not implemented
   Sword = "sword",
   Axe = "axe",
   Dagger = "dagger",

@@ -2,6 +2,9 @@ import { Item } from "../item/model/item"
 import { Request } from "../request/request"
 import { Direction } from "../room/constants"
 import bash from "../skill/actions/bash"
+import berserk from "../skill/actions/berserk"
+import sneak from "../skill/actions/sneak"
+import trip from "../skill/actions/trip"
 import Attempt from "../skill/attempt"
 import Outcome from "../skill/outcome"
 import { SkillType } from "../skill/skillType"
@@ -17,7 +20,7 @@ import look from "./action/look"
 import move from "./action/move"
 import remove from "./action/remove"
 import wear from "./action/wear"
-import { RequestType } from "./constants"
+import { RequestType } from "../request/requestType"
 import { HandlerCollection } from "./handlerCollection"
 import { HandlerDefinition } from "./handlerDefinition"
 
@@ -41,8 +44,7 @@ function createHandler(requestType: RequestType, cb) {
 async function doSkill(request: Request, skillType: SkillType, action: (attempt: Attempt) => Promise<Outcome>) {
   const mob = request.player.sessionMob
   const skill = mob.skills.find((s) => s.skillType === skillType)
-  return action(
-    new Attempt(mob, request.getTarget(), skill))
+  return action(new Attempt(mob, request.getTarget(), skill))
 }
 
 export const actions = new HandlerCollection([
@@ -65,6 +67,9 @@ export const actions = new HandlerCollection([
   // fighting
   createHandler(RequestType.Kill, kill),
   createHandler(RequestType.Bash, (request: Request) => doSkill(request, SkillType.Bash, bash)),
+  createHandler(RequestType.Trip, (request: Request) => doSkill(request, SkillType.Trip, trip)),
+  createHandler(RequestType.Sneak, (request: Request) => doSkill(request, SkillType.Sneak, sneak)),
+  createHandler(RequestType.Berserk, (request: Request) => doSkill(request, SkillType.Berserk, berserk)),
 
   // casting
   createHandler(RequestType.Cast, cast),

@@ -1,4 +1,4 @@
-import { RequestType } from "./constants"
+import { RequestType } from "../request/requestType"
 import { HandlerDefinition } from "./handlerDefinition"
 
 export class HandlerCollection {

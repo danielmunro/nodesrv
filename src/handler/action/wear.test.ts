@@ -3,7 +3,7 @@ import { Item } from "../../item/model/item"
 import { Player } from "../../player/model/player"
 import { createRequestArgs, Request } from "../../request/request"
 import { getTestPlayer } from "../../test/player"
-import { RequestType } from "../constants"
+import { RequestType } from "../../request/requestType"
 import wear, { ITEM_NOT_FOUND } from "./wear"
 
 function getHatOfMight(): Item {

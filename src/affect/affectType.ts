@@ -3,5 +3,7 @@ export enum AffectType {
   Shield = "shield",
   Poison = "poison",
   GiantStrength = "giant strength",
+  Sneak = "sneak",
+  Berserk = "berserk",
   Noop = "noop",
 }

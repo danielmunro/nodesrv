@@ -1,4 +1,4 @@
-import { RequestType } from "../handler/constants"
+import { RequestType } from "./requestType"
 import { Equipment } from "../item/equipment"
 import { Item } from "../item/model/item"
 import { Player } from "../player/model/player"

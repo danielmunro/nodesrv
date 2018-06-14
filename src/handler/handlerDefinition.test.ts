@@ -1,6 +1,6 @@
 import { Request } from "../request/request"
 import { getTestPlayer } from "./../test/player"
-import { RequestType } from "./constants"
+import { RequestType } from "../request/requestType"
 import { HandlerDefinition } from "./handlerDefinition"
 
 function getNewHandlerDefinition(requestType = RequestType.Noop): HandlerDefinition {

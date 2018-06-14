@@ -1,4 +1,4 @@
-import { RequestType } from "../../handler/constants"
+import { RequestType } from "../../request/requestType"
 import { createRequestArgs, Request } from "../../request/request"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"

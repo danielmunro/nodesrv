@@ -1,5 +1,5 @@
 import { Request } from "./../request/request"
-import { RequestType } from "./constants"
+import { RequestType } from "../request/requestType"
 import { RequestTypeMismatch } from "./exceptions"
 
 export class HandlerDefinition {

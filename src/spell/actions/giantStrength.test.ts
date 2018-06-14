@@ -1,5 +1,5 @@
 import { AffectType } from "../../affect/affectType"
-import { RequestType } from "../../handler/constants"
+import { RequestType } from "../../request/requestType"
 import { createRequestArgs, Request } from "../../request/request"
 import { newSpell } from "../../spell/factory"
 import { getTestMob } from "../../test/mob"
