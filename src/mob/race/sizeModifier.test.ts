@@ -1,5 +1,5 @@
-import { getSizeModifier } from "./sizeModifier"
 import { Race } from "./race"
+import { getSizeModifier } from "./sizeModifier"
 
 describe("size modifier", () => {
   it("should assign the expected modifier", () => {
