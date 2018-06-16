@@ -1,9 +1,9 @@
 import roll from "../../dice/dice"
 import { getFights } from "../../mob/fight/fight"
-import { SkillType } from "../../skill/skillType"
 import Attempt from "../attempt"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
+import { SkillType } from "../skillType"
 
 export const DELAY = 2
 export const MESSAGE_NO_SKILL = "You bash around helplessly."
