@@ -1,10 +1,10 @@
 import { Mob } from "../mob/model/mob"
 import Attempt from "../skill/attempt"
-import { newSelfTargetAttempt, newSkill } from "../skill/factory"
+import { newSelfTargetAttempt } from "../skill/factory"
+import { Skill } from "../skill/model/skill"
 import Outcome from "../skill/outcome"
-import { SkillType } from "../skill/skillType"
 
-async function repeater(call, count: number = 5) {
+async function repeater(call, count: number = 10) {
   const times = new Array(count)
   for (let i = 0; i < count; i ++) {
     times.push(await call())
@@ -13,10 +13,10 @@ async function repeater(call, count: number = 5) {
 }
 
 export async function getMultipleOutcomesAgainst(
-  mob: Mob, target: Mob, skillType: SkillType, action, level: number): Promise<Outcome[]> {
-  return repeater(async () => await action(new Attempt(mob, target, newSkill(skillType, level))))
+  mob: Mob, target: Mob, skill: Skill, action): Promise<Outcome[]> {
+  return repeater(async () => await action(new Attempt(mob, target, skill)))
 }
 
-export async function getMultipleOutcomes(mob: Mob, skillType: SkillType, action, level: number): Promise<Outcome[]> {
-  return repeater(async () => await action(newSelfTargetAttempt(mob, newSkill(skillType, level))))
+export async function getMultipleOutcomes(mob: Mob, skill: Skill, action): Promise<Outcome[]> {
+  return repeater(async () => await action(newSelfTargetAttempt(mob, skill)))
 }
