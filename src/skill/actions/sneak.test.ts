@@ -9,7 +9,6 @@ describe("sneak skill action", () => {
     const mob = new Mob()
     expect((await getMultipleOutcomes(mob, SkillType.Sneak, sneak, 1)).some(
       (outcome) => !outcome.wasSuccessful())).toBeTruthy()
-    expect(mob.getAffect(AffectType.Sneak)).toBeFalsy()
   })
 
   it("should be able to succeed sneaking", async () => {
