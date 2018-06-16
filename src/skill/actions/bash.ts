@@ -24,11 +24,10 @@ export default async function(attempt: Attempt): Promise<Outcome> {
     return new Outcome(attempt, OutcomeType.Error, MESSAGE_NO_SKILL)
   }
 
-  attempt.delay += DELAY
   const target = fight.getOpponentFor(sessionMob)
 
   if (roll(1, skill.level) - roll(1, target.getCombinedAttributes().stats.dex * 3) < 0) {
-    return new Outcome(attempt, OutcomeType.Failure, MESSAGE_FAIL)
+    return new Outcome(attempt, OutcomeType.Failure, MESSAGE_FAIL, DELAY)
   }
 
   target.vitals.hp--
@@ -36,6 +35,7 @@ export default async function(attempt: Attempt): Promise<Outcome> {
   return new Outcome(
     attempt,
     OutcomeType.Success,
-    "You slam into ${sessionMob.name} and send them flying!",
+    `You slam into ${sessionMob.name} and send them flying!`,
+    DELAY,
   )
 }
