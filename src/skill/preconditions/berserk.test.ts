@@ -1,9 +1,9 @@
+import { AffectType } from "../../affect/affectType"
+import { newAffect } from "../../affect/factory"
 import { getTestMob } from "../../test/mob"
 import { CheckResult } from "../checkResult"
 import { newSelfTargetAttempt, newSkill } from "../factory"
 import { SkillType } from "../skillType"
-import { newAffect } from "../../affect/factory"
-import { AffectType } from "../../affect/affectType"
 import berserk from "./berserk"
 
 describe("berserk skill precondition", () => {
