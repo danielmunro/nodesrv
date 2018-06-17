@@ -12,19 +12,12 @@ export const MESSAGE_FAIL = "You fall flat on your face!"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   const mob = attempt.mob
-  const fight = getFights().find((f) => f.isParticipant(mob))
-
-  if (!fight) {
-    return new Outcome(attempt, OutcomeType.Error, MESSAGE_NO_TARGET)
-  }
-
+  const target = attempt.target
   const skill = mob.skills.find((s) => s.skillType === SkillType.Bash)
 
   if (!skill) {
     return new Outcome(attempt, OutcomeType.Error, MESSAGE_NO_SKILL)
   }
-
-  const target = fight.getOpponentFor(mob)
 
   if (roll(1, skill.level) - roll(1, target.getCombinedAttributes().stats.dex * 3) < 0) {
     return new Outcome(attempt, OutcomeType.Failure, MESSAGE_FAIL, DELAY)

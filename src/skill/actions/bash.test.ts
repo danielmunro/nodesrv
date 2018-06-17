@@ -1,9 +1,9 @@
 import { addFight, Fight, reset } from "../../mob/fight/fight"
 import { Mob } from "../../mob/model/mob"
-import { SkillType } from "../../skill/skillType"
 import { getTestMob } from "../../test/mob"
 import Attempt from "../attempt"
 import { newSkill } from "../factory"
+import { SkillType } from "../skillType"
 import bash, { MESSAGE_FAIL, MESSAGE_NO_SKILL, MESSAGE_NO_TARGET } from "./bash"
 
 const RETRY_COUNT = 10
@@ -30,11 +30,6 @@ function addNewTestFight(mob: Mob): Fight {
 beforeEach(() => reset())
 
 describe("bash", () => {
-  it("should not work if a mob is not in combat", async () => {
-    const outcome = await bash(createBashRequest(getTestMob(), null))
-    expect(outcome.message).toEqual(MESSAGE_NO_TARGET)
-  })
-
   it("should not work if a mob does not have the skill", async () => {
     // setup
     const mob = getTestMob()

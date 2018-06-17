@@ -41,7 +41,7 @@ function createHandler(requestType: RequestType, cb) {
   return new HandlerDefinition(requestType, cb)
 }
 
-async function doSkill(request: Request, skillType: SkillType) {
+async function doSkill(request: Request, skillType: SkillType): Promise<Outcome> {
   const mob = request.player.sessionMob
   const skillModel = mob.skills.find((s) => s.skillType === skillType)
   const skillDefinition = skillCollection.find((skillDef) => skillDef.isSkillTypeMatch(skillType))
@@ -51,7 +51,7 @@ async function doSkill(request: Request, skillType: SkillType) {
     if (check.checkResult === CheckResult.Unable) {
       return failPrecondition(attempt)
     }
-    request.player.delay += check.delayIncurred
+    check.cost(request.player)
   }
   return skillDefinition.action(attempt)
 }
