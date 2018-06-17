@@ -22,7 +22,6 @@ import remove from "./action/remove"
 import wear from "./action/wear"
 import { HandlerCollection } from "./handlerCollection"
 import { HandlerDefinition } from "./handlerDefinition"
-import SkillDefinition from "../skill/skillDefinition"
 
 export const MOB_NOT_FOUND = "They aren't here."
 export const ATTACK_MOB = "You scream and attack!"
