@@ -11,7 +11,7 @@ export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
   const target = attempt.target
   if (!target || mob === target) {
-    return new Promise((resolve) => resolve(failCheck(attempt)))
+    return failCheck(attempt)
   }
   if (mob.vitals.mv > COST_MV) {
     return new Promise((resolve) => resolve(new Check(attempt, CheckResult.Able, (player: Player) => {
@@ -19,5 +19,5 @@ export default function(attempt: Attempt): Promise<Check> {
       player.delay += COST_DELAY
     })))
   }
-  return new Promise((resolve) => resolve(failCheck(attempt)))
+  return failCheck(attempt)
 }

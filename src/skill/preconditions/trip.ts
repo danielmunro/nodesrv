@@ -10,11 +10,11 @@ export const COST_MV = 5
 export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
   if (mob.vitals.mv > COST_MV) {
-    return new Promise(() => new Check(attempt, CheckResult.Able, (player: Player) => {
+    return new Promise((resolve) => resolve(new Check(attempt, CheckResult.Able, (player: Player) => {
       mob.vitals.mv -= COST_MV
       player.delay += COST_DELAY
-    }))
+    })))
   }
 
-  return new Promise(() => failCheck(attempt))
+  return failCheck(attempt)
 }
