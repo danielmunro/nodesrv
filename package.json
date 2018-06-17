@@ -10,7 +10,7 @@
     "lint": "yarn clean && tslint --project .",
     "test": "ENV=test jest --forceExit",
     "reset-test-db": "ts-node bin/reset-test-db.ts",
-    "test-coverage": "ENV=test jest --coverage"
+    "test-coverage": "ENV=test jest --coverage --forceExit"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],
