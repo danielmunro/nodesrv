@@ -1,9 +1,10 @@
 import { getTestMob } from "../../test/mob"
+import { getTestPlayer } from "../../test/player"
 import Attempt from "../attempt"
 import { CheckResult } from "../checkResult"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
-import bash from "./bash"
+import bash, { COST_DELAY, COST_MV } from "./bash"
 
 describe("bash skill precondition", () => {
   it("should not allow bashing when preconditions fail", async () => {
@@ -40,5 +41,21 @@ describe("bash skill precondition", () => {
 
     // then
     expect(check.checkResult).toBe(CheckResult.Able)
+  })
+
+  it("should be able to apply check costs", async () => {
+    // given
+    const player = getTestPlayer()
+    const target = getTestMob()
+    const check = await bash(new Attempt(player.sessionMob, target, newSkill(SkillType.Bash, 100)))
+    const startingMv = player.sessionMob.vitals.mv
+    const startingDelay = player.delay
+
+    // when
+    check.cost(player)
+
+    // then
+    expect(player.sessionMob.vitals.mv).toEqual(startingMv - COST_MV)
+    expect(player.delay).toEqual(startingDelay + COST_DELAY)
   })
 })
