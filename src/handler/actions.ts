@@ -2,12 +2,11 @@ import { Item } from "../item/model/item"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
-import bash from "../skill/actions/bash"
-import berserk from "../skill/actions/berserk"
-import sneak from "../skill/actions/sneak"
-import trip from "../skill/actions/trip"
 import Attempt from "../skill/attempt"
+import { CheckResult } from "../skill/checkResult"
 import Outcome from "../skill/outcome"
+import { OutcomeType } from "../skill/outcomeType"
+import { skillCollection } from "../skill/skillCollection"
 import { SkillType } from "../skill/skillType"
 import affects from "./action/affects"
 import cast from "./action/cast"
@@ -26,6 +25,7 @@ import { HandlerDefinition } from "./handlerDefinition"
 
 export const MOB_NOT_FOUND = "They aren't here."
 export const ATTACK_MOB = "You scream and attack!"
+export const PRECONDITION_FAILED = "You don't have enough energy."
 
 export function doWithItemOrElse(item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
   return new Promise((resolve) => {
@@ -41,10 +41,20 @@ function createHandler(requestType: RequestType, cb) {
   return new HandlerDefinition(requestType, cb)
 }
 
-async function doSkill(request: Request, skillType: SkillType, action: (attempt: Attempt) => Promise<Outcome>) {
+async function doSkill(request: Request, skillType: SkillType) {
   const mob = request.player.sessionMob
-  const skill = mob.skills.find((s) => s.skillType === skillType)
-  return action(new Attempt(mob, request.getTarget(), skill))
+  const skillModel = mob.skills.find((s) => s.skillType === skillType)
+  const skillDefinition = skillCollection.find((skillDef) => skillDef.isSkillTypeMatch(skillType))
+  // need to migrate attempt.delay to some kind of response object for precondition checks
+  const attempt = new Attempt(mob, request.getTarget(), skillModel)
+  if (skillDefinition.preconditions) {
+    const check = await skillDefinition.preconditions(attempt)
+    if (check.checkResult === CheckResult.Unable) {
+      return new Outcome(attempt, OutcomeType.CheckFail, PRECONDITION_FAILED)
+    }
+    request.player.delay += check.delayIncurred
+  }
+  return skillDefinition.action(attempt)
 }
 
 export const actions = new HandlerCollection([
@@ -66,10 +76,12 @@ export const actions = new HandlerCollection([
 
   // fighting
   createHandler(RequestType.Kill, kill),
-  createHandler(RequestType.Bash, (request: Request) => doSkill(request, SkillType.Bash, bash)),
-  createHandler(RequestType.Trip, (request: Request) => doSkill(request, SkillType.Trip, trip)),
-  createHandler(RequestType.Sneak, (request: Request) => doSkill(request, SkillType.Sneak, sneak)),
-  createHandler(RequestType.Berserk, (request: Request) => doSkill(request, SkillType.Berserk, berserk)),
+  createHandler(RequestType.Bash, (request: Request) => doSkill(request, SkillType.Bash)),
+  createHandler(RequestType.Trip, (request: Request) => doSkill(request, SkillType.Trip)),
+
+  // skills
+  createHandler(RequestType.Berserk, (request: Request) => doSkill(request, SkillType.Berserk)),
+  createHandler(RequestType.Sneak, (request: Request) => doSkill(request, SkillType.Sneak)),
 
   // casting
   createHandler(RequestType.Cast, cast),

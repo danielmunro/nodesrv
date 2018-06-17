@@ -1,20 +1,23 @@
 import { Trigger } from "../trigger"
-import bash from "./actions/bash"
-import berserk from "./actions/berserk"
-import dodge from "./actions/dodge"
-import trip from "./actions/trip"
+import bashAction from "./actions/bash"
+import berserkAction from "./actions/berserk"
+import dodgeAction from "./actions/dodge"
+import tripAction from "./actions/trip"
+import bashPrecondition from "./preconditions/bash"
+import berserkPrecondition from "./preconditions/berserk"
+import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
 
-function createSkill(type: SkillType, triggers: Trigger[], action): SkillDefinition {
-  return new SkillDefinition(type, triggers, action)
+function createSkill(type: SkillType, triggers: Trigger[], action, preconditions = null): SkillDefinition {
+  return new SkillDefinition(type, triggers, action, preconditions)
 }
 
 export const skillCollection = [
-  createSkill(SkillType.Dodge, [Trigger.AttackRoundStart], dodge),
-  createSkill(SkillType.Bash, [Trigger.Input], bash),
-  createSkill(SkillType.Trip, [Trigger.Input], trip),
-  createSkill(SkillType.Berserk, [Trigger.Input], berserk),
+  createSkill(SkillType.Dodge, [Trigger.AttackRoundStart], dodgeAction),
+  createSkill(SkillType.Bash, [Trigger.Input], bashAction, bashPrecondition),
+  createSkill(SkillType.Trip, [Trigger.Input], tripAction, tripPrecondition),
+  createSkill(SkillType.Berserk, [Trigger.Input], berserkAction, berserkPrecondition),
 ]
 
 export function getSkillAction(skillType: SkillType) {
