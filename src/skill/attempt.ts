@@ -5,7 +5,6 @@ export default class Attempt {
   public readonly mob: Mob
   public readonly target: Mob
   public readonly skill: Skill
-  public delay: number
 
   constructor(mob, target, skill) {
     this.mob = mob

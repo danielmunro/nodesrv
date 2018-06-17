@@ -11,20 +11,20 @@ export const MESSAGE_NO_TARGET = "You aren't fighting anyone!"
 export const MESSAGE_FAIL = "You fall flat on your face!"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
-  const sessionMob = attempt.mob
-  const fight = getFights().find((f) => f.isParticipant(sessionMob))
+  const mob = attempt.mob
+  const fight = getFights().find((f) => f.isParticipant(mob))
 
   if (!fight) {
     return new Outcome(attempt, OutcomeType.Error, MESSAGE_NO_TARGET)
   }
 
-  const skill = sessionMob.skills.find((s) => s.skillType === SkillType.Bash)
+  const skill = mob.skills.find((s) => s.skillType === SkillType.Bash)
 
   if (!skill) {
     return new Outcome(attempt, OutcomeType.Error, MESSAGE_NO_SKILL)
   }
 
-  const target = fight.getOpponentFor(sessionMob)
+  const target = fight.getOpponentFor(mob)
 
   if (roll(1, skill.level) - roll(1, target.getCombinedAttributes().stats.dex * 3) < 0) {
     return new Outcome(attempt, OutcomeType.Failure, MESSAGE_FAIL, DELAY)
@@ -35,7 +35,7 @@ export default async function(attempt: Attempt): Promise<Outcome> {
   return new Outcome(
     attempt,
     OutcomeType.Success,
-    `You slam into ${sessionMob.name} and send them flying!`,
+    `You slam into ${mob.name} and send them flying!`,
     DELAY,
   )
 }

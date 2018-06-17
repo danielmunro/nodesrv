@@ -22,6 +22,7 @@ import remove from "./action/remove"
 import wear from "./action/wear"
 import { HandlerCollection } from "./handlerCollection"
 import { HandlerDefinition } from "./handlerDefinition"
+import SkillDefinition from "../skill/skillDefinition"
 
 export const MOB_NOT_FOUND = "They aren't here."
 export const ATTACK_MOB = "You scream and attack!"
@@ -45,16 +46,19 @@ async function doSkill(request: Request, skillType: SkillType) {
   const mob = request.player.sessionMob
   const skillModel = mob.skills.find((s) => s.skillType === skillType)
   const skillDefinition = skillCollection.find((skillDef) => skillDef.isSkillTypeMatch(skillType))
-  // need to migrate attempt.delay to some kind of response object for precondition checks
   const attempt = new Attempt(mob, request.getTarget(), skillModel)
   if (skillDefinition.preconditions) {
     const check = await skillDefinition.preconditions(attempt)
     if (check.checkResult === CheckResult.Unable) {
-      return new Outcome(attempt, OutcomeType.CheckFail, PRECONDITION_FAILED)
+      return failPrecondition(attempt)
     }
     request.player.delay += check.delayIncurred
   }
   return skillDefinition.action(attempt)
+}
+
+function failPrecondition(attempt): Outcome {
+  return new Outcome(attempt, OutcomeType.CheckFail, PRECONDITION_FAILED)
 }
 
 export const actions = new HandlerCollection([
