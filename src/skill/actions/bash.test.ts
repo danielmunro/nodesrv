@@ -4,7 +4,7 @@ import { getTestMob } from "../../test/mob"
 import Attempt from "../attempt"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
-import bash, { MESSAGE_FAIL, MESSAGE_NO_SKILL, MESSAGE_NO_TARGET } from "./bash"
+import bash, { MESSAGE_FAIL, MESSAGE_NO_SKILL } from "./bash"
 
 const RETRY_COUNT = 10
 

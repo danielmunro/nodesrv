@@ -1,5 +1,4 @@
 import roll from "../../dice/dice"
-import { getFights } from "../../mob/fight/fight"
 import Attempt from "../attempt"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
