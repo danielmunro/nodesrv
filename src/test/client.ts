@@ -1,5 +1,5 @@
 import { Client } from "../client/client"
-import { actions } from "../handler/actions"
+import { actions } from "../handler/actionCollection"
 import { getTestPlayer } from "./player"
 import { getTestRoom } from "./room"
 

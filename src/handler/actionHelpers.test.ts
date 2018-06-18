@@ -2,7 +2,8 @@ import { Item } from "../item/model/item"
 import { createRequestArgs, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { getTestPlayer } from "../test/player"
-import { actions, doWithItemOrElse } from "./actions"
+import { actions } from "./actionCollection"
+import { doWithItemOrElse } from "./actionHelpers"
 import { HandlerDefinition } from "./handlerDefinition"
 
 describe("handlers", () => {

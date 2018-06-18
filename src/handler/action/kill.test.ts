@@ -3,8 +3,7 @@ import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
-import { ATTACK_MOB, MOB_NOT_FOUND } from "../actions"
-import kill from "./kill"
+import kill, { ATTACK_MOB, MOB_NOT_FOUND } from "./kill"
 
 function useKillRequest(player: Player, input: string) {
   return kill(new Request(player, RequestType.Kill, createRequestArgs(input)))

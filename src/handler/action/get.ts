@@ -1,6 +1,6 @@
 import { Item } from "../../item/model/item"
 import { Request } from "../../request/request"
-import { doWithItemOrElse } from "../actions"
+import { doWithItemOrElse } from "../actionHelpers"
 import { MESSAGE_ITEM_NOT_FOUND } from "./constants"
 
 export default function(request: Request): Promise<any> {

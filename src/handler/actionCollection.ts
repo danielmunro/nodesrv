@@ -1,12 +1,6 @@
-import { Item } from "../item/model/item"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
-import Attempt from "../skill/attempt"
-import { CheckResult } from "../skill/checkResult"
-import Outcome from "../skill/outcome"
-import { OutcomeType } from "../skill/outcomeType"
-import { skillCollection } from "../skill/skillCollection"
 import { SkillType } from "../skill/skillType"
 import affects from "./action/affects"
 import cast from "./action/cast"
@@ -20,45 +14,8 @@ import look from "./action/look"
 import move from "./action/move"
 import remove from "./action/remove"
 import wear from "./action/wear"
+import { createHandler, doSkill } from "./actionHelpers"
 import { HandlerCollection } from "./handlerCollection"
-import { HandlerDefinition } from "./handlerDefinition"
-
-export const MOB_NOT_FOUND = "They aren't here."
-export const ATTACK_MOB = "You scream and attack!"
-export const PRECONDITION_FAILED = "You don't have enough energy."
-
-export function doWithItemOrElse(item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
-  return new Promise((resolve) => {
-    if (!item) {
-      return resolve({message: ifNotItemMessage})
-    }
-
-    return resolve(ifItem(item))
-  })
-}
-
-function createHandler(requestType: RequestType, cb) {
-  return new HandlerDefinition(requestType, cb)
-}
-
-async function doSkill(request: Request, skillType: SkillType): Promise<Outcome> {
-  const mob = request.player.sessionMob
-  const skillModel = mob.skills.find((s) => s.skillType === skillType)
-  const skillDefinition = skillCollection.find((skillDef) => skillDef.isSkillTypeMatch(skillType))
-  const attempt = new Attempt(mob, request.getTarget(), skillModel)
-  if (skillDefinition.preconditions) {
-    const check = await skillDefinition.preconditions(attempt)
-    if (check.checkResult === CheckResult.Unable) {
-      return failPrecondition(attempt)
-    }
-    check.cost(request.player)
-  }
-  return skillDefinition.action(attempt)
-}
-
-function failPrecondition(attempt): Outcome {
-  return new Outcome(attempt, OutcomeType.CheckFail, PRECONDITION_FAILED)
-}
 
 export const actions = new HandlerCollection([
   // moving

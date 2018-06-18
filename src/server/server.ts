@@ -1,6 +1,6 @@
 import { Server } from "ws"
 import { Client } from "../client/client"
-import { actions } from "../handler/actions"
+import { actions } from "../handler/actionCollection"
 import { poll } from "../poll/poll"
 import { Room } from "../room/model/room"
 import { ImmediateTimer } from "../timer/immediateTimer"
