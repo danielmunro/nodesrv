@@ -5,9 +5,7 @@
     ],
     "rules": {
         "semicolon": [true, "never"],
-        "no-console": {
-            "severity": "warning"
-        },
+        "no-console": false,
         "no-empty": {
             "severity": "warning"
         },
