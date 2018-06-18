@@ -4,7 +4,7 @@ import { RequestType } from "../request/requestType"
 import { getTestPlayer } from "../test/player"
 import { actions } from "./actionCollection"
 import { doWithItemOrElse } from "./actionHelpers"
-import { HandlerDefinition } from "./handlerDefinition"
+import { Definition } from "./definition/definition"
 
 describe("handlers", () => {
   it("should do with item or else", () => {
@@ -28,7 +28,7 @@ describe("handlers", () => {
   })
 
   it("should recognize all directions as valid actions", async () => {
-    const defaultHandler = new HandlerDefinition(
+    const defaultHandler = new Definition(
       RequestType.Any,
       () => new Promise((resolve) => resolve(defaultHandler)))
     const handleRepeater = (requestType: RequestType, args: string) =>

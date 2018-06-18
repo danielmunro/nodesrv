@@ -14,42 +14,43 @@ import look from "./action/look"
 import move from "./action/move"
 import remove from "./action/remove"
 import wear from "./action/wear"
-import { createHandler, doSkill } from "./actionHelpers"
+import { doSkill } from "./actionHelpers"
+import { newDefinition } from "./definition/factory"
 import { HandlerCollection } from "./handlerCollection"
 
 export const actions = new HandlerCollection([
   // moving
-  createHandler(RequestType.North, (request: Request) => move(request.player, Direction.North)),
-  createHandler(RequestType.South, (request: Request) => move(request.player, Direction.South)),
-  createHandler(RequestType.East, (request: Request) => move(request.player, Direction.East)),
-  createHandler(RequestType.West, (request: Request) => move(request.player, Direction.West)),
-  createHandler(RequestType.Up, (request: Request) => move(request.player, Direction.Up)),
-  createHandler(RequestType.Down, (request: Request) => move(request.player, Direction.Down)),
+  newDefinition(RequestType.North, (request: Request) => move(request.player, Direction.North)),
+  newDefinition(RequestType.South, (request: Request) => move(request.player, Direction.South)),
+  newDefinition(RequestType.East, (request: Request) => move(request.player, Direction.East)),
+  newDefinition(RequestType.West, (request: Request) => move(request.player, Direction.West)),
+  newDefinition(RequestType.Up, (request: Request) => move(request.player, Direction.Up)),
+  newDefinition(RequestType.Down, (request: Request) => move(request.player, Direction.Down)),
 
   // items
-  createHandler(RequestType.Inventory, inventory),
-  createHandler(RequestType.Get, get),
-  createHandler(RequestType.Drop, drop),
-  createHandler(RequestType.Wear, wear),
-  createHandler(RequestType.Remove, remove),
-  createHandler(RequestType.Equipped, equipped),
+  newDefinition(RequestType.Inventory, inventory),
+  newDefinition(RequestType.Get, get),
+  newDefinition(RequestType.Drop, drop),
+  newDefinition(RequestType.Wear, wear),
+  newDefinition(RequestType.Remove, remove),
+  newDefinition(RequestType.Equipped, equipped),
 
   // fighting
-  createHandler(RequestType.Kill, kill),
-  createHandler(RequestType.Bash, (request: Request) => doSkill(request, SkillType.Bash)),
-  createHandler(RequestType.Trip, (request: Request) => doSkill(request, SkillType.Trip)),
+  newDefinition(RequestType.Kill, kill),
+  newDefinition(RequestType.Bash, (request: Request) => doSkill(request, SkillType.Bash)),
+  newDefinition(RequestType.Trip, (request: Request) => doSkill(request, SkillType.Trip)),
 
   // skills
-  createHandler(RequestType.Berserk, (request: Request) => doSkill(request, SkillType.Berserk)),
-  createHandler(RequestType.Sneak, (request: Request) => doSkill(request, SkillType.Sneak)),
+  newDefinition(RequestType.Berserk, (request: Request) => doSkill(request, SkillType.Berserk)),
+  newDefinition(RequestType.Sneak, (request: Request) => doSkill(request, SkillType.Sneak)),
 
   // casting
-  createHandler(RequestType.Cast, cast),
+  newDefinition(RequestType.Cast, cast),
 
   // info
-  createHandler(RequestType.Affects, affects),
-  createHandler(RequestType.Look, look),
+  newDefinition(RequestType.Affects, affects),
+  newDefinition(RequestType.Look, look),
 
   // social
-  createHandler(RequestType.Gossip, gossip),
+  newDefinition(RequestType.Gossip, gossip),
 ])

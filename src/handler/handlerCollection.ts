@@ -1,8 +1,8 @@
 import { RequestType } from "../request/requestType"
-import { HandlerDefinition } from "./handlerDefinition"
+import { Definition } from "./definition/definition"
 
 export class HandlerCollection {
-  private readonly handlers: HandlerDefinition[]
+  private readonly handlers: Definition[]
 
   constructor(handlers) {
     this.handlers = handlers
@@ -10,8 +10,8 @@ export class HandlerCollection {
 
   public getMatchingHandlerDefinitionForRequestType(
     requestType: RequestType,
-    defaultHandler: HandlerDefinition,
-  ): HandlerDefinition {
+    defaultHandler: Definition,
+  ): Definition {
     const handler = this.handlers.find((it) => it.isAbleToHandleRequestType(requestType))
 
     if (handler) {

@@ -1,17 +1,17 @@
-import { Request } from "../request/request"
-import { RequestType } from "../request/requestType"
-import { getTestPlayer } from "./../test/player"
-import { HandlerDefinition } from "./handlerDefinition"
+import { Request } from "../../request/request"
+import { RequestType } from "../../request/requestType"
+import { getTestPlayer } from "../../test/player"
+import { Definition } from "./definition"
 
-function getNewHandlerDefinition(requestType = RequestType.Noop): HandlerDefinition {
-  return new HandlerDefinition(requestType, () => new Promise((resolve) => resolve()))
+function getNewHandlerDefinition(requestType = RequestType.Noop): Definition {
+  return new Definition(requestType, () => new Promise((resolve) => resolve()))
 }
 
 function getNewTestRequest(requestType: RequestType): Request {
   return new Request(getTestPlayer(), requestType)
 }
 
-describe("HandlerDefinition", () => {
+describe("Definition", () => {
   it("isAbleToHandleRequestType should only handle its own request type", () => {
     const def = getNewHandlerDefinition(RequestType.Noop)
     expect(def.isAbleToHandleRequestType(RequestType.Gossip)).toBe(false)

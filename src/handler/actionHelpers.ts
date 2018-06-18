@@ -1,13 +1,11 @@
 import { Item } from "../item/model/item"
 import { Request } from "../request/request"
-import { RequestType } from "../request/requestType"
 import Attempt from "../skill/attempt"
 import { CheckResult } from "../skill/checkResult"
 import Outcome from "../skill/outcome"
 import { OutcomeType } from "../skill/outcomeType"
 import { skillCollection } from "../skill/skillCollection"
 import { SkillType } from "../skill/skillType"
-import { HandlerDefinition } from "./handlerDefinition"
 
 export const PRECONDITION_FAILED = "You don't have enough energy."
 
@@ -19,10 +17,6 @@ export function doWithItemOrElse(item: Item, ifItem: (item: Item) => {}, ifNotIt
 
     return resolve(ifItem(item))
   })
-}
-
-export function createHandler(requestType: RequestType, cb) {
-  return new HandlerDefinition(requestType, cb)
 }
 
 export async function doSkill(request: Request, skillType: SkillType): Promise<Outcome> {

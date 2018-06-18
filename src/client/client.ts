@@ -1,6 +1,6 @@
 import * as stringify from "json-stringify-safe"
+import { Definition } from "../handler/definition/definition"
 import { HandlerCollection } from "../handler/handlerCollection"
-import { HandlerDefinition } from "../handler/handlerDefinition"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"
@@ -99,7 +99,7 @@ export class Client {
     this.send({ tick: { id, timestamp }})
   }
 
-  private getDefaultRequestHandler(): HandlerDefinition {
-    return new HandlerDefinition(RequestType.Any, () => new Promise((resolve) => resolve(getDefaultUnhandledMessage())))
+  private getDefaultRequestHandler(): Definition {
+    return new Definition(RequestType.Any, () => new Promise((resolve) => resolve(getDefaultUnhandledMessage())))
   }
 }

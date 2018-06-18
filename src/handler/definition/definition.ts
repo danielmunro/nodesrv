@@ -1,8 +1,8 @@
-import { RequestType } from "../request/requestType"
-import { Request } from "./../request/request"
-import { RequestTypeMismatch } from "./exceptions"
+import { Request } from "../../request/request"
+import { RequestType } from "../../request/requestType"
+import { RequestTypeMismatch } from "../exceptions"
 
-export class HandlerDefinition {
+export class Definition {
   private readonly requestType: RequestType
   private readonly callback: (request: Request) => Promise<any>
 
