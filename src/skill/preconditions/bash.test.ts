@@ -4,10 +4,10 @@ import Attempt from "../attempt"
 import { CheckResult } from "../checkResult"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
-import bash, { COST_DELAY, COST_MV } from "./bash"
+import bash, { COST_DELAY, COST_MV, MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_TOO_TIRED } from "./bash"
 
 describe("bash skill precondition", () => {
-  it("should not allow bashing when preconditions fail", async () => {
+  it("should not allow bashing when too tired", async () => {
     // given
     const mob = getTestMob()
     const target = getTestMob()
@@ -18,6 +18,7 @@ describe("bash skill precondition", () => {
 
     // then
     expect(check.checkResult).toBe(CheckResult.Unable)
+    expect(check.message).toBe(MESSAGE_FAIL_TOO_TIRED)
   })
 
   it("should not allow bashing when a target is not provided", async () => {
@@ -29,6 +30,7 @@ describe("bash skill precondition", () => {
 
     // then
     expect(check.checkResult).toBe(CheckResult.Unable)
+    expect(check.message).toBe(MESSAGE_FAIL_NO_TARGET)
   })
 
   it("should pass the check if all preconditions pass", async () => {
