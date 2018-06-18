@@ -28,9 +28,7 @@ export default class Session {
   public async handleRequest(request: Request) {
     const response = await this.authStep.processRequest(request)
     this.authStep = response.authStep
-    if (response.message) {
-      this.client.send({ message: response.message })
-    }
+    this.client.send({ message: response.message })
     if (this.authStep instanceof Complete) {
       await this.login(this.authStep.player)
       return
