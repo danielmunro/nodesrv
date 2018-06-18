@@ -1,13 +1,13 @@
 import * as assert from "assert"
-import { Server as WebSocketServer } from "ws"
-import { PORT } from "../src/constants"
 import { findOneRoom } from "../src/room/repository/room"
-import addObservers from "../src/server/observerDecorator"
-import { GameServer } from "../src/server/server"
+import newServer from "../src/server/factory"
 
+/**
+ * Obtain the start room ID and port from arguments passed in
+ */
 const startRoomID = +process.argv[2]
-assert.ok(startRoomID > 0, "start room ID is required to be a number")
-console.log("starting up", { port: PORT, startRoomID })
+const port = +process.argv[3]
 
-findOneRoom(startRoomID).then((startRoom) =>
-  addObservers(new GameServer(new WebSocketServer({ port: PORT }), startRoom)).start())
+assert.ok(startRoomID > 0, "start room ID is required to be a number")
+console.log("starting up", { port, startRoomID })
+findOneRoom(startRoomID).then((startRoom) => newServer(startRoom, port).start())

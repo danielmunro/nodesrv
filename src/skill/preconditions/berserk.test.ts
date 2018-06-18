@@ -1,11 +1,11 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import { getTestMob } from "../../test/mob"
+import { getTestPlayer } from "../../test/player"
 import { CheckResult } from "../checkResult"
 import { newSelfTargetAttempt, newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import berserk, { COST_DELAY, MESSAGE_FAIL_ALREADY_BERSERKED, MESSAGE_FAIL_TOO_TIRED } from "./berserk"
-import { getTestPlayer } from "../../test/player"
 
 describe("berserk skill precondition", () => {
   it("should not allow berserking when preconditions fail", async () => {
