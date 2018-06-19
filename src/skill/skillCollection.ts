@@ -2,9 +2,11 @@ import { Trigger } from "../trigger"
 import bashAction from "./actions/bash"
 import berserkAction from "./actions/berserk"
 import dodgeAction from "./actions/dodge"
+import sneakAction from "./actions/sneak"
 import tripAction from "./actions/trip"
 import bashPrecondition from "./preconditions/bash"
 import berserkPrecondition from "./preconditions/berserk"
+import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
@@ -18,6 +20,7 @@ export const skillCollection = [
   createSkill(SkillType.Bash, [Trigger.Input], bashAction, bashPrecondition),
   createSkill(SkillType.Trip, [Trigger.Input], tripAction, tripPrecondition),
   createSkill(SkillType.Berserk, [Trigger.Input], berserkAction, berserkPrecondition),
+  createSkill(SkillType.Sneak, [Trigger.Input], sneakAction, sneakPrecondition),
 ]
 
 export function getSkillAction(skillType: SkillType) {

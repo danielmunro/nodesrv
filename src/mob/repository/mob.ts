@@ -14,9 +14,11 @@ export async function findPlayerMobByName(name: string): Promise<Mob> {
   return await getMobRepository().then((mobRepository) => mobRepository.findOne({ name, isPlayer: true }))
 }
 
-export async function findWanderingMobs(): Promise<Mob[]> {
+// @todo handle paginated wandering mobs in app
+export async function findWanderingMobs(take: number = 10, skip: number = 0): Promise<Mob[]> {
   return await getMobRepository()
-    .then((mobRepository) => mobRepository.find({ where: { wanders: true, isPlayer: false }}))
+    .then((mobRepository) =>
+      mobRepository.find({ where: { wanders: true, isPlayer: false }, take, skip, order: {id: "DESC"}}))
 }
 
 export async function persistMob(mob: Mob) {
