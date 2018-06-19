@@ -15,42 +15,42 @@ import move from "./action/move"
 import remove from "./action/remove"
 import wear from "./action/wear"
 import { doSkill } from "./actionHelpers"
-import { newDefinition } from "./definition/factory"
+import { Definition } from "./definition/definition"
 import { HandlerCollection } from "./handlerCollection"
 
 export const actions = new HandlerCollection([
   // moving
-  newDefinition(RequestType.North, (request: Request) => move(request.player, Direction.North)),
-  newDefinition(RequestType.South, (request: Request) => move(request.player, Direction.South)),
-  newDefinition(RequestType.East, (request: Request) => move(request.player, Direction.East)),
-  newDefinition(RequestType.West, (request: Request) => move(request.player, Direction.West)),
-  newDefinition(RequestType.Up, (request: Request) => move(request.player, Direction.Up)),
-  newDefinition(RequestType.Down, (request: Request) => move(request.player, Direction.Down)),
+  new Definition(RequestType.North, (request: Request) => move(request.player, Direction.North)),
+  new Definition(RequestType.South, (request: Request) => move(request.player, Direction.South)),
+  new Definition(RequestType.East, (request: Request) => move(request.player, Direction.East)),
+  new Definition(RequestType.West, (request: Request) => move(request.player, Direction.West)),
+  new Definition(RequestType.Up, (request: Request) => move(request.player, Direction.Up)),
+  new Definition(RequestType.Down, (request: Request) => move(request.player, Direction.Down)),
 
   // items
-  newDefinition(RequestType.Inventory, inventory),
-  newDefinition(RequestType.Get, get),
-  newDefinition(RequestType.Drop, drop),
-  newDefinition(RequestType.Wear, wear),
-  newDefinition(RequestType.Remove, remove),
-  newDefinition(RequestType.Equipped, equipped),
+  new Definition(RequestType.Inventory, inventory),
+  new Definition(RequestType.Get, get),
+  new Definition(RequestType.Drop, drop),
+  new Definition(RequestType.Wear, wear),
+  new Definition(RequestType.Remove, remove),
+  new Definition(RequestType.Equipped, equipped),
 
   // fighting
-  newDefinition(RequestType.Kill, kill),
-  newDefinition(RequestType.Bash, (request: Request) => doSkill(request, SkillType.Bash)),
-  newDefinition(RequestType.Trip, (request: Request) => doSkill(request, SkillType.Trip)),
+  new Definition(RequestType.Kill, kill),
+  new Definition(RequestType.Bash, (request: Request) => doSkill(request, SkillType.Bash)),
+  new Definition(RequestType.Trip, (request: Request) => doSkill(request, SkillType.Trip)),
 
   // skills
-  newDefinition(RequestType.Berserk, (request: Request) => doSkill(request, SkillType.Berserk)),
-  newDefinition(RequestType.Sneak, (request: Request) => doSkill(request, SkillType.Sneak)),
+  new Definition(RequestType.Berserk, (request: Request) => doSkill(request, SkillType.Berserk)),
+  new Definition(RequestType.Sneak, (request: Request) => doSkill(request, SkillType.Sneak)),
 
   // casting
-  newDefinition(RequestType.Cast, cast),
+  new Definition(RequestType.Cast, cast),
 
   // info
-  newDefinition(RequestType.Affects, affects),
-  newDefinition(RequestType.Look, look),
+  new Definition(RequestType.Affects, affects),
+  new Definition(RequestType.Look, look),
 
   // social
-  newDefinition(RequestType.Gossip, gossip),
+  new Definition(RequestType.Gossip, gossip),
 ])
