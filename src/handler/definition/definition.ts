@@ -1,6 +1,7 @@
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { RequestTypeMismatch } from "../exceptions"
+
+export const MESSAGE_REQUEST_TYPE_MISMATCH = "Request type mismatch"
 
 export class Definition {
   private readonly requestType: RequestType
@@ -15,11 +16,13 @@ export class Definition {
     return this.requestType.startsWith(requestType) || this.requestType === RequestType.Any
   }
 
-  public handle(request: Request): Promise<any> {
+  public async handle(request: Request): Promise<any> {
     if (!this.isAbleToHandleRequestType(request.requestType)) {
-      throw new RequestTypeMismatch()
+      throw new Error(MESSAGE_REQUEST_TYPE_MISMATCH)
     }
 
-    return new Promise((resolve) => this.callback(request).then((result) => resolve(result)))
+    const result = await this.callback(request)
+
+    return new Promise((resolve) => resolve(result))
   }
 }

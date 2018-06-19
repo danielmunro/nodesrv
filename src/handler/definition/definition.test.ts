@@ -1,7 +1,7 @@
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
-import { Definition } from "./definition"
+import { Definition, MESSAGE_REQUEST_TYPE_MISMATCH } from "./definition"
 
 function getNewHandlerDefinition(requestType = RequestType.Noop): Definition {
   return new Definition(requestType, () => new Promise((resolve) => resolve()))
@@ -18,10 +18,9 @@ describe("Definition", () => {
     expect(def.isAbleToHandleRequestType(RequestType.Noop)).toBe(true)
   })
 
-  it("applyCallback should fail on different request types", () => {
-    expect(() =>
-      getNewHandlerDefinition(RequestType.Noop)
-        .handle(getNewTestRequest(RequestType.Gossip))).toThrowError()
+  it("applyCallback should fail on different request types", async () => {
+    await expect(getNewHandlerDefinition(RequestType.Noop).handle(
+        getNewTestRequest(RequestType.Gossip))).rejects.toThrowError(MESSAGE_REQUEST_TYPE_MISMATCH)
   })
 
   it("applyCallback should succeed on matching request types", () => {
