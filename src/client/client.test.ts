@@ -1,7 +1,7 @@
 import { MESSAGE_ITEM_NOT_FOUND } from "../handler/action/constants"
 import look from "../handler/action/look"
 import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "../handler/action/move"
-import { HandlerCollection } from "../handler/handlerCollection"
+import { Collection } from "../handler/definition/collection"
 import { Player } from "../player/model/player"
 import { createRequestArgs, getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
@@ -129,7 +129,7 @@ describe("clients", () => {
     const ws = jest.fn(() => ({
         send: (message) => buf.push(message),
       }))
-    client = new Client(ws(), new HandlerCollection([]))
+    client = new Client(ws(), new Collection([]))
     const id = "test-tick-id"
     const timestamp = new Date()
 
@@ -205,7 +205,7 @@ describe("clients", () => {
     const ws = jest.fn(() => ({
       send,
     }))
-    client = new Client(ws(), new HandlerCollection([]))
+    client = new Client(ws(), new Collection([]))
 
     // expect
     expect(send.mock.calls.length).toBe(0)

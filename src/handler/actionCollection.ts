@@ -15,10 +15,10 @@ import move from "./action/move"
 import remove from "./action/remove"
 import wear from "./action/wear"
 import { doSkill } from "./actionHelpers"
+import { Collection } from "./definition/collection"
 import { Definition } from "./definition/definition"
-import { HandlerCollection } from "./handlerCollection"
 
-export const actions = new HandlerCollection([
+export const actions = new Collection([
   // moving
   new Definition(RequestType.North, (request: Request) => move(request.player, Direction.North)),
   new Definition(RequestType.South, (request: Request) => move(request.player, Direction.South)),

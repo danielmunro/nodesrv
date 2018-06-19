@@ -1,7 +1,7 @@
-import { RequestType } from "../request/requestType"
-import { Definition } from "./definition/definition"
+import { RequestType } from "../../request/requestType"
+import { Definition } from "./definition"
 
-export class HandlerCollection {
+export class Collection {
   private readonly handlers: Definition[]
 
   constructor(handlers) {

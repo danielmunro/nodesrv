@@ -1,6 +1,6 @@
 import * as stringify from "json-stringify-safe"
+import { Collection } from "../handler/definition/collection"
 import { Definition } from "../handler/definition/definition"
-import { HandlerCollection } from "../handler/handlerCollection"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"
@@ -18,13 +18,13 @@ export function getDefaultUnhandledMessage() {
 
 export class Client {
   public readonly ws: WebSocket
-  public readonly handlers: HandlerCollection
+  public readonly handlers: Collection
   public readonly session: Session
   public readonly startRoom: Room
   public player: Player
   private requests: Request[] = []
 
-  constructor(ws: WebSocket, handlers: HandlerCollection, startRoom: Room = null) {
+  constructor(ws: WebSocket, handlers: Collection, startRoom: Room = null) {
     this.ws = ws
     this.handlers = handlers
     this.startRoom = startRoom
