@@ -3,8 +3,8 @@ import Complete from "./complete"
 import Request from "./request"
 import { ResponseStatus } from "./responseStatus"
 
-describe("create player auth step: complete", () => {
-  it("should proceed to the final step unconditionally", async () => {
+describe("final auth step: complete", () => {
+  it("should be ok unconditionally, but not have any more steps to complete", async () => {
     // given
     const client = getTestClient()
 
