@@ -1,13 +1,12 @@
 import { Item } from "../item/model/item"
 import { createRequestArgs, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
+import { newSkill } from "../skill/factory"
+import { SkillType } from "../skill/skillType"
 import { getTestPlayer } from "../test/player"
 import { actions } from "./actionCollection"
 import { doSkill, doWithItemOrElse, PRECONDITION_FAILED } from "./actionHelpers"
 import { Definition } from "./definition/definition"
-import { newSkill } from "../skill/factory"
-import { SkillType } from "../skill/skillType"
-import { MESSAGE_FAIL_TOO_TIRED } from "../skill/preconditions/sneak"
 
 describe("action helpers", () => {
   it("should do with item or else", () => {
