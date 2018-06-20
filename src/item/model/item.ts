@@ -17,6 +17,9 @@ export class Item {
     @Column("text")
     public equipment: Equipment
 
+    @Column("integer")
+    public value: number = 0
+
     @ManyToOne((type) => Inventory, (inventory) => inventory.items)
     public inventory: Inventory
 

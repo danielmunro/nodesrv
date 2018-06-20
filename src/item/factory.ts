@@ -1,3 +1,4 @@
+import Attributes from "../attributes/model/attributes"
 import { Equipment } from "./equipment"
 import { Item } from "./model/item"
 
@@ -16,4 +17,14 @@ function newEquipment(name: string, description: string, equipment: Equipment): 
   item.equipment = equipment
 
   return item
+}
+
+export function copy(item: Item): Item {
+  const newItem = new Item()
+  newItem.name = item.name
+  newItem.description = item.description
+  newItem.equipment = item.equipment
+  newItem.attributes = new Attributes().combine(item.attributes)
+
+  return newItem
 }

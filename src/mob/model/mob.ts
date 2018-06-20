@@ -10,6 +10,7 @@ import { Inventory } from "../../item/model/inventory"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
 import { Skill } from "../../skill/model/skill"
+import { SkillType } from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
 import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
@@ -44,6 +45,9 @@ export class Mob {
 
   @Column("boolean")
   public isPlayer: boolean = false
+
+  @Column("integer")
+  public gold: number = 0
 
   @OneToMany((type) => Affect, (affect) => affect.mob, { cascadeInsert: true, eager: true })
   public affects: Affect[] = []
@@ -98,5 +102,9 @@ export class Mob {
 
   public getAffect(affectType: AffectType) {
     return this.affects.find((a) => a.affectType === affectType)
+  }
+
+  public isMerchant(): boolean {
+    return !this.isPlayer && this.skills.find((skill) => skill.skillType === SkillType.Haggle) !== null
   }
 }
