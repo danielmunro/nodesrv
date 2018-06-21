@@ -1,5 +1,4 @@
 import { Item } from "../../item/model/item"
-import { Player } from "../../player/model/player"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
@@ -7,56 +6,75 @@ import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import look, { NOT_FOUND } from "./look"
 
-function useLookRequest(player: Player, input: string) {
+function useLookRequest(input: string) {
   return look(new Request(player, RequestType.Look, createRequestArgs(input)))
 }
 
+let room
+let player
+
+beforeEach(() => {
+  room = getTestRoom()
+  player = getTestPlayer()
+  room.addMob(player.sessionMob)
+})
+
 describe("look", () => {
   it("should describe a room when no arguments are provided", async () => {
-    const room = getTestRoom()
-    const player = getTestPlayer()
-    room.addMob(player.sessionMob)
-    const response = await useLookRequest(player, "look")
+    // when
+    const response = await useLookRequest("look")
+
+    // then
     expect(response.message).toContain(room.name)
     expect(response.message).toContain(room.description)
   })
 
   it("should let the player know if the thing they want to look at does not exist", async () => {
-    const response = await useLookRequest(getTestPlayer(), "look foo")
+    // when
+    const response = await useLookRequest("look foo")
+
+    // then
     expect(response.message).toBe(NOT_FOUND)
   })
 
   it("should describe a mob when a mob is present", async () => {
-    const room = getTestRoom()
-    const player = getTestPlayer()
-    room.addMob(player.sessionMob)
+    // given
     const mob = getTestMob("alice")
     room.addMob(mob)
-    const response = await useLookRequest(player, "look alice")
+
+    // when
+    const response = await useLookRequest("look alice")
+
+    // then
     expect(response.message).toBe(mob.description)
   })
 
   it("should be able to describe an item in the room", async () => {
-    const room = getTestRoom()
+    // given
     const item = new Item()
     item.name = "a pirate hat"
     item.description = "this is a test item"
     room.inventory.addItem(item)
-    const player = getTestPlayer()
-    room.addMob(player.sessionMob)
-    const response = await useLookRequest(player, "look pirate")
+
+    // when
+    const response = await useLookRequest("look pirate")
+
+    // then
     expect(response.message).toBe(item.description)
   })
 
   it("should be able to describe an item in the session mob's inventory", async () => {
-    const room = getTestRoom()
-    const player = getTestPlayer()
+    // given
     const item = new Item()
     item.name = "a pirate hat"
     item.description = "this is a test item"
     player.sessionMob.inventory.addItem(item)
     room.addMob(player.sessionMob)
-    const response = await useLookRequest(player, "look pirate")
+
+    // when
+    const response = await useLookRequest("look pirate")
+
+    // then
     expect(response.message).toBe(item.description)
   })
 })

@@ -1,5 +1,6 @@
 import { Affect } from "../../affect/model/affect"
 import { Request } from "../../request/request"
+import Response from "../../request/response"
 
 function reduceAffects(affects) {
   return affects.reduce(
@@ -8,8 +9,6 @@ function reduceAffects(affects) {
     "")
 }
 
-export default function(request: Request): Promise<any> {
-  return new Promise((resolve) => resolve({
-    message: "Your affects:\n" + reduceAffects(request.player.sessionMob.affects),
-  }))
+export default function(request: Request): Promise<Response> {
+  return request.ok("Your affects:\n" + reduceAffects(request.player.sessionMob.affects))
 }
