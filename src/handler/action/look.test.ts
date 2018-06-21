@@ -16,16 +16,14 @@ describe("look", () => {
     const room = getTestRoom()
     const player = getTestPlayer()
     room.addMob(player.sessionMob)
-    expect.assertions(1)
-
-    await useLookRequest(player, "look")
-      .then((response) => expect(response.room).toBe(room))
+    const response = await useLookRequest(player, "look")
+    expect(response.message).toContain(room.name)
+    expect(response.message).toContain(room.description)
   })
 
   it("should let the player know if the thing they want to look at does not exist", async () => {
-    expect.assertions(1)
-    await useLookRequest(getTestPlayer(), "look foo")
-      .then((response) => expect(response.message).toBe(NOT_FOUND))
+    const response = await useLookRequest(getTestPlayer(), "look foo")
+    expect(response.message).toBe(NOT_FOUND)
   })
 
   it("should describe a mob when a mob is present", async () => {
@@ -34,23 +32,20 @@ describe("look", () => {
     room.addMob(player.sessionMob)
     const mob = getTestMob("alice")
     room.addMob(mob)
-    expect.assertions(1)
-
-    await useLookRequest(player, "look alice")
-      .then((response) => expect(response).toEqual({ mob }))
+    const response = await useLookRequest(player, "look alice")
+    expect(response.message).toBe(mob.description)
   })
 
   it("should be able to describe an item in the room", async () => {
     const room = getTestRoom()
     const item = new Item()
     item.name = "a pirate hat"
+    item.description = "this is a test item"
     room.inventory.addItem(item)
     const player = getTestPlayer()
     room.addMob(player.sessionMob)
-    expect.assertions(1)
-
-    await useLookRequest(player, "look pirate")
-      .then((response) => expect(response).toEqual({ item }))
+    const response = await useLookRequest(player, "look pirate")
+    expect(response.message).toBe(item.description)
   })
 
   it("should be able to describe an item in the session mob's inventory", async () => {
@@ -58,11 +53,10 @@ describe("look", () => {
     const player = getTestPlayer()
     const item = new Item()
     item.name = "a pirate hat"
+    item.description = "this is a test item"
     player.sessionMob.inventory.addItem(item)
     room.addMob(player.sessionMob)
-    expect.assertions(1)
-
-    await useLookRequest(player, "look pirate")
-      .then((response) => expect(response).toEqual({ item }))
+    const response = await useLookRequest(player, "look pirate")
+    expect(response.message).toBe(item.description)
   })
 })

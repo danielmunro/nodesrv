@@ -71,7 +71,7 @@ export class Client {
       return
     }
 
-    this.handleRequest(this.requests.shift())
+    await this.handleRequest(this.requests.shift())
   }
 
   public handleRequest(request: Request): Promise<any> {

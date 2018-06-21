@@ -52,4 +52,9 @@ export class Room {
   public isDirectionFree(direction: Direction): boolean {
     return !this.exits.find((e) => e.direction === direction)
   }
+
+  public toString(): string {
+    return `${this.name}
+${this.description}`
+  }
 }

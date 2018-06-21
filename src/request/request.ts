@@ -4,6 +4,8 @@ import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { RequestType } from "./requestType"
+import Response from "./response"
+import { ResponseStatus } from "./responseStatus"
 
 export function createRequestArgs(request: string) {
   return { request }
@@ -59,5 +61,17 @@ export class Request {
 
   public getTarget(): Mob | undefined {
     return this.target
+  }
+
+  public ok(message: string): Promise<Response> {
+    return this.response(ResponseStatus.Ok, message)
+  }
+
+  public fail(message: string): Promise<Response> {
+    return this.response(ResponseStatus.ActionFailed, message)
+  }
+
+  private response(status: ResponseStatus, message: string): Promise<Response> {
+    return new Promise((resolve) => resolve(new Response(this, status, message)))
   }
 }
