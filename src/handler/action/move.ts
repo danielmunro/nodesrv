@@ -1,16 +1,17 @@
-import { Player } from "../../player/model/player"
+import { Request } from "../../request/request"
 import { Direction } from "../../room/constants"
 import { moveMob } from "../../room/service"
 
 export const MESSAGE_DIRECTION_DOES_NOT_EXIST = "Alas, that direction does not exist."
 
-export default function(player: Player, direction: Direction): Promise<any> {
-  const exit = player.getExit(direction)
+export default async function(request: Request, direction: Direction): Promise<any> {
+  const exit = request.player.getExit(direction)
 
   if (!exit) {
-    return new Promise((resolve) => resolve({ message: MESSAGE_DIRECTION_DOES_NOT_EXIST }))
+    return request.fail(MESSAGE_DIRECTION_DOES_NOT_EXIST)
   }
 
-  return moveMob(player.sessionMob, direction)
-    .then(() => ({ room: player.sessionMob.room }))
+  await moveMob(request.player.sessionMob, direction)
+
+  return request.ok(request.player.sessionMob.room.toString())
 }

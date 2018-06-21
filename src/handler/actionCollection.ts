@@ -20,12 +20,12 @@ import { Definition } from "./definition/definition"
 
 export const actions = new Collection([
   // moving
-  new Definition(RequestType.North, (request: Request) => move(request.player, Direction.North)),
-  new Definition(RequestType.South, (request: Request) => move(request.player, Direction.South)),
-  new Definition(RequestType.East, (request: Request) => move(request.player, Direction.East)),
-  new Definition(RequestType.West, (request: Request) => move(request.player, Direction.West)),
-  new Definition(RequestType.Up, (request: Request) => move(request.player, Direction.Up)),
-  new Definition(RequestType.Down, (request: Request) => move(request.player, Direction.Down)),
+  new Definition(RequestType.North, (request: Request) => move(request, Direction.North)),
+  new Definition(RequestType.South, (request: Request) => move(request, Direction.South)),
+  new Definition(RequestType.East, (request: Request) => move(request, Direction.East)),
+  new Definition(RequestType.West, (request: Request) => move(request, Direction.West)),
+  new Definition(RequestType.Up, (request: Request) => move(request, Direction.Up)),
+  new Definition(RequestType.Down, (request: Request) => move(request, Direction.Down)),
 
   // items
   new Definition(RequestType.Inventory, inventory),
