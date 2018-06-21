@@ -1,27 +1,30 @@
 import { copy } from "../../item/factory"
 import { Request } from "../../request/request"
+import Response from "../../request/response"
 
-export default function(request: Request): Promise<any> {
+export default function(request: Request): Promise<Response> {
   const room = request.getRoom()
   const merchant = room.mobs.find((m) => m.isMerchant())
 
   if (!merchant) {
-    return new Promise((resolve) => resolve({ message: "You don't see a merchant anywhere." }))
+    return request.fail("You don't see a merchant anywhere.")
   }
 
   const item = merchant.inventory.findItemByName(request.subject)
 
   if (!item) {
-    return new Promise((resolve) => resolve({ message: "They don't have that." }))
+    return request.fail("They don't have that.")
   }
 
   const mob = request.player.sessionMob
 
   if (mob.gold < item.value) {
-    return new Promise((resolve) => resolve({ message: "You can't afford it." }))
+    return request.fail("You can't afford it.")
   }
 
   const purchase = copy(item)
   mob.inventory.addItem(purchase)
   mob.gold -= item.value
+
+  return request.ok(`You purchase ${item.name} for ${item.value} gold`)
 }

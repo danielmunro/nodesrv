@@ -3,6 +3,7 @@ import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
 import { SkillType } from "../skill/skillType"
 import affects from "./action/affects"
+import buy from "./action/buy"
 import cast from "./action/cast"
 import drop from "./action/drop"
 import equipped from "./action/equipped"
@@ -13,6 +14,7 @@ import kill from "./action/kill"
 import look from "./action/look"
 import move from "./action/move"
 import remove from "./action/remove"
+import sell from "./action/sell"
 import wear from "./action/wear"
 import { doSkill } from "./actionHelpers"
 import { Collection } from "./definition/collection"
@@ -50,6 +52,10 @@ export const actions = new Collection([
   // info
   new Definition(RequestType.Affects, affects),
   new Definition(RequestType.Look, look),
+
+  // merchants
+  new Definition(RequestType.Buy, buy),
+  new Definition(RequestType.Sell, sell),
 
   // social
   new Definition(RequestType.Gossip, gossip),

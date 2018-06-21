@@ -20,6 +20,8 @@ export enum RequestType {
     Trip = "trip",
     Sneak = "sneak",
     Berserk = "berserk",
+    Buy = "buy",
+    Sell = "sell",
     Noop = "noop",
     Any = "any",
 }
