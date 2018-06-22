@@ -1,7 +1,7 @@
 import { Item } from "../../item/model/item"
 import { Request } from "../../request/request"
-import { doWithItemOrElse } from "../actionHelpers"
 import Response from "../../request/response"
+import { doWithItemOrElse } from "../actionHelpers"
 
 export const MESSAGE_FAIL = "You aren't wearing that."
 

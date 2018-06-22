@@ -3,9 +3,9 @@ import { Item } from "../../item/model/item"
 import { Player } from "../../player/model/player"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
+import { ResponseStatus } from "../../request/responseStatus"
 import { getTestPlayer } from "../../test/player"
 import remove, { MESSAGE_FAIL } from "./remove"
-import { ResponseStatus } from "../../request/responseStatus"
 
 function getTestShield(): Item {
   const item = new Item()
