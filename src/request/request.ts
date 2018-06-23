@@ -4,8 +4,6 @@ import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { RequestType } from "./requestType"
-import Response from "./response"
-import { ResponseStatus } from "./responseStatus"
 
 export function createRequestArgs(request: string) {
   return { request }

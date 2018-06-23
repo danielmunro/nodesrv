@@ -1,13 +1,13 @@
 import { Item } from "../item/model/item"
 import { Request } from "../request/request"
+import Response from "../request/response"
+import { ResponseStatus } from "../request/responseStatus"
 import Attempt from "../skill/attempt"
 import { CheckResult } from "../skill/checkResult"
 import Outcome from "../skill/outcome"
 import { OutcomeType } from "../skill/outcomeType"
 import { skillCollection } from "../skill/skillCollection"
 import { SkillType } from "../skill/skillType"
-import Response from "../request/response"
-import { ResponseStatus } from "../request/responseStatus"
 
 export const PRECONDITION_FAILED = "You don't have enough energy."
 

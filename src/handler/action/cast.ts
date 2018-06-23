@@ -1,8 +1,8 @@
 import { Request } from "../../request/request"
-import { Status } from "../../spell/check"
-import spellCollection from "../../spell/spellCollection"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import { Status } from "../../spell/check"
+import spellCollection from "../../spell/spellCollection"
 
 export const MESSAGE_NO_SPELL = "What do you want to cast?"
 export const MESSAGE_SPELL_DOES_NOT_EXIST = "That is not a spell."

@@ -1,6 +1,6 @@
 import { Request } from "./request"
-import { ResponseStatus } from "./responseStatus"
 import Response from "./response"
+import { ResponseStatus } from "./responseStatus"
 
 export default class ResponseBuilder {
   constructor(

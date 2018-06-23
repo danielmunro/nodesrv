@@ -1,11 +1,11 @@
 import { Item } from "../../item/model/item"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
+import { ResponseStatus } from "../../request/responseStatus"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import look, { NOT_FOUND } from "./look"
-import { ResponseStatus } from "../../request/responseStatus"
 
 function useLookRequest(input: string) {
   return look(new Request(player, RequestType.Look, createRequestArgs(input)))

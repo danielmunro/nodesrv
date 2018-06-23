@@ -1,8 +1,8 @@
 import { Request } from "../../request/request"
 import Response from "../../request/response"
+import ResponseBuilder from "../../request/responseBuilder"
 import { Direction } from "../../room/constants"
 import { moveMob } from "../../room/service"
-import ResponseBuilder from "../../request/responseBuilder"
 
 export const MESSAGE_DIRECTION_DOES_NOT_EXIST = "Alas, that direction does not exist."
 
