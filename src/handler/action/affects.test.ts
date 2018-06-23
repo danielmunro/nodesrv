@@ -10,12 +10,16 @@ beforeEach(() => reset())
 
 describe("affects", () => {
   it("should report when an affect is added", async () => {
+    // given
     const player = getTestPlayer()
     const mob = player.sessionMob
     mob.addAffect(newAffect(AffectType.Noop, 1))
     mob.addAffect(newAffect(AffectType.Dazed, 2))
 
+    // when
     const response = await affects(new Request(player, RequestType.Affects))
+
+    // then
     expect(response.message).toContain(AffectType.Noop)
     expect(response.message).toContain("hour\n")
     expect(response.message).toContain(AffectType.Dazed)

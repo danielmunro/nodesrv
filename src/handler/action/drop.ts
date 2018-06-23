@@ -4,6 +4,7 @@ import { doWithItemOrElse } from "../actionHelpers"
 
 export default function(request: Request): Promise<any> {
   return doWithItemOrElse(
+    request,
     request.findItemInSessionMobInventory(),
     (item: Item) => {
       request.getRoom().inventory.getItemFrom(item, request.player.getInventory())

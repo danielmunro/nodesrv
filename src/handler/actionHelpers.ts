@@ -6,15 +6,16 @@ import Outcome from "../skill/outcome"
 import { OutcomeType } from "../skill/outcomeType"
 import { skillCollection } from "../skill/skillCollection"
 import { SkillType } from "../skill/skillType"
-// import Response from "../request/response"
+import Response from "../request/response"
+import { ResponseStatus } from "../request/responseStatus"
 
 export const PRECONDITION_FAILED = "You don't have enough energy."
 
-export function doWithItemOrElse(item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
+export function doWithItemOrElse(
+  request: Request, item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
   return new Promise((resolve) => {
     if (!item) {
-      return resolve({message: ifNotItemMessage})
-      // return new Response()
+      return resolve(new Response(request, ResponseStatus.ActionFailed, ifNotItemMessage))
     }
 
     return resolve(ifItem(item))

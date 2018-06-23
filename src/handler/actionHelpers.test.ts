@@ -15,10 +15,12 @@ describe("action helpers", () => {
     expect.assertions(2)
     return Promise.all([
       doWithItemOrElse(
+        jest.fn(),
         null,
         doNotUseCallback,
         ""),
       doWithItemOrElse(
+        jest.fn(),
         new Item(),
         useCallback,
         ""),

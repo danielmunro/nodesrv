@@ -5,6 +5,7 @@ import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import look, { NOT_FOUND } from "./look"
+import { ResponseStatus } from "../../request/responseStatus"
 
 function useLookRequest(input: string) {
   return look(new Request(player, RequestType.Look, createRequestArgs(input)))
@@ -34,6 +35,7 @@ describe("look", () => {
     const response = await useLookRequest("look foo")
 
     // then
+    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
     expect(response.message).toBe(NOT_FOUND)
   })
 

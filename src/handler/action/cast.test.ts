@@ -7,46 +7,61 @@ import cast, { MESSAGE_ERROR, MESSAGE_FAIL, MESSAGE_NO_SPELL, MESSAGE_SPELL_DOES
 
 describe("cast", () => {
   it("should require at least one argument", async () => {
-    expect.assertions(1)
-    await cast(createCastRequest(getTestPlayer(), "cast"))
-      .then((response) => expect(response.message).toBe(MESSAGE_NO_SPELL))
+    // when
+    const response = await cast(createCastRequest(getTestPlayer(), "cast"))
+
+    // then
+    expect(response.message).toBe(MESSAGE_NO_SPELL)
   })
 
   it("should know if an argument is or is not a spell", async () => {
-    expect.assertions(2)
+    // given
     const player = getTestPlayer()
-    await cast(createCastRequest(player, "cast poison"))
-      .then((response) => expect(response.message).toBe(MESSAGE_ERROR))
-    await cast(createCastRequest(player, "cast floodle"))
-      .then((response) => expect(response.message).toBe(MESSAGE_SPELL_DOES_NOT_EXIST))
+
+    // when
+    const poisonResponse = await cast(createCastRequest(player, "cast poison"))
+
+    // then
+    expect(poisonResponse.message).toBe(MESSAGE_ERROR)
+
+    // when
+    const floodleResponse = await cast(createCastRequest(player, "cast floodle"))
+
+    // then
+    expect(floodleResponse.message).toBe(MESSAGE_SPELL_DOES_NOT_EXIST)
   })
 
   it("should be able to cast a known spell", async () => {
+    // given
     const player = getTestPlayer()
     const spell = newSpell(SpellType.GiantStrength)
     player.sessionMob.spells.push(spell)
-    expect.assertions(2)
 
-    // *should* lose concentration
-    await cast(createCastRequest(player, "cast giant"))
-      .then((response) =>
-        expect(response.message === MESSAGE_FAIL || response.message.startsWith("You utter the words,")).toBeTruthy())
+    // when
+    const response1 = await cast(createCastRequest(player, "cast giant"))
 
-    // *should* succeed
+    // then - *should* lose concentration
+    expect(response1.message === MESSAGE_FAIL || response1.message.startsWith("You utter the words,")).toBeTruthy()
+
+    // when
     spell.level = 100
     player.sessionMob.vitals.mana = 100
-    await cast(createCastRequest(player, "cast giant"))
-      .then((response) =>
-        expect(response.message === MESSAGE_FAIL || response.message.startsWith("You utter the words,")).toBeTruthy())
+    const response2 = await cast(createCastRequest(player, "cast giant"))
+
+    // then - *should* succeed
+    expect(response2.message === MESSAGE_FAIL || response2.message.startsWith("You utter the words,")).toBeTruthy()
   })
 
   it("should display an appropriate message if the caster lacks mana", async () => {
+    // given
     const player = getTestPlayer()
     player.sessionMob.spells.push(newSpell(SpellType.GiantStrength))
     player.sessionMob.vitals.mana = 0
-    expect.assertions(1)
-    await cast(createCastRequest(player, "cast giant"))
-      .then((response) =>
-        expect(response.message).toBe(MESSAGE_NOT_ENOUGH_MANA))
+
+    // when
+    const response = await cast(createCastRequest(player, "cast giant"))
+
+    // then
+    expect(response.message).toBe(MESSAGE_NOT_ENOUGH_MANA)
   })
 })

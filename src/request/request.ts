@@ -71,6 +71,10 @@ export class Request {
     return this.response(ResponseStatus.ActionFailed, message)
   }
 
+  public error(message: string): Promise<Response> {
+    return this.response(ResponseStatus.PreconditionsFailed, message)
+  }
+
   private response(status: ResponseStatus, message: string): Promise<Response> {
     return new Promise((resolve) => resolve(new Response(this, status, message)))
   }

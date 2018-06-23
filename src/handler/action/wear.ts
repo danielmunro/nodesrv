@@ -6,6 +6,7 @@ export const ITEM_NOT_FOUND = "You don't have that."
 
 export default function(request: Request): Promise<any> {
   return doWithItemOrElse(
+    request,
     request.findItemInSessionMobInventory(),
     (item: Item) => {
       const playerInv = request.player.getInventory()

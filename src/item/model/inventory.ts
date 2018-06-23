@@ -34,4 +34,11 @@ export class Inventory {
     public getItems(): Item[] {
       return this.items
     }
+
+  public toString(): string {
+    return this.items.reduce(
+      (aggregate, current: Item) =>
+        aggregate + current.name + "\n",
+      "Inventory:")
+  }
 }

@@ -1,5 +1,6 @@
 import { Request } from "../../request/request"
+import Response from "../../request/response"
 
-export default function(request: Request): Promise<any> {
-  return new Promise((resolve) => resolve({ inventory: request.player.getInventory()}))
+export default function(request: Request): Promise<Response> {
+  return request.ok(request.player.getInventory().toString())
 }

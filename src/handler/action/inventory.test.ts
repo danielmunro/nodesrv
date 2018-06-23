@@ -6,14 +6,19 @@ import inventory from "./inventory"
 
 describe("inventory action handler", () => {
   it("should return a mob's inventory", async () => {
+    // given
     const player = getTestPlayer()
     const inv = player.sessionMob.inventory
     const item1 = newShield("a wooden shield", "")
     const item2 = newShield("a metal shield", "")
     inv.addItem(item1)
     inv.addItem(item2)
+
+    // when
     const response = await inventory(new Request(player, RequestType.Inventory, createRequestArgs("inventory")))
-    expect(response.inventory.items).toContain(item1)
-    expect(response.inventory.items).toContain(item2)
+
+    // then
+    expect(response.message).toContain(item1.name)
+    expect(response.message).toContain(item2.name)
   })
 })

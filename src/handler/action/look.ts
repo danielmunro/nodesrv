@@ -20,7 +20,7 @@ export default function(request: Request): Promise<Response> {
       return request.ok(item.description)
     }
 
-    return request.fail(NOT_FOUND)
+    return request.error(NOT_FOUND)
   }
 
   return request.ok(request.getRoom().toString())
