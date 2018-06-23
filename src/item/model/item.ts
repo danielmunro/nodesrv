@@ -5,28 +5,30 @@ import { Inventory } from "./inventory"
 
 @Entity()
 export class Item {
-    @PrimaryGeneratedColumn()
-    public id: number
+  @PrimaryGeneratedColumn()
+  public id: number
 
-    @Column("text")
-    public name: string
+  @Column("text")
+  public name: string
 
-    @Column("text")
-    public description: string
+  @Column("text")
+  public description: string
 
-    @Column("text")
-    public equipment: Equipment
+  @Column("text")
+  public equipment: Equipment
 
-    @Column("integer")
-    public value: number = 0
+  @Column("integer")
+  public value: number = 0
 
-    @ManyToOne((type) => Inventory, (inventory) => inventory.items)
-    public inventory: Inventory
+  @ManyToOne((type) => Inventory, (inventory) => inventory.items)
+  public inventory: Inventory
 
-    @OneToOne((type) => Attributes, (attributes) => attributes.item)
-    public attributes: Attributes
+  @OneToOne((type) => Attributes, (attributes) => attributes.item)
+  public attributes: Attributes
 
-    public matches(subject: string): boolean {
-      return this.name.split(" ").find((word) => word.startsWith(subject)) ? true : false
-    }
+  public matches(subject: string): boolean {
+    const words = this.name.split(" ")
+    return words.find((word) =>
+      word.startsWith(subject)) ? true : false
+  }
 }

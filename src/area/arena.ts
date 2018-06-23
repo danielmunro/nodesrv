@@ -82,7 +82,7 @@ export class Arena {
   }
 
   private addReciprocalExitToArena(direction: Direction, room1: Room, room2: Room) {
-    newReciprocalExit(direction, room1, room2).map((e) => this.exits.push(e))
+    newReciprocalExit(direction, room1, room2).forEach((e) => this.exits.push(e))
   }
 
   private hasNoAvailableConnections(room: Room) {

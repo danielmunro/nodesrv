@@ -34,7 +34,7 @@ describe("action helpers", () => {
   it("should recognize all directions as valid actions", async () => {
     const defaultHandler = new Definition(
       RequestType.Any,
-      () => new Promise((resolve) => resolve(defaultHandler)))
+      () => Promise.resolve(defaultHandler))
     const handleRepeater = (requestType: RequestType, args: string) =>
       actions.getMatchingHandlerDefinitionForRequestType(requestType, defaultHandler)
         .handle(new Request(getTestPlayer(), requestType, createRequestArgs(args)))

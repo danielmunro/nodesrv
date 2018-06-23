@@ -16,10 +16,14 @@ function createTestCastRequest(input: string): Request {
   return createCastRequest(getTestPlayer(), input)
 }
 
+const TEST_INPUT_CURE = "cast cure"
+const TEST_INPUT_MM = "cast magic missile"
+const TEST_INPUT_STRENGTH = "cast giant strength"
+
 describe("spell check", () => {
   it("should error out if a mob is casting a spell it does not know", () => {
     const check = new Check(
-      createTestCastRequest("cast cure"),
+      createTestCastRequest(TEST_INPUT_CURE),
       spellCollection.findSpell(SpellType.CureLight),
     )
 
@@ -32,7 +36,7 @@ describe("spell check", () => {
   it("must specify a target for offensive spells if not in a fight", () => {
     expect(
       new Check(
-        createTestCastRequest("cast magic missile"),
+        createTestCastRequest(TEST_INPUT_MM),
         spellCollection.findSpell(SpellType.MagicMissile)).isError()).toBe(true)
   })
 
@@ -45,7 +49,7 @@ describe("spell check", () => {
 
     expect(
       new Check(
-        createCastRequest(player, "cast magic missile"),
+        createCastRequest(player, TEST_INPUT_MM),
         spellCollection.findSpell(SpellType.MagicMissile)).isError()).toBe(false)
   })
 
@@ -56,7 +60,7 @@ describe("spell check", () => {
     const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
     player.sessionMob.spells.push(getTestSpell())
     addFight(new Fight(player.sessionMob, target))
-    const check = new Check(createCastRequest(player, "cast magic missile"), magicMissile, () => false)
+    const check = new Check(createCastRequest(player, TEST_INPUT_MM), magicMissile, () => false)
 
     // Expect
     expect(check.isError()).toBe(false)
@@ -77,7 +81,7 @@ describe("spell check", () => {
     const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
     player.sessionMob.spells.push(newSpell(SpellType.MagicMissile, 100))
     addFight(new Fight(player.sessionMob, target))
-    const request = createCastRequest(player, "cast magic missile")
+    const request = createCastRequest(player, TEST_INPUT_MM)
 
     expect.assertions(3)
     return Promise.resolve([
@@ -107,7 +111,7 @@ describe("spell check", () => {
     player.sessionMob.vitals.mana = 1
     player.sessionMob.spells.push(newSpell(SpellType.GiantStrength, 100))
     const check = new Check(
-      createCastRequest(player, "cast giant strength"),
+      createCastRequest(player, TEST_INPUT_STRENGTH),
       spellCollection.findSpell(SpellType.GiantStrength))
 
     // Expect

@@ -1,6 +1,5 @@
-import { newAttributes, newHitroll, newStartingStats, newVitals } from "../../attributes/factory"
 import roll from "../../dice/dice"
-import { newMob } from "../factory"
+import { newMobWithArgs } from "../factory"
 import { Race } from "../race/race"
 
 export function newCritter() {
@@ -17,53 +16,29 @@ export function newCritter() {
 }
 
 export function newSnail() {
-  return newMob(
-    "a snail",
-    "a snail struggles to get out of your way",
-    Race.Insect,
-    newVitals(6, 0, 100),
-    newAttributes(
-      newVitals(6, 0, 100),
-      newStartingStats(),
-      newHitroll(1, 1)),
-    true)
+  return newMobWithArgs("a snail", "a snail struggles to get out of your way",
+    Race.Insect, 6, 0, 100, 1, 1, true)
 }
 
 export function newFox() {
-  return newMob(
-    "a fox",
-    "a fox scurries through the underbrush",
-    Race.Critter,
-    newVitals(20, 0, 100),
-    newAttributes(
-      newVitals(20, 0, 100),
-      newStartingStats(),
-      newHitroll(2, 2)),
-    true)
+  return newMobWithArgs("a fox", "a fox scurries through the underbrush",
+    Race.Critter, 20, 0, 100, 2, 2, true)
 }
 
 export function newLizard() {
-  return newMob(
-    "a lizard",
-    "a lizard stands in the shade under a large leaf",
-    Race.Critter,
-    newVitals(10, 0, 100),
-    newAttributes(
-      newVitals(10, 0, 100),
-      newStartingStats(),
-      newHitroll(2, 1)),
-    true)
+  return newMobWithArgs("a lizard", "a lizard stands in the shade under a large leaf",
+    Race.Critter, 10, 0, 100, 2, 1, true)
 }
 
 export function newSparrow() {
-  return newMob(
+  return newMobWithArgs(
     "a sparrow",
     "a sparrow stands on a low branch, chirping into the wind",
     Race.Critter,
-    newVitals(8, 0, 100),
-    newAttributes(
-      newVitals(8, 0, 100),
-      newStartingStats(),
-      newHitroll(1, 2)),
+    8,
+    0,
+    100,
+    1,
+    2,
     true)
 }

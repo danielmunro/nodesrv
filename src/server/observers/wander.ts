@@ -12,11 +12,10 @@ export class Wander implements Observer {
     this.findMobs = findMobs
   }
 
-  public notify(clients: Client[]): Promise<any> {
-    return this.findMobs()
-      .then((mobs) =>
-        mobs.map((mob) =>
-          findOneRoom(mob.room.id)
-            .then((room) => moveMob(mob, pickOne(room.exits).direction))))
+  public async notify(clients: Client[]): Promise<any> {
+    const mobs = await this.findMobs()
+    return Promise.all(mobs.map((mob) =>
+      findOneRoom(mob.room.id).then(async (room) =>
+        await moveMob(mob, pickOne(room.exits).direction))))
   }
 }

@@ -5,10 +5,12 @@ import { ResponseStatus } from "../responseStatus"
 import Email from "./email"
 import NewPlayerConfirm from "./newPlayerConfirm"
 
+const TEST_EMAIL = "foo@bar.com"
+
 describe("new player confirm auth step", () => {
   it("should bounce back to email if the client selects 'n'", async () => {
     // given
-    const email = "foo@bar.com"
+    const email = TEST_EMAIL
 
     // setup
     const client = getTestClient()
@@ -24,7 +26,7 @@ describe("new player confirm auth step", () => {
 
   it("should proceed to the next step (mob name) if 'y' selected", async () => {
     // given
-    const email = "foo@bar.com"
+    const email = TEST_EMAIL
 
     // setup
     const client = getTestClient()
@@ -40,7 +42,7 @@ describe("new player confirm auth step", () => {
 
   it("should error out for any other input", async () => {
     // given
-    const email = "foo@bar.com"
+    const email = TEST_EMAIL
     const inputs = [
       "abc",
       null,

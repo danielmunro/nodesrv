@@ -18,7 +18,7 @@ const TEST_FLIP_COUNT = 100
 
 describe("dice roller", () => {
   it("should always be sane (within min/max possibilities)", () => {
-    rollDataSet.map((d) => {
+    rollDataSet.forEach((d) => {
       const expectation = expect(roll(d[0], d[1]))
 
       // if every dice roll returns 1:
@@ -30,7 +30,7 @@ describe("dice roller", () => {
   })
 
   it("class wrapper should be sane as well", () => {
-    rollDataSet.map((d) => {
+    rollDataSet.forEach((d) => {
       const expectation = expect(new DiceRoller(d[1], d[0], 0).getRoll())
 
       // if every dice roll returns 1:
@@ -52,12 +52,11 @@ describe("dice roller", () => {
     expect(results.some((r) => r === false))
   })
 
-  it("onCoinFlipSuccess should only call the callback when the flip is successful", () => {
-    const results = []
+  it("onCoinFlipSuccess should only call the callback when the flip is successful", async () => {
     const successCallback = jest.fn()
 
     for (let i = 0; i < TEST_FLIP_COUNT; i++) {
-      results.push(onCoinFlipSuccess(successCallback))
+      await onCoinFlipSuccess(successCallback)
     }
 
     expect(successCallback.mock.calls.length).toBeLessThan(TEST_FLIP_COUNT)

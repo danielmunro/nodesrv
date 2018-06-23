@@ -8,7 +8,7 @@ export async function getConnection(): Promise<any> {
     Object.assign(options, {database: `nodesrvtest`})
   }
   if (connection) {
-    return new Promise((resolve) => resolve(connection))
+    return Promise.resolve(connection)
   }
   return createConnection(options).then((conn) => connection = conn)
 }

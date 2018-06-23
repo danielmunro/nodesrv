@@ -1,3 +1,4 @@
+import * as uuid from "uuid"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
@@ -8,7 +9,7 @@ import PasswordConfirm from "./passwordConfirm"
 describe("create player password confirm auth step", () => {
   it("should work with matching passwords", async () => {
     // given
-    const password = "supers3cure"
+    const password = uuid.v4()
     const client = getTestClient()
 
     // setup
@@ -24,8 +25,8 @@ describe("create player password confirm auth step", () => {
 
   it("should reject mismatched passwords", async () => {
     // given
-    const password1 = "supers3cure"
-    const password2 = "ins3cure"
+    const password1 = uuid.v4()
+    const password2 = uuid.v4()
     const client = getTestClient()
 
     // setup

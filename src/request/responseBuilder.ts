@@ -24,6 +24,6 @@ export default class ResponseBuilder {
   }
 
   private response(status: ResponseStatus, message: string): Promise<Response> {
-    return new Promise((resolve) => resolve(new Response(this, status, message)))
+    return Promise.resolve(new Response(this.request, status, message))
   }
 }

@@ -1,3 +1,4 @@
+import { newAttributes, newHitroll, newStartingStats, newVitals } from "../attributes/factory"
 import Attributes from "../attributes/model/attributes"
 import Vitals from "../attributes/model/vitals"
 import { Item } from "../item/model/item"
@@ -14,7 +15,29 @@ export function newMob(name: string, description: string, race: Race, vitals: Vi
   mob.vitals = vitals
   mob.attributes.push(attributes)
   mob.wanders = wanders
-  items.map((item) => mob.inventory.addItem(item))
+  items.forEach((item) => mob.inventory.addItem(item))
 
   return mob
+}
+
+export function newMobWithArgs(
+  name: string,
+  description: string,
+  race: Race,
+  hp: number,
+  mana: number,
+  mv: number,
+  hit: number,
+  dam: number,
+  wanders: boolean) {
+  return newMob(
+    name,
+    description,
+    race,
+    newVitals(hp, mana, mv),
+    newAttributes(
+      newVitals(hp, mana, mv),
+      newStartingStats(),
+      newHitroll(hit, dam)),
+    wanders)
 }

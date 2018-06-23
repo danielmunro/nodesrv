@@ -85,9 +85,9 @@ export class Mob {
 
   public getCombinedAttributes(): Attributes {
     let attributes = newAttributes(newVitals(0, 0, 0), newStats(0, 0, 0, 0, 0, 0), newHitroll(0, 0))
-    this.attributes.map((a) => attributes = attributes.combine(a))
-    this.equipped.inventory.items.map((i) => attributes = attributes.combine(i.attributes))
-    modifiers.map((modifier) => attributes = modifier(this.race, attributes))
+    this.attributes.forEach((a) => attributes = attributes.combine(a))
+    this.equipped.inventory.items.forEach((i) => attributes = attributes.combine(i.attributes))
+    modifiers.forEach((modifier) => attributes = modifier(this.race, attributes))
 
     return attributes
   }

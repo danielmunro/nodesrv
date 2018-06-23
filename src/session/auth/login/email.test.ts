@@ -25,12 +25,9 @@ describe("login email auth step", () => {
       "abc@123",
       "foo@bar.com.",
       "foo@barcom",
-      47,
-      {},
-    ].map(async (badInput) => {
-      const res = await processInput("poodlehat")
-      expect(res.status).toBe(ResponseStatus.FAILED)
-    })
+      "47",
+    ].forEach(async (badInput) =>
+      expect((await processInput(badInput)).status).toBe(ResponseStatus.FAILED))
   })
 
   it("should allow valid email formats", async () => {

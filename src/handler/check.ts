@@ -13,7 +13,7 @@ export default class Check {
   }
 
   private static create(status: CheckStatus, message: string): Promise<Check> {
-    return new Promise((resolve) => resolve(new Check(status, message)))
+    return Promise.resolve(new Check(status, message))
   }
 
   constructor(

@@ -1,16 +1,16 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended",
-        "tslint-sonarts"
-    ],
-    "rules": {
-        "semicolon": [true, "never"],
-        "no-console": false,
-        "no-empty": {
-            "severity": "warning"
-        },
-        "interface-name": [true, "never-prefix"],
-        "no-unused-variable": true
-    }
+  "defaultSeverity": "warning",
+  "extends": [
+    "tslint:recommended",
+    "tslint-sonarts"
+  ],
+  "rules": {
+    "semicolon": [true, "never"],
+    "no-console": false,
+    "no-empty": {
+      "severity": "warning"
+    },
+    "interface-name": [true, "never-prefix"],
+    "no-unused-variable": true
+  }
 }

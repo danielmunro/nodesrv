@@ -17,7 +17,6 @@ export async function newWorld(rootRoom: Room): Promise<Room[]> {
   const inn = await newInn(rootRoom)
   const trail1 = await newTrail(rootRoom, getFreeDirection(rootRoom), TRAIL_1_ROOMS_TO_BUILD)
   const arena = await newArena(trail1[2], ARENA_1_WIDTH, ARENA_1_HEIGHT)
-  // const trail2 = await newTrail(arena.matrix[4][4])
 
   return [
     ...inn,

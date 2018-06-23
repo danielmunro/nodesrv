@@ -1,4 +1,5 @@
 import { Equipment } from "../../item/equipment"
+import { newEquipment } from "../../item/factory"
 import { Item } from "../../item/model/item"
 import { Player } from "../../player/model/player"
 import { createRequestArgs, Request } from "../../request/request"
@@ -7,19 +8,11 @@ import { getTestPlayer } from "../../test/player"
 import wear, { ITEM_NOT_FOUND } from "./wear"
 
 function getHatOfMight(): Item {
-  const item = new Item()
-  item.equipment = Equipment.Head
-  item.name = "the hat of might"
-
-  return item
+  return newEquipment("the hat of might", "a mighty hat", Equipment.Head)
 }
 
 function getPirateHat(): Item {
-  const item = new Item()
-  item.equipment = Equipment.Head
-  item.name = "a well-worn pirate hat"
-
-  return item
+  return newEquipment("a pirate hat", "a well-worn pirate hat", Equipment.Head)
 }
 
 function useWearRequest(input: string, player: Player = getTestPlayer()) {
@@ -52,6 +45,6 @@ describe("wear", () => {
     await useWearRequest("wear pirate", player)
       .then(() => useWearRequest("wear might", player)
       .then((response) =>
-        expect(response.message).toBe("You remove a well-worn pirate hat and wear the hat of might.")))
+        expect(response.message).toBe("You remove a pirate hat and wear the hat of might.")))
   })
 })

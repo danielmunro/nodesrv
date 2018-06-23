@@ -5,10 +5,15 @@ import { SpellType } from "../../spell/spellType"
 import { getTestPlayer } from "../../test/player"
 import cast, { MESSAGE_ERROR, MESSAGE_FAIL, MESSAGE_NO_SPELL, MESSAGE_SPELL_DOES_NOT_EXIST } from "./cast"
 
+const TEST_INPUT_GIANT = "cast giant"
+const TEST_INPUT_CAST = "cast"
+const TEST_INPUT_POISON = "cast poison"
+const TEST_INPUT_INVALID = "cast floodle"
+
 describe("cast", () => {
   it("should require at least one argument", async () => {
     // when
-    const response = await cast(createCastRequest(getTestPlayer(), "cast"))
+    const response = await cast(createCastRequest(getTestPlayer(), TEST_INPUT_CAST))
 
     // then
     expect(response.message).toBe(MESSAGE_NO_SPELL)
@@ -19,13 +24,13 @@ describe("cast", () => {
     const player = getTestPlayer()
 
     // when
-    const poisonResponse = await cast(createCastRequest(player, "cast poison"))
+    const poisonResponse = await cast(createCastRequest(player, TEST_INPUT_POISON))
 
     // then
     expect(poisonResponse.message).toBe(MESSAGE_ERROR)
 
     // when
-    const floodleResponse = await cast(createCastRequest(player, "cast floodle"))
+    const floodleResponse = await cast(createCastRequest(player, TEST_INPUT_INVALID))
 
     // then
     expect(floodleResponse.message).toBe(MESSAGE_SPELL_DOES_NOT_EXIST)
@@ -38,7 +43,7 @@ describe("cast", () => {
     player.sessionMob.spells.push(spell)
 
     // when
-    const response1 = await cast(createCastRequest(player, "cast giant"))
+    const response1 = await cast(createCastRequest(player, TEST_INPUT_GIANT))
 
     // then - *should* lose concentration
     expect(response1.message === MESSAGE_FAIL || response1.message.startsWith("You utter the words,")).toBeTruthy()
@@ -46,7 +51,7 @@ describe("cast", () => {
     // when
     spell.level = 100
     player.sessionMob.vitals.mana = 100
-    const response2 = await cast(createCastRequest(player, "cast giant"))
+    const response2 = await cast(createCastRequest(player, TEST_INPUT_GIANT))
 
     // then - *should* succeed
     expect(response2.message === MESSAGE_FAIL || response2.message.startsWith("You utter the words,")).toBeTruthy()
@@ -59,7 +64,7 @@ describe("cast", () => {
     player.sessionMob.vitals.mana = 0
 
     // when
-    const response = await cast(createCastRequest(player, "cast giant"))
+    const response = await cast(createCastRequest(player, TEST_INPUT_GIANT))
 
     // then
     expect(response.message).toBe(MESSAGE_NOT_ENOUGH_MANA)

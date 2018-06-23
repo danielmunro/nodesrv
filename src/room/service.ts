@@ -1,5 +1,6 @@
 import { Mob } from "../mob/model/mob"
 import { Direction } from "./constants"
+import { Exit } from "./model/exit"
 import { Room } from "./model/room"
 import { findOneExit, getExitRepository } from "./repository/exit"
 import { findOneRoom, getRoomRepository } from "./repository/room"
@@ -17,6 +18,10 @@ export function persistAll(rooms, exits): Promise<Room[]> {
       rooms.map((room) => roomRepository.save(room)))
         .then(() => Promise.all(exits.map((exit) => exitRepository.save(exit))))
           .then(() => rooms))
+}
+
+export function persistExit(exit: Exit): Promise<Exit> {
+  return getExitRepository().then((exitRepository) => exitRepository.save(exit))
 }
 
 export function persistRoom(room: Room): Promise<Room> {

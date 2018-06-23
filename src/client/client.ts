@@ -100,6 +100,6 @@ export class Client {
   }
 
   private getDefaultRequestHandler(): Definition {
-    return new Definition(RequestType.Any, () => new Promise((resolve) => resolve(getDefaultUnhandledMessage())))
+    return new Definition(RequestType.Any, () => Promise.resolve(getDefaultUnhandledMessage()))
   }
 }

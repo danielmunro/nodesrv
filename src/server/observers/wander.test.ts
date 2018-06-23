@@ -1,24 +1,30 @@
 import { Direction } from "../../room/constants"
 import { newExit } from "../../room/factory"
-import { persistAll } from "../../room/service"
+import { persistExit, persistRoom } from "../../room/service"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import { Wander } from "./wander"
 
 describe("wander", () => {
-  it("should cause a mob to move", () => {
+  it("should cause a mob to move", async () => {
+    // given
     const mob = getTestMob()
+    mob.wanders = true
     const source = mob.room
     source.name = "room 1"
     const destination = getTestRoom()
     destination.name = "room 2"
     const exit = newExit(Direction.South, source, destination)
-    const wander = new Wander(() => new Promise((resolve) => resolve([mob])))
-    expect.assertions(1)
+    const wander = new Wander(() => Promise.resolve([mob]))
+    await persistRoom(source)
+    await persistRoom(destination)
+    await persistExit(exit)
+    // await persistAll([source, destination], [exit])
 
-    return persistAll([source, destination], [exit])
-      .then(() => wander.notify([])
-        .then((result) => Promise.all(result)
-          .then(() => expect(mob.room.name).toBe(destination.name))))
+    // when
+    await wander.notify([])
+
+    // then
+    expect(mob.room.name).toBe(destination.name)
   })
 })
