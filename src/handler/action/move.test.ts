@@ -14,7 +14,7 @@ describe("move", () => {
     const response = await move(new Request(getTestPlayer(), RequestType.North), Direction.North)
 
     // then
-    expect(response.status).toBe(ResponseStatus.ActionFailed)
+    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
     expect(response.message).toBe(MESSAGE_DIRECTION_DOES_NOT_EXIST)
   })
 
@@ -30,7 +30,7 @@ describe("move", () => {
     const response = await move(new Request(player, RequestType.East), Direction.East)
 
     // then
-    expect(response.status).toBe(ResponseStatus.Ok)
+    expect(response.status).toBe(ResponseStatus.Info)
     expect(mob.room.id).toBe(trail[0].id)
   })
 })

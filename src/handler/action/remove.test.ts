@@ -25,7 +25,7 @@ describe("remove", () => {
     const response = await useRemoveRequest(getTestPlayer(), "remove foo")
 
     // then
-    // expect(response.status).toBe(ResponseStatus.ActionFailed)
+    expect(response.status).toBe(ResponseStatus.ActionFailed)
     expect(response.message).toBe(MESSAGE_FAIL)
   })
 
@@ -38,7 +38,7 @@ describe("remove", () => {
     const response = await useRemoveRequest(player, "remove shield")
 
     // then
-    expect(response.status).toBe(ResponseStatus.Ok)
+    expect(response.status).toBe(ResponseStatus.Info)
     expect(response.message).toContain("You remove")
   })
 })

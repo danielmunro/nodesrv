@@ -62,20 +62,4 @@ export class Request {
   public getTarget(): Mob | undefined {
     return this.target
   }
-
-  public ok(message: string): Promise<Response> {
-    return this.response(ResponseStatus.Ok, message)
-  }
-
-  public fail(message: string): Promise<Response> {
-    return this.response(ResponseStatus.ActionFailed, message)
-  }
-
-  public error(message: string): Promise<Response> {
-    return this.response(ResponseStatus.PreconditionsFailed, message)
-  }
-
-  private response(status: ResponseStatus, message: string): Promise<Response> {
-    return new Promise((resolve) => resolve(new Response(this, status, message)))
-  }
 }
