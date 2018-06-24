@@ -25,7 +25,7 @@ export class Definition {
 
     if (this.precondition) {
       const checkResponse = await this.precondition(request)
-      if (CheckStatus.Failed) {
+      if (checkResponse.status === CheckStatus.Failed) {
         return new ResponseBuilder(request).fail(checkResponse.message)
       }
     }
