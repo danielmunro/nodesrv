@@ -1,3 +1,5 @@
+import { Equipment } from "../../item/equipment"
+import { newEquipment } from "../../item/factory"
 import { Player } from "../../player/model/player"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
@@ -17,5 +19,19 @@ describe("remove", () => {
     // then
     expect(check.status).toBe(CheckStatus.Failed)
     expect(check.message).toBe(MESSAGE_REMOVE_FAIL)
+  })
+
+  it("should be successful if the item is equipped", async () => {
+    // given
+    const player = getTestPlayer()
+    const eq = newEquipment("a cowboy hat", "a sturdy cowboy hat", Equipment.Head)
+    player.sessionMob.equipped.inventory.addItem(eq)
+
+    // when
+    const check = await useRemoveRequest(player, "remove cowboy")
+
+    // then
+    expect(check.status).toBe(CheckStatus.Ok)
+    expect(check.message).toContain("You remove")
   })
 })
