@@ -2,10 +2,11 @@ import { Item } from "../item/model/item"
 import { createRequestArgs, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { newSkill } from "../skill/factory"
+import { MESSAGE_FAIL_TOO_TIRED } from "../skill/preconditions/sneak"
 import { SkillType } from "../skill/skillType"
 import { getTestPlayer } from "../test/player"
 import { actions } from "./actionCollection"
-import { doSkill, doWithItemOrElse, PRECONDITION_FAILED } from "./actionHelpers"
+import { doSkill, doWithItemOrElse } from "./actionHelpers"
 import { Definition } from "./definition/definition"
 
 describe("action helpers", () => {
@@ -74,10 +75,9 @@ describe("action helpers", () => {
     mob.vitals.mv = 0
 
     // when
-    const outcome = await doSkill(new Request(player, RequestType.Sneak, createRequestArgs("sneak")), SkillType.Sneak)
+    const response = await doSkill(new Request(player, RequestType.Sneak, createRequestArgs("sneak")), SkillType.Sneak)
 
     // then
-    expect(outcome.wasSuccessful()).toBeFalsy()
-    expect(outcome.message).toBe(PRECONDITION_FAILED)
+    expect(response.message).toBe(MESSAGE_FAIL_TOO_TIRED)
   })
 })

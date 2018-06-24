@@ -19,6 +19,7 @@ import wear from "./action/wear"
 import { doSkill } from "./actionHelpers"
 import { Collection } from "./definition/collection"
 import { Definition } from "./definition/definition"
+import { default as removePrecondition } from "./precondition/remove"
 
 export const actions = new Collection([
   // moving
@@ -34,7 +35,7 @@ export const actions = new Collection([
   new Definition(RequestType.Get, get),
   new Definition(RequestType.Drop, drop),
   new Definition(RequestType.Wear, wear),
-  new Definition(RequestType.Remove, remove),
+  new Definition(RequestType.Remove, remove, removePrecondition),
   new Definition(RequestType.Equipped, equipped),
 
   // fighting
