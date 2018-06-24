@@ -32,6 +32,5 @@ describe("remove", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
-    expect(check.message).toContain("You remove")
   })
 })

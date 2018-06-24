@@ -69,3 +69,10 @@ export function newAttributesWithHitrollStats(hitroll: Hitroll, stats: Stats): A
     hitroll,
   )
 }
+
+export function newEmptyAttributes(): Attributes {
+  return newAttributes(
+    newVitals(0, 0, 0),
+    newStats(0, 0, 0, 0, 0, 0),
+    newHitroll(0, 0))
+}

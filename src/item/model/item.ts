@@ -2,6 +2,7 @@ import {Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeo
 import Attributes from "../../attributes/model/attributes"
 import { Equipment } from "../equipment"
 import { Inventory } from "./inventory"
+import { newEmptyAttributes } from "../../attributes/factory"
 
 @Entity()
 export class Item {
@@ -24,7 +25,7 @@ export class Item {
   public inventory: Inventory
 
   @OneToOne((type) => Attributes, (attributes) => attributes.item)
-  public attributes: Attributes
+  public attributes: Attributes = newEmptyAttributes()
 
   public matches(subject: string): boolean {
     const words = this.name.split(" ")

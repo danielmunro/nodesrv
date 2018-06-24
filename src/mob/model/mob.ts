@@ -105,6 +105,6 @@ export class Mob {
   }
 
   public isMerchant(): boolean {
-    return !this.isPlayer && this.skills.find((skill) => skill.skillType === SkillType.Haggle) !== null
+    return !this.isPlayer && this.skills.find((skill) => skill.skillType === SkillType.Haggle) !== undefined
   }
 }

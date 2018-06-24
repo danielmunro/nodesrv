@@ -19,6 +19,7 @@ import wear from "./action/wear"
 import { doSkill } from "./actionHelpers"
 import { Collection } from "./definition/collection"
 import { Definition } from "./definition/definition"
+import { default as buyPrecondition } from "./precondition/buy"
 import { default as removePrecondition } from "./precondition/remove"
 
 export const actions = new Collection([
@@ -55,7 +56,7 @@ export const actions = new Collection([
   new Definition(RequestType.Look, look),
 
   // merchants
-  new Definition(RequestType.Buy, buy),
+  new Definition(RequestType.Buy, buy, buyPrecondition),
   new Definition(RequestType.Sell, sell),
 
   // social

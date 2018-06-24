@@ -11,5 +11,5 @@ export default function(request: Request): Promise<Check> {
     return Check.fail(MESSAGE_REMOVE_FAIL)
   }
 
-  return Check.ok(`You remove ${item.name} and put it in your inventory.`)
+  return Check.ok()
 }

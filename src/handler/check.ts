@@ -4,7 +4,7 @@ export enum CheckStatus {
 }
 
 export default class Check {
-  public static ok(message: string): Promise<Check> {
+  public static ok(message: string = null): Promise<Check> {
     return this.create(CheckStatus.Ok, message)
   }
 
