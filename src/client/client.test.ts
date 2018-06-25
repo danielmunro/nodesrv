@@ -44,7 +44,7 @@ describe("clients", () => {
     expect(client.isOwnMessage(newMessage)).toBe(false)
   })
 
-  it("should be able to get a request from a message event", () => {
+  it("should be able to get a request from a result event", () => {
     // setup
     const testMessage = "this is a test"
     const testEvent = getNewTestMessageEvent(testMessage)
@@ -64,7 +64,7 @@ describe("clients", () => {
     const response = await client.handleRequest(request)
 
     // then
-    expect(response).toEqual(getDefaultUnhandledMessage())
+    expect(response).toEqual(getDefaultUnhandledMessage(request))
   })
 
   it("should be able to invoke a valid handler", async () => {
@@ -190,7 +190,7 @@ describe("clients", () => {
     expect(client.canHandleRequests()).toBeFalsy()
   })
 
-  it("create message sanity checks", () => {
+  it("create result sanity checks", () => {
     // when
     const messageString = "this is a test"
     const message = client.createMessage(Channel.Gossip, messageString)
@@ -217,7 +217,7 @@ describe("clients", () => {
     expect(send.mock.calls.length).toBe(1)
   })
 
-  it("on message sanity test", () => {
+  it("on result sanity test", () => {
     // expect
     expect(client.hasRequests()).toBeFalsy()
 

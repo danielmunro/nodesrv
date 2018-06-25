@@ -8,7 +8,7 @@ import lightningBolt from "./actions/lightningBolt"
 import magicMissile from "./actions/magicMissile"
 import poison from "./actions/poison"
 import shield from "./actions/shield"
-import { SpellDefinition } from "./spellDefiniton"
+import { SpellDefinition } from "./spellDefinition"
 
 class SpellCollection {
   public readonly collection: SpellDefinition[]

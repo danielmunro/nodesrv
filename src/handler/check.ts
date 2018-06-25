@@ -4,8 +4,8 @@ export enum CheckStatus {
 }
 
 export default class Check {
-  public static ok(message: string = null): Promise<Check> {
-    return this.create(CheckStatus.Ok, message)
+  public static ok(result: any = null): Promise<Check> {
+    return this.create(CheckStatus.Ok, result)
   }
 
   public static fail(message: string): Promise<Check> {
@@ -18,6 +18,6 @@ export default class Check {
 
   constructor(
     readonly status: CheckStatus,
-    readonly message: string,
+    readonly result: any,
   ) {}
 }

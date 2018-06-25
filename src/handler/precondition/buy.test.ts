@@ -22,7 +22,7 @@ describe("buy action precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.message).toBe(MESSAGE_ERROR_NO_MERCHANT)
+    expect(check.result).toBe(MESSAGE_ERROR_NO_MERCHANT)
   })
 
   it("should fail if the merchant doesn't have the item requested", async () => {
@@ -41,7 +41,7 @@ describe("buy action precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.message).toBe(MESSAGE_ERROR_NO_ITEM)
+    expect(check.result).toBe(MESSAGE_ERROR_NO_ITEM)
   })
 
   it("should fail if the item is too expensive", async () => {
@@ -65,7 +65,7 @@ describe("buy action precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.message).toBe(MESSAGE_ERROR_CANNOT_AFFORD)
+    expect(check.result).toBe(MESSAGE_ERROR_CANNOT_AFFORD)
   })
 
   it("should succeed if all conditions are met", async () => {

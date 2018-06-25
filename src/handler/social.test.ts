@@ -3,7 +3,7 @@ import { getTestPlayer } from "../test/player"
 import { gossip } from "./social"
 
 describe("social", () => {
-  it("gossip should produce a message to the social buffer", () => {
+  it("gossip should produce a result to the social buffer", () => {
     const player = getTestPlayer()
     const messageStr = "this is a test"
     const message = gossip(player, messageStr)

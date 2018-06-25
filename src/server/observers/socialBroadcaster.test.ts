@@ -16,7 +16,7 @@ function getMockClient(): Client {
 }
 
 describe("socialBroadcaster", () => {
-  it("should notify all clients when a client sends a message, except the sender", () => {
+  it("should notify all clients when a client sends a result, except the sender", () => {
     const socialBroadcaster = new SocialBroadcaster()
     const client1 = getMockClient()
     const client2 = getMockClient()

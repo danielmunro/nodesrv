@@ -1,7 +1,6 @@
 import { DamageType } from "../damage/damageType"
 import { ActionType } from "../handler/actionType"
 import { addFight, Fight, getFights } from "../mob/fight/fight"
-import { Request } from "../request/request"
 import { Check } from "./check"
 import { SpellType } from "./spellType"
 
@@ -9,6 +8,15 @@ const DELAY_SUCCESS = 2
 const DELAY_FAILURE = 1
 
 export class SpellDefinition {
+  private static addDelayToPlayer(check: Check): void {
+    if (check.isSuccessful()) {
+      check.request.player.delay += DELAY_SUCCESS
+      return
+    }
+
+    check.request.player.delay += DELAY_FAILURE
+  }
+
   public readonly spellType: SpellType
   public readonly level: number
   public readonly actionType: ActionType
@@ -32,27 +40,14 @@ export class SpellDefinition {
     this.damageType = damageType
   }
 
-  public check(request: Request) {
-    return new Check(request, this)
-  }
-
   public apply(check: Check) {
     check.applyManaCost()
-    this.addDelayToPlayer(check)
+    SpellDefinition.addDelayToPlayer(check)
     this.checkForNewFight(check)
 
     if (check.isSuccessful()) {
       this.cast(check)
     }
-  }
-
-  private addDelayToPlayer(check: Check): void {
-    if (check.isSuccessful()) {
-      check.request.player.delay += DELAY_SUCCESS
-      return
-    }
-
-    check.request.player.delay += DELAY_FAILURE
   }
 
   private checkForNewFight(check: Check): void {

@@ -18,7 +18,7 @@ describe("remove", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.message).toBe(MESSAGE_REMOVE_FAIL)
+    expect(check.result).toBe(MESSAGE_REMOVE_FAIL)
   })
 
   it("should be successful if the item is equipped", async () => {

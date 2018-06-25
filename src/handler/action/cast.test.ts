@@ -1,13 +1,28 @@
+import roll from "../../dice/dice"
 import { createCastRequest } from "../../request/factory"
+import { Request } from "../../request/request"
 import { ResponseStatus } from "../../request/responseStatus"
+import { Check as SpellCheck } from "../../spell/check"
 import { newSpell } from "../../spell/factory"
+import spellCollection from "../../spell/spellCollection"
+import { SpellDefinition } from "../../spell/spellDefinition"
 import { SpellType } from "../../spell/spellType"
 import { getTestPlayer } from "../../test/player"
+import Check, { CheckStatus } from "../check"
+import CheckedRequest from "../checkedRequest"
 import cast from "./cast"
 
 const TEST_INPUT_GIANT = "cast giant"
 
-describe("cast", () => {
+function createCheckedRequest(request: Request, spellDefinition: SpellDefinition) {
+  return new CheckedRequest(
+    request,
+    new Check(
+      roll(1, 2) % 2 === 0 ? CheckStatus.Ok : CheckStatus.Failed,
+      new SpellCheck(request, spellDefinition)))
+}
+
+describe("cast handler action", () => {
   it("should be able to cast a known spell", async () => {
     // given
     const player = getTestPlayer()
@@ -15,7 +30,10 @@ describe("cast", () => {
     player.sessionMob.spells.push(spell)
 
     // when
-    const response1 = await cast(createCastRequest(player, TEST_INPUT_GIANT))
+    const response1 = await cast(
+      createCheckedRequest(
+        createCastRequest(player, TEST_INPUT_GIANT),
+        spellCollection.findSpell(SpellType.GiantStrength)))
 
     // then - *should* lose concentration
     expect(response1.message.startsWith("You utter the words,")).toBeTruthy()
@@ -24,7 +42,10 @@ describe("cast", () => {
     // when
     spell.level = 100
     player.sessionMob.vitals.mana = 100
-    const response2 = await cast(createCastRequest(player, TEST_INPUT_GIANT))
+    const response2 = await cast(
+      createCheckedRequest(
+        createCastRequest(player, TEST_INPUT_GIANT),
+        spellCollection.findSpell(SpellType.GiantStrength)))
 
     // then - *should* succeed
     expect(response2.message.startsWith("You utter the words,")).toBeTruthy()

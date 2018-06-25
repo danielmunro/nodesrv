@@ -4,7 +4,7 @@ import { getFights } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
 import { Request } from "../request/request"
 import { Spell } from "./model/spell"
-import { SpellDefinition } from "./spellDefiniton"
+import { SpellDefinition } from "./spellDefinition"
 
 export const MESSAGE_NO_SPELL = "You don't know that spell."
 export const MESSAGE_NO_TARGET = "You aren't fighting anyone!"

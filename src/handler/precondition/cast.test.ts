@@ -17,7 +17,7 @@ describe("cast", () => {
     const check = await cast(createCastRequest(getTestPlayer(), TEST_INPUT_CAST))
 
     // then
-    expect(check.message).toBe(MESSAGE_NO_SPELL)
+    expect(check.result).toBe(MESSAGE_NO_SPELL)
     expect(check.status).toBe(CheckStatus.Failed)
   })
 
@@ -29,14 +29,14 @@ describe("cast", () => {
     const poisonCheck = await cast(createCastRequest(player, TEST_INPUT_POISON))
 
     // then
-    expect(poisonCheck.message).toBe(MESSAGE_ERROR)
+    expect(poisonCheck.result).toBe(MESSAGE_ERROR)
     expect(poisonCheck.status).toBe(CheckStatus.Failed)
 
     // when
     const floodleCheck = await cast(createCastRequest(player, TEST_INPUT_INVALID))
 
     // then
-    expect(floodleCheck.message).toBe(MESSAGE_SPELL_DOES_NOT_EXIST)
+    expect(floodleCheck.result).toBe(MESSAGE_SPELL_DOES_NOT_EXIST)
     expect(floodleCheck.status).toBe(CheckStatus.Failed)
   })
 
@@ -53,7 +53,7 @@ describe("cast", () => {
     expect(check.status).toBe(CheckStatus.Ok)
   })
 
-  it("should display an appropriate message if the caster lacks mana", async () => {
+  it("should display an appropriate result if the caster lacks mana", async () => {
     // given
     const player = getTestPlayer()
     player.sessionMob.spells.push(newSpell(SpellType.GiantStrength))
@@ -63,7 +63,7 @@ describe("cast", () => {
     const check = await cast(createCastRequest(player, TEST_INPUT_GIANT))
 
     // then
-    expect(check.message).toBe(MESSAGE_NOT_ENOUGH_MANA)
+    expect(check.result).toBe(MESSAGE_NOT_ENOUGH_MANA)
     expect(check.status).toBe(CheckStatus.Failed)
   })
 })

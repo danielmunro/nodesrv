@@ -18,7 +18,7 @@ describe("chat", () => {
     expect(messages[0].message).toBe(message)
   })
 
-  it("should not broadcast the same message more than once", () => {
+  it("should not broadcast the same result more than once", () => {
     const player = getTestPlayer()
     const message = "hello world"
     expect(readMessages().length).toBe(0)

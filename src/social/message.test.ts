@@ -8,7 +8,7 @@ describe("message", () => {
   it("should include relevant data in getData() request", () => {
     const player = getTestPlayer()
     player.uuid = v4()
-    const messageString = "this is a test message"
+    const messageString = "this is a test result"
     const message = new Message(
       player,
       Channel.Gossip,

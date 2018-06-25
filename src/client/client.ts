@@ -5,6 +5,8 @@ import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
+import Response from "../request/response"
+import { ResponseStatus } from "../request/responseStatus"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
 import Session from "../session/session"
@@ -12,8 +14,8 @@ import { Channel } from "../social/constants"
 import { Message } from "../social/message"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
 
-export function getDefaultUnhandledMessage() {
-  return { message: MESSAGE_NOT_UNDERSTOOD }
+export function getDefaultUnhandledMessage(request: Request) {
+  return new Response(request, ResponseStatus.PreconditionsFailed, MESSAGE_NOT_UNDERSTOOD)
 }
 
 export class Client {
@@ -77,7 +79,7 @@ export class Client {
   public handleRequest(request: Request): Promise<any> {
     return this.handlers.getMatchingHandlerDefinitionForRequestType(
       request.requestType,
-      this.getDefaultRequestHandler())
+      this.getDefaultRequestHandler(request))
         .handle(request)
         .then((response) => {
           this.send(response)
@@ -99,7 +101,7 @@ export class Client {
     this.send({ tick: { id, timestamp }})
   }
 
-  private getDefaultRequestHandler(): Definition {
-    return new Definition(RequestType.Any, () => Promise.resolve(getDefaultUnhandledMessage()))
+  private getDefaultRequestHandler(request: Request): Definition {
+    return new Definition(RequestType.Any, () => Promise.resolve(getDefaultUnhandledMessage(request)))
   }
 }

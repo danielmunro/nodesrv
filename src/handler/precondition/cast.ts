@@ -1,5 +1,6 @@
 import { Request } from "../../request/request"
 import { Status } from "../../spell/check"
+import { Check as SpellCheck } from "../../spell/check"
 import spellCollection from "../../spell/spellCollection"
 import Check from "../check"
 
@@ -24,15 +25,15 @@ export default function(request: Request): Promise<Check> {
     return Check.fail(MESSAGE_FAIL_NOT_ENOUGH_MANA)
   }
 
-  const check = spellDefinition.check(request)
+  const spellCheck = new SpellCheck(request, spellDefinition)
 
-  if (check.status === Status.Error) {
+  if (spellCheck.status === Status.Error) {
     return Check.fail(MESSAGE_ERROR)
   }
 
-  if (check.status === Status.Fail) {
+  if (spellCheck.status === Status.Fail) {
     return Check.fail(MESSAGE_FAIL)
   }
 
-  return Check.ok()
+  return Check.ok(spellCheck)
 }

@@ -1,10 +1,11 @@
 import { addFight, Fight, getFights, reset } from "../mob/fight/fight"
 import { createCastRequest } from "../request/factory"
-import { newSpell } from "../spell/factory"
 import { getTestClient } from "../test/client"
 import { getTestMob } from "../test/mob"
+import { Check } from "./check"
+import { newSpell } from "./factory"
 import spellCollection from "./spellCollection"
-import { SpellDefinition } from "./spellDefiniton"
+import { SpellDefinition } from "./spellDefinition"
 import { SpellType } from "./spellType"
 
 beforeEach(() => reset())
@@ -16,8 +17,9 @@ function getMagicMissile(): SpellDefinition {
 describe("spellDefinition", () => {
   it("should be able to create a check with a request", () => {
     const client = getTestClient()
-    const check = getMagicMissile()
-      .check(createCastRequest(client.player, "cast 'magic missile'"))
+    const check = new Check(
+      createCastRequest(client.player, "cast 'magic missile'"),
+      getMagicMissile())
     expect(check.caster).toBe(client.player.sessionMob)
     expect(check.isError()).toBe(true)
   })
@@ -27,7 +29,9 @@ describe("spellDefinition", () => {
     client.player.sessionMob.spells.push(newSpell(SpellType.MagicMissile, 1))
     const target = getTestMob()
     addFight(new Fight(client.player.sessionMob, target))
-    const check = getMagicMissile().check(createCastRequest(client.player, "cast 'magic missile'"))
+    const check = new Check(
+      createCastRequest(client.player, "cast 'magic missile'"),
+      getMagicMissile())
     expect(check.isError()).toBe(false)
     expect(check.isFailure() || check.isSuccessful()).toBe(true)
   })
@@ -39,7 +43,9 @@ describe("spellDefinition", () => {
     sessionMob.spells.push(newSpell(SpellType.MagicMissile, 1))
     const target = getTestMob("foo")
     sessionMob.room.addMob(target)
-    const check = spell.check(createCastRequest(client.player, "cast 'magic missile' foo"))
+    const check = new Check(
+      createCastRequest(client.player, "cast 'magic missile' foo"),
+      getMagicMissile())
     expect(check.isError()).toBe(false)
     expect(check.isFailure() || check.isSuccessful()).toBe(true)
     spell.apply(check)
@@ -52,7 +58,9 @@ describe("spellDefinition", () => {
     client.player.sessionMob.spells.push(newSpell(SpellType.MagicMissile, 1))
     const target = getTestMob("foo")
     client.player.sessionMob.room.addMob(target)
-    const check = spell.check(createCastRequest(client.player, "cast 'magic missile' bar"))
+    const check = new Check(
+      createCastRequest(client.player, "cast 'magic missile' bar"),
+      getMagicMissile())
     expect(check.isError()).toBe(true)
   })
 })
