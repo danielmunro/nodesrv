@@ -1,14 +1,14 @@
-import { getTestRoom } from "../../test/room"
-import buy, { MESSAGE_ERROR_CANNOT_AFFORD, MESSAGE_ERROR_NO_ITEM, MESSAGE_ERROR_NO_MERCHANT } from "./buy"
+import { Equipment } from "../../item/equipment"
+import { newEquipment } from "../../item/factory"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { CheckStatus } from "../check"
-import { getTestPlayer } from "../../test/player"
-import { getTestMob } from "../../test/mob"
 import { newSkill } from "../../skill/factory"
 import { SkillType } from "../../skill/skillType"
-import { newEquipment } from "../../item/factory"
-import { Equipment } from "../../item/equipment"
+import { getTestMob } from "../../test/mob"
+import { getTestPlayer } from "../../test/player"
+import { getTestRoom } from "../../test/room"
+import { CheckStatus } from "../check"
+import buy, { MESSAGE_ERROR_CANNOT_AFFORD, MESSAGE_ERROR_NO_ITEM, MESSAGE_ERROR_NO_MERCHANT } from "./buy"
 
 describe("buy action precondition", () => {
   it("should fail if a merchant is not in the room", async () => {

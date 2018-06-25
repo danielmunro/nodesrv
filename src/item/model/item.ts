@@ -1,8 +1,8 @@
 import {Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm"
+import { newEmptyAttributes } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
 import { Equipment } from "../equipment"
 import { Inventory } from "./inventory"
-import { newEmptyAttributes } from "../../attributes/factory"
 
 @Entity()
 export class Item {

@@ -1,15 +1,14 @@
-import { getTestMob } from "../../test/mob"
-import { newSkill } from "../../skill/factory"
-import { SkillType } from "../../skill/skillType"
-import { getTestPlayer } from "../../test/player"
-import { getTestRoom } from "../../test/room"
-import { newEquipment } from "../../item/factory"
 import { Equipment } from "../../item/equipment"
+import { newEquipment } from "../../item/factory"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { CheckStatus } from "../check"
-import buy from "./buy"
 import { ResponseStatus } from "../../request/responseStatus"
+import { newSkill } from "../../skill/factory"
+import { SkillType } from "../../skill/skillType"
+import { getTestMob } from "../../test/mob"
+import { getTestPlayer } from "../../test/player"
+import { getTestRoom } from "../../test/room"
+import buy from "./buy"
 
 describe("buy action handler", () => {
   it("purchaser should receive an item", async () => {

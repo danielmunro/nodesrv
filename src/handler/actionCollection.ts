@@ -20,6 +20,7 @@ import { doSkill } from "./actionHelpers"
 import { Collection } from "./definition/collection"
 import { Definition } from "./definition/definition"
 import { default as buyPrecondition } from "./precondition/buy"
+import { default as castPrecondition } from "./precondition/cast"
 import { default as removePrecondition } from "./precondition/remove"
 
 export const actions = new Collection([
@@ -49,7 +50,7 @@ export const actions = new Collection([
   new Definition(RequestType.Sneak, (request: Request) => doSkill(request, SkillType.Sneak)),
 
   // casting
-  new Definition(RequestType.Cast, cast),
+  new Definition(RequestType.Cast, cast, castPrecondition),
 
   // info
   new Definition(RequestType.Affects, affects),
