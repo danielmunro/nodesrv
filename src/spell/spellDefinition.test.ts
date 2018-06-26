@@ -53,7 +53,6 @@ describe("spellDefinition", () => {
   })
 
   it("will not target if the name mismatches", () => {
-    const spell = spellCollection.findSpell(SpellType.MagicMissile)
     const client = getTestClient()
     client.player.sessionMob.spells.push(newSpell(SpellType.MagicMissile, 1))
     const target = getTestMob("foo")
