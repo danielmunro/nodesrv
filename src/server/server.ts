@@ -46,7 +46,7 @@ export class GameServer {
   }
 
   public addWS(ws: WebSocket, req): void {
-    const client = new Client(ws, req.connection.remoteAddress, actions, this.startRoom)
+    const client = new Client(ws, req ? req.connection.remoteAddress : null, actions, this.startRoom)
     console.info("new client connected", { ip: client.ip })
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)
