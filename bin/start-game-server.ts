@@ -1,7 +1,7 @@
 import * as assert from "assert"
+import { Room } from "../src/room/model/room"
 import { findOneRoom } from "../src/room/repository/room"
 import newServer from "../src/server/factory"
-import { Room } from "../src/room/model/room"
 
 /**
  * Obtain the start room ID and port from arguments passed in

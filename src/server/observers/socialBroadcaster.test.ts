@@ -8,7 +8,7 @@ import { SocialBroadcaster } from "./socialBroadcaster"
 jest.mock("../../client/client")
 
 function getMockClient(): Client {
-  const client = new Client()
+  const client = new Client(null, null, null)
   client.player = new Player()
   client.isOwnMessage = (m: Message) => m.sender === client.player
 
