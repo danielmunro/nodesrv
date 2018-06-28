@@ -40,13 +40,13 @@ export class Mob {
   @Column("integer")
   public level: number = 1
 
-  @Column("boolean")
+  @Column("boolean", {default: false})
   public wanders: boolean = false
 
-  @Column("boolean")
+  @Column("boolean", {default: false})
   public isPlayer: boolean = false
 
-  @Column("integer")
+  @Column("integer", {default: 0})
   public gold: number = 0
 
   @OneToMany((type) => Affect, (affect) => affect.mob, { cascadeInsert: true, eager: true })

@@ -76,6 +76,7 @@ export class GameServer {
   }
 
   private removeClient(client: Client): void {
+    console.info("client disconnected")
     this.clients = this.clients.filter((it) => it !== client)
     client.shutdown()
   }
