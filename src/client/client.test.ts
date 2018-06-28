@@ -129,7 +129,7 @@ describe("clients", () => {
     const ws = jest.fn(() => ({
         send: (message) => buf.push(message),
       }))
-    client = new Client(ws(), new Collection([]))
+    client = new Client(ws(), "127.0.0.1", new Collection([]))
     const id = "test-tick-id"
     const timestamp = new Date()
 
@@ -205,7 +205,7 @@ describe("clients", () => {
     const ws = jest.fn(() => ({
       send,
     }))
-    client = new Client(ws(), new Collection([]))
+    client = new Client(ws(), "127.0.0.1", new Collection([]))
 
     // expect
     expect(send.mock.calls.length).toBe(0)
@@ -230,7 +230,7 @@ describe("clients", () => {
 
   it("not logged in clients should always be able to handle requests if ones are available", () => {
     // setup
-    const newClient = new Client(jest.fn(), jest.fn())
+    const newClient = new Client(jest.fn(), "127.0.0.1", jest.fn())
     newClient.addRequest(new Request(newClient.player, RequestType.Any))
     newClient.player = new Player()
 

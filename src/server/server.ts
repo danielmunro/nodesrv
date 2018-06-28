@@ -45,8 +45,9 @@ export class GameServer {
     this.wss.close()
   }
 
-  public addWS(ws): void {
-    const client = new Client(ws, actions, this.startRoom)
+  public addWS(ws: WebSocket, req): void {
+    const client = new Client(ws, req.connection.remoteAddress, actions, this.startRoom)
+    console.info("new client connected", { ip: client.ip })
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)
     client.send({ message: client.session.getAuthStepMessage() })
@@ -76,7 +77,7 @@ export class GameServer {
   }
 
   private removeClient(client: Client): void {
-    console.info("client disconnected")
+    console.info("client disconnected", { ip: client.ip })
     this.clients = this.clients.filter((it) => it !== client)
     client.shutdown()
   }
