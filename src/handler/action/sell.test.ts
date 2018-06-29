@@ -13,15 +13,21 @@ import sell from "./sell"
 describe("sell handler action", () => {
   it("should execute the sell checked request", async () => {
     // given
-    const player = getTestPlayer()
-    const initialWorth = player.sessionMob.gold
+    const room = getTestRoom()
     const item = newEquipment("a cap", "a cap", Equipment.Head)
     item.value = 10
-    player.sessionMob.inventory.addItem(item)
+
+    // and
     const merchant = getMerchantMob()
-    const room = getTestRoom()
-    room.addMob(player.sessionMob)
     room.addMob(merchant)
+
+    // and
+    const player = getTestPlayer()
+    player.sessionMob.inventory.addItem(item)
+    room.addMob(player.sessionMob)
+    const initialWorth = player.sessionMob.gold
+
+    // and
     const checkedRequest = new CheckedRequest(
       new Request(player, RequestType.Sell, createRequestArgs("sell cap")),
       new Check(CheckStatus.Ok, item),
