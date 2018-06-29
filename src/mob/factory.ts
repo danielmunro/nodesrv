@@ -4,6 +4,9 @@ import Vitals from "../attributes/model/vitals"
 import { Item } from "../item/model/item"
 import { Mob } from "./model/mob"
 import { Race } from "./race/race"
+import { getTestMob } from "../test/mob"
+import { SkillType } from "../skill/skillType"
+import { newSkill } from "../skill/factory"
 
 export function newMob(name: string, description: string, race: Race, vitals: Vitals,
                        attributes: Attributes, wanders: boolean = false, items: Item[] = []): Mob {
@@ -40,4 +43,11 @@ export function newMobWithArgs(
       newStartingStats(),
       newHitroll(hit, dam)),
     wanders)
+}
+
+export function getMerchantMob(): Mob {
+  const mob = getTestMob()
+  mob.skills.push(newSkill(SkillType.Haggle))
+
+  return mob
 }

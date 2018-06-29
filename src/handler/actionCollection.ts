@@ -22,6 +22,7 @@ import { Definition } from "./definition/definition"
 import { default as buyPrecondition } from "./precondition/buy"
 import { default as castPrecondition } from "./precondition/cast"
 import { default as removePrecondition } from "./precondition/remove"
+import { default as sellPrecondition } from "./precondition/sell"
 import { default as wearPrecondition } from "./precondition/wear"
 
 export const actions = new Collection([
@@ -59,7 +60,7 @@ export const actions = new Collection([
 
   // merchants
   new Definition(RequestType.Buy, buy, buyPrecondition),
-  new Definition(RequestType.Sell, sell),
+  new Definition(RequestType.Sell, sell, sellPrecondition),
 
   // social
   new Definition(RequestType.Gossip, gossip),

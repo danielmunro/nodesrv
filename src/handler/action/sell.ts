@@ -1,21 +1,17 @@
-import { Request } from "../../request/request"
+import Response from "../../request/response"
+import ResponseBuilder from "../../request/responseBuilder"
+import CheckedRequest from "../checkedRequest"
 
-export default function(request: Request): Promise<any> {
+export default function(checkedRequest: CheckedRequest): Promise<Response> {
+  const request = checkedRequest.request
+  const item = checkedRequest.check.result
   const room = request.getRoom()
   const merchant = room.mobs.find((m) => m.isMerchant())
-
-  if (!merchant) {
-    return Promise.resolve({ message: "You don't see a merchant anywhere." })
-  }
-
   const mob = request.player.sessionMob
-  const item = mob.inventory.findItemByName(request.subject)
-
-  if (!item) {
-    return Promise.resolve({ message: "You don't have that." })
-  }
 
   mob.inventory.removeItem(item)
   merchant.inventory.addItem(item)
   mob.gold += item.value
+
+  return new ResponseBuilder(request).success(`You sell ${item.name} for ${item.value} gold`)
 }
