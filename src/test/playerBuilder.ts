@@ -1,16 +1,14 @@
-import { Equipment } from "../item/equipment"
-import { newEquipment } from "../item/factory"
 import { Item } from "../item/model/item"
 import { Player } from "../player/model/player"
+import AbstractBuilder from "./abstractBuilder"
 
-export default class PlayerBuilder {
-  constructor(
-    public readonly player: Player,
-  ) {}
+export default class PlayerBuilder extends AbstractBuilder {
+  constructor(public readonly player: Player) {
+    super()
+  }
 
   public withTestEquipment(): Item {
-    const equipment = newEquipment("a baseball cap", "a baseball cap is here", Equipment.Head)
-    equipment.value = 10
+    const equipment = super.withTestEquipment()
     this.player.sessionMob.inventory.addItem(equipment)
 
     return equipment

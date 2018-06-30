@@ -9,6 +9,7 @@ import { Room } from "../room/model/room"
 import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
+import RoomBuilder from "./roomBuilder"
 
 export default class TestBuilder {
   public player: Player
@@ -19,6 +20,8 @@ export default class TestBuilder {
     if (this.player) {
       this.room.addMob(this.player.sessionMob)
     }
+
+    return new RoomBuilder(this.room)
   }
 
   public withPlayer(): PlayerBuilder {
@@ -40,10 +43,14 @@ export default class TestBuilder {
     return new MobBuilder(merchant)
   }
 
-  public createOkCheckedRequest(requestType: RequestType, input: string, result: any) {
+  public createOkCheckedRequest(requestType: RequestType, input: string, result: any): CheckedRequest {
     return new CheckedRequest(
       new Request(this.player, requestType, createRequestArgs(input)),
       new Check(CheckStatus.Ok, result),
     )
+  }
+
+  public createRequest(requestType: RequestType, input: string): Request {
+    return new Request(this.player, requestType, createRequestArgs(input))
   }
 }

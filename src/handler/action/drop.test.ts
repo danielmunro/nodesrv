@@ -1,33 +1,29 @@
-import { newShield } from "../../item/factory"
-import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { getTestPlayer } from "../../test/player"
-import Check from "../check"
-import CheckedRequest from "../checkedRequest"
+import TestBuilder from "../../test/testBuilder"
 import drop from "./drop"
 
 describe("drop", () => {
   it("should be able to drop an item", async () => {
     // given
-    const player = getTestPlayer()
-    const item = newShield("a test shield", "a test fixture")
-    player.sessionMob.inventory.addItem(item)
+    const testBuilder = new TestBuilder()
+    const playerBuilder = testBuilder.withPlayer()
+    const mob = playerBuilder.player.sessionMob
 
-    // expect
-    expect(player.sessionMob.inventory.items).toHaveLength(1)
-    expect(player.sessionMob.room.inventory.items).toHaveLength(0)
+    // and
+    const equipment = playerBuilder.withTestEquipment()
 
     // when
     const response = await drop(
-      new CheckedRequest(
-        new Request(player, RequestType.Drop, createRequestArgs("drop shield")),
-        await Check.ok(item)))
+      testBuilder.createOkCheckedRequest(
+        RequestType.Drop,
+        "drop cap",
+        equipment))
 
     // then
     const message = response.message
     expect(message).toContain("You drop")
-    expect(message).toContain(item.name)
-    expect(player.sessionMob.room.inventory.items).toHaveLength(1)
-    expect(player.sessionMob.inventory.items).toHaveLength(0)
+    expect(message).toContain(equipment.name)
+    expect(mob.room.inventory.items).toHaveLength(1)
+    expect(mob.inventory.items).toHaveLength(0)
   })
 })

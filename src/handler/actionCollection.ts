@@ -22,6 +22,7 @@ import { Definition } from "./definition/definition"
 import { default as buyPrecondition } from "./precondition/buy"
 import { default as castPrecondition } from "./precondition/cast"
 import { default as dropPrecondition } from "./precondition/drop"
+import { default as getPrecondition } from "./precondition/get"
 import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as wearPrecondition } from "./precondition/wear"
@@ -37,7 +38,7 @@ export const actions = new Collection([
 
   // items
   new Definition(RequestType.Inventory, inventory),
-  new Definition(RequestType.Get, get),
+  new Definition(RequestType.Get, get, getPrecondition),
   new Definition(RequestType.Drop, drop, dropPrecondition),
   new Definition(RequestType.Wear, wear, wearPrecondition),
   new Definition(RequestType.Remove, remove, removePrecondition),

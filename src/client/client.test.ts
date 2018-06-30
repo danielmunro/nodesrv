@@ -1,4 +1,3 @@
-import { MESSAGE_ITEM_NOT_FOUND } from "../handler/action/constants"
 import look from "../handler/action/look"
 import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "../handler/action/move"
 import { Collection } from "../handler/definition/collection"
@@ -9,6 +8,7 @@ import { Channel } from "../social/constants"
 import { getTestClient, getTestClientLoggedOut } from "../test/client"
 import { Client, getDefaultUnhandledMessage } from "./client"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
+import { MESSAGE_FAIL_NO_ITEM } from "../handler/precondition/get"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
@@ -109,7 +109,7 @@ describe("clients", () => {
     const response = await client.handleRequest(request)
 
     // then
-    expect(response.message).toContain(MESSAGE_ITEM_NOT_FOUND)
+    expect(response.message).toBe(MESSAGE_FAIL_NO_ITEM)
   })
 
   it("invokes the default request handler when input has no action handler", async () => {
