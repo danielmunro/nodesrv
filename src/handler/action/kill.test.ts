@@ -1,13 +1,11 @@
 import { Player } from "../../player/model/player"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { getTestMob } from "../../test/mob"
-import { getTestPlayer } from "../../test/player"
-import kill, { ATTACK_MOB } from "./kill"
-import CheckedRequest from "../checkedRequest"
-import Check, { CheckStatus } from "../check"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
+import Check, { CheckStatus } from "../check"
+import CheckedRequest from "../checkedRequest"
+import kill, { ATTACK_MOB } from "./kill"
 
 function useKillRequest(player: Player, target, input: string) {
   return kill(new CheckedRequest(

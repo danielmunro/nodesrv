@@ -1,9 +1,9 @@
 import { getTestClient } from "../test/client"
 import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
-import Session from "./session"
-import Request from "./auth/request"
 import Complete from "./auth/complete"
+import Request from "./auth/request"
+import Session from "./session"
 
 describe("session", () => {
   it("isLoggedIn sanity check", async () => {

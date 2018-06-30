@@ -1,7 +1,7 @@
 import { addFight, Fight } from "../../mob/fight/fight"
-import CheckedRequest from "../checkedRequest"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import CheckedRequest from "../checkedRequest"
 
 export const ATTACK_MOB = "You scream and attack!"
 

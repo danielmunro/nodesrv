@@ -1,12 +1,11 @@
+import { addFight, Fight } from "../../mob/fight/fight"
 import { Player } from "../../player/model/player"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
-import { getTestPlayer } from "../../test/player"
 import TestBuilder from "../../test/testBuilder"
-import { default as kill, MESSAGE_FAIL_KILL_ALREADY_FIGHTING, MESSAGE_FAIL_KILL_NO_TARGET } from "./kill"
 import { CheckStatus } from "../check"
-import { addFight, Fight } from "../../mob/fight/fight"
+import { default as kill, MESSAGE_FAIL_KILL_ALREADY_FIGHTING, MESSAGE_FAIL_KILL_NO_TARGET } from "./kill"
 
 function useKillRequest(player: Player, input: string) {
   return kill(new Request(player, RequestType.Kill, createRequestArgs(input)))
