@@ -37,6 +37,6 @@ describe("drop handler precondition", () => {
     const check = await drop(new Request(player, RequestType.Drop, createRequestArgs("drop hat")))
 
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toContain("cursed")
+    expect(check.result).toContain("curse")
   })
 })
