@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import Attributes from "../../attributes/model/attributes"
+import { Item } from "../../item/model/item"
 import { Mob } from "../../mob/model/mob"
 import { AffectType } from "../affectType"
-import { Item } from "../../item/model/item"
 
 @Entity()
 export class Affect {

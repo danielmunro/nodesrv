@@ -1,6 +1,6 @@
+import { AffectType } from "../../affect/affectType"
 import { Request } from "../../request/request"
 import Check from "../check"
-import { AffectType } from "../../affect/affectType"
 
 export const MESSAGE_FAIL_NO_ITEM = "You don't have that."
 

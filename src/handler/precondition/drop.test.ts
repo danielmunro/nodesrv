@@ -1,3 +1,5 @@
+import { AffectType } from "../../affect/affectType"
+import { newAffect } from "../../affect/factory"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { createRequestArgs, Request } from "../../request/request"
@@ -5,8 +7,6 @@ import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import { CheckStatus } from "../check"
 import drop, { MESSAGE_FAIL_NO_ITEM } from "./drop"
-import { newAffect } from "../../affect/factory"
-import { AffectType } from "../../affect/affectType"
 
 describe("drop handler precondition", () => {
   it("should not work if the item is not in the right inventory", async () => {
