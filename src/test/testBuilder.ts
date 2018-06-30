@@ -10,6 +10,7 @@ import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
+import { getTestMob } from "./mob"
 
 export default class TestBuilder {
   public player: Player
@@ -31,6 +32,16 @@ export default class TestBuilder {
     }
 
     return new PlayerBuilder(this.player)
+  }
+
+  public withMob(name: string = null) {
+    const mob = getTestMob(name)
+    if (!this.room) {
+      this.withRoom()
+    }
+    this.room.addMob(mob)
+
+    return new MobBuilder(mob)
   }
 
   public withMerchant() {

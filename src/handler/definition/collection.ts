@@ -10,7 +10,7 @@ export class Collection {
 
   public getMatchingHandlerDefinitionForRequestType(
     requestType: RequestType,
-    defaultHandler: Definition,
+    defaultHandler: Definition = null,
   ): Definition {
     const handler = this.handlers.find((it) => it.isAbleToHandleRequestType(requestType))
 
