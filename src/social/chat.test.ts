@@ -1,6 +1,6 @@
-import { getTestPlayer } from "./../test/player"
+import { getTestPlayer } from "../test/player"
+import { Channel } from "./channel"
 import { broadcastMessage, readMessages } from "./chat"
-import { Channel } from "./constants"
 
 describe("chat", () => {
   it("should be able to broadcast and receive messages", () => {

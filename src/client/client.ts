@@ -10,7 +10,7 @@ import { ResponseStatus } from "../request/responseStatus"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
 import Session from "../session/session"
-import { Channel } from "../social/constants"
+import { Channel } from "../social/channel"
 import { Message } from "../social/message"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
 

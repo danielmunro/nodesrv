@@ -1,7 +1,7 @@
 import * as stringify from "json-stringify-safe"
 import * as v4 from "uuid"
-import { getTestPlayer } from "./../test/player"
-import { Channel } from "./constants"
+import { getTestPlayer } from "../test/player"
+import { Channel } from "./channel"
 import { Message } from "./message"
 
 describe("message", () => {

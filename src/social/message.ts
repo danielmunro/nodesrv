@@ -1,5 +1,5 @@
 import { Player } from "../player/model/player"
-import { Channel } from "./constants"
+import { Channel } from "./channel"
 
 export class Message {
   public readonly sender: Player
