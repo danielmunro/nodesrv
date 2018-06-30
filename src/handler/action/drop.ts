@@ -1,15 +1,15 @@
-import { Item } from "../../item/model/item"
-import { Request } from "../../request/request"
-import { doWithItemOrElse } from "../actionHelpers"
+import Response from "../../request/response"
+import CheckedRequest from "../checkedRequest"
+import ResponseBuilder from "../../request/responseBuilder"
 
-export default function(request: Request): Promise<any> {
-  return doWithItemOrElse(
-    request,
-    request.findItemInSessionMobInventory(),
-    (item: Item) => {
-      request.getRoom().inventory.getItemFrom(item, request.player.getInventory())
+export default function(checkedRequest: CheckedRequest): Promise<Response> {
+  const item = checkedRequest.check.result
+  const request = checkedRequest.request
+  const mob = request.player.sessionMob
+  const room = request.getRoom()
 
-      return { message: "You drop " + item.name + "." }
-    },
-    "You don't have that.")
+  mob.inventory.removeItem(item)
+  room.inventory.addItem(item)
+
+  return new ResponseBuilder(request).success(`You drop ${item.name}.`)
 }
