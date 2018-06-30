@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn
 import Attributes from "../../attributes/model/attributes"
 import { Mob } from "../../mob/model/mob"
 import { AffectType } from "../affectType"
+import { Item } from "../../item/model/item"
 
 @Entity()
 export class Affect {
@@ -10,6 +11,9 @@ export class Affect {
 
   @ManyToOne((type) => Mob, (mob) => mob.affects)
   public mob: Mob
+
+  @ManyToOne((type) => Item, (item) => item.affects)
+  public item: Item
 
   @Column("text")
   public affectType: AffectType

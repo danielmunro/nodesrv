@@ -1,8 +1,9 @@
-import {Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm"
+import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import { newEmptyAttributes } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
 import { Equipment } from "../equipment"
 import { Inventory } from "./inventory"
+import { Affect } from "../../affect/model/affect"
 
 @Entity()
 export class Item {
@@ -26,6 +27,9 @@ export class Item {
 
   @OneToOne((type) => Attributes, (attributes) => attributes.item)
   public attributes: Attributes = newEmptyAttributes()
+
+  @OneToMany((type) => Affect, (affect) => affect.item)
+  public affects: Affect[] = []
 
   public matches(subject: string): boolean {
     const words = this.name.split(" ")
