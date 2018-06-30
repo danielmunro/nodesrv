@@ -2,9 +2,9 @@ import { newShield } from "../../item/factory"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
-import drop from "./drop"
-import CheckedRequest from "../checkedRequest"
 import Check from "../check"
+import CheckedRequest from "../checkedRequest"
+import drop from "./drop"
 
 describe("drop", () => {
   it("should be able to drop an item", async () => {

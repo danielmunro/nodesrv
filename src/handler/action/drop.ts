@@ -1,6 +1,6 @@
 import Response from "../../request/response"
-import CheckedRequest from "../checkedRequest"
 import ResponseBuilder from "../../request/responseBuilder"
+import CheckedRequest from "../checkedRequest"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const item = checkedRequest.check.result

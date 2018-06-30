@@ -1,10 +1,10 @@
-import { getTestPlayer } from "../../test/player"
-import drop, { MESSAGE_FAIL_NO_ITEM } from "./drop"
+import { Equipment } from "../../item/equipment"
+import { newEquipment } from "../../item/factory"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
+import { getTestPlayer } from "../../test/player"
 import { CheckStatus } from "../check"
-import { newEquipment } from "../../item/factory"
-import { Equipment } from "../../item/equipment"
+import drop, { MESSAGE_FAIL_NO_ITEM } from "./drop"
 
 describe("drop handler precondition", () => {
   it("should not work if the item is not in the right inventory", async () => {
