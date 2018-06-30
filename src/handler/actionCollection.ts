@@ -23,6 +23,7 @@ import { default as buyPrecondition } from "./precondition/buy"
 import { default as castPrecondition } from "./precondition/cast"
 import { default as dropPrecondition } from "./precondition/drop"
 import { default as getPrecondition } from "./precondition/get"
+import { default as killPrecondition } from "./precondition/kill"
 import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as wearPrecondition } from "./precondition/wear"
@@ -45,7 +46,7 @@ export const actions = new Collection([
   new Definition(RequestType.Equipped, equipped),
 
   // fighting
-  new Definition(RequestType.Kill, kill),
+  new Definition(RequestType.Kill, kill, killPrecondition),
   new Definition(RequestType.Bash, (request: Request) => doSkill(request, SkillType.Bash)),
   new Definition(RequestType.Trip, (request: Request) => doSkill(request, SkillType.Trip)),
 

@@ -2,8 +2,6 @@ import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import CheckedRequest from "../checkedRequest"
 
-export const ITEM_NOT_FOUND = "You don't have that."
-
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const playerInv = checkedRequest.request.player.getInventory()
   const playerEquipped = checkedRequest.request.player.sessionMob.equipped
@@ -13,10 +11,10 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   let removal = ""
   if (currentlyEquippedItem) {
     playerInv.getItemFrom(currentlyEquippedItem, playerEquipped.inventory)
-    removal = " remove " + currentlyEquippedItem.name + " and"
+    removal = ` remove ${currentlyEquippedItem.name} and`
   }
 
   playerEquipped.inventory.getItemFrom(item, playerInv)
 
-  return new ResponseBuilder(checkedRequest.request).success("You" + removal + " wear " + item.name + ".")
+  return new ResponseBuilder(checkedRequest.request).success(`You${removal} wear ${item.name}.`)
 }

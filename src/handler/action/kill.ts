@@ -1,21 +1,13 @@
-import match from "../../matcher/match"
 import { addFight, Fight } from "../../mob/fight/fight"
-import { findOneMob } from "../../mob/repository/mob"
-import { Request } from "../../request/request"
+import CheckedRequest from "../checkedRequest"
+import Response from "../../request/response"
+import ResponseBuilder from "../../request/responseBuilder"
 
-export const MOB_NOT_FOUND = "They aren't here."
 export const ATTACK_MOB = "You scream and attack!"
 
-export default function(request: Request): Promise<any> {
-  return new Promise((resolve) => {
-    const target = request.getRoom().mobs.find((mob) => match(mob.name, request.subject))
-    if (!target) {
-      return resolve({ message: MOB_NOT_FOUND })
-    }
-    return findOneMob(target.id).then((mobTarget) => {
-      const fight = new Fight(request.player.sessionMob, mobTarget)
-      addFight(fight)
-      return resolve({ message: ATTACK_MOB })
-    })
-  })
+export default function(checkedRequest: CheckedRequest): Promise<Response> {
+  const fight = new Fight(checkedRequest.request.player.sessionMob, checkedRequest.check.result)
+  addFight(fight)
+
+  return new ResponseBuilder(checkedRequest.request).success(ATTACK_MOB)
 }

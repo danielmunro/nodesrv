@@ -4,13 +4,9 @@ import Response from "./response"
 import { ResponseStatus } from "./responseStatus"
 
 export default class Request {
-  public readonly client: Client
-  public readonly input: string
-
-  constructor(client: Client, input: string) {
-    this.client = client
-    this.input = input
-  }
+  constructor(
+    public readonly client: Client,
+    public readonly input: string) {}
 
   public fail(authStep: AuthStep, message: string): Response {
     return new Response(

@@ -11,15 +11,13 @@ import Request from "./auth/request"
 import { SessionStatus } from "./status"
 
 export default class Session {
-  public readonly client: Client
   private player: Player
   private mob: Mob
   private status: SessionStatus = SessionStatus.Initialized
-  private authStep: AuthStep = new Email()
 
-  constructor(client: Client) {
-    this.client = client
-  }
+  constructor(
+    public readonly client: Client,
+    private authStep: AuthStep = new Email()) {}
 
   public isLoggedIn(): boolean {
     return this.status === SessionStatus.LoggedIn
@@ -30,8 +28,7 @@ export default class Session {
     this.authStep = response.authStep
     this.client.send({ message: response.message })
     if (this.authStep instanceof Complete) {
-      await this.login(this.authStep.player)
-      return
+      return await this.login(this.authStep.player)
     }
     this.client.send({ message: this.authStep.getStepMessage() })
   }
