@@ -6,11 +6,11 @@ import { createRequestArgs, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
+import { getTestMob } from "./mob"
 import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
-import { getTestMob } from "./mob"
 
 export default class TestBuilder {
   public player: Player

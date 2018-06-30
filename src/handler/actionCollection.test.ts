@@ -1,8 +1,8 @@
-import { actions } from "./actionCollection"
 import { RequestType } from "../request/requestType"
-import TestBuilder from "../test/testBuilder"
-import { SkillType } from "../skill/skillType"
 import { ResponseStatus } from "../request/responseStatus"
+import { SkillType } from "../skill/skillType"
+import TestBuilder from "../test/testBuilder"
+import { actions } from "./actionCollection"
 
 describe("action handler collection", () => {
   it("should be able to bash", async () => {

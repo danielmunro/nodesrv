@@ -1,9 +1,9 @@
 import { Item } from "../item/model/item"
 import { Player } from "../player/model/player"
-import AbstractBuilder from "./abstractBuilder"
+import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
-import { newSkill } from "../skill/factory"
+import AbstractBuilder from "./abstractBuilder"
 
 export default class PlayerBuilder extends AbstractBuilder {
   constructor(public readonly player: Player) {

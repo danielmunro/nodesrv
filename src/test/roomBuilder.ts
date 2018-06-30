@@ -1,6 +1,6 @@
+import { Item } from "../item/model/item"
 import { Room } from "../room/model/room"
 import AbstractBuilder from "./abstractBuilder"
-import { Item } from "../item/model/item"
 
 export default class RoomBuilder extends AbstractBuilder {
   constructor(public readonly room: Room) {

@@ -1,6 +1,6 @@
-import { Item } from "../item/model/item"
-import { newEquipment } from "../item/factory"
 import { Equipment } from "../item/equipment"
+import { newEquipment } from "../item/factory"
+import { Item } from "../item/model/item"
 
 export default class AbstractBuilder {
   public withTestEquipment(): Item {

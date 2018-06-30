@@ -1,6 +1,7 @@
 import look from "../handler/action/look"
 import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "../handler/action/move"
 import { Collection } from "../handler/definition/collection"
+import { MESSAGE_FAIL_NO_ITEM } from "../handler/precondition/get"
 import { Player } from "../player/model/player"
 import { createRequestArgs, getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
@@ -8,7 +9,6 @@ import { Channel } from "../social/constants"
 import { getTestClient, getTestClientLoggedOut } from "../test/client"
 import { Client, getDefaultUnhandledMessage } from "./client"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
-import { MESSAGE_FAIL_NO_ITEM } from "../handler/precondition/get"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})

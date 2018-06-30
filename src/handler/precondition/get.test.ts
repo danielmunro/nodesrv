@@ -1,5 +1,3 @@
-import { AffectType } from "../../affect/affectType"
-import { newAffect } from "../../affect/factory"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
@@ -25,7 +23,6 @@ describe("get handler precondition", () => {
     const testBuilder = new TestBuilder()
     testBuilder.withPlayer()
     const equipment = testBuilder.withRoom().withTestEquipment()
-
 
     // when
     const check = await drop(testBuilder.createRequest(RequestType.Drop, "drop cap"))
