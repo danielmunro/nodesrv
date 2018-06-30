@@ -1,43 +1,31 @@
-import { newShield } from "../../item/factory"
-import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { getTestPlayer } from "../../test/player"
-import { getTestRoom } from "../../test/room"
+import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_ITEM_NOT_FOUND } from "./constants"
 import get from "./get"
 
 describe("get action handler", () => {
   it("should be able to get an item from a room inventory", async () => {
     // setup
-    const room = getTestRoom()
-    const itemName = "a wooden shield"
-    const item = newShield(itemName, "test")
-    room.inventory.addItem(item)
-    const player = getTestPlayer()
-    room.addMob(player.sessionMob)
-    const mobInv = player.sessionMob.inventory
-
-    // expect
-    expect(mobInv.items.length).toBe(0)
+    const testBuilder = new TestBuilder()
+    testBuilder.withRoom().withTestEquipment()
+    const player = testBuilder.withPlayer().player
+    const itemCount = player.sessionMob.inventory.items.length
 
     // when
-    const response = await get(new Request(player, RequestType.Get, createRequestArgs("get shield")))
+    const response = await get(testBuilder.createRequest(RequestType.Get, "get cap"))
 
     // then
-    expect(mobInv.items.length).toBe(1)
-    expect(response.message).toContain(itemName)
+    expect(player.sessionMob.inventory.items.length).toBe(itemCount + 1)
+    expect(response.message).toContain("cap")
   })
 
   it("should not be able to get an item that is not there", async () => {
     // setup
-    const room = getTestRoom()
-    const player = getTestPlayer()
-    const item = newShield("a wooden shield", "test")
-    room.inventory.addItem(item)
-    room.addMob(player.sessionMob)
+    const testBuilder = new TestBuilder()
+    const player = testBuilder.withPlayer().player
 
     // when
-    const response = await get(new Request(player, RequestType.Get, createRequestArgs("get foo")))
+    const response = await get(testBuilder.createRequest(RequestType.Get, "get foo"))
 
     // then
     expect(player.sessionMob.inventory.items.length).toBe(0)
