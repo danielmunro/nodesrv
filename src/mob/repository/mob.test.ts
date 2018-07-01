@@ -90,7 +90,7 @@ describe("mob repository", () => {
     await persistMob(player)
 
     // when
-    const mobs = await findWanderingMobs()
+    const mobs = await findWanderingMobs(100)
 
     // then
     const mobIds = mobs.map((m) => m.id)
