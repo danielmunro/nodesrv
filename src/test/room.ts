@@ -1,4 +1,4 @@
-import { Room } from "./../room/model/room"
+import { Room } from "../room/model/room"
 
 export function getTestRoom(): Room {
   const room1 = new Room()
