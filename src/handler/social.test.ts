@@ -1,4 +1,4 @@
-import { readMessages } from "../social/chat"
+import { readMessages } from "../social/publicBroadcast"
 import { getTestPlayer } from "../test/player"
 import { gossip } from "./social"
 

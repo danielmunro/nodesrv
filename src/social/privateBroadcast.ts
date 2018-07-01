@@ -2,7 +2,7 @@ import { Player } from "../player/model/player"
 import { Channel } from "./channel"
 import { Message } from "./message"
 
-let privateBuf = []
+let privateBuf = {}
 
 export function broadcastPrivateMessage(
   uniqueId: string, sender: Player, channel: Channel, messageStr: string): Message {
@@ -16,25 +16,9 @@ export function broadcastPrivateMessage(
   return message
 }
 
-export function readPrivateMessages(): Message[] {
+export function readPrivateMessages() {
   const returnBuf = privateBuf
-  privateBuf = []
-
-  return returnBuf
-}
-
-let buf = []
-
-export function broadcastMessage(sender: Player, channel: Channel, messageStr: string): Message {
-  const message = new Message(sender, channel, messageStr)
-  buf.push(message)
-
-  return message
-}
-
-export function readMessages(): Message[] {
-  const returnBuf = buf
-  buf = []
+  privateBuf = {}
 
   return returnBuf
 }

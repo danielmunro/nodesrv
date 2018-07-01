@@ -1,10 +1,11 @@
 import { Client } from "../../client/client"
-import { readMessages, readPrivateMessages } from "../../social/chat"
 import { Message } from "../../social/message"
+import { readPrivateMessages } from "../../social/privateBroadcast"
+import { readMessages} from "../../social/publicBroadcast"
 import { Observer } from "./observer"
 
 function sendToClientIfNotSender(client: Client, message: Message): void {
-  if (!client.isOwnMessage(message)) {
+  if (client.isLoggedIn() && !client.isOwnMessage(message)) {
     client.send(message.getData())
   }
 }

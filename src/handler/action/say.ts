@@ -2,7 +2,7 @@ import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import { Channel } from "../../social/channel"
-import { broadcastPrivateMessage } from "../../social/chat"
+import { broadcastPrivateMessage } from "../../social/privateBroadcast"
 
 export default function(request: Request): Promise<Response> {
   broadcastPrivateMessage(
