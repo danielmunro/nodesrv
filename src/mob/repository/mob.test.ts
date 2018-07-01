@@ -1,5 +1,5 @@
 import * as sillyname from "sillyname"
-import { newTrail } from "../../area/factory"
+import { newTrail } from "../../area/builder/trail"
 import { Direction } from "../../room/constants"
 import { moveMob, persistRoom } from "../../room/service"
 import { getTestMob } from "../../test/mob"

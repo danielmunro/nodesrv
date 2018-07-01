@@ -1,4 +1,4 @@
-import { newTrail } from "../../area/factory"
+import { newTrail } from "../../area/builder/trail"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
