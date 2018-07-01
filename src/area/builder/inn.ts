@@ -1,10 +1,10 @@
-import { Room } from "../../room/model/room"
-import { Mob } from "../../mob/model/mob"
-import { newReciprocalExit, newRoom } from "../../room/factory"
 import { newTraveller } from "../../mob/factory/inn"
-import { persistAll } from "../../room/service"
+import { Mob } from "../../mob/model/mob"
 import { Direction } from "../../room/constants"
 import { getFreeReciprocalDirection } from "../../room/direction"
+import { newReciprocalExit, newRoom } from "../../room/factory"
+import { Room } from "../../room/model/room"
+import { persistAll } from "../../room/service"
 
 export function newInn(root: Room): Promise<Room[]> {
   const innRoom = (mobs: Mob[] = []) => newRoom(
@@ -39,4 +39,3 @@ export function newInn(root: Room): Promise<Room[]> {
       ...newReciprocalExit(getFreeReciprocalDirection(main, root), main, root),
     ])
 }
-

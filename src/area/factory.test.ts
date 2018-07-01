@@ -1,9 +1,9 @@
 import { Direction } from "../room/constants"
 import { newRoom } from "../room/factory"
-import { Exploration } from "./exploration"
-import { newArena, newWorld } from "./factory"
 import { newInn } from "./builder/inn"
 import { newTrail } from "./builder/trail"
+import { Exploration } from "./exploration"
+import { newArena, newWorld } from "./factory"
 
 describe("area factory", () => {
   it("should be able to connect two built structures", async () => {

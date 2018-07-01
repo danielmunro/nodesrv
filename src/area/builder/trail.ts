@@ -1,9 +1,9 @@
-import { Room } from "../../room/model/room"
-import { Direction } from "../../room/constants"
-import { newReciprocalExit, newRoom } from "../../room/factory"
 import { onCoinFlipSuccess } from "../../dice/dice"
 import { newCritter } from "../../mob/factory/trail"
+import { Direction } from "../../room/constants"
 import { getFreeReciprocalDirection } from "../../room/direction"
+import { newReciprocalExit, newRoom } from "../../room/factory"
+import { Room } from "../../room/model/room"
 import { persistAll } from "../../room/service"
 
 export function newTrail(root: Room, direction: Direction, length: number) {

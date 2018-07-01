@@ -1,8 +1,8 @@
+import { Mob } from "../mob/model/mob"
 import { Room } from "../room/model/room"
+import MobCollection from "./mobCollection"
 import RoomCollection from "./roomCollection"
 import { SectionType } from "./sectionType"
-import { Mob } from "../mob/model/mob"
-import MobCollection from "./mobCollection"
 
 export default class AreaBuilder {
   private rooms = new RoomCollection()

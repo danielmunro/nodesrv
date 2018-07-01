@@ -1,6 +1,6 @@
-import { SectionType } from "./sectionType"
-import { Room } from "../room/model/room"
 import roll from "../dice/dice"
+import { Room } from "../room/model/room"
+import { SectionType } from "./sectionType"
 
 export default class RoomCollection {
   private collection = {}

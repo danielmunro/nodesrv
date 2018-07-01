@@ -1,6 +1,6 @@
-import { SectionType } from "./sectionType"
-import { Mob } from "../mob/model/mob"
 import roll from "../dice/dice"
+import { Mob } from "../mob/model/mob"
+import { SectionType } from "./sectionType"
 
 export default class MobCollection {
   private collection = {}
