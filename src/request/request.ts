@@ -17,18 +17,17 @@ export function getNewRequestFromMessageEvent(player: Player, messageEvent: Mess
 }
 
 export class Request {
-  public readonly player: Player
-  public readonly requestType: RequestType
-  public readonly args
   public readonly command: string
   public readonly subject: string
   public readonly message: string
+  public readonly mob: Mob
   public readonly target: Mob | null = null
 
-  constructor(player: Player, requestType: RequestType, args = {}) {
-    this.player = player
-    this.requestType = requestType
-    this.args = args
+  constructor(
+    public readonly player: Player,
+    public readonly requestType: RequestType,
+    public readonly args = {}) {
+    this.mob = this.player.sessionMob
     if (this.args.request) {
       const r = this.args.request.split(" ")
       this.command = r[0]

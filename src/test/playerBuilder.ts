@@ -1,4 +1,5 @@
 import { Item } from "../item/model/item"
+import { Disposition } from "../mob/disposition"
 import { Player } from "../player/model/player"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
@@ -22,5 +23,9 @@ export default class PlayerBuilder extends AbstractBuilder {
     this.player.sessionMob.skills.push(skill)
 
     return skill
+  }
+
+  public withDisposition(disposition: Disposition) {
+    this.player.sessionMob.disposition = disposition
   }
 }

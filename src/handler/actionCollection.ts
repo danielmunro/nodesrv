@@ -14,6 +14,7 @@ import kill from "./action/kill"
 import look from "./action/look"
 import move from "./action/move"
 import remove from "./action/remove"
+import say from "./action/say"
 import sell from "./action/sell"
 import wear from "./action/wear"
 import { doSkill } from "./actionHelpers"
@@ -67,4 +68,5 @@ export const actions = new Collection([
 
   // social
   new Definition(RequestType.Gossip, gossip),
+  new Definition(RequestType.Say, say),
 ])

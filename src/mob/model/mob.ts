@@ -12,6 +12,7 @@ import { Room } from "../../room/model/room"
 import { Skill } from "../../skill/model/skill"
 import { SkillType } from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
+import { Disposition } from "../disposition"
 import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
 import { SpecializationType } from "../specialization/specializationType"
@@ -48,6 +49,9 @@ export class Mob {
 
   @Column("integer", {default: 0})
   public gold: number = 0
+
+  @Column("text", { nullable: true })
+  public disposition = Disposition.Standing
 
   @OneToMany((type) => Affect, (affect) => affect.mob, { cascadeInsert: true, eager: true })
   public affects: Affect[] = []

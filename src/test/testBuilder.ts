@@ -54,14 +54,20 @@ export default class TestBuilder {
     return new MobBuilder(merchant)
   }
 
-  public createOkCheckedRequest(requestType: RequestType, input: string, result: any): CheckedRequest {
+  public createOkCheckedRequest(requestType: RequestType, input: string = null, result: any = null): CheckedRequest {
+    if (!input) {
+      input = requestType.toString()
+    }
     return new CheckedRequest(
       new Request(this.player, requestType, createRequestArgs(input)),
       new Check(CheckStatus.Ok, result),
     )
   }
 
-  public createRequest(requestType: RequestType, input: string): Request {
+  public createRequest(requestType: RequestType, input: string = null): Request {
+    if (input === null) {
+      input = requestType.toString()
+    }
     return new Request(this.player, requestType, createRequestArgs(input))
   }
 }

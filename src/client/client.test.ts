@@ -231,8 +231,8 @@ describe("clients", () => {
   it("not logged in clients should always be able to handle requests if ones are available", () => {
     // setup
     const newClient = new Client(jest.fn(), "127.0.0.1", jest.fn())
-    newClient.addRequest(new Request(newClient.player, RequestType.Any))
     newClient.player = new Player()
+    newClient.addRequest(new Request(newClient.player, RequestType.Any))
 
     // expect
     expect(newClient.isLoggedIn()).toBeFalsy()
