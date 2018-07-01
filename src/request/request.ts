@@ -5,6 +5,7 @@ import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { RequestType } from "./requestType"
 
+// @todo refactor out usages
 export function createRequestArgs(input: string) {
   return input
 }
