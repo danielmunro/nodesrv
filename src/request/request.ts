@@ -28,7 +28,9 @@ export class Request {
     public readonly player: Player,
     public readonly requestType: RequestType,
     public readonly args = null) {
-    this.mob = this.player.sessionMob
+    if (this.player) {
+      this.mob = this.player.sessionMob
+    }
     if (this.args) {
       const r = this.args.split(" ")
       this.command = r[0]

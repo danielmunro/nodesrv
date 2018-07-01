@@ -7,10 +7,12 @@ import { newArena, newWorld } from "./factory"
 
 describe("area factory", () => {
   it("should be able to connect two built structures", async () => {
-    expect.assertions(25)
-    const innRooms = await newInn(newRoom("test", "test"))
+    // given
+    const innRooms = await newInn(newRoom("outside connection", "test"))
     const trailRooms = await newTrail(innRooms[innRooms.length - 1], Direction.South, 3)
     const allRooms = [...innRooms, ...trailRooms]
+
+    // expect
     expect(allRooms.length).toBe(8)
     allRooms.forEach((room) => {
       expect(room.exits.length).toBeLessThanOrEqual(6)
@@ -22,7 +24,10 @@ describe("area factory", () => {
   })
 
   it("should be able to create an arena (a matrix of rooms)", async () => {
+    // given
     const arena = await newArena(newRoom("name", "description"), 3, 3)
+
+    // expect
     expect(arena.rooms.length).toBe(9)
   })
 
@@ -41,6 +46,6 @@ describe("area factory", () => {
     exploration.explore()
 
     // then
-    expect(exploration.map.getRoomCount()).toBe(rooms.length)
+    expect(exploration.map.getRoomCount()).toBe(rooms.length + 1)
   })
 })

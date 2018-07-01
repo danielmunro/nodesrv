@@ -1,6 +1,7 @@
 export enum SectionType {
-  Root,
+  OutsideConnection,
   Connection,
-  Edge,
-  Space,
+  Root,
+  Node,
+  NodeMatrix,
 }

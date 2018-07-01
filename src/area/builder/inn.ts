@@ -1,41 +1,37 @@
 import { newTraveller } from "../../mob/factory/inn"
-import { Mob } from "../../mob/model/mob"
-import { Direction } from "../../room/constants"
-import { getFreeReciprocalDirection } from "../../room/direction"
-import { newReciprocalExit, newRoom } from "../../room/factory"
+import { newRoom } from "../../room/factory"
 import { Room } from "../../room/model/room"
-import { persistAll } from "../../room/service"
+import AreaBuilder from "../areaBuilder"
+import { SectionType } from "../sectionType"
 
-export function newInn(root: Room): Promise<Room[]> {
-  const innRoom = (mobs: Mob[] = []) => newRoom(
-    "A cozy room at the Inn",
-    "Something about a room in the inn.",
-    mobs)
-
-  const main = newRoom(
+export function newInn(outsideConnection: Room): Promise<Room[]> {
+  const root = newRoom(
     "Inn at the lodge",
     "Flickering torches provide the only light in the large main mess hall. "
     + "The room is filled with the chatter of travellers preparing for the journey ahead.",
-    [newTraveller("an old traveller", "an old traveller sits at the bar, studying a small pamphlet")])
-  const inn1 = innRoom([
+    [])
+
+  const areaBuilder = new AreaBuilder(outsideConnection)
+  areaBuilder.addRoomTemplate(SectionType.Root, root)
+  areaBuilder.addMobTemplate(
+    SectionType.Root,
+    newTraveller("an old traveller", "an old traveller sits at the bar, studying a small pamphlet"))
+  areaBuilder.addRoomTemplate(
+    SectionType.Connection,
+    newRoom("A cozy room at the Inn", "Something about a room in the inn."))
+  areaBuilder.addMobTemplate(
+    SectionType.Connection,
     newTraveller(
       "a fur trapper",
       "tall and slender, a middle-age man sits at a bench. " +
-      "Intent on cleaning and cataloguing his tools, he barely notices your presence.")])
-  const inn2 = innRoom()
-  const inn3 = innRoom()
+      "Intent on cleaning and cataloguing his tools, he barely notices your presence."),
+    .75,
+  )
 
-  return persistAll(
-    [
-      main,
-      inn1,
-      inn2,
-      inn3,
-      root,
-    ], [
-      ...newReciprocalExit(Direction.North, main, inn1),
-      ...newReciprocalExit(Direction.West, main, inn2),
-      ...newReciprocalExit(Direction.East, main, inn3),
-      ...newReciprocalExit(getFreeReciprocalDirection(main, root), main, root),
-    ])
+  areaBuilder.buildSection(SectionType.Root)
+  areaBuilder.buildSection(SectionType.Connection)
+  areaBuilder.buildSection(SectionType.Connection)
+  areaBuilder.buildSection(SectionType.Connection)
+
+  return Promise.resolve(areaBuilder.getAllRooms())
 }

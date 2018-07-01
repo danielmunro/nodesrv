@@ -4,6 +4,7 @@ import match from "../../matcher/match"
 import { Mob } from "../../mob/model/mob"
 import { Direction } from "../constants"
 import { Exit } from "./exit"
+import { newRoom } from "../factory"
 
 @Entity()
 export class Room {
@@ -55,6 +56,19 @@ export class Room {
 
   public toString(): string {
     return `${this.name}
-${this.description}`
+
+${this.description}
+
+Exits [${this.getExitsString()}]`
+  }
+
+  public copy(): Room {
+    return newRoom(this.name, this.description)
+  }
+
+  private getExitsString(): string {
+    return this.exits.sort((a, b) => a.direction > b.direction ? 1 : -1).reduce((combined: string, current: Exit) => {
+      return combined + current.direction.toString()[0]
+    }, "")
   }
 }

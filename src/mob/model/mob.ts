@@ -2,8 +2,8 @@ import {Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, P
 import * as v4 from "uuid"
 import { AffectType } from "../../affect/affectType"
 import { Affect } from "../../affect/model/affect"
-import { newAttributes, newHitroll, newStats, newVitals } from "../../attributes/factory"
-import Attributes from "../../attributes/model/attributes"
+import { newAttributes, newEmptyAttributes, newHitroll, newStats, newVitals } from "../../attributes/factory"
+import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
 import { Equipped } from "../../item/model/equipped"
 import { Inventory } from "../../item/model/inventory"
@@ -16,6 +16,7 @@ import { Disposition } from "../disposition"
 import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
 import { SpecializationType } from "../specialization/specializationType"
+import { newMob } from "../factory"
 
 @Entity()
 export class Mob {
@@ -110,5 +111,16 @@ export class Mob {
 
   public isMerchant(): boolean {
     return !this.isPlayer && this.skills.find((skill) => skill.skillType === SkillType.Haggle) !== undefined
+  }
+
+  // @todo fully implement
+  public copy(): Mob {
+    return newMob(
+      this.name,
+      this.description,
+      this.race,
+      newVitals(this.vitals.hp, this.vitals.mana, this.vitals.mv),
+      newEmptyAttributes(),
+      this.wanders)
   }
 }

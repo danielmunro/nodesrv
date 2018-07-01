@@ -2,13 +2,14 @@ import { Mob } from "../mob/model/mob"
 import { Direction } from "./constants"
 import { newReciprocalExit, newRoom } from "./factory"
 import { Room } from "./model/room"
+import { getTestMob } from "../test/mob"
 
 describe("room factory", () => {
   it("should be able to create rooms", () => {
     const name = "a test room"
     const description = "this is a test fixture"
     const mobs = [
-      new Mob(),
+      getTestMob(),
     ]
     const room = newRoom(name, description, mobs)
     expect(room).toBeInstanceOf(Room)
