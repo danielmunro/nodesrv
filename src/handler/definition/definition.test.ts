@@ -37,7 +37,7 @@ describe("Definition", () => {
     testCases.forEach((requestType) => {
       const callback = jest.fn()
       handler
-        .handle(new Request(getTestPlayer(), requestType, []))
+        .handle(new Request(getTestPlayer(), requestType, ""))
         .then(callback)
         .then(() => expect(callback).toBeCalled())
     })

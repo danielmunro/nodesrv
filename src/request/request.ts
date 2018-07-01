@@ -5,15 +5,15 @@ import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { RequestType } from "./requestType"
 
-export function createRequestArgs(request: string) {
-  return { request }
+export function createRequestArgs(input: string) {
+  return input
 }
 
 export function getNewRequestFromMessageEvent(player: Player, messageEvent: MessageEvent): Request {
   const data = JSON.parse(messageEvent.data)
   const requestArgs = data.request.split(" ")
 
-  return new Request(player, requestArgs[0], data)
+  return new Request(player, requestArgs[0], data.request)
 }
 
 export class Request {
@@ -26,10 +26,10 @@ export class Request {
   constructor(
     public readonly player: Player,
     public readonly requestType: RequestType,
-    public readonly args = {}) {
+    public readonly args = null) {
     this.mob = this.player.sessionMob
-    if (this.args.request) {
-      const r = this.args.request.split(" ")
+    if (this.args) {
+      const r = this.args.split(" ")
       this.command = r[0]
       this.subject = r[1]
       this.message = r.slice(1).join(" ")
