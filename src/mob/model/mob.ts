@@ -13,10 +13,10 @@ import { Skill } from "../../skill/model/skill"
 import { SkillType } from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
 import { Disposition } from "../disposition"
+import { newMob } from "../factory"
 import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
 import { SpecializationType } from "../specialization/specializationType"
-import { newMob } from "../factory"
 
 @Entity()
 export class Mob {

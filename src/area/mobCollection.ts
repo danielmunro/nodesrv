@@ -21,6 +21,6 @@ export default class MobCollection {
     const newMobs = []
     mobs.forEach((m) => roll(1, 100) < m.chanceToPop * 100 ? newMobs.push(m.mob.copy()) : null)
 
-    return mobs
+    return newMobs
   }
 }

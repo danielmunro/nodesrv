@@ -5,19 +5,13 @@ import { Room } from "./model/room"
 import { findOneExit, getExitRepository } from "./repository/exit"
 import { findOneRoom, getRoomRepository } from "./repository/room"
 
-function getRepositories() {
-  return Promise.all([
-    getExitRepository(),
-    getRoomRepository(),
-  ])
-}
+export async function persistAll(rooms, exits): Promise<Room[]> {
+  const exitRepository = await getExitRepository()
+  const roomRepository = await getRoomRepository()
+  await Promise.all(rooms.map(async (room) => await roomRepository.save(room)))
+  await Promise.all(exits.map(async (exit) => await exitRepository.save(exit)))
 
-export function persistAll(rooms, exits): Promise<Room[]> {
-  return getRepositories()
-    .then(([exitRepository, roomRepository]) => Promise.all(
-      rooms.map((room) => roomRepository.save(room)))
-        .then(() => Promise.all(exits.map((exit) => exitRepository.save(exit))))
-          .then(() => rooms))
+  return Promise.resolve(rooms)
 }
 
 export function persistExit(exit: Exit): Promise<Exit> {

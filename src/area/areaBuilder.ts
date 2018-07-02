@@ -1,15 +1,16 @@
 import { Mob } from "../mob/model/mob"
+import { getFreeReciprocalDirection } from "../room/direction"
+import { newReciprocalExit } from "../room/factory"
 import { Room } from "../room/model/room"
 import MobCollection from "./mobCollection"
 import RoomCollection from "./roomCollection"
 import { SectionType } from "./sectionType"
-import { newReciprocalExit } from "../room/factory"
-import { getFreeReciprocalDirection } from "../room/direction"
 
 export default class AreaBuilder {
   private rooms = new RoomCollection()
   private mobs = new MobCollection()
-  private room: Room
+  private activeRoom: Room
+  private lastRoom: Room
   private allRooms = []
   private allExits = []
 
@@ -25,27 +26,33 @@ export default class AreaBuilder {
   public addRoomTemplate(sectionType: SectionType, room: Room) {
     this.rooms.add(sectionType, room)
     if (sectionType === SectionType.Root) {
-      this.room = room
       newReciprocalExit(getFreeReciprocalDirection(this.allRooms[0], room), this.allRooms[0], room)
     }
   }
 
-  // public buildDirection(sectionType: SectionType, direction: Direction) {
-  //   newReciprocalExit(direction, this.room, this.buildSection(sectionType))
-  // }
-
-  // public buildShape(sectionType: SectionType, areaShape: AreaShape) {
-  //
-  // }
-
   public buildSection(sectionType: SectionType): Room {
     const room = this.rooms.getRandomBySectionType(sectionType)
-    this.mobs.getRandomBySectionType(sectionType).forEach((mob) => room.addMob(mob))
-    const direction = getFreeReciprocalDirection(this.room, room)
-    newReciprocalExit(direction, this.room, room).forEach((exit) => this.allExits.push(exit))
     this.allRooms.push(room)
+    this.mobs.getRandomBySectionType(sectionType).forEach((mob) => room.addMob(mob))
+
+    if (this.activeRoom) {
+      newReciprocalExit(getFreeReciprocalDirection(this.activeRoom, room), this.activeRoom, room)
+        .forEach((exit) => this.allExits.push(exit))
+    }
+
+    if (sectionType === SectionType.Root) {
+      this.activeRoom = room
+      newReciprocalExit(getFreeReciprocalDirection(this.outsideConnection, room), this.outsideConnection, room)
+        .forEach((exit) => this.allExits.push(exit))
+    }
+
+    this.lastRoom = room
 
     return room
+  }
+
+  public activateLastRoom() {
+    this.activeRoom = this.lastRoom
   }
 
   public getAllRooms() {

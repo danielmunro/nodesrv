@@ -3,8 +3,8 @@ import { Inventory } from "../../item/model/inventory"
 import match from "../../matcher/match"
 import { Mob } from "../../mob/model/mob"
 import { Direction } from "../constants"
-import { Exit } from "./exit"
 import { newRoom } from "../factory"
+import { Exit } from "./exit"
 
 @Entity()
 export class Room {
@@ -55,7 +55,7 @@ export class Room {
   }
 
   public toString(): string {
-    return `${this.name}
+    return `(${this.id}) ${this.name}
 
 ${this.description}
 

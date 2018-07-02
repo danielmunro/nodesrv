@@ -1,18 +1,18 @@
 import { newTraveller } from "../../mob/factory/inn"
 import { newRoom } from "../../room/factory"
 import { Room } from "../../room/model/room"
+import { persistAll } from "../../room/service"
 import AreaBuilder from "../areaBuilder"
 import { SectionType } from "../sectionType"
 
-export function newInn(outsideConnection: Room): Promise<Room[]> {
-  const root = newRoom(
-    "Inn at the lodge",
+export async function newInn(outsideConnection: Room): Promise<Room[]> {
+  const areaBuilder = new AreaBuilder(outsideConnection)
+  areaBuilder.addRoomTemplate(
+    SectionType.Root,
+    newRoom("Inn at the lodge",
     "Flickering torches provide the only light in the large main mess hall. "
     + "The room is filled with the chatter of travellers preparing for the journey ahead.",
-    [])
-
-  const areaBuilder = new AreaBuilder(outsideConnection)
-  areaBuilder.addRoomTemplate(SectionType.Root, root)
+    []))
   areaBuilder.addMobTemplate(
     SectionType.Root,
     newTraveller("an old traveller", "an old traveller sits at the bar, studying a small pamphlet"))
@@ -32,6 +32,7 @@ export function newInn(outsideConnection: Room): Promise<Room[]> {
   areaBuilder.buildSection(SectionType.Connection)
   areaBuilder.buildSection(SectionType.Connection)
   areaBuilder.buildSection(SectionType.Connection)
+  await persistAll(areaBuilder.getAllRooms(), areaBuilder.getAllExits())
 
   return Promise.resolve(areaBuilder.getAllRooms())
 }
