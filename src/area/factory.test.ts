@@ -1,7 +1,7 @@
 import { Direction } from "../room/constants"
 import { newRoom } from "../room/factory"
-import { newInn } from "./builder/inn"
-import { newTrail } from "./builder/trail"
+import { newInn } from "./builder/forest/inn"
+import { newTrail } from "./builder/forest/trail"
 import { Exploration } from "./exploration"
 import { newArena, newWorld } from "./factory"
 

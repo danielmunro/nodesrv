@@ -1,8 +1,8 @@
-import { newTraveller } from "../../mob/factory/inn"
-import { newRoom } from "../../room/factory"
-import { Room } from "../../room/model/room"
-import AreaBuilder from "../areaBuilder"
-import { SectionType } from "../sectionType"
+import { newTraveller } from "../../../mob/factory/inn"
+import { newRoom } from "../../../room/factory"
+import { Room } from "../../../room/model/room"
+import AreaBuilder from "../../areaBuilder"
+import { SectionType } from "../../sectionType"
 
 export async function newInn(outsideConnection: Room): Promise<Room[]> {
   const areaBuilder = new AreaBuilder(outsideConnection)
