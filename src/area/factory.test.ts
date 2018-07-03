@@ -43,6 +43,6 @@ describe("area factory", () => {
     exploration.explore()
 
     // then
-    expect(exploration.map.getRoomCount()).toBe(rooms.length + 1)
+    expect(exploration.map.getRoomCount()).toBe(rooms.length - 1)
   })
 })

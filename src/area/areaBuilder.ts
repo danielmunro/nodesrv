@@ -34,9 +34,6 @@ export default class AreaBuilder {
 
   public addRoomTemplate(sectionType: SectionType, room: Room) {
     this.rooms.add(sectionType, room)
-    if (sectionType === SectionType.Root) {
-      newReciprocalExit(getFreeReciprocalDirection(this.outsideConnection, room), this.outsideConnection, room)
-    }
   }
 
   public async buildSection(sectionType: SectionType, direction: Direction = null): Promise<Room> {
