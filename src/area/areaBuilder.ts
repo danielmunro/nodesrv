@@ -20,11 +20,11 @@ export default class AreaBuilder {
   private rooms = new RoomCollection()
   private mobs = new MobCollection()
   private activeRoom: Room
-  private lastRoom: Room
   private allRooms = []
 
   constructor(public readonly outsideConnection: Room) {
     this.rooms.add(SectionType.OutsideConnection, outsideConnection)
+    this.activeRoom = outsideConnection
     this.allRooms.push(outsideConnection)
   }
 
@@ -35,7 +35,7 @@ export default class AreaBuilder {
   public addRoomTemplate(sectionType: SectionType, room: Room) {
     this.rooms.add(sectionType, room)
     if (sectionType === SectionType.Root) {
-      newReciprocalExit(getFreeReciprocalDirection(this.allRooms[0], room), this.allRooms[0], room)
+      newReciprocalExit(getFreeReciprocalDirection(this.outsideConnection, room), this.outsideConnection, room)
     }
   }
 
@@ -43,18 +43,10 @@ export default class AreaBuilder {
     const room = this.rooms.getRandomBySectionType(sectionType)
     this.allRooms.push(room)
     this.mobs.getRandomBySectionType(sectionType).forEach((mob) => room.addMob(mob))
-    let exits = []
-
-    if (this.activeRoom) {
-      exits = await AreaBuilder.createExitsBetween(this.activeRoom, room, direction)
-    } else if (sectionType === SectionType.Root) {
-      exits = await AreaBuilder.createExitsBetween(this.outsideConnection, room, direction)
-      this.activeRoom = room
-    }
-
-    this.lastRoom = room
+    const exits = await AreaBuilder.createExitsBetween(this.activeRoom, room, direction)
     await persistRoom(room)
     await Promise.all(exits.map((exit) => persistExit(exit)))
+    this.activeRoom = room
 
     return room
   }
