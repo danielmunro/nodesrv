@@ -1,33 +1,25 @@
-import { onCoinFlipSuccess } from "../../dice/dice"
-import { newCritter } from "../../mob/factory/trail"
 import { Direction } from "../../room/constants"
-import { getFreeReciprocalDirection } from "../../room/direction"
-import { newReciprocalExit, newRoom } from "../../room/factory"
+import { newRoom } from "../../room/factory"
 import { Room } from "../../room/model/room"
-import { persistAll } from "../../room/service"
+import AreaBuilder from "../areaBuilder"
+import { SectionType } from "../sectionType"
 
-export function newTrail(root: Room, direction: Direction, length: number) {
-  const trailRoom = () => newRoom(
+function getRoom(): Room {
+  return newRoom(
     "A trail in the woods",
     "Old growth trees line a narrow and meandering trail. " +
     "Thick green moss hangs from massive branches, obscuring any potential view. A lazy fog hangs " +
     "frozen in the canopy, leaving an eerie silence.")
-  const initialRooms = []
-  const exits = []
+}
 
+export async function newTrail(outsideConnection: Room, direction: Direction, length: number) {
+  const areaBuilder = new AreaBuilder(outsideConnection)
+  areaBuilder.addRoomTemplate(SectionType.Root, getRoom())
+  areaBuilder.addRoomTemplate(SectionType.Connection, getRoom())
+  await areaBuilder.buildSection(SectionType.Root, direction)
   for (let i = 0; i < length; i++) {
-    initialRooms.push(trailRoom())
-    if (i === 0) {
-      exits.push(...newReciprocalExit(direction, root, initialRooms[0]))
-      continue
-    }
-    onCoinFlipSuccess(() => initialRooms[i].mobs.push(newCritter()))
-    exits.push(
-      ...newReciprocalExit(
-        getFreeReciprocalDirection(initialRooms[i - 1], initialRooms[i]),
-        initialRooms[i - 1],
-        initialRooms[i]))
+    await areaBuilder.buildSection(SectionType.Connection, direction)
   }
 
-  return persistAll(initialRooms, exits)
+  return areaBuilder.getAllRooms()
 }

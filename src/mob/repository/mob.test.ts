@@ -19,10 +19,9 @@ describe("mob repository", () => {
     // setup
     const root = getTestRoom()
     await persistRoom(root)
-    await newTrail(root, Direction.West, 2)
+    const rooms = await newTrail(root, Direction.West, 2)
     const mob = getTestMob()
     root.addMob(mob)
-    const exit = root.exits.find((e) => e.direction === Direction.West)
     await persistMob(mob)
 
     // when
@@ -31,7 +30,7 @@ describe("mob repository", () => {
 
     // then
     const loadedMob = await findOneMob(mob.id)
-    expect(loadedMob.room.id).toBe(exit.destination.id)
+    expect(loadedMob.room.id).toBe(rooms[1].id)
   })
 
   it("findWanderingMobs should be able to find wandering mobs", async () => {

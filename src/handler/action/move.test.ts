@@ -31,6 +31,6 @@ describe("move", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Info)
-    expect(mob.room.id).toBe(trail[0].id)
+    expect(mob.room.id).toBe(trail[1].id)
   })
 })

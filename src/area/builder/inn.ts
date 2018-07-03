@@ -1,7 +1,6 @@
 import { newTraveller } from "../../mob/factory/inn"
 import { newRoom } from "../../room/factory"
 import { Room } from "../../room/model/room"
-import { persistAll } from "../../room/service"
 import AreaBuilder from "../areaBuilder"
 import { SectionType } from "../sectionType"
 
@@ -28,11 +27,10 @@ export async function newInn(outsideConnection: Room): Promise<Room[]> {
     .75,
   )
 
-  areaBuilder.buildSection(SectionType.Root)
-  areaBuilder.buildSection(SectionType.Connection)
-  areaBuilder.buildSection(SectionType.Connection)
-  areaBuilder.buildSection(SectionType.Connection)
-  await persistAll(areaBuilder.getAllRooms(), areaBuilder.getAllExits())
+  await areaBuilder.buildSection(SectionType.Root)
+  await areaBuilder.buildSection(SectionType.Connection)
+  await areaBuilder.buildSection(SectionType.Connection)
+  await areaBuilder.buildSection(SectionType.Connection)
 
-  return Promise.resolve(areaBuilder.getAllRooms())
+  return areaBuilder.getAllRooms()
 }

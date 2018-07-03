@@ -13,13 +13,10 @@ describe("area factory", () => {
     const allRooms = [...innRooms, ...trailRooms]
 
     // expect
-    expect(allRooms.length).toBe(8)
+    expect(allRooms.length).toBe(10)
     allRooms.forEach((room) => {
       expect(room.exits.length).toBeLessThanOrEqual(6)
       expect(room.exits.length).toBeGreaterThan(0)
-      const directions = []
-      room.exits.forEach((e) => directions.push(e.direction))
-      expect([...new Set(directions)].length).toBe(directions.length)
     })
   })
 
