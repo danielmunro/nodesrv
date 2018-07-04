@@ -42,7 +42,7 @@ export default class AreaBuilder {
     this.mobs.getRandomBySectionType(sectionType).forEach((mob) => room.addMob(mob))
     const exits = await AreaBuilder.createExitsBetween(this.activeRoom, room, direction)
     await persistRoom(room)
-    await Promise.all(exits.map((exit) => persistExit(exit)))
+    await persistExit(exits)
     this.activeRoom = room
 
     return room

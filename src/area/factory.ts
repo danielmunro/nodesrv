@@ -2,7 +2,7 @@ import { newCritter } from "../mob/factory/trail"
 import { getFreeDirection, getFreeReciprocalDirection } from "../room/direction"
 import { newReciprocalExit } from "../room/factory"
 import { Room } from "../room/model/room"
-import { persistAll } from "../room/service"
+import { getExitRepository } from "../room/repository/exit"
 import { Arena } from "./arena"
 import { newInn } from "./builder/forest/inn"
 import { newTrail } from "./builder/forest/trail"
@@ -30,8 +30,8 @@ export async function newArena(root: Room, width: number, height: number) {
     root,
     arena.connectingRoom,
   )
-
-  await persistAll(arena.rooms, [...arena.exits, ...exits])
+  const exitRepository = await getExitRepository()
+  await exitRepository.save(exits)
 
   return arena
 }
