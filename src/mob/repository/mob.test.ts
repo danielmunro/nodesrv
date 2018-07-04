@@ -35,11 +35,11 @@ describe("mob repository", () => {
 
   it("findWanderingMobs should be able to find wandering mobs", async () => {
     // setup
-    await Promise.all([
+    await persistMob([
       getTestWanderingMob(),
       getTestWanderingMob(),
       getTestWanderingMob(),
-    ].map((mob) => persistMob(mob)))
+    ])
 
     // when
     const wanderers = await findWanderingMobs()

@@ -21,7 +21,7 @@ export async function findWanderingMobs(take: number = 10, skip: number = 0): Pr
       mobRepository.find({ where: { wanders: true, isPlayer: false }, take, skip, order: {id: "DESC"}}))
 }
 
-export async function persistMob(mob: Mob) {
+export async function persistMob(mob) {
   return await getMobRepository().then((mobRepository) => mobRepository.save(mob))
 }
 

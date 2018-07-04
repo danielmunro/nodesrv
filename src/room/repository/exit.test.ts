@@ -18,12 +18,13 @@ function getRoomFixture(): Room {
 }
 
 describe("exit repository", () => {
-  it("helper function should work", () => {
-    return getExitRepository().then((exitRepository) =>
-      expect(exitRepository).toBeInstanceOf(Repository))
+  it("helper function should work", async () => {
+    const exitRepository = await getExitRepository()
+    expect(exitRepository).toBeInstanceOf(Repository)
   })
 
-  it("should be able to load an exit", () => {
+  it("should be able to load an exit", async () => {
+    // given -- two rooms with a connecting exit
     const source = getRoomFixture()
     const destination = getRoomFixture()
     const exit = new Exit()
@@ -31,14 +32,18 @@ describe("exit repository", () => {
     exit.source = source
     exit.destination = destination
 
-    expect.assertions(3)
-    return Promise.all([saveRoom(source), saveRoom(destination)]).then(() =>
-      getExitRepository().then((exitRepository) =>
-        exitRepository.save(exit).then(() =>
-          findOneExit(exit.id).then((loadedEntity) => {
-            expect(loadedEntity.id).toBe(exit.id)
-            expect(loadedEntity.source.id).toBe(source.id)
-            expect(loadedEntity.destination.id).toBe(destination.id)
-          }))))
+    // and -- entities are persisted
+    const roomRepository = await getRoomRepository()
+    await roomRepository.save([source, destination])
+    const exitRepository = await getExitRepository()
+    await exitRepository.save(exit)
+
+    // when
+    const loadedEntity = await findOneExit(exit.id)
+
+    // then
+    expect(loadedEntity.id).toBe(exit.id)
+    expect(loadedEntity.source.id).toBe(source.id)
+    expect(loadedEntity.destination.id).toBe(destination.id)
   })
 })
