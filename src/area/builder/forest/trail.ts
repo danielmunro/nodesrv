@@ -3,6 +3,7 @@ import { Direction } from "../../../room/constants"
 import { newRoom } from "../../../room/factory"
 import { Room } from "../../../room/model/room"
 import AreaBuilder from "../../areaBuilder"
+import DefaultSpec from "../../sectionSpec/defaultSpec"
 import { SectionType } from "../../sectionType"
 
 function getRoom(): Room {
@@ -16,8 +17,8 @@ function getRoom(): Room {
 export async function newTrail(
   outsideConnection: Room, direction: Direction, length: number, critterChanceToPopPercent: number = 0.5) {
   const areaBuilder = new AreaBuilder(outsideConnection)
-  areaBuilder.addRoomTemplate(SectionType.Root, getRoom())
-  areaBuilder.addRoomTemplate(SectionType.Connection, getRoom())
+  areaBuilder.addRoomTemplate(SectionType.Root, new DefaultSpec(getRoom()))
+  areaBuilder.addRoomTemplate(SectionType.Connection, new DefaultSpec(getRoom()))
   areaBuilder.addMobTemplate(SectionType.Connection, newCritter(), critterChanceToPopPercent)
   await areaBuilder.buildSection(SectionType.Root, direction)
   for (let i = 0; i < length; i++) {

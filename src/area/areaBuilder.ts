@@ -7,6 +7,8 @@ import { Room } from "../room/model/room"
 import { persistExit, persistRoom } from "../room/service"
 import MobCollection from "./mobCollection"
 import RoomCollection from "./roomCollection"
+import DefaultSpec from "./sectionSpec/defaultSpec"
+import SectionSpec from "./sectionSpec/sectionSpec"
 import { SectionType } from "./sectionType"
 
 export default class AreaBuilder {
@@ -23,7 +25,7 @@ export default class AreaBuilder {
   private allRooms = []
 
   constructor(public readonly outsideConnection: Room) {
-    this.rooms.add(SectionType.OutsideConnection, outsideConnection)
+    this.rooms.add(SectionType.OutsideConnection, new DefaultSpec(outsideConnection))
     this.activeRoom = outsideConnection
     this.allRooms.push(outsideConnection)
   }
@@ -32,12 +34,13 @@ export default class AreaBuilder {
     this.mobs.add(sectionType, mob, chanceToPopPercent)
   }
 
-  public addRoomTemplate(sectionType: SectionType, room: Room) {
-    this.rooms.add(sectionType, room)
+  public addRoomTemplate(sectionType: SectionType, sectionSpec: SectionSpec) {
+    this.rooms.add(sectionType, sectionSpec)
   }
 
   public async buildSection(sectionType: SectionType, direction: Direction = null): Promise<Room> {
-    const room = this.rooms.getRandomBySectionType(sectionType)
+    const spec = this.rooms.getRandomBySectionType(sectionType)
+    const room = spec.getRoomTemplate().copy()
     this.allRooms.push(room)
     this.mobs.getRandomBySectionType(sectionType).forEach((mob) => room.addMob(mob))
     const exits = await AreaBuilder.createExitsBetween(this.activeRoom, room, direction)

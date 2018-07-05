@@ -1,22 +1,20 @@
 import roll from "../dice/dice"
-import { Room } from "../room/model/room"
+import SectionSpec from "./sectionSpec/sectionSpec"
 import { SectionType } from "./sectionType"
 
 export default class RoomCollection {
   private collection = {}
 
-  public add(sectionType: SectionType, room: Room) {
+  public add(sectionType: SectionType, spec: SectionSpec) {
     if (!this.collection[sectionType]) {
       this.collection[sectionType] = []
     }
 
-    this.collection[sectionType].push(room)
+    this.collection[sectionType].push(spec)
   }
 
-  public getRandomBySectionType(sectionType: SectionType): Room {
-    const rooms = this.collection[sectionType]
-    const room = rooms[roll(1, rooms.length) - 1]
-
-    return room.copy()
+  public getRandomBySectionType(sectionType: SectionType): SectionSpec {
+    const specs = this.collection[sectionType]
+    return specs[roll(1, specs.length) - 1]
   }
 }
