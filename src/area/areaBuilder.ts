@@ -7,11 +7,11 @@ import { Room } from "../room/model/room"
 import { persistExit, persistRoom } from "../room/service"
 import MobCollection from "./mobCollection"
 import RoomCollection from "./roomCollection"
+import SectionCollection from "./sectionCollection"
 import DefaultSpec from "./sectionSpec/defaultSpec"
 import SectionSpec from "./sectionSpec/sectionSpec"
 import { SectionType } from "./sectionType"
 import sectionTypeMap from "./sectionTypeMap"
-import SectionCollection from "./sectionCollection"
 
 export default class AreaBuilder {
   private static async createExitsBetween(room1: Room, room2: Room, direction: Direction = null): Promise<Exit[]> {

@@ -4,9 +4,9 @@ import { newReciprocalExit } from "../room/factory"
 import { Room } from "../room/model/room"
 import { getExitRepository } from "../room/repository/exit"
 import { Arena } from "./arena"
+import { newClearing } from "./builder/forest/clearing"
 import { newInn } from "./builder/forest/inn"
 import { newTrail } from "./builder/forest/trail"
-import { newClearing } from "./builder/forest/clearing"
 
 export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
   const TRAIL_1_ROOMS_TO_BUILD = 3
