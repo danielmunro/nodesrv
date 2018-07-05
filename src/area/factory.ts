@@ -12,11 +12,10 @@ export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
   const TRAIL_1_ROOMS_TO_BUILD = 3
   const ARENA_1_WIDTH = 5
   const ARENA_1_HEIGHT = 5
-
   const inn = await newInn(rootRoom)
   const trail1 = await newTrail(rootRoom, getFreeDirection(rootRoom), TRAIL_1_ROOMS_TO_BUILD)
   const clearing = await newClearing(trail1[2], ARENA_1_WIDTH, ARENA_1_HEIGHT)
-  console.log(inn.length, trail1.length, clearing.length)
+
   return new Set([
     ...inn,
     ...trail1,
@@ -26,6 +25,7 @@ export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
 
 export async function newArena(root: Room, width: number, height: number) {
   const arena = new Arena(root, width, height, newCritter)
+  await arena.buildMatrix()
   const exits = newReciprocalExit(
     getFreeReciprocalDirection(root, arena.connectingRoom),
     root,

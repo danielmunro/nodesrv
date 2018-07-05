@@ -11,7 +11,10 @@ const height = 6
 let arena
 
 describe("arena", () => {
-  beforeEach(() => arena = new Arena(new Room(), width, height, newCritter))
+  beforeEach(async () => {
+    arena = new Arena(new Room(), width, height, newCritter)
+    await arena.buildMatrix()
+  })
 
   it("should build a matrix of requested size", () => {
     expect(arena.matrix.length).toBe(height)

@@ -5,25 +5,33 @@ import { getFreeReciprocalDirection, isCardinalDirection } from "../room/directi
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
+import { persistExit, persistRoom } from "../room/service"
 
 export class Arena {
-  public readonly connectingRoom: Room
-  public readonly exitRoom: Room
+  public connectingRoom: Room
+  public exitRoom: Room
   public readonly matrix = []
-  public readonly width
-  public readonly height
   public readonly rooms: Room[] = []
   public readonly exits: Exit[] = []
   private readonly mobFactory: () => Mob
+  private built = false
 
-  constructor(root: Room, width: number, height: number, mobFactory: () => Mob) {
-    this.width = width
-    this.height = height
+  constructor(
+    public readonly root: Room,
+    public readonly width: number,
+    public readonly height: number, mobFactory: () => Mob) {
     this.mobFactory = mobFactory
-    this.buildMatrix(root)
-    const connectingRooms = this.getConnectingRooms(root)
+  }
+
+  public async buildMatrix() {
+    if (this.built) {
+      return
+    }
+    await this.createMatrix(this.root)
+    const connectingRooms = this.getConnectingRooms(this.root)
     this.connectingRoom = connectingRooms[0]
     this.exitRoom = connectingRooms[1]
+    this.built = true
   }
 
   private getConnectingRooms(root): Room[] {
@@ -41,15 +49,15 @@ export class Arena {
     return [connectingRoom, exitRoom]
   }
 
-  private buildMatrix(root: Room) {
+  private async createMatrix(root: Room) {
     for (let y = 0; y < this.height; y++) {
       this.matrix[y] = []
       for (let x = 0; x < this.width; x++) {
-        this.matrix[y][x] = newRoom(root.name, root.description)
+        this.matrix[y][x] = await persistRoom(newRoom(root.name, root.description))
         if (roll(1, 2) === 1) {
           this.matrix[y][x].mobs.push(this.mobFactory())
         }
-        this.connectRoomAtCoords(x, y)
+        await this.connectRoomAtCoords(x, y)
       }
     }
   }
@@ -67,22 +75,24 @@ export class Arena {
     }
   }
 
-  private connectRoomAtCoords(x: number, y: number) {
+  private async connectRoomAtCoords(x: number, y: number) {
     const current = this.matrix[y][x]
 
     if (x > 0) {
-      this.addReciprocalExitToArena(Direction.West, current, this.matrix[y][x - 1])
+      await this.addReciprocalExitToArena(Direction.West, current, this.matrix[y][x - 1])
     }
 
     if (y > 0) {
-      this.addReciprocalExitToArena(Direction.North, current, this.matrix[y - 1][x])
+      await this.addReciprocalExitToArena(Direction.North, current, this.matrix[y - 1][x])
     }
 
     this.rooms.push(current)
   }
 
-  private addReciprocalExitToArena(direction: Direction, room1: Room, room2: Room) {
-    newReciprocalExit(direction, room1, room2).forEach((e) => this.exits.push(e))
+  private async addReciprocalExitToArena(direction: Direction, room1: Room, room2: Room) {
+    const exits = newReciprocalExit(direction, room1, room2)
+    await persistExit(exits)
+    this.exits.push(...exits)
   }
 
   private hasNoAvailableConnections(room: Room) {

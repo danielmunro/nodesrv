@@ -10,6 +10,8 @@ import RoomCollection from "./roomCollection"
 import DefaultSpec from "./sectionSpec/defaultSpec"
 import SectionSpec from "./sectionSpec/sectionSpec"
 import { SectionType } from "./sectionType"
+import sectionTypeMap from "./sectionTypeMap"
+import SectionCollection from "./sectionCollection"
 
 export default class AreaBuilder {
   private static async createExitsBetween(room1: Room, room2: Room, direction: Direction = null): Promise<Exit[]> {
@@ -38,17 +40,19 @@ export default class AreaBuilder {
     this.rooms.add(sectionType, sectionSpec)
   }
 
-  public async buildSection(sectionType: SectionType, direction: Direction = null): Promise<Room> {
+  public async buildSection(sectionType: SectionType, direction: Direction = null): Promise<SectionCollection> {
     const spec = this.rooms.getRandomBySectionType(sectionType)
-    const room = spec.getRoomTemplate().copy()
-    this.allRooms.push(room)
+    const map = sectionTypeMap.find((typeMap) => typeMap.type === sectionType)
+    const sectionCollection = await new map.section().build(spec)
+    const room = sectionCollection.getConnectingRoom()
+    this.allRooms.push(...sectionCollection.rooms)
     this.mobs.getRandomBySectionType(sectionType).forEach((mob) => room.addMob(mob))
     const exits = await AreaBuilder.createExitsBetween(this.activeRoom, room, direction)
     await persistRoom(room)
     await persistExit(exits)
     this.activeRoom = room
 
-    return room
+    return sectionCollection
   }
 
   public getAllRooms() {

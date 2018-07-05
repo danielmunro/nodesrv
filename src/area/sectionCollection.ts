@@ -1,7 +1,7 @@
 import { Room } from "../room/model/room"
 
 export default class SectionCollection {
-  public readonly rooms: Room[]
+  public readonly rooms: Room[] = []
   private connectingRoom: Room
 
   public add(room: Room) {
