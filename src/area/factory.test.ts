@@ -30,7 +30,7 @@ describe("area factory", () => {
 
   it("a world should contain rooms", async () => {
     const world = await newWorld(newRoom("test", "test"))
-    expect(world.length).toBeGreaterThanOrEqual(0)
+    expect(world.size).toBeGreaterThanOrEqual(0)
   })
 
   it("every room in a world should be traversable", async () => {
@@ -43,6 +43,6 @@ describe("area factory", () => {
     exploration.explore()
 
     // then
-    expect(exploration.map.getRoomCount()).toBe(rooms.length - 1)
+    expect(exploration.map.getRoomCount()).toBe(rooms.size)
   })
 })

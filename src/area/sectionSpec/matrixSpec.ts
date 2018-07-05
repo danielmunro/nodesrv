@@ -10,12 +10,4 @@ export default class MatrixSpec implements SectionSpec {
   public getRoomTemplate(): Room {
     return this.templateRoom
   }
-
-  public getWidth(): number {
-    return this.width
-  }
-
-  public getHeight(): number {
-    return this.height
-  }
 }
