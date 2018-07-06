@@ -21,7 +21,7 @@ describe("room factory", () => {
   it("should be able to create reciprocal exits between rooms", () => {
     const room1 = new Room()
     const room2 = new Room()
-    const exits = newReciprocalExit(Direction.East, room1, room2)
+    const exits = newReciprocalExit(room1, room2, Direction.East)
     expect(exits).toHaveLength(2)
     const [exit1, exit2] = exits
     expect(exit1.direction).toBe(Direction.East)
@@ -34,6 +34,6 @@ describe("room factory", () => {
 
   it("should not be able to connect a room to itself", () => {
     const room = new Room()
-    expect(() => newReciprocalExit(Direction.North, room, room)).toThrowError()
+    expect(() => newReciprocalExit(room, room, Direction.North)).toThrowError()
   })
 })

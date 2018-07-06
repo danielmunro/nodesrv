@@ -2,6 +2,7 @@ import { newCritter } from "../mob/factory/trail"
 import { Direction } from "../room/constants"
 import { newReciprocalExit } from "../room/factory"
 import { Room } from "../room/model/room"
+import { persistRoom } from "../room/service"
 import { getTestRoom } from "../test/room"
 import { Arena } from "./arena"
 import { newArena } from "./factory"
@@ -12,7 +13,8 @@ let arena
 
 describe("arena", () => {
   beforeEach(async () => {
-    arena = new Arena(new Room(), width, height, newCritter)
+    const room = await persistRoom(getTestRoom())
+    arena = new Arena(room, width, height, newCritter)
     await arena.buildMatrix()
   })
 
@@ -63,10 +65,10 @@ describe("arena", () => {
     const connected4 = getTestRoom()
 
     // when
-    newReciprocalExit(Direction.North, rootRoom, connected1)
-    newReciprocalExit(Direction.South, rootRoom, connected2)
-    newReciprocalExit(Direction.East, rootRoom, connected3)
-    newReciprocalExit(Direction.West, rootRoom, connected4)
+    newReciprocalExit(rootRoom, connected1, Direction.North)
+    newReciprocalExit(rootRoom, connected2, Direction.South)
+    newReciprocalExit(rootRoom, connected3, Direction.East)
+    newReciprocalExit(rootRoom, connected4, Direction.West)
 
     // then
     expect(rootRoom.exits.length).toBe(4)
@@ -81,9 +83,9 @@ describe("arena", () => {
     const connected3 = getTestRoom()
 
     // when
-    newReciprocalExit(Direction.North, rootRoom, connected1)
-    newReciprocalExit(Direction.South, rootRoom, connected2)
-    newReciprocalExit(Direction.East, rootRoom, connected3)
+    newReciprocalExit(rootRoom, connected1, Direction.North)
+    newReciprocalExit(rootRoom, connected2, Direction.South)
+    newReciprocalExit(rootRoom, connected3, Direction.East)
 
     // then
     expect(rootRoom.exits.length).toBe(3)

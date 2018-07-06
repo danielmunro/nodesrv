@@ -1,5 +1,6 @@
 import { Direction } from "../room/constants"
 import { newRoom } from "../room/factory"
+import { persistRoom } from "../room/service"
 import { newInn } from "./builder/forest/inn"
 import { newTrail } from "./builder/forest/trail"
 import { Exploration } from "./exploration"
@@ -29,13 +30,14 @@ describe("area factory", () => {
   })
 
   it("a world should contain rooms", async () => {
-    const world = await newWorld(newRoom("test", "test"))
+    const room = await persistRoom(newRoom("test", "test"))
+    const world = await newWorld(room)
     expect(world.size).toBeGreaterThanOrEqual(0)
   })
 
   it("every room in a world should be traversable", async () => {
     // setup
-    const rootRoom = newRoom("test", "test")
+    const rootRoom = await persistRoom(newRoom("test", "test"))
     const rooms = await newWorld(rootRoom)
     const exploration = new Exploration(rootRoom)
 
@@ -43,6 +45,6 @@ describe("area factory", () => {
     exploration.explore()
 
     // then
-    expect(exploration.map.getRoomCount()).toBe(rooms.size + 1)
+    expect(exploration.map.getRoomCount()).toBe(rooms.size)
   })
 })

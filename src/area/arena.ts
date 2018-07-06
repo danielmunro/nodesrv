@@ -90,7 +90,7 @@ export class Arena {
   }
 
   private async addReciprocalExitToArena(direction: Direction, room1: Room, room2: Room) {
-    const exits = newReciprocalExit(direction, room1, room2)
+    const exits = newReciprocalExit(room1, room2, direction)
     await persistExit(exits)
     this.exits.push(...exits)
   }

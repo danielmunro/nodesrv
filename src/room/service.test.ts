@@ -17,7 +17,7 @@ describe("moveMob", () => {
     const mob = getTestMob()
     const source = getTestRoom()
     const destination = getTestRoom()
-    const exits = newReciprocalExit(Direction.North, source, destination)
+    const exits = newReciprocalExit(source, destination, Direction.North)
     source.addMob(mob)
     await persistAll([source, destination], exits)
     await moveMob(mob, Direction.North)

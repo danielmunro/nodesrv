@@ -1,4 +1,5 @@
 import {Column, Entity, Generated, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
+import { SectionType } from "../../area/sectionType"
 import { Inventory } from "../../item/model/inventory"
 import match from "../../matcher/match"
 import { Mob } from "../../mob/model/mob"
@@ -20,6 +21,9 @@ export class Room {
 
   @Column("text")
   public description: string
+
+  @Column("integer", { nullable: true })
+  public sectionType: SectionType = null
 
   @OneToMany((type) => Exit, (exit) => exit.source, { eager: true })
   public exits: Exit[] = []

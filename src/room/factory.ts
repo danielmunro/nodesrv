@@ -1,5 +1,5 @@
 import { Direction } from "./constants"
-import { reverse } from "./direction"
+import { getFreeReciprocalDirection, reverse } from "./direction"
 import { Exit } from "./model/exit"
 import { Room } from "./model/room"
 
@@ -22,7 +22,11 @@ export function newExit(direction: Direction, source: Room, destination: Room): 
   return exit
 }
 
-export function newReciprocalExit(direction: Direction, source: Room, destination: Room): Exit[] {
+export function newReciprocalExit(source: Room, destination: Room, direction: Direction = null): Exit[] {
+  if (!direction) {
+    direction = getFreeReciprocalDirection(source, destination)
+  }
+
   if (source === destination) {
     throw new Error("Cannot connect a room to itself")
   }

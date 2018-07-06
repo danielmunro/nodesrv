@@ -1,8 +1,6 @@
 import { newCritter } from "../mob/factory/trail"
-import { getFreeDirection, getFreeReciprocalDirection } from "../room/direction"
-import { newReciprocalExit } from "../room/factory"
+import { getFreeDirection } from "../room/direction"
 import { Room } from "../room/model/room"
-import { getExitRepository } from "../room/repository/exit"
 import { Arena } from "./arena"
 import { newClearing } from "./builder/forest/clearing"
 import { newInn } from "./builder/forest/inn"
@@ -26,13 +24,6 @@ export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
 export async function newArena(root: Room, width: number, height: number) {
   const arena = new Arena(root, width, height, newCritter)
   await arena.buildMatrix()
-  const exits = newReciprocalExit(
-    getFreeReciprocalDirection(root, arena.connectingRoom),
-    root,
-    arena.connectingRoom,
-  )
-  const exitRepository = await getExitRepository()
-  await exitRepository.save(exits)
 
   return arena
 }
