@@ -1,6 +1,5 @@
 import { newCritter } from "../mob/factory/trail"
 import { Direction } from "../room/constants"
-import { newReciprocalExit } from "../room/factory"
 import { Room } from "../room/model/room"
 import { persistRoom } from "../room/service"
 import { getTestRoom } from "../test/room"

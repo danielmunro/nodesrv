@@ -1,7 +1,6 @@
 import roll, { getRandomInt } from "../dice/dice"
 import { Mob } from "../mob/model/mob"
-import { cardinalDirections, Direction } from "../room/constants"
-import { getFreeReciprocalDirection, isCardinalDirection } from "../room/direction"
+import { Direction } from "../room/constants"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
