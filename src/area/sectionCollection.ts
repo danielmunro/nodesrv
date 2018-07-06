@@ -1,8 +1,11 @@
 import { Room } from "../room/model/room"
+import { Arena } from "./arena"
 
 export default class SectionCollection {
   public readonly rooms: Room[] = []
   private connectingRoom: Room
+
+  constructor(public readonly arena: Arena = null) {}
 
   public add(room: Room) {
     this.rooms.push(room)
@@ -20,6 +23,10 @@ export default class SectionCollection {
   }
 
   public getConnectingRoom(): Room {
+    if (this.arena) {
+      return this.arena.getRandomEdge()
+    }
+
     return this.connectingRoom
   }
 }

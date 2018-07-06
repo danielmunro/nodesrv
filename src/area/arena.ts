@@ -8,8 +8,6 @@ import { Room } from "../room/model/room"
 import { persistExit, persistRoom } from "../room/service"
 
 export class Arena {
-  public connectingRoom: Room
-  public exitRoom: Room
   public readonly matrix = []
   public readonly rooms: Room[] = []
   public readonly exits: Exit[] = []
@@ -27,42 +25,11 @@ export class Arena {
     if (this.built) {
       return
     }
-    await this.createMatrix(this.root)
-    const connectingRooms = this.getConnectingRooms(this.root)
-    this.connectingRoom = connectingRooms[0]
-    this.exitRoom = connectingRooms[1]
+    await this.createMatrix()
     this.built = true
   }
 
-  private getConnectingRooms(root): Room[] {
-    if (this.hasNoAvailableConnections(root)) {
-      throw new Error("root has no available connections")
-    }
-
-    const connectingRoom = this.getRandomEdge()
-    const exitRoom = this.getRandomEdge()
-
-    if (!getFreeReciprocalDirection(root, connectingRoom)) {
-      return this.getConnectingRooms(root)
-    }
-
-    return [connectingRoom, exitRoom]
-  }
-
-  private async createMatrix(root: Room) {
-    for (let y = 0; y < this.height; y++) {
-      this.matrix[y] = []
-      for (let x = 0; x < this.width; x++) {
-        this.matrix[y][x] = await persistRoom(newRoom(root.name, root.description))
-        if (roll(1, 2) === 1) {
-          this.matrix[y][x].mobs.push(this.mobFactory())
-        }
-        await this.connectRoomAtCoords(x, y)
-      }
-    }
-  }
-
-  private getRandomEdge(): Room {
+  public getRandomEdge(): Room {
     const sideOfMatrix = roll(1, 4)
     if (sideOfMatrix === 1) {
       return this.matrix[0][getRandomInt(this.width - 1)]
@@ -72,6 +39,19 @@ export class Arena {
       return this.matrix[this.height - 1][getRandomInt(this.width - 1)]
     } else if (sideOfMatrix === 4) {
       return this.matrix[getRandomInt(this.height - 1)][0]
+    }
+  }
+
+  private async createMatrix() {
+    for (let y = 0; y < this.height; y++) {
+      this.matrix[y] = []
+      for (let x = 0; x < this.width; x++) {
+        this.matrix[y][x] = await persistRoom(newRoom(this.root.name, this.root.description))
+        if (roll(1, 2) === 1) {
+          this.matrix[y][x].mobs.push(this.mobFactory())
+        }
+        await this.connectRoomAtCoords(x, y)
+      }
     }
   }
 
@@ -93,9 +73,5 @@ export class Arena {
     const exits = newReciprocalExit(room1, room2, direction)
     await persistExit(exits)
     this.exits.push(...exits)
-  }
-
-  private hasNoAvailableConnections(room: Room) {
-    return room.exits.filter((e) => isCardinalDirection(e.direction)).length === cardinalDirections.length
   }
 }
