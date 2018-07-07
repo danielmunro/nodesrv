@@ -1,5 +1,6 @@
+import roll from "../dice/dice"
 import { Direction } from "./constants"
-import { getFreeReciprocalDirection, reverse } from "./direction"
+import { getFreeReciprocalDirection, isReciprocalFree, reverse } from "./direction"
 import { Exit } from "./model/exit"
 import { Room } from "./model/room"
 
@@ -23,8 +24,26 @@ export function newExit(direction: Direction, source: Room, destination: Room): 
 }
 
 export function newReciprocalExit(source: Room, destination: Room, direction: Direction = null): Exit[] {
-  if (!direction) {
+  if (direction === null) {
     direction = getFreeReciprocalDirection(source, destination)
+  }
+
+  if (direction === null) {
+    direction = roll(1, 2) === 1 ? Direction.Up : Direction.Down
+    console.log(`new reciprocal exit falling back to non-cardinal direction ${direction}`)
+
+    if (!isReciprocalFree(direction, source, destination)) {
+      console.log(`last new reciprocal exit attempt with direction ${direction}`)
+      direction = reverse(direction)
+    }
+
+    if (!isReciprocalFree(direction, source, destination)) {
+      throw new Error("No connection can be made")
+    }
+  }
+
+  if (direction === null) {
+    throw new Error("no connection could be made between rooms")
   }
 
   if (source === destination) {
