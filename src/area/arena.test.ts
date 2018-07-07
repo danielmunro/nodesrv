@@ -40,7 +40,7 @@ describe("arena", () => {
         expect(room.isDirectionFree(Direction.North)).toBe(false)
       }
 
-      // non-edges of marina
+      // non-edges of arena
       if (x > 0 && x < row.length - 1 && y > 0 && y < arena.matrix.length - 1) {
         expect(room.isDirectionFree(Direction.North)).toBe(false)
         expect(room.isDirectionFree(Direction.East)).toBe(false)
