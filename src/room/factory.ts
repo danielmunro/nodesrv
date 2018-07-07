@@ -30,11 +30,11 @@ export function newReciprocalExit(source: Room, destination: Room, direction: Di
 
   if (direction === null) {
     direction = roll(1, 2) === 1 ? Direction.Up : Direction.Down
-    console.log(`new reciprocal exit falling back to non-cardinal direction ${direction}`)
+    console.debug(`new reciprocal exit falling back to non-cardinal direction ${direction}`)
 
     if (!isReciprocalFree(direction, source, destination)) {
-      console.log(`last new reciprocal exit attempt with direction ${direction}`)
       direction = reverse(direction)
+      console.debug(`last new reciprocal exit attempt with direction ${direction}`)
     }
 
     if (!isReciprocalFree(direction, source, destination)) {
