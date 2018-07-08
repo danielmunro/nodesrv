@@ -13,10 +13,6 @@ import { SectionType } from "./sectionType"
 import sectionTypeMap from "./sectionTypeMap"
 
 export default class AreaBuilder {
-  private static async createExitsBetween(room1: Room, room2: Room, direction: Direction = null): Promise<Exit[]> {
-    return newReciprocalExit(room1, room2, direction)
-  }
-
   private rooms = new RoomCollection()
   private mobs = new MobCollection()
   private activeRoom: Room
@@ -43,8 +39,7 @@ export default class AreaBuilder {
     this.allRooms.push(...sectionCollection.rooms)
     const room = sectionCollection.getConnectingRoom()
     this.mobs.getRandomBySectionType(sectionType).forEach((mob) => room.addMob(mob))
-    const exits = await AreaBuilder.createExitsBetween(this.activeRoom, room, direction)
-    await persistRoom(room)
+    const exits = newReciprocalExit(this.activeRoom, room, direction)
     await persistExit(exits)
     this.activeRoom = room
 

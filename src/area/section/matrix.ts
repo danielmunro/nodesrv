@@ -9,11 +9,11 @@ import { Section } from "./section"
 export default class implements Section {
   public async build(spec: SectionSpec): Promise<SectionCollection> {
     const matrixSpec = spec as MatrixSpec
-    const room = spec.getRoomTemplate().copy()
+    const room = await persistRoom(spec.getRoomTemplate().copy())
     room.sectionType = SectionType.Matrix
-    await persistRoom(room)
     const arena = await newArena(room, matrixSpec.width, matrixSpec.height)
-    const sectionCollection = new SectionCollection(arena)
+    const sectionCollection = new SectionCollection()
+    sectionCollection.setConnectingRoom(room)
     sectionCollection.addRooms(arena.rooms)
 
     return sectionCollection

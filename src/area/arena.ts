@@ -25,6 +25,9 @@ export class Arena {
       return
     }
     await this.createMatrix()
+    const edge = this.getRandomEdge()
+    await persistRoom(this.root)
+    await persistExit(newReciprocalExit(this.root, edge))
     this.built = true
   }
 
