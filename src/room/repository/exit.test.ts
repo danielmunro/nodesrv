@@ -5,10 +5,6 @@ import { Room } from "../model/room"
 import { findOneExit, getExitRepository } from "./exit"
 import { getRoomRepository } from "./room"
 
-async function saveRoom(room: Room) {
-  return await getRoomRepository().then((roomRepository) => roomRepository.save(room))
-}
-
 function getRoomFixture(): Room {
   const room = new Room()
   room.name = "room name"

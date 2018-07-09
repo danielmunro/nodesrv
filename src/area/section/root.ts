@@ -1,8 +1,8 @@
+import { persistRoom } from "../../room/service"
 import SectionCollection from "../sectionCollection"
 import SectionSpec from "../sectionSpec/sectionSpec"
 import { SectionType } from "../sectionType"
 import { Section } from "./section"
-import { persistRoom } from "../../room/service"
 
 export default class implements Section {
   public async build(spec: SectionSpec): Promise<SectionCollection> {
