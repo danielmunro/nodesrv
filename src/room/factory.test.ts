@@ -2,6 +2,7 @@ import { getTestMob } from "../test/mob"
 import { Direction } from "./constants"
 import { newReciprocalExit, newRoom } from "./factory"
 import { Room } from "./model/room"
+import { getTestRoom } from "../test/room"
 
 describe("room factory", () => {
   it("should be able to create rooms", () => {
@@ -35,5 +36,23 @@ describe("room factory", () => {
   it("should not be able to connect a room to itself", () => {
     const room = new Room()
     expect(() => newReciprocalExit(room, room, Direction.North)).toThrowError()
+  })
+
+  it("should not allow connecting two rooms that cannot be connected", () => {
+    const room = getTestRoom()
+    const r1 = getTestRoom()
+    const r2 = getTestRoom()
+    const r3 = getTestRoom()
+    const r4 = getTestRoom()
+    const r5 = getTestRoom()
+    const r6 = getTestRoom()
+    const unjoinableRoom = getTestRoom()
+    newReciprocalExit(room, r1)
+    newReciprocalExit(room, r2)
+    newReciprocalExit(room, r3)
+    newReciprocalExit(room, r4)
+    newReciprocalExit(room, r5)
+    newReciprocalExit(room, r6)
+    expect(() => newReciprocalExit(room, unjoinableRoom)).toThrowError()
   })
 })

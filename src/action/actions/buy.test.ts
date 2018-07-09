@@ -10,7 +10,7 @@ import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import buy from "./buy"
 
-describe("buy action handler", () => {
+describe("buy actions actions", () => {
   it("purchaser should receive an item", async () => {
     // given
     const room = getTestRoom()

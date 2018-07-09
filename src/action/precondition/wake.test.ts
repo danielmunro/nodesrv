@@ -4,7 +4,7 @@ import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
 import { default as wake, MESSAGE_FAIL_ALREADY_AWAKE, MESSAGE_FAIL_DEAD } from "./wake"
 
-describe("wake handler precondition", () => {
+describe("wake actions precondition", () => {
   it("should not be able to wake if already standing", async () => {
     // given
     const testBuilder = new TestBuilder()

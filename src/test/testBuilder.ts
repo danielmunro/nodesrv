@@ -1,5 +1,5 @@
-import Check, { CheckStatus } from "../handler/check"
-import CheckedRequest from "../handler/checkedRequest"
+import Check, { CheckStatus } from "../action/check"
+import CheckedRequest from "../action/checkedRequest"
 import { getMerchantMob } from "../mob/factory"
 import { Player } from "../player/model/player"
 import { createRequestArgs, Request } from "../request/request"

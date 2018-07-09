@@ -5,7 +5,7 @@ import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
 import drop, { MESSAGE_FAIL_NO_ITEM } from "./drop"
 
-describe("drop handler precondition", () => {
+describe("drop actions precondition", () => {
   it("should not work if the item is not in the right inventory", async () => {
     // given
     const testBuilder = new TestBuilder()

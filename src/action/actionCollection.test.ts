@@ -4,7 +4,7 @@ import { SkillType } from "../skill/skillType"
 import TestBuilder from "../test/testBuilder"
 import { actions } from "./actionCollection"
 
-describe("action handler collection", () => {
+describe("actions actions collection", () => {
   it("should be able to bash", async () => {
     // given
     const testBuilder = new TestBuilder()

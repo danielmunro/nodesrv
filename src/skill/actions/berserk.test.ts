@@ -5,7 +5,7 @@ import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import berserk from "./berserk"
 
-describe("berserk skill action", () => {
+describe("berserk skill actions", () => {
   it("should be able to fail berserking", async () => {
     // given
     const mob = new Mob()

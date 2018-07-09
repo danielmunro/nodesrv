@@ -4,7 +4,7 @@ import { CheckStatus } from "../check"
 import drop, { MESSAGE_FAIL_NO_ITEM } from "./get"
 import get from "./get"
 
-describe("get handler precondition", () => {
+describe("get actions precondition", () => {
   it("should not work if the item is not in the right inventory", async () => {
     // given
     const testBuilder = new TestBuilder()

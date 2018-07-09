@@ -1,6 +1,6 @@
 import * as stringify from "json-stringify-safe"
-import { Collection } from "../handler/definition/collection"
-import { Definition } from "../handler/definition/definition"
+import { Collection } from "../action/definition/collection"
+import { Definition } from "../action/definition/definition"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"

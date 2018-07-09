@@ -10,7 +10,7 @@ import { getTestRoom } from "../../test/room"
 import { CheckStatus } from "../check"
 import buy, { MESSAGE_ERROR_CANNOT_AFFORD, MESSAGE_ERROR_NO_ITEM, MESSAGE_ERROR_NO_MERCHANT } from "./buy"
 
-describe("buy action precondition", () => {
+describe("buy actions precondition", () => {
   it("should fail if a merchant is not in the room", async () => {
     // given
     const player = getTestPlayer()

@@ -3,7 +3,7 @@ import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
 import sell from "./sell"
 
-describe("sell handler action", () => {
+describe("sell actions actions", () => {
   it("should execute the sell checked request", async () => {
     // given
     const testBuilder = new TestBuilder()

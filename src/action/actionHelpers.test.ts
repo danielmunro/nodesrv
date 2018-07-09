@@ -9,7 +9,7 @@ import { actions } from "./actionCollection"
 import { doSkill, doWithItemOrElse } from "./actionHelpers"
 import { Definition } from "./definition/definition"
 
-describe("action helpers", () => {
+describe("actions helpers", () => {
   it("should do with item or else", () => {
     const doNotUseCallback = jest.fn()
     const useCallback = jest.fn()

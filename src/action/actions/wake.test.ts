@@ -4,7 +4,7 @@ import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
 import { default as wake, MESSAGE_WAKE_SUCCESS } from "./wake"
 
-describe("sleep action handler", () => {
+describe("sleep actions actions", () => {
   it("should change the mob's disposition to standing", async () => {
     // given
     const testBuilder = new TestBuilder()

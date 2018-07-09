@@ -4,7 +4,7 @@ import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import inventory from "./inventory"
 
-describe("inventory action handler", () => {
+describe("inventory actions actions", () => {
   it("should return a mob's inventory", async () => {
     // given
     const player = getTestPlayer()

@@ -4,7 +4,7 @@ import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
 import sleep, { MESSAGE_FAIL_ALREADY_ASLEEP, MESSAGE_FAIL_DEAD } from "./sleep"
 
-describe("sleep handler precondition", () => {
+describe("sleep actions precondition", () => {
   it("should not be able to sleep if already sleeping", async () => {
     // given
     const testBuilder = new TestBuilder()

@@ -1,7 +1,7 @@
-import look from "../handler/action/look"
-import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "../handler/action/move"
-import { Collection } from "../handler/definition/collection"
-import { MESSAGE_FAIL_NO_ITEM } from "../handler/precondition/get"
+import look from "../action/actions/look"
+import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "../action/actions/move"
+import { Collection } from "../action/definition/collection"
+import { MESSAGE_FAIL_NO_ITEM } from "../action/precondition/get"
 import { Player } from "../player/model/player"
 import { createRequestArgs, getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
@@ -55,7 +55,7 @@ describe("clients", () => {
     expect(request.args).toEqual(createRequestArgs(testMessage))
   })
 
-  it("should use the default handler when no handlers match", async () => {
+  it("should use the default actions when no handlers match", async () => {
     // setup
     const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent())
     expect.assertions(1)
@@ -67,7 +67,7 @@ describe("clients", () => {
     expect(response).toEqual(getDefaultUnhandledMessage(request))
   })
 
-  it("should be able to invoke a valid handler", async () => {
+  it("should be able to invoke a valid actions", async () => {
     // setup
     const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("look"))
 
@@ -112,7 +112,7 @@ describe("clients", () => {
     expect(response.message).toBe(MESSAGE_FAIL_NO_ITEM)
   })
 
-  it("invokes the default request handler when input has no action handler", async () => {
+  it("invokes the default request actions when input has no actions actions", async () => {
     // setup
     const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("foo"))
 

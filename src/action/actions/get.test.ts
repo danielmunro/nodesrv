@@ -3,7 +3,7 @@ import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_ITEM_NOT_FOUND } from "./constants"
 import get from "./get"
 
-describe("get action handler", () => {
+describe("get actions actions", () => {
   it("should be able to get an item from a room inventory", async () => {
     // setup
     const testBuilder = new TestBuilder()

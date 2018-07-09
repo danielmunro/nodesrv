@@ -5,7 +5,7 @@ import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import trip from "./trip"
 
-describe("trip skill action", () => {
+describe("trip skill actions", () => {
   it("should be able to fail tripping", async () => {
     // given
     const mob = getTestMob()

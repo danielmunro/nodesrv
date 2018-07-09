@@ -14,7 +14,7 @@ function getNonMerchantMob(): Mob {
   return getTestMob()
 }
 
-describe("sell handler action precondition", () => {
+describe("sell actions actions precondition", () => {
   it("should fail if a merchant is not in the room", async () => {
     // given
     const player = getTestPlayer()

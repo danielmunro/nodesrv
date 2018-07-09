@@ -31,7 +31,7 @@ describe("Definition", () => {
       .then(() => expect(callback).toBeCalled())
   })
 
-  it("'Any' handler can handle different types of requests", () => {
+  it("'Any' actions can handle different types of requests", () => {
     const handler = getNewHandlerDefinition(RequestType.Any)
     const testCases = [RequestType.Noop, RequestType.Look, RequestType.Gossip]
     testCases.forEach((requestType) => {
