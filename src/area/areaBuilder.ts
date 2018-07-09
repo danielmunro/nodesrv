@@ -12,6 +12,10 @@ import { SectionType } from "./sectionType"
 import sectionTypeMap from "./sectionTypeMap"
 
 export default class AreaBuilder {
+  private static findSectionBuilderBySectionType(sectionType: SectionType) {
+    return sectionTypeMap.find((typeMap) => typeMap.type === sectionType)
+  }
+
   private rooms = new RoomCollection()
   private mobs = new MobCollection()
   private activeRoom: Room
@@ -32,14 +36,11 @@ export default class AreaBuilder {
   }
 
   public async buildSection(sectionType: SectionType, direction: Direction = null): Promise<SectionCollection> {
-    const spec = this.rooms.getRandomBySectionType(sectionType)
-    const map = sectionTypeMap.find((typeMap) => typeMap.type === sectionType)
-    const sectionCollection = await new map.section().build(spec)
+    const builder = AreaBuilder.findSectionBuilderBySectionType(sectionType)
+    const sectionCollection = await new builder.section().build(this.rooms.getRandomSpecBySectionType(sectionType))
     this.allRooms.push(...sectionCollection.rooms)
     const room = sectionCollection.getConnectingRoom()
-    this.mobs.getRandomBySectionType(sectionType).forEach((mob) => room.addMob(mob))
-    const exits = newReciprocalExit(this.activeRoom, room, direction)
-    await persistExit(exits)
+    await this.buildAndConnectRoom(room, sectionType, direction)
     this.activeRoom = room
 
     return sectionCollection
@@ -47,5 +48,18 @@ export default class AreaBuilder {
 
   public getAllRooms() {
     return this.allRooms
+  }
+
+  private async buildAndConnectRoom(room: Room, sectionType: SectionType, direction: Direction) {
+    this.addMobsToRoom(sectionType, room)
+    await this.createExits(room, direction)
+  }
+
+  private async createExits(room: Room, direction: Direction) {
+    await persistExit(newReciprocalExit(this.activeRoom, room, direction))
+  }
+
+  private addMobsToRoom(sectionType: SectionType, room: Room) {
+    this.mobs.getRandomBySectionType(sectionType).forEach((mob) => room.addMob(mob))
   }
 }

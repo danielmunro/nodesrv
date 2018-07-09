@@ -12,6 +12,10 @@ export function getAttackResultFromSkillType(skill: SkillType) {
   if (skill === SkillType.Dodge) {
     return AttackResult.Dodge
   }
+
+  if (skill === SkillType.Parry) {
+    return AttackResult.Parry
+  }
 }
 
 export class Attack {

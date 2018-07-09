@@ -13,7 +13,7 @@ export default class RoomCollection {
     this.collection[sectionType].push(spec)
   }
 
-  public getRandomBySectionType(sectionType: SectionType): SectionSpec {
+  public getRandomSpecBySectionType(sectionType: SectionType): SectionSpec {
     const specs = this.collection[sectionType]
     return specs[roll(1, specs.length) - 1]
   }
