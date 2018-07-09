@@ -7,13 +7,18 @@ import { Arena } from "./arena"
 
 const width = 5
 const height = 6
-let arena
+let arena: Arena
 
 describe("arena", () => {
   beforeEach(async () => {
     const room = await persistRoom(getTestRoom())
     arena = new Arena(room, width, height, newCritter)
     await arena.buildMatrix()
+  })
+
+  it("should only ever build once", async () => {
+    expect(arena.isBuilt()).toBeTruthy()
+    expect(arena.buildMatrix()).rejects.toThrowError()
   })
 
   it("should build a matrix of requested size", () => {

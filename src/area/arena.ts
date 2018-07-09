@@ -20,9 +20,13 @@ export class Arena {
     this.mobFactory = mobFactory
   }
 
+  public isBuilt(): boolean {
+    return this.built
+  }
+
   public async buildMatrix() {
     if (this.built) {
-      return
+      throw new Error("arena already built")
     }
     await this.createMatrix()
     const edge = this.getRandomEdge()
