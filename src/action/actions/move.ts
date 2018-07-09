@@ -3,6 +3,7 @@ import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import { Direction } from "../../room/constants"
 import { moveMob } from "../../room/service"
+import look from "./look"
 
 export const MESSAGE_DIRECTION_DOES_NOT_EXIST = "Alas, that direction does not exist."
 
@@ -15,6 +16,7 @@ export default async function(request: Request, direction: Direction): Promise<R
   }
 
   await moveMob(request.player.sessionMob, direction)
+  const lookAtRoom = await look(request)
 
-  return builder.info(request.player.sessionMob.room.toString())
+  return builder.info(lookAtRoom.message)
 }

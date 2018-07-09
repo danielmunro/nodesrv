@@ -5,13 +5,14 @@ import MatrixSpec from "../sectionSpec/matrixSpec"
 import SectionSpec from "../sectionSpec/sectionSpec"
 import { SectionType } from "../sectionType"
 import { Section } from "./section"
+import { newCritter } from "../../mob/factory/trail"
 
 export default class implements Section {
   public async build(spec: SectionSpec): Promise<SectionCollection> {
     const matrixSpec = spec as MatrixSpec
     const room = await persistRoom(spec.getRoomTemplate().copy())
     room.sectionType = SectionType.Matrix
-    const arena = await newArena(room, matrixSpec.width, matrixSpec.height)
+    const arena = await newArena(room, matrixSpec.width, matrixSpec.height, () => newCritter())
     const sectionCollection = new SectionCollection()
     sectionCollection.setConnectingRoom(room)
     sectionCollection.addRooms(arena.rooms)

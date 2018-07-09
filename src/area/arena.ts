@@ -5,6 +5,7 @@ import { newReciprocalExit, newRoom } from "../room/factory"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
 import { persistExit, persistRoom } from "../room/service"
+import { persistMob } from "../mob/repository/mob"
 
 export class Arena {
   public readonly matrix = []
@@ -53,8 +54,10 @@ export class Arena {
       this.matrix[y] = []
       for (let x = 0; x < this.width; x++) {
         this.matrix[y][x] = await persistRoom(newRoom(this.root.name, this.root.description))
-        if (roll(1, 2) === 1) {
-          this.matrix[y][x].mobs.push(this.mobFactory())
+        if (this.mobFactory && roll(1, 2) === 1) {
+          const mob = this.mobFactory()
+          this.matrix[y][x].addMob(mob)
+          await persistMob(mob)
         }
         await this.connectRoomAtCoords(x, y)
       }

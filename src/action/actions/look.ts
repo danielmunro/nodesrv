@@ -1,6 +1,7 @@
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import { Mob } from "../../mob/model/mob"
 
 export const NOT_FOUND = "You don't see that anywhere."
 
@@ -25,5 +26,7 @@ export default function(request: Request): Promise<Response> {
     return builder.error(NOT_FOUND)
   }
 
-  return builder.info(request.getRoom().toString())
+  return builder.info(request.getRoom().toString()
+    + request.getRoom().mobs.reduce((previous: string, current: Mob) =>
+        previous + (current !== request.mob ? `\n${current.name} is here.` : ""), ""))
 }
