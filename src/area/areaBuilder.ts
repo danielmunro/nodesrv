@@ -1,4 +1,5 @@
 import { Mob } from "../mob/model/mob"
+import { persistMob } from "../mob/repository/mob"
 import { Direction } from "../room/constants"
 import { newReciprocalExit } from "../room/factory"
 import { Room } from "../room/model/room"
@@ -51,7 +52,7 @@ export default class AreaBuilder {
   }
 
   private async buildAndConnectRoom(room: Room, sectionType: SectionType, direction: Direction) {
-    this.addMobsToRoom(sectionType, room)
+    await this.addMobsToRoom(sectionType, room)
     await this.createExits(room, direction)
   }
 
@@ -59,7 +60,11 @@ export default class AreaBuilder {
     await persistExit(newReciprocalExit(this.activeRoom, room, direction))
   }
 
-  private addMobsToRoom(sectionType: SectionType, room: Room) {
-    this.mobs.getRandomBySectionType(sectionType).forEach((mob) => room.addMob(mob))
+  private async addMobsToRoom(sectionType: SectionType, room: Room) {
+    await Promise.all(
+      this.mobs.getRandomBySectionType(sectionType).map((mob) => {
+        room.addMob(mob)
+        return persistMob(mob)
+      }))
   }
 }

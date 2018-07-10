@@ -2,7 +2,7 @@ import {Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, P
 import * as v4 from "uuid"
 import { AffectType } from "../../affect/affectType"
 import { Affect } from "../../affect/model/affect"
-import { newAttributes, newEmptyAttributes, newHitroll, newStats, newVitals } from "../../attributes/factory"
+import { newEmptyAttributes, newVitals } from "../../attributes/factory"
 import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
 import { Equipped } from "../../item/model/equipped"
@@ -57,6 +57,12 @@ export class Mob {
   @Column("integer", { default: Role.None })
   public role: Role = Role.None
 
+  @Column("integer", { default: 0 })
+  public trains: number = 0
+
+  @Column("integer", { default: 0 })
+  public practices: number = 0
+
   @OneToMany((type) => Affect, (affect) => affect.mob, { cascadeInsert: true, eager: true })
   public affects: Affect[] = []
 
@@ -91,8 +97,12 @@ export class Mob {
   @OneToMany((type) => Spell, (spell) => spell.mob, { cascadeInsert: true, cascadeUpdate: true })
   public spells: Spell[] = []
 
+  @OneToOne((type) => Attributes)
+  @JoinColumn()
+  public trainedAttributes: Attributes = new Attributes()
+
   public getCombinedAttributes(): Attributes {
-    let attributes = newAttributes(newVitals(0, 0, 0), newStats(0, 0, 0, 0, 0, 0), newHitroll(0, 0))
+    let attributes = newEmptyAttributes()
     this.attributes.forEach((a) => attributes = attributes.combine(a))
     this.equipped.inventory.items.forEach((i) => attributes = attributes.combine(i.attributes))
     modifiers.forEach((modifier) => attributes = modifier(this.race, attributes))
@@ -118,12 +128,14 @@ export class Mob {
 
   // @todo fully implement
   public copy(): Mob {
-    return newMob(
+    const mob = newMob(
       this.name,
       this.description,
       this.race,
       newVitals(this.vitals.hp, this.vitals.mana, this.vitals.mv),
       newEmptyAttributes(),
       this.wanders)
+    mob.role = this.role
+    return mob
   }
 }

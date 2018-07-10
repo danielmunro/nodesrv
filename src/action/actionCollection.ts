@@ -17,6 +17,7 @@ import move from "./actions/move"
 import remove from "./actions/remove"
 import say from "./actions/say"
 import sell from "./actions/sell"
+import train from "./actions/train"
 import wear from "./actions/wear"
 import { Collection } from "./definition/collection"
 import { Definition } from "./definition/definition"
@@ -27,6 +28,7 @@ import { default as getPrecondition } from "./precondition/get"
 import { default as killPrecondition } from "./precondition/kill"
 import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
+import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
 
 export const actions = new Collection([
@@ -69,4 +71,7 @@ export const actions = new Collection([
   // social
   new Definition(RequestType.Gossip, gossip),
   new Definition(RequestType.Say, say),
+
+  // training
+  new Definition(RequestType.Train, train, trainPrecondition),
 ])

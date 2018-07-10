@@ -25,6 +25,8 @@ export enum RequestType {
   Sell = "sell",
   Sleep = "sleep",
   Wake = "wake",
+  Train = "train",
+  Practice = "practice",
   Noop = "noop",
   Any = "any",
 }
