@@ -1,6 +1,6 @@
 import Check, { CheckStatus } from "../action/check"
 import CheckedRequest from "../action/checkedRequest"
-import { getMerchantMob } from "../mob/factory"
+import { Role } from "../mob/role"
 import { Player } from "../player/model/player"
 import { createRequestArgs, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
@@ -44,14 +44,18 @@ export default class TestBuilder {
     return new MobBuilder(mob)
   }
 
-  public withMerchant() {
-    const merchant = getMerchantMob()
-    if (!this.room) {
-      this.withRoom()
-    }
-    this.room.addMob(merchant)
+  public withTrainer(name: string = null) {
+    const mobBuilder = this.withMob(name)
+    mobBuilder.mob.role = Role.Trainer
 
-    return new MobBuilder(merchant)
+    return mobBuilder
+  }
+
+  public withMerchant() {
+    const mobBuilder = this.withMob(name)
+    mobBuilder.mob.role = Role.Merchant
+
+    return mobBuilder
   }
 
   public createOkCheckedRequest(requestType: RequestType, input: string = null, result: any = null): CheckedRequest {

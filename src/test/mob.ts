@@ -5,7 +5,10 @@ import { Mob } from "../mob/model/mob"
 import { Race } from "../mob/race/race"
 import { getTestRoom } from "./room"
 
-export function getTestMob(name: string = sillyname()): Mob {
+export function getTestMob(name: string = null): Mob {
+  if (name === null) {
+    name = sillyname()
+  }
   const mob = newMob(
     name,
     "a test fixture",
