@@ -1,10 +1,9 @@
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
+import { Role } from "../../mob/role"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
-import { newSkill } from "../../skill/factory"
-import { SkillType } from "../../skill/skillType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
@@ -19,7 +18,7 @@ describe("buy actions actions", () => {
 
     // and
     const merch = getTestMob()
-    merch.skills.push(newSkill(SkillType.Haggle))
+    merch.role = Role.Merchant
     room.addMob(merch)
 
     // and

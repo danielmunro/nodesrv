@@ -1,3 +1,4 @@
+import { newCritter } from "../../mob/factory/trail"
 import { persistRoom } from "../../room/service"
 import { newArena } from "../factory"
 import SectionCollection from "../sectionCollection"
@@ -5,7 +6,6 @@ import MatrixSpec from "../sectionSpec/matrixSpec"
 import SectionSpec from "../sectionSpec/sectionSpec"
 import { SectionType } from "../sectionType"
 import { Section } from "./section"
-import { newCritter } from "../../mob/factory/trail"
 
 export default class implements Section {
   public async build(spec: SectionSpec): Promise<SectionCollection> {

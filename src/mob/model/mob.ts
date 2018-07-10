@@ -10,12 +10,12 @@ import { Inventory } from "../../item/model/inventory"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
 import { Skill } from "../../skill/model/skill"
-import { SkillType } from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
 import { Disposition } from "../disposition"
 import { newMob } from "../factory"
 import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
+import { Role } from "../role"
 import { SpecializationType } from "../specialization/specializationType"
 
 @Entity()
@@ -42,17 +42,20 @@ export class Mob {
   @Column("integer")
   public level: number = 1
 
-  @Column("boolean", {default: false})
+  @Column("boolean", { default: false })
   public wanders: boolean = false
 
-  @Column("boolean", {default: false})
+  @Column("boolean", { default: false })
   public isPlayer: boolean = false
 
-  @Column("integer", {default: 0})
+  @Column("integer", { default: 0 })
   public gold: number = 0
 
   @Column("text", { nullable: true })
   public disposition = Disposition.Standing
+
+  @Column("integer", { default: Role.None })
+  public role: Role = Role.None
 
   @OneToMany((type) => Affect, (affect) => affect.mob, { cascadeInsert: true, eager: true })
   public affects: Affect[] = []
@@ -110,7 +113,7 @@ export class Mob {
   }
 
   public isMerchant(): boolean {
-    return !this.isPlayer && this.skills.find((skill) => skill.skillType === SkillType.Haggle) !== undefined
+    return !this.isPlayer && this.role === Role.Merchant
   }
 
   // @todo fully implement

@@ -1,4 +1,3 @@
-import { newCritter } from "../mob/factory/trail"
 import { getFreeDirection } from "../room/direction"
 import { Room } from "../room/model/room"
 import { Arena } from "./arena"

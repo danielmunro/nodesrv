@@ -1,7 +1,7 @@
+import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
-import { Mob } from "../../mob/model/mob"
 
 export const NOT_FOUND = "You don't see that anywhere."
 

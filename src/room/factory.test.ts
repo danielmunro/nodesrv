@@ -1,8 +1,8 @@
 import { getTestMob } from "../test/mob"
+import { getTestRoom } from "../test/room"
 import { Direction } from "./constants"
 import { newReciprocalExit, newRoom } from "./factory"
 import { Room } from "./model/room"
-import { getTestRoom } from "../test/room"
 
 describe("room factory", () => {
   it("should be able to create rooms", () => {

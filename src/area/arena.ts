@@ -1,11 +1,11 @@
 import roll, { getRandomInt } from "../dice/dice"
 import { Mob } from "../mob/model/mob"
+import { persistMob } from "../mob/repository/mob"
 import { Direction } from "../room/constants"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
 import { persistExit, persistRoom } from "../room/service"
-import { persistMob } from "../mob/repository/mob"
 
 export class Arena {
   public readonly matrix = []
