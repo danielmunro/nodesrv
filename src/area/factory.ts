@@ -13,10 +13,7 @@ export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
   const inn = await newInn(rootRoom)
   const trail1 = await newTrail(rootRoom, getFreeDirection(rootRoom), TRAIL_1_ROOMS_TO_BUILD)
   const trail1Ending = trail1[trail1.length - 1]
-  const trail2 = await newTrail(
-    trail1Ending,
-    getFreeDirection(trail1Ending),
-    TRAIL_2_ROOMS_TO_BUILD)
+  const trail2 = await newTrail(trail1Ending, getFreeDirection(trail1Ending), TRAIL_2_ROOMS_TO_BUILD)
   const clearing = await newClearing(trail2[trail2.length - 1], ARENA_1_WIDTH, ARENA_1_HEIGHT)
 
   return new Set([
