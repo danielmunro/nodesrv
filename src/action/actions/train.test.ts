@@ -1,13 +1,13 @@
+import { Mob } from "../../mob/model/mob"
+import { Player } from "../../player/model/player"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
+import Response from "../../request/response"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
 import Check from "../check"
 import CheckedRequest from "../checkedRequest"
 import train, { MAX_TRAINABLE_STATS, MESSAGE_FAIL_CANNOT_TRAIN } from "./train"
-import Response from "../../request/response"
-import { Player } from "../../player/model/player"
-import { Mob } from "../../mob/model/mob"
 
 async function getResponse(player: Player, trainer: Mob, input: string): Promise<Response> {
   return await train(new CheckedRequest(
