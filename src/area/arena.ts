@@ -5,6 +5,8 @@ import { Direction } from "../room/constants"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
+import { getExitRepository } from "../room/repository/exit"
+import { getRoomRepository } from "../room/repository/room"
 import { persistExit, persistRoom } from "../room/service"
 
 export class Arena {
@@ -50,6 +52,7 @@ export class Arena {
   }
 
   private async createMatrix() {
+    const roomRepository = await getRoomRepository()
     for (let y = 0; y < this.height; y++) {
       this.matrix[y] = []
       for (let x = 0; x < this.width; x++) {
@@ -80,7 +83,8 @@ export class Arena {
 
   private async addReciprocalExitToArena(direction: Direction, room1: Room, room2: Room) {
     const exits = newReciprocalExit(room1, room2, direction)
-    await persistExit(exits)
+    const exitRepository = await getExitRepository()
+    await exitRepository.save(exits)
     this.exits.push(...exits)
   }
 }

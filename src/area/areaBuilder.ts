@@ -21,11 +21,20 @@ export default class AreaBuilder {
   private mobs = new MobCollection()
   private activeRoom: Room
   private allRooms = []
+  private exitRoom: Room
 
   constructor(public readonly outsideConnection: Room) {
     this.rooms.add(SectionType.OutsideConnection, new DefaultSpec(outsideConnection))
     this.activeRoom = outsideConnection
     this.allRooms.push(outsideConnection)
+  }
+
+  public setExitRoom(room: Room) {
+    this.exitRoom = room
+  }
+
+  public getExitRoom() {
+    return this.exitRoom
   }
 
   public addMobTemplate(sectionType: SectionType, mob: Mob, chanceToPopPercent: number = 1) {

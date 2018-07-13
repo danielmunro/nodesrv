@@ -16,6 +16,7 @@ export default class implements Section {
     const sectionCollection = new SectionCollection()
     sectionCollection.setConnectingRoom(room)
     sectionCollection.addRooms(arena.rooms)
+    sectionCollection.addExitRoom(arena.getRandomEdge())
 
     return sectionCollection
   }

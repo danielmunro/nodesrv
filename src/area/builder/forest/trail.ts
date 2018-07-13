@@ -24,6 +24,8 @@ export async function newTrail(
   for (let i = 0; i < length; i++) {
     await areaBuilder.buildSection(SectionType.Connection, direction)
   }
+  const allRooms = areaBuilder.getAllRooms()
+  areaBuilder.setExitRoom(allRooms[allRooms.length - 1])
 
   return areaBuilder
 }

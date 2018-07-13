@@ -2,7 +2,12 @@ import { Room } from "../room/model/room"
 
 export default class SectionCollection {
   public readonly rooms: Room[] = []
+  public readonly exitRooms: Room[] = []
   private connectingRoom: Room
+
+  public addExitRoom(room: Room) {
+    this.exitRooms.push(room)
+  }
 
   public add(room: Room) {
     this.rooms.push(room)

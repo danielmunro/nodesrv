@@ -39,13 +39,17 @@ export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
   const worldBuilder = new WorldBuilder(rootRoom)
   await worldBuilder.addRootRegion(await getForestInnRegion(rootRoom))
 
-  const trail1 = (await getForestTrailAreaBuilder(rootRoom)).getAllRooms()
-  const trail2 = (await getForestTrailAreaBuilder(trail1[trail1.length - 1])).getAllRooms()
-  const clearing = (await getClearingAreaBuilder(trail2[trail2.length - 1])).getAllRooms()
-  // const trail3 = (await getForestTrailAreaBuilder(clearing.))
+  const trail1 = (await getForestTrailAreaBuilder(rootRoom))
+  const trail2 = (await getForestTrailAreaBuilder(trail1.getExitRoom()))
+  const clearing = (await getClearingAreaBuilder(trail2.getExitRoom()))
+  const trail3 = (await getForestTrailAreaBuilder(clearing.getExitRoom()))
 
   const forestRegion = newRegion(FOREST_REGION, Terrain.Forest)
-  forestRegion.rooms.push(...trail1, ...trail2, ...clearing)
+  forestRegion.rooms.push(
+    ...trail1.getAllRooms(),
+    ...trail2.getAllRooms(),
+    ...clearing.getAllRooms(),
+    ...trail3.getAllRooms())
   worldBuilder.addRegion(forestRegion)
 
   return new Set([

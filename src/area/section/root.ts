@@ -10,6 +10,7 @@ export default class implements Section {
     room.sectionType = SectionType.Root
     const sectionCollection = new SectionCollection()
     sectionCollection.setConnectingRoom(room)
+
     return sectionCollection
   }
 }

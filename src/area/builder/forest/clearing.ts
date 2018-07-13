@@ -22,7 +22,8 @@ export async function newClearing(outsideConnection: Room, width: number, height
   areaBuilder.addRoomTemplate(SectionType.Root, new DefaultSpec(getRootRoom()))
   areaBuilder.addRoomTemplate(SectionType.Matrix, new MatrixSpec(getConnectionRoom(), width, height))
   await areaBuilder.buildSection(SectionType.Root)
-  await areaBuilder.buildSection(SectionType.Matrix)
+  const collection = await areaBuilder.buildSection(SectionType.Matrix)
+  areaBuilder.setExitRoom(collection.exitRooms[0])
 
   return areaBuilder
 }
