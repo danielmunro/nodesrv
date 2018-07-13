@@ -25,5 +25,5 @@ export async function newTrail(
     await areaBuilder.buildSection(SectionType.Connection, direction)
   }
 
-  return areaBuilder.getAllRooms()
+  return areaBuilder
 }

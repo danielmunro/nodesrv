@@ -1,6 +1,7 @@
 import { Direction } from "../room/constants"
 import { newRoom } from "../room/factory"
 import { persistRoom } from "../room/service"
+import { getTestMob } from "../test/mob"
 import { newInn } from "./builder/forest/inn"
 import { newTrail } from "./builder/forest/trail"
 import { Exploration } from "./exploration"
@@ -9,9 +10,11 @@ import { newArena, newWorld } from "./factory"
 describe("area factory", () => {
   it("should be able to connect two built structures", async () => {
     // given
-    const innRooms = await newInn(newRoom("outside connection", "test"))
+    const inn = await newInn(newRoom("outside connection", "test"))
+    const innRooms = inn.getAllRooms()
+
     const trailRooms = await newTrail(innRooms[innRooms.length - 1], Direction.South, 3)
-    const allRooms = [...innRooms, ...trailRooms]
+    const allRooms = [...innRooms, ...trailRooms.getAllRooms()]
 
     // expect
     expect(allRooms.length).toBe(10)
@@ -23,7 +26,8 @@ describe("area factory", () => {
 
   it("should be able to create an arena (a matrix of rooms)", async () => {
     // given
-    const arena = await newArena(newRoom("name", "description"), 3, 3)
+    const arena = await newArena(
+      newRoom("name", "description"), 3, 3, () => getTestMob())
 
     // expect
     expect(arena.rooms.length).toBe(9)

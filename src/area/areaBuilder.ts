@@ -51,6 +51,10 @@ export default class AreaBuilder {
     return this.allRooms
   }
 
+  public getRoomsBySection(sectionType: SectionType) {
+    return this.allRooms.filter((room) => room.sectionType === sectionType)
+  }
+
   private async buildAndConnectRoom(room: Room, sectionType: SectionType, direction: Direction) {
     await this.addMobsToRoom(sectionType, room)
     await this.createExits(room, direction)

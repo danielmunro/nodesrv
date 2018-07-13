@@ -17,12 +17,12 @@ function getConnectionRoom(): Room {
     "A patch of lush green grass is surrounded by a massive forest.")
 }
 
-export async function newClearing(outsideConnection: Room, width: number, height: number): Promise<Room[]> {
+export async function newClearing(outsideConnection: Room, width: number, height: number): Promise<AreaBuilder> {
   const areaBuilder = new AreaBuilder(outsideConnection)
   areaBuilder.addRoomTemplate(SectionType.Root, new DefaultSpec(getRootRoom()))
   areaBuilder.addRoomTemplate(SectionType.Matrix, new MatrixSpec(getConnectionRoom(), width, height))
   await areaBuilder.buildSection(SectionType.Root)
   await areaBuilder.buildSection(SectionType.Matrix)
 
-  return areaBuilder.getAllRooms()
+  return areaBuilder
 }

@@ -5,7 +5,7 @@ import AreaBuilder from "../../areaBuilder"
 import DefaultSpec from "../../sectionSpec/defaultSpec"
 import { SectionType } from "../../sectionType"
 
-export async function newInn(outsideConnection: Room): Promise<Room[]> {
+export async function newInn(outsideConnection: Room): Promise<AreaBuilder> {
   const areaBuilder = new AreaBuilder(outsideConnection)
   areaBuilder.addRoomTemplate(
     SectionType.Root,
@@ -35,5 +35,5 @@ export async function newInn(outsideConnection: Room): Promise<Room[]> {
   await areaBuilder.buildSection(SectionType.Connection)
   await areaBuilder.buildSection(SectionType.Connection)
 
-  return areaBuilder.getAllRooms()
+  return areaBuilder
 }

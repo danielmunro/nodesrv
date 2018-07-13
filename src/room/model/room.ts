@@ -1,8 +1,9 @@
-import { Column, Entity, Generated, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import { SectionType } from "../../area/sectionType"
 import { Inventory } from "../../item/model/inventory"
 import match from "../../matcher/match"
 import { Mob } from "../../mob/model/mob"
+import { Region } from "../../region/model/region"
 import { Direction } from "../constants"
 import { newRoom } from "../factory"
 import { Exit } from "./exit"
@@ -36,7 +37,10 @@ export class Room {
 
   @OneToOne((type) => Inventory)
   @JoinColumn()
-  public inventory = new Inventory()
+  public inventory: Inventory = new Inventory()
+
+  @ManyToOne((type) => Region, (region) => region.rooms)
+  public region: Region
 
   public addMob(mob: Mob): void {
     if (mob.room) {

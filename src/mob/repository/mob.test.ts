@@ -19,7 +19,7 @@ describe("mob repository", () => {
     // setup
     const root = getTestRoom()
     await persistRoom(root)
-    const rooms = await newTrail(root, Direction.West, 2)
+    const trailAreaBuilder = await newTrail(root, Direction.West, 2)
     const mob = getTestMob()
     root.addMob(mob)
     await persistMob(mob)
@@ -30,7 +30,7 @@ describe("mob repository", () => {
 
     // then
     const loadedMob = await findOneMob(mob.id)
-    expect(loadedMob.room.id).toBe(rooms[1].id)
+    expect(loadedMob.room.id).toBe(trailAreaBuilder.getAllRooms()[1].id)
   })
 
   it("findWanderingMobs should be able to find wandering mobs", async () => {
