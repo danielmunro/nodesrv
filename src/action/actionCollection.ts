@@ -39,6 +39,12 @@ function newMoveDefinition(requestType: RequestType, direction: Direction) {
     (request: Request) => movePrecondition(request, direction))
 }
 
+function newSkillDefinition(requestType: RequestType, skillType: SkillType) {
+  return new Definition(
+    requestType,
+    (request: Request) => doSkill(request, skillType))
+}
+
 export const actions = new Collection([
   // moving
   newMoveDefinition(RequestType.North, Direction.North),
@@ -58,12 +64,12 @@ export const actions = new Collection([
 
   // fighting
   new Definition(RequestType.Kill, kill, killPrecondition),
-  new Definition(RequestType.Bash, (request: Request) => doSkill(request, SkillType.Bash)),
-  new Definition(RequestType.Trip, (request: Request) => doSkill(request, SkillType.Trip)),
+  newSkillDefinition(RequestType.Bash, SkillType.Bash),
+  newSkillDefinition(RequestType.Trip, SkillType.Trip),
 
   // skills
-  new Definition(RequestType.Berserk, (request: Request) => doSkill(request, SkillType.Berserk)),
-  new Definition(RequestType.Sneak, (request: Request) => doSkill(request, SkillType.Sneak)),
+  newSkillDefinition(RequestType.Berserk, SkillType.Berserk),
+  newSkillDefinition(RequestType.Sneak, SkillType.Sneak),
 
   // casting
   new Definition(RequestType.Cast, cast, castPrecondition),
