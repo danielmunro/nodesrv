@@ -24,7 +24,7 @@ describe("mob factory", () => {
       description,
       race,
       vitals,
-      newEmptyAttributes())
+      expectedAttributes)
 
     expect(mob.name).toBe(name)
     expect(mob.description).toBe(description)

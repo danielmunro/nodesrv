@@ -109,11 +109,7 @@ export class Mob {
   public trainedAttributes: Attributes = new Attributes()
 
   public getCombinedAttributes(): Attributes {
-    let attributes = newAttributes(
-      newStartingVitals(),
-      newStartingStats(),
-      newHitroll(0, 0),
-    )
+    let attributes = newEmptyAttributes()
     this.attributes.forEach((a) => attributes = attributes.combine(a))
     this.equipped.inventory.items.forEach((i) => attributes = attributes.combine(i.attributes))
     modifiers.forEach((modifier) => attributes = modifier(this.race, attributes))
@@ -144,7 +140,11 @@ export class Mob {
       this.description,
       this.race,
       newVitals(this.vitals.hp, this.vitals.mana, this.vitals.mv),
-      newEmptyAttributes(),
+      newAttributes(
+        newVitals(this.vitals.hp, this.vitals.mana, this.vitals.mv),
+        newStats(0, 0, 0, 0, 0, 0),
+        newHitroll(0, 0),
+      ),
       this.wanders)
     mob.role = this.role
     return mob

@@ -1,4 +1,4 @@
-import { newStartingVitals } from "../../../attributes/factory"
+import { newAttributes, newHitroll, newStartingStats, newStartingVitals } from "../../../attributes/factory"
 import { Mob } from "../../../mob/model/mob"
 import { Player } from "../../../player/model/player"
 import AuthStep from "../authStep"
@@ -41,6 +41,11 @@ export default class NewMobConfirm implements AuthStep {
     mob.name = this.name
     mob.isPlayer = true
     mob.player = this.player
+    mob.attributes.push(newAttributes(
+      newStartingVitals(),
+      newStartingStats(),
+      newHitroll(0, 0),
+    ))
 
     return mob
   }

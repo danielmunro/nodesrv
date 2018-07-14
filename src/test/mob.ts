@@ -1,6 +1,7 @@
 import * as sillyname from "sillyname"
 import {
-  newEmptyAttributes,
+  newAttributes,
+  newEmptyAttributes, newHitroll, newStartingStats,
   newStartingVitals,
 } from "../attributes/factory"
 import { newMob } from "../mob/factory"
@@ -17,7 +18,11 @@ export function getTestMob(name: string = null): Mob {
     "a test fixture",
     Race.Human,
     newStartingVitals(),
-    newEmptyAttributes())
+    newAttributes(
+      newStartingVitals(),
+      newStartingStats(),
+      newHitroll(0, 0),
+    ))
   mob.room = getTestRoom()
   mob.room.addMob(mob)
 
