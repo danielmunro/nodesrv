@@ -15,7 +15,8 @@
     "src/item/model/*.ts",
     "src/affect/model/*.ts",
     "src/spell/model/*.ts",
-    "src/skill/model/*.ts"
+    "src/skill/model/*.ts",
+    "src/region/model/*.ts"
   ],
   "migrations": [
     "src/migration/**/*.ts"
