@@ -6,7 +6,7 @@ import {
   newAttributes,
   newEmptyAttributes, newHitroll,
   newStartingStats,
-  newStartingVitals,
+  newStartingVitals, newStats,
   newVitals,
 } from "../../attributes/factory"
 import { default as Attributes } from "../../attributes/model/attributes"
@@ -76,7 +76,8 @@ export class Mob {
   @JoinColumn()
   public vitals: Vitals = new Vitals()
 
-  @OneToMany((type) => Attributes, (attributes) => attributes.mob, { cascadeInsert: true, eager: true })
+  @OneToMany(
+    (type) => Attributes, (attributes) => attributes.mob, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   public attributes: Attributes[] = []
 
   @ManyToOne((type) => Room, (room) => room.mobs, { eager: true })

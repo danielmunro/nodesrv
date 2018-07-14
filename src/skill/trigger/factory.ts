@@ -4,8 +4,8 @@ import Attempt from "../attempt"
 import { Skill } from "../model/skill"
 import Outcome from "../outcome"
 import { getSkillAction } from "../skillCollection"
-import { Event } from "../trigger/event"
-import { Resolution } from "../trigger/resolution"
+import { Event } from "./event"
+import { Resolution } from "./resolution"
 
 function filterBySkillTrigger(skill: Skill, trigger: Trigger) {
   return getSkillAction(skill.skillType).triggers.some((skillTrigger) => {

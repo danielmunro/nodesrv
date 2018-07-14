@@ -6,6 +6,7 @@ import { getTestMob } from "../../test/mob"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
 import { default as kill, MESSAGE_FAIL_KILL_ALREADY_FIGHTING, MESSAGE_FAIL_KILL_NO_TARGET } from "./kill"
+import { persistMob } from "../../mob/repository/mob"
 
 function useKillRequest(player: Player, input: string) {
   return kill(new Request(player, RequestType.Kill, createRequestArgs(input)))
@@ -50,13 +51,13 @@ describe("kill", () => {
     // given
     const testBuilder = new TestBuilder()
     const player = testBuilder.withPlayer().player
-    const target = testBuilder.withMob("bob").mob
+    const target = await persistMob(testBuilder.withMob("bob").mob)
 
     // when
     const check = await useKillRequest(player, `kill ${target.name}`)
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
-    expect(check.result).toBe(target)
+    expect(check.result.id).toBe(target.id)
   })
 })

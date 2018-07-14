@@ -1,12 +1,13 @@
 import { getFights } from "../../mob/fight/fight"
 import { Request } from "../../request/request"
 import Check from "../check"
+import { findOneMob } from "../../mob/repository/mob"
 
 export const MESSAGE_FAIL_KILL_NO_TARGET = "Who would you like to kill?"
 export const MESSAGE_FAIL_KILL_ALREADY_FIGHTING = "No way! You are already fighting."
 export const MESSAGE_FAIL_CANNOT_ATTACK_SELF = "No way! You can't attack yourself."
 
-export default function(request: Request): Promise<Check> {
+export default async function(request: Request): Promise<Check> {
   const target = request.getTarget()
 
   if (!target) {
@@ -25,5 +26,5 @@ export default function(request: Request): Promise<Check> {
     return Check.fail(MESSAGE_FAIL_KILL_ALREADY_FIGHTING)
   }
 
-  return Check.ok(target)
+  return Check.ok(await findOneMob(target.id))
 }
