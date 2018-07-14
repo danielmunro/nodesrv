@@ -33,26 +33,20 @@ import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
 
+function newMoveDefinition(requestType: RequestType, direction: Direction) {
+  return new Definition(requestType,
+    (checkedRequest: CheckedRequest) => move(checkedRequest, direction),
+    (request: Request) => movePrecondition(request, direction))
+}
+
 export const actions = new Collection([
   // moving
-  new Definition(RequestType.North,
-    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.North),
-    (request: Request) => movePrecondition(request, Direction.North)),
-  new Definition(RequestType.South,
-    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.South),
-    (request: Request) => movePrecondition(request, Direction.South)),
-  new Definition(RequestType.East,
-    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.East),
-    (request: Request) => movePrecondition(request, Direction.East)),
-  new Definition(RequestType.West,
-    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.West),
-    (request: Request) => movePrecondition(request, Direction.West)),
-  new Definition(RequestType.Up,
-    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.Up),
-    (request: Request) => movePrecondition(request, Direction.Up)),
-  new Definition(RequestType.Down,
-    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.Down),
-    (request: Request) => movePrecondition(request, Direction.Down)),
+  newMoveDefinition(RequestType.North, Direction.North),
+  newMoveDefinition(RequestType.South, Direction.South),
+  newMoveDefinition(RequestType.East, Direction.East),
+  newMoveDefinition(RequestType.West, Direction.West),
+  newMoveDefinition(RequestType.Up, Direction.Up),
+  newMoveDefinition(RequestType.Down, Direction.Down),
 
   // items
   new Definition(RequestType.Inventory, inventory),
