@@ -6,18 +6,11 @@ import { Direction } from "../../room/constants"
 import { persistRoom } from "../../room/service"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import move, { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "./move"
+import Check from "../check"
+import CheckedRequest from "../checkedRequest"
+import move from "./move"
 
 describe("move", () => {
-  it("should not allow movement where an exit does not exist", async () => {
-    // when
-    const response = await move(new Request(getTestPlayer(), RequestType.North), Direction.North)
-
-    // then
-    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.message).toBe(MESSAGE_DIRECTION_DOES_NOT_EXIST)
-  })
-
   it("should allow movement where rooms connect", async () => {
     // given
     const root = await persistRoom(getTestRoom())
@@ -27,7 +20,9 @@ describe("move", () => {
     root.addMob(mob)
 
     // when
-    const response = await move(new Request(player, RequestType.East), Direction.East)
+    const response = await move(
+      new CheckedRequest(new Request(player, RequestType.East), await Check.ok()),
+      Direction.East)
 
     // then
     expect(response.status).toBe(ResponseStatus.Info)

@@ -12,6 +12,7 @@ import { SectionType } from "./sectionType"
 import WorldBuilder from "./worldBuilder"
 
 const FOREST_INN_REGION = "Forest Inn"
+const FOREST_REGION = "Forest"
 const TRAIL_1_ROOMS_TO_BUILD = 3
 const ARENA_1_WIDTH = 5
 const ARENA_1_HEIGHT = 5
@@ -33,12 +34,7 @@ function getClearingAreaBuilder(rootRoom: Room): Promise<AreaBuilder> {
   return newClearing(rootRoom, ARENA_1_WIDTH, ARENA_1_HEIGHT)
 }
 
-export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
-  const FOREST_REGION = "Forest"
-
-  const worldBuilder = new WorldBuilder(rootRoom)
-  await worldBuilder.addRootRegion(await getForestInnRegion(rootRoom))
-
+async function getForestRegion(rootRoom: Room): Promise<Region> {
   const trail1 = (await getForestTrailAreaBuilder(rootRoom))
   const trail2 = (await getForestTrailAreaBuilder(trail1.getExitRoom()))
   const clearing = (await getClearingAreaBuilder(trail2.getExitRoom()))
@@ -50,7 +46,14 @@ export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
     ...trail2.getAllRooms(),
     ...clearing.getAllRooms(),
     ...trail3.getAllRooms())
-  worldBuilder.addRegion(forestRegion)
+
+  return forestRegion
+}
+
+export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
+  const worldBuilder = new WorldBuilder(rootRoom)
+  await worldBuilder.addRootRegion(await getForestInnRegion(rootRoom))
+  worldBuilder.addRegion(await getForestRegion(rootRoom))
 
   return new Set([
     ...worldBuilder.getRooms(),

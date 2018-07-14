@@ -19,6 +19,7 @@ import say from "./actions/say"
 import sell from "./actions/sell"
 import train from "./actions/train"
 import wear from "./actions/wear"
+import CheckedRequest from "./checkedRequest"
 import { Collection } from "./definition/collection"
 import { Definition } from "./definition/definition"
 import { default as buyPrecondition } from "./precondition/buy"
@@ -26,6 +27,7 @@ import { default as castPrecondition } from "./precondition/cast"
 import { default as dropPrecondition } from "./precondition/drop"
 import { default as getPrecondition } from "./precondition/get"
 import { default as killPrecondition } from "./precondition/kill"
+import { default as movePrecondition } from "./precondition/move"
 import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
@@ -33,12 +35,24 @@ import { default as wearPrecondition } from "./precondition/wear"
 
 export const actions = new Collection([
   // moving
-  new Definition(RequestType.North, (request: Request) => move(request, Direction.North)),
-  new Definition(RequestType.South, (request: Request) => move(request, Direction.South)),
-  new Definition(RequestType.East, (request: Request) => move(request, Direction.East)),
-  new Definition(RequestType.West, (request: Request) => move(request, Direction.West)),
-  new Definition(RequestType.Up, (request: Request) => move(request, Direction.Up)),
-  new Definition(RequestType.Down, (request: Request) => move(request, Direction.Down)),
+  new Definition(RequestType.North,
+    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.North),
+    (request: Request) => movePrecondition(request, Direction.North)),
+  new Definition(RequestType.South,
+    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.South),
+    (request: Request) => movePrecondition(request, Direction.South)),
+  new Definition(RequestType.East,
+    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.East),
+    (request: Request) => movePrecondition(request, Direction.East)),
+  new Definition(RequestType.West,
+    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.West),
+    (request: Request) => movePrecondition(request, Direction.West)),
+  new Definition(RequestType.Up,
+    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.Up),
+    (request: Request) => movePrecondition(request, Direction.Up)),
+  new Definition(RequestType.Down,
+    (checkedRequest: CheckedRequest) => move(checkedRequest, Direction.Down),
+    (request: Request) => movePrecondition(request, Direction.Down)),
 
   // items
   new Definition(RequestType.Inventory, inventory),

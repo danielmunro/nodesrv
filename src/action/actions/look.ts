@@ -28,5 +28,7 @@ export default function(request: Request): Promise<Response> {
 
   return builder.info(request.getRoom().toString()
     + request.getRoom().mobs.reduce((previous: string, current: Mob) =>
-        previous + (current !== request.mob ? `\n${current.name} is here.` : ""), ""))
+        previous + (current !== request.mob ? `\n${current.name} is here.` : ""), "")
+    + `
+${request.getPrompt()}`)
 }

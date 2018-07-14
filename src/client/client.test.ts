@@ -1,7 +1,5 @@
 import look from "../action/actions/look"
-import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "../action/actions/move"
 import { Collection } from "../action/definition/collection"
-import { MESSAGE_FAIL_NO_ITEM } from "../action/precondition/get"
 import { Player } from "../player/model/player"
 import { createRequestArgs, getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
@@ -77,39 +75,6 @@ describe("clients", () => {
 
     // then
     expect(response).toEqual(lookResponse)
-  })
-
-  it("should invoke east before equipped", async () => {
-    // setup
-    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("e"))
-
-    // when
-    const response = await client.handleRequest(request)
-
-    // then
-    expect(response.message).toBe(MESSAGE_DIRECTION_DOES_NOT_EXIST)
-  })
-
-  it("should invoke west before wear", async () => {
-    // setup
-    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("w"))
-
-    // when
-    const response = await client.handleRequest(request)
-
-    // then
-    expect(response.message).toContain(MESSAGE_DIRECTION_DOES_NOT_EXIST)
-  })
-
-  it("should invoke get before gossip", async () => {
-    // setup
-    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("g"))
-
-    // when
-    const response = await client.handleRequest(request)
-
-    // then
-    expect(response.message).toBe(MESSAGE_FAIL_NO_ITEM)
   })
 
   it("invokes the default request actions when input has no actions actions", async () => {

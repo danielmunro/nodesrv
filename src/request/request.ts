@@ -62,4 +62,10 @@ export class Request {
   public getTarget(): Mob | undefined {
     return this.target
   }
+
+  public getPrompt(): string {
+    const combined = this.player.sessionMob.getCombinedAttributes().vitals
+    const vitals = this.player.sessionMob.vitals
+    return `${vitals.hp}/${combined.hp}hp ${vitals.mana}/${combined.mana}mana ${vitals.mv}/${combined.mv}mv -> `
+  }
 }

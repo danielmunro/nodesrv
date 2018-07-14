@@ -2,7 +2,13 @@ import {Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, P
 import * as v4 from "uuid"
 import { AffectType } from "../../affect/affectType"
 import { Affect } from "../../affect/model/affect"
-import { newEmptyAttributes, newVitals } from "../../attributes/factory"
+import {
+  newAttributes,
+  newEmptyAttributes, newHitroll,
+  newStartingStats,
+  newStartingVitals,
+  newVitals,
+} from "../../attributes/factory"
 import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
 import { Equipped } from "../../item/model/equipped"
@@ -102,7 +108,11 @@ export class Mob {
   public trainedAttributes: Attributes = new Attributes()
 
   public getCombinedAttributes(): Attributes {
-    let attributes = newEmptyAttributes()
+    let attributes = newAttributes(
+      newStartingVitals(),
+      newStartingStats(),
+      newHitroll(0, 0),
+    )
     this.attributes.forEach((a) => attributes = attributes.combine(a))
     this.equipped.inventory.items.forEach((i) => attributes = attributes.combine(i.attributes))
     modifiers.forEach((modifier) => attributes = modifier(this.race, attributes))

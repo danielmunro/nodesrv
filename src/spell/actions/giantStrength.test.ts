@@ -1,11 +1,11 @@
 import { AffectType } from "../../affect/affectType"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { newSpell } from "../../spell/factory"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import reset from "../../test/reset"
 import { Check } from "../check"
+import { newSpell } from "../factory"
 import spellCollection from "../spellCollection"
 import { SpellType } from "../spellType"
 

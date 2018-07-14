@@ -1,4 +1,10 @@
-import { newAttributesWithStats, newStartingStats, newStartingVitals } from "../attributes/factory"
+import {
+  newAttributes,
+  newAttributesWithStats, newEmptyAttributes,
+  newHitroll,
+  newStartingStats,
+  newStartingVitals,
+} from "../attributes/factory"
 import { newWeapon } from "../item/factory"
 import { newMob } from "./factory"
 import { Race } from "./race/race"
@@ -9,14 +15,22 @@ describe("mob factory", () => {
     const description = "this is a description"
     const race = Race.Critter
     const vitals = newStartingVitals()
-    const attributes = newAttributesWithStats(newStartingStats())
-    const mob = newMob(name, description, race, vitals, attributes)
+    const expectedAttributes = newAttributes(
+      newStartingVitals(),
+      newStartingStats(),
+      newHitroll(0, 0))
+    const mob = newMob(
+      name,
+      description,
+      race,
+      vitals,
+      newEmptyAttributes())
 
     expect(mob.name).toBe(name)
     expect(mob.description).toBe(description)
     expect(mob.race).toBe(race)
     expect(mob.vitals).toBe(vitals)
-    expect(mob.getCombinedAttributes()).toEqual(attributes)
+    expect(mob.getCombinedAttributes()).toEqual(expectedAttributes)
   })
 
   it("should be able to make a wandering mob", () => {

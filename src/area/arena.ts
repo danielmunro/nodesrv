@@ -56,7 +56,7 @@ export class Arena {
     for (let y = 0; y < this.height; y++) {
       this.matrix[y] = []
       for (let x = 0; x < this.width; x++) {
-        this.matrix[y][x] = await persistRoom(newRoom(this.root.name, this.root.description))
+        this.matrix[y][x] = await roomRepository.save(newRoom(this.root.name, this.root.description))
         if (this.mobFactory && roll(1, 2) === 1) {
           const mob = this.mobFactory()
           this.matrix[y][x].addMob(mob)
