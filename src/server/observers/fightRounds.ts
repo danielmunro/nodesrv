@@ -30,7 +30,8 @@ export function attackMessage(attack: Attack, mob: Mob): string {
   if (attack.attacker === mob) {
     message = "You hit " + attack.defender.name + "."
     if (!attack.isDefenderAlive) {
-      message += "\n" + attack.defender.name + " has DIED!"
+      message += `\n${attack.defender.name} has DIED!`
+      message += `\nYou gained ${attack.experience} experience points.`
     }
   } else if (attack.defender === mob) {
     message = attack.attacker.name + " hits you."
@@ -42,7 +43,7 @@ export function attackMessage(attack: Attack, mob: Mob): string {
   return message
 }
 
-function createMessageFromFightRound(round: Round, sessionMob: Mob) {
+function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
   if (round.attack.attacker === sessionMob || round.attack.defender === sessionMob) {
     let message = attackMessage(round.attack, sessionMob)
     if (round.counter) {

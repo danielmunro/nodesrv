@@ -23,6 +23,9 @@ import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
 import { Role } from "../role"
 import { SpecializationType } from "../specialization/specializationType"
+import modifierNormalizer from "../../modifierNormalizer"
+
+const BASE_KILL_EXPERIENCE = 100
 
 @Entity()
 export class Mob {
@@ -47,6 +50,9 @@ export class Mob {
 
   @Column("integer")
   public level: number = 1
+
+  @Column("integer")
+  public experience: number = 0
 
   @Column("boolean", { default: false })
   public wanders: boolean = false
@@ -107,6 +113,11 @@ export class Mob {
   @OneToOne((type) => Attributes)
   @JoinColumn()
   public trainedAttributes: Attributes = new Attributes()
+
+  public getExperienceFromKilling(mob: Mob) {
+    const levelDelta = mob.level - this.level
+    return BASE_KILL_EXPERIENCE * modifierNormalizer(levelDelta)
+  }
 
   public getCombinedAttributes(): Attributes {
     let attributes = newEmptyAttributes()

@@ -48,7 +48,7 @@ export class Fight {
   private static calculateDamageFromAttackerToDefender(
     attackerAttributes: Attributes,
     defenderAttributes: Attributes): number {
-    return Math.random() * Math.pow(attackerAttributes.hitroll.dam, defenderAttributes.hitroll.hit)
+    return Math.max(1, Math.random() * Math.pow(attackerAttributes.hitroll.dam, defenderAttributes.hitroll.hit))
   }
 
   private static async attack(attacker: Mob, defender: Mob): Promise<Attack> {
@@ -66,7 +66,12 @@ export class Fight {
 
     const damage = Fight.calculateDamageFromAttackerToDefender(xAttributes, yAttributes)
     defender.vitals.hp -= damage
-    return new Attack(attacker, defender, AttackResult.Hit, damage)
+    return new Attack(
+      attacker,
+      defender,
+      AttackResult.Hit,
+      damage,
+      defender.vitals.hp < 0 ? attacker.getExperienceFromKilling(defender) : 0)
   }
 
   public readonly aggressor: Mob
@@ -111,6 +116,7 @@ export class Fight {
     if (y.vitals.hp < 0) {
       this.status = Status.Done
       this.winner = x
+      x.experience += attack.experience
     }
 
     return attack
