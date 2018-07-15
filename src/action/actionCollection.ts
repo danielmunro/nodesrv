@@ -34,6 +34,7 @@ import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
+import score from "./actions/score"
 
 function newMoveDefinition(requestType: RequestType, direction: Direction) {
   return new Definition(requestType,
@@ -80,6 +81,7 @@ export const actions = new Collection([
   // info
   new Definition(RequestType.Affects, affects),
   new Definition(RequestType.Look, look),
+  new Definition(RequestType.Score, score),
 
   // merchants
   new Definition(RequestType.Buy, buy, buyPrecondition),

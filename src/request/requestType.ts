@@ -28,6 +28,7 @@ export enum RequestType {
   Wake = "wake",
   Train = "train",
   Practice = "practice",
+  Score = "score",
   Noop = "noop",
   Any = "any",
 }
