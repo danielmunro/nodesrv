@@ -19,17 +19,14 @@ export function getAttackResultFromSkillType(skill: SkillType) {
 }
 
 export class Attack {
-  public readonly attacker: Mob
-  public readonly defender: Mob
-  public readonly result: AttackResult
-  public readonly damage: number
   public readonly isDefenderAlive: boolean
 
-  constructor(attacker: Mob, defender: Mob, result: AttackResult, damage: number) {
-    this.attacker = attacker
-    this.defender = defender
-    this.result = result
-    this.damage = damage
-    this.isDefenderAlive = defender.vitals.hp > 0
+  constructor(
+    public readonly attacker: Mob,
+    public readonly defender: Mob,
+    public readonly result: AttackResult,
+    public readonly damage: number,
+    public readonly experience: number = 0) {
+    this.isDefenderAlive = defender.vitals.hp >= 0
   }
 }
