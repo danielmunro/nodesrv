@@ -1,16 +1,13 @@
-import { Item } from "../../item/model/item"
-import { Request } from "../../request/request"
-import { doWithItemOrElse } from "../actionHelpers"
-import { MESSAGE_ITEM_NOT_FOUND } from "./constants"
+import Response from "../../request/response"
+import ResponseBuilder from "../../request/responseBuilder"
+import CheckedRequest from "../checkedRequest"
 
-export default function(request: Request): Promise<any> {
-  return doWithItemOrElse(
-    request,
-    request.findItemInRoomInventory(),
-    (item: Item) => {
-      request.player.getInventory().getItemFrom(item, request.getRoom().inventory)
+export default function(checkedRequest: CheckedRequest): Promise<Response> {
+  const item = checkedRequest.check.result
+  const room = checkedRequest.request.getRoom()
+  const mob = checkedRequest.request.mob
 
-      return { message: "You pick up " + item.name + "." }
-    },
-    MESSAGE_ITEM_NOT_FOUND)
+  mob.inventory.getItemFrom(item, room.inventory)
+
+  return new ResponseBuilder(checkedRequest.request).success(`You pick up ${item.name}.`)
 }
