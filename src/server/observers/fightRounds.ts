@@ -84,8 +84,10 @@ export class FightRounds implements Observer {
     const clientMobMap = createClientMobMap(clients)
     filterCompleteFights()
     rounds.forEach((round) => {
-      sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.attacker, round)
-      sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.defender, round)
+      if (round.attack) {
+        sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.attacker, round)
+        sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.defender, round)
+      }
     })
   }
 }

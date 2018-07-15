@@ -98,7 +98,7 @@ export class Fight {
 
   public async round(): Promise<Round> {
     return new Round(
-      await this.turnFor(this.aggressor, this.target),
+      this.status === Status.InProgress ? await this.turnFor(this.aggressor, this.target) : null,
       this.status === Status.InProgress ? await this.turnFor(this.target, this.aggressor) : null,
     )
   }
@@ -109,6 +109,14 @@ export class Fight {
 
   public getWinner() {
     return this.winner
+  }
+
+  public participantFled(mob: Mob) {
+    if (!this.isParticipant(mob)) {
+      throw new Error("Not part of the fight")
+    }
+
+    this.status = Status.Done
   }
 
   private async turnFor(x: Mob, y: Mob): Promise<Attack> {

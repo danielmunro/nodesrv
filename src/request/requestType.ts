@@ -15,6 +15,7 @@ export enum RequestType {
   Remove = "remove",
   Equipped = "equipped",
   Kill = "kill",
+  Flee = "flee",
   Bash = "bash",
   Cast = "cast",
   Affects = "affects",

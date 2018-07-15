@@ -8,6 +8,7 @@ import buy from "./actions/buy"
 import cast from "./actions/cast"
 import drop from "./actions/drop"
 import equipped from "./actions/equipped"
+import flee from "./actions/flee"
 import get from "./actions/get"
 import gossip from "./actions/gossip"
 import inventory from "./actions/inventory"
@@ -25,6 +26,7 @@ import { Definition } from "./definition/definition"
 import { default as buyPrecondition } from "./precondition/buy"
 import { default as castPrecondition } from "./precondition/cast"
 import { default as dropPrecondition } from "./precondition/drop"
+import { default as fleePrecondition } from "./precondition/flee"
 import { default as getPrecondition } from "./precondition/get"
 import { default as killPrecondition } from "./precondition/kill"
 import { default as movePrecondition } from "./precondition/move"
@@ -64,6 +66,7 @@ export const actions = new Collection([
 
   // fighting
   new Definition(RequestType.Kill, kill, killPrecondition),
+  new Definition(RequestType.Flee, flee, fleePrecondition),
   newSkillDefinition(RequestType.Bash, SkillType.Bash),
   newSkillDefinition(RequestType.Trip, SkillType.Trip),
 
