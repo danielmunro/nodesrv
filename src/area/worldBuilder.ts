@@ -21,6 +21,5 @@ export default class WorldBuilder {
 
   public async addRootRegion(region: Region) {
     this.addRegion(region)
-    return await persistExit(newReciprocalExit(pickOne(region.outsideConnectionCandidates), this.rootRoom))
   }
 }
