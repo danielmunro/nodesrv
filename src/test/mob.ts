@@ -1,7 +1,6 @@
 import * as sillyname from "sillyname"
 import {
-  newAttributes,
-  newEmptyAttributes, newHitroll, newStartingStats,
+  newAttributes, newHitroll, newStartingStats,
   newStartingVitals,
 } from "../attributes/factory"
 import { newMob } from "../mob/factory"

@@ -1,12 +1,12 @@
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { Direction } from "../../room/constants"
+import { newReciprocalExit } from "../../room/factory"
 import { getTestPlayer } from "../../test/player"
+import { getTestRoom } from "../../test/room"
 import { CheckStatus } from "../check"
 import move, { MESSAGE_OUT_OF_MOVEMENT } from "./move"
 import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "./move"
-import { getTestRoom } from "../../test/room"
-import { newReciprocalExit } from "../../room/factory"
 
 describe("move", () => {
   it("should not allow movement where an exit does not exist", async () => {

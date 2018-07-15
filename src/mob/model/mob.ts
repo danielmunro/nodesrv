@@ -4,15 +4,14 @@ import { AffectType } from "../../affect/affectType"
 import { Affect } from "../../affect/model/affect"
 import {
   newAttributes,
-  newEmptyAttributes, newHitroll,
-  newStartingStats,
-  newStartingVitals, newStats,
+  newEmptyAttributes, newHitroll, newStats,
   newVitals,
 } from "../../attributes/factory"
 import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
 import { Equipped } from "../../item/model/equipped"
 import { Inventory } from "../../item/model/inventory"
+import modifierNormalizer from "../../modifierNormalizer"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
 import { Skill } from "../../skill/model/skill"
@@ -23,7 +22,6 @@ import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
 import { Role } from "../role"
 import { SpecializationType } from "../specialization/specializationType"
-import modifierNormalizer from "../../modifierNormalizer"
 
 const BASE_KILL_EXPERIENCE = 100
 

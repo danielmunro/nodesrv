@@ -1,7 +1,7 @@
 import { getFights } from "../../mob/fight/fight"
+import { findOneMob } from "../../mob/repository/mob"
 import { Request } from "../../request/request"
 import Check from "../check"
-import { findOneMob } from "../../mob/repository/mob"
 
 export const MESSAGE_FAIL_KILL_NO_TARGET = "Who would you like to kill?"
 export const MESSAGE_FAIL_KILL_ALREADY_FIGHTING = "No way! You are already fighting."

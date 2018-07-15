@@ -1,4 +1,5 @@
 import { addFight, Fight } from "../../mob/fight/fight"
+import { persistMob } from "../../mob/repository/mob"
 import { Player } from "../../player/model/player"
 import { createRequestArgs, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
@@ -6,7 +7,6 @@ import { getTestMob } from "../../test/mob"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
 import { default as kill, MESSAGE_FAIL_KILL_ALREADY_FIGHTING, MESSAGE_FAIL_KILL_NO_TARGET } from "./kill"
-import { persistMob } from "../../mob/repository/mob"
 
 function useKillRequest(player: Player, input: string) {
   return kill(new Request(player, RequestType.Kill, createRequestArgs(input)))

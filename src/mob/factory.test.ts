@@ -1,6 +1,6 @@
 import {
   newAttributes,
-  newAttributesWithStats, newEmptyAttributes,
+  newAttributesWithStats,
   newHitroll,
   newStartingStats,
   newStartingVitals,
