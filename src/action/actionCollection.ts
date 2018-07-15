@@ -17,6 +17,7 @@ import look from "./actions/look"
 import move from "./actions/move"
 import remove from "./actions/remove"
 import say from "./actions/say"
+import score from "./actions/score"
 import sell from "./actions/sell"
 import train from "./actions/train"
 import wear from "./actions/wear"
@@ -34,7 +35,6 @@ import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
-import score from "./actions/score"
 
 function newMoveDefinition(requestType: RequestType, direction: Direction) {
   return new Definition(requestType,
