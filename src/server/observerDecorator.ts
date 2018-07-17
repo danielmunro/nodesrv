@@ -1,4 +1,3 @@
-import { TICK } from "../constants"
 import { DiceRoller } from "../dice/dice"
 import { findWanderingMobs } from "../mob/repository/mob"
 import { MinuteTimer } from "../timer/minuteTimer"
@@ -13,6 +12,14 @@ import { SocialBroadcaster } from "./observers/socialBroadcaster"
 import { Tick } from "./observers/tick"
 import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
+
+export const TICK = {
+  DICE: {
+    MODIFIER: 20000,
+    ROLLS: 20,
+    SIDES: 1000,
+  },
+}
 
 export default function addObservers(gameServer: GameServer): GameServer {
   gameServer.addObserver(

@@ -1,5 +1,5 @@
 import { Mob } from "../../mob/model/mob"
-import { Trigger } from "../../trigger"
+import { Trigger } from "../../mob/trigger"
 import Attempt from "../attempt"
 import { Skill } from "../model/skill"
 import Outcome from "../outcome"

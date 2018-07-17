@@ -1,4 +1,4 @@
-import { Trigger } from "../trigger"
+import { Trigger } from "../mob/trigger"
 import bashAction from "./actions/bash"
 import berserkAction from "./actions/berserk"
 import dodgeAction from "./actions/dodge"

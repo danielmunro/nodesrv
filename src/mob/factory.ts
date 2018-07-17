@@ -2,10 +2,8 @@ import { newAttributes, newHitroll, newStartingStats, newVitals } from "../attri
 import Attributes from "../attributes/model/attributes"
 import Vitals from "../attributes/model/vitals"
 import { Item } from "../item/model/item"
-import { getTestMob } from "../test/mob"
 import { Mob } from "./model/mob"
 import { Race } from "./race/race"
-import { Role } from "./role"
 
 export function newMob(name: string, description: string, race: Race, vitals: Vitals,
                        attributes: Attributes, wanders: boolean = false, items: Item[] = []): Mob {
@@ -42,11 +40,4 @@ export function newMobWithArgs(
       newStartingStats(),
       newHitroll(hit, dam)),
     wanders)
-}
-
-export function getMerchantMob(): Mob {
-  const mob = getTestMob()
-  mob.role = Role.Merchant
-
-  return mob
 }

@@ -1,4 +1,4 @@
-import { Trigger } from "../trigger"
+import { Trigger } from "../mob/trigger"
 import Attempt from "./attempt"
 import Check from "./check"
 import Outcome from "./outcome"
