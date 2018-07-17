@@ -1,4 +1,4 @@
-import roll from "../../dice/dice"
+import roll from "../../random/dice"
 import { createCastRequest } from "../../request/factory"
 import { Request } from "../../request/request"
 import { ResponseStatus } from "../../request/responseStatus"

@@ -1,4 +1,4 @@
-import { DiceRoller } from "../dice/dice"
+import { DiceRoller } from "../random/dice"
 import { findWanderingMobs } from "../mob/repository/mob"
 import { MinuteTimer } from "../timer/minuteTimer"
 import { RandomTickTimer } from "../timer/randomTickTimer"

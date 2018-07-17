@@ -1,5 +1,5 @@
 import Attributes from "../../attributes/model/attributes"
-import roll from "../../dice/dice"
+import roll from "../../random/dice"
 import { createSkillTriggerEvent } from "../../skill/trigger/factory"
 import { Mob } from "../model/mob"
 import { Trigger } from "../trigger"

@@ -1,4 +1,4 @@
-import roll from "../dice/dice"
+import roll from "../random/dice"
 import SectionSpec from "./sectionSpec/sectionSpec"
 import { SectionType } from "./sectionType"
 

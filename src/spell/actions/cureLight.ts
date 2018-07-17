@@ -1,4 +1,4 @@
-import roll from "../../dice/dice"
+import roll from "../../random/dice"
 import { Check } from "../check"
 
 export default function(check: Check) {

@@ -1,4 +1,4 @@
-import roll, { getRandomInt } from "../dice/dice"
+import roll, { getRandomInt } from "../random/dice"
 import { Mob } from "../mob/model/mob"
 import { persistMob } from "../mob/repository/mob"
 import { Direction } from "../room/constants"

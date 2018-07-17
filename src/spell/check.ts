@@ -1,5 +1,5 @@
 import { ActionType } from "../action/actionType"
-import roll from "../dice/dice"
+import roll from "../random/dice"
 import { getFights } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
 import { Request } from "../request/request"

@@ -1,4 +1,4 @@
-import roll from "../../dice/dice"
+import roll from "../../random/dice"
 import { newMobWithArgs } from "../factory"
 import { Race } from "../race/race"
 

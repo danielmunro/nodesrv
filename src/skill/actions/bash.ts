@@ -1,4 +1,4 @@
-import roll from "../../dice/dice"
+import roll from "../../random/dice"
 import Attempt from "../attempt"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"

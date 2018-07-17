@@ -1,4 +1,4 @@
-import roll from "../dice/dice"
+import roll from "../random/dice"
 import { allDirections, Direction } from "./constants"
 import { getFreeReciprocalDirection, isReciprocalFree, reverse } from "./direction"
 import { Exit } from "./model/exit"
