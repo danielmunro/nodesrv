@@ -107,10 +107,10 @@ export class Mob {
   @JoinColumn()
   public equipped = new Equipped()
 
-  @OneToMany((type) => Skill, (skill) => skill.mob, { cascadeInsert: true, cascadeUpdate: true })
+  @OneToMany((type) => Skill, (skill) => skill.mob, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   public skills: Skill[] = []
 
-  @OneToMany((type) => Spell, (spell) => spell.mob, { cascadeInsert: true, cascadeUpdate: true })
+  @OneToMany((type) => Spell, (spell) => spell.mob, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   public spells: Spell[] = []
 
   @OneToOne((type) => Attributes)

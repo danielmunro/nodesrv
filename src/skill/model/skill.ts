@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { Mob } from "../../mob/model/mob"
 import { SkillType } from "../skillType"
 
@@ -13,6 +13,6 @@ export class Skill {
   @Column("integer")
   public level: number = 1
 
-  @OneToMany((type) => Mob, (mob) => mob.skills)
+  @ManyToOne((type) => Mob, (mob) => mob.skills)
   public mob: Mob
 }

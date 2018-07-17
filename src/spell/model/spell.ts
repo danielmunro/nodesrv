@@ -1,6 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { Mob } from "../../mob/model/mob"
-import { SpellType } from "../../spell/spellType"
+import { SpellType } from "../spellType"
 
 @Entity()
 export class Spell {
@@ -13,6 +13,6 @@ export class Spell {
   @Column("integer")
   public level: number = 1
 
-  @OneToMany((type) => Mob, (mob) => mob.spells)
+  @ManyToOne((type) => Mob, (mob) => mob.spells)
   public mob: Mob
 }
