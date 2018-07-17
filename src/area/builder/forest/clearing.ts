@@ -4,6 +4,9 @@ import AreaBuilder from "../../areaBuilder"
 import DefaultSpec from "../../sectionSpec/defaultSpec"
 import MatrixSpec from "../../sectionSpec/matrixSpec"
 import { SectionType } from "../../sectionType"
+import { newForestItem } from "../../../item/factory/trail"
+
+const FOREST_ITEM_CHANCE_TO_POP = 0.5
 
 function getRootRoom(): Room {
   return newRoom(
@@ -21,6 +24,7 @@ export async function newClearing(outsideConnection: Room, width: number, height
   const areaBuilder = new AreaBuilder(outsideConnection)
   areaBuilder.addRoomTemplate(SectionType.Root, new DefaultSpec(getRootRoom()))
   areaBuilder.addRoomTemplate(SectionType.Matrix, new MatrixSpec(getConnectionRoom(), width, height))
+  areaBuilder.addItemTemplate(SectionType.Connection, newForestItem(), FOREST_ITEM_CHANCE_TO_POP)
   await areaBuilder.buildSection(SectionType.Root)
   const collection = await areaBuilder.buildSection(SectionType.Matrix)
   areaBuilder.setExitRoom(collection.exitRooms[0])

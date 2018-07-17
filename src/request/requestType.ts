@@ -29,6 +29,7 @@ export enum RequestType {
   Train = "train",
   Practice = "practice",
   Score = "score",
+  Eat = "eat",
   Noop = "noop",
   Any = "any",
 }

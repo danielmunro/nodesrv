@@ -22,6 +22,8 @@ import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
 import { Role } from "../role"
 import { SpecializationType } from "../specialization/specializationType"
+import { Item } from "../../item/model/item"
+import appetite from "../race/appetite"
 
 const BASE_KILL_EXPERIENCE = 100
 
@@ -73,6 +75,9 @@ export class Mob {
   @Column("integer", { default: 0 })
   public practices: number = 0
 
+  @Column("integer")
+  public hunger: number = 0
+
   @OneToMany((type) => Affect, (affect) => affect.mob, { cascadeInsert: true, eager: true })
   public affects: Affect[] = []
 
@@ -111,6 +116,44 @@ export class Mob {
   @OneToOne((type) => Attributes)
   @JoinColumn()
   public trainedAttributes: Attributes = new Attributes()
+
+  public regen(): void {
+    const combined = this.getCombinedAttributes()
+    this.vitals.hp += combined.vitals.hp * 0.2
+    this.vitals.mana += combined.vitals.mana * 0.2
+    this.vitals.mv += combined.vitals.mv * 0.2
+    this.hunger--
+    this.normalizeVitals()
+  }
+
+  private normalizeVitals() {
+    const combined = this.getCombinedAttributes()
+    if (this.vitals.hp > combined.vitals.hp) {
+      this.vitals.hp = combined.vitals.hp
+    }
+    if (this.vitals.mana > combined.vitals.mana) {
+      this.vitals.mana = combined.vitals.mana
+    }
+    if (this.vitals.mv > combined.vitals.mv) {
+      this.vitals.mv = combined.vitals.mv
+    }
+    const maxAppetite = appetite(this.race)
+    if (this.hunger < 0) {
+      this.hunger = 0
+    } else if (this.hunger > maxAppetite) {
+      this.hunger = maxAppetite
+    }
+  }
+
+  public eat(item: Item) {
+    this.hunger += item.nourishment
+    const maxAppetite = appetite(this.race)
+    item.affects.forEach((affect) => this.addAffect(affect))
+    this.inventory.removeItem(item)
+    if (this.hunger > maxAppetite) {
+      this.hunger = maxAppetite
+    }
+  }
 
   public getExperienceFromKilling(mob: Mob) {
     const levelDelta = mob.level - this.level

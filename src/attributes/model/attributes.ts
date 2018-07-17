@@ -5,6 +5,7 @@ import Ac from "./ac"
 import Hitroll from "./hitroll"
 import Stats from "./stats"
 import Vitals from "./vitals"
+import { newAttributes, newHitroll, newStats, newVitals } from "../factory"
 
 @Entity()
 export default class Attributes {
@@ -55,5 +56,13 @@ export default class Attributes {
     attributes.ac.magic = this.ac.magic + withAttributes.ac.magic
 
     return attributes
+  }
+
+  public copy(): Attributes {
+    return newAttributes(
+      newVitals(this.vitals.hp, this.vitals.mana, this.vitals.mv),
+      newStats(this.stats.str, this.stats.int, this.stats.wis, this.stats.dex, this.stats.con, this.stats.sta),
+      newHitroll(this.hitroll.hit, this.hitroll.dam),
+    )
   }
 }

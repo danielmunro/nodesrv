@@ -27,6 +27,7 @@ import { Definition } from "./definition/definition"
 import { default as buyPrecondition } from "./precondition/buy"
 import { default as castPrecondition } from "./precondition/cast"
 import { default as dropPrecondition } from "./precondition/drop"
+import { default as eatPrecondition } from "./precondition/eat"
 import { default as fleePrecondition } from "./precondition/flee"
 import { default as getPrecondition } from "./precondition/get"
 import { default as killPrecondition } from "./precondition/kill"
@@ -35,6 +36,7 @@ import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
+import eat from "./actions/eat"
 
 function newMoveDefinition(requestType: RequestType, direction: Direction) {
   return new Definition(requestType,
@@ -93,4 +95,7 @@ export const actions = new Collection([
 
   // training
   new Definition(RequestType.Train, train, trainPrecondition),
+
+  // nourishment
+  new Definition(RequestType.Eat, eat, eatPrecondition),
 ])

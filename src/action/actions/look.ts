@@ -2,6 +2,7 @@ import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import { Item } from "../../item/model/item"
 
 export const NOT_FOUND = "You don't see that anywhere."
 
@@ -26,9 +27,14 @@ export default function(request: Request): Promise<Response> {
     return builder.error(NOT_FOUND)
   }
 
-  return builder.info(request.getRoom().toString()
-    + request.getRoom().mobs.reduce((previous: string, current: Mob) =>
+  const room = request.getRoom()
+
+  return builder.info(room.toString()
+    + room.mobs.reduce((previous: string, current: Mob) =>
         previous + (current !== request.mob ? `\n${current.name} is here.` : ""), "")
+    + room.inventory.items.reduce((previous: string, current: Item) =>
+`${previous}
+${current.name} is here.`, "")
     + `
 ${request.getPrompt()}`)
 }

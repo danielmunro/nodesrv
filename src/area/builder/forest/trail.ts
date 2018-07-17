@@ -5,6 +5,10 @@ import { Room } from "../../../room/model/room"
 import AreaBuilder from "../../areaBuilder"
 import DefaultSpec from "../../sectionSpec/defaultSpec"
 import { SectionType } from "../../sectionType"
+import { newForestItem } from "../../../item/factory/trail"
+
+const CRITTER_CHANCE_TO_POP = 0.5
+const FOREST_ITEM_CHANCE_TO_POP = 0.5
 
 function getRoom(): Room {
   return newRoom(
@@ -15,11 +19,12 @@ function getRoom(): Room {
 }
 
 export async function newTrail(
-  outsideConnection: Room, direction: Direction, length: number, critterChanceToPopPercent: number = 0.5) {
+  outsideConnection: Room, direction: Direction, length: number) {
   const areaBuilder = new AreaBuilder(outsideConnection)
   areaBuilder.addRoomTemplate(SectionType.Root, new DefaultSpec(getRoom()))
   areaBuilder.addRoomTemplate(SectionType.Connection, new DefaultSpec(getRoom()))
-  areaBuilder.addMobTemplate(SectionType.Connection, newCritter(), critterChanceToPopPercent)
+  areaBuilder.addMobTemplate(SectionType.Connection, newCritter(), CRITTER_CHANCE_TO_POP)
+  areaBuilder.addItemTemplate(SectionType.Connection, newForestItem(), FOREST_ITEM_CHANCE_TO_POP)
   await areaBuilder.buildSection(SectionType.Root, direction)
   for (let i = 0; i < length; i++) {
     await areaBuilder.buildSection(SectionType.Connection, direction)

@@ -11,6 +11,11 @@ import DefaultSpec from "./sectionSpec/defaultSpec"
 import SectionSpec from "./sectionSpec/sectionSpec"
 import { SectionType } from "./sectionType"
 import sectionTypeMap from "./sectionTypeMap"
+import ItemCollection from "./itemCollection"
+import { Item } from "../item/model/item"
+import roll from "../dice/dice"
+import { getItemRepository } from "../item/repository/item"
+import { persistRegion } from "../region/repository/region"
 
 export default class AreaBuilder {
   private static findSectionBuilderBySectionType(sectionType: SectionType) {
@@ -19,6 +24,7 @@ export default class AreaBuilder {
 
   private rooms = new RoomCollection()
   private mobs = new MobCollection()
+  private items = new ItemCollection()
   private activeRoom: Room
   private allRooms = []
   private exitRoom: Room
@@ -45,9 +51,22 @@ export default class AreaBuilder {
     this.rooms.add(sectionType, sectionSpec)
   }
 
+  public addItemTemplate(sectionType: SectionType, item: Item, chanceToPopPercent: number = 1) {
+    this.items.add(sectionType, item, chanceToPopPercent)
+  }
+
   public async buildSection(sectionType: SectionType, direction: Direction = null): Promise<SectionCollection> {
     const builder = AreaBuilder.findSectionBuilderBySectionType(sectionType)
     const sectionCollection = await new builder.section().build(this.rooms.getRandomSpecBySectionType(sectionType))
+    const items = []
+    sectionCollection.rooms.forEach((sectionRoom) => {
+      this.items.getRandomBySectionType(sectionType).forEach(async (item) => {
+        sectionRoom.inventory.addItem(item)
+        items.push(item)
+      })
+    })
+    const itemRepository = await getItemRepository()
+    await itemRepository.save(items)
     this.allRooms.push(...sectionCollection.rooms)
     const room = sectionCollection.getConnectingRoom()
     await this.buildAndConnectRoom(room, sectionType, direction)

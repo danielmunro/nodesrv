@@ -37,7 +37,7 @@ export class Room {
   @OneToMany((type) => Mob, (mob) => mob.room, { cascadeInsert: true })
   public mobs: Mob[] = []
 
-  @OneToOne((type) => Inventory)
+  @OneToOne((type) => Inventory, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   @JoinColumn()
   public inventory: Inventory = new Inventory()
 
