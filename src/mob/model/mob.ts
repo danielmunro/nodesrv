@@ -11,6 +11,7 @@ import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
 import { Equipped } from "../../item/model/equipped"
 import { Inventory } from "../../item/model/inventory"
+import { Item } from "../../item/model/item"
 import modifierNormalizer from "../../multiplierNormalizer"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
@@ -18,12 +19,11 @@ import { Skill } from "../../skill/model/skill"
 import { Spell } from "../../spell/model/spell"
 import { Disposition } from "../disposition"
 import { newMob } from "../factory"
+import appetite from "../race/appetite"
 import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
 import { Role } from "../role"
 import { SpecializationType } from "../specialization/specializationType"
-import { Item } from "../../item/model/item"
-import appetite from "../race/appetite"
 
 const BASE_KILL_EXPERIENCE = 100
 
@@ -126,25 +126,6 @@ export class Mob {
     this.normalizeVitals()
   }
 
-  private normalizeVitals() {
-    const combined = this.getCombinedAttributes()
-    if (this.vitals.hp > combined.vitals.hp) {
-      this.vitals.hp = combined.vitals.hp
-    }
-    if (this.vitals.mana > combined.vitals.mana) {
-      this.vitals.mana = combined.vitals.mana
-    }
-    if (this.vitals.mv > combined.vitals.mv) {
-      this.vitals.mv = combined.vitals.mv
-    }
-    const maxAppetite = appetite(this.race)
-    if (this.hunger < 0) {
-      this.hunger = 0
-    } else if (this.hunger > maxAppetite) {
-      this.hunger = maxAppetite
-    }
-  }
-
   public eat(item: Item) {
     this.hunger += item.nourishment
     const maxAppetite = appetite(this.race)
@@ -200,5 +181,24 @@ export class Mob {
       this.wanders)
     mob.role = this.role
     return mob
+  }
+
+  private normalizeVitals() {
+    const combined = this.getCombinedAttributes()
+    if (this.vitals.hp > combined.vitals.hp) {
+      this.vitals.hp = combined.vitals.hp
+    }
+    if (this.vitals.mana > combined.vitals.mana) {
+      this.vitals.mana = combined.vitals.mana
+    }
+    if (this.vitals.mv > combined.vitals.mv) {
+      this.vitals.mv = combined.vitals.mv
+    }
+    const maxAppetite = appetite(this.race)
+    if (this.hunger < 0) {
+      this.hunger = 0
+    } else if (this.hunger > maxAppetite) {
+      this.hunger = maxAppetite
+    }
   }
 }

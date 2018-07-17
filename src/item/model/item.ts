@@ -1,11 +1,11 @@
 import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { newAffect } from "../../affect/factory"
 import { Affect } from "../../affect/model/affect"
 import { newEmptyAttributes } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
 import { Equipment } from "../equipment"
-import { Inventory } from "./inventory"
 import { ItemType } from "../itemType"
-import { newAffect } from "../../affect/factory"
+import { Inventory } from "./inventory"
 
 @Entity()
 export class Item {

@@ -1,10 +1,10 @@
+import { newForestItem } from "../../../item/factory/trail"
 import { newRoom } from "../../../room/factory"
 import { Room } from "../../../room/model/room"
 import AreaBuilder from "../../areaBuilder"
 import DefaultSpec from "../../sectionSpec/defaultSpec"
 import MatrixSpec from "../../sectionSpec/matrixSpec"
 import { SectionType } from "../../sectionType"
-import { newForestItem } from "../../../item/factory/trail"
 
 const FOREST_ITEM_CHANCE_TO_POP = 0.5
 

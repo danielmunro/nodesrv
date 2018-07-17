@@ -1,3 +1,4 @@
+import { newForestItem } from "../../../item/factory/trail"
 import { newCritter } from "../../../mob/factory/trail"
 import { Direction } from "../../../room/constants"
 import { newRoom } from "../../../room/factory"
@@ -5,7 +6,6 @@ import { Room } from "../../../room/model/room"
 import AreaBuilder from "../../areaBuilder"
 import DefaultSpec from "../../sectionSpec/defaultSpec"
 import { SectionType } from "../../sectionType"
-import { newForestItem } from "../../../item/factory/trail"
 
 const CRITTER_CHANCE_TO_POP = 0.5
 const FOREST_ITEM_CHANCE_TO_POP = 0.5

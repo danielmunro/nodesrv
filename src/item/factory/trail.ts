@@ -1,7 +1,7 @@
+import { AffectType } from "../../affect/affectType"
+import { newAffect } from "../../affect/factory"
 import roll from "../../dice/dice"
 import { newFood } from "../factory"
-import { newAffect } from "../../affect/factory"
-import { AffectType } from "../../affect/affectType"
 import { Item } from "../model/item"
 
 export function newForestItem(): Item {

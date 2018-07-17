@@ -7,6 +7,7 @@ import affects from "./actions/affects"
 import buy from "./actions/buy"
 import cast from "./actions/cast"
 import drop from "./actions/drop"
+import eat from "./actions/eat"
 import equipped from "./actions/equipped"
 import flee from "./actions/flee"
 import get from "./actions/get"
@@ -36,7 +37,6 @@ import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
-import eat from "./actions/eat"
 
 function newMoveDefinition(requestType: RequestType, direction: Direction) {
   return new Definition(requestType,

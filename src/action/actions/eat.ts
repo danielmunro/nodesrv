@@ -1,8 +1,8 @@
-import Response from "../../request/response"
-import CheckedRequest from "../checkedRequest"
 import { Item } from "../../item/model/item"
-import ResponseBuilder from "../../request/responseBuilder"
 import appetite from "../../mob/race/appetite"
+import Response from "../../request/response"
+import ResponseBuilder from "../../request/responseBuilder"
+import CheckedRequest from "../checkedRequest"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const mob = checkedRequest.request.mob

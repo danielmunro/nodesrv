@@ -1,11 +1,11 @@
 import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import { Item } from "../../item/model/item"
 import { Mob } from "../../mob/model/mob"
+import { newAttributes, newHitroll, newStats, newVitals } from "../factory"
 import Ac from "./ac"
 import Hitroll from "./hitroll"
 import Stats from "./stats"
 import Vitals from "./vitals"
-import { newAttributes, newHitroll, newStats, newVitals } from "../factory"
 
 @Entity()
 export default class Attributes {

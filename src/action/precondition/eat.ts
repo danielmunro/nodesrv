@@ -1,6 +1,6 @@
+import appetite from "../../mob/race/appetite"
 import { Request } from "../../request/request"
 import Check from "../check"
-import appetite from "../../mob/race/appetite"
 
 export const MESSAGE_FAIL_NO_ITEM = "You don't see that anywhere."
 export const MESSAGE_FAIL_CANNOT_EAT_ITEM = "You can't eat that."
