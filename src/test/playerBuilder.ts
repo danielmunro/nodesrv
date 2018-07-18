@@ -18,6 +18,13 @@ export default class PlayerBuilder extends AbstractBuilder {
     return equipment
   }
 
+  public withFood(): Item {
+    const food = super.withFood()
+    this.player.sessionMob.inventory.addItem(food)
+
+    return food
+  }
+
   public withSkill(skillType: SkillType, level: number = 1): Skill {
     const skill = newSkill(skillType, level)
     this.player.sessionMob.skills.push(skill)

@@ -21,7 +21,7 @@ export function newEquipment(name: string, description: string, equipment: Equip
   return item
 }
 
-export function newFood(name: string, description: string, nourishment: number): Item {
+export function newFood(name: string, description: string, nourishment: number = 1): Item {
   const item = new Item()
   item.name = name
   item.description = description
