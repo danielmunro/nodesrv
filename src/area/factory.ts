@@ -1,5 +1,6 @@
 import newRegion from "../region/factory"
 import { Region } from "../region/model/region"
+import { getRegionRepository } from "../region/repository/region"
 import { Terrain } from "../region/terrain"
 import { getFreeDirection } from "../room/direction"
 import { Room } from "../room/model/room"
@@ -52,8 +53,12 @@ async function getForestRegion(rootRoom: Room): Promise<Region> {
 
 export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
   const worldBuilder = new WorldBuilder(rootRoom)
-  await worldBuilder.addRootRegion(await getForestInnRegion(rootRoom))
-  worldBuilder.addRegion(await getForestRegion(rootRoom))
+  const rootRegion = await getForestInnRegion(rootRoom)
+  const forestRegion = await getForestRegion(rootRoom)
+  const regionRepository = await getRegionRepository()
+  await regionRepository.save([rootRegion, forestRegion])
+  await worldBuilder.addRootRegion(rootRegion)
+  worldBuilder.addRegion(forestRegion)
 
   return new Set([
     ...worldBuilder.getRooms(),

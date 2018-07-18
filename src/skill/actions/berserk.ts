@@ -1,7 +1,7 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
-import roll from "../../random/dice"
 import { Mob } from "../../mob/model/mob"
+import roll from "../../random/dice"
 import Attempt from "../attempt"
 import { Skill } from "../model/skill"
 import Outcome from "../outcome"

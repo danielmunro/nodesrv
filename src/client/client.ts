@@ -91,6 +91,10 @@ export class Client {
     this.ws.send(stringify(data))
   }
 
+  public sendMessage(message: string) {
+    this.send({ message })
+  }
+
   public shutdown(): void {
     if (this.player) {
       this.player.closeSession()

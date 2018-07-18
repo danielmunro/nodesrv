@@ -1,6 +1,6 @@
-import roll, { getRandomInt } from "../random/dice"
 import { Mob } from "../mob/model/mob"
 import { persistMob } from "../mob/repository/mob"
+import roll, { getRandomInt } from "../random/dice"
 import { Direction } from "../room/constants"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Exit } from "../room/model/exit"

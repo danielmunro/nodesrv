@@ -1,5 +1,5 @@
-import { DiceRoller } from "../random/dice"
 import { findWanderingMobs } from "../mob/repository/mob"
+import { DiceRoller } from "../random/dice"
 import { MinuteTimer } from "../timer/minuteTimer"
 import { RandomTickTimer } from "../timer/randomTickTimer"
 import { SecondIntervalTimer } from "../timer/secondTimer"
@@ -8,6 +8,7 @@ import { DecrementAffects } from "./observers/decrementAffects"
 import { FightRounds } from "./observers/fightRounds"
 import { ObserverChain } from "./observers/observerChain"
 import { PersistPlayers } from "./observers/persistPlayers"
+import { RegionWeather } from "./observers/regionWeather"
 import { SocialBroadcaster } from "./observers/socialBroadcaster"
 import { Tick } from "./observers/tick"
 import { Wander } from "./observers/wander"
@@ -31,6 +32,7 @@ export default function addObservers(gameServer: GameServer): GameServer {
     new RandomTickTimer(
       new DiceRoller(TICK.DICE.SIDES, TICK.DICE.ROLLS, TICK.DICE.MODIFIER)))
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
+  gameServer.addObserver(new RegionWeather(), new MinuteTimer())
   gameServer.addObserver(new SocialBroadcaster(), new ShortIntervalTimer())
   gameServer.addObserver(new FightRounds(), new SecondIntervalTimer())
 

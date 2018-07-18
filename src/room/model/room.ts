@@ -41,7 +41,7 @@ export class Room {
   @JoinColumn()
   public inventory: Inventory = new Inventory()
 
-  @ManyToOne((type) => Region, (region) => region.rooms)
+  @ManyToOne((type) => Region, (region) => region.rooms, { eager: true })
   public region: Region
 
   public addMob(mob: Mob): void {

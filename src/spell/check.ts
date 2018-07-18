@@ -1,7 +1,7 @@
 import { ActionType } from "../action/actionType"
-import roll from "../random/dice"
 import { getFights } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
+import roll from "../random/dice"
 import { Request } from "../request/request"
 import { Spell } from "./model/spell"
 import { SpellDefinition } from "./spellDefinition"

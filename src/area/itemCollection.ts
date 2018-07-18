@@ -1,5 +1,5 @@
-import roll from "../random/dice"
 import { Item } from "../item/model/item"
+import roll from "../random/dice"
 import { SectionType } from "./sectionType"
 
 export default class ItemCollection {
