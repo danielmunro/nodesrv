@@ -1,12 +1,12 @@
-import TestBuilder from "../../test/testBuilder"
-import eat from "./eat"
-import CheckedRequest from "../checkedRequest"
+import { AffectType } from "../../affect/affectType"
+import { newAffect } from "../../affect/factory"
+import appetite from "../../mob/race/appetite"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
+import TestBuilder from "../../test/testBuilder"
 import Check from "../check"
-import appetite from "../../mob/race/appetite"
-import { newAffect } from "../../affect/factory"
-import { AffectType } from "../../affect/affectType"
+import CheckedRequest from "../checkedRequest"
+import eat from "./eat"
 
 describe("eat action", () => {
   it("should remove food from inventory when consumed", async () => {
