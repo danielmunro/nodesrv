@@ -1,6 +1,5 @@
-import { Client } from "../../client/client"
-import { Tick } from "./tick"
 import { getTestClient } from "../../test/client"
+import { Tick } from "./tick"
 
 describe("ticks", () => {
   it("should call tick on all clients", () => {
