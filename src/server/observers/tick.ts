@@ -8,14 +8,13 @@ export class Tick implements Observer {
   public notify(clients: Client[]): void {
     const id = v4()
     const timestamp = new Date()
+    const clientsToUpdate = clients.filter((client) => client.isLoggedIn())
 
-    clients.forEach((it) => {
+    clientsToUpdate.forEach((it) => {
       const mob = it.getSessionMob()
-      if (mob) {
-        mob.regen()
-        if (mob.hunger === 0) {
-          it.send({ message: MESSAGE_HUNGRY })
-        }
+      mob.regen()
+      if (mob.isHungry()) {
+        it.sendMessage(MESSAGE_HUNGRY)
       }
       it.tick(id, timestamp)
     })

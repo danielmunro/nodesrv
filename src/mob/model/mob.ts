@@ -136,6 +136,10 @@ export class Mob {
     }
   }
 
+  public isHungry(): boolean {
+    return this.hunger === 0
+  }
+
   public getExperienceFromKilling(mob: Mob) {
     const levelDelta = mob.level - this.level
     return BASE_KILL_EXPERIENCE * modifierNormalizer(levelDelta)

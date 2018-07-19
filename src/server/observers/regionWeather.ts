@@ -10,18 +10,19 @@ export class RegionWeather implements Observer {
     const regionRepository = await getRegionRepository()
     const regions = await regionRepository.query(`SELECT * FROM region`)
     const regionsToUpdate = regions.filter(() => roll(1, 4) === 1)
+    const clientsToUpdate = clients.filter((client) => client.isLoggedIn())
+
     regionsToUpdate.forEach((region) =>
-      this.updateClientsOfRegionWeatherChange(clients, region))
+      this.updateClientsOfRegionWeatherChange(
+        clientsToUpdate.filter((client) =>
+          client.getSessionMob().room.region.id === region.id), region))
+
     await regionRepository.save(regionsToUpdate)
   }
 
   private updateClientsOfRegionWeatherChange(clients: Client[], region: Region) {
     region.weather = getRandomWeather()
     const message = getWeatherTransitionMessage(region.weather)
-    clients.forEach((client) => {
-      if (client.isLoggedIn() && client.getSessionMob().room.region.id === region.id) {
-        client.sendMessage(message)
-      }
-    })
+    clients.forEach((client) => client.sendMessage(message))
   }
 }

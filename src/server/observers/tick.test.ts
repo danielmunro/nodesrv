@@ -1,20 +1,18 @@
 import { Client } from "../../client/client"
 import { Tick } from "./tick"
-
-jest.mock("../../client/client")
+import { getTestClient } from "../../test/client"
 
 describe("ticks", () => {
   it("should call tick on all clients", () => {
     const tick = new Tick()
     const clients = [
-      new Client(),
-      new Client(),
-      new Client(),
-      new Client(),
-      new Client(),
+      getTestClient(),
+      getTestClient(),
+      getTestClient(),
+      getTestClient(),
+      getTestClient(),
     ]
     tick.notify(clients)
-    expect.assertions(clients.length)
-    clients.forEach((client) => expect(client.tick.mock.calls.length).toBe(1))
+    clients.forEach((client) => expect(client.ws.send.mock.calls.length).toBeGreaterThan(1))
   })
 })
