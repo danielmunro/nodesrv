@@ -3,8 +3,8 @@ import { Vital } from "../../attributes/vital"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import CheckedRequest from "../checkedRequest"
+import { Mob } from "../../mob/model/mob"
 
-export const MESSAGE_FAIL_UNKNOWN = "You can't train that."
 export const MESSAGE_FAIL_CANNOT_TRAIN = "You can't train that anymore."
 export const MESSAGE_SUCCESS_STR = "You become stronger!"
 export const MESSAGE_SUCCESS_INT = "You gain in intelligence!"
@@ -22,10 +22,26 @@ function canTrain(stat: number): boolean {
   return stat < MAX_TRAINABLE_STATS
 }
 
+function trainStat(mob: Mob, responseBuilder: ResponseBuilder, message: string, stat: Stat): Promise<Response> {
+  const stats = mob.trainedAttributes.stats
+  if (!canTrain(stats[stat])) {
+    return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
+  }
+  stats[stat] += 1
+  mob.trains--
+  return responseBuilder.success(message)
+}
+
+function trainVital(mob: Mob, responseBuilder: ResponseBuilder, message: string, vital: Vital): Promise<Response> {
+  const vitals = mob.trainedAttributes.vitals
+  vitals[vital] += 10
+  mob.trains--
+  return responseBuilder.success(message)
+}
+
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   const stats = request.mob.trainedAttributes.stats
-  const vitals = request.mob.trainedAttributes.vitals
   const responseBuilder = new ResponseBuilder(request)
 
   if (!request.subject) {
@@ -40,62 +56,25 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
       "hp mana mv")
   }
 
-  switch (request.subject) {
-    case Stat.Str:
-      if (!canTrain(stats.str)) {
-        return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
-      }
-      stats.str += 1
-      request.mob.trains--
-      return responseBuilder.success(MESSAGE_SUCCESS_STR)
-    case Stat.Int:
-      if (!canTrain(stats.int)) {
-        return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
-      }
-      stats.int += 1
-      request.mob.trains--
-      return responseBuilder.success(MESSAGE_SUCCESS_INT)
-    case Stat.Wis:
-      if (!canTrain(stats.wis)) {
-        return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
-      }
-      stats.wis += 1
-      request.mob.trains--
-      return responseBuilder.success(MESSAGE_SUCCESS_WIS)
-    case Stat.Dex:
-      if (!canTrain(stats.dex)) {
-        return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
-      }
-      stats.dex += 1
-      request.mob.trains--
-      return responseBuilder.success(MESSAGE_SUCCESS_DEX)
-    case Stat.Con:
-      if (!canTrain(stats.con)) {
-        return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
-      }
-      stats.con += 1
-      request.mob.trains--
-      return responseBuilder.success(MESSAGE_SUCCESS_CON)
-    case Stat.Sta:
-      if (!canTrain(stats.sta)) {
-        return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
-      }
-      stats.sta += 1
-      request.mob.trains--
-      return responseBuilder.success(MESSAGE_SUCCESS_STA)
-    case Vital.Hp:
-      vitals.hp += 10
-      request.mob.trains--
-      return responseBuilder.success(MESSAGE_SUCCESS_HP)
-    case Vital.Mana:
-      vitals.mana += 10
-      request.mob.trains--
-      return responseBuilder.success(MESSAGE_SUCCESS_MANA)
-    case Vital.Mv:
-      vitals.mv += 10
-      request.mob.trains--
-      return responseBuilder.success(MESSAGE_SUCCESS_MV)
-    default:
-      return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
+  if (request.subject === Stat.Str) {
+    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_STR, Stat.Str)
+  } else if (request.subject === Stat.Int) {
+    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_INT, Stat.Int)
+  } else if (request.subject === Stat.Wis) {
+    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_WIS, Stat.Wis)
+  } else if (request.subject === Stat.Dex) {
+    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_DEX, Stat.Dex)
+  } else if (request.subject === Stat.Con) {
+    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_CON, Stat.Con)
+  } else if (request.subject === Stat.Sta) {
+    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_STA, Stat.Sta)
+  } else if (request.subject === Vital.Hp) {
+    return trainVital(request.mob, responseBuilder, MESSAGE_SUCCESS_HP, Vital.Hp)
+  } else if (request.subject === Vital.Mana) {
+    return trainVital(request.mob, responseBuilder, MESSAGE_SUCCESS_MANA, Vital.Mana)
+  } else if (request.subject === Vital.Mv) {
+    return trainVital(request.mob, responseBuilder, MESSAGE_SUCCESS_MV, Vital.Mv)
   }
+
+  return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
 }
