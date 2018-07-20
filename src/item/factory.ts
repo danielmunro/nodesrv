@@ -31,6 +31,16 @@ export function newFood(name: string, description: string, nourishment: number =
   return item
 }
 
+export function newItemFixture(name: string, description: string): Item {
+  const item = new Item()
+  item.name = name
+  item.description = description
+  item.isTransferable = false
+  item.itemType = ItemType.Fixture
+
+  return item
+}
+
 export function copy(item: Item): Item {
   const newItem = new Item()
   newItem.name = item.name

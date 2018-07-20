@@ -4,6 +4,7 @@ import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
 import drop, { MESSAGE_FAIL_NO_ITEM } from "./drop"
+import get, { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE } from "./get"
 
 describe("drop actions precondition", () => {
   it("should not work if the item is not in the right inventory", async () => {
@@ -44,5 +45,20 @@ describe("drop actions precondition", () => {
     // then
     expect(check.status).toBe(CheckStatus.Failed)
     expect(check.result).toContain("curse")
+  })
+
+  it("should not be able to drop an item that is not transferable", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+    const item = testBuilder.withPlayer().withTestEquipment()
+    testBuilder.withRoom()
+    item.isTransferable = false
+
+    // when
+    const check = await drop(testBuilder.createRequest(RequestType.Drop, `drop ${item.name}`))
+
+    // then
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)
   })
 })

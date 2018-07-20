@@ -4,4 +4,5 @@ export enum ItemType {
   Equipment,
   Container,
   BodyPart,
+  Fixture,
 }

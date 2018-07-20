@@ -30,6 +30,9 @@ export class Item {
   @Column("integer")
   public nourishment: number = 0
 
+  @Column("boolean", { default: true })
+  public isTransferable: boolean = true
+
   @ManyToOne((type) => Inventory, (inventory) => inventory.items)
   public inventory: Inventory
 

@@ -1,7 +1,7 @@
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
-import drop, { MESSAGE_FAIL_NO_ITEM } from "./get"
+import drop, { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, MESSAGE_FAIL_NO_ITEM } from "./get"
 import get from "./get"
 
 describe("get actions precondition", () => {
@@ -30,5 +30,20 @@ describe("get actions precondition", () => {
     // then
     expect(check.status).toBe(CheckStatus.Ok)
     expect(check.result).toBe(equipment)
+  })
+
+  it("should not be able to get an item that is not transferable", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+    testBuilder.withPlayer()
+    const item = testBuilder.withRoom().withTestEquipment()
+    item.isTransferable = false
+
+    // when
+    const check = await get(testBuilder.createRequest(RequestType.Get, `get ${item.name}`))
+
+    // then
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)
   })
 })

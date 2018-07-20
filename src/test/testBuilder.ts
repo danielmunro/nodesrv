@@ -59,12 +59,24 @@ export default class TestBuilder {
   }
 
   public createOkCheckedRequest(requestType: RequestType, input: string = null, result: any = null): CheckedRequest {
+    return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result)
+  }
+
+  public createFailedCheckedRequest(requestType: RequestType, input: string = null, result: any = null): CheckedRequest {
+    return this.createCheckedRequest(requestType, CheckStatus.Failed, input, result)
+  }
+
+  private createCheckedRequest(
+    requestType: RequestType,
+    checkStatus: CheckStatus,
+    input: string = null,
+    result: any = null): CheckedRequest {
     if (!input) {
       input = requestType.toString()
     }
     return new CheckedRequest(
       new Request(this.player, requestType, createRequestArgs(input)),
-      new Check(CheckStatus.Ok, result),
+      new Check(checkStatus, result),
     )
   }
 

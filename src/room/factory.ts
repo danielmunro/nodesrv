@@ -4,11 +4,12 @@ import { getFreeReciprocalDirection, isReciprocalFree, reverse } from "./directi
 import { Exit } from "./model/exit"
 import { Room } from "./model/room"
 
-export function newRoom(name: string, description: string, mobs = []): Room {
+export function newRoom(name: string, description: string, mobs = [], items = []): Room {
   const room = new Room()
   room.name = name
   room.description = description
   room.mobs = mobs
+  items.forEach((item) => room.inventory.addItem(item))
 
   return room
 }
