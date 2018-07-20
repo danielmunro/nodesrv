@@ -1,9 +1,9 @@
-import { Stat } from "../../attributes/stat"
+import { allStats, Stat } from "../../attributes/stat"
 import { Vital } from "../../attributes/vital"
+import { Mob } from "../../mob/model/mob"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import CheckedRequest from "../checkedRequest"
-import { Mob } from "../../mob/model/mob"
 
 export const MESSAGE_FAIL_CANNOT_TRAIN = "You can't train that anymore."
 export const MESSAGE_SUCCESS_STR = "You become stronger!"
@@ -47,12 +47,8 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   if (!request.subject) {
     return new ResponseBuilder(request).info(
       "You can train: " +
-      (canTrain(stats.str) ? `${Stat.Str} ` : "") +
-      (canTrain(stats.int) ? `${Stat.Int} ` : "") +
-      (canTrain(stats.wis) ? `${Stat.Wis} ` : "") +
-      (canTrain(stats.dex) ? `${Stat.Dex} ` : "") +
-      (canTrain(stats.con) ? `${Stat.Con} ` : "") +
-      (canTrain(stats.sta) ? `${Stat.Sta} ` : "") +
+      allStats.reduce((previous: string, current: Stat) =>
+        previous + (canTrain(stats[current]) ? `${current} ` : ""), "") +
       "hp mana mv")
   }
 
