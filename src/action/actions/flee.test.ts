@@ -1,15 +1,15 @@
-import { getTestMob } from "../../test/mob"
 import { addFight, Fight, getFights, reset } from "../../mob/fight/fight"
-import flee from "./flee"
-import CheckedRequest from "../checkedRequest"
 import { Request } from "../../request/request"
-import { getTestPlayer } from "../../test/player"
 import { RequestType } from "../../request/requestType"
-import Check from "../check"
-import { getTestRoom } from "../../test/room"
 import { newReciprocalExit } from "../../room/factory"
-import { getRoomRepository } from "../../room/repository/room"
 import { getExitRepository } from "../../room/repository/exit"
+import { getRoomRepository } from "../../room/repository/room"
+import { getTestMob } from "../../test/mob"
+import { getTestPlayer } from "../../test/player"
+import { getTestRoom } from "../../test/room"
+import Check from "../check"
+import CheckedRequest from "../checkedRequest"
+import flee from "./flee"
 
 let fight
 let mob

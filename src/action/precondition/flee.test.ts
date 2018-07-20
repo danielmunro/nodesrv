@@ -1,14 +1,14 @@
-import flee, { MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_NOT_FIGHTING, MESSAGE_FAIL_TOO_TIRED } from "./flee"
-import { Request } from "../../request/request"
-import { getTestPlayer } from "../../test/player"
-import { RequestType } from "../../request/requestType"
-import { CheckStatus } from "../check"
 import { addFight, Fight, reset } from "../../mob/fight/fight"
-import { getTestMob } from "../../test/mob"
-import { getTestRoom } from "../../test/room"
+import { Request } from "../../request/request"
+import { RequestType } from "../../request/requestType"
 import { newReciprocalExit } from "../../room/factory"
-import { getRoomRepository } from "../../room/repository/room"
 import { getExitRepository } from "../../room/repository/exit"
+import { getRoomRepository } from "../../room/repository/room"
+import { getTestMob } from "../../test/mob"
+import { getTestPlayer } from "../../test/player"
+import { getTestRoom } from "../../test/room"
+import { CheckStatus } from "../check"
+import flee, { MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_NOT_FIGHTING, MESSAGE_FAIL_TOO_TIRED } from "./flee"
 
 let fight
 let mob
