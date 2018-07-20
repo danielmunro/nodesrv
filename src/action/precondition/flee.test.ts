@@ -1,0 +1,79 @@
+import flee, { MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_NOT_FIGHTING, MESSAGE_FAIL_TOO_TIRED } from "./flee"
+import { Request } from "../../request/request"
+import { getTestPlayer } from "../../test/player"
+import { RequestType } from "../../request/requestType"
+import { CheckStatus } from "../check"
+import { addFight, Fight, reset } from "../../mob/fight/fight"
+import { getTestMob } from "../../test/mob"
+import { getTestRoom } from "../../test/room"
+import { newReciprocalExit } from "../../room/factory"
+import { getRoomRepository } from "../../room/repository/room"
+import { getExitRepository } from "../../room/repository/exit"
+
+let fight
+let mob
+let player
+let room1
+let room2
+
+beforeEach(async () => {
+  reset()
+  player = getTestPlayer()
+  mob = getTestMob()
+  fight = new Fight(player.sessionMob, mob)
+  room1 = getTestRoom()
+  room2 = getTestRoom()
+  const roomRepository = await getRoomRepository()
+  await roomRepository.save([room1, room2])
+  const exitRepository = await getExitRepository()
+  await exitRepository.save(newReciprocalExit(room1, room2))
+  addFight(fight)
+  room1.addMob(player.sessionMob)
+  room1.addMob(mob)
+})
+
+describe("flee action precondition", () => {
+  it("should not work if the mob is not fighting", async () => {
+    // when
+    const check = await flee(new Request(getTestPlayer(), RequestType.Flee, "flee"))
+
+    // then
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(MESSAGE_FAIL_NOT_FIGHTING)
+  })
+
+  it("should not work if no exits available", async () => {
+    // given
+    const room3 = getTestRoom()
+    room3.addMob(player.sessionMob)
+    room3.addMob(mob)
+
+    // when
+    const check = await flee(new Request(player, RequestType.Flee, "flee"))
+
+    // then
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE)
+  })
+
+  it("should not work if a mob has no movement", async () => {
+    // given
+    player.sessionMob.vitals.mv = 0
+
+    // when
+    const check = await flee(new Request(player, RequestType.Flee, "flee"))
+
+    // then
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(MESSAGE_FAIL_TOO_TIRED)
+  })
+
+  it("should work if all preconditions met", async () => {
+    // when
+    const check = await flee(new Request(player, RequestType.Flee, "flee"))
+
+    // then
+    expect(check.status).toBe(CheckStatus.Ok)
+    expect(check.result).toBe(fight)
+  })
+})
