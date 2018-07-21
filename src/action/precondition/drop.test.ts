@@ -4,7 +4,7 @@ import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
 import drop, { MESSAGE_FAIL_NO_ITEM } from "./drop"
-import get, { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE } from "./get"
+import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE } from "./get"
 
 describe("drop actions precondition", () => {
   it("should not work if the item is not in the right inventory", async () => {

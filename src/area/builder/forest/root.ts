@@ -1,5 +1,5 @@
-import { newRoom } from "../../../room/factory"
 import { newItemFixture } from "../../../item/factory"
+import { newRoom } from "../../../room/factory"
 
 export default function() {
   return newRoom(
