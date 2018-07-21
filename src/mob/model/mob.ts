@@ -128,12 +128,9 @@ export class Mob {
 
   public eat(item: Item) {
     this.hunger += item.nourishment
-    const maxAppetite = appetite(this.race)
     item.affects.forEach((affect) => this.addAffect(affect))
     this.inventory.removeItem(item)
-    if (this.hunger > maxAppetite) {
-      this.hunger = maxAppetite
-    }
+    this.normalizeVitals()
   }
 
   public isHungry(): boolean {

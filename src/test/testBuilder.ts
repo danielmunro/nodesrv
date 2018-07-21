@@ -34,7 +34,7 @@ export default class TestBuilder {
     return new PlayerBuilder(this.player)
   }
 
-  public withMob(name: string = null) {
+  public withMob(name: string = null): MobBuilder {
     const mob = getTestMob(name)
     if (!this.room) {
       this.withRoom()
@@ -44,7 +44,7 @@ export default class TestBuilder {
     return new MobBuilder(mob)
   }
 
-  public withTrainer(name: string = null) {
+  public withTrainer(name: string = null): MobBuilder {
     const mobBuilder = this.withMob(name)
     mobBuilder.mob.role = Role.Trainer
 
