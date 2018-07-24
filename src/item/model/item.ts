@@ -6,6 +6,7 @@ import Attributes from "../../attributes/model/attributes"
 import { Equipment } from "../equipment"
 import { ItemType } from "../itemType"
 import { Inventory } from "./inventory"
+import { Quest } from "../../quest/quest"
 
 @Entity()
 export class Item {

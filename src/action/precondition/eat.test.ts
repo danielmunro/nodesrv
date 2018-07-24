@@ -39,7 +39,7 @@ describe("eat action precondition", () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = testBuilder.withPlayer()
     const mob = playerBuilder.player.sessionMob
-    mob.hunger = appetite(mob.race)
+    mob.playerMob.hunger = appetite(mob.race)
     const food = playerBuilder.withFood()
 
     // when

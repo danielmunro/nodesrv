@@ -5,16 +5,16 @@ describe("mob model", () => {
   it("should not exceed its max appetite when eating", () => {
     // given
     const testBuilder = new TestBuilder()
-    const mobBuilder = testBuilder.withMob()
-    const food = mobBuilder.withFood()
+    const playerBuilder = testBuilder.withPlayer()
+    const food = playerBuilder.withFood()
     food.nourishment = 10
-    const mob = mobBuilder.mob
+    const mob = playerBuilder.player.sessionMob
     const maxAppetite = appetite(mob.race)
 
     // when
-    mob.eat(food)
+    mob.playerMob.eat(food)
 
     // then
-    expect(mob.hunger).toBe(maxAppetite)
+    expect(mob.playerMob.hunger).toBe(maxAppetite)
   })
 })

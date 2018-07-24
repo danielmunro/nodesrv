@@ -34,8 +34,8 @@ describe("train action", () => {
     // given
     const testBuilder = new TestBuilder()
     const player = testBuilder.withPlayer().player
-    player.sessionMob.trains = 1
-    const initialStr = player.sessionMob.trainedAttributes.stats.str
+    player.sessionMob.playerMob.trains = 1
+    const initialStr = player.sessionMob.playerMob.trainedAttributes.stats.str
 
     // when
     const response = await getResponse(
@@ -45,16 +45,16 @@ describe("train action", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.trains).toBe(0)
-    expect(player.sessionMob.trainedAttributes.stats.str).toBe(initialStr + 1)
+    expect(player.sessionMob.playerMob.trains).toBe(0)
+    expect(player.sessionMob.playerMob.trainedAttributes.stats.str).toBe(initialStr + 1)
   })
 
   it("should be able to train int", async () => {
     // given
     const testBuilder = new TestBuilder()
     const player = testBuilder.withPlayer().player
-    player.sessionMob.trains = 1
-    const initialInt = player.sessionMob.trainedAttributes.stats.int
+    player.sessionMob.playerMob.trains = 1
+    const initialInt = player.sessionMob.playerMob.trainedAttributes.stats.int
 
     // when
     const response = await getResponse(
@@ -64,16 +64,16 @@ describe("train action", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.trains).toBe(0)
-    expect(player.sessionMob.trainedAttributes.stats.int).toBe(initialInt + 1)
+    expect(player.sessionMob.playerMob.trains).toBe(0)
+    expect(player.sessionMob.playerMob.trainedAttributes.stats.int).toBe(initialInt + 1)
   })
 
   it("should be able to train wis", async () => {
     // given
     const testBuilder = new TestBuilder()
     const player = testBuilder.withPlayer().player
-    player.sessionMob.trains = 1
-    const initialWis = player.sessionMob.trainedAttributes.stats.wis
+    player.sessionMob.playerMob.trains = 1
+    const initialWis = player.sessionMob.playerMob.trainedAttributes.stats.wis
 
     // when
     const response = await getResponse(
@@ -83,16 +83,16 @@ describe("train action", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.trains).toBe(0)
-    expect(player.sessionMob.trainedAttributes.stats.wis).toBe(initialWis + 1)
+    expect(player.sessionMob.playerMob.trains).toBe(0)
+    expect(player.sessionMob.playerMob.trainedAttributes.stats.wis).toBe(initialWis + 1)
   })
 
   it("should be able to train dex", async () => {
     // given
     const testBuilder = new TestBuilder()
     const player = testBuilder.withPlayer().player
-    player.sessionMob.trains = 1
-    const initialDex = player.sessionMob.trainedAttributes.stats.dex
+    player.sessionMob.playerMob.trains = 1
+    const initialDex = player.sessionMob.playerMob.trainedAttributes.stats.dex
 
     // when
     const response = await getResponse(
@@ -102,16 +102,16 @@ describe("train action", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.trains).toBe(0)
-    expect(player.sessionMob.trainedAttributes.stats.dex).toBe(initialDex + 1)
+    expect(player.sessionMob.playerMob.trains).toBe(0)
+    expect(player.sessionMob.playerMob.trainedAttributes.stats.dex).toBe(initialDex + 1)
   })
 
   it("should be able to train con", async () => {
     // given
     const testBuilder = new TestBuilder()
     const player = testBuilder.withPlayer().player
-    player.sessionMob.trains = 1
-    const initialCon = player.sessionMob.trainedAttributes.stats.con
+    player.sessionMob.playerMob.trains = 1
+    const initialCon = player.sessionMob.playerMob.trainedAttributes.stats.con
 
     // when
     const response = await getResponse(
@@ -121,16 +121,16 @@ describe("train action", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.trains).toBe(0)
-    expect(player.sessionMob.trainedAttributes.stats.con).toBe(initialCon + 1)
+    expect(player.sessionMob.playerMob.trains).toBe(0)
+    expect(player.sessionMob.playerMob.trainedAttributes.stats.con).toBe(initialCon + 1)
   })
 
   it("should be able to train sta", async () => {
     // given
     const testBuilder = new TestBuilder()
     const player = testBuilder.withPlayer().player
-    player.sessionMob.trains = 1
-    const initialSta = player.sessionMob.trainedAttributes.stats.sta
+    player.sessionMob.playerMob.trains = 1
+    const initialSta = player.sessionMob.playerMob.trainedAttributes.stats.sta
 
     // when
     const response = await getResponse(
@@ -140,18 +140,18 @@ describe("train action", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.trains).toBe(0)
-    expect(player.sessionMob.trainedAttributes.stats.sta).toBe(initialSta + 1)
+    expect(player.sessionMob.playerMob.trains).toBe(0)
+    expect(player.sessionMob.playerMob.trainedAttributes.stats.sta).toBe(initialSta + 1)
   })
 
   it("should be able to train vitals", async () => {
     // given
     const testBuilder = new TestBuilder()
     const player = testBuilder.withPlayer().player
-    player.sessionMob.trains = 3
-    const initialHp = player.sessionMob.trainedAttributes.vitals.hp
-    const initialMana = player.sessionMob.trainedAttributes.vitals.mana
-    const initialMv = player.sessionMob.trainedAttributes.vitals.mv
+    player.sessionMob.playerMob.trains = 3
+    const initialHp = player.sessionMob.playerMob.trainedAttributes.vitals.hp
+    const initialMana = player.sessionMob.playerMob.trainedAttributes.vitals.mana
+    const initialMv = player.sessionMob.playerMob.trainedAttributes.vitals.mv
 
     // when
     const response1 = await getResponse(
@@ -161,8 +161,8 @@ describe("train action", () => {
 
     // then
     expect(response1.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.trains).toBe(2)
-    expect(player.sessionMob.trainedAttributes.vitals.hp).toBe(initialHp + 10)
+    expect(player.sessionMob.playerMob.trains).toBe(2)
+    expect(player.sessionMob.playerMob.trainedAttributes.vitals.hp).toBe(initialHp + 10)
 
     // when
     const response2 = await getResponse(
@@ -172,8 +172,8 @@ describe("train action", () => {
 
     // then
     expect(response2.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.trains).toBe(1)
-    expect(player.sessionMob.trainedAttributes.vitals.mana).toBe(initialMana + 10)
+    expect(player.sessionMob.playerMob.trains).toBe(1)
+    expect(player.sessionMob.playerMob.trainedAttributes.vitals.mana).toBe(initialMana + 10)
 
     // when
     const response3 = await getResponse(
@@ -183,8 +183,8 @@ describe("train action", () => {
 
     // then
     expect(response3.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.trains).toBe(0)
-    expect(player.sessionMob.trainedAttributes.vitals.mv).toBe(initialMv + 10)
+    expect(player.sessionMob.playerMob.trains).toBe(0)
+    expect(player.sessionMob.playerMob.trainedAttributes.vitals.mv).toBe(initialMv + 10)
   })
 
   it("should not exceed stat max training amounts", async () => {
@@ -192,13 +192,13 @@ describe("train action", () => {
     const testBuilder = new TestBuilder()
     const player = testBuilder.withPlayer().player
     const trainer = testBuilder.withTrainer().mob
-    player.sessionMob.trains = 10
-    player.sessionMob.trainedAttributes.stats.str = MAX_TRAINABLE_STATS
-    player.sessionMob.trainedAttributes.stats.int = MAX_TRAINABLE_STATS
-    player.sessionMob.trainedAttributes.stats.wis = MAX_TRAINABLE_STATS
-    player.sessionMob.trainedAttributes.stats.dex = MAX_TRAINABLE_STATS
-    player.sessionMob.trainedAttributes.stats.con = MAX_TRAINABLE_STATS
-    player.sessionMob.trainedAttributes.stats.sta = MAX_TRAINABLE_STATS
+    player.sessionMob.playerMob.trains = 10
+    player.sessionMob.playerMob.trainedAttributes.stats.str = MAX_TRAINABLE_STATS
+    player.sessionMob.playerMob.trainedAttributes.stats.int = MAX_TRAINABLE_STATS
+    player.sessionMob.playerMob.trainedAttributes.stats.wis = MAX_TRAINABLE_STATS
+    player.sessionMob.playerMob.trainedAttributes.stats.dex = MAX_TRAINABLE_STATS
+    player.sessionMob.playerMob.trainedAttributes.stats.con = MAX_TRAINABLE_STATS
+    player.sessionMob.playerMob.trainedAttributes.stats.sta = MAX_TRAINABLE_STATS
 
     // when
     const response1 = await getResponse(
@@ -266,7 +266,7 @@ describe("train action", () => {
     const testBuilder = new TestBuilder()
     const trainer = testBuilder.withTrainer().mob
     const player = testBuilder.withPlayer().player
-    const trainedAttributes = player.sessionMob.trainedAttributes
+    const trainedAttributes = player.sessionMob.playerMob.trainedAttributes
 
     // when
     const response1 = await getResponse(player, trainer, "")

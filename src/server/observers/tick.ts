@@ -13,7 +13,7 @@ export class Tick implements Observer {
     clientsToUpdate.forEach((it) => {
       const mob = it.getSessionMob()
       mob.regen()
-      if (mob.isHungry()) {
+      if (mob.playerMob && mob.playerMob.isHungry()) {
         it.sendMessage(MESSAGE_HUNGRY)
       }
       it.tick(id, timestamp)

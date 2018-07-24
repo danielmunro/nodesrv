@@ -24,6 +24,7 @@ import { modifiers } from "../race/modifier"
 import { Race } from "../race/race"
 import { Role } from "../role"
 import { SpecializationType } from "../specialization/specializationType"
+import { PlayerMob } from "./playerMob"
 
 const BASE_KILL_EXPERIENCE = 100
 
@@ -69,15 +70,6 @@ export class Mob {
   @Column("integer", { default: Role.None })
   public role: Role = Role.None
 
-  @Column("integer", { default: 0 })
-  public trains: number = 0
-
-  @Column("integer", { default: 0 })
-  public practices: number = 0
-
-  @Column("integer")
-  public hunger: number = 0
-
   @OneToMany((type) => Affect, (affect) => affect.mob, { cascadeInsert: true, eager: true })
   public affects: Affect[] = []
 
@@ -113,29 +105,8 @@ export class Mob {
   @OneToMany((type) => Spell, (spell) => spell.mob, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   public spells: Spell[] = []
 
-  @OneToOne((type) => Attributes)
-  @JoinColumn()
-  public trainedAttributes: Attributes = new Attributes()
-
-  public regen(): void {
-    const combined = this.getCombinedAttributes()
-    this.vitals.hp += combined.vitals.hp * 0.2
-    this.vitals.mana += combined.vitals.mana * 0.2
-    this.vitals.mv += combined.vitals.mv * 0.2
-    this.hunger--
-    this.normalizeVitals()
-  }
-
-  public eat(item: Item) {
-    this.hunger += item.nourishment
-    item.affects.forEach((affect) => this.addAffect(affect))
-    this.inventory.removeItem(item)
-    this.normalizeVitals()
-  }
-
-  public isHungry(): boolean {
-    return this.hunger === 0
-  }
+  @OneToOne((type) => PlayerMob, (playerMob) => playerMob.mob, { nullable: true })
+  public playerMob: PlayerMob
 
   public getExperienceFromKilling(mob: Mob) {
     const levelDelta = mob.level - this.level
@@ -147,6 +118,9 @@ export class Mob {
     this.attributes.forEach((a) => attributes = attributes.combine(a))
     this.equipped.inventory.items.forEach((i) => attributes = attributes.combine(i.attributes))
     modifiers.forEach((modifier) => attributes = modifier(this.race, attributes))
+    if (this.playerMob) {
+      attributes.combine(this.playerMob.trainedAttributes)
+    }
 
     return attributes
   }
@@ -184,7 +158,18 @@ export class Mob {
     return mob
   }
 
-  private normalizeVitals() {
+  public regen(): void {
+    const combined = this.getCombinedAttributes()
+    this.vitals.hp += combined.vitals.hp * 0.2
+    this.vitals.mana += combined.vitals.mana * 0.2
+    this.vitals.mv += combined.vitals.mv * 0.2
+    if (this.playerMob) {
+      this.playerMob.regen()
+    }
+    this.normalizeVitals()
+  }
+
+  public normalizeVitals() {
     const combined = this.getCombinedAttributes()
     if (this.vitals.hp > combined.vitals.hp) {
       this.vitals.hp = combined.vitals.hp
@@ -195,11 +180,10 @@ export class Mob {
     if (this.vitals.mv > combined.vitals.mv) {
       this.vitals.mv = combined.vitals.mv
     }
-    const maxAppetite = appetite(this.race)
-    if (this.hunger < 0) {
-      this.hunger = 0
-    } else if (this.hunger > maxAppetite) {
-      this.hunger = maxAppetite
-    }
+  }
+
+  public setPlayerMob(playerMob: PlayerMob) {
+    this.playerMob = playerMob
+    playerMob.mob = this
   }
 }

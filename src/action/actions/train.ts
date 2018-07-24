@@ -23,25 +23,25 @@ function canTrain(stat: number): boolean {
 }
 
 function trainStat(mob: Mob, responseBuilder: ResponseBuilder, message: string, stat: Stat): Promise<Response> {
-  const stats = mob.trainedAttributes.stats
+  const stats = mob.playerMob.trainedAttributes.stats
   if (!canTrain(stats[stat])) {
     return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
   }
   stats[stat] += 1
-  mob.trains--
+  mob.playerMob.trains--
   return responseBuilder.success(message)
 }
 
 function trainVital(mob: Mob, responseBuilder: ResponseBuilder, message: string, vital: Vital): Promise<Response> {
-  const vitals = mob.trainedAttributes.vitals
+  const vitals = mob.playerMob.trainedAttributes.vitals
   vitals[vital] += 10
-  mob.trains--
+  mob.playerMob.trains--
   return responseBuilder.success(message)
 }
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
-  const stats = request.mob.trainedAttributes.stats
+  const stats = request.mob.playerMob.trainedAttributes.stats
   const responseBuilder = new ResponseBuilder(request)
 
   if (!request.subject) {

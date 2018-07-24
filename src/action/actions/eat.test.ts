@@ -19,14 +19,14 @@ describe("eat action", () => {
       await Check.ok(food)))
 
     expect(playerBuilder.player.sessionMob.inventory.items.length).toBe(0)
-    expect(playerBuilder.player.sessionMob.hunger).toBe(food.nourishment)
+    expect(playerBuilder.player.sessionMob.playerMob.hunger).toBe(food.nourishment)
   })
 
   it("should notify if the player is full", async () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = testBuilder.withPlayer()
     const food = playerBuilder.withFood()
-    playerBuilder.player.sessionMob.hunger = appetite(playerBuilder.player.sessionMob.race) - 1
+    playerBuilder.player.sessionMob.playerMob.hunger = appetite(playerBuilder.player.sessionMob.race) - 1
 
     const response = await eat(new CheckedRequest(
       new Request(playerBuilder.player, RequestType.Eat, `eat ${food.name}`),

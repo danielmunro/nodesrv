@@ -17,7 +17,7 @@ export default function(request: Request): Promise<Check> {
     return Check.fail(MESSAGE_FAIL_CANNOT_EAT_ITEM)
   }
 
-  if (request.mob.hunger >= appetite(request.mob.race)) {
+  if (request.mob.playerMob.hunger >= appetite(request.mob.race)) {
     return Check.fail(MESSAGE_FAIL_ALREADY_FULL)
   }
 

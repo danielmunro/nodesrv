@@ -18,7 +18,7 @@ export default function(request: Request): Promise<Check> {
     return Check.fail(MESSAGE_FAIL_NO_TRAINER)
   }
 
-  if (request.mob.trains === 0) {
+  if (request.mob.playerMob.trains === 0) {
     return Check.fail(MESSAGE_FAIL_NEED_TRAINS)
   }
 

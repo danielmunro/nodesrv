@@ -52,7 +52,7 @@ describe("train action precondition", () => {
     // given
     const testBuilder = new TestBuilder()
     const player = testBuilder.withPlayer().player
-    player.sessionMob.trains = 1
+    player.sessionMob.playerMob.trains = 1
     const trainer = testBuilder.withTrainer().mob
 
     // when
