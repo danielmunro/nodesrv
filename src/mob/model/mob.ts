@@ -52,9 +52,6 @@ export class Mob {
   @Column("integer")
   public level: number = 1
 
-  @Column("integer")
-  public experience: number = 0
-
   @Column("boolean", { default: false })
   public wanders: boolean = false
 

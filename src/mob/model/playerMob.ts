@@ -34,6 +34,9 @@ export class PlayerMob {
   @JoinColumn()
   public trainedAttributes: Attributes = new Attributes()
 
+  @Column("integer")
+  public experience: number = 0
+
   public regen(): void {
     this.hunger--
     this.normalizeVitals()

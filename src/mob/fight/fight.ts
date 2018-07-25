@@ -124,7 +124,9 @@ export class Fight {
     if (y.vitals.hp < 0) {
       this.status = Status.Done
       this.winner = x
-      x.experience += attack.experience
+      if (x.isPlayer) {
+        x.playerMob.experience += attack.experience
+      }
     }
 
     return attack
