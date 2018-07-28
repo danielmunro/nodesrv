@@ -1,9 +1,9 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import { Item } from "../../item/model/item"
-import { Mob } from "./mob"
-import appetite from "../race/appetite"
 import { default as Attributes } from "../../attributes/model/attributes"
+import { Item } from "../../item/model/item"
+import appetite from "../race/appetite"
+import { Mob } from "./mob"
 
 @Entity()
 export class PlayerMob {

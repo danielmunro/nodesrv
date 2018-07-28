@@ -3,10 +3,10 @@ import { Trigger } from "../../mob/trigger"
 import Attempt from "../attempt"
 import { Skill } from "../model/skill"
 import Outcome from "../outcome"
+import { OutcomeType } from "../outcomeType"
 import { getSkillAction } from "../skillCollection"
 import { Event } from "./event"
 import { Resolution } from "./resolution"
-import { OutcomeType } from "../outcomeType"
 
 function filterBySkillTrigger(skill: Skill, trigger: Trigger) {
   const action = getSkillAction(skill.skillType)

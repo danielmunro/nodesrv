@@ -1,5 +1,4 @@
 import { getFights } from "../../mob/fight/fight"
-import { findOneMob } from "../../mob/repository/mob"
 import { Request } from "../../request/request"
 import Check from "../check"
 

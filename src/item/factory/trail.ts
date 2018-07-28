@@ -3,7 +3,6 @@ import { newAffect } from "../../affect/factory"
 import roll from "../../random/dice"
 import { newFood } from "../factory"
 import { Item } from "../model/item"
-import { Quest } from "../../quest/quest"
 
 export function newForestItem(): Item {
   switch (roll(1, 4)) {

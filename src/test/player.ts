@@ -1,7 +1,7 @@
 import * as sillyname from "sillyname"
+import { PlayerMob } from "../mob/model/playerMob"
 import { Player } from "../player/model/player"
 import { getTestMob } from "./mob"
-import { PlayerMob } from "../mob/model/playerMob"
 
 export function getTestPlayer(): Player {
   const player = new Player()
