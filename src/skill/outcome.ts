@@ -7,7 +7,7 @@ export default class Outcome {
   public readonly message: string
   public readonly delayIncurred: number
 
-  constructor(attempt: Attempt, outcomeType: OutcomeType, message: string, delayIncurred: number = 0) {
+  constructor(attempt: Attempt, outcomeType: OutcomeType, message: string = "", delayIncurred: number = 0) {
     this.attempt = attempt
     this.outcomeType = outcomeType
     this.message = message

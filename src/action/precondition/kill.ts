@@ -26,5 +26,5 @@ export default async function(request: Request): Promise<Check> {
     return Check.fail(MESSAGE_FAIL_KILL_ALREADY_FIGHTING)
   }
 
-  return Check.ok(await findOneMob(target.id))
+  return Check.ok(target)
 }
