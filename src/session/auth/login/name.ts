@@ -1,4 +1,5 @@
-import { findPlayerMobByName } from "../../../mob/repository/mob"
+import { Mob } from "../../../mob/model/mob"
+import { getMobs } from "../../../mob/table"
 import AuthStep from "../authStep"
 import Complete from "../complete"
 import { MESSAGE_NAME, MESSAGE_UNAVAILABLE } from "../constants"
@@ -6,8 +7,6 @@ import NewMobConfirm from "../createMob/newMobConfirm"
 import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
-import { getMobs } from "../../../mob/table"
-import { Mob } from "../../../mob/model/mob"
 
 export default class Name extends PlayerAuthStep implements AuthStep {
   /* istanbul ignore next */

@@ -1,3 +1,4 @@
+import appetite from "../../../mob/race/appetite"
 import { allRaces } from "../../../mob/race/race"
 import AuthStep from "../authStep"
 import { MESSAGE_CHOOSE_RACE, MESSAGE_FAIL_RACE_UNAVAILABLE } from "../constants"
@@ -5,7 +6,6 @@ import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
 import Specialization from "./specialization"
-import appetite from "../../../mob/race/appetite"
 
 export default class Race extends PlayerAuthStep implements AuthStep {
   /* istanbul ignore next */

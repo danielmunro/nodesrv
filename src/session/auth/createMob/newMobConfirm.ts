@@ -1,5 +1,6 @@
 import { newAttributes, newHitroll, newStartingStats, newStartingVitals } from "../../../attributes/factory"
 import { Mob } from "../../../mob/model/mob"
+import { PlayerMob } from "../../../mob/model/playerMob"
 import { Player } from "../../../player/model/player"
 import AuthStep from "../authStep"
 import { MESSAGE_NEW_MOB_CONFIRM, MESSAGE_YN_FAILED } from "../constants"
@@ -7,7 +8,6 @@ import Name from "../login/name"
 import Request from "../request"
 import Response from "../response"
 import Race from "./race"
-import { PlayerMob } from "../../../mob/model/playerMob"
 
 export default class NewMobConfirm implements AuthStep {
   public readonly player: Player

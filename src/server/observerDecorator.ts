@@ -1,4 +1,4 @@
-import { findWanderingMobs } from "../mob/repository/mob"
+import { getMobs } from "../mob/table"
 import { DiceRoller } from "../random/dice"
 import { MinuteTimer } from "../timer/minuteTimer"
 import { RandomTickTimer } from "../timer/randomTickTimer"
@@ -13,7 +13,6 @@ import { SocialBroadcaster } from "./observers/socialBroadcaster"
 import { Tick } from "./observers/tick"
 import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
-import { getMobs } from "../mob/table"
 
 export const TICK = {
   DICE: {

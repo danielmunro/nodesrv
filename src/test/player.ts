@@ -1,8 +1,8 @@
 import * as sillyname from "sillyname"
 import { PlayerMob } from "../mob/model/playerMob"
+import appetite from "../mob/race/appetite"
 import { Player } from "../player/model/player"
 import { getTestMob } from "./mob"
-import appetite from "../mob/race/appetite"
 
 export function getTestPlayer(): Player {
   const player = new Player()
