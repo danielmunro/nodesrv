@@ -14,9 +14,6 @@ export class PlayerMob {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("text")
-  public name: string
-
   @Column("integer", { default: 0 })
   public trains: number = 0
 
@@ -25,6 +22,9 @@ export class PlayerMob {
 
   @Column("integer")
   public hunger: number = 0
+
+  @Column("integer")
+  public appetite: number = 0
 
   @OneToOne((type) => Mob, (mob) => mob.playerMob)
   @JoinColumn()
@@ -45,7 +45,6 @@ export class PlayerMob {
   public eat(item: Item) {
     this.hunger += item.nourishment
     item.affects.forEach((affect) => this.mob.addAffect(affect))
-    this.mob.inventory.removeItem(item)
     this.normalizeVitals()
   }
 
@@ -54,11 +53,10 @@ export class PlayerMob {
   }
 
   private normalizeVitals(): void {
-    const maxAppetite = appetite(this.mob.race)
     if (this.hunger < 0) {
       this.hunger = 0
-    } else if (this.hunger > maxAppetite) {
-      this.hunger = maxAppetite
+    } else if (this.hunger > this.appetite) {
+      this.hunger = this.appetite
     }
   }
 }

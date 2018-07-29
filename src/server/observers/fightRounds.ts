@@ -58,10 +58,11 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
   }
 }
 
-function sendToClientIfSessionMobIsFighting(clientMobMap, mob, round) {
+function sendToClientIfSessionMobIsFighting(clientMobMap, mob, round): Client {
   const c = clientMobMap[mob.name]
   if (c) {
     c.send({ message: createMessageFromFightRound(round, mob) })
+    return c
   }
 }
 
@@ -85,8 +86,14 @@ export class FightRounds implements Observer {
     filterCompleteFights()
     rounds.forEach((round) => {
       if (round.attack) {
-        sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.attacker, round)
-        sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.defender, round)
+        const client1 = sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.attacker, round)
+        const client2 = sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.defender, round)
+        if (client1) {
+          client1.sendMessage(client1.player.prompt())
+        }
+        if (client2) {
+          client2.sendMessage(client2.player.prompt())
+        }
       }
     })
   }

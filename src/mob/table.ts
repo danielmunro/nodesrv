@@ -24,8 +24,7 @@ export async function initialize() {
   }
   initialized = true
   const mobRepository = await getMobRepository()
-  let models = await mobRepository.find({ relations: ["room"] })
-  models = models.filter((model) => model.isPlayer === false)
+  const models = await mobRepository.find({ relations: ["room", "playerMob"] })
   models.forEach((model) => {
     mobsById[model.id] = model
     mobs.push(model)

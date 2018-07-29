@@ -7,6 +7,7 @@ import Name from "../login/name"
 import Request from "../request"
 import Response from "../response"
 import Race from "./race"
+import { PlayerMob } from "../../../mob/model/playerMob"
 
 export default class NewMobConfirm implements AuthStep {
   public readonly player: Player
@@ -46,6 +47,7 @@ export default class NewMobConfirm implements AuthStep {
       newStartingStats(),
       newHitroll(0, 0),
     ))
+    mob.playerMob = new PlayerMob()
 
     return mob
   }

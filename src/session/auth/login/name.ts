@@ -6,6 +6,8 @@ import NewMobConfirm from "../createMob/newMobConfirm"
 import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
+import { getMobs } from "../../../mob/table"
+import { Mob } from "../../../mob/model/mob"
 
 export default class Name extends PlayerAuthStep implements AuthStep {
   /* istanbul ignore next */
@@ -15,7 +17,7 @@ export default class Name extends PlayerAuthStep implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     const name = request.input
-    const mob = await findPlayerMobByName(name)
+    const mob = getMobs().find((m: Mob) => m.name === name)
 
     if (mob) {
       return this.existingMobFound(request, mob)

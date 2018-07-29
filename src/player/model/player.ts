@@ -47,4 +47,10 @@ export class Player {
         this.sessionMob.room.removeMob(this.sessionMob)
       }
     }
+
+    public prompt(): string {
+      const combined = this.sessionMob.getCombinedAttributes().vitals
+      const vitals = this.sessionMob.vitals
+      return `${vitals.hp}/${combined.hp}hp ${vitals.mana}/${combined.mana}mana ${vitals.mv}/${combined.mv}mv -> `
+    }
 }

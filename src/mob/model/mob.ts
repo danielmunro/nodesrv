@@ -90,7 +90,7 @@ export class Mob {
   @JoinColumn()
   public inventory = new Inventory()
 
-  @OneToOne((type) => Equipped, { cascadeInsert: true, eager: true })
+  @OneToOne((type) => Equipped, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   @JoinColumn()
   public equipped = new Equipped()
 
@@ -100,7 +100,9 @@ export class Mob {
   @OneToMany((type) => Spell, (spell) => spell.mob, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   public spells: Spell[] = []
 
-  @OneToOne((type) => PlayerMob, (playerMob) => playerMob.mob, { nullable: true })
+  @OneToOne((type) => PlayerMob,
+    (playerMob) => playerMob.mob,
+    { nullable: true, cascadeInsert: true, cascadeUpdate: true })
   public playerMob: PlayerMob
 
   public getExperienceFromKilling(mob: Mob) {

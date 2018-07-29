@@ -13,6 +13,7 @@ import { SocialBroadcaster } from "./observers/socialBroadcaster"
 import { Tick } from "./observers/tick"
 import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
+import { getMobs } from "../mob/table"
 
 export const TICK = {
   DICE: {
@@ -27,7 +28,7 @@ export default function addObservers(gameServer: GameServer): GameServer {
     new ObserverChain([
       new Tick(),
       new DecrementAffects(),
-      new Wander(() => findWanderingMobs()),
+      new Wander(() => Promise.resolve(getMobs().filter((mob) => mob.wanders))),
     ]),
     new RandomTickTimer(
       new DiceRoller(TICK.DICE.SIDES, TICK.DICE.ROLLS, TICK.DICE.MODIFIER)))

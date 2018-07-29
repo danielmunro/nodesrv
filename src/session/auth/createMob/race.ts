@@ -5,6 +5,7 @@ import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
 import Specialization from "./specialization"
+import appetite from "../../../mob/race/appetite"
 
 export default class Race extends PlayerAuthStep implements AuthStep {
   /* istanbul ignore next */
@@ -20,6 +21,7 @@ export default class Race extends PlayerAuthStep implements AuthStep {
     }
 
     this.player.sessionMob.race = race
+    this.player.sessionMob.playerMob.appetite = appetite(race)
     return request.ok(new Specialization(this.player))
   }
 }
