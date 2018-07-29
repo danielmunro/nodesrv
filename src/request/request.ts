@@ -1,6 +1,7 @@
 import { Item } from "../item/model/item"
 import match from "../matcher/match"
 import { Mob } from "../mob/model/mob"
+import { getMob } from "../mob/table"
 import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { RequestType } from "./requestType"
@@ -22,7 +23,7 @@ export class Request {
   public readonly subject: string
   public readonly message: string
   public readonly mob: Mob
-  public readonly target: Mob | null = null
+  private readonly target: Mob | null = null
 
   constructor(
     public readonly player: Player,
@@ -38,7 +39,10 @@ export class Request {
       this.message = r.slice(1).join(" ")
       if (player) {
         const find = r[r.length - 1]
-        this.target = this.getRoom().mobs.find((m) => match(m.name, find))
+        const target = this.mob.room.mobs.find((mob) => match(mob.name, find))
+        if (target) {
+          this.target = getMob(target.id)
+        }
       }
     }
   }
@@ -60,7 +64,7 @@ export class Request {
   }
 
   public getTarget(): Mob | undefined {
-    return this.target
+    return this.target ? getMob(this.target.id) : undefined
   }
 
   public getPrompt(): string {

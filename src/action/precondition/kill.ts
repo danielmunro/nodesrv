@@ -8,7 +8,6 @@ export const MESSAGE_FAIL_CANNOT_ATTACK_SELF = "No way! You can't attack yoursel
 
 export default async function(request: Request): Promise<Check> {
   const target = request.getTarget()
-
   if (!target) {
     return Check.fail(MESSAGE_FAIL_KILL_NO_TARGET)
   }

@@ -8,5 +8,5 @@ export async function getRoomRepository(): Promise<Repository<Room>> {
 
 export async function findOneRoom(id: number): Promise<Room> {
   return await getRoomRepository().then(
-    (roomRepository) => roomRepository.findOneById(id, {relations: ["mobs"]}))
+    (roomRepository) => roomRepository.findOneById(id, { relations: ["mobs"] }))
 }

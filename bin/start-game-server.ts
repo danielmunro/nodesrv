@@ -1,4 +1,5 @@
 import * as assert from "assert"
+import { initialize } from "../src/mob/table"
 import { Room } from "../src/room/model/room"
 import { findOneRoom } from "../src/room/repository/room"
 import newServer from "../src/server/factory"
@@ -17,4 +18,4 @@ function startServer(startRoom: Room) {
   newServer(startRoom, port).start()
 }
 
-findOneRoom(startRoomID).then(startServer)
+initialize().then(() => findOneRoom(startRoomID).then(startServer))

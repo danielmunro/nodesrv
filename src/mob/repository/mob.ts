@@ -7,7 +7,7 @@ export async function getMobRepository(): Promise<Repository<Mob>> {
 }
 
 export async function findOneMob(id: number): Promise<Mob> {
-  return await getMobRepository().then((mobRepository) => mobRepository.findOneById(id))
+  return await getMobRepository().then((mobRepository) => mobRepository.findOneById(id, { relations: ["room"] }))
 }
 
 export async function findPlayerMobByName(name: string): Promise<Mob> {
