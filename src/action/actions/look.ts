@@ -1,10 +1,10 @@
 import { Item } from "../../item/model/item"
+import { Disposition } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
+import { getMob } from "../../mob/table"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
-import { Disposition } from "../../mob/disposition"
-import { getMob } from "../../mob/table"
 
 export const NOT_FOUND = "You don't see that anywhere."
 

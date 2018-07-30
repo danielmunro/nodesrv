@@ -1,11 +1,11 @@
 import Attributes from "../../attributes/model/attributes"
 import roll from "../../random/dice"
 import { createSkillTriggerEvent } from "../../skill/trigger/factory"
+import { Disposition } from "../disposition"
 import { Mob } from "../model/mob"
 import { Trigger } from "../trigger"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import { Round } from "./round"
-import { Disposition } from "../disposition"
 
 enum Status {
   InProgress,
