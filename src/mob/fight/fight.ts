@@ -139,7 +139,7 @@ export class Fight {
     if (!vanquished.isPlayer) {
       vanquished.disposition = Disposition.Dead
     }
-    const room = vanquished.room
-    room.inventory.addItem()
+    // const room = vanquished.room
+    // room.inventory.addItem()
   }
 }
