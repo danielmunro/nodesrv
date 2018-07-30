@@ -5,6 +5,7 @@ import { Mob } from "../model/mob"
 import { Trigger } from "../trigger"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import { Round } from "./round"
+import { Disposition } from "../disposition"
 
 enum Status {
   InProgress,
@@ -126,6 +127,10 @@ export class Fight {
       this.winner = x
       if (x.isPlayer) {
         x.playerMob.experience += attack.experience
+      }
+      console.debug(`${y.name} is killed by ${x.name}`)
+      if (!y.isPlayer) {
+        y.disposition = Disposition.Dead
       }
     }
 

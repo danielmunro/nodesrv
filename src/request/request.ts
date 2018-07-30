@@ -64,7 +64,7 @@ export class Request {
   }
 
   public getTarget(): Mob | undefined {
-    return this.target ? getMob(this.target.id) : undefined
+    return this.target
   }
 
   public getPrompt(): string {

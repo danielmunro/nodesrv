@@ -3,6 +3,8 @@ import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import { Disposition } from "../../mob/disposition"
+import { getMob } from "../../mob/table"
 
 export const NOT_FOUND = "You don't see that anywhere."
 
@@ -28,9 +30,10 @@ export default function(request: Request): Promise<Response> {
   }
 
   const room = request.getRoom()
+  const mobs = room.mobs.map((mob) => getMob(mob.id)).filter((mob) => mob.disposition !== Disposition.Dead)
 
   return builder.info(room.toString()
-    + room.mobs.reduce((previous: string, current: Mob) =>
+    + mobs.reduce((previous: string, current: Mob) =>
         previous + (current !== request.mob ? `\n${current.name} is here.` : ""), "")
     + room.inventory.items.reduce((previous: string, current: Item) =>
 `${previous}
