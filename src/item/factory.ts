@@ -11,10 +11,16 @@ export function newShield(name: string, description: string): Item {
   return newEquipment(name, description, Equipment.Shield)
 }
 
-export function newEquipment(name: string, description: string, equipment: Equipment): Item {
+function newItem(name: string, description: string): Item {
   const item = new Item()
   item.name = name
   item.description = description
+
+  return item
+}
+
+export function newEquipment(name: string, description: string, equipment: Equipment): Item {
+  const item = newItem(name, description)
   item.equipment = equipment
   item.itemType = ItemType.Equipment
 
@@ -22,9 +28,7 @@ export function newEquipment(name: string, description: string, equipment: Equip
 }
 
 export function newFood(name: string, description: string, nourishment: number = 1): Item {
-  const item = new Item()
-  item.name = name
-  item.description = description
+  const item = newItem(name, description)
   item.nourishment = nourishment
   item.itemType = ItemType.Food
 
@@ -32,9 +36,7 @@ export function newFood(name: string, description: string, nourishment: number =
 }
 
 export function newItemFixture(name: string, description: string): Item {
-  const item = new Item()
-  item.name = name
-  item.description = description
+  const item = newItem(name, description)
   item.isTransferable = false
   item.itemType = ItemType.Fixture
 
@@ -42,12 +44,10 @@ export function newItemFixture(name: string, description: string): Item {
 }
 
 export function copy(item: Item): Item {
-  const newItem = new Item()
-  newItem.name = item.name
-  newItem.description = item.description
-  newItem.equipment = item.equipment
-  newItem.itemType = item.itemType
-  newItem.attributes = new Attributes().combine(item.attributes)
+  const itemCopy = newItem(item.name, item.description)
+  itemCopy.equipment = item.equipment
+  itemCopy.itemType = item.itemType
+  itemCopy.attributes = new Attributes().combine(item.attributes)
 
-  return newItem
+  return itemCopy
 }
