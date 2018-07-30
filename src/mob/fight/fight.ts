@@ -123,17 +123,23 @@ export class Fight {
   private async turnFor(x: Mob, y: Mob): Promise<Attack> {
     const attack = await Fight.attack(x, y)
     if (y.vitals.hp < 0) {
-      this.status = Status.Done
-      this.winner = x
-      if (x.isPlayer) {
-        x.playerMob.experience += attack.experience
-      }
-      console.debug(`${y.name} is killed by ${x.name}`)
-      if (!y.isPlayer) {
-        y.disposition = Disposition.Dead
-      }
+      this.deathOccurred(x, y, attack)
     }
 
     return attack
+  }
+
+  private deathOccurred(winner: Mob, vanquished: Mob, attack: Attack) {
+    this.status = Status.Done
+    this.winner = winner
+    if (winner.isPlayer) {
+      winner.playerMob.experience += attack.experience
+    }
+    console.debug(`${vanquished.name} is killed by ${winner.name}`)
+    if (!vanquished.isPlayer) {
+      vanquished.disposition = Disposition.Dead
+    }
+    const room = vanquished.room
+    room.inventory.addItem()
   }
 }
