@@ -1,4 +1,5 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import * as uuid from "uuid"
 import { SectionType } from "../../area/sectionType"
 import { Inventory } from "../../item/model/inventory"
 import match from "../../matcher/match"
@@ -17,7 +18,7 @@ export class Room {
 
   @Column("text")
   @Generated("uuid")
-  public uuid: string
+  public uuid: string = uuid()
 
   @Column("text")
   public name: string

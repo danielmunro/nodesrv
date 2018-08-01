@@ -3,7 +3,6 @@ import { getMobRepository } from "./repository/mob"
 
 let mobsById = {}
 let mobs = []
-let initialized = false
 
 export function reset() {
   mobsById = {}
@@ -19,16 +18,17 @@ export function getMobs(): Mob[] {
 }
 
 export async function initialize() {
-  if (initialized) {
-    throw new Error()
-  }
-  initialized = true
+  reset()
   const mobRepository = await getMobRepository()
   const models = await mobRepository.find({ relations: ["room", "playerMob"] })
+  const tmpMobsById = {}
+  const tmpAllMobs = []
   models.forEach((model) => {
-    mobsById[model.id] = model
-    mobs.push(model)
+    tmpMobsById[model.id] = model
+    tmpAllMobs.push(model)
   })
+  mobsById = tmpMobsById
+  mobs = tmpAllMobs
   console.debug(`mob table initialized with ${models.length} mobs`)
 }
 

@@ -3,7 +3,8 @@ import { Direction } from "./constants"
 import { Exit } from "./model/exit"
 import { Room } from "./model/room"
 import { findOneExit, getExitRepository } from "./repository/exit"
-import { findOneRoom, getRoomRepository } from "./repository/room"
+import { getRoomRepository } from "./repository/room"
+import { getRoom } from "./table"
 
 export async function persistAll(rooms, exits): Promise<Room[]> {
   const roomRepository = await getRoomRepository()
@@ -22,18 +23,14 @@ export function persistRoom(room): Promise<Room> {
   return getRoomRepository().then((roomRepository) => roomRepository.save(room))
 }
 
-export function moveMob(mob: Mob, direction: Direction): Promise<any> {
-  return getRoomRepository()
-    .then((roomRepository) => roomRepository.findOneById(mob.room.id)
-    .then((room) => {
-      const exit = room.exits.find((e) => e.direction === direction)
+export async function moveMob(mob: Mob, direction: Direction) {
+  const roomExit = mob.room.exits.find((e) => e.direction === direction)
 
-      if (!exit) {
-        throw new Error("cannot move in that direction")
-      }
+  if (!roomExit) {
+    throw new Error("cannot move in that direction")
+  }
 
-      return findOneExit(exit.id).then((e) =>
-        findOneRoom(e.destination.id).then((destination) =>
-          destination.addMob(mob)))
-    }))
+  const exit = await findOneExit(roomExit.id)
+  // console.log("exit", exit)
+  getRoom(exit.destination.uuid).addMob(mob)
 }

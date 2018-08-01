@@ -1,7 +1,8 @@
 import * as assert from "assert"
-import { initialize } from "../src/mob/table"
+import { initialize as mobInitialize } from "../src/mob/table"
 import { Room } from "../src/room/model/room"
 import { findOneRoom } from "../src/room/repository/room"
+import { initialize as roomInitialize } from "../src/room/table"
 import newServer from "../src/server/factory"
 
 /**
@@ -18,4 +19,7 @@ function startServer(startRoom: Room) {
   newServer(startRoom, port).start()
 }
 
-initialize().then(() => findOneRoom(startRoomID).then(startServer))
+Promise.all([
+  roomInitialize(),
+  mobInitialize(),
+]).then(() => findOneRoom(startRoomID).then(startServer))

@@ -10,7 +10,7 @@ describe("moveMob", () => {
     const source = getTestRoom()
     source.addMob(mob)
     await persistRoom(source)
-    expect(moveMob(mob, Direction.North)).rejects.toThrowError()
+    return expect(moveMob(mob, Direction.North)).rejects.toThrowError()
   })
 
   it("should allow movement where a direction exists", async () => {

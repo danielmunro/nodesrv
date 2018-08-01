@@ -3,6 +3,7 @@ import { allDirections, Direction } from "./constants"
 import { getFreeReciprocalDirection, isReciprocalFree, reverse } from "./direction"
 import { Exit } from "./model/exit"
 import { Room } from "./model/room"
+import { addRoom } from "./table"
 
 export function newRoom(name: string, description: string, mobs = [], items = []): Room {
   const room = new Room()
@@ -10,6 +11,7 @@ export function newRoom(name: string, description: string, mobs = [], items = []
   room.description = description
   room.mobs = mobs
   items.forEach((item) => room.inventory.addItem(item))
+  addRoom(room)
 
   return room
 }
