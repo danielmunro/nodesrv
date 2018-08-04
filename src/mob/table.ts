@@ -18,7 +18,6 @@ export function getMobs(): Mob[] {
 }
 
 export async function initialize() {
-  reset()
   const mobRepository = await getMobRepository()
   const models = await mobRepository.find({ relations: ["room", "playerMob"] })
   const tmpMobsById = {}
