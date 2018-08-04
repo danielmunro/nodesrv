@@ -1,7 +1,7 @@
 import { Item } from "../../item/model/item"
 import { onlyLiving } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
-import { filterMobs, getMob } from "../../mob/table"
+import { filterMobs } from "../../mob/table"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
