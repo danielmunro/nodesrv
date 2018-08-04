@@ -1,7 +1,7 @@
 import { Item } from "../../item/model/item"
 import { onlyLiving } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
-import { getMob } from "../../mob/table"
+import { filterMobs, getMob } from "../../mob/table"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
@@ -34,12 +34,9 @@ export default function(request: Request): Promise<Response> {
   }
 
   const room = request.getRoom()
-  const mobs = room.mobs
-    .map((mob) => getMob(mob.id))
-    .filter(onlyLiving)
 
   return builder.info(room.toString()
-    + mobs.reduce((previous: string, current: Mob) =>
+    + filterMobs(room.mobs, onlyLiving).reduce((previous: string, current: Mob) =>
         previous + (current !== request.mob ? `\n${current.name} is here.` : ""), "")
     + room.inventory.items.reduce((previous: string, current: Item) =>
 `${previous}
