@@ -1,4 +1,5 @@
 import { persistMob } from "../../../mob/repository/mob"
+import { addMob } from "../../../mob/table"
 import AuthStep from "../authStep"
 import { default as FinalComplete } from "../complete"
 import { MESSAGE_COMPLETE } from "../constants"
@@ -14,6 +15,7 @@ export default class Complete extends PlayerAuthStep implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     await persistMob(this.player.sessionMob)
+    addMob(this.player.sessionMob)
 
     return request.ok(new FinalComplete(this.player))
   }
