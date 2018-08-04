@@ -34,7 +34,9 @@ export default function(request: Request): Promise<Response> {
   }
 
   const room = request.getRoom()
-  const mobs = room.mobs.map((mob) => getMob(mob.id)).filter((mob) => mob.disposition !== Disposition.Dead)
+  const mobs = room.mobs
+    .map((mob) => getMob(mob.id))
+    .filter((mob) => mob.disposition !== Disposition.Dead)
 
   return builder.info(room.toString()
     + mobs.reduce((previous: string, current: Mob) =>
