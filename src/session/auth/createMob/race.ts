@@ -20,8 +20,10 @@ export default class Race extends PlayerAuthStep implements AuthStep {
       return request.fail(this, MESSAGE_FAIL_RACE_UNAVAILABLE)
     }
 
-    this.player.sessionMob.race = race
-    this.player.sessionMob.playerMob.appetite = appetite(race)
+    const mob = this.player.sessionMob
+    mob.race = race
+    mob.playerMob.appetite = appetite(race)
+    mob.playerMob.hunger = appetite(race)
     return request.ok(new Specialization(this.player))
   }
 }
