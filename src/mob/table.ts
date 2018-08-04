@@ -22,10 +22,7 @@ export async function initialize() {
   const models = await mobRepository.find({ relations: ["room", "playerMob"] })
   const tmpMobsById = {}
   const tmpAllMobs = []
-  models.forEach((model) => {
-    tmpMobsById[model.id] = model
-    tmpAllMobs.push(model)
-  })
+  models.forEach(addMob)
   mobsById = tmpMobsById
   mobs = tmpAllMobs
   console.debug(`mob table initialized with ${models.length} mobs`)

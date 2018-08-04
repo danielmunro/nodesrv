@@ -5,15 +5,11 @@ let allRooms = []
 let roomsById = {}
 
 export async function initialize() {
-  reset()
   const roomRepository = await getRoomRepository()
   const models = await roomRepository.find({ relations: ["mobs"] })
   const tmpAllRooms = []
   const tmpRoomsById = {}
-  models.forEach((model) => {
-    tmpRoomsById[model.uuid] = model
-    tmpAllRooms.push(model)
-  })
+  models.forEach(addRoom)
   allRooms = tmpAllRooms
   roomsById = tmpRoomsById
   console.debug(`room table initialized with ${models.length} rooms`)
