@@ -1,5 +1,5 @@
 import { Item } from "../../item/model/item"
-import { Disposition } from "../../mob/disposition"
+import { onlyLiving } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
 import { getMob } from "../../mob/table"
 import { Request } from "../../request/request"
@@ -36,7 +36,7 @@ export default function(request: Request): Promise<Response> {
   const room = request.getRoom()
   const mobs = room.mobs
     .map((mob) => getMob(mob.id))
-    .filter((mob) => mob.disposition !== Disposition.Dead)
+    .filter(onlyLiving)
 
   return builder.info(room.toString()
     + mobs.reduce((previous: string, current: Mob) =>
