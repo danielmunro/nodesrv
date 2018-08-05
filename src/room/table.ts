@@ -28,6 +28,6 @@ export function addRoom(room: Room) {
   roomsById[room.uuid] = room
 }
 
-export function getRoom(uuid: string) {
+export function getRoom(uuid: string): Room {
   return roomsById[uuid]
 }

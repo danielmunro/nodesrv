@@ -4,6 +4,7 @@ import { newMob } from "../factory"
 import { Mob } from "../model/mob"
 import { Race } from "../race/race"
 import { Fight } from "./fight"
+import { getTestRoom } from "../../test/room"
 
 function newFightingMob(name: string, hitroll: Hitroll): Mob {
   return newMob(
@@ -29,6 +30,9 @@ describe("fight", () => {
     // SETUP
     const aggressor = newFightingMob("aggressor", newHitroll(2, 3))
     const target = newFightingMob("target", newHitroll(1, 1))
+    const room = getTestRoom()
+    room.addMob(aggressor)
+    room.addMob(target)
 
     // WHEN - a fight is allowed to complete
     const fight = new Fight(aggressor, target)

@@ -32,5 +32,6 @@ export async function moveMob(mob: Mob, direction: Direction) {
   }
 
   const exit = await findOneExit(roomExit.id)
-  getRoom(exit.destination.uuid).addMob(mob)
+  const destination = getRoom(exit.destination.uuid)
+  destination.addMob(mob)
 }

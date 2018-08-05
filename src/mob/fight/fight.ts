@@ -6,6 +6,9 @@ import { Mob } from "../model/mob"
 import { Trigger } from "../trigger"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import { Round } from "./round"
+import { newContainer } from "../../item/factory"
+import { getRoom } from "../../room/table"
+import { newForestItem } from "../../item/factory/trail"
 
 enum Status {
   InProgress,
@@ -139,5 +142,8 @@ export class Fight {
     if (!vanquished.isPlayer) {
       vanquished.disposition = Disposition.Dead
     }
+    const corpse = newContainer(`a corpse of ${vanquished.name}`, "A corpse")
+    corpse.containerInventory.addItem(newForestItem())
+    getRoom(winner.room.uuid).inventory.addItem(corpse)
   }
 }

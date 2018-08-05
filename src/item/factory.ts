@@ -2,6 +2,7 @@ import Attributes from "../attributes/model/attributes"
 import { Equipment } from "./equipment"
 import { ItemType } from "./itemType"
 import { Item } from "./model/item"
+import { Inventory } from "./model/inventory"
 
 export function newWeapon(name: string, description: string): Item {
   return newEquipment(name, description, Equipment.Weapon)
@@ -39,6 +40,14 @@ export function newItemFixture(name: string, description: string): Item {
   const item = newItem(name, description)
   item.isTransferable = false
   item.itemType = ItemType.Fixture
+
+  return item
+}
+
+export function newContainer(name: string, description: string): Item {
+  const item = newItem(name, description)
+  item.containerInventory = new Inventory()
+  item.itemType = ItemType.Container
 
   return item
 }

@@ -39,6 +39,6 @@ export class Inventory {
     return this.items.reduce(
       (aggregate, current: Item) =>
         aggregate + current.name + "\n",
-      "Inventory:")
+      "")
   }
 }

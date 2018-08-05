@@ -16,12 +16,12 @@ function lookAtSubject(request, builder) {
 
   let item = request.findItemInRoomInventory()
   if (item) {
-    return builder.info(item.description)
+    return builder.info(item.describe())
   }
 
   item = request.findItemInSessionMobInventory()
   if (item) {
-    return builder.info(item.description)
+    return builder.info(item.describe())
   }
 
   return builder.error(NOT_FOUND)

@@ -42,6 +42,9 @@ export class Item {
   @OneToMany((type) => Affect, (affect) => affect.item)
   public affects: Affect[] = []
 
+  @OneToOne((type) => Inventory, { cascadeAll: true })
+  public containerInventory
+
   public matches(subject: string): boolean {
     const words = this.name.split(" ")
     return !!words.find((word) => word.startsWith(subject))
@@ -63,5 +66,10 @@ export class Item {
     item.affects = this.affects.map((affect) => newAffect(affect.affectType, affect.timeout))
 
     return item
+  }
+
+  public describe(): string {
+    return this.description + (this.itemType === ItemType.Container ?
+      "\n\nContainer inventory:\n" + this.containerInventory.toString() : "")
   }
 }
