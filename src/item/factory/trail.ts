@@ -7,52 +7,27 @@ import { Item } from "../model/item"
 export function newForestItem(): Item {
   switch (roll(1, 4)) {
     case 1:
-      return newAcorn()
+      return newFood(
+        "an acorn",
+        "a small hard acorn sits unassumingly on the ground.")
     case 2:
-      return newMushroom()
+      return newFood(
+        "an off white wild mushroom",
+        "a delicious-looking blue mushroom is here.")
     case 3:
       return newPoisonMushroom()
     default:
-      return newBerries()
+      return newFood(
+        "wild berries",
+        "small, round sweet forest berries are here.")
   }
-}
-
-function newAcorn(): Item {
-  const food = newFood(
-    "an acorn",
-    "a small hard acorn sits unassumingly on the ground.",
-    1)
-  // food.quest = Quest.CollectForestMorsels
-
-  return food
-}
-
-function newMushroom(): Item {
-  const food = newFood(
-    "an off white wild mushroom",
-    "a delicious-looking blue mushroom is here.",
-    1)
-  // food.quest = Quest.CollectForestMorsels
-
-  return food
 }
 
 function newPoisonMushroom(): Item {
   const mushroom = newFood(
     "a wild mushroom with green circles",
-    "a delicious-looking green mushroom is here.",
-    1)
+    "a delicious-looking green mushroom is here.")
   mushroom.affects.push(newAffect(AffectType.Poison, 2))
 
   return mushroom
-}
-
-function newBerries(): Item {
-  const food = newFood(
-    "wild berries",
-    "small, round sweet forest berries are here.",
-    1)
-  // food.quest = Quest.CollectForestMorsels
-
-  return food
 }

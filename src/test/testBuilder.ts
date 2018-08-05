@@ -62,8 +62,11 @@ export default class TestBuilder {
     return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result)
   }
 
-  public createFailedCheckedRequest(requestType: RequestType, input: string = null, result: any = null): CheckedRequest {
-    return this.createCheckedRequest(requestType, CheckStatus.Failed, input, result)
+  public createRequest(requestType: RequestType, input: string = null): Request {
+    if (input === null) {
+      input = requestType.toString()
+    }
+    return new Request(this.player, requestType, createRequestArgs(input))
   }
 
   private createCheckedRequest(
@@ -78,12 +81,5 @@ export default class TestBuilder {
       new Request(this.player, requestType, createRequestArgs(input)),
       new Check(checkStatus, result),
     )
-  }
-
-  public createRequest(requestType: RequestType, input: string = null): Request {
-    if (input === null) {
-      input = requestType.toString()
-    }
-    return new Request(this.player, requestType, createRequestArgs(input))
   }
 }
