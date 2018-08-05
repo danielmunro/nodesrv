@@ -1,8 +1,8 @@
 import { Client } from "../../client/client"
 import { Mob } from "../../mob/model/mob"
 import { pickOne } from "../../random/helpers"
-import { findOneRoom } from "../../room/repository/room"
 import { moveMob } from "../../room/service"
+import { getRoom } from "../../room/table"
 import { Observer } from "./observer"
 
 export class Wander implements Observer {
@@ -14,8 +14,6 @@ export class Wander implements Observer {
 
   public async notify(clients: Client[]): Promise<any> {
     const mobs = await this.findMobs()
-    return Promise.all(mobs.map((mob) =>
-      findOneRoom(mob.room.id).then(async (room) =>
-        await moveMob(mob, pickOne(room.exits).direction))))
+    mobs.forEach((mob) => moveMob(mob, pickOne(getRoom(mob.room.uuid).exits).direction))
   }
 }

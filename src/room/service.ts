@@ -24,13 +24,13 @@ export function persistRoom(room): Promise<Room> {
 }
 
 export async function moveMob(mob: Mob, direction: Direction) {
-  const roomExit = mob.room.exits.find((e) => e.direction === direction)
+  const room = getRoom(mob.room.uuid)
+  const roomExit = room.exits.find((e) => e.direction === direction)
 
   if (!roomExit) {
     throw new Error("cannot move in that direction")
   }
 
   const exit = await findOneExit(roomExit.id)
-  // console.log("exit", exit)
   getRoom(exit.destination.uuid).addMob(mob)
 }
