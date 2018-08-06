@@ -21,7 +21,7 @@ export function getDefaultUnhandledMessage(request: Request) {
 export class Client {
   public readonly session: Session
   public player: Player
-  private requests: Request[] = []
+  private requests = []
 
   constructor(
     public readonly ws: WebSocket,
@@ -29,7 +29,7 @@ export class Client {
     public readonly handlers: Collection,
     public readonly startRoom: Room = null) {
     this.session = new Session(this)
-    this.ws.onmessage = (data) => this.addRequest(getNewRequestFromMessageEvent(this.session.getPlayer(), data))
+    this.ws.onmessage = (data) => this.addRequest(getNewRequestFromMessageEvent(this, data))
     this.ws.onerror = (error: ErrorEvent) =>
       console.warn("received error from client ws", { ip: this.ip, message: error.message })
   }
@@ -46,7 +46,7 @@ export class Client {
     return this.requests.length > 0
   }
 
-  public addRequest(request: Request): void {
+  public addRequest(request: Request | AuthRequest): void {
     this.requests.push(request)
   }
 

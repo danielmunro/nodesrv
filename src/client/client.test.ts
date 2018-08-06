@@ -7,6 +7,7 @@ import { Channel } from "../social/channel"
 import { getTestClient, getTestClientLoggedOut } from "../test/client"
 import { Client, getDefaultUnhandledMessage } from "./client"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
+import { default as AuthRequest } from "../session/auth/request"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
@@ -19,7 +20,7 @@ describe("clients", () => {
   it("should delegate handling requests to the session if not logged in", async () => {
     const newClient = getTestClientLoggedOut()
     const authStep = newClient.session.getAuthStepMessage()
-    newClient.addRequest(getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("testemail@email.com")))
+    newClient.addRequest(getNewRequestFromMessageEvent(client, getNewTestMessageEvent("testemail@email.com")))
     await newClient.handleNextRequest()
     expect(newClient.session.getAuthStepMessage()).not.toBe(authStep)
   })
@@ -46,7 +47,7 @@ describe("clients", () => {
     // setup
     const testMessage = "this is a test"
     const testEvent = getNewTestMessageEvent(testMessage)
-    const request = getNewRequestFromMessageEvent(client.player, testEvent)
+    const request = getNewRequestFromMessageEvent(client, testEvent) as Request
 
     // expect
     expect(request.player).toBe(client.player)
@@ -55,7 +56,7 @@ describe("clients", () => {
 
   it("should use the default actions when no handlers match", async () => {
     // setup
-    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent())
+    const request = getNewRequestFromMessageEvent(client, getNewTestMessageEvent()) as Request
     expect.assertions(1)
 
     // when
@@ -67,7 +68,7 @@ describe("clients", () => {
 
   it("should be able to invoke a valid actions", async () => {
     // setup
-    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("look"))
+    const request = getNewRequestFromMessageEvent(client, getNewTestMessageEvent("look")) as Request
 
     // when
     const response = await client.handleRequest(request)
@@ -79,7 +80,7 @@ describe("clients", () => {
 
   it("invokes the default request actions when input has no actions actions", async () => {
     // setup
-    const request = getNewRequestFromMessageEvent(client.player, getNewTestMessageEvent("foo"))
+    const request = getNewRequestFromMessageEvent(client, getNewTestMessageEvent("foo")) as Request
 
     // when
     const response = await client.handleRequest(request)
@@ -197,7 +198,7 @@ describe("clients", () => {
     // setup
     const newClient = new Client(jest.fn(), "127.0.0.1", jest.fn())
     newClient.player = new Player()
-    newClient.addRequest(new Request(newClient.player, RequestType.Any))
+    newClient.addRequest(new AuthRequest(newClient, RequestType.Any))
 
     // expect
     expect(newClient.isLoggedIn()).toBeFalsy()

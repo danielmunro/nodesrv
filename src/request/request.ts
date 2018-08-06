@@ -5,12 +5,16 @@ import { getMob } from "../mob/table"
 import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { RequestType } from "./requestType"
+import { default as AuthRequest } from "../session/auth/request"
+import { Client } from "../client/client"
 
-export function getNewRequestFromMessageEvent(player: Player, messageEvent: MessageEvent): Request {
+export function getNewRequestFromMessageEvent(client: Client, messageEvent: MessageEvent): Request | AuthRequest {
   const data = JSON.parse(messageEvent.data)
+  if (!client.player) {
+    return new AuthRequest(client, data.request)
+  }
   const requestArgs = data.request.split(" ")
-
-  return new Request(player, requestArgs[0], data.request)
+  return new Request(client.player, requestArgs[0], data.request)
 }
 
 export class Request {
@@ -23,22 +27,19 @@ export class Request {
   constructor(
     public readonly player: Player,
     public readonly requestType: RequestType,
-    public readonly args = null) {
-    if (this.player) {
-      this.mob = this.player.sessionMob
+    public readonly args: string = null) {
+    this.mob = this.player.sessionMob
+    if (!this.args) {
+      this.args = this.requestType
     }
-    if (this.args) {
-      const r = this.args.split(" ")
-      this.command = r[0]
-      this.subject = r[1]
-      this.message = r.slice(1).join(" ")
-      if (player) {
-        const find = r[r.length - 1]
-        const target = this.mob.room.mobs.find((mob) => match(mob.name, find))
-        if (target) {
-          this.target = getMob(target.id)
-        }
-      }
+    const r = this.args.split(" ")
+    this.command = r[0]
+    this.subject = r[1]
+    this.message = r.slice(1).join(" ")
+    const find = r[r.length - 1]
+    const target = this.mob.room.mobs.find((mob) => match(mob.name, find))
+    if (target) {
+      this.target = getMob(target.id)
     }
   }
 
