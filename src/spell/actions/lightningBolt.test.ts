@@ -1,4 +1,4 @@
-import { createRequestArgs, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
@@ -21,7 +21,7 @@ describe("lightning bolt", () => {
     // when
     lightningBolt(
       new Check(
-        new Request(player, RequestType.Cast, createRequestArgs("cast 'lightning bolt' bob")),
+        new Request(player, RequestType.Cast, "cast 'lightning bolt' bob"),
         spellCollection.findSpell(SpellType.LightningBolt)))
 
     // then

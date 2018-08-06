@@ -6,11 +6,6 @@ import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { RequestType } from "./requestType"
 
-// @todo refactor out usages
-export function createRequestArgs(input: string) {
-  return input
-}
-
 export function getNewRequestFromMessageEvent(player: Player, messageEvent: MessageEvent): Request {
   const data = JSON.parse(messageEvent.data)
   const requestArgs = data.request.split(" ")

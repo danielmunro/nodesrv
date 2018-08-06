@@ -2,7 +2,7 @@ import Check, { CheckStatus } from "../action/check"
 import CheckedRequest from "../action/checkedRequest"
 import { Role } from "../mob/role"
 import { Player } from "../player/model/player"
-import { createRequestArgs, Request } from "../request/request"
+import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
@@ -66,7 +66,7 @@ export default class TestBuilder {
     if (input === null) {
       input = requestType.toString()
     }
-    return new Request(this.player, requestType, createRequestArgs(input))
+    return new Request(this.player, requestType, input)
   }
 
   private createCheckedRequest(
@@ -78,7 +78,7 @@ export default class TestBuilder {
       input = requestType.toString()
     }
     return new CheckedRequest(
-      new Request(this.player, requestType, createRequestArgs(input)),
+      new Request(this.player, requestType, input),
       new Check(checkStatus, result),
     )
   }

@@ -1,5 +1,5 @@
 import { newShield } from "../../item/factory"
-import { createRequestArgs, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import inventory from "./inventory"
@@ -15,7 +15,7 @@ describe("inventory actions actions", () => {
     inv.addItem(item2)
 
     // when
-    const response = await inventory(new Request(player, RequestType.Inventory, createRequestArgs("inventory")))
+    const response = await inventory(new Request(player, RequestType.Inventory, "inventory"))
 
     // then
     expect(response.message).toContain(item1.name)

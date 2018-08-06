@@ -1,6 +1,6 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
-import { createRequestArgs, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { newSpell } from "../../spell/factory"
 import { getTestPlayer } from "../../test/player"
@@ -17,7 +17,7 @@ describe("cure poison", () => {
 
     curePoison(
       new Check(
-        new Request(player, RequestType.Cast, createRequestArgs("cast 'cure poison'")),
+        new Request(player, RequestType.Cast, "cast 'cure poison'"),
         spellCollection.findSpell(SpellType.CurePoison)))
 
     expect(player.sessionMob.affects.length).toBe(0)

@@ -1,5 +1,5 @@
 import { Item } from "../item/model/item"
-import { createRequestArgs, Request } from "../request/request"
+import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { newSkill } from "../skill/factory"
 import { MESSAGE_FAIL_TOO_TIRED } from "../skill/preconditions/sneak"
@@ -38,7 +38,7 @@ describe("actions helpers", () => {
       () => Promise.resolve(defaultHandler))
     const handleRepeater = (requestType: RequestType, args: string) =>
       actions.getMatchingHandlerDefinitionForRequestType(requestType, defaultHandler)
-        .handle(new Request(getTestPlayer(), requestType, createRequestArgs(args)))
+        .handle(new Request(getTestPlayer(), requestType, args))
 
     expect(await handleRepeater(RequestType.Noop, "")).toBe(defaultHandler)
     expect(await handleRepeater(RequestType.North, "north")).not.toBe(defaultHandler)
@@ -59,7 +59,7 @@ describe("actions helpers", () => {
     const initialDelay = player.delay
 
     // when
-    await doSkill(new Request(player, RequestType.Sneak, createRequestArgs("sneak")), SkillType.Sneak)
+    await doSkill(new Request(player, RequestType.Sneak, "sneak"), SkillType.Sneak)
 
     // then
     expect(mob.vitals.mv).toBeLessThan(initialMv)
@@ -75,7 +75,7 @@ describe("actions helpers", () => {
     mob.vitals.mv = 0
 
     // when
-    const response = await doSkill(new Request(player, RequestType.Sneak, createRequestArgs("sneak")), SkillType.Sneak)
+    const response = await doSkill(new Request(player, RequestType.Sneak, "sneak"), SkillType.Sneak)
 
     // then
     expect(response.message).toBe(MESSAGE_FAIL_TOO_TIRED)

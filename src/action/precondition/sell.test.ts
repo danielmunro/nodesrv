@@ -1,7 +1,7 @@
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Mob } from "../../mob/model/mob"
-import { createRequestArgs, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getMerchantMob } from "../../test/mob"
 import { getTestMob } from "../../test/mob"
@@ -20,7 +20,7 @@ describe("sell actions actions precondition", () => {
     const player = getTestPlayer()
 
     // when
-    const check = await sell(new Request(player, RequestType.Sell, createRequestArgs("sell foo")))
+    const check = await sell(new Request(player, RequestType.Sell, "sell foo"))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -32,7 +32,7 @@ describe("sell actions actions precondition", () => {
     room.addMob(getNonMerchantMob())
 
     // when
-    const check2 = await sell(new Request(player, RequestType.Sell, createRequestArgs("sell foo")))
+    const check2 = await sell(new Request(player, RequestType.Sell, "sell foo"))
 
     // then
     expect(check2.status).toBe(CheckStatus.Failed)
@@ -47,7 +47,7 @@ describe("sell actions actions precondition", () => {
     room.addMob(getMerchantMob())
 
     // when
-    const check = await sell(new Request(player, RequestType.Sell, createRequestArgs("sell foo")))
+    const check = await sell(new Request(player, RequestType.Sell, "sell foo"))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -65,7 +65,7 @@ describe("sell actions actions precondition", () => {
     room.addMob(getMerchantMob())
 
     // when
-    const check = await sell(new Request(player, RequestType.Sell, createRequestArgs("sell cap")))
+    const check = await sell(new Request(player, RequestType.Sell, "sell cap"))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

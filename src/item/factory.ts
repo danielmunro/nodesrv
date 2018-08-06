@@ -1,8 +1,8 @@
 import Attributes from "../attributes/model/attributes"
 import { Equipment } from "./equipment"
 import { ItemType } from "./itemType"
-import { Item } from "./model/item"
 import { Inventory } from "./model/inventory"
+import { Item } from "./model/item"
 
 export function newWeapon(name: string, description: string): Item {
   return newEquipment(name, description, Equipment.Weapon)

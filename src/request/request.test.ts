@@ -4,11 +4,11 @@ import { Player } from "../player/model/player"
 import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
 import { getTestRoom } from "../test/room"
-import { createRequestArgs, Request } from "./request"
+import { Request } from "./request"
 import { RequestType } from "./requestType"
 
 function newLookRequest(player: Player, args: string): Request {
-  return new Request(player, RequestType.Look, createRequestArgs(args))
+  return new Request(player, RequestType.Look, args)
 }
 
 describe("request", () => {

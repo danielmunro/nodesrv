@@ -4,8 +4,6 @@ import { persistExit, persistRoom } from "../../room/service"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import { Wander } from "./wander"
-import { getMob, getMobs } from "../../mob/table"
-import { persistMob } from "../../mob/repository/mob"
 
 describe("wander", () => {
   it("should cause a mob to move", async () => {

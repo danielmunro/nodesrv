@@ -1,10 +1,10 @@
 import { newAttributes, newHitroll, newStartingVitals, newStats } from "../../attributes/factory"
 import Hitroll from "../../attributes/model/hitroll"
+import { getTestRoom } from "../../test/room"
 import { newMob } from "../factory"
 import { Mob } from "../model/mob"
 import { Race } from "../race/race"
 import { Fight } from "./fight"
-import { getTestRoom } from "../../test/room"
 
 function newFightingMob(name: string, hitroll: Hitroll): Mob {
   return newMob(

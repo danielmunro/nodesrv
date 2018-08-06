@@ -1,7 +1,7 @@
 import look from "../action/actions/look"
 import { Collection } from "../action/definition/collection"
 import { Player } from "../player/model/player"
-import { createRequestArgs, getNewRequestFromMessageEvent, Request } from "../request/request"
+import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { Channel } from "../social/channel"
 import { getTestClient, getTestClientLoggedOut } from "../test/client"
@@ -50,7 +50,7 @@ describe("clients", () => {
 
     // expect
     expect(request.player).toBe(client.player)
-    expect(request.args).toEqual(createRequestArgs(testMessage))
+    expect(request.args).toEqual(testMessage)
   })
 
   it("should use the default actions when no handlers match", async () => {

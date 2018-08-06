@@ -1,7 +1,7 @@
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Role } from "../../mob/role"
-import { createRequestArgs, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { getTestMob } from "../../test/mob"
@@ -32,7 +32,7 @@ describe("buy actions actions", () => {
     room.addMob(player.sessionMob)
 
     // when
-    const response = await buy(new Request(player, RequestType.Buy, createRequestArgs("buy cap")))
+    const response = await buy(new Request(player, RequestType.Buy, "buy cap"))
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)

@@ -2,7 +2,7 @@ import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Item } from "../../item/model/item"
 import { Player } from "../../player/model/player"
-import { createRequestArgs, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { getTestPlayer } from "../../test/player"
@@ -20,7 +20,7 @@ function getPirateHat(): Item {
 
 async function useWearRequest(input: string, player: Player, item: Item) {
   return wear(new CheckedRequest(
-    new Request(player, RequestType.Wear, createRequestArgs(input)),
+    new Request(player, RequestType.Wear, input),
     await Check.ok(item)))
 }
 

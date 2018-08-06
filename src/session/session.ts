@@ -2,7 +2,7 @@ import look from "../action/actions/look"
 import { Client } from "../client/client"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
-import { createRequestArgs, Request as ActionRequest } from "../request/request"
+import { Request as ActionRequest } from "../request/request"
 import { RequestType } from "../request/requestType"
 import AuthStep from "./auth/authStep"
 import Complete from "./auth/complete"
@@ -59,6 +59,6 @@ export default class Session {
     this.client.player = this.player
     this.status = SessionStatus.LoggedIn
     this.client.send({ player: this.player })
-    this.client.send(await look(new ActionRequest(this.player, RequestType.Look, createRequestArgs("look"))))
+    this.client.send(await look(new ActionRequest(this.player, RequestType.Look, "look")))
   }
 }

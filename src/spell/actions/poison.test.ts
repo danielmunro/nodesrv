@@ -1,5 +1,5 @@
 import { AffectType } from "../../affect/affectType"
-import { createRequestArgs, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
@@ -20,7 +20,7 @@ describe("poison", () => {
     room.addMob(target)
 
     poison(new Check(
-      new Request(player, RequestType.Cast, createRequestArgs("cast poison bob")),
+      new Request(player, RequestType.Cast, "cast poison bob"),
       spellCollection.findSpell(SpellType.Poison)))
 
     expect(target.affects.length).toBe(1)

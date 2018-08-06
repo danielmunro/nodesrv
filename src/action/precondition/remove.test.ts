@@ -1,14 +1,14 @@
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Player } from "../../player/model/player"
-import { createRequestArgs, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import { CheckStatus } from "../check"
 import remove, { MESSAGE_REMOVE_FAIL } from "./remove"
 
 function useRemoveRequest(player: Player, input: string) {
-  return remove(new Request(player, RequestType.Remove, createRequestArgs(input)))
+  return remove(new Request(player, RequestType.Remove, input))
 }
 
 describe("remove", () => {

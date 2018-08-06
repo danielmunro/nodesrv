@@ -1,5 +1,5 @@
 import { Player } from "../../player/model/player"
-import { createRequestArgs, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
@@ -9,7 +9,7 @@ import kill, { ATTACK_MOB } from "./kill"
 
 function useKillRequest(player: Player, target, input: string) {
   return kill(new CheckedRequest(
-    new Request(player, RequestType.Kill, createRequestArgs(input)),
+    new Request(player, RequestType.Kill, input),
     new Check(CheckStatus.Ok, target)))
 }
 

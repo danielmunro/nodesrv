@@ -1,7 +1,7 @@
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Role } from "../../mob/role"
-import { createRequestArgs, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
@@ -17,7 +17,7 @@ describe("buy actions precondition", () => {
     room.addMob(player.sessionMob)
 
     // when
-    const check = await buy(new Request(player, RequestType.Buy, createRequestArgs("buy foo")))
+    const check = await buy(new Request(player, RequestType.Buy, "buy foo"))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -36,7 +36,7 @@ describe("buy actions precondition", () => {
     room.addMob(merch)
 
     // when
-    const check = await buy(new Request(player, RequestType.Buy, createRequestArgs("buy foo")))
+    const check = await buy(new Request(player, RequestType.Buy, "buy foo"))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -60,7 +60,7 @@ describe("buy actions precondition", () => {
     merch.inventory.addItem(eq)
 
     // when
-    const check = await buy(new Request(player, RequestType.Buy, createRequestArgs("buy sombrero")))
+    const check = await buy(new Request(player, RequestType.Buy, "buy sombrero"))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -89,7 +89,7 @@ describe("buy actions precondition", () => {
     merch.inventory.addItem(eq)
 
     // when
-    const check = await buy(new Request(player, RequestType.Buy, createRequestArgs("buy sombrero")))
+    const check = await buy(new Request(player, RequestType.Buy, "buy sombrero"))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

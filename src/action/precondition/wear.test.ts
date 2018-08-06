@@ -2,7 +2,7 @@ import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Item } from "../../item/model/item"
 import { Player } from "../../player/model/player"
-import { createRequestArgs, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import { CheckStatus } from "../check"
@@ -13,7 +13,7 @@ function getHatOfMight(): Item {
 }
 
 function useWearRequest(input: string, player: Player = getTestPlayer()) {
-  return wear(new Request(player, RequestType.Wear, createRequestArgs(input)))
+  return wear(new Request(player, RequestType.Wear, input))
 }
 
 describe("wear", () => {
