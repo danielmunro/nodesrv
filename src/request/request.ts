@@ -27,12 +27,12 @@ export class Request {
   constructor(
     public readonly player: Player,
     public readonly requestType: RequestType,
-    public readonly args: string = null) {
+    public readonly input: string = null) {
     this.mob = this.player.sessionMob
-    if (!this.args) {
-      this.args = this.requestType
+    if (!this.input) {
+      this.input = this.requestType
     }
-    const r = this.args.split(" ")
+    const r = this.input.split(" ")
     this.command = r[0]
     this.subject = r[1]
     this.message = r.slice(1).join(" ")

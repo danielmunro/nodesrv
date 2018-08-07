@@ -51,7 +51,7 @@ describe("clients", () => {
 
     // expect
     expect(request.player).toBe(client.player)
-    expect(request.args).toEqual(testMessage)
+    expect(request.input).toEqual(testMessage)
   })
 
   it("should use the default actions when no handlers match", async () => {

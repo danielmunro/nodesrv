@@ -69,7 +69,7 @@ export class Client {
   public async handleNextRequest() {
     if (!this.session.isLoggedIn()) {
       const request = this.requests.shift()
-      await this.session.handleRequest(new AuthRequest(this, request.command))
+      await this.session.handleRequest(new AuthRequest(this, request.input))
       return
     }
 
