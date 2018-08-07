@@ -4,6 +4,7 @@ import { getRegionRepository } from "../region/repository/region"
 import { Terrain } from "../region/terrain"
 import { getFreeDirection } from "../room/direction"
 import { Room } from "../room/model/room"
+import Service from "../room/service"
 import AreaBuilder from "./areaBuilder"
 import { Arena } from "./arena"
 import { newClearing } from "./builder/forest/clearing"
@@ -66,7 +67,7 @@ export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
 }
 
 export async function newArena(root: Room, width: number, height: number, mobFactory) {
-  const arena = new Arena(root, width, height, mobFactory)
+  const arena = new Arena(await Service.new(), root, width, height, mobFactory)
   await arena.buildMatrix()
 
   return arena

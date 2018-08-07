@@ -2,8 +2,7 @@ import { addFight, Fight, getFights, reset } from "../../mob/fight/fight"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { newReciprocalExit } from "../../room/factory"
-import { getExitRepository } from "../../room/repository/exit"
-import { getRoomRepository } from "../../room/repository/room"
+import Service from "../../room/service"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
@@ -24,10 +23,9 @@ beforeEach(async () => {
   fight = new Fight(player.sessionMob, mob)
   room1 = getTestRoom()
   room2 = getTestRoom()
-  const roomRepository = await getRoomRepository()
-  await roomRepository.save([room1, room2])
-  const exitRepository = await getExitRepository()
-  await exitRepository.save(newReciprocalExit(room1, room2))
+  const service = await Service.new()
+  await service.saveRoom([room1, room2])
+  await service.saveExit(newReciprocalExit(room1, room2))
   addFight(fight)
   room1.addMob(player.sessionMob)
   room1.addMob(mob)

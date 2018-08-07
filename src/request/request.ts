@@ -1,12 +1,12 @@
+import { Client } from "../client/client"
 import { Item } from "../item/model/item"
 import match from "../matcher/match"
 import { Mob } from "../mob/model/mob"
 import { getMob } from "../mob/table"
 import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
-import { RequestType } from "./requestType"
 import { default as AuthRequest } from "../session/auth/request"
-import { Client } from "../client/client"
+import { RequestType } from "./requestType"
 
 export function getNewRequestFromMessageEvent(client: Client, messageEvent: MessageEvent): Request | AuthRequest {
   const data = JSON.parse(messageEvent.data)

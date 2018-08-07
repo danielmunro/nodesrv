@@ -2,8 +2,8 @@ import { Repository } from "typeorm"
 import { Direction } from "../constants"
 import { Exit } from "../model/exit"
 import { Room } from "../model/room"
+import Service from "../service"
 import { findOneExit, getExitRepository } from "./exit"
-import { getRoomRepository } from "./room"
 
 function getRoomFixture(): Room {
   const room = new Room()
@@ -29,10 +29,9 @@ describe("exit repository", () => {
     exit.destination = destination
 
     // and -- entities are persisted
-    const roomRepository = await getRoomRepository()
-    await roomRepository.save([source, destination])
-    const exitRepository = await getExitRepository()
-    await exitRepository.save(exit)
+    const service = await Service.new()
+    await service.saveRoom([source, destination])
+    await service.saveExit(exit)
 
     // when
     const loadedEntity = await findOneExit(exit.id)

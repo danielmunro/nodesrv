@@ -1,3 +1,4 @@
+import { Repository } from "typeorm"
 import { Mob } from "../mob/model/mob"
 import { Direction } from "./constants"
 import { Exit } from "./model/exit"
@@ -5,6 +6,24 @@ import { Room } from "./model/room"
 import { findOneExit, getExitRepository } from "./repository/exit"
 import { getRoomRepository } from "./repository/room"
 import { getRoom } from "./table"
+
+export default class Service {
+  public static async new(): Promise<Service> {
+    return new Service(await getRoomRepository(), await getExitRepository())
+  }
+
+  constructor(
+    private readonly roomRepository: Repository<Room>,
+    private readonly exitRepository: Repository<Exit>) {}
+
+  public async saveRoom(room): Promise<any> {
+    return this.roomRepository.save(room)
+  }
+
+  public async saveExit(exit): Promise<any> {
+    return this.exitRepository.save(exit)
+  }
+}
 
 export async function persistAll(rooms, exits): Promise<Room[]> {
   const roomRepository = await getRoomRepository()

@@ -3,11 +3,11 @@ import { Collection } from "../action/definition/collection"
 import { Player } from "../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
+import { default as AuthRequest } from "../session/auth/request"
 import { Channel } from "../social/channel"
 import { getTestClient, getTestClientLoggedOut } from "../test/client"
 import { Client, getDefaultUnhandledMessage } from "./client"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
-import { default as AuthRequest } from "../session/auth/request"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
