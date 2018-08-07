@@ -1,6 +1,6 @@
 import { Direction } from "../../room/constants"
 import { newExit } from "../../room/factory"
-import { persistExit, persistRoom } from "../../room/service"
+import Service from "../../room/service"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import { Wander } from "./wander"
@@ -16,9 +16,9 @@ describe("wander", () => {
     destination.name = "room 2"
     const exit = newExit(Direction.South, source, destination)
     const wander = new Wander(() => Promise.resolve([mob]))
-    await persistRoom(source)
-    await persistRoom(destination)
-    await persistExit(exit)
+    const service = await Service.new()
+    await service.saveRoom([source, destination])
+    await service.saveExit(exit)
 
     // when
     await wander.notify([])

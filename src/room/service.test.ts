@@ -2,14 +2,15 @@ import { getTestMob } from "../test/mob"
 import { getTestRoom } from "../test/room"
 import { Direction } from "./constants"
 import { newReciprocalExit } from "./factory"
-import { moveMob, persistAll, persistRoom } from "./service"
+import Service, { moveMob } from "./service"
 
 describe("moveMob", () => {
   it("should not allow movement where an exit does not exist", async () => {
+    const service = await Service.new()
     const mob = getTestMob()
     const source = getTestRoom()
     source.addMob(mob)
-    await persistRoom(source)
+    await service.saveRoom(source)
     return expect(moveMob(mob, Direction.North)).rejects.toThrowError()
   })
 
@@ -19,7 +20,9 @@ describe("moveMob", () => {
     const destination = getTestRoom()
     const exits = newReciprocalExit(source, destination, Direction.North)
     source.addMob(mob)
-    await persistAll([source, destination], exits)
+    const service = await Service.new()
+    await service.saveRoom([source, destination])
+    await service.saveExit(exits)
     await moveMob(mob, Direction.North)
     expect(mob.room.id).toBe(destination.id)
   })

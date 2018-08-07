@@ -1,7 +1,7 @@
 import { newCritter } from "../mob/factory/trail"
 import { Direction } from "../room/constants"
 import { Room } from "../room/model/room"
-import { default as Service, persistRoom } from "../room/service"
+import { default as Service } from "../room/service"
 import { getTestRoom } from "../test/room"
 import { Arena } from "./arena"
 
@@ -11,8 +11,9 @@ let arena: Arena
 
 describe("arena", () => {
   beforeEach(async () => {
-    const room = await persistRoom(getTestRoom())
-    arena = new Arena(await Service.new(), room, width, height, newCritter)
+    const service = await Service.new()
+    const room = await service.saveRoom(getTestRoom())
+    arena = new Arena(service, room, width, height, newCritter)
     await arena.buildMatrix()
   })
 

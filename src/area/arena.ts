@@ -5,7 +5,7 @@ import { Direction } from "../room/constants"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
-import { default as Service, persistExit, persistRoom } from "../room/service"
+import { default as Service } from "../room/service"
 
 export class Arena {
   public readonly matrix = []
@@ -32,8 +32,8 @@ export class Arena {
     }
     await this.createMatrix()
     const edge = this.getRandomEdge()
-    await persistRoom(this.root)
-    await persistExit(newReciprocalExit(this.root, edge))
+    await this.service.saveRoom(this.root)
+    await this.service.saveExit(newReciprocalExit(this.root, edge))
     this.built = true
   }
 

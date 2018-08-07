@@ -3,7 +3,7 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { Direction } from "../../room/constants"
-import { persistRoom } from "../../room/service"
+import Service from "../../room/service"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import Check from "../check"
@@ -13,7 +13,8 @@ import move from "./move"
 describe("move", () => {
   it("should allow movement where rooms connect", async () => {
     // given
-    const root = await persistRoom(getTestRoom())
+    const service = await Service.new()
+    const root = await service.saveRoom(getTestRoom())
     const trail = await newTrail(root, Direction.East, 1)
     const player = getTestPlayer()
     const mob = player.sessionMob

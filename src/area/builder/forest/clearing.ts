@@ -1,6 +1,7 @@
 import { newForestItem } from "../../../item/factory/trail"
 import { newRoom } from "../../../room/factory"
 import { Room } from "../../../room/model/room"
+import Service from "../../../room/service"
 import AreaBuilder from "../../areaBuilder"
 import DefaultSpec from "../../sectionSpec/defaultSpec"
 import MatrixSpec from "../../sectionSpec/matrixSpec"
@@ -21,7 +22,7 @@ function getConnectionRoom(): Room {
 }
 
 export async function newClearing(outsideConnection: Room, width: number, height: number): Promise<AreaBuilder> {
-  const areaBuilder = new AreaBuilder(outsideConnection)
+  const areaBuilder = new AreaBuilder(outsideConnection, await Service.new())
   areaBuilder.addRoomTemplate(SectionType.Root, new DefaultSpec(getRootRoom()))
   areaBuilder.addRoomTemplate(SectionType.Matrix, new MatrixSpec(getConnectionRoom(), width, height))
   areaBuilder.addItemTemplate(SectionType.Connection, newForestItem(), FOREST_ITEM_CHANCE_TO_POP)

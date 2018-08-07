@@ -1,12 +1,13 @@
 import { newTrainer, newTraveller } from "../../../mob/factory/inn"
 import { newRoom } from "../../../room/factory"
 import { Room } from "../../../room/model/room"
+import Service from "../../../room/service"
 import AreaBuilder from "../../areaBuilder"
 import DefaultSpec from "../../sectionSpec/defaultSpec"
 import { SectionType } from "../../sectionType"
 
 export async function newInn(outsideConnection: Room): Promise<AreaBuilder> {
-  const areaBuilder = new AreaBuilder(outsideConnection)
+  const areaBuilder = new AreaBuilder(outsideConnection, await Service.new())
   areaBuilder.addRoomTemplate(
     SectionType.Root,
     new DefaultSpec(newRoom("Inn at the lodge",

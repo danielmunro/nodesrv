@@ -1,6 +1,6 @@
 import { Direction } from "../room/constants"
 import { newRoom } from "../room/factory"
-import { persistRoom } from "../room/service"
+import Service from "../room/service"
 import { getTestMob } from "../test/mob"
 import { newInn } from "./builder/forest/inn"
 import { newTrail } from "./builder/forest/trail"
@@ -34,16 +34,18 @@ describe("area factory", () => {
   })
 
   it("a world should contain rooms", async () => {
-    const room = await persistRoom(newRoom("test", "test"))
+    const service = await Service.new()
+    const room = await service.saveRoom(newRoom("test", "test"))
     const world = await newWorld(room)
     expect(world.size).toBeGreaterThanOrEqual(0)
   })
 
   it("every room in a world should be traversable", async () => {
     // setup
-    const rootRoom = await persistRoom(newRoom("test", "test"))
-    const rooms = await newWorld(rootRoom)
-    const exploration = new Exploration(rootRoom)
+    const service = await Service.new()
+    const room = await service.saveRoom(newRoom("test", "test"))
+    const rooms = await newWorld(room)
+    const exploration = new Exploration(room)
 
     // when
     exploration.explore()

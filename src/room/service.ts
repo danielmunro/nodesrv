@@ -25,23 +25,6 @@ export default class Service {
   }
 }
 
-export async function persistAll(rooms, exits): Promise<Room[]> {
-  const roomRepository = await getRoomRepository()
-  await roomRepository.save(rooms)
-  const exitRepository = await getExitRepository()
-  await exitRepository.save(exits)
-
-  return Promise.resolve(rooms)
-}
-
-export function persistExit(exit): Promise<Exit> {
-  return getExitRepository().then((exitRepository) => exitRepository.save(exit))
-}
-
-export function persistRoom(room): Promise<Room> {
-  return getRoomRepository().then((roomRepository) => roomRepository.save(room))
-}
-
 export async function moveMob(mob: Mob, direction: Direction) {
   const room = getRoom(mob.room.uuid)
   const roomExit = room.exits.find((e) => e.direction === direction)

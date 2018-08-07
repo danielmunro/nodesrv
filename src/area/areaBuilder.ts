@@ -5,7 +5,7 @@ import { persistMob } from "../mob/repository/mob"
 import { Direction } from "../room/constants"
 import { newReciprocalExit } from "../room/factory"
 import { Room } from "../room/model/room"
-import { persistExit } from "../room/service"
+import Service from "../room/service"
 import ItemCollection from "./itemCollection"
 import MobCollection from "./mobCollection"
 import RoomCollection from "./roomCollection"
@@ -27,7 +27,9 @@ export default class AreaBuilder {
   private allRooms = []
   private exitRoom: Room
 
-  constructor(public readonly outsideConnection: Room) {
+  constructor(
+    public readonly outsideConnection: Room,
+    private readonly service: Service) {
     this.rooms.add(SectionType.OutsideConnection, new DefaultSpec(outsideConnection))
     this.activeRoom = outsideConnection
     this.allRooms.push(outsideConnection)
@@ -87,7 +89,7 @@ export default class AreaBuilder {
   }
 
   private async createExits(room: Room, direction: Direction) {
-    await persistExit(newReciprocalExit(this.activeRoom, room, direction))
+    await this.service.saveExit(newReciprocalExit(this.activeRoom, room, direction))
   }
 
   private async addMobsToRoom(sectionType: SectionType, room: Room) {

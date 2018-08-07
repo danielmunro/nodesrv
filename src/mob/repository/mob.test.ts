@@ -1,7 +1,7 @@
 import * as sillyname from "sillyname"
 import { newTrail } from "../../area/builder/forest/trail"
 import { Direction } from "../../room/constants"
-import { moveMob, persistRoom } from "../../room/service"
+import Service, { moveMob } from "../../room/service"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import { Mob } from "../model/mob"
@@ -17,8 +17,9 @@ function getTestWanderingMob(): Mob {
 describe("mob repository", () => {
   it("should be able to save a mob's room as the mob moves", async () => {
     // setup
+    const service = await Service.new()
     const root = getTestRoom()
-    await persistRoom(root)
+    await service.saveRoom(root)
     const trailAreaBuilder = await newTrail(root, Direction.West, 2)
     const mob = getTestMob()
     root.addMob(mob)
