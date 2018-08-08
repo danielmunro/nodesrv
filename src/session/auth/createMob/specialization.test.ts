@@ -15,7 +15,7 @@ describe("specialization create mob auth step", () => {
     ]
 
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     const specialization = new Specialization(client.player)
 
     // when
@@ -29,7 +29,7 @@ describe("specialization create mob auth step", () => {
   it("should allow valid specializations", async () => {
     // when
     return Promise.all(allSpecializations.map(async (input) => {
-      const client = getTestClient()
+      const client = await getTestClient()
       const specialization = new Specialization(client.player)
       const response = await specialization.processRequest(new Request(client, input))
       expect(response.status).toBe(ResponseStatus.OK)

@@ -11,7 +11,7 @@ import { ResponseStatus } from "../responseStatus"
 import Name from "./name"
 
 async function createAuthUser(name: string): Promise<Client> {
-  const client = getTestClient()
+  const client = await getTestClient()
   const mob = getTestMob(name)
   mob.player = client.player
   mob.isPlayer = true
@@ -27,7 +27,7 @@ describe("auth login name", () => {
     const validMobName = sillyname()
 
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     const name = new Name(client.player)
 
     // when

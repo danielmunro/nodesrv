@@ -15,8 +15,8 @@ function getMagicMissile(): SpellDefinition {
 }
 
 describe("spellDefinition", () => {
-  it("should be able to create a check with a request", () => {
-    const client = getTestClient()
+  it("should be able to create a check with a request", async () => {
+    const client = await getTestClient()
     const check = new Check(
       createCastRequest(client.player, "cast 'magic missile'"),
       getMagicMissile())
@@ -24,8 +24,8 @@ describe("spellDefinition", () => {
     expect(check.isError()).toBe(true)
   })
 
-  it("should be able to successfully cast 'magic missile' against a target in a battle", () => {
-    const client = getTestClient()
+  it("should be able to successfully cast 'magic missile' against a target in a battle", async () => {
+    const client = await getTestClient()
     client.player.sessionMob.spells.push(newSpell(SpellType.MagicMissile, 1))
     const target = getTestMob()
     addFight(new Fight(client.player.sessionMob, target))
@@ -36,9 +36,9 @@ describe("spellDefinition", () => {
     expect(check.isFailure() || check.isSuccessful()).toBe(true)
   })
 
-  it("should be able to successfully cast 'magic missile' against a target in a room, and create a new fight", () => {
+  it("should be able to successfully cast 'magic missile' against a target in a room, and create a new fight", async () => {
     const spell = getMagicMissile()
-    const client = getTestClient()
+    const client = await getTestClient()
     const sessionMob = client.player.sessionMob
     sessionMob.spells.push(newSpell(SpellType.MagicMissile, 1))
     const target = getTestMob("foo")
@@ -52,8 +52,8 @@ describe("spellDefinition", () => {
     expect(getFights().find((f) => f.isParticipant(sessionMob))).toBeTruthy()
   })
 
-  it("will not target if the name mismatches", () => {
-    const client = getTestClient()
+  it("will not target if the name mismatches", async () => {
+    const client = await getTestClient()
     client.player.sessionMob.spells.push(newSpell(SpellType.MagicMissile, 1))
     const target = getTestMob("foo")
     client.player.sessionMob.room.addMob(target)

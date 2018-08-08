@@ -5,9 +5,9 @@ import { newSkill } from "../skill/factory"
 import { MESSAGE_FAIL_TOO_TIRED } from "../skill/preconditions/sneak"
 import { SkillType } from "../skill/skillType"
 import { getTestPlayer } from "../test/player"
-import { actions } from "./actionCollection"
 import { doSkill, doWithItemOrElse } from "./actionHelpers"
 import { Definition } from "./definition/definition"
+import TestBuilder from "../test/testBuilder"
 
 describe("actions helpers", () => {
   it("should do with item or else", () => {
@@ -33,13 +33,18 @@ describe("actions helpers", () => {
   })
 
   it("should recognize all directions as valid actions", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
     const defaultHandler = new Definition(
+      await testBuilder.getService(),
       RequestType.Any,
       () => Promise.resolve(defaultHandler))
+    const actions = await testBuilder.getActionCollection()
     const handleRepeater = (requestType: RequestType, args: string) =>
       actions.getMatchingHandlerDefinitionForRequestType(requestType, defaultHandler)
         .handle(new Request(getTestPlayer(), requestType, args))
 
+    // expect
     expect(await handleRepeater(RequestType.Noop, "")).toBe(defaultHandler)
     expect(await handleRepeater(RequestType.North, "north")).not.toBe(defaultHandler)
     expect(await handleRepeater(RequestType.South, "south")).not.toBe(defaultHandler)

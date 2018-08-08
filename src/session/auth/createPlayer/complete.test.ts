@@ -9,7 +9,7 @@ import Complete from "./complete"
 describe("create player auth step: complete", () => {
   it("should proceed to the final step unconditionally", async () => {
     // given
-    const client = getTestClient()
+    const client = await getTestClient()
 
     // when
     const response = await new Complete(client.player).processRequest(new Request(client, ""))
@@ -21,7 +21,7 @@ describe("create player auth step: complete", () => {
 
   it("should persist the player", async () => {
     // given
-    const client = getTestClient()
+    const client = await getTestClient()
 
     // expect
     expect(client.player.id).toBeUndefined()

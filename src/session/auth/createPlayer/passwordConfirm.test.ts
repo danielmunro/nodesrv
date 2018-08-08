@@ -10,7 +10,7 @@ describe("create player password confirm auth step", () => {
   it("should work with matching passwords", async () => {
     // given
     const password = uuid.v4()
-    const client = getTestClient()
+    const client = await getTestClient()
 
     // setup
     const passwordConfirm = new PasswordConfirm(client.player, password)
@@ -27,7 +27,7 @@ describe("create player password confirm auth step", () => {
     // given
     const password1 = uuid.v4()
     const password2 = uuid.v4()
-    const client = getTestClient()
+    const client = await getTestClient()
 
     // setup
     const passwordConfirm = new PasswordConfirm(client.player, password1)

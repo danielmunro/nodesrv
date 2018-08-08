@@ -8,6 +8,7 @@ import { Channel } from "../social/channel"
 import { getTestClient, getTestClientLoggedOut } from "../test/client"
 import { Client, getDefaultUnhandledMessage } from "./client"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
+import Service from "../room/service"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
@@ -16,16 +17,16 @@ function getNewTestMessageEvent(message = "hello world") {
 let client: Client
 
 describe("clients", () => {
-  beforeEach(() => client = getTestClient())
+  beforeEach(async () => client = await getTestClient())
   it("should delegate handling requests to the session if not logged in", async () => {
-    const newClient = getTestClientLoggedOut()
+    const newClient = await getTestClientLoggedOut()
     const authStep = newClient.session.getAuthStepMessage()
     newClient.addRequest(getNewRequestFromMessageEvent(client, getNewTestMessageEvent("testemail@email.com")))
     await newClient.handleNextRequest()
     expect(newClient.session.getAuthStepMessage()).not.toBe(authStep)
   })
 
-  it("should recognize its own messages as its own and not others", () => {
+  it("should recognize its own messages as its own and not others", async () => {
     // setup
     const message = client.createMessage(
       Channel.Gossip,
@@ -36,7 +37,7 @@ describe("clients", () => {
     expect(client.isOwnMessage(message)).toBe(true)
 
     // when
-    const anotherClient = getTestClient()
+    const anotherClient = await getTestClient()
     const newMessage = anotherClient.createMessage(Channel.Gossip, "hullo")
 
     // then
@@ -78,9 +79,10 @@ describe("clients", () => {
     expect(response).toEqual(lookResponse)
   })
 
-  it("invokes the default request actions when input has no actions actions", async () => {
+  it("invokes the default request actions when input has no action handler", async () => {
     // setup
     const request = getNewRequestFromMessageEvent(client, getNewTestMessageEvent("foo")) as Request
+    // console.log("request", request)
 
     // when
     const response = await client.handleRequest(request)
@@ -95,7 +97,7 @@ describe("clients", () => {
     const ws = jest.fn(() => ({
         send: (message) => buf.push(message),
       }))
-    client = new Client(ws(), "127.0.0.1", new Collection([]))
+    client = new Client(ws(), "127.0.0.1", new Collection([]), jest.fn())
     const id = "test-tick-id"
     const timestamp = new Date()
 
@@ -171,7 +173,7 @@ describe("clients", () => {
     const ws = jest.fn(() => ({
       send,
     }))
-    client = new Client(ws(), "127.0.0.1", new Collection([]))
+    client = new Client(ws(), "127.0.0.1", new Collection([]), jest.fn())
 
     // expect
     expect(send.mock.calls.length).toBe(0)
@@ -196,7 +198,7 @@ describe("clients", () => {
 
   it("not logged in clients should always be able to handle requests if ones are available", () => {
     // setup
-    const newClient = new Client(jest.fn(), "127.0.0.1", jest.fn())
+    const newClient = new Client(jest.fn(), "127.0.0.1", jest.fn(), jest.fn())
     newClient.player = new Player()
     newClient.addRequest(new AuthRequest(newClient, RequestType.Any))
 

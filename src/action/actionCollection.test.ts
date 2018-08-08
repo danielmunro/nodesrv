@@ -2,7 +2,6 @@ import { RequestType } from "../request/requestType"
 import { ResponseStatus } from "../request/responseStatus"
 import { SkillType } from "../skill/skillType"
 import TestBuilder from "../test/testBuilder"
-import { actions } from "./actionCollection"
 
 describe("actions actions collection", () => {
   it("should be able to bash", async () => {
@@ -10,6 +9,7 @@ describe("actions actions collection", () => {
     const testBuilder = new TestBuilder()
     testBuilder.withPlayer().withSkill(SkillType.Bash)
     testBuilder.withMob("bob")
+    const actions = await testBuilder.getActionCollection()
 
     // and
     const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Bash)
@@ -26,6 +26,7 @@ describe("actions actions collection", () => {
     const testBuilder = new TestBuilder()
     testBuilder.withPlayer().withSkill(SkillType.Trip)
     testBuilder.withMob("bob")
+    const actions = await testBuilder.getActionCollection()
 
     // and
     const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Trip)
@@ -41,6 +42,7 @@ describe("actions actions collection", () => {
     // given
     const testBuilder = new TestBuilder()
     testBuilder.withPlayer().withSkill(SkillType.Berserk)
+    const actions = await testBuilder.getActionCollection()
 
     // and
     const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Berserk)
@@ -56,6 +58,7 @@ describe("actions actions collection", () => {
     // given
     const testBuilder = new TestBuilder()
     testBuilder.withPlayer().withSkill(SkillType.Sneak)
+    const actions = await testBuilder.getActionCollection()
 
     // and
     const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Sneak)

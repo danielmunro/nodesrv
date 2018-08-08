@@ -8,11 +8,12 @@ import { getRoomRepository } from "./repository/room"
 import { getRoom } from "./table"
 
 export default class Service {
-  public static async new(): Promise<Service> {
-    return new Service(await getRoomRepository(), await getExitRepository())
+  public static async new(startRoom: Room): Promise<Service> {
+    return new Service(startRoom, await getRoomRepository(), await getExitRepository())
   }
 
   constructor(
+    public readonly startRoom: Room,
     private readonly roomRepository: Repository<Room>,
     private readonly exitRepository: Repository<Exit>) {}
 

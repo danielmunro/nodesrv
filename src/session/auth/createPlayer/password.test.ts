@@ -11,7 +11,7 @@ describe("create player password", () => {
     const playerPassword = "aa"
 
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     const password = new Password(client.player)
 
     // when
@@ -28,7 +28,7 @@ describe("create player password", () => {
     const playerPassword = "foo"
 
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     const password = new Password(client.player)
 
     // when

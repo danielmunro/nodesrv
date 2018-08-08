@@ -6,7 +6,7 @@ import { ResponseStatus } from "./responseStatus"
 describe("final auth step: complete", () => {
   it("should be ok unconditionally, but not have any more steps to complete", async () => {
     // given
-    const client = getTestClient()
+    const client = await getTestClient()
 
     // when
     const response = await new Complete(client.player).processRequest(new Request(client, ""))

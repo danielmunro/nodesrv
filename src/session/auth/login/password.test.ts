@@ -11,7 +11,7 @@ describe("password login auth step", () => {
     const playerPassword = "s3crets"
 
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     client.player.password = playerPassword
     await savePlayer(client.player)
     const password = new Password(client.player)
@@ -30,7 +30,7 @@ describe("password login auth step", () => {
     const input = "notsecret"
 
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     client.player.password = playerPassword
     await savePlayer(client.player)
     const password = new Password(client.player)

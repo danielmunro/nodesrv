@@ -1,5 +1,11 @@
 import { RequestType } from "../../request/requestType"
-import { actions } from "../actionCollection"
+import TestBuilder from "../../test/testBuilder"
+
+let actions
+
+beforeAll(async () => {
+  actions = await new TestBuilder().getActionCollection()
+})
 
 describe("collection action definition", () => {
   it("should return east before equipped", async () => {

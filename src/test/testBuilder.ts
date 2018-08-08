@@ -11,10 +11,13 @@ import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
+import getActionCollection from "../action/actionCollection"
+import Service from "../room/service"
 
 export default class TestBuilder {
   public player: Player
   public room: Room
+  private service: Service
 
   public withRoom() {
     this.room = newRoom("a test room", "description of a test room")
@@ -67,6 +70,17 @@ export default class TestBuilder {
       input = requestType.toString()
     }
     return new Request(this.player, requestType, input)
+  }
+
+  public async getActionCollection() {
+    return getActionCollection(await this.getService())
+  }
+
+  public async getService(): Promise<Service> {
+    if (!this.service) {
+      this.service = await Service.new(this.room)
+    }
+    return this.service
   }
 
   private createCheckedRequest(

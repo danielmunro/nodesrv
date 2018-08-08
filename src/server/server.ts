@@ -1,8 +1,7 @@
 import { Server } from "ws"
-import { actions } from "../action/actionCollection"
+import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
 import { poll } from "../poll/poll"
-import { Room } from "../room/model/room"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { SecondIntervalTimer } from "../timer/secondTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
@@ -11,6 +10,7 @@ import { EVENTS } from "./constants"
 import { DecrementPlayerDelay } from "./observers/decrementPlayerDelay"
 import { HandleClientRequests } from "./observers/handleClientRequests"
 import { Observer } from "./observers/observer"
+import Service from "../room/service"
 
 enum Status {
   Initialized,
@@ -19,21 +19,23 @@ enum Status {
 }
 
 export class GameServer {
-  public readonly startRoom: Room
+  private readonly service: Service
   private readonly wss: Server
   private status: Status = Status.Initialized
   private clients: Client[] = []
+  private actions
 
-  constructor(wss, startRoom: Room) {
+  constructor(wss, service: Service) {
     this.wss = wss
-    this.startRoom = startRoom
+    this.service = service
   }
 
-  public start(): void {
+  public async start(): Promise<void> {
     if (!this.isInitialized()) {
       throw new Error("Status must be initialized to start")
     }
 
+    this.actions = await getActionCollection(this.service)
     this.status = Status.Started
     this.wss.on(EVENTS.CONNECTION, this.addWS.bind(this))
     this.addObserver(new DecrementPlayerDelay(), new SecondIntervalTimer())
@@ -45,8 +47,8 @@ export class GameServer {
     this.wss.close()
   }
 
-  public addWS(ws: WebSocket, req): void {
-    const client = new Client(ws, req ? req.connection.remoteAddress : null, actions, this.startRoom)
+  public async addWS(ws: WebSocket, req): Promise<void> {
+    const client = new Client(ws, req ? req.connection.remoteAddress : null, this.actions, this.service)
     console.info("new client connected", { ip: client.ip })
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)

@@ -2,9 +2,11 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import { Definition, MESSAGE_REQUEST_TYPE_MISMATCH } from "./definition"
+import TestBuilder from "../../test/testBuilder"
 
-function getNewHandlerDefinition(requestType = RequestType.Noop): Definition {
-  return new Definition(requestType, () => new Promise((resolve) => resolve()))
+async function getNewHandlerDefinition(requestType = RequestType.Noop): Definition {
+  const testBuilder = new TestBuilder()
+  return new Definition(await testBuilder.getService(), requestType, () => new Promise((resolve) => resolve()))
 }
 
 function getNewTestRequest(requestType: RequestType): Request {
@@ -12,27 +14,27 @@ function getNewTestRequest(requestType: RequestType): Request {
 }
 
 describe("Definition", () => {
-  it("isAbleToHandleRequestType should only handle its own request type", () => {
-    const def = getNewHandlerDefinition(RequestType.Noop)
+  it("isAbleToHandleRequestType should only handle its own request type", async () => {
+    const def = await getNewHandlerDefinition(RequestType.Noop)
     expect(def.isAbleToHandleRequestType(RequestType.Gossip)).toBe(false)
     expect(def.isAbleToHandleRequestType(RequestType.Noop)).toBe(true)
   })
 
   it("applyCallback should fail on different request types", async () => {
-    await expect(getNewHandlerDefinition(RequestType.Noop).handle(
+    await expect((await getNewHandlerDefinition(RequestType.Noop)).handle(
         getNewTestRequest(RequestType.Gossip))).rejects.toThrowError(MESSAGE_REQUEST_TYPE_MISMATCH)
   })
 
-  it("applyCallback should succeed on matching request types", () => {
+  it("applyCallback should succeed on matching request types", async () => {
     const callback = jest.fn()
-    getNewHandlerDefinition(RequestType.Noop)
-      .handle(getNewTestRequest(RequestType.Noop))
+    const definition = await getNewHandlerDefinition(RequestType.Noop)
+    definition.handle(getNewTestRequest(RequestType.Noop))
       .then(callback)
       .then(() => expect(callback).toBeCalled())
   })
 
-  it("'Any' actions can handle different types of requests", () => {
-    const handler = getNewHandlerDefinition(RequestType.Any)
+  it("'Any' actions can handle different types of requests", async () => {
+    const handler = await getNewHandlerDefinition(RequestType.Any)
     const testCases = [RequestType.Noop, RequestType.Look, RequestType.Gossip]
     testCases.forEach((requestType) => {
       const callback = jest.fn()

@@ -8,7 +8,7 @@ import Race from "./race"
 describe("new mob confirm auth step", () => {
   it("should bounce back to mob name if the client selects 'n'", async () => {
     // given
-    const client = getTestClient()
+    const client = await getTestClient()
 
     // setup
     const newMobConfirm = new NewMobConfirm(client.player, "foo")
@@ -23,7 +23,7 @@ describe("new mob confirm auth step", () => {
 
   it("should proceed to the next step (race selection) if 'y' selected", async () => {
     // given
-    const client = getTestClient()
+    const client = await getTestClient()
 
     // setup
     const newMobConfirm = new NewMobConfirm(client.player, "foo")
@@ -38,7 +38,7 @@ describe("new mob confirm auth step", () => {
 
   it("should error out for any other input", async () => {
     // given
-    const client = getTestClient()
+    const client = await getTestClient()
 
     // setup
     const newMobConfirm = new NewMobConfirm(client.player, "foo")

@@ -9,7 +9,7 @@ const TEST_TIMEOUT_2 = 122
 
 describe("decrementAffects", () => {
   it("should decrement all affects for a mob", async () => {
-    const client = getTestClient()
+    const client = await getTestClient()
     const mob = client.player.sessionMob
     mob.addAffect(newAffect(AffectType.Dazed, TEST_TIMEOUT_1))
     mob.addAffect(newAffect(AffectType.Shield, TEST_TIMEOUT_2))
@@ -22,7 +22,7 @@ describe("decrementAffects", () => {
   })
 
   it("should an affect once it decrements to zero", async () => {
-    const client = getTestClient()
+    const client = await getTestClient()
     const mob = client.player.sessionMob
     mob.addAffect(newAffect(AffectType.Dazed, 0))
     expect.assertions(1)

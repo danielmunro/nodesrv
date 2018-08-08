@@ -9,17 +9,19 @@ import { broadcastMessage, readMessages } from "../../social/publicBroadcast"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import { SocialBroadcaster } from "./socialBroadcaster"
+import Service from "../../room/service"
 
 jest.mock("../../client/client")
 
 async function getMockClient(room = getTestRoom()): Promise<Client> {
   const client = new Client(null, null, null, null)
+  client.service = await Service.new(room)
   client.player = new Player()
   client.isOwnMessage = (m: Message) => m.sender === client.player
   client.isLoggedIn = () => true
   client.session = new Session(client, new Complete(client.player))
-  client.startRoom = room
   client.player.sessionMob = getTestMob()
+  client.getStartRoom = () => room
   await client.session.login(client.player)
 
   return client

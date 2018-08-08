@@ -11,7 +11,7 @@ describe("session", () => {
     const mob = getTestMob()
     const player = getTestPlayer()
     player.sessionMob = mob
-    const client = getTestClient()
+    const client = await getTestClient()
     const session = new Session(client)
 
     // expect
@@ -24,12 +24,12 @@ describe("session", () => {
     expect(session.isLoggedIn()).toBeTruthy()
     expect(session.getPlayer()).toBe(player)
     expect(session.getMob()).toBe(mob)
-    expect(session.getMob().room).toBe(client.startRoom)
+    expect(session.getMob().room).toBe(client.getStartRoom())
   })
 
   it("should login when complete", async () => {
     // given
-    const client = getTestClient()
+    const client = await getTestClient()
     const session = new Session(client, new Complete(client.player))
 
     // expect

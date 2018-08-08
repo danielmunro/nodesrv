@@ -4,8 +4,8 @@ import { getTestClient } from "../../test/client"
 import { HandleClientRequests } from "./handleClientRequests"
 
 describe("handleClientRequests", () => {
-  it("should be able to handle requests on clients", () => {
-    const client = getTestClient()
+  it("should be able to handle requests on clients", async () => {
+    const client = await getTestClient()
     client.addRequest(new Request(client.player, RequestType.Any))
 
     expect(client.hasRequests()).toBe(true)
@@ -13,8 +13,8 @@ describe("handleClientRequests", () => {
     expect(client.hasRequests()).toBe(false)
   })
 
-  it("should not notify a client if the client has a delay", () => {
-    const client = getTestClient()
+  it("should not notify a client if the client has a delay", async () => {
+    const client = await getTestClient()
     client.addRequest(new Request(client.player, RequestType.Any))
     client.player.delay += 1
 

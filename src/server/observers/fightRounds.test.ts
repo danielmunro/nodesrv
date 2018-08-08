@@ -21,11 +21,11 @@ describe("fight rounds", () => {
     expect(attackMessage(attack2, mob2)).toContain("mob1 has DIED")
   })
 
-  it("should be able to create a map between clients and session mobs", () => {
+  it("should be able to create a map between clients and session mobs", async () => {
     const clients = [
-      getTestClient(),
-      getTestClient(),
-      getTestClient(),
+      await getTestClient(),
+      await getTestClient(),
+      await getTestClient(),
     ]
     const map = createClientMobMap(clients)
     const keys = Object.keys(map)
@@ -53,7 +53,7 @@ describe("fight rounds", () => {
 
   it("should be able to use fight rounds", async () => {
     // Setup
-    const client = getTestClient()
+    const client = await getTestClient()
     client.player.sessionMob.vitals.hp = 1
     const fight = new Fight(getTestMob(), client.player.sessionMob)
     addFight(fight)

@@ -13,6 +13,7 @@ import Session from "../session/session"
 import { Channel } from "../social/channel"
 import { Message } from "../social/message"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
+import Service from "../room/service"
 
 export function getDefaultUnhandledMessage(request: Request) {
   return new Response(request, ResponseStatus.PreconditionsFailed, MESSAGE_NOT_UNDERSTOOD)
@@ -27,7 +28,7 @@ export class Client {
     public readonly ws: WebSocket,
     public readonly ip: string,
     public readonly handlers: Collection,
-    public readonly startRoom: Room = null) {
+    private readonly service: Service) {
     this.session = new Session(this)
     this.ws.onmessage = (data) => this.addRequest(getNewRequestFromMessageEvent(this, data))
     this.ws.onerror = (error: ErrorEvent) =>
@@ -105,7 +106,11 @@ export class Client {
     this.send({ tick: { id, timestamp }})
   }
 
+  public getStartRoom(): Room {
+    return this.service.startRoom
+  }
+
   private getDefaultRequestHandler(request: Request): Definition {
-    return new Definition(RequestType.Any, () => Promise.resolve(getDefaultUnhandledMessage(request)))
+    return new Definition(this.service, RequestType.Any, () => Promise.resolve(getDefaultUnhandledMessage(request)))
   }
 }

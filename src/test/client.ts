@@ -1,26 +1,30 @@
-import { actions } from "../action/actionCollection"
+import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
 import { getTestPlayer } from "./player"
 import { getTestRoom } from "./room"
+import Service from "../room/service"
 
 const ws = jest.fn(() => ({
   send: jest.fn(),
 }))
 
-function createClient(player): Client {
-  const client = new Client(ws(), "127.0.0.1", actions, getTestRoom())
+function createClient(player, actions, service): Client {
+  const client = new Client(ws(), "127.0.0.1", actions, service)
   client.player = player
 
   return client
 }
 
-export function getTestClient(player = getTestPlayer()): Client {
-  const client = createClient(player)
-  client.session.login(player)
+export async function getTestClient(player = getTestPlayer()): Promise<Client> {
+  const service = await Service.new(getTestRoom())
+  const actions = await getActionCollection(service)
+  const client = createClient(player, actions, service)
+  await client.session.login(player)
 
-  return client
+  return Promise.resolve(client)
 }
 
-export function getTestClientLoggedOut(player = getTestPlayer()): Client {
-  return createClient(player)
+export async function getTestClientLoggedOut(player = getTestPlayer()): Promise<Client> {
+  const actions = await getActionCollection(await Service.new(getTestRoom()))
+  return createClient(player, actions)
 }

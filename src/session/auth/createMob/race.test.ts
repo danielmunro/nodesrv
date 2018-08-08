@@ -15,7 +15,7 @@ describe("race create mob auth step", () => {
     ]
 
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     const race = new Race(client.player)
 
     // when
@@ -28,7 +28,7 @@ describe("race create mob auth step", () => {
 
   it("should allow playable races", async () => {
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     const race = new Race(client.player)
 
     // when

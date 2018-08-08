@@ -55,7 +55,7 @@ export default class Session {
   public async login(player: Player) {
     this.mob = player.sessionMob
     this.player = player
-    this.client.startRoom.addMob(this.mob)
+    this.client.getStartRoom().addMob(this.mob)
     this.client.player = this.player
     this.status = SessionStatus.LoggedIn
     this.client.send({ player: this.player })

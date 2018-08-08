@@ -8,8 +8,6 @@ import { CheckResult } from "../skill/checkResult"
 import { skillCollection } from "../skill/skillCollection"
 import { SkillType } from "../skill/skillType"
 
-export const PRECONDITION_FAILED = "You don't have enough energy."
-
 export function doWithItemOrElse(
   request: Request, item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
   return new Promise((resolve) => {

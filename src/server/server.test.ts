@@ -5,15 +5,12 @@ import { getTestRoom } from "../test/room"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
 import { GameServer } from "./server"
+import Service from "../room/service"
 
 let ws
 
-function getGameServer(): GameServer {
-  return new GameServer(ws, getTestRoom())
-}
-
-function startGameServer(gs): void {
-  gs.start(new ImmediateTimer())
+async function getGameServer(): Promise<GameServer> {
+  return new GameServer(ws, await Service.new(getTestRoom()))
 }
 
 const mockWs = jest.fn(() => ({ send: jest.fn() }))
@@ -27,41 +24,41 @@ afterEach(() => {
 })
 
 describe("the server", () => {
-  test("should start if initialized", () => {
-    const server = getGameServer()
+  test("should start if initialized", async () => {
+    const server = await getGameServer()
     expect(server.isInitialized()).toBe(true)
-    startGameServer(server)
+    await server.start()
     expect(server.isStarted()).toBe(true)
   })
 
-  test("should not start again if already started", () => {
-    const server = getGameServer()
-    startGameServer(server)
-    expect(() => startGameServer(server)).toThrowError()
+  test("should not start again if already started", async () => {
+    const server = await getGameServer()
+    await server.start()
+    expect(server.start()).rejects.toThrowError()
     server.terminate()
-    expect(() => startGameServer(server)).toThrowError()
+    expect(server.start()).rejects.toThrowError()
     expect(server.isTerminated()).toBe(true)
   })
 
-  test("with new WS connections should add a client", () => {
-    const server = getGameServer()
-    startGameServer(server)
+  test("with new WS connections should add a client", async () => {
+    const server = await getGameServer()
+    await server.start()
     server.addWS(mockWs())
     expect(server.getClientCount()).toBe(1)
   })
 
-  test("should remove clients that have been closed", () => {
-    const server = getGameServer()
-    startGameServer(server)
+  test("should remove clients that have been closed", async () => {
+    const server = await getGameServer()
+    await server.start()
     const client = mockWs()
     server.addWS(client)
     client.onclose()
     expect(server.getClientCount()).toBe(0)
   })
 
-  test("closing a client should remove it from the server's clients", () => {
-    const server = getGameServer()
-    startGameServer(server)
+  test("closing a client should remove it from the server's clients", async () => {
+    const server = await getGameServer()
+    await server.start()
     const wsClient = mockWs()
     server.addWS(wsClient)
     expect(server.getClientCount()).toBe(1)
@@ -69,17 +66,17 @@ describe("the server", () => {
     expect(server.getClientCount()).toBe(0)
   })
 
-  test("should notify an observer immediately if it is added with an immediate timer", () => {
-    const server = getGameServer()
-    startGameServer(server)
+  test("should notify an observer immediately if it is added with an immediate timer", async () => {
+    const server = await getGameServer()
+    await server.start()
     server.addWS(mockWs())
     expect.assertions(1)
     server.addObserver(new ExpectTestObserver(), new ImmediateTimer())
   })
 
-  test("should not notify an observer immediately if a timeout larger than 0 is specified", () => {
-    const server = getGameServer()
-    startGameServer(server)
+  test("should not notify an observer immediately if a timeout larger than 0 is specified", async () => {
+    const server = await getGameServer()
+    await server.start()
     server.addWS(mockWs())
     const observer = new DontExecuteTestObserver()
     const spy = jest.spyOn(observer, "notify")

@@ -37,65 +37,71 @@ import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
+import Service from "../room/service"
 
-function newMoveDefinition(requestType: RequestType, direction: Direction) {
-  return new Definition(requestType,
+function newMoveDefinition(service: Service, requestType: RequestType, direction: Direction) {
+  return new Definition(
+    service,
+    requestType,
     (checkedRequest: CheckedRequest) => move(checkedRequest, direction),
     (request: Request) => movePrecondition(request, direction))
 }
 
-function newSkillDefinition(requestType: RequestType, skillType: SkillType) {
+function newSkillDefinition(service: Service, requestType: RequestType, skillType: SkillType) {
   return new Definition(
+    service,
     requestType,
     (request: Request) => doSkill(request, skillType))
 }
 
-export const actions = new Collection([
-  // moving
-  newMoveDefinition(RequestType.North, Direction.North),
-  newMoveDefinition(RequestType.South, Direction.South),
-  newMoveDefinition(RequestType.East, Direction.East),
-  newMoveDefinition(RequestType.West, Direction.West),
-  newMoveDefinition(RequestType.Up, Direction.Up),
-  newMoveDefinition(RequestType.Down, Direction.Down),
+export default function getActionCollection(service: Service) {
+  return new Collection([
+    // moving
+    newMoveDefinition(service, RequestType.North, Direction.North),
+    newMoveDefinition(service, RequestType.South, Direction.South),
+    newMoveDefinition(service, RequestType.East, Direction.East),
+    newMoveDefinition(service, RequestType.West, Direction.West),
+    newMoveDefinition(service, RequestType.Up, Direction.Up),
+    newMoveDefinition(service, RequestType.Down, Direction.Down),
 
-  // items
-  new Definition(RequestType.Inventory, inventory),
-  new Definition(RequestType.Get, get, getPrecondition),
-  new Definition(RequestType.Drop, drop, dropPrecondition),
-  new Definition(RequestType.Wear, wear, wearPrecondition),
-  new Definition(RequestType.Remove, remove, removePrecondition),
-  new Definition(RequestType.Equipped, equipped),
+    // items
+    new Definition(service, RequestType.Inventory, inventory),
+    new Definition(service, RequestType.Get, get, getPrecondition),
+    new Definition(service, RequestType.Drop, drop, dropPrecondition),
+    new Definition(service, RequestType.Wear, wear, wearPrecondition),
+    new Definition(service, RequestType.Remove, remove, removePrecondition),
+    new Definition(service, RequestType.Equipped, equipped),
 
-  // fighting
-  new Definition(RequestType.Kill, kill, killPrecondition),
-  new Definition(RequestType.Flee, flee, fleePrecondition),
-  newSkillDefinition(RequestType.Bash, SkillType.Bash),
-  newSkillDefinition(RequestType.Trip, SkillType.Trip),
+    // fighting
+    new Definition(service, RequestType.Kill, kill, killPrecondition),
+    new Definition(service, RequestType.Flee, flee, fleePrecondition),
+    newSkillDefinition(service, RequestType.Bash, SkillType.Bash),
+    newSkillDefinition(service, RequestType.Trip, SkillType.Trip),
 
-  // skills
-  newSkillDefinition(RequestType.Berserk, SkillType.Berserk),
-  newSkillDefinition(RequestType.Sneak, SkillType.Sneak),
+    // skills
+    newSkillDefinition(service, RequestType.Berserk, SkillType.Berserk),
+    newSkillDefinition(service, RequestType.Sneak, SkillType.Sneak),
 
-  // casting
-  new Definition(RequestType.Cast, cast, castPrecondition),
+    // casting
+    new Definition(service, RequestType.Cast, cast, castPrecondition),
 
-  // info
-  new Definition(RequestType.Affects, affects),
-  new Definition(RequestType.Look, look),
-  new Definition(RequestType.Score, score),
+    // info
+    new Definition(service, RequestType.Affects, affects),
+    new Definition(service, RequestType.Look, look),
+    new Definition(service, RequestType.Score, score),
 
-  // merchants
-  new Definition(RequestType.Buy, buy, buyPrecondition),
-  new Definition(RequestType.Sell, sell, sellPrecondition),
+    // merchants
+    new Definition(service, RequestType.Buy, buy, buyPrecondition),
+    new Definition(service, RequestType.Sell, sell, sellPrecondition),
 
-  // social
-  new Definition(RequestType.Gossip, gossip),
-  new Definition(RequestType.Say, say),
+    // social
+    new Definition(service, RequestType.Gossip, gossip),
+    new Definition(service, RequestType.Say, say),
 
-  // training
-  new Definition(RequestType.Train, train, trainPrecondition),
+    // training
+    new Definition(service, RequestType.Train, train, trainPrecondition),
 
-  // nourishment
-  new Definition(RequestType.Eat, eat, eatPrecondition),
-])
+    // nourishment
+    new Definition(service, RequestType.Eat, eat, eatPrecondition),
+  ])
+}

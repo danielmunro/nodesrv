@@ -2,12 +2,12 @@ import { getTestClient } from "../../test/client"
 import { DecrementPlayerDelay } from "./decrementPlayerDelay"
 
 describe("decrement player delay", () => {
-  it("should decrement delay for players if needed", () => {
+  it("should decrement delay for players if needed", async () => {
     // SETUP
     const clients = [
-      getTestClient(),
-      getTestClient(),
-      getTestClient(),
+      await getTestClient(),
+      await getTestClient(),
+      await getTestClient(),
     ]
     const p1 = clients[0].player
     const p2 = clients[1].player

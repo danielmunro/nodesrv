@@ -8,7 +8,10 @@ import Email from "./email"
 import NewPlayerConfirm from "./newPlayerConfirm"
 import Password from "./password"
 
-function processInput(input: string, client = getTestClient()): Promise<Response> {
+async function processInput(input: string, client = null): Promise<Response> {
+  if (!client) {
+    client = await getTestClient()
+  }
   return new Email().processRequest(
     new Request(client, input))
 }
@@ -46,7 +49,7 @@ describe("login email auth step", () => {
     const email = "foo" + v4() + "@bar.com"
 
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     client.player.email = email
     await savePlayer(client.player)
 
@@ -61,7 +64,7 @@ describe("login email auth step", () => {
   it("should allow creating new players", async () => {
     // given
     const email = "foo" + v4() + "@bar.com"
-    const client = getTestClient()
+    const client = await getTestClient()
 
     // when
     const response = await processInput(email, client)

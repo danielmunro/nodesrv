@@ -6,7 +6,6 @@ import { SkillType } from "../skillType"
 
 export const DELAY = 2
 export const MESSAGE_NO_SKILL = "You bash around helplessly."
-export const MESSAGE_NO_TARGET = "You aren't fighting anyone!"
 export const MESSAGE_FAIL = "You fall flat on your face!"
 
 export default async function(attempt: Attempt): Promise<Outcome> {

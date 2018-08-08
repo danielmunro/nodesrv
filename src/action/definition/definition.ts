@@ -4,16 +4,17 @@ import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import Check, { CheckStatus } from "../check"
 import CheckedRequest from "../checkedRequest"
+import Service from "../../room/service"
 
 export const MESSAGE_REQUEST_TYPE_MISMATCH = "Request type mismatch"
 
 export class Definition {
   constructor(
+    private readonly service: Service,
     private readonly requestType: RequestType,
-    private readonly callback: (request: Request|CheckedRequest) => Promise<Response>,
+    private readonly callback: (request: Request|CheckedRequest, service: Service) => Promise<Response>,
     private readonly precondition: (request: Request) => Promise<Check> = null,
-    ) {
-  }
+    ) {}
 
   public isAbleToHandleRequestType(requestType: RequestType): boolean {
     return this.requestType.startsWith(requestType) || this.requestType === RequestType.Any
@@ -30,9 +31,9 @@ export class Definition {
         return new ResponseBuilder(request).fail(checkResponse.result)
       }
 
-      return this.callback(new CheckedRequest(request, checkResponse))
+      return this.callback(new CheckedRequest(request, checkResponse), this.service)
     }
 
-    return this.callback(request)
+    return this.callback(request, this.service)
   }
 }

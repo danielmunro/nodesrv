@@ -13,7 +13,7 @@ describe("new player confirm auth step", () => {
     const email = TEST_EMAIL
 
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     const newPlayerConfirm = new NewPlayerConfirm(email)
 
     // when
@@ -29,7 +29,7 @@ describe("new player confirm auth step", () => {
     const email = TEST_EMAIL
 
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     const newPlayerConfirm = new NewPlayerConfirm(email)
 
     // when
@@ -51,7 +51,7 @@ describe("new player confirm auth step", () => {
     ]
 
     // setup
-    const client = getTestClient()
+    const client = await getTestClient()
     const newPlayerConfirm = new NewPlayerConfirm(email)
 
     // when/then
