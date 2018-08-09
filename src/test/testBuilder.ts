@@ -1,3 +1,4 @@
+import getActionCollection from "../action/actionCollection"
 import Check, { CheckStatus } from "../action/check"
 import CheckedRequest from "../action/checkedRequest"
 import { Role } from "../mob/role"
@@ -6,13 +7,12 @@ import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
+import Service from "../room/service"
 import { getTestMob } from "./mob"
 import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
-import getActionCollection from "../action/actionCollection"
-import Service from "../room/service"
 
 export default class TestBuilder {
   public player: Player

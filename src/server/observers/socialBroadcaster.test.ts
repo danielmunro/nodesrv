@@ -1,5 +1,6 @@
 import { Client } from "../../client/client"
 import { Player } from "../../player/model/player"
+import Service from "../../room/service"
 import Complete from "../../session/auth/complete"
 import Session from "../../session/session"
 import { Channel } from "../../social/channel"
@@ -9,7 +10,6 @@ import { broadcastMessage, readMessages } from "../../social/publicBroadcast"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import { SocialBroadcaster } from "./socialBroadcaster"
-import Service from "../../room/service"
 
 jest.mock("../../client/client")
 

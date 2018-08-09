@@ -1,6 +1,6 @@
+import Service from "../room/service"
 import { getTestRoom } from "../test/room"
 import newServer from "./factory"
-import Service from "../room/service"
 
 describe("game server factory", () => {
   it("should not start if passed a bad port", async () => {

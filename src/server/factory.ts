@@ -1,9 +1,8 @@
 import * as assert from "assert"
 import { Server as WebSocketServer } from "ws"
-import { Room } from "../room/model/room"
+import Service from "../room/service"
 import addObservers from "./observerDecorator"
 import { GameServer } from "./server"
-import Service from "../room/service"
 
 const PORT_MIN = 1080
 const PORT_MAX = 65535

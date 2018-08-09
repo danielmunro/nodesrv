@@ -1,6 +1,7 @@
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
+import Service from "../room/service"
 import { SkillType } from "../skill/skillType"
 import { doSkill } from "./actionHelpers"
 import affects from "./actions/affects"
@@ -37,7 +38,6 @@ import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
-import Service from "../room/service"
 
 function newMoveDefinition(service: Service, requestType: RequestType, direction: Direction) {
   return new Definition(

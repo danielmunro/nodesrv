@@ -8,12 +8,12 @@ import { RequestType } from "../request/requestType"
 import Response from "../request/response"
 import { ResponseStatus } from "../request/responseStatus"
 import { Room } from "../room/model/room"
+import Service from "../room/service"
 import { default as AuthRequest } from "../session/auth/request"
 import Session from "../session/session"
 import { Channel } from "../social/channel"
 import { Message } from "../social/message"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
-import Service from "../room/service"
 
 export function getDefaultUnhandledMessage(request: Request) {
   return new Response(request, ResponseStatus.PreconditionsFailed, MESSAGE_NOT_UNDERSTOOD)

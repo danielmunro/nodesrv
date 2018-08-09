@@ -1,9 +1,8 @@
 import * as assert from "assert"
 import { initialize as mobInitialize } from "../src/mob/table"
-import { Room } from "../src/room/model/room"
+import Service from "../src/room/service"
 import { getRoom, initialize as roomInitialize } from "../src/room/table"
 import newServer from "../src/server/factory"
-import Service from "../src/room/service"
 
 /**
  * Obtain the start room ID and port from arguments passed in

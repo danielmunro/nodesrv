@@ -5,9 +5,9 @@ import { newSkill } from "../skill/factory"
 import { MESSAGE_FAIL_TOO_TIRED } from "../skill/preconditions/sneak"
 import { SkillType } from "../skill/skillType"
 import { getTestPlayer } from "../test/player"
+import TestBuilder from "../test/testBuilder"
 import { doSkill, doWithItemOrElse } from "./actionHelpers"
 import { Definition } from "./definition/definition"
-import TestBuilder from "../test/testBuilder"
 
 describe("actions helpers", () => {
   it("should do with item or else", () => {

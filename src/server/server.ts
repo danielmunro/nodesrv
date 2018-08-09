@@ -2,6 +2,7 @@ import { Server } from "ws"
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
 import { poll } from "../poll/poll"
+import Service from "../room/service"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { SecondIntervalTimer } from "../timer/secondTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
@@ -10,7 +11,6 @@ import { EVENTS } from "./constants"
 import { DecrementPlayerDelay } from "./observers/decrementPlayerDelay"
 import { HandleClientRequests } from "./observers/handleClientRequests"
 import { Observer } from "./observers/observer"
-import Service from "../room/service"
 
 enum Status {
   Initialized,

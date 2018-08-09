@@ -1,8 +1,8 @@
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
-import { Definition, MESSAGE_REQUEST_TYPE_MISMATCH } from "./definition"
 import TestBuilder from "../../test/testBuilder"
+import { Definition, MESSAGE_REQUEST_TYPE_MISMATCH } from "./definition"
 
 async function getNewHandlerDefinition(requestType = RequestType.Noop): Definition {
   const testBuilder = new TestBuilder()

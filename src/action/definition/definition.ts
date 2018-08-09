@@ -2,9 +2,9 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import Service from "../../room/service"
 import Check, { CheckStatus } from "../check"
 import CheckedRequest from "../checkedRequest"
-import Service from "../../room/service"
 
 export const MESSAGE_REQUEST_TYPE_MISMATCH = "Request type mismatch"
 
