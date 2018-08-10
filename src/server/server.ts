@@ -1,4 +1,3 @@
-import { Server } from "ws"
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
 import { poll } from "../poll/poll"
@@ -19,16 +18,13 @@ enum Status {
 }
 
 export class GameServer {
-  private readonly service: Service
-  private readonly wss: Server
   private status: Status = Status.Initialized
   private clients: Client[] = []
   private actions
 
-  constructor(wss, service: Service) {
-    this.wss = wss
-    this.service = service
-  }
+  constructor(
+    public readonly wss,
+    public readonly service: Service) {}
 
   public async start(): Promise<void> {
     if (!this.isInitialized()) {

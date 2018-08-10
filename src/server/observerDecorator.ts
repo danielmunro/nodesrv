@@ -29,7 +29,7 @@ export default function addObservers(gameServer: GameServer): GameServer {
     new ObserverChain([
       new Tick(),
       new DecrementAffects(),
-      new Wander(() => Promise.resolve(getMobs().filter((mob) => mob.wanders))),
+      new Wander(gameServer.service, () => Promise.resolve(getMobs().filter((mob) => mob.wanders))),
     ]),
     new RandomTickTimer(
       new DiceRoller(TICK.DICE.SIDES, TICK.DICE.ROLLS, TICK.DICE.MODIFIER)))

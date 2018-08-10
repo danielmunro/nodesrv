@@ -13,8 +13,9 @@ import move from "./move"
 describe("move", () => {
   it("should allow movement where rooms connect", async () => {
     // given
-    const service = await Service.new()
-    const root = await service.saveRoom(getTestRoom())
+    const root = getTestRoom()
+    const service = await Service.new(root)
+    await service.saveRoom(root)
     const trail = await newTrail(root, Direction.East, 1)
     const player = getTestPlayer()
     const mob = player.sessionMob
@@ -23,7 +24,8 @@ describe("move", () => {
     // when
     const response = await move(
       new CheckedRequest(new Request(player, RequestType.East), await Check.ok()),
-      Direction.East)
+      Direction.East,
+      service)
 
     // then
     expect(response.status).toBe(ResponseStatus.Info)

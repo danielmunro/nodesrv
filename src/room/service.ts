@@ -24,17 +24,17 @@ export default class Service {
   public async saveExit(exit): Promise<any> {
     return this.exitRepository.save(exit)
   }
-}
 
-export async function moveMob(mob: Mob, direction: Direction) {
-  const room = getRoom(mob.room.uuid)
-  const roomExit = room.exits.find((e) => e.direction === direction)
+  public async moveMob(mob: Mob, direction: Direction) {
+    const room = getRoom(mob.room.uuid)
+    const roomExit = room.exits.find((e) => e.direction === direction)
 
-  if (!roomExit) {
-    throw new Error("cannot move in that direction")
+    if (!roomExit) {
+      throw new Error("cannot move in that direction")
+    }
+
+    const exit = await findOneExit(roomExit.id)
+    const destination = getRoom(exit.destination.uuid)
+    destination.addMob(mob)
   }
-
-  const exit = await findOneExit(roomExit.id)
-  const destination = getRoom(exit.destination.uuid)
-  destination.addMob(mob)
 }

@@ -15,6 +15,7 @@ let mob
 let player
 let room1
 let room2
+let service
 
 beforeEach(async () => {
   reset()
@@ -23,7 +24,7 @@ beforeEach(async () => {
   fight = new Fight(player.sessionMob, mob)
   room1 = getTestRoom()
   room2 = getTestRoom()
-  const service = await Service.new()
+  service = await Service.new(room1)
   await service.saveRoom([room1, room2])
   await service.saveExit(newReciprocalExit(room1, room2))
   addFight(fight)
@@ -40,7 +41,8 @@ describe("flee action handler", () => {
     await flee(
       new CheckedRequest(
         new Request(player, RequestType.Flee, "flee"),
-        await Check.ok(fight)))
+        await Check.ok(fight)),
+      service)
 
     // then
     expect(getFights().filter((f) => f.isInProgress()).length).toBe(0)
@@ -51,7 +53,8 @@ describe("flee action handler", () => {
     await flee(
       new CheckedRequest(
         new Request(player, RequestType.Flee, "flee"),
-        await Check.ok(fight)))
+        await Check.ok(fight)),
+      service)
 
     // then
     expect(mob.room.id).toBe(room1.id)
