@@ -24,7 +24,7 @@ beforeEach(async () => {
   fight = new Fight(player.sessionMob, mob)
   room1 = getTestRoom()
   room2 = getTestRoom()
-  service = await Service.new(room1)
+  service = await Service.new()
   await service.saveRoom([room1, room2])
   await service.saveExit(newReciprocalExit(room1, room2))
   addFight(fight)

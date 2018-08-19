@@ -18,7 +18,7 @@ describe("mob repository", () => {
   it("should be able to save a mob's room as the mob moves", async () => {
     // setup
     const root = getTestRoom()
-    const service = await Service.new(root)
+    const service = await Service.new()
     await service.saveRoom(root)
     const trailAreaBuilder = await newTrail(root, Direction.West, 2)
     const mob = getTestMob()

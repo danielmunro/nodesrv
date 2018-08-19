@@ -28,7 +28,8 @@ export class Client {
     public readonly ws: WebSocket,
     public readonly ip: string,
     public readonly handlers: Collection,
-    private readonly service: Service) {
+    private readonly service: Service,
+    private readonly startRoom: Room) {
     this.session = new Session(this)
     this.ws.onmessage = (data) => this.addRequest(getNewRequestFromMessageEvent(this, data))
     this.ws.onerror = (error: ErrorEvent) =>
@@ -107,7 +108,7 @@ export class Client {
   }
 
   public getStartRoom(): Room {
-    return this.service.startRoom
+    return this.startRoom
   }
 
   private getDefaultRequestHandler(request: Request): Definition {

@@ -10,7 +10,7 @@ import { GameServer } from "./server"
 let ws
 
 async function getGameServer(): Promise<GameServer> {
-  return new GameServer(ws, await Service.new(getTestRoom()))
+  return new GameServer(ws, await Service.new(), getTestRoom())
 }
 
 const mockWs = jest.fn(() => ({ send: jest.fn() }))

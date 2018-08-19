@@ -4,6 +4,7 @@ import { getConnection } from "../src/db/connection"
 import Service from "../src/room/service"
 
 getConnection().then(async () => {
+  const rootRoom = root()
   const service = await Service.new()
-  await newWorld(await service.saveRoom(root()))
+  await newWorld(await service.saveRoom(rootRoom))
 })

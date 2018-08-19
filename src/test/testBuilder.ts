@@ -78,7 +78,7 @@ export default class TestBuilder {
 
   public async getService(): Promise<Service> {
     if (!this.service) {
-      this.service = await Service.new(this.room)
+      this.service = await Service.new()
     }
     return this.service
   }

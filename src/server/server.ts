@@ -10,6 +10,7 @@ import { events } from "./constants"
 import { DecrementPlayerDelay } from "./observers/decrementPlayerDelay"
 import { HandleClientRequests } from "./observers/handleClientRequests"
 import { Observer } from "./observers/observer"
+import { Room } from "../room/model/room"
 
 enum Status {
   Initialized,
@@ -24,7 +25,8 @@ export class GameServer {
 
   constructor(
     public readonly wss,
-    public readonly service: Service) {}
+    public readonly service: Service,
+    public readonly startRoom: Room) {}
 
   public async start(): Promise<void> {
     if (!this.isInitialized()) {
@@ -44,7 +46,12 @@ export class GameServer {
   }
 
   public async addWS(ws: WebSocket, req): Promise<void> {
-    const client = new Client(ws, req ? req.connection.remoteAddress : null, this.actions, this.service)
+    const client = new Client(
+      ws,
+      req ? req.connection.remoteAddress : null,
+      this.actions,
+      this.service,
+      this.startRoom)
     console.info("new client connected", { ip: client.ip })
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)
