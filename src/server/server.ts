@@ -6,7 +6,7 @@ import { ImmediateTimer } from "../timer/immediateTimer"
 import { SecondIntervalTimer } from "../timer/secondTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
 import { Timer } from "../timer/timer"
-import { EVENTS } from "./constants"
+import { events } from "./constants"
 import { DecrementPlayerDelay } from "./observers/decrementPlayerDelay"
 import { HandleClientRequests } from "./observers/handleClientRequests"
 import { Observer } from "./observers/observer"
@@ -33,7 +33,7 @@ export class GameServer {
 
     this.actions = await getActionCollection(this.service)
     this.status = Status.Started
-    this.wss.on(EVENTS.CONNECTION, this.addWS.bind(this))
+    this.wss.on(events.connection, this.addWS.bind(this))
     this.addObserver(new DecrementPlayerDelay(), new SecondIntervalTimer())
     this.addObserver(new HandleClientRequests(), new ShortIntervalTimer())
   }

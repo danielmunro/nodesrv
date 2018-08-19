@@ -5,6 +5,7 @@ import { MinuteTimer } from "../timer/minuteTimer"
 import { RandomTickTimer } from "../timer/randomTickTimer"
 import { SecondIntervalTimer } from "../timer/secondTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
+import { tick } from "./constants"
 import { DecrementAffects } from "./observers/decrementAffects"
 import { FightRounds } from "./observers/fightRounds"
 import { ObserverChain } from "./observers/observerChain"
@@ -16,14 +17,6 @@ import { Tick } from "./observers/tick"
 import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
 
-export const TICK = {
-  DICE: {
-    MODIFIER: 20000,
-    ROLLS: 20,
-    SIDES: 1000,
-  },
-}
-
 export default function addObservers(gameServer: GameServer): GameServer {
   gameServer.addObserver(
     new ObserverChain([
@@ -32,7 +25,7 @@ export default function addObservers(gameServer: GameServer): GameServer {
       new Wander(gameServer.service, () => Promise.resolve(getMobs().filter((mob) => mob.wanders))),
     ]),
     new RandomTickTimer(
-      new DiceRoller(TICK.DICE.SIDES, TICK.DICE.ROLLS, TICK.DICE.MODIFIER)))
+      new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(), new MinuteTimer())
   gameServer.addObserver(new SocialBroadcaster(), new ShortIntervalTimer())
