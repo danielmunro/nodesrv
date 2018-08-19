@@ -13,9 +13,9 @@ const port = +process.argv[3]
 assert.ok(startRoomID, "start room ID is required to be defined")
 console.info("loading start room", { startRoomID })
 
-function startServer(service: Service) {
+async function startServer(service: Service) {
   console.info("starting up server", { port })
-  newServer(service, port).start()
+  return newServer(service, port).start()
 }
 
 Promise.all([
