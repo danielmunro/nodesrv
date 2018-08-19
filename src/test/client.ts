@@ -2,7 +2,6 @@ import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
 import Service from "../room/service"
 import { getTestPlayer } from "./player"
-import { getTestRoom } from "./room"
 
 const ws = jest.fn(() => ({
   send: jest.fn(),
