@@ -1,10 +1,17 @@
 import { Room } from "./model/room"
 import { getRoomRepository } from "./repository/room"
 
-let allRooms = []
-let roomsById = {}
+export default class Table {
+  constructor(
+    public readonly allRooms: Room[],
+    public readonly roomsById: object,
+  ) {}
+}
 
-export async function initialize() {
+const allRooms = []
+const roomsById = {}
+
+export async function newTable(): Promise<Table> {
   const roomRepository = await getRoomRepository()
   const models = await roomRepository.find({ relations: ["mobs"] })
   const tmpAllRooms = []
@@ -13,14 +20,8 @@ export async function initialize() {
     tmpRoomsById[model.uuid] = model
     tmpAllRooms.push(model)
   })
-  allRooms = tmpAllRooms
-  roomsById = tmpRoomsById
   console.debug(`room table initialized with ${models.length} rooms`)
-}
-
-export function reset() {
-  allRooms = []
-  roomsById = {}
+  return new Table(tmpAllRooms, tmpRoomsById)
 }
 
 export function addRoom(room: Room) {

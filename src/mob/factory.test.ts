@@ -38,7 +38,7 @@ describe("mob factory", () => {
     expect(mob.wanders).toBe(true)
   })
 
-  it("should be able to initialize with items", () => {
+  it("should be able to newTable with items", () => {
     const testItem1 = newWeapon("", "")
     const testItem2 = newWeapon("", "")
     const mob = newMob(

@@ -5,6 +5,7 @@ describe("observer decorator", () => {
     // setup
     const mock = jest.fn(() => ({
       addObserver: jest.fn(),
+      service: jest.fn(),
     }))
     const mockServer = mock()
 

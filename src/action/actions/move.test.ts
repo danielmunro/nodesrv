@@ -14,9 +14,9 @@ describe("move", () => {
   it("should allow movement where rooms connect", async () => {
     // given
     const root = getTestRoom()
-    const service = await Service.new()
-    await service.saveRoom(root)
     const trail = await newTrail(root, Direction.East, 1)
+    const service = await Service.newWithArray([root, ...trail.getAllRooms()])
+    await service.saveRoom(root)
     const player = getTestPlayer()
     const mob = player.sessionMob
     root.addMob(mob)

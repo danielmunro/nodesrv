@@ -20,8 +20,9 @@ describe("moveMob", () => {
     const destination = getTestRoom()
     const exits = newReciprocalExit(source, destination, Direction.North)
     source.addMob(mob)
-    const service = await Service.new()
-    await service.saveRoom([source, destination])
+    const allRooms = [source, destination]
+    const service = await Service.newWithArray(allRooms)
+    await service.saveRoom(allRooms)
     await service.saveExit(exits)
     await service.moveMob(mob, Direction.North)
     expect(mob.room.id).toBe(destination.id)

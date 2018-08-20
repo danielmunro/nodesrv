@@ -2,7 +2,7 @@ import * as assert from "assert"
 import { initialize as mobInitialize } from "../src/mob/table"
 import { Room } from "../src/room/model/room"
 import Service from "../src/room/service"
-import { getRoom, initialize as roomInitialize } from "../src/room/table"
+import { newTable } from "../src/room/table"
 import newServer from "../src/server/factory"
 
 /**
@@ -20,6 +20,7 @@ async function startServer(service: Service, startRoom: Room) {
 }
 
 Promise.all([
-  roomInitialize(),
+  newTable(),
   mobInitialize(),
-]).then(async () => startServer(await Service.new(), getRoom(startRoomID)))
+]).then(async ([table, thing]) =>
+  startServer(await Service.new(table), table.roomsById[startRoomID]))

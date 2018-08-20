@@ -14,10 +14,11 @@ describe("wander", () => {
     source.name = "room 1"
     const destination = getTestRoom()
     destination.name = "room 2"
+    const allRooms = [source, destination]
     const exit = newExit(Direction.South, source, destination)
-    const service = await Service.new()
+    const service = await Service.newWithArray(allRooms)
     const wander = new Wander(service, () => Promise.resolve([mob]))
-    await service.saveRoom([source, destination])
+    await service.saveRoom(allRooms)
     await service.saveExit(exit)
 
     // when
