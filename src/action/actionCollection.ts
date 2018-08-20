@@ -43,7 +43,7 @@ function newMoveDefinition(service: Service, requestType: RequestType, direction
   return new Definition(
     service,
     requestType,
-    (checkedRequest: CheckedRequest) => move(checkedRequest, direction),
+    (checkedRequest: CheckedRequest) => move(checkedRequest, direction, service),
     (request: Request) => movePrecondition(request, direction))
 }
 

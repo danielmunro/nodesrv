@@ -1,8 +1,10 @@
 import { Client } from "../../client/client"
+import { newContainer } from "../../item/factory"
 import { Attack } from "../../mob/fight/attack"
 import { filterCompleteFights, getFights } from "../../mob/fight/fight"
 import { Round } from "../../mob/fight/round"
 import { Mob } from "../../mob/model/mob"
+import Table from "../../room/table"
 import { Observer } from "./observer"
 
 export function getHealthIndicator(percent): string {
@@ -76,6 +78,10 @@ export function createClientMobMap(clients: Client[]): object {
 }
 
 export class FightRounds implements Observer {
+  constructor(
+    private readonly table: Table,
+  ) {}
+
   public async notify(clients: Client[]) {
     const rounds = []
     for (const fight of getFights()) {
@@ -84,17 +90,22 @@ export class FightRounds implements Observer {
     }
     const clientMobMap = createClientMobMap(clients)
     filterCompleteFights()
-    rounds.forEach((round) => {
-      if (round.attack) {
-        const client1 = sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.attacker, round)
-        const client2 = sendToClientIfSessionMobIsFighting(clientMobMap, round.attack.defender, round)
-        if (client1) {
-          client1.sendMessage(client1.player.prompt())
-        }
-        if (client2) {
-          client2.sendMessage(client2.player.prompt())
-        }
-      }
-    })
+    rounds.forEach((round: Round) => this.updateRound(round, clientMobMap))
+  }
+
+  private updateRound(round: Round, clientMobMap) {
+    const attack = round.attack
+    const client1 = sendToClientIfSessionMobIsFighting(clientMobMap, attack.attacker, round)
+    const client2 = sendToClientIfSessionMobIsFighting(clientMobMap, attack.defender, round)
+    if (client1) {
+      client1.sendMessage(client1.player.prompt())
+    }
+    if (client2) {
+      client2.sendMessage(client2.player.prompt())
+    }
+    if (round.isFatality) {
+      const corpse = newContainer(`a corpse of ${round.vanquished.name}`, "A corpse")
+      this.table.roomsById[round.victor.room.uuid].inventory.addItem(corpse)
+    }
   }
 }

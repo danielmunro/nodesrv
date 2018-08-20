@@ -26,11 +26,12 @@ export default function addObservers(gameServer: GameServer): GameServer {
     ]),
     new RandomTickTimer(
       new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
+  const roomTable = gameServer.service.table
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(), new MinuteTimer())
   gameServer.addObserver(new SocialBroadcaster(), new ShortIntervalTimer())
-  gameServer.addObserver(new FightRounds(), new SecondIntervalTimer())
-  gameServer.addObserver(new Respawner(gameServer.service.table), new FiveMinuteTimer())
+  gameServer.addObserver(new FightRounds(roomTable), new SecondIntervalTimer())
+  gameServer.addObserver(new Respawner(roomTable), new FiveMinuteTimer())
 
   return gameServer
 }

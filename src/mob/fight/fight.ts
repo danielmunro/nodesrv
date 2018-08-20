@@ -1,8 +1,5 @@
 import Attributes from "../../attributes/model/attributes"
-import { newContainer } from "../../item/factory"
-import { newForestItem } from "../../item/factory/trail"
 import roll from "../../random/dice"
-import { getRoom } from "../../room/table"
 import { createSkillTriggerEvent } from "../../skill/trigger/factory"
 import { Disposition } from "../disposition"
 import { Mob } from "../model/mob"
@@ -78,15 +75,12 @@ export class Fight {
       defender.vitals.hp < 0 ? attacker.getExperienceFromKilling(defender) : 0)
   }
 
-  public readonly aggressor: Mob
-  public readonly target: Mob
   private status: Status = Status.InProgress
   private winner: Mob
 
-  constructor(aggressor: Mob, target: Mob) {
-    this.aggressor = aggressor
-    this.target = target
-  }
+  constructor(
+    public readonly aggressor: Mob,
+    public readonly target: Mob) {}
 
   public isParticipant(mob: Mob): boolean {
     return mob.uuid === this.aggressor.uuid || mob.uuid === this.target.uuid
@@ -142,8 +136,5 @@ export class Fight {
     if (!vanquished.isPlayer) {
       vanquished.disposition = Disposition.Dead
     }
-    const corpse = newContainer(`a corpse of ${vanquished.name}`, "A corpse")
-    corpse.containerInventory.addItem(newForestItem())
-    getRoom(winner.room.uuid).inventory.addItem(corpse)
   }
 }

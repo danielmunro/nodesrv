@@ -1,5 +1,6 @@
 import { Attack, AttackResult } from "../../mob/fight/attack"
 import { addFight, Fight, filterCompleteFights, getFights } from "../../mob/fight/fight"
+import Table from "../../room/table"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
@@ -55,9 +56,11 @@ describe("fight rounds", () => {
     // Setup
     const client = await getTestClient()
     client.player.sessionMob.vitals.hp = 1
-    const fight = new Fight(getTestMob(), client.player.sessionMob)
+    const opponent = getTestMob()
+    opponent.room = client.player.sessionMob.room
+    const fight = new Fight(opponent, client.player.sessionMob)
     addFight(fight)
-    const fightRounds = new FightRounds()
+    const fightRounds = new FightRounds(Table.new([opponent.room]))
 
     // When
     await fightRounds.notify([client])
