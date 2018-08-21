@@ -1,6 +1,6 @@
-import ExitRepository from "./exit"
 import { Repository } from "typeorm"
 import { Exit } from "../model/exit"
+import ExitRepository from "./exit"
 
 export default class ExitRepositoryImpl implements ExitRepository {
   constructor(private readonly exitRepository: Repository<Exit>) {}

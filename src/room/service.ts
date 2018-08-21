@@ -1,4 +1,3 @@
-import { Repository } from "typeorm"
 import { Mob } from "../mob/model/mob"
 import { Direction } from "./constants"
 import { Exit } from "./model/exit"

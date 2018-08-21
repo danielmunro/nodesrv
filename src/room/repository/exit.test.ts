@@ -1,4 +1,3 @@
-import { Repository } from "typeorm"
 import { Direction } from "../constants"
 import { Exit } from "../model/exit"
 import { Room } from "../model/room"
