@@ -1,4 +1,5 @@
 import { Client } from "../../client/client"
+import Maybe from "../../functional/maybe"
 import { newContainer } from "../../item/factory"
 import { Attack } from "../../mob/fight/attack"
 import { filterCompleteFights, getFights } from "../../mob/fight/fight"
@@ -60,14 +61,6 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
   }
 }
 
-function sendToClientIfSessionMobIsFighting(clientMobMap, mob, round): Client {
-  const c = clientMobMap[mob.name]
-  if (c) {
-    c.send({ message: createMessageFromFightRound(round, mob) })
-    return c
-  }
-}
-
 export function createClientMobMap(clients: Client[]): object {
   const clientMobMap = {}
   clients
@@ -78,16 +71,20 @@ export function createClientMobMap(clients: Client[]): object {
 }
 
 export class FightRounds implements Observer {
-  constructor(
-    private readonly table: Table,
-  ) {}
+  private static getClientFromMobMap(clientMobMap, mob): Maybe<Client> {
+    return new Maybe(clientMobMap[mob.name])
+  }
+
+  private static updateClient(client, mob, round) {
+    const message = createMessageFromFightRound(round, mob)
+    client.send({ message })
+    client.sendMessage(client.player.prompt())
+  }
+
+  constructor(private readonly table: Table) {}
 
   public async notify(clients: Client[]) {
-    const rounds = []
-    for (const fight of getFights()) {
-      const round = await fight.round()
-      rounds.push(round)
-    }
+    const rounds = await Promise.all(getFights().map((fight) => fight.round()))
     const clientMobMap = createClientMobMap(clients)
     filterCompleteFights()
     rounds.forEach((round: Round) => this.updateRound(round, clientMobMap))
@@ -95,17 +92,13 @@ export class FightRounds implements Observer {
 
   private updateRound(round: Round, clientMobMap) {
     const attack = round.attack
-    const client1 = sendToClientIfSessionMobIsFighting(clientMobMap, attack.attacker, round)
-    const client2 = sendToClientIfSessionMobIsFighting(clientMobMap, attack.defender, round)
-    if (client1) {
-      client1.sendMessage(client1.player.prompt())
-    }
-    if (client2) {
-      client2.sendMessage(client2.player.prompt())
-    }
+    FightRounds.getClientFromMobMap(clientMobMap, attack.attacker).do((client) =>
+      FightRounds.updateClient(client, attack.attacker, round))
+    FightRounds.getClientFromMobMap(clientMobMap, attack.defender).do((client) =>
+      FightRounds.updateClient(client, attack.defender, round))
     if (round.isFatality) {
-      const corpse = newContainer(`a corpse of ${round.vanquished.name}`, "A corpse")
-      this.table.roomsById[round.victor.room.uuid].inventory.addItem(corpse)
+      this.table.roomsById[round.victor.room.uuid].inventory.addItem(
+        newContainer(`a corpse of ${round.vanquished.name}`, "A corpse"))
     }
   }
 }
