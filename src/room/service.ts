@@ -8,14 +8,12 @@ import { getRoomRepository } from "./repository/room"
 import Table from "./table"
 
 export default class Service {
-  public static async new(table: Table = new Table([], {})): Promise<Service> {
+  public static async new(table: Table = new Table({})): Promise<Service> {
     return new Service(table, await getRoomRepository(), await getExitRepository())
   }
 
   public static async newWithArray(rooms: Room[]): Promise<Service> {
-    const roomsById = {}
-    rooms.forEach((room) => roomsById[room.uuid] = room)
-    return Service.new(new Table(rooms, roomsById))
+    return Service.new(Table.new(rooms))
   }
 
   constructor(

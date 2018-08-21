@@ -5,7 +5,9 @@ import Service from "../../room/service"
 import CheckedRequest from "../checkedRequest"
 import look from "./look"
 
-export default async function(checkedRequest: CheckedRequest, direction: Direction, service: Service): Promise<Response> {
+export default async function(checkedRequest: CheckedRequest,
+                              direction: Direction,
+                              service: Service): Promise<Response> {
   const request = checkedRequest.request
   const builder = new ResponseBuilder(request)
   request.player.sessionMob.vitals.mv -= request.getRoom().getMovementCost()
