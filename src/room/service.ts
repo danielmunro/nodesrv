@@ -3,8 +3,8 @@ import { Mob } from "../mob/model/mob"
 import { Direction } from "./constants"
 import { Exit } from "./model/exit"
 import { Room } from "./model/room"
-import { getExitRepository } from "./repository/exit"
-import { getRoomRepository } from "./repository/room"
+import ExitRepository, { getExitRepository } from "./repository/exit"
+import RoomRepository, { getRoomRepository } from "./repository/room"
 import Table from "./table"
 
 export default class Service {
@@ -18,8 +18,8 @@ export default class Service {
 
   constructor(
     public readonly table: Table,
-    private readonly roomRepository: Repository<Room>,
-    private readonly exitRepository: Repository<Exit>) {}
+    private readonly roomRepository: RoomRepository,
+    private readonly exitRepository: ExitRepository) {}
 
   public async saveRoom(room): Promise<any> {
     return this.roomRepository.save(room)
@@ -41,6 +41,6 @@ export default class Service {
   }
 
   private async findRoomExitWithDestination(id: number): Promise<Exit> {
-    return this.exitRepository.findOneById(id, { relations: ["destination"] })
+    return this.exitRepository.findOneById(id)
   }
 }

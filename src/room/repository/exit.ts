@@ -1,12 +1,12 @@
-import { Repository } from "typeorm"
 import { getConnection } from "../../db/connection"
 import { Exit } from "../model/exit"
+import ExitRepositoryImpl from "./impl"
 
-export async function getExitRepository(): Promise<Repository<Exit>> {
-  return getConnection().then((connection) => connection.getRepository(Exit))
+export default interface ExitRepository {
+  save(model)
+  findOneById(id)
 }
 
-export async function findOneExit(id: number): Promise<Exit> {
-  return await getExitRepository().then((exitRepository) =>
-    exitRepository.findOneById(id, {relations: ["source", "destination"]}))
+export async function getExitRepository(): Promise<ExitRepository> {
+  return getConnection().then((connection) => new ExitRepositoryImpl(connection.getRepository(Exit)))
 }

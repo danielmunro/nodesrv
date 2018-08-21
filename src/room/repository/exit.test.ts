@@ -3,7 +3,7 @@ import { Direction } from "../constants"
 import { Exit } from "../model/exit"
 import { Room } from "../model/room"
 import Service from "../service"
-import { findOneExit, getExitRepository } from "./exit"
+import { getExitRepository } from "./exit"
 
 function getRoomFixture(): Room {
   const room = new Room()
@@ -14,11 +14,6 @@ function getRoomFixture(): Room {
 }
 
 describe("exit repository", () => {
-  it("helper function should work", async () => {
-    const exitRepository = await getExitRepository()
-    expect(exitRepository).toBeInstanceOf(Repository)
-  })
-
   it("should be able to load an exit", async () => {
     // given -- two rooms with a connecting exit
     const source = getRoomFixture()
@@ -34,7 +29,8 @@ describe("exit repository", () => {
     await service.saveExit(exit)
 
     // when
-    const loadedEntity = await findOneExit(exit.id)
+    const exitRepository = await getExitRepository()
+    const loadedEntity = await exitRepository.findOneById(exit.id)
 
     // then
     expect(loadedEntity.id).toBe(exit.id)
