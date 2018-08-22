@@ -23,4 +23,4 @@ Promise.all([
   newTable(),
   mobInitialize(),
 ]).then(async ([table, thing]) =>
-  startServer(await Service.new(table), table.roomsById[startRoomID]))
+  startServer(await Service.new(table), table.get(startRoomID)))

@@ -1,3 +1,5 @@
+import { Mob } from "../mob/model/mob"
+import { Exit } from "./model/exit"
 import { Room } from "./model/room"
 import { getRoomRepository } from "./repository/room"
 
@@ -9,8 +11,20 @@ export default class Table {
   }
 
   constructor(
-    public readonly roomsById: object,
+    private readonly roomsById: object,
   ) {}
+
+  public get(uuid: string): Room {
+    return this.roomsById[uuid]
+  }
+
+  public canonical(room: Room): Room {
+    return this.roomsById[room.uuid]
+  }
+
+  public exitsForMob(mob: Mob): Exit[] {
+    return this.canonical(mob.room).exits
+  }
 }
 
 export async function newTable(): Promise<Table> {

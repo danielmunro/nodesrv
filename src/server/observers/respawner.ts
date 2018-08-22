@@ -20,6 +20,6 @@ export default class Respawner implements Observer {
     mob.vitals.hp = combined.vitals.hp
     mob.vitals.mana = combined.vitals.mana
     mob.vitals.mv = combined.vitals.mv
-    this.table.roomsById[mob.startRoom.uuid].addMob(mob)
+    this.table.canonical(mob.startRoom).addMob(mob)
   }
 }

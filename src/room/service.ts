@@ -29,14 +29,14 @@ export default class Service {
   }
 
   public async moveMob(mob: Mob, direction: Direction) {
-    const roomExit = this.table.roomsById[mob.room.uuid].exits.find((e) => e.direction === direction)
+    const roomExit = this.table.exitsForMob(mob).find((e) => e.direction === direction)
 
     if (!roomExit) {
       throw new Error("cannot move in that direction")
     }
 
     const exit = await this.findRoomExitWithDestination(roomExit.id)
-    this.table.roomsById[exit.destination.uuid].addMob(mob)
+    this.table.canonical(exit.destination).addMob(mob)
   }
 
   private async findRoomExitWithDestination(id: number): Promise<Exit> {

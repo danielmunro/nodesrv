@@ -97,7 +97,7 @@ export class FightRounds implements Observer {
     FightRounds.getClientFromMobMap(clientMobMap, attack.defender).do((client) =>
       FightRounds.updateClient(client, attack.defender, round))
     if (round.isFatality) {
-      this.table.roomsById[round.victor.room.uuid].inventory.addItem(
+      this.table.canonical(round.victor.room).inventory.addItem(
         newContainer(`a corpse of ${round.vanquished.name}`, "A corpse"))
     }
   }
