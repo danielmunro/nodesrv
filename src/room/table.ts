@@ -17,7 +17,7 @@ export default class Table {
   }
 
   public canonical(room: Room): Room {
-    return this.roomsById[room.uuid]
+    return this.get(room.uuid)
   }
 
   public exitsForMob(mob: Mob): Exit[] {
