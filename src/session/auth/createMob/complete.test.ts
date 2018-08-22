@@ -34,6 +34,6 @@ describe("create mob auth step: complete", () => {
 
     // and
     const repository = await getMobRepository()
-    expect(await repository.findOneById(client.player.sessionMob.id)).toBeInstanceOf(Mob)
+    expect(await repository.findOne(client.player.sessionMob.uuid)).toBeInstanceOf(Mob)
   })
 })

@@ -6,7 +6,7 @@ async function getAffectRepository(): Promise<Repository<Affect>> {
   return await getConnection().then((connection) => connection.getRepository(Affect))
 }
 
-export async function decrementAffects() {
+export async function decrementAffects(table) {
   return await getAffectRepository()
     .then((repository) =>
       repository.createQueryBuilder()
