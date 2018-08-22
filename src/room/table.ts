@@ -10,9 +10,7 @@ export default class Table {
     return new Table(roomsById)
   }
 
-  constructor(
-    private readonly roomsById: object,
-  ) {}
+  constructor(private readonly roomsById: object) {}
 
   public get(uuid: string): Room {
     return this.roomsById[uuid]
