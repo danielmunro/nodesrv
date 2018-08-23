@@ -25,7 +25,7 @@ export default class NewMobConfirm implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     if (request.didDeny()) {
-      return request.ok(new Name(this.player))
+      return request.ok(new Name(this.player, request.client.getMobTable()))
     } else if (request.didConfirm()) {
       const mob = await this.createMob()
       this.player.mobs.push(mob)

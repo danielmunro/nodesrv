@@ -15,6 +15,6 @@ export default class Complete extends PlayerAuthStep implements AuthStep {
   public async processRequest(request: Request): Promise<Response> {
     await savePlayer(this.player)
 
-    return request.ok(new Name(this.player))
+    return request.ok(new Name(this.player, request.client.getMobTable()))
   }
 }

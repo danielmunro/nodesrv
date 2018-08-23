@@ -16,6 +16,7 @@ async function createAuthUser(name: string): Promise<Client> {
   mob.player = client.player
   mob.isPlayer = true
   client.player.mobs.push(mob)
+  client.session.mob = mob
   await savePlayer(client.player)
 
   return client
@@ -28,7 +29,7 @@ describe("auth login name", () => {
 
     // setup
     const client = await getTestClient()
-    const name = new Name(client.player)
+    const name = new Name(client.player, client.getMobTable())
 
     // when
     const response = await name.processRequest(new Request(client, validMobName))
@@ -45,10 +46,13 @@ describe("auth login name", () => {
 
     // setup -- persist some players/mobs
     const client1 = await createAuthUser(player1MobName)
-    await createAuthUser(player2MobName)
+    const client2 = await createAuthUser(player2MobName)
+    const table = client1.getMobTable()
+    table.add(client1.getSessionMob())
+    table.add(client2.getSessionMob())
 
     // setup -- create a name auth step
-    const name = new Name(client1.player)
+    const name = new Name(client1.player, table)
 
     // when
     const response = await name.processRequest(new Request(client1, player2MobName))
@@ -65,7 +69,9 @@ describe("auth login name", () => {
 
     // setup
     const client = await createAuthUser(mobName)
-    const name = new Name(client.player)
+    const table = client.getMobTable()
+    table.add(client.getSessionMob())
+    const name = new Name(client.player, table)
 
     // when
     const response = await name.processRequest(new Request(client, mobName))

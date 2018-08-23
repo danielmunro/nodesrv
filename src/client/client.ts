@@ -2,6 +2,7 @@ import * as stringify from "json-stringify-safe"
 import { Collection } from "../action/definition/collection"
 import { Definition } from "../action/definition/definition"
 import { Mob } from "../mob/model/mob"
+import Table from "../mob/table"
 import { Player } from "../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
@@ -109,6 +110,10 @@ export class Client {
 
   public getStartRoom(): Room {
     return this.startRoom
+  }
+
+  public getMobTable(): Table {
+    return this.service.mobTable
   }
 
   private getDefaultRequestHandler(request: Request): Definition {

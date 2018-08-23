@@ -8,6 +8,10 @@ import NewPlayerConfirm from "./newPlayerConfirm"
 import Password from "./password"
 
 export default class Email implements AuthStep {
+  private static isEmailValid(email: string): boolean {
+    return validate(email)
+  }
+
   /* istanbul ignore next */
   public getStepMessage(): string {
     return MESSAGE_EMAIL
@@ -16,7 +20,7 @@ export default class Email implements AuthStep {
   public async processRequest(request: Request): Promise<Response> {
     const email = request.input
 
-    if (!this.isEmailValid(email)) {
+    if (!Email.isEmailValid(email)) {
       return request.fail(this, MESSAGE_FAIL_EMAIL_ADDRESS_INVALID)
     }
 
@@ -27,9 +31,5 @@ export default class Email implements AuthStep {
     }
 
     return request.ok(new NewPlayerConfirm(email))
-  }
-
-  private isEmailValid(email: string): boolean {
-    return validate(email)
   }
 }
