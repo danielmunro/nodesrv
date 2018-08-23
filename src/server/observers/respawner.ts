@@ -1,17 +1,18 @@
 import { Client } from "../../client/client"
 import { Disposition, onlyLiving } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
-import { getMobs } from "../../mob/table"
-import Table from "../../room/table"
+import { default as MobTable } from "../../mob/table"
+import { default as RoomTable } from "../../room/table"
 import { Observer } from "./observer"
 
 export default class Respawner implements Observer {
   constructor(
-    private table: Table,
+    private table: RoomTable,
+    private mobTable: MobTable,
   ) {}
 
   public async notify(clients: Client[]): Promise<void> {
-    getMobs().filter((mob) => !onlyLiving(mob)).forEach(this.respawn)
+    this.mobTable.getMobs().filter((mob) => !onlyLiving(mob)).forEach(this.respawn)
   }
 
   private async respawn(mob: Mob) {

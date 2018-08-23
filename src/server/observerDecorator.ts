@@ -1,4 +1,3 @@
-import { getMobs } from "../mob/table"
 import { DiceRoller } from "../random/dice"
 import { FiveMinuteTimer } from "../timer/fiveMinuteTimer"
 import { MinuteTimer } from "../timer/minuteTimer"
@@ -18,20 +17,22 @@ import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
 
 export default function addObservers(gameServer: GameServer): GameServer {
+  const service = gameServer.service
+  const mobTable = service.mobTable
   gameServer.addObserver(
     new ObserverChain([
       new Tick(),
-      new DecrementAffects(),
-      new Wander(gameServer.service, () => Promise.resolve(getMobs().filter((mob) => mob.wanders))),
+      new DecrementAffects(mobTable),
+      new Wander(service, mobTable.getWanderingMobs()),
     ]),
     new RandomTickTimer(
       new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
-  const roomTable = gameServer.service.table
+  const roomTable = service.table
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(), new MinuteTimer())
   gameServer.addObserver(new SocialBroadcaster(), new ShortIntervalTimer())
   gameServer.addObserver(new FightRounds(roomTable), new SecondIntervalTimer())
-  gameServer.addObserver(new Respawner(roomTable), new FiveMinuteTimer())
+  gameServer.addObserver(new Respawner(roomTable, mobTable), new FiveMinuteTimer())
 
   return gameServer
 }

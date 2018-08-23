@@ -22,5 +22,5 @@ async function startServer(service: Service, startRoom: Room) {
 Promise.all([
   newRoomTable(),
   newMobTable(),
-]).then(async ([table, thing]) =>
-  startServer(await Service.new(table), table.get(startRoomID)))
+]).then(async ([roomTable, mobTable]) =>
+  startServer(await Service.new(roomTable, mobTable), roomTable.get(startRoomID)))

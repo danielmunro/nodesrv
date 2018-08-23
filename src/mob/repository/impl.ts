@@ -1,6 +1,6 @@
-import MobRepository from "./mob"
 import { Repository } from "typeorm"
 import { Mob } from "../model/mob"
+import MobRepository from "./mob"
 
 export default class MobRepositoryImpl implements MobRepository {
   constructor(private readonly mobRepository: Repository<Mob>) {}

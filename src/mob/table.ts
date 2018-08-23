@@ -3,54 +3,53 @@ import { getMobRepository } from "./repository/mob"
 
 export default class Table {
   public static new(mobs: Mob[]) {
-    const mobsById = {}
-    mobs.forEach((mob) => mobsById[mob.uuid] = mob)
-    return new Table(mobsById)
+    return new Table(mobs)
   }
 
-  constructor(private readonly mobs: object) {}
+  constructor(private mobs: Mob[] = []) {}
 
   public getWanderingMobs(): Mob[] {
-    return Object.values(this.mobs).filter((mob: Mob) => mob.wanders)
+    return this.mobs.filter((mob: Mob) => mob.wanders)
   }
 
-  public find(criteria) {
-    return Object.values(this.mobs).find(criteria)
+  public find(criteria): Mob {
+    return this.mobs.find(criteria)
   }
 
   public apply(fn) {
-    return Object.values(this.mobs).forEach(fn)
+    return this.mobs.forEach(fn)
+  }
+
+  public add(mob: Mob) {
+    this.mobs.push(mob)
+  }
+
+  public getMobs(): Mob[] {
+    return this.mobs
   }
 }
 
-let mobsById = {}
-let mobs = []
-
-export function reset() {
-  mobsById = {}
-  mobs = []
-}
-
-export function getMob(id: number): Mob {
-  return mobsById[id]
-}
-
-export function getMobs(): Mob[] {
-  return mobs
-}
-
-export function filterMobs(mobCollection: Mob[], filterFn): Mob[] {
-  return mobCollection.map((mob: Mob) => mobsById[mob.id]).filter(filterFn)
-}
-
-export async function getTable() {
+export async function newTable() {
   const mobRepository = await getMobRepository()
   const models = await mobRepository.findAll()
   console.debug(`mob table initialized with ${models.length} mobs`)
   return Table.new(models)
 }
 
+let table = new Table()
+
+export function reset() {
+  table = new Table()
+}
+
+export function getMob(uuid: string): Mob {
+  return table.find((mob) => mob.uuid === uuid)
+}
+
+export function getMobs(): Mob[] {
+  return table.getMobs()
+}
+
 export function addMob(mob: Mob): void {
-  mobsById[mob.id] = mob
-  mobs.push(mob)
+  table.add(mob)
 }

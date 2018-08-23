@@ -1,6 +1,6 @@
 import { Client } from "../../client/client"
-import { Observer } from "./observer"
 import Table from "../../mob/table"
+import { Observer } from "./observer"
 
 export function decrementAffects(mob) {
   mob.affects = mob.affects.filter((affect) => {

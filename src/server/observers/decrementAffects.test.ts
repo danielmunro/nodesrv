@@ -1,8 +1,8 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
-import { getTestClient } from "../../test/client"
-import { decrementAffects, DecrementAffects } from "./decrementAffects"
 import Table from "../../mob/table"
+import { getTestClient } from "../../test/client"
+import { decrementAffects } from "./decrementAffects"
 
 const TEST_TIMEOUT_1 = 50
 const TEST_TIMEOUT_2 = 122

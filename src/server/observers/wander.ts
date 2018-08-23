@@ -7,11 +7,10 @@ import { Observer } from "./observer"
 export class Wander implements Observer {
   constructor(
     private readonly service: Service,
-    private readonly findMobs: () => Promise<Mob[]>) {}
+    private readonly mobs: Mob[]) {}
 
   public async notify(clients: Client[]): Promise<any> {
-    const mobs = await this.findMobs()
-    await Promise.all(mobs.map(async (mob) =>
+    await Promise.all(this.mobs.map(async (mob) =>
       await this.service.moveMob(mob, pickOne(this.service.table.exitsForMob(mob)).direction)))
   }
 }

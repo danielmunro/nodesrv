@@ -39,7 +39,7 @@ export class Request {
     const find = r[r.length - 1]
     const target = this.mob.room.mobs.find((mob) => match(mob.name, find))
     if (target) {
-      this.target = getMob(target.id)
+      this.target = getMob(target.uuid)
     }
   }
 

@@ -1,22 +1,24 @@
 import { Mob } from "../mob/model/mob"
+import { default as MobTable } from "../mob/table"
 import { Direction } from "./constants"
 import { Exit } from "./model/exit"
 import { Room } from "./model/room"
 import ExitRepository, { getExitRepository } from "./repository/exit"
 import RoomRepository, { getRoomRepository } from "./repository/room"
-import Table from "./table"
+import { default as RoomTable } from "./table"
 
 export default class Service {
-  public static async new(table: Table = new Table({})): Promise<Service> {
-    return new Service(table, await getRoomRepository(), await getExitRepository())
+  public static async new(table: RoomTable = new RoomTable({}), mobTable: MobTable = new MobTable({})): Promise<Service> {
+    return new Service(table, mobTable, await getRoomRepository(), await getExitRepository())
   }
 
   public static async newWithArray(rooms: Room[]): Promise<Service> {
-    return Service.new(Table.new(rooms))
+    return Service.new(RoomTable.new(rooms))
   }
 
   constructor(
-    public readonly table: Table,
+    public readonly table: RoomTable,
+    public readonly mobTable: MobTable,
     private readonly roomRepository: RoomRepository,
     private readonly exitRepository: ExitRepository) {}
 
