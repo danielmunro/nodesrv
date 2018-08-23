@@ -1,5 +1,4 @@
 import { addFight, Fight } from "../../mob/fight/fight"
-import { reset } from "../../mob/table"
 import { Player } from "../../player/model/player"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
@@ -13,7 +12,6 @@ function useKillRequest(player: Player, input: string) {
 }
 
 describe("kill", () => {
-  beforeEach(() => reset())
   it("should not be able to kill a mob that isn't in the room", async () => {
     // given
     const testBuilder = new TestBuilder()

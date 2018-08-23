@@ -32,18 +32,11 @@ export async function newTable() {
   return new Table(models)
 }
 
-let table = new Table()
-
-export function reset() {
-  table = new Table()
-}
+// todo: burn
+const table = new Table()
 
 export function getMob(uuid: string): Mob {
   return table.find((mob) => mob.uuid === uuid)
-}
-
-export function getMobs(): Mob[] {
-  return table.getMobs()
 }
 
 export function addMob(mob: Mob): void {
