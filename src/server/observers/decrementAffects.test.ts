@@ -16,7 +16,7 @@ describe("decrementAffects", () => {
     const mob = client.player.sessionMob
     mob.addAffect(newAffect(AffectType.Dazed, TEST_TIMEOUT_1))
     mob.addAffect(newAffect(AffectType.Shield, TEST_TIMEOUT_2))
-    const table = Table.new([mob])
+    const table = new Table([mob])
 
     // when
     table.apply(decrementAffects)
@@ -33,7 +33,7 @@ describe("decrementAffects", () => {
     // given
     const mob = client.player.sessionMob
     mob.addAffect(newAffect(AffectType.Dazed, 0))
-    const table = Table.new([mob])
+    const table = new Table([mob])
 
     // when
     table.apply(decrementAffects)

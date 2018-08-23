@@ -2,10 +2,6 @@ import { Mob } from "./model/mob"
 import { getMobRepository } from "./repository/mob"
 
 export default class Table {
-  public static new(mobs: Mob[]) {
-    return new Table(mobs)
-  }
-
   constructor(private mobs: Mob[] = []) {}
 
   public getWanderingMobs(): Mob[] {
@@ -33,7 +29,7 @@ export async function newTable() {
   const mobRepository = await getMobRepository()
   const models = await mobRepository.findAll()
   console.debug(`mob table initialized with ${models.length} mobs`)
-  return Table.new(models)
+  return new Table(models)
 }
 
 let table = new Table()

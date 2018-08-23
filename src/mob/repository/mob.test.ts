@@ -39,7 +39,7 @@ describe("mob repository", () => {
     // given
     const name = sillyname()
     const mob = getTestMob(name)
-    const table = Table.new([mob])
+    const table = new Table([mob])
 
     // when
     const lookup = findByName(table, sillyname())

@@ -8,7 +8,7 @@ import RoomRepository, { getRoomRepository } from "./repository/room"
 import { default as RoomTable } from "./table"
 
 export default class Service {
-  public static async new(table: RoomTable = new RoomTable({}), mobTable: MobTable = new MobTable({})): Promise<Service> {
+  public static async new(table: RoomTable = new RoomTable({}), mobTable: MobTable = new MobTable()): Promise<Service> {
     return new Service(table, mobTable, await getRoomRepository(), await getExitRepository())
   }
 
@@ -17,7 +17,7 @@ export default class Service {
   }
 
   constructor(
-    public readonly table: RoomTable,
+    public readonly roomTable: RoomTable,
     public readonly mobTable: MobTable,
     private readonly roomRepository: RoomRepository,
     private readonly exitRepository: ExitRepository) {}
@@ -31,14 +31,14 @@ export default class Service {
   }
 
   public async moveMob(mob: Mob, direction: Direction) {
-    const roomExit = this.table.exitsForMob(mob).find((e) => e.direction === direction)
+    const roomExit = this.roomTable.exitsForMob(mob).find((e) => e.direction === direction)
 
     if (!roomExit) {
       throw new Error("cannot move in that direction")
     }
 
     const exit = await this.findRoomExitWithDestination(roomExit.id)
-    this.table.canonical(exit.destination).addMob(mob)
+    this.roomTable.canonical(exit.destination).addMob(mob)
   }
 
   private async findRoomExitWithDestination(id: number): Promise<Exit> {
