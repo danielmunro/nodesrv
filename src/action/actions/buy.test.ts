@@ -1,7 +1,7 @@
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Role } from "../../mob/role"
-import RequestBuilder from "../../request/requestBuilder"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { getTestMob } from "../../test/mob"
@@ -30,10 +30,9 @@ describe("buy actions actions", () => {
     const player = getTestPlayer()
     player.sessionMob.gold = initialGold
     room.addMob(player.sessionMob)
-    const requestBuilder = new RequestBuilder(player)
 
     // when
-    const response = await buy(requestBuilder.create(RequestType.Buy, "buy cap"))
+    const response = await buy(new Request(player, RequestType.Buy, "buy cap"))
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)

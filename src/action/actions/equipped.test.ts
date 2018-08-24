@@ -1,5 +1,5 @@
 import { newShield, newWeapon } from "../../item/factory"
-import RequestBuilder from "../../request/requestBuilder"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import equipped from "./equipped"
@@ -11,10 +11,9 @@ describe("equipped", () => {
     const mob = player.sessionMob
     mob.equipped.inventory.addItem(newShield("a test shield", "a test"))
     mob.inventory.addItem(newWeapon("a test weapon", "a test"))
-    const requestBuilder = new RequestBuilder(player)
 
     // when
-    const response = await equipped(requestBuilder.create(RequestType.Equipped))
+    const response = await equipped(new Request(player, RequestType.Equipped))
 
     // then
     expect(response.message).toContain("a test shield")

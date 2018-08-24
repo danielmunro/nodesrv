@@ -4,8 +4,8 @@ import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
-import { RequestType } from "./requestType"
 import RequestBuilder from "./requestBuilder"
+import { RequestType } from "./requestType"
 
 export function getNewRequestFromMessageEvent(client: Client, messageEvent: MessageEvent): Request | AuthRequest {
   const data = JSON.parse(messageEvent.data)

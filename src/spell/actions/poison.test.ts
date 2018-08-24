@@ -1,6 +1,5 @@
 import { AffectType } from "../../affect/affectType"
-import Table from "../../mob/table"
-import RequestBuilder from "../../request/requestBuilder"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
@@ -20,10 +19,9 @@ describe("poison", () => {
     player.sessionMob.spells.push(newSpell(SpellType.Poison, 100))
     room.addMob(player.sessionMob)
     room.addMob(target)
-    const requestBuilder = new RequestBuilder(player, new Table(room.mobs))
 
     poison(new Check(
-      requestBuilder.create(RequestType.Cast, "cast poison bob"),
+      new Request(player, RequestType.Cast, "cast poison bob", target),
       spellCollection.findSpell(SpellType.Poison)))
 
     expect(target.affects.length).toBe(1)

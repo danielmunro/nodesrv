@@ -1,5 +1,5 @@
 import { newShield } from "../../item/factory"
-import RequestBuilder from "../../request/requestBuilder"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import inventory from "./inventory"
@@ -13,10 +13,9 @@ describe("inventory actions actions", () => {
     const item2 = newShield("a metal shield", "")
     inv.addItem(item1)
     inv.addItem(item2)
-    const requestBuilder = new RequestBuilder(player)
 
     // when
-    const response = await inventory(requestBuilder.create(RequestType.Inventory))
+    const response = await inventory(new Request(player, RequestType.Inventory))
 
     // then
     expect(response.message).toContain(item1.name)
