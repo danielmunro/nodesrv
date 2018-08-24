@@ -4,7 +4,6 @@ import { newMob } from "../mob/factory"
 import { Mob } from "../mob/model/mob"
 import { Race } from "../mob/race/race"
 import { Role } from "../mob/role"
-import { addMob } from "../mob/table"
 import { getTestRoom } from "./room"
 
 export function getTestMob(name: string = null): Mob {
@@ -23,7 +22,6 @@ export function getTestMob(name: string = null): Mob {
     ))
   mob.room = getTestRoom()
   mob.room.addMob(mob)
-  addMob(mob)
 
   return mob
 }

@@ -9,7 +9,7 @@ import kill, { ATTACK_MOB } from "./kill"
 
 function useKillRequest(player: Player, target, input: string) {
   return kill(new CheckedRequest(
-    new Request(player, RequestType.Kill, input),
+    new Request(player, RequestType.Kill, input, target),
     new Check(CheckStatus.Ok, target)))
 }
 

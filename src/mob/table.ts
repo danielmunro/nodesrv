@@ -31,14 +31,3 @@ export async function newTable() {
   console.debug(`mob table initialized with ${models.length} mobs`)
   return new Table(models)
 }
-
-// todo: burn
-const table = new Table()
-
-export function getMob(uuid: string): Mob {
-  return table.find((mob) => mob.uuid === uuid)
-}
-
-export function addMob(mob: Mob): void {
-  table.add(mob)
-}

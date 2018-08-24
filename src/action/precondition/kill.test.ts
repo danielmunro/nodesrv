@@ -1,4 +1,5 @@
 import { addFight, Fight } from "../../mob/fight/fight"
+import { Mob } from "../../mob/model/mob"
 import { Player } from "../../player/model/player"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
@@ -7,8 +8,8 @@ import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
 import { default as kill, MESSAGE_FAIL_KILL_ALREADY_FIGHTING, MESSAGE_FAIL_KILL_NO_TARGET } from "./kill"
 
-function useKillRequest(player: Player, input: string) {
-  return kill(new Request(player, RequestType.Kill, input))
+function useKillRequest(player: Player, input: string, target: Mob = null) {
+  return kill(new Request(player, RequestType.Kill, input, target))
 }
 
 describe("kill", () => {
@@ -39,7 +40,7 @@ describe("kill", () => {
     addFight(new Fight(player.sessionMob, mob1))
 
     // when
-    const check = await useKillRequest(player, `kill ${mob2.name}`)
+    const check = await useKillRequest(player, `kill ${mob2.name}`, mob2)
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -53,7 +54,7 @@ describe("kill", () => {
     const target = testBuilder.withMob("bob").mob
 
     // when
-    const check = await useKillRequest(player, `kill ${target.name}`)
+    const check = await useKillRequest(player, `kill ${target.name}`, target)
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

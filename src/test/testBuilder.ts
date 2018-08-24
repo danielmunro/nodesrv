@@ -1,6 +1,7 @@
 import getActionCollection from "../action/actionCollection"
 import Check, { CheckStatus } from "../action/check"
 import CheckedRequest from "../action/checkedRequest"
+import { Mob } from "../mob/model/mob"
 import { Role } from "../mob/role"
 import { Player } from "../player/model/player"
 import { Request } from "../request/request"
@@ -65,11 +66,11 @@ export default class TestBuilder {
     return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result)
   }
 
-  public createRequest(requestType: RequestType, input: string = null): Request {
+  public createRequest(requestType: RequestType, input: string, target: Mob = null): Request {
     if (input === null) {
       input = requestType.toString()
     }
-    return new Request(this.player, requestType, input)
+    return new Request(this.player, requestType, input, target)
   }
 
   public async getActionCollection() {

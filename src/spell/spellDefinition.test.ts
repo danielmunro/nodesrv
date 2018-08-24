@@ -44,7 +44,7 @@ describe("spellDefinition", () => {
     const target = getTestMob("foo")
     sessionMob.room.addMob(target)
     const check = new Check(
-      createCastRequest(client.player, "cast 'magic missile' foo"),
+      createCastRequest(client.player, "cast 'magic missile' foo", target),
       getMagicMissile())
     expect(check.isError()).toBe(false)
     expect(check.isFailure() || check.isSuccessful()).toBe(true)

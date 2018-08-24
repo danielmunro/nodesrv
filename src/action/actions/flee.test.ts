@@ -1,5 +1,6 @@
 import { addFight, Fight, getFights, reset } from "../../mob/fight/fight"
-import { Request } from "../../request/request"
+import Table from "../../mob/table"
+import RequestBuilder from "../../request/requestBuilder"
 import { RequestType } from "../../request/requestType"
 import { newReciprocalExit } from "../../room/factory"
 import Service from "../../room/service"
@@ -37,11 +38,12 @@ describe("flee action handler", () => {
   it("flee should stop a fight", async () => {
     // verify
     expect(getFights().filter((f) => f.isInProgress()).length).toBe(1)
+    const requestBuilder = new RequestBuilder(player, new Table([player.sessionMob]))
 
     // when
     await flee(
       new CheckedRequest(
-        new Request(player, RequestType.Flee, "flee"),
+        requestBuilder.create(RequestType.Flee),
         await Check.ok(fight)),
       service)
 
@@ -50,10 +52,13 @@ describe("flee action handler", () => {
   })
 
   it("flee should cause the fleeing mob to change rooms", async () => {
+    // setup
+    const requestBuilder = new RequestBuilder(player)
+
     // when
     await flee(
       new CheckedRequest(
-        new Request(player, RequestType.Flee, "flee"),
+        requestBuilder.create(RequestType.Flee),
         await Check.ok(fight)),
       service)
 

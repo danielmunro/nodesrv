@@ -1,5 +1,6 @@
 import { AffectType } from "../../affect/affectType"
-import { Request } from "../../request/request"
+import Table from "../../mob/table"
+import RequestBuilder from "../../request/requestBuilder"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
@@ -12,15 +13,17 @@ import poison from "./poison"
 
 describe("poison", () => {
   it("casting poison should add the poison affect to the target", () => {
+    // setup
     const player = getTestPlayer()
     const target = getTestMob("bob")
     const room = getTestRoom()
     player.sessionMob.spells.push(newSpell(SpellType.Poison, 100))
     room.addMob(player.sessionMob)
     room.addMob(target)
+    const requestBuilder = new RequestBuilder(player, new Table(room.mobs))
 
     poison(new Check(
-      new Request(player, RequestType.Cast, "cast poison bob"),
+      requestBuilder.create(RequestType.Cast, "cast poison bob"),
       spellCollection.findSpell(SpellType.Poison)))
 
     expect(target.affects.length).toBe(1)

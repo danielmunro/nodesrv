@@ -3,7 +3,7 @@ export default class Maybe<T> {
 
   public do(fn) {
     if (this.thing) {
-      fn(this.thing)
+      return fn(this.thing)
     }
   }
 }

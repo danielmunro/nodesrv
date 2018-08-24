@@ -1,8 +1,6 @@
 import { Client } from "../client/client"
 import { Item } from "../item/model/item"
-import match from "../matcher/match"
 import { Mob } from "../mob/model/mob"
-import { getMob } from "../mob/table"
 import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
@@ -22,25 +20,17 @@ export class Request {
   public readonly subject: string
   public readonly message: string
   public readonly mob: Mob
-  private readonly target: Mob | null = null
 
   constructor(
     public readonly player: Player,
     public readonly requestType: RequestType,
-    public readonly input: string = null) {
+    public readonly input: string = requestType.toString(),
+    private readonly target: Mob = null) {
+    const words = input.split(" ")
+    this.command = words[0]
+    this.subject = words[1]
+    this.message = words.slice(1).join(" ")
     this.mob = this.player.sessionMob
-    if (!this.input) {
-      this.input = this.requestType
-    }
-    const r = this.input.split(" ")
-    this.command = r[0]
-    this.subject = r[1]
-    this.message = r.slice(1).join(" ")
-    const find = r[r.length - 1]
-    const target = this.mob.room.mobs.find((mob) => match(mob.name, find))
-    if (target) {
-      this.target = getMob(target.uuid)
-    }
   }
 
   public getRoom(): Room {

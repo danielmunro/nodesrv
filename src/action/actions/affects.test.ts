@@ -1,6 +1,6 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
-import { Request } from "../../request/request"
+import RequestBuilder from "../../request/requestBuilder"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import reset from "../../test/reset"
@@ -15,9 +15,10 @@ describe("affects", () => {
     const mob = player.sessionMob
     mob.addAffect(newAffect(AffectType.Noop, 1))
     mob.addAffect(newAffect(AffectType.Dazed, 2))
+    const requestBuilder = new RequestBuilder(player)
 
     // when
-    const response = await affects(new Request(player, RequestType.Affects))
+    const response = await affects(requestBuilder.create(RequestType.Affects))
 
     // then
     expect(response.message).toContain(AffectType.Noop)

@@ -1,7 +1,8 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import appetite from "../../mob/race/appetite"
-import { Request } from "../../request/request"
+import Table from "../../mob/table"
+import RequestBuilder from "../../request/requestBuilder"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import Check from "../check"
@@ -13,9 +14,11 @@ describe("eat action", () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = testBuilder.withPlayer()
     const food = playerBuilder.withFood()
+    const player = playerBuilder.player
+    const requestBuilder = new RequestBuilder(player, new Table([player.sessionMob]))
 
     await eat(new CheckedRequest(
-      new Request(playerBuilder.player, RequestType.Eat, `eat ${food.name}`),
+      requestBuilder.create(RequestType.Eat, `eat ${food.name}`),
       await Check.ok(food)))
 
     expect(playerBuilder.player.sessionMob.inventory.items.length).toBe(0)
@@ -26,10 +29,12 @@ describe("eat action", () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = testBuilder.withPlayer()
     const food = playerBuilder.withFood()
-    playerBuilder.player.sessionMob.playerMob.hunger = appetite(playerBuilder.player.sessionMob.race) - 1
+    const player = playerBuilder.player
+    player.sessionMob.playerMob.hunger = appetite(player.sessionMob.race) - 1
+    const requestBuilder = new RequestBuilder(player, new Table([player.sessionMob]))
 
     const response = await eat(new CheckedRequest(
-      new Request(playerBuilder.player, RequestType.Eat, `eat ${food.name}`),
+      requestBuilder.create(RequestType.Eat, `eat ${food.name}`),
       await Check.ok(food)))
 
     expect(response.message).toContain("You feel full")
@@ -40,9 +45,11 @@ describe("eat action", () => {
     const playerBuilder = testBuilder.withPlayer()
     const food = playerBuilder.withFood()
     food.affects.push(newAffect(AffectType.Poison))
+    const player = playerBuilder.player
+    const requestBuilder = new RequestBuilder(player)
 
     const response = await eat(new CheckedRequest(
-      new Request(playerBuilder.player, RequestType.Eat, `eat ${food.name}`),
+      requestBuilder.create(RequestType.Eat, `eat ${food.name}`),
       await Check.ok(food)))
 
     expect(response.message).toContain("and suddenly feel different")
