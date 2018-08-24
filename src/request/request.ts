@@ -5,6 +5,7 @@ import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
 import { RequestType } from "./requestType"
+import RequestBuilder from "./requestBuilder"
 
 export function getNewRequestFromMessageEvent(client: Client, messageEvent: MessageEvent): Request | AuthRequest {
   const data = JSON.parse(messageEvent.data)
@@ -12,7 +13,8 @@ export function getNewRequestFromMessageEvent(client: Client, messageEvent: Mess
     return new AuthRequest(client, data.request)
   }
   const requestArgs = data.request.split(" ")
-  return new Request(client.player, requestArgs[0], data.request)
+  const requestBuilder = new RequestBuilder(client.player, client.getMobTable())
+  return requestBuilder.create(requestArgs[0], data.request)
 }
 
 export class Request {
