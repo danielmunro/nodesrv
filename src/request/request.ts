@@ -51,7 +51,7 @@ export class Request {
     return this.player.sessionMob.room.findMobByName(this.subject)
   }
 
-  public getTarget(): Mob | undefined {
+  public getTarget(): Mob | null {
     return this.target
   }
 
