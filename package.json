@@ -54,6 +54,7 @@
     "ws": "^4.0.0"
   },
   "jest": {
+    "testURL": "http://localhost",
     "transform": {
       "^.+\\.ts?$": "ts-jest"
     },
