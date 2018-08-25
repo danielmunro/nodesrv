@@ -1,3 +1,4 @@
+import { MaxPracticeLevel } from "../../mob/model/mob"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import Attempt from "../attempt"
@@ -5,7 +6,6 @@ import { CheckResult } from "../checkResult"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import bash, { COST_DELAY, COST_MV, MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_TOO_TIRED } from "./bash"
-import { MaxPracticeLevel } from "../../mob/model/mob"
 
 describe("bash skill precondition", () => {
   it("should not allow bashing when too tired", async () => {

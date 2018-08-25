@@ -1,4 +1,5 @@
 import { addFight, Fight } from "../mob/fight/fight"
+import { MaxPracticeLevel } from "../mob/model/mob"
 import { createCastRequest } from "../request/factory"
 import { Request } from "../request/request"
 import { getTestMob } from "../test/mob"
@@ -7,7 +8,6 @@ import { Check, MESSAGE_NO_SPELL, MESSAGE_NOT_ENOUGH_MANA } from "./check"
 import { newSpell } from "./factory"
 import spellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
-import { MaxPracticeLevel } from "../mob/model/mob"
 
 function getTestSpell() {
   return newSpell(SpellType.MagicMissile)

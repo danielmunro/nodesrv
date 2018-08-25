@@ -1,10 +1,10 @@
+import { MaxPracticeLevel } from "../../mob/model/mob"
 import { Trigger } from "../../mob/trigger"
 import { getTestMob } from "../../test/mob"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import { createSkillTriggerEvent } from "./factory"
 import { Resolution } from "./resolution"
-import { MaxPracticeLevel } from "../../mob/model/mob"
 
 describe("skill trigger factory", () => {
   it("should handle no skills", async () => {
@@ -30,5 +30,18 @@ describe("skill trigger factory", () => {
 
     // then
     expect(triggerSuccess.skillEventResolution).toBe(Resolution.Invoked)
+  })
+
+  it("should be ok if the skill type was not found", async () => {
+    // given
+    const mob = getTestMob()
+    const target = getTestMob()
+    mob.skills.push(newSkill(SkillType.Noop, MaxPracticeLevel))
+
+    // when
+    const triggerSuccess = await createSkillTriggerEvent(mob, Trigger.AttackRoundStart, target)
+
+    // then
+    expect(triggerSuccess.skillEventResolution).toBe(Resolution.Failed)
   })
 })

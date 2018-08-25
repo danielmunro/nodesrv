@@ -24,4 +24,6 @@ export enum SkillType {
   Flail = "flail",
   Stave = "stave",
   Wand = "wand",
+
+  Noop = "noop",
 }

@@ -1,14 +1,14 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
+import { MaxPracticeLevel } from "../../mob/model/mob"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { newSpell } from "../factory"
 import { getTestPlayer } from "../../test/player"
 import { Check } from "../check"
+import { newSpell } from "../factory"
 import spellCollection from "../spellCollection"
 import { SpellType } from "../spellType"
 import curePoison from "./curePoison"
-import { MaxPracticeLevel } from "../../mob/model/mob"
 
 describe("cure poison", () => {
   it("should be able to cure poison", () => {

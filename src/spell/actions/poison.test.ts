@@ -1,4 +1,5 @@
 import { AffectType } from "../../affect/affectType"
+import { MaxPracticeLevel } from "../../mob/model/mob"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
@@ -9,7 +10,6 @@ import { newSpell } from "../factory"
 import spellCollection from "../spellCollection"
 import { SpellType } from "../spellType"
 import poison from "./poison"
-import { MaxPracticeLevel } from "../../mob/model/mob"
 
 describe("poison", () => {
   it("casting poison should add the poison affect to the target", () => {

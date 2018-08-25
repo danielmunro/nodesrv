@@ -3,7 +3,6 @@ import { Trigger } from "../../mob/trigger"
 import Attempt from "../attempt"
 import { Skill } from "../model/skill"
 import Outcome from "../outcome"
-import { OutcomeType } from "../outcomeType"
 import { getSkillAction } from "../skillCollection"
 import { Event } from "./event"
 import { Resolution } from "./resolution"
@@ -23,12 +22,7 @@ function getSkillsByTrigger(mob: Mob, trigger: Trigger) {
 }
 
 async function attemptSkillAction(mob: Mob, target: Mob, skill: Skill): Promise<Outcome> {
-  const action = getSkillAction(skill.skillType)
-  if (action) {
-    return await action.action(new Attempt(mob, target, skill))
-  }
-
-  return new Outcome(new Attempt(mob, target, skill), OutcomeType.Success)
+  return getSkillAction(skill.skillType).action(new Attempt(mob, target, skill))
 }
 
 export async function createSkillTriggerEvent(mob: Mob, trigger: Trigger, target: Mob): Promise<Event> {
