@@ -1,5 +1,5 @@
 import { AffectType } from "../../affect/affectType"
-import { Mob } from "../../mob/model/mob"
+import { MaxPracticeLevel, Mob } from "../../mob/model/mob"
 import { getMultipleOutcomes } from "../../test/repeater"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
@@ -22,7 +22,7 @@ describe("berserk skill actions", () => {
   it("should be able to succeed berserking", async () => {
     // given
     const mob = new Mob()
-    const skill = newSkill(SkillType.Berserk, 100)
+    const skill = newSkill(SkillType.Berserk, MaxPracticeLevel)
 
     // when
     const outcomes = await getMultipleOutcomes(mob, skill, berserk)

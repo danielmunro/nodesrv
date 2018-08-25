@@ -25,6 +25,7 @@ import { SpecializationType } from "../specialization/specializationType"
 import { PlayerMob } from "./playerMob"
 
 const BASE_KILL_EXPERIENCE = 100
+export const MaxPracticeLevel = 100
 
 @Entity()
 export class Mob {

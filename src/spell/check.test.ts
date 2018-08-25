@@ -7,6 +7,7 @@ import { Check, MESSAGE_NO_SPELL, MESSAGE_NOT_ENOUGH_MANA } from "./check"
 import { newSpell } from "./factory"
 import spellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
+import { MaxPracticeLevel } from "../mob/model/mob"
 
 function getTestSpell() {
   return newSpell(SpellType.MagicMissile)
@@ -79,7 +80,7 @@ describe("spell check", () => {
     const player = getTestPlayer()
     const target = getTestMob()
     const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
-    player.sessionMob.spells.push(newSpell(SpellType.MagicMissile, 100))
+    player.sessionMob.spells.push(newSpell(SpellType.MagicMissile, MaxPracticeLevel))
     addFight(new Fight(player.sessionMob, target))
     const request = createCastRequest(player, TEST_INPUT_MM)
 
@@ -109,7 +110,7 @@ describe("spell check", () => {
     // Setup
     const player = getTestPlayer()
     player.sessionMob.vitals.mana = 1
-    player.sessionMob.spells.push(newSpell(SpellType.GiantStrength, 100))
+    player.sessionMob.spells.push(newSpell(SpellType.GiantStrength, MaxPracticeLevel))
     const check = new Check(
       createCastRequest(player, TEST_INPUT_STRENGTH),
       spellCollection.findSpell(SpellType.GiantStrength))

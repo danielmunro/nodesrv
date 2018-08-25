@@ -1,16 +1,17 @@
 import { createCastRequest } from "../../request/factory"
-import { newSpell } from "../../spell/factory"
+import { newSpell } from "../factory"
 import { getTestPlayer } from "../../test/player"
 import { Check } from "../check"
 import spellCollection from "../spellCollection"
 import { SpellType } from "../spellType"
 import cureLight from "./cureLight"
+import { MaxPracticeLevel } from "../../mob/model/mob"
 
 describe("cure light", () => {
   it("should restore a portion of hp", () => {
     // setup
     const player = getTestPlayer()
-    player.sessionMob.spells.push(newSpell(SpellType.CureLight, 100))
+    player.sessionMob.spells.push(newSpell(SpellType.CureLight, MaxPracticeLevel))
     player.sessionMob.vitals.hp = 1
 
     // when

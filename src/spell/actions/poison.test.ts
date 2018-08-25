@@ -9,6 +9,7 @@ import { newSpell } from "../factory"
 import spellCollection from "../spellCollection"
 import { SpellType } from "../spellType"
 import poison from "./poison"
+import { MaxPracticeLevel } from "../../mob/model/mob"
 
 describe("poison", () => {
   it("casting poison should add the poison affect to the target", () => {
@@ -16,7 +17,7 @@ describe("poison", () => {
     const player = getTestPlayer()
     const target = getTestMob("bob")
     const room = getTestRoom()
-    player.sessionMob.spells.push(newSpell(SpellType.Poison, 100))
+    player.sessionMob.spells.push(newSpell(SpellType.Poison, MaxPracticeLevel))
     room.addMob(player.sessionMob)
     room.addMob(target)
 
