@@ -67,9 +67,6 @@ export default class TestBuilder {
   }
 
   public createRequest(requestType: RequestType, input: string, target: Mob = null): Request {
-    if (input === null) {
-      input = requestType.toString()
-    }
     return new Request(this.player, requestType, input, target)
   }
 
