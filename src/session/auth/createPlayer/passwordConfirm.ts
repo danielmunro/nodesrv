@@ -5,6 +5,7 @@ import Request from "../request"
 import Response from "../response"
 import Complete from "./complete"
 import Password from "./password"
+import hash from "../../../player/password/hash"
 
 export default class PasswordConfirm implements AuthStep {
   public readonly player: Player
@@ -27,7 +28,7 @@ export default class PasswordConfirm implements AuthStep {
       return request.fail(new Password(this.player), MESSAGE_FAIL_PASSWORDS_DO_NOT_MATCH)
     }
 
-    this.player.password = confirmPassword
+    this.player.password = hash(confirmPassword)
 
     return request.ok(new Complete(this.player))
   }

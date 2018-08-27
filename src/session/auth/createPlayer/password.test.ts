@@ -23,9 +23,9 @@ describe("create player password", () => {
     expect(response.message).toBe(MESSAGE_FAIL_PASSWORD_TOO_SHORT)
   })
 
-  it("should proceed to confirmation if the password is at least three characters long", async () => {
+  it("should proceed to confirmation if the password is at least four characters long", async () => {
     // given
-    const playerPassword = "foo"
+    const playerPassword = "fooo"
 
     // setup
     const client = await getTestClient()

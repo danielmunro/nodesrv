@@ -4,21 +4,17 @@ import { MESSAGE_LOGIN_FAILED, MESSAGE_LOGIN_PASSWORD, MESSAGE_NAME_OK } from ".
 import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
-import Service from "../service"
 import Name from "./name"
+import verify from "../../../player/password/verify"
 
 export default class Password extends PlayerAuthStep implements AuthStep {
-  constructor(player: Player) {
-    super(player)
-  }
-
   /* istanbul ignore next */
   public getStepMessage(): string {
     return MESSAGE_LOGIN_PASSWORD
   }
 
   public async processRequest(request: Request): Promise<Response> {
-    if (request.input === this.player.password) {
+    if (verify(request.input, this.player.password)) {
       return request.ok(new Name(this.player, request.client.getMobTable()), MESSAGE_NAME_OK)
     }
 

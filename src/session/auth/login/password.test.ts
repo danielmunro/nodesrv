@@ -6,6 +6,7 @@ import { ResponseStatus } from "../responseStatus"
 import Service from "../service"
 import Name from "./name"
 import Password from "./password"
+import hash from "../../../player/password/hash"
 
 describe("password login auth step", () => {
   it("should be able to login in", async () => {
@@ -14,7 +15,7 @@ describe("password login auth step", () => {
 
     // setup
     const client = await getTestClient()
-    client.player.password = playerPassword
+    client.player.password = hash(playerPassword)
     await savePlayer(client.player)
     const password = new Password(client.player)
 
@@ -33,7 +34,7 @@ describe("password login auth step", () => {
 
     // setup
     const client = await getTestClient()
-    client.player.password = playerPassword
+    client.player.password = hash(playerPassword)
     await savePlayer(client.player)
     const password = new Password(client.player)
 

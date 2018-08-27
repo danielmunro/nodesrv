@@ -36,6 +36,10 @@
   version "9.6.30"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.30.tgz#1ecf83eaf7ac2d0dada7a9d61a1e4e7a6183ac06"
 
+"@types/password-hash@^1.2.20":
+  version "1.2.20"
+  resolved "https://registry.yarnpkg.com/@types/password-hash/-/password-hash-1.2.20.tgz#29149b2a315975254c9c4692eea5cd2ac0992ddf"
+
 "@types/strip-bom@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/strip-bom/-/strip-bom-3.0.0.tgz#14a8ec3956c2e81edb7520790aecf21c290aebd2"
@@ -3692,6 +3696,10 @@ pascal-case@^1.1.0:
 pascalcase@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
+
+password-hash@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/password-hash/-/password-hash-1.2.2.tgz#3b451f014de4b2e1ebfa0e5493b9517b1063af1d"
 
 path-case@^1.1.0:
   version "1.1.2"
