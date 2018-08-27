@@ -1,6 +1,6 @@
 import { getConnection } from "../../db/connection"
 import { Exit } from "../model/exit"
-import ExitRepositoryImpl from "./impl"
+import ExitRepositoryImpl from "./exitImpl"
 
 export default interface ExitRepository {
   save(model)

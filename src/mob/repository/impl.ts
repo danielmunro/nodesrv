@@ -6,7 +6,7 @@ export default class MobRepositoryImpl implements MobRepository {
   constructor(private readonly mobRepository: Repository<Mob>) {}
 
   public async findAll(): Promise<Mob[]> {
-    return this.mobRepository.find({ relations: ["room", "playerMob"] })
+    return this.mobRepository.find({ relations: ["room", "playerMob", "player"] })
   }
 
   public async findOne(uuid: string): Promise<Mob> {

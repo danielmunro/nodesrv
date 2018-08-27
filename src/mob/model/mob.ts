@@ -84,7 +84,7 @@ export class Mob {
   @JoinColumn()
   public startRoom: Room
 
-  @ManyToOne((type) => Player, (player) => player.mobs, { eager: true })
+  @ManyToOne((type) => Player, (player) => player.mobs)
   public player: Player
 
   @OneToOne((type) => Inventory, { cascadeInsert: true, eager: true })

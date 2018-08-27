@@ -1,7 +1,6 @@
 import { Mob } from "../mob/model/mob"
 import { Exit } from "./model/exit"
 import { Room } from "./model/room"
-import { getRoomRepository } from "./repository/room"
 
 export default class Table {
   public static new(rooms: Room[]) {
@@ -23,11 +22,4 @@ export default class Table {
   public exitsForMob(mob: Mob): Exit[] {
     return this.canonical(mob.room).exits
   }
-}
-
-export async function newTable(): Promise<Table> {
-  const roomRepository = await getRoomRepository()
-  const models = await roomRepository.find({ relations: ["mobs"] })
-  console.debug(`room table initialized with ${models.length} rooms`)
-  return Table.new(models)
 }

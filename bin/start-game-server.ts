@@ -1,8 +1,10 @@
 import * as assert from "assert"
-import { newTable as newMobTable } from "../src/mob/table"
+import { getMobRepository } from "../src/mob/repository/mob"
+import Table from "../src/mob/table"
 import { Room } from "../src/room/model/room"
+import { getRoomRepository } from "../src/room/repository/room"
 import Service from "../src/room/service"
-import { newTable as newRoomTable } from "../src/room/table"
+import { default as RoomTable } from "../src/room/table"
 import newServer from "../src/server/factory"
 
 /**
@@ -17,6 +19,20 @@ console.info("loading start room", { startRoomID })
 async function startServer(service: Service, startRoom: Room) {
   console.info("starting up server", { port })
   return newServer(service, port, startRoom).start()
+}
+
+export async function newMobTable() {
+  const mobRepository = await getMobRepository()
+  const models = await mobRepository.findAll()
+  console.debug(`mob table initialized with ${models.length} mobs`)
+  return new Table(models)
+}
+
+async function newRoomTable(): Promise<RoomTable> {
+  const roomRepository = await getRoomRepository()
+  const models = await roomRepository.findAll()
+  console.debug(`room table initialized with ${models.length} rooms`)
+  return RoomTable.new(models)
 }
 
 Promise.all([
