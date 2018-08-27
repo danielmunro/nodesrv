@@ -1,8 +1,11 @@
+import { getPlayerRepository } from "../player/repository/player"
 import { getTestClient } from "../test/client"
 import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
 import Complete from "./auth/complete"
+import Email from "./auth/login/email"
 import Request from "./auth/request"
+import Service from "./auth/service"
 import Session from "./session"
 
 describe("session", () => {
@@ -12,7 +15,7 @@ describe("session", () => {
     const player = getTestPlayer()
     player.sessionMob = mob
     const client = await getTestClient()
-    const session = new Session(client)
+    const session = new Session(client, new Email(new Service(await getPlayerRepository())))
 
     // expect
     expect(session.isLoggedIn()).toBeFalsy()

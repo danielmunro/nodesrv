@@ -8,7 +8,6 @@ import AuthStep from "./auth/authStep"
 import Complete from "./auth/complete"
 import { default as MobComplete } from "./auth/createMob/complete"
 import { default as PlayerComplete } from "./auth/createPlayer/complete"
-import Email from "./auth/login/email"
 import Request from "./auth/request"
 import { SessionStatus } from "./status"
 
@@ -19,7 +18,7 @@ export default class Session {
 
   constructor(
     public readonly client: Client,
-    private authStep: AuthStep = new Email()) {}
+    private authStep: AuthStep) {}
 
   public isLoggedIn(): boolean {
     return this.status === SessionStatus.LoggedIn

@@ -1,5 +1,3 @@
-import { Player } from "../../../player/model/player"
-import { getPlayerRepository } from "../../../player/repository/player"
 import { getTestClient } from "../../../test/client"
 import Name from "../login/name"
 import Request from "../request"
@@ -31,9 +29,5 @@ describe("create player auth step: complete", () => {
 
     // then
     expect(client.player.id).not.toBeUndefined()
-
-    // and
-    const repository = await getPlayerRepository()
-    expect(await repository.findOneById(client.player.id)).toBeInstanceOf(Player)
   })
 })

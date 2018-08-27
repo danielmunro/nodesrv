@@ -14,7 +14,7 @@ import { SocialBroadcaster } from "./socialBroadcaster"
 jest.mock("../../client/client")
 
 async function getMockClient(room = getTestRoom()): Promise<Client> {
-  const client = new Client(null, null, null, null, null)
+  const client = new Client(null, null, null, null, null, null)
   client.service = await Service.new()
   client.player = new Player()
   client.isOwnMessage = (m: Message) => m.sender === client.player

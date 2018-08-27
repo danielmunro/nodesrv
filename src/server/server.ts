@@ -1,8 +1,10 @@
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
+import { getPlayerRepository } from "../player/repository/player"
 import { poll } from "../poll/poll"
 import { Room } from "../room/model/room"
 import Service from "../room/service"
+import { default as AuthService } from "../session/auth/service"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { SecondIntervalTimer } from "../timer/secondTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
@@ -21,6 +23,7 @@ enum Status {
 export class GameServer {
   private status: Status = Status.Initialized
   private clients: Client[] = []
+  private authService: AuthService
   private actions
 
   constructor(
@@ -33,6 +36,7 @@ export class GameServer {
       throw new Error("Status must be initialized to start")
     }
 
+    this.authService = new AuthService(await getPlayerRepository())
     this.actions = await getActionCollection(this.service)
     this.status = Status.Started
     this.wss.on(events.connection, this.addWS.bind(this))
@@ -51,7 +55,8 @@ export class GameServer {
       req ? req.connection.remoteAddress : null,
       this.actions,
       this.service,
-      this.startRoom)
+      this.startRoom,
+      this.authService)
     console.info("new client connected", { ip: client.ip })
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)

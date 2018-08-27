@@ -10,7 +10,9 @@ import Response from "../request/response"
 import { ResponseStatus } from "../request/responseStatus"
 import { Room } from "../room/model/room"
 import Service from "../room/service"
+import Email from "../session/auth/login/email"
 import { default as AuthRequest } from "../session/auth/request"
+import { default as AuthService } from "../session/auth/service"
 import Session from "../session/session"
 import { Channel } from "../social/channel"
 import { Message } from "../social/message"
@@ -21,8 +23,8 @@ export function getDefaultUnhandledMessage(request: Request) {
 }
 
 export class Client {
-  public readonly session: Session
   public player: Player
+  private session: Session
   private requests = []
 
   constructor(
@@ -30,8 +32,9 @@ export class Client {
     public readonly ip: string,
     public readonly handlers: Collection,
     private readonly service: Service,
-    private readonly startRoom: Room) {
-    this.session = new Session(this)
+    private readonly startRoom: Room,
+    private readonly authService: AuthService) {
+    this.session = new Session(this, new Email(this.authService))
     this.ws.onmessage = (data) => this.addRequest(getNewRequestFromMessageEvent(this, data))
     this.ws.onerror = (error: ErrorEvent) =>
       console.warn("received error from client ws", { ip: this.ip, message: error.message })

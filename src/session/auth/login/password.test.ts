@@ -1,7 +1,9 @@
+import { getPlayerRepository } from "../../../player/repository/player"
 import { savePlayer } from "../../../player/service"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
+import Service from "../service"
 import Name from "./name"
 import Password from "./password"
 

@@ -4,14 +4,11 @@ import { MESSAGE_NEW_PLAYER_CONFIRM, MESSAGE_YN_FAILED } from "../constants"
 import Password from "../createPlayer/password"
 import Request from "../request"
 import Response from "../response"
+import Service from "../service"
 import Email from "./email"
 
 export default class NewPlayerConfirm implements AuthStep {
-  public readonly email: string
-
-  constructor(email: string) {
-    this.email = email
-  }
+  constructor(private readonly authService: Service, private readonly email: string) {}
 
   /* istanbul ignore next */
   public getStepMessage(): string {
@@ -20,7 +17,7 @@ export default class NewPlayerConfirm implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     if (request.didDeny()) {
-      return request.ok(new Email())
+      return request.ok(new Email(this.authService))
     } else if (request.didConfirm()) {
       const player = new Player()
       player.email = this.email

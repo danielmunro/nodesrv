@@ -1,9 +1,9 @@
 import { validate } from "email-validator"
-import { findOneByEmail } from "../../../player/repository/player"
 import AuthStep from "../authStep"
 import { MESSAGE_EMAIL, MESSAGE_FAIL_EMAIL_ADDRESS_INVALID } from "../constants"
 import Request from "../request"
 import Response from "../response"
+import Service from "../service"
 import NewPlayerConfirm from "./newPlayerConfirm"
 import Password from "./password"
 
@@ -11,6 +11,8 @@ export default class Email implements AuthStep {
   private static isEmailValid(email: string): boolean {
     return validate(email)
   }
+
+  constructor(private readonly authService: Service) {}
 
   /* istanbul ignore next */
   public getStepMessage(): string {
@@ -24,12 +26,12 @@ export default class Email implements AuthStep {
       return request.fail(this, MESSAGE_FAIL_EMAIL_ADDRESS_INVALID)
     }
 
-    const player = await findOneByEmail(email)
+    const player = await this.authService.getOnePlayer(email)
 
     if (player) {
       return request.ok(new Password(player))
     }
 
-    return request.ok(new NewPlayerConfirm(email))
+    return request.ok(new NewPlayerConfirm(this.authService, email))
   }
 }

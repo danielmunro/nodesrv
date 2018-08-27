@@ -1,9 +1,11 @@
 import { v4 } from "uuid"
+import { getPlayerRepository } from "../../../player/repository/player"
 import { savePlayer } from "../../../player/service"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import Response from "../response"
 import { ResponseStatus } from "../responseStatus"
+import Service from "../service"
 import Email from "./email"
 import NewPlayerConfirm from "./newPlayerConfirm"
 import Password from "./password"
@@ -12,7 +14,7 @@ async function processInput(input: string, client = null): Promise<Response> {
   if (!client) {
     client = await getTestClient()
   }
-  return new Email().processRequest(
+  return new Email(new Service(await getPlayerRepository())).processRequest(
     new Request(client, input))
 }
 

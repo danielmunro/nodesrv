@@ -1,11 +1,17 @@
+import { getPlayerRepository } from "../../../player/repository/player"
 import { getTestClient } from "../../../test/client"
 import Password from "../createPlayer/password"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
+import Service from "../service"
 import Email from "./email"
 import NewPlayerConfirm from "./newPlayerConfirm"
 
 const TEST_EMAIL = "foo@bar.com"
+
+async function getNewPlayerConfirm(email: string) {
+   return new NewPlayerConfirm(new Service(await getPlayerRepository()), email)
+}
 
 describe("new player confirm auth step", () => {
   it("should bounce back to email if the client selects 'n'", async () => {
@@ -14,7 +20,7 @@ describe("new player confirm auth step", () => {
 
     // setup
     const client = await getTestClient()
-    const newPlayerConfirm = new NewPlayerConfirm(email)
+    const newPlayerConfirm = await getNewPlayerConfirm(email)
 
     // when
     const response = await newPlayerConfirm.processRequest(new Request(client, "n"))
@@ -30,7 +36,7 @@ describe("new player confirm auth step", () => {
 
     // setup
     const client = await getTestClient()
-    const newPlayerConfirm = new NewPlayerConfirm(email)
+    const newPlayerConfirm = await getNewPlayerConfirm(email)
 
     // when
     const response = await newPlayerConfirm.processRequest(new Request(client, "y"))
@@ -52,7 +58,7 @@ describe("new player confirm auth step", () => {
 
     // setup
     const client = await getTestClient()
-    const newPlayerConfirm = new NewPlayerConfirm(email)
+    const newPlayerConfirm = await getNewPlayerConfirm(email)
 
     // when/then
     return Promise.all([inputs.map(async (input) => {

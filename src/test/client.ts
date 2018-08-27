@@ -1,14 +1,16 @@
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
+import { getPlayerRepository } from "../player/repository/player"
 import Service from "../room/service"
+import { default as AuthService } from "../session/auth/service"
 import { getTestPlayer } from "./player"
 
 const ws = jest.fn(() => ({
   send: jest.fn(),
 }))
 
-function createClient(player, actions, service, startRoom): Client {
-  const client = new Client(ws(), "127.0.0.1", actions, service, startRoom)
+async function createClient(player, actions, service, startRoom): Promise<Client> {
+  const client = new Client(ws(), "127.0.0.1", actions, service, startRoom, new AuthService(await getPlayerRepository()))
   client.player = player
 
   return client
@@ -17,7 +19,7 @@ function createClient(player, actions, service, startRoom): Client {
 export async function getTestClient(player = getTestPlayer()): Promise<Client> {
   const service = await Service.new()
   const actions = await getActionCollection(service)
-  const client = createClient(player, actions, service, player.sessionMob.room)
+  const client = await createClient(player, actions, service, player.sessionMob.room)
   await client.session.login(player)
 
   return Promise.resolve(client)
