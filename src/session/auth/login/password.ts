@@ -1,11 +1,10 @@
-import { Player } from "../../../player/model/player"
+import verify from "../../../player/password/verify"
 import AuthStep from "../authStep"
 import { MESSAGE_LOGIN_FAILED, MESSAGE_LOGIN_PASSWORD, MESSAGE_NAME_OK } from "../constants"
 import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
 import Name from "./name"
-import verify from "../../../player/password/verify"
 
 export default class Password extends PlayerAuthStep implements AuthStep {
   /* istanbul ignore next */

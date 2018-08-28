@@ -1,12 +1,10 @@
-import { getPlayerRepository } from "../../../player/repository/player"
+import hash from "../../../player/password/hash"
 import { savePlayer } from "../../../player/service"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
-import Service from "../service"
 import Name from "./name"
 import Password from "./password"
-import hash from "../../../player/password/hash"
 
 describe("password login auth step", () => {
   it("should be able to login in", async () => {

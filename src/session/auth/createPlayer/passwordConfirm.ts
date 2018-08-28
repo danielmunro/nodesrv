@@ -1,11 +1,11 @@
 import { Player } from "../../../player/model/player"
+import hash from "../../../player/password/hash"
 import AuthStep from "../authStep"
 import { MESSAGE_FAIL_PASSWORDS_DO_NOT_MATCH, MESSAGE_NEW_PASSWORD_CONFIRM } from "../constants"
 import Request from "../request"
 import Response from "../response"
 import Complete from "./complete"
 import Password from "./password"
-import hash from "../../../player/password/hash"
 
 export default class PasswordConfirm implements AuthStep {
   public readonly player: Player

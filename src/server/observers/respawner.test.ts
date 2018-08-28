@@ -1,9 +1,9 @@
+import { Disposition } from "../../mob/disposition"
 import { default as MobTable } from "../../mob/table"
 import { default as RoomTable } from "../../room/table"
 import { getTestMob } from "../../test/mob"
-import { Disposition } from "../../mob/disposition"
-import Respawner from "./respawner"
 import { getTestRoom } from "../../test/room"
+import Respawner from "./respawner"
 
 describe("respawner", () => {
   it("should reset dispositions for dead mobs", async () => {
