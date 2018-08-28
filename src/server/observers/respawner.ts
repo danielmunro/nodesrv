@@ -7,12 +7,13 @@ import { Observer } from "./observer"
 
 export default class Respawner implements Observer {
   constructor(
-    private table: RoomTable,
-    private mobTable: MobTable,
+    private readonly roomTable: RoomTable,
+    private readonly mobTable: MobTable,
   ) {}
 
   public async notify(clients: Client[]): Promise<void> {
-    this.mobTable.getMobs().filter((mob) => !onlyLiving(mob)).forEach(this.respawn)
+    await Promise.all(
+      this.mobTable.getMobs().filter((mob) => !onlyLiving(mob)).map(this.respawn.bind(this)))
   }
 
   private async respawn(mob: Mob) {
@@ -21,6 +22,6 @@ export default class Respawner implements Observer {
     mob.vitals.hp = combined.vitals.hp
     mob.vitals.mana = combined.vitals.mana
     mob.vitals.mv = combined.vitals.mv
-    this.table.canonical(mob.startRoom).addMob(mob)
+    this.roomTable.canonical(mob.startRoom).addMob(mob)
   }
 }

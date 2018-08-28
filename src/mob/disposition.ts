@@ -2,6 +2,7 @@ import { Mob } from "./model/mob"
 
 export enum Disposition {
   Standing = "standing",
+  Sitting = "sitting",
   Sleeping = "sleeping",
   Dead = "dead",
 }
