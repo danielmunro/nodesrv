@@ -5,16 +5,18 @@ import { Terrain } from "../region/terrain"
 import { getFreeDirection } from "../room/direction"
 import { Room } from "../room/model/room"
 import Service from "../room/service"
-import AreaBuilder from "./areaBuilder"
+import AreaBuilder from "./builder/areaBuilder"
 import { Arena } from "./arena"
 import { newClearing } from "./builder/forest/clearing"
 import { newInn } from "./builder/forest/inn"
 import { newTrail } from "./builder/forest/trail"
 import { SectionType } from "./sectionType"
 import WorldBuilder from "./worldBuilder"
+import newMainStreet from "./builder/settlement/mainStreet"
 
 const FOREST_INN_REGION = "Forest Inn"
 const FOREST_REGION = "Forest"
+const SETTLEMENT_REGION = "Settlement"
 const TRAIL_1_ROOMS_TO_BUILD = 3
 const ARENA_1_WIDTH = 5
 const ARENA_1_HEIGHT = 5
@@ -34,6 +36,18 @@ function getForestTrailAreaBuilder(rootRoom: Room): Promise<AreaBuilder> {
 
 function getClearingAreaBuilder(rootRoom: Room): Promise<AreaBuilder> {
   return newClearing(rootRoom, ARENA_1_WIDTH, ARENA_1_HEIGHT)
+}
+
+async function getMainStreet(rootRoom: Room): Promise<AreaBuilder> {
+  return newMainStreet(rootRoom)
+}
+
+async function getSettlement(rootRoom: Room): Promise<Region> {
+  const settlement = newRegion(SETTLEMENT_REGION, Terrain.Settlement)
+  const mainStreet = await getMainStreet(rootRoom)
+  settlement.addRooms(mainStreet.getAllRooms())
+
+  return settlement
 }
 
 async function getForestRegion(rootRoom: Room): Promise<Region> {
@@ -56,10 +70,12 @@ export async function newWorld(rootRoom: Room): Promise<Set<Room>> {
   const worldBuilder = new WorldBuilder(rootRoom)
   const rootRegion = await getForestInnRegion(rootRoom)
   const forestRegion = await getForestRegion(rootRoom)
+  const settlement = await getSettlement(forestRegion.rooms[forestRegion.rooms.length - 1])
   const regionRepository = await getRegionRepository()
-  await regionRepository.save([rootRegion, forestRegion])
+  await regionRepository.save([rootRegion, forestRegion, settlement])
   await worldBuilder.addRootRegion(rootRegion)
   worldBuilder.addRegion(forestRegion)
+  worldBuilder.addRegion(settlement)
 
   return new Set([
     ...worldBuilder.getRooms(),
