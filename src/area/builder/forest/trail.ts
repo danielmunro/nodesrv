@@ -20,7 +20,7 @@ function getRoom(): Room {
 }
 
 export async function newTrail(
-  outsideConnection: Room, direction: Direction, length: number) {
+  outsideConnection: Room, direction: Direction, length: number): Promise<AreaBuilder> {
   const areaBuilder = new AreaBuilder(outsideConnection, await Service.new())
   areaBuilder.addRoomTemplate(SectionType.Root, new DefaultSpec(getRoom()))
   areaBuilder.addRoomTemplate(SectionType.Connection, new DefaultSpec(getRoom()))
