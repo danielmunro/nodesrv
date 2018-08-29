@@ -2,9 +2,9 @@ import { newTrainer, newTraveller } from "../../../mob/factory/inn"
 import { newRoom } from "../../../room/factory"
 import { Room } from "../../../room/model/room"
 import Service from "../../../room/service"
-import AreaBuilder from "../areaBuilder"
 import DefaultSpec from "../../sectionSpec/defaultSpec"
 import { SectionType } from "../../sectionType"
+import AreaBuilder from "../areaBuilder"
 
 export async function newInn(outsideConnection: Room): Promise<AreaBuilder> {
   const areaBuilder = new AreaBuilder(outsideConnection, await Service.new())

@@ -1,6 +1,6 @@
-import Shape from "./shape"
-import AreaBuilder from "./areaBuilder"
 import { SectionType } from "../sectionType"
+import AreaBuilder from "./areaBuilder"
+import Shape from "./shape"
 
 export default class Line implements Shape {
   constructor(private readonly direction, private readonly length: number) {}
