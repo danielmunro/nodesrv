@@ -7,8 +7,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./sql/1-init.sql:/docker-entrypoint-initdb.d/1-init.sql
-      - ./sql/2-data.sql:/docker-entrypoint-initdb.d/2-data.sql
+      - ./postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: nodesrv
   
@@ -21,4 +20,4 @@ services:
     working_dir: "/app"
     volumes:
       - .:/app
-    entrypoint: npm run start 5
+    entrypoint: npm run start 08a2bc9b-679a-4bee-85d0-127288a24f61 5151
