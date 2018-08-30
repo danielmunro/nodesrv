@@ -4,6 +4,7 @@ ormconfig.json
 .DS_Store
 .vscode
 .idea
+postgres-data/
 
 # Logs
 logs
