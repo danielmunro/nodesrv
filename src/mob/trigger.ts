@@ -6,4 +6,6 @@ export enum Trigger {
   AttackRoundEnd,
   MobArrives,
   MobLeaves,
+  Tick,
+  None,
 }

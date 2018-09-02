@@ -35,9 +35,10 @@ export async function doSkill(request: Request, skillType: SkillType): Promise<R
   }
 
   const outcome = await skillDefinition.action(attempt)
+
   if (outcome.wasSuccessful()) {
-    return responseBuilder.success(outcome.message)
+    return responseBuilder.success(outcome.getMessage())
   }
 
-  return responseBuilder.fail(outcome.message)
+  return responseBuilder.fail(outcome.getMessage())
 }

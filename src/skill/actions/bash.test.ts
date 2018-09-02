@@ -39,7 +39,7 @@ describe("bash", () => {
     const outcome = await bash(createBashRequest(mob, fight.target))
 
     // then
-    expect(outcome.message).toEqual(MESSAGE_NO_SKILL)
+    expect(outcome.getMessage()).toEqual(MESSAGE_NO_SKILL)
   })
 
   it("should be able to trigger a failed bash", async () => {

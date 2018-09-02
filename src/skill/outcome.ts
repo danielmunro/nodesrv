@@ -2,16 +2,24 @@ import Attempt from "./attempt"
 import { OutcomeType } from "./outcomeType"
 
 export default class Outcome {
-  public readonly attempt: Attempt
-  public readonly outcomeType: OutcomeType
-  public readonly message: string
-  public readonly delayIncurred: number
+  private improvement: boolean
 
-  constructor(attempt: Attempt, outcomeType: OutcomeType, message: string = "", delayIncurred: number = 0) {
-    this.attempt = attempt
-    this.outcomeType = outcomeType
-    this.message = message
-    this.delayIncurred = delayIncurred
+  constructor(
+    public readonly attempt: Attempt,
+    public readonly outcomeType: OutcomeType,
+    private readonly message: string = "",
+    public readonly delayIncurred: number = 0) {}
+
+  public getMessage(): string {
+    return this.message + (this.improvement ? `\nYour ${this.attempt.skill.skillType} improves!` : "")
+  }
+
+  public setImprovement(improvement: boolean) {
+    if (this.improvement !== undefined) {
+      throw new Error("improvement is immutable")
+    }
+
+    this.improvement = improvement
   }
 
   public wasSuccessful(): boolean {
