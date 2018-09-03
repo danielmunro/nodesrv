@@ -10,7 +10,7 @@ export default class SkillDefinition {
   public readonly action: (attempt: Attempt) => Promise<Outcome>
   public readonly preconditions: (attempt: Attempt) => Promise<Check>
 
-  constructor(skillType: SkillType, triggers: Trigger[], action, preconditions = null) {
+  constructor(skillType: SkillType, triggers: Trigger[], action, minimumLevel: number, preconditions = null) {
     this.skillType = skillType
     this.triggers = triggers
     this.action = action

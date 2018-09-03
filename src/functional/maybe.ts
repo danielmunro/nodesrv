@@ -1,9 +1,33 @@
+enum MaybeStatus {
+  Thing,
+  NotThing,
+}
+
 export default class Maybe<T> {
+  private result
+  private status: MaybeStatus
+
   constructor(private readonly thing) {}
 
   public do(fn) {
     if (this.thing) {
-      return fn(this.thing)
+      this.result = fn(this.thing)
+      this.status = MaybeStatus.Thing
+      return this
     }
+
+    this.status = MaybeStatus.NotThing
+    return this
+  }
+
+  public or(fn) {
+    if (this.status === MaybeStatus.NotThing) {
+      this.result = fn()
+      return this
+    }
+  }
+
+  public get() {
+    return this.result
   }
 }

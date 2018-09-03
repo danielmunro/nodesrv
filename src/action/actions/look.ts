@@ -4,6 +4,8 @@ import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import getSight from "../../mob/race/sight"
+import Maybe from "../../functional/maybe"
 
 export const NOT_FOUND = "You don't see that anywhere."
 
@@ -33,8 +35,14 @@ export default function(request: Request): Promise<Response> {
   }
 
   const room = request.getRoom()
+  const roomDescription = new Maybe(room.region)
+    .do((region) =>
+      getSight(request.mob.race).isAbleToSee(0, region.terrain, region.weather)
+        ? room.toString() : "You can't see anything!")
+    .or(() => room.toString())
+    .get()
 
-  return builder.info(room.toString()
+  return builder.info(roomDescription
     + room.mobs.filter(onlyLiving).reduce((previous: string, current: Mob) =>
         previous + (current !== request.mob ? `\n${current.name} is here.` : ""), "")
     + room.inventory.items.reduce((previous: string, current: Item) =>

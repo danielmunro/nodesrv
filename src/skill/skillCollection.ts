@@ -10,15 +10,15 @@ import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
-import Attempt from "./attempt"
 import Outcome from "./outcome"
 import roll from "../random/dice"
 
 const BASE_IMPROVE_CHANCE = 50
 const SLOW_IMPROVE_CHANCE = 10
 
-function createSkill(type: SkillType, triggers: Trigger[], action, preconditions = null): SkillDefinition {
-  return new SkillDefinition(type, triggers, action, preconditions)
+function createSkill(
+  type: SkillType, trigger: Trigger, action, minimumLevel: number, preconditions = null): SkillDefinition {
+  return new SkillDefinition(type, [trigger], action, minimumLevel, preconditions)
 }
 
 function initialImproveRoll(): number {
@@ -41,33 +41,39 @@ function checkImprove(outcome: Outcome, baseImproveChance: number = BASE_IMPROVE
   return outcome
 }
 
+function createCheckImprove(method, improveChance = BASE_IMPROVE_CHANCE) {
+  return async (attempt) => checkImprove( await method(attempt), improveChance)
+}
+
+function newWeaponSkill(skillType: SkillType) {
+  return createSkill(
+    skillType,
+    Trigger.AttackRoundDamage,
+    createCheckImprove((attempt) => attempt),
+    1)
+}
+
 export const skillCollection = [
-  createSkill(
-    SkillType.Dodge,
-    [Trigger.AttackRoundStart],
-    async (attempt) => checkImprove(await dodgeAction(attempt)), SLOW_IMPROVE_CHANCE),
-  createSkill(
-    SkillType.Bash,
-    [Trigger.Input],
-    async (attempt) => checkImprove(await bashAction(attempt)),
-    bashPrecondition),
-  createSkill(
-    SkillType.Trip,
-    [Trigger.Input],
-    async (attempt) => checkImprove(await tripAction(attempt)),
-    tripPrecondition),
-  createSkill(
-    SkillType.Berserk,
-    [Trigger.Input],
-    async (attempt) => checkImprove(await berserkAction(attempt)),
-    berserkPrecondition),
-  createSkill(
-    SkillType.Sneak,
-    [Trigger.Input],
-    async (attempt) => checkImprove(await sneakAction(attempt)),
-    sneakPrecondition),
-  // createSkill(SkillType.Sword, [Trigger.AttackRoundDamage], (attempt: Attempt) =>
-  //   checkWeaponSkillImprovement(attempt, SkillType.Sword)),
+  createSkill(SkillType.Dodge, Trigger.AttackRoundStart,
+    createCheckImprove(dodgeAction, SLOW_IMPROVE_CHANCE), 10),
+  createSkill(SkillType.Bash, Trigger.Input,
+    createCheckImprove(bashAction), 5, bashPrecondition),
+  createSkill(SkillType.Trip, Trigger.Input,
+    createCheckImprove(tripAction), 10, tripPrecondition),
+  createSkill(SkillType.Berserk, Trigger.Input,
+    createCheckImprove(berserkAction), 20, berserkPrecondition),
+  createSkill(SkillType.Sneak, Trigger.Input,
+    createCheckImprove(sneakAction), 20, sneakPrecondition),
+  newWeaponSkill(SkillType.Sword),
+  newWeaponSkill(SkillType.Mace),
+  newWeaponSkill(SkillType.Wand),
+  newWeaponSkill(SkillType.Dagger),
+  newWeaponSkill(SkillType.Stave),
+  newWeaponSkill(SkillType.Whip),
+  newWeaponSkill(SkillType.Spear),
+  newWeaponSkill(SkillType.Axe),
+  newWeaponSkill(SkillType.Flail),
+  newWeaponSkill(SkillType.Polearm),
 ]
 
 export function getSkillAction(skillType: SkillType) {
