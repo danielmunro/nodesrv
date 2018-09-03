@@ -11,6 +11,7 @@ describe("sight", () => {
     [Race.Faerie, 0, Terrain.Plains, Weather.Clear, false],
     [Race.Giant, 0, Terrain.Forest, Weather.Storming, false],
     [Race.Giant, 6, Terrain.Settlement, Weather.Clear, false],
+    [Race.Giant, 6, Terrain.Forest, Weather.Raining, false],
     [Race.Giant, 7, Terrain.Settlement, Weather.Clear, true],
     [Race.Kender, 20, Terrain.Forest, Weather.Storming, true],
     [Race.Kender, 21, Terrain.Forest, Weather.Storming, false],
