@@ -1,11 +1,11 @@
+import Maybe from "../../functional/maybe"
 import { Item } from "../../item/model/item"
 import { onlyLiving } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
+import getSight from "../../mob/race/sight"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
-import getSight from "../../mob/race/sight"
-import Maybe from "../../functional/maybe"
 
 export const NOT_FOUND = "You don't see that anywhere."
 

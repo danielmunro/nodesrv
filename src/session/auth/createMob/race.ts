@@ -1,13 +1,13 @@
 import appetite from "../../../mob/race/appetite"
 import { allRaces } from "../../../mob/race/race"
+import { getRaceSkills } from "../../../mob/race/skillTable"
+import { newSkill } from "../../../skill/factory"
 import AuthStep from "../authStep"
 import { MESSAGE_CHOOSE_RACE, MESSAGE_FAIL_RACE_UNAVAILABLE } from "../constants"
 import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
 import Specialization from "./specialization"
-import { getRaceSkills } from "../../../mob/race/skillTable"
-import { newSkill } from "../../../skill/factory"
 
 export default class Race extends PlayerAuthStep implements AuthStep {
   /* istanbul ignore next */

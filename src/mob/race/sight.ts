@@ -1,6 +1,6 @@
-import { Race } from "./race"
-import { Weather } from "../../region/weather"
 import { Terrain } from "../../region/terrain"
+import { Weather } from "../../region/weather"
+import { Race } from "./race"
 
 function getVisibilityForTimeOfDay(timeOfDay: number) {
  if (timeOfDay < 4) {
@@ -8,15 +8,15 @@ function getVisibilityForTimeOfDay(timeOfDay: number) {
  }
 
  if (timeOfDay < 7) {
-   return 0.3
+   return 0.4
  }
 
- if (timeOfDay < 19) {
-   return 0.5
+ if (timeOfDay < 18) {
+   return 1
  }
 
- if (timeOfDay < 9) {
-   return 0.3
+ if (timeOfDay < 21) {
+   return 0.4
  }
 
  return 0
@@ -40,10 +40,10 @@ function getVisibilityForWeather(weather: Weather) {
   }
 
   if (weather === Weather.Raining || weather === Weather.Overcast) {
-    return 0.1
+    return 0.05
   }
 
-  return 0.2
+  return 0.1
 }
 
 class Sight {
@@ -53,12 +53,12 @@ class Sight {
     return this.eyesight +
       getVisibilityForTimeOfDay(timeOfDay) +
       getVisibilityForTerrain(terrain) +
-      getVisibilityForWeather(weather) > 1
+      getVisibilityForWeather(weather) >= 1
   }
 }
 
 const sightTable = [
-  new Sight(Race.Faerie, 0.75),
+  new Sight(Race.Faerie, 0.7),
   new Sight(Race.Drow, 0.7),
   new Sight(Race.Elf, 0.65),
   new Sight(Race.Kender, 0.6),

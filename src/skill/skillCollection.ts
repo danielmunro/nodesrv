@@ -1,17 +1,17 @@
 import { Trigger } from "../mob/trigger"
+import roll from "../random/dice"
 import bashAction from "./actions/bash"
 import berserkAction from "./actions/berserk"
 import dodgeAction from "./actions/dodge"
 import sneakAction from "./actions/sneak"
 import tripAction from "./actions/trip"
+import Outcome from "./outcome"
 import bashPrecondition from "./preconditions/bash"
 import berserkPrecondition from "./preconditions/berserk"
 import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
-import Outcome from "./outcome"
-import roll from "../random/dice"
 
 const BASE_IMPROVE_CHANCE = 50
 const SLOW_IMPROVE_CHANCE = 10

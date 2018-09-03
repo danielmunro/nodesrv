@@ -1,6 +1,6 @@
-import Skill, { default as RaceSkill } from "./skill"
-import { Race } from "./race"
 import { SkillType } from "../../skill/skillType"
+import { Race } from "./race"
+import Skill, { default as RaceSkill } from "./skill"
 
 const skillTable = [
   new Skill(Race.Insect, SkillType.Bite),
