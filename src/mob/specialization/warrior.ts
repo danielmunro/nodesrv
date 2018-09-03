@@ -16,13 +16,39 @@ export default class Warrior implements Specialization {
 
   public getSkills(): SkillType[] {
     return [
+      // weapons
       SkillType.Sword,
+      SkillType.Dagger,
+      SkillType.Axe,
+      SkillType.Flail,
+      SkillType.Mace,
+      SkillType.Polearm,
+      SkillType.Spear,
+      SkillType.Whip,
+
+      // attack
       SkillType.Bash,
-      SkillType.Berserk,
+      SkillType.Kick,
+
+      // fighting
       SkillType.Disarm,
+      SkillType.DirtKick,
       SkillType.SecondAttack,
+      SkillType.ThirdAttack,
       SkillType.Dodge,
       SkillType.Parry,
+      SkillType.DualWield,
+      SkillType.ShieldBash,
+      SkillType.ShieldBlock,
+      SkillType.Throw,
+      SkillType.EnhancedDamage,
+
+      // buf
+      SkillType.Berserk,
+
+      // etc
+      SkillType.Lore,
+      SkillType.FastHealing,
     ]
   }
 

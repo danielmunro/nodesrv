@@ -17,6 +17,11 @@ export default class Cleric implements Specialization {
   public getSkills(): SkillType[] {
     return [
       SkillType.Mace,
+      SkillType.Wand,
+      SkillType.Stave,
+      SkillType.Meditation,
+      SkillType.Lore,
+      SkillType.Spellcraft,
     ]
   }
 

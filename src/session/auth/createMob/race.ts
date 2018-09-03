@@ -6,6 +6,8 @@ import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
 import Specialization from "./specialization"
+import { getRaceSkills } from "../../../mob/race/skillTable"
+import { newSkill } from "../../../skill/factory"
 
 export default class Race extends PlayerAuthStep implements AuthStep {
   /* istanbul ignore next */
@@ -24,6 +26,7 @@ export default class Race extends PlayerAuthStep implements AuthStep {
     mob.race = race
     mob.playerMob.appetite = appetite(race)
     mob.playerMob.hunger = appetite(race)
+    mob.skills.push(...getRaceSkills(race).map((skill) => newSkill(skill.skillType)))
     return request.ok(new Specialization(this.player))
   }
 }

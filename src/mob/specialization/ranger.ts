@@ -16,11 +16,37 @@ export default class Ranger implements Specialization {
 
   public getSkills(): SkillType[] {
     return [
+      // weapons
       SkillType.Dagger,
+
+      // reconnaissance
+      SkillType.Sneak,
+      SkillType.Hide,
+      SkillType.Scan,
+      SkillType.Peek,
+
+      // attack
       SkillType.DirtKick,
+      SkillType.Trip,
+      SkillType.Garotte,
+      SkillType.Hamstring,
+      SkillType.Backstab,
+      SkillType.EnhancedDamage,
+
+      // fighting
       SkillType.Dodge,
       SkillType.Parry,
-      SkillType.Sneak,
+      SkillType.ShieldBlock,
+
+      // buf
+      SkillType.Envenom,
+
+      // other
+      SkillType.FastHealing,
+      SkillType.Lore,
+      SkillType.Slice,
+      SkillType.Steal,
+      SkillType.Haggle,
     ]
   }
 

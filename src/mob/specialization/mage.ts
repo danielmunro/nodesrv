@@ -16,7 +16,12 @@ export default class Mage implements Specialization {
 
   public getSkills(): SkillType[] {
     return [
+      SkillType.Dagger,
       SkillType.Wand,
+      SkillType.Stave,
+      SkillType.Meditation,
+      SkillType.Lore,
+      SkillType.Spellcraft,
     ]
   }
 
