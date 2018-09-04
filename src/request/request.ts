@@ -21,7 +21,6 @@ export function getNewRequestFromMessageEvent(client: Client, messageEvent: Mess
 export class Request {
   public readonly command: string
   public readonly subject: string
-  public readonly object: string
   public readonly message: string
   public readonly mob: Mob
 
@@ -33,7 +32,6 @@ export class Request {
     const words = input.split(" ")
     this.command = words[0]
     this.subject = words[1]
-    this.object = words[2]
     this.message = words.slice(1).join(" ")
     this.mob = this.player.sessionMob
   }

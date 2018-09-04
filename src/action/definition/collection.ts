@@ -1,4 +1,4 @@
-import { AuthorizationLevel } from "../../player/authorizationLevel"
+import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../../player/authorizationLevel"
 import { RequestType } from "../../request/requestType"
 import { Definition } from "./definition"
 
@@ -19,7 +19,7 @@ export class Collection {
       return action
     }
 
-    if (authorizationLevel > AuthorizationLevel.Mortal) {
+    if (isSpecialAuthorizationLevel(authorizationLevel)) {
       const moderationAction = this.moderationActions.find((it) => it.isAbleToHandleRequestType(requestType))
 
       if (moderationAction) {

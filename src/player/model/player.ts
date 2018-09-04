@@ -58,4 +58,8 @@ export class Player {
     const vitals = this.sessionMob.vitals
     return `${vitals.hp}/${combined.hp}hp ${vitals.mana}/${combined.mana}mana ${vitals.mv}/${combined.mv}mv -> `
   }
+
+  public ownsMob(mob: Mob): boolean {
+    return this.mobs.find((m) => m.uuid === mob.uuid) !== null
+  }
 }

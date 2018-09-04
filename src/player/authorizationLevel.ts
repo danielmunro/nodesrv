@@ -5,3 +5,7 @@ export enum AuthorizationLevel {
   Judge,
   Immortal,
 }
+
+export function isSpecialAuthorizationLevel(authorizationLevel: AuthorizationLevel): boolean {
+  return authorizationLevel > AuthorizationLevel.Mortal
+}
