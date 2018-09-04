@@ -2,9 +2,9 @@ import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn
 import * as v4 from "uuid"
 import { default as Attributes } from "../../attributes/model/attributes"
 import { Item } from "../../item/model/item"
-import { Mob } from "./mob"
-import { Standing } from "../standing"
 import { AuthorizationLevel } from "../../player/authorizationLevel"
+import { Standing } from "../standing"
+import { Mob } from "./mob"
 
 @Entity()
 export class PlayerMob {

@@ -26,6 +26,8 @@ import wear from "./actions/wear"
 import CheckedRequest from "./checkedRequest"
 import { Collection } from "./definition/collection"
 import { Definition } from "./definition/definition"
+import ban from "./moderation/actions/ban"
+import { default as banPrecondition } from "./moderation/precondition/ban"
 import { default as buyPrecondition } from "./precondition/buy"
 import { default as castPrecondition } from "./precondition/cast"
 import { default as dropPrecondition } from "./precondition/drop"
@@ -38,8 +40,6 @@ import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
-import ban from "./moderation/actions/ban"
-import { default as banPrecondition } from "./moderation/precondition/ban"
 
 function newMoveDefinition(service: Service, requestType: RequestType, direction: Direction) {
   return new Definition(

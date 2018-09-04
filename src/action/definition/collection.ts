@@ -1,6 +1,6 @@
+import { AuthorizationLevel } from "../../player/authorizationLevel"
 import { RequestType } from "../../request/requestType"
 import { Definition } from "./definition"
-import { AuthorizationLevel } from "../../player/authorizationLevel"
 
 export class Collection {
   constructor(

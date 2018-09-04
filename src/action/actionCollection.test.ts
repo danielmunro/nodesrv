@@ -1,8 +1,8 @@
+import { AuthorizationLevel } from "../player/authorizationLevel"
 import { RequestType } from "../request/requestType"
 import { ResponseStatus } from "../request/responseStatus"
 import { SkillType } from "../skill/skillType"
 import TestBuilder from "../test/testBuilder"
-import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Definition } from "./definition/definition"
 
 describe("actions actions collection", () => {

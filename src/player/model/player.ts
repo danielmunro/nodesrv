@@ -4,7 +4,6 @@ import { Mob } from "../../mob/model/mob"
 import { Direction } from "../../room/constants"
 import { Exit } from "../../room/model/exit"
 import { Room } from "../../room/model/room"
-import { AuthorizationLevel } from "../authorizationLevel"
 import hash from "../password/hash"
 
 @Entity()
@@ -24,9 +23,6 @@ export class Player {
 
   @Column("text")
   public password: string
-
-  @Column("integer", { default: AuthorizationLevel.Mortal })
-  public authorizationLevel: AuthorizationLevel = AuthorizationLevel.Mortal
 
   @OneToMany((type) => Mob, (mob) => mob.player, { cascadeInsert: true, cascadeUpdate: true })
   public mobs: Mob[] = []

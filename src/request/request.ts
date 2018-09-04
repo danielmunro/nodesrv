@@ -1,6 +1,7 @@
 import { Client } from "../client/client"
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
+import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
@@ -59,5 +60,13 @@ export class Request {
 
   public getPrompt(): string {
     return this.player.prompt()
+  }
+
+  public getAuthorizationLevel(): AuthorizationLevel {
+    if (this.player.sessionMob && this.player.sessionMob.playerMob) {
+      return this.player.sessionMob.playerMob.authorizationLevel
+    }
+
+    return AuthorizationLevel.None
   }
 }

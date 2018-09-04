@@ -5,3 +5,7 @@ export enum Standing {
   IndefiniteBan = "indefinite ban",
   PermaBan = "permanent ban",
 }
+
+export function isBanned(standing: Standing): boolean {
+  return standing > Standing.Cooloff
+}
