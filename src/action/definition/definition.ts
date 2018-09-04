@@ -13,7 +13,7 @@ export class Definition {
     private readonly service: Service,
     private readonly requestType: RequestType,
     private readonly callback: (request: Request|CheckedRequest, service: Service) => Promise<Response>,
-    private readonly precondition: (request: Request) => Promise<Check> = null,
+    private readonly precondition: (request: Request, service: Service) => Promise<Check> = null,
     ) {}
 
   public isAbleToHandleRequestType(requestType: RequestType): boolean {
@@ -26,7 +26,7 @@ export class Definition {
     }
 
     if (this.precondition) {
-      const checkResponse = await this.precondition(request)
+      const checkResponse = await this.precondition(request, this.service)
       if (checkResponse.status === CheckStatus.Failed) {
         return new ResponseBuilder(request).fail(checkResponse.result)
       }

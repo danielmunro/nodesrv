@@ -25,6 +25,8 @@ export default class Maybe<T> {
       this.result = fn()
       return this
     }
+
+    return this
   }
 
   public get() {

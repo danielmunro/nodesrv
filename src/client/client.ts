@@ -85,6 +85,7 @@ export class Client {
   public handleRequest(request: Request): Promise<any> {
     return this.handlers.getMatchingHandlerDefinitionForRequestType(
       request.requestType,
+      request.player.authorizationLevel,
       this.getDefaultRequestHandler(request))
         .handle(request)
         .then((response) => {

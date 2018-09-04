@@ -12,6 +12,7 @@ it("should be to handle gossiping", async () => {
   const request = new Request(player, RequestType.Gossip, "gossip hello world")
   const handler = actions.getMatchingHandlerDefinitionForRequestType(
     request.requestType,
+    player.authorizationLevel,
     new Definition(await testBuilder.getService(), RequestType.Noop, jest.fn()))
 
   // when

@@ -28,7 +28,7 @@ export default class PasswordConfirm implements AuthStep {
       return request.fail(new Password(this.player), MESSAGE_FAIL_PASSWORDS_DO_NOT_MATCH)
     }
 
-    this.player.password = hash(confirmPassword)
+    this.player.setPassword(confirmPassword)
 
     return request.ok(new Complete(this.player))
   }

@@ -32,4 +32,7 @@ export enum RequestType {
   Eat = "eat",
   Noop = "noop",
   Any = "any",
+
+  // greater than mortal
+  Ban = "ban",
 }

@@ -3,6 +3,8 @@ import * as v4 from "uuid"
 import { default as Attributes } from "../../attributes/model/attributes"
 import { Item } from "../../item/model/item"
 import { Mob } from "./mob"
+import { Standing } from "../standing"
+import { AuthorizationLevel } from "../../player/authorizationLevel"
 
 @Entity()
 export class PlayerMob {
@@ -35,6 +37,12 @@ export class PlayerMob {
 
   @Column("integer")
   public experience: number = 0
+
+  @Column("varchar")
+  public standing: Standing = Standing.Good
+
+  @Column("integer")
+  public authorizationLevel: AuthorizationLevel = AuthorizationLevel.Mortal
 
   public regen(): void {
     this.hunger--

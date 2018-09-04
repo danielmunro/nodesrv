@@ -2,6 +2,8 @@ import { RequestType } from "../request/requestType"
 import { ResponseStatus } from "../request/responseStatus"
 import { SkillType } from "../skill/skillType"
 import TestBuilder from "../test/testBuilder"
+import { AuthorizationLevel } from "../player/authorizationLevel"
+import { Definition } from "./definition/definition"
 
 describe("actions actions collection", () => {
   it("should be able to bash", async () => {
@@ -19,6 +21,28 @@ describe("actions actions collection", () => {
 
     // then
     expect(response.status).not.toBe(ResponseStatus.PreconditionsFailed)
+  })
+
+  it("should not be able to access admin actions", async () => {
+    // given
+    const testBuilder = new TestBuilder()
+    testBuilder.withPlayer().withSkill(SkillType.Bash)
+    const actions = await testBuilder.getActionCollection()
+
+    const action = await actions.getMatchingHandlerDefinitionForRequestType(RequestType.Ban, AuthorizationLevel.Mortal)
+
+    expect(action).toBeNull()
+  })
+
+  it("admins should be able to access admin actions", async () => {
+    // given
+    const testBuilder = new TestBuilder()
+    testBuilder.withPlayer().withSkill(SkillType.Bash)
+    const actions = await testBuilder.getActionCollection()
+
+    const action = await actions.getMatchingHandlerDefinitionForRequestType(RequestType.Ban, AuthorizationLevel.Admin)
+
+    expect(action).toBeInstanceOf(Definition)
   })
 
   it("should be able to trip", async () => {

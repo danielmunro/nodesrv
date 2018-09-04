@@ -42,7 +42,7 @@ describe("actions helpers", () => {
     const actions = await testBuilder.getActionCollection()
     const player = getTestPlayer()
     const handleRepeater = (requestType: RequestType, args: string) =>
-      actions.getMatchingHandlerDefinitionForRequestType(requestType, defaultHandler)
+      actions.getMatchingHandlerDefinitionForRequestType(requestType, player.authorizationLevel, defaultHandler)
         .handle(new Request(player, requestType, args))
 
     // expect
