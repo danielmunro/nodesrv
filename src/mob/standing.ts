@@ -6,6 +6,12 @@ export enum Standing {
   PermaBan = "permanent ban",
 }
 
+const banned = [
+  Standing.Cooloff,
+  Standing.IndefiniteBan,
+  Standing.PermaBan,
+]
+
 export function isBanned(standing: Standing): boolean {
-  return standing > Standing.Cooloff
+  return banned.includes(standing)
 }

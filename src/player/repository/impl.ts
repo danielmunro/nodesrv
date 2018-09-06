@@ -5,7 +5,7 @@ import PlayerRepository from "./player"
 export default class PlayerRepositoryImpl implements PlayerRepository {
   constructor(private readonly playerRepository: Repository<Player>) {}
 
-  public findOneByEmail(email: string): Promise<Player> {
+  public async findOneByEmail(email: string): Promise<Player> {
     return this.playerRepository.findOne({ where: { email }})
   }
 

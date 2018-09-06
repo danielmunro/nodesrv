@@ -24,7 +24,7 @@ export class Player {
   @Column("text")
   public password: string
 
-  @OneToMany((type) => Mob, (mob) => mob.player, { cascadeInsert: true, cascadeUpdate: true })
+  @OneToMany((type) => Mob, (mob) => mob.player, { eager: true, cascadeInsert: true, cascadeUpdate: true })
   public mobs: Mob[] = []
 
   public sessionMob: Mob
@@ -60,6 +60,6 @@ export class Player {
   }
 
   public ownsMob(mob: Mob): boolean {
-    return this.mobs.find((m) => m.uuid === mob.uuid) !== null
+    return this.mobs.find((m) => m.uuid === mob.uuid) !== undefined
   }
 }

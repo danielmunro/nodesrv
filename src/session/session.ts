@@ -15,6 +15,7 @@ export default class Session {
   private player: Player
   private mob: Mob
   private status: SessionStatus = SessionStatus.Initialized
+  private isMobCreated: boolean
 
   constructor(
     public readonly client: Client,
@@ -29,6 +30,9 @@ export default class Session {
     this.authStep = response.authStep
     this.client.send({ message: response.message })
     this.client.send({ message: this.authStep.getStepMessage() })
+    if (this.authStep instanceof MobComplete) {
+      this.isMobCreated = true
+    }
     if (this.authStep instanceof MobComplete
       || this.authStep instanceof PlayerComplete || this.authStep instanceof Complete) {
       this.authStep = (await this.authStep.processRequest(request)).authStep
@@ -56,6 +60,9 @@ export default class Session {
     this.player = player
     this.client.getStartRoom().addMob(this.mob)
     this.client.player = this.player
+    if (this.isMobCreated) {
+      this.client.getMobTable().add(this.mob)
+    }
     this.status = SessionStatus.LoggedIn
     this.client.send({ player: this.player })
     this.client.send(await look(new ActionRequest(this.player, RequestType.Look)))

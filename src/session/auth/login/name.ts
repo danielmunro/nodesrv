@@ -30,17 +30,13 @@ export default class Name extends PlayerAuthStep implements AuthStep {
     return request.ok(new NewMobConfirm(this.player, name))
   }
 
-  private existingMobFound(request, mob): Response {
-    if (!this.isMobOwnedByPlayer(mob)) {
+  private async existingMobFound(request, mob): Promise<Response> {
+    if (!this.player.ownsMob(mob)) {
       return request.fail(this, MESSAGE_UNAVAILABLE)
     }
 
     this.player.sessionMob = mob
 
     return request.ok(new Complete(this.player))
-  }
-
-  private isMobOwnedByPlayer(mob): boolean {
-    return mob.player.id === this.player.id
   }
 }

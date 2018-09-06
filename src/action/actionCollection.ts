@@ -40,6 +40,8 @@ import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
+import { default as unbanPrecondition } from "./moderation/precondition/unban"
+import unban from "./moderation/actions/unban"
 
 function newMoveDefinition(service: Service, requestType: RequestType, direction: Direction) {
   return new Definition(
@@ -107,5 +109,6 @@ export default function getActionCollection(service: Service) {
     new Definition(service, RequestType.Eat, eat, eatPrecondition),
   ], [
     new Definition(service, RequestType.Ban, ban, banPrecondition),
+    new Definition(service, RequestType.Unban, unban, unbanPrecondition),
   ])
 }
