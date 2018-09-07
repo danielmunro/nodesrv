@@ -20,4 +20,8 @@ export default class Check {
     readonly status: CheckStatus,
     readonly result: any,
   ) {}
+
+  public isOk(): boolean {
+    return this.status === CheckStatus.Ok
+  }
 }
