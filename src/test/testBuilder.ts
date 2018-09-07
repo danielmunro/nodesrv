@@ -3,6 +3,7 @@ import Check, { CheckStatus } from "../action/check"
 import CheckedRequest from "../action/checkedRequest"
 import { Mob } from "../mob/model/mob"
 import { Role } from "../mob/role"
+import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
@@ -36,6 +37,13 @@ export default class TestBuilder {
     }
 
     return new PlayerBuilder(this.player)
+  }
+
+  public withAdminPlayer(): PlayerBuilder {
+    const playerBuilder = this.withPlayer()
+    playerBuilder.player.sessionMob.playerMob.authorizationLevel = AuthorizationLevel.Admin
+
+    return playerBuilder
   }
 
   public withMob(name: string = null): MobBuilder {

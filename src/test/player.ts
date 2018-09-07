@@ -10,8 +10,10 @@ export function getTestPlayer(): Player {
   player.email = sillyname() + "@emailaddress.com"
   player.password = ""
   player.sessionMob = getTestMob()
+  player.sessionMob.isPlayer = true
   player.sessionMob.setPlayerMob(new PlayerMob())
   player.sessionMob.playerMob.appetite = appetite(player.sessionMob.race)
+  player.mobs.push(player.sessionMob)
 
   return player
 }

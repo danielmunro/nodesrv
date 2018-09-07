@@ -1,8 +1,8 @@
 import { isBanned } from "../../../mob/standing"
+import { isSpecialAuthorizationLevel } from "../../../player/authorizationLevel"
 import { Request } from "../../../request/request"
 import Service from "../../../room/service"
 import Check from "../../check"
-import { isSpecialAuthorizationLevel } from "../../../player/authorizationLevel"
 
 export const MESSAGE_FAIL_NO_TARGET = "They don't exist."
 export const MESSAGE_FAIL_NOT_PLAYER = "They are not a player."

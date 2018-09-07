@@ -1,8 +1,8 @@
 import { Direction } from "../room/constants"
 import { Exit } from "../room/model/exit"
+import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
 import { getTestRoom } from "../test/room"
-import { getTestMob } from "../test/mob"
 
 describe("player model", () => {
   it("should be able to add a mob to a room", () => {

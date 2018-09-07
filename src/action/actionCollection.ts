@@ -25,9 +25,10 @@ import train from "./actions/train"
 import wear from "./actions/wear"
 import CheckedRequest from "./checkedRequest"
 import { Collection } from "./definition/collection"
-import { Definition } from "./definition/definition"
 import ban from "./moderation/actions/ban"
+import unban from "./moderation/actions/unban"
 import { default as banPrecondition } from "./moderation/precondition/ban"
+import { default as unbanPrecondition } from "./moderation/precondition/unban"
 import { default as buyPrecondition } from "./precondition/buy"
 import { default as castPrecondition } from "./precondition/cast"
 import { default as dropPrecondition } from "./precondition/drop"
@@ -40,22 +41,15 @@ import { default as removePrecondition } from "./precondition/remove"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
-import { default as unbanPrecondition } from "./moderation/precondition/unban"
-import unban from "./moderation/actions/unban"
 
 function newMoveDefinition(service: Service, requestType: RequestType, direction: Direction) {
-  return new Definition(
-    service,
-    requestType,
+  return service.getNewDefinition(requestType,
     (checkedRequest: CheckedRequest) => move(checkedRequest, direction, service),
     (request: Request) => movePrecondition(request, direction))
 }
 
 function newSkillDefinition(service: Service, requestType: RequestType, skillType: SkillType) {
-  return new Definition(
-    service,
-    requestType,
-    (request: Request) => doSkill(request, skillType))
+  return service.getNewDefinition(requestType, (request: Request) => doSkill(request, skillType))
 }
 
 export default function getActionCollection(service: Service) {
@@ -69,16 +63,16 @@ export default function getActionCollection(service: Service) {
     newMoveDefinition(service, RequestType.Down, Direction.Down),
 
     // items
-    new Definition(service, RequestType.Inventory, inventory),
-    new Definition(service, RequestType.Get, get, getPrecondition),
-    new Definition(service, RequestType.Drop, drop, dropPrecondition),
-    new Definition(service, RequestType.Wear, wear, wearPrecondition),
-    new Definition(service, RequestType.Remove, remove, removePrecondition),
-    new Definition(service, RequestType.Equipped, equipped),
+    service.getNewDefinition(RequestType.Inventory, inventory),
+    service.getNewDefinition(RequestType.Get, get, getPrecondition),
+    service.getNewDefinition(RequestType.Drop, drop, dropPrecondition),
+    service.getNewDefinition(RequestType.Wear, wear, wearPrecondition),
+    service.getNewDefinition(RequestType.Remove, remove, removePrecondition),
+    service.getNewDefinition(RequestType.Equipped, equipped),
 
     // fighting
-    new Definition(service, RequestType.Kill, kill, killPrecondition),
-    new Definition(service, RequestType.Flee, flee, fleePrecondition),
+    service.getNewDefinition(RequestType.Kill, kill, killPrecondition),
+    service.getNewDefinition(RequestType.Flee, flee, fleePrecondition),
     newSkillDefinition(service, RequestType.Bash, SkillType.Bash),
     newSkillDefinition(service, RequestType.Trip, SkillType.Trip),
 
@@ -87,28 +81,28 @@ export default function getActionCollection(service: Service) {
     newSkillDefinition(service, RequestType.Sneak, SkillType.Sneak),
 
     // casting
-    new Definition(service, RequestType.Cast, cast, castPrecondition),
+    service.getNewDefinition(RequestType.Cast, cast, castPrecondition),
 
     // info
-    new Definition(service, RequestType.Affects, affects),
-    new Definition(service, RequestType.Look, look),
-    new Definition(service, RequestType.Score, score),
+    service.getNewDefinition(RequestType.Affects, affects),
+    service.getNewDefinition(RequestType.Look, look),
+    service.getNewDefinition(RequestType.Score, score),
 
     // merchants
-    new Definition(service, RequestType.Buy, buy, buyPrecondition),
-    new Definition(service, RequestType.Sell, sell, sellPrecondition),
+    service.getNewDefinition(RequestType.Buy, buy, buyPrecondition),
+    service.getNewDefinition(RequestType.Sell, sell, sellPrecondition),
 
     // social
-    new Definition(service, RequestType.Gossip, gossip),
-    new Definition(service, RequestType.Say, say),
+    service.getNewDefinition(RequestType.Gossip, gossip),
+    service.getNewDefinition(RequestType.Say, say),
 
     // training
-    new Definition(service, RequestType.Train, train, trainPrecondition),
+    service.getNewDefinition(RequestType.Train, train, trainPrecondition),
 
     // nourishment
-    new Definition(service, RequestType.Eat, eat, eatPrecondition),
+    service.getNewDefinition(RequestType.Eat, eat, eatPrecondition),
   ], [
-    new Definition(service, RequestType.Ban, ban, banPrecondition),
-    new Definition(service, RequestType.Unban, unban, unbanPrecondition),
+    service.getNewDefinition(RequestType.Ban, ban, banPrecondition),
+    service.getNewDefinition(RequestType.Unban, unban, unbanPrecondition),
   ])
 }

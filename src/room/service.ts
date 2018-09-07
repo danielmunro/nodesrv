@@ -1,5 +1,7 @@
+import { Definition } from "../action/definition/definition"
 import { Mob } from "../mob/model/mob"
 import { default as MobTable } from "../mob/table"
+import { RequestType } from "../request/requestType"
 import { Direction } from "./constants"
 import { Exit } from "./model/exit"
 import { Room } from "./model/room"
@@ -39,6 +41,10 @@ export default class Service {
 
     const exit = await this.findRoomExitWithDestination(roomExit.id)
     this.roomTable.canonical(exit.destination).addMob(mob)
+  }
+
+  public getNewDefinition(requestType: RequestType, action, precondition = null): Definition {
+    return new Definition(this, requestType, action, precondition)
   }
 
   private async findRoomExitWithDestination(id: number): Promise<Exit> {

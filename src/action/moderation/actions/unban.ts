@@ -1,7 +1,7 @@
-import CheckedRequest from "../../checkedRequest"
+import { Standing } from "../../../mob/standing"
 import Response from "../../../request/response"
 import ResponseBuilder from "../../../request/responseBuilder"
-import { Standing } from "../../../mob/standing"
+import CheckedRequest from "../../checkedRequest"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
