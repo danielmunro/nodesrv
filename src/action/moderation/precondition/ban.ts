@@ -1,5 +1,5 @@
+import Maybe from "../../../functional/maybe"
 import { isBanned } from "../../../mob/standing"
-import { isSpecialAuthorizationLevel } from "../../../player/authorizationLevel"
 import { Request } from "../../../request/request"
 import Service from "../../../room/service"
 import Check from "../../check"
@@ -18,23 +18,13 @@ export default async function(request: Request, service: Service): Promise<Check
   checkBuilder.requireTarget(mob, MESSAGE_FAIL_NO_TARGET)
     .requirePlayer(mob)
     .requireAdmin(request.mob.playerMob.authorizationLevel)
+    .require(Maybe.if(mob, () =>
+      !request.player.ownsMob(mob)), MESSAGE_FAIL_CANNOT_BAN_SELF)
+    .require(Maybe.if(mob, () =>
+      !isBanned(mob.getStanding())), MESSAGE_FAIL_ALREADY_BANNED)
+    .not().requireAdmin(
+      Maybe.if(mob, () => mob.getAuthorizationLevel()),
+      MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS)
 
-  const check = await checkBuilder.create()
-  if (!check.isOk()) {
-    return check
-  }
-
-  if (isBanned(mob.playerMob.standing)) {
-    return Check.fail(MESSAGE_FAIL_ALREADY_BANNED)
-  }
-
-  if (request.player.ownsMob(mob)) {
-    return Check.fail(MESSAGE_FAIL_CANNOT_BAN_SELF)
-  }
-
-  if (isSpecialAuthorizationLevel(mob.playerMob.authorizationLevel)) {
-    return Check.fail(MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS)
-  }
-
-  return Check.ok(mob)
+  return await checkBuilder.create(mob)
 }

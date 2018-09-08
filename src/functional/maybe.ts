@@ -4,6 +4,12 @@ enum MaybeStatus {
 }
 
 export default class Maybe<T> {
+  public static if(thing, doIt) {
+    if (thing) {
+      return doIt(thing)
+    }
+  }
+
   private result
   private status: MaybeStatus
 
