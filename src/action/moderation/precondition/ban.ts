@@ -14,10 +14,9 @@ export const MESSAGE_FAIL_NOT_AUTHORIZED = "You cannot do that."
 
 export default async function(request: Request, service: Service): Promise<Check> {
   const mob = service.mobTable.find((m) => m.name === request.subject)
-  const checkBuilder = new CheckBuilder()
-  checkBuilder.requireTarget(mob, MESSAGE_FAIL_NO_TARGET)
+  return new CheckBuilder().requireTarget(mob, MESSAGE_FAIL_NO_TARGET)
     .requirePlayer(mob)
-    .requireAdmin(request.mob.playerMob.authorizationLevel)
+    .requireAdmin(request.getAuthorizationLevel())
     .require(Maybe.if(mob, () =>
       !request.player.ownsMob(mob)), MESSAGE_FAIL_CANNOT_BAN_SELF)
     .require(Maybe.if(mob, () =>
@@ -25,6 +24,5 @@ export default async function(request: Request, service: Service): Promise<Check
     .not().requireAdmin(
       Maybe.if(mob, () => mob.getAuthorizationLevel()),
       MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS)
-
-  return await checkBuilder.create(mob)
+    .create(mob)
 }
