@@ -1,26 +1,22 @@
 import Maybe from "../../../functional/maybe"
-import { isBanned } from "../../../mob/standing"
 import { Request } from "../../../request/request"
 import Service from "../../../room/service"
 import Check from "../../check"
 import CheckBuilder from "../../checkBuilder"
 
 export const MESSAGE_FAIL_NO_TARGET = "They don't exist."
-export const MESSAGE_FAIL_NOT_BANNED = "They are not banned."
-export const MESSAGE_FAIL_CANNOT_UNBAN_SELF = "You cannot un-ban yourself."
-export const MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS = "You cannot un-ban admin accounts."
+export const MESSAGE_FAIL_CANNOT_DEMOTE_SELF = "You cannot demote yourself."
+export const MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS = "Immortals cannot be demoted."
 
 export default async function(request: Request, service: Service): Promise<Check> {
   const mob = service.mobTable.find((m) => m.name === request.subject)
   return new CheckBuilder().requireTarget(mob, MESSAGE_FAIL_NO_TARGET)
     .requirePlayer(mob)
-    .requireSpecialAuthorization(request.getAuthorizationLevel())
+    .requireImmortal(request.getAuthorizationLevel())
     .require(Maybe.if(mob, () =>
-      !request.player.ownsMob(mob)), MESSAGE_FAIL_CANNOT_UNBAN_SELF)
-    .require(Maybe.if(mob, () =>
-      isBanned(mob.getStanding())), MESSAGE_FAIL_NOT_BANNED)
-    .not().requireSpecialAuthorization(
+      !request.player.ownsMob(mob)), MESSAGE_FAIL_CANNOT_DEMOTE_SELF)
+    .not().requireImmortal(
       Maybe.if(mob, () => mob.getAuthorizationLevel()),
-      MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS)
+      MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS)
     .create(mob)
 }

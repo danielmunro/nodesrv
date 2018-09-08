@@ -36,4 +36,6 @@ export enum RequestType {
   // greater than mortal
   Ban = "ban",
   Unban = "unban",
+  Promote = "promote",
+  Demote = "demote",
 }

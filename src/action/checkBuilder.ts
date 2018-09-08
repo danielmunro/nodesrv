@@ -26,9 +26,19 @@ export default class CheckBuilder {
     return this
   }
 
-  public requireAdmin(authorizationLevel: AuthorizationLevel, failMessage = MESSAGE_FAIL_NOT_AUTHORIZED) {
+  public requireSpecialAuthorization(
+    authorizationLevel: AuthorizationLevel, failMessage = MESSAGE_FAIL_NOT_AUTHORIZED) {
     this.checks.push(this.newCheckComponent(
       isSpecialAuthorizationLevel(authorizationLevel),
+      failMessage))
+
+    return this
+  }
+
+  public requireImmortal(
+    authorizationLevel: AuthorizationLevel, failMessage = MESSAGE_FAIL_NOT_AUTHORIZED) {
+    this.checks.push(this.newCheckComponent(
+      authorizationLevel === AuthorizationLevel.Immortal,
       failMessage))
 
     return this

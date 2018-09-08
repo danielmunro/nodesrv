@@ -26,8 +26,12 @@ import wear from "./actions/wear"
 import CheckedRequest from "./checkedRequest"
 import { Collection } from "./definition/collection"
 import ban from "./moderation/actions/ban"
+import demote from "./moderation/actions/demote"
+import promote from "./moderation/actions/promote"
 import unban from "./moderation/actions/unban"
 import { default as banPrecondition } from "./moderation/precondition/ban"
+import { default as demotePrecondition } from "./moderation/precondition/demote"
+import { default as promotePrecondition } from "./moderation/precondition/promote"
 import { default as unbanPrecondition } from "./moderation/precondition/unban"
 import { default as buyPrecondition } from "./precondition/buy"
 import { default as castPrecondition } from "./precondition/cast"
@@ -104,5 +108,7 @@ export default function getActionCollection(service: Service) {
   ], [
     service.getNewDefinition(RequestType.Ban, ban, banPrecondition),
     service.getNewDefinition(RequestType.Unban, unban, unbanPrecondition),
+    service.getNewDefinition(RequestType.Promote, promote, promotePrecondition),
+    service.getNewDefinition(RequestType.Demote, demote, demotePrecondition),
   ])
 }
