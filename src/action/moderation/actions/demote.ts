@@ -22,11 +22,10 @@ export function getNextDemotion(mob: Mob) {
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const target = checkedRequest.check.result
-  const newAuthorizationLevel = getNextDemotion(target)
   const responseBuilder = new ResponseBuilder(checkedRequest.request)
 
-  return new Maybe(newAuthorizationLevel)
-    .do(() => {
+  return new Maybe(getNextDemotion(target))
+    .do((newAuthorizationLevel) => {
       target.playerMob.authorizationLevel = newAuthorizationLevel
       return responseBuilder.success(
         `You demoted ${target.name} to ${getAuthorizationLevelName(newAuthorizationLevel)}.`)

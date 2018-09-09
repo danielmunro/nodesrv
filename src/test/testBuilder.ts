@@ -39,9 +39,9 @@ export default class TestBuilder {
     return new PlayerBuilder(this.player)
   }
 
-  public withAdminPlayer(): PlayerBuilder {
+  public withAdminPlayer(authorizationLevel: AuthorizationLevel = AuthorizationLevel.Admin): PlayerBuilder {
     const playerBuilder = this.withPlayer()
-    playerBuilder.player.sessionMob.playerMob.authorizationLevel = AuthorizationLevel.Admin
+    playerBuilder.player.sessionMob.playerMob.authorizationLevel = authorizationLevel
 
     return playerBuilder
   }

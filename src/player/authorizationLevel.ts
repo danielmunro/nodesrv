@@ -6,6 +6,14 @@ export enum AuthorizationLevel {
   Immortal,
 }
 
+export const allAuthorizationLevels = [
+  AuthorizationLevel.None,
+  AuthorizationLevel.Mortal,
+  AuthorizationLevel.Admin,
+  AuthorizationLevel.Judge,
+  AuthorizationLevel.Immortal,
+]
+
 export function isSpecialAuthorizationLevel(authorizationLevel: AuthorizationLevel): boolean {
   return authorizationLevel > AuthorizationLevel.Mortal
 }
