@@ -11,6 +11,6 @@
       "severity": "warning"
     },
     "interface-name": [true, "never-prefix"],
-    "no-unused-variable": true
+    "no-identical-functions": false
   }
 }

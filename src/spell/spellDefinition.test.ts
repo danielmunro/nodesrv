@@ -36,7 +36,7 @@ describe("spellDefinition", () => {
     expect(check.isFailure() || check.isSuccessful()).toBe(true)
   })
 
-  it("should be able to successfully cast 'magic missile' against a target in a room, and create a new fight", async () => {
+  it("should be able to successfully cast 'magic missile', and create a new fight", async () => {
     const spell = getMagicMissile()
     const client = await getTestClient()
     const sessionMob = client.player.sessionMob

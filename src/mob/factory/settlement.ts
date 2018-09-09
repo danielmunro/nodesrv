@@ -18,9 +18,9 @@ export function newTraveller(): Mob {
 
 export function newSailor(): Mob {
   return newMob(
-    "a sailor stomps by, carrying a large net",
+    "a sailor is here, securing a rigging",
     "",
-    Race.Human,
+    Race.Halfling,
     newVitals(100, 100, 100),
     newAttributes(
       newVitals(100, 100, 100),
@@ -31,13 +31,14 @@ export function newSailor(): Mob {
 
 export function newMerchant(): Mob {
   return newMob(
-    "a merchant walks briskly through the street, counting items off a checklist",
+    "a dwarven merchant walks by briskly, counting items off a checklist",
     "",
-    Race.Human,
+    Race.Dwarf,
     newVitals(100, 100, 100),
     newAttributes(
       newVitals(100, 100, 100),
       newStartingStats(),
       newHitroll(2, 3)),
+    true,
   )
 }

@@ -10,6 +10,7 @@ import AreaBuilder from "./builder/areaBuilder"
 import { newClearing } from "./builder/forest/clearing"
 import { newInn } from "./builder/forest/inn"
 import { newTrail } from "./builder/forest/trail"
+import newDock from "./builder/settlement/dock"
 import newMainStreet from "./builder/settlement/mainStreet"
 import { SectionType } from "./sectionType"
 import WorldBuilder from "./worldBuilder"
@@ -42,9 +43,15 @@ async function getMainStreet(rootRoom: Room): Promise<AreaBuilder> {
   return newMainStreet(rootRoom)
 }
 
+async function getDock(rootRoom: Room): Promise<AreaBuilder> {
+  return newDock(rootRoom)
+}
+
 async function getSettlement(rootRoom: Room): Promise<Region> {
   const settlement = newRegion(SETTLEMENT_REGION, Terrain.Settlement)
   const mainStreet = await getMainStreet(rootRoom)
+  const dock = await getDock(mainStreet.getExitRoom())
+  settlement.addRooms(dock.getAllRooms())
   settlement.addRooms(mainStreet.getAllRooms())
 
   return settlement

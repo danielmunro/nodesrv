@@ -16,7 +16,6 @@ import promote, {
 
 const MOB_TO_BAN = "bob"
 const MOB_SELF = "alice"
-const NOT_EXISTING_MOB = "foo"
 let requestBuilder: RequestBuilder
 let service: Service
 let player: Player

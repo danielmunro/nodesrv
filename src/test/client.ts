@@ -10,7 +10,8 @@ const ws = jest.fn(() => ({
 }))
 
 async function createClient(player, actions, service, startRoom): Promise<Client> {
-  const client = new Client(ws(), "127.0.0.1", actions, service, startRoom, new AuthService(await getPlayerRepository()))
+  const client = new Client(
+    ws(), "127.0.0.1", actions, service, startRoom, new AuthService(await getPlayerRepository()))
   client.player = player
 
   return client

@@ -37,7 +37,7 @@ export default function(request: Request): Promise<Response> {
   const room = request.getRoom()
   const roomDescription = new Maybe(room.region)
     .do((region) =>
-      getSight(request.mob.race).isAbleToSee(0, region.terrain, region.weather)
+      getSight(request.mob.race).isAbleToSee(12, region.terrain, region.weather)
         ? room.toString() : "You can't see anything!")
     .or(() => room.toString())
     .get()
