@@ -128,6 +128,8 @@ export class Fight {
         attacks.push(attack)
         if (y.vitals.hp < 0) {
           this.deathOccurred(x, y, attack)
+
+          return attacks
         }
       }
     }

@@ -51,11 +51,11 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
   const lastAttack = round.getLastAttack()
 
   if (lastAttack.attacker === sessionMob || lastAttack.defender === sessionMob) {
-    round.attacks.forEach((attack) => {
-      message += attackMessage(attack, sessionMob)
+    round.attacks.forEach((attack, i) => {
+      message += (i === 0 ? "" : "\n") + attackMessage(attack, sessionMob)
     })
     round.counters.forEach((counter) => {
-      message += attackMessage(counter, sessionMob)
+      message += "\n" + attackMessage(counter, sessionMob)
     })
 
     if (!round.isFatality) {
