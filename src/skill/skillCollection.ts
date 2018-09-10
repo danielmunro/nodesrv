@@ -3,6 +3,7 @@ import roll from "../random/dice"
 import bashAction from "./actions/bash"
 import berserkAction from "./actions/berserk"
 import dodgeAction from "./actions/dodge"
+import secondAttack from "./actions/secondAttack"
 import sneakAction from "./actions/sneak"
 import tripAction from "./actions/trip"
 import Outcome from "./outcome"
@@ -12,7 +13,6 @@ import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
-import secondAttack from "./actions/secondAttack"
 
 const BASE_IMPROVE_CHANCE = 50
 const SLOW_IMPROVE_CHANCE = 10

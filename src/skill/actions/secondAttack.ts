@@ -1,7 +1,7 @@
+import roll from "../../random/dice"
 import Attempt from "../attempt"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
-import roll from "../../random/dice"
 
 function isSecondAttackInvoked(attempt: Attempt) {
   return roll(1, attempt.skill.level) > attempt.target.level
