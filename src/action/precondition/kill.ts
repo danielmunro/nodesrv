@@ -5,7 +5,7 @@ import CheckBuilder from "../checkBuilder"
 
 export const MESSAGE_FAIL_KILL_NO_TARGET = "Who would you like to kill?"
 export const MESSAGE_FAIL_KILL_ALREADY_FIGHTING = "No way! You are already fighting."
-export const MESSAGE_FAIL_CANNOT_ATTACK_SELF = "No way! You can't attack yourself."
+export const MESSAGE_FAIL_CANNOT_ATTACK_SELF = "No way! You can't attacks yourself."
 
 export default async function(request: Request): Promise<Check> {
   const target = request.getTarget()

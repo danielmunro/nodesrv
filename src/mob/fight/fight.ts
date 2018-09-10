@@ -31,7 +31,7 @@ export function reset() {
 }
 
 async function createStartRoundDefenderTrigger(attacker, defender) {
-  return await createSkillTriggerEvent(defender, Trigger.AttackRoundStart, attacker)
+  return await createSkillTriggerEvent(defender, Trigger.AttackRoundDefend, attacker)
 }
 
 export class Fight {
@@ -96,8 +96,8 @@ export class Fight {
 
   public async round(): Promise<Round> {
     return new Round(
-      this.status === Status.InProgress ? await this.turnFor(this.aggressor, this.target) : null,
-      this.status === Status.InProgress ? await this.turnFor(this.target, this.aggressor) : null,
+      this.status === Status.InProgress ? [await this.turnFor(this.aggressor, this.target)] : [],
+      this.status === Status.InProgress ? [await this.turnFor(this.target, this.aggressor)] : [],
     )
   }
 
@@ -118,6 +118,8 @@ export class Fight {
   }
 
   private async turnFor(x: Mob, y: Mob): Promise<Attack> {
+    createSkillTriggerEvent(x, Trigger.AttackRound, y)
+    // const attacks =
     const attack = await Fight.attack(x, y)
     if (y.vitals.hp < 0) {
       this.deathOccurred(x, y, attack)

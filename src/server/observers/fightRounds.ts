@@ -47,16 +47,23 @@ export function attackMessage(attack: Attack, mob: Mob): string {
 }
 
 function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
-  if (round.attack.attacker === sessionMob || round.attack.defender === sessionMob) {
-    let message = attackMessage(round.attack, sessionMob)
-    if (round.counter) {
-      message += "\n" + attackMessage(round.counter, sessionMob)
-    }
-    const opponent = round.attack.attacker === sessionMob ? round.attack.defender : round.attack.attacker
+  let message = ""
+  const lastAttack = round.getLastAttack()
+
+  if (lastAttack.attacker === sessionMob || lastAttack.defender === sessionMob) {
+    round.attacks.forEach((attack) => {
+      message += attackMessage(attack, sessionMob)
+    })
+    round.counters.forEach((counter) => {
+      message += attackMessage(counter, sessionMob)
+    })
+
     if (!round.isFatality) {
+      const opponent = lastAttack.attacker === sessionMob ? lastAttack.defender : lastAttack.attacker
       message += "\n" + opponent.name + " " + getHealthIndicator(
         opponent.vitals.hp / opponent.getCombinedAttributes().vitals.hp) + "."
     }
+
     return message
   }
 }
@@ -91,7 +98,7 @@ export class FightRounds implements Observer {
   }
 
   private updateRound(round: Round, clientMobMap) {
-    const attack = round.attack
+    const attack = round.getLastAttack()
     FightRounds.getClientFromMobMap(clientMobMap, attack.attacker).do((client) =>
       FightRounds.updateClient(client, attack.attacker, round))
     FightRounds.getClientFromMobMap(clientMobMap, attack.defender).do((client) =>

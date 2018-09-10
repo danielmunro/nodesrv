@@ -26,7 +26,7 @@ export default class Warrior implements Specialization {
       SkillType.Spear,
       SkillType.Whip,
 
-      // attack
+      // attacks
       SkillType.Bash,
       SkillType.Kick,
 

@@ -6,7 +6,7 @@ import { getTestMob } from "../../test/mob"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
 
 describe("fight rounds", () => {
-  it("should generate accurate attack messages", () => {
+  it("should generate accurate attacks messages", () => {
     const mob1 = getTestMob("mob1")
     const mob2 = getTestMob("mob2")
     const damageAmount = 1

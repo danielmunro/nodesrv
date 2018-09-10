@@ -13,7 +13,7 @@ describe("skill trigger factory", () => {
     const target = getTestMob()
 
     // when
-    const triggerFail = await createSkillTriggerEvent(mob, Trigger.AttackRoundStart, target)
+    const triggerFail = await createSkillTriggerEvent(mob, Trigger.AttackRoundDefend, target)
 
     // then
     expect(triggerFail.skillEventResolution).toBe(Resolution.Failed)
@@ -26,7 +26,7 @@ describe("skill trigger factory", () => {
     mob.skills.push(newSkill(SkillType.Dodge, MaxPracticeLevel))
 
     // when
-    const triggerSuccess = await createSkillTriggerEvent(mob, Trigger.AttackRoundStart, target)
+    const triggerSuccess = await createSkillTriggerEvent(mob, Trigger.AttackRoundDefend, target)
 
     // then
     expect(triggerSuccess.skillEventResolution).toBe(Resolution.Invoked)
@@ -39,7 +39,7 @@ describe("skill trigger factory", () => {
     mob.skills.push(newSkill(SkillType.Noop, MaxPracticeLevel))
 
     // when
-    const triggerSuccess = await createSkillTriggerEvent(mob, Trigger.AttackRoundStart, target)
+    const triggerSuccess = await createSkillTriggerEvent(mob, Trigger.AttackRoundDefend, target)
 
     // then
     expect(triggerSuccess.skillEventResolution).toBe(Resolution.Failed)

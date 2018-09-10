@@ -1,7 +1,8 @@
 export enum Trigger {
   Input,
   Attacked,
-  AttackRoundStart,
+  AttackRound,
+  AttackRoundDefend,
   AttackRoundDamage,
   AttackRoundEnd,
   MobArrives,

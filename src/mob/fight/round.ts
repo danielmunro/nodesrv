@@ -6,16 +6,26 @@ export class Round {
   public readonly victor?: Mob
   public readonly vanquished?: Mob
 
-  constructor(public readonly attack: Attack = null, public readonly counter: Attack = null) {
-    this.isFatality = this.attack && !this.attack.isDefenderAlive || this.counter && !this.counter.isDefenderAlive
-    if (!this.attack.isDefenderAlive) {
+  constructor(public readonly attacks: Attack[] = [], public readonly counters: Attack[] = []) {
+    const lastAttack = this.getLastAttack()
+    const lastCounter = this.getLastCounter()
+    this.isFatality = this.attacks && !lastAttack.isDefenderAlive || this.counters && !lastCounter.isDefenderAlive
+    if (!lastAttack.isDefenderAlive) {
       this.isFatality = true
-      this.victor = this.attack.attacker
-      this.vanquished = this.attack.defender
-    } else if (!this.counter.isDefenderAlive) {
+      this.victor = lastAttack.attacker
+      this.vanquished = lastAttack.defender
+    } else if (!lastCounter.isDefenderAlive) {
       this.isFatality = true
-      this.victor = this.counter.attacker
-      this.vanquished = this.counter.defender
+      this.victor = lastCounter.attacker
+      this.vanquished = lastCounter.defender
     }
+  }
+
+  public getLastAttack(): Attack {
+    return this.attacks[this.attacks.length - 1]
+  }
+
+  public getLastCounter(): Attack {
+    return this.counters[this.counters.length - 1]
   }
 }

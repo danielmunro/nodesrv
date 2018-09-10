@@ -25,7 +25,7 @@ export default class Ranger implements Specialization {
       SkillType.Scan,
       SkillType.Peek,
 
-      // attack
+      // attacks
       SkillType.DirtKick,
       SkillType.Trip,
       SkillType.Garotte,

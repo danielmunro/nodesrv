@@ -12,6 +12,7 @@ import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
+import secondAttack from "./actions/secondAttack"
 
 const BASE_IMPROVE_CHANCE = 50
 const SLOW_IMPROVE_CHANCE = 10
@@ -54,8 +55,10 @@ function newWeaponSkill(skillType: SkillType) {
 }
 
 export const skillCollection = [
-  createSkill(SkillType.Dodge, Trigger.AttackRoundStart,
+  createSkill(SkillType.Dodge, Trigger.AttackRoundDefend,
     createCheckImprove(dodgeAction, SLOW_IMPROVE_CHANCE), 10),
+  createSkill(SkillType.SecondAttack, Trigger.AttackRound,
+    createCheckImprove(secondAttack, SLOW_IMPROVE_CHANCE), 10),
   createSkill(SkillType.Bash, Trigger.Input,
     createCheckImprove(bashAction), 5, bashPrecondition),
   createSkill(SkillType.Trip, Trigger.Input,

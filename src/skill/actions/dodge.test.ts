@@ -17,9 +17,11 @@ describe("dodge skill", () => {
       results.push(await fight.round())
     }
 
-    expect(results.every((r: Round) =>
-      r.attack.result === AttackResult.Hit || r.attack.result === AttackResult.Miss)).toBeTruthy()
-    expect(results.some((r: Round) => r.counter.result === AttackResult.Dodge)).toBeTruthy()
-    expect(results.some((r: Round) => r.counter.result === AttackResult.Hit)).toBeTruthy()
+    expect(results.every((r: Round) => {
+      const lastAttack = r.getLastAttack()
+      return lastAttack.result === AttackResult.Hit || lastAttack.result === AttackResult.Miss
+    })).toBeTruthy()
+    expect(results.some((r: Round) => r.getLastCounter().result === AttackResult.Dodge)).toBeTruthy()
+    expect(results.some((r: Round) => r.getLastCounter().result === AttackResult.Hit)).toBeTruthy()
   })
 })
