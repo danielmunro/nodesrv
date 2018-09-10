@@ -8,9 +8,9 @@
     "create-fixtures": "ts-node --no-cache bin/create-fixtures.ts .",
     "clean": "rm -rf ./coverage",
     "lint": "yarn clean && tslint --project .",
-    "test": "ENV=test jest --forceExit --detectOpenHandles -w 3",
+    "test": "ENV=test jest --forceExit --detectOpenHandles",
     "reset-test-db": "ts-node bin/reset-test-db.ts",
-    "test-coverage": "ENV=test jest --coverage --forceExit --detectOpenHandles -w 3"
+    "test-coverage": "ENV=test jest --coverage --forceExit --detectOpenHandles"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],
