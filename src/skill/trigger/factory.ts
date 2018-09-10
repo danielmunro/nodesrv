@@ -17,7 +17,7 @@ function filterBySkillTrigger(skill: Skill, trigger: Trigger) {
   })
 }
 
-function getSkillsByTrigger(mob: Mob, trigger: Trigger) {
+export function getSkillsByTrigger(mob: Mob, trigger: Trigger) {
   return mob.skills.filter((skill) => filterBySkillTrigger(skill, trigger))
 }
 
@@ -37,4 +37,20 @@ export async function createSkillTriggerEvent(mob: Mob, trigger: Trigger, target
   event.skillEventResolution = Resolution.Failed
 
   return event
+}
+
+export async function createSkillTriggerEvents(mob: Mob, trigger: Trigger, target: Mob): Promise<Event[]> {
+  const events = []
+  for (const skill of getSkillsByTrigger(mob, trigger)) {
+    const event = new Event(mob, trigger)
+    if ((await attemptSkillAction(mob, target, skill)).wasSuccessful()) {
+      event.resolveWith(skill.skillType)
+    } else {
+      console.log("HAI!")
+      event.skillEventResolution = Resolution.Failed
+    }
+    events.push(event)
+  }
+
+  return events
 }

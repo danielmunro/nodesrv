@@ -1,11 +1,12 @@
 import Attributes from "../../attributes/model/attributes"
 import roll from "../../random/dice"
-import { createSkillTriggerEvent } from "../../skill/trigger/factory"
+import { createSkillTriggerEvent, createSkillTriggerEvents } from "../../skill/trigger/factory"
 import { Disposition } from "../disposition"
 import { Mob } from "../model/mob"
 import { Trigger } from "../trigger"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import { Round } from "./round"
+import { Resolution } from "../../skill/trigger/resolution"
 
 enum Status {
   InProgress,
@@ -96,8 +97,8 @@ export class Fight {
 
   public async round(): Promise<Round> {
     return new Round(
-      this.status === Status.InProgress ? [await this.turnFor(this.aggressor, this.target)] : [],
-      this.status === Status.InProgress ? [await this.turnFor(this.target, this.aggressor)] : [],
+      this.status === Status.InProgress ? await this.turnFor(this.aggressor, this.target) : [],
+      this.status === Status.InProgress ? await this.turnFor(this.target, this.aggressor) : [],
     )
   }
 
@@ -117,15 +118,21 @@ export class Fight {
     this.status = Status.Done
   }
 
-  private async turnFor(x: Mob, y: Mob): Promise<Attack> {
-    createSkillTriggerEvent(x, Trigger.AttackRound, y)
-    // const attacks =
-    const attack = await Fight.attack(x, y)
-    if (y.vitals.hp < 0) {
-      this.deathOccurred(x, y, attack)
+  private async turnFor(x: Mob, y: Mob): Promise<Attack[]> {
+    const attacks = []
+    const events = await createSkillTriggerEvents(x, Trigger.AttackRound, y)
+    for (let i = -1; i < events.length; i++) {
+      const doAttack = i >= 0 ? events[i].skillEventResolution === Resolution.Invoked : true
+      if (doAttack) {
+        const attack = await Fight.attack(x, y)
+        attacks.push(attack)
+        if (y.vitals.hp < 0) {
+          this.deathOccurred(x, y, attack)
+        }
+      }
     }
 
-    return attack
+    return attacks
   }
 
   private deathOccurred(winner: Mob, vanquished: Mob, attack: Attack) {
