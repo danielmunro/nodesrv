@@ -8,6 +8,18 @@ import { Mob } from "../../mob/model/mob"
 import Table from "../../room/table"
 import { Observer } from "./observer"
 
+enum AttackLabel {
+  Regular = "(reg)",
+  Second = "(2nd)",
+  Third = "(3rd)",
+}
+
+const allAttacks = [
+  AttackLabel.Regular,
+  AttackLabel.Second,
+  AttackLabel.Third,
+]
+
 export function getHealthIndicator(percent): string {
   if (percent === 1) {
     return "is in excellent condition"
@@ -47,24 +59,24 @@ export function attackMessage(attack: Attack, mob: Mob): string {
 }
 
 function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
-  let message = ""
+  const messages = []
   const lastAttack = round.getLastAttack()
+  const attacker = lastAttack.attacker
+  const defender = lastAttack.defender
 
-  if (lastAttack.attacker === sessionMob || lastAttack.defender === sessionMob) {
-    round.attacks.forEach((attack, i) => {
-      message += (i === 0 ? "" : "\n") + attackMessage(attack, sessionMob)
-    })
-    round.counters.forEach((counter) => {
-      message += "\n" + attackMessage(counter, sessionMob)
-    })
+  if (attacker === sessionMob || defender === sessionMob) {
+    const mapper = (r, i) =>
+      (r.attacker === sessionMob ? allAttacks[i] + " " : "") + attackMessage(r, sessionMob)
+    messages.push(...round.attacks.map(mapper))
+    messages.push(...round.counters.map(mapper))
 
     if (!round.isFatality) {
-      const opponent = lastAttack.attacker === sessionMob ? lastAttack.defender : lastAttack.attacker
-      message += "\n" + opponent.name + " " + getHealthIndicator(
-        opponent.vitals.hp / opponent.getCombinedAttributes().vitals.hp) + "."
+      const opponent = attacker === sessionMob ? defender : attacker
+      messages.push(opponent.name + " " + getHealthIndicator(
+        opponent.vitals.hp / opponent.getCombinedAttributes().vitals.hp) + ".")
     }
 
-    return message
+    return messages.join("\n")
   }
 }
 
