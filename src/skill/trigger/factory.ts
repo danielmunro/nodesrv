@@ -46,7 +46,6 @@ export async function createSkillTriggerEvents(mob: Mob, trigger: Trigger, targe
     if ((await attemptSkillAction(mob, target, skill)).wasSuccessful()) {
       event.resolveWith(skill.skillType)
     } else {
-      console.log("HAI!")
       event.skillEventResolution = Resolution.Failed
     }
     events.push(event)
