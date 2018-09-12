@@ -19,7 +19,7 @@ describe("second attacks skill action", () => {
     const fight = new Fight(mob, target)
 
     // when
-    const rounds = await Promise.all(doNTimes(10, () => fight.round()))
+    const rounds = await doNTimes(10, () => fight.round())
 
     // then
     expect(rounds.find((round) => round.attacks.length > 1)).not.toBeUndefined()

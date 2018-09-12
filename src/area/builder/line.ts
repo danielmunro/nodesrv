@@ -1,3 +1,4 @@
+import doNTimes from "../../functional/times"
 import { SectionType } from "../sectionType"
 import AreaBuilder from "./areaBuilder"
 import Shape from "./shape"
@@ -7,9 +8,8 @@ export default class Line implements Shape {
 
   public async build(areaBuilder: AreaBuilder): Promise<void> {
     await areaBuilder.buildSection(SectionType.Root, this.direction)
-    for (let i = 0; i < this.length; i++) {
-      await areaBuilder.buildSection(SectionType.Connection, this.direction)
-    }
+    await doNTimes(this.length, async () =>
+      await areaBuilder.buildSection(SectionType.Connection, this.direction))
     const allRooms = areaBuilder.getAllRooms()
     areaBuilder.setExitRoom(allRooms[allRooms.length - 1])
   }
