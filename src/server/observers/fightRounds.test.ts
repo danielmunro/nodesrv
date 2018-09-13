@@ -52,7 +52,7 @@ describe("fight rounds", () => {
     expect(getFights().length).toBe(0)
   })
 
-  it("should be able to use fight rounds", async () => {
+  it("should filter out fight rounds that are complete", async () => {
     // Setup
     const client = await getTestClient()
     client.player.sessionMob.vitals.hp = 1

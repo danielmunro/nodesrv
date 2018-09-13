@@ -1,9 +1,27 @@
-import { newAttributes, newHitroll, newStartingStats, newVitals } from "../attributes/factory"
+import {
+  newAttributes,
+  newHitroll,
+  newStartingAttributes,
+  newStartingStats,
+  newStartingVitals,
+  newVitals,
+} from "../attributes/factory"
 import Attributes from "../attributes/model/attributes"
 import Vitals from "../attributes/model/vitals"
 import { Item } from "../item/model/item"
 import { Mob } from "./model/mob"
 import { Race } from "./race/race"
+
+export function newCritterMob(name: string, description: string, level: number): Mob {
+  const vitals = newStartingVitals(level)
+  return newMob(
+    name,
+    description,
+    Race.Critter,
+    vitals,
+    newStartingAttributes(vitals.copy(), level),
+    true)
+}
 
 export function newMob(name: string, description: string, race: Race, vitals: Vitals,
                        attributes: Attributes, wanders: boolean = false, items: Item[] = []): Mob {
@@ -18,26 +36,4 @@ export function newMob(name: string, description: string, race: Race, vitals: Vi
   items.forEach((item) => mob.inventory.addItem(item))
 
   return mob
-}
-
-export function newMobWithArgs(
-  name: string,
-  description: string,
-  race: Race,
-  hp: number,
-  mana: number,
-  mv: number,
-  hit: number,
-  dam: number,
-  wanders: boolean) {
-  return newMob(
-    name,
-    description,
-    race,
-    newVitals(hp, mana, mv),
-    newAttributes(
-      newVitals(hp, mana, mv),
-      newStartingStats(),
-      newHitroll(hit, dam)),
-    wanders)
 }

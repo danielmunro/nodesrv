@@ -1,5 +1,4 @@
 {
-  "defaultSeverity": "warning",
   "extends": [
     "tslint:recommended",
     "tslint-sonarts"
@@ -7,9 +6,6 @@
   "rules": {
     "semicolon": [true, "never"],
     "no-console": false,
-    "no-empty": {
-      "severity": "warning"
-    },
     "interface-name": [true, "never-prefix"],
     "no-identical-functions": false
   }

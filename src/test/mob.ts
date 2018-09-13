@@ -1,25 +1,22 @@
 import * as sillyname from "sillyname"
-import { newAttributes, newHitroll, newStartingStats, newStartingVitals } from "../attributes/factory"
+import { newStartingAttributes, newStartingVitals } from "../attributes/factory"
 import { newMob } from "../mob/factory"
 import { Mob } from "../mob/model/mob"
 import { Race } from "../mob/race/race"
 import { Role } from "../mob/role"
 import { getTestRoom } from "./room"
 
-export function getTestMob(name: string = null): Mob {
+export function getTestMob(name: string = null, level: number = 1): Mob {
   if (name === null) {
     name = sillyname()
   }
+  const vitals = newStartingVitals(level)
   const mob = newMob(
     name,
     "a test fixture",
     Race.Human,
-    newStartingVitals(),
-    newAttributes(
-      newStartingVitals(),
-      newStartingStats(),
-      newHitroll(0, 0),
-    ))
+    vitals,
+    newStartingAttributes(vitals.copy(), level))
   mob.room = getTestRoom()
   mob.room.addMob(mob)
 

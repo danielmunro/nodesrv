@@ -1,6 +1,5 @@
 import roll from "../../random/dice"
-import { newMobWithArgs } from "../factory"
-import { Race } from "../race/race"
+import { newCritterMob } from "../factory"
 
 export function newCritter() {
   switch (roll(1, 4)) {
@@ -15,30 +14,30 @@ export function newCritter() {
   }
 }
 
-export function newSnail() {
-  return newMobWithArgs("a snail", "a snail struggles to get out of your way",
-    Race.Insect, 6, 0, 100, 1, 1, true)
+export function newSnail(level: number = 1) {
+  return newCritterMob(
+    "a snail",
+    "a snail struggles to get out of your way",
+    level)
 }
 
-export function newFox() {
-  return newMobWithArgs("a fox", "a fox scurries through the underbrush",
-    Race.Critter, 20, 0, 100, 2, 2, true)
+export function newFox(level: number = 3) {
+  return newCritterMob(
+    "a fox",
+    "a fox scurries through the underbrush",
+    level)
 }
 
-export function newLizard() {
-  return newMobWithArgs("a lizard", "a lizard stands in the shade under a large leaf",
-    Race.Critter, 10, 0, 100, 2, 1, true)
+export function newLizard(level: number = 2) {
+  return newCritterMob(
+    "a lizard",
+    "a lizard stands in the shade under a large leaf",
+    level)
 }
 
-export function newSparrow() {
-  return newMobWithArgs(
+export function newSparrow(level: number = 2) {
+  return newCritterMob(
     "a sparrow",
     "a sparrow stands on a low branch, chirping into the wind",
-    Race.Critter,
-    8,
-    0,
-    100,
-    1,
-    2,
-    true)
+    level)
 }

@@ -1,13 +1,14 @@
+import roll from "../random/dice"
 import Attributes from "./model/attributes"
 import Hitroll from "./model/hitroll"
 import Stats from "./model/stats"
 import Vitals from "./model/vitals"
 
-export function newStartingVitals(): Vitals {
+export function newStartingVitals(level: number = 1): Vitals {
   const vitals = new Vitals()
-  vitals.hp = 20
-  vitals.mana = 100
-  vitals.mv = 100
+  vitals.hp = 20 + roll(level / 2, 20)
+  vitals.mana = 100 + roll(level, 20)
+  vitals.mv = 100 + roll(level, 20)
 
   return vitals
 }
@@ -43,6 +44,13 @@ export function newHitroll(hit: number, dam: number): Hitroll {
   hitroll.dam = dam
 
   return hitroll
+}
+
+export function newStartingAttributes(vitals: Vitals, level: number = 1): Attributes {
+  return newAttributes(
+    vitals,
+    newStartingStats(),
+    newHitroll(1 + Math.floor(level / 3), 1 + Math.ceil(level / 2)))
 }
 
 export function newAttributes(vitals: Vitals, stats: Stats, hitroll: Hitroll): Attributes {
