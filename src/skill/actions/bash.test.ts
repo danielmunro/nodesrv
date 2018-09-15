@@ -5,11 +5,16 @@ import Attempt from "../attempt"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import bash, { MESSAGE_FAIL, MESSAGE_NO_SKILL } from "./bash"
+import AttemptContext from "../attemptContext"
+import { Trigger } from "../../mob/trigger"
 
 const RETRY_COUNT = 10
 
 function createBashRequest(mob: Mob, target: Mob): Attempt {
-  return new Attempt(mob, target, mob.skills.find((s) => s.skillType === SkillType.Bash))
+  return new Attempt(
+    mob,
+    mob.skills.find((s) => s.skillType === SkillType.Bash),
+    new AttemptContext(Trigger.Input, target))
 }
 
 function bashRepeater(mob: Mob, target: Mob) {

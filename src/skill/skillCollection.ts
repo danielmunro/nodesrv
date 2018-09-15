@@ -43,7 +43,7 @@ function checkImprove(outcome: Outcome, baseImproveChance: number = BASE_IMPROVE
 }
 
 function createCheckImprove(method, improveChance = BASE_IMPROVE_CHANCE) {
-  return async (attempt) => checkImprove( await method(attempt), improveChance)
+  return async (attempt) => checkImprove(await method(attempt), improveChance)
 }
 
 function newWeaponSkill(skillType: SkillType) {

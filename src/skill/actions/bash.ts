@@ -10,7 +10,7 @@ export const MESSAGE_FAIL = "You fall flat on your face!"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   const mob = attempt.mob
-  const target = attempt.target
+  const target = attempt.attemptContext.subject
   const skill = mob.skills.find((s) => s.skillType === SkillType.Bash)
 
   if (!skill) {

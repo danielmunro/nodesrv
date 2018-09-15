@@ -5,6 +5,8 @@ import { CheckResult } from "../checkResult"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import trip, { COST_DELAY, COST_MV, MESSAGE_FAIL_TOO_TIRED } from "./trip"
+import AttemptContext from "../attemptContext"
+import { Trigger } from "../../mob/trigger"
 
 describe("trip skill precondition", () => {
   it("should not work if the mob is out of movement", async () => {
@@ -14,7 +16,8 @@ describe("trip skill precondition", () => {
     player.sessionMob.vitals.mv = 0
 
     // when
-    const check = await trip(new Attempt(player.sessionMob, target, newSkill(SkillType.Trip)))
+    const check = await trip(
+      new Attempt(player.sessionMob, newSkill(SkillType.Trip), new AttemptContext(Trigger.Input, target)))
 
     // then
     expect(check.checkResult).toBe(CheckResult.Unable)
@@ -27,7 +30,8 @@ describe("trip skill precondition", () => {
     const target = getTestMob()
 
     // when
-    const check = await trip(new Attempt(player.sessionMob, target, newSkill(SkillType.Trip)))
+    const check = await trip(
+      new Attempt(player.sessionMob, newSkill(SkillType.Trip), new AttemptContext(Trigger.Input, target)))
 
     // then
     expect(check.checkResult).toBe(CheckResult.Able)

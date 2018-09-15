@@ -7,6 +7,8 @@ import Attempt from "../skill/attempt"
 import { CheckResult } from "../skill/checkResult"
 import { skillCollection } from "../skill/skillCollection"
 import { SkillType } from "../skill/skillType"
+import AttemptContext from "../skill/attemptContext"
+import { Trigger } from "../mob/trigger"
 
 export function doWithItemOrElse(
   request: Request, item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
@@ -23,7 +25,7 @@ export async function doSkill(request: Request, skillType: SkillType): Promise<R
   const mob = request.player.sessionMob
   const skillModel = mob.skills.find((s) => s.skillType === skillType)
   const skillDefinition = skillCollection.find((skillDef) => skillDef.isSkillTypeMatch(skillType))
-  const attempt = new Attempt(mob, request.getTarget(), skillModel)
+  const attempt = new Attempt(mob, skillModel, new AttemptContext(Trigger.Input, request.getTarget()))
   const responseBuilder = new ResponseBuilder(request)
 
   if (skillDefinition.preconditions) {

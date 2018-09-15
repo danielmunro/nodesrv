@@ -6,7 +6,7 @@ import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
-  if (calculateDodgeRoll(attempt.mob, attempt.skill) > calculateHitRoll(attempt.target)) {
+  if (calculateDodgeRoll(attempt.mob, attempt.skill) > calculateHitRoll(attempt.attemptContext.subject)) {
     return new Outcome(attempt, OutcomeType.Success, "you dodged!")
   }
 

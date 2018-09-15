@@ -6,6 +6,8 @@ import { CheckResult } from "../checkResult"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import bash, { COST_DELAY, COST_MV, MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_TOO_TIRED } from "./bash"
+import AttemptContext from "../attemptContext"
+import { Trigger } from "../../mob/trigger"
 
 describe("bash skill precondition", () => {
   it("should not allow bashing when too tired", async () => {
@@ -15,7 +17,8 @@ describe("bash skill precondition", () => {
     mob.vitals.mv = 0
 
     // when
-    const check = await bash(new Attempt(mob, target, newSkill(SkillType.Bash, MaxPracticeLevel)))
+    const check = await bash(
+      new Attempt(mob, newSkill(SkillType.Bash, MaxPracticeLevel), new AttemptContext(Trigger.Input, target)))
 
     // then
     expect(check.checkResult).toBe(CheckResult.Unable)
@@ -27,7 +30,8 @@ describe("bash skill precondition", () => {
     const mob = getTestMob()
 
     // when
-    const check = await bash(new Attempt(mob, mob, newSkill(SkillType.Bash, MaxPracticeLevel)))
+    const check = await bash(
+      new Attempt(mob, newSkill(SkillType.Bash, MaxPracticeLevel), new AttemptContext(Trigger.Input, mob)))
 
     // then
     expect(check.checkResult).toBe(CheckResult.Unable)
@@ -40,7 +44,8 @@ describe("bash skill precondition", () => {
     const target = getTestMob()
 
     // when
-    const check = await bash(new Attempt(mob, target, newSkill(SkillType.Bash, MaxPracticeLevel)))
+    const check = await bash(
+      new Attempt(mob, newSkill(SkillType.Bash, MaxPracticeLevel), new AttemptContext(Trigger.Input, target)))
 
     // then
     expect(check.checkResult).toBe(CheckResult.Able)
@@ -50,7 +55,11 @@ describe("bash skill precondition", () => {
     // given
     const player = getTestPlayer()
     const target = getTestMob()
-    const check = await bash(new Attempt(player.sessionMob, target, newSkill(SkillType.Bash, MaxPracticeLevel)))
+    const check = await bash(
+      new Attempt(
+        player.sessionMob,
+        newSkill(SkillType.Bash, MaxPracticeLevel),
+        new AttemptContext(Trigger.Input, target)))
     const startingMv = player.sessionMob.vitals.mv
     const startingDelay = player.delay
 

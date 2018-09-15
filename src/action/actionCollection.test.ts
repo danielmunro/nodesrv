@@ -10,14 +10,14 @@ describe("actions actions collection", () => {
     // given
     const testBuilder = new TestBuilder()
     testBuilder.withPlayer().withSkill(SkillType.Bash)
-    const mob = testBuilder.withMob("bob").mob
+    const target = testBuilder.withMob("bob").mob
     const actions = await testBuilder.getActionCollection()
 
     // and
     const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Bash)
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Bash, "bash bob", mob))
+    const response = await action.handle(testBuilder.createRequest(RequestType.Bash, "bash bob", target))
 
     // then
     expect(response.status).not.toBe(ResponseStatus.PreconditionsFailed)

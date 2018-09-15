@@ -11,14 +11,15 @@ import { OutcomeType } from "../outcomeType"
 const DELAY = 1
 
 export default async function(attempt: Attempt): Promise<Outcome> {
-  if (calculateTripRoll(attempt.mob, attempt.skill) > calculateDefenseRoll(attempt.target)) {
+  const target = attempt.attemptContext.subject
+  if (calculateTripRoll(attempt.mob, attempt.skill) > calculateDefenseRoll(target)) {
     const amount = attempt.skill.level / 10
-    attempt.target.addAffect(newAffect(AffectType.Dazed, amount))
-    attempt.target.vitals.hp -= amount
-    return new Outcome(attempt, OutcomeType.Success, `You tripped ${attempt.target}!`, DELAY)
+    target.addAffect(newAffect(AffectType.Dazed, amount))
+    target.vitals.hp -= amount
+    return new Outcome(attempt, OutcomeType.Success, `You tripped ${target}!`, DELAY)
   }
 
-  return new Outcome(attempt, OutcomeType.Failure, `You failed to trip ${attempt.target}.`, DELAY)
+  return new Outcome(attempt, OutcomeType.Failure, `You failed to trip ${target}.`, DELAY)
 }
 
 function calculateDefenseRoll(mob: Mob): number {

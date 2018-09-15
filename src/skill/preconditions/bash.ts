@@ -10,7 +10,7 @@ export const MESSAGE_FAIL_TOO_TIRED = "You are too tired."
 
 export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
-  const target = attempt.target
+  const target = attempt.attemptContext.subject
   if (!target || mob === target) {
     return failCheck(attempt, MESSAGE_FAIL_NO_TARGET)
   }

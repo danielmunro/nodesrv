@@ -55,7 +55,6 @@ describe("fight rounds", () => {
   it("should filter out fight rounds that are complete", async () => {
     // Setup
     const client = await getTestClient()
-    client.player.sessionMob.vitals.hp = 1
     const opponent = getTestMob()
     opponent.room = client.player.sessionMob.room
     const fight = new Fight(opponent, client.player.sessionMob)
