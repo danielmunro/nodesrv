@@ -11,7 +11,7 @@ import { OutcomeType } from "../outcomeType"
 const DELAY = 1
 
 export default async function(attempt: Attempt): Promise<Outcome> {
-  const target = attempt.attemptContext.subject
+  const target = attempt.getSubjectAsMob()
   if (calculateTripRoll(attempt.mob, attempt.skill) > calculateDefenseRoll(target)) {
     const amount = attempt.skill.level / 10
     target.addAffect(newAffect(AffectType.Dazed, amount))
