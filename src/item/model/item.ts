@@ -33,6 +33,9 @@ export class Item {
   @Column("boolean", { default: true })
   public isTransferable: boolean = true
 
+  @Column("integer")
+  public level: number = 0
+
   @ManyToOne((type) => Inventory, (inventory) => inventory.items)
   public inventory: Inventory
 

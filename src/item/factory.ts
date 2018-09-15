@@ -14,6 +14,7 @@ export function newShield(name: string, description: string): Item {
 
 function newItem(name: string, description: string): Item {
   const item = new Item()
+  item.level = 1
   item.name = name
   item.description = description
 

@@ -3,12 +3,14 @@ import roll from "../random/dice"
 import bashAction from "./actions/bash"
 import berserkAction from "./actions/berserk"
 import dodgeAction from "./actions/dodge"
+import envenomAction from "./actions/envenom"
 import secondAttack from "./actions/secondAttack"
 import sneakAction from "./actions/sneak"
 import tripAction from "./actions/trip"
 import Outcome from "./outcome"
 import bashPrecondition from "./preconditions/bash"
 import berserkPrecondition from "./preconditions/berserk"
+import envenomPrecondition from "./preconditions/envenom"
 import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
@@ -67,6 +69,8 @@ export const skillCollection = [
     createCheckImprove(berserkAction), 20, berserkPrecondition),
   createSkill(SkillType.Sneak, Trigger.Input,
     createCheckImprove(sneakAction), 20, sneakPrecondition),
+  createSkill(SkillType.Envenom, Trigger.Input,
+    createCheckImprove(envenomAction), 20, envenomPrecondition),
   newWeaponSkill(SkillType.Sword),
   newWeaponSkill(SkillType.Mace),
   newWeaponSkill(SkillType.Wand),
