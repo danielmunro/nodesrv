@@ -1,12 +1,12 @@
 import { addFight, Fight, reset } from "../../mob/fight/fight"
 import { Mob } from "../../mob/model/mob"
+import { Trigger } from "../../mob/trigger"
 import { getTestMob } from "../../test/mob"
 import Attempt from "../attempt"
+import AttemptContext from "../attemptContext"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import bash, { MESSAGE_FAIL, MESSAGE_NO_SKILL } from "./bash"
-import AttemptContext from "../attemptContext"
-import { Trigger } from "../../mob/trigger"
 
 const RETRY_COUNT = 10
 

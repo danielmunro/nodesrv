@@ -1,9 +1,9 @@
 import { Mob } from "../mob/model/mob"
+import { Trigger } from "../mob/trigger"
 import Attempt from "./attempt"
+import AttemptContext from "./attemptContext"
 import { Skill } from "./model/skill"
 import { SkillType } from "./skillType"
-import AttemptContext from "./attemptContext"
-import { Trigger } from "../mob/trigger"
 
 export function newSkill(skillType: SkillType, level: number = 1) {
   const skill = new Skill()

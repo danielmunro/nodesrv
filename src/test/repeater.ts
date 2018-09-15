@@ -1,10 +1,10 @@
 import { Mob } from "../mob/model/mob"
+import { Trigger } from "../mob/trigger"
 import Attempt from "../skill/attempt"
+import AttemptContext from "../skill/attemptContext"
 import { newSelfTargetAttempt } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import Outcome from "../skill/outcome"
-import AttemptContext from "../skill/attemptContext"
-import { Trigger } from "../mob/trigger"
 
 async function repeater(call, count: number = 10) {
   const times = new Array(count)

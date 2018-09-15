@@ -1,14 +1,14 @@
 import { Item } from "../item/model/item"
+import { Trigger } from "../mob/trigger"
 import { Request } from "../request/request"
 import Response from "../request/response"
 import ResponseBuilder from "../request/responseBuilder"
 import { ResponseStatus } from "../request/responseStatus"
 import Attempt from "../skill/attempt"
+import AttemptContext from "../skill/attemptContext"
 import { CheckResult } from "../skill/checkResult"
 import { skillCollection } from "../skill/skillCollection"
 import { SkillType } from "../skill/skillType"
-import AttemptContext from "../skill/attemptContext"
-import { Trigger } from "../mob/trigger"
 
 export function doWithItemOrElse(
   request: Request, item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
