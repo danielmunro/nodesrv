@@ -6,6 +6,8 @@ import {
   newStartingVitals,
 } from "../attributes/factory"
 import { newWeapon } from "../item/factory"
+import { Item } from "../item/model/item"
+import TestBuilder from "../test/testBuilder"
 import { newMob } from "./factory"
 import { Race } from "./race/race"
 
@@ -39,8 +41,8 @@ describe("mob factory", () => {
   })
 
   it("should be able to newTable with items", () => {
-    const testItem1 = newWeapon("", "")
-    const testItem2 = newWeapon("", "")
+    const testItem1 = new Item()
+    const testItem2 = new Item()
     const mob = newMob(
       "",
       "",

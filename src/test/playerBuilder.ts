@@ -1,4 +1,7 @@
+import { DamageType } from "../damage/damageType"
+import { newWeapon } from "../item/factory"
 import { Item } from "../item/model/item"
+import { WeaponType } from "../item/weaponType"
 import { Disposition } from "../mob/disposition"
 import { Player } from "../player/model/player"
 import { newSkill } from "../skill/factory"
@@ -7,15 +10,24 @@ import { SkillType } from "../skill/skillType"
 import AbstractBuilder from "./abstractBuilder"
 
 export default class PlayerBuilder extends AbstractBuilder {
+  private equipNextEquipment = false
+
   constructor(public readonly player: Player) {
     super()
   }
 
-  public withTestEquipment(): Item {
-    const equipment = super.withTestEquipment()
-    this.player.sessionMob.inventory.addItem(equipment)
+  public equip(): PlayerBuilder {
+    this.equipNextEquipment = true
 
-    return equipment
+    return this
+  }
+
+  public withHelmetEq(): Item {
+    return this.doEquip(super.withHelmetEq())
+  }
+
+  public withAxeEq(): Item {
+    return this.doEquip(super.withAxeEq())
   }
 
   public withFood(): Item {
@@ -34,5 +46,17 @@ export default class PlayerBuilder extends AbstractBuilder {
 
   public withDisposition(disposition: Disposition) {
     this.player.sessionMob.disposition = disposition
+  }
+
+  private doEquip(equipment) {
+    if (this.equipNextEquipment) {
+      this.equipNextEquipment = false
+      this.player.sessionMob.equipped.inventory.addItem(equipment)
+      return equipment
+    }
+
+    this.player.sessionMob.inventory.addItem(equipment)
+
+    return equipment
   }
 }

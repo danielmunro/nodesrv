@@ -23,7 +23,7 @@ describe("drop actions precondition", () => {
   it("should be ok if the item is in the mob's inventory", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const equipment = testBuilder.withPlayer().withTestEquipment()
+    const equipment = testBuilder.withPlayer().withHelmetEq()
 
     // when
     const check = await drop(testBuilder.createRequest(RequestType.Drop, "drop cap"))
@@ -36,7 +36,7 @@ describe("drop actions precondition", () => {
   it("should fail if the item is cursed", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const equipment = testBuilder.withPlayer().withTestEquipment()
+    const equipment = testBuilder.withPlayer().withHelmetEq()
     equipment.affects.push(newAffect(AffectType.Curse))
 
     // when
@@ -50,7 +50,7 @@ describe("drop actions precondition", () => {
   it("should not be able to drop an item that is not transferable", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const item = testBuilder.withPlayer().withTestEquipment()
+    const item = testBuilder.withPlayer().withHelmetEq()
     testBuilder.withRoom()
     item.isTransferable = false
 

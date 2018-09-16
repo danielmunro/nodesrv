@@ -1,8 +1,10 @@
 import getActionCollection from "../action/actionCollection"
 import Check, { CheckStatus } from "../action/check"
 import CheckedRequest from "../action/checkedRequest"
+import { DamageType } from "../damage/damageType"
 import { newWeapon } from "../item/factory"
 import { Item } from "../item/model/item"
+import { WeaponType } from "../item/weaponType"
 import { Mob } from "../mob/model/mob"
 import { Role } from "../mob/role"
 import { AuthorizationLevel } from "../player/authorizationLevel"
@@ -42,7 +44,11 @@ export default class TestBuilder {
   }
 
   public addWeaponToPlayerInventory(): Item {
-    const weapon = newWeapon("a practice mace", "A wooden practice mace")
+    const weapon = newWeapon(
+      "a practice mace",
+      "A wooden practice mace",
+      WeaponType.Mace,
+      DamageType.Bash)
     this.player.sessionMob.inventory.addItem(weapon)
 
     return weapon

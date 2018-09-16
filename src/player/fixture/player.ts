@@ -1,6 +1,8 @@
 import { newAttributes, newHitroll, newStartingVitals } from "../../attributes/factory"
 import Stats from "../../attributes/model/stats"
+import { DamageType } from "../../damage/damageType"
 import { newShield, newWeapon } from "../../item/factory"
+import { WeaponType } from "../../item/weaponType"
 import { newMob } from "../../mob/factory"
 import { Race } from "../../mob/race/race"
 import { Room } from "../../room/model/room"
@@ -28,7 +30,9 @@ export function getPlayerProvider(startRoom: Room) {
       [
         newWeapon(
           "a wooden practice sword",
-          "A small wooden practice sword has been left here."),
+          "A small wooden practice sword has been left here.",
+          WeaponType.Sword,
+          DamageType.Slash),
         newShield(
           "a cracked wooden practice shield",
           "A wooden practice shield has been carelessly left here.")])

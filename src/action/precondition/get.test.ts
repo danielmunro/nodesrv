@@ -22,7 +22,7 @@ describe("get actions precondition", () => {
     // given
     const testBuilder = new TestBuilder()
     testBuilder.withPlayer()
-    const equipment = testBuilder.withRoom().withTestEquipment()
+    const equipment = testBuilder.withRoom().withHelmetEq()
 
     // when
     const check = await drop(testBuilder.createRequest(RequestType.Drop, "drop cap"))
@@ -36,7 +36,7 @@ describe("get actions precondition", () => {
     // setup
     const testBuilder = new TestBuilder()
     testBuilder.withPlayer()
-    const item = testBuilder.withRoom().withTestEquipment()
+    const item = testBuilder.withRoom().withHelmetEq()
     item.isTransferable = false
 
     // when

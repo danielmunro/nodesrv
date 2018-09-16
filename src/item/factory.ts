@@ -1,11 +1,23 @@
 import Attributes from "../attributes/model/attributes"
+import { DamageType } from "../damage/damageType"
 import { Equipment } from "./equipment"
 import { ItemType } from "./itemType"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
+import Weapon from "./model/weapon"
+import { WeaponType } from "./weaponType"
 
-export function newWeapon(name: string, description: string): Item {
-  return newEquipment(name, description, Equipment.Weapon)
+export function newWeapon(name: string, description: string, weaponType: WeaponType, damageType: DamageType): Item {
+  const weapon = new Weapon()
+  weapon.name = name
+  weapon.description = description
+  weapon.itemType = ItemType.Equipment
+  weapon.equipment = Equipment.Weapon
+  weapon.weaponType = weaponType
+  weapon.damageType = damageType
+  weapon.level = 1
+
+  return weapon
 }
 
 export function newShield(name: string, description: string): Item {

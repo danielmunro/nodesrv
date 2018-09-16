@@ -1,22 +1,25 @@
+import { DamageType } from "../../damage/damageType"
 import { newShield, newWeapon } from "../../item/factory"
+import { WeaponType } from "../../item/weaponType"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
+import TestBuilder from "../../test/testBuilder"
 import equipped from "./equipped"
 
 describe("equipped", () => {
   it("should describe the items worn by a mob", async () => {
     // setup
-    const player = getTestPlayer()
-    const mob = player.sessionMob
-    mob.equipped.inventory.addItem(newShield("a test shield", "a test"))
-    mob.inventory.addItem(newWeapon("a test weapon", "a test"))
+    const  testBuilder = new TestBuilder()
+    const playerBuilder = testBuilder.withPlayer()
+    const helmet = playerBuilder.equip().withHelmetEq()
+    const axe = playerBuilder.withAxeEq()
 
     // when
-    const response = await equipped(new Request(player, RequestType.Equipped))
+    const response = await equipped(new Request(playerBuilder.player, RequestType.Equipped))
 
     // then
-    expect(response.message).toContain("a test shield")
-    expect(response.message).not.toContain("a test weapon")
+    expect(response.message).toContain(helmet.name)
+    expect(response.message).not.toContain(axe.name)
   })
 })

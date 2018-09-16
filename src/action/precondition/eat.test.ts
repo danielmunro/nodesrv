@@ -24,7 +24,7 @@ describe("eat action precondition", () => {
     // given
     const testBuilder = new TestBuilder()
     const playerBuilder = testBuilder.withPlayer()
-    const eq = playerBuilder.withTestEquipment()
+    const eq = playerBuilder.withHelmetEq()
 
     // when
     const check = await eat(new Request(playerBuilder.player, RequestType.Eat, `eat ${eq.name}`))

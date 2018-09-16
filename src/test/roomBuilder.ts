@@ -7,8 +7,8 @@ export default class RoomBuilder extends AbstractBuilder {
     super()
   }
 
-  public withTestEquipment(): Item {
-    const equipment = super.withTestEquipment()
+  public withHelmetEq(): Item {
+    const equipment = super.withHelmetEq()
     this.room.inventory.addItem(equipment)
 
     return equipment

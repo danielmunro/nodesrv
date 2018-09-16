@@ -10,7 +10,7 @@ describe("drop", () => {
     const mob = playerBuilder.player.sessionMob
 
     // and
-    const equipment = playerBuilder.withTestEquipment()
+    const equipment = playerBuilder.withHelmetEq()
 
     // when
     const response = await drop(

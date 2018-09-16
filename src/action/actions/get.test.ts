@@ -6,7 +6,7 @@ describe("get actions actions", () => {
   it("should be able to get an item from a room inventory", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const item = testBuilder.withRoom().withTestEquipment()
+    const item = testBuilder.withRoom().withHelmetEq()
     const player = testBuilder.withPlayer().player
     const itemCount = player.sessionMob.inventory.items.length
 

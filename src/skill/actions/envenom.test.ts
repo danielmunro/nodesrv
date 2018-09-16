@@ -31,7 +31,7 @@ describe("envenom", () => {
     expect(outcomes.find((outcome) => outcome.wasSuccessful())).toBeUndefined()
   })
 
-  it("should success sometimes", async () => {
+  it("should succeed sometimes", async () => {
     // setup
     const testBuilder = getTestBuilder()
     const mob = testBuilder.player.sessionMob
@@ -47,4 +47,8 @@ describe("envenom", () => {
     // then
     expect(outcomes.find((outcome) => outcome.wasSuccessful())).toBeDefined()
   })
+
+  // it("should only be able to envenom bladed weapons", () => {
+  //
+  // })
 })

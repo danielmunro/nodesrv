@@ -7,7 +7,7 @@ describe("sell actions actions", () => {
   it("should execute the sell checked request", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const item = testBuilder.withPlayer().withTestEquipment()
+    const item = testBuilder.withPlayer().withHelmetEq()
     testBuilder.withMerchant()
 
     // and
