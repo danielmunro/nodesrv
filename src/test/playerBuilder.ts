@@ -30,6 +30,10 @@ export default class PlayerBuilder extends AbstractBuilder {
     return this.doEquip(super.withAxeEq())
   }
 
+  public withMaceEq(): Item {
+    return this.doEquip(super.withMaceEq())
+  }
+
   public withFood(): Item {
     const food = super.withFood()
     this.player.sessionMob.inventory.addItem(food)

@@ -19,6 +19,13 @@ export default class AbstractBuilder {
     return equipment
   }
 
+  public withMaceEq(): Item {
+    const equipment = newWeapon("a toy mace", "a toy mace", WeaponType.Mace, DamageType.Bash)
+    equipment.value = 10
+
+    return equipment
+  }
+
   public withFood(): Item {
     return newFood("a muffin", "a muffin is here")
   }

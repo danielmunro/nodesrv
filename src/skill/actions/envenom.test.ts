@@ -4,8 +4,9 @@ import TestBuilder from "../../test/testBuilder"
 import Attempt from "../attempt"
 import AttemptContext from "../attemptContext"
 import Outcome from "../outcome"
+import { OutcomeType } from "../outcomeType"
 import { SkillType } from "../skillType"
-import envenom from "./envenom"
+import envenom, { MESSAGE_FAIL_CANNOT_ENVENOM, MESSAGE_FAIL_NOT_A_WEAPON } from "./envenom"
 
 function getTestBuilder() {
   const testBuilder = new TestBuilder()
@@ -48,7 +49,32 @@ describe("envenom", () => {
     expect(outcomes.find((outcome) => outcome.wasSuccessful())).toBeDefined()
   })
 
-  // it("should only be able to envenom bladed weapons", () => {
-  //
-  // })
+  it("should not be able to envenom a non weapon", async () => {
+    const testBuilder = new TestBuilder()
+    const playerBuilder = testBuilder.withPlayer()
+    const skill = playerBuilder.withSkill(SkillType.Envenom, 100)
+    const eq = playerBuilder.withHelmetEq()
+
+    const response = await envenom(
+      new Attempt(playerBuilder.player.sessionMob, skill, new AttemptContext(Trigger.None, eq)))
+
+    expect(response.wasSuccessful()).toBeFalsy()
+    expect(response.outcomeType).toBe(OutcomeType.CheckFail)
+    expect(response.getMessage()).toBe(MESSAGE_FAIL_NOT_A_WEAPON)
+  })
+
+  it("should only be able to envenom bladed weapons", async () => {
+    const testBuilder = new TestBuilder()
+    const playerBuilder = testBuilder.withPlayer()
+    playerBuilder.withSkill(SkillType.Envenom, 100)
+    const mob = playerBuilder.player.sessionMob
+    const skill = mob.skills[0]
+    const mace = playerBuilder.withMaceEq()
+
+    const response = await envenom(new Attempt(mob, skill, new AttemptContext(Trigger.None, mace)))
+
+    expect(response.wasSuccessful()).toBeFalsy()
+    expect(response.outcomeType).toBe(OutcomeType.CheckFail)
+    expect(response.getMessage()).toBe(MESSAGE_FAIL_CANNOT_ENVENOM)
+  })
 })

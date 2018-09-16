@@ -20,6 +20,10 @@ export default class Attempt {
     return new Outcome(this, OutcomeType.Success)
   }
 
+  public createCheckFailOutcome(message = null): Outcome {
+    return new Outcome(this, OutcomeType.CheckFail, message)
+  }
+
   public createFailureOutcome(): Outcome {
     return new Outcome(this, OutcomeType.Failure)
   }

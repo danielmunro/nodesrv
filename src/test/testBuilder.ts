@@ -47,8 +47,8 @@ export default class TestBuilder {
     const weapon = newWeapon(
       "a practice mace",
       "A wooden practice mace",
-      WeaponType.Mace,
-      DamageType.Bash)
+      WeaponType.Axe,
+      DamageType.Slash)
     this.player.sessionMob.inventory.addItem(weapon)
 
     return weapon

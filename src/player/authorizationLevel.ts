@@ -18,6 +18,7 @@ export function isSpecialAuthorizationLevel(authorizationLevel: AuthorizationLev
   return authorizationLevel > AuthorizationLevel.Mortal
 }
 
+/* istanbul ignore next */
 export function getAuthorizationLevelName(authorizationLevel: AuthorizationLevel): string {
   switch (authorizationLevel) {
     case AuthorizationLevel.None:
