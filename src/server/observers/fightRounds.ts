@@ -20,24 +20,25 @@ const allAttacks = [
   AttackLabel.Third,
 ]
 
-export function getHealthIndicator(percent): string {
-  if (percent === 1) {
-    return "is in excellent condition"
-  } else if (percent > .9) {
-    return "has a few scratches"
-  } else if (percent > .75) {
-    return "has some small wounds and bruises"
-  } else if (percent > .5) {
-    return "has quite a few wounds"
-  } else if (percent > .3) {
-    return "has some big nasty wounds and scratches"
-  } else if (percent > .15) {
-    return "looks pretty hurt"
-  } else if (percent > 0) {
-    return "is in awful condition"
-  }
+function createHealthMap(amount: number, message: string) {
+  return { amount, message }
+}
 
-  return "is bleeding to death"
+const healthMap = [
+  createHealthMap(1, "is in excellent condition"),
+  createHealthMap(0.9, "has a few scratches"),
+  createHealthMap(0.75, "has some small wounds and bruises"),
+  createHealthMap(0.5, "has quite a few wounds"),
+  createHealthMap(0.3, "has some big nasty wounds and scratches"),
+  createHealthMap(0.15, "looks pretty hurt"),
+  createHealthMap(0, "is in awful condition"),
+]
+
+export function getHealthIndicator(percent): string {
+  return new Maybe(healthMap.find((i) => percent > i.amount))
+    .do((indicator) => indicator.message)
+    .or(() => "is bleeding to death")
+    .get()
 }
 
 export function attackMessage(attack: Attack, mob: Mob): string {
