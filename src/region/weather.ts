@@ -22,20 +22,22 @@ const allWeather = [
   Weather.Storming,
 ]
 
+function createMapEntry(weather: Weather, message: string) {
+  return { weather, message }
+}
+
+const weatherMessageMap = [
+  createMapEntry(Weather.Clear, MESSAGE_WEATHER_CLEAR),
+  createMapEntry(Weather.Blustery, MESSAGE_WEATHER_BLUSTERY),
+  createMapEntry(Weather.Overcast, MESSAGE_WEATHER_OVERCAST),
+  createMapEntry(Weather.Raining, MESSAGE_WEATHER_RAINING),
+  createMapEntry(Weather.Storming, MESSAGE_WEATHER_STORMING),
+]
+
 export function getRandomWeather(): Weather {
   return pickOne(allWeather)
 }
 
 export function getWeatherTransitionMessage(weather: Weather) {
-  if (weather === Weather.Clear) {
-    return MESSAGE_WEATHER_CLEAR
-  } else if (weather === Weather.Blustery) {
-    return MESSAGE_WEATHER_BLUSTERY
-  } else if (weather === Weather.Overcast) {
-    return MESSAGE_WEATHER_OVERCAST
-  } else if (weather === Weather.Raining) {
-    return MESSAGE_WEATHER_RAINING
-  } else if (weather === Weather.Storming) {
-    return MESSAGE_WEATHER_STORMING
-  }
+  return weatherMessageMap.find((w) => w.weather === weather).message
 }
