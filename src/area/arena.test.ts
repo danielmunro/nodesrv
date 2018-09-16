@@ -19,7 +19,7 @@ describe("arena", () => {
 
   it("should only ever build once", async () => {
     expect(arena.isBuilt()).toBeTruthy()
-    expect(arena.buildMatrix()).rejects.toThrowError()
+    await expect(arena.buildMatrix()).rejects.toThrowError()
   })
 
   it("should build a matrix of requested size", () => {
