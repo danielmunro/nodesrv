@@ -1,7 +1,6 @@
 import { Request } from "../../request/request"
 import Check from "../check"
-
-export const MESSAGE_REMOVE_FAIL = "You aren't wearing that."
+import { MESSAGE_REMOVE_FAIL } from "./constants"
 
 export default function(request: Request): Promise<Check> {
   const mob = request.player.sessionMob

@@ -1,10 +1,12 @@
 import { pickOne } from "../random/helpers"
-
-export const MESSAGE_WEATHER_CLEAR = "The sky clears up."
-export const MESSAGE_WEATHER_BLUSTERY = "The wind picks up."
-export const MESSAGE_WEATHER_OVERCAST = "High altitude clouds lay like waves across the sky."
-export const MESSAGE_WEATHER_RAINING = "A trickle of rain picks up."
-export const MESSAGE_WEATHER_STORMING = "Dark thunderclouds consume the sky as rain pours down."
+import {
+  allWeather,
+  MESSAGE_WEATHER_BLUSTERY,
+  MESSAGE_WEATHER_CLEAR,
+  MESSAGE_WEATHER_OVERCAST,
+  MESSAGE_WEATHER_RAINING,
+  MESSAGE_WEATHER_STORMING,
+} from "./constants"
 
 export enum Weather {
   Clear,
@@ -13,14 +15,6 @@ export enum Weather {
   Raining,
   Storming,
 }
-
-const allWeather = [
-  Weather.Clear,
-  Weather.Blustery,
-  Weather.Overcast,
-  Weather.Raining,
-  Weather.Storming,
-]
 
 function createMapEntry(weather: Weather, message: string) {
   return { weather, message }

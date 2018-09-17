@@ -6,7 +6,8 @@ import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
-import { default as kill, MESSAGE_FAIL_KILL_ALREADY_FIGHTING, MESSAGE_FAIL_KILL_NO_TARGET } from "./kill"
+import { default as kill} from "./kill"
+import { MESSAGE_FAIL_KILL_ALREADY_FIGHTING, MESSAGE_FAIL_KILL_NO_TARGET } from "./constants"
 
 function useKillRequest(player: Player, input: string, target: Mob = null) {
   return kill(new Request(player, RequestType.Kill, input, target))

@@ -6,7 +6,8 @@ import Attempt from "../attempt"
 import AttemptContext from "../attemptContext"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
-import bash, { MESSAGE_FAIL, MESSAGE_NO_SKILL } from "./bash"
+import bash from "./bash"
+import { MESSAGE_FAIL, MESSAGE_NO_SKILL } from "./constants"
 
 const RETRY_COUNT = 10
 

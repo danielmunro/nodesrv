@@ -6,8 +6,7 @@ import getSight from "../../mob/race/sight"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
-
-export const NOT_FOUND = "You don't see that anywhere."
+import { NOT_FOUND } from "./constants"
 
 function lookAtSubject(request, builder) {
   const mob = request.findMobInRoom()

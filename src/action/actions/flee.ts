@@ -4,8 +4,7 @@ import Response from "../../request/response"
 import { ResponseStatus } from "../../request/responseStatus"
 import Service from "../../room/service"
 import CheckedRequest from "../checkedRequest"
-
-export const FLEE_MOVEMENT_COST_MULTIPLIER = 3
+import { FLEE_MOVEMENT_COST_MULTIPLIER } from "./constants"
 
 export default async function(checkedRequest: CheckedRequest, service: Service): Promise<Response> {
   const mob = checkedRequest.request.mob

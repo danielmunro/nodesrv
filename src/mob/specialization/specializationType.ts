@@ -5,10 +5,3 @@ export enum SpecializationType {
   Warrior = "warrior",
   Noop = "noop",
 }
-
-export const allSpecializations = [
-  SpecializationType.Cleric,
-  SpecializationType.Mage,
-  SpecializationType.Ranger,
-  SpecializationType.Warrior,
-]

@@ -1,8 +1,6 @@
 import { Request } from "../../request/request"
 import Check from "../check"
-
-export const MESSAGE_FAIL_NO_MERCHANT = "You don't see a merchant anywhere."
-export const MESSAGE_FAIL_NO_ITEM = "You don't have that."
+import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY, MESSAGE_FAIL_NO_MERCHANT } from "./constants"
 
 export default function(request: Request): Promise<Check> {
   const room = request.getRoom()
@@ -16,7 +14,7 @@ export default function(request: Request): Promise<Check> {
   const item = mob.inventory.findItemByName(request.subject)
 
   if (!item) {
-    return Check.fail(MESSAGE_FAIL_NO_ITEM)
+    return Check.fail(MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY)
   }
 
   return Check.ok(item)

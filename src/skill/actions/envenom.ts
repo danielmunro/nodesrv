@@ -5,9 +5,7 @@ import Weapon from "../../item/model/weapon"
 import roll from "../../random/dice"
 import Attempt from "../attempt"
 import Outcome from "../outcome"
-
-export const MESSAGE_FAIL_NOT_A_WEAPON = "That's not a weapon"
-export const MESSAGE_FAIL_CANNOT_ENVENOM = "You need a piercing or slashing weapon"
+import { MESSAGE_FAIL_CANNOT_ENVENOM, MESSAGE_FAIL_NOT_A_WEAPON } from "./constants"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   const item = attempt.getSubjectAsItem()

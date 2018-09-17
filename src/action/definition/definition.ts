@@ -5,8 +5,7 @@ import ResponseBuilder from "../../request/responseBuilder"
 import Service from "../../room/service"
 import Check, { CheckStatus } from "../check"
 import CheckedRequest from "../checkedRequest"
-
-export const MESSAGE_REQUEST_TYPE_MISMATCH = "Request type mismatch"
+import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 
 export class Definition {
   constructor(

@@ -1,4 +1,4 @@
-import { allRaces } from "../../../mob/race/race"
+import { allRaces } from "../../../mob/race/constants"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"

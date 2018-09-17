@@ -6,12 +6,3 @@ export enum Stat {
   Con = "con",
   Sta = "sta",
 }
-
-export const allStats = [
-  Stat.Str,
-  Stat.Int,
-  Stat.Wis,
-  Stat.Dex,
-  Stat.Con,
-  Stat.Sta,
-]

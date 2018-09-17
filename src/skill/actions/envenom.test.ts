@@ -6,7 +6,8 @@ import AttemptContext from "../attemptContext"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
 import { SkillType } from "../skillType"
-import envenom, { MESSAGE_FAIL_CANNOT_ENVENOM, MESSAGE_FAIL_NOT_A_WEAPON } from "./envenom"
+import envenom from "./envenom"
+import { MESSAGE_FAIL_CANNOT_ENVENOM, MESSAGE_FAIL_NOT_A_WEAPON } from "./constants"
 
 function getTestBuilder() {
   const testBuilder = new TestBuilder()

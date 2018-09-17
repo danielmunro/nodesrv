@@ -10,14 +10,13 @@ import TestBuilder from "../../../test/testBuilder"
 import { CheckStatus } from "../../check"
 import CheckedRequest from "../../checkedRequest"
 import { default as banAction } from "../actions/ban"
-import ban, {
-  MESSAGE_FAIL_ALREADY_BANNED,
-  MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS,
+import ban from "./ban"
+import {
+  MESSAGE_FAIL_ALREADY_BANNED, MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS,
   MESSAGE_FAIL_CANNOT_BAN_SELF,
-  MESSAGE_FAIL_NO_TARGET,
-  MESSAGE_FAIL_NOT_AUTHORIZED,
+  MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED,
   MESSAGE_FAIL_NOT_PLAYER,
-} from "./ban"
+} from "./constants"
 
 const MOB_TO_BAN = "bob"
 const MOB_SELF = "alice"

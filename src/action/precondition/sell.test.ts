@@ -8,7 +8,8 @@ import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import { CheckStatus } from "../check"
-import sell, { MESSAGE_FAIL_NO_ITEM, MESSAGE_FAIL_NO_MERCHANT } from "./sell"
+import sell from "./sell"
+import { MESSAGE_FAIL_NO_ITEM, MESSAGE_FAIL_NO_MERCHANT } from "./constants"
 
 function getNonMerchantMob(): Mob {
   return getTestMob()

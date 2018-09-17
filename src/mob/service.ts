@@ -4,10 +4,9 @@ import { SkillType } from "../skill/skillType"
 import { newSpell } from "../spell/factory"
 import { Spell } from "../spell/model/spell"
 import { SpellType } from "../spell/spellType"
+import { MESSAGE_MOB_ALREADY_HAS_SPECIALIZATION } from "./constants"
 import { Mob } from "./model/mob"
 import { Specialization } from "./specialization/specialization"
-
-export const MESSAGE_MOB_ALREADY_HAS_SPECIALIZATION = "mob already has a specialization"
 
 function createSkillFromSkillType(skillType: SkillType): Skill {
   return newSkill(skillType, 1)

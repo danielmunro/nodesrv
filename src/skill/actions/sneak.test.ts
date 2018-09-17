@@ -1,9 +1,10 @@
 import { AffectType } from "../../affect/affectType"
-import { MaxPracticeLevel, Mob } from "../../mob/model/mob"
+import { Mob } from "../../mob/model/mob"
 import { getMultipleOutcomes } from "../../test/repeater"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import sneak from "./sneak"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 
 describe("sneak skill actions", () => {
   it("should be able to fail sneaking", async () => {
@@ -21,7 +22,7 @@ describe("sneak skill actions", () => {
   it("should be able to succeed sneaking", async () => {
     // given
     const mob = new Mob()
-    const skill = newSkill(SkillType.Sneak, MaxPracticeLevel)
+    const skill = newSkill(SkillType.Sneak, MAX_PRACTICE_LEVEL)
 
     // when
     const outcomes = await getMultipleOutcomes(mob, skill, sneak)

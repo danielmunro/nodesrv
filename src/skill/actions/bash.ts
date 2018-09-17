@@ -3,10 +3,9 @@ import Attempt from "../attempt"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
 import { SkillType } from "../skillType"
+import { MESSAGE_FAIL, MESSAGE_NO_SKILL } from "./constants"
 
 export const DELAY = 2
-export const MESSAGE_NO_SKILL = "You bash around helplessly."
-export const MESSAGE_FAIL = "You fall flat on your face!"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   const mob = attempt.mob

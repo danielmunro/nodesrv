@@ -2,7 +2,8 @@ import { Disposition } from "../../mob/disposition"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import { default as wake, MESSAGE_WAKE_SUCCESS } from "./wake"
+import { MESSAGE_WAKE_SUCCESS } from "./constants"
+import { default as wake} from "./wake"
 
 describe("sleep actions actions", () => {
   it("should change the mob's disposition to standing", async () => {

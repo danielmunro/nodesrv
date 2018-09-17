@@ -1,5 +1,5 @@
 import appetite from "../../../mob/race/appetite"
-import { allRaces } from "../../../mob/race/race"
+import { allRaces } from "../../../mob/race/constants"
 import { getRaceSkills } from "../../../mob/race/skillTable"
 import { newSkill } from "../../../skill/factory"
 import AuthStep from "../authStep"

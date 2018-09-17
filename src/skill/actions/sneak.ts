@@ -7,11 +7,10 @@ import Attempt from "../attempt"
 import { Skill } from "../model/skill"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
+import { MESSAGE_SNEAK_FAIL, MESSAGE_SNEAK_SUCCESS } from "./constants"
 
 const SUCCESS_THRESHOLD = 50
 const DELAY = 1
-export const MESSAGE_SNEAK_SUCCESS = "You begin to move silently."
-export const MESSAGE_SNEAK_FAIL = "You fail to move silently."
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   if (calculateSneakRoll(attempt.mob, attempt.skill) > SUCCESS_THRESHOLD) {

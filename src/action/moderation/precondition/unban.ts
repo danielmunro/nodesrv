@@ -4,11 +4,11 @@ import { Request } from "../../../request/request"
 import Service from "../../../room/service"
 import Check from "../../check"
 import CheckBuilder from "../../checkBuilder"
-
-export const MESSAGE_FAIL_NO_TARGET = "They don't exist."
-export const MESSAGE_FAIL_NOT_BANNED = "They are not banned."
-export const MESSAGE_FAIL_CANNOT_UNBAN_SELF = "You cannot un-ban yourself."
-export const MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS = "You cannot un-ban admin accounts."
+import {
+  MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS,
+  MESSAGE_FAIL_CANNOT_UNBAN_SELF, MESSAGE_FAIL_NO_TARGET,
+  MESSAGE_FAIL_NOT_BANNED,
+} from "./constants"
 
 export default async function(request: Request, service: Service): Promise<Check> {
   const mob = service.mobTable.find((m) => m.name === request.subject)

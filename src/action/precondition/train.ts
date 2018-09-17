@@ -2,10 +2,7 @@ import { Disposition } from "../../mob/disposition"
 import { Role } from "../../mob/role"
 import { Request } from "../../request/request"
 import Check from "../check"
-
-export const MESSAGE_FAIL_NOT_STANDING = "You must be standing to train."
-export const MESSAGE_FAIL_NO_TRAINER = "No trainer is here."
-export const MESSAGE_FAIL_NEED_TRAINS = "You need more training sessions first."
+import { MESSAGE_FAIL_NEED_TRAINS, MESSAGE_FAIL_NO_TRAINER, MESSAGE_FAIL_NOT_STANDING } from "./constants"
 
 export default function(request: Request): Promise<Check> {
   if (request.mob.disposition !== Disposition.Standing) {

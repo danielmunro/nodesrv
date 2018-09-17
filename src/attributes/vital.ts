@@ -3,9 +3,3 @@ export enum Vital {
   Mana = "mana",
   Mv = "mv",
 }
-
-export const allVitals = [
-  Vital.Hp,
-  Vital.Mana,
-  Vital.Mv,
-]

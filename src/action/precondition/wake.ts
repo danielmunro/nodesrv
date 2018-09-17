@@ -1,9 +1,7 @@
 import { Disposition } from "../../mob/disposition"
 import { Request } from "../../request/request"
 import Check from "../check"
-
-export const MESSAGE_FAIL_ALREADY_AWAKE = "You're already awake."
-export const MESSAGE_FAIL_DEAD = "You're dead."
+import { MESSAGE_FAIL_ALREADY_AWAKE, MESSAGE_FAIL_DEAD } from "./constants"
 
 export default function(request: Request): Promise<Check> {
   if (request.mob.disposition === Disposition.Standing) {

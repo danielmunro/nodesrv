@@ -1,8 +1,8 @@
 import Attempt from "../attempt"
 import Check from "../check"
 import { failCheck, successCheck } from "../checkFactory"
+import { MESSAGE_FAIL_NO_MANA } from "./constants"
 
-const MESSAGE_FAIL_NO_MANA = "You lack the mana"
 const MANA_COST = 100
 
 export default function(attempt: Attempt): Promise<Check> {

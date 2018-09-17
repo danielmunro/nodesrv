@@ -4,8 +4,7 @@ import { AuthorizationLevel, getAuthorizationLevelName } from "../../../player/a
 import Response from "../../../request/response"
 import ResponseBuilder from "../../../request/responseBuilder"
 import CheckedRequest from "../../checkedRequest"
-
-export const MESSAGE_FAIL_NO_MORE_PROMOTIONS = "No more promotions available"
+import { MESSAGE_FAIL_NO_MORE_PROMOTIONS } from "./constants"
 
 export function getNextPromotion(mob: Mob) {
   switch (mob.getAuthorizationLevel()) {

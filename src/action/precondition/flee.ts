@@ -1,11 +1,8 @@
 import { getFights } from "../../mob/fight/fight"
 import { Request } from "../../request/request"
-import { FLEE_MOVEMENT_COST_MULTIPLIER } from "../actions/flee"
+import { FLEE_MOVEMENT_COST_MULTIPLIER } from "../actions/constants"
 import Check from "../check"
-
-export const MESSAGE_FAIL_NOT_FIGHTING = "You're not fighting anyone."
-export const MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE = "You don't see any directions to flee."
-export const MESSAGE_FAIL_TOO_TIRED = "You are too tired to flee."
+import { MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_NOT_FIGHTING, MESSAGE_FAIL_TOO_TIRED } from "./constants"
 
 export default function(request: Request): Promise<Check> {
   const fight = getFights().find((f) => f.isParticipant(request.mob))

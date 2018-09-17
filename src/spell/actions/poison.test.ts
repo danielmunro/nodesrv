@@ -1,5 +1,5 @@
 import { AffectType } from "../../affect/affectType"
-import { MaxPracticeLevel } from "../../mob/model/mob"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
@@ -17,7 +17,7 @@ describe("poison", () => {
     const player = getTestPlayer()
     const target = getTestMob("bob")
     const room = getTestRoom()
-    player.sessionMob.spells.push(newSpell(SpellType.Poison, MaxPracticeLevel))
+    player.sessionMob.spells.push(newSpell(SpellType.Poison, MAX_PRACTICE_LEVEL))
     room.addMob(player.sessionMob)
     room.addMob(target)
 

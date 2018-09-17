@@ -12,18 +12,16 @@ import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
 import { Skill } from "../../skill/model/skill"
 import { Spell } from "../../spell/model/spell"
+import { BASE_KILL_EXPERIENCE } from "../constants"
 import { Disposition } from "../disposition"
 import { newMob } from "../factory"
 import modifierNormalizer from "../multiplierNormalizer"
-import { modifiers } from "../race/modifier"
+import { modifiers } from "../race/constants"
 import { Race } from "../race/race"
 import { Role } from "../role"
 import { SpecializationType } from "../specialization/specializationType"
 import { Standing } from "../standing"
 import { PlayerMob } from "./playerMob"
-
-const BASE_KILL_EXPERIENCE = 100
-export const MaxPracticeLevel = 100
 
 @Entity()
 export class Mob {

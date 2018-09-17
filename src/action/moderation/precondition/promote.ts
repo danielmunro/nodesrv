@@ -4,11 +4,11 @@ import { Request } from "../../../request/request"
 import Service from "../../../room/service"
 import Check from "../../check"
 import CheckBuilder from "../../checkBuilder"
-
-export const MESSAGE_FAIL_NO_TARGET = "They don't exist."
-export const MESSAGE_FAIL_BANNED = "They are banned and cannot be promoted."
-export const MESSAGE_FAIL_CANNOT_PROMOTE_SELF = "You cannot promote yourself."
-export const MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS = "There is nothing beyond immortals."
+import {
+  MESSAGE_FAIL_BANNED,
+  MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS,
+  MESSAGE_FAIL_CANNOT_PROMOTE_SELF, MESSAGE_FAIL_NO_TARGET,
+} from "./constants"
 
 export default async function(request: Request, service: Service): Promise<Check> {
   const mob = service.mobTable.find((m) => m.name === request.subject)

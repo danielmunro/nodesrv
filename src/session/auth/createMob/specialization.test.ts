@@ -1,4 +1,4 @@
-import { allSpecializations } from "../../../mob/specialization/specializationType"
+import { allSpecializations } from "../../../mob/specialization/constants"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"

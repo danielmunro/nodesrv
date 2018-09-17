@@ -1,6 +1,6 @@
 import { assignSpecializationToMob } from "../../../mob/service"
+import { allSpecializations } from "../../../mob/specialization/constants"
 import { createSpecializationFromType } from "../../../mob/specialization/factory"
-import { allSpecializations } from "../../../mob/specialization/specializationType"
 import AuthStep from "../authStep"
 import { MESSAGE_CHOOSE_SPECIALIZATION, MESSAGE_FAIL_SPECIALIZATION_UNAVAILABLE } from "../constants"
 import PlayerAuthStep from "../playerAuthStep"

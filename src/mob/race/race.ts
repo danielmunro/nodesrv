@@ -15,19 +15,6 @@ export enum Race {
   Critter = "critter",
 }
 
-export const allRaces = [
-  Race.Human,
-  Race.Dwarf,
-  Race.Elf,
-  Race.Drow,
-  Race.Kender,
-  Race.Halfling,
-  Race.Gnome,
-  Race.Faerie,
-  Race.HalfOrc,
-  Race.Giant,
-]
-
 export function isWarrior(race: Race) {
   return race === Race.Dwarf || race === Race.Kender || race === Race.HalfOrc || race === Race.Giant
 }

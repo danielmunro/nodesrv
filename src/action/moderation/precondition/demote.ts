@@ -3,10 +3,11 @@ import { Request } from "../../../request/request"
 import Service from "../../../room/service"
 import Check from "../../check"
 import CheckBuilder from "../../checkBuilder"
-
-export const MESSAGE_FAIL_NO_TARGET = "They don't exist."
-export const MESSAGE_FAIL_CANNOT_DEMOTE_SELF = "You cannot demote yourself."
-export const MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS = "Immortals cannot be demoted."
+import {
+  MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS,
+  MESSAGE_FAIL_CANNOT_DEMOTE_SELF,
+  MESSAGE_FAIL_NO_TARGET,
+} from "./constants"
 
 export default async function(request: Request, service: Service): Promise<Check> {
   const mob = service.mobTable.find((m) => m.name === request.subject)

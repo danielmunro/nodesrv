@@ -1,5 +1,5 @@
-import { allStats } from "../../attributes/stat"
-import { allVitals } from "../../attributes/vital"
+import { allStats } from "../../attributes/constants"
+import { allVitals } from "../../attributes/constants"
 import { Mob } from "../../mob/model/mob"
 import { Player } from "../../player/model/player"
 import { Request } from "../../request/request"
@@ -9,7 +9,8 @@ import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
 import Check from "../check"
 import CheckedRequest from "../checkedRequest"
-import train, { MAX_TRAINABLE_STATS, MESSAGE_FAIL_CANNOT_TRAIN } from "./train"
+import { MAX_TRAINABLE_STATS, MESSAGE_FAIL_CANNOT_TRAIN } from "./constants"
+import train from "./train"
 
 async function getResponse(player: Player, trainer: Mob, input: string): Promise<Response> {
   return await train(new CheckedRequest(

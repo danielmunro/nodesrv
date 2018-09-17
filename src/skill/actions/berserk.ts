@@ -6,11 +6,10 @@ import Attempt from "../attempt"
 import { Skill } from "../model/skill"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
+import { MESSAGE_BERSERK_FAIL, MESSAGE_BERSERK_SUCCESS } from "./constants"
 
 const DELAY = 2
 const SUCCESS_THRESHOLD = 60
-export const MESSAGE_BERSERK_SUCCESS = "Your pulse speeds up as you are consumed by rage!"
-export const MESSAGE_BERSERK_FAIL = "You fail to summon your inner rage."
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   if (calculateBerserkRoll(attempt.mob, attempt.skill) > SUCCESS_THRESHOLD) {

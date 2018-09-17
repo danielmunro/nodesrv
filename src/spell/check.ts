@@ -3,13 +3,9 @@ import { getFights } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
 import roll from "../random/dice"
 import { Request } from "../request/request"
+import { MESSAGE_FAIL, MESSAGE_NO_SPELL, MESSAGE_NO_TARGET, MESSAGE_NOT_ENOUGH_MANA } from "./constants"
 import { Spell } from "./model/spell"
 import { SpellDefinition } from "./spellDefinition"
-
-export const MESSAGE_NO_SPELL = "You don't know that spell."
-export const MESSAGE_NO_TARGET = "You aren't fighting anyone!"
-export const MESSAGE_FAIL = "You lose concentration."
-export const MESSAGE_NOT_ENOUGH_MANA = "You don't have enough mana."
 
 export enum Status {
   NotEvaluated,

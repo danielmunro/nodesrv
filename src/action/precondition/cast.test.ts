@@ -1,10 +1,11 @@
 import { createCastRequest } from "../../request/factory"
-import { MESSAGE_NOT_ENOUGH_MANA } from "../../spell/check"
+import { MESSAGE_NOT_ENOUGH_MANA } from "../../spell/constants"
 import { newSpell } from "../../spell/factory"
 import { SpellType } from "../../spell/spellType"
 import { getTestPlayer } from "../../test/player"
 import { CheckStatus } from "../check"
-import cast, { MESSAGE_ERROR, MESSAGE_NO_SPELL, MESSAGE_SPELL_DOES_NOT_EXIST } from "./cast"
+import cast from "./cast"
+import { MESSAGE_CAST_ERROR, MESSAGE_NO_SPELL, MESSAGE_SPELL_DOES_NOT_EXIST } from "./constants"
 
 const TEST_INPUT_GIANT = "cast giant"
 const TEST_INPUT_CAST = "cast"
@@ -29,7 +30,7 @@ describe("cast", () => {
     const poisonCheck = await cast(createCastRequest(player, TEST_INPUT_POISON))
 
     // then
-    expect(poisonCheck.result).toBe(MESSAGE_ERROR)
+    expect(poisonCheck.result).toBe(MESSAGE_CAST_ERROR)
     expect(poisonCheck.status).toBe(CheckStatus.Failed)
 
     // when

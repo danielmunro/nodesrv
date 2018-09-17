@@ -1,5 +1,6 @@
 import { Standing } from "../../../mob/standing"
-import { allAuthorizationLevels, AuthorizationLevel } from "../../../player/authorizationLevel"
+import { AuthorizationLevel } from "../../../player/authorizationLevel"
+import { allAuthorizationLevels } from "../../../player/constants"
 import { Player } from "../../../player/model/player"
 import RequestBuilder from "../../../request/requestBuilder"
 import { RequestType } from "../../../request/requestType"
@@ -7,12 +8,14 @@ import Service from "../../../room/service"
 import { getTestMob } from "../../../test/mob"
 import TestBuilder from "../../../test/testBuilder"
 import { CheckStatus } from "../../check"
-import { MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_PLAYER } from "./ban"
-import promote, {
+import {
   MESSAGE_FAIL_BANNED,
   MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS,
   MESSAGE_FAIL_CANNOT_PROMOTE_SELF,
-} from "./promote"
+  MESSAGE_FAIL_NOT_AUTHORIZED,
+} from "./constants"
+import { MESSAGE_FAIL_NOT_PLAYER } from "./constants"
+import promote from "./promote"
 
 const MOB_TO_BAN = "bob"
 const MOB_SELF = "alice"

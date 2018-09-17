@@ -1,14 +1,14 @@
 import { Request } from "../../request/request"
-import { Status } from "../../spell/check"
-import { Check as SpellCheck } from "../../spell/check"
+import { Check as SpellCheck, Status } from "../../spell/check"
 import spellCollection from "../../spell/spellCollection"
 import Check from "../check"
-
-export const MESSAGE_NO_SPELL = "What do you want to cast?"
-export const MESSAGE_SPELL_DOES_NOT_EXIST = "That is not a spell."
-export const MESSAGE_ERROR = "You don't know that spell."
-export const MESSAGE_FAIL = "You lose your concentration."
-export const MESSAGE_FAIL_NOT_ENOUGH_MANA = "You don't have enough mana."
+import {
+  MESSAGE_CAST_ERROR,
+  MESSAGE_CAST_FAIL,
+  MESSAGE_FAIL_NOT_ENOUGH_MANA,
+  MESSAGE_NO_SPELL,
+  MESSAGE_SPELL_DOES_NOT_EXIST,
+} from "./constants"
 
 export default function(request: Request): Promise<Check> {
   if (!request.subject) {
@@ -28,11 +28,11 @@ export default function(request: Request): Promise<Check> {
   const spellCheck = new SpellCheck(request, spellDefinition)
 
   if (spellCheck.status === Status.Error) {
-    return Check.fail(MESSAGE_ERROR)
+    return Check.fail(MESSAGE_CAST_ERROR)
   }
 
   if (spellCheck.status === Status.Fail) {
-    return Check.fail(MESSAGE_FAIL)
+    return Check.fail(MESSAGE_CAST_FAIL)
   }
 
   return Check.ok(spellCheck)

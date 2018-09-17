@@ -50,12 +50,3 @@ export const largeModifier = (race: Race, attributes: Attributes): Attributes =>
   }
   return attributes
 }
-
-export const modifiers = [
-  warriorModifier,
-  thiefModifier,
-  wizardModifier,
-  clericModifier,
-  tinyModifier,
-  largeModifier,
-]

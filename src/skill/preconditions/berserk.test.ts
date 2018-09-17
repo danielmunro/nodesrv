@@ -5,7 +5,8 @@ import { getTestPlayer } from "../../test/player"
 import { CheckResult } from "../checkResult"
 import { newSelfTargetAttempt, newSkill } from "../factory"
 import { SkillType } from "../skillType"
-import berserk, { COST_DELAY, MESSAGE_FAIL_ALREADY_BERSERKED, MESSAGE_FAIL_TOO_TIRED } from "./berserk"
+import berserk, { COST_DELAY} from "./berserk"
+import { MESSAGE_FAIL_ALREADY_BERSERKED, MESSAGE_FAIL_TOO_TIRED } from "./constants"
 
 describe("berserk skill precondition", () => {
   it("should not allow berserking when preconditions fail", async () => {

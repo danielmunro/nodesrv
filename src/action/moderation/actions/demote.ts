@@ -4,8 +4,7 @@ import { AuthorizationLevel, getAuthorizationLevelName } from "../../../player/a
 import Response from "../../../request/response"
 import ResponseBuilder from "../../../request/responseBuilder"
 import CheckedRequest from "../../checkedRequest"
-
-export const MESSAGE_FAIL_NO_MORE_DEMOTIONS = "No more demotions available"
+import { MESSAGE_FAIL_NO_MORE_DEMOTIONS } from "./constants"
 
 export function getNextDemotion(mob: Mob) {
   switch (mob.getAuthorizationLevel()) {

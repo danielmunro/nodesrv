@@ -5,7 +5,8 @@ import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
 import Check, { CheckStatus } from "../check"
 import CheckedRequest from "../checkedRequest"
-import kill, { ATTACK_MOB } from "./kill"
+import { ATTACK_MOB } from "./constants"
+import kill from "./kill"
 
 function useKillRequest(player: Player, target, input: string) {
   return kill(new CheckedRequest(

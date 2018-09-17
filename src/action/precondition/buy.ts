@@ -1,9 +1,6 @@
 import { Request } from "../../request/request"
 import Check from "../check"
-
-export const MESSAGE_ERROR_NO_MERCHANT = "You don't see a merchant anywhere."
-export const MESSAGE_ERROR_NO_ITEM = "They don't have that."
-export const MESSAGE_ERROR_CANNOT_AFFORD = "You can't afford it."
+import { MESSAGE_ERROR_CANNOT_AFFORD, MESSAGE_ERROR_NO_ITEM, MESSAGE_ERROR_NO_MERCHANT } from "./constants"
 
 export default function(request: Request): Promise<Check> {
   const room = request.getRoom()

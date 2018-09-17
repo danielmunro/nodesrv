@@ -2,7 +2,8 @@ import { Disposition } from "../../mob/disposition"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import sleep, { MESSAGE_SLEEP_SUCCESS } from "./sleep"
+import { MESSAGE_SLEEP_SUCCESS } from "./constants"
+import sleep from "./sleep"
 
 describe("sleep actions actions", () => {
   it("should change the mob's disposition to sleeping", async () => {

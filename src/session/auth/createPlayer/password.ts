@@ -3,9 +3,8 @@ import { MESSAGE_FAIL_PASSWORD_TOO_SHORT, MESSAGE_NEW_PASSWORD } from "../consta
 import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
+import { PASSWORD_MIN_LENGTH } from "./constants"
 import PasswordConfirm from "./passwordConfirm"
-
-export const PasswordMinLength = 4
 
 export default class Password extends PlayerAuthStep implements AuthStep {
   /* istanbul ignore next */
@@ -14,7 +13,7 @@ export default class Password extends PlayerAuthStep implements AuthStep {
   }
 
   public async processRequest(request: Request): Promise<Response> {
-    if (request.input.length < PasswordMinLength) {
+    if (request.input.length < PASSWORD_MIN_LENGTH) {
       return request.fail(this, MESSAGE_FAIL_PASSWORD_TOO_SHORT)
     }
 

@@ -1,22 +1,24 @@
-import { allStats, Stat } from "../../attributes/stat"
+import { allStats } from "../../attributes/constants"
+import { Stat } from "../../attributes/stat"
 import { Vital } from "../../attributes/vital"
+import Maybe from "../../functional/maybe"
 import { Mob } from "../../mob/model/mob"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import CheckedRequest from "../checkedRequest"
-
-export const MESSAGE_FAIL_CANNOT_TRAIN = "You can't train that anymore."
-export const MESSAGE_SUCCESS_STR = "You become stronger!"
-export const MESSAGE_SUCCESS_INT = "You gain in intelligence!"
-export const MESSAGE_SUCCESS_WIS = "Your wisdom increases!"
-export const MESSAGE_SUCCESS_DEX = "Your dexterity increases!"
-export const MESSAGE_SUCCESS_CON = "Your constitution grows!"
-export const MESSAGE_SUCCESS_STA = "Your stamina increases!"
-export const MESSAGE_SUCCESS_HP = "Your hp increases!"
-export const MESSAGE_SUCCESS_MANA = "Your mana increases!"
-export const MESSAGE_SUCCESS_MV = "Your movement increases!"
-
-export const MAX_TRAINABLE_STATS = 4
+import {
+  MAX_TRAINABLE_STATS,
+  MESSAGE_FAIL_CANNOT_TRAIN,
+  MESSAGE_SUCCESS_CON,
+  MESSAGE_SUCCESS_DEX,
+  MESSAGE_SUCCESS_HP,
+  MESSAGE_SUCCESS_INT,
+  MESSAGE_SUCCESS_MANA,
+  MESSAGE_SUCCESS_MV,
+  MESSAGE_SUCCESS_STA,
+  MESSAGE_SUCCESS_STR,
+  MESSAGE_SUCCESS_WIS,
+} from "./constants"
 
 function canTrain(stat: number): boolean {
   return stat < MAX_TRAINABLE_STATS
@@ -39,6 +41,22 @@ function trainVital(mob: Mob, responseBuilder: ResponseBuilder, message: string,
   return responseBuilder.success(message)
 }
 
+function newTrainMapEntry(method, train: Stat | Vital, message: string) {
+  return { method, train, message }
+}
+
+const trainMap = [
+  newTrainMapEntry(trainStat, Stat.Str, MESSAGE_SUCCESS_STR),
+  newTrainMapEntry(trainStat, Stat.Int, MESSAGE_SUCCESS_INT),
+  newTrainMapEntry(trainStat, Stat.Wis, MESSAGE_SUCCESS_WIS),
+  newTrainMapEntry(trainStat, Stat.Dex, MESSAGE_SUCCESS_DEX),
+  newTrainMapEntry(trainStat, Stat.Con, MESSAGE_SUCCESS_CON),
+  newTrainMapEntry(trainStat, Stat.Sta, MESSAGE_SUCCESS_STA),
+  newTrainMapEntry(trainVital, Vital.Hp, MESSAGE_SUCCESS_HP),
+  newTrainMapEntry(trainVital, Vital.Mana, MESSAGE_SUCCESS_MANA),
+  newTrainMapEntry(trainVital, Vital.Mv, MESSAGE_SUCCESS_MV),
+]
+
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   const stats = request.mob.playerMob.trainedAttributes.stats
@@ -52,25 +70,8 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
       "hp mana mv")
   }
 
-  if (request.subject === Stat.Str) {
-    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_STR, Stat.Str)
-  } else if (request.subject === Stat.Int) {
-    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_INT, Stat.Int)
-  } else if (request.subject === Stat.Wis) {
-    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_WIS, Stat.Wis)
-  } else if (request.subject === Stat.Dex) {
-    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_DEX, Stat.Dex)
-  } else if (request.subject === Stat.Con) {
-    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_CON, Stat.Con)
-  } else if (request.subject === Stat.Sta) {
-    return trainStat(request.mob, responseBuilder, MESSAGE_SUCCESS_STA, Stat.Sta)
-  } else if (request.subject === Vital.Hp) {
-    return trainVital(request.mob, responseBuilder, MESSAGE_SUCCESS_HP, Vital.Hp)
-  } else if (request.subject === Vital.Mana) {
-    return trainVital(request.mob, responseBuilder, MESSAGE_SUCCESS_MANA, Vital.Mana)
-  } else if (request.subject === Vital.Mv) {
-    return trainVital(request.mob, responseBuilder, MESSAGE_SUCCESS_MV, Vital.Mv)
-  }
-
-  return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
+  return new Maybe(trainMap.find((m) => request.subject === m.train))
+    .do((m) => m.method(request.mob, responseBuilder, m.message, m.train))
+    .or(() => responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN))
+    .get()
 }

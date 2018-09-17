@@ -1,4 +1,4 @@
-import { MaxPracticeLevel } from "../../mob/model/mob"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { Trigger } from "../../mob/trigger"
 import { getTestMob } from "../../test/mob"
 import { newSkill } from "../factory"
@@ -23,7 +23,7 @@ describe("skill trigger factory", () => {
     // given
     const mob = getTestMob()
     const target = getTestMob()
-    mob.skills.push(newSkill(SkillType.Dodge, MaxPracticeLevel))
+    mob.skills.push(newSkill(SkillType.Dodge, MAX_PRACTICE_LEVEL))
 
     // when
     const triggerSuccess = await createSkillTriggerEvent(mob, Trigger.AttackRoundDefend, target)
@@ -36,7 +36,7 @@ describe("skill trigger factory", () => {
     // given
     const mob = getTestMob()
     const target = getTestMob()
-    mob.skills.push(newSkill(SkillType.Noop, MaxPracticeLevel))
+    mob.skills.push(newSkill(SkillType.Noop, MAX_PRACTICE_LEVEL))
 
     // when
     const triggerSuccess = await createSkillTriggerEvent(mob, Trigger.AttackRoundDefend, target)
