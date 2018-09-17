@@ -5,9 +5,9 @@ import { newReciprocalExit } from "../../room/factory"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import { CheckStatus } from "../check"
-import move from "./move"
 import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "./constants"
 import { MESSAGE_OUT_OF_MOVEMENT } from "./constants"
+import move from "./move"
 
 describe("move", () => {
   it("should not allow movement where an exit does not exist", async () => {

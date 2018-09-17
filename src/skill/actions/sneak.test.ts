@@ -1,10 +1,10 @@
 import { AffectType } from "../../affect/affectType"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { Mob } from "../../mob/model/mob"
 import { getMultipleOutcomes } from "../../test/repeater"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import sneak from "./sneak"
-import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 
 describe("sneak skill actions", () => {
   it("should be able to fail sneaking", async () => {

@@ -1,9 +1,9 @@
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
+import { MESSAGE_FAIL_ITEM_NOT_IN_ROOM, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE } from "./constants"
 import drop from "./get"
 import get from "./get"
-import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, MESSAGE_FAIL_ITEM_NOT_IN_ROOM } from "./constants"
 
 describe("get actions precondition", () => {
   it("should not work if the item is not in the right inventory", async () => {

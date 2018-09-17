@@ -1,14 +1,14 @@
-import { addFight, Fight } from "../mob/fight/fight"
 import { MAX_PRACTICE_LEVEL } from "../mob/constants"
+import { addFight, Fight } from "../mob/fight/fight"
 import { createCastRequest } from "../request/factory"
 import { Request } from "../request/request"
 import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
 import { Check} from "./check"
+import { MESSAGE_NO_SPELL, MESSAGE_NOT_ENOUGH_MANA } from "./constants"
 import { newSpell } from "./factory"
 import spellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
-import { MESSAGE_NO_SPELL, MESSAGE_NOT_ENOUGH_MANA } from "./constants"
 
 function getTestSpell() {
   return newSpell(SpellType.MagicMissile)

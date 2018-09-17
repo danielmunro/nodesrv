@@ -3,8 +3,8 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
-import train from "./train"
 import { MESSAGE_FAIL_NEED_TRAINS, MESSAGE_FAIL_NO_TRAINER, MESSAGE_FAIL_NOT_STANDING } from "./constants"
+import train from "./train"
 
 describe("train action precondition", () => {
   it("should not work if a trainer is not present", async () => {

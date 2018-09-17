@@ -3,8 +3,8 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
-import eat, { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./eat"
 import { MESSAGE_FAIL_ALREADY_FULL, MESSAGE_FAIL_CANNOT_EAT_ITEM } from "./constants"
+import eat, { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./eat"
 
 describe("eat action precondition", () => {
   it("should not allow eating food not in inventory", async () => {

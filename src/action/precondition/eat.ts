@@ -1,7 +1,11 @@
 import appetite from "../../mob/race/appetite"
 import { Request } from "../../request/request"
 import Check from "../check"
-import { MESSAGE_FAIL_ALREADY_FULL, MESSAGE_FAIL_CANNOT_EAT_ITEM, MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
+import {
+  MESSAGE_FAIL_ALREADY_FULL,
+  MESSAGE_FAIL_CANNOT_EAT_ITEM,
+  MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY,
+} from "./constants"
 
 export default function(request: Request): Promise<Check> {
   const item = request.findItemInSessionMobInventory()
