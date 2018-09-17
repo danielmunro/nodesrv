@@ -8,7 +8,7 @@ import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import { CheckStatus } from "../check"
-import { MESSAGE_FAIL_NO_ITEM, MESSAGE_FAIL_NO_MERCHANT } from "./constants"
+import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY, MESSAGE_FAIL_NO_MERCHANT } from "./constants"
 import sell from "./sell"
 
 function getNonMerchantMob(): Mob {
@@ -52,7 +52,7 @@ describe("sell actions actions precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_NO_ITEM)
+    expect(check.result).toBe(MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY)
   })
 
   it("should succeed if all conditions met", async () => {

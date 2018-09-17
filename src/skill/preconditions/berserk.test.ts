@@ -2,10 +2,11 @@ import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
+import { Costs } from "../actions/constants"
 import { CheckResult } from "../checkResult"
 import { newSelfTargetAttempt, newSkill } from "../factory"
 import { SkillType } from "../skillType"
-import berserk, { COST_DELAY} from "./berserk"
+import berserk from "./berserk"
 import { MESSAGE_FAIL_ALREADY_BERSERKED, MESSAGE_FAIL_TOO_TIRED } from "./constants"
 
 describe("berserk skill precondition", () => {
@@ -45,7 +46,7 @@ describe("berserk skill precondition", () => {
     check.cost(player)
 
     // then
-    expect(player.delay).toBe(COST_DELAY)
+    expect(player.delay).toBe(Costs.Berserk.Delay)
     expect(mob.vitals.mv).toBeLessThan(mob.getCombinedAttributes().vitals.mv)
   })
 })

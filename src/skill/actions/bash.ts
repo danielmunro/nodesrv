@@ -3,9 +3,7 @@ import Attempt from "../attempt"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
 import { SkillType } from "../skillType"
-import { MESSAGE_FAIL, MESSAGE_NO_SKILL } from "./constants"
-
-export const DELAY = 2
+import { Costs, MESSAGE_FAIL, MESSAGE_NO_SKILL } from "./constants"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   const mob = attempt.mob
@@ -17,7 +15,7 @@ export default async function(attempt: Attempt): Promise<Outcome> {
   }
 
   if (roll(1, skill.level) - roll(1, target.getCombinedAttributes().stats.dex * 3) < 0) {
-    return new Outcome(attempt, OutcomeType.Failure, MESSAGE_FAIL, DELAY)
+    return new Outcome(attempt, OutcomeType.Failure, MESSAGE_FAIL, Costs.Bash.Delay)
   }
 
   target.vitals.hp--
@@ -26,6 +24,6 @@ export default async function(attempt: Attempt): Promise<Outcome> {
     attempt,
     OutcomeType.Success,
     `You slam into ${mob.name} and send them flying!`,
-    DELAY,
+    Costs.Bash.Delay,
   )
 }

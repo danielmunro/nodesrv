@@ -1,18 +1,16 @@
 import { Player } from "../../player/model/player"
+import { Costs } from "../actions/constants"
 import Attempt from "../attempt"
 import Check from "../check"
 import { failCheck, successCheck } from "../checkFactory"
 import { MESSAGE_FAIL_TOO_TIRED } from "./constants"
 
-export const COST_DELAY = 1
-export const COST_MV = 5
-
 export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
-  if (mob.vitals.mv > COST_MV) {
+  if (mob.vitals.mv > Costs.Sneak.Delay) {
     return successCheck(attempt, (player: Player) => {
-      mob.vitals.mv -= COST_MV
-      player.delay += COST_DELAY
+      mob.vitals.mv -= Costs.Sneak.Delay
+      player.delay += Costs.Sneak.Delay
     })
   }
   return failCheck(attempt, MESSAGE_FAIL_TOO_TIRED)

@@ -23,7 +23,7 @@ function bashRepeater(mob: Mob, target: Mob) {
 }
 
 function times(count: number, callback) {
-  return Array.from(Array(10).keys()).map((n) => callback())
+  return Array.from(Array(10).keys()).map(() => callback())
 }
 
 function addNewTestFight(mob: Mob): Fight {

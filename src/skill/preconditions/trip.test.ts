@@ -6,7 +6,8 @@ import AttemptContext from "../attemptContext"
 import { CheckResult } from "../checkResult"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
-import trip, { COST_DELAY, COST_MV, MESSAGE_FAIL_TOO_TIRED } from "./trip"
+import { MESSAGE_FAIL_TOO_TIRED } from "./constants"
+import trip, { COST_DELAY, COST_MV } from "./trip"
 
 describe("trip skill precondition", () => {
   it("should not work if the mob is out of movement", async () => {

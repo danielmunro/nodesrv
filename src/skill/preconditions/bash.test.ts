@@ -2,13 +2,14 @@ import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { Trigger } from "../../mob/trigger"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
+import { Costs } from "../actions/constants"
 import Attempt from "../attempt"
 import AttemptContext from "../attemptContext"
 import { CheckResult } from "../checkResult"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
-import bash, { COST_DELAY, COST_MV, MESSAGE_FAIL_TOO_TIRED } from "./bash"
-import { MESSAGE_FAIL_NO_TARGET } from "./constants"
+import bash from "./bash"
+import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_TOO_TIRED } from "./constants"
 
 describe("bash skill precondition", () => {
   it("should not allow bashing when too tired", async () => {
@@ -68,7 +69,7 @@ describe("bash skill precondition", () => {
     check.cost(player)
 
     // then
-    expect(player.sessionMob.vitals.mv).toEqual(startingMv - COST_MV)
-    expect(player.delay).toEqual(startingDelay + COST_DELAY)
+    expect(player.sessionMob.vitals.mv).toEqual(startingMv - Costs.Bash.Mv)
+    expect(player.delay).toEqual(startingDelay + Costs.Bash.Delay)
   })
 })

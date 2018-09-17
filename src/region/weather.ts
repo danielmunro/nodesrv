@@ -1,6 +1,5 @@
 import { pickOne } from "../random/helpers"
 import {
-  allWeather,
   MESSAGE_WEATHER_BLUSTERY,
   MESSAGE_WEATHER_CLEAR,
   MESSAGE_WEATHER_OVERCAST,
@@ -26,6 +25,14 @@ const weatherMessageMap = [
   createMapEntry(Weather.Overcast, MESSAGE_WEATHER_OVERCAST),
   createMapEntry(Weather.Raining, MESSAGE_WEATHER_RAINING),
   createMapEntry(Weather.Storming, MESSAGE_WEATHER_STORMING),
+]
+
+export const allWeather = [
+  Weather.Clear,
+  Weather.Blustery,
+  Weather.Overcast,
+  Weather.Raining,
+  Weather.Storming,
 ]
 
 export function getRandomWeather(): Weather {

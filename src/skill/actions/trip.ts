@@ -7,8 +7,7 @@ import Attempt from "../attempt"
 import { Skill } from "../model/skill"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
-
-const DELAY = 1
+import { Costs } from "./constants"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   const target = attempt.getSubjectAsMob()
@@ -16,10 +15,10 @@ export default async function(attempt: Attempt): Promise<Outcome> {
     const amount = attempt.skill.level / 10
     target.addAffect(newAffect(AffectType.Dazed, amount))
     target.vitals.hp -= amount
-    return new Outcome(attempt, OutcomeType.Success, `You tripped ${target}!`, DELAY)
+    return new Outcome(attempt, OutcomeType.Success, `You tripped ${target}!`, Costs.Trip.Delay)
   }
 
-  return new Outcome(attempt, OutcomeType.Failure, `You failed to trip ${target}.`, DELAY)
+  return new Outcome(attempt, OutcomeType.Failure, `You failed to trip ${target}.`, Costs.Trip.Delay)
 }
 
 function calculateDefenseRoll(mob: Mob): number {

@@ -6,7 +6,8 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import { CheckStatus } from "../check"
-import wear, { MESSAGE_FAIL_NO_ITEM_FOUND } from "./wear"
+import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
+import wear from "./wear"
 
 function getHatOfMight(): Item {
   return newEquipment("the hat of might", "a mighty hat", Equipment.Head)
@@ -23,7 +24,7 @@ describe("wear", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_NO_ITEM_FOUND)
+    expect(check.result).toBe(MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY)
   })
 
   it("can equip an item", async () => {

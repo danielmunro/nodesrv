@@ -1,5 +1,6 @@
 import { AffectType } from "../../affect/affectType"
 import { Player } from "../../player/model/player"
+import { Costs } from "../actions/constants"
 import Attempt from "../attempt"
 import Check from "../check"
 import { failCheck, successCheck } from "../checkFactory"
@@ -16,7 +17,7 @@ export default function(attempt: Attempt): Promise<Check> {
   if (mob.vitals.mv > cost) {
     return successCheck(attempt, (player: Player) => {
       mob.vitals.mv -= cost
-      player.delay += COST_DELAY
+      player.delay += Costs.Berserk.Delay
     })
   }
   return failCheck(attempt, MESSAGE_FAIL_TOO_TIRED)

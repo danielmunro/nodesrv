@@ -5,7 +5,7 @@ import Weapon from "../../item/model/weapon"
 import roll from "../../random/dice"
 import Attempt from "../attempt"
 import Outcome from "../outcome"
-import { MESSAGE_FAIL_CANNOT_ENVENOM, MESSAGE_FAIL_NOT_A_WEAPON } from "./constants"
+import { Costs, MESSAGE_FAIL_CANNOT_ENVENOM, MESSAGE_FAIL_NOT_A_WEAPON } from "./constants"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   const item = attempt.getSubjectAsItem()
@@ -19,6 +19,7 @@ export default async function(attempt: Attempt): Promise<Outcome> {
   }
 
   if (roll(1, attempt.skill.level) > item.level) {
+    attempt.mob.vitals.mana -= Costs.Envenom.Mana
     item.affects.push(newAffect(AffectType.Poison, attempt.mob.level))
     return attempt.createSuccessOutcome()
   }

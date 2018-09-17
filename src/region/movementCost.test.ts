@@ -1,5 +1,5 @@
-import { allTerrains } from "./constants"
 import getMovementCost from "./movementCost"
+import { allTerrains } from "./terrain"
 import { Terrain } from "./terrain"
 
 describe("movement cost calculator for regions", () => {

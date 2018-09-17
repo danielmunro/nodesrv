@@ -89,7 +89,7 @@ export default class TestBuilder {
     return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result)
   }
 
-  public createRequest(requestType: RequestType, input: string, target: Mob = null): Request {
+  public createRequest(requestType: RequestType, input: string = requestType, target: Mob = null): Request {
     return new Request(this.player, requestType, input, target)
   }
 

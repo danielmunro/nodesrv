@@ -9,3 +9,24 @@ export const MESSAGE_FAIL_CANNOT_ENVENOM = "You need a piercing or slashing weap
 
 export const MESSAGE_SNEAK_SUCCESS = "You begin to move silently."
 export const MESSAGE_SNEAK_FAIL = "You fail to move silently."
+
+export const Costs = {
+  Bash: {
+    Delay: 2,
+    Mv: 40,
+  },
+  Berserk: {
+    Delay: 2,
+  },
+  Envenom: {
+    Mana: 100,
+  },
+  Sneak: {
+    Delay: 1,
+    Mv: 5,
+  },
+  Trip: {
+    Delay: 1,
+    Mv: 5,
+  },
+}

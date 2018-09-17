@@ -2,8 +2,8 @@ import { Disposition } from "../../mob/disposition"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
-import { MESSAGE_FAIL_ALREADY_AWAKE } from "./constants"
-import { default as wake, MESSAGE_FAIL_DEAD } from "./wake"
+import { MESSAGE_FAIL_ALREADY_AWAKE, MESSAGE_FAIL_DEAD } from "./constants"
+import { default as wake } from "./wake"
 
 describe("wake actions precondition", () => {
   it("should not be able to wake if already standing", async () => {

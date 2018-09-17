@@ -3,8 +3,12 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
-import { MESSAGE_FAIL_ALREADY_FULL, MESSAGE_FAIL_CANNOT_EAT_ITEM } from "./constants"
-import eat, { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./eat"
+import {
+  MESSAGE_FAIL_ALREADY_FULL,
+  MESSAGE_FAIL_CANNOT_EAT_ITEM,
+  MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY,
+} from "./constants"
+import eat from "./eat"
 
 describe("eat action precondition", () => {
   it("should not allow eating food not in inventory", async () => {
@@ -18,7 +22,7 @@ describe("eat action precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_NO_ITEM)
+    expect(check.result).toBe(MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY)
   })
 
   it("should not allow eating items that are not food", async () => {
