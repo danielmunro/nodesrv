@@ -5,7 +5,7 @@ import Weapon from "../../item/model/weapon"
 import roll from "../../random/dice"
 import Attempt from "../attempt"
 import Outcome from "../outcome"
-import { Costs, Messages } from "./constants"
+import { Costs, Messages } from "../constants"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   const item = attempt.getSubjectAsItem()

@@ -7,7 +7,7 @@ import Attempt from "../attempt"
 import { Skill } from "../model/skill"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
-import { Costs } from "./constants"
+import { Costs } from "../constants"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   const target = attempt.getSubjectAsMob()

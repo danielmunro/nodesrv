@@ -1,12 +1,9 @@
 import { Player } from "../../player/model/player"
-import { Costs } from "../actions/constants"
+import { Costs } from "../constants"
 import Attempt from "../attempt"
 import Check from "../check"
 import { failCheck, successCheck } from "../checkFactory"
 import { Messages } from "./constants"
-
-export const COST_DELAY = 1
-export const COST_MV = 5
 
 export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob

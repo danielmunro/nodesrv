@@ -7,7 +7,8 @@ import { CheckResult } from "../checkResult"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
-import trip, { COST_DELAY, COST_MV } from "./trip"
+import trip from "./trip"
+import { Costs } from "../constants"
 
 describe("trip skill precondition", () => {
   it("should not work if the mob is out of movement", async () => {
@@ -41,7 +42,7 @@ describe("trip skill precondition", () => {
     check.cost(player)
 
     // then
-    expect(player.sessionMob.vitals.mv).toBe(player.sessionMob.getCombinedAttributes().vitals.mv - COST_MV)
-    expect(player.delay).toBe(COST_DELAY)
+    expect(player.sessionMob.vitals.mv).toBe(player.sessionMob.getCombinedAttributes().vitals.mv - Costs.Trip.Mv)
+    expect(player.delay).toBe(Costs.Trip.Delay)
   })
 })

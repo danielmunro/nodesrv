@@ -3,7 +3,7 @@ import Attempt from "../attempt"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
 import { SkillType } from "../skillType"
-import { Costs, Messages } from "./constants"
+import { Costs, Messages } from "../constants"
 import { format } from "../../support/string"
 
 export default async function(attempt: Attempt): Promise<Outcome> {

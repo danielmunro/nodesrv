@@ -6,7 +6,7 @@ import AttemptContext from "../attemptContext"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
 import { SkillType } from "../skillType"
-import { Messages } from "./constants"
+import { Messages } from "../constants"
 import envenom from "./envenom"
 
 function getTestBuilder() {

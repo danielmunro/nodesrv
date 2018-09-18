@@ -1,6 +1,6 @@
 import { AffectType } from "../../affect/affectType"
 import { Player } from "../../player/model/player"
-import { Costs } from "../actions/constants"
+import { Costs } from "../constants"
 import Attempt from "../attempt"
 import Check from "../check"
 import { failCheck, successCheck } from "../checkFactory"
