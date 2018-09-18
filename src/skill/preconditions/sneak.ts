@@ -3,7 +3,7 @@ import { Costs } from "../actions/constants"
 import Attempt from "../attempt"
 import Check from "../check"
 import { failCheck, successCheck } from "../checkFactory"
-import { MESSAGE_FAIL_TOO_TIRED } from "./constants"
+import { Messages } from "./constants"
 
 export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
@@ -13,5 +13,5 @@ export default function(attempt: Attempt): Promise<Check> {
       player.delay += Costs.Sneak.Delay
     })
   }
-  return failCheck(attempt, MESSAGE_FAIL_TOO_TIRED)
+  return failCheck(attempt, Messages.All.NotEnoughMv)
 }

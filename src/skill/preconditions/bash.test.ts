@@ -9,7 +9,7 @@ import { CheckResult } from "../checkResult"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import bash from "./bash"
-import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_TOO_TIRED } from "./constants"
+import { Messages } from "./constants"
 
 describe("bash skill precondition", () => {
   it("should not allow bashing when too tired", async () => {
@@ -24,7 +24,7 @@ describe("bash skill precondition", () => {
 
     // then
     expect(check.checkResult).toBe(CheckResult.Unable)
-    expect(check.message).toBe(MESSAGE_FAIL_TOO_TIRED)
+    expect(check.message).toBe(Messages.All.NotEnoughMv)
   })
 
   it("should not allow bashing when a target is not provided", async () => {
@@ -37,7 +37,7 @@ describe("bash skill precondition", () => {
 
     // then
     expect(check.checkResult).toBe(CheckResult.Unable)
-    expect(check.message).toBe(MESSAGE_FAIL_NO_TARGET)
+    expect(check.message).toBe(Messages.All.NoTarget)
   })
 
   it("should pass the check if all preconditions pass", async () => {

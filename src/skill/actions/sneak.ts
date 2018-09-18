@@ -7,17 +7,17 @@ import Attempt from "../attempt"
 import { Skill } from "../model/skill"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
-import { Costs, MESSAGE_SNEAK_FAIL, MESSAGE_SNEAK_SUCCESS } from "./constants"
+import { Costs, Messages } from "./constants"
 
 const SUCCESS_THRESHOLD = 50
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   if (calculateSneakRoll(attempt.mob, attempt.skill) > SUCCESS_THRESHOLD) {
     attempt.mob.addAffect(newAffect(AffectType.Sneak, attempt.mob.level))
-    return new Outcome(attempt, OutcomeType.Success, MESSAGE_SNEAK_SUCCESS, Costs.Sneak.Delay)
+    return new Outcome(attempt, OutcomeType.Success, Messages.Sneak.Success, Costs.Sneak.Delay)
   }
 
-  return new Outcome(attempt, OutcomeType.Failure, MESSAGE_SNEAK_FAIL, Costs.Sneak.Delay)
+  return new Outcome(attempt, OutcomeType.Failure, Messages.Sneak.Fail, Costs.Sneak.Delay)
 }
 
 function calculateSneakRoll(mob: Mob, skill: Skill): number {

@@ -7,7 +7,7 @@ import AttemptContext from "../attemptContext"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import bash from "./bash"
-import { MESSAGE_FAIL, MESSAGE_NO_SKILL } from "./constants"
+import { Messages } from "./constants"
 
 const RETRY_COUNT = 10
 
@@ -45,7 +45,7 @@ describe("bash", () => {
     const outcome = await bash(createBashRequest(mob, fight.target))
 
     // then
-    expect(outcome.getMessage()).toEqual(MESSAGE_NO_SKILL)
+    expect(outcome.getMessage()).toEqual(Messages.Bash.NoSkill)
   })
 
   it("should be able to trigger a failed bash", async () => {
@@ -58,7 +58,7 @@ describe("bash", () => {
     const outcomes = await Promise.all(times(RETRY_COUNT, bashRepeater(mob, fight.target)))
 
     // then
-    expect(outcomes.some((result) => result.message === MESSAGE_FAIL)).toBeTruthy()
+    expect(outcomes.some((result) => result.message === Messages.Bash.Fail)).toBeTruthy()
   })
 
   it("should be able to trigger a successful bash", async () => {

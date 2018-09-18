@@ -2,12 +2,12 @@ import { Item } from "../item/model/item"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { newSkill } from "../skill/factory"
-import { MESSAGE_FAIL_TOO_TIRED } from "../skill/preconditions/constants"
 import { SkillType } from "../skill/skillType"
 import { getTestPlayer } from "../test/player"
 import TestBuilder from "../test/testBuilder"
 import { doSkill, doWithItemOrElse } from "./actionHelpers"
 import { Definition } from "./definition/definition"
+import { Messages } from "../skill/preconditions/constants"
 
 describe("actions helpers", () => {
   it("should do with item or else", () => {
@@ -84,6 +84,6 @@ describe("actions helpers", () => {
     const response = await doSkill(new Request(player, RequestType.Sneak), SkillType.Sneak)
 
     // then
-    expect(response.message).toBe(MESSAGE_FAIL_TOO_TIRED)
+    expect(response.message).toBe(Messages.All.NotEnoughMv)
   })
 })

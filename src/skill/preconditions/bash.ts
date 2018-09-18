@@ -3,13 +3,13 @@ import { Costs } from "../actions/constants"
 import Attempt from "../attempt"
 import Check from "../check"
 import { failCheck, successCheck } from "../checkFactory"
-import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_TOO_TIRED } from "./constants"
+import { Messages } from "./constants"
 
 export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
   const target = attempt.getSubjectAsMob()
   if (!target || mob === target) {
-    return failCheck(attempt, MESSAGE_FAIL_NO_TARGET)
+    return failCheck(attempt, Messages.All.NoTarget)
   }
   if (mob.vitals.mv > Costs.Bash.Mv) {
     return successCheck(attempt, (player: Player) => {
@@ -17,5 +17,5 @@ export default function(attempt: Attempt): Promise<Check> {
       player.delay += Costs.Bash.Delay
     })
   }
-  return failCheck(attempt, MESSAGE_FAIL_TOO_TIRED)
+  return failCheck(attempt, Messages.All.NotEnoughMv)
 }

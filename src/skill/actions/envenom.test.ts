@@ -6,7 +6,7 @@ import AttemptContext from "../attemptContext"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
 import { SkillType } from "../skillType"
-import { MESSAGE_FAIL_CANNOT_ENVENOM, MESSAGE_FAIL_NOT_A_WEAPON } from "./constants"
+import { Messages } from "./constants"
 import envenom from "./envenom"
 
 function getTestBuilder() {
@@ -61,7 +61,7 @@ describe("envenom", () => {
 
     expect(response.wasSuccessful()).toBeFalsy()
     expect(response.outcomeType).toBe(OutcomeType.CheckFail)
-    expect(response.getMessage()).toBe(MESSAGE_FAIL_NOT_A_WEAPON)
+    expect(response.getMessage()).toBe(Messages.Envenom.Fail.NotAWeapon)
   })
 
   it("should only be able to envenom bladed weapons", async () => {
@@ -76,6 +76,6 @@ describe("envenom", () => {
 
     expect(response.wasSuccessful()).toBeFalsy()
     expect(response.outcomeType).toBe(OutcomeType.CheckFail)
-    expect(response.getMessage()).toBe(MESSAGE_FAIL_CANNOT_ENVENOM)
+    expect(response.getMessage()).toBe(Messages.Envenom.Fail.WrongWeaponType)
   })
 })

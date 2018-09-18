@@ -4,14 +4,12 @@ import { Costs } from "../actions/constants"
 import Attempt from "../attempt"
 import Check from "../check"
 import { failCheck, successCheck } from "../checkFactory"
-import { MESSAGE_FAIL_ALREADY_BERSERKED, MESSAGE_FAIL_TOO_TIRED } from "./constants"
-
-export const COST_DELAY = 2
+import { Messages } from "./constants"
 
 export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
   if (mob.getAffect(AffectType.Berserk)) {
-    return failCheck(attempt, MESSAGE_FAIL_ALREADY_BERSERKED)
+    return failCheck(attempt, Messages.Berserk.FailAlreadyInvoked)
   }
   const cost = Math.max(mob.getCombinedAttributes().vitals.mv / 2, 40)
   if (mob.vitals.mv > cost) {
@@ -20,5 +18,5 @@ export default function(attempt: Attempt): Promise<Check> {
       player.delay += Costs.Berserk.Delay
     })
   }
-  return failCheck(attempt, MESSAGE_FAIL_TOO_TIRED)
+  return failCheck(attempt, Messages.All.NotEnoughMv)
 }

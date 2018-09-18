@@ -6,7 +6,7 @@ import AttemptContext from "../attemptContext"
 import { CheckResult } from "../checkResult"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
-import { MESSAGE_FAIL_TOO_TIRED } from "./constants"
+import { Messages } from "./constants"
 import trip, { COST_DELAY, COST_MV } from "./trip"
 
 describe("trip skill precondition", () => {
@@ -22,7 +22,7 @@ describe("trip skill precondition", () => {
 
     // then
     expect(check.checkResult).toBe(CheckResult.Unable)
-    expect(check.message).toBe(MESSAGE_FAIL_TOO_TIRED)
+    expect(check.message).toBe(Messages.All.NotEnoughMv)
   })
 
   it("should apply costs", async () => {
