@@ -15,6 +15,9 @@ export default async function(attempt: Attempt): Promise<Outcome> {
 }
 
 function calculateEnhancedDamageRoll(mob: Mob, skill: Skill): number {
-  return roll(6, mob.getCombinedAttributes().stats.str / 5)
-    + roll(10, skill.level / 10)
+  const stats = mob.getCombinedAttributes().stats
+  return roll(3, Math.max(1, stats.str / 6))
+    + roll(3, Math.max(1, stats.sta / 10) + 1)
+    + roll(4, Math.max(1, skill.level / 20) + 1)
+    + 40
 }
