@@ -1,5 +1,7 @@
 import { Trigger } from "../mob/trigger"
 import roll from "../random/dice"
+import enhancedDamageAction from "./actions/enhancedDamage"
+import backstabAction from "./actions/backstab"
 import bashAction from "./actions/bash"
 import berserkAction from "./actions/berserk"
 import dodgeAction from "./actions/dodge"
@@ -8,6 +10,7 @@ import secondAttack from "./actions/secondAttack"
 import sneakAction from "./actions/sneak"
 import tripAction from "./actions/trip"
 import Outcome from "./outcome"
+import backstabPrecondition from "./preconditions/backstab"
 import bashPrecondition from "./preconditions/bash"
 import berserkPrecondition from "./preconditions/berserk"
 import envenomPrecondition from "./preconditions/envenom"
@@ -68,9 +71,13 @@ export const skillCollection = [
   createSkill(SkillType.Berserk, Trigger.Input,
     createCheckImprove(berserkAction), 20, berserkPrecondition),
   createSkill(SkillType.Sneak, Trigger.Input,
-    createCheckImprove(sneakAction), 20, sneakPrecondition),
+    createCheckImprove(sneakAction), 6, sneakPrecondition),
   createSkill(SkillType.Envenom, Trigger.Input,
     createCheckImprove(envenomAction), 20, envenomPrecondition),
+  createSkill(SkillType.Backstab, Trigger.Input,
+    createCheckImprove(backstabAction), 20, backstabPrecondition),
+  createSkill(SkillType.EnhancedDamage, Trigger.AttackRoundDamage,
+    createCheckImprove(enhancedDamageAction), 30),
   newWeaponSkill(SkillType.Sword),
   newWeaponSkill(SkillType.Mace),
   newWeaponSkill(SkillType.Wand),

@@ -31,6 +31,7 @@ export const Costs = {
   },
   Berserk: {
     Delay: 2,
+    Mv: 80,
   },
   Envenom: {
     Mana: 100,
@@ -43,4 +44,8 @@ export const Costs = {
     Delay: 1,
     Mv: 5,
   },
+}
+
+export const SuccessThreshold = {
+  EnhancedDamage: 60,
 }

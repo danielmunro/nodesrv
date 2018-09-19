@@ -11,7 +11,7 @@ export default function(attempt: Attempt): Promise<Check> {
   if (mob.getAffect(AffectType.Berserk)) {
     return failCheck(attempt, Messages.Berserk.FailAlreadyInvoked)
   }
-  const cost = Math.max(mob.getCombinedAttributes().vitals.mv / 2, 40)
+  const cost = Math.max(mob.getCombinedAttributes().vitals.mv / 2, Costs.Berserk.Mv)
   if (mob.vitals.mv > cost) {
     return successCheck(attempt, (player: Player) => {
       mob.vitals.mv -= cost
