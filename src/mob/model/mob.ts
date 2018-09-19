@@ -22,6 +22,10 @@ import { Role } from "../role"
 import { SpecializationType } from "../specialization/specializationType"
 import { Standing } from "../standing"
 import { PlayerMob } from "./playerMob"
+import { SkillType } from "../../skill/skillType"
+import Attempt from "../../skill/attempt"
+import AttemptContext from "../../skill/attemptContext"
+import { Trigger } from "../trigger"
 
 @Entity()
 export class Mob {
@@ -101,6 +105,16 @@ export class Mob {
     (playerMob) => playerMob.mob,
     { nullable: true, cascadeInsert: true, cascadeUpdate: true })
   public playerMob: PlayerMob
+
+  public attempt(skillType: SkillType, target: Mob = null): Attempt {
+    const skill = this.skills.find((s) => s.skillType === skillType)
+
+    if (!target) {
+      target = this
+    }
+
+    return new Attempt(this, skill, new AttemptContext(Trigger.None, target))
+  }
 
   public getAuthorizationLevel(): AuthorizationLevel {
     return this.playerMob ? this.playerMob.authorizationLevel : AuthorizationLevel.None

@@ -1,9 +1,7 @@
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { Trigger } from "../../mob/trigger"
 import TestBuilder from "../../test/testBuilder"
 import Attempt from "../attempt"
-import AttemptContext from "../attemptContext"
 import { SkillType } from "../skillType"
 import enhancedDamage from "./enhancedDamage"
 import { newAttributesWithStats, newStats } from "../../attributes/factory"
@@ -34,9 +32,7 @@ describe("enhanced damage", () => {
     const iterationCount = 1000
 
     // when
-    const outcomes = await doEnhancedDamage(
-      iterationCount,
-      new Attempt(mob, skill, new AttemptContext(Trigger.None, mob)))
+    const outcomes = await doEnhancedDamage(iterationCount, mob.attempt(SkillType.EnhancedDamage))
 
     // then
     expect(outcomes.length).toBeGreaterThan(iterationCount / 2)
@@ -50,24 +46,19 @@ describe("enhanced damage", () => {
     const iterationCount = 1000
 
     // when
-    const outcomes = await doEnhancedDamage(
-      iterationCount,
-      new Attempt(mob, skill, new AttemptContext(Trigger.None, mob)))
+    const outcomes = await doEnhancedDamage(iterationCount, mob.attempt(SkillType.EnhancedDamage))
 
     // then
     expect(outcomes.length).toBeLessThan(iterationCount / 2)
   })
 
   it("should succeed infrequently when not practiced", async () => {
-    // setup
+    // given
     const mob = getMob()
-    const skill = mob.skills[0]
     const iterationCount = 1000
 
     // when
-    const outcomes = await doEnhancedDamage(
-      iterationCount,
-      new Attempt(mob, skill, new AttemptContext(Trigger.None, mob)))
+    const outcomes = await doEnhancedDamage(iterationCount, mob.attempt(SkillType.EnhancedDamage))
 
     // then
     expect(outcomes.length).toBeLessThan(iterationCount / 10)
