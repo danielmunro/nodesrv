@@ -3,10 +3,10 @@ import { Trigger } from "../../mob/trigger"
 import TestBuilder from "../../test/testBuilder"
 import Attempt from "../attempt"
 import AttemptContext from "../attemptContext"
+import { Messages } from "../constants"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
 import { SkillType } from "../skillType"
-import { Messages } from "../constants"
 import envenom from "./envenom"
 
 function getTestBuilder() {

@@ -1,8 +1,8 @@
 import Attempt from "../attempt"
 import Check from "../check"
+import { failCheck, successCheck } from "../checkFactory"
 import { Costs } from "../constants"
 import { Messages } from "./constants"
-import { failCheck, successCheck } from "../checkFactory"
 
 export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob

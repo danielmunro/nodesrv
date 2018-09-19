@@ -1,12 +1,12 @@
-import TestBuilder from "../../test/testBuilder"
-import { SkillType } from "../skillType"
 import doNTimes from "../../functional/times"
-import enhancedDamage from "./enhancedDamage"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
+import { Trigger } from "../../mob/trigger"
+import TestBuilder from "../../test/testBuilder"
 import Attempt from "../attempt"
 import AttemptContext from "../attemptContext"
-import { Trigger } from "../../mob/trigger"
-import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import Outcome from "../outcome"
+import { SkillType } from "../skillType"
+import enhancedDamage from "./enhancedDamage"
 
 describe("enhanced damage", () => {
   it("should succeed more than half the time when practiced", async () => {

@@ -4,10 +4,10 @@ import { Trigger } from "../../mob/trigger"
 import { getTestMob } from "../../test/mob"
 import Attempt from "../attempt"
 import AttemptContext from "../attemptContext"
+import { Messages } from "../constants"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import bash from "./bash"
-import { Messages } from "../constants"
 
 const RETRY_COUNT = 10
 

@@ -1,9 +1,9 @@
 import { AffectType } from "../../affect/affectType"
 import { Player } from "../../player/model/player"
-import { Costs } from "../constants"
 import Attempt from "../attempt"
 import Check from "../check"
 import { failCheck, successCheck } from "../checkFactory"
+import { Costs } from "../constants"
 import { Messages } from "./constants"
 
 export default function(attempt: Attempt): Promise<Check> {

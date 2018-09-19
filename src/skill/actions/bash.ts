@@ -1,10 +1,10 @@
 import roll from "../../random/dice"
+import { format } from "../../support/string"
 import Attempt from "../attempt"
+import { Costs, Messages } from "../constants"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
 import { SkillType } from "../skillType"
-import { Costs, Messages } from "../constants"
-import { format } from "../../support/string"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   const mob = attempt.mob

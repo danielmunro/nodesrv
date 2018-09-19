@@ -4,11 +4,11 @@ import { getTestPlayer } from "../../test/player"
 import Attempt from "../attempt"
 import AttemptContext from "../attemptContext"
 import { CheckResult } from "../checkResult"
+import { Costs } from "../constants"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 import trip from "./trip"
-import { Costs } from "../constants"
 
 describe("trip skill precondition", () => {
   it("should not work if the mob is out of movement", async () => {

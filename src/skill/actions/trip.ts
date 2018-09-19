@@ -4,10 +4,10 @@ import { Mob } from "../../mob/model/mob"
 import { getSizeModifier } from "../../mob/race/sizeModifier"
 import roll from "../../random/dice"
 import Attempt from "../attempt"
+import { Costs } from "../constants"
 import { Skill } from "../model/skill"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
-import { Costs } from "../constants"
 
 export default async function(attempt: Attempt): Promise<Outcome> {
   const target = attempt.getSubjectAsMob()
