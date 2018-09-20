@@ -7,6 +7,7 @@
     "semicolon": [true, "never"],
     "no-console": false,
     "interface-name": [true, "never-prefix"],
-    "no-identical-functions": false
+    "no-identical-functions": false,
+    "arrow-parens": false
   }
 }

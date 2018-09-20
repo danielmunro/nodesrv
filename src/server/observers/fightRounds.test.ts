@@ -3,7 +3,8 @@ import { addFight, Fight, filterCompleteFights, getFights } from "../../mob/figh
 import Table from "../../room/table"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
-import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
+import TestBuilder from "../../test/testBuilder"
+import { attackMessage, createClientMobMap, FightRounds, getCorpse, getHealthIndicator } from "./fightRounds"
 
 describe("fight rounds", () => {
   it("should generate accurate attacks messages", () => {
@@ -75,6 +76,26 @@ describe("fight rounds", () => {
     // Then
     expect(getFights().length).toBe(0)
     expect(fight.isInProgress()).toBe(false)
+  })
+
+  it("should transfer all items from the inventory and equipment to the corpse", () => {
+    // setup
+    const testBuilder = new TestBuilder()
+    const playerBuilder = testBuilder.withPlayer()
+    const mob = playerBuilder.player.sessionMob
+
+    // given
+    playerBuilder.equip().withHelmetEq()
+    playerBuilder.withAxeEq()
+    playerBuilder.withFood()
+
+    // when
+    const corpse = getCorpse(mob)
+
+    // then
+    expect(corpse.containerInventory.items.length).toBe(3)
+    expect(mob.inventory.items.length).toBe(0)
+    expect(mob.equipped.inventory.items.length).toBe(0)
   })
 })
 

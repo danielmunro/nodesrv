@@ -1,11 +1,11 @@
+import { newAttributesWithStats, newStats } from "../../attributes/factory"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
+import { Race } from "../../mob/race/race"
 import TestBuilder from "../../test/testBuilder"
 import Attempt from "../attempt"
 import { SkillType } from "../skillType"
 import enhancedDamage from "./enhancedDamage"
-import { newAttributesWithStats, newStats } from "../../attributes/factory"
-import { Race } from "../../mob/race/race"
 
 function getMob() {
   const testBuilder = new TestBuilder()

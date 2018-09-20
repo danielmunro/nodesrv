@@ -10,7 +10,10 @@ import { Inventory } from "../../item/model/inventory"
 import { AuthorizationLevel } from "../../player/authorizationLevel"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
+import Attempt from "../../skill/attempt"
+import AttemptContext from "../../skill/attemptContext"
 import { Skill } from "../../skill/model/skill"
+import { SkillType } from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
 import { BASE_KILL_EXPERIENCE } from "../constants"
 import { Disposition } from "../disposition"
@@ -21,11 +24,8 @@ import { Race } from "../race/race"
 import { Role } from "../role"
 import { SpecializationType } from "../specialization/specializationType"
 import { Standing } from "../standing"
-import { PlayerMob } from "./playerMob"
-import { SkillType } from "../../skill/skillType"
-import Attempt from "../../skill/attempt"
-import AttemptContext from "../../skill/attemptContext"
 import { Trigger } from "../trigger"
+import { PlayerMob } from "./playerMob"
 
 @Entity()
 export class Mob {
@@ -106,7 +106,7 @@ export class Mob {
     { nullable: true, cascadeInsert: true, cascadeUpdate: true })
   public playerMob: PlayerMob
 
-  public attempt(skillType: SkillType, target: Mob = null): Attempt {
+  public attempt(skillType: SkillType, target = null): Attempt {
     const skill = this.skills.find((s) => s.skillType === skillType)
 
     if (!target) {
