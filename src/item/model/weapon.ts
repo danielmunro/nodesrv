@@ -1,8 +1,8 @@
 import { Column, Entity } from "typeorm"
 import { DamageType } from "../../damage/damageType"
+import { AttackVerb } from "../../mob/fight/attackVerb"
 import { WeaponType } from "../weaponType"
 import { Item } from "./item"
-import { AttackVerb } from "../../mob/fight/attackVerb"
 
 @Entity()
 export default class Weapon extends Item {

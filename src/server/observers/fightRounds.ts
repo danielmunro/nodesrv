@@ -1,19 +1,19 @@
 import { Client } from "../../client/client"
 import Maybe from "../../functional/maybe"
+import { Equipment } from "../../item/equipment"
 import { newContainer } from "../../item/factory"
 import { Item } from "../../item/model/item"
 import { Attack } from "../../mob/fight/attack"
+import { AttackVerb } from "../../mob/fight/attackVerb"
+import damageDescriptor from "../../mob/fight/damageDescriptor"
 import { filterCompleteFights, getFights } from "../../mob/fight/fight"
+import healthIndicator from "../../mob/fight/healthIndicator"
 import { Round } from "../../mob/fight/round"
 import { Mob } from "../../mob/model/mob"
 import Table from "../../room/table"
 import { format } from "../../support/string"
 import { Messages } from "./constants"
 import { Observer } from "./observer"
-import damageDescriptor from "../../mob/fight/damageDescriptor"
-import { Equipment } from "../../item/equipment"
-import { AttackVerb } from "../../mob/fight/attackVerb"
-import healthIndicator from "../../mob/fight/healthIndicator"
 
 enum AttackLabel {
   Regular = "(reg)",
