@@ -13,8 +13,8 @@ describe("fight rounds", () => {
     const damageAmount = 1
     mob2.vitals.hp -= damageAmount
     const attack1 = new Attack(mob1, mob2, AttackResult.Hit, damageAmount)
-    expect(attackMessage(attack1, mob1)).toEqual("Your clumsy attack gives mob2 a bruise.")
-    expect(attackMessage(attack1, mob2)).toEqual("mob2's clumsy attack gives you a bruise.")
+    expect(attackMessage(attack1, mob1)).toEqual("Your clumsy hit gives mob2 a bruise.")
+    expect(attackMessage(attack1, mob2)).toEqual("mob2's clumsy hit gives you a bruise.")
 
     const newDamageAmount = 100
     mob1.vitals.hp -= newDamageAmount
