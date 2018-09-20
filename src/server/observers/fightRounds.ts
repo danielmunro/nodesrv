@@ -44,16 +44,55 @@ export function getHealthIndicator(percent): string {
     .get()
 }
 
+function newDamageDescriptor(damage: number, descriptors: string[]) {
+  return { damage, descriptors }
+}
+
+const damageDescriptorMap = [
+  newDamageDescriptor(0, ["clumsy", "misses", " harmlessly."]),
+  newDamageDescriptor(4, ["clumsy", "gives", " a bruise."]),
+  newDamageDescriptor(8, ["wobbly", "hits", " making scrapes."]),
+  newDamageDescriptor(12, ["lucky", "hits", " causing scratches."]),
+  newDamageDescriptor(16, ["amateur", "hits", " causing light wounds."]),
+  newDamageDescriptor(20, ["amateur", "strikes", ", the wound bleeds."]),
+  newDamageDescriptor(26, ["competent", "strikes", ", hitting an organ."]),
+  newDamageDescriptor(32, ["competent", "causes", " to gasp in pain."]),
+  newDamageDescriptor(38, ["skillful", "causes", " harm!"]),
+  newDamageDescriptor(44, ["skillful", "has a devastating effect on", "."]),
+  newDamageDescriptor(50, ["cunning", "tears into", ", shredding flesh."]),
+  newDamageDescriptor(60, ["strong", "causes", " to spurt blood!"]),
+  newDamageDescriptor(70, ["calculated", "leaves large gashes on", "!"]),
+  newDamageDescriptor(80, ["calculated", "tears", " leaving a GAPING hole!"]),
+  newDamageDescriptor(87, ["well aimed", "DISEMBOWELS", ". Guts spill out!!"]),
+  newDamageDescriptor(94, ["calm", "DISMEMBERS", "! Blood splatters!"]),
+  newDamageDescriptor(105, ["wicked", "ANNIHILATES", "!!"]),
+  newDamageDescriptor(117, ["wicked", "OBLITERATES", " completely!!"]),
+  newDamageDescriptor(125, ["barbaric", "MASSACRES", ". Blood flies!"]),
+  newDamageDescriptor(130, ["controlled", "ERADICATES", " to bits!!"]),
+]
+
+function getDamageDescriptors(damage: number): string[] {
+  return new Maybe(damageDescriptorMap.find(m => damage <= m.damage))
+    .do(m => m.descriptors)
+    .or(() => ["masterful", "does UNSPEAKABLE things to", "!"])
+    .get()
+}
+
 export function attackMessage(attack: Attack, mob: Mob): string {
   let message = ""
+  const d = getDamageDescriptors(attack.damage)
   if (attack.attacker === mob) {
-    message = "You hit " + attack.defender.name + "."
+    message = format(
+      "Your {0} attack {1} {2}{3}",
+      d[0], d[1], attack.defender.name, d[2])
     if (!attack.isDefenderAlive) {
       message += `\n${attack.defender.name} has DIED!`
       message += `\nYou gained ${attack.experience} experience points.`
     }
   } else if (attack.defender === mob) {
-    message = attack.attacker.name + " hits you."
+    message = format(
+      "{0}'s {1} attack {2} you{3}",
+    attack.defender.name, d[0], d[1], d[2])
     if (!attack.isDefenderAlive) {
       message += "\nYou have DIED!"
     }

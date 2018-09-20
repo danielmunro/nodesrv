@@ -8,6 +8,6 @@
     "no-console": false,
     "interface-name": [true, "never-prefix"],
     "no-identical-functions": false,
-    "arrow-parens": false
+    "arrow-parens": [false, "ban-single-arg-parens"]
   }
 }
