@@ -3,9 +3,9 @@ import { addFight, Fight, filterCompleteFights, getCorpse, getFights } from "../
 import Table from "../../room/table"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
+import { getTestRegion } from "../../test/region"
 import TestBuilder from "../../test/testBuilder"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
-import { getTestRegion } from "../../test/region"
 
 describe("fight rounds", () => {
   it("should generate accurate attacks messages", () => {
