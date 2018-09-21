@@ -1,6 +1,6 @@
+import { Room } from "../../room/model/room"
 import { Mob } from "../model/mob"
 import { Attack } from "./attack"
-import { Room } from "../../room/model/room"
 
 export class Round {
   public readonly room: Room

@@ -1,10 +1,10 @@
 import { Attack, AttackResult } from "../../mob/fight/attack"
-import { addFight, Fight, filterCompleteFights, getFights } from "../../mob/fight/fight"
+import { addFight, Fight, filterCompleteFights, getCorpse, getFights } from "../../mob/fight/fight"
 import Table from "../../room/table"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
 import TestBuilder from "../../test/testBuilder"
-import { attackMessage, createClientMobMap, FightRounds, getCorpse, getHealthIndicator } from "./fightRounds"
+import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
 
 describe("fight rounds", () => {
   it("should generate accurate attacks messages", () => {

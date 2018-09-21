@@ -12,12 +12,12 @@ import { Item } from "../item/model/item"
 import { Mob } from "./model/mob"
 import { Race } from "./race/race"
 
-export function newCritterMob(name: string, description: string, level: number): Mob {
+export function newCritterMob(name: string, description: string, level: number, race: Race = Race.Critter): Mob {
   const vitals = newStartingVitals(level)
   return newMob(
     name,
     description,
-    Race.Critter,
+    race,
     vitals,
     newStartingAttributes(vitals.copy(), level),
     true)

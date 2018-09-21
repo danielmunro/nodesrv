@@ -1,7 +1,11 @@
 import Attributes from "../../attributes/model/attributes"
+import { newContainer } from "../../item/factory"
+import { Item } from "../../item/model/item"
 import roll from "../../random/dice"
+import { Messages } from "../../server/observers/constants"
 import { createSkillTriggerEvent, createSkillTriggerEvents } from "../../skill/trigger/factory"
 import { Resolution } from "../../skill/trigger/resolution"
+import { format } from "../../support/string"
 import { Disposition } from "../disposition"
 import { Mob } from "../model/mob"
 import { Trigger } from "../trigger"
@@ -33,6 +37,18 @@ export function reset() {
 
 async function createStartRoundDefenderTrigger(attacker, defender) {
   return await createSkillTriggerEvent(defender, Trigger.AttackRoundDefend, attacker)
+}
+
+export function getCorpse(mob: Mob): Item {
+  const corpse = newContainer(
+    format(Messages.Fight.Corpse.Name, mob.name),
+    format(Messages.Fight.Corpse.Description, mob.name))
+  mob.inventory.items.forEach(item =>
+    corpse.containerInventory.getItemFrom(item, mob.inventory))
+  mob.equipped.inventory.items.forEach(item =>
+    corpse.containerInventory.getItemFrom(item, mob.equipped.inventory))
+
+  return corpse
 }
 
 export class Fight {
@@ -140,12 +156,16 @@ export class Fight {
   private deathOccurred(winner: Mob, vanquished: Mob, attack: Attack) {
     this.status = Status.Done
     this.winner = winner
+
     if (winner.isPlayer) {
       winner.playerMob.experience += attack.experience
     }
-    console.debug(`${vanquished.name} is killed by ${winner.name}`)
+
     if (!vanquished.isPlayer) {
       vanquished.disposition = Disposition.Dead
     }
+
+    vanquished.room.inventory.addItem(getCorpse(vanquished))
+    console.debug(`${vanquished.name} is killed by ${winner.name}`)
   }
 }

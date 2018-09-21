@@ -1,7 +1,6 @@
 import { Client } from "../../client/client"
 import Maybe from "../../functional/maybe"
 import { Equipment } from "../../item/equipment"
-import { newContainer } from "../../item/factory"
 import { Item } from "../../item/model/item"
 import { Attack } from "../../mob/fight/attack"
 import { AttackVerb } from "../../mob/fight/attackVerb"
@@ -12,7 +11,6 @@ import { Round } from "../../mob/fight/round"
 import { Mob } from "../../mob/model/mob"
 import Table from "../../room/table"
 import { format } from "../../support/string"
-import { Messages } from "./constants"
 import { Observer } from "./observer"
 
 enum AttackLabel {
@@ -110,18 +108,6 @@ export function createClientMobMap(clients: Client[]): object {
   return clientMobMap
 }
 
-export function getCorpse(mob: Mob): Item {
-  const corpse = newContainer(
-    format(Messages.Fight.Corpse.Name, mob.name),
-    format(Messages.Fight.Corpse.Description, mob.name))
-  mob.inventory.items.forEach(item =>
-    corpse.containerInventory.getItemFrom(item, mob.inventory))
-  mob.equipped.inventory.items.forEach(item =>
-    corpse.containerInventory.getItemFrom(item, mob.equipped.inventory))
-
-  return corpse
-}
-
 export class FightRounds implements Observer {
   private static updateClientIfMobIsOwned(clientMobMap, mob, round): void {
     new Maybe(clientMobMap[mob.name]).do((client) =>
@@ -147,9 +133,5 @@ export class FightRounds implements Observer {
     round.room.mobs.forEach(mob =>
       new Maybe(clientMobMap[mob.name])
         .do(() => FightRounds.updateClientIfMobIsOwned(clientMobMap, mob, round)))
-
-    if (round.isFatality) {
-      this.table.canonical(round.victor.room).inventory.addItem(getCorpse(round.vanquished))
-    }
   }
 }
