@@ -1,12 +1,15 @@
 import { Mob } from "../model/mob"
 import { Attack } from "./attack"
+import { Room } from "../../room/model/room"
 
 export class Round {
+  public readonly room: Room
   public readonly isFatality: boolean
   public readonly victor?: Mob
   public readonly vanquished?: Mob
 
   constructor(public readonly attacks: Attack[] = [], public readonly counters: Attack[] = []) {
+    this.room = attacks[0].attacker.room
     const lastAttack = this.getLastAttack()
     const lastCounter = this.getLastCounter()
     this.isFatality = this.attacks && !lastAttack.isDefenderAlive || this.counters && !lastCounter.isDefenderAlive

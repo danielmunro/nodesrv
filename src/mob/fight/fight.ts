@@ -24,7 +24,7 @@ export function getFights() {
 }
 
 export function filterCompleteFights() {
-  fights = fights.filter((fight) => fight.isInProgress())
+  fights = fights.filter(fight => fight.isInProgress())
 }
 
 export function reset() {

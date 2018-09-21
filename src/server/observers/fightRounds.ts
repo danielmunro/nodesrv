@@ -87,20 +87,18 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
   const attacker = lastAttack.attacker
   const defender = lastAttack.defender
 
-  if (attacker === sessionMob || defender === sessionMob) {
-    const mapper = (r, i) =>
-      (r.attacker === sessionMob ? allAttacks[i] + " " : "") + attackMessage(r, sessionMob)
-    messages.push(...round.attacks.map(mapper))
-    messages.push(...round.counters.map(mapper))
+  const mapper = (r, i) =>
+    (r.attacker === sessionMob ? allAttacks[i] + " " : "") + attackMessage(r, sessionMob)
+  messages.push(...round.attacks.map(mapper))
+  messages.push(...round.counters.map(mapper))
 
-    if (!round.isFatality) {
-      const opponent = attacker === sessionMob ? defender : attacker
-      messages.push(opponent.name + " " + getHealthIndicator(
-        opponent.vitals.hp / opponent.getCombinedAttributes().vitals.hp) + ".")
-    }
-
-    return messages.join("\n")
+  if ((attacker === sessionMob || defender === sessionMob) && !round.isFatality) {
+    const opponent = attacker === sessionMob ? defender : attacker
+    messages.push(opponent.name + " " + getHealthIndicator(
+      opponent.vitals.hp / opponent.getCombinedAttributes().vitals.hp) + ".")
   }
+
+  return messages.join("\n")
 }
 
 export function createClientMobMap(clients: Client[]): object {
@@ -125,8 +123,9 @@ export function getCorpse(mob: Mob): Item {
 }
 
 export class FightRounds implements Observer {
-  private static getClientFromMobMap(clientMobMap, mob): Maybe<Client> {
-    return new Maybe(clientMobMap[mob.name])
+  private static updateClientIfMobIsOwned(clientMobMap, mob, round): void {
+    new Maybe(clientMobMap[mob.name]).do((client) =>
+      FightRounds.updateClient(client, mob, round))
   }
 
   private static updateClient(client, mob, round) {
@@ -138,18 +137,16 @@ export class FightRounds implements Observer {
   constructor(private readonly table: Table) {}
 
   public async notify(clients: Client[]) {
-    const rounds = await Promise.all(getFights().map((fight) => fight.round()))
+    const rounds = await Promise.all(getFights().map(fight => fight.round()))
     const clientMobMap = createClientMobMap(clients)
     filterCompleteFights()
-    rounds.forEach((round: Round) => this.updateRound(round, clientMobMap))
+    rounds.forEach(round => this.updateRound(round, clientMobMap))
   }
 
   private updateRound(round: Round, clientMobMap) {
-    const attack = round.getLastAttack()
-    FightRounds.getClientFromMobMap(clientMobMap, attack.attacker).do((client) =>
-      FightRounds.updateClient(client, attack.attacker, round))
-    FightRounds.getClientFromMobMap(clientMobMap, attack.defender).do((client) =>
-      FightRounds.updateClient(client, attack.defender, round))
+    round.room.mobs.forEach(mob =>
+      new Maybe(clientMobMap[mob.name])
+        .do(() => FightRounds.updateClientIfMobIsOwned(clientMobMap, mob, round)))
 
     if (round.isFatality) {
       this.table.canonical(round.victor.room).inventory.addItem(getCorpse(round.vanquished))

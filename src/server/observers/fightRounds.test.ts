@@ -8,17 +8,28 @@ import { attackMessage, createClientMobMap, FightRounds, getCorpse, getHealthInd
 
 describe("fight rounds", () => {
   it("should generate accurate attacks messages", () => {
+    // setup
     const mob1 = getTestMob("mob1")
     const mob2 = getTestMob("mob2")
-    const damageAmount = 1
-    mob2.vitals.hp -= damageAmount
-    const attack1 = new Attack(mob1, mob2, AttackResult.Hit, damageAmount)
-    expect(attackMessage(attack1, mob1)).toEqual("Your clumsy hit gives mob2 a bruise.")
-    expect(attackMessage(attack1, mob2)).toEqual("mob2's clumsy hit gives you a bruise.")
 
+    // given
+    const damageAmount = 1
+
+    // when
+    const attack1 = new Attack(mob1, mob2, AttackResult.Hit, damageAmount)
+
+    // then
+    expect(attackMessage(attack1, mob1)).toEqual("Your clumsy hit gives mob2 a bruise.")
+    expect(attackMessage(attack1, mob2)).toEqual("mob1's clumsy hit gives you a bruise.")
+
+    // and
     const newDamageAmount = 100
+
+    // when
     mob1.vitals.hp -= newDamageAmount
     const attack2 = new Attack(mob2, mob1, AttackResult.Hit, newDamageAmount)
+
+    // then
     expect(attackMessage(attack2, mob1)).toContain("You have DIED")
     expect(attackMessage(attack2, mob2)).toContain("mob1 has DIED")
   })
