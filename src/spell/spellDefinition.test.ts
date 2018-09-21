@@ -28,7 +28,7 @@ describe("spellDefinition", () => {
     const client = await getTestClient()
     client.player.sessionMob.spells.push(newSpell(SpellType.MagicMissile, 1))
     const target = getTestMob()
-    addFight(new Fight(client.player.sessionMob, target))
+    addFight(new Fight(client.player.sessionMob, target, client.getSessionMob().room))
     const check = new Check(
       createCastRequest(client.player, "cast 'magic missile'"),
       getMagicMissile())

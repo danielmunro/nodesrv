@@ -22,7 +22,7 @@ describe("fight", () => {
     const target = mobFactory("target")
     const bystander = mobFactory("collateral")
 
-    const fight = new Fight(aggressor, target)
+    const fight = new Fight(aggressor, target, getTestRoom())
     expect(fight.getOpponentFor(bystander)).toBeNull()
   })
 
@@ -35,7 +35,7 @@ describe("fight", () => {
     room.addMob(target)
 
     // WHEN - a fight is allowed to complete
-    const fight = new Fight(aggressor, target)
+    const fight = new Fight(aggressor, target, room)
     expect(fight.isInProgress()).toBe(true)
 
     while (fight.isInProgress()) {

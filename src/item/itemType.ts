@@ -5,4 +5,5 @@ export enum ItemType {
   Container,
   BodyPart,
   Fixture,
+  Trash,
 }

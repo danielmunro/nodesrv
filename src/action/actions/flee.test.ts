@@ -21,9 +21,9 @@ beforeEach(async () => {
   reset()
   player = getTestPlayer()
   mob = getTestMob()
-  fight = new Fight(player.sessionMob, mob)
   room1 = getTestRoom()
   room2 = getTestRoom()
+  fight = new Fight(player.sessionMob, mob, room1)
   const allRooms = [room1, room2]
   service = await Service.newWithArray(allRooms)
   await service.saveRoom(allRooms)

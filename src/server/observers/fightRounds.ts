@@ -109,6 +109,10 @@ export function createClientMobMap(clients: Client[]): object {
 }
 
 export class FightRounds implements Observer {
+  private static proceedAllFightRounds(): Promise<Round[]> {
+    return Promise.all(getFights().map(fight => fight.round()))
+  }
+
   private static updateClientIfMobIsOwned(clientMobMap, mob, round): void {
     new Maybe(clientMobMap[mob.name]).do((client) =>
       FightRounds.updateClient(client, mob, round))
@@ -120,10 +124,8 @@ export class FightRounds implements Observer {
     client.sendMessage(client.player.prompt())
   }
 
-  constructor(private readonly table: Table) {}
-
   public async notify(clients: Client[]) {
-    const rounds = await Promise.all(getFights().map(fight => fight.round()))
+    const rounds = await FightRounds.proceedAllFightRounds()
     const clientMobMap = createClientMobMap(clients)
     filterCompleteFights()
     rounds.forEach(round => this.updateRound(round, clientMobMap))

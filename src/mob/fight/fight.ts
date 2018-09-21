@@ -11,6 +11,8 @@ import { Mob } from "../model/mob"
 import { Trigger } from "../trigger"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import { Round } from "./round"
+import { BodyPart } from "../race/bodyParts"
+import { Room } from "../../room/model/room"
 
 enum Status {
   InProgress,
@@ -94,10 +96,12 @@ export class Fight {
 
   private status: Status = Status.InProgress
   private winner: Mob
+  private bodyParts: BodyPart[]
 
   constructor(
     public readonly aggressor: Mob,
-    public readonly target: Mob) {}
+    public readonly target: Mob,
+    public readonly room: Room) {}
 
   public isParticipant(mob: Mob): boolean {
     return mob.uuid === this.aggressor.uuid || mob.uuid === this.target.uuid
@@ -165,7 +169,7 @@ export class Fight {
       vanquished.disposition = Disposition.Dead
     }
 
-    vanquished.room.inventory.addItem(getCorpse(vanquished))
+    this.room.inventory.addItem(getCorpse(vanquished))
     console.debug(`${vanquished.name} is killed by ${winner.name}`)
   }
 }

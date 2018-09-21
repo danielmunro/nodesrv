@@ -27,7 +27,7 @@ function times(count: number, callback) {
 }
 
 function addNewTestFight(mob: Mob): Fight {
-  const fight = new Fight(mob, getTestMob())
+  const fight = new Fight(mob, getTestMob(), mob.room)
   addFight(fight)
 
   return fight

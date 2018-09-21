@@ -31,7 +31,7 @@ export default function addObservers(gameServer: GameServer): GameServer {
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(), new MinuteTimer())
   gameServer.addObserver(new SocialBroadcaster(), new ShortIntervalTimer())
-  gameServer.addObserver(new FightRounds(roomTable), new SecondIntervalTimer())
+  gameServer.addObserver(new FightRounds(), new SecondIntervalTimer())
   gameServer.addObserver(new Respawner(roomTable, mobTable), new FiveMinuteTimer())
 
   return gameServer

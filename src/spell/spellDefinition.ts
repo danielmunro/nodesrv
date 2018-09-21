@@ -54,7 +54,7 @@ export class SpellDefinition {
     if (this.actionType === ActionType.Offensive
       && !getFights().find((f) => f.isParticipant(check.caster))
       && check.caster !== check.target) {
-      addFight(new Fight(check.caster, check.target))
+      addFight(new Fight(check.caster, check.target, check.request.getRoom()))
     }
   }
 }

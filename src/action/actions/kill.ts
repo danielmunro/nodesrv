@@ -5,8 +5,8 @@ import CheckedRequest from "../checkedRequest"
 import { ATTACK_MOB } from "./constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
-  const fight = new Fight(checkedRequest.request.mob, checkedRequest.request.getTarget())
-  addFight(fight)
+  const request = checkedRequest.request
+  addFight(new Fight(request.mob, request.getTarget(), request.getRoom()))
 
-  return new ResponseBuilder(checkedRequest.request).success(ATTACK_MOB)
+  return new ResponseBuilder(request).success(ATTACK_MOB)
 }

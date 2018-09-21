@@ -16,7 +16,7 @@ describe("second attacks skill action", () => {
     target.level = 30
 
     // given
-    const fight = new Fight(mob, target)
+    const fight = new Fight(mob, target, mob.room)
 
     // when
     const rounds = await doNTimes(10, () => fight.round())

@@ -5,6 +5,7 @@ import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
 import TestBuilder from "../../test/testBuilder"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
+import { getTestRegion } from "../../test/region"
 
 describe("fight rounds", () => {
   it("should generate accurate attacks messages", () => {
@@ -50,7 +51,7 @@ describe("fight rounds", () => {
     // Setup
     const mob = getTestMob()
     mob.vitals.hp = 0
-    const fight = new Fight(getTestMob(), mob)
+    const fight = new Fight(getTestMob(), mob, mob.room)
     addFight(fight)
     expect(getFights().length).toBe(1)
     expect(fight.isInProgress()).toBe(true)
@@ -69,9 +70,9 @@ describe("fight rounds", () => {
     const client = await getTestClient()
     const opponent = getTestMob()
     opponent.room = client.player.sessionMob.room
-    const fight = new Fight(opponent, client.player.sessionMob)
+    const fight = new Fight(opponent, client.player.sessionMob, opponent.room)
     addFight(fight)
-    const fightRounds = new FightRounds(Table.new([opponent.room]))
+    const fightRounds = new FightRounds()
 
     // When
     await fightRounds.notify([client])

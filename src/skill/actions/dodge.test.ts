@@ -10,7 +10,7 @@ describe("dodge skill", () => {
     const attacker = getTestMob()
     attacker.skills.push(newSkill(SkillType.Dodge, 10))
     const defender = getTestMob()
-    const fight = new Fight(attacker, defender)
+    const fight = new Fight(attacker, defender, attacker.room)
     const results = []
 
     for (let i = 0; i < 20; i++) {

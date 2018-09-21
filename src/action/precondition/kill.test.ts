@@ -33,12 +33,13 @@ describe("kill", () => {
   it("shouldn't be able to target a mob when already fighting", async () => {
     // given
     const testBuilder = new TestBuilder()
+    testBuilder.withRoom()
     const player = testBuilder.withPlayer().player
     const mob1 = testBuilder.withMob("bob").mob
     const mob2 = testBuilder.withMob("alice").mob
 
     // and
-    addFight(new Fight(player.sessionMob, mob1))
+    addFight(new Fight(player.sessionMob, mob1, testBuilder.room))
 
     // when
     const check = await useKillRequest(player, `kill ${mob2.name}`, mob2)

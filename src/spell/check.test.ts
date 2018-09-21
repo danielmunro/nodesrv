@@ -47,7 +47,7 @@ describe("spell check", () => {
     const player = getTestPlayer()
     const target = getTestMob()
     player.sessionMob.spells.push(getTestSpell())
-    addFight(new Fight(player.sessionMob, target))
+    addFight(new Fight(player.sessionMob, target, player.sessionMob.room))
 
     expect(
       new Check(
@@ -61,7 +61,7 @@ describe("spell check", () => {
     const target = getTestMob()
     const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
     player.sessionMob.spells.push(getTestSpell())
-    addFight(new Fight(player.sessionMob, target))
+    addFight(new Fight(player.sessionMob, target, player.sessionMob.room))
     const check = new Check(createCastRequest(player, TEST_INPUT_MM), magicMissile, () => false)
 
     // Expect
@@ -82,7 +82,7 @@ describe("spell check", () => {
     const target = getTestMob()
     const magicMissile = spellCollection.findSpell(SpellType.MagicMissile)
     player.sessionMob.spells.push(newSpell(SpellType.MagicMissile, MAX_PRACTICE_LEVEL))
-    addFight(new Fight(player.sessionMob, target))
+    addFight(new Fight(player.sessionMob, target, player.sessionMob.room))
     const request = createCastRequest(player, TEST_INPUT_MM)
 
     expect.assertions(3)
