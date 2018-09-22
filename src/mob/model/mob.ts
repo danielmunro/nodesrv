@@ -18,6 +18,7 @@ import { Spell } from "../../spell/model/spell"
 import { BASE_KILL_EXPERIENCE } from "../constants"
 import { Disposition } from "../disposition"
 import { newMob } from "../factory"
+import { Gender } from "../gender"
 import modifierNormalizer from "../multiplierNormalizer"
 import { modifiers } from "../race/constants"
 import { Race } from "../race/race"
@@ -59,6 +60,9 @@ export class Mob {
 
   @Column("integer", { default: 0 })
   public gold: number = 0
+
+  @Column("text", { default: Gender.Unspecified })
+  public gender: Gender = Gender.Unspecified
 
   @Column("text", { nullable: true })
   public disposition = Disposition.Standing

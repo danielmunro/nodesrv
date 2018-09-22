@@ -9,7 +9,7 @@ import { Resolution } from "../../skill/trigger/resolution"
 import { format } from "../../support/string"
 import { Disposition } from "../disposition"
 import { Mob } from "../model/mob"
-import { BodyPart } from "../race/bodyParts"
+import { BodyPart, getBodyPartItem, getRandomBodyPartForRace } from "../race/bodyParts"
 import { Trigger } from "../trigger"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import { Round } from "./round"
@@ -96,7 +96,7 @@ export class Fight {
 
   private status: Status = Status.InProgress
   private winner: Mob
-  private bodyParts: BodyPart[]
+  private bodyPart: BodyPart
 
   constructor(
     public readonly aggressor: Mob,
@@ -119,7 +119,7 @@ export class Fight {
     return new Round(
       this.status === Status.InProgress ? await this.turnFor(this.aggressor, this.target) : [],
       this.status === Status.InProgress ? await this.turnFor(this.target, this.aggressor) : [],
-    )
+      this.bodyPart)
   }
 
   public isInProgress(): boolean {
@@ -170,6 +170,10 @@ export class Fight {
     }
 
     this.room.inventory.addItem(getCorpse(vanquished))
+    if (roll(1, 4) === 1) {
+      this.bodyPart = getRandomBodyPartForRace(vanquished.race)
+      this.room.inventory.items.push(getBodyPartItem(vanquished, this.bodyPart))
+    }
     console.debug(`${vanquished.name} is killed by ${winner.name}`)
   }
 }

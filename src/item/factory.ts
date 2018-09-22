@@ -1,3 +1,5 @@
+import { AffectType } from "../affect/affectType"
+import { newAffect } from "../affect/factory"
 import Attributes from "../attributes/model/attributes"
 import { DamageType } from "../damage/damageType"
 import { Equipment } from "./equipment"
@@ -65,6 +67,10 @@ export function newContainer(name: string, description: string): Item {
   return item
 }
 
+export function newTrash(name: string, description: string) {
+  return newItem(name, description)
+}
+
 export function copy(item: Item): Item {
   const itemCopy = newItem(item.name, item.description)
   itemCopy.equipment = item.equipment
@@ -72,4 +78,10 @@ export function copy(item: Item): Item {
   itemCopy.attributes = new Attributes().combine(item.attributes)
 
   return itemCopy
+}
+
+export function poison(item: Item, timeout: number = -1): Item {
+  item.affects.push(newAffect(AffectType.Poison, timeout))
+
+  return item
 }
