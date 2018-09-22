@@ -67,11 +67,11 @@ export function getBodyPartItem(mob: Mob, bodyPart: BodyPart): Item {
       return newFood(
         format("the brain of {0}", mob.name),
         format("the brain of {0} sits here.", mob.name))
+    default:
+      return newTrash(
+        format("the {0} of {1}", bodyPart, mob.name),
+        format("the {0} of {1} is here.", bodyPart, mob.name))
   }
-
-  return newTrash(
-    format("the {0} of {1}", bodyPart, mob.name),
-    format("the {0} of {1} is here.", bodyPart, mob.name))
 }
 
 const bodyParts = [

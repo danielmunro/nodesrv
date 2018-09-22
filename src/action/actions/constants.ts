@@ -1,5 +1,7 @@
 export const NOT_FOUND = "You don't see that anywhere."
 
+export const MESSAGE_LOOK_CANNOT_SEE = "You can't see anything!"
+
 export const MESSAGE_FAIL_CANNOT_TRAIN = "You can't train that anymore."
 export const MESSAGE_SUCCESS_STR = "You become stronger!"
 export const MESSAGE_SUCCESS_INT = "You gain in intelligence!"

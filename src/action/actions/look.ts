@@ -6,7 +6,7 @@ import getSight from "../../mob/race/sight"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
-import { NOT_FOUND } from "./constants"
+import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
 
 function lookAtSubject(request, builder) {
   const mob = request.findMobInRoom()
@@ -37,7 +37,7 @@ export default function(request: Request): Promise<Response> {
   const roomDescription = new Maybe(room.region)
     .do((region) =>
       getSight(request.mob.race).isAbleToSee(12, region.terrain, region.weather)
-        ? room.toString() : "You can't see anything!")
+        ? room.toString() : MESSAGE_LOOK_CANNOT_SEE)
     .or(() => room.toString())
     .get()
 
