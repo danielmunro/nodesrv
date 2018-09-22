@@ -1,6 +1,6 @@
 import {Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm"
-import { Item } from "./item"
 import { format } from "../../support/string"
+import { Item } from "./item"
 
 @Entity()
 export class Inventory {

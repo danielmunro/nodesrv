@@ -1,6 +1,6 @@
+import { newTrash } from "./factory"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
-import { newTrash } from "./factory"
 
 describe("inventory model", () => {
   it("should be able to find an item", () => {
