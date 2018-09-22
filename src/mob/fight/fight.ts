@@ -1,7 +1,7 @@
 import Attributes from "../../attributes/model/attributes"
 import { newContainer } from "../../item/factory"
 import { Item } from "../../item/model/item"
-import roll from "../../random/dice"
+import roll, { simpleD4 } from "../../random/dice"
 import { Room } from "../../room/model/room"
 import { Messages } from "../../server/observers/constants"
 import { createSkillTriggerEvent, createSkillTriggerEvents } from "../../skill/trigger/factory"
@@ -158,6 +158,8 @@ export class Fight {
   }
 
   private deathOccurred(winner: Mob, vanquished: Mob, attack: Attack) {
+    console.debug(`${vanquished.name} is killed by ${winner.name}`)
+
     this.status = Status.Done
     this.winner = winner
 
@@ -170,10 +172,11 @@ export class Fight {
     }
 
     this.room.inventory.addItem(getCorpse(vanquished))
-    if (roll(1, 4) === 1) {
-      this.bodyPart = getRandomBodyPartForRace(vanquished.race)
-      this.room.inventory.items.push(getBodyPartItem(vanquished, this.bodyPart))
-    }
-    console.debug(`${vanquished.name} is killed by ${winner.name}`)
+    simpleD4(() => this.doBodyParts(vanquished))
+  }
+
+  private doBodyParts(vanquished: Mob) {
+    this.bodyPart = getRandomBodyPartForRace(vanquished.race)
+    this.room.inventory.items.push(getBodyPartItem(vanquished, this.bodyPart))
   }
 }

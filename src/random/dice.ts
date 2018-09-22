@@ -8,6 +8,12 @@ export default function roll(dice: number, sides: number): number {
   return value
 }
 
+export function simpleD4(callback) {
+  if (roll(1, 4) === 1) {
+    callback()
+  }
+}
+
 export function coinFlip(): boolean {
   return roll(1, 2) === 1
 }

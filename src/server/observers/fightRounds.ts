@@ -10,7 +10,7 @@ import healthIndicator from "../../mob/fight/healthIndicator"
 import { Round } from "../../mob/fight/round"
 import { Mob } from "../../mob/model/mob"
 import { BodyPart } from "../../mob/race/bodyParts"
-import roll from "../../random/dice"
+import roll, { simpleD4 } from "../../random/dice"
 import { format } from "../../support/string"
 import { Messages } from "./constants"
 import { Observer } from "./observer"
@@ -94,9 +94,7 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
 
   if (round.isFatality) {
     messages.push(format(Messages.Fight.DeathCry, round.vanquished.name))
-    if (roll(1, 4) === 1) {
-      messages.push(format(Messages.Fight.BloodSplatter, round.vanquished.name))
-    }
+    simpleD4(() => messages.push(format(Messages.Fight.BloodSplatter, round.vanquished.name)))
     if (round.bodyPart) {
       messages.push(getBodyPartMessage(round.vanquished, round.bodyPart))
     }
