@@ -44,9 +44,7 @@ export default function(request: Request): Promise<Response> {
   return builder.info(roomDescription
     + room.mobs.filter(onlyLiving).reduce((previous: string, current: Mob) =>
         previous + (current !== request.mob ? `\n${current.name} is here.` : ""), "")
-    + room.inventory.items.reduce((previous: string, current: Item) =>
-`${previous}
-${current.name} is here.`, "")
+    + room.inventory.toString("is here.")
     + `
 ${request.getPrompt()}`)
 }

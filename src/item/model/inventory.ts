@@ -1,5 +1,6 @@
 import {Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm"
 import { Item } from "./item"
+import { format } from "../../support/string"
 
 @Entity()
 export class Inventory {
@@ -35,10 +36,17 @@ export class Inventory {
       return this.items
     }
 
-  public toString(): string {
-    return this.items.reduce(
-      (aggregate, current: Item) =>
-        aggregate + current.name + "\n",
-      "")
+  public toString(suffix: string = ""): string {
+    const itemsMap = {}
+    this.items.forEach(i => itemsMap[i.name] ? itemsMap[i.name]++ : itemsMap[i.name] = 1)
+    return Object.keys(itemsMap).reduce(
+      (aggregate, current) => {
+        return format(
+          "{0}\n{1}{2} {3}",
+          aggregate,
+          itemsMap[current] > 1 ? "(" + itemsMap[current] + ") " : "",
+          current,
+          suffix)
+      }, "")
   }
 }
