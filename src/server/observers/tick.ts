@@ -17,6 +17,8 @@ export class Tick implements Observer {
       this.hourInDay = 0
     }
 
+    console.log(`tick at ${timestamp}`)
+
     clientsToUpdate.forEach((it) => {
       const mob = it.getSessionMob()
       mob.regen()
