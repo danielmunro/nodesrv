@@ -34,4 +34,9 @@ export class Round {
   public getLastCounter(): Attack {
     return this.counters[this.counters.length - 1]
   }
+
+  public isParticipant(mob: Mob) {
+    const lastAttack = this.getLastAttack()
+    return mob === lastAttack.attacker || mob === lastAttack.defender
+  }
 }

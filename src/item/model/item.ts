@@ -57,6 +57,10 @@ export class Item {
     return this.itemType === ItemType.Food
   }
 
+  public isContainer(): boolean {
+    return this.containerInventory !== null
+  }
+
   public copy(): Item {
     const item = new Item()
     item.name = this.name

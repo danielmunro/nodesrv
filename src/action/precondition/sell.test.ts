@@ -1,9 +1,9 @@
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
+import TestBuilder from "../../test/testBuilder"
 import { CheckStatus } from "../check"
 import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY, MESSAGE_FAIL_NO_MERCHANT } from "./constants"
 import sell from "./sell"
-import TestBuilder from "../../test/testBuilder"
 
 describe("sell actions actions precondition", () => {
   it("should fail if a merchant is not in the room", async () => {

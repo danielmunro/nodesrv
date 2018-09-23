@@ -18,6 +18,7 @@ import kill from "./actions/kill"
 import look from "./actions/look"
 import move from "./actions/move"
 import remove from "./actions/remove"
+import sacrifice from "./actions/sacrifice"
 import say from "./actions/say"
 import score from "./actions/score"
 import sell from "./actions/sell"
@@ -42,6 +43,7 @@ import { default as getPrecondition } from "./precondition/get"
 import { default as killPrecondition } from "./precondition/kill"
 import { default as movePrecondition } from "./precondition/move"
 import { default as removePrecondition } from "./precondition/remove"
+import { default as sacrificePrecondition } from "./precondition/sacrifice"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
@@ -105,6 +107,9 @@ export default function getActionCollection(service: Service) {
 
     // nourishment
     service.getNewDefinition(RequestType.Eat, eat, eatPrecondition),
+
+    // sacrifice
+    service.getNewDefinition(RequestType.Sacrifice, sacrifice, sacrificePrecondition),
   ], [
     service.getNewDefinition(RequestType.Ban, ban, banPrecondition),
     service.getNewDefinition(RequestType.Unban, unban, unbanPrecondition),

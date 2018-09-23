@@ -1,6 +1,7 @@
 import { newFood, newTrash, poison } from "../../item/factory"
 import { Item } from "../../item/model/item"
 import { pickOne } from "../../random/helpers"
+import { Messages } from "../../server/observers/constants"
 import { format } from "../../support/string"
 import { Mob } from "../model/mob"
 import { Race } from "./race"
@@ -112,3 +113,19 @@ const bodyParts = [
   newDefinition(Race.Giant, standardPackage),
   newDefinition(Race.Goblin, [...standardPackage, BodyPart.Fangs, BodyPart.LongTongue]),
 ]
+
+export function getBodyPartMessage(mob: Mob, bodyPart: BodyPart): string {
+  const m = Messages.Fight.BodyParts
+  switch (bodyPart) {
+    case BodyPart.Guts:
+      return format(m.Guts, mob.name, mob.gender)
+    case BodyPart.Head:
+      return format(m.Head, mob.name, mob.gender)
+    case BodyPart.Heart:
+      return format(m.Heart, mob.name, mob.gender)
+    case BodyPart.Brains:
+      return format(m.Brains, mob.name, mob.gender)
+    default:
+      return format(m.Default, mob.name, bodyPart, mob.gender)
+  }
+}

@@ -1,5 +1,6 @@
 import { Client } from "../../client/client"
 import Maybe from "../../functional/maybe"
+import withValue from "../../functional/withValue"
 import { Equipment } from "../../item/equipment"
 import { Item } from "../../item/model/item"
 import { Attack } from "../../mob/fight/attack"
@@ -9,8 +10,8 @@ import { filterCompleteFights, getFights } from "../../mob/fight/fight"
 import healthIndicator from "../../mob/fight/healthIndicator"
 import { Round } from "../../mob/fight/round"
 import { Mob } from "../../mob/model/mob"
-import { BodyPart } from "../../mob/race/bodyParts"
-import roll, { simpleD4 } from "../../random/dice"
+import { getBodyPartMessage } from "../../mob/race/bodyParts"
+import { simpleD4 } from "../../random/dice"
 import { format } from "../../support/string"
 import { Messages } from "./constants"
 import { Observer } from "./observer"
@@ -81,6 +82,17 @@ export function attackMessage(attack: Attack, mob: Mob): string {
   return roomMessage
 }
 
+function getFatalityMessages(round: Round): string[] {
+  const messages = []
+  messages.push(format(Messages.Fight.DeathCry, round.vanquished.name))
+  simpleD4(() => messages.push(format(Messages.Fight.BloodSplatter, round.vanquished.name)))
+  if (round.bodyPart) {
+    messages.push(getBodyPartMessage(round.vanquished, round.bodyPart))
+  }
+
+  return messages
+}
+
 function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
   const messages = []
   const lastAttack = round.getLastAttack()
@@ -93,36 +105,13 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
   messages.push(...round.counters.map(mapper))
 
   if (round.isFatality) {
-    messages.push(format(Messages.Fight.DeathCry, round.vanquished.name))
-    simpleD4(() => messages.push(format(Messages.Fight.BloodSplatter, round.vanquished.name)))
-    if (round.bodyPart) {
-      messages.push(getBodyPartMessage(round.vanquished, round.bodyPart))
-    }
-  }
-
-  if ((attacker === sessionMob || defender === sessionMob) && !round.isFatality) {
-    const opponent = attacker === sessionMob ? defender : attacker
-    messages.push(opponent.name + " " + getHealthIndicator(
-      opponent.vitals.hp / opponent.getCombinedAttributes().vitals.hp) + ".")
+    messages.push(...getFatalityMessages(round))
+  } else if (round.isParticipant(sessionMob)) {
+    messages.push(withValue(attacker === sessionMob ? defender : attacker, (opponent: Mob) =>
+      opponent.name + " " + getHealthIndicator(opponent.vitals.hp / opponent.getCombinedAttributes().vitals.hp) + "."))
   }
 
   return messages.join("\n")
-}
-
-function getBodyPartMessage(mob: Mob, bodyPart: BodyPart): string {
-  const m = Messages.Fight.BodyParts
-  switch (bodyPart) {
-    case BodyPart.Guts:
-      return format(m.Guts, mob.name, mob.gender)
-    case BodyPart.Head:
-      return format(m.Head, mob.name, mob.gender)
-    case BodyPart.Heart:
-      return format(m.Heart, mob.name, mob.gender)
-    case BodyPart.Brains:
-      return format(m.Brains, mob.name, mob.gender)
-    default:
-      return format(m.Default, mob.name, bodyPart, mob.gender)
-  }
 }
 
 export function createClientMobMap(clients: Client[]): object {

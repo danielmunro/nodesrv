@@ -13,6 +13,7 @@ export const MESSAGE_FAIL_NOT_ENOUGH_MANA = "You don't have enough mana."
 // general -- items
 export const MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY = "You don't have that."
 export const MESSAGE_FAIL_ITEM_NOT_IN_ROOM = "You don't see that anywhere."
+export const MESSAGE_FAIL_CONTAINER_NOT_FOUND = "That container isn't here."
 
 // eating
 export const MESSAGE_FAIL_CANNOT_EAT_ITEM = "You can't eat that."
@@ -52,3 +53,6 @@ export const MESSAGE_FAIL_NEED_TRAINS = "You need more training sessions first."
 
 // wake
 export const MESSAGE_FAIL_ALREADY_AWAKE = "You're already awake."
+
+// sacrifice
+export const MESSAGE_FAIL_CONTAINER_NOT_EMPTY = "That is not empty."

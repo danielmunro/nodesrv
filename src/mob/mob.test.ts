@@ -1,6 +1,6 @@
+import { getTestMob } from "../test/mob"
 import TestBuilder from "../test/testBuilder"
 import appetite from "./race/appetite"
-import { getTestMob } from "../test/mob"
 
 describe("mob model", () => {
   it("should not exceed its max appetite when eating", () => {
