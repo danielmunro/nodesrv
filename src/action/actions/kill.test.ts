@@ -3,10 +3,11 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import Check, { CheckStatus } from "../check"
-import CheckedRequest from "../checkedRequest"
+import Check from "../check/check"
+import CheckedRequest from "../check/checkedRequest"
 import { ATTACK_MOB } from "./constants"
 import kill from "./kill"
+import { CheckStatus } from "../check/checkStatus"
 
 function useKillRequest(player: Player, target, input: string) {
   return kill(new CheckedRequest(

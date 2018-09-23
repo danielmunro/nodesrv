@@ -1,9 +1,9 @@
 import Maybe from "../../functional/maybe"
 import { Request } from "../../request/request"
-import Check from "../check"
-import CheckBuilder from "../checkBuilder"
+import Check from "../check/check"
+import CheckBuilder from "../check/checkBuilder"
 import { MESSAGE_FAIL_CONTAINER_NOT_FOUND, MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
-import { CheckType } from "../checkType"
+import { CheckType } from "../check/checkType"
 
 export default function(request: Request): Promise<Check> {
   const item = request.findItemInSessionMobInventory()

@@ -1,5 +1,5 @@
 import { Request } from "../../request/request"
-import Check from "../check"
+import Check from "../check/check"
 import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
 
 export default function(request: Request): Promise<Check> {

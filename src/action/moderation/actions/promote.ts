@@ -3,7 +3,7 @@ import { Mob } from "../../../mob/model/mob"
 import { AuthorizationLevel, getAuthorizationLevelName } from "../../../player/authorizationLevel"
 import Response from "../../../request/response"
 import ResponseBuilder from "../../../request/responseBuilder"
-import CheckedRequest from "../../checkedRequest"
+import CheckedRequest from "../../check/checkedRequest"
 import { MESSAGE_FAIL_NO_MORE_PROMOTIONS } from "./constants"
 
 export function getNextPromotion(mob: Mob) {

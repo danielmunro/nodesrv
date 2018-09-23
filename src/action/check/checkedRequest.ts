@@ -1,4 +1,4 @@
-import { Request } from "../request/request"
+import { Request } from "../../request/request"
 import Check from "./check"
 import { CheckType } from "./checkType"
 

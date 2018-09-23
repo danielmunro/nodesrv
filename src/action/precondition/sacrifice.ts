@@ -1,6 +1,6 @@
 import { Request } from "../../request/request"
-import Check from "../check"
-import CheckBuilder from "../checkBuilder"
+import Check from "../check/check"
+import CheckBuilder from "../check/checkBuilder"
 import { MESSAGE_FAIL_CONTAINER_NOT_EMPTY, MESSAGE_FAIL_ITEM_NOT_IN_ROOM } from "./constants"
 
 export default async function(request: Request): Promise<Check> {

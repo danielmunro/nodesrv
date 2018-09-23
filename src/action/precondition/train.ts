@@ -1,7 +1,7 @@
 import { Disposition } from "../../mob/disposition"
 import { Role } from "../../mob/role"
 import { Request } from "../../request/request"
-import Check from "../check"
+import Check from "../check/check"
 import { MESSAGE_FAIL_NEED_TRAINS, MESSAGE_FAIL_NO_TRAINER, MESSAGE_FAIL_NOT_STANDING } from "./constants"
 
 export default function(request: Request): Promise<Check> {

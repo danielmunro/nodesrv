@@ -1,9 +1,9 @@
-import Maybe from "../functional/maybe"
-import { Mob } from "../mob/model/mob"
-import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../player/authorizationLevel"
+import Maybe from "../../functional/maybe"
+import { Mob } from "../../mob/model/mob"
+import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../../player/authorizationLevel"
 import Check from "./check"
 import CheckComponent from "./checkComponent"
-import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_PLAYER } from "./constants"
+import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_PLAYER } from "../constants"
 import { CheckType } from "./checkType"
 
 export default class CheckBuilder {

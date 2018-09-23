@@ -2,8 +2,8 @@ import Maybe from "../../../functional/maybe"
 import { isBanned } from "../../../mob/standing"
 import { Request } from "../../../request/request"
 import Service from "../../../room/service"
-import Check from "../../check"
-import CheckBuilder from "../../checkBuilder"
+import Check from "../../check/check"
+import CheckBuilder from "../../check/checkBuilder"
 import {
   MESSAGE_FAIL_BANNED,
   MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS,

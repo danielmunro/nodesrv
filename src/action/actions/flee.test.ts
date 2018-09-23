@@ -6,8 +6,8 @@ import Service from "../../room/service"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import Check from "../check"
-import CheckedRequest from "../checkedRequest"
+import Check from "../check/check"
+import CheckedRequest from "../check/checkedRequest"
 import flee from "./flee"
 
 let fight

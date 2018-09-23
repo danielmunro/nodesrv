@@ -1,5 +1,5 @@
 import { Request } from "../../request/request"
-import Check from "../check"
+import Check from "../check/check"
 import { MESSAGE_REMOVE_FAIL } from "./constants"
 
 export default function(request: Request): Promise<Check> {

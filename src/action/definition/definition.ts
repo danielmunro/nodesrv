@@ -3,9 +3,10 @@ import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import Service from "../../room/service"
-import Check, { CheckStatus } from "../check"
-import CheckedRequest from "../checkedRequest"
+import Check from "../check/check"
+import CheckedRequest from "../check/checkedRequest"
 import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
+import { CheckStatus } from "../check/checkStatus"
 
 export class Definition {
   constructor(

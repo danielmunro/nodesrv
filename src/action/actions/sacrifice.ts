@@ -2,7 +2,7 @@ import Response from "../../request/response"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import { format } from "../../support/string"
-import CheckedRequest from "../checkedRequest"
+import CheckedRequest from "../check/checkedRequest"
 import { MESSAGE_SUCCESS_SACRIFICE } from "./constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {

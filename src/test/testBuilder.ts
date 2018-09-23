@@ -1,6 +1,6 @@
 import getActionCollection from "../action/actionCollection"
-import Check, { CheckStatus } from "../action/check"
-import CheckedRequest from "../action/checkedRequest"
+import Check from "../action/check/check"
+import CheckedRequest from "../action/check/checkedRequest"
 import { DamageType } from "../damage/damageType"
 import { newWeapon } from "../item/factory"
 import { Item } from "../item/model/item"
@@ -19,6 +19,7 @@ import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
+import { CheckStatus } from "../action/check/checkStatus"
 
 export default class TestBuilder {
   public player: Player

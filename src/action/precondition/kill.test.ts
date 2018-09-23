@@ -5,7 +5,7 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import TestBuilder from "../../test/testBuilder"
-import { CheckStatus } from "../check"
+import { CheckStatus } from "../check/checkStatus"
 import { MESSAGE_FAIL_KILL_ALREADY_FIGHTING, MESSAGE_FAIL_KILL_NO_TARGET } from "./constants"
 import { default as kill} from "./kill"
 

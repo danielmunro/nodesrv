@@ -1,9 +1,5 @@
 import CheckResult from "./checkResult"
-
-export enum CheckStatus {
-  Ok,
-  Failed,
-}
+import { CheckStatus } from "./checkStatus"
 
 export default class Check {
   public static ok(result: any = null, checkResults: CheckResult[] = []): Promise<Check> {
@@ -23,8 +19,4 @@ export default class Check {
     readonly result: any,
     readonly checkResults: CheckResult[],
   ) {}
-
-  public isOk(): boolean {
-    return this.status === CheckStatus.Ok
-  }
 }

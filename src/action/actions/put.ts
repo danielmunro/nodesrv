@@ -1,6 +1,6 @@
 import Response from "../../request/response"
-import CheckedRequest from "../checkedRequest"
-import { CheckType } from "../checkType"
+import CheckedRequest from "../check/checkedRequest"
+import { CheckType } from "../check/checkType"
 import ResponseBuilder from "../../request/responseBuilder"
 import { format } from "../../support/string"
 import { MESSAGE_SUCCESS_PUT } from "./constants"

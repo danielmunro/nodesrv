@@ -1,6 +1,6 @@
 import appetite from "../../mob/race/appetite"
 import { Request } from "../../request/request"
-import Check from "../check"
+import Check from "../check/check"
 import {
   MESSAGE_FAIL_ALREADY_FULL,
   MESSAGE_FAIL_CANNOT_EAT_ITEM,

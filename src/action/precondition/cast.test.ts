@@ -3,7 +3,7 @@ import { MESSAGE_NOT_ENOUGH_MANA } from "../../spell/constants"
 import { newSpell } from "../../spell/factory"
 import { SpellType } from "../../spell/spellType"
 import { getTestPlayer } from "../../test/player"
-import { CheckStatus } from "../check"
+import { CheckStatus } from "../check/checkStatus"
 import cast from "./cast"
 import { MESSAGE_CAST_ERROR, MESSAGE_NO_SPELL, MESSAGE_SPELL_DOES_NOT_EXIST } from "./constants"
 
