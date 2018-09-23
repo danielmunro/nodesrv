@@ -3,7 +3,6 @@ import { newStartingAttributes, newStartingVitals } from "../attributes/factory"
 import { newMob } from "../mob/factory"
 import { Mob } from "../mob/model/mob"
 import { Race } from "../mob/race/race"
-import { Role } from "../mob/role"
 import { getTestRoom } from "./room"
 
 export function getTestMob(name: string = null, level: number = 1): Mob {
@@ -19,13 +18,7 @@ export function getTestMob(name: string = null, level: number = 1): Mob {
     newStartingAttributes(vitals.copy(), level))
   mob.room = getTestRoom()
   mob.room.addMob(mob)
-
-  return mob
-}
-
-export function getMerchantMob(): Mob {
-  const mob = getTestMob()
-  mob.role = Role.Merchant
+  mob.level = level
 
   return mob
 }

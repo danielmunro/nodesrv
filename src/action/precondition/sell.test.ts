@@ -1,39 +1,30 @@
-import { Equipment } from "../../item/equipment"
-import { newEquipment } from "../../item/factory"
-import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { getMerchantMob } from "../../test/mob"
-import { getTestMob } from "../../test/mob"
-import { getTestPlayer } from "../../test/player"
-import { getTestRoom } from "../../test/room"
 import { CheckStatus } from "../check"
 import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY, MESSAGE_FAIL_NO_MERCHANT } from "./constants"
 import sell from "./sell"
-
-function getNonMerchantMob(): Mob {
-  return getTestMob()
-}
+import TestBuilder from "../../test/testBuilder"
 
 describe("sell actions actions precondition", () => {
   it("should fail if a merchant is not in the room", async () => {
-    // given
-    const player = getTestPlayer()
+    // setup
+    const testBuilder = new TestBuilder()
+    testBuilder.withRoom()
+    testBuilder.withPlayer()
+    const request = testBuilder.createRequest(RequestType.Sell, "sell foo")
 
     // when
-    const check = await sell(new Request(player, RequestType.Sell, "sell foo"))
+    const check = await sell(request)
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
     expect(check.result).toBe(MESSAGE_FAIL_NO_MERCHANT)
 
     // and
-    const room = getTestRoom()
-    room.addMob(player.sessionMob)
-    room.addMob(getNonMerchantMob())
+    testBuilder.withMob()
 
     // when
-    const check2 = await sell(new Request(player, RequestType.Sell, "sell foo"))
+    const check2 = await sell(request)
 
     // then
     expect(check2.status).toBe(CheckStatus.Failed)
@@ -41,11 +32,13 @@ describe("sell actions actions precondition", () => {
   })
 
   it("should fail if the seller does not have the item",  async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+    testBuilder.withRoom()
+
     // given
-    const room = getTestRoom()
-    const player = getTestPlayer()
-    room.addMob(player.sessionMob)
-    room.addMob(getMerchantMob())
+    const player = testBuilder.withPlayer().player
+    testBuilder.withMerchant()
 
     // when
     const check = await sell(new Request(player, RequestType.Sell, "sell foo"))
@@ -56,17 +49,15 @@ describe("sell actions actions precondition", () => {
   })
 
   it("should succeed if all conditions met", async () => {
-    // given
-    const room = getTestRoom()
-    const player = getTestPlayer()
-    const item = newEquipment("a baseball cap", "a baseball cap", Equipment.Head)
-    item.value = 10
-    player.sessionMob.inventory.addItem(item)
-    room.addMob(player.sessionMob)
-    room.addMob(getMerchantMob())
+    // setup
+    const testBuilder = new TestBuilder()
+    testBuilder.withRoom()
+    const item = testBuilder.withPlayer().withAxeEq()
+    testBuilder.withMerchant()
+    const request = testBuilder.createRequest(RequestType.Sell, `sell ${item.name}`)
 
     // when
-    const check = await sell(new Request(player, RequestType.Sell, "sell cap"))
+    const check = await sell(request)
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

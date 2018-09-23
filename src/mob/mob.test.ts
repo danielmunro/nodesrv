@@ -1,5 +1,6 @@
 import TestBuilder from "../test/testBuilder"
 import appetite from "./race/appetite"
+import { getTestMob } from "../test/mob"
 
 describe("mob model", () => {
   it("should not exceed its max appetite when eating", () => {
@@ -16,5 +17,12 @@ describe("mob model", () => {
 
     // then
     expect(mob.playerMob.hunger).toBe(maxAppetite)
+  })
+
+  it("should get a mob of requested level", () => {
+    const expectedLevel = 25
+    const mob = getTestMob("foo", expectedLevel)
+
+    expect(mob.level).toBe(expectedLevel)
   })
 })
