@@ -24,3 +24,5 @@ export const FLEE_MOVEMENT_COST_MULTIPLIER = 3
 export const ATTACK_MOB = "You scream and attacks!"
 
 export const MESSAGE_SUCCESS_SACRIFICE = "You sacrifice {0} to your diety, and are rewarded with {1} silver."
+
+export const MESSAGE_SUCCESS_PUT = "You put {0} in {1}."

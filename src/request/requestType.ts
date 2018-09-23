@@ -31,6 +31,7 @@ export enum RequestType {
   Score = "score",
   Eat = "eat",
   Sacrifice = "sacrifice",
+  Put = "put",
   Noop = "noop",
   Any = "any",
 

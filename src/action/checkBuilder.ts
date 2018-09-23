@@ -4,19 +4,21 @@ import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../player/autho
 import Check from "./check"
 import CheckComponent from "./checkComponent"
 import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_PLAYER } from "./constants"
+import { CheckType } from "./checkType"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []
   private confirm: boolean = true
 
   public requireTarget(mob: Mob, failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
-    this.checks.push(this.newCheckComponent(mob, failMessage))
+    this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob, failMessage))
 
     return this
   }
 
   public requirePlayer(mob: Mob, failMessage = MESSAGE_FAIL_NOT_PLAYER): CheckBuilder {
     this.checks.push(this.newCheckComponent(
+      CheckType.IsPlayer,
       new Maybe(mob).do((m) => m.isPlayer) .or(() => false).get(),
       failMessage))
 
@@ -26,6 +28,7 @@ export default class CheckBuilder {
   public requireSpecialAuthorization(
     authorizationLevel: AuthorizationLevel, failMessage = MESSAGE_FAIL_NOT_AUTHORIZED) {
     this.checks.push(this.newCheckComponent(
+      CheckType.AuthorizationLevel,
       isSpecialAuthorizationLevel(authorizationLevel),
       failMessage))
 
@@ -35,14 +38,15 @@ export default class CheckBuilder {
   public requireImmortal(
     authorizationLevel: AuthorizationLevel, failMessage = MESSAGE_FAIL_NOT_AUTHORIZED) {
     this.checks.push(this.newCheckComponent(
+      CheckType.AuthorizationLevel,
       authorizationLevel === AuthorizationLevel.Immortal,
       failMessage))
 
     return this
   }
 
-  public require(thing, failMessage) {
-    this.checks.push(this.newCheckComponent(thing, failMessage))
+  public require(thing, failMessage, checkType: CheckType = CheckType.Unspecified) {
+    this.checks.push(this.newCheckComponent(checkType, thing, failMessage))
 
     return this
   }
@@ -60,8 +64,8 @@ export default class CheckBuilder {
       .get()
   }
 
-  private newCheckComponent(thing, failMessage): CheckComponent {
-    const component = new CheckComponent(this.confirm ? thing : !thing, failMessage)
+  private newCheckComponent(checkType: CheckType, thing, failMessage): CheckComponent {
+    const component = new CheckComponent(checkType, this.confirm ? thing : !thing, failMessage)
     this.confirm = true
     return component
   }

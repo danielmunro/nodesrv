@@ -42,11 +42,13 @@ import { default as fleePrecondition } from "./precondition/flee"
 import { default as getPrecondition } from "./precondition/get"
 import { default as killPrecondition } from "./precondition/kill"
 import { default as movePrecondition } from "./precondition/move"
+import { default as putPrecondition } from "./precondition/put"
 import { default as removePrecondition } from "./precondition/remove"
 import { default as sacrificePrecondition } from "./precondition/sacrifice"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
+import put from "./actions/put"
 
 function newMoveDefinition(service: Service, requestType: RequestType, direction: Direction) {
   return service.getNewDefinition(requestType,
@@ -72,6 +74,7 @@ export default function getActionCollection(service: Service) {
     service.getNewDefinition(RequestType.Inventory, inventory),
     service.getNewDefinition(RequestType.Get, get, getPrecondition),
     service.getNewDefinition(RequestType.Drop, drop, dropPrecondition),
+    service.getNewDefinition(RequestType.Put, put, putPrecondition),
     service.getNewDefinition(RequestType.Wear, wear, wearPrecondition),
     service.getNewDefinition(RequestType.Remove, remove, removePrecondition),
     service.getNewDefinition(RequestType.Equipped, equipped),

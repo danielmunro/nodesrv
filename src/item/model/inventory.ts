@@ -23,6 +23,9 @@ export class Inventory {
     }
 
     public addItem(item: Item): void {
+      if (item.inventory) {
+        item.inventory.removeItem(item)
+      }
       item.inventory = this
       this.items.push(item)
     }
