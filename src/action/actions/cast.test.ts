@@ -10,8 +10,8 @@ import { SpellType } from "../../spell/spellType"
 import { getTestPlayer } from "../../test/player"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
-import cast from "./cast"
 import { CheckStatus } from "../check/checkStatus"
+import cast from "./cast"
 
 const TEST_INPUT_GIANT = "cast giant"
 

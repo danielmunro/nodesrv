@@ -7,7 +7,7 @@ export class Inventory {
     @PrimaryGeneratedColumn()
     public id: number
 
-    @OneToMany((type) => Item, (item) => item.inventory, { cascadeInsert: true, cascadeUpdate: true, eager: true })
+    @OneToMany((type) => Item, (item) => item.inventory, { cascadeInsert: true, cascadeUpdate: true })
     public items: Item[] = []
 
     public find(search): Item | undefined {

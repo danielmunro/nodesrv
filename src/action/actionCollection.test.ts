@@ -9,7 +9,8 @@ describe("actions actions collection", () => {
   it("should be able to bash", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer().withSkill(SkillType.Bash)
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withSkill(SkillType.Bash)
     const target = testBuilder.withMob("bob").mob
     const actions = await testBuilder.getActionCollection()
 
@@ -26,7 +27,8 @@ describe("actions actions collection", () => {
   it("should not be able to access admin actions", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer().withSkill(SkillType.Bash)
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withSkill(SkillType.Bash)
     const actions = await testBuilder.getActionCollection()
 
     const action = await actions.getMatchingHandlerDefinitionForRequestType(RequestType.Ban, AuthorizationLevel.Mortal)
@@ -37,7 +39,8 @@ describe("actions actions collection", () => {
   it("admins should be able to access admin actions", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer().withSkill(SkillType.Bash)
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withSkill(SkillType.Bash)
     const actions = await testBuilder.getActionCollection()
 
     const action = await actions.getMatchingHandlerDefinitionForRequestType(RequestType.Ban, AuthorizationLevel.Admin)
@@ -48,7 +51,8 @@ describe("actions actions collection", () => {
   it("should be able to trip", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer().withSkill(SkillType.Trip)
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withSkill(SkillType.Trip)
     const target = testBuilder.withMob("bob").mob
     const actions = await testBuilder.getActionCollection()
 
@@ -65,7 +69,8 @@ describe("actions actions collection", () => {
   it("should be able to berserk", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer().withSkill(SkillType.Berserk)
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withSkill(SkillType.Berserk)
     const actions = await testBuilder.getActionCollection()
 
     // and
@@ -81,7 +86,8 @@ describe("actions actions collection", () => {
   it("should be able to sneak", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer().withSkill(SkillType.Sneak)
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withSkill(SkillType.Sneak)
     const actions = await testBuilder.getActionCollection()
 
     // and

@@ -17,6 +17,7 @@ import inventory from "./actions/inventory"
 import kill from "./actions/kill"
 import look from "./actions/look"
 import move from "./actions/move"
+import put from "./actions/put"
 import remove from "./actions/remove"
 import sacrifice from "./actions/sacrifice"
 import say from "./actions/say"
@@ -48,7 +49,6 @@ import { default as sacrificePrecondition } from "./precondition/sacrifice"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
-import put from "./actions/put"
 
 function newMoveDefinition(service: Service, requestType: RequestType, direction: Direction) {
   return service.getNewDefinition(requestType,

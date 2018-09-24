@@ -7,9 +7,10 @@ import Attempt from "../attempt"
 import { SkillType } from "../skillType"
 import enhancedDamage from "./enhancedDamage"
 
-function getMob() {
+async function getMob() {
   const testBuilder = new TestBuilder()
-  testBuilder.withPlayer().withSkill(SkillType.EnhancedDamage)
+  const playerBuilder = await testBuilder.withPlayer()
+  playerBuilder.withSkill(SkillType.EnhancedDamage)
   const player = testBuilder.player
   const mob = player.sessionMob
   mob.race = Race.Giant
@@ -25,7 +26,7 @@ async function doEnhancedDamage(iterationCount: number, attempt: Attempt) {
 describe("enhanced damage", () => {
   it("should succeed more than half the time when practiced", async () => {
     // setup
-    const mob = getMob()
+    const mob = await getMob()
     mob.attributes.push(newAttributesWithStats(newStats(4, 0, 0, 0, 0, 4)))
     const skill = mob.skills[0]
     skill.level = MAX_PRACTICE_LEVEL
@@ -40,7 +41,7 @@ describe("enhanced damage", () => {
 
   it("should succeed somewhat when practiced some", async () => {
     // setup
-    const mob = getMob()
+    const mob = await getMob()
     const skill = mob.skills[0]
     skill.level = MAX_PRACTICE_LEVEL / 2
     const iterationCount = 1000
@@ -54,7 +55,7 @@ describe("enhanced damage", () => {
 
   it("should succeed infrequently when not practiced", async () => {
     // given
-    const mob = getMob()
+    const mob = await getMob()
     const iterationCount = 1000
 
     // when

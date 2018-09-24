@@ -1,5 +1,4 @@
 import Response from "../../request/response"
-import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import { format } from "../../support/string"
 import CheckedRequest from "../check/checkedRequest"

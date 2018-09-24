@@ -5,24 +5,23 @@ import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
+import TestBuilder from "../../test/testBuilder"
 import { Check } from "../check"
-import { newSpell } from "../factory"
 import spellCollection from "../spellCollection"
 import { SpellType } from "../spellType"
 import poison from "./poison"
 
 describe("poison", () => {
-  it("casting poison should add the poison affect to the target", () => {
+  it("casting poison should add the poison affect to the target", async () => {
     // setup
-    const player = getTestPlayer()
-    const target = getTestMob("bob")
-    const room = getTestRoom()
-    player.sessionMob.spells.push(newSpell(SpellType.Poison, MAX_PRACTICE_LEVEL))
-    room.addMob(player.sessionMob)
-    room.addMob(target)
+    const mobName = "bob"
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withSpell(SpellType.Poison, MAX_PRACTICE_LEVEL)
+    const target = testBuilder.withMob(mobName).mob
 
     poison(new Check(
-      new Request(player, RequestType.Cast, "cast poison bob", target),
+      testBuilder.createRequest(RequestType.Cast, "cast poison bob", target),
       spellCollection.findSpell(SpellType.Poison)))
 
     expect(target.affects.length).toBe(1)

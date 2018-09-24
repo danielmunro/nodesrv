@@ -10,10 +10,10 @@ describe("train action precondition", () => {
   it("should not work if a trainer is not present", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const player = testBuilder.withPlayer().player
+    await testBuilder.withPlayer()
 
     // when
-    const check = await train(new Request(player, RequestType.Train))
+    const check = await train(testBuilder.createRequest(RequestType.Train))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -23,11 +23,11 @@ describe("train action precondition", () => {
   it("should not work if the player has no available trains", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const player = testBuilder.withPlayer().player
+    await testBuilder.withPlayer()
     testBuilder.withTrainer()
 
     // when
-    const check = await train(new Request(player, RequestType.Train))
+    const check = await train(testBuilder.createRequest(RequestType.Train))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -37,12 +37,12 @@ describe("train action precondition", () => {
   it("should not work if the mob is not standing", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const player = testBuilder.withPlayer().player
-    player.sessionMob.disposition = Disposition.Sleeping
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withDisposition(Disposition.Sleeping)
     testBuilder.withTrainer()
 
     // when
-    const check = await train(new Request(player, RequestType.Train))
+    const check = await train(testBuilder.createRequest(RequestType.Train))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -52,12 +52,13 @@ describe("train action precondition", () => {
   it("should work if all preconditions are met", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const player = testBuilder.withPlayer().player
-    player.sessionMob.playerMob.trains = 1
+    testBuilder.withRoom()
+    await testBuilder.withPlayer()
+    testBuilder.with((player) => player.sessionMob.playerMob.trains = 1)
     const trainer = testBuilder.withTrainer().mob
 
     // when
-    const check = await train(new Request(player, RequestType.Train, "train con"))
+    const check = await train(testBuilder.createRequest(RequestType.Train, "train con"))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

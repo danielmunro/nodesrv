@@ -9,7 +9,7 @@ describe("get actions precondition", () => {
   it("should not work if the item is not in the right inventory", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer()
+    await testBuilder.withPlayer()
 
     // when
     const check = await get(testBuilder.createRequest(RequestType.Get, "get foo"))
@@ -22,7 +22,7 @@ describe("get actions precondition", () => {
   it("should be ok if the item is in the room's inventory", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer()
+    await testBuilder.withPlayer()
     const equipment = testBuilder.withRoom().withHelmetEq()
 
     // when
@@ -36,7 +36,7 @@ describe("get actions precondition", () => {
   it("should not be able to get an item that is not transferable", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer()
+    await testBuilder.withPlayer()
     const item = testBuilder.withRoom().withHelmetEq()
     item.isTransferable = false
 

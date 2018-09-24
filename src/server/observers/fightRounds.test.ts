@@ -1,9 +1,7 @@
 import { Attack, AttackResult } from "../../mob/fight/attack"
 import { addFight, Fight, filterCompleteFights, getCorpse, getFights } from "../../mob/fight/fight"
-import Table from "../../room/table"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
-import { getTestRegion } from "../../test/region"
 import TestBuilder from "../../test/testBuilder"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
 
@@ -90,10 +88,10 @@ describe("fight rounds", () => {
     expect(fight.isInProgress()).toBe(false)
   })
 
-  it("should transfer all items from the inventory and equipment to the corpse", () => {
+  it("should transfer all items from the inventory and equipment to the corpse", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const playerBuilder = testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer()
     const mob = playerBuilder.player.sessionMob
 
     // given

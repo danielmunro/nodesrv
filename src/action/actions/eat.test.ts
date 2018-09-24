@@ -11,7 +11,7 @@ import eat from "./eat"
 describe("eat action", () => {
   it("should remove food from inventory when consumed", async () => {
     const testBuilder = new TestBuilder()
-    const playerBuilder = testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer()
     const food = playerBuilder.withFood()
     const player = playerBuilder.player
 
@@ -25,7 +25,7 @@ describe("eat action", () => {
 
   it("should notify if the player is full", async () => {
     const testBuilder = new TestBuilder()
-    const playerBuilder = testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer()
     const food = playerBuilder.withFood()
     const player = playerBuilder.player
     player.sessionMob.playerMob.hunger = appetite(player.sessionMob.race) - 1
@@ -39,7 +39,7 @@ describe("eat action", () => {
 
   it ("should notify if the player receives an affect from eating", async () => {
     const testBuilder = new TestBuilder()
-    const playerBuilder = testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer()
     const food = playerBuilder.withFood()
     food.affects.push(newAffect(AffectType.Poison))
 

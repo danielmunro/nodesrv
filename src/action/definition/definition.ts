@@ -5,8 +5,8 @@ import ResponseBuilder from "../../request/responseBuilder"
 import Service from "../../room/service"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
-import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 import { CheckStatus } from "../check/checkStatus"
+import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 
 export class Definition {
   constructor(

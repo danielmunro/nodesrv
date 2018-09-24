@@ -27,9 +27,11 @@ let playerToPromote: Player
 describe("promote moderation precondition", () => {
   beforeEach(async () => {
     const testBuilder = new TestBuilder()
-    player = testBuilder.withAdminPlayer(AuthorizationLevel.Immortal).player
+    const adminPlayerBuilder = await testBuilder.withAdminPlayer(AuthorizationLevel.Immortal)
+    player = adminPlayerBuilder.player
     player.sessionMob.name = MOB_SELF
-    playerToPromote = testBuilder.withPlayer().player
+    const playerBuilder = await testBuilder.withPlayer()
+    playerToPromote = playerBuilder.player
     playerToPromote.sessionMob.name = MOB_TO_BAN
     service = await testBuilder.getService()
     service.mobTable.add(player.sessionMob)

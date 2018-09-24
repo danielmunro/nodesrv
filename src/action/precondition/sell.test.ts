@@ -10,7 +10,7 @@ describe("sell actions actions precondition", () => {
     // setup
     const testBuilder = new TestBuilder()
     testBuilder.withRoom()
-    testBuilder.withPlayer()
+    await testBuilder.withPlayer()
     const request = testBuilder.createRequest(RequestType.Sell, "sell foo")
 
     // when
@@ -37,11 +37,11 @@ describe("sell actions actions precondition", () => {
     testBuilder.withRoom()
 
     // given
-    const player = testBuilder.withPlayer().player
+    await testBuilder.withPlayer()
     testBuilder.withMerchant()
 
     // when
-    const check = await sell(new Request(player, RequestType.Sell, "sell foo"))
+    const check = await sell(testBuilder.createRequest(RequestType.Sell, "sell foo"))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -52,12 +52,12 @@ describe("sell actions actions precondition", () => {
     // setup
     const testBuilder = new TestBuilder()
     testBuilder.withRoom()
-    const item = testBuilder.withPlayer().withAxeEq()
+    const playerBuilder = await testBuilder.withPlayer()
+    const item = playerBuilder.withAxeEq()
     testBuilder.withMerchant()
-    const request = testBuilder.createRequest(RequestType.Sell, `sell ${item.name}`)
 
     // when
-    const check = await sell(request)
+    const check = await sell(testBuilder.createRequest(RequestType.Sell, `sell ${item.name}`))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

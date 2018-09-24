@@ -1,21 +1,18 @@
-import { newShield } from "../../item/factory"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { getTestPlayer } from "../../test/player"
-import inventory from "./inventory"
+import TestBuilder from "../../test/testBuilder"
 
 describe("inventory actions actions", () => {
   it("should return a mob's inventory", async () => {
     // given
-    const player = getTestPlayer()
-    const inv = player.sessionMob.inventory
-    const item1 = newShield("a wooden shield", "")
-    const item2 = newShield("a metal shield", "")
-    inv.addItem(item1)
-    inv.addItem(item2)
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    const item1 = playerBuilder.withAxeEq()
+    const item2 = playerBuilder.withHelmetEq()
+    const actionCollection = await testBuilder.getActionCollection()
+    const inv = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Inventory)
 
     // when
-    const response = await inventory(new Request(player, RequestType.Inventory))
+    const response = await inv.handle(testBuilder.createRequest(RequestType.Inventory))
 
     // then
     expect(response.message).toContain(item1.name)

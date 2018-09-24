@@ -1,4 +1,6 @@
 import * as assert from "assert"
+import ItemTable from "../src/item/itemTable"
+import { getItemRepository } from "../src/item/repository/item"
 import { getMobRepository } from "../src/mob/repository/mob"
 import Table from "../src/mob/table"
 import { Room } from "../src/room/model/room"
@@ -35,8 +37,16 @@ async function newRoomTable(): Promise<RoomTable> {
   return RoomTable.new(models)
 }
 
+async function newItemTable(): Promise<ItemTable> {
+  const itemRepository = await getItemRepository()
+  const models = await itemRepository.findAll()
+  console.debug(`item table initialized with ${models.length} items`)
+  return new ItemTable(models)
+}
+
 Promise.all([
   newRoomTable(),
   newMobTable(),
-]).then(async ([roomTable, mobTable]) =>
-  startServer(await Service.new(roomTable, mobTable), roomTable.get(startRoomID)))
+  newItemTable(),
+]).then(async ([roomTable, mobTable, itemTable]) =>
+  startServer(await Service.new(roomTable, mobTable, itemTable), roomTable.get(startRoomID)))

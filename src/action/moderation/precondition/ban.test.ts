@@ -7,8 +7,8 @@ import Service from "../../../room/service"
 import { getTestMob } from "../../../test/mob"
 import { getTestPlayer } from "../../../test/player"
 import TestBuilder from "../../../test/testBuilder"
-import { CheckStatus } from "../../check/checkStatus"
 import CheckedRequest from "../../check/checkedRequest"
+import { CheckStatus } from "../../check/checkStatus"
 import { default as banAction } from "../actions/ban"
 import ban from "./ban"
 import {
@@ -28,9 +28,11 @@ let playerToBan: Player
 describe("ban moderation precondition", () => {
   beforeEach(async () => {
     const testBuilder = new TestBuilder()
-    const player = testBuilder.withAdminPlayer().player
+    const adminPlayerBuilder = await testBuilder.withAdminPlayer()
+    const player = adminPlayerBuilder.player
     player.sessionMob.name = MOB_SELF
-    playerToBan = testBuilder.withPlayer().player
+    const playerBuilder = await testBuilder.withPlayer()
+    playerToBan = playerBuilder.player
     playerToBan.sessionMob.name = MOB_TO_BAN
     service = await testBuilder.getService()
     service.mobTable.add(player.sessionMob)

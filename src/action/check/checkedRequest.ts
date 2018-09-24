@@ -1,7 +1,7 @@
 import { Request } from "../../request/request"
+import ResponseBuilder from "../../request/responseBuilder"
 import Check from "./check"
 import { CheckType } from "./checkType"
-import ResponseBuilder from "../../request/responseBuilder"
 
 export default class CheckedRequest {
   constructor(

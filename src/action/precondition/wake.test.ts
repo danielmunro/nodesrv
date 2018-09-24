@@ -9,7 +9,7 @@ describe("wake actions precondition", () => {
   it("should not be able to wake if already standing", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer().withDisposition(Disposition.Standing)
+    await testBuilder.withPlayer(p => p.sessionMob.disposition = Disposition.Standing)
 
     // when
     const check = await wake(testBuilder.createRequest(RequestType.Wake))
@@ -22,7 +22,7 @@ describe("wake actions precondition", () => {
   it("should not be able to wake if dead", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer().withDisposition(Disposition.Dead)
+    await testBuilder.withPlayer(p => p.sessionMob.disposition = Disposition.Dead)
 
     // when
     const check = await wake(testBuilder.createRequest(RequestType.Wake))

@@ -6,9 +6,10 @@ import { OutcomeType } from "../outcomeType"
 import { SkillType } from "../skillType"
 import envenom from "./envenom"
 
-function getTestBuilder() {
+async function getTestBuilder() {
   const testBuilder = new TestBuilder()
-  testBuilder.withPlayer().withSkill(SkillType.Envenom)
+  const playerBuilder = await testBuilder.withPlayer()
+  playerBuilder.withSkill(SkillType.Envenom)
   testBuilder.addWeaponToPlayerInventory()
 
   return testBuilder
@@ -17,7 +18,7 @@ function getTestBuilder() {
 describe("envenom", () => {
   it("should fail at low levels", async () => {
     // setup
-    const testBuilder = getTestBuilder()
+    const testBuilder = await getTestBuilder()
     const mob = testBuilder.player.sessionMob
     const weapon = mob.inventory.items[0]
 
@@ -31,7 +32,7 @@ describe("envenom", () => {
 
   it("should succeed sometimes", async () => {
     // setup
-    const testBuilder = getTestBuilder()
+    const testBuilder = await getTestBuilder()
     const mob = testBuilder.player.sessionMob
     const skill = mob.skills[0]
     const weapon = mob.inventory.items[0]
@@ -49,7 +50,7 @@ describe("envenom", () => {
   it("should not be able to envenom a non weapon", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const playerBuilder = testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer()
     playerBuilder.withSkill(SkillType.Envenom, 100)
     const mob = playerBuilder.player.sessionMob
 
@@ -68,7 +69,7 @@ describe("envenom", () => {
   it("should only be able to envenom bladed weapons", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const playerBuilder = testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer()
     playerBuilder.withSkill(SkillType.Envenom, 100)
     const mob = playerBuilder.player.sessionMob
 

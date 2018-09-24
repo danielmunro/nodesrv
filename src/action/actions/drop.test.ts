@@ -6,7 +6,7 @@ describe("drop", () => {
   it("should be able to drop an item", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const playerBuilder = testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer()
     const mob = playerBuilder.player.sessionMob
 
     // and

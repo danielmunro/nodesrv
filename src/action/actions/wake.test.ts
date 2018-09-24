@@ -3,13 +3,13 @@ import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_WAKE_SUCCESS } from "./constants"
-import { default as wake} from "./wake"
+import { default as wake } from "./wake"
 
 describe("sleep actions actions", () => {
   it("should change the mob's disposition to standing", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer().withDisposition(Disposition.Sleeping)
+    await testBuilder.withPlayer(p => p.sessionMob.disposition = Disposition.Sleeping)
 
     // when
     const response = await wake(testBuilder.createOkCheckedRequest(RequestType.Wake))

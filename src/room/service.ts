@@ -1,4 +1,6 @@
 import { Definition } from "../action/definition/definition"
+import ItemTable from "../item/itemTable"
+import ItemRepository, { getItemRepository } from "../item/repository/item"
 import { Mob } from "../mob/model/mob"
 import { default as MobTable } from "../mob/table"
 import { RequestType } from "../request/requestType"
@@ -10,8 +12,14 @@ import RoomRepository, { getRoomRepository } from "./repository/room"
 import { default as RoomTable } from "./table"
 
 export default class Service {
-  public static async new(table: RoomTable = new RoomTable({}), mobTable: MobTable = new MobTable()): Promise<Service> {
-    return new Service(table, mobTable, await getRoomRepository(), await getExitRepository())
+  public static async new(
+    roomTable: RoomTable = new RoomTable({}),
+    mobTable: MobTable = new MobTable(),
+    itemTable: ItemTable = new ItemTable([]),
+  ): Promise<Service> {
+    return new Service(
+      roomTable, mobTable, itemTable,
+      await getRoomRepository(), await getExitRepository(), await getItemRepository())
   }
 
   public static async newWithArray(rooms: Room[]): Promise<Service> {
@@ -21,8 +29,10 @@ export default class Service {
   constructor(
     public readonly roomTable: RoomTable,
     public readonly mobTable: MobTable,
+    public readonly itemTable: ItemTable,
     private readonly roomRepository: RoomRepository,
-    private readonly exitRepository: ExitRepository) {}
+    private readonly exitRepository: ExitRepository,
+    private readonly itemRepository: ItemRepository) {}
 
   public async saveRoom(room): Promise<any> {
     return this.roomRepository.save(room)

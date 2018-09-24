@@ -1,7 +1,13 @@
-import { Repository } from "typeorm"
 import { getConnection } from "../../db/connection"
 import { Item } from "../model/item"
+import ItemRepositoryImpl from "./itemImpl"
 
-export async function getItemRepository(): Promise<Repository<Item>> {
-  return await getConnection().then((connection) => connection.getRepository(Item))
+export default interface ItemRepository {
+  findAll(): Promise<Item[]>
+  save(item)
+}
+
+export async function getItemRepository(): Promise<ItemRepository> {
+  const connection = await getConnection()
+  return new ItemRepositoryImpl(connection.getRepository(Item))
 }

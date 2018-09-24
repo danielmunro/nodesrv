@@ -1,6 +1,8 @@
 import getActionCollection from "../action/actionCollection"
 import Check from "../action/check/check"
 import CheckedRequest from "../action/check/checkedRequest"
+import { CheckStatus } from "../action/check/checkStatus"
+import { Collection } from "../action/definition/collection"
 import { DamageType } from "../damage/damageType"
 import { newWeapon } from "../item/factory"
 import { Item } from "../item/model/item"
@@ -19,7 +21,6 @@ import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
-import { CheckStatus } from "../action/check/checkStatus"
 
 export default class TestBuilder {
   public player: Player
@@ -35,13 +36,18 @@ export default class TestBuilder {
     return new RoomBuilder(this.room)
   }
 
-  public withPlayer(): PlayerBuilder {
+  public async withPlayer(fn = null): Promise<PlayerBuilder> {
     this.player = getTestPlayer()
+
     if (this.room) {
       this.room.addMob(this.player.sessionMob)
     }
 
-    return new PlayerBuilder(this.player)
+    if (fn) {
+      fn(this.player)
+    }
+
+    return new PlayerBuilder(this.player, await this.getService())
   }
 
   public addWeaponToPlayerInventory(): Item {
@@ -55,8 +61,9 @@ export default class TestBuilder {
     return weapon
   }
 
-  public withAdminPlayer(authorizationLevel: AuthorizationLevel = AuthorizationLevel.Admin): PlayerBuilder {
-    const playerBuilder = this.withPlayer()
+  public async withAdminPlayer(
+    authorizationLevel: AuthorizationLevel = AuthorizationLevel.Admin): Promise<PlayerBuilder> {
+    const playerBuilder = await this.withPlayer()
     playerBuilder.player.sessionMob.playerMob.authorizationLevel = authorizationLevel
 
     return playerBuilder
@@ -86,6 +93,10 @@ export default class TestBuilder {
     return mobBuilder
   }
 
+  public with(fn) {
+    fn(this.player)
+  }
+
   public createOkCheckedRequest(requestType: RequestType, input: string = null, result: any = null): CheckedRequest {
     return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result)
   }
@@ -94,7 +105,7 @@ export default class TestBuilder {
     return new Request(this.player, requestType, input, target)
   }
 
-  public async getActionCollection() {
+  public async getActionCollection(): Promise<Collection> {
     return getActionCollection(await this.getService())
   }
 
@@ -115,7 +126,7 @@ export default class TestBuilder {
     }
     return new CheckedRequest(
       new Request(this.player, requestType, input),
-      new Check(checkStatus, result),
+      new Check(checkStatus, result, []),
     )
   }
 }

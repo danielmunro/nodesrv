@@ -22,10 +22,11 @@ describe("train action", () => {
   it("should fail if a requested train is not understood", async () => {
     // given
     const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
 
     // when
     const response = await getResponse(
-      testBuilder.withPlayer().player,
+      playerBuilder.player,
       testBuilder.withTrainer().mob,
       "train floodle")
 
@@ -37,7 +38,8 @@ describe("train action", () => {
     await Promise.all(allStats.map(async (stat) => {
       // given
       const testBuilder = new TestBuilder()
-      const player = testBuilder.withPlayer().player
+      const playerBuilder = await testBuilder.withPlayer()
+      const player = playerBuilder.player
       player.sessionMob.playerMob.trains = 1
       const initialValue = player.sessionMob.playerMob.trainedAttributes.stats[stat]
 
@@ -57,7 +59,8 @@ describe("train action", () => {
   it("should be able to train vitals", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const player = testBuilder.withPlayer().player
+    const playerBuilder = await testBuilder.withPlayer()
+    const player = playerBuilder.player
     const playerMob = player.sessionMob.playerMob
     playerMob.trains = 3
 
@@ -81,7 +84,8 @@ describe("train action", () => {
   it("should not exceed stat max training amounts", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const player = testBuilder.withPlayer().player
+    const playerBuilder = await testBuilder.withPlayer()
+    const player = playerBuilder.player
     const trainer = testBuilder.withTrainer().mob
     player.sessionMob.playerMob.trains = 10
     player.sessionMob.playerMob.trainedAttributes.stats.str = MAX_TRAINABLE_STATS
@@ -156,7 +160,8 @@ describe("train action", () => {
     // given
     const testBuilder = new TestBuilder()
     const trainer = testBuilder.withTrainer().mob
-    const player = testBuilder.withPlayer().player
+    const playerBuilder = await testBuilder.withPlayer()
+    const player = playerBuilder.player
     const trainedAttributes = player.sessionMob.playerMob.trainedAttributes
 
     // when

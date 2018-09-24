@@ -9,7 +9,7 @@ describe("sleep actions actions", () => {
   it("should change the mob's disposition to sleeping", async () => {
     // given
     const testBuilder = new TestBuilder()
-    testBuilder.withPlayer()
+    await testBuilder.withPlayer()
 
     // when
     const response = await sleep(testBuilder.createOkCheckedRequest(RequestType.Sleep))

@@ -17,13 +17,13 @@ describe("kill", () => {
   it("should not be able to kill a mob that isn't in the room", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const player = testBuilder.withPlayer().player
+    const playerBuilder = await testBuilder.withPlayer()
 
     // and -- mob is NOT added to room
     const target = getTestMob()
 
     // when
-    const check = await useKillRequest(player, `kill ${target.name}`)
+    const check = await useKillRequest(playerBuilder.player, `kill ${target.name}`)
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -34,7 +34,8 @@ describe("kill", () => {
     // given
     const testBuilder = new TestBuilder()
     testBuilder.withRoom()
-    const player = testBuilder.withPlayer().player
+    const playerBuilder = await testBuilder.withPlayer()
+    const player = playerBuilder.player
     const mob1 = testBuilder.withMob("bob").mob
     const mob2 = testBuilder.withMob("alice").mob
 
@@ -52,11 +53,11 @@ describe("kill", () => {
   it("should be able to kill a mob in the same room", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const player = testBuilder.withPlayer().player
+    const playerBuilder = await testBuilder.withPlayer()
     const target = testBuilder.withMob("bob").mob
 
     // when
-    const check = await useKillRequest(player, `kill ${target.name}`, target)
+    const check = await useKillRequest(playerBuilder.player, `kill ${target.name}`, target)
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

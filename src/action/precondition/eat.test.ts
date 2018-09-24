@@ -14,11 +14,11 @@ describe("eat action precondition", () => {
   it("should not allow eating food not in inventory", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const player = testBuilder.withPlayer().player
+    await testBuilder.withPlayer()
     const food = testBuilder.withRoom().withFood()
 
     // when
-    const check = await eat(new Request(player, RequestType.Eat, `eat ${food.name}`))
+    const check = await eat(testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -28,11 +28,11 @@ describe("eat action precondition", () => {
   it("should not allow eating items that are not food", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const playerBuilder = testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer()
     const eq = playerBuilder.withHelmetEq()
 
     // when
-    const check = await eat(new Request(playerBuilder.player, RequestType.Eat, `eat ${eq.name}`))
+    const check = await eat(testBuilder.createRequest(RequestType.Eat, `eat ${eq.name}`))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -42,13 +42,13 @@ describe("eat action precondition", () => {
   it("should not allow eating when already full", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const playerBuilder = testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer()
     const mob = playerBuilder.player.sessionMob
     mob.playerMob.hunger = appetite(mob.race)
     const food = playerBuilder.withFood()
 
     // when
-    const check = await eat(new Request(playerBuilder.player, RequestType.Eat, `eat ${food.name}`))
+    const check = await eat(testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -58,11 +58,11 @@ describe("eat action precondition", () => {
   it("should allow eating when all conditions are met", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const playerBuilder = testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer()
     const food = playerBuilder.withFood()
 
     // when
-    const check = await eat(new Request(playerBuilder.player, RequestType.Eat, `eat ${food.name}`))
+    const check = await eat(testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

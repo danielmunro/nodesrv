@@ -3,10 +3,10 @@ import TestBuilder from "../test/testBuilder"
 import appetite from "./race/appetite"
 
 describe("mob model", () => {
-  it("should not exceed its max appetite when eating", () => {
+  it("should not exceed its max appetite when eating", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const playerBuilder = testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer()
     const food = playerBuilder.withFood()
     food.nourishment = 10
     const mob = playerBuilder.player.sessionMob

@@ -1,18 +1,19 @@
-import { DamageType } from "../damage/damageType"
-import { newWeapon } from "../item/factory"
 import { Item } from "../item/model/item"
-import { WeaponType } from "../item/weaponType"
 import { Disposition } from "../mob/disposition"
 import { Player } from "../player/model/player"
+import Service from "../room/service"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
+import { newSpell } from "../spell/factory"
+import { Spell } from "../spell/model/spell"
+import { SpellType } from "../spell/spellType"
 import AbstractBuilder from "./abstractBuilder"
 
 export default class PlayerBuilder extends AbstractBuilder {
   private equipNextEquipment = false
 
-  constructor(public readonly player: Player) {
+  constructor(public readonly player: Player, private readonly service: Service) {
     super()
   }
 
@@ -48,11 +49,20 @@ export default class PlayerBuilder extends AbstractBuilder {
     return skill
   }
 
+  public withSpell(spellType: SpellType, level: number = 1): Spell {
+    const spell = newSpell(spellType, level)
+    this.player.sessionMob.spells.push(spell)
+
+    return spell
+  }
+
   public withDisposition(disposition: Disposition) {
     this.player.sessionMob.disposition = disposition
   }
 
   private doEquip(equipment) {
+    this.service.itemTable.add(equipment)
+
     if (this.equipNextEquipment) {
       this.equipNextEquipment = false
       this.player.sessionMob.equipped.inventory.addItem(equipment)

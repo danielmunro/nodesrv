@@ -7,7 +7,8 @@ describe("get actions actions", () => {
     // setup
     const testBuilder = new TestBuilder()
     const item = testBuilder.withRoom().withHelmetEq()
-    const player = testBuilder.withPlayer().player
+    const playerBuilder = await testBuilder.withPlayer()
+    const player = playerBuilder.player
     const itemCount = player.sessionMob.inventory.items.length
 
     // when
