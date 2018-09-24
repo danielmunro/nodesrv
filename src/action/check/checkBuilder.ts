@@ -58,9 +58,9 @@ export default class CheckBuilder {
   }
 
   public async create(target): Promise<Check> {
-    return new Maybe(this.checks.find((checkComponent: CheckComponent) => !checkComponent.thing))
-      .do((badCheck) => Check.fail(badCheck.failMessage))
-      .or(() => Check.ok(target))
+    return new Maybe(this.checks.find(checkComponent => !checkComponent.thing))
+      .do(badCheck => Check.fail(badCheck.failMessage))
+      .or(() => Check.ok(target, this.checks))
       .get()
   }
 

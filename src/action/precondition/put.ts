@@ -6,8 +6,10 @@ import { MESSAGE_FAIL_CONTAINER_NOT_FOUND, MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } 
 import { CheckType } from "../check/checkType"
 
 export default function(request: Request): Promise<Check> {
-  const item = request.findItemInSessionMobInventory()
-  const container = new Maybe(request.findItemInSessionMobInventory())
+  const containerName = request.component
+  const item = request.findItemInSessionMobInventory(containerName)
+  const container = new Maybe(request.findItemInSessionMobInventory(containerName))
+    .do((i) => i)
     .or(() => request.findItemInRoomInventory())
     .get()
 

@@ -42,12 +42,12 @@ export class Request {
     return this.player.sessionMob.room
   }
 
-  public findItemInSessionMobInventory(): Item | undefined {
-    return this.player.sessionMob.inventory.findItemByName(this.subject)
+  public findItemInSessionMobInventory(item = this.subject): Item | undefined {
+    return this.player.sessionMob.inventory.findItemByName(item)
   }
 
-  public findItemInRoomInventory(): Item | undefined {
-    return this.player.sessionMob.room.inventory.findItemByName(this.subject)
+  public findItemInRoomInventory(item = this.subject): Item | undefined {
+    return this.player.sessionMob.room.inventory.findItemByName(item)
   }
 
   public findMobInRoom(): Mob | undefined {
