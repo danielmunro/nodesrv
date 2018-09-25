@@ -1,11 +1,14 @@
-import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import { format } from "../../support/string"
+import CheckedRequest from "../check/checkedRequest"
+import { CheckType } from "../check/checkType"
+import { MESSAGE_REMOVE_SUCCESS } from "../precondition/constants"
 
-export default function(request: Request): Promise<Response> {
-  const eq = request.player.sessionMob.equipped.inventory
-  const item = eq.findItemByName(request.subject)
-  request.player.getInventory().getItemFrom(item, eq)
+export default function(checkedRequest: CheckedRequest): Promise<Response> {
+  const request = checkedRequest.request
+  const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+  request.player.getInventory().addItem(item)
 
-  return new ResponseBuilder(request).info(`You remove ${item.name} and put it in your inventory.`)
+  return new ResponseBuilder(request).info(format(MESSAGE_REMOVE_SUCCESS, item.name))
 }

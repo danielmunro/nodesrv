@@ -38,6 +38,7 @@ export const MESSAGE_OUT_OF_MOVEMENT = "You are too tired."
 
 // remove
 export const MESSAGE_REMOVE_FAIL = "You aren't wearing that."
+export const MESSAGE_REMOVE_SUCCESS = `You remove {0} and put it in your inventory.`
 
 // sell
 export const MESSAGE_FAIL_NO_MERCHANT = "You don't see a merchant anywhere."

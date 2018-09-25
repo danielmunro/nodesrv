@@ -1,5 +1,6 @@
 import getActionCollection from "../action/actionCollection"
 import Check from "../action/check/check"
+import CheckComponent from "../action/check/checkComponent"
 import CheckedRequest from "../action/check/checkedRequest"
 import { CheckStatus } from "../action/check/checkStatus"
 import { Collection } from "../action/definition/collection"
@@ -97,8 +98,8 @@ export default class TestBuilder {
     fn(this.player)
   }
 
-  public createOkCheckedRequest(requestType: RequestType, input: string = null, result: any = null): CheckedRequest {
-    return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result)
+  public createOkCheckedRequest(requestType: RequestType, input: string = null, result: any = null, checkComponents: CheckComponent[]): CheckedRequest {
+    return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result, checkComponents)
   }
 
   public createRequest(requestType: RequestType, input: string = requestType, target: Mob = null): Request {
@@ -120,13 +121,14 @@ export default class TestBuilder {
     requestType: RequestType,
     checkStatus: CheckStatus,
     input: string = null,
-    result: any = null): CheckedRequest {
+    result: any = null,
+    checkComponents: CheckComponent[] = []): CheckedRequest {
     if (!input) {
       input = requestType.toString()
     }
     return new CheckedRequest(
       new Request(this.player, requestType, input),
-      new Check(checkStatus, result, []),
+      new Check(checkStatus, result, checkComponents),
     )
   }
 }

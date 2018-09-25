@@ -1,14 +1,11 @@
 import { Request } from "../../request/request"
 import Check from "../check/check"
+import CheckBuilder from "../check/checkBuilder"
+import { CheckType } from "../check/checkType"
 import { MESSAGE_REMOVE_FAIL } from "./constants"
 
 export default function(request: Request): Promise<Check> {
-  const mob = request.player.sessionMob
-  const item = mob.equipped.inventory.findItemByName(request.subject)
+  const item = request.mob.equipped.inventory.findItemByName(request.subject)
 
-  if (!item) {
-    return Check.fail(MESSAGE_REMOVE_FAIL)
-  }
-
-  return Check.ok()
+  return new CheckBuilder().require(item, MESSAGE_REMOVE_FAIL, CheckType.HasItem).create(item)
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import { newAffect } from "../../affect/factory"
 import { Affect } from "../../affect/model/affect"
 import { newEmptyAttributes } from "../../attributes/factory"
@@ -36,21 +36,22 @@ export class Item {
   @Column("integer")
   public level: number = 0
 
-  @ManyToOne((type) => Inventory, (inventory) => inventory.items)
+  @ManyToOne(type => Inventory, inventory => inventory.items)
   public inventory: Inventory
 
-  @OneToOne((type) => Attributes, (attributes) => attributes.item)
+  @OneToOne(type => Attributes, attributes => attributes.item)
   public attributes: Attributes = newEmptyAttributes()
 
-  @OneToMany((type) => Affect, (affect) => affect.item)
+  @OneToMany(type => Affect, affect => affect.item)
   public affects: Affect[] = []
 
-  @OneToOne((type) => Inventory, { cascadeAll: true })
+  @OneToOne(type => Inventory, { cascadeAll: true })
+  @JoinColumn()
   public containerInventory
 
   public matches(subject: string): boolean {
     const words = this.name.split(" ")
-    return !!words.find((word) => word.startsWith(subject))
+    return !!words.find(word => word.startsWith(subject))
   }
 
   public isFood(): boolean {
@@ -70,7 +71,7 @@ export class Item {
     item.value = this.value
     item.nourishment = this.nourishment
     item.attributes = this.attributes.copy()
-    item.affects = this.affects.map((affect) => newAffect(affect.affectType, affect.timeout))
+    item.affects = this.affects.map(affect => newAffect(affect.affectType, affect.timeout))
 
     return item
   }
