@@ -17,6 +17,6 @@ export default class Check {
   constructor(
     readonly status: CheckStatus,
     readonly result: any,
-    readonly checkResults: CheckResult[],
+    readonly checkResults: CheckResult[] = [],
   ) {}
 }
