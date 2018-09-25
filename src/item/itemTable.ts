@@ -1,3 +1,4 @@
+import match from "../matcher/match"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
 
@@ -6,6 +7,10 @@ export default class ItemTable {
 
   public findByInventory(inventory: Inventory): Item[] {
     return this.items.filter(i => i.inventory.id === inventory.id)
+  }
+
+  public findItemByInventory(inventory: Inventory, name: string): Item {
+    return this.items.find(i => i.inventory.id === inventory.id && match(i.name, name))
   }
 
   public add(item: Item) {

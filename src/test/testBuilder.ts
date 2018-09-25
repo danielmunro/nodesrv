@@ -98,7 +98,11 @@ export default class TestBuilder {
     fn(this.player)
   }
 
-  public createOkCheckedRequest(requestType: RequestType, input: string = null, result: any = null, checkComponents: CheckComponent[]): CheckedRequest {
+  public createOkCheckedRequest(
+    requestType: RequestType,
+    input: string = null,
+    result: any = null,
+    checkComponents: CheckComponent[]): CheckedRequest {
     return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result, checkComponents)
   }
 

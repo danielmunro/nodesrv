@@ -36,7 +36,7 @@ export class Item {
   @Column("integer")
   public level: number = 0
 
-  @ManyToOne(type => Inventory, inventory => inventory.items)
+  @ManyToOne(type => Inventory, inventory => inventory.items, { eager: true })
   public inventory: Inventory
 
   @OneToOne(type => Attributes, attributes => attributes.item)
@@ -45,7 +45,7 @@ export class Item {
   @OneToMany(type => Affect, affect => affect.item)
   public affects: Affect[] = []
 
-  @OneToOne(type => Inventory, { cascadeAll: true })
+  @OneToOne(type => Inventory, { cascadeAll: true, eager: true })
   @JoinColumn()
   public containerInventory
 
