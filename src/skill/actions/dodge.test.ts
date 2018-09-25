@@ -11,9 +11,9 @@ describe("dodge skill", () => {
     attacker.skills.push(newSkill(SkillType.Dodge, 10))
     const defender = getTestMob()
     const fight = new Fight(attacker, defender, attacker.room)
-    const results = await doNTimes(20, () => fight.round())
+    const results = await doNTimes(10, () => fight.isInProgress() ? fight.round() : null)
 
-    expect(results.every(r => {
+    expect(results.filter(r => r).every(r => {
       const lastAttack = r.getLastAttack()
       return lastAttack.result === AttackResult.Hit || lastAttack.result === AttackResult.Miss
     })).toBeTruthy()

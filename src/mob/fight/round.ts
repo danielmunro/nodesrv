@@ -12,9 +12,9 @@ export class Round {
   constructor(public readonly attacks: Attack[] = [],
               public readonly counters: Attack[] = [],
               public readonly bodyPart: BodyPart = null) {
-    this.room = attacks[0].attacker.room
     const lastAttack = this.getLastAttack()
     const lastCounter = this.getLastCounter()
+    this.room = lastAttack.attacker.room
     this.isFatality = this.attacks && !lastAttack.isDefenderAlive || this.counters && !lastCounter.isDefenderAlive
     if (!lastAttack.isDefenderAlive) {
       this.isFatality = true

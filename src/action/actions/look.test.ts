@@ -1,30 +1,26 @@
 import { Item } from "../../item/model/item"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { getTestMob } from "../../test/mob"
-import { getTestPlayer } from "../../test/player"
-import { getTestRoom } from "../../test/room"
+import TestBuilder from "../../test/testBuilder"
 import { NOT_FOUND } from "./constants"
 import look from "./look"
 
-function useLookRequest(input: string) {
-  return look(new Request(player, RequestType.Look, input))
-}
-
+let testBuilder
 let room
 let player
 
-beforeEach(() => {
-  room = getTestRoom()
-  player = getTestPlayer()
-  room.addMob(player.sessionMob)
+beforeEach(async () => {
+  testBuilder = new TestBuilder()
+  const playerBuilder = await testBuilder.withPlayer()
+  player = playerBuilder.player
+  room = testBuilder.withRoom().room
 })
 
 describe("look", () => {
   it("should describe a room when no arguments are provided", async () => {
     // when
-    const response = await useLookRequest("look")
+    const response = await look(testBuilder.createRequest(RequestType.Look), testBuilder.getService())
 
     // then
     expect(response.message).toContain(room.name)
@@ -33,7 +29,7 @@ describe("look", () => {
 
   it("should let the player know if the thing they want to look at does not exist", async () => {
     // when
-    const response = await useLookRequest("look foo")
+    const response = await look(testBuilder.createRequest(RequestType.Look, "look foo"), await testBuilder.getService())
 
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
@@ -46,7 +42,7 @@ describe("look", () => {
     room.addMob(mob)
 
     // when
-    const response = await useLookRequest("look alice")
+    const response = await look(testBuilder.createRequest(RequestType.Look, "look alice"), testBuilder.getService())
 
     // then
     expect(response.message).toBe(mob.description)
@@ -58,9 +54,11 @@ describe("look", () => {
     item.name = "a pirate hat"
     item.description = "this is a test item"
     room.inventory.addItem(item)
+    const service = await testBuilder.getService()
+    service.itemTable.add(item)
 
     // when
-    const response = await useLookRequest("look pirate")
+    const response = await look(testBuilder.createRequest(RequestType.Look, "look pirate"), service)
 
     // then
     expect(response.message).toBe(item.description)
@@ -73,9 +71,11 @@ describe("look", () => {
     item.description = "this is a test item"
     player.sessionMob.inventory.addItem(item)
     room.addMob(player.sessionMob)
+    const service = await testBuilder.getService()
+    service.itemTable.add(item)
 
     // when
-    const response = await useLookRequest("look pirate")
+    const response = await look(testBuilder.createRequest(RequestType.Look, "look pirate"), service)
 
     // then
     expect(response.message).toBe(item.description)

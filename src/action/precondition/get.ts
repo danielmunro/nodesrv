@@ -1,18 +1,26 @@
 import { Request } from "../../request/request"
+import Service from "../../room/service"
 import Check from "../check/check"
+import CheckBuilder from "../check/checkBuilder"
+import { CheckType } from "../check/checkType"
 import { MESSAGE_FAIL_ITEM_NOT_IN_ROOM, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE } from "./constants"
 
-export default function(request: Request): Promise<Check> {
-  const mob = request.player.sessionMob
-  const item = mob.room.inventory.findItemByName(request.subject)
+export default function(request: Request, service: Service): Promise<Check> {
+  const checkBuilder = new CheckBuilder()
 
-  if (!item) {
-    return Check.fail(MESSAGE_FAIL_ITEM_NOT_IN_ROOM)
+  if (request.component) {
+    const containerItem = service.itemTable.findItemByInventory(request.mob.inventory, request.component)
+    checkBuilder.require(containerItem, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ContainerPresent)
+    checkBuilder.require(containerItem, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ItemPresent)
+
+    return checkBuilder.create(containerItem)
   }
 
-  if (!item.isTransferable) {
-    return Check.fail(MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)
+  const item = request.mob.room.inventory.findItemByName(request.subject)
+  checkBuilder.require(item, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ItemPresent)
+  if (item) {
+    checkBuilder.require(item.isTransferable, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)
   }
 
-  return Check.ok(item)
+  return checkBuilder.create(item)
 }

@@ -1,25 +1,26 @@
 import Maybe from "../../functional/maybe"
-import { Item } from "../../item/model/item"
+import ItemTable from "../../item/itemTable"
 import { onlyLiving } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
 import getSight from "../../mob/race/sight"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import Service from "../../room/service"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
 
-function lookAtSubject(request, builder) {
+function lookAtSubject(request: Request, builder: ResponseBuilder, itemTable: ItemTable) {
   const mob = request.findMobInRoom()
   if (mob) {
     return builder.info(mob.description)
   }
 
-  let item = request.findItemInRoomInventory()
+  let item = itemTable.findItemByInventory(request.getRoom().inventory, request.subject)
   if (item) {
     return builder.info(item.describe())
   }
 
-  item = request.findItemInSessionMobInventory()
+  item = itemTable.findItemByInventory(request.mob.inventory, request.subject)
   if (item) {
     return builder.info(item.describe())
   }
@@ -27,10 +28,10 @@ function lookAtSubject(request, builder) {
   return builder.error(NOT_FOUND)
 }
 
-export default function(request: Request): Promise<Response> {
+export default function(request: Request, service: Service): Promise<Response> {
   const builder = new ResponseBuilder(request)
   if (request.subject) {
-    return lookAtSubject(request, builder)
+    return lookAtSubject(request, builder, service.itemTable)
   }
 
   const room = request.getRoom()

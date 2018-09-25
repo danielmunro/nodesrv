@@ -12,7 +12,7 @@ describe("get actions precondition", () => {
     await testBuilder.withPlayer()
 
     // when
-    const check = await get(testBuilder.createRequest(RequestType.Get, "get foo"))
+    const check = await get(testBuilder.createRequest(RequestType.Get, "get foo"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -26,7 +26,7 @@ describe("get actions precondition", () => {
     const equipment = testBuilder.withRoom().withHelmetEq()
 
     // when
-    const check = await drop(testBuilder.createRequest(RequestType.Drop, "drop cap"))
+    const check = await drop(testBuilder.createRequest(RequestType.Drop, "drop cap"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
@@ -38,10 +38,13 @@ describe("get actions precondition", () => {
     const testBuilder = new TestBuilder()
     await testBuilder.withPlayer()
     const item = testBuilder.withRoom().withHelmetEq()
+    const service = await testBuilder.getService()
     item.isTransferable = false
+    service.itemTable.add(item)
 
     // when
-    const check = await get(testBuilder.createRequest(RequestType.Get, `get ${item.name}`))
+    const check = await get(
+      testBuilder.createRequest(RequestType.Get, `get baseball`), service)
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
