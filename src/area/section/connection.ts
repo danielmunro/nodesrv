@@ -1,4 +1,4 @@
-import Service from "../../room/service"
+import Service from "../../service/service"
 import SectionCollection from "../sectionCollection"
 import SectionSpec from "../sectionSpec/sectionSpec"
 import { SectionType } from "../sectionType"

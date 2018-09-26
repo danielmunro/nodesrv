@@ -1,7 +1,7 @@
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
-import Service from "../room/service"
+import Service from "../service/service"
 import { SkillType } from "../skill/skillType"
 import { doSkill } from "./actionHelpers"
 import affects from "./actions/affects"

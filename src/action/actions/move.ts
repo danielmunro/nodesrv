@@ -1,7 +1,7 @@
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import { Direction } from "../../room/constants"
-import Service from "../../room/service"
+import Service from "../../service/service"
 import CheckedRequest from "../check/checkedRequest"
 import look from "./look"
 

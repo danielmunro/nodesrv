@@ -4,12 +4,12 @@ import ItemRepository, { getItemRepository } from "../item/repository/item"
 import { Mob } from "../mob/model/mob"
 import { default as MobTable } from "../mob/table"
 import { RequestType } from "../request/requestType"
-import { Direction } from "./constants"
-import { Exit } from "./model/exit"
-import { Room } from "./model/room"
-import ExitRepository, { getExitRepository } from "./repository/exit"
-import RoomRepository, { getRoomRepository } from "./repository/room"
-import { default as RoomTable } from "./table"
+import { Direction } from "../room/constants"
+import { Exit } from "../room/model/exit"
+import { Room } from "../room/model/room"
+import ExitRepository, { getExitRepository } from "../room/repository/exit"
+import RoomRepository, { getRoomRepository } from "../room/repository/room"
+import { default as RoomTable } from "../room/table"
 
 export default class Service {
   public static async new(

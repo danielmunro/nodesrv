@@ -1,6 +1,6 @@
 import { Client } from "../../client/client"
 import { Player } from "../../player/model/player"
-import Service from "../../room/service"
+import Service from "../../service/service"
 import Complete from "../../session/auth/complete"
 import Session from "../../session/session"
 import { Channel } from "../../social/channel"

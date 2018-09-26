@@ -5,7 +5,7 @@ import { Direction } from "../room/constants"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
-import { default as Service } from "../room/service"
+import { default as Service } from "../service/service"
 
 export class Arena {
   public readonly matrix = []

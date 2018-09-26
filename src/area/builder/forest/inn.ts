@@ -1,7 +1,7 @@
 import { newTrainer, newTraveller } from "../../../mob/factory/inn"
 import { newRoom } from "../../../room/factory"
 import { Room } from "../../../room/model/room"
-import Service from "../../../room/service"
+import Service from "../../../service/service"
 import DefaultSpec from "../../sectionSpec/defaultSpec"
 import { SectionType } from "../../sectionType"
 import AreaBuilder from "../areaBuilder"

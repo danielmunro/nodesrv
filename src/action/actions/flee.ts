@@ -2,7 +2,7 @@ import { Fight } from "../../mob/fight/fight"
 import { pickOne } from "../../random/helpers"
 import Response from "../../request/response"
 import { ResponseStatus } from "../../request/responseStatus"
-import Service from "../../room/service"
+import Service from "../../service/service"
 import CheckedRequest from "../check/checkedRequest"
 import { FLEE_MOVEMENT_COST_MULTIPLIER } from "./constants"
 

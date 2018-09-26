@@ -6,7 +6,7 @@ import getSight from "../../mob/race/sight"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
-import Service from "../../room/service"
+import Service from "../../service/service"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
 
 function lookAtSubject(request: Request, builder: ResponseBuilder, itemTable: ItemTable) {

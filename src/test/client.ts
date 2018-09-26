@@ -1,7 +1,7 @@
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
 import { getPlayerRepository } from "../player/repository/player"
-import Service from "../room/service"
+import Service from "../service/service"
 import { default as AuthService } from "../session/auth/service"
 import { getTestPlayer } from "./player"
 

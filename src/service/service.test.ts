@@ -1,7 +1,7 @@
 import { getTestMob } from "../test/mob"
 import { getTestRoom } from "../test/room"
-import { Direction } from "./constants"
-import { newReciprocalExit } from "./factory"
+import { Direction } from "../room/constants"
+import { newReciprocalExit } from "../room/factory"
 import Service from "./service"
 
 describe("moveMob", () => {

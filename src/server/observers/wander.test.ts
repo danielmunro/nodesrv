@@ -1,6 +1,6 @@
 import { Direction } from "../../room/constants"
 import { newExit } from "../../room/factory"
-import Service from "../../room/service"
+import Service from "../../service/service"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import { Wander } from "./wander"

@@ -1,6 +1,6 @@
 import { Direction } from "../room/constants"
 import { newRoom } from "../room/factory"
-import Service from "../room/service"
+import Service from "../service/service"
 import { getTestMob } from "../test/mob"
 import { newInn } from "./builder/forest/inn"
 import { newTrail } from "./builder/forest/trail"

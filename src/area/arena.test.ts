@@ -1,7 +1,7 @@
 import { newCritter } from "../mob/factory/trail"
 import { Direction } from "../room/constants"
 import { Room } from "../room/model/room"
-import { default as Service } from "../room/service"
+import { default as Service } from "../service/service"
 import { getTestRoom } from "../test/room"
 import { Arena } from "./arena"
 

@@ -1,5 +1,5 @@
 import { Request } from "../../request/request"
-import Service from "../../room/service"
+import Service from "../../service/service"
 import Check from "../check/check"
 import CheckBuilder from "../check/checkBuilder"
 import { CheckType } from "../check/checkType"

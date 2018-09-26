@@ -8,7 +8,7 @@ import { newMob } from "../src/mob/factory"
 import { Race } from "../src/mob/race/race"
 import { Player } from "../src/player/model/player"
 import { getPlayerRepository } from "../src/player/repository/player"
-import Service from "../src/room/service"
+import Service from "../src/service/service"
 
 const emailArg = process.argv[3]
 const passwordArg = process.argv[4]

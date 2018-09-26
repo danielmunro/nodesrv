@@ -1,7 +1,7 @@
 import { Client } from "../../client/client"
 import { Mob } from "../../mob/model/mob"
 import { pickOne } from "../../random/helpers"
-import Service from "../../room/service"
+import Service from "../../service/service"
 import { Observer } from "./observer"
 
 export class Wander implements Observer {

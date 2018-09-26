@@ -1,5 +1,5 @@
 import { Server } from "mock-socket"
-import Service from "../room/service"
+import Service from "../service/service"
 import { DontExecuteTestObserver } from "../test/dontExecuteTestObserver"
 import { ExpectTestObserver } from "../test/expectTestObserver"
 import { getTestRoom } from "../test/room"

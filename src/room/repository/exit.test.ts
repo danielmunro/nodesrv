@@ -1,7 +1,7 @@
 import { Direction } from "../constants"
 import { Exit } from "../model/exit"
 import { Room } from "../model/room"
-import Service from "../service"
+import Service from "../../service/service"
 import { getExitRepository } from "./exit"
 
 function getRoomFixture(): Room {
