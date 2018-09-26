@@ -17,12 +17,12 @@ import { RequestType } from "../request/requestType"
 import { newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
 import Service from "../service/service"
+import ServiceBuilder from "../service/serviceBuilder"
 import { getTestMob } from "./mob"
 import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
-import ServiceBuilder from "../service/serviceBuilder"
 
 export default class TestBuilder {
   public player: Player

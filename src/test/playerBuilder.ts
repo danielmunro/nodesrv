@@ -2,6 +2,7 @@ import { Item } from "../item/model/item"
 import { Disposition } from "../mob/disposition"
 import { Player } from "../player/model/player"
 import Service from "../service/service"
+import ServiceBuilder from "../service/serviceBuilder"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
@@ -9,7 +10,6 @@ import { newSpell } from "../spell/factory"
 import { Spell } from "../spell/model/spell"
 import { SpellType } from "../spell/spellType"
 import AbstractBuilder from "./abstractBuilder"
-import ServiceBuilder from "../service/serviceBuilder"
 
 export default class PlayerBuilder extends AbstractBuilder {
   private equipNextEquipment = false

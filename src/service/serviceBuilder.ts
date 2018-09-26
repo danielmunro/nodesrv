@@ -1,10 +1,10 @@
-import { Room } from "../room/model/room"
-import { Mob } from "../mob/model/mob"
-import { Item } from "../item/model/item"
-import Service from "./service"
-import { default as RoomTable } from "../room/table"
-import { default as MobTable } from "../mob/table"
 import ItemTable from "../item/itemTable"
+import { Item } from "../item/model/item"
+import { Mob } from "../mob/model/mob"
+import { default as MobTable } from "../mob/table"
+import { Room } from "../room/model/room"
+import { default as RoomTable } from "../room/table"
+import Service from "./service"
 
 export default class ServiceBuilder {
   constructor(private rooms: Room[] = [], private mobs: Mob[] = [], private items: Item[] = []) {}

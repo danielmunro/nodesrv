@@ -5,9 +5,9 @@ import { getMobRepository } from "../src/mob/repository/mob"
 import Table from "../src/mob/table"
 import { Room } from "../src/room/model/room"
 import { getRoomRepository } from "../src/room/repository/room"
-import Service from "../src/service/service"
 import { default as RoomTable } from "../src/room/table"
 import newServer from "../src/server/factory"
+import Service from "../src/service/service"
 
 /**
  * Obtain the start room ID and port from arguments passed in
