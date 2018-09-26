@@ -1,7 +1,8 @@
 import { copy } from "../../item/factory"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
-import ResponseBuilder from "../../request/responseBuilder"
+import { format } from "../../support/string"
+import { Messages } from "./constants"
 
 export default function(request: Request): Promise<Response> {
   const room = request.getRoom()
@@ -12,5 +13,5 @@ export default function(request: Request): Promise<Response> {
   mob.inventory.addItem(copy(item))
   mob.gold -= item.value
 
-  return new ResponseBuilder(request).success(`You purchase ${item.name} for ${item.value} gold`)
+  return request.respondWith().success(format(Messages.Buy.Success, item.name, item.value))
 }

@@ -26,3 +26,9 @@ export const ATTACK_MOB = "You scream and attacks!"
 export const MESSAGE_SUCCESS_SACRIFICE = "You sacrifice {0} to your diety, and are rewarded with {1} silver."
 
 export const MESSAGE_SUCCESS_PUT = "You put {0} in {1}."
+
+export const Messages = {
+  Buy: {
+    Success: `You purchase {0} for {0} gold`,
+  },
+}
