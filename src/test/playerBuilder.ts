@@ -9,12 +9,13 @@ import { newSpell } from "../spell/factory"
 import { Spell } from "../spell/model/spell"
 import { SpellType } from "../spell/spellType"
 import AbstractBuilder from "./abstractBuilder"
+import ServiceBuilder from "../service/serviceBuilder"
 
 export default class PlayerBuilder extends AbstractBuilder {
   private equipNextEquipment = false
 
-  constructor(public readonly player: Player, private readonly service: Service) {
-    super()
+  constructor(public readonly player: Player, serviceBuilder: ServiceBuilder) {
+    super(serviceBuilder)
   }
 
   public equip(): PlayerBuilder {
@@ -61,8 +62,6 @@ export default class PlayerBuilder extends AbstractBuilder {
   }
 
   private doEquip(equipment) {
-    this.service.itemTable.add(equipment)
-
     if (this.equipNextEquipment) {
       this.equipNextEquipment = false
       this.player.sessionMob.equipped.inventory.addItem(equipment)

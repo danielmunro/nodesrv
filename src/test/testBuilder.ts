@@ -22,19 +22,22 @@ import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
+import ServiceBuilder from "../service/serviceBuilder"
 
 export default class TestBuilder {
   public player: Player
   public room: Room
   private service: Service
+  private serviceBuilder: ServiceBuilder = new ServiceBuilder()
 
   public withRoom() {
     this.room = newRoom("a test room", "description of a test room")
     if (this.player) {
       this.room.addMob(this.player.sessionMob)
     }
+    this.serviceBuilder.addRoom(this.room)
 
-    return new RoomBuilder(this.room)
+    return new RoomBuilder(this.room, this.serviceBuilder)
   }
 
   public async withPlayer(fn = null): Promise<PlayerBuilder> {
@@ -43,12 +46,13 @@ export default class TestBuilder {
     if (this.room) {
       this.room.addMob(this.player.sessionMob)
     }
+    this.serviceBuilder.addMob(this.player.sessionMob)
 
     if (fn) {
       fn(this.player)
     }
 
-    return new PlayerBuilder(this.player, await this.getService())
+    return new PlayerBuilder(this.player, this.serviceBuilder)
   }
 
   public addWeaponToPlayerInventory(): Item {
@@ -58,6 +62,7 @@ export default class TestBuilder {
       WeaponType.Axe,
       DamageType.Slash)
     this.player.sessionMob.inventory.addItem(weapon)
+    this.serviceBuilder.addItem(weapon)
 
     return weapon
   }
@@ -76,8 +81,9 @@ export default class TestBuilder {
       this.withRoom()
     }
     this.room.addMob(mob)
+    this.serviceBuilder.addMob(mob)
 
-    return new MobBuilder(mob)
+    return new MobBuilder(mob, this.serviceBuilder)
   }
 
   public withTrainer(name: string = null): MobBuilder {
@@ -116,7 +122,7 @@ export default class TestBuilder {
 
   public async getService(): Promise<Service> {
     if (!this.service) {
-      this.service = await Service.new()
+      this.service = await this.serviceBuilder.createService()
     }
     return this.service
   }
