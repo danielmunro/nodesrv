@@ -7,8 +7,8 @@ import { ResponseStatus } from "../../request/responseStatus"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import buy from "./buy"
 import TestBuilder from "../../test/testBuilder"
+import buy from "./buy"
 
 describe("buy actions actions", () => {
   it("purchaser should receive an item", async () => {
