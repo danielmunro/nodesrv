@@ -8,35 +8,30 @@ import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import buy from "./buy"
+import TestBuilder from "../../test/testBuilder"
 
 describe("buy actions actions", () => {
   it("purchaser should receive an item", async () => {
-    // given
-    const room = getTestRoom()
+    // setup
+    const testBuilder = new TestBuilder()
     const initialGold = 100
-    const itemValue = 10
+
+    // given
+    const merchantBuilder = testBuilder.withMerchant()
+    const axe = merchantBuilder.withAxeEq()
+    merchantBuilder.withHelmetEq()
 
     // and
-    const merch = getTestMob()
-    merch.role = Role.Merchant
-    room.addMob(merch)
-
-    // and
-    const eq = newEquipment("a baseball cap", "a baseball cap is here", Equipment.Head)
-    eq.value = itemValue
-    merch.inventory.addItem(eq)
-
-    // and
-    const player = getTestPlayer()
-    player.sessionMob.gold = initialGold
-    room.addMob(player.sessionMob)
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.gold = initialGold)
+    const player = playerBuilder.player
 
     // when
-    const response = await buy(new Request(player, RequestType.Buy, "buy cap"))
+    const response = await buy(
+      testBuilder.createOkCheckedRequest(RequestType.Buy, "buy axe", axe))
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.inventory.findItemByName("cap")).not.toBeUndefined()
-    expect(player.sessionMob.gold).toBe(initialGold - itemValue)
+    expect(player.sessionMob.inventory.findItemByName("axe")).not.toBeUndefined()
+    expect(player.sessionMob.gold).toBe(initialGold - axe.value)
   })
 })

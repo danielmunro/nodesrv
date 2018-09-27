@@ -10,7 +10,7 @@ export default class CheckBuilder {
   private checks: CheckComponent[] = []
   private confirm: boolean = true
 
-  public requireTarget(mob: Mob, failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
+  public requireMob(mob: Mob, failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
     this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob, failMessage))
 
     return this

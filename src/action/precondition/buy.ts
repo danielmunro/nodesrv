@@ -1,26 +1,24 @@
 import { Request } from "../../request/request"
 import Check from "../check/check"
 import { MESSAGE_ERROR_CANNOT_AFFORD, MESSAGE_ERROR_NO_ITEM, MESSAGE_ERROR_NO_MERCHANT } from "./constants"
+import CheckBuilder from "../check/checkBuilder"
 
 export default function(request: Request): Promise<Check> {
   const room = request.getRoom()
   const merchant = room.mobs.find((m) => m.isMerchant())
+  let item
 
-  if (!merchant) {
-    return Check.fail(MESSAGE_ERROR_NO_MERCHANT)
+  const checkBuilder = new CheckBuilder()
+    .requireMob(merchant, MESSAGE_ERROR_NO_MERCHANT)
+
+  if (merchant) {
+    item = merchant.inventory.findItemByName(request.subject)
+    checkBuilder.require(item, MESSAGE_ERROR_NO_ITEM)
+
+    if (item) {
+      checkBuilder.require(request.mob.gold > item.value, MESSAGE_ERROR_CANNOT_AFFORD)
+    }
   }
 
-  const item = merchant.inventory.findItemByName(request.subject)
-
-  if (!item) {
-    return Check.fail(MESSAGE_ERROR_NO_ITEM)
-  }
-
-  const mob = request.player.sessionMob
-
-  if (mob.gold < item.value) {
-    return Check.fail(MESSAGE_ERROR_CANNOT_AFFORD)
-  }
-
-  return Check.ok()
+  return checkBuilder.create(item)
 }

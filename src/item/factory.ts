@@ -76,6 +76,7 @@ export function copy(item: Item): Item {
   itemCopy.equipment = item.equipment
   itemCopy.itemType = item.itemType
   itemCopy.attributes = new Attributes().combine(item.attributes)
+  itemCopy.value = item.value
 
   return itemCopy
 }

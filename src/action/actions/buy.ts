@@ -1,17 +1,14 @@
 import { copy } from "../../item/factory"
-import { Request } from "../../request/request"
 import Response from "../../request/response"
 import { format } from "../../support/string"
 import { Messages } from "./constants"
+import CheckedRequest from "../check/checkedRequest"
 
-export default function(request: Request): Promise<Response> {
-  const room = request.getRoom()
-  const merchant = room.mobs.find((m) => m.isMerchant())
-  const item = merchant.inventory.findItemByName(request.subject)
-  const mob = request.player.sessionMob
-
-  mob.inventory.addItem(copy(item))
-  mob.gold -= item.value
+export default function(checkedRequest: CheckedRequest): Promise<Response> {
+  const request = checkedRequest.request
+  const item = copy(checkedRequest.check.result)
+  request.mob.inventory.addItem(item)
+  request.mob.gold -= item.value
 
   return request.respondWith().success(format(Messages.Buy.Success, item.name, item.value))
 }

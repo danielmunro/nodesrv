@@ -108,7 +108,7 @@ export default class TestBuilder {
     requestType: RequestType,
     input: string = null,
     result: any = null,
-    checkComponents: CheckComponent[]): CheckedRequest {
+    checkComponents: CheckComponent[] = []): CheckedRequest {
     return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result, checkComponents)
   }
 

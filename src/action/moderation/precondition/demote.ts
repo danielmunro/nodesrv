@@ -11,7 +11,7 @@ import {
 
 export default async function(request: Request, service: Service): Promise<Check> {
   const mob = service.mobTable.find((m) => m.name === request.subject)
-  return new CheckBuilder().requireTarget(mob, MESSAGE_FAIL_NO_TARGET)
+  return new CheckBuilder().requireMob(mob, MESSAGE_FAIL_NO_TARGET)
     .requirePlayer(mob)
     .requireImmortal(request.getAuthorizationLevel())
     .require(Maybe.if(mob, () =>
