@@ -4,26 +4,32 @@ import Check from "../check/check"
 import CheckBuilder from "../check/checkBuilder"
 import { CheckType } from "../check/checkType"
 import { MESSAGE_FAIL_ITEM_NOT_IN_ROOM, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE } from "./constants"
+import Maybe from "../../functional/maybe"
+import ItemTable from "../../item/itemTable"
 
 export default function(request: Request, service: Service): Promise<Check> {
-  const checkBuilder = new CheckBuilder()
+  return new Maybe(request.component)
+    .do(() => getFromInventory(request, service.itemTable))
+    .or(() => getFromRoom(request, service.itemTable))
+    .get()
+}
 
-  if (request.component) {
-    const container = service.itemTable.findItemByInventory(request.mob.inventory, request.component)
-    if (!container) {
-      return checkBuilder.require(container, MESSAGE_FAIL_ITEM_NOT_IN_ROOM).create(container)
-    }
-    const containerItem = service.itemTable.findItemByInventory(container.containerInventory, request.subject)
-    return checkBuilder.require(container, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ContainerPresent)
-      .require(containerItem, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ItemPresent)
-      .create(containerItem)
-  }
+function getFromInventory(request: Request, itemTable: ItemTable) {
+  const container = itemTable.findItemByInventory(request.mob.inventory, request.component)
 
-  const item = request.mob.room.inventory.findItemByName(request.subject)
-  checkBuilder.require(item, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ItemPresent)
-  if (item) {
-    checkBuilder.require(item.isTransferable, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)
-  }
+  return new CheckBuilder().require(container, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ContainerPresent)
+    .for((checkBuilder: CheckBuilder) =>
+      checkBuilder.require(
+        itemTable.findItemByInventory(container.containerInventory, request.subject),
+        MESSAGE_FAIL_ITEM_NOT_IN_ROOM,
+        CheckType.ItemPresent))
+    .create()
+}
 
-  return checkBuilder.create(item)
+function getFromRoom(request: Request, itemTable: ItemTable) {
+  const item = itemTable.findItemByInventory(request.getRoom().inventory, request.subject)
+  return new CheckBuilder()
+    .require(item, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ItemPresent)
+    .require(() => item.isTransferable, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)
+    .create(item)
 }
