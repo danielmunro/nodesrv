@@ -1,3 +1,4 @@
+import Maybe from "../functional/maybe"
 import { Item } from "../item/model/item"
 import { Trigger } from "../mob/trigger"
 import { Request } from "../request/request"
@@ -12,13 +13,10 @@ import { SkillType } from "../skill/skillType"
 
 export function doWithItemOrElse(
   request: Request, item: Item, ifItem: (item: Item) => {}, ifNotItemMessage: string): Promise<any> {
-  return new Promise((resolve) => {
-    if (!item) {
-      return resolve(new Response(request, ResponseStatus.ActionFailed, ifNotItemMessage))
-    }
-
-    return resolve(ifItem(item))
-  })
+  return new Maybe(item)
+    .do(i => ifItem(i))
+    .or(() => new Response(request, ResponseStatus.ActionFailed, ifNotItemMessage))
+    .get()
 }
 
 export async function doSkill(request: Request, skillType: SkillType): Promise<Response> {

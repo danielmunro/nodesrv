@@ -31,4 +31,7 @@ export const Messages = {
   Buy: {
     Success: `You purchase {0} for {0} gold`,
   },
+  Flee: {
+    Success: `You flee to the {0}!`,
+  },
 }
