@@ -9,7 +9,6 @@ import { CheckType } from "./checkType"
 export default class CheckBuilder {
   private checks: CheckComponent[] = []
   private confirm: boolean = true
-  private checkFor
 
   public requireMob(mob: Mob, failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
     this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob, failMessage))
@@ -58,16 +57,14 @@ export default class CheckBuilder {
     return this
   }
 
-  public for(checkFor) {
-    this.checkFor = checkFor
-
-    return this
-  }
-
   public async create(target = null): Promise<Check> {
-    return new Maybe(this.checks.find(checkComponent => !checkComponent.getThing()))
+    let lastThing
+    return new Maybe(this.checks.find(checkComponent => {
+      lastThing = checkComponent.getThing()
+      return !lastThing
+    }))
       .do(badCheck => Check.fail(badCheck.failMessage))
-      .or(() => Check.ok(target ? target : this.checkFor(this), this.checks))
+      .or(() => Check.ok(target ? target : lastThing, this.checks))
       .get()
   }
 

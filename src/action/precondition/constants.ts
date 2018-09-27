@@ -57,3 +57,9 @@ export const MESSAGE_FAIL_ALREADY_AWAKE = "You're already awake."
 
 // sacrifice
 export const MESSAGE_FAIL_CONTAINER_NOT_EMPTY = "That is not empty."
+
+export const Messages = {
+  Get: {
+    Fail: "You don't see that anywhere.",
+  },
+}

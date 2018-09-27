@@ -3,7 +3,7 @@ import Service from "../../service/service"
 import Check from "../check/check"
 import CheckBuilder from "../check/checkBuilder"
 import { CheckType } from "../check/checkType"
-import { MESSAGE_FAIL_ITEM_NOT_IN_ROOM, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE } from "./constants"
+import { MESSAGE_FAIL_ITEM_NOT_IN_ROOM, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
 import Maybe from "../../functional/maybe"
 import ItemTable from "../../item/itemTable"
 
@@ -17,12 +17,11 @@ export default function(request: Request, service: Service): Promise<Check> {
 function getFromInventory(request: Request, itemTable: ItemTable) {
   const container = itemTable.findItemByInventory(request.mob.inventory, request.component)
 
-  return new CheckBuilder().require(container, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ContainerPresent)
-    .for((checkBuilder: CheckBuilder) =>
-      checkBuilder.require(
-        itemTable.findItemByInventory(container.containerInventory, request.subject),
-        MESSAGE_FAIL_ITEM_NOT_IN_ROOM,
-        CheckType.ItemPresent))
+  return new CheckBuilder()
+    .require(container, Messages.Get.Fail, CheckType.ContainerPresent)
+    .require(() => itemTable.findItemByInventory(container.containerInventory, request.subject),
+        Messages.Get.Fail,
+        CheckType.ItemPresent)
     .create()
 }
 
