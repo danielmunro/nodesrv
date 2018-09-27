@@ -5,11 +5,8 @@ import CheckedRequest from "../check/checkedRequest"
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const item = checkedRequest.check.result
   const request = checkedRequest.request
-  const mob = request.player.sessionMob
   const room = request.getRoom()
-
-  mob.inventory.removeItem(item)
   room.inventory.addItem(item)
 
-  return new ResponseBuilder(request).success(`You drop ${item.name}.`)
+  return request.respondWith().success(`You drop ${item.name}.`)
 }

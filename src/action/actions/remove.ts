@@ -10,5 +10,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
   request.player.getInventory().addItem(item)
 
-  return new ResponseBuilder(request).info(format(MESSAGE_REMOVE_SUCCESS, item.name))
+  return request.respondWith().info(format(MESSAGE_REMOVE_SUCCESS, item.name))
 }

@@ -8,5 +8,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   request.mob.disposition = Disposition.Sleeping
 
-  return new ResponseBuilder(request).success(MESSAGE_SLEEP_SUCCESS)
+  return request.respondWith().success(MESSAGE_SLEEP_SUCCESS)
 }

@@ -1,3 +1,4 @@
+import { ActionOutcome } from "../action/actionOutcome"
 import { Client } from "../client/client"
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
@@ -7,6 +8,7 @@ import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
 import RequestBuilder from "./requestBuilder"
 import { RequestType } from "./requestType"
+import ResponseAction from "./responseAction"
 import ResponseBuilder from "./responseBuilder"
 
 export function getNewRequestFromMessageEvent(client: Client, messageEvent: MessageEvent): Request | AuthRequest {
@@ -71,7 +73,9 @@ export class Request {
     return AuthorizationLevel.None
   }
 
-  public respondWith(): ResponseBuilder {
-    return new ResponseBuilder(this)
+  public respondWith(
+    actionOutcome: ActionOutcome = ActionOutcome.None,
+    thing: any = null): ResponseBuilder {
+    return new ResponseBuilder(this, new ResponseAction(actionOutcome, thing))
   }
 }

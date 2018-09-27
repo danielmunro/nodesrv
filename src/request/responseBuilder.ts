@@ -1,10 +1,12 @@
 import { Request } from "./request"
 import Response from "./response"
+import ResponseAction from "./responseAction"
 import { ResponseStatus } from "./responseStatus"
 
 export default class ResponseBuilder {
   constructor(
-    readonly request: Request,
+    private readonly request: Request,
+    private readonly responseAction: ResponseAction,
   ) {}
 
   public info(message: string): Promise<Response> {
@@ -24,6 +26,6 @@ export default class ResponseBuilder {
   }
 
   private response(status: ResponseStatus, message: string): Promise<Response> {
-    return Promise.resolve(new Response(this.request, status, message))
+    return Promise.resolve(new Response(this.request, status, message, this.responseAction))
   }
 }

@@ -21,7 +21,7 @@ export function getNextDemotion(mob: Mob) {
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const target = checkedRequest.check.result
-  const responseBuilder = new ResponseBuilder(checkedRequest.request)
+  const responseBuilder = checkedRequest.request.respondWith()
 
   return new Maybe(getNextDemotion(target))
     .do((newAuthorizationLevel) => {

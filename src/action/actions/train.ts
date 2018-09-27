@@ -60,10 +60,10 @@ const trainMap = [
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   const stats = request.mob.playerMob.trainedAttributes.stats
-  const responseBuilder = new ResponseBuilder(request)
+  const responseBuilder = request.respondWith()
 
   if (!request.subject) {
-    return new ResponseBuilder(request).info(
+    return request.respondWith().info(
       "You can train: " +
       allStats.reduce((previous: string, current: Stat) =>
         previous + (canTrain(stats[current]) ? `${current} ` : ""), "") +

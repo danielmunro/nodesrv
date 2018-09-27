@@ -63,7 +63,7 @@ describe("clients", () => {
     const response = await client.handleRequest(request)
 
     // then
-    expect(response).toEqual(getDefaultUnhandledMessage(request))
+    expect(response).toEqual(await getDefaultUnhandledMessage(request))
   })
 
   it("should be able to invoke a valid actions", async () => {

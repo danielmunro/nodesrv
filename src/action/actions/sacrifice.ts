@@ -1,6 +1,6 @@
 import Response from "../../request/response"
-import ResponseBuilder from "../../request/responseBuilder"
 import { format } from "../../support/string"
+import { ActionOutcome } from "../actionOutcome"
 import CheckedRequest from "../check/checkedRequest"
 import { MESSAGE_SUCCESS_SACRIFICE } from "./constants"
 
@@ -11,5 +11,7 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const value = Math.max(1, item.value / 10)
   checkedRequest.request.mob.gold += value
 
-  return new ResponseBuilder(checkedRequest.request).success(format(MESSAGE_SUCCESS_SACRIFICE, item.name, value))
+  return checkedRequest.request
+    .respondWith(ActionOutcome.ItemDestroyed, item)
+    .success(format(MESSAGE_SUCCESS_SACRIFICE, item.name, value))
 }

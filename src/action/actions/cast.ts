@@ -10,5 +10,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
 
   spellDefinition.apply(check.result)
 
-  return new ResponseBuilder(request).success(`You utter the words, '${spellDefinition.spellType}'.`)
+  return request.respondWith().success(`You utter the words, '${spellDefinition.spellType}'.`)
 }

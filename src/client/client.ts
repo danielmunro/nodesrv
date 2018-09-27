@@ -1,12 +1,14 @@
 import * as stringify from "json-stringify-safe"
 import { Collection } from "../action/definition/collection"
 import { Definition } from "../action/definition/definition"
+import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
 import Table from "../mob/table"
 import { Player } from "../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import Response from "../request/response"
+import ResponseAction from "../request/responseAction"
 import { ResponseStatus } from "../request/responseStatus"
 import { Room } from "../room/model/room"
 import Service from "../service/service"
@@ -19,7 +21,7 @@ import { Message } from "../social/message"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
 
 export function getDefaultUnhandledMessage(request: Request) {
-  return new Response(request, ResponseStatus.PreconditionsFailed, MESSAGE_NOT_UNDERSTOOD)
+  return request.respondWith().error(MESSAGE_NOT_UNDERSTOOD)
 }
 
 export class Client {
@@ -82,16 +84,16 @@ export class Client {
     await this.handleRequest(this.requests.shift())
   }
 
-  public handleRequest(request: Request): Promise<any> {
-    return this.handlers.getMatchingHandlerDefinitionForRequestType(
+  public async handleRequest(request: Request): Promise<Response> {
+    const matchingHandlerDefinition = this.handlers.getMatchingHandlerDefinitionForRequestType(
       request.requestType,
       request.getAuthorizationLevel(),
       this.getDefaultRequestHandler(request))
-        .handle(request)
-        .then((response) => {
-          this.send(response)
-          return response
-        })
+    const response = await matchingHandlerDefinition.handle(request)
+    this.send(response)
+    this.evaluateResponseAction(response.responseAction)
+
+    return response
   }
 
   public send(data): void {
@@ -118,6 +120,18 @@ export class Client {
 
   public getMobTable(): Table {
     return this.service.mobTable
+  }
+
+  private evaluateResponseAction(responseAction: ResponseAction) {
+    if (responseAction.wasItemCreated()) {
+      this.service.itemTable.add(responseAction.thing as Item)
+      return
+    }
+
+    if (responseAction.wasItemDestroyed()) {
+      this.service.itemTable.remove(responseAction.thing as Item)
+      return
+    }
   }
 
   private getDefaultRequestHandler(request: Request): Definition {

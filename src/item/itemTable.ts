@@ -16,4 +16,9 @@ export default class ItemTable {
   public add(item: Item) {
     this.items.push(item)
   }
+
+  public remove(item: Item) {
+    const i = this.items.indexOf(item)
+    this.items.splice(i, 1)
+  }
 }

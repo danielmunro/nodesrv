@@ -8,5 +8,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   addFight(new Fight(request.mob, request.getTarget(), request.getRoom()))
 
-  return new ResponseBuilder(request).success(ATTACK_MOB)
+  return request.respondWith().success(ATTACK_MOB)
 }

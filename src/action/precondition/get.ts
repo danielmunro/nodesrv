@@ -9,8 +9,12 @@ export default function(request: Request, service: Service): Promise<Check> {
   const checkBuilder = new CheckBuilder()
 
   if (request.component) {
-    const containerItem = service.itemTable.findItemByInventory(request.mob.inventory, request.component)
-    return checkBuilder.require(containerItem, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ContainerPresent)
+    const container = service.itemTable.findItemByInventory(request.mob.inventory, request.component)
+    if (!container) {
+      return checkBuilder.require(container, MESSAGE_FAIL_ITEM_NOT_IN_ROOM).create(container)
+    }
+    const containerItem = service.itemTable.findItemByInventory(container.containerInventory, request.subject)
+    return checkBuilder.require(container, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ContainerPresent)
       .require(containerItem, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ItemPresent)
       .create(containerItem)
   }

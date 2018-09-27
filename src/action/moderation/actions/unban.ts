@@ -7,5 +7,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   const target = checkedRequest.check.result
   target.playerMob.standing = Standing.Good
-  return new ResponseBuilder(request).success(`You have lifted the ban on ${target.name}.`)
+  return request.respondWith().success(`You have lifted the ban on ${target.name}.`)
 }

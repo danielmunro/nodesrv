@@ -35,7 +35,6 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const command = getBanCommand(request.component)
   const newStanding = getNewStanding(command)
   target.playerMob.standing = newStanding
-  const responseBuilder = new ResponseBuilder(request)
 
-  return responseBuilder.success(`You have banned ${target.name} with a ban level: ${newStanding}.`)
+  return request.respondWith().success(`You have banned ${target.name} with a ban level: ${newStanding}.`)
 }

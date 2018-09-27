@@ -24,7 +24,7 @@ export function getNextPromotion(mob: Mob) {
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const target = checkedRequest.check.result
   const newAuthorizationLevel = getNextPromotion(target)
-  const responseBuilder = new ResponseBuilder(checkedRequest.request)
+  const responseBuilder = checkedRequest.request.respondWith()
 
   return new Maybe(newAuthorizationLevel)
     .do(() => {

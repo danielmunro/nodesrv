@@ -24,7 +24,7 @@ export async function doSkill(request: Request, skillType: SkillType): Promise<R
   const skillModel = mob.skills.find((s) => s.skillType === skillType)
   const skillDefinition = skillCollection.find((skillDef) => skillDef.isSkillTypeMatch(skillType))
   const attempt = new Attempt(mob, skillModel, new AttemptContext(Trigger.Input, request.getTarget()))
-  const responseBuilder = new ResponseBuilder(request)
+  const responseBuilder = request.respondWith()
 
   if (skillDefinition.preconditions) {
     const check = await skillDefinition.preconditions(attempt)

@@ -34,4 +34,8 @@ export const Messages = {
   Flee: {
     Success: `You flee to the {0}!`,
   },
+  Get: {
+    SuccessFromContainer: `You get {0} from {1}.`,
+    SuccessFromRoom: `You pick up {0}.`,
+  },
 }

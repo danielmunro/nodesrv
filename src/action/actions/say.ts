@@ -12,5 +12,5 @@ export default function(request: Request): Promise<Response> {
     `${request.player.sessionMob.name} says, "${request.message}"`,
   )
 
-  return new ResponseBuilder(request).success(`You said, "${request.message}"`)
+  return request.respondWith().success(`You said, "${request.message}"`)
 }

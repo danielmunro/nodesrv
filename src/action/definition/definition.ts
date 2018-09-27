@@ -28,7 +28,7 @@ export class Definition {
     if (this.precondition) {
       const checkResponse = await this.precondition(request, this.service)
       if (checkResponse.status === CheckStatus.Failed) {
-        return new ResponseBuilder(request).fail(checkResponse.result)
+        return request.respondWith().fail(checkResponse.result)
       }
 
       return this.callback(new CheckedRequest(request, checkResponse), this.service)

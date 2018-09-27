@@ -16,5 +16,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
 
   playerEquipped.inventory.getItemFrom(item, playerInv)
 
-  return new ResponseBuilder(checkedRequest.request).success(`You${removal} wear ${item.name}.`)
+  return checkedRequest.request.respondWith().success(`You${removal} wear ${item.name}.`)
 }

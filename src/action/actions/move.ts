@@ -1,5 +1,4 @@
 import Response from "../../request/response"
-import ResponseBuilder from "../../request/responseBuilder"
 import { Direction } from "../../room/constants"
 import Service from "../../service/service"
 import CheckedRequest from "../check/checkedRequest"
@@ -9,10 +8,9 @@ export default async function(checkedRequest: CheckedRequest,
                               direction: Direction,
                               service: Service): Promise<Response> {
   const request = checkedRequest.request
-  const builder = new ResponseBuilder(request)
   request.player.sessionMob.vitals.mv -= request.getRoom().getMovementCost()
   await service.moveMob(request.player.sessionMob, direction)
-  const lookAtRoom = await look(request)
+  const lookAtRoom = await look(request, service)
 
-  return builder.info(lookAtRoom.message)
+  return request.respondWith().info(lookAtRoom.message)
 }

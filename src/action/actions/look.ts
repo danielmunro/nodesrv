@@ -29,7 +29,7 @@ function lookAtSubject(request: Request, builder: ResponseBuilder, itemTable: It
 }
 
 export default function(request: Request, service: Service): Promise<Response> {
-  const builder = new ResponseBuilder(request)
+  const builder = request.respondWith()
   if (request.subject) {
     return lookAtSubject(request, builder, service.itemTable)
   }
