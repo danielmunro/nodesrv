@@ -7,7 +7,7 @@ import { RequestType } from "../../../request/requestType"
 import Service from "../../../service/service"
 import { getTestMob } from "../../../test/mob"
 import TestBuilder from "../../../test/testBuilder"
-import { CheckStatus } from "../../check/checkStatus"
+import { CheckStatus } from "../../../check/checkStatus"
 import {
   MESSAGE_FAIL_BANNED,
   MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS,

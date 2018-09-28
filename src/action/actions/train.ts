@@ -5,7 +5,7 @@ import Maybe from "../../functional/maybe"
 import { Mob } from "../../mob/model/mob"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
-import CheckedRequest from "../check/checkedRequest"
+import CheckedRequest from "../../check/checkedRequest"
 import {
   MAX_TRAINABLE_STATS,
   MESSAGE_FAIL_CANNOT_TRAIN,

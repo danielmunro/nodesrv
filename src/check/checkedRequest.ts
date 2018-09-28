@@ -1,6 +1,6 @@
-import Maybe from "../../functional/maybe"
-import { Request } from "../../request/request"
-import ResponseBuilder from "../../request/responseBuilder"
+import Maybe from "../functional/maybe"
+import { Request } from "../request/request"
+import ResponseBuilder from "../request/responseBuilder"
 import Check from "./check"
 import { CheckType } from "./checkType"
 

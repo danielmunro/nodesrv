@@ -5,7 +5,7 @@ import { Player } from "../../player/model/player"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
-import { CheckStatus } from "../check/checkStatus"
+import { CheckStatus } from "../../check/checkStatus"
 import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
 import wear from "./wear"
 

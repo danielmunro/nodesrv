@@ -6,8 +6,8 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { getTestPlayer } from "../../test/player"
-import Check from "../check/check"
-import CheckedRequest from "../check/checkedRequest"
+import Check from "../../check/check"
+import CheckedRequest from "../../check/checkedRequest"
 import wear from "./wear"
 
 function getHatOfMight(): Item {

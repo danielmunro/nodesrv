@@ -4,8 +4,8 @@ import appetite from "../../mob/race/appetite"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import Check from "../check/check"
-import CheckedRequest from "../check/checkedRequest"
+import Check from "../../check/check"
+import CheckedRequest from "../../check/checkedRequest"
 import eat from "./eat"
 
 describe("eat action", () => {

@@ -1,6 +1,6 @@
 import Response from "../../request/response"
 import { ActionOutcome } from "../actionOutcome"
-import CheckedRequest from "../check/checkedRequest"
+import CheckedRequest from "../../check/checkedRequest"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request

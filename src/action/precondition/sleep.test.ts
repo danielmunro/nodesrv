@@ -1,7 +1,7 @@
 import { Disposition } from "../../mob/disposition"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { CheckStatus } from "../check/checkStatus"
+import { CheckStatus } from "../../check/checkStatus"
 import { MESSAGE_FAIL_ALREADY_ASLEEP, MESSAGE_FAIL_DEAD } from "./constants"
 import sleep from "./sleep"
 

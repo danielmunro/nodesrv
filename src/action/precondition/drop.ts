@@ -1,6 +1,6 @@
 import { AffectType } from "../../affect/affectType"
 import { Request } from "../../request/request"
-import Check from "../check/check"
+import Check from "../../check/check"
 import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE } from "./constants"
 import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
 

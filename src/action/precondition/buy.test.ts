@@ -6,7 +6,7 @@ import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import { CheckStatus } from "../check/checkStatus"
+import { CheckStatus } from "../../check/checkStatus"
 import buy from "./buy"
 import { MESSAGE_ERROR_CANNOT_AFFORD, MESSAGE_ERROR_NO_ITEM, MESSAGE_ERROR_NO_MERCHANT } from "./constants"
 

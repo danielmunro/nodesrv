@@ -1,7 +1,7 @@
 import Response from "../../request/response"
 import { Direction } from "../../room/constants"
 import Service from "../../service/service"
-import CheckedRequest from "../check/checkedRequest"
+import CheckedRequest from "../../check/checkedRequest"
 import look from "./look"
 
 export default async function(checkedRequest: CheckedRequest,

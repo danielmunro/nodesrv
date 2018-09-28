@@ -6,8 +6,8 @@ import { Direction } from "../../room/constants"
 import Service from "../../service/service"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import Check from "../check/check"
-import CheckedRequest from "../check/checkedRequest"
+import Check from "../../check/check"
+import CheckedRequest from "../../check/checkedRequest"
 import move from "./move"
 
 describe("move", () => {

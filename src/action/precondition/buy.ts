@@ -1,6 +1,6 @@
 import { Request } from "../../request/request"
-import Check from "../check/check"
-import CheckBuilder from "../check/checkBuilder"
+import Check from "../../check/check"
+import CheckBuilder from "../../check/checkBuilder"
 import { MESSAGE_ERROR_CANNOT_AFFORD, MESSAGE_ERROR_NO_ITEM, MESSAGE_ERROR_NO_MERCHANT } from "./constants"
 
 export default function(request: Request): Promise<Check> {

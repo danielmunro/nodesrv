@@ -2,7 +2,7 @@ import { Disposition } from "../../mob/disposition"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { CheckStatus } from "../check/checkStatus"
+import { CheckStatus } from "../../check/checkStatus"
 import { MESSAGE_FAIL_NEED_TRAINS, MESSAGE_FAIL_NO_TRAINER, MESSAGE_FAIL_NOT_STANDING } from "./constants"
 import train from "./train"
 
