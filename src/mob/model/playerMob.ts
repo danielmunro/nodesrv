@@ -38,6 +38,9 @@ export class PlayerMob {
   @Column("integer")
   public experience: number = 0
 
+  @Column("integer")
+  public experienceToLevel: number = 0
+
   @Column("varchar")
   public standing: Standing = Standing.Good
 

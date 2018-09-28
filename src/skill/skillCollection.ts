@@ -1,18 +1,20 @@
 import { Trigger } from "../mob/trigger"
 import roll from "../random/dice"
-import backstabAction from "./actions/backstab"
-import bashAction from "./actions/bash"
-import berserkAction from "./actions/berserk"
-import dodgeAction from "./actions/dodge"
-import enhancedDamageAction from "./actions/enhancedDamage"
-import envenomAction from "./actions/envenom"
+import backstab from "./actions/backstab"
+import bash from "./actions/bash"
+import berserk from "./actions/berserk"
+import disarm from "./actions/disarm"
+import dodge from "./actions/dodge"
+import enhancedDamage from "./actions/enhancedDamage"
+import envenom from "./actions/envenom"
 import secondAttack from "./actions/secondAttack"
-import sneakAction from "./actions/sneak"
-import tripAction from "./actions/trip"
+import sneak from "./actions/sneak"
+import trip from "./actions/trip"
 import Outcome from "./outcome"
 import backstabPrecondition from "./preconditions/backstab"
 import bashPrecondition from "./preconditions/bash"
 import berserkPrecondition from "./preconditions/berserk"
+import disarmPrecondition from "./preconditions/disarm"
 import envenomPrecondition from "./preconditions/envenom"
 import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
@@ -61,23 +63,25 @@ function newWeaponSkill(skillType: SkillType) {
 
 export const skillCollection = [
   createSkill(SkillType.Dodge, Trigger.AttackRoundDefend,
-    createCheckImprove(dodgeAction, SLOW_IMPROVE_CHANCE), 10),
+    createCheckImprove(dodge, SLOW_IMPROVE_CHANCE), 10),
+  createSkill(SkillType.Disarm, Trigger.Input,
+    createCheckImprove(disarm), 10, disarmPrecondition),
   createSkill(SkillType.SecondAttack, Trigger.AttackRound,
     createCheckImprove(secondAttack, SLOW_IMPROVE_CHANCE), 10),
   createSkill(SkillType.Bash, Trigger.Input,
-    createCheckImprove(bashAction), 5, bashPrecondition),
+    createCheckImprove(bash), 5, bashPrecondition),
   createSkill(SkillType.Trip, Trigger.Input,
-    createCheckImprove(tripAction), 10, tripPrecondition),
+    createCheckImprove(trip), 10, tripPrecondition),
   createSkill(SkillType.Berserk, Trigger.Input,
-    createCheckImprove(berserkAction), 20, berserkPrecondition),
+    createCheckImprove(berserk), 20, berserkPrecondition),
   createSkill(SkillType.Sneak, Trigger.Input,
-    createCheckImprove(sneakAction), 6, sneakPrecondition),
+    createCheckImprove(sneak), 6, sneakPrecondition),
   createSkill(SkillType.Envenom, Trigger.Input,
-    createCheckImprove(envenomAction), 20, envenomPrecondition),
+    createCheckImprove(envenom), 20, envenomPrecondition),
   createSkill(SkillType.Backstab, Trigger.Input,
-    createCheckImprove(backstabAction), 20, backstabPrecondition),
+    createCheckImprove(backstab), 20, backstabPrecondition),
   createSkill(SkillType.EnhancedDamage, Trigger.AttackRoundDamage,
-    createCheckImprove(enhancedDamageAction), 30),
+    createCheckImprove(enhancedDamage), 30),
   newWeaponSkill(SkillType.Sword),
   newWeaponSkill(SkillType.Mace),
   newWeaponSkill(SkillType.Wand),

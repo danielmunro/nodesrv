@@ -10,6 +10,8 @@ export default class CheckBuilder {
   private checks: CheckComponent[] = []
   private confirm: boolean = true
 
+  constructor(private target = null) {}
+
   public requireMob(mob: Mob, failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
     this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob, failMessage))
 
@@ -57,7 +59,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public async create(target = null): Promise<Check> {
+  public async create(target = this.target): Promise<Check> {
     let lastThing
     return new Maybe(this.checks.find(checkComponent => {
       lastThing = checkComponent.getThing()

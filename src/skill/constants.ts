@@ -33,6 +33,10 @@ export const Costs = {
     Delay: 2,
     Mv: 80,
   },
+  Disarm: {
+    Delay: 2,
+    Mv: 20,
+  },
   Envenom: {
     Mana: 100,
   },

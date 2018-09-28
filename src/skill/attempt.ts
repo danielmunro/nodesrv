@@ -16,15 +16,15 @@ export default class Attempt {
     return this.attemptContext.subject
   }
 
-  public createSuccessOutcome(): Outcome {
-    return new Outcome(this, OutcomeType.Success)
+  public success(message: string = "", delay: number = 0): Outcome {
+    return new Outcome(this, OutcomeType.Success, message, delay)
   }
 
-  public createCheckFailOutcome(message = null): Outcome {
-    return new Outcome(this, OutcomeType.CheckFail, message)
+  public checkFail(message: string = "", delay: number = 0): Outcome {
+    return new Outcome(this, OutcomeType.CheckFail, ...arguments)
   }
 
-  public createFailureOutcome(): Outcome {
-    return new Outcome(this, OutcomeType.Failure)
+  public fail(message: string = "", delay: number = 0): Outcome {
+    return new Outcome(this, OutcomeType.Failure, ...arguments)
   }
 }
