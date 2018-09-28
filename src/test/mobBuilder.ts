@@ -1,7 +1,7 @@
+import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
 import ServiceBuilder from "../service/serviceBuilder"
 import AbstractBuilder from "./abstractBuilder"
-import { Item } from "../item/model/item"
 
 export default class MobBuilder extends AbstractBuilder {
   private equipNextEquipment = false
