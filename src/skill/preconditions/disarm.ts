@@ -8,6 +8,7 @@ import Check from "../check"
 import { failCheck, successCheck } from "../checkFactory"
 import { Costs } from "../constants"
 import { Messages } from "./constants"
+import { Mob } from "../../mob/model/mob"
 
 export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
@@ -16,14 +17,14 @@ export default function(attempt: Attempt): Promise<Check> {
     return failCheck(attempt, Messages.All.NoTarget)
   }
 
-  const target = fight.getOpponentFor(mob)
+  const target = attempt.attemptContext.subject as Mob
   const weapon = target.equipped.inventory.find(i => i.equipment === Equipment.Weapon)
   if (!weapon) {
     return failCheck(attempt, format(Messages.Disarm.FailNothingToDisarm, target.name))
   }
 
   if (mob.vitals.mv < Costs.Disarm.Mv) {
-    return failCheck(attempt, MESSAGE_FAIL_TOO_TIRED)
+    return failCheck(attempt, Messages.All.NotEnoughMv)
   }
 
   return successCheck(attempt, (player: Player) => {
