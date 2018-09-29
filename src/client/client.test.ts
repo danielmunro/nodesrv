@@ -1,16 +1,16 @@
 import look from "../action/actions/look"
 import { Collection } from "../action/definition/collection"
+import { Role } from "../mob/role"
 import { Player } from "../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { default as AuthRequest } from "../session/auth/request"
 import { Channel } from "../social/channel"
 import { getTestClient, getTestClientLoggedOut } from "../test/client"
+import { getTestMob } from "../test/mob"
+import { getTestRoom } from "../test/room"
 import { Client, getDefaultUnhandledMessage } from "./client"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
-import { getTestRoom } from "../test/room"
-import { getTestMob } from "../test/mob"
-import { Role } from "../mob/role"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})

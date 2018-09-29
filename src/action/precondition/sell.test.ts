@@ -1,7 +1,7 @@
+import { CheckStatus } from "../../check/checkStatus"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { CheckStatus } from "../../check/checkStatus"
 import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY, MESSAGE_FAIL_NO_MERCHANT } from "./constants"
 import sell from "./sell"
 

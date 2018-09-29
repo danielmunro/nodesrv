@@ -1,10 +1,10 @@
+import { CheckStatus } from "../../check/checkStatus"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Player } from "../../player/model/player"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
-import { CheckStatus } from "../../check/checkStatus"
 import { MESSAGE_REMOVE_FAIL } from "./constants"
 import remove from "./remove"
 

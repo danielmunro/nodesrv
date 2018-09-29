@@ -1,3 +1,4 @@
+import { CheckStatus } from "../../check/checkStatus"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Item } from "../../item/model/item"
@@ -5,7 +6,6 @@ import { Player } from "../../player/model/player"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
-import { CheckStatus } from "../../check/checkStatus"
 import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
 import wear from "./wear"
 
