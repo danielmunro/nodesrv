@@ -1,8 +1,8 @@
+import Check from "../../../check/check"
+import CheckBuilder from "../../../check/checkBuilder"
 import Maybe from "../../../functional/maybe"
 import { Request } from "../../../request/request"
 import Service from "../../../service/service"
-import Check from "../../../check/check"
-import CheckBuilder from "../../../check/checkBuilder"
 import {
   MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS,
   MESSAGE_FAIL_CANNOT_DEMOTE_SELF,

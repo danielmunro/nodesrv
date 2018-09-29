@@ -1,3 +1,4 @@
+import CheckedRequest from "../check/checkedRequest"
 import { Request } from "./request"
 import Response from "./response"
 import ResponseAction from "./responseAction"
@@ -5,7 +6,7 @@ import { ResponseStatus } from "./responseStatus"
 
 export default class ResponseBuilder {
   constructor(
-    private readonly request: Request,
+    private readonly request: Request | CheckedRequest,
     private readonly responseAction: ResponseAction,
   ) {}
 

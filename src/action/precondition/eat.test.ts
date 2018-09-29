@@ -1,8 +1,8 @@
+import { CheckStatus } from "../../check/checkStatus"
 import appetite from "../../mob/race/appetite"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { CheckStatus } from "../../check/checkStatus"
 import {
   MESSAGE_FAIL_ALREADY_FULL,
   MESSAGE_FAIL_CANNOT_EAT_ITEM,

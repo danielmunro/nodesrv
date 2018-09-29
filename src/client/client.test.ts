@@ -8,6 +8,9 @@ import { Channel } from "../social/channel"
 import { getTestClient, getTestClientLoggedOut } from "../test/client"
 import { Client, getDefaultUnhandledMessage } from "./client"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
+import { getTestRoom } from "../test/room"
+import { getTestMob } from "../test/mob"
+import { Role } from "../mob/role"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
@@ -81,7 +84,6 @@ describe("clients", () => {
   it("invokes the default request actions when input has no action handler", async () => {
     // setup
     const request = getNewRequestFromMessageEvent(client, getNewTestMessageEvent("foo")) as Request
-    // console.log("request", request)
 
     // when
     const response = await client.handleRequest(request)
@@ -209,5 +211,22 @@ describe("clients", () => {
 
     // then
     expect(newClient.canHandleRequests()).toBeTruthy()
+  })
+
+  it("training will apply the cost appropriately", async () => {
+    // setup
+    const room = getTestRoom()
+    const trainer = getTestMob()
+    trainer.role = Role.Trainer
+    room.addMob(trainer)
+    room.addMob(client.player.sessionMob)
+    client.player.sessionMob.playerMob.trains = 1
+    client.addRequest(new Request(client.player, RequestType.Train, "train str"))
+
+    // when
+    await client.handleNextRequest()
+
+    // then
+    expect(client.player.sessionMob.playerMob.trains).toBe(0)
   })
 })

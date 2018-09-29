@@ -1,5 +1,7 @@
+import { ActionOutcome } from "../action/actionOutcome"
 import Maybe from "../functional/maybe"
 import { Request } from "../request/request"
+import ResponseAction from "../request/responseAction"
 import ResponseBuilder from "../request/responseBuilder"
 import Check from "./check"
 import { CheckType } from "./checkType"
@@ -16,7 +18,8 @@ export default class CheckedRequest {
       .get()
   }
 
-  public respondWith(): ResponseBuilder {
-    return this.request.respondWith(...arguments)
+  public respondWith(actionOutcome: ActionOutcome = ActionOutcome.None,
+                     thing: any = null): ResponseBuilder {
+    return new ResponseBuilder(this, new ResponseAction(actionOutcome, thing))
   }
 }

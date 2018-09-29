@@ -1,11 +1,11 @@
 import { allStats } from "../../attributes/constants"
 import { Stat } from "../../attributes/stat"
 import { Vital } from "../../attributes/vital"
+import CheckedRequest from "../../check/checkedRequest"
 import Maybe from "../../functional/maybe"
 import { Mob } from "../../mob/model/mob"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
-import CheckedRequest from "../../check/checkedRequest"
 import {
   MAX_TRAINABLE_STATS,
   MESSAGE_FAIL_CANNOT_TRAIN,
@@ -30,7 +30,6 @@ function trainStat(mob: Mob, responseBuilder: ResponseBuilder, message: string, 
     return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
   }
   stats[stat] += 1
-  mob.playerMob.trains--
   return responseBuilder.success(message)
 }
 
@@ -60,18 +59,18 @@ const trainMap = [
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   const stats = request.mob.playerMob.trainedAttributes.stats
-  const responseBuilder = request.respondWith()
+  const responseBuilder = checkedRequest.respondWith()
 
   if (!request.subject) {
-    return request.respondWith().info(
+    return responseBuilder.info(
       "You can train: " +
       allStats.reduce((previous: string, current: Stat) =>
         previous + (canTrain(stats[current]) ? `${current} ` : ""), "") +
       "hp mana mv")
   }
 
-  return new Maybe(trainMap.find((m) => request.subject === m.train))
-    .do((m) => m.method(request.mob, responseBuilder, m.message, m.train))
+  return new Maybe(trainMap.find(m => request.subject === m.train))
+    .do(m => m.method(request.mob, responseBuilder, m.message, m.train))
     .or(() => responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN))
     .get()
 }

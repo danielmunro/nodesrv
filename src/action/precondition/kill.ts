@@ -1,7 +1,7 @@
-import { getFights } from "../../mob/fight/fight"
-import { Request } from "../../request/request"
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
+import { getFights } from "../../mob/fight/fight"
+import { Request } from "../../request/request"
 import {
   MESSAGE_FAIL_CANNOT_ATTACK_SELF,
   MESSAGE_FAIL_KILL_ALREADY_FIGHTING,

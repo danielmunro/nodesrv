@@ -1,6 +1,8 @@
 import * as stringify from "json-stringify-safe"
 import { Collection } from "../action/definition/collection"
 import { Definition } from "../action/definition/definition"
+import CheckedRequest from "../check/checkedRequest"
+import Cost from "../check/cost/cost"
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
 import Table from "../mob/table"
@@ -77,11 +79,10 @@ export class Client {
   public async handleNextRequest() {
     if (!this.session.isLoggedIn()) {
       const request = this.requests.shift()
-      await this.session.handleRequest(new AuthRequest(this, request.input))
-      return
+      return this.session.handleRequest(new AuthRequest(this, request.input))
     }
 
-    await this.handleRequest(this.requests.shift())
+    return this.handleRequest(this.requests.shift())
   }
 
   public async handleRequest(request: Request): Promise<Response> {
@@ -90,6 +91,9 @@ export class Client {
       request.getAuthorizationLevel(),
       this.getDefaultRequestHandler(request))
     const response = await matchingHandlerDefinition.handle(request)
+    if (response.request instanceof CheckedRequest) {
+      this.applyCosts(response.request.check.costs)
+    }
     this.send(response)
     this.evaluateResponseAction(response.responseAction)
 
@@ -120,6 +124,10 @@ export class Client {
 
   public getMobTable(): Table {
     return this.service.mobTable
+  }
+
+  private applyCosts(costs: Cost[]): void {
+    costs.forEach(cost => cost.applyTo(this.player))
   }
 
   private evaluateResponseAction(responseAction: ResponseAction) {

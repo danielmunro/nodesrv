@@ -1,6 +1,6 @@
+import Check from "../../check/check"
 import { Request } from "../../request/request"
 import { Direction } from "../../room/constants"
-import Check from "../../check/check"
 import { MESSAGE_DIRECTION_DOES_NOT_EXIST, MESSAGE_OUT_OF_MOVEMENT } from "./constants"
 
 export default function(request: Request, direction: Direction): Promise<Check> {

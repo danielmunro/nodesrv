@@ -1,5 +1,7 @@
 import { allStats } from "../../attributes/constants"
 import { allVitals } from "../../attributes/constants"
+import Check from "../../check/check"
+import CheckedRequest from "../../check/checkedRequest"
 import { Mob } from "../../mob/model/mob"
 import { Player } from "../../player/model/player"
 import { Request } from "../../request/request"
@@ -7,8 +9,6 @@ import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import Check from "../../check/check"
-import CheckedRequest from "../../check/checkedRequest"
 import { MAX_TRAINABLE_STATS, MESSAGE_FAIL_CANNOT_TRAIN } from "./constants"
 import train from "./train"
 
@@ -51,7 +51,6 @@ describe("train action", () => {
 
       // then
       expect(response.status).toBe(ResponseStatus.Success)
-      expect(player.sessionMob.playerMob.trains).toBe(0)
       expect(player.sessionMob.playerMob.trainedAttributes.stats[stat]).toBe(initialValue + 1)
     }))
   })

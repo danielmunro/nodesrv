@@ -1,8 +1,8 @@
+import CheckedRequest from "../../check/checkedRequest"
 import { copy } from "../../item/factory"
 import Response from "../../request/response"
 import { format } from "../../support/string"
 import { ActionOutcome } from "../actionOutcome"
-import CheckedRequest from "../../check/checkedRequest"
 import { Messages } from "./constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {

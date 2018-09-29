@@ -1,7 +1,9 @@
+import Check from "../../check/check"
+import Cost from "../../check/cost/cost"
+import { CostType } from "../../check/cost/costType"
 import { Disposition } from "../../mob/disposition"
 import { Role } from "../../mob/role"
 import { Request } from "../../request/request"
-import Check from "../../check/check"
 import { MESSAGE_FAIL_NEED_TRAINS, MESSAGE_FAIL_NO_TRAINER, MESSAGE_FAIL_NOT_STANDING } from "./constants"
 
 export default function(request: Request): Promise<Check> {
@@ -19,5 +21,5 @@ export default function(request: Request): Promise<Check> {
     return Check.fail(MESSAGE_FAIL_NEED_TRAINS)
   }
 
-  return Check.ok(trainer)
+  return Check.ok(trainer, [], [new Cost(CostType.Train, 1)])
 }

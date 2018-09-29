@@ -1,4 +1,6 @@
 import { newTrail } from "../../area/builder/forest/trail"
+import Check from "../../check/check"
+import CheckedRequest from "../../check/checkedRequest"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
@@ -6,8 +8,6 @@ import { Direction } from "../../room/constants"
 import Service from "../../service/service"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import Check from "../../check/check"
-import CheckedRequest from "../../check/checkedRequest"
 import move from "./move"
 
 describe("move", () => {

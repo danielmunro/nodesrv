@@ -1,3 +1,5 @@
+import Check from "../../check/check"
+import CheckedRequest from "../../check/checkedRequest"
 import { addFight, Fight, getFights, reset } from "../../mob/fight/fight"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
@@ -6,8 +8,6 @@ import Service from "../../service/service"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import Check from "../../check/check"
-import CheckedRequest from "../../check/checkedRequest"
 import flee from "./flee"
 
 let fight

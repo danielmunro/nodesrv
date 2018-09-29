@@ -1,7 +1,7 @@
+import Check from "../../check/check"
 import { Request } from "../../request/request"
 import { Check as SpellCheck, Status } from "../../spell/check"
 import spellCollection from "../../spell/spellCollection"
-import Check from "../../check/check"
 import {
   MESSAGE_CAST_ERROR,
   MESSAGE_CAST_FAIL,

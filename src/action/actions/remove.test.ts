@@ -1,8 +1,8 @@
+import CheckComponent from "../../check/checkComponent"
+import { CheckType } from "../../check/checkType"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import CheckComponent from "../../check/checkComponent"
-import { CheckType } from "../../check/checkType"
 import remove from "./remove"
 
 describe("remove", () => {

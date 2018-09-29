@@ -1,3 +1,4 @@
+import { CheckStatus } from "../../check/checkStatus"
 import { addFight, Fight, reset } from "../../mob/fight/fight"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
@@ -6,7 +7,6 @@ import Service from "../../service/service"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import { CheckStatus } from "../../check/checkStatus"
 import { MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_NOT_FIGHTING, MESSAGE_FAIL_TOO_TIRED } from "./constants"
 import flee from "./flee"
 

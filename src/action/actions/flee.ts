@@ -1,10 +1,10 @@
+import CheckedRequest from "../../check/checkedRequest"
 import { Fight } from "../../mob/fight/fight"
 import { pickOne } from "../../random/helpers"
 import Response from "../../request/response"
 import { ResponseStatus } from "../../request/responseStatus"
 import Service from "../../service/service"
 import { format } from "../../support/string"
-import CheckedRequest from "../../check/checkedRequest"
 import { FLEE_MOVEMENT_COST_MULTIPLIER, Messages } from "./constants"
 
 export default async function(checkedRequest: CheckedRequest, service: Service): Promise<Response> {
