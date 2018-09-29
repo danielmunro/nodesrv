@@ -38,4 +38,7 @@ export const Messages = {
     SuccessFromContainer: `You get {0} from {1}.`,
     SuccessFromRoom: `You pick up {0}.`,
   },
+  Train: {
+    Info: `You can train: {0}hp mana mv`,
+  },
 }

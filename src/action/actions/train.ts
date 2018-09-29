@@ -3,7 +3,6 @@ import { Stat } from "../../attributes/stat"
 import { Vital } from "../../attributes/vital"
 import CheckedRequest from "../../check/checkedRequest"
 import { CheckType } from "../../check/checkType"
-import Maybe from "../../functional/maybe"
 import { Mob } from "../../mob/model/mob"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
@@ -18,8 +17,11 @@ import {
   MESSAGE_SUCCESS_MV,
   MESSAGE_SUCCESS_STA,
   MESSAGE_SUCCESS_STR,
-  MESSAGE_SUCCESS_WIS,
+  MESSAGE_SUCCESS_WIS, Messages,
 } from "./constants"
+import { format } from "../../support/string"
+
+const VITAL_INCREMENT = 10
 
 function canTrain(stat: number): boolean {
   return stat < MAX_TRAINABLE_STATS
@@ -36,7 +38,7 @@ function trainStat(mob: Mob, responseBuilder: ResponseBuilder, message: string, 
 
 function trainVital(mob: Mob, responseBuilder: ResponseBuilder, message: string, vital: Vital): Promise<Response> {
   const vitals = mob.playerMob.trainedAttributes.vitals
-  vitals[vital] += 10
+  vitals[vital] += VITAL_INCREMENT
   mob.playerMob.trains--
   return responseBuilder.success(message)
 }
@@ -65,10 +67,8 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
 
   if (!subject) {
     return responseBuilder.info(
-      "You can train: " +
-      allStats.reduce((previous: string, current: Stat) =>
-        previous + (canTrain(stats[current]) ? `${current} ` : ""), "") +
-      "hp mana mv")
+      format(Messages.Train.Info, allStats.reduce((previous: string, current: Stat) =>
+        previous + (canTrain(stats[current]) ? `${current} ` : ""), "")))
   }
 
   return subject.method(request.mob, responseBuilder, subject.message, subject.train)
