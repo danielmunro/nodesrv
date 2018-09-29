@@ -47,11 +47,6 @@ export const MESSAGE_FAIL_NO_MERCHANT = "You don't see a merchant anywhere."
 export const MESSAGE_FAIL_ALREADY_ASLEEP = "You are already asleep."
 export const MESSAGE_FAIL_DEAD = "You are dead."
 
-// training
-export const MESSAGE_FAIL_NOT_STANDING = "You must be standing to train."
-export const MESSAGE_FAIL_NO_TRAINER = "No trainer is here."
-export const MESSAGE_FAIL_NEED_TRAINS = "You need more training sessions first."
-
 // wake
 export const MESSAGE_FAIL_ALREADY_AWAKE = "You're already awake."
 
@@ -61,5 +56,11 @@ export const MESSAGE_FAIL_CONTAINER_NOT_EMPTY = "That is not empty."
 export const Messages = {
   Get: {
     Fail: "You don't see that anywhere.",
+  },
+  Train: {
+    CannotTrainMore: "You can't train that anymore.",
+    LackingTrains: "You need more training sessions first.",
+    NoTrainer: "No trainer is here.",
+    NotStanding: "You must be standing to train.",
   },
 }

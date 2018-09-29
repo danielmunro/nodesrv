@@ -1,6 +1,5 @@
 import CheckedRequest from "../../check/checkedRequest"
 import Response from "../../request/response"
-import ResponseBuilder from "../../request/responseBuilder"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const playerInv = checkedRequest.request.player.getInventory()

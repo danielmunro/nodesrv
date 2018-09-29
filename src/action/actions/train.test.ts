@@ -9,9 +9,10 @@ import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
+import { Messages } from "../precondition/constants"
 import trainPrecondition from "../precondition/train"
-import { MAX_TRAINABLE_STATS, MESSAGE_FAIL_CANNOT_TRAIN } from "./constants"
-import train from "./train"
+import { MAX_TRAINABLE_STATS } from "./constants"
+import train, { VITAL_INCREMENT } from "./train"
 
 async function getResponse(player: Player, trainer: Mob, input: string): Promise<Response> {
   return await train(new CheckedRequest(
@@ -64,7 +65,7 @@ describe("train action", () => {
       // then
       expect(response.status).toBe(ResponseStatus.Success)
       expect(playerMob.trains).toBe(0)
-      expect(playerMob.trainedAttributes.vitals[vital]).toBe(initialVital + 10)
+      expect(playerMob.trainedAttributes.vitals[vital]).toBe(initialVital + VITAL_INCREMENT)
     }))
   })
 
@@ -92,7 +93,7 @@ describe("train action", () => {
 
       // then
       expect(response.status).toBe(ResponseStatus.ActionFailed)
-      expect(response.message).toBe(MESSAGE_FAIL_CANNOT_TRAIN)
+      expect(response.message).toBe(Messages.Train.CannotTrainMore)
     })
   })
 

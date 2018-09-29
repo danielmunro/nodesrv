@@ -6,9 +6,10 @@ import { CheckType } from "../../check/checkType"
 import { Mob } from "../../mob/model/mob"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import { format } from "../../support/string"
+import { Messages as PreconditionMessages } from "../precondition/constants"
 import {
   MAX_TRAINABLE_STATS,
-  MESSAGE_FAIL_CANNOT_TRAIN,
   MESSAGE_SUCCESS_CON,
   MESSAGE_SUCCESS_DEX,
   MESSAGE_SUCCESS_HP,
@@ -19,9 +20,8 @@ import {
   MESSAGE_SUCCESS_STR,
   MESSAGE_SUCCESS_WIS, Messages,
 } from "./constants"
-import { format } from "../../support/string"
 
-const VITAL_INCREMENT = 10
+export const VITAL_INCREMENT = 10
 
 function canTrain(stat: number): boolean {
   return stat < MAX_TRAINABLE_STATS
@@ -30,7 +30,7 @@ function canTrain(stat: number): boolean {
 function trainStat(mob: Mob, responseBuilder: ResponseBuilder, message: string, stat: Stat): Promise<Response> {
   const stats = mob.playerMob.trainedAttributes.stats
   if (!canTrain(stats[stat])) {
-    return responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN)
+    return responseBuilder.fail(PreconditionMessages.Train.CannotTrainMore)
   }
   stats[stat] += 1
   return responseBuilder.success(message)

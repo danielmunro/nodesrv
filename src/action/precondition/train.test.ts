@@ -1,10 +1,8 @@
 import { CheckStatus } from "../../check/checkStatus"
 import { Disposition } from "../../mob/disposition"
 import { RequestType } from "../../request/requestType"
-import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import { MESSAGE_FAIL_CANNOT_TRAIN } from "../actions/constants"
-import { MESSAGE_FAIL_NEED_TRAINS, MESSAGE_FAIL_NO_TRAINER, MESSAGE_FAIL_NOT_STANDING } from "./constants"
+import { Messages } from "./constants"
 import train from "./train"
 
 describe("train action precondition", () => {
@@ -18,7 +16,7 @@ describe("train action precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_CANNOT_TRAIN)
+    expect(check.result).toBe(Messages.Train.CannotTrainMore)
   })
 
   it("should not work if a trainer is not present", async () => {
@@ -31,7 +29,7 @@ describe("train action precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_NO_TRAINER)
+    expect(check.result).toBe(Messages.Train.NoTrainer)
   })
 
   it("should not work if the player has no available trains", async () => {
@@ -45,7 +43,7 @@ describe("train action precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_NEED_TRAINS)
+    expect(check.result).toBe(Messages.Train.LackingTrains)
   })
 
   it("should not work if the mob is not standing", async () => {
@@ -60,7 +58,7 @@ describe("train action precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_NOT_STANDING)
+    expect(check.result).toBe(Messages.Train.NotStanding)
   })
 
   it("should work if all preconditions are met", async () => {
