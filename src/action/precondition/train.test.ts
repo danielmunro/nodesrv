@@ -1,12 +1,26 @@
 import { CheckStatus } from "../../check/checkStatus"
 import { Disposition } from "../../mob/disposition"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
+import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
+import { MESSAGE_FAIL_CANNOT_TRAIN } from "../actions/constants"
 import { MESSAGE_FAIL_NEED_TRAINS, MESSAGE_FAIL_NO_TRAINER, MESSAGE_FAIL_NOT_STANDING } from "./constants"
 import train from "./train"
 
 describe("train action precondition", () => {
+  it("should fail if a requested train is not understood", async () => {
+    // given
+    const testBuilder = new TestBuilder()
+    await testBuilder.withPlayer()
+
+    // when
+    const check = await train(testBuilder.createRequest(RequestType.Train, "train floodle"))
+
+    // then
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(MESSAGE_FAIL_CANNOT_TRAIN)
+  })
+
   it("should not work if a trainer is not present", async () => {
     // given
     const testBuilder = new TestBuilder()

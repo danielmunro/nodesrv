@@ -2,6 +2,7 @@ import { allStats } from "../../attributes/constants"
 import { Stat } from "../../attributes/stat"
 import { Vital } from "../../attributes/vital"
 import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
 import Maybe from "../../functional/maybe"
 import { Mob } from "../../mob/model/mob"
 import Response from "../../request/response"
@@ -44,7 +45,7 @@ function newTrainMapEntry(method, train: Stat | Vital, message: string) {
   return { method, train, message }
 }
 
-const trainMap = [
+export const trainMap = [
   newTrainMapEntry(trainStat, Stat.Str, MESSAGE_SUCCESS_STR),
   newTrainMapEntry(trainStat, Stat.Int, MESSAGE_SUCCESS_INT),
   newTrainMapEntry(trainStat, Stat.Wis, MESSAGE_SUCCESS_WIS),
@@ -60,8 +61,9 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   const stats = request.mob.playerMob.trainedAttributes.stats
   const responseBuilder = checkedRequest.respondWith()
+  const subject = checkedRequest.getCheckTypeResult(CheckType.ValidSubject)
 
-  if (!request.subject) {
+  if (!subject) {
     return responseBuilder.info(
       "You can train: " +
       allStats.reduce((previous: string, current: Stat) =>
@@ -69,8 +71,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
       "hp mana mv")
   }
 
-  return new Maybe(trainMap.find(m => request.subject === m.train))
-    .do(m => m.method(request.mob, responseBuilder, m.message, m.train))
-    .or(() => responseBuilder.fail(MESSAGE_FAIL_CANNOT_TRAIN))
-    .get()
+  return subject.method(request.mob, responseBuilder, subject.message, subject.train)
 }

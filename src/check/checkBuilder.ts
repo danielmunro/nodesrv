@@ -2,13 +2,17 @@ import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_P
 import Maybe from "../functional/maybe"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../player/authorizationLevel"
+import { Player } from "../player/model/player"
 import Check from "./check"
 import CheckComponent from "./checkComponent"
 import { CheckType } from "./checkType"
+import Cost from "./cost/cost"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []
+  private costs: Cost[] = []
   private confirm: boolean = true
+  private player: Player
 
   constructor(private target = null) {}
 
@@ -59,15 +63,35 @@ export default class CheckBuilder {
     return this
   }
 
+  public addCost(cost: Cost) {
+    this.costs.push(cost)
+
+    return this
+  }
+
+  public forPlayer(player: Player) {
+    this.player = player
+
+    return this
+  }
+
   public async create(target = this.target): Promise<Check> {
-    let lastThing
-    return new Maybe(this.checks.find(checkComponent => {
+    let lastThing = null
+
+    const checkFail = this.checks.find(checkComponent => {
       lastThing = checkComponent.getThing()
       return !lastThing
-    }))
-      .do(badCheck => Check.fail(badCheck.failMessage))
-      .or(() => Check.ok(target ? target : lastThing, this.checks))
-      .get()
+    })
+    if (checkFail) {
+      return Check.fail(checkFail.failMessage, this.checks, this.costs)
+    }
+
+    const costFail = this.costs.find(cost => !cost.canApply(this.player))
+    if (costFail) {
+      return Check.fail(costFail.failMessage, this.checks, this.costs)
+    }
+
+    return Check.ok(target ? target : lastThing, this.checks, this.costs)
   }
 
   private newCheckComponent(checkType: CheckType, thing, failMessage = ""): CheckComponent {

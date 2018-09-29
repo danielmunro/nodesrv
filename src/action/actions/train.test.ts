@@ -9,6 +9,7 @@ import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
+import trainPrecondition from "../precondition/train"
 import { MAX_TRAINABLE_STATS, MESSAGE_FAIL_CANNOT_TRAIN } from "./constants"
 import train from "./train"
 
@@ -19,21 +20,6 @@ async function getResponse(player: Player, trainer: Mob, input: string): Promise
 }
 
 describe("train action", () => {
-  it("should fail if a requested train is not understood", async () => {
-    // given
-    const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
-
-    // when
-    const response = await getResponse(
-      playerBuilder.player,
-      testBuilder.withTrainer().mob,
-      "train floodle")
-
-    // then
-    expect(response.status).toBe(ResponseStatus.ActionFailed)
-  })
-
   it ("should be able to train stats", async () => {
     await Promise.all(allStats.map(async (stat) => {
       // given
@@ -42,12 +28,13 @@ describe("train action", () => {
       const player = playerBuilder.player
       player.sessionMob.playerMob.trains = 1
       const initialValue = player.sessionMob.playerMob.trainedAttributes.stats[stat]
+      const request = testBuilder.createRequest(RequestType.Train, `train ${stat}`)
 
       // when
-      const response = await getResponse(
-        player,
-        testBuilder.withTrainer().mob,
-        `train ${stat}`)
+      const response = await train(
+        new CheckedRequest(
+          request,
+          await trainPrecondition(request)))
 
       // then
       expect(response.status).toBe(ResponseStatus.Success)
@@ -66,12 +53,13 @@ describe("train action", () => {
     await Promise.all(allVitals.map(async (vital) => {
       // given
       const initialVital = playerMob.trainedAttributes.vitals[vital]
+      const request = testBuilder.createRequest(RequestType.Train, `train ${vital}`)
 
       // when
-      const response = await getResponse(
-        player,
-        testBuilder.withTrainer().mob,
-        `train ${vital}`)
+      const response = await train(
+        new CheckedRequest(
+          request,
+          await trainPrecondition(request)))
 
       // then
       expect(response.status).toBe(ResponseStatus.Success)
@@ -85,7 +73,7 @@ describe("train action", () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()
     const player = playerBuilder.player
-    const trainer = testBuilder.withTrainer().mob
+    testBuilder.withTrainer()
     player.sessionMob.playerMob.trains = 10
     player.sessionMob.playerMob.trainedAttributes.stats.str = MAX_TRAINABLE_STATS
     player.sessionMob.playerMob.trainedAttributes.stats.int = MAX_TRAINABLE_STATS
@@ -95,64 +83,17 @@ describe("train action", () => {
     player.sessionMob.playerMob.trainedAttributes.stats.sta = MAX_TRAINABLE_STATS
 
     // when
-    const response1 = await getResponse(
-      player,
-      trainer,
-      "train str")
+    allStats.forEach(async stat => {
+      const request = testBuilder.createRequest(RequestType.Train, `train ${stat}`)
+      const response = await train(
+        new CheckedRequest(
+          request,
+          await trainPrecondition(request)))
 
-    // then
-    expect(response1.status).toBe(ResponseStatus.ActionFailed)
-    expect(response1.message).toBe(MESSAGE_FAIL_CANNOT_TRAIN)
-
-    // when
-    const response2 = await getResponse(
-      player,
-      trainer,
-      "train int")
-
-    // then
-    expect(response2.status).toBe(ResponseStatus.ActionFailed)
-    expect(response2.message).toBe(MESSAGE_FAIL_CANNOT_TRAIN)
-
-    // when
-    const response3 = await getResponse(
-      player,
-      trainer,
-      "train wis")
-
-    // then
-    expect(response3.status).toBe(ResponseStatus.ActionFailed)
-    expect(response3.message).toBe(MESSAGE_FAIL_CANNOT_TRAIN)
-
-    // when
-    const response4 = await getResponse(
-      player,
-      trainer,
-      "train dex")
-
-    // then
-    expect(response4.status).toBe(ResponseStatus.ActionFailed)
-    expect(response4.message).toBe(MESSAGE_FAIL_CANNOT_TRAIN)
-
-    // when
-    const response5 = await getResponse(
-      player,
-      trainer,
-      "train con")
-
-    // then
-    expect(response5.status).toBe(ResponseStatus.ActionFailed)
-    expect(response5.message).toBe(MESSAGE_FAIL_CANNOT_TRAIN)
-
-    // when
-    const response6 = await getResponse(
-      player,
-      trainer,
-      "train sta")
-
-    // then
-    expect(response6.status).toBe(ResponseStatus.ActionFailed)
-    expect(response6.message).toBe(MESSAGE_FAIL_CANNOT_TRAIN)
+      // then
+      expect(response.status).toBe(ResponseStatus.ActionFailed)
+      expect(response.message).toBe(MESSAGE_FAIL_CANNOT_TRAIN)
+    })
   })
 
   it("can describe what is trainable", async () => {
