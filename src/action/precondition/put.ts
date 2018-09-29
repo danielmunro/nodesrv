@@ -4,7 +4,7 @@ import { CheckType } from "../../check/checkType"
 import Maybe from "../../functional/maybe"
 import { Request } from "../../request/request"
 import Service from "../../service/service"
-import { MESSAGE_FAIL_CONTAINER_NOT_FOUND, MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
+import { MESSAGE_FAIL_CONTAINER_NOT_FOUND, Messages } from "./constants"
 
 export default function(request: Request, service: Service): Promise<Check> {
   const containerName = request.component
@@ -17,7 +17,7 @@ export default function(request: Request, service: Service): Promise<Check> {
     .get()
 
   return new CheckBuilder()
-    .require(item, MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY, CheckType.HasItem)
+    .require(item, Messages.All.Item.NotOwned, CheckType.HasItem)
     .require(container, MESSAGE_FAIL_CONTAINER_NOT_FOUND, CheckType.ContainerPresent)
     .create(item)
 }

@@ -6,7 +6,7 @@ import { Player } from "../../player/model/player"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
-import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
+import { Messages } from "./constants"
 import wear from "./wear"
 
 function getHatOfMight(): Item {
@@ -24,7 +24,7 @@ describe("wear", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY)
+    expect(check.result).toBe(Messages.All.Item.NotOwned)
   })
 
   it("can equip an item", async () => {

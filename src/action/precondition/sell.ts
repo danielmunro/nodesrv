@@ -1,6 +1,6 @@
 import Check from "../../check/check"
 import { Request } from "../../request/request"
-import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY, MESSAGE_FAIL_NO_MERCHANT } from "./constants"
+import { MESSAGE_FAIL_NO_MERCHANT, Messages } from "./constants"
 
 export default function(request: Request): Promise<Check> {
   const room = request.getRoom()
@@ -14,7 +14,7 @@ export default function(request: Request): Promise<Check> {
   const item = mob.inventory.findItemByName(request.subject)
 
   if (!item) {
-    return Check.fail(MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY)
+    return Check.fail(Messages.All.Item.NotOwned)
   }
 
   return Check.ok(item)

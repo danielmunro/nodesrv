@@ -3,8 +3,7 @@ import { newAffect } from "../../affect/factory"
 import { CheckStatus } from "../../check/checkStatus"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE } from "./constants"
-import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
+import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
 import drop from "./drop"
 
 describe("drop actions precondition", () => {
@@ -18,7 +17,7 @@ describe("drop actions precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY)
+    expect(check.result).toBe(Messages.All.Item.NotOwned)
   })
 
   it("should be ok if the item is in the mob's inventory", async () => {

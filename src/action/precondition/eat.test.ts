@@ -1,12 +1,11 @@
 import { CheckStatus } from "../../check/checkStatus"
 import appetite from "../../mob/race/appetite"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import {
   MESSAGE_FAIL_ALREADY_FULL,
   MESSAGE_FAIL_CANNOT_EAT_ITEM,
-  MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY,
+  Messages,
 } from "./constants"
 import eat from "./eat"
 
@@ -22,7 +21,7 @@ describe("eat action precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY)
+    expect(check.result).toBe(Messages.All.Item.NotOwned)
   })
 
   it("should not allow eating items that are not food", async () => {

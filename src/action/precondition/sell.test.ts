@@ -1,8 +1,7 @@
 import { CheckStatus } from "../../check/checkStatus"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY, MESSAGE_FAIL_NO_MERCHANT } from "./constants"
+import { MESSAGE_FAIL_NO_MERCHANT, Messages } from "./constants"
 import sell from "./sell"
 
 describe("sell actions actions precondition", () => {
@@ -45,7 +44,7 @@ describe("sell actions actions precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY)
+    expect(check.result).toBe(Messages.All.Item.NotOwned)
   })
 
   it("should succeed if all conditions met", async () => {

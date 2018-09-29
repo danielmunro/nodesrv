@@ -11,7 +11,6 @@ export const MESSAGE_CAST_FAIL = "You lose your concentration."
 export const MESSAGE_FAIL_NOT_ENOUGH_MANA = "You don't have enough mana."
 
 // general -- items
-export const MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY = "You don't have that."
 export const MESSAGE_FAIL_ITEM_NOT_IN_ROOM = "You don't see that anywhere."
 export const MESSAGE_FAIL_CONTAINER_NOT_FOUND = "That container isn't here."
 
@@ -54,6 +53,11 @@ export const MESSAGE_FAIL_ALREADY_AWAKE = "You're already awake."
 export const MESSAGE_FAIL_CONTAINER_NOT_EMPTY = "That is not empty."
 
 export const Messages = {
+  All: {
+    Item: {
+      NotOwned: "You don't have that.",
+    },
+  },
   Get: {
     Fail: "You don't see that anywhere.",
   },

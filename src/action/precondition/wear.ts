@@ -1,14 +1,14 @@
 import Check from "../../check/check"
+import CheckBuilder from "../../check/checkBuilder"
+import { CheckType } from "../../check/checkType"
 import { Request } from "../../request/request"
-import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
+import { Messages } from "./constants"
 
 export default function(request: Request): Promise<Check> {
-  const mob = request.player.sessionMob
-  const item = mob.inventory.findItemByName(request.subject)
-
-  if (!item) {
-    return Check.fail(MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY)
-  }
-
-  return Check.ok(item)
+  return new CheckBuilder()
+    .require(
+      request.mob.inventory.findItemByName(request.subject),
+      Messages.All.Item.NotOwned,
+      CheckType.ItemPresent)
+    .create()
 }

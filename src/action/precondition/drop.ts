@@ -1,15 +1,14 @@
 import { AffectType } from "../../affect/affectType"
 import Check from "../../check/check"
 import { Request } from "../../request/request"
-import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE } from "./constants"
-import { MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY } from "./constants"
+import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
 
 export default function(request: Request): Promise<Check> {
   const mob = request.player.sessionMob
   const item = mob.inventory.findItemByName(request.subject)
 
   if (!item) {
-    return Check.fail(MESSAGE_FAIL_ITEM_NOT_IN_INVENTORY)
+    return Check.fail(Messages.All.Item.NotOwned)
   }
 
   if (item.affects.find((affect) => affect.affectType === AffectType.Curse)) {
