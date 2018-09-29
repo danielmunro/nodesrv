@@ -9,14 +9,14 @@ import { Messages } from "./constants"
 export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
   if (mob.getAffect(AffectType.Berserk)) {
-    return failCheck(attempt, Messages.Berserk.FailAlreadyInvoked)
+    return failCheck(Messages.Berserk.FailAlreadyInvoked)
   }
   const cost = Math.max(mob.getCombinedAttributes().vitals.mv / 2, Costs.Berserk.Mv)
   if (mob.vitals.mv > cost) {
-    return successCheck(attempt, (player: Player) => {
+    return successCheck((player: Player) => {
       mob.vitals.mv -= cost
       player.delay += Costs.Berserk.Delay
     })
   }
-  return failCheck(attempt, Messages.All.NotEnoughMv)
+  return failCheck(Messages.All.NotEnoughMv)
 }

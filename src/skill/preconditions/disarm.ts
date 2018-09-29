@@ -14,20 +14,20 @@ export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
   const fight = getFights().find(f => f.isParticipant(mob))
   if (!fight) {
-    return failCheck(attempt, Messages.All.NoTarget)
+    return failCheck(Messages.All.NoTarget)
   }
 
   const target = attempt.attemptContext.subject as Mob
   const weapon = target.equipped.inventory.find(i => i.equipment === Equipment.Weapon)
   if (!weapon) {
-    return failCheck(attempt, format(Messages.Disarm.FailNothingToDisarm, target.name))
+    return failCheck(format(Messages.Disarm.FailNothingToDisarm, target.name))
   }
 
   if (mob.vitals.mv < Costs.Disarm.Mv) {
-    return failCheck(attempt, Messages.All.NotEnoughMv)
+    return failCheck(Messages.All.NotEnoughMv)
   }
 
-  return successCheck(attempt, (player: Player) => {
+  return successCheck((player: Player) => {
     mob.vitals.mv -= Costs.Disarm.Mv
     player.delay += Costs.Disarm.Delay
   })

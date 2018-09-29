@@ -8,8 +8,8 @@ export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
 
   if (mob.vitals.mv < Costs.Backstab.Mv) {
-    return failCheck(attempt, Messages.All.NotEnoughMv)
+    return failCheck(Messages.All.NotEnoughMv)
   }
 
-  return successCheck(attempt, () => mob.vitals.mv -= Costs.Backstab.Mv)
+  return successCheck(() => mob.vitals.mv -= Costs.Backstab.Mv)
 }

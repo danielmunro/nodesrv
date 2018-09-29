@@ -9,13 +9,13 @@ export default function(attempt: Attempt): Promise<Check> {
   const mob = attempt.mob
   const target = attempt.getSubjectAsMob()
   if (!target || mob === target) {
-    return failCheck(attempt, Messages.All.NoTarget)
+    return failCheck(Messages.All.NoTarget)
   }
   if (mob.vitals.mv > Costs.Bash.Mv) {
-    return successCheck(attempt, (player: Player) => {
+    return successCheck((player: Player) => {
       mob.vitals.mv -= Costs.Bash.Mv
       player.delay += Costs.Bash.Delay
     })
   }
-  return failCheck(attempt, Messages.All.NotEnoughMv)
+  return failCheck(Messages.All.NotEnoughMv)
 }

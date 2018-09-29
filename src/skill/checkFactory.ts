@@ -3,10 +3,10 @@ import Attempt from "./attempt"
 import Check from "./check"
 import { CheckResult } from "./checkResult"
 
-export function successCheck(attempt: Attempt, cost: (player: Player) => void): Promise<Check> {
-  return Promise.resolve(new Check(attempt, CheckResult.Able, null, cost))
+export function successCheck(cost: (player: Player) => void): Promise<Check> {
+  return Promise.resolve(new Check(CheckResult.Able, null, cost))
 }
 
-export function failCheck(attempt: Attempt, message: string): Promise<Check> {
-  return Promise.resolve(new Check(attempt, CheckResult.Unable, message))
+export function failCheck(message: string): Promise<Check> {
+  return Promise.resolve(new Check(CheckResult.Unable, message))
 }
