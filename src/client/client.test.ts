@@ -18,8 +18,83 @@ function getNewTestMessageEvent(message = "hello world") {
 
 let client: Client
 
+describe("client sanity checks", () => {
+  beforeEach(async () => client = await getTestClient())
+
+  it("getSessionMob sanity check", () => {
+    expect(client.getSessionMob()).toBe(client.session.getMob())
+  })
+
+  it("has requests sanity check", () => {
+    // expect
+    expect(client.hasRequests()).toBeFalsy()
+
+    // when
+    client.addRequest(new Request(client.player, RequestType.Any))
+
+    // then
+    expect(client.hasRequests()).toBeTruthy()
+  })
+
+  it("can handle requests sanity check", () => {
+    // expect
+    expect(client.canHandleRequests()).toBeFalsy()
+
+    // when
+    client.addRequest(new Request(client.player, RequestType.Any))
+
+    // then
+    expect(client.canHandleRequests()).toBeTruthy()
+
+    // when
+    client.player.delay += 1
+
+    // then
+    expect(client.canHandleRequests()).toBeFalsy()
+  })
+
+  it("create result sanity checks", () => {
+    // when
+    const messageString = "this is a test"
+    const message = client.createMessage(Channel.Gossip, messageString)
+
+    // then
+    expect(message.message).toBe(messageString)
+  })
+
+  it("send sanity test", () => {
+    // setup
+    const send = jest.fn()
+    const ws = jest.fn(() => ({
+      send,
+    }))
+    client = new Client(ws(), "127.0.0.1", new Collection([]), jest.fn(), jest.fn(), jest.fn())
+
+    // expect
+    expect(send.mock.calls.length).toBe(0)
+
+    // when
+    client.send({})
+
+    // then
+    expect(send.mock.calls.length).toBe(1)
+  })
+
+  it("on result sanity test", () => {
+    // expect
+    expect(client.hasRequests()).toBeFalsy()
+
+    // when
+    client.ws.onmessage(getNewTestMessageEvent("hello"))
+
+    // then
+    expect(client.hasRequests()).toBeTruthy()
+  })
+})
+
 describe("clients", () => {
   beforeEach(async () => client = await getTestClient())
+
   it("should delegate handling requests to the session if not logged in", async () => {
     const newClient = await getTestClientLoggedOut()
     const authStep = newClient.session.getAuthStepMessage()
@@ -125,76 +200,6 @@ describe("clients", () => {
 
     // then
     expect(room.mobs).not.toContain(client.player.sessionMob)
-  })
-
-  it("getSessionMob sanity check", () => {
-    expect(client.getSessionMob()).toBe(client.session.getMob())
-  })
-
-  it("has requests sanity check", () => {
-    // expect
-    expect(client.hasRequests()).toBeFalsy()
-
-    // when
-    client.addRequest(new Request(client.player, RequestType.Any))
-
-    // then
-    expect(client.hasRequests()).toBeTruthy()
-  })
-
-  it("can handle requests sanity check", () => {
-    // expect
-    expect(client.canHandleRequests()).toBeFalsy()
-
-    // when
-    client.addRequest(new Request(client.player, RequestType.Any))
-
-    // then
-    expect(client.canHandleRequests()).toBeTruthy()
-
-    // when
-    client.player.delay += 1
-
-    // then
-    expect(client.canHandleRequests()).toBeFalsy()
-  })
-
-  it("create result sanity checks", () => {
-    // when
-    const messageString = "this is a test"
-    const message = client.createMessage(Channel.Gossip, messageString)
-
-    // then
-    expect(message.message).toBe(messageString)
-  })
-
-  it("send sanity test", () => {
-    // setup
-    const send = jest.fn()
-    const ws = jest.fn(() => ({
-      send,
-    }))
-    client = new Client(ws(), "127.0.0.1", new Collection([]), jest.fn(), jest.fn(), jest.fn())
-
-    // expect
-    expect(send.mock.calls.length).toBe(0)
-
-    // when
-    client.send({})
-
-    // then
-    expect(send.mock.calls.length).toBe(1)
-  })
-
-  it("on result sanity test", () => {
-    // expect
-    expect(client.hasRequests()).toBeFalsy()
-
-    // when
-    client.ws.onmessage(getNewTestMessageEvent("hello"))
-
-    // then
-    expect(client.hasRequests()).toBeTruthy()
   })
 
   it("not logged in clients should always be able to handle requests if ones are available", () => {
