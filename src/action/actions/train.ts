@@ -61,11 +61,11 @@ export const trainMap = [
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
-  const stats = request.mob.playerMob.trainedAttributes.stats
   const responseBuilder = checkedRequest.respondWith()
   const subject = checkedRequest.getCheckTypeResult(CheckType.ValidSubject)
 
   if (!subject) {
+    const stats = request.mob.playerMob.trainedAttributes.stats
     return responseBuilder.info(
       format(Messages.Train.Info, allStats.reduce((previous: string, current: Stat) =>
         previous + (canTrain(stats[current]) ? `${current} ` : ""), "")))
