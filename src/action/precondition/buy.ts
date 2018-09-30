@@ -1,7 +1,7 @@
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import { Request } from "../../request/request"
-import { MESSAGE_ERROR_CANNOT_AFFORD, MESSAGE_ERROR_NO_ITEM, MESSAGE_ERROR_NO_MERCHANT } from "./constants"
+import { MESSAGE_ERROR_NO_ITEM, Messages } from "./constants"
 
 export default function(request: Request): Promise<Check> {
   const room = request.getRoom()
@@ -9,14 +9,14 @@ export default function(request: Request): Promise<Check> {
   let item
 
   const checkBuilder = new CheckBuilder()
-    .requireMob(merchant, MESSAGE_ERROR_NO_MERCHANT)
+    .requireMob(merchant, Messages.All.Item.NoMerchant)
 
   if (merchant) {
     item = merchant.inventory.findItemByName(request.subject)
     checkBuilder.require(item, MESSAGE_ERROR_NO_ITEM)
 
     if (item) {
-      checkBuilder.require(request.mob.gold > item.value, MESSAGE_ERROR_CANNOT_AFFORD)
+      checkBuilder.require(request.mob.gold > item.value, Messages.Buy.CannotAfford)
     }
   }
 

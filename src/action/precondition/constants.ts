@@ -1,5 +1,4 @@
 // buying
-export const MESSAGE_ERROR_NO_MERCHANT = "You don't see a merchant anywhere."
 export const MESSAGE_ERROR_NO_ITEM = "They don't have that."
 export const MESSAGE_ERROR_CANNOT_AFFORD = "You can't afford it."
 
@@ -39,9 +38,6 @@ export const MESSAGE_OUT_OF_MOVEMENT = "You are too tired."
 export const MESSAGE_REMOVE_FAIL = "You aren't wearing that."
 export const MESSAGE_REMOVE_SUCCESS = `You remove {0} and put it in your inventory.`
 
-// sell
-export const MESSAGE_FAIL_NO_MERCHANT = "You don't see a merchant anywhere."
-
 // sleeping
 export const MESSAGE_FAIL_DEAD = "You are dead."
 
@@ -57,6 +53,9 @@ export const Messages = {
       NoMerchant: "You don't see a merchant anywhere.",
       NotOwned: "You don't have that.",
     },
+  },
+  Buy: {
+    CannotAfford: "You don't see a merchant anywhere.",
   },
   Get: {
     Fail: "You don't see that anywhere.",

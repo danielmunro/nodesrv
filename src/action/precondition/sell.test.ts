@@ -1,7 +1,7 @@
 import { CheckStatus } from "../../check/checkStatus"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { MESSAGE_FAIL_NO_MERCHANT, Messages } from "./constants"
+import { Messages } from "./constants"
 import sell from "./sell"
 
 describe("sell actions actions precondition", () => {
@@ -17,7 +17,7 @@ describe("sell actions actions precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_NO_MERCHANT)
+    expect(check.result).toBe(Messages.All.Item.NoMerchant)
 
     // and
     testBuilder.withMob()
@@ -27,7 +27,7 @@ describe("sell actions actions precondition", () => {
 
     // then
     expect(check2.status).toBe(CheckStatus.Failed)
-    expect(check2.result).toBe(MESSAGE_FAIL_NO_MERCHANT)
+    expect(check2.result).toBe(Messages.All.Item.NoMerchant)
   })
 
   it("should fail if the seller does not have the item",  async () => {
