@@ -1,6 +1,6 @@
 import {Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm"
-import { Inventory } from "./inventory"
 import { Equipment } from "../equipment"
+import { Inventory } from "./inventory"
 
 @Entity()
 export class Equipped {

@@ -1,11 +1,11 @@
 import { ActionOutcome } from "../action/actionOutcome"
 import Maybe from "../functional/maybe"
+import { Mob } from "../mob/model/mob"
 import { Request } from "../request/request"
 import ResponseAction from "../request/responseAction"
 import ResponseBuilder from "../request/responseBuilder"
 import Check from "./check"
 import { CheckType } from "./checkType"
-import { Mob } from "../mob/model/mob"
 
 export default class CheckedRequest {
   public readonly mob: Mob

@@ -1,14 +1,14 @@
+import CheckedRequest from "../../check/checkedRequest"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import get from "./get"
 import getPrecondition from "../precondition/get"
-import CheckedRequest from "../../check/checkedRequest"
+import get from "./get"
 
 describe("get action", () => {
   it("should be able to get an item from a room inventory", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const item = testBuilder.withRoom().withHelmetEq()
+    testBuilder.withRoom().withHelmetEq()
     const playerBuilder = await testBuilder.withPlayer()
     const player = playerBuilder.player
     const itemCount = player.sessionMob.inventory.items.length
