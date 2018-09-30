@@ -1,7 +1,8 @@
 import CheckedRequest from "../../check/checkedRequest"
 import Response from "../../request/response"
-import ResponseBuilder from "../../request/responseBuilder"
 import spellCollection from "../../spell/spellCollection"
+import { format } from "../../support/string"
+import { Messages } from "./constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
@@ -10,5 +11,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
 
   spellDefinition.apply(check.result)
 
-  return request.respondWith().success(`You utter the words, '${spellDefinition.spellType}'.`)
+  return checkedRequest.respondWith().success(format(Messages.Cast.Success, spellDefinition.spellType))
 }

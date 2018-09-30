@@ -1,14 +1,12 @@
 import CheckedRequest from "../../check/checkedRequest"
 import { CheckType } from "../../check/checkType"
 import Response from "../../request/response"
-import ResponseBuilder from "../../request/responseBuilder"
 import { format } from "../../support/string"
-import { MESSAGE_REMOVE_SUCCESS } from "../precondition/constants"
+import { Messages } from "../precondition/constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
-  const request = checkedRequest.request
   const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-  request.player.getInventory().addItem(item)
+  checkedRequest.request.mob.inventory.addItem(item)
 
-  return request.respondWith().info(format(MESSAGE_REMOVE_SUCCESS, item.name))
+  return checkedRequest.respondWith().info(format(Messages.Remove.Success, item.name))
 }

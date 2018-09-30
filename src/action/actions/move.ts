@@ -8,9 +8,10 @@ export default async function(checkedRequest: CheckedRequest,
                               direction: Direction,
                               service: Service): Promise<Response> {
   const request = checkedRequest.request
+
   request.player.sessionMob.vitals.mv -= request.getRoom().getMovementCost()
   await service.moveMob(request.player.sessionMob, direction)
   const lookAtRoom = await look(request, service)
 
-  return request.respondWith().info(lookAtRoom.message)
+  return checkedRequest.respondWith().info(lookAtRoom.message)
 }

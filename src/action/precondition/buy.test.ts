@@ -8,7 +8,7 @@ import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import buy from "./buy"
-import { MESSAGE_ERROR_CANNOT_AFFORD, MESSAGE_ERROR_NO_ITEM, Messages } from "./constants"
+import { MESSAGE_ERROR_NO_ITEM, Messages } from "./constants"
 
 describe("buy actions precondition", () => {
   it("should fail if a merchant is not in the room", async () => {
@@ -22,7 +22,7 @@ describe("buy actions precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(Messages.Buy.CannotAfford)
+    expect(check.result).toBe(Messages.All.Item.NoMerchant)
   })
 
   it("should fail if the merchant doesn't have the item requested", async () => {
@@ -65,7 +65,7 @@ describe("buy actions precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_ERROR_CANNOT_AFFORD)
+    expect(check.result).toBe(Messages.Buy.CannotAfford)
   })
 
   it("should succeed if all conditions are met", async () => {

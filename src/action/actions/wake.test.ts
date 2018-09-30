@@ -2,7 +2,7 @@ import { Disposition } from "../../mob/disposition"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import { MESSAGE_WAKE_SUCCESS } from "./constants"
+import { Messages } from "./constants"
 import { default as wake } from "./wake"
 
 describe("sleep actions actions", () => {
@@ -16,7 +16,7 @@ describe("sleep actions actions", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message).toBe(MESSAGE_WAKE_SUCCESS)
+    expect(response.message).toBe(Messages.Wake.Success)
     expect(testBuilder.player.sessionMob.disposition).toBe(Disposition.Standing)
   })
 })

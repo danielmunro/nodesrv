@@ -5,12 +5,17 @@ import ResponseAction from "../request/responseAction"
 import ResponseBuilder from "../request/responseBuilder"
 import Check from "./check"
 import { CheckType } from "./checkType"
+import { Mob } from "../mob/model/mob"
 
 export default class CheckedRequest {
+  public readonly mob: Mob
+
   constructor(
     public readonly request: Request,
     public readonly check: Check,
-  ) {}
+  ) {
+    this.mob = request.mob
+  }
 
   public getCheckTypeResult(checkType: CheckType) {
     return new Maybe(this.check.checkResults.find(r => r.checkType === checkType))

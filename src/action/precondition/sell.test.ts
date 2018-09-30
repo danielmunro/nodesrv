@@ -8,7 +8,6 @@ describe("sell actions actions precondition", () => {
   it("should fail if a merchant is not in the room", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    testBuilder.withRoom()
     await testBuilder.withPlayer()
     const request = testBuilder.createRequest(RequestType.Sell, "sell foo")
 
@@ -33,7 +32,6 @@ describe("sell actions actions precondition", () => {
   it("should fail if the seller does not have the item",  async () => {
     // setup
     const testBuilder = new TestBuilder()
-    testBuilder.withRoom()
 
     // given
     await testBuilder.withPlayer()

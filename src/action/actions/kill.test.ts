@@ -6,7 +6,7 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import { ATTACK_MOB } from "./constants"
+import { Messages } from "./constants"
 import kill from "./kill"
 
 function useKillRequest(player: Player, target, input: string) {
@@ -27,6 +27,6 @@ describe("kill", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message).toBe(ATTACK_MOB)
+    expect(response.message).toBe(Messages.Kill.Success)
   })
 })

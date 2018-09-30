@@ -1,6 +1,8 @@
+import CheckedRequest from "../../check/checkedRequest"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
+import sellPrecondition from "../precondition/sell"
 import sell from "./sell"
 
 describe("sell actions actions", () => {
@@ -16,13 +18,11 @@ describe("sell actions actions", () => {
     const initialWorth = mob.gold
 
     // and
-    const checkedRequest = testBuilder.createOkCheckedRequest(
-      RequestType.Sell,
-      "sell cap",
-      item)
+    const request = testBuilder.createRequest(RequestType.Sell, "sell cap")
+    const check = await sellPrecondition(request)
 
     // when
-    const response = await sell(checkedRequest)
+    const response = await sell(new CheckedRequest(request, check))
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)

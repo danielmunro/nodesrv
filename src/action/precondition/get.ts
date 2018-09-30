@@ -5,7 +5,7 @@ import Maybe from "../../functional/maybe"
 import ItemTable from "../../item/itemTable"
 import { Request } from "../../request/request"
 import Service from "../../service/service"
-import { MESSAGE_FAIL_ITEM_NOT_IN_ROOM, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
+import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
 
 export default function(request: Request, service: Service): Promise<Check> {
   return new Maybe(request.component)
@@ -15,12 +15,12 @@ export default function(request: Request, service: Service): Promise<Check> {
 }
 
 function getFromInventory(request: Request, itemTable: ItemTable) {
-  const container = itemTable.findItemByInventory(request.mob.inventory, request.component)
+  const container = itemTable.findItemByInventory(request.getRoom().inventory, request.component)
 
   return new CheckBuilder()
-    .require(container, Messages.Get.Fail, CheckType.ContainerPresent)
+    .require(container, Messages.All.Item.NotFound, CheckType.ContainerPresent)
     .require(() => itemTable.findItemByInventory(container.containerInventory, request.subject),
-        Messages.Get.Fail,
+        Messages.All.Item.NotFound,
         CheckType.ItemPresent)
     .create()
 }
@@ -28,7 +28,7 @@ function getFromInventory(request: Request, itemTable: ItemTable) {
 function getFromRoom(request: Request, itemTable: ItemTable) {
   const item = itemTable.findItemByInventory(request.getRoom().inventory, request.subject)
   return new CheckBuilder()
-    .require(item, MESSAGE_FAIL_ITEM_NOT_IN_ROOM, CheckType.ItemPresent)
+    .require(item, Messages.All.Item.NotFound, CheckType.ItemPresent)
     .require(() => item.isTransferable, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)
     .create(item)
 }

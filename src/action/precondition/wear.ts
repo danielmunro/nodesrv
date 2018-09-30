@@ -8,6 +8,6 @@ export default function(request: Request): Promise<Check> {
     .require(
       request.mob.inventory.findItemByName(request.subject),
       Messages.All.Item.NotOwned,
-      CheckType.ItemPresent)
+      CheckType.HasItem)
     .create()
 }

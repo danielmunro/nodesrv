@@ -1,7 +1,7 @@
 import { CheckStatus } from "../../check/checkStatus"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { MESSAGE_FAIL_ITEM_NOT_IN_ROOM, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE } from "./constants"
+import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
 import drop from "./get"
 import get from "./get"
 
@@ -16,7 +16,7 @@ describe("get actions precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_ITEM_NOT_IN_ROOM)
+    expect(check.result).toBe(Messages.All.Item.NotFound)
   })
 
   it("should be ok if the item is in the room's inventory", async () => {

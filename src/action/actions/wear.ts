@@ -1,19 +1,31 @@
 import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
+import { Equipped } from "../../item/model/equipped"
+import { Inventory } from "../../item/model/inventory"
+import { Item } from "../../item/model/item"
 import Response from "../../request/response"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
-  const playerEquipped = checkedRequest.request.mob.equipped
-  const item = checkedRequest.check.result
-  const currentlyEquippedItem = playerEquipped.inventory.find((eq) => eq.equipment === item.equipment)
+  const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+  const mob = checkedRequest.mob
 
+  return checkedRequest.respondWith().success(
+    wear(
+      mob.inventory,
+      mob.equipped,
+      checkedRequest.getCheckTypeResult(CheckType.HasItem),
+      mob.equipped.byPosition(item.equipment)))
+}
+
+function wear(inventory: Inventory, equipped: Equipped, item: Item, currentlyEquipped?: Item): string {
   let removal = ""
-  if (currentlyEquippedItem) {
-    const playerInv = checkedRequest.request.mob.inventory
-    playerInv.getItemFrom(currentlyEquippedItem, playerEquipped.inventory)
-    removal = ` remove ${currentlyEquippedItem.name} and`
+
+  if (currentlyEquipped) {
+    inventory.addItem(currentlyEquipped)
+    removal = ` remove ${currentlyEquipped.name} and`
   }
 
-  playerEquipped.inventory.addItem(item)
+  equipped.inventory.addItem(item)
 
-  return checkedRequest.request.respondWith().success(`You${removal} wear ${item.name}.`)
+  return `You${removal} wear ${item.name}.`
 }

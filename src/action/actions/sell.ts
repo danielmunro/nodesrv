@@ -1,16 +1,18 @@
 import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
 import Response from "../../request/response"
+import { format } from "../../support/string"
 import { ActionOutcome } from "../actionOutcome"
+import { Messages } from "./constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
-  const request = checkedRequest.request
-  const item = checkedRequest.check.result
-  const mob = request.player.sessionMob
+  const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+  const mob = checkedRequest.request.mob
 
   mob.inventory.removeItem(item)
   mob.gold += item.value
 
-  return request
+  return checkedRequest
     .respondWith(ActionOutcome.ItemDestroyed, item)
-    .success(`You sell ${item.name} for ${item.value} gold`)
+    .success(format(Messages.Sell.Success, item.name, item.value))
 }

@@ -8,6 +8,7 @@ import { Messages } from "./constants"
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   const item = copy(checkedRequest.check.result)
+
   request.mob.inventory.addItem(item)
   request.mob.gold -= item.value
 

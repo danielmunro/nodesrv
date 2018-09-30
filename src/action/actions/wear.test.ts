@@ -3,11 +3,10 @@ import CheckedRequest from "../../check/checkedRequest"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Item } from "../../item/model/item"
-import { Player } from "../../player/model/player"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
-import { getTestPlayer } from "../../test/player"
+import TestBuilder from "../../test/testBuilder"
+import wearPrecondition from "../precondition/wear"
 import wear from "./wear"
 
 function getHatOfMight(): Item {
@@ -18,21 +17,18 @@ function getPirateHat(): Item {
   return newEquipment("a pirate hat", "a well-worn pirate hat", Equipment.Head)
 }
 
-async function useWearRequest(input: string, player: Player, item: Item) {
-  return wear(new CheckedRequest(
-    new Request(player, RequestType.Wear, input),
-    await Check.ok(item)))
-}
-
 describe("wear", () => {
   it("can equip an item", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const player = getTestPlayer()
-    const item = getHatOfMight()
-    player.sessionMob.inventory.addItem(item)
+    await testBuilder.withPlayer(p => p.sessionMob.inventory.addItem(getHatOfMight()))
 
     // when
-    const response = await useWearRequest("wear hat", player, item)
+    const request = testBuilder.createRequest(RequestType.Wear, "wear hat")
+    const check = await wearPrecondition(request)
+    const response = await wear(new CheckedRequest(request, check))
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
@@ -40,17 +36,19 @@ describe("wear", () => {
   })
 
   it("will remove an equipped item and wear a new item", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const player = getTestPlayer()
-    const inventory = player.sessionMob.inventory
-    const item1 = getPirateHat()
-    const item2 = getHatOfMight()
-    inventory.addItem(item1)
-    inventory.addItem(item2)
-    await useWearRequest("wear pirate", player, item1)
+    await testBuilder.withPlayer(p => {
+      p.sessionMob.inventory.addItem(getHatOfMight())
+      p.sessionMob.equipped.inventory.addItem(getPirateHat())
+    })
 
     // when
-    const response = await useWearRequest("wear might", player, item2)
+    const request = testBuilder.createRequest(RequestType.Wear, "wear hat")
+    const check = await wearPrecondition(request)
+    const response = await wear(new CheckedRequest(request, check))
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)

@@ -2,7 +2,7 @@ import CheckedRequest from "../../check/checkedRequest"
 import { CheckType } from "../../check/checkType"
 import Response from "../../request/response"
 import { format } from "../../support/string"
-import { MESSAGE_SUCCESS_PUT } from "./constants"
+import { Messages } from "./constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
@@ -10,5 +10,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
 
   container.containerInventory.addItem(item)
 
-  return checkedRequest.respondWith().success(format(MESSAGE_SUCCESS_PUT, item.name, container.name))
+  return checkedRequest.respondWith().success(format(Messages.Put.Success, item.name, container.name))
 }

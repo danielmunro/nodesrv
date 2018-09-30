@@ -14,30 +14,44 @@ export const MESSAGE_SUCCESS_MV = "Your movement increases!"
 
 export const MAX_TRAINABLE_STATS = 4
 
-export const MESSAGE_SLEEP_SUCCESS = "You lay down and go to sleep."
-
-export const MESSAGE_WAKE_SUCCESS = "You wake and stand up."
-
 export const FLEE_MOVEMENT_COST_MULTIPLIER = 3
-
-export const ATTACK_MOB = "You scream and attacks!"
-
-export const MESSAGE_SUCCESS_SACRIFICE = "You sacrifice {0} to your diety, and are rewarded with {1} silver."
-
-export const MESSAGE_SUCCESS_PUT = "You put {0} in {1}."
 
 export const Messages = {
   Buy: {
-    Success: `You purchase {0} for {0} gold`,
+    Success: "You purchase {0} for {0} gold",
+  },
+  Cast: {
+    Success: "You utter the words, '{0}'.",
+  },
+  Drop: {
+    Success: "You drop {0}.",
   },
   Flee: {
-    Success: `You flee to the {0}!`,
+    Success: "You flee to the {0}!",
   },
   Get: {
-    SuccessFromContainer: `You get {0} from {1}.`,
-    SuccessFromRoom: `You pick up {0}.`,
+    SuccessFromContainer: "You get {0} from {1}.",
+    SuccessFromRoom: "You pick up {0}.",
+  },
+  Kill: {
+    Success: "You scream and attack!",
+  },
+  Put: {
+    Success: "You put {0} in {1}.",
+  },
+  Sacrifice: {
+    Success: "You sacrifice {0} to your deity, and are rewarded with {1} gold.",
+  },
+  Sell: {
+    Success: "You sell {0} for {1} gold",
+  },
+  Sleep: {
+    Success: "You lay down and go to sleep.",
   },
   Train: {
-    Info: `You can train: {0}hp mana mv`,
+    Info: "You can train: {0}hp mana mv",
+  },
+  Wake: {
+    Success: "You wake and stand up.",
   },
 }

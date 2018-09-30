@@ -1,6 +1,5 @@
 import { Request } from "../../request/request"
 import Response from "../../request/response"
-import ResponseBuilder from "../../request/responseBuilder"
 import { gossip } from "../social"
 
 export default function(request: Request): Promise<Response> {

@@ -60,16 +60,16 @@ export const trainMap = [
 ]
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
-  const request = checkedRequest.request
+  const mob = checkedRequest.mob
   const responseBuilder = checkedRequest.respondWith()
   const subject = checkedRequest.getCheckTypeResult(CheckType.ValidSubject)
 
   if (!subject) {
-    const stats = request.mob.playerMob.trainedAttributes.stats
+    const stats = mob.playerMob.trainedAttributes.stats
     return responseBuilder.info(
       format(Messages.Train.Info, allStats.reduce((previous: string, current: Stat) =>
         previous + (canTrain(stats[current]) ? `${current} ` : ""), "")))
   }
 
-  return subject.method(request.mob, responseBuilder, subject.message, subject.train)
+  return subject.method(mob, responseBuilder, subject.message, subject.train)
 }

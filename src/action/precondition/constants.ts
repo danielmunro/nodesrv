@@ -10,7 +10,6 @@ export const MESSAGE_CAST_FAIL = "You lose your concentration."
 export const MESSAGE_FAIL_NOT_ENOUGH_MANA = "You don't have enough mana."
 
 // general -- items
-export const MESSAGE_FAIL_ITEM_NOT_IN_ROOM = "You don't see that anywhere."
 export const MESSAGE_FAIL_CONTAINER_NOT_FOUND = "That container isn't here."
 
 // eating
@@ -36,7 +35,6 @@ export const MESSAGE_OUT_OF_MOVEMENT = "You are too tired."
 
 // remove
 export const MESSAGE_REMOVE_FAIL = "You aren't wearing that."
-export const MESSAGE_REMOVE_SUCCESS = `You remove {0} and put it in your inventory.`
 
 // sleeping
 export const MESSAGE_FAIL_DEAD = "You are dead."
@@ -51,14 +49,15 @@ export const Messages = {
   All: {
     Item: {
       NoMerchant: "You don't see a merchant anywhere.",
+      NotFound: "You don't see that anywhere.",
       NotOwned: "You don't have that.",
     },
   },
   Buy: {
-    CannotAfford: "You don't see a merchant anywhere.",
+    CannotAfford: "You can't afford it.",
   },
-  Get: {
-    Fail: "You don't see that anywhere.",
+  Remove: {
+    Success: "You remove {0} and put it in your inventory.",
   },
   Sleep: {
     AlreadySleeping: "You are already asleep.",
