@@ -67,4 +67,7 @@ export const Messages = {
     NoTrainer: "No trainer is here.",
     NotStanding: "You must be standing to train.",
   },
+  Wear: {
+    NotStanding: "You need to be standing to wear equipment.",
+  },
 }

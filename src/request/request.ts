@@ -1,6 +1,9 @@
 import { ActionOutcome } from "../action/actionOutcome"
+import { MESSAGE_FAIL_DEAD } from "../action/precondition/constants"
+import CheckBuilder from "../check/checkBuilder"
 import { Client } from "../client/client"
 import { Item } from "../item/model/item"
+import { Disposition } from "../mob/disposition"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
@@ -77,5 +80,11 @@ export class Request {
     actionOutcome: ActionOutcome = ActionOutcome.None,
     thing: any = null): ResponseBuilder {
     return new ResponseBuilder(this, new ResponseAction(actionOutcome, thing))
+  }
+
+  public check(): CheckBuilder {
+    return new CheckBuilder()
+      .forPlayer(this.player)
+      .not().requireDisposition(Disposition.Dead, MESSAGE_FAIL_DEAD)
   }
 }

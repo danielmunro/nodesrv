@@ -10,3 +10,10 @@ export enum Disposition {
 export function onlyLiving(mob: Mob): boolean {
   return mob.disposition !== Disposition.Dead
 }
+
+export const allDispositions = [
+  Disposition.Standing,
+  Disposition.Sitting,
+  Disposition.Sleeping,
+  Disposition.Dead,
+]
