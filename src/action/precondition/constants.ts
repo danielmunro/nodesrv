@@ -43,7 +43,6 @@ export const MESSAGE_REMOVE_SUCCESS = `You remove {0} and put it in your invento
 export const MESSAGE_FAIL_NO_MERCHANT = "You don't see a merchant anywhere."
 
 // sleeping
-export const MESSAGE_FAIL_ALREADY_ASLEEP = "You are already asleep."
 export const MESSAGE_FAIL_DEAD = "You are dead."
 
 // wake
@@ -55,19 +54,20 @@ export const MESSAGE_FAIL_CONTAINER_NOT_EMPTY = "That is not empty."
 export const Messages = {
   All: {
     Item: {
+      NoMerchant: "You don't see a merchant anywhere.",
       NotOwned: "You don't have that.",
     },
   },
   Get: {
     Fail: "You don't see that anywhere.",
   },
+  Sleep: {
+    AlreadySleeping: "You are already asleep.",
+  },
   Train: {
     CannotTrainMore: "You can't train that anymore.",
     LackingTrains: "You need more training sessions first.",
     NoTrainer: "No trainer is here.",
     NotStanding: "You must be standing to train.",
-  },
-  Wear: {
-    NotStanding: "You need to be standing to wear equipment.",
   },
 }

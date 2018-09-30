@@ -9,6 +9,7 @@ import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
+import { Messages } from "./constants"
 import RequestBuilder from "./requestBuilder"
 import { RequestType } from "./requestType"
 import ResponseAction from "./responseAction"
@@ -86,5 +87,9 @@ export class Request {
     return new CheckBuilder()
       .forPlayer(this.player)
       .not().requireDisposition(Disposition.Dead, MESSAGE_FAIL_DEAD)
+  }
+
+  public checkWithStandingDisposition(): CheckBuilder {
+    return this.check().requireDisposition(Disposition.Standing, Messages.NotStanding)
   }
 }

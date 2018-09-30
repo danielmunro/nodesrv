@@ -2,7 +2,7 @@ import { CheckStatus } from "../../check/checkStatus"
 import { Disposition } from "../../mob/disposition"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { MESSAGE_FAIL_ALREADY_ASLEEP, MESSAGE_FAIL_DEAD } from "./constants"
+import { MESSAGE_FAIL_DEAD, Messages } from "./constants"
 import sleep from "./sleep"
 
 describe("sleep actions precondition", () => {
@@ -16,7 +16,7 @@ describe("sleep actions precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_ALREADY_ASLEEP)
+    expect(check.result).toBe(Messages.Sleep.AlreadySleeping)
   })
 
   it("should not be able to sleep if dead", async () => {

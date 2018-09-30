@@ -1,5 +1,6 @@
 import { CheckStatus } from "../../check/checkStatus"
 import { Disposition } from "../../mob/disposition"
+import { Messages as RequestMessages } from "../../request/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { Messages } from "./constants"
@@ -58,7 +59,7 @@ describe("train action precondition", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(Messages.Train.NotStanding)
+    expect(check.result).toBe(RequestMessages.NotStanding)
   })
 
   it("should work if all preconditions are met", async () => {

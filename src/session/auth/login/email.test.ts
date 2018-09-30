@@ -44,7 +44,7 @@ describe("login email auth step", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.OK)
-  })
+  }, 10000)
 
   it("should ask for a password for an existing player", async () => {
     // given
