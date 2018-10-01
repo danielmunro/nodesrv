@@ -89,7 +89,6 @@ export default function getActionCollection(service: Service) {
     newSkillDefinition(service, RequestType.Bash, SkillType.Bash),
     newSkillDefinition(service, RequestType.Trip, SkillType.Trip),
     newSkillDefinition(service, RequestType.Berserk, SkillType.Berserk),
-    // newSkillDefinition(service, RequestType.Sneak, SkillType.Sneak),
     service.getNewDefinition(RequestType.Sneak, sneak, sneakPrecondition),
 
     // casting
