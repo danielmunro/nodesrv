@@ -25,4 +25,8 @@ export default class Check {
     public readonly checkResults: CheckResult[] = [],
     public readonly costs: Cost[] = [],
   ) {}
+
+  public isOk(): boolean {
+    return this.status === CheckStatus.Ok
+  }
 }

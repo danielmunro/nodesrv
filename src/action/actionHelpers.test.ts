@@ -1,4 +1,5 @@
 import { Item } from "../item/model/item"
+import { MAX_PRACTICE_LEVEL } from "../mob/constants"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { newSkill } from "../skill/factory"
@@ -59,13 +60,13 @@ describe("actions helpers", () => {
     // given
     const player = getTestPlayer()
     const mob = player.sessionMob
-    const skill = newSkill(SkillType.Sneak, 100)
+    const skill = newSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
     mob.skills.push(skill)
     const initialMv = mob.vitals.mv
     const initialDelay = player.delay
 
     // when
-    await doSkill(new Request(player, RequestType.Sneak), SkillType.Sneak)
+    await doSkill(new Request(player, RequestType.Berserk), SkillType.Berserk)
 
     // then
     expect(mob.vitals.mv).toBeLessThan(initialMv)
@@ -76,12 +77,12 @@ describe("actions helpers", () => {
     // given
     const player = getTestPlayer()
     const mob = player.sessionMob
-    const skill = newSkill(SkillType.Sneak, 100)
+    const skill = newSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
     mob.skills.push(skill)
     mob.vitals.mv = 0
 
     // when
-    const response = await doSkill(new Request(player, RequestType.Sneak), SkillType.Sneak)
+    const response = await doSkill(new Request(player, RequestType.Berserk), SkillType.Berserk)
 
     // then
     expect(response.message).toBe(Messages.All.NotEnoughMv)

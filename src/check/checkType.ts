@@ -7,5 +7,7 @@ export enum CheckType {
   AuthorizationLevel,
   ValidSubject,
   Disposition,
+  IsFighting,
+  HasSkill,
   Unspecified,
 }

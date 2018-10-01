@@ -1,23 +1,29 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
+import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
 import { Mob } from "../../mob/model/mob"
 import { getSizeModifier } from "../../mob/race/sizeModifier"
 import roll from "../../random/dice"
-import Attempt from "../attempt"
-import { Costs, Messages } from "../constants"
+import Response from "../../request/response"
+import { Messages } from "../constants"
 import { Skill } from "../model/skill"
-import Outcome from "../outcome"
-import { OutcomeType } from "../outcomeType"
 
 const SUCCESS_THRESHOLD = 50
 
-export default async function(attempt: Attempt): Promise<Outcome> {
-  if (calculateSneakRoll(attempt.mob, attempt.skill) > SUCCESS_THRESHOLD) {
-    attempt.mob.addAffect(newAffect(AffectType.Sneak, attempt.mob.level))
-    return new Outcome(attempt, OutcomeType.Success, Messages.Sneak.Success, Costs.Sneak.Delay)
+export default async function(checkedRequest: CheckedRequest): Promise<Response> {
+  const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+  const mob = checkedRequest.mob
+  const responseBuilder = checkedRequest.respondWith()
+  const r = calculateSneakRoll(mob, skill)
+
+  if (r < SUCCESS_THRESHOLD) {
+    return responseBuilder.fail(Messages.Sneak.Fail)
   }
 
-  return new Outcome(attempt, OutcomeType.Failure, Messages.Sneak.Fail, Costs.Sneak.Delay)
+  mob.addAffect(newAffect(AffectType.Sneak, mob.level))
+
+  return responseBuilder.success(Messages.Sneak.Success)
 }
 
 function calculateSneakRoll(mob: Mob, skill: Skill): number {

@@ -1,11 +1,11 @@
 import CheckedRequest from "../../check/checkedRequest"
 import { CheckType } from "../../check/checkType"
+import { Item } from "../../item/model/item"
+import { Mob } from "../../mob/model/mob"
 import Response from "../../request/response"
 import { format } from "../../support/string"
 import { ActionOutcome } from "../actionOutcome"
 import { Messages } from "./constants"
-import { Mob } from "../../mob/model/mob"
-import { Item } from "../../item/model/item"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)

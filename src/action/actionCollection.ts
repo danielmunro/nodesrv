@@ -3,6 +3,8 @@ import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
 import Service from "../service/service"
+import sneak from "../skill/actions/sneak"
+import { default as sneakPrecondition } from "../skill/preconditions/sneak"
 import { SkillType } from "../skill/skillType"
 import { doSkill } from "./actionHelpers"
 import affects from "./actions/affects"
@@ -82,12 +84,13 @@ export default function getActionCollection(service: Service) {
     // fighting
     service.getNewDefinition(RequestType.Kill, kill, killPrecondition),
     service.getNewDefinition(RequestType.Flee, flee, fleePrecondition),
-    newSkillDefinition(service, RequestType.Bash, SkillType.Bash),
-    newSkillDefinition(service, RequestType.Trip, SkillType.Trip),
 
     // skills
+    newSkillDefinition(service, RequestType.Bash, SkillType.Bash),
+    newSkillDefinition(service, RequestType.Trip, SkillType.Trip),
     newSkillDefinition(service, RequestType.Berserk, SkillType.Berserk),
-    newSkillDefinition(service, RequestType.Sneak, SkillType.Sneak),
+    // newSkillDefinition(service, RequestType.Sneak, SkillType.Sneak),
+    service.getNewDefinition(RequestType.Sneak, sneak, sneakPrecondition),
 
     // casting
     service.getNewDefinition(RequestType.Cast, cast, castPrecondition),

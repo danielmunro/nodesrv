@@ -1,34 +1,39 @@
-import { AffectType } from "../../affect/affectType"
+import CheckedRequest from "../../check/checkedRequest"
+import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { Mob } from "../../mob/model/mob"
-import { getMultipleOutcomes } from "../../test/repeater"
+import { RequestType } from "../../request/requestType"
+import TestBuilder from "../../test/testBuilder"
 import { newSkill } from "../factory"
+import sneakPrecondition from "../preconditions/sneak"
 import { SkillType } from "../skillType"
 import sneak from "./sneak"
 
 describe("sneak skill actions", () => {
   it("should be able to fail sneaking", async () => {
-    // given
-    const mob = new Mob()
-    const skill = newSkill(SkillType.Sneak)
+    // setup
+    const testBuilder = new TestBuilder()
+    await testBuilder.withPlayer(p => p.sessionMob.skills.push(newSkill(SkillType.Sneak)))
+    const request = testBuilder.createRequest(RequestType.Sneak)
+    const check = await sneakPrecondition(request)
 
     // when
-    const outcomes = await getMultipleOutcomes(mob, skill, sneak)
+    const responses = await doNTimes(10, async () => sneak(new CheckedRequest(request, check)))
 
     // then
-    expect(outcomes.some((outcome) => !outcome.wasSuccessful())).toBeTruthy()
+    expect(responses.some(response => !response.isSuccessful())).toBeTruthy()
   })
 
   it("should be able to succeed sneaking", async () => {
-    // given
-    const mob = new Mob()
-    const skill = newSkill(SkillType.Sneak, MAX_PRACTICE_LEVEL)
+    // setup
+    const testBuilder = new TestBuilder()
+    await testBuilder.withPlayer(p => p.sessionMob.skills.push(newSkill(SkillType.Sneak, MAX_PRACTICE_LEVEL)))
+    const request = testBuilder.createRequest(RequestType.Sneak)
+    const check = await sneakPrecondition(testBuilder.createRequest(RequestType.Sneak))
 
     // when
-    const outcomes = await getMultipleOutcomes(mob, skill, sneak)
+    const responses = await doNTimes(10, async () => sneak(new CheckedRequest(request, check)))
 
     // then
-    expect(outcomes.some((outcome) => outcome.wasSuccessful())).toBeTruthy()
-    expect(mob.getAffect(AffectType.Sneak)).toBeTruthy()
+    expect(responses.some(response => response.isSuccessful())).toBeTruthy()
   })
 })

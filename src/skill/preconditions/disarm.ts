@@ -1,4 +1,3 @@
-import { MESSAGE_FAIL_TOO_TIRED } from "../../action/precondition/constants"
 import { Equipment } from "../../item/equipment"
 import { getFights } from "../../mob/fight/fight"
 import { Mob } from "../../mob/model/mob"

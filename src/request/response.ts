@@ -9,4 +9,8 @@ export default class Response {
     readonly status: ResponseStatus,
     readonly message: string,
     readonly responseAction: ResponseAction = null) {}
+
+  public isSuccessful(): boolean {
+    return this.status === ResponseStatus.Success
+  }
 }

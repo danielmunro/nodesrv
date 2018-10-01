@@ -1,9 +1,12 @@
 import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_PLAYER } from "../action/constants"
 import Maybe from "../functional/maybe"
 import { Disposition } from "../mob/disposition"
+import { getFights } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
+import { Messages } from "../skill/preconditions/constants"
+import { SkillType } from "../skill/skillType"
 import Check from "./check"
 import CheckComponent from "./checkComponent"
 import { CheckType } from "./checkType"
@@ -76,9 +79,27 @@ export default class CheckBuilder {
     return this
   }
 
+  public requireSkill(skillType: SkillType) {
+    this.checks.push(this.newCheckComponent(
+      CheckType.HasSkill,
+      this.player.sessionMob.skills.find(s => s.skillType === skillType),
+      Messages.All.NoSkill))
+
+    return this
+  }
+
   public requireDisposition(disposition: Disposition, failMessage: string) {
     this.checks.push(
       this.newCheckComponent(CheckType.Disposition, this.player.sessionMob.disposition === disposition, failMessage))
+
+    return this
+  }
+
+  public requireFight(failMessage: string = Messages.All.NoTarget) {
+    this.checks.push(this.newCheckComponent(
+      CheckType.IsFighting,
+      getFights().find(f => f.isParticipant(this.player.sessionMob)),
+      failMessage))
 
     return this
   }
