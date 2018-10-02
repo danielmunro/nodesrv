@@ -8,16 +8,14 @@ import roll from "../../random/dice"
 import Response from "../../request/response"
 import { Messages } from "../constants"
 import { Skill } from "../model/skill"
-
-const SUCCESS_THRESHOLD = 50
+import { Thresholds } from "./constants"
 
 export default async function(checkedRequest: CheckedRequest): Promise<Response> {
   const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
   const mob = checkedRequest.mob
   const responseBuilder = checkedRequest.respondWith()
-  const r = calculateSneakRoll(mob, skill)
 
-  if (r < SUCCESS_THRESHOLD) {
+  if (calculateSneakRoll(mob, skill) < Thresholds.Sneak) {
     return responseBuilder.fail(Messages.Sneak.Fail)
   }
 

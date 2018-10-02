@@ -1,22 +1,21 @@
 import { AffectType } from "../../affect/affectType"
-import { Player } from "../../player/model/player"
-import Attempt from "../attempt"
-import Check from "../check"
-import { failCheck, successCheck } from "../checkFactory"
+import Check from "../../check/check"
+import Cost from "../../check/cost/cost"
+import { CostType } from "../../check/cost/costType"
+import { Request } from "../../request/request"
 import { Costs } from "../constants"
+import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 
-export default function(attempt: Attempt): Promise<Check> {
-  const mob = attempt.mob
-  if (mob.getAffect(AffectType.Berserk)) {
-    return failCheck(Messages.Berserk.FailAlreadyInvoked)
-  }
-  const cost = Math.max(mob.getCombinedAttributes().vitals.mv / 2, Costs.Berserk.Mv)
-  if (mob.vitals.mv > cost) {
-    return successCheck((player: Player) => {
-      mob.vitals.mv -= cost
-      player.delay += Costs.Berserk.Delay
-    })
-  }
-  return failCheck(Messages.All.NotEnoughMv)
+export default function(request: Request): Promise<Check> {
+  return request.checkWithStandingDisposition()
+    .requireSkill(SkillType.Berserk)
+    .not().requireAffect(AffectType.Berserk, Messages.Berserk.FailAlreadyInvoked)
+    .addCost(
+      new Cost(
+        CostType.Mv,
+        Math.max(request.mob.getCombinedAttributes().vitals.mv / 2, Costs.Berserk.Mv),
+        Messages.All.NotEnoughMv))
+    .addCost(new Cost(CostType.Delay, Costs.Berserk.Delay))
+    .create()
 }

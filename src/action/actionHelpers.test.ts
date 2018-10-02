@@ -55,36 +55,4 @@ describe("actions helpers", () => {
     expect(await handleRepeater(RequestType.Up, "up")).not.toBe(defaultHandler)
     expect(await handleRepeater(RequestType.Down, "down")).not.toBe(defaultHandler)
   })
-
-  it("should have the cost of a skill applied", async () => {
-    // given
-    const player = getTestPlayer()
-    const mob = player.sessionMob
-    const skill = newSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
-    mob.skills.push(skill)
-    const initialMv = mob.vitals.mv
-    const initialDelay = player.delay
-
-    // when
-    await doSkill(new Request(player, RequestType.Berserk), SkillType.Berserk)
-
-    // then
-    expect(mob.vitals.mv).toBeLessThan(initialMv)
-    expect(player.delay).toBeGreaterThan(initialDelay)
-  })
-
-  it("should fail", async () => {
-    // given
-    const player = getTestPlayer()
-    const mob = player.sessionMob
-    const skill = newSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
-    mob.skills.push(skill)
-    mob.vitals.mv = 0
-
-    // when
-    const response = await doSkill(new Request(player, RequestType.Berserk), SkillType.Berserk)
-
-    // then
-    expect(response.message).toBe(Messages.All.NotEnoughMv)
-  })
 })

@@ -1,4 +1,5 @@
 import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_PLAYER } from "../action/constants"
+import { AffectType } from "../affect/affectType"
 import Maybe from "../functional/maybe"
 import { Disposition } from "../mob/disposition"
 import { getFights } from "../mob/fight/fight"
@@ -84,6 +85,15 @@ export default class CheckBuilder {
       CheckType.HasSkill,
       this.player.sessionMob.skills.find(s => s.skillType === skillType),
       Messages.All.NoSkill))
+
+    return this
+  }
+
+  public requireAffect(affectType: AffectType, failMessage: string) {
+    this.checks.push(this.newCheckComponent(
+      CheckType.HasAffect,
+      this.player.sessionMob.getAffect(affectType),
+      failMessage))
 
     return this
   }

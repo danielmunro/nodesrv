@@ -1,20 +1,26 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
+import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
 import { Mob } from "../../mob/model/mob"
 import roll from "../../random/dice"
-import Attempt from "../attempt"
+import Response from "../../request/response"
 import { Costs, Messages } from "../constants"
 import { Skill } from "../model/skill"
-import Outcome from "../outcome"
 import { Thresholds } from "./constants"
 
-export default async function(attempt: Attempt): Promise<Outcome> {
-  if (calculateBerserkRoll(attempt.mob, attempt.skill) > Thresholds.Berserk) {
-    attempt.mob.addAffect(newAffect(AffectType.Berserk, attempt.mob.level / 10))
-    return attempt.success(Messages.Berserk.Success, Costs.Berserk.Delay)
+export default async function(checkedRequest: CheckedRequest): Promise<Response> {
+  const mob = checkedRequest.mob
+  const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+  const responseBuilder = checkedRequest.respondWith()
+
+  if (calculateBerserkRoll(mob, skill) < Thresholds.Berserk) {
+    return responseBuilder.fail(Messages.Berserk.Fail)
   }
 
-  return attempt.fail(Messages.Berserk.Fail, Costs.Berserk.Delay)
+  mob.addAffect(newAffect(AffectType.Berserk, mob.level / 10))
+
+  return responseBuilder.success(Messages.Berserk.Success)
 }
 
 function calculateBerserkRoll(mob: Mob, skill: Skill): number {

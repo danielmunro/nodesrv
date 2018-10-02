@@ -9,5 +9,6 @@ export enum CheckType {
   Disposition,
   IsFighting,
   HasSkill,
+  HasAffect,
   Unspecified,
 }

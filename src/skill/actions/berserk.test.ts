@@ -1,35 +1,47 @@
 import { AffectType } from "../../affect/affectType"
+import CheckedRequest from "../../check/checkedRequest"
+import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { Mob } from "../../mob/model/mob"
-import { getMultipleOutcomes } from "../../test/repeater"
-import { newSkill } from "../factory"
+import { RequestType } from "../../request/requestType"
+import TestBuilder from "../../test/testBuilder"
+import berserkPrecondition from "../preconditions/berserk"
 import { SkillType } from "../skillType"
 import berserk from "./berserk"
 
 describe("berserk skill actions", () => {
   it("should be able to fail berserking", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const mob = new Mob()
-    const skill = newSkill(SkillType.Berserk)
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withSkill(SkillType.Berserk)
 
     // when
-    const outcomes = await getMultipleOutcomes(mob, skill, berserk)
+    const request = testBuilder.createRequest(RequestType.Berserk)
+    const check = await berserkPrecondition(request)
+    const responses = await doNTimes(10, () => berserk(new CheckedRequest(request, check)))
 
     // then
-    expect(outcomes.some((outcome) => !outcome.wasSuccessful())).toBeTruthy()
-    expect(mob.getAffect(AffectType.Berserk)).toBeFalsy()
+    expect(responses.some(response => !response.isSuccessful())).toBeTruthy()
+    expect(playerBuilder.player.sessionMob.getAffect(AffectType.Berserk)).toBeFalsy()
   })
 
   it("should be able to succeed berserking", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const mob = new Mob()
-    const skill = newSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when
-    const outcomes = await getMultipleOutcomes(mob, skill, berserk)
+    const request = testBuilder.createRequest(RequestType.Berserk)
+    const check = await berserkPrecondition(request)
+    const responses = await doNTimes(10, () => berserk(new CheckedRequest(request, check)))
 
     // then
-    expect(outcomes.some((outcome) => outcome.wasSuccessful())).toBeTruthy()
-    expect(mob.getAffect(AffectType.Berserk)).toBeTruthy()
+    expect(responses.some(response => response.isSuccessful())).toBeTruthy()
+    expect(playerBuilder.player.sessionMob.getAffect(AffectType.Berserk)).toBeTruthy()
   })
 })

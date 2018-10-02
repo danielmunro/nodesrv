@@ -1,7 +1,10 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
-import { getTestMob } from "../../test/mob"
+import { CheckStatus } from "../../check/checkStatus"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
+import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
+import TestBuilder from "../../test/testBuilder"
 import { CheckResult } from "../checkResult"
 import { Costs } from "../constants"
 import { newSelfTargetAttempt, newSkill } from "../factory"
@@ -11,42 +14,49 @@ import { Messages } from "./constants"
 
 describe("berserk skill precondition", () => {
   it("should not allow berserking when preconditions fail", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const mob = getTestMob()
-    mob.vitals.mv = 0
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.vitals.mv = 0)
+    playerBuilder.withSkill(SkillType.Berserk)
 
     // when
-    const check = await berserk(newSelfTargetAttempt(mob, newSkill(SkillType.Berserk)))
+    const check = await berserk(testBuilder.createRequest(RequestType.Berserk))
 
     // then
-    expect(check.checkResult).toBe(CheckResult.Unable)
-    expect(check.message).toBe(Messages.All.NotEnoughMv)
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(Messages.All.NotEnoughMv)
   })
 
   it("should not allow berserking if already berserked", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const mob = getTestMob()
-    mob.addAffect(newAffect(AffectType.Berserk, 1))
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.addAffect(newAffect(AffectType.Berserk)))
+    playerBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when
-    const check = await berserk(newSelfTargetAttempt(mob, newSkill(SkillType.Berserk)))
+    const check = await berserk(testBuilder.createRequest(RequestType.Berserk))
 
     // then
-    expect(check.checkResult).toBe(CheckResult.Unable)
-    expect(check.message).toBe(Messages.Berserk.FailAlreadyInvoked)
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(Messages.Berserk.FailAlreadyInvoked)
   })
 
-  it("should be able to apply the cost of berserking", async () => {
+  it("should be able to get a success check if conditions met", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const player = getTestPlayer()
-    const mob = player.sessionMob
-    const check = await berserk(newSelfTargetAttempt(mob, newSkill(SkillType.Berserk)))
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when
-    check.cost(player)
+    const check = await berserk(testBuilder.createRequest(RequestType.Berserk))
 
     // then
-    expect(player.delay).toBe(Costs.Berserk.Delay)
-    expect(mob.vitals.mv).toBeLessThan(mob.getCombinedAttributes().vitals.mv)
+    expect(check.status).toBe(CheckStatus.Ok)
   })
 })
