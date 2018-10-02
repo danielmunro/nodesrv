@@ -1,6 +1,9 @@
+import { addFight, Fight, reset } from "../../mob/fight/fight"
 import { Trigger } from "../../mob/trigger"
+import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
+import TestBuilder from "../../test/testBuilder"
 import Attempt from "../attempt"
 import AttemptContext from "../attemptContext"
 import { CheckResult } from "../checkResult"
@@ -11,38 +14,45 @@ import { Messages } from "./constants"
 import trip from "./trip"
 
 describe("trip skill precondition", () => {
+  beforeEach(() => reset())
+
   it("should not work if the mob is out of movement", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.vitals.mv = 0)
+    addFight(new Fight(
+      playerBuilder.player.sessionMob,
+      testBuilder.withMob().mob,
+      testBuilder.room))
+
     // given
-    const player = getTestPlayer()
-    const target = getTestMob()
-    player.sessionMob.vitals.mv = 0
+    playerBuilder.withSkill(SkillType.Trip)
 
     // when
-    const check = await trip(
-      new Attempt(player.sessionMob, newSkill(SkillType.Trip), new AttemptContext(Trigger.Input, target)))
+    const check = await trip(testBuilder.createRequest(RequestType.Trip))
 
     // then
-    expect(check.checkResult).toBe(CheckResult.Unable)
-    expect(check.message).toBe(Messages.All.NotEnoughMv)
+    expect(check.isOk()).toBeFalsy()
+    expect(check.result).toBe(Messages.All.NotEnoughMv)
   })
 
-  it("should apply costs", async () => {
+  it("success sanity check", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    addFight(new Fight(
+      playerBuilder.player.sessionMob,
+      testBuilder.withMob().mob,
+      testBuilder.room))
+
     // given
-    const player = getTestPlayer()
-    const target = getTestMob()
+    playerBuilder.withSkill(SkillType.Trip)
 
     // when
-    const check = await trip(
-      new Attempt(player.sessionMob, newSkill(SkillType.Trip), new AttemptContext(Trigger.Input, target)))
+    const check = await trip(testBuilder.createRequest(RequestType.Trip))
 
     // then
-    expect(check.checkResult).toBe(CheckResult.Able)
-
-    // when
-    check.cost(player)
-
-    // then
-    expect(player.sessionMob.vitals.mv).toBe(player.sessionMob.getCombinedAttributes().vitals.mv - Costs.Trip.Mv)
-    expect(player.delay).toBe(Costs.Trip.Delay)
+    expect(check.isOk()).toBeTruthy()
+    expect(check.result).toBeTruthy()
   })
 })

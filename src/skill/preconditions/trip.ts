@@ -1,17 +1,16 @@
-import { Player } from "../../player/model/player"
-import Attempt from "../attempt"
-import Check from "../check"
-import { failCheck, successCheck } from "../checkFactory"
+import Check from "../../check/check"
+import Cost from "../../check/cost/cost"
+import { CostType } from "../../check/cost/costType"
+import { Request } from "../../request/request"
 import { Costs } from "../constants"
+import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 
-export default function(attempt: Attempt): Promise<Check> {
-  const mob = attempt.mob
-  if (mob.vitals.mv > Costs.Trip.Mv) {
-    return successCheck((player: Player) => {
-      mob.vitals.mv -= Costs.Trip.Mv
-      player.delay += Costs.Trip.Delay
-    })
-  }
-  return failCheck(Messages.All.NotEnoughMv)
+export default function(request: Request): Promise<Check> {
+  return request.checkWithStandingDisposition()
+    .requireSkill(SkillType.Trip)
+    .requireFight()
+    .addCost(new Cost(CostType.Mv, Costs.Trip.Mv, Messages.All.NotEnoughMv))
+    .addCost(new Cost(CostType.Delay, Costs.Trip.Delay))
+    .create()
 }

@@ -1,24 +1,30 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
+import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
 import { Mob } from "../../mob/model/mob"
 import { getSizeModifier } from "../../mob/race/sizeModifier"
 import roll from "../../random/dice"
-import Attempt from "../attempt"
+import Response from "../../request/response"
+import { format } from "../../support/string"
 import { Costs } from "../constants"
 import { Skill } from "../model/skill"
-import Outcome from "../outcome"
-import { OutcomeType } from "../outcomeType"
 
-export default async function(attempt: Attempt): Promise<Outcome> {
-  const target = attempt.getSubjectAsMob()
-  if (calculateTripRoll(attempt.mob, attempt.skill) > calculateDefenseRoll(target)) {
-    const amount = attempt.skill.level / 10
-    target.addAffect(newAffect(AffectType.Dazed, amount))
-    target.vitals.hp -= amount
-    return new Outcome(attempt, OutcomeType.Success, `You tripped ${target}!`, Costs.Trip.Delay)
+export default async function(checkedRequest: CheckedRequest): Promise<Response> {
+  const mob = checkedRequest.mob
+  const target = checkedRequest.getCheckTypeResult(CheckType.IsFighting)
+  const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+  const responseBuilder = checkedRequest.respondWith()
+
+  if (calculateTripRoll(mob, skill) < calculateDefenseRoll(target)) {
+    return responseBuilder.fail(format(`You failed to trip {0}.`, Costs.Trip.Delay))
   }
 
-  return new Outcome(attempt, OutcomeType.Failure, `You failed to trip ${target}.`, Costs.Trip.Delay)
+  const amount = skill.level / 10
+  target.addAffect(newAffect(AffectType.Dazed, amount))
+  target.vitals.hp -= amount
+
+  return responseBuilder.success(format(`You tripped {0}!`, Costs.Trip.Delay))
 }
 
 function calculateDefenseRoll(mob: Mob): number {

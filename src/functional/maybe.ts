@@ -36,6 +36,10 @@ export default class Maybe<T> {
   }
 
   public get() {
+    if (this.result === undefined) {
+      this.do(() => this.thing)
+    }
+
     return this.result
   }
 }

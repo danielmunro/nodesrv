@@ -108,7 +108,10 @@ export default class CheckBuilder {
   public requireFight(failMessage: string = Messages.All.NoTarget) {
     this.checks.push(this.newCheckComponent(
       CheckType.IsFighting,
-      getFights().find(f => f.isParticipant(this.player.sessionMob)),
+      new Maybe(getFights().find(f => f.isParticipant(this.player.sessionMob)))
+        .do(f => f.getOpponentFor(this.player.sessionMob))
+        .or(() => false)
+        .get(),
       failMessage))
 
     return this
