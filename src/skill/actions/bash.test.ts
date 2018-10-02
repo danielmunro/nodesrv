@@ -1,76 +1,42 @@
-import { addFight, Fight, reset } from "../../mob/fight/fight"
-import { Mob } from "../../mob/model/mob"
-import { Trigger } from "../../mob/trigger"
-import { getTestMob } from "../../test/mob"
-import Attempt from "../attempt"
-import AttemptContext from "../attemptContext"
-import { Messages } from "../constants"
-import { newSkill } from "../factory"
+import CheckedRequest from "../../check/checkedRequest"
+import doNTimes from "../../functional/times"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
+import { RequestType } from "../../request/requestType"
+import TestBuilder from "../../test/testBuilder"
+import bashPrecondition from "../preconditions/bash"
 import { SkillType } from "../skillType"
 import bash from "./bash"
 
-const RETRY_COUNT = 10
-
-function createBashRequest(mob: Mob, target: Mob): Attempt {
-  return new Attempt(
-    mob,
-    mob.skills.find((s) => s.skillType === SkillType.Bash),
-    new AttemptContext(Trigger.Input, target))
-}
-
-function bashRepeater(mob: Mob, target: Mob) {
-  return () => bash(createBashRequest(mob, target))
-}
-
-function times(count: number, callback) {
-  return Array.from(Array(10).keys()).map(() => callback())
-}
-
-function addNewTestFight(mob: Mob): Fight {
-  const fight = new Fight(mob, getTestMob(), mob.room)
-  addFight(fight)
-
-  return fight
-}
-
-beforeEach(() => reset())
-
 describe("bash", () => {
-  it("should not work if a mob does not have the skill", async () => {
-    // setup
-    const mob = getTestMob()
-    const fight = addNewTestFight(mob)
-
-    // when
-    const outcome = await bash(createBashRequest(mob, fight.target))
-
-    // then
-    expect(outcome.getMessage()).toEqual(Messages.Bash.NoSkill)
-  })
-
   it("should be able to trigger a failed bash", async () => {
     // setup
-    const mob = getTestMob()
-    mob.skills.push(newSkill(SkillType.Bash))
-    const fight = addNewTestFight(mob)
+    const testBuilder = new TestBuilder()
+    const player = await testBuilder.withPlayer()
+    player.withSkill(SkillType.Bash)
+    testBuilder.fight()
+    const request = testBuilder.createRequest(RequestType.Bash)
+    const check = await bashPrecondition(request)
 
     // when
-    const outcomes = await Promise.all(times(RETRY_COUNT, bashRepeater(mob, fight.target)))
+    const responses = await doNTimes(10, () => bash(new CheckedRequest(request, check)))
 
     // then
-    expect(outcomes.some((result) => result.message === Messages.Bash.Fail)).toBeTruthy()
+    expect(responses.some(r => !r.isSuccessful())).toBeTruthy()
   })
 
   it("should be able to trigger a successful bash", async () => {
     // setup
-    const mob = getTestMob()
-    mob.skills.push(newSkill(SkillType.Bash, 100))
-    const fight = addNewTestFight(mob)
+    const testBuilder = new TestBuilder()
+    const player = await testBuilder.withPlayer()
+    player.withSkill(SkillType.Bash, MAX_PRACTICE_LEVEL)
+    testBuilder.fight()
+    const request = testBuilder.createRequest(RequestType.Bash)
+    const check = await bashPrecondition(request)
 
     // when
-    const outcomes = await Promise.all(times(RETRY_COUNT, bashRepeater(mob, fight.target)))
+    const responses = await doNTimes(10, () => bash(new CheckedRequest(request, check)))
 
     // then
-    expect(outcomes.some((result) => result.message.includes("You slam into"))).toBeTruthy()
+    expect(responses.some(r => r.isSuccessful())).toBeTruthy()
   })
 })

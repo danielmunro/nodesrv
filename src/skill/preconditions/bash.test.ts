@@ -1,75 +1,60 @@
-import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { Trigger } from "../../mob/trigger"
-import { getTestMob } from "../../test/mob"
-import { getTestPlayer } from "../../test/player"
-import Attempt from "../attempt"
-import AttemptContext from "../attemptContext"
-import { CheckResult } from "../checkResult"
-import { Costs } from "../constants"
-import { newSkill } from "../factory"
+import { RequestType } from "../../request/requestType"
+import TestBuilder from "../../test/testBuilder"
 import { SkillType } from "../skillType"
 import bash from "./bash"
 import { Messages } from "./constants"
 
 describe("bash skill precondition", () => {
   it("should not allow bashing when too tired", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const mob = getTestMob()
-    const target = getTestMob()
-    mob.vitals.mv = 0
+    const player = await testBuilder.withPlayer(p => p.sessionMob.vitals.mv = 0)
+    player.withSkill(SkillType.Bash)
+
+    // and
+    testBuilder.fight()
 
     // when
-    const check = await bash(
-      new Attempt(mob, newSkill(SkillType.Bash, MAX_PRACTICE_LEVEL), new AttemptContext(Trigger.Input, target)))
+    const check = await bash(testBuilder.createRequest(RequestType.Bash))
 
     // then
-    expect(check.checkResult).toBe(CheckResult.Unable)
-    expect(check.message).toBe(Messages.All.NotEnoughMv)
+    expect(check.isOk()).toBeFalsy()
+    expect(check.result).toBe(Messages.All.NotEnoughMv)
   })
 
-  it("should not allow bashing when a target is not provided", async () => {
+  it("should not allow bashing when not fighting", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const mob = getTestMob()
+    const player = await testBuilder.withPlayer()
+    player.withSkill(SkillType.Bash)
 
     // when
-    const check = await bash(
-      new Attempt(mob, newSkill(SkillType.Bash, MAX_PRACTICE_LEVEL), new AttemptContext(Trigger.Input, mob)))
+    const check = await bash(testBuilder.createRequest(RequestType.Bash))
 
     // then
-    expect(check.checkResult).toBe(CheckResult.Unable)
-    expect(check.message).toBe(Messages.All.NoTarget)
+    expect(check.isOk()).toBeFalsy()
+    expect(check.result).toBe(Messages.All.NoTarget)
   })
 
   it("should pass the check if all preconditions pass", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const mob = getTestMob()
-    const target = getTestMob()
+    const player = await testBuilder.withPlayer()
+    player.withSkill(SkillType.Bash)
+
+    // and
+    testBuilder.fight()
 
     // when
-    const check = await bash(
-      new Attempt(mob, newSkill(SkillType.Bash, MAX_PRACTICE_LEVEL), new AttemptContext(Trigger.Input, target)))
+    const check = await bash(testBuilder.createRequest(RequestType.Bash))
 
     // then
-    expect(check.checkResult).toBe(CheckResult.Able)
-  })
-
-  it("should be able to apply check costs", async () => {
-    // given
-    const player = getTestPlayer()
-    const target = getTestMob()
-    const check = await bash(
-      new Attempt(
-        player.sessionMob,
-        newSkill(SkillType.Bash, MAX_PRACTICE_LEVEL),
-        new AttemptContext(Trigger.Input, target)))
-    const startingMv = player.sessionMob.vitals.mv
-    const startingDelay = player.delay
-
-    // when
-    check.cost(player)
-
-    // then
-    expect(player.sessionMob.vitals.mv).toEqual(startingMv - Costs.Bash.Mv)
-    expect(player.delay).toEqual(startingDelay + Costs.Bash.Delay)
+    expect(check.isOk()).toBeTruthy()
   })
 })

@@ -8,6 +8,7 @@ import { DamageType } from "../damage/damageType"
 import { newWeapon } from "../item/factory"
 import { Item } from "../item/model/item"
 import { WeaponType } from "../item/weaponType"
+import { addFight, Fight, reset } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
 import { Role } from "../mob/role"
 import { AuthorizationLevel } from "../player/authorizationLevel"
@@ -29,6 +30,10 @@ export default class TestBuilder {
   public room: Room
   private service: Service
   private serviceBuilder: ServiceBuilder = new ServiceBuilder()
+
+  constructor() {
+    reset()
+  }
 
   public withRoom() {
     this.room = newRoom("a test room", "description of a test room")
@@ -102,6 +107,12 @@ export default class TestBuilder {
 
   public with(fn) {
     fn(this.player)
+  }
+
+  public fight() {
+    addFight(new Fight(this.player.sessionMob, this.withMob().mob, this.room))
+
+    return this
   }
 
   public createOkCheckedRequest(

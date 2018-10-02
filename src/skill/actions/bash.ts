@@ -1,30 +1,28 @@
+import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
 import roll from "../../random/dice"
+import Response from "../../request/response"
 import { format } from "../../support/string"
-import Attempt from "../attempt"
 import { Costs, Messages } from "../constants"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
 import { SkillType } from "../skillType"
 
-export default async function(attempt: Attempt): Promise<Outcome> {
-  const mob = attempt.mob
-  const target = attempt.getSubjectAsMob()
-  const skill = mob.skills.find((s) => s.skillType === SkillType.Bash)
+export default async function(checkedRequest: CheckedRequest): Promise<Response> {
+  const mob = checkedRequest.mob
+  const target = checkedRequest.getCheckTypeResult(CheckType.IsFighting)
+  const skill = mob.skills.find(s => s.skillType === SkillType.Bash)
+  const responseBuilder = checkedRequest.respondWith()
 
   if (!skill) {
-    return new Outcome(attempt, OutcomeType.Error, Messages.Bash.NoSkill)
+    return responseBuilder.error(Messages.Bash.NoSkill)
   }
 
   if (roll(1, skill.level) - roll(1, target.getCombinedAttributes().stats.dex * 3) < 0) {
-    return new Outcome(attempt, OutcomeType.Failure, Messages.Bash.Fail, Costs.Bash.Delay)
+    return responseBuilder.fail(Messages.Bash.Fail)
   }
 
   target.vitals.hp--
 
-  return new Outcome(
-    attempt,
-    OutcomeType.Success,
-    format(Messages.Bash.Success, target.name),
-    Costs.Bash.Delay,
-  )
+  return responseBuilder.success(format(Messages.Bash.Success, target.name))
 }

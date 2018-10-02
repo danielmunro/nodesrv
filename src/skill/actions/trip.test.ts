@@ -1,19 +1,14 @@
-import { AffectType } from "../../affect/affectType"
 import CheckedRequest from "../../check/checkedRequest"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { addFight, Fight, reset } from "../../mob/fight/fight"
+import { addFight, Fight } from "../../mob/fight/fight"
 import { RequestType } from "../../request/requestType"
-import { getTestMob } from "../../test/mob"
-import { getMultipleOutcomesAgainst } from "../../test/repeater"
 import TestBuilder from "../../test/testBuilder"
-import { newSkill } from "../factory"
 import tripPrecondition from "../preconditions/trip"
 import { SkillType } from "../skillType"
 import trip from "./trip"
 
 describe("trip skill actions", () => {
-  beforeEach(() => reset())
   it("should be able to fail tripping", async () => {
     // setup
     const testBuilder = new TestBuilder()

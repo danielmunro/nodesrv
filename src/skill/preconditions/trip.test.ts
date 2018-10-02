@@ -14,8 +14,6 @@ import { Messages } from "./constants"
 import trip from "./trip"
 
 describe("trip skill precondition", () => {
-  beforeEach(() => reset())
-
   it("should not work if the mob is out of movement", async () => {
     // setup
     const testBuilder = new TestBuilder()
