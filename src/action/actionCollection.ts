@@ -3,7 +3,9 @@ import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
 import Service from "../service/service"
+import berserk from "../skill/actions/berserk"
 import sneak from "../skill/actions/sneak"
+import { default as berserkPrecondition } from "../skill/preconditions/berserk"
 import { default as sneakPrecondition } from "../skill/preconditions/sneak"
 import { SkillType } from "../skill/skillType"
 import { doSkill } from "./actionHelpers"
@@ -88,7 +90,7 @@ export default function getActionCollection(service: Service) {
     // skills
     newSkillDefinition(service, RequestType.Bash, SkillType.Bash),
     newSkillDefinition(service, RequestType.Trip, SkillType.Trip),
-    newSkillDefinition(service, RequestType.Berserk, SkillType.Berserk),
+    service.getNewDefinition(RequestType.Berserk, berserk, berserkPrecondition),
     service.getNewDefinition(RequestType.Sneak, sneak, sneakPrecondition),
 
     // casting
