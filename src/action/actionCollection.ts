@@ -3,9 +3,11 @@ import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
 import Service from "../service/service"
+import bash from "../skill/actions/bash"
 import berserk from "../skill/actions/berserk"
 import sneak from "../skill/actions/sneak"
 import trip from "../skill/actions/trip"
+import { default as bashPrecondition } from "../skill/preconditions/bash"
 import { default as berserkPrecondition } from "../skill/preconditions/berserk"
 import { default as sneakPrecondition } from "../skill/preconditions/sneak"
 import { default as tripPrecondition } from "../skill/preconditions/trip"
@@ -55,17 +57,11 @@ import { default as sacrificePrecondition } from "./precondition/sacrifice"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
-import bash from "../skill/actions/bash"
-import { default as bashPrecondition } from "../skill/preconditions/bash"
 
 function newMoveDefinition(service: Service, requestType: RequestType, direction: Direction) {
   return service.getNewDefinition(requestType,
-    (checkedRequest: CheckedRequest) => move(checkedRequest, direction, service),
-    (request: Request) => movePrecondition(request, direction))
-}
-
-function newSkillDefinition(service: Service, requestType: RequestType, skillType: SkillType) {
-  return service.getNewDefinition(requestType, (request: Request) => doSkill(request, skillType))
+    checkedRequest => move(checkedRequest, direction, service),
+    request => movePrecondition(request, direction))
 }
 
 export default function getActionCollection(service: Service) {

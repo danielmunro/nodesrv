@@ -3,8 +3,10 @@ import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { getTestMob } from "../../test/mob"
 import TestBuilder from "../../test/testBuilder"
-import { NOT_FOUND } from "./constants"
+import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
 import look from "./look"
+import { AffectType } from "../../affect/affectType"
+import { newAffect } from "../../affect/factory"
 
 let testBuilder
 let room
@@ -79,5 +81,13 @@ describe("look", () => {
 
     // then
     expect(response.message).toBe(item.description)
+  })
+
+  it("should not be able to see if blind", async () => {
+    await testBuilder.withPlayer(p => p.sessionMob.addAffect(newAffect(AffectType.Blind)))
+
+    const response = await look(testBuilder.createRequest(RequestType.Look), await testBuilder.getService())
+
+    expect(response.message).toBe(MESSAGE_LOOK_CANNOT_SEE)
   })
 })

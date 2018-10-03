@@ -4,22 +4,22 @@ export enum SkillType {
   Trip = "trip",
   Sneak = "sneak",
   Berserk = "berserk",
+  Dodge = "dodge",
 
   // implemented
+  Disarm = "disarm",
+  Backstab = "backstab",
 
   // planned
   Infravision = "infravision",
-  Dodge = "dodge",
   Parry = "parry",
   SecondAttack = "second attack",
   ThirdAttack = "third attack",
   FourthAttack = "fourth attack",
   DirtKick = "dirt kick",
-  Disarm = "disarm",
   Haggle = "haggle",
   Meditation = "meditation",
   FastHealing = "fast healing",
-  Backstab = "backstab",
   Throw = "throw",
   Bite = "bite",
   DualWield = "dual wield",

@@ -7,6 +7,7 @@ export const Messages = {
 
 export const Thresholds = {
   Berserk: 60,
+  DirtKick: 60,
   Disarm: 75,
   Sneak: 50,
 }

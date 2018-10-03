@@ -8,6 +8,7 @@ import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import Service from "../../service/service"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
+import { AffectType } from "../../affect/affectType"
 
 function lookAtSubject(request: Request, builder: ResponseBuilder, itemTable: ItemTable) {
   const mob = request.findMobInRoom()
@@ -30,6 +31,11 @@ function lookAtSubject(request: Request, builder: ResponseBuilder, itemTable: It
 
 export default function(request: Request, service: Service): Promise<Response> {
   const builder = request.respondWith()
+
+  if (request.mob.getAffect(AffectType.Blind)) {
+    return builder.fail(MESSAGE_LOOK_CANNOT_SEE)
+  }
+
   if (request.subject) {
     return lookAtSubject(request, builder, service.itemTable)
   }

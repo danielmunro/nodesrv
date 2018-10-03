@@ -14,12 +14,14 @@ import Outcome from "./outcome"
 import backstabPrecondition from "./preconditions/backstab"
 import bashPrecondition from "./preconditions/bash"
 import berserkPrecondition from "./preconditions/berserk"
+import dirtKickPrecondition from "./preconditions/dirtKick"
 import disarmPrecondition from "./preconditions/disarm"
 import envenomPrecondition from "./preconditions/envenom"
 import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
+import dirtKick from "./actions/dirtKick"
 
 const BASE_IMPROVE_CHANCE = 50
 const SLOW_IMPROVE_CHANCE = 10
@@ -82,6 +84,8 @@ export const skillCollection = [
     createCheckImprove(backstab), 20, backstabPrecondition),
   createSkill(SkillType.EnhancedDamage, Trigger.AttackRoundDamage,
     createCheckImprove(enhancedDamage), 30),
+  createSkill(SkillType.DirtKick, Trigger.Input,
+    createCheckImprove(dirtKick), 5, dirtKickPrecondition),
   newWeaponSkill(SkillType.Sword),
   newWeaponSkill(SkillType.Mace),
   newWeaponSkill(SkillType.Wand),
