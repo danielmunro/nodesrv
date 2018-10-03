@@ -3,6 +3,7 @@ import roll from "../random/dice"
 import backstab from "./actions/backstab"
 import bash from "./actions/bash"
 import berserk from "./actions/berserk"
+import dirtKick from "./actions/dirtKick"
 import disarm from "./actions/disarm"
 import dodge from "./actions/dodge"
 import enhancedDamage from "./actions/enhancedDamage"
@@ -21,7 +22,6 @@ import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
-import dirtKick from "./actions/dirtKick"
 
 const BASE_IMPROVE_CHANCE = 50
 const SLOW_IMPROVE_CHANCE = 10

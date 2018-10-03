@@ -1,3 +1,4 @@
+import { AffectType } from "../../affect/affectType"
 import Maybe from "../../functional/maybe"
 import ItemTable from "../../item/itemTable"
 import { onlyLiving } from "../../mob/disposition"
@@ -8,7 +9,6 @@ import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import Service from "../../service/service"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
-import { AffectType } from "../../affect/affectType"
 
 function lookAtSubject(request: Request, builder: ResponseBuilder, itemTable: ItemTable) {
   const mob = request.findMobInRoom()

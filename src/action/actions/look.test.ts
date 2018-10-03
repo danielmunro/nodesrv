@@ -1,3 +1,5 @@
+import { AffectType } from "../../affect/affectType"
+import { newAffect } from "../../affect/factory"
 import { Item } from "../../item/model/item"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
@@ -5,8 +7,6 @@ import { getTestMob } from "../../test/mob"
 import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
 import look from "./look"
-import { AffectType } from "../../affect/affectType"
-import { newAffect } from "../../affect/factory"
 
 let testBuilder
 let room
