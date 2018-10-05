@@ -15,3 +15,5 @@ export const Messages = {
     DeathCry: "You hear {0}'s death cry.",
   },
 }
+
+export const BaseRegenModifier = 0.2

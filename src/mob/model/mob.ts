@@ -1,6 +1,7 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import { AffectType } from "../../affect/affectType"
+import { applyAffectModifier } from "../../affect/applyAffect"
 import { Affect } from "../../affect/model/affect"
 import { newAttributes, newEmptyAttributes, newHitroll, newStats, newVitals } from "../../attributes/factory"
 import { default as Attributes } from "../../attributes/model/attributes"
@@ -10,6 +11,7 @@ import { Inventory } from "../../item/model/inventory"
 import { AuthorizationLevel } from "../../player/authorizationLevel"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
+import { BaseRegenModifier } from "../../server/observers/constants"
 import Attempt from "../../skill/attempt"
 import AttemptContext from "../../skill/attemptContext"
 import { Skill } from "../../skill/model/skill"
@@ -180,9 +182,13 @@ export class Mob {
 
   public regen(): void {
     const combined = this.getCombinedAttributes()
-    this.vitals.hp += combined.vitals.hp * 0.2
-    this.vitals.mana += combined.vitals.mana * 0.2
-    this.vitals.mv += combined.vitals.mv * 0.2
+    const regenModifier = applyAffectModifier(
+      this.affects.map(a => a.affectType),
+      Trigger.Tick,
+      BaseRegenModifier)
+    this.vitals.hp += combined.vitals.hp * regenModifier
+    this.vitals.mana += combined.vitals.mana * regenModifier
+    this.vitals.mv += combined.vitals.mv * regenModifier
     if (this.playerMob) {
       this.playerMob.regen()
     }

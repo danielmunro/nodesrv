@@ -1,3 +1,6 @@
+import { AffectType } from "../../affect/affectType"
+import { applyAffectModifier } from "../../affect/applyAffect"
+import { modifierTable } from "../../affect/modifierTable"
 import Attributes from "../../attributes/model/attributes"
 import { newContainer } from "../../item/factory"
 import { Item } from "../../item/model/item"
@@ -84,8 +87,20 @@ export class Fight {
       return Fight.attackDefeated(attacker, defender, AttackResult.Miss)
     }
 
-    const damage = Fight.calculateDamageFromAttackerToDefender(xAttributes, yAttributes)
+    let damage = Fight.calculateDamageFromAttackerToDefender(xAttributes, yAttributes)
+
+    damage = applyAffectModifier(
+      attacker.affects.map(a => a.affectType),
+      Trigger.DamageModifier,
+      damage)
+
+    damage = applyAffectModifier(
+      defender.affects.map(a => a.affectType),
+      Trigger.DamageAbsorption,
+      damage)
+
     defender.vitals.hp -= damage
+
     return new Attack(
       attacker,
       defender,

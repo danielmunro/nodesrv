@@ -11,17 +11,21 @@ import envenom from "./actions/envenom"
 import secondAttack from "./actions/secondAttack"
 import sneak from "./actions/sneak"
 import trip from "./actions/trip"
-import Outcome from "./outcome"
 import backstabPrecondition from "./preconditions/backstab"
 import bashPrecondition from "./preconditions/bash"
 import berserkPrecondition from "./preconditions/berserk"
 import dirtKickPrecondition from "./preconditions/dirtKick"
 import disarmPrecondition from "./preconditions/disarm"
 import envenomPrecondition from "./preconditions/envenom"
+import secondAttackPrecondition from "./preconditions/secondAttack"
 import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
+import Response from "../request/response"
+import CheckedRequest from "../check/checkedRequest"
+import { CheckType } from "../check/checkType"
+import { Skill } from "./model/skill"
 
 const BASE_IMPROVE_CHANCE = 50
 const SLOW_IMPROVE_CHANCE = 10
@@ -39,26 +43,27 @@ function successModifierRoll(): number {
   return roll(5, 10)
 }
 
-function checkImprove(outcome: Outcome, baseImproveChance: number = BASE_IMPROVE_CHANCE) {
+function checkImprove(response: Response, baseImproveChance: number = BASE_IMPROVE_CHANCE) {
   let it = initialImproveRoll()
-  if (outcome.wasSuccessful()) {
+  if (response.isSuccessful()) {
     it += successModifierRoll()
   }
   if (it <= baseImproveChance) {
-    outcome.setImprovement(true)
-    outcome.attempt.skill.level++
+    const checkedRequest = response.request as CheckedRequest
+    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill) as Skill
+    skill.level++
   }
-  return outcome
+  return response
 }
 
 function createCheckImprove(method, improveChance = BASE_IMPROVE_CHANCE) {
-  return async (attempt) => checkImprove(await method(attempt), improveChance)
+  return async request => checkImprove(await method(request), improveChance)
 }
 
 function newWeaponSkill(skillType: SkillType) {
   return createSkill(
     skillType,
-    Trigger.AttackRoundDamage,
+    Trigger.DamageModifier,
     createCheckImprove((attempt) => attempt),
     1)
 }
@@ -69,7 +74,7 @@ export const skillCollection = [
   createSkill(SkillType.Disarm, Trigger.Input,
     createCheckImprove(disarm), 10, disarmPrecondition),
   createSkill(SkillType.SecondAttack, Trigger.AttackRound,
-    createCheckImprove(secondAttack, SLOW_IMPROVE_CHANCE), 10),
+    createCheckImprove(secondAttack, SLOW_IMPROVE_CHANCE), 10, secondAttackPrecondition),
   createSkill(SkillType.Bash, Trigger.Input,
     createCheckImprove(bash), 5, bashPrecondition),
   createSkill(SkillType.Trip, Trigger.Input,
@@ -82,7 +87,7 @@ export const skillCollection = [
     createCheckImprove(envenom), 20, envenomPrecondition),
   createSkill(SkillType.Backstab, Trigger.Input,
     createCheckImprove(backstab), 20, backstabPrecondition),
-  createSkill(SkillType.EnhancedDamage, Trigger.AttackRoundDamage,
+  createSkill(SkillType.EnhancedDamage, Trigger.DamageModifier,
     createCheckImprove(enhancedDamage), 30),
   createSkill(SkillType.DirtKick, Trigger.Input,
     createCheckImprove(dirtKick), 5, dirtKickPrecondition),

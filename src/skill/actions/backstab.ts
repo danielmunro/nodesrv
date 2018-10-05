@@ -1,12 +1,29 @@
-import Attempt from "../attempt"
+import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
+import { Mob } from "../../mob/model/mob"
+import roll from "../../random/dice"
+import Response from "../../request/response"
+import { format } from "../../support/string"
 import { Costs } from "../constants"
+import { Skill } from "../model/skill"
 import Outcome from "../outcome"
 import { OutcomeType } from "../outcomeType"
+import { Messages, Thresholds } from "./constants"
 
-export default async function(attempt: Attempt): Promise<Outcome> {
-  return new Outcome(
-    attempt,
-    OutcomeType.Success,
-    `You backstab ${attempt.getSubjectAsMob().name}!`,
-    Costs.Backstab.Delay)
+export default async function(checkedRequest: CheckedRequest): Promise<Response> {
+  const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+  const mob = checkedRequest.mob
+  const target = checkedRequest.getCheckTypeResult(CheckType.IsFighting)
+  const responseBuilder = checkedRequest.respondWith()
+
+  if (!isSuccessfulBackstab(skill, mob, target)) {
+    return responseBuilder.fail(format(Messages.Backstab.Failure, target.name))
+  }
+
+  return responseBuilder.success(format(Messages.Backstab.Success, target.name))
+}
+
+function isSuccessfulBackstab(skill: Skill, mob: Mob, target: Mob): boolean {
+  return roll(3, skill.level / 3) + roll(2, Math.max(1, mob.level - target.level))
+   > Thresholds.Backstab
 }
