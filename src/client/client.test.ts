@@ -128,7 +128,6 @@ describe("clients", () => {
     const request = getNewRequestFromMessageEvent(client, testEvent) as Request
 
     // expect
-    expect(request.player).toBe(client.player)
     expect(request.input).toEqual(testMessage)
   })
 

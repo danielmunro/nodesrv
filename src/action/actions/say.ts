@@ -9,7 +9,7 @@ export default function(request: Request): Promise<Response> {
     request.getRoom().uuid,
     request.player,
     Channel.Say,
-    `${request.player.sessionMob.name} says, "${request.message}"`,
+    `${request.mob.name} says, "${request.message}"`,
   )
 
   return request.respondWith().success(`You said, "${request.message}"`)

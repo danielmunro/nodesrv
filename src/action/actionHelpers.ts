@@ -20,7 +20,7 @@ export function doWithItemOrElse(
 }
 
 export async function doSkill(request: Request, skillType: SkillType): Promise<Response> {
-  const mob = request.player.sessionMob
+  const mob = request.mob
   const skillModel = mob.skills.find((s) => s.skillType === skillType)
   const skillDefinition = skillCollection.find((skillDef) => skillDef.isSkillTypeMatch(skillType))
   const attempt = new Attempt(mob, skillModel, new AttemptContext(Trigger.Input, request.getTarget()))

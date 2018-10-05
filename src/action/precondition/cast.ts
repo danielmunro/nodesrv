@@ -21,7 +21,7 @@ export default function(request: Request): Promise<Check> {
     return Check.fail(MESSAGE_SPELL_DOES_NOT_EXIST)
   }
 
-  if (request.player.sessionMob.vitals.mana < spellDefinition.manaCost) {
+  if (request.mob.vitals.mana < spellDefinition.manaCost) {
     return Check.fail(MESSAGE_FAIL_NOT_ENOUGH_MANA)
   }
 

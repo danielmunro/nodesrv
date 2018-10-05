@@ -25,7 +25,7 @@ export class Check {
 
   constructor(request: Request, spellDefinition: SpellDefinition, chance = null) {
     this.request = request
-    this.caster = request.player.sessionMob
+    this.caster = request.mob
     this.target = this.findTarget(request, spellDefinition.actionType)
     this.spellDefinition = spellDefinition
 
@@ -81,8 +81,8 @@ export class Check {
   }
 
   private findTarget(request: Request, actionType: ActionType): Mob {
-    const caster = request.player.sessionMob
-    const fight = getFights().find((f) => f.isParticipant(caster))
+    const caster = request.mob
+    const fight = getFights().find(f => f.isParticipant(caster))
     if (fight) {
       return fight.getOpponentFor(caster)
     }

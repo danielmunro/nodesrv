@@ -7,6 +7,7 @@ import Outcome from "../outcome"
 import { getSkillAction } from "../skillCollection"
 import { Event } from "./event"
 import { Resolution } from "./resolution"
+import { Request } from "../../request/request"
 
 function filterBySkillTrigger(skill: Skill, trigger: Trigger) {
   const action = getSkillAction(skill.skillType)
@@ -23,6 +24,7 @@ export function getSkillsByTrigger(mob: Mob, trigger: Trigger) {
 }
 
 async function attemptSkillAction(mob: Mob, trigger: Trigger, target: Mob, skill: Skill): Promise<Outcome> {
+  // const request = new Request()
   return getSkillAction(skill.skillType).action(new Attempt(mob, skill, new AttemptContext(trigger, target)))
 }
 

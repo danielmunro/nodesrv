@@ -46,19 +46,19 @@ export class Request {
   }
 
   public getRoom(): Room {
-    return this.player.sessionMob.room
+    return this.mob.room
   }
 
   public findItemInSessionMobInventory(item = this.subject): Item | undefined {
-    return this.player.sessionMob.inventory.findItemByName(item)
+    return this.mob.inventory.findItemByName(item)
   }
 
   public findItemInRoomInventory(item = this.subject): Item | undefined {
-    return this.player.sessionMob.room.inventory.findItemByName(item)
+    return this.mob.room.inventory.findItemByName(item)
   }
 
   public findMobInRoom(): Mob | undefined {
-    return this.player.sessionMob.room.findMobByName(this.subject)
+    return this.mob.room.findMobByName(this.subject)
   }
 
   public getTarget(): Mob | null {
@@ -70,8 +70,8 @@ export class Request {
   }
 
   public getAuthorizationLevel(): AuthorizationLevel {
-    if (this.player.sessionMob && this.player.sessionMob.playerMob) {
-      return this.player.sessionMob.playerMob.authorizationLevel
+    if (this.mob && this.mob.playerMob) {
+      return this.mob.playerMob.authorizationLevel
     }
 
     return AuthorizationLevel.None

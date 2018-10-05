@@ -4,7 +4,7 @@ import { Request } from "../../request/request"
 import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
 
 export default function(request: Request): Promise<Check> {
-  const mob = request.player.sessionMob
+  const mob = request.mob
   const item = mob.inventory.findItemByName(request.subject)
 
   if (!item) {

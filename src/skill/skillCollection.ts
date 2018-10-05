@@ -73,8 +73,9 @@ export const skillCollection = [
     createCheckImprove(dodge, SLOW_IMPROVE_CHANCE), 10),
   createSkill(SkillType.Disarm, Trigger.Input,
     createCheckImprove(disarm), 10, disarmPrecondition),
+  // re-add createCheckImprove when refactoring is complete
   createSkill(SkillType.SecondAttack, Trigger.AttackRound,
-    createCheckImprove(secondAttack, SLOW_IMPROVE_CHANCE), 10, secondAttackPrecondition),
+    secondAttack, 10),
   createSkill(SkillType.Bash, Trigger.Input,
     createCheckImprove(bash), 5, bashPrecondition),
   createSkill(SkillType.Trip, Trigger.Input,
