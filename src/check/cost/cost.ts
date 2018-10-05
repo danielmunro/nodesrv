@@ -1,3 +1,4 @@
+import { Mob } from "../../mob/model/mob"
 import { Player } from "../../player/model/player"
 import { CostType } from "./costType"
 
@@ -24,9 +25,9 @@ export default class Cost {
     }
   }
 
-  public canApply(player: Player): boolean {
+  public canApply(mob: Mob): boolean {
     if (this.costType === CostType.Mv) {
-      return player.sessionMob.vitals.mv >= this.amount
+      return mob.vitals.mv >= this.amount
     }
 
     if (this.costType === CostType.Delay) {
@@ -34,7 +35,7 @@ export default class Cost {
     }
 
     if (this.costType === CostType.Train) {
-      return player.sessionMob.playerMob.trains >= this.amount
+      return mob.playerMob.trains >= this.amount
     }
   }
 }

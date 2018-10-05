@@ -1,5 +1,4 @@
 import { Client } from "../../client/client"
-import { Player } from "../../player/model/player"
 import Service from "../../service/service"
 import Complete from "../../session/auth/complete"
 import Session from "../../session/session"
@@ -10,17 +9,18 @@ import { broadcastMessage, readMessages } from "../../social/publicBroadcast"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import { SocialBroadcaster } from "./socialBroadcaster"
+import { getTestPlayer } from "../../test/player"
 
 jest.mock("../../client/client")
 
 async function getMockClient(room = getTestRoom()): Promise<Client> {
   const client = new Client(null, null, null, null, null, null)
   client.service = await Service.new()
-  client.player = new Player()
-  client.isOwnMessage = (m: Message) => m.sender === client.player
-  client.isLoggedIn = () => true
+  client.player = getTestPlayer()
   client.session = new Session(client, new Complete(client.player))
   client.player.sessionMob = getTestMob()
+  client.isOwnMessage = (m: Message) => m.sender.uuid === client.player.sessionMob.uuid
+  client.isLoggedIn = () => true
   client.getStartRoom = () => room
   await client.session.login(client.player)
 
@@ -35,7 +35,7 @@ describe("socialBroadcaster", () => {
     const client2 = await getMockClient()
     const client3 = await getMockClient()
 
-    broadcastMessage(client1.player, Channel.Gossip, "hello world")
+    broadcastMessage(client1.player.sessionMob, Channel.Gossip, "first test")
     socialBroadcaster.notify([
       client1,
       client2,
@@ -57,7 +57,7 @@ describe("socialBroadcaster", () => {
     const client1 = await getMockClient(room1)
     const client2 = await getMockClient(room1)
     const client3 = await getMockClient(room2)
-    broadcastPrivateMessage(room1.uuid, client1.player, Channel.Say, "hello world")
+    broadcastPrivateMessage(room1.uuid, client1.player.sessionMob, Channel.Say, "second test")
     socialBroadcaster.notify([
       client1,
       client2,

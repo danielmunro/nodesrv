@@ -12,12 +12,11 @@ import {
 } from "./constants"
 
 export default async function(request: Request, service: Service): Promise<Check> {
-  const mob = service.mobTable.find((m) => m.name === request.subject)
+  const mob = service.mobTable.find(m => m.name === request.subject)
+
   return new CheckBuilder().requireMob(mob, MESSAGE_FAIL_NO_TARGET)
     .requirePlayer(mob)
     .requireSpecialAuthorization(request.getAuthorizationLevel())
-    .require(Maybe.if(mob, () =>
-      !request.player.ownsMob(mob)), MESSAGE_FAIL_CANNOT_BAN_SELF)
     .require(Maybe.if(mob, () =>
       !isBanned(mob.getStanding())), MESSAGE_FAIL_ALREADY_BANNED)
     .not().requireSpecialAuthorization(

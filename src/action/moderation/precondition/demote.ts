@@ -14,8 +14,6 @@ export default async function(request: Request, service: Service): Promise<Check
   return new CheckBuilder().requireMob(mob, MESSAGE_FAIL_NO_TARGET)
     .requirePlayer(mob)
     .requireImmortal(request.getAuthorizationLevel())
-    .require(Maybe.if(mob, () =>
-      !request.player.ownsMob(mob)), MESSAGE_FAIL_CANNOT_DEMOTE_SELF)
     .not().requireImmortal(
       Maybe.if(mob, () => mob.getAuthorizationLevel()),
       MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS)

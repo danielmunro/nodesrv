@@ -7,7 +7,6 @@ import Outcome from "../outcome"
 import { getSkillAction } from "../skillCollection"
 import { Event } from "./event"
 import { Resolution } from "./resolution"
-import { Request } from "../../request/request"
 
 function filterBySkillTrigger(skill: Skill, trigger: Trigger) {
   const action = getSkillAction(skill.skillType)

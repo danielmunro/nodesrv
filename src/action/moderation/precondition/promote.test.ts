@@ -86,21 +86,6 @@ describe("promote moderation precondition", () => {
     expect(check.result).toBe(MESSAGE_FAIL_BANNED)
   })
 
-  it("cannot promote own mobs", async () => {
-    // given
-    const MOB_NAME = "baz"
-    const mob = getTestMob(MOB_NAME)
-    player.addMob(mob)
-    service.mobTable.add(mob)
-
-    // when
-    const check = await promote(requestBuilder.create(RequestType.Promote, `promote ${mob.name}`), service)
-
-    // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_CANNOT_PROMOTE_SELF)
-  })
-
   it("cannot promote non-player mobs", async () => {
     const MOB_NAME = "baz"
     const mob = getTestMob(MOB_NAME)

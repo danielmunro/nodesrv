@@ -15,6 +15,6 @@ export default class RequestBuilder {
     const find = words[words.length - 1]
     const target = this.mobTable.find((mob) => match(mob.name, find))
 
-    return new Request(this.player, requestType, input, target)
+    return new Request(this.player.sessionMob, requestType, input, target)
   }
 }

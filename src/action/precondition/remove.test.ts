@@ -9,7 +9,7 @@ import { MESSAGE_REMOVE_FAIL } from "./constants"
 import remove from "./remove"
 
 function useRemoveRequest(player: Player, input: string) {
-  return remove(new Request(player, RequestType.Remove, input))
+  return remove(new Request(player.sessionMob, RequestType.Remove, input))
 }
 
 describe("remove", () => {

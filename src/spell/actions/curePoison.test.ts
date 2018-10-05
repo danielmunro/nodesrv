@@ -18,7 +18,7 @@ describe("cure poison", () => {
 
     curePoison(
       new Check(
-        new Request(player, RequestType.Cast, "cast 'cure poison'"),
+        new Request(player.sessionMob, RequestType.Cast, "cast 'cure poison'"),
         spellCollection.findSpell(SpellType.CurePoison)))
 
     expect(player.sessionMob.affects.length).toBe(0)

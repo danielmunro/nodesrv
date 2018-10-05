@@ -30,7 +30,7 @@ describe("client sanity checks", () => {
     expect(client.hasRequests()).toBeFalsy()
 
     // when
-    client.addRequest(new Request(client.player, RequestType.Any))
+    client.addRequest(new Request(client.getSessionMob(), RequestType.Any))
 
     // then
     expect(client.hasRequests()).toBeTruthy()
@@ -41,7 +41,7 @@ describe("client sanity checks", () => {
     expect(client.canHandleRequests()).toBeFalsy()
 
     // when
-    client.addRequest(new Request(client.player, RequestType.Any))
+    client.addRequest(new Request(client.player.sessionMob, RequestType.Any))
 
     // then
     expect(client.canHandleRequests()).toBeTruthy()
@@ -225,7 +225,7 @@ describe("clients", () => {
     room.addMob(trainer)
     room.addMob(client.player.sessionMob)
     client.player.sessionMob.playerMob.trains = 1
-    client.addRequest(new Request(client.player, RequestType.Train, "train str"))
+    client.addRequest(new Request(client.player.sessionMob, RequestType.Train, "train str"))
 
     // when
     await client.handleNextRequest()

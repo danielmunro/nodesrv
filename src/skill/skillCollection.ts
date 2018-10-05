@@ -1,5 +1,8 @@
+import CheckedRequest from "../check/checkedRequest"
+import { CheckType } from "../check/checkType"
 import { Trigger } from "../mob/trigger"
 import roll from "../random/dice"
+import Response from "../request/response"
 import backstab from "./actions/backstab"
 import bash from "./actions/bash"
 import berserk from "./actions/berserk"
@@ -11,6 +14,7 @@ import envenom from "./actions/envenom"
 import secondAttack from "./actions/secondAttack"
 import sneak from "./actions/sneak"
 import trip from "./actions/trip"
+import { Skill } from "./model/skill"
 import backstabPrecondition from "./preconditions/backstab"
 import bashPrecondition from "./preconditions/bash"
 import berserkPrecondition from "./preconditions/berserk"
@@ -22,10 +26,6 @@ import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
-import Response from "../request/response"
-import CheckedRequest from "../check/checkedRequest"
-import { CheckType } from "../check/checkType"
-import { Skill } from "./model/skill"
 
 const BASE_IMPROVE_CHANCE = 50
 const SLOW_IMPROVE_CHANCE = 10
@@ -68,12 +68,12 @@ function newWeaponSkill(skillType: SkillType) {
     1)
 }
 
+// re-add createCheckImprove when refactoring is complete
 export const skillCollection = [
   createSkill(SkillType.Dodge, Trigger.AttackRoundDefend,
-    createCheckImprove(dodge, SLOW_IMPROVE_CHANCE), 10),
+    dodge, 10),
   createSkill(SkillType.Disarm, Trigger.Input,
     createCheckImprove(disarm), 10, disarmPrecondition),
-  // re-add createCheckImprove when refactoring is complete
   createSkill(SkillType.SecondAttack, Trigger.AttackRound,
     secondAttack, 10),
   createSkill(SkillType.Bash, Trigger.Input,

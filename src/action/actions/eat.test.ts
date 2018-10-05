@@ -3,10 +3,11 @@ import { newAffect } from "../../affect/factory"
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import appetite from "../../mob/race/appetite"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import eat from "./eat"
+import { Request } from "../../request/request"
+import { PlayerMob } from "../../mob/model/playerMob"
 
 describe("eat action", () => {
   it("should remove food from inventory when consumed", async () => {
@@ -16,7 +17,7 @@ describe("eat action", () => {
     const player = playerBuilder.player
 
     await eat(new CheckedRequest(
-      new Request(player, RequestType.Eat, `eat ${food.name}`),
+      new Request(player.sessionMob, RequestType.Eat, `eat muf`),
       await Check.ok(food)))
 
     expect(player.sessionMob.inventory.items.length).toBe(0)
@@ -31,7 +32,7 @@ describe("eat action", () => {
     player.sessionMob.playerMob.hunger = appetite(player.sessionMob.race) - 1
 
     const response = await eat(new CheckedRequest(
-      new Request(player, RequestType.Eat, `eat ${food.name}`),
+      new Request(player.sessionMob, RequestType.Eat, `eat muf`),
       await Check.ok(food)))
 
     expect(response.message).toContain("You feel full")
@@ -41,11 +42,14 @@ describe("eat action", () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()
     const food = playerBuilder.withFood()
+    const mob = playerBuilder.player.sessionMob
     food.affects.push(newAffect(AffectType.Poison))
 
     const response = await eat(new CheckedRequest(
-      new Request(playerBuilder.player, RequestType.Eat, `eat ${food.name}`),
+      new Request(mob, RequestType.Eat, `eat muff`),
       await Check.ok(food)))
+
+    console.log("resp", response.message)
 
     expect(response.message).toContain("and suddenly feel different")
   })

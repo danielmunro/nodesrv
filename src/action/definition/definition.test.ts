@@ -1,5 +1,6 @@
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
+import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
@@ -11,7 +12,7 @@ async function getNewHandlerDefinition(requestType = RequestType.Noop): Definiti
 }
 
 function getNewTestRequest(requestType: RequestType): Request {
-  return new Request(getTestPlayer(), requestType)
+  return new Request(getTestMob(), requestType)
 }
 
 describe("Definition", () => {
@@ -40,7 +41,7 @@ describe("Definition", () => {
     testCases.forEach((requestType) => {
       const callback = jest.fn()
       handler
-        .handle(new Request(getTestPlayer(), requestType, ""))
+        .handle(new Request(getTestMob(), requestType))
         .then(callback)
         .then(() => expect(callback).toBeCalled())
     })

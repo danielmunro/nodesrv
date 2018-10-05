@@ -10,7 +10,7 @@ import { MESSAGE_FAIL_KILL_ALREADY_FIGHTING, MESSAGE_FAIL_KILL_NO_TARGET } from 
 import { default as kill} from "./kill"
 
 function useKillRequest(player: Player, input: string, target: Mob = null) {
-  return kill(new Request(player, RequestType.Kill, input, target))
+  return kill(new Request(player.sessionMob, RequestType.Kill, input, target))
 }
 
 describe("kill", () => {

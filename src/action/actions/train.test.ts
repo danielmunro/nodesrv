@@ -16,7 +16,7 @@ import train, { VITAL_INCREMENT } from "./train"
 
 async function getResponse(player: Player, trainer: Mob, input: string): Promise<Response> {
   return await train(new CheckedRequest(
-    new Request(player, RequestType.Train, input),
+    new Request(player.sessionMob, RequestType.Train, input),
     await Check.ok(trainer)))
 }
 

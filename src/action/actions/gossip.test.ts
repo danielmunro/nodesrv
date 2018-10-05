@@ -8,12 +8,9 @@ it("should be to handle gossiping", async () => {
   // setup
   const testBuilder = new TestBuilder()
   const actions = await testBuilder.getActionCollection()
-  const player = getTestPlayer()
-  const request = new Request(player, RequestType.Gossip, "gossip hello world")
-  const handler = actions.getMatchingHandlerDefinitionForRequestType(
-    request.requestType,
-    player.authorizationLevel,
-    new Definition(await testBuilder.getService(), RequestType.Noop, jest.fn()))
+  const mob = testBuilder.withMob().mob
+  const request = new Request(mob, RequestType.Gossip, "gossip hello world")
+  const handler = actions.getMatchingHandlerDefinitionForRequestType(request.requestType)
 
   // when
   const response = await handler.handle(request)

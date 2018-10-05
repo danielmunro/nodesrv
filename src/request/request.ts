@@ -6,7 +6,6 @@ import { Item } from "../item/model/item"
 import { Disposition } from "../mob/disposition"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel } from "../player/authorizationLevel"
-import { Player } from "../player/model/player"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
 import { Messages } from "./constants"
@@ -30,10 +29,9 @@ export class Request {
   public readonly subject: string
   public readonly component: string
   public readonly message: string
-  public readonly mob: Mob
 
   constructor(
-    public readonly player: Player,
+    public readonly mob: Mob,
     public readonly requestType: RequestType,
     public readonly input: string = requestType.toString(),
     private readonly target: Mob = null) {
@@ -42,7 +40,6 @@ export class Request {
     this.subject = words[1]
     this.component = words[2]
     this.message = words.slice(1).join(" ")
-    this.mob = this.player.sessionMob
   }
 
   public getRoom(): Room {
@@ -65,10 +62,6 @@ export class Request {
     return this.target
   }
 
-  public getPrompt(): string {
-    return this.player.prompt()
-  }
-
   public getAuthorizationLevel(): AuthorizationLevel {
     if (this.mob && this.mob.playerMob) {
       return this.mob.playerMob.authorizationLevel
@@ -85,7 +78,7 @@ export class Request {
 
   public check(): CheckBuilder {
     return new CheckBuilder()
-      .forPlayer(this.player)
+      .forMob(this.mob)
       .not().requireDisposition(Disposition.Dead, MESSAGE_FAIL_DEAD)
   }
 

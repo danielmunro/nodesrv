@@ -7,6 +7,7 @@ import TestBuilder from "../../test/testBuilder"
 import tripPrecondition from "../preconditions/trip"
 import { SkillType } from "../skillType"
 import trip from "./trip"
+import { Request } from "../../request/request"
 
 describe("trip skill actions", () => {
   it("should be able to fail tripping", async () => {
@@ -23,7 +24,7 @@ describe("trip skill actions", () => {
       testBuilder.withMob().mob,
       testBuilder.room))
 
-    const request = testBuilder.createRequest(RequestType.Trip)
+    const request = new Request(playerBuilder.player.sessionMob, RequestType.Trip)
     const check = await tripPrecondition(request)
 
     // when

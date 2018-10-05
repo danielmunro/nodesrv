@@ -21,7 +21,7 @@ describe("lightning bolt", () => {
     // when
     lightningBolt(
       new Check(
-        new Request(player, RequestType.Cast, "cast 'lightning bolt' bob", mob),
+        new Request(player.sessionMob, RequestType.Cast, "cast 'lightning bolt' bob", mob),
         spellCollection.findSpell(SpellType.LightningBolt)))
 
     // then

@@ -31,7 +31,7 @@ export async function doSkill(request: Request, skillType: SkillType): Promise<R
     if (check.checkResult === CheckResult.Unable) {
       return responseBuilder.error(check.message)
     }
-    check.cost(request.player)
+    // check.cost(request.player)
   }
 
   const outcome = await skillDefinition.action(attempt)

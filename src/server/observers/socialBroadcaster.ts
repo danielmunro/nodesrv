@@ -22,8 +22,8 @@ function evaluateForPrivateMessages(client: Client, privateMessages) {
 
 export class SocialBroadcaster implements Observer {
   public notify(clients: Client[]): void {
-    readMessages().forEach((message) =>
-      clients.forEach((client) =>
+    readMessages().forEach(message =>
+      clients.forEach(client =>
         sendToClientIfNotSender(client, message)))
     const privateMessages = readPrivateMessages()
     clients.forEach((client) => evaluateForPrivateMessages(client, privateMessages))

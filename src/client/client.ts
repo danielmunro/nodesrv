@@ -11,7 +11,6 @@ import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import Response from "../request/response"
 import ResponseAction from "../request/responseAction"
-import { ResponseStatus } from "../request/responseStatus"
 import { Room } from "../room/model/room"
 import Service from "../service/service"
 import Email from "../session/auth/login/email"
@@ -45,11 +44,11 @@ export class Client {
   }
 
   public createMessage(channel: Channel, message: string) {
-    return new Message(this.player, channel, message)
+    return new Message(this.player.sessionMob, channel, message)
   }
 
   public isOwnMessage(message: Message): boolean {
-    return message.sender === this.player
+    return message.sender.uuid === this.player.sessionMob.uuid
   }
 
   public hasRequests(): boolean {
@@ -95,6 +94,7 @@ export class Client {
       this.applyCosts(response.request.check.costs)
     }
     this.send(response)
+    this.sendMessage(this.player.prompt())
     this.evaluateResponseAction(response.responseAction)
 
     return response

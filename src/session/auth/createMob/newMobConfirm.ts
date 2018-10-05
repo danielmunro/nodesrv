@@ -41,7 +41,7 @@ export default class NewMobConfirm implements AuthStep {
     mob.vitals = newStartingVitals()
     mob.name = this.name
     mob.isPlayer = true
-    mob.player = this.player
+    mob.mob = this.player
     mob.attributes.push(newAttributes(
       newStartingVitals(),
       newStartingStats(),

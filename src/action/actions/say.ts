@@ -7,7 +7,7 @@ import { broadcastPrivateMessage } from "../../social/privateBroadcast"
 export default function(request: Request): Promise<Response> {
   broadcastPrivateMessage(
     request.getRoom().uuid,
-    request.player,
+    request.mob,
     Channel.Say,
     `${request.mob.name} says, "${request.message}"`,
   )

@@ -8,7 +8,7 @@ import { Request } from "./request"
 import { RequestType } from "./requestType"
 
 function newLookRequest(player: Player, args: string): Request {
-  return new Request(player, RequestType.Look, args)
+  return new Request(player.sessionMob, RequestType.Look, args)
 }
 
 describe("request", () => {

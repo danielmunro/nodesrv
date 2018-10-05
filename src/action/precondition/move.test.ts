@@ -3,6 +3,7 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { Direction } from "../../room/constants"
 import { newReciprocalExit } from "../../room/factory"
+import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "./constants"
@@ -12,7 +13,7 @@ import move from "./move"
 describe("move", () => {
   it("should not allow movement where an exit does not exist", async () => {
     // when
-    const check = await move(new Request(getTestPlayer(), RequestType.North), Direction.North)
+    const check = await move(new Request(getTestMob(), RequestType.North), Direction.North)
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -29,7 +30,7 @@ describe("move", () => {
     room1.addMob(player.sessionMob)
 
     // when
-    const check = await move(new Request(player, RequestType.South), Direction.South)
+    const check = await move(new Request(player.sessionMob, RequestType.South), Direction.South)
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -45,7 +46,7 @@ describe("move", () => {
     room1.addMob(player.sessionMob)
 
     // when
-    const check = await move(new Request(player, RequestType.South), Direction.South)
+    const check = await move(new Request(player.sessionMob, RequestType.South), Direction.South)
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

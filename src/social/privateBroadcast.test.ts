@@ -1,3 +1,4 @@
+import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
 import { Channel } from "./channel"
 import { broadcastPrivateMessage, readPrivateMessages } from "./privateBroadcast"
@@ -8,10 +9,10 @@ describe("private social broadcast", () => {
   it("should be able to publish to a private channel", () => {
     // given
     const uniqueId = "this-id-is-unique"
-    const player = getTestPlayer()
+    const mob = getTestMob()
 
     // when
-    broadcastPrivateMessage(uniqueId, player, Channel.Say, testMessage)
+    broadcastPrivateMessage(uniqueId, mob, Channel.Say, testMessage)
 
     // then
     const privateMessageBatch = readPrivateMessages()
@@ -22,10 +23,10 @@ describe("private social broadcast", () => {
   it("reading private messages should clear the queue", () => {
     // given
     const uniqueId = "this-id-is-unique"
-    const player = getTestPlayer()
+    const mob = getTestMob()
 
     // when
-    broadcastPrivateMessage(uniqueId, player, Channel.Say, testMessage)
+    broadcastPrivateMessage(uniqueId, mob, Channel.Say, testMessage)
 
     // then
     const privateMessageBatch1 = readPrivateMessages()

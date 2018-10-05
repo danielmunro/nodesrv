@@ -36,29 +36,28 @@ beforeEach(async () => {
 describe("flee action handler", () => {
   it("flee should stop a fight", async () => {
     // verify
-    expect(getFights().filter((f) => f.isInProgress()).length).toBe(1)
+    expect(getFights().filter(f => f.isInProgress()).length).toBe(1)
 
     // when
     await flee(
       new CheckedRequest(
-        new Request(player, RequestType.Flee),
+        new Request(mob, RequestType.Flee),
         await Check.ok(fight)),
       service)
 
     // then
-    expect(getFights().filter((f) => f.isInProgress()).length).toBe(0)
+    expect(getFights().filter(f => f.isInProgress()).length).toBe(0)
   })
 
   it("flee should cause the fleeing mob to change rooms", async () => {
     // when
     await flee(
       new CheckedRequest(
-        new Request(player, RequestType.Flee),
+        new Request(mob, RequestType.Flee),
         await Check.ok(fight)),
       service)
 
     // then
-    expect(mob.room.id).toBe(room1.id)
-    expect(player.sessionMob.room.id).toBe(room2.id)
+    expect(mob.room.id).toBe(room2.id)
   })
 })

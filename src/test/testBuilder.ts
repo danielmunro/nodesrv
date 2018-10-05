@@ -124,7 +124,7 @@ export default class TestBuilder {
   }
 
   public createRequest(requestType: RequestType, input: string = requestType, target: Mob = null): Request {
-    return new Request(this.player, requestType, input, target)
+    return new Request(this.player.sessionMob, requestType, input, target)
   }
 
   public async getActionCollection(): Promise<Collection> {
@@ -148,7 +148,7 @@ export default class TestBuilder {
       input = requestType.toString()
     }
     return new CheckedRequest(
-      new Request(this.player, requestType, input),
+      new Request(this.player.sessionMob, requestType, input),
       new Check(checkStatus, result, checkComponents),
     )
   }

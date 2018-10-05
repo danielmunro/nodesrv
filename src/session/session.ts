@@ -2,7 +2,7 @@ import look from "../action/actions/look"
 import { Client } from "../client/client"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
-import { Request as ActionRequest } from "../request/request"
+import { Request, Request as ActionRequest } from "../request/request"
 import { RequestType } from "../request/requestType"
 import AuthStep from "./auth/authStep"
 import Complete from "./auth/complete"
@@ -59,12 +59,11 @@ export default class Session {
     this.mob = player.sessionMob
     this.player = player
     this.client.getStartRoom().addMob(this.mob)
-    this.client.player = this.player
     if (this.isMobCreated) {
       this.client.getMobTable().add(this.mob)
     }
     this.status = SessionStatus.LoggedIn
     this.client.send({ player: this.player })
-    this.client.send(await look(new ActionRequest(this.player, RequestType.Look)))
+    this.client.send(await look(new Request(this.mob, RequestType.Look), null))
   }
 }

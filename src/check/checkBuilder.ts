@@ -5,7 +5,6 @@ import { Disposition } from "../mob/disposition"
 import { getFights } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../player/authorizationLevel"
-import { Player } from "../player/model/player"
 import { Messages } from "../skill/preconditions/constants"
 import { SkillType } from "../skill/skillType"
 import Check from "./check"
@@ -17,7 +16,7 @@ export default class CheckBuilder {
   private checks: CheckComponent[] = []
   private costs: Cost[] = []
   private confirm: boolean = true
-  private player: Player
+  private mob: Mob
 
   constructor(private target = null) {}
 
@@ -30,7 +29,7 @@ export default class CheckBuilder {
   public requirePlayer(mob: Mob, failMessage = MESSAGE_FAIL_NOT_PLAYER): CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.IsPlayer,
-      new Maybe(mob).do((m) => m.isPlayer) .or(() => false).get(),
+      new Maybe(mob).do(m => m.isPlayer) .or(() => false).get(),
       failMessage))
 
     return this
@@ -74,8 +73,8 @@ export default class CheckBuilder {
     return this
   }
 
-  public forPlayer(player: Player) {
-    this.player = player
+  public forMob(mob: Mob) {
+    this.mob = mob
 
     return this
   }
@@ -83,7 +82,7 @@ export default class CheckBuilder {
   public requireSkill(skillType: SkillType) {
     this.checks.push(this.newCheckComponent(
       CheckType.HasSkill,
-      this.player.sessionMob.skills.find(s => s.skillType === skillType),
+      this.mob.skills.find(s => s.skillType === skillType),
       Messages.All.NoSkill))
 
     return this
@@ -92,7 +91,7 @@ export default class CheckBuilder {
   public requireAffect(affectType: AffectType, failMessage: string) {
     this.checks.push(this.newCheckComponent(
       CheckType.HasAffect,
-      this.player.sessionMob.getAffect(affectType),
+      this.mob.getAffect(affectType),
       failMessage))
 
     return this
@@ -100,7 +99,7 @@ export default class CheckBuilder {
 
   public requireDisposition(disposition: Disposition, failMessage: string) {
     this.checks.push(
-      this.newCheckComponent(CheckType.Disposition, this.player.sessionMob.disposition === disposition, failMessage))
+      this.newCheckComponent(CheckType.Disposition, this.mob.disposition === disposition, failMessage))
 
     return this
   }
@@ -108,8 +107,8 @@ export default class CheckBuilder {
   public requireFight(failMessage: string = Messages.All.NoTarget) {
     this.checks.push(this.newCheckComponent(
       CheckType.IsFighting,
-      new Maybe(getFights().find(f => f.isParticipant(this.player.sessionMob)))
-        .do(f => f.getOpponentFor(this.player.sessionMob))
+      new Maybe(getFights().find(f => f.isParticipant(this.mob)))
+        .do(f => f.getOpponentFor(this.mob))
         .or(() => false)
         .get(),
       failMessage))
@@ -128,7 +127,7 @@ export default class CheckBuilder {
       return Check.fail(checkFail.failMessage, this.checks, this.costs)
     }
 
-    const costFail = this.costs.find(cost => !cost.canApply(this.player))
+    const costFail = this.costs.find(cost => !cost.canApply(this.mob))
     if (costFail) {
       return Check.fail(costFail.failMessage, this.checks, this.costs)
     }

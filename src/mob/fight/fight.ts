@@ -1,6 +1,4 @@
-import { AffectType } from "../../affect/affectType"
 import { applyAffectModifier } from "../../affect/applyAffect"
-import { modifierTable } from "../../affect/modifierTable"
 import Attributes from "../../attributes/model/attributes"
 import { newContainer } from "../../item/factory"
 import { Item } from "../../item/model/item"

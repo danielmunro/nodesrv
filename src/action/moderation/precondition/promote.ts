@@ -16,8 +16,6 @@ export default async function(request: Request, service: Service): Promise<Check
     .requirePlayer(mob)
     .requireImmortal(request.getAuthorizationLevel())
     .require(Maybe.if(mob, () =>
-      !request.player.ownsMob(mob)), MESSAGE_FAIL_CANNOT_PROMOTE_SELF)
-    .require(Maybe.if(mob, () =>
       !isBanned(mob.getStanding())), MESSAGE_FAIL_BANNED)
     .not().requireImmortal(
       Maybe.if(mob, () => mob.getAuthorizationLevel()),

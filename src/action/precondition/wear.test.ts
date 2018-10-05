@@ -16,7 +16,7 @@ function getHatOfMight(): Item {
 }
 
 function useWearRequest(input: string, player: Player = getTestPlayer()) {
-  return wear(new Request(player, RequestType.Wear, input))
+  return wear(new Request(player.sessionMob, RequestType.Wear, input))
 }
 
 describe("wear", () => {

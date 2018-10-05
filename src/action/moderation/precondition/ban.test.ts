@@ -49,18 +49,9 @@ describe("ban moderation precondition", () => {
     expect(response.result).toBe(MESSAGE_FAIL_NO_TARGET)
   })
 
-  it("cannot ban self", async () => {
-    // when
-    const response = await ban(requestBuilder.create(RequestType.Ban, `ban ${MOB_SELF}`), service)
-
-    // then
-    expect(response.status).toBe(CheckStatus.Failed)
-    expect(response.result).toBe(MESSAGE_FAIL_CANNOT_BAN_SELF)
-  })
-
   it("should not apply a ban if the requester is not an admin", async () => {
     // when
-    const response = await ban(new Request(getTestPlayer(), RequestType.Ban, `ban ${MOB_TO_BAN}`), service)
+    const response = await ban(new Request(getTestMob(), RequestType.Ban, `ban ${MOB_TO_BAN}`), service)
 
     // then
     expect(response.status).toBe(CheckStatus.Failed)
