@@ -2,12 +2,12 @@ import CheckedRequest from "../../check/checkedRequest"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { addFight, Fight } from "../../mob/fight/fight"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import tripPrecondition from "../preconditions/trip"
 import { SkillType } from "../skillType"
 import trip from "./trip"
-import { Request } from "../../request/request"
 
 describe("trip skill actions", () => {
   it("should be able to fail tripping", async () => {

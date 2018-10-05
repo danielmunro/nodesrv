@@ -13,4 +13,8 @@ export default class Response {
   public isSuccessful(): boolean {
     return this.status === ResponseStatus.Success
   }
+
+  public getCheckedRequest(): CheckedRequest {
+    return this.request as CheckedRequest
+  }
 }

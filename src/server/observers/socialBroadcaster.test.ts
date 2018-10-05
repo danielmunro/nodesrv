@@ -7,9 +7,9 @@ import { Message } from "../../social/message"
 import { broadcastPrivateMessage } from "../../social/privateBroadcast"
 import { broadcastMessage, readMessages } from "../../social/publicBroadcast"
 import { getTestMob } from "../../test/mob"
+import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import { SocialBroadcaster } from "./socialBroadcaster"
-import { getTestPlayer } from "../../test/player"
 
 jest.mock("../../client/client")
 

@@ -23,7 +23,6 @@ export function getSkillsByTrigger(mob: Mob, trigger: Trigger) {
 }
 
 async function attemptSkillAction(mob: Mob, trigger: Trigger, target: Mob, skill: Skill): Promise<Outcome> {
-  // const request = new Request()
   return getSkillAction(skill.skillType).action(new Attempt(mob, skill, new AttemptContext(trigger, target)))
 }
 

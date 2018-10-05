@@ -1,10 +1,10 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import reset from "../../test/reset"
 import affects from "./affects"
-import { Request } from "../../request/request"
 
 beforeEach(() => reset())
 

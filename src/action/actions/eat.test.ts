@@ -2,12 +2,12 @@ import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
+import { PlayerMob } from "../../mob/model/playerMob"
 import appetite from "../../mob/race/appetite"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import eat from "./eat"
-import { Request } from "../../request/request"
-import { PlayerMob } from "../../mob/model/playerMob"
 
 describe("eat action", () => {
   it("should remove food from inventory when consumed", async () => {

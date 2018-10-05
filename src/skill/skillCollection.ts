@@ -21,14 +21,12 @@ import berserkPrecondition from "./preconditions/berserk"
 import dirtKickPrecondition from "./preconditions/dirtKick"
 import disarmPrecondition from "./preconditions/disarm"
 import envenomPrecondition from "./preconditions/envenom"
-import secondAttackPrecondition from "./preconditions/secondAttack"
 import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
 
 const BASE_IMPROVE_CHANCE = 50
-const SLOW_IMPROVE_CHANCE = 10
 
 function createSkill(
   type: SkillType, trigger: Trigger, action, minimumLevel: number, preconditions = null): SkillDefinition {
@@ -49,9 +47,7 @@ function checkImprove(response: Response, baseImproveChance: number = BASE_IMPRO
     it += successModifierRoll()
   }
   if (it <= baseImproveChance) {
-    const checkedRequest = response.request as CheckedRequest
-    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill) as Skill
-    skill.level++
+    response.getCheckedRequest().getCheckTypeResult(CheckType.HasSkill).level++
   }
   return response
 }
