@@ -12,10 +12,7 @@ import { AuthorizationLevel } from "../../player/authorizationLevel"
 import { Player } from "../../player/model/player"
 import { Room } from "../../room/model/room"
 import { BaseRegenModifier } from "../../server/observers/constants"
-import Attempt from "../../skill/attempt"
-import AttemptContext from "../../skill/attemptContext"
 import { Skill } from "../../skill/model/skill"
-import { SkillType } from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
 import { BASE_KILL_EXPERIENCE } from "../constants"
 import { Disposition } from "../disposition"
@@ -111,16 +108,6 @@ export class Mob {
     (playerMob) => playerMob.mob,
     { nullable: true, cascadeInsert: true, cascadeUpdate: true })
   public playerMob: PlayerMob
-
-  public attempt(skillType: SkillType, target = null): Attempt {
-    const skill = this.skills.find((s) => s.skillType === skillType)
-
-    if (!target) {
-      target = this
-    }
-
-    return new Attempt(this, skill, new AttemptContext(Trigger.None, target))
-  }
 
   public getAuthorizationLevel(): AuthorizationLevel {
     return this.playerMob ? this.playerMob.authorizationLevel : AuthorizationLevel.None
