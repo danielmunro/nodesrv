@@ -1,16 +1,21 @@
+import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
 import { Mob } from "../../mob/model/mob"
 import roll from "../../random/dice"
-import Attempt from "../attempt"
+import Response from "../../request/response"
 import { Skill } from "../model/skill"
-import Outcome from "../outcome"
-import { OutcomeType } from "../outcomeType"
 
-export default async function(attempt: Attempt): Promise<Outcome> {
-  if (calculateDodgeRoll(attempt.mob, attempt.skill) > calculateHitRoll(attempt.getSubjectAsMob())) {
-    return new Outcome(attempt, OutcomeType.Success, "you dodged!")
+export default async function(checkedRequest: CheckedRequest): Promise<Response> {
+  const mob = checkedRequest.mob
+  const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+  const target = checkedRequest.getCheckTypeResult(CheckType.IsFighting)
+  const responseBuilder = checkedRequest.respondWith()
+
+  if (calculateDodgeRoll(mob, skill) <= calculateHitRoll(target)) {
+    return responseBuilder.fail()
   }
 
-  return new Outcome(attempt, OutcomeType.Failure, "you failed")
+  return responseBuilder.success()
 }
 
 function calculateHitRoll(mob: Mob): number {

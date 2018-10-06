@@ -1,14 +1,15 @@
+import Check from "../check/check"
+import CheckedRequest from "../check/checkedRequest"
 import { Trigger } from "../mob/trigger"
-import Attempt from "./attempt"
-import Check from "./check"
-import Outcome from "./outcome"
+import { Request } from "../request/request"
+import Response from "../request/response"
 import { SkillType } from "./skillType"
 
 export default class SkillDefinition {
   public readonly skillType: SkillType
   public readonly triggers: Trigger[]
-  public readonly action: (attempt: Attempt) => Promise<Outcome>
-  public readonly preconditions: (attempt: Attempt) => Promise<Check>
+  public readonly action: (checkedRequest: CheckedRequest) => Promise<Response>
+  public readonly preconditions: (request: Request) => Promise<Check>
 
   constructor(skillType: SkillType, triggers: Trigger[], action, minimumLevel: number, preconditions = null) {
     this.skillType = skillType

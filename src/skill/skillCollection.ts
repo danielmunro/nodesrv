@@ -18,7 +18,9 @@ import bashPrecondition from "./preconditions/bash"
 import berserkPrecondition from "./preconditions/berserk"
 import dirtKickPrecondition from "./preconditions/dirtKick"
 import disarmPrecondition from "./preconditions/disarm"
+import dodgePrecondition from "./preconditions/dodge"
 import envenomPrecondition from "./preconditions/envenom"
+import secondAttackPrecondition from "./preconditions/secondAttack"
 import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
@@ -65,11 +67,11 @@ function newWeaponSkill(skillType: SkillType) {
 // re-add createCheckImprove when refactoring is complete
 export const skillCollection = [
   createSkill(SkillType.Dodge, Trigger.AttackRoundDefend,
-    dodge, 10),
+    dodge, 10, dodgePrecondition),
   createSkill(SkillType.Disarm, Trigger.Input,
     createCheckImprove(disarm), 10, disarmPrecondition),
   createSkill(SkillType.SecondAttack, Trigger.AttackRound,
-    secondAttack, 10),
+    secondAttack, 10, secondAttackPrecondition),
   createSkill(SkillType.Bash, Trigger.Input,
     createCheckImprove(bash), 5, bashPrecondition),
   createSkill(SkillType.Trip, Trigger.Input,

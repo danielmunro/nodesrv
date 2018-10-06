@@ -1,9 +1,11 @@
+import CheckedRequest from "../../check/checkedRequest"
 import { Mob } from "../../mob/model/mob"
 import { Trigger } from "../../mob/trigger"
-import Attempt from "../attempt"
-import AttemptContext from "../attemptContext"
+import EventContext from "../../request/context/eventContext"
+import { Request } from "../../request/request"
+import { RequestType } from "../../request/requestType"
+import Response from "../../request/response"
 import { Skill } from "../model/skill"
-import Outcome from "../outcome"
 import { getSkillAction } from "../skillCollection"
 import { Event } from "./event"
 import { Resolution } from "./resolution"
@@ -22,14 +24,18 @@ export function getSkillsByTrigger(mob: Mob, trigger: Trigger) {
   return mob.skills.filter((skill) => filterBySkillTrigger(skill, trigger))
 }
 
-async function attemptSkillAction(mob: Mob, trigger: Trigger, target: Mob, skill: Skill): Promise<Outcome> {
-  return getSkillAction(skill.skillType).action(new Attempt(mob, skill, new AttemptContext(trigger, target)))
+async function attemptSkillAction(mob: Mob, trigger: Trigger, target: Mob, skill: Skill): Promise<Response> {
+  const definition = getSkillAction(skill.skillType)
+  const request = new Request(mob, new EventContext(RequestType.Event, trigger))
+  const check = await definition.preconditions(request)
+
+  return definition.action(new CheckedRequest(request, check))
 }
 
 export async function createSkillTriggerEvent(mob: Mob, trigger: Trigger, target: Mob): Promise<Event> {
   const event = new Event(mob, trigger)
   for (const skill of getSkillsByTrigger(mob, trigger)) {
-    if ((await attemptSkillAction(mob, trigger, target, skill)).wasSuccessful()) {
+    if ((await attemptSkillAction(mob, trigger, target, skill)).isSuccessful()) {
       event.resolveWith(skill.skillType)
 
       return event
@@ -44,7 +50,7 @@ export async function createSkillTriggerEvents(mob: Mob, trigger: Trigger, targe
   const events = []
   for (const skill of getSkillsByTrigger(mob, trigger)) {
     const event = new Event(mob, trigger)
-    if ((await attemptSkillAction(mob, trigger, target, skill)).wasSuccessful()) {
+    if ((await attemptSkillAction(mob, trigger, target, skill)).isSuccessful()) {
       event.resolveWith(skill.skillType)
     } else {
       event.skillEventResolution = Resolution.Failed

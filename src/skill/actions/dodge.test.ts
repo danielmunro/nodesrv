@@ -1,16 +1,19 @@
 import doNTimes from "../../functional/times"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { AttackResult } from "../../mob/fight/attack"
-import { Fight } from "../../mob/fight/fight"
-import { getTestMob } from "../../test/mob"
-import { newSkill } from "../factory"
+import { addFight, Fight, reset } from "../../mob/fight/fight"
+import TestBuilder from "../../test/testBuilder"
 import { SkillType } from "../skillType"
 
 describe("dodge skill", () => {
+  beforeEach(() => reset())
   it("should be able to succeed and fail in a small collection of attempts", async () => {
-    const attacker = getTestMob()
-    attacker.skills.push(newSkill(SkillType.Dodge, 10))
-    const defender = getTestMob()
-    const fight = new Fight(attacker, defender, attacker.room)
+    const testBuilder = new TestBuilder()
+    const attacker = testBuilder.withMob()
+    attacker.withSkill(SkillType.Dodge, MAX_PRACTICE_LEVEL / 50)
+    const defender = testBuilder.withMob()
+    const fight = new Fight(attacker.mob, defender.mob, testBuilder.room)
+    addFight(fight)
     const results = await doNTimes(10, () => fight.isInProgress() ? fight.round() : null)
 
     expect(results.filter(r => r).every(r => {
