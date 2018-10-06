@@ -1,6 +1,5 @@
 import { Definition } from "../action/definition/definition"
 import ItemTable from "../item/itemTable"
-import ItemRepository, { getItemRepository } from "../item/repository/item"
 import { Mob } from "../mob/model/mob"
 import { default as MobTable } from "../mob/table"
 import { RequestType } from "../request/requestType"

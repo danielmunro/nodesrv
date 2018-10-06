@@ -7,9 +7,9 @@ export default class CheckComponent {
     this.isRequired = this.failMessage !== null
   }
 
-  public getThing() {
+  public getThing(lastThing = null) {
     if (typeof this.thing === "function") {
-      return this.thing()
+      return this.thing(lastThing)
     }
 
     return this.thing

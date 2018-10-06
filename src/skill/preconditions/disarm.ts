@@ -1,33 +1,20 @@
+import Check from "../../check/check"
+import Cost from "../../check/cost/cost"
+import { CostType } from "../../check/cost/costType"
 import { Equipment } from "../../item/equipment"
-import { getFights } from "../../mob/fight/fight"
-import { Mob } from "../../mob/model/mob"
-import { Player } from "../../player/model/player"
-import { format } from "../../support/string"
-import Attempt from "../attempt"
-import Check from "../check"
-import { failCheck, successCheck } from "../checkFactory"
+import { Request } from "../../request/request"
 import { Costs } from "../constants"
+import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 
-export default function(attempt: Attempt): Promise<Check> {
-  const mob = attempt.mob
-  const fight = getFights().find(f => f.isParticipant(mob))
-  if (!fight) {
-    return failCheck(Messages.All.NoTarget)
-  }
-
-  const target = attempt.attemptContext.subject as Mob
-  const weapon = target.equipped.inventory.find(i => i.equipment === Equipment.Weapon)
-  if (!weapon) {
-    return failCheck(format(Messages.Disarm.FailNothingToDisarm, target.name))
-  }
-
-  if (mob.vitals.mv < Costs.Disarm.Mv) {
-    return failCheck(Messages.All.NotEnoughMv)
-  }
-
-  return successCheck((player: Player) => {
-    mob.vitals.mv -= Costs.Disarm.Mv
-    player.delay += Costs.Disarm.Delay
-  })
+export default function(request: Request): Promise<Check> {
+  return request.checkWithStandingDisposition()
+    .requireSkill(SkillType.Disarm)
+    .requireFight()
+    .require(
+      opponent => opponent.equipped.inventory.find(i => i.equipment === Equipment.Weapon),
+      Messages.Disarm.FailNothingToDisarm)
+    .addCost(new Cost(CostType.Mv, Costs.Disarm.Mv, Messages.All.NotEnoughMv))
+    .addCost(new Cost(CostType.Delay, Costs.Disarm.Delay))
+    .create()
 }

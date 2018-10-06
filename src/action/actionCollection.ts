@@ -8,6 +8,7 @@ import sneak from "../skill/actions/sneak"
 import trip from "../skill/actions/trip"
 import { default as bashPrecondition } from "../skill/preconditions/bash"
 import { default as berserkPrecondition } from "../skill/preconditions/berserk"
+import { default as disarmPrecondition } from "../skill/preconditions/disarm"
 import { default as envenomPrecondition } from "../skill/preconditions/envenom"
 import { default as sneakPrecondition } from "../skill/preconditions/sneak"
 import { default as tripPrecondition } from "../skill/preconditions/trip"
@@ -55,6 +56,7 @@ import { default as sacrificePrecondition } from "./precondition/sacrifice"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
+import disarm from "../skill/actions/disarm"
 
 function newMoveDefinition(service: Service, requestType: RequestType, direction: Direction) {
   return service.getNewDefinition(requestType,
@@ -88,6 +90,7 @@ export default function getActionCollection(service: Service) {
     // skills
     service.getNewDefinition(RequestType.Bash, bash, bashPrecondition),
     service.getNewDefinition(RequestType.Berserk, berserk, berserkPrecondition),
+    service.getNewDefinition(RequestType.Disarm, disarm, disarmPrecondition),
     service.getNewDefinition(RequestType.Envenom, envenom, envenomPrecondition),
     service.getNewDefinition(RequestType.Sneak, sneak, sneakPrecondition),
     service.getNewDefinition(RequestType.Trip, trip, tripPrecondition),

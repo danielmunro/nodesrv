@@ -120,7 +120,7 @@ export default class CheckBuilder {
     let lastThing = null
 
     const checkFail = this.checks.find(checkComponent => {
-      lastThing = checkComponent.getThing()
+      lastThing = checkComponent.getThing(lastThing)
       return !lastThing
     })
     if (checkFail) {

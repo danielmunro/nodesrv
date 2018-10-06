@@ -125,7 +125,7 @@ export class Fight {
       return null
     }
 
-    return mob === this.aggressor ? this.aggressor : this.target
+    return mob === this.aggressor ? this.target : this.aggressor
   }
 
   public async round(): Promise<Round> {

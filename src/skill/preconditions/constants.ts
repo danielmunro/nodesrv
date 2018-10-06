@@ -11,6 +11,6 @@ export const Messages = {
     FailAlreadyInvoked: "You are already at an elevated level of battle readiness.",
   },
   Disarm: {
-    FailNothingToDisarm: "{0} doesn't have a weapon to disarm.",
+    FailNothingToDisarm: "They don't have a weapon to disarm.",
   },
 }
