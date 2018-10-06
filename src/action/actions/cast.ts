@@ -7,7 +7,8 @@ import { Messages } from "./constants"
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   const check = checkedRequest.check
-  const spellDefinition = spellCollection.collection.find((spell) => spell.spellType.startsWith(request.subject))
+  const spellDefinition = spellCollection.collection.find(spell =>
+    spell.spellType.startsWith(request.getContextAsInput().subject))
 
   spellDefinition.apply(check.result)
 

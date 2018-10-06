@@ -16,12 +16,14 @@ function lookAtSubject(request: Request, builder: ResponseBuilder, itemTable: It
     return builder.info(mob.description)
   }
 
-  let item = itemTable.findItemByInventory(request.getRoom().inventory, request.subject)
+  const subject = request.getContextAsInput().subject
+
+  let item = itemTable.findItemByInventory(request.getRoom().inventory, subject)
   if (item) {
     return builder.info(item.describe())
   }
 
-  item = itemTable.findItemByInventory(request.mob.inventory, request.subject)
+  item = itemTable.findItemByInventory(request.mob.inventory, subject)
   if (item) {
     return builder.info(item.describe())
   }
@@ -36,7 +38,7 @@ export default function(request: Request, service: Service): Promise<Response> {
     return builder.fail(MESSAGE_LOOK_CANNOT_SEE)
   }
 
-  if (request.subject) {
+  if (request.getContextAsInput().subject) {
     return lookAtSubject(request, builder, service.itemTable)
   }
 

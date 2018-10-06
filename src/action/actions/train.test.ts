@@ -4,6 +4,7 @@ import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import { Mob } from "../../mob/model/mob"
 import { Player } from "../../player/model/player"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
@@ -16,7 +17,7 @@ import train, { VITAL_INCREMENT } from "./train"
 
 async function getResponse(player: Player, trainer: Mob, input: string): Promise<Response> {
   return await train(new CheckedRequest(
-    new Request(player.sessionMob, RequestType.Train, input),
+    new Request(player.sessionMob, new InputContext(RequestType.Train, input)),
     await Check.ok(trainer)))
 }
 

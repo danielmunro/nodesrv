@@ -7,7 +7,7 @@ import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
 import Table from "../mob/table"
 import { Player } from "../player/model/player"
-import { getNewRequestFromMessageEvent, Request } from "../request/request"
+import { getNewRequestFromMessageEvent, Request, Request, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import Response from "../request/response"
 import ResponseAction from "../request/responseAction"
@@ -77,8 +77,8 @@ export class Client {
 
   public async handleNextRequest() {
     if (!this.session.isLoggedIn()) {
-      const request = this.requests.shift()
-      return this.session.handleRequest(new AuthRequest(this, request.input))
+      const request = this.requests.shift() as Request
+      return this.session.handleRequest(new AuthRequest(this, request.getContextAsInput().input))
     }
 
     return this.handleRequest(this.requests.shift())
@@ -86,7 +86,7 @@ export class Client {
 
   public async handleRequest(request: Request): Promise<Response> {
     const matchingHandlerDefinition = this.handlers.getMatchingHandlerDefinitionForRequestType(
-      request.requestType,
+      request.getType(),
       request.getAuthorizationLevel(),
       this.getDefaultRequestHandler(request))
     const response = await matchingHandlerDefinition.handle(request)

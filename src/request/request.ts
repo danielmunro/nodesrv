@@ -9,6 +9,8 @@ import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
 import { Messages } from "./constants"
+import InputContext from "./context/inputContext"
+import RequestContext from "./context/requestContext"
 import RequestBuilder from "./requestBuilder"
 import { RequestType } from "./requestType"
 import ResponseAction from "./responseAction"
@@ -20,42 +22,38 @@ export function getNewRequestFromMessageEvent(client: Client, messageEvent: Mess
     return new AuthRequest(client, data.request)
   }
   const requestArgs = data.request.split(" ")
-  const requestBuilder = new RequestBuilder(client.player, client.getMobTable())
+  const requestBuilder = new RequestBuilder(client.player.sessionMob, client.getMobTable())
   return requestBuilder.create(requestArgs[0], data.request)
 }
 
 export class Request {
-  public readonly command: string
-  public readonly subject: string
-  public readonly component: string
-  public readonly message: string
-
   constructor(
     public readonly mob: Mob,
-    public readonly requestType: RequestType,
-    public readonly input: string = requestType.toString(),
-    private readonly target: Mob = null) {
-    const words = input.split(" ")
-    this.command = words[0]
-    this.subject = words[1]
-    this.component = words[2]
-    this.message = words.slice(1).join(" ")
+    public readonly context: RequestContext,
+    private readonly target: Mob = null) {}
+
+  public getContextAsInput(): InputContext {
+    return this.context as InputContext
+  }
+
+  public getType(): RequestType {
+    return this.context.getRequestType()
   }
 
   public getRoom(): Room {
     return this.mob.room
   }
 
-  public findItemInSessionMobInventory(item = this.subject): Item | undefined {
+  public findItemInSessionMobInventory(item = this.getContextAsInput().subject): Item | undefined {
     return this.mob.inventory.findItemByName(item)
   }
 
-  public findItemInRoomInventory(item = this.subject): Item | undefined {
+  public findItemInRoomInventory(item = this.getContextAsInput().subject): Item | undefined {
     return this.mob.room.inventory.findItemByName(item)
   }
 
   public findMobInRoom(): Mob | undefined {
-    return this.mob.room.findMobByName(this.subject)
+    return this.mob.room.findMobByName(this.getContextAsInput().subject)
   }
 
   public getTarget(): Mob | null {

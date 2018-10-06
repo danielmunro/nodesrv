@@ -2,6 +2,7 @@ import { CheckStatus } from "../../check/checkStatus"
 import { addFight, Fight } from "../../mob/fight/fight"
 import { Mob } from "../../mob/model/mob"
 import { Player } from "../../player/model/player"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
@@ -10,7 +11,7 @@ import { MESSAGE_FAIL_KILL_ALREADY_FIGHTING, MESSAGE_FAIL_KILL_NO_TARGET } from 
 import { default as kill} from "./kill"
 
 function useKillRequest(player: Player, input: string, target: Mob = null) {
-  return kill(new Request(player.sessionMob, RequestType.Kill, input, target))
+  return kill(new Request(player.sessionMob, new InputContext(RequestType.Kill, input), target))
 }
 
 describe("kill", () => {

@@ -12,7 +12,7 @@ export default function(request: Request): Promise<Check> {
     .requireMob(merchant, Messages.All.Item.NoMerchant)
 
   if (merchant) {
-    item = merchant.inventory.findItemByName(request.subject)
+    item = merchant.inventory.findItemByName(request.getContextAsInput().subject)
     checkBuilder.require(item, MESSAGE_ERROR_NO_ITEM)
 
     if (item) {

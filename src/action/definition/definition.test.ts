@@ -1,3 +1,4 @@
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
@@ -12,7 +13,7 @@ async function getNewHandlerDefinition(requestType = RequestType.Noop): Definiti
 }
 
 function getNewTestRequest(requestType: RequestType): Request {
-  return new Request(getTestMob(), requestType)
+  return new Request(getTestMob(), new InputContext(requestType))
 }
 
 describe("Definition", () => {
@@ -41,7 +42,7 @@ describe("Definition", () => {
     testCases.forEach((requestType) => {
       const callback = jest.fn()
       handler
-        .handle(new Request(getTestMob(), requestType))
+        .handle(new Request(getTestMob(), new InputContext(requestType)))
         .then(callback)
         .then(() => expect(callback).toBeCalled())
     })

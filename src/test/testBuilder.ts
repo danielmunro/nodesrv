@@ -13,6 +13,7 @@ import { Mob } from "../mob/model/mob"
 import { Role } from "../mob/role"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
+import InputContext from "../request/context/inputContext"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { newRoom } from "../room/factory"
@@ -124,7 +125,7 @@ export default class TestBuilder {
   }
 
   public createRequest(requestType: RequestType, input: string = requestType, target: Mob = null): Request {
-    return new Request(this.player.sessionMob, requestType, input, target)
+    return new Request(this.player.sessionMob, new InputContext(requestType, input), target)
   }
 
   public async getActionCollection(): Promise<Collection> {
@@ -148,7 +149,7 @@ export default class TestBuilder {
       input = requestType.toString()
     }
     return new CheckedRequest(
-      new Request(this.player.sessionMob, requestType, input),
+      new Request(this.player.sessionMob, new InputContext(requestType, input)),
       new Check(checkStatus, result, checkComponents),
     )
   }

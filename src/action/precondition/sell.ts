@@ -8,6 +8,9 @@ export default function(request: Request): Promise<Check> {
 
   return request.checkWithStandingDisposition()
     .requireMob(room.mobs.find(m => m.isMerchant()), Messages.All.Item.NoMerchant)
-    .require(request.mob.inventory.findItemByName(request.subject), Messages.All.Item.NotOwned, CheckType.HasItem)
+    .require(
+      request.mob.inventory.findItemByName(request.getContextAsInput().subject),
+      Messages.All.Item.NotOwned,
+      CheckType.HasItem)
     .create()
 }

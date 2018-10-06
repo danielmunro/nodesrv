@@ -1,5 +1,6 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
@@ -16,7 +17,7 @@ describe("affects", () => {
     mob.addAffect(newAffect(AffectType.Dazed, 2))
 
     // when
-    const response = await affects(new Request(mob, RequestType.Affects))
+    const response = await affects(new Request(mob, new InputContext(RequestType.Affects)))
 
     // then
     expect(response.message).toContain(AffectType.Noop)

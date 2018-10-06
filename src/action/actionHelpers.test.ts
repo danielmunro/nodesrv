@@ -1,5 +1,6 @@
 import { Item } from "../item/model/item"
 import { MAX_PRACTICE_LEVEL } from "../mob/constants"
+import InputContext from "../request/context/inputContext"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { newSkill } from "../skill/factory"
@@ -46,7 +47,7 @@ describe("actions helpers", () => {
       actions.getMatchingHandlerDefinitionForRequestType(
         requestType,
         player.sessionMob.playerMob.authorizationLevel,
-        defaultHandler).handle(new Request(player.sessionMob, requestType, args))
+        defaultHandler).handle(new Request(player.sessionMob, new InputContext(requestType, args)))
 
     // expect
     expect(await handleRepeater(RequestType.Noop, "")).toBe(defaultHandler)

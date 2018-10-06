@@ -11,11 +11,12 @@ import {
 } from "./constants"
 
 export default function(request: Request): Promise<Check> {
-  if (!request.subject) {
+  if (!request.getContextAsInput().subject) {
     return Check.fail(MESSAGE_NO_SPELL)
   }
 
-  const spellDefinition = spellCollection.collection.find((spell) => spell.spellType.startsWith(request.subject))
+  const spellDefinition = spellCollection.collection.find(spell =>
+    spell.spellType.startsWith(request.getContextAsInput().subject))
 
   if (!spellDefinition) {
     return Check.fail(MESSAGE_SPELL_DOES_NOT_EXIST)

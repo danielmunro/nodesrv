@@ -1,5 +1,6 @@
 import { CheckStatus } from "../../check/checkStatus"
 import { addFight, Fight, reset } from "../../mob/fight/fight"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { newReciprocalExit } from "../../room/factory"
@@ -34,7 +35,7 @@ beforeEach(async () => {
 describe("flee action precondition", () => {
   it("should not work if the mob is not fighting", async () => {
     // when
-    const check = await flee(new Request(getTestMob(), RequestType.Flee, "flee"))
+    const check = await flee(new Request(getTestMob(), new InputContext(RequestType.Flee, "flee")))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -48,7 +49,7 @@ describe("flee action precondition", () => {
     room3.addMob(mob)
 
     // when
-    const check = await flee(new Request(player.sessionMob, RequestType.Flee, "flee"))
+    const check = await flee(new Request(player.sessionMob, new InputContext(RequestType.Flee, "flee")))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -60,7 +61,7 @@ describe("flee action precondition", () => {
     player.sessionMob.vitals.mv = 0
 
     // when
-    const check = await flee(new Request(player.sessionMob, RequestType.Flee, "flee"))
+    const check = await flee(new Request(player.sessionMob, new InputContext(RequestType.Flee, "flee")))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -69,7 +70,7 @@ describe("flee action precondition", () => {
 
   it("should work if all preconditions met", async () => {
     // when
-    const check = await flee(new Request(player.sessionMob, RequestType.Flee, "flee"))
+    const check = await flee(new Request(player.sessionMob, new InputContext(RequestType.Flee, "flee")))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

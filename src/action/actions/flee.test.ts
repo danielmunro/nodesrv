@@ -1,6 +1,7 @@
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import { addFight, Fight, getFights, reset } from "../../mob/fight/fight"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { newReciprocalExit } from "../../room/factory"
@@ -41,7 +42,7 @@ describe("flee action handler", () => {
     // when
     await flee(
       new CheckedRequest(
-        new Request(mob, RequestType.Flee),
+        new Request(mob, new InputContext(RequestType.Flee)),
         await Check.ok(fight)),
       service)
 
@@ -53,7 +54,7 @@ describe("flee action handler", () => {
     // when
     await flee(
       new CheckedRequest(
-        new Request(mob, RequestType.Flee),
+        new Request(mob, new InputContext(RequestType.Flee)),
         await Check.ok(fight)),
       service)
 

@@ -2,6 +2,7 @@ import { CheckStatus } from "../../check/checkStatus"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Role } from "../../mob/role"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
@@ -16,11 +17,9 @@ describe("buy actions precondition", () => {
     // setup
     const testBuilder = new TestBuilder()
 
-    // given
-    const mob = testBuilder.withMob().mob
-
     // when
-    const check = await buy(new Request(mob, RequestType.Buy, "buy foo"))
+    const check = await buy(
+      new Request(testBuilder.withMob().mob, new InputContext(RequestType.Buy, "buy foo")))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -39,7 +38,7 @@ describe("buy actions precondition", () => {
     testBuilder.withMob().mob.role = Role.Merchant
 
     // when
-    const check = await buy(new Request(mob, RequestType.Buy, "buy foo"))
+    const check = await buy(new Request(mob, new InputContext(RequestType.Buy, "buy foo")))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -55,13 +54,11 @@ describe("buy actions precondition", () => {
     const mob = mobBuilder.mob
 
     // and
-    const merchBuilder = testBuilder.withMob()
+    const merchBuilder = testBuilder.withMerchant()
     const item = merchBuilder.withAxeEq()
-    const merch = merchBuilder.mob
-    merch.role = Role.Merchant
 
     // when
-    const check = await buy(new Request(mob, RequestType.Buy, `buy ${item.name}`))
+    const check = await buy(new Request(mob, new InputContext(RequestType.Buy, `buy ${item.name}`)))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -90,7 +87,7 @@ describe("buy actions precondition", () => {
     merch.inventory.addItem(eq)
 
     // when
-    const check = await buy(new Request(player.sessionMob, RequestType.Buy, "buy sombrero"))
+    const check = await buy(new Request(player.sessionMob, new InputContext(RequestType.Buy, "buy sombrero")))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

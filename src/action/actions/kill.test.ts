@@ -2,6 +2,7 @@ import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import { CheckStatus } from "../../check/checkStatus"
 import { Player } from "../../player/model/player"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
@@ -11,7 +12,7 @@ import kill from "./kill"
 
 function useKillRequest(player: Player, target, input: string) {
   return kill(new CheckedRequest(
-    new Request(player.sessionMob, RequestType.Kill, input, target),
+    new Request(player.sessionMob, new InputContext(RequestType.Kill, input), target),
     new Check(CheckStatus.Ok, target, [])))
 }
 

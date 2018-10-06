@@ -8,25 +8,25 @@ import Service from "../../service/service"
 import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
 
 export default function(request: Request, service: Service): Promise<Check> {
-  return new Maybe(request.component)
+  return new Maybe(request.getContextAsInput().component)
     .do(() => getFromInventory(request, service.itemTable))
     .or(() => getFromRoom(request, service.itemTable))
     .get()
 }
 
 function getFromInventory(request: Request, itemTable: ItemTable) {
-  const container = itemTable.findItemByInventory(request.getRoom().inventory, request.component)
+  const container = itemTable.findItemByInventory(request.getRoom().inventory, request.getContextAsInput().component)
 
   return new CheckBuilder()
     .require(container, Messages.All.Item.NotFound, CheckType.ContainerPresent)
-    .require(() => itemTable.findItemByInventory(container.containerInventory, request.subject),
+    .require(() => itemTable.findItemByInventory(container.containerInventory, request.getContextAsInput().subject),
         Messages.All.Item.NotFound,
         CheckType.ItemPresent)
     .create()
 }
 
 function getFromRoom(request: Request, itemTable: ItemTable) {
-  const item = itemTable.findItemByInventory(request.getRoom().inventory, request.subject)
+  const item = itemTable.findItemByInventory(request.getRoom().inventory, request.getContextAsInput().subject)
   return new CheckBuilder()
     .require(item, Messages.All.Item.NotFound, CheckType.ItemPresent)
     .require(() => item.isTransferable, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)

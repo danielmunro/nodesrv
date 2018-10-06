@@ -1,6 +1,7 @@
 import { newTrail } from "../../area/builder/forest/trail"
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
+import InputContext from "../../request/context/inputContext"
 import { Request, Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
@@ -23,7 +24,7 @@ describe("move", () => {
 
     // when
     const response = await move(
-      new CheckedRequest(new Request(mob, RequestType.East), await Check.ok()),
+      new CheckedRequest(new Request(mob, new InputContext(RequestType.East)), await Check.ok()),
       Direction.East,
       service)
 

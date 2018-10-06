@@ -2,6 +2,7 @@ import CheckedRequest from "../../../check/checkedRequest"
 import { CheckStatus } from "../../../check/checkStatus"
 import { AuthorizationLevel } from "../../../player/authorizationLevel"
 import { Player } from "../../../player/model/player"
+import InputContext from "../../../request/context/inputContext"
 import { Request } from "../../../request/request"
 import RequestBuilder from "../../../request/requestBuilder"
 import { RequestType } from "../../../request/requestType"
@@ -37,7 +38,7 @@ describe("ban moderation precondition", () => {
     service = await testBuilder.getService()
     service.mobTable.add(player.sessionMob)
     service.mobTable.add(playerToBan.sessionMob)
-    requestBuilder = new RequestBuilder(player, service.mobTable)
+    requestBuilder = new RequestBuilder(player.sessionMob, service.mobTable)
   })
 
   it("should not work on non-existent mobs", async () => {
@@ -51,7 +52,8 @@ describe("ban moderation precondition", () => {
 
   it("should not apply a ban if the requester is not an admin", async () => {
     // when
-    const response = await ban(new Request(getTestMob(), RequestType.Ban, `ban ${MOB_TO_BAN}`), service)
+    const response = await ban(
+      new Request(getTestMob(), new InputContext(RequestType.Ban, `ban ${MOB_TO_BAN}`)), service)
 
     // then
     expect(response.status).toBe(CheckStatus.Failed)

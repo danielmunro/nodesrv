@@ -8,7 +8,7 @@ import { trainMap } from "../actions/train"
 import { Messages } from "./constants"
 
 export default function(request: Request): Promise<Check> {
-  const subject = request.subject
+  const subject = request.getContextAsInput().subject
 
   return request.checkWithStandingDisposition()
     .require(

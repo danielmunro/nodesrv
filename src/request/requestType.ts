@@ -34,6 +34,7 @@ export enum RequestType {
   Put = "put",
   Noop = "noop",
   Any = "any",
+  Event = "event",
 
   // greater than mortal
   Ban = "ban",

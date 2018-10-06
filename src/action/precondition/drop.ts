@@ -5,7 +5,7 @@ import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
 
 export default function(request: Request): Promise<Check> {
   const mob = request.mob
-  const item = mob.inventory.findItemByName(request.subject)
+  const item = mob.inventory.findItemByName(request.getContextAsInput().subject)
 
   if (!item) {
     return Check.fail(Messages.All.Item.NotOwned)

@@ -1,3 +1,4 @@
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
@@ -8,9 +9,9 @@ it("should be to handle gossiping", async () => {
   // setup
   const testBuilder = new TestBuilder()
   const actions = await testBuilder.getActionCollection()
-  const mob = testBuilder.withMob().mob
-  const request = new Request(mob, RequestType.Gossip, "gossip hello world")
-  const handler = actions.getMatchingHandlerDefinitionForRequestType(request.requestType)
+  const request = new Request(
+    testBuilder.withMob().mob, new InputContext(RequestType.Gossip, "gossip hello world"))
+  const handler = actions.getMatchingHandlerDefinitionForRequestType(request.getType())
 
   // when
   const response = await handler.handle(request)

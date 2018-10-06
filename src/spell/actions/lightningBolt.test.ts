@@ -1,3 +1,4 @@
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
@@ -21,7 +22,7 @@ describe("lightning bolt", () => {
     // when
     lightningBolt(
       new Check(
-        new Request(player.sessionMob, RequestType.Cast, "cast 'lightning bolt' bob", mob),
+        new Request(player.sessionMob, new InputContext(RequestType.Cast, "cast 'lightning bolt' bob"), mob),
         spellCollection.findSpell(SpellType.LightningBolt)))
 
     // then

@@ -1,4 +1,5 @@
 import { CheckStatus } from "../../check/checkStatus"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { Direction } from "../../room/constants"
@@ -13,7 +14,7 @@ import move from "./move"
 describe("move", () => {
   it("should not allow movement where an exit does not exist", async () => {
     // when
-    const check = await move(new Request(getTestMob(), RequestType.North), Direction.North)
+    const check = await move(new Request(getTestMob(), new InputContext(RequestType.North)), Direction.North)
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -30,7 +31,7 @@ describe("move", () => {
     room1.addMob(player.sessionMob)
 
     // when
-    const check = await move(new Request(player.sessionMob, RequestType.South), Direction.South)
+    const check = await move(new Request(player.sessionMob, new InputContext(RequestType.South)), Direction.South)
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -46,7 +47,7 @@ describe("move", () => {
     room1.addMob(player.sessionMob)
 
     // when
-    const check = await move(new Request(player.sessionMob, RequestType.South), Direction.South)
+    const check = await move(new Request(player.sessionMob, new InputContext(RequestType.South)), Direction.South)
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

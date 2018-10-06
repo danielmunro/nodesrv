@@ -2,6 +2,7 @@ import { CheckStatus } from "../../check/checkStatus"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Player } from "../../player/model/player"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
@@ -9,7 +10,7 @@ import { MESSAGE_REMOVE_FAIL } from "./constants"
 import remove from "./remove"
 
 function useRemoveRequest(player: Player, input: string) {
-  return remove(new Request(player.sessionMob, RequestType.Remove, input))
+  return remove(new Request(player.sessionMob, new InputContext(RequestType.Remove, input)))
 }
 
 describe("remove", () => {

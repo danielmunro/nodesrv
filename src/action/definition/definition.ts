@@ -21,7 +21,7 @@ export class Definition {
   }
 
   public async handle(request: Request): Promise<Response> {
-    if (!this.isAbleToHandleRequestType(request.requestType)) {
+    if (!this.isAbleToHandleRequestType(request.getType())) {
       throw new Error(MESSAGE_REQUEST_TYPE_MISMATCH)
     }
 

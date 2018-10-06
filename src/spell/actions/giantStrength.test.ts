@@ -1,4 +1,5 @@
 import { AffectType } from "../../affect/affectType"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
@@ -24,7 +25,7 @@ describe("giant strength", () => {
     mob.spells.push(newSpell(SpellType.GiantStrength, 5))
     room.addMob(target)
     const check = new Check(
-      new Request(player.sessionMob, RequestType.Cast, "cast giant strength alice", target),
+      new Request(player.sessionMob, new InputContext(RequestType.Cast, "cast giant strength alice"), target),
       spellDefinition,
       () => true)
 

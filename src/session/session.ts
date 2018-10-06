@@ -2,13 +2,14 @@ import look from "../action/actions/look"
 import { Client } from "../client/client"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
-import { Request, Request as ActionRequest } from "../request/request"
+import InputContext from "../request/context/inputContext"
+import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import AuthStep from "./auth/authStep"
 import Complete from "./auth/complete"
 import { default as MobComplete } from "./auth/createMob/complete"
 import { default as PlayerComplete } from "./auth/createPlayer/complete"
-import Request from "./auth/request"
+import { default as AuthRequest } from "./auth/request"
 import { SessionStatus } from "./status"
 
 export default class Session {
@@ -25,7 +26,7 @@ export default class Session {
     return this.status === SessionStatus.LoggedIn
   }
 
-  public async handleRequest(request: Request) {
+  public async handleRequest(request: AuthRequest) {
     const response = await this.authStep.processRequest(request)
     this.authStep = response.authStep
     this.client.send({ message: response.message })
@@ -64,6 +65,6 @@ export default class Session {
     }
     this.status = SessionStatus.LoggedIn
     this.client.send({ player: this.player })
-    this.client.send(await look(new Request(this.mob, RequestType.Look), null))
+    this.client.send(await look(new Request(this.mob, new InputContext(RequestType.Look)), null))
   }
 }

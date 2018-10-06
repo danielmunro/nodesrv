@@ -4,6 +4,7 @@ import { newEquipment } from "../../item/factory"
 import { Item } from "../../item/model/item"
 import { allDispositions, Disposition } from "../../mob/disposition"
 import { Player } from "../../player/model/player"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
@@ -16,7 +17,7 @@ function getHatOfMight(): Item {
 }
 
 function useWearRequest(input: string, player: Player = getTestPlayer()) {
-  return wear(new Request(player.sessionMob, RequestType.Wear, input))
+  return wear(new Request(player.sessionMob, new InputContext(RequestType.Wear, input)))
 }
 
 describe("wear", () => {

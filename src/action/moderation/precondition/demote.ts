@@ -10,7 +10,7 @@ import {
 } from "./constants"
 
 export default async function(request: Request, service: Service): Promise<Check> {
-  const mob = service.mobTable.find((m) => m.name === request.subject)
+  const mob = service.mobTable.find((m) => m.name === request.getContextAsInput().subject)
   return new CheckBuilder().requireMob(mob, MESSAGE_FAIL_NO_TARGET)
     .requirePlayer(mob)
     .requireImmortal(request.getAuthorizationLevel())

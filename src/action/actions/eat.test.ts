@@ -2,8 +2,8 @@ import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
-import { PlayerMob } from "../../mob/model/playerMob"
 import appetite from "../../mob/race/appetite"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
@@ -17,7 +17,7 @@ describe("eat action", () => {
     const player = playerBuilder.player
 
     await eat(new CheckedRequest(
-      new Request(player.sessionMob, RequestType.Eat, `eat muf`),
+      new Request(player.sessionMob, new InputContext(RequestType.Eat, `eat muf`)),
       await Check.ok(food)))
 
     expect(player.sessionMob.inventory.items.length).toBe(0)
@@ -32,7 +32,7 @@ describe("eat action", () => {
     player.sessionMob.playerMob.hunger = appetite(player.sessionMob.race) - 1
 
     const response = await eat(new CheckedRequest(
-      new Request(player.sessionMob, RequestType.Eat, `eat muf`),
+      new Request(player.sessionMob, new InputContext(RequestType.Eat, `eat muf`)),
       await Check.ok(food)))
 
     expect(response.message).toContain("You feel full")
@@ -46,7 +46,7 @@ describe("eat action", () => {
     food.affects.push(newAffect(AffectType.Poison))
 
     const response = await eat(new CheckedRequest(
-      new Request(mob, RequestType.Eat, `eat muff`),
+      new Request(mob, new InputContext(RequestType.Eat, `eat muff`)),
       await Check.ok(food)))
 
     console.log("resp", response.message)

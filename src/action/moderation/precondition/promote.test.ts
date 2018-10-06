@@ -36,7 +36,7 @@ describe("promote moderation precondition", () => {
     service = await testBuilder.getService()
     service.mobTable.add(player.sessionMob)
     service.mobTable.add(playerToPromote.sessionMob)
-    requestBuilder = new RequestBuilder(player, service.mobTable)
+    requestBuilder = new RequestBuilder(player.sessionMob, service.mobTable)
   })
 
   it("should not be able to promote if not an immortal", async () => {

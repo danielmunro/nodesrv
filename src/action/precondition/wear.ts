@@ -6,7 +6,7 @@ import { Messages } from "./constants"
 export default function(request: Request): Promise<Check> {
   return request.checkWithStandingDisposition()
     .require(
-      request.mob.inventory.findItemByName(request.subject),
+      request.mob.inventory.findItemByName(request.getContextAsInput().subject),
       Messages.All.Item.NotOwned,
       CheckType.HasItem)
     .create()

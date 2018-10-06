@@ -32,7 +32,7 @@ export function getBanCommand(subject) {
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   const target = checkedRequest.check.result
-  const command = getBanCommand(request.component)
+  const command = getBanCommand(request.getContextAsInput().component)
   const newStanding = getNewStanding(command)
   target.playerMob.standing = newStanding
 

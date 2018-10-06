@@ -2,6 +2,7 @@ import look from "../action/actions/look"
 import { Collection } from "../action/definition/collection"
 import { Role } from "../mob/role"
 import { Player } from "../player/model/player"
+import InputContext from "../request/context/inputContext"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { default as AuthRequest } from "../session/auth/request"
@@ -30,7 +31,7 @@ describe("client sanity checks", () => {
     expect(client.hasRequests()).toBeFalsy()
 
     // when
-    client.addRequest(new Request(client.getSessionMob(), RequestType.Any))
+    client.addRequest(new Request(client.getSessionMob(), new InputContext(RequestType.Any)))
 
     // then
     expect(client.hasRequests()).toBeTruthy()
@@ -41,7 +42,7 @@ describe("client sanity checks", () => {
     expect(client.canHandleRequests()).toBeFalsy()
 
     // when
-    client.addRequest(new Request(client.player.sessionMob, RequestType.Any))
+    client.addRequest(new Request(client.player.sessionMob, new InputContext(RequestType.Any)))
 
     // then
     expect(client.canHandleRequests()).toBeTruthy()
@@ -128,7 +129,7 @@ describe("clients", () => {
     const request = getNewRequestFromMessageEvent(client, testEvent) as Request
 
     // expect
-    expect(request.input).toEqual(testMessage)
+    expect(request.getContextAsInput().input).toEqual(testMessage)
   })
 
   it("should use the default actions when no handlers match", async () => {
@@ -225,7 +226,7 @@ describe("clients", () => {
     room.addMob(trainer)
     room.addMob(client.player.sessionMob)
     client.player.sessionMob.playerMob.trains = 1
-    client.addRequest(new Request(client.player.sessionMob, RequestType.Train, "train str"))
+    client.addRequest(new Request(client.player.sessionMob, new InputContext(RequestType.Train, "train str")))
 
     // when
     await client.handleNextRequest()

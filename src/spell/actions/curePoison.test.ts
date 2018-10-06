@@ -1,6 +1,7 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
+import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
@@ -18,7 +19,7 @@ describe("cure poison", () => {
 
     curePoison(
       new Check(
-        new Request(player.sessionMob, RequestType.Cast, "cast 'cure poison'"),
+        new Request(player.sessionMob, new InputContext(RequestType.Cast, "cast 'cure poison'")),
         spellCollection.findSpell(SpellType.CurePoison)))
 
     expect(player.sessionMob.affects.length).toBe(0)
