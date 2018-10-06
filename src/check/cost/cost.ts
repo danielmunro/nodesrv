@@ -14,6 +14,11 @@ export default class Cost {
       return
     }
 
+    if (this.costType === CostType.Mana) {
+      player.sessionMob.vitals.mana -= this.amount
+      return
+    }
+
     if (this.costType === CostType.Delay) {
       player.delay += this.amount
       return

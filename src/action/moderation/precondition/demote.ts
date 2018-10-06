@@ -5,7 +5,6 @@ import { Request } from "../../../request/request"
 import Service from "../../../service/service"
 import {
   MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS,
-  MESSAGE_FAIL_CANNOT_DEMOTE_SELF,
   MESSAGE_FAIL_NO_TARGET,
 } from "./constants"
 

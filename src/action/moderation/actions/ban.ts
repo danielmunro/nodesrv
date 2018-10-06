@@ -1,7 +1,6 @@
 import CheckedRequest from "../../../check/checkedRequest"
 import { Standing } from "../../../mob/standing"
 import Response from "../../../request/response"
-import ResponseBuilder from "../../../request/responseBuilder"
 
 export enum Ban {
   Lift = "lift",

@@ -7,7 +7,6 @@ import Service from "../../../service/service"
 import {
   MESSAGE_FAIL_ALREADY_BANNED,
   MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS,
-  MESSAGE_FAIL_CANNOT_BAN_SELF,
   MESSAGE_FAIL_NO_TARGET,
 } from "./constants"
 

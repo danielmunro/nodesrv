@@ -1,4 +1,3 @@
-import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"

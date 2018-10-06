@@ -13,10 +13,12 @@ export const Messages = {
     Success: "You kick dirt right in {0}'s eyes!",
   },
   Envenom: {
-    Fail: {
+    Error: {
       NotAWeapon: "That's not a weapon.",
       WrongWeaponType: "You need a piercing or slashing weapon",
     },
+    Fail: "You fail to envenom {0}.",
+    Success: "You successfully envenom {0}.",
   },
   Sneak: {
     Fail: "You fail to move silently.",

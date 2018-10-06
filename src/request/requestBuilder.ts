@@ -1,7 +1,6 @@
 import match from "../matcher/match"
 import { Mob } from "../mob/model/mob"
 import Table from "../mob/table"
-import { Player } from "../player/model/player"
 import InputContext from "./context/inputContext"
 import { Request } from "./request"
 import { RequestType } from "./requestType"

@@ -1,10 +1,6 @@
 import {
-  newAttributes,
-  newHitroll,
   newStartingAttributes,
-  newStartingStats,
   newStartingVitals,
-  newVitals,
 } from "../attributes/factory"
 import Attributes from "../attributes/model/attributes"
 import Vitals from "../attributes/model/vitals"

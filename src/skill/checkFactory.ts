@@ -1,5 +1,4 @@
 import { Player } from "../player/model/player"
-import Attempt from "./attempt"
 import Check from "./check"
 import { CheckResult } from "./checkResult"
 

@@ -6,8 +6,7 @@ import { Request } from "../../../request/request"
 import Service from "../../../service/service"
 import {
   MESSAGE_FAIL_BANNED,
-  MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS,
-  MESSAGE_FAIL_CANNOT_PROMOTE_SELF, MESSAGE_FAIL_NO_TARGET,
+  MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS, MESSAGE_FAIL_NO_TARGET,
 } from "./constants"
 
 export default async function(request: Request, service: Service): Promise<Check> {

@@ -11,7 +11,6 @@ import TestBuilder from "../../../test/testBuilder"
 import {
   MESSAGE_FAIL_BANNED,
   MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS,
-  MESSAGE_FAIL_CANNOT_PROMOTE_SELF,
   MESSAGE_FAIL_NOT_AUTHORIZED,
 } from "./constants"
 import { MESSAGE_FAIL_NOT_PLAYER } from "./constants"

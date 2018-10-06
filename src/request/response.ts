@@ -14,6 +14,14 @@ export default class Response {
     return this.status === ResponseStatus.Success
   }
 
+  public isFailure(): boolean {
+    return this.status === ResponseStatus.ActionFailed || this.status === ResponseStatus.PreconditionsFailed
+  }
+
+  public isError(): boolean {
+    return this.status === ResponseStatus.PreconditionsFailed
+  }
+
   public getCheckedRequest(): CheckedRequest {
     return this.request as CheckedRequest
   }

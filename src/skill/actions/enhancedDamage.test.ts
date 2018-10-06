@@ -1,9 +1,14 @@
 import { newAttributesWithStats, newStats } from "../../attributes/factory"
+import CheckedRequest from "../../check/checkedRequest"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { Race } from "../../mob/race/race"
+import { Trigger } from "../../mob/trigger"
+import EventContext from "../../request/context/eventContext"
+import { Request } from "../../request/request"
+import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import Attempt from "../attempt"
+import enhancedDamagePrecondition from "../preconditions/enhancedDamage"
 import { SkillType } from "../skillType"
 import enhancedDamage from "./enhancedDamage"
 
@@ -18,9 +23,9 @@ async function getMob() {
   return mob
 }
 
-async function doEnhancedDamage(iterationCount: number, attempt: Attempt) {
-  return (await doNTimes(iterationCount, () => enhancedDamage(attempt)))
-           .filter((outcome) => outcome.wasSuccessful())
+async function doEnhancedDamage(iterationCount: number, checkedRequest: CheckedRequest) {
+  return (await doNTimes(iterationCount, () => enhancedDamage(checkedRequest)))
+           .filter((outcome) => outcome.isSuccessful())
 }
 
 describe("enhanced damage", () => {
@@ -31,9 +36,12 @@ describe("enhanced damage", () => {
     const skill = mob.skills[0]
     skill.level = MAX_PRACTICE_LEVEL
     const iterationCount = 1000
+    const request = new Request(mob, new EventContext(RequestType.Event, Trigger.DamageModifier))
 
     // when
-    const outcomes = await doEnhancedDamage(iterationCount, mob.attempt(SkillType.EnhancedDamage))
+    const outcomes = await doEnhancedDamage(
+      iterationCount,
+      new CheckedRequest(request, await enhancedDamagePrecondition(request)))
 
     // then
     expect(outcomes.length).toBeGreaterThan(iterationCount / 2)
@@ -45,9 +53,12 @@ describe("enhanced damage", () => {
     const skill = mob.skills[0]
     skill.level = MAX_PRACTICE_LEVEL / 2
     const iterationCount = 1000
+    const request = new Request(mob, new EventContext(RequestType.Event, Trigger.DamageModifier))
 
     // when
-    const outcomes = await doEnhancedDamage(iterationCount, mob.attempt(SkillType.EnhancedDamage))
+    const outcomes = await doEnhancedDamage(
+      iterationCount,
+      new CheckedRequest(request, await enhancedDamagePrecondition(request)))
 
     // then
     expect(outcomes.length).toBeLessThan(iterationCount / 2)
@@ -57,9 +68,12 @@ describe("enhanced damage", () => {
     // given
     const mob = await getMob()
     const iterationCount = 1000
+    const request = new Request(mob, new EventContext(RequestType.Event, Trigger.DamageModifier))
 
     // when
-    const outcomes = await doEnhancedDamage(iterationCount, mob.attempt(SkillType.EnhancedDamage))
+    const outcomes = await doEnhancedDamage(
+      iterationCount,
+      new CheckedRequest(request, await enhancedDamagePrecondition(request)))
 
     // then
     expect(outcomes.length).toBeLessThan(iterationCount / 10)

@@ -4,10 +4,7 @@ import { Mob } from "../../mob/model/mob"
 import roll from "../../random/dice"
 import Response from "../../request/response"
 import { format } from "../../support/string"
-import { Costs } from "../constants"
 import { Skill } from "../model/skill"
-import Outcome from "../outcome"
-import { OutcomeType } from "../outcomeType"
 import { Messages, Thresholds } from "./constants"
 
 export default async function(checkedRequest: CheckedRequest): Promise<Response> {

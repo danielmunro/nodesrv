@@ -1,7 +1,6 @@
 import { Item } from "../item/model/item"
 import { Disposition } from "../mob/disposition"
 import { Player } from "../player/model/player"
-import Service from "../service/service"
 import ServiceBuilder from "../service/serviceBuilder"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"

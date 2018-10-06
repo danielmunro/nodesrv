@@ -5,7 +5,7 @@ import { CheckType } from "../../check/checkType"
 import { Mob } from "../../mob/model/mob"
 import roll from "../../random/dice"
 import Response from "../../request/response"
-import { Costs, Messages } from "../constants"
+import { Messages } from "../constants"
 import { Skill } from "../model/skill"
 import { Thresholds } from "./constants"
 

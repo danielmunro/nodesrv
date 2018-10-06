@@ -3,9 +3,7 @@ import { CheckType } from "../../check/checkType"
 import roll from "../../random/dice"
 import Response from "../../request/response"
 import { format } from "../../support/string"
-import { Costs, Messages } from "../constants"
-import Outcome from "../outcome"
-import { OutcomeType } from "../outcomeType"
+import { Messages } from "../constants"
 import { SkillType } from "../skillType"
 
 export default async function(checkedRequest: CheckedRequest): Promise<Response> {

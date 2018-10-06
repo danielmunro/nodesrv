@@ -3,7 +3,6 @@ import Maybe from "../../../functional/maybe"
 import { Mob } from "../../../mob/model/mob"
 import { AuthorizationLevel, getAuthorizationLevelName } from "../../../player/authorizationLevel"
 import Response from "../../../request/response"
-import ResponseBuilder from "../../../request/responseBuilder"
 import { MESSAGE_FAIL_NO_MORE_DEMOTIONS } from "./constants"
 
 export function getNextDemotion(mob: Mob) {

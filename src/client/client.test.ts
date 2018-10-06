@@ -150,7 +150,7 @@ describe("clients", () => {
 
     // when
     const response = await client.handleRequest(request)
-    const lookResponse = await look(request)
+    const lookResponse = await look(request, client)
 
     // then
     expect(response).toEqual(lookResponse)

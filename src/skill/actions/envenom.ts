@@ -1,28 +1,35 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
+import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
 import { DamageType } from "../../damage/damageType"
 import Weapon from "../../item/model/weapon"
 import roll from "../../random/dice"
-import Attempt from "../attempt"
+import Response from "../../request/response"
+import { format } from "../../support/string"
 import { Costs, Messages } from "../constants"
-import Outcome from "../outcome"
 
-export default async function(attempt: Attempt): Promise<Outcome> {
-  const item = attempt.getSubjectAsItem()
+export default async function(checkedRequest: CheckedRequest): Promise<Response> {
+  const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+  const responseBuilder = checkedRequest.respondWith()
 
   if (!(item instanceof Weapon)) {
-    return attempt.checkFail(Messages.Envenom.Fail.NotAWeapon)
+    return responseBuilder.error(Messages.Envenom.Error.NotAWeapon)
   }
 
   if (item.damageType !== DamageType.Slash && item.damageType !== DamageType.Pierce) {
-    return attempt.checkFail(Messages.Envenom.Fail.WrongWeaponType)
+    return responseBuilder.error(Messages.Envenom.Error.WrongWeaponType)
   }
 
-  if (roll(1, attempt.skill.level) > item.level) {
-    attempt.mob.vitals.mana -= Costs.Envenom.Mana
-    item.affects.push(newAffect(AffectType.Poison, attempt.mob.level))
-    return attempt.success()
+  const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+  const mob = checkedRequest.mob
+
+  if (roll(1, skill.level / 3) <= item.level) {
+    return responseBuilder.fail(format(Messages.Envenom.Fail, item.name))
   }
 
-  return attempt.fail()
+  mob.vitals.mana -= Costs.Envenom.Mana
+  item.affects.push(newAffect(AffectType.Poison, mob.level))
+
+  return responseBuilder.success(format(Messages.Envenom.Success, item.name))
 }

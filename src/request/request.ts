@@ -30,7 +30,7 @@ export class Request {
   constructor(
     public readonly mob: Mob,
     public readonly context: RequestContext,
-    private readonly target: Mob = null) {}
+    private readonly target: Mob | Item = null) {}
 
   public getContextAsInput(): InputContext {
     return this.context as InputContext
@@ -56,7 +56,7 @@ export class Request {
     return this.mob.room.findMobByName(this.getContextAsInput().subject)
   }
 
-  public getTarget(): Mob | null {
+  public getTarget(): Mob | Item | null {
     return this.target
   }
 

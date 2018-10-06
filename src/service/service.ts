@@ -19,7 +19,7 @@ export default class Service {
   ): Promise<Service> {
     return new Service(
       roomTable, mobTable, itemTable,
-      await getRoomRepository(), await getExitRepository(), await getItemRepository())
+      await getRoomRepository(), await getExitRepository())
   }
 
   public static async newWithArray(rooms: Room[]): Promise<Service> {
@@ -31,8 +31,7 @@ export default class Service {
     public readonly mobTable: MobTable,
     public readonly itemTable: ItemTable,
     private readonly roomRepository: RoomRepository,
-    private readonly exitRepository: ExitRepository,
-    private readonly itemRepository: ItemRepository) {}
+    private readonly exitRepository: ExitRepository) {}
 
   public async saveRoom(room): Promise<any> {
     return this.roomRepository.save(room)

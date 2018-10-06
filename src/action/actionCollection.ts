@@ -3,10 +3,12 @@ import { Direction } from "../room/constants"
 import Service from "../service/service"
 import bash from "../skill/actions/bash"
 import berserk from "../skill/actions/berserk"
+import envenom from "../skill/actions/envenom"
 import sneak from "../skill/actions/sneak"
 import trip from "../skill/actions/trip"
 import { default as bashPrecondition } from "../skill/preconditions/bash"
 import { default as berserkPrecondition } from "../skill/preconditions/berserk"
+import { default as envenomPrecondition } from "../skill/preconditions/envenom"
 import { default as sneakPrecondition } from "../skill/preconditions/sneak"
 import { default as tripPrecondition } from "../skill/preconditions/trip"
 import affects from "./actions/affects"
@@ -86,6 +88,7 @@ export default function getActionCollection(service: Service) {
     // skills
     service.getNewDefinition(RequestType.Bash, bash, bashPrecondition),
     service.getNewDefinition(RequestType.Berserk, berserk, berserkPrecondition),
+    service.getNewDefinition(RequestType.Envenom, envenom, envenomPrecondition),
     service.getNewDefinition(RequestType.Sneak, sneak, sneakPrecondition),
     service.getNewDefinition(RequestType.Trip, trip, tripPrecondition),
 

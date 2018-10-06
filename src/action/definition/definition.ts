@@ -4,7 +4,6 @@ import { CheckStatus } from "../../check/checkStatus"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
-import ResponseBuilder from "../../request/responseBuilder"
 import Service from "../../service/service"
 import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 

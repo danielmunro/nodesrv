@@ -1,14 +1,10 @@
 import { Item } from "../item/model/item"
-import { MAX_PRACTICE_LEVEL } from "../mob/constants"
 import InputContext from "../request/context/inputContext"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
-import { newSkill } from "../skill/factory"
-import { Messages } from "../skill/preconditions/constants"
-import { SkillType } from "../skill/skillType"
 import { getTestPlayer } from "../test/player"
 import TestBuilder from "../test/testBuilder"
-import { doSkill, doWithItemOrElse } from "./actionHelpers"
+import { doWithItemOrElse } from "./actionHelpers"
 import { Definition } from "./definition/definition"
 
 describe("actions helpers", () => {

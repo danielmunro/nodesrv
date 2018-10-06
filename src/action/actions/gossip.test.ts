@@ -1,9 +1,7 @@
 import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { getTestPlayer } from "../../test/player"
 import TestBuilder from "../../test/testBuilder"
-import { Definition } from "../definition/definition"
 
 it("should be to handle gossiping", async () => {
   // setup

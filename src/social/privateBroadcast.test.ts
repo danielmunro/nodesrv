@@ -1,5 +1,4 @@
 import { getTestMob } from "../test/mob"
-import { getTestPlayer } from "../test/player"
 import { Channel } from "./channel"
 import { broadcastPrivateMessage, readPrivateMessages } from "./privateBroadcast"
 

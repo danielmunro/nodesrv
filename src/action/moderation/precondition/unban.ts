@@ -5,8 +5,7 @@ import { isBanned } from "../../../mob/standing"
 import { Request } from "../../../request/request"
 import Service from "../../../service/service"
 import {
-  MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS,
-  MESSAGE_FAIL_CANNOT_UNBAN_SELF, MESSAGE_FAIL_NO_TARGET,
+  MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS, MESSAGE_FAIL_NO_TARGET,
   MESSAGE_FAIL_NOT_BANNED,
 } from "./constants"
 

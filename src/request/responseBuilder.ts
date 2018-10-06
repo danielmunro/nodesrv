@@ -14,11 +14,11 @@ export default class ResponseBuilder {
     return this.response(ResponseStatus.Info, message)
   }
 
-  public success(message: string): Promise<Response> {
+  public success(message: string = null): Promise<Response> {
     return this.response(ResponseStatus.Success, message)
   }
 
-  public fail(message: string): Promise<Response> {
+  public fail(message: string = null): Promise<Response> {
     return this.response(ResponseStatus.ActionFailed, message)
   }
 

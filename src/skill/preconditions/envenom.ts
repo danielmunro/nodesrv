@@ -1,11 +1,19 @@
-import Attempt from "../attempt"
-import Check from "../check"
-import { failCheck, successCheck } from "../checkFactory"
+import Check from "../../check/check"
+import { CheckType } from "../../check/checkType"
+import Cost from "../../check/cost/cost"
+import { CostType } from "../../check/cost/costType"
+import { Request } from "../../request/request"
 import { Costs } from "../constants"
+import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 
-export default function(attempt: Attempt): Promise<Check> {
-  return attempt.mob.vitals.mana >= Costs.Envenom.Mana ?
-    successCheck(() => attempt.mob.vitals.mana -= Costs.Envenom.Mana) :
-    failCheck(Messages.All.NotEnoughMana)
+export default function(request: Request): Promise<Check> {
+  return request.checkWithStandingDisposition()
+    .requireSkill(SkillType.Envenom)
+    .require(
+      request.findItemInSessionMobInventory(),
+      Messages.All.NoItem,
+      CheckType.HasItem)
+    .addCost(new Cost(CostType.Mana, Costs.Envenom.Mana))
+    .create()
 }
