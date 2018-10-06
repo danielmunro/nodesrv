@@ -3,6 +3,7 @@ import { Direction } from "../room/constants"
 import Service from "../service/service"
 import bash from "../skill/actions/bash"
 import berserk from "../skill/actions/berserk"
+import disarm from "../skill/actions/disarm"
 import envenom from "../skill/actions/envenom"
 import sneak from "../skill/actions/sneak"
 import trip from "../skill/actions/trip"
@@ -56,7 +57,6 @@ import { default as sacrificePrecondition } from "./precondition/sacrifice"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
-import disarm from "../skill/actions/disarm"
 
 function newMoveDefinition(service: Service, requestType: RequestType, direction: Direction) {
   return service.getNewDefinition(requestType,
