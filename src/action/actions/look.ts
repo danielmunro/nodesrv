@@ -3,13 +3,12 @@ import ItemTable from "../../item/itemTable"
 import { onlyLiving } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
 import getSight from "../../mob/race/sight"
+import { Region } from "../../region/model/region"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import Service from "../../service/service"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
-import { Room } from "../../room/model/room"
-import { Region } from "../../region/model/region"
 
 function lookAtSubject(request: Request, builder: ResponseBuilder, itemTable: ItemTable) {
   const mob = request.findMobInRoom()

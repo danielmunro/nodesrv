@@ -10,6 +10,7 @@ import { Equipped } from "../../item/model/equipped"
 import { Inventory } from "../../item/model/inventory"
 import { AuthorizationLevel } from "../../player/authorizationLevel"
 import { Player } from "../../player/model/player"
+import roll from "../../random/dice"
 import { Room } from "../../room/model/room"
 import { BaseRegenModifier } from "../../server/observers/constants"
 import { Skill } from "../../skill/model/skill"
@@ -26,7 +27,6 @@ import { SpecializationType } from "../specialization/specializationType"
 import { Standing } from "../standing"
 import { Trigger } from "../trigger"
 import { PlayerMob } from "./playerMob"
-import roll from "../../random/dice"
 
 @Entity()
 export class Mob {

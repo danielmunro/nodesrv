@@ -1,10 +1,10 @@
+import { newStartingAttributes, newVitals } from "../../attributes/factory"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { newSkill } from "../../skill/factory"
 import { SkillType } from "../../skill/skillType"
 import { getTestClient } from "../../test/client"
 import { Tick } from "./tick"
-import { newStartingAttributes, newVitals } from "../../attributes/factory"
 
 describe("ticks", () => {
   it("should call tick on all clients", async () => {
