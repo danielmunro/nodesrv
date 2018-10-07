@@ -21,7 +21,7 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
   }
 
   const amount = skill.level / 10
-  target.addAffect(newAffect(AffectType.Dazed, amount))
+  target.addAffect(newAffect(AffectType.Stunned, amount))
   target.vitals.hp -= amount
 
   return responseBuilder.success(format(`You tripped {0}!`, Costs.Trip.Delay))

@@ -1,5 +1,4 @@
 import { AffectType } from "../../affect/affectType"
-import Maybe from "../../functional/maybe"
 import ItemTable from "../../item/itemTable"
 import { onlyLiving } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
@@ -9,6 +8,8 @@ import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import Service from "../../service/service"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
+import { Room } from "../../room/model/room"
+import { Region } from "../../region/model/region"
 
 function lookAtSubject(request: Request, builder: ResponseBuilder, itemTable: ItemTable) {
   const mob = request.findMobInRoom()
@@ -43,15 +44,24 @@ export default function(request: Request, service: Service): Promise<Response> {
   }
 
   const room = request.getRoom()
-  const roomDescription = new Maybe(room.region)
-    .do((region) =>
-      getSight(request.mob.race).isAbleToSee(12, region.terrain, region.weather)
-        ? room.toString() : MESSAGE_LOOK_CANNOT_SEE)
-    .or(() => room.toString())
-    .get()
+  const ableToSee = isAbleToSee(request.mob, room.region)
+  const roomDescription = ableToSee ? room.toString() : MESSAGE_LOOK_CANNOT_SEE
+  const mobDescription = ableToSee ? reduceMobs(request.mob, room.mobs) : ""
 
   return builder.info(roomDescription
-    + room.mobs.filter(onlyLiving).reduce((previous: string, current: Mob) =>
-        previous + (current !== request.mob ? `\n${current.name} is here.` : ""), "")
+    + mobDescription
     + room.inventory.toString("is here."))
+}
+
+function isAbleToSee(mob: Mob, region: Region = null) {
+  if (!region) {
+    return true
+  }
+
+  return getSight(mob.race).isAbleToSee(12, region.terrain, region.weather)
+}
+
+function reduceMobs(mob: Mob, mobs: Mob[]): string {
+  return mobs.filter(onlyLiving).reduce((previous: string, current: Mob) =>
+    previous + (current !== mob ? `\n${current.name} is here.` : ""), "")
 }

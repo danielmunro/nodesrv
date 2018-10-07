@@ -14,7 +14,7 @@ describe("affects", () => {
     // given
     const mob = getTestMob()
     mob.addAffect(newAffect(AffectType.Noop, 1))
-    mob.addAffect(newAffect(AffectType.Dazed, 2))
+    mob.addAffect(newAffect(AffectType.Stunned, 2))
 
     // when
     const response = await affects(new Request(mob, new InputContext(RequestType.Affects)))
@@ -22,7 +22,7 @@ describe("affects", () => {
     // then
     expect(response.message).toContain(AffectType.Noop)
     expect(response.message).toContain("hour\n")
-    expect(response.message).toContain(AffectType.Dazed)
+    expect(response.message).toContain(AffectType.Stunned)
     expect(response.message).toContain("hours")
     expect(response.message).not.toContain(AffectType.Shield)
   })

@@ -14,7 +14,7 @@ describe("decrementAffects", () => {
 
     // given
     const mob = client.player.sessionMob
-    mob.addAffect(newAffect(AffectType.Dazed, TEST_TIMEOUT_1))
+    mob.addAffect(newAffect(AffectType.Stunned, TEST_TIMEOUT_1))
     mob.addAffect(newAffect(AffectType.Shield, TEST_TIMEOUT_2))
     const table = new Table([mob])
 
@@ -22,7 +22,7 @@ describe("decrementAffects", () => {
     table.apply(decrementAffects)
 
     // then
-    expect(mob.getAffect(AffectType.Dazed).timeout).toBe(TEST_TIMEOUT_1 - 1)
+    expect(mob.getAffect(AffectType.Stunned).timeout).toBe(TEST_TIMEOUT_1 - 1)
     expect(mob.getAffect(AffectType.Shield).timeout).toBe(TEST_TIMEOUT_2 - 1)
   })
 
@@ -32,7 +32,7 @@ describe("decrementAffects", () => {
 
     // given
     const mob = client.player.sessionMob
-    mob.addAffect(newAffect(AffectType.Dazed, 0))
+    mob.addAffect(newAffect(AffectType.Stunned, 0))
     const table = new Table([mob])
 
     // when

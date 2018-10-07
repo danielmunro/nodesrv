@@ -32,4 +32,20 @@ export const modifierTable = [
     AffectType.Berserk,
     Trigger.Tick,
     regenModifier => regenModifier + 0.1),
+
+  // stun
+  new AffectModifier(
+    AffectType.Stunned,
+    Trigger.DamageModifier,
+    damage => damage * 0.95),
+  new AffectModifier(
+    AffectType.Stunned,
+    Trigger.DamageAbsorption,
+    damage => damage * 1.05),
+
+  // giant strength
+  new AffectModifier(
+    AffectType.GiantStrength,
+    Trigger.DamageModifier,
+    damage => damage * 1.1),
 ]

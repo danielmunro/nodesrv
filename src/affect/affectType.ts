@@ -1,6 +1,6 @@
 export enum AffectType {
   Blind = "blind",
-  Dazed = "dazed",
+  Stunned = "stunned",
   Shield = "shield",
   Poison = "poison",
   GiantStrength = "giant strength",
