@@ -23,7 +23,7 @@ export class Tick implements Observer {
 
   private hourInDay: number = 8
 
-  public notify(clients: Client[]): void {
+  public async notify(clients: Client[]): Promise<void> {
     const id = v4()
     const timestamp = new Date()
     this.hourInDay += 1
@@ -32,9 +32,9 @@ export class Tick implements Observer {
       this.hourInDay = 0
     }
 
-    clients
+    await Promise.all(clients
       .filter(client => client.isLoggedIn())
-      .forEach(client => Tick.notifyClient(client, id, timestamp))
+      .map(client => Tick.notifyClient(client, id, timestamp)))
 
     console.log(`tick at ${timestamp}`)
   }

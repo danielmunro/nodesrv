@@ -4,6 +4,7 @@ import { newSkill } from "../../skill/factory"
 import { SkillType } from "../../skill/skillType"
 import { getTestClient } from "../../test/client"
 import { Tick } from "./tick"
+import { newStartingAttributes, newVitals } from "../../attributes/factory"
 
 describe("ticks", () => {
   it("should call tick on all clients", async () => {
@@ -15,24 +16,30 @@ describe("ticks", () => {
       await getTestClient(),
       await getTestClient(),
     ]
-    tick.notify(clients)
+    await tick.notify(clients)
     clients.forEach((client) => expect(client.ws.send.mock.calls.length).toBeGreaterThan(1))
   })
 
   it("should invoke fast healing", async () => {
     const tick = new Tick()
     const client1 = await getTestClient()
-    client1.player.sessionMob.skills.push(newSkill(SkillType.FastHealing, MAX_PRACTICE_LEVEL))
+    const mob1 = client1.getSessionMob()
+    mob1.level = 50
+    mob1.attributes.push(newStartingAttributes(newVitals(1000, 0, 0)))
+    mob1.skills.push(newSkill(SkillType.FastHealing, MAX_PRACTICE_LEVEL))
     const client2 = await getTestClient()
+    const mob2 = client2.getSessionMob()
+    mob2.level = 50
+    mob2.attributes.push(newStartingAttributes(newVitals(1000, 0, 0)))
     const test = async () => {
-      client1.player.sessionMob.vitals.hp = 1
-      client2.player.sessionMob.vitals.hp = 1
-      tick.notify([client1, client2])
+      mob1.vitals.hp = 1
+      mob2.vitals.hp = 1
+      await tick.notify([client1, client2])
 
-      return client1.player.sessionMob.vitals.hp > client2.player.sessionMob.vitals.hp
+      return mob1.vitals.hp > mob2.vitals.hp
     }
 
-    const times = 100
+    const times = 1000
     const tests = await doNTimes(times, test)
 
     expect(tests.filter(t => t).length).toBeGreaterThan(times / 2)

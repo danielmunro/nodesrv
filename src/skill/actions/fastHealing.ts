@@ -19,7 +19,7 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
     return responseBuilder.fail()
   }
 
-  mob.vitals.hp += mob.getCombinedAttributes().vitals.hp / 100
+  mob.vitals.hp += roll( 10, mob.getCombinedAttributes().vitals.hp / 80)
   mob.normalizeVitals()
 
   return responseBuilder.success()

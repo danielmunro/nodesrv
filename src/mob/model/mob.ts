@@ -26,6 +26,7 @@ import { SpecializationType } from "../specialization/specializationType"
 import { Standing } from "../standing"
 import { Trigger } from "../trigger"
 import { PlayerMob } from "./playerMob"
+import roll from "../../random/dice"
 
 @Entity()
 export class Mob {
@@ -173,9 +174,9 @@ export class Mob {
       this.affects.map(a => a.affectType),
       Trigger.Tick,
       BaseRegenModifier)
-    this.vitals.hp += combined.vitals.hp * regenModifier
-    this.vitals.mana += combined.vitals.mana * regenModifier
-    this.vitals.mv += combined.vitals.mv * regenModifier
+    this.vitals.hp += roll(8, (combined.vitals.hp * regenModifier) / 8)
+    this.vitals.mana += roll( 8, (combined.vitals.mana * regenModifier) / 8)
+    this.vitals.mv += roll(8, (combined.vitals.mv * regenModifier) / 8)
     if (this.playerMob) {
       this.playerMob.regen()
     }
