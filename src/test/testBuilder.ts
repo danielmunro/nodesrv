@@ -14,12 +14,13 @@ import { Role } from "../mob/role"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
 import InputContext from "../request/context/inputContext"
-import { Request } from "../request/request"
+import { Request, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
 import Service from "../service/service"
 import ServiceBuilder from "../service/serviceBuilder"
+import { SkillType } from "../skill/skillType"
 import { getTestMob } from "./mob"
 import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
@@ -44,6 +45,13 @@ export default class TestBuilder {
     this.serviceBuilder.addRoom(this.room)
 
     return new RoomBuilder(this.room, this.serviceBuilder)
+  }
+
+  public async withPlayerAndSkill(skillType: SkillType, level: number = 1): Promise<Player> {
+    const playerBuilder = await this.withPlayer()
+    playerBuilder.withSkill(skillType, level)
+
+    return this.player
   }
 
   public async withPlayer(fn = null): Promise<PlayerBuilder> {
@@ -116,6 +124,13 @@ export default class TestBuilder {
     return this
   }
 
+  public async createCheckedRequestFrom(
+    requestType: RequestType, check: (request: Request) => Promise<Check>): Promise<CheckedRequest> {
+    const request = this.createRequest(requestType)
+
+    return new CheckedRequest(request, await check(request))
+  }
+
   public createOkCheckedRequest(
     requestType: RequestType,
     input: string = null,
@@ -137,6 +152,10 @@ export default class TestBuilder {
       this.service = await this.serviceBuilder.createService()
     }
     return this.service
+  }
+
+  public getPlayerMob(): Mob {
+    return this.player.sessionMob
   }
 
   private createCheckedRequest(

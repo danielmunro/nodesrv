@@ -20,6 +20,7 @@ import berserkPrecondition from "./preconditions/berserk"
 import dirtKickPrecondition from "./preconditions/dirtKick"
 import disarmPrecondition from "./preconditions/disarm"
 import dodgePrecondition from "./preconditions/dodge"
+import enhancedDamagePrecondition from "./preconditions/enhancedDamage"
 import envenomPrecondition from "./preconditions/envenom"
 import fastHealingPrecondition from "./preconditions/fastHealing"
 import secondAttackPrecondition from "./preconditions/secondAttack"
@@ -86,7 +87,7 @@ export const skillCollection = [
   createSkill(SkillType.Backstab, Trigger.Input,
     createCheckImprove(backstab), 20, backstabPrecondition),
   createSkill(SkillType.EnhancedDamage, Trigger.DamageModifier,
-    createCheckImprove(enhancedDamage), 30),
+    createCheckImprove(enhancedDamage), 30, enhancedDamagePrecondition),
   createSkill(SkillType.DirtKick, Trigger.Input,
     createCheckImprove(dirtKick), 5, dirtKickPrecondition),
   createSkill(SkillType.FastHealing, Trigger.Tick,
@@ -103,6 +104,6 @@ export const skillCollection = [
   newWeaponSkill(SkillType.Polearm),
 ]
 
-export function getSkillAction(skillType: SkillType) {
+export function getSkillActionDefinition(skillType: SkillType) {
   return skillCollection.find((action) => action.isSkillTypeMatch(skillType))
 }

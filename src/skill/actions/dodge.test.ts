@@ -5,8 +5,9 @@ import { addFight, Fight, reset } from "../../mob/fight/fight"
 import TestBuilder from "../../test/testBuilder"
 import { SkillType } from "../skillType"
 
+beforeEach(() => reset())
+
 describe("dodge skill", () => {
-  beforeEach(() => reset())
   it("should be able to succeed and fail in a small collection of attempts", async () => {
     const testBuilder = new TestBuilder()
     const attacker = testBuilder.withMob()

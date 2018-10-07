@@ -1,81 +1,51 @@
-import { newAttributesWithStats, newStats } from "../../attributes/factory"
-import CheckedRequest from "../../check/checkedRequest"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { Race } from "../../mob/race/race"
-import { Trigger } from "../../mob/trigger"
-import EventContext from "../../request/context/eventContext"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import enhancedDamagePrecondition from "../preconditions/enhancedDamage"
+import { getSkillActionDefinition } from "../skillCollection"
+import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
-import enhancedDamage from "./enhancedDamage"
 
-async function getMob() {
-  const testBuilder = new TestBuilder()
-  const playerBuilder = await testBuilder.withPlayer()
-  playerBuilder.withSkill(SkillType.EnhancedDamage)
-  const player = testBuilder.player
-  const mob = player.sessionMob
-  mob.race = Race.Giant
+const iterations = 1000
+let testBuilder: TestBuilder
+let definition: SkillDefinition
 
-  return mob
-}
-
-async function doEnhancedDamage(iterationCount: number, checkedRequest: CheckedRequest) {
-  return (await doNTimes(iterationCount, () => enhancedDamage(checkedRequest)))
-           .filter((outcome) => outcome.isSuccessful())
-}
+beforeEach(() => {
+  testBuilder = new TestBuilder()
+  definition = getSkillActionDefinition(SkillType.EnhancedDamage)
+})
 
 describe("enhanced damage", () => {
   it("should succeed more than half the time when practiced", async () => {
-    // setup
-    const mob = await getMob()
-    mob.attributes.push(newAttributesWithStats(newStats(4, 0, 0, 0, 0, 4)))
-    const skill = mob.skills[0]
-    skill.level = MAX_PRACTICE_LEVEL
-    const iterationCount = 1000
-    const request = new Request(mob, new EventContext(RequestType.Event, Trigger.DamageModifier))
+    await testBuilder.withPlayerAndSkill(SkillType.EnhancedDamage, MAX_PRACTICE_LEVEL)
 
-    // when
-    const outcomes = await doEnhancedDamage(
-      iterationCount,
-      new CheckedRequest(request, await enhancedDamagePrecondition(request)))
+    const responses = await doNTimes(iterations, async () =>
+      definition.action(
+        await testBuilder.createCheckedRequestFrom(RequestType.Berserk, definition.preconditions)))
 
     // then
-    expect(outcomes.length).toBeGreaterThan(iterationCount / 2)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations / 2)
   })
 
   it("should succeed somewhat when practiced some", async () => {
-    // setup
-    const mob = await getMob()
-    const skill = mob.skills[0]
-    skill.level = MAX_PRACTICE_LEVEL / 2
-    const iterationCount = 1000
-    const request = new Request(mob, new EventContext(RequestType.Event, Trigger.DamageModifier))
+    await testBuilder.withPlayerAndSkill(SkillType.EnhancedDamage, MAX_PRACTICE_LEVEL / 2)
 
-    // when
-    const outcomes = await doEnhancedDamage(
-      iterationCount,
-      new CheckedRequest(request, await enhancedDamagePrecondition(request)))
+    const responses = await doNTimes(iterations, async () =>
+      definition.action(
+        await testBuilder.createCheckedRequestFrom(RequestType.Berserk, definition.preconditions)))
 
     // then
-    expect(outcomes.length).toBeLessThan(iterationCount / 2)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeLessThan(iterations / 2)
   })
 
   it("should succeed infrequently when not practiced", async () => {
-    // given
-    const mob = await getMob()
-    const iterationCount = 1000
-    const request = new Request(mob, new EventContext(RequestType.Event, Trigger.DamageModifier))
+    await testBuilder.withPlayerAndSkill(SkillType.EnhancedDamage)
 
-    // when
-    const outcomes = await doEnhancedDamage(
-      iterationCount,
-      new CheckedRequest(request, await enhancedDamagePrecondition(request)))
+    const responses = await doNTimes(iterations, async () =>
+      definition.action(
+        await testBuilder.createCheckedRequestFrom(RequestType.Berserk, definition.preconditions)))
 
     // then
-    expect(outcomes.length).toBeLessThan(iterationCount / 10)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeLessThan(iterations / 10)
   })
 })
