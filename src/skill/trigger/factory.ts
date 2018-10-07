@@ -32,7 +32,7 @@ async function attemptSkillAction(mob: Mob, trigger: Trigger, target: Mob, skill
   return definition.action(new CheckedRequest(request, check))
 }
 
-export async function createSkillTriggerEvent(mob: Mob, trigger: Trigger, target: Mob): Promise<Event> {
+export async function createSkillTriggerEvent(mob: Mob, trigger: Trigger, target: Mob = null): Promise<Event> {
   const event = new Event(mob, trigger)
   for (const skill of getSkillsByTrigger(mob, trigger)) {
     if ((await attemptSkillAction(mob, trigger, target, skill)).isSuccessful()) {

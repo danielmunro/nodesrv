@@ -10,6 +10,7 @@ import disarm from "./actions/disarm"
 import dodge from "./actions/dodge"
 import enhancedDamage from "./actions/enhancedDamage"
 import envenom from "./actions/envenom"
+import fastHealing from "./actions/fastHealing"
 import secondAttack from "./actions/secondAttack"
 import sneak from "./actions/sneak"
 import trip from "./actions/trip"
@@ -20,6 +21,7 @@ import dirtKickPrecondition from "./preconditions/dirtKick"
 import disarmPrecondition from "./preconditions/disarm"
 import dodgePrecondition from "./preconditions/dodge"
 import envenomPrecondition from "./preconditions/envenom"
+import fastHealingPrecondition from "./preconditions/fastHealing"
 import secondAttackPrecondition from "./preconditions/secondAttack"
 import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
@@ -60,18 +62,17 @@ function newWeaponSkill(skillType: SkillType) {
   return createSkill(
     skillType,
     Trigger.DamageModifier,
-    createCheckImprove((attempt) => attempt),
+    createCheckImprove(request => request),
     1)
 }
 
-// re-add createCheckImprove when refactoring is complete
 export const skillCollection = [
   createSkill(SkillType.Dodge, Trigger.AttackRoundDefend,
-    dodge, 10, dodgePrecondition),
+    createCheckImprove(dodge), 10, dodgePrecondition),
   createSkill(SkillType.Disarm, Trigger.Input,
     createCheckImprove(disarm), 10, disarmPrecondition),
   createSkill(SkillType.SecondAttack, Trigger.AttackRound,
-    secondAttack, 10, secondAttackPrecondition),
+    createCheckImprove(secondAttack), 10, secondAttackPrecondition),
   createSkill(SkillType.Bash, Trigger.Input,
     createCheckImprove(bash), 5, bashPrecondition),
   createSkill(SkillType.Trip, Trigger.Input,
@@ -88,6 +89,8 @@ export const skillCollection = [
     createCheckImprove(enhancedDamage), 30),
   createSkill(SkillType.DirtKick, Trigger.Input,
     createCheckImprove(dirtKick), 5, dirtKickPrecondition),
+  createSkill(SkillType.FastHealing, Trigger.Tick,
+    createCheckImprove(fastHealing), 5, fastHealingPrecondition),
   newWeaponSkill(SkillType.Sword),
   newWeaponSkill(SkillType.Mace),
   newWeaponSkill(SkillType.Wand),
