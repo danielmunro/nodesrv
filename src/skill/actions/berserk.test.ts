@@ -6,6 +6,8 @@ import TestBuilder from "../../test/testBuilder"
 import { getSkillActionDefinition } from "../skillCollection"
 import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
+import { all } from "../../functional/collection"
+import { Messages } from "../constants"
 
 const iterations = 10
 let testBuilder: TestBuilder
@@ -30,7 +32,8 @@ describe("berserk skill actions", () => {
     const responses = await doNTimes(iterations, () => action())
 
     // then
-    expect(responses.some(response => !response.isSuccessful())).toBeTruthy()
+    expect(all(responses, response => !response.isSuccessful())).toBeTruthy()
+    expect(all(responses, response => response.result === Messages.Berserk.Fail))
     expect(mobBuilder.mob.getAffect(AffectType.Berserk)).toBeFalsy()
   })
 

@@ -4,6 +4,8 @@ import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { getSkillActionDefinition } from "../skillCollection"
 import { SkillType } from "../skillType"
+import { all } from "../../functional/collection"
+import { Messages } from "../constants"
 
 const iterations = 10
 let testBuilder: TestBuilder
@@ -30,6 +32,7 @@ describe("bash", () => {
 
     // then
     expect(responses.some(r => !r.isSuccessful())).toBeTruthy()
+    expect(all(responses, r => r.result === Messages.Bash.Fail))
   })
 
   it("should be able to trigger a successful bash", async () => {
