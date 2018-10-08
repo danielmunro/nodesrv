@@ -13,12 +13,13 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
   const mob = checkedRequest.mob
   const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
   const responseBuilder = checkedRequest.respondWith()
+  const target = checkedRequest.getCheckTypeResult(CheckType.IsFighting)
 
   if (calculateDirtKickRoll(mob, skill) < Thresholds.DirtKick) {
     return responseBuilder.fail(Messages.DirtKick.Fail)
   }
 
-  mob.addAffect(newAffect(AffectType.Blind, Math.max(1, mob.level / 12)))
+  target.addAffect(newAffect(AffectType.Blind, Math.max(1, mob.level / 12)))
 
   return responseBuilder.success(Messages.DirtKick.Success)
 }

@@ -110,10 +110,11 @@ export default class TestBuilder {
     fn(this.player)
   }
 
-  public fight() {
-    addFight(new Fight(this.player.sessionMob, this.withMob().mob, this.room))
+  public fight(): Fight {
+    const fight = new Fight(this.mobForRequest, this.withMob().mob, this.room)
+    addFight(fight)
 
-    return this
+    return fight
   }
 
   public async createCheckedRequestFrom(
