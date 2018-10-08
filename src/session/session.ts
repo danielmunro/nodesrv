@@ -64,6 +64,7 @@ export default class Session {
       this.client.getMobTable().add(this.mob)
     }
     this.status = SessionStatus.LoggedIn
+    this.client.player = player
     this.client.send({ player: this.player })
     this.client.send(await look(new Request(this.mob, new InputContext(RequestType.Look)), null))
   }

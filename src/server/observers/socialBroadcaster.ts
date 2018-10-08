@@ -14,9 +14,9 @@ function evaluateForPrivateMessages(client: Client, privateMessages) {
   if (!client.isLoggedIn()) {
     return
   }
-  const messages = privateMessages[client.player.sessionMob.room.uuid]
+  const messages = privateMessages[client.getSessionMob().room.uuid]
   if (messages) {
-    messages.forEach((message) => sendToClientIfNotSender(client, message))
+    messages.forEach(message => sendToClientIfNotSender(client, message))
   }
 }
 
