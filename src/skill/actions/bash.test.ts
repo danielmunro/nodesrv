@@ -3,16 +3,21 @@ import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { getSkillActionDefinition } from "../skillCollection"
-import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
 
+const iterations = 10
 let testBuilder: TestBuilder
-let definition: SkillDefinition
+const definition = getSkillActionDefinition(SkillType.Bash)
 
 beforeEach(() => {
   testBuilder = new TestBuilder()
-  definition = getSkillActionDefinition(SkillType.Bash)
 })
+
+async function action() {
+  return definition.action(await testBuilder.createCheckedRequestFrom(
+    RequestType.Bash,
+    definition.preconditions))
+}
 
 describe("bash", () => {
   it("should be able to trigger a failed bash", async () => {
@@ -21,9 +26,7 @@ describe("bash", () => {
     testBuilder.fight()
 
     // when
-    const responses = await doNTimes(10, async () =>
-      definition.action(
-        await testBuilder.createCheckedRequestFrom(RequestType.Bash, definition.preconditions)))
+    const responses = await doNTimes(iterations, async () => action())
 
     // then
     expect(responses.some(r => !r.isSuccessful())).toBeTruthy()
@@ -35,9 +38,7 @@ describe("bash", () => {
     testBuilder.fight()
 
     // when
-    const responses = await doNTimes(10, async () =>
-      definition.action(
-        await testBuilder.createCheckedRequestFrom(RequestType.Bash, definition.preconditions)))
+    const responses = await doNTimes(iterations, async () => action())
 
     // then
     expect(responses.some(r => r.isSuccessful())).toBeTruthy()

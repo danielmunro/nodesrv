@@ -7,42 +7,43 @@ import { getSkillActionDefinition } from "../skillCollection"
 import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
 
+const iterations = 10
 let testBuilder: TestBuilder
-let definition: SkillDefinition
+const definition: SkillDefinition = getSkillActionDefinition(SkillType.Berserk)
 
 beforeEach(() => {
   testBuilder = new TestBuilder()
-  definition = getSkillActionDefinition(SkillType.Berserk)
 })
+
+async function action() {
+  return definition.action(
+    await testBuilder.createCheckedRequestFrom(RequestType.Berserk, definition.preconditions))
+}
 
 describe("berserk skill actions", () => {
   it("should be able to fail berserking", async () => {
     // given
-    const playerBuilder = await testBuilder.withPlayer()
-    playerBuilder.withSkill(SkillType.Berserk)
+    const mobBuilder = testBuilder.withMob()
+    mobBuilder.withSkill(SkillType.Berserk)
 
     // when
-    const responses = await doNTimes(10, async () =>
-      definition.action(
-        await testBuilder.createCheckedRequestFrom(RequestType.Berserk, definition.preconditions)))
+    const responses = await doNTimes(iterations, () => action())
 
     // then
     expect(responses.some(response => !response.isSuccessful())).toBeTruthy()
-    expect(testBuilder.getPlayerMob().getAffect(AffectType.Berserk)).toBeFalsy()
+    expect(mobBuilder.mob.getAffect(AffectType.Berserk)).toBeFalsy()
   })
 
   it("should be able to succeed berserking", async () => {
     // given
-    const playerBuilder = await testBuilder.withPlayer()
-    playerBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
+    const mobBuilder = testBuilder.withMob()
+    mobBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when
-    const responses = await doNTimes(10, async () =>
-      definition.action(
-        await testBuilder.createCheckedRequestFrom(RequestType.Berserk, definition.preconditions)))
+    const responses = await doNTimes(iterations, () => action())
 
     // then
     expect(responses.some(response => response.isSuccessful())).toBeTruthy()
-    expect(testBuilder.getPlayerMob().getAffect(AffectType.Berserk)).toBeTruthy()
+    expect(mobBuilder.mob.getAffect(AffectType.Berserk)).toBeTruthy()
   })
 })

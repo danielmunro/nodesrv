@@ -4,10 +4,7 @@ import Check from "../check/check"
 import CheckComponent from "../check/checkComponent"
 import CheckedRequest from "../check/checkedRequest"
 import { CheckStatus } from "../check/checkStatus"
-import { DamageType } from "../damage/damageType"
-import { newWeapon } from "../item/factory"
 import { Item } from "../item/model/item"
-import { WeaponType } from "../item/weaponType"
 import { addFight, Fight, reset } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
 import { Role } from "../mob/role"
@@ -70,18 +67,6 @@ export default class TestBuilder {
     this.mobForRequest = this.player.sessionMob
 
     return new PlayerBuilder(this.player, this.serviceBuilder)
-  }
-
-  public addWeaponToPlayerInventory(): Item {
-    const weapon = newWeapon(
-      "a practice axe",
-      "A wooden practice axe",
-      WeaponType.Axe,
-      DamageType.Slash)
-    this.player.sessionMob.inventory.addItem(weapon)
-    this.serviceBuilder.addItem(weapon)
-
-    return weapon
   }
 
   public async withAdminPlayer(
