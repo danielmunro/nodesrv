@@ -14,7 +14,7 @@ import { Role } from "../mob/role"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
 import InputContext from "../request/context/inputContext"
-import { Request, Request } from "../request/request"
+import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
@@ -30,6 +30,7 @@ import RoomBuilder from "./roomBuilder"
 export default class TestBuilder {
   public player: Player
   public room: Room
+  private mobForRequest: Mob
   private service: Service
   private serviceBuilder: ServiceBuilder = new ServiceBuilder()
 
@@ -66,6 +67,8 @@ export default class TestBuilder {
       fn(this.player)
     }
 
+    this.mobForRequest = this.player.sessionMob
+
     return new PlayerBuilder(this.player, this.serviceBuilder)
   }
 
@@ -97,6 +100,10 @@ export default class TestBuilder {
     this.room.addMob(mob)
     this.serviceBuilder.addMob(mob)
 
+    if (!this.mobForRequest) {
+      this.mobForRequest = mob
+    }
+
     return new MobBuilder(mob, this.serviceBuilder)
   }
 
@@ -125,8 +132,11 @@ export default class TestBuilder {
   }
 
   public async createCheckedRequestFrom(
-    requestType: RequestType, check: (request: Request) => Promise<Check>): Promise<CheckedRequest> {
-    const request = this.createRequest(requestType)
+    requestType: RequestType,
+    check: (request: Request) => Promise<Check>,
+    input: string = requestType.toString(),
+    target = null): Promise<CheckedRequest> {
+    const request = this.createRequest(requestType, input, target)
 
     return new CheckedRequest(request, await check(request))
   }
@@ -139,8 +149,8 @@ export default class TestBuilder {
     return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result, checkComponents)
   }
 
-  public createRequest(requestType: RequestType, input: string = requestType, target: Mob = null): Request {
-    return new Request(this.player.sessionMob, new InputContext(requestType, input), target)
+  public createRequest(requestType: RequestType, input: string = requestType, target: Mob | Item = null): Request {
+    return new Request(this.mobForRequest, new InputContext(requestType, input), target)
   }
 
   public async getActionCollection(): Promise<Collection> {
