@@ -99,7 +99,7 @@ describe("clients", () => {
   it("should delegate handling requests to the session if not logged in", async () => {
     const newClient = await getTestClientLoggedOut()
     const authStep = newClient.session.getAuthStepMessage()
-    newClient.addRequest(getNewRequestFromMessageEvent(client, getNewTestMessageEvent("testemail@email.com")))
+    newClient.addRequest(new AuthRequest(newClient, "testemail@email.com"))
     await newClient.handleNextRequest()
     expect(newClient.session.getAuthStepMessage()).not.toBe(authStep)
   })
