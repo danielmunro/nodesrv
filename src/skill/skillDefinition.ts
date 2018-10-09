@@ -21,4 +21,14 @@ export default class SkillDefinition {
   public isSkillTypeMatch(skillType: SkillType) {
     return skillType === this.skillType
   }
+
+  public async doAction(request: Request) {
+    const check = await this.preconditions(request)
+
+    if (check.isOk()) {
+      return this.action(new CheckedRequest(request, check))
+    }
+
+    return request.respondWith().error(check.result)
+  }
 }

@@ -15,35 +15,40 @@ beforeEach(() => {
   definition = getSkillActionDefinition(SkillType.EnhancedDamage)
 })
 
+async function action() {
+  return definition.action(
+    await testBuilder.createCheckedRequestFrom(RequestType.Event, definition.preconditions))
+}
+
 describe("enhanced damage", () => {
   it("should succeed more than half the time when practiced", async () => {
+    // given
     await testBuilder.withPlayerAndSkill(SkillType.EnhancedDamage, MAX_PRACTICE_LEVEL)
 
-    const responses = await doNTimes(iterations, async () =>
-      definition.action(
-        await testBuilder.createCheckedRequestFrom(RequestType.Berserk, definition.preconditions)))
+    // when
+    const responses = await doNTimes(iterations, async () => action())
 
     // then
     expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations / 2)
   })
 
   it("should succeed somewhat when practiced some", async () => {
+    // given
     await testBuilder.withPlayerAndSkill(SkillType.EnhancedDamage, MAX_PRACTICE_LEVEL / 2)
 
-    const responses = await doNTimes(iterations, async () =>
-      definition.action(
-        await testBuilder.createCheckedRequestFrom(RequestType.Berserk, definition.preconditions)))
+    // when
+    const responses = await doNTimes(iterations, async () => action())
 
     // then
     expect(responses.filter(r => r.isSuccessful()).length).toBeLessThan(iterations / 2)
   })
 
   it("should succeed infrequently when not practiced", async () => {
+    // given
     await testBuilder.withPlayerAndSkill(SkillType.EnhancedDamage)
 
-    const responses = await doNTimes(iterations, async () =>
-      definition.action(
-        await testBuilder.createCheckedRequestFrom(RequestType.Berserk, definition.preconditions)))
+    // when
+    const responses = await doNTimes(iterations, async () => action())
 
     // then
     expect(responses.filter(r => r.isSuccessful()).length).toBeLessThan(iterations / 10)

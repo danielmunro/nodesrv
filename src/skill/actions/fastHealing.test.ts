@@ -1,27 +1,32 @@
-import CheckedRequest from "../../check/checkedRequest"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { Trigger } from "../../mob/trigger"
-import EventContext from "../../request/context/eventContext"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import fastHealingPrecondition from "../preconditions/fastHealing"
 import { SkillType } from "../skillType"
-import fastHealing from "./fastHealing"
+import { getSkillActionDefinition } from "../skillCollection"
+
+const iterations = 100
+const definition = getSkillActionDefinition(SkillType.FastHealing)
+const testBuilder = new TestBuilder()
+
+async function action() {
+  return definition.action(
+    await testBuilder.createCheckedRequestFrom(RequestType.Event, definition.preconditions))
+}
 
 describe("fast healing skill action", () => {
   it("should succeed and fail periodically", async () => {
     // setup
-    const testBuilder = new TestBuilder()
     const mobBuilder = testBuilder.withMob()
+
+    // given
     mobBuilder.mob.level = 30
     mobBuilder.withSkill(SkillType.FastHealing, MAX_PRACTICE_LEVEL)
-    const request = new Request(mobBuilder.mob, new EventContext(RequestType.Event, Trigger.Tick))
-    const check = await fastHealingPrecondition(request)
 
-    const responses = await doNTimes(100, () => fastHealing(new CheckedRequest(request, check)))
+    // when
+    const responses = await doNTimes(iterations, () => action())
 
+    // then
     expect(responses.some(response => response.isSuccessful())).toBeTruthy()
     expect(responses.some(response => response.isFailure())).toBeTruthy()
   })

@@ -35,6 +35,7 @@ export enum RequestType {
   Envenom = "envenom",
   Disarm = "disarm",
   DirtKick = "dirt kick",
+  Backstab = "backstab",
   Noop = "noop",
   Any = "any",
   Event = "event",

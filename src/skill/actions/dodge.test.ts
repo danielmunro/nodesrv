@@ -5,6 +5,8 @@ import { addFight, Fight, reset } from "../../mob/fight/fight"
 import TestBuilder from "../../test/testBuilder"
 import { SkillType } from "../skillType"
 
+const iterations = 10
+
 beforeEach(() => reset())
 
 describe("dodge skill", () => {
@@ -15,12 +17,13 @@ describe("dodge skill", () => {
     const defender = testBuilder.withMob()
     const fight = new Fight(attacker.mob, defender.mob, testBuilder.room)
     addFight(fight)
-    const results = await doNTimes(10, () => fight.isInProgress() ? fight.round() : null)
+    const results = await doNTimes(iterations, () => fight.isInProgress() ? fight.round() : null)
 
     expect(results.filter(r => r).every(r => {
       const lastAttack = r.getLastAttack()
       return lastAttack.result === AttackResult.Hit || lastAttack.result === AttackResult.Miss
     })).toBeTruthy()
+
     expect(results.some(r => r.getLastCounter().result === AttackResult.Dodge)).toBeTruthy()
     expect(results.some(r => r.getLastCounter().result === AttackResult.Hit)).toBeTruthy()
   })
