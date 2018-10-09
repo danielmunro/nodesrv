@@ -17,9 +17,12 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
     return responseBuilder.fail(format(Messages.Disarm.Failure, target.name))
   }
 
+  const item = checkedRequest.getCheckTypeResult(CheckType.ItemPresent)
+  checkedRequest.room.inventory.addItem(item)
+
   return responseBuilder.success(format(Messages.Disarm.Success, target.name, target.gender))
 }
 
 function calculateDisarm(mob: Mob, target: Mob, skill: Skill): number {
-  return roll(2, Math.max(1, mob.level - target.level) + skill.level)
+  return roll(4, (Math.max(1, mob.level - target.level) + skill.level) / 2)
 }

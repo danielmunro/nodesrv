@@ -6,6 +6,7 @@ import { Request } from "../../request/request"
 import { Costs } from "../constants"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
+import { CheckType } from "../../check/checkType"
 
 export default function(request: Request): Promise<Check> {
   return request.checkWithStandingDisposition()
@@ -13,7 +14,8 @@ export default function(request: Request): Promise<Check> {
     .requireFight()
     .require(
       opponent => opponent.equipped.inventory.find(i => i.equipment === Equipment.Weapon),
-      Messages.Disarm.FailNothingToDisarm)
+      Messages.Disarm.FailNothingToDisarm,
+      CheckType.ItemPresent)
     .addCost(new Cost(CostType.Mv, Costs.Disarm.Mv, Messages.All.NotEnoughMv))
     .addCost(new Cost(CostType.Delay, Costs.Disarm.Delay))
     .create()

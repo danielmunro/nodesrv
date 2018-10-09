@@ -49,8 +49,6 @@ describe("eat action", () => {
       new Request(mob, new InputContext(RequestType.Eat, `eat muff`)),
       await Check.ok(food)))
 
-    console.log("resp", response.message)
-
     expect(response.message).toContain("and suddenly feel different")
   })
 })

@@ -110,8 +110,8 @@ export default class TestBuilder {
     fn(this.player)
   }
 
-  public fight(): Fight {
-    const fight = new Fight(this.mobForRequest, this.withMob().mob, this.room)
+  public fight(target = this.withMob().mob): Fight {
+    const fight = new Fight(this.mobForRequest, target, this.room)
     addFight(fight)
 
     return fight

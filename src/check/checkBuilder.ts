@@ -11,6 +11,7 @@ import Check from "./check"
 import CheckComponent from "./checkComponent"
 import { CheckType } from "./checkType"
 import Cost from "./cost/cost"
+import CheckResult from "./checkResult"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []
@@ -118,9 +119,11 @@ export default class CheckBuilder {
 
   public async create(target = this.target): Promise<Check> {
     let lastThing = null
+    const checkResults = []
 
     const checkFail = this.checks.find(checkComponent => {
       lastThing = checkComponent.getThing(lastThing)
+      checkResults.push(new CheckResult(checkComponent.checkType, lastThing))
       return !lastThing
     })
     if (checkFail) {
@@ -132,7 +135,7 @@ export default class CheckBuilder {
       return Check.fail(costFail.failMessage, this.checks, this.costs)
     }
 
-    return Check.ok(target ? target : lastThing, this.checks, this.costs)
+    return Check.ok(target ? target : lastThing, checkResults, this.costs)
   }
 
   private newCheckComponent(checkType: CheckType, thing, failMessage = ""): CheckComponent {
