@@ -9,9 +9,9 @@ import { Messages } from "../skill/preconditions/constants"
 import { SkillType } from "../skill/skillType"
 import Check from "./check"
 import CheckComponent from "./checkComponent"
+import CheckResult from "./checkResult"
 import { CheckType } from "./checkType"
 import Cost from "./cost/cost"
-import CheckResult from "./checkResult"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []

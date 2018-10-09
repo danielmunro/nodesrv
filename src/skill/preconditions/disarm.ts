@@ -1,4 +1,5 @@
 import Check from "../../check/check"
+import { CheckType } from "../../check/checkType"
 import Cost from "../../check/cost/cost"
 import { CostType } from "../../check/cost/costType"
 import { Equipment } from "../../item/equipment"
@@ -6,7 +7,6 @@ import { Request } from "../../request/request"
 import { Costs } from "../constants"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
-import { CheckType } from "../../check/checkType"
 
 export default function(request: Request): Promise<Check> {
   return request.checkWithStandingDisposition()

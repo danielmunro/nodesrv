@@ -1,10 +1,10 @@
-import TestBuilder from "../../test/testBuilder"
-import { SkillType } from "../skillType"
-import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { getSkillActionDefinition } from "../skillCollection"
-import { RequestType } from "../../request/requestType"
 import doNTimes from "../../functional/times"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
+import { RequestType } from "../../request/requestType"
 import MobBuilder from "../../test/mobBuilder"
+import TestBuilder from "../../test/testBuilder"
+import { getSkillActionDefinition } from "../skillCollection"
+import { SkillType } from "../skillType"
 
 const iterations = 100
 const definition = getSkillActionDefinition(SkillType.Disarm)

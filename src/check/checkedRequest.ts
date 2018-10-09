@@ -4,9 +4,9 @@ import { Mob } from "../mob/model/mob"
 import { Request } from "../request/request"
 import ResponseAction from "../request/responseAction"
 import ResponseBuilder from "../request/responseBuilder"
+import { Room } from "../room/model/room"
 import Check from "./check"
 import { CheckType } from "./checkType"
-import { Room } from "../room/model/room"
 
 export default class CheckedRequest {
   private static getResult(thing) {
