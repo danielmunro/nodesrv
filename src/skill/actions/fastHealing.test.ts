@@ -2,8 +2,8 @@ import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { SkillType } from "../skillType"
 import { getSkillActionDefinition } from "../skillCollection"
+import { SkillType } from "../skillType"
 
 const iterations = 100
 const definition = getSkillActionDefinition(SkillType.FastHealing)

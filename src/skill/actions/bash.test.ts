@@ -1,11 +1,11 @@
+import { all } from "../../functional/collection"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
+import { Messages } from "../constants"
 import { getSkillActionDefinition } from "../skillCollection"
 import { SkillType } from "../skillType"
-import { all } from "../../functional/collection"
-import { Messages } from "../constants"
 
 const iterations = 10
 let testBuilder: TestBuilder

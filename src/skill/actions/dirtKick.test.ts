@@ -3,12 +3,12 @@ import { all } from "../../functional/collection"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
+import { format } from "../../support/string"
 import MobBuilder from "../../test/mobBuilder"
 import TestBuilder from "../../test/testBuilder"
+import { Messages } from "../constants"
 import { getSkillActionDefinition } from "../skillCollection"
 import { SkillType } from "../skillType"
-import { Messages } from "../constants"
-import { format } from "../../support/string"
 
 const iterations = 10
 const definition = getSkillActionDefinition(SkillType.DirtKick)
