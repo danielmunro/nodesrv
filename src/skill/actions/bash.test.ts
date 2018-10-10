@@ -6,6 +6,7 @@ import TestBuilder from "../../test/testBuilder"
 import { Messages } from "../constants"
 import { getSkillActionDefinition } from "../skillCollection"
 import { SkillType } from "../skillType"
+import { AffectType } from "../../affect/affectType"
 
 const iterations = 10
 let testBuilder: TestBuilder
@@ -37,13 +38,14 @@ describe("bash", () => {
 
   it("should be able to trigger a successful bash", async () => {
     // given
-    await testBuilder.withPlayerAndSkill(SkillType.Bash, MAX_PRACTICE_LEVEL)
-    testBuilder.fight()
+    const player = await testBuilder.withPlayerAndSkill(SkillType.Bash, MAX_PRACTICE_LEVEL)
+    const fight = testBuilder.fight()
 
     // when
     const responses = await doNTimes(iterations, async () => action())
 
     // then
     expect(responses.some(r => r.isSuccessful())).toBeTruthy()
+    expect(fight.getOpponentFor(player.sessionMob).getAffect(AffectType.Stunned)).toBeDefined()
   })
 })
