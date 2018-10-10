@@ -2,6 +2,7 @@ import CheckedRequest from "../check/checkedRequest"
 import { Request } from "./request"
 import Response from "./response"
 import ResponseAction from "./responseAction"
+import ResponseMessage from "./responseMessage"
 import { ResponseStatus } from "./responseStatus"
 
 export default class ResponseBuilder {
@@ -10,23 +11,23 @@ export default class ResponseBuilder {
     private readonly responseAction: ResponseAction,
   ) {}
 
-  public info(message: string): Promise<Response> {
-    return this.response(ResponseStatus.Info, message)
-  }
-
-  public success(message: string = null): Promise<Response> {
+  public success(message: ResponseMessage = null): Promise<Response> {
     return this.response(ResponseStatus.Success, message)
   }
 
-  public fail(message: string = null): Promise<Response> {
+  public fail(message: ResponseMessage = null): Promise<Response> {
     return this.response(ResponseStatus.ActionFailed, message)
   }
 
-  public error(message: string): Promise<Response> {
-    return this.response(ResponseStatus.PreconditionsFailed, message)
+  public info(messageToRequestCreator: string): Promise<Response> {
+    return this.response(ResponseStatus.Info, new ResponseMessage(messageToRequestCreator))
   }
 
-  private response(status: ResponseStatus, message: string): Promise<Response> {
+  public error(messageToRequestCreator: string): Promise<Response> {
+    return this.response(ResponseStatus.PreconditionsFailed, new ResponseMessage(messageToRequestCreator))
+  }
+
+  private response(status: ResponseStatus, message: ResponseMessage): Promise<Response> {
     return Promise.resolve(new Response(this.request, status, message, this.responseAction))
   }
 }

@@ -1,6 +1,7 @@
 import CheckedRequest from "../../check/checkedRequest"
 import { copy } from "../../item/factory"
 import Response from "../../request/response"
+import ResponseMessage from "../../request/responseMessage"
 import { format } from "../../support/string"
 import { ActionOutcome } from "../actionOutcome"
 import { Messages } from "./constants"
@@ -14,5 +15,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
 
   return request
     .respondWith(ActionOutcome.ItemCreated, item)
-    .success(format(Messages.Buy.Success, item.name, item.value))
+    .success(new ResponseMessage(format(Messages.Buy.Success, item.name, item.value)))
 }

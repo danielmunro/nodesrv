@@ -23,6 +23,6 @@ describe("remove", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Info)
-    expect(response.message).toContain("You remove")
+    expect(response.message.toRequestCreator).toContain("You remove")
   })
 })

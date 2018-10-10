@@ -35,7 +35,7 @@ describe("eat action", () => {
       new Request(player.sessionMob, new InputContext(RequestType.Eat, `eat muf`)),
       await Check.ok(food)))
 
-    expect(response.message).toContain("You feel full")
+    expect(response.message.toRequestCreator).toContain("You feel full")
   })
 
   it ("should notify if the player receives an affect from eating", async () => {
@@ -49,6 +49,6 @@ describe("eat action", () => {
       new Request(mob, new InputContext(RequestType.Eat, `eat muff`)),
       await Check.ok(food)))
 
-    expect(response.message).toContain("and suddenly feel different")
+    expect(response.message.toRequestCreator).toContain("and suddenly feel different")
   })
 })

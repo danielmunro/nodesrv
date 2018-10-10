@@ -37,7 +37,7 @@ describe("cast actions actions", () => {
         spellCollection.findSpell(SpellType.GiantStrength)))
 
     // then - *should* lose concentration
-    expect(response1.message.startsWith("You utter the words,")).toBeTruthy()
+    expect(response1.message.toRequestCreator.startsWith("You utter the words,")).toBeTruthy()
     expect(response1.status).toBe(ResponseStatus.Success)
 
     // when
@@ -49,7 +49,7 @@ describe("cast actions actions", () => {
         spellCollection.findSpell(SpellType.GiantStrength)))
 
     // then - *should* succeed
-    expect(response2.message.startsWith("You utter the words,")).toBeTruthy()
+    expect(response2.message.toRequestCreator.startsWith("You utter the words,")).toBeTruthy()
     expect(response2.status).toBe(ResponseStatus.Success)
   })
 })

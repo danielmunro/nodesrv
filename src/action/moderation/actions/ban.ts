@@ -1,6 +1,7 @@
 import CheckedRequest from "../../../check/checkedRequest"
 import { Standing } from "../../../mob/standing"
 import Response from "../../../request/response"
+import ResponseMessage from "../../../request/responseMessage"
 
 export enum Ban {
   Lift = "lift",
@@ -35,5 +36,6 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const newStanding = getNewStanding(command)
   target.playerMob.standing = newStanding
 
-  return request.respondWith().success(`You have banned ${target.name} with a ban level: ${newStanding}.`)
+  return request.respondWith().success(
+    new ResponseMessage(`You have banned ${target.name} with a ban level: ${newStanding}.`))
 }

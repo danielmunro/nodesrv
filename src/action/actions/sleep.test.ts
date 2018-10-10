@@ -16,7 +16,7 @@ describe("sleep actions actions", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message).toBe(Messages.Sleep.Success)
+    expect(response.message.toRequestCreator).toBe(Messages.Sleep.Success)
     expect(testBuilder.player.sessionMob.disposition).toBe(Disposition.Sleeping)
   })
 })

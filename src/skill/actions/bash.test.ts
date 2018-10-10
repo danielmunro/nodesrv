@@ -1,3 +1,4 @@
+import { AffectType } from "../../affect/affectType"
 import { all } from "../../functional/collection"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
@@ -6,7 +7,6 @@ import TestBuilder from "../../test/testBuilder"
 import { Messages } from "../constants"
 import { getSkillActionDefinition } from "../skillCollection"
 import { SkillType } from "../skillType"
-import { AffectType } from "../../affect/affectType"
 
 const iterations = 10
 let testBuilder: TestBuilder

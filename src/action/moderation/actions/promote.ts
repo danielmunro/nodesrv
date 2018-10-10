@@ -3,6 +3,7 @@ import Maybe from "../../../functional/maybe"
 import { Mob } from "../../../mob/model/mob"
 import { AuthorizationLevel, getAuthorizationLevelName } from "../../../player/authorizationLevel"
 import Response from "../../../request/response"
+import ResponseMessage from "../../../request/responseMessage"
 import { MESSAGE_FAIL_NO_MORE_PROMOTIONS } from "./constants"
 
 export function getNextPromotion(mob: Mob) {
@@ -29,8 +30,9 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
     .do(() => {
       target.playerMob.authorizationLevel = newAuthorizationLevel
       return responseBuilder.success(
-        `You promoted ${target.name} to ${getAuthorizationLevelName(newAuthorizationLevel)}.`)
+        new ResponseMessage(
+          `You promoted ${target.name} to ${getAuthorizationLevelName(newAuthorizationLevel)}.`))
     })
-    .or(() => responseBuilder.fail(MESSAGE_FAIL_NO_MORE_PROMOTIONS))
+    .or(() => responseBuilder.error(MESSAGE_FAIL_NO_MORE_PROMOTIONS))
     .get()
 }

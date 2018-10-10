@@ -15,7 +15,7 @@ describe("inventory actions actions", () => {
     const response = await inv.handle(testBuilder.createRequest(RequestType.Inventory))
 
     // then
-    expect(response.message).toContain(item1.name)
-    expect(response.message).toContain(item2.name)
+    expect(response.message.toRequestCreator).toContain(item1.name)
+    expect(response.message.toRequestCreator).toContain(item2.name)
   })
 })

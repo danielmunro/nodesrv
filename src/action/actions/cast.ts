@@ -1,5 +1,6 @@
 import CheckedRequest from "../../check/checkedRequest"
 import Response from "../../request/response"
+import ResponseMessage from "../../request/responseMessage"
 import spellCollection from "../../spell/spellCollection"
 import { format } from "../../support/string"
 import { Messages } from "./constants"
@@ -12,5 +13,6 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
 
   spellDefinition.apply(check.result)
 
-  return checkedRequest.respondWith().success(format(Messages.Cast.Success, spellDefinition.spellType))
+  return checkedRequest.respondWith().success(
+    new ResponseMessage(format(Messages.Cast.Success, spellDefinition.spellType)))
 }

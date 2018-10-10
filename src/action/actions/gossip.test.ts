@@ -15,5 +15,5 @@ it("should be to handle gossiping", async () => {
   const response = await handler.handle(request)
 
   // then
-  expect(response.message).toEqual("You gossip, 'hello world'")
+  expect(response.message.toRequestCreator).toEqual("You gossip, 'hello world'")
 })

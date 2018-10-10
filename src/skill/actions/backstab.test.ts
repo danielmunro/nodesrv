@@ -31,7 +31,7 @@ describe("backstab skill action", () => {
 
     // then
     expect(response.isError()).toBeTruthy()
-    expect(response.message).toBe(AllMessages.All.NoSkill)
+    expect(response.message.toRequestCreator).toBe(AllMessages.All.NoSkill)
   })
 
   it("should fail when not practiced", async () => {
@@ -44,7 +44,7 @@ describe("backstab skill action", () => {
 
     // then
     expect(all(responses, r => r.isFailure())).toBeTruthy()
-    expect(all(responses, r => r.message === format(Messages.Backstab.Failure, opponent)))
+    expect(all(responses, r => r.message.toRequestCreator === format(Messages.Backstab.Failure, opponent)))
   })
 
   it("should succeed sometimes when partially practiced", async () => {

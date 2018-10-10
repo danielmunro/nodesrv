@@ -1,6 +1,7 @@
 import CheckedRequest from "../../check/checkedRequest"
 import { Item } from "../../item/model/item"
 import Response from "../../request/response"
+import ResponseMessage from "../../request/responseMessage"
 import { ActionOutcome } from "../actionOutcome"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
@@ -15,5 +16,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
 
   return checkedRequest
     .respondWith(ActionOutcome.ItemDestroyed, item)
-    .success(`You eat ${item.name}${affects}${full}.`)
+    .success(new ResponseMessage(`You eat ${item.name}${affects}${full}.`))
 }

@@ -85,7 +85,7 @@ describe("train action", () => {
     player.sessionMob.playerMob.trainedAttributes.stats.sta = MAX_TRAINABLE_STATS
 
     // when
-    allStats.forEach(async stat => {
+    await allStats.forEach(async stat => {
       const request = testBuilder.createRequest(RequestType.Train, `train ${stat}`)
       const response = await train(
         new CheckedRequest(
@@ -94,7 +94,7 @@ describe("train action", () => {
 
       // then
       expect(response.status).toBe(ResponseStatus.ActionFailed)
-      expect(response.message).toBe(Messages.Train.CannotTrainMore)
+      expect(response.message.toRequestCreator).toBe(Messages.Train.CannotTrainMore)
     })
   })
 
@@ -111,48 +111,48 @@ describe("train action", () => {
 
     // then
     expect(response1.status).toBe(ResponseStatus.Info)
-    expect(response1.message).toContain("str int wis dex con sta hp mana mv")
+    expect(response1.message.toRequestCreator).toContain("str int wis dex con sta hp mana mv")
 
     // when
     trainedAttributes.stats.str = MAX_TRAINABLE_STATS
     const response2 = await getResponse(player, trainer, "")
 
     // then
-    expect(response2.message).not.toContain("str")
+    expect(response2.message.toRequestCreator).not.toContain("str")
 
     // when
     trainedAttributes.stats.int = MAX_TRAINABLE_STATS
     const response3 = await getResponse(player, trainer, "")
 
     // then
-    expect(response3.message).not.toContain("int")
+    expect(response3.message.toRequestCreator).not.toContain("int")
 
     // when
     trainedAttributes.stats.wis = MAX_TRAINABLE_STATS
     const response4 = await getResponse(player, trainer, "")
 
     // then
-    expect(response4.message).not.toContain("wis")
+    expect(response4.message.toRequestCreator).not.toContain("wis")
 
     // when
     trainedAttributes.stats.dex = MAX_TRAINABLE_STATS
     const response5 = await getResponse(player, trainer, "")
 
     // then
-    expect(response5.message).not.toContain("dex")
+    expect(response5.message.toRequestCreator).not.toContain("dex")
 
     // when
     trainedAttributes.stats.con = MAX_TRAINABLE_STATS
     const response6 = await getResponse(player, trainer, "")
 
     // then
-    expect(response6.message).not.toContain("con")
+    expect(response6.message.toRequestCreator).not.toContain("con")
 
     // when
     trainedAttributes.stats.sta = MAX_TRAINABLE_STATS
     const response7 = await getResponse(player, trainer, "")
 
     // then
-    expect(response7.message).not.toContain("sta")
+    expect(response7.message.toRequestCreator).not.toContain("sta")
   })
 })

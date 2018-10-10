@@ -18,12 +18,13 @@ describe("affects", () => {
 
     // when
     const response = await affects(new Request(mob, new InputContext(RequestType.Affects)))
+    const message = response.message.toRequestCreator
 
     // then
-    expect(response.message).toContain(AffectType.Noop)
-    expect(response.message).toContain("hour\n")
-    expect(response.message).toContain(AffectType.Stunned)
-    expect(response.message).toContain("hours")
-    expect(response.message).not.toContain(AffectType.Shield)
+    expect(message).toContain(AffectType.Noop)
+    expect(message).toContain("hour\n")
+    expect(message).toContain(AffectType.Stunned)
+    expect(message).toContain("hours")
+    expect(message).not.toContain(AffectType.Shield)
   })
 })

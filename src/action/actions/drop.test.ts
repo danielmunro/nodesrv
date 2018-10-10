@@ -20,7 +20,7 @@ describe("drop", () => {
         equipment))
 
     // then
-    const message = response.message
+    const message = response.message.toRequestCreator
     expect(message).toContain("You drop")
     expect(message).toContain(equipment.name)
     expect(mob.room.inventory.items).toHaveLength(1)

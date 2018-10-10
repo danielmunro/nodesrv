@@ -2,6 +2,7 @@ import CheckedRequest from "../../check/checkedRequest"
 import { Fight } from "../../mob/fight/fight"
 import { pickOne } from "../../random/helpers"
 import Response from "../../request/response"
+import ResponseMessage from "../../request/responseMessage"
 import Service from "../../service/service"
 import { format } from "../../support/string"
 import { FLEE_MOVEMENT_COST_MULTIPLIER, Messages } from "./constants"
@@ -16,5 +17,6 @@ export default async function(checkedRequest: CheckedRequest, service: Service):
   mob.vitals.mv -= room.getMovementCost() * FLEE_MOVEMENT_COST_MULTIPLIER
   await service.moveMob(mob, exit.direction)
 
-  return checkedRequest.respondWith().success(format(Messages.Flee.Success, exit.direction))
+  return checkedRequest.respondWith().success(
+    new ResponseMessage(format(Messages.Flee.Success, exit.direction)))
 }

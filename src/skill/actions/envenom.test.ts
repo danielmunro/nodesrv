@@ -61,8 +61,8 @@ describe("envenom skill action", () => {
     const response = await action("envenom cap", eq)
 
     // then
-    expect(response.isFailure()).toBeTruthy()
-    expect(response.message).toBe(Messages.Envenom.Error.NotAWeapon)
+    expect(response.isError()).toBeTruthy()
+    expect(response.message.toRequestCreator).toBe(Messages.Envenom.Error.NotAWeapon)
   })
 
   it("should only be able to envenom bladed weapons", async () => {
@@ -77,6 +77,6 @@ describe("envenom skill action", () => {
 
     // then
     expect(response.isError()).toBeTruthy()
-    expect(response.message).toBe(Messages.Envenom.Error.WrongWeaponType)
+    expect(response.message.toRequestCreator).toBe(Messages.Envenom.Error.WrongWeaponType)
   })
 })

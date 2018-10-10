@@ -164,7 +164,7 @@ describe("clients", () => {
     const response = await client.handleRequest(request)
 
     // then
-    expect(response.message).toContain(MESSAGE_NOT_UNDERSTOOD)
+    expect(response.message.toRequestCreator).toContain(MESSAGE_NOT_UNDERSTOOD)
   })
 
   it("should pass tick info through the socket", () => {

@@ -1,5 +1,6 @@
 import { Request } from "../../request/request"
 import Response from "../../request/response"
+import ResponseMessage from "../../request/responseMessage"
 import { Channel } from "../../social/channel"
 import { broadcastPrivateMessage } from "../../social/privateBroadcast"
 
@@ -10,5 +11,5 @@ export default function(request: Request): Promise<Response> {
     Channel.Say,
     `${request.mob.name} says, "${request.getContextAsInput().message}"`)
 
-  return request.respondWith().success(`You said, "${request.getContextAsInput().message}"`)
+  return request.respondWith().success(new ResponseMessage(`You said, "${request.getContextAsInput().message}"`))
 }

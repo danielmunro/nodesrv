@@ -3,6 +3,7 @@ import { CheckType } from "../../check/checkType"
 import { Item } from "../../item/model/item"
 import { Mob } from "../../mob/model/mob"
 import Response from "../../request/response"
+import ResponseMessage from "../../request/responseMessage"
 import { format } from "../../support/string"
 import { ActionOutcome } from "../actionOutcome"
 import { Messages } from "./constants"
@@ -13,7 +14,7 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
 
   return checkedRequest
     .respondWith(ActionOutcome.ItemDestroyed, item)
-    .success(sell(mob, item))
+    .success(new ResponseMessage(sell(mob, item)))
 }
 
 function sell(mob: Mob, item: Item) {

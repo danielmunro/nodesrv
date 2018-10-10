@@ -6,6 +6,7 @@ import { Mob } from "../../mob/model/mob"
 import { getSizeModifier } from "../../mob/race/sizeModifier"
 import roll from "../../random/dice"
 import Response from "../../request/response"
+import ResponseMessage from "../../request/responseMessage"
 import { format } from "../../support/string"
 import { Costs } from "../constants"
 import { Skill } from "../model/skill"
@@ -17,14 +18,14 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
   const responseBuilder = checkedRequest.respondWith()
 
   if (calculateTripRoll(mob, skill) < calculateDefenseRoll(target)) {
-    return responseBuilder.fail(format(`You failed to trip {0}.`, Costs.Trip.Delay))
+    return responseBuilder.fail(new ResponseMessage(format(`You failed to trip {0}.`, Costs.Trip.Delay)))
   }
 
   const amount = skill.level / 10
   target.addAffect(newAffect(AffectType.Stunned, amount))
   target.vitals.hp -= amount
 
-  return responseBuilder.success(format(`You tripped {0}!`, Costs.Trip.Delay))
+  return responseBuilder.success(new ResponseMessage(format(`You tripped {0}!`, Costs.Trip.Delay)))
 }
 
 function calculateDefenseRoll(mob: Mob): number {

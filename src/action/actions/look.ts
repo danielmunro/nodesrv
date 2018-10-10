@@ -7,6 +7,7 @@ import { Region } from "../../region/model/region"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import ResponseMessage from "../../request/responseMessage"
 import Service from "../../service/service"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
 
@@ -35,7 +36,7 @@ export default function(request: Request, service: Service): Promise<Response> {
   const builder = request.respondWith()
 
   if (request.mob.getAffect(AffectType.Blind)) {
-    return builder.fail(MESSAGE_LOOK_CANNOT_SEE)
+    return builder.fail(new ResponseMessage(MESSAGE_LOOK_CANNOT_SEE))
   }
 
   if (request.getContextAsInput().subject) {

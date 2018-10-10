@@ -4,6 +4,7 @@ import { CheckStatus } from "../../check/checkStatus"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
+import ResponseMessage from "../../request/responseMessage"
 import Service from "../../service/service"
 import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 
@@ -27,7 +28,7 @@ export class Definition {
     if (this.precondition) {
       const checkResponse = await this.precondition(request, this.service)
       if (checkResponse.status === CheckStatus.Failed) {
-        return request.respondWith().fail(checkResponse.result)
+        return request.respondWith().fail(new ResponseMessage(checkResponse.result))
       }
 
       return this.callback(new CheckedRequest(request, checkResponse), this.service)

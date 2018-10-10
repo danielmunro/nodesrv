@@ -6,6 +6,7 @@ import { DamageType } from "../../damage/damageType"
 import Weapon from "../../item/model/weapon"
 import roll from "../../random/dice"
 import Response from "../../request/response"
+import ResponseMessage from "../../request/responseMessage"
 import { format } from "../../support/string"
 import { Costs, Messages } from "../constants"
 
@@ -25,11 +26,11 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
   const mob = checkedRequest.mob
 
   if (roll(1, skill.level / 3) <= item.level) {
-    return responseBuilder.fail(format(Messages.Envenom.Fail, item.name))
+    return responseBuilder.fail(new ResponseMessage(format(Messages.Envenom.Fail, item.name)))
   }
 
   mob.vitals.mana -= Costs.Envenom.Mana
   item.affects.push(newAffect(AffectType.Poison, mob.level))
 
-  return responseBuilder.success(format(Messages.Envenom.Success, item.name))
+  return responseBuilder.success(new ResponseMessage(format(Messages.Envenom.Success, item.name)))
 }
