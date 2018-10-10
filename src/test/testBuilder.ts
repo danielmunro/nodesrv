@@ -135,7 +135,7 @@ export default class TestBuilder {
     return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result, checkComponents)
   }
 
-  public createRequest(requestType: RequestType, input: string = requestType, target: Mob | Item = null): Request {
+  public createRequest(requestType: RequestType, input: string = requestType.toString(), target: Mob | Item = null): Request {
     return new Request(this.mobForRequest, new InputContext(requestType, input), target)
   }
 

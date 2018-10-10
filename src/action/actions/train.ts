@@ -65,7 +65,7 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const responseBuilder = checkedRequest.respondWith()
   const subject = checkedRequest.getCheckTypeResult(CheckType.ValidSubject)
 
-  if (!subject) {
+  if (subject === true) {
     const stats = mob.playerMob.trainedAttributes.stats
     return responseBuilder.info(
       format(Messages.Train.Info, allStats.reduce((previous: string, current: Stat) =>

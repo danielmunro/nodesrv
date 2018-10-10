@@ -1,5 +1,4 @@
-import { allStats } from "../../attributes/constants"
-import { allVitals } from "../../attributes/constants"
+import { allStats, allVitals } from "../../attributes/constants"
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import { Mob } from "../../mob/model/mob"
@@ -11,148 +10,93 @@ import Response from "../../request/response"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
 import { Messages } from "../precondition/constants"
-import trainPrecondition from "../precondition/train"
 import { MAX_TRAINABLE_STATS } from "./constants"
-import train, { VITAL_INCREMENT } from "./train"
+import { VITAL_INCREMENT } from "./train"
+import PlayerBuilder from "../../test/playerBuilder"
+import getActionCollection from "../actionCollection"
+import { Definition } from "../definition/definition"
 
-async function getResponse(player: Player, trainer: Mob, input: string): Promise<Response> {
-  return await train(new CheckedRequest(
-    new Request(player.sessionMob, new InputContext(RequestType.Train, input)),
-    await Check.ok(trainer)))
-}
+let testBuilder: TestBuilder
+let playerBuilder: PlayerBuilder
+let player: Player
+let definition: Definition
+
+beforeEach(async () => {
+  testBuilder = new TestBuilder()
+  testBuilder.withTrainer()
+  playerBuilder = await testBuilder.withPlayer()
+  player = playerBuilder.player
+  definition = getActionCollection(await testBuilder.getService())
+    .getMatchingHandlerDefinitionForRequestType(RequestType.Train)
+})
 
 describe("train action", () => {
-  it ("should be able to train stats", async () => {
-    await Promise.all(allStats.map(async (stat) => {
-      // given
-      const testBuilder = new TestBuilder()
-      const playerBuilder = await testBuilder.withPlayer()
-      const player = playerBuilder.player
-      player.sessionMob.playerMob.trains = 1
-      const initialValue = player.sessionMob.playerMob.trainedAttributes.stats[stat]
-      const request = testBuilder.createRequest(RequestType.Train, `train ${stat}`)
+  it.each(allStats)("should be able to train %s", async (stat) => {
+    // given
+    player.sessionMob.playerMob.trains = 1
+    const initialValue = player.sessionMob.playerMob.trainedAttributes.stats[stat]
 
-      // when
-      const response = await train(
-        new CheckedRequest(
-          request,
-          await trainPrecondition(request)))
+    // when
+    const response = await definition.handle(testBuilder.createRequest(RequestType.Train, `train ${stat}`))
 
-      // then
-      expect(response.status).toBe(ResponseStatus.Success)
-      expect(player.sessionMob.playerMob.trainedAttributes.stats[stat]).toBe(initialValue + 1)
-    }))
+    // then
+    expect(response.status).toBe(ResponseStatus.Success)
+    expect(player.sessionMob.playerMob.trainedAttributes.stats[stat]).toBe(initialValue + 1)
   })
 
-  it("should be able to train vitals", async () => {
-    // given
-    const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
-    const player = playerBuilder.player
+  it.each(allVitals)("should be able to train %s", async (vital) => {
+    // setup
     const playerMob = player.sessionMob.playerMob
-    playerMob.trains = 3
+    playerMob.trains = 1
 
-    await Promise.all(allVitals.map(async (vital) => {
-      // given
-      const initialVital = playerMob.trainedAttributes.vitals[vital]
-      const request = testBuilder.createRequest(RequestType.Train, `train ${vital}`)
+    // given
+    const initialVital = playerMob.trainedAttributes.vitals[vital]
 
-      // when
-      const response = await train(
-        new CheckedRequest(
-          request,
-          await trainPrecondition(request)))
+    // when
+    const response = await definition.handle(testBuilder.createRequest(RequestType.Train, `train ${vital}`))
 
-      // then
-      expect(response.status).toBe(ResponseStatus.Success)
-      expect(playerMob.trains).toBe(0)
-      expect(playerMob.trainedAttributes.vitals[vital]).toBe(initialVital + VITAL_INCREMENT)
-    }))
+    // then
+    expect(response.status).toBe(ResponseStatus.Success)
+    expect(playerMob.trains).toBe(0)
+    expect(playerMob.trainedAttributes.vitals[vital]).toBe(initialVital + VITAL_INCREMENT)
   })
 
-  it("should not exceed stat max training amounts", async () => {
-    // given
-    const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
-    const player = playerBuilder.player
+  it.each(allStats)("should not exceed %s max training amount", async (stat) => {
+    // setup
     testBuilder.withTrainer()
-    player.sessionMob.playerMob.trains = 10
-    player.sessionMob.playerMob.trainedAttributes.stats.str = MAX_TRAINABLE_STATS
-    player.sessionMob.playerMob.trainedAttributes.stats.int = MAX_TRAINABLE_STATS
-    player.sessionMob.playerMob.trainedAttributes.stats.wis = MAX_TRAINABLE_STATS
-    player.sessionMob.playerMob.trainedAttributes.stats.dex = MAX_TRAINABLE_STATS
-    player.sessionMob.playerMob.trainedAttributes.stats.con = MAX_TRAINABLE_STATS
-    player.sessionMob.playerMob.trainedAttributes.stats.sta = MAX_TRAINABLE_STATS
+    player.sessionMob.playerMob.trains = 1
+
+    // given
+    player.sessionMob.playerMob.trainedAttributes.stats[stat] = MAX_TRAINABLE_STATS
 
     // when
-    await allStats.forEach(async stat => {
-      const request = testBuilder.createRequest(RequestType.Train, `train ${stat}`)
-      const response = await train(
-        new CheckedRequest(
-          request,
-          await trainPrecondition(request)))
+    const response = await definition.handle(testBuilder.createRequest(RequestType.Train, `train ${stat}`))
 
-      // then
-      expect(response.status).toBe(ResponseStatus.ActionFailed)
-      expect(response.message.toRequestCreator).toBe(Messages.Train.CannotTrainMore)
-    })
+    // then
+    expect(response.status).toBe(ResponseStatus.ActionFailed)
+    expect(response.message.toRequestCreator).toBe(Messages.Train.CannotTrainMore)
   })
 
-  it("can describe what is trainable", async () => {
+  it.each(allStats)("can describe what is trainable for %s", async (stat) => {
+    // setup
+    testBuilder.withTrainer()
+
     // given
-    const testBuilder = new TestBuilder()
-    const trainer = testBuilder.withTrainer().mob
-    const playerBuilder = await testBuilder.withPlayer()
-    const player = playerBuilder.player
     const trainedAttributes = player.sessionMob.playerMob.trainedAttributes
+    player.sessionMob.playerMob.trains = 1
 
     // when
-    const response1 = await getResponse(player, trainer, "")
+    const response1 = await definition.handle(testBuilder.createRequest(RequestType.Train))
 
     // then
     expect(response1.status).toBe(ResponseStatus.Info)
     expect(response1.message.toRequestCreator).toContain("str int wis dex con sta hp mana mv")
 
     // when
-    trainedAttributes.stats.str = MAX_TRAINABLE_STATS
-    const response2 = await getResponse(player, trainer, "")
+    trainedAttributes.stats[stat] = MAX_TRAINABLE_STATS
+    const response2 = await definition.handle(testBuilder.createRequest(RequestType.Train))
 
     // then
-    expect(response2.message.toRequestCreator).not.toContain("str")
-
-    // when
-    trainedAttributes.stats.int = MAX_TRAINABLE_STATS
-    const response3 = await getResponse(player, trainer, "")
-
-    // then
-    expect(response3.message.toRequestCreator).not.toContain("int")
-
-    // when
-    trainedAttributes.stats.wis = MAX_TRAINABLE_STATS
-    const response4 = await getResponse(player, trainer, "")
-
-    // then
-    expect(response4.message.toRequestCreator).not.toContain("wis")
-
-    // when
-    trainedAttributes.stats.dex = MAX_TRAINABLE_STATS
-    const response5 = await getResponse(player, trainer, "")
-
-    // then
-    expect(response5.message.toRequestCreator).not.toContain("dex")
-
-    // when
-    trainedAttributes.stats.con = MAX_TRAINABLE_STATS
-    const response6 = await getResponse(player, trainer, "")
-
-    // then
-    expect(response6.message.toRequestCreator).not.toContain("con")
-
-    // when
-    trainedAttributes.stats.sta = MAX_TRAINABLE_STATS
-    const response7 = await getResponse(player, trainer, "")
-
-    // then
-    expect(response7.message.toRequestCreator).not.toContain("sta")
+    expect(response2.message.toRequestCreator).not.toContain(stat)
   })
 })
