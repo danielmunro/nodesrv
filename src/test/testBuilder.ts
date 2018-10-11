@@ -153,10 +153,6 @@ export default class TestBuilder {
     return this.service
   }
 
-  public getPlayerMob(): Mob {
-    return this.player.sessionMob
-  }
-
   private createCheckedRequest(
     requestType: RequestType,
     checkStatus: CheckStatus,
