@@ -59,7 +59,7 @@ export class Item {
   }
 
   public isContainer(): boolean {
-    return this.containerInventory !== null
+    return !!this.containerInventory
   }
 
   public copy(): Item {
