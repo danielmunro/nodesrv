@@ -15,17 +15,21 @@ import { VITAL_INCREMENT } from "./train"
 import PlayerBuilder from "../../test/playerBuilder"
 import getActionCollection from "../actionCollection"
 import { Definition } from "../definition/definition"
+import Attributes from "../../attributes/model/attributes"
 
 let testBuilder: TestBuilder
 let playerBuilder: PlayerBuilder
 let player: Player
 let definition: Definition
+let trainedAttributes: Attributes
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   testBuilder.withTrainer()
   playerBuilder = await testBuilder.withPlayer()
   player = playerBuilder.player
+  trainedAttributes = player.sessionMob.playerMob.trainedAttributes
+  player.sessionMob.playerMob.trains = 1
   definition = getActionCollection(await testBuilder.getService())
     .getMatchingHandlerDefinitionForRequestType(RequestType.Train)
 })
@@ -33,24 +37,22 @@ beforeEach(async () => {
 describe("train action", () => {
   it.each(allStats)("should be able to train %s", async (stat) => {
     // given
-    player.sessionMob.playerMob.trains = 1
-    const initialValue = player.sessionMob.playerMob.trainedAttributes.stats[stat]
+    const initialValue = trainedAttributes.stats[stat]
 
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Train, `train ${stat}`))
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.playerMob.trainedAttributes.stats[stat]).toBe(initialValue + 1)
+    expect(trainedAttributes.stats[stat]).toBe(initialValue + 1)
   })
 
   it.each(allVitals)("should be able to train %s", async (vital) => {
     // setup
     const playerMob = player.sessionMob.playerMob
-    playerMob.trains = 1
 
     // given
-    const initialVital = playerMob.trainedAttributes.vitals[vital]
+    const initialVital = trainedAttributes.vitals[vital]
 
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Train, `train ${vital}`))
@@ -58,16 +60,12 @@ describe("train action", () => {
     // then
     expect(response.status).toBe(ResponseStatus.Success)
     expect(playerMob.trains).toBe(0)
-    expect(playerMob.trainedAttributes.vitals[vital]).toBe(initialVital + VITAL_INCREMENT)
+    expect(trainedAttributes.vitals[vital]).toBe(initialVital + VITAL_INCREMENT)
   })
 
   it.each(allStats)("should not exceed %s max training amount", async (stat) => {
-    // setup
-    testBuilder.withTrainer()
-    player.sessionMob.playerMob.trains = 1
-
     // given
-    player.sessionMob.playerMob.trainedAttributes.stats[stat] = MAX_TRAINABLE_STATS
+    trainedAttributes.stats[stat] = MAX_TRAINABLE_STATS
 
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Train, `train ${stat}`))
@@ -78,13 +76,6 @@ describe("train action", () => {
   })
 
   it.each(allStats)("can describe what is trainable for %s", async (stat) => {
-    // setup
-    testBuilder.withTrainer()
-
-    // given
-    const trainedAttributes = player.sessionMob.playerMob.trainedAttributes
-    player.sessionMob.playerMob.trains = 1
-
     // when
     const response1 = await definition.handle(testBuilder.createRequest(RequestType.Train))
 
