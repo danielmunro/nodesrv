@@ -31,6 +31,13 @@ describe("fight rounds", () => {
     // then
     expect(attackMessage(attack2, mob1)).toContain("You have DIED")
     expect(attackMessage(attack2, mob2)).toContain("mob1 has DIED")
+
+    // when
+    const unspeakableDamageAmount = 1000
+    const attack3 = new Attack(mob2, mob1, AttackResult.Hit, unspeakableDamageAmount)
+
+    // then
+    expect(attackMessage(attack3, mob1)).toContain("UNSPEAKABLE")
   })
 
   it("should be able to create a map between clients and session mobs", async () => {
