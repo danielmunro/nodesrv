@@ -32,8 +32,8 @@ import { SkillType } from "./skillType"
 const BASE_IMPROVE_CHANCE = 50
 
 function createSkill(
-  type: SkillType, trigger: Trigger, action, minimumLevel: number, preconditions = null): SkillDefinition {
-  return new SkillDefinition(type, [trigger], action, minimumLevel, preconditions)
+  type: SkillType, trigger: Trigger, action, preconditions = null): SkillDefinition {
+  return new SkillDefinition(type, [trigger], action, preconditions)
 }
 
 function initialImproveRoll(): number {
@@ -55,7 +55,7 @@ function checkImprove(response: Response, baseImproveChance: number = BASE_IMPRO
   return response
 }
 
-function createCheckImprove(method, improveChance = BASE_IMPROVE_CHANCE) {
+function improve(method, improveChance = BASE_IMPROVE_CHANCE) {
   return async request => checkImprove(await method(request), improveChance)
 }
 
@@ -63,35 +63,24 @@ function newWeaponSkill(skillType: SkillType) {
   return createSkill(
     skillType,
     Trigger.DamageModifier,
-    createCheckImprove(request => request),
-    1)
+    improve(request => request))
 }
 
-export const skillCollection = [
-  createSkill(SkillType.Dodge, Trigger.AttackRoundDefend,
-    createCheckImprove(dodge), 10, dodgePrecondition),
-  createSkill(SkillType.Disarm, Trigger.Input,
-    createCheckImprove(disarm), 10, disarmPrecondition),
+export const skillTable = [
+  createSkill(SkillType.Dodge, Trigger.AttackRoundDefend, improve(dodge), dodgePrecondition),
+  createSkill(SkillType.Disarm, Trigger.Input, improve(disarm), disarmPrecondition),
   createSkill(SkillType.SecondAttack, Trigger.AttackRound,
-    createCheckImprove(secondAttack), 10, secondAttackPrecondition),
-  createSkill(SkillType.Bash, Trigger.Input,
-    createCheckImprove(bash), 5, bashPrecondition),
-  createSkill(SkillType.Trip, Trigger.Input,
-    createCheckImprove(trip), 10, tripPrecondition),
-  createSkill(SkillType.Berserk, Trigger.Input,
-    createCheckImprove(berserk), 20, berserkPrecondition),
-  createSkill(SkillType.Sneak, Trigger.Input,
-    createCheckImprove(sneak), 6, sneakPrecondition),
-  createSkill(SkillType.Envenom, Trigger.Input,
-    createCheckImprove(envenom), 20, envenomPrecondition),
-  createSkill(SkillType.Backstab, Trigger.Input,
-    createCheckImprove(backstab), 20, backstabPrecondition),
+    improve(secondAttack), secondAttackPrecondition),
+  createSkill(SkillType.Bash, Trigger.Input, improve(bash), bashPrecondition),
+  createSkill(SkillType.Trip, Trigger.Input, improve(trip), tripPrecondition),
+  createSkill(SkillType.Berserk, Trigger.Input, improve(berserk), berserkPrecondition),
+  createSkill(SkillType.Sneak, Trigger.Input, improve(sneak), sneakPrecondition),
+  createSkill(SkillType.Envenom, Trigger.Input, improve(envenom), envenomPrecondition),
+  createSkill(SkillType.Backstab, Trigger.Input, improve(backstab), backstabPrecondition),
   createSkill(SkillType.EnhancedDamage, Trigger.DamageModifier,
-    createCheckImprove(enhancedDamage), 30, enhancedDamagePrecondition),
-  createSkill(SkillType.DirtKick, Trigger.Input,
-    createCheckImprove(dirtKick), 5, dirtKickPrecondition),
-  createSkill(SkillType.FastHealing, Trigger.Tick,
-    createCheckImprove(fastHealing), 5, fastHealingPrecondition),
+    improve(enhancedDamage), enhancedDamagePrecondition),
+  createSkill(SkillType.DirtKick, Trigger.Input, improve(dirtKick), dirtKickPrecondition),
+  createSkill(SkillType.FastHealing, Trigger.Tick, improve(fastHealing), fastHealingPrecondition),
   newWeaponSkill(SkillType.Sword),
   newWeaponSkill(SkillType.Mace),
   newWeaponSkill(SkillType.Wand),
@@ -105,5 +94,5 @@ export const skillCollection = [
 ]
 
 export function getSkillActionDefinition(skillType: SkillType) {
-  return skillCollection.find((action) => action.isSkillTypeMatch(skillType))
+  return skillTable.find((action) => action.isSkillTypeMatch(skillType))
 }

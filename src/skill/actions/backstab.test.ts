@@ -7,7 +7,7 @@ import { format } from "../../support/string"
 import MobBuilder from "../../test/mobBuilder"
 import TestBuilder from "../../test/testBuilder"
 import { Messages as AllMessages } from "../preconditions/constants"
-import { getSkillActionDefinition } from "../skillCollection"
+import { getSkillActionDefinition } from "../skillTable"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 
@@ -37,13 +37,14 @@ describe("backstab skill action", () => {
   it("should fail when not practiced", async () => {
     // given
     mobBuilder.withSkill(SkillType.Backstab)
+    mobBuilder.mob.level = 20
 
     // when
     const responses = await doNTimes(iterations, () =>
       definition.doAction(testBuilder.createRequest(RequestType.Backstab)))
 
     // then
-    expect(all(responses, r => r.isFailure())).toBeTruthy()
+    expect(responses.filter(r => r.isFailure()).length).toBeGreaterThan(iterations * 0.95)
     expect(all(responses, r => r.message.toRequestCreator === format(Messages.Backstab.Failure, opponent)))
   })
 

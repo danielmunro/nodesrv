@@ -10,6 +10,7 @@ import { Messages } from "./constants"
 export default function(request: Request): Promise<Check> {
   return request.checkWithStandingDisposition()
     .requireSkill(SkillType.Envenom)
+    .requireLevel(15)
     .require(
       request.findItemInSessionMobInventory(),
       Messages.All.NoItem,

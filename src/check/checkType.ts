@@ -4,6 +4,7 @@ export enum CheckType {
   ItemPresent,
   ContainerPresent,
   IsPlayer,
+  Level,
   AuthorizationLevel,
   ValidSubject,
   Disposition,

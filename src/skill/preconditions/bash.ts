@@ -9,6 +9,7 @@ import { Messages } from "./constants"
 export default function(request: Request): Promise<Check> {
   return request.checkWithStandingDisposition()
     .requireSkill(SkillType.Bash)
+    .requireLevel(5)
     .requireFight()
     .addCost(new Cost(CostType.Mv, Costs.Bash.Mv, Messages.All.NotEnoughMv))
     .create()

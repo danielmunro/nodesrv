@@ -6,7 +6,7 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
 import { Skill } from "../model/skill"
-import { getSkillActionDefinition } from "../skillCollection"
+import { getSkillActionDefinition } from "../skillTable"
 import { Event } from "./event"
 import { Resolution } from "./resolution"
 

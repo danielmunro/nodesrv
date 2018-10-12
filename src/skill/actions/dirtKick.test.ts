@@ -7,7 +7,7 @@ import { format } from "../../support/string"
 import MobBuilder from "../../test/mobBuilder"
 import TestBuilder from "../../test/testBuilder"
 import { Messages } from "../constants"
-import { getSkillActionDefinition } from "../skillCollection"
+import { getSkillActionDefinition } from "../skillTable"
 import { SkillType } from "../skillType"
 
 const iterations = 10

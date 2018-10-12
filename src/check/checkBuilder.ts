@@ -80,6 +80,14 @@ export default class CheckBuilder {
     return this
   }
 
+  public requireLevel(level: number) {
+    this.checks.push(this.newCheckComponent(
+      CheckType.Level,
+      this.mob.level >= level))
+
+    return this
+  }
+
   public requireSkill(skillType: SkillType) {
     this.checks.push(this.newCheckComponent(
       CheckType.HasSkill,

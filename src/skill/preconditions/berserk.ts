@@ -10,6 +10,7 @@ import { Messages } from "./constants"
 export default function(request: Request): Promise<Check> {
   return request.checkWithStandingDisposition()
     .requireSkill(SkillType.Berserk)
+    .requireLevel(20)
     .not().requireAffect(AffectType.Berserk, Messages.Berserk.FailAlreadyInvoked)
     .addCost(
       new Cost(

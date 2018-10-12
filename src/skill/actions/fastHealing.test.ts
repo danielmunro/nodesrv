@@ -2,7 +2,7 @@ import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { getSkillActionDefinition } from "../skillCollection"
+import { getSkillActionDefinition } from "../skillTable"
 import { SkillType } from "../skillType"
 
 const iterations = 100

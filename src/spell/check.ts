@@ -88,7 +88,7 @@ export class Check {
     }
 
     if (request.getTarget()) {
-      return request.getTarget()
+      return request.getTarget() as Mob
     }
 
     if (actionType !== ActionType.Offensive) {

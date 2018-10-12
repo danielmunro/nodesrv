@@ -5,6 +5,7 @@ import { SkillType } from "../skillType"
 export default function(request: Request): Promise<Check> {
   return request.checkWithStandingDisposition()
     .requireSkill(SkillType.Dodge)
+    .requireLevel(10)
     .requireFight()
     .create()
 }

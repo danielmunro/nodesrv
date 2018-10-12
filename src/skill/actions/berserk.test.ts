@@ -5,7 +5,7 @@ import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { Messages } from "../constants"
-import { getSkillActionDefinition } from "../skillCollection"
+import { getSkillActionDefinition } from "../skillTable"
 import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
 

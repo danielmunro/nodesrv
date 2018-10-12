@@ -11,6 +11,7 @@ import { Messages } from "./constants"
 export default function(request: Request): Promise<Check> {
   return request.checkWithStandingDisposition()
     .requireSkill(SkillType.Disarm)
+    .requireLevel(10)
     .requireFight()
     .require(
       opponent => opponent.equipped.inventory.find(i => i.equipment === Equipment.Weapon),
