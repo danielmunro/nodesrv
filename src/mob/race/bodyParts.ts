@@ -1,10 +1,11 @@
 import { newFood, newTrash, poison } from "../../item/factory"
 import { Item } from "../../item/model/item"
 import { pickOne } from "../../random/helpers"
-import { Messages } from "../../server/observers/constants"
+import { Messages as ServerObserverMessages } from "../../server/observers/constants"
 import { format } from "../../support/string"
 import { Mob } from "../model/mob"
 import { Race } from "./race"
+import { Messages } from "./constants"
 
 export enum BodyPart {
   Brains = "brains",
@@ -38,43 +39,46 @@ const standardPackage = [BodyPart.Head, BodyPart.Brains, BodyPart.Ear, BodyPart.
 const quadruped = [BodyPart.Head, BodyPart.Brains, BodyPart.Ear, BodyPart.Guts,
   BodyPart.Leg, BodyPart.Heart, BodyPart.Eye, BodyPart.Fur]
 
+/* istanbul ignore next */
 export function getRandomBodyPartForRace(race: Race): BodyPart {
   return pickOne(bodyParts.find(p => p.race === race).bodyParts)
 }
 
+/* istanbul ignore next */
 export function getBodyPartItem(mob: Mob, bodyPart: BodyPart): Item {
   switch (bodyPart) {
     case BodyPart.Guts:
       return poison(newFood(
-        format("the guts of {0}", mob.name),
-        format("the guts of {0} are here.", mob.name)))
+        format(Messages.Guts.Name, mob.name),
+        format(Messages.Guts.Description, mob.name)))
     case BodyPart.Head:
       return newTrash(
-        format("the head of {0}", mob.name),
-        format("the head of {0} sits here, staring at you.", mob.name))
+        format(Messages.Head.Name, mob.name),
+        format(Messages.Head.Description, mob.name))
     case BodyPart.Heart:
       return newFood(
-        format("the heart of {0}", mob.name),
-        format("the heart of {0} is here.", mob.name))
+        format(Messages.Heart.Name, mob.name),
+        format(Messages.Heart.Description, mob.name))
     case BodyPart.Arm:
       return newTrash(
-        format("an arm of {0}", mob.name),
-        format("an arm of {0} is lying here.", mob.name))
+        format(Messages.Arm.Name, mob.name),
+        format(Messages.Arm.Description, mob.name))
     case BodyPart.Leg:
       return newTrash(
-        format("a leg of {0}", mob.name),
-        format("a leg of {0} lays here.", mob.name))
+        format(Messages.Leg.Name, mob.name),
+        format(Messages.Leg.Description, mob.name))
     case BodyPart.Brains:
       return newFood(
-        format("the brain of {0}", mob.name),
-        format("the brain of {0} sits here.", mob.name))
+        format(Messages.Brains.Name, mob.name),
+        format(Messages.Brains.Description, mob.name))
     default:
       return newTrash(
-        format("the {0} of {1}", bodyPart, mob.name),
-        format("the {0} of {1} is here.", bodyPart, mob.name))
+        format(Messages.Trash.Name, bodyPart, mob.name),
+        format(Messages.Trash.Description, bodyPart, mob.name))
   }
 }
 
+/* istanbul ignore next */
 const bodyParts = [
   // non-playable
   newDefinition(Race.Lizard, [BodyPart.Head, BodyPart.Tail, BodyPart.Scales, BodyPart.Horns]),
@@ -114,8 +118,9 @@ const bodyParts = [
   newDefinition(Race.Goblin, [...standardPackage, BodyPart.Fangs, BodyPart.LongTongue]),
 ]
 
+/* istanbul ignore next */
 export function getBodyPartMessage(mob: Mob, bodyPart: BodyPart): string {
-  const m = Messages.Fight.BodyParts
+  const m = ServerObserverMessages.Fight.BodyParts
   switch (bodyPart) {
     case BodyPart.Guts:
       return format(m.Guts, mob.name, mob.gender)
