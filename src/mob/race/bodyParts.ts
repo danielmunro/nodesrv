@@ -4,8 +4,8 @@ import { pickOne } from "../../random/helpers"
 import { Messages as ServerObserverMessages } from "../../server/observers/constants"
 import { format } from "../../support/string"
 import { Mob } from "../model/mob"
-import { Race } from "./race"
 import { Messages } from "./constants"
+import { Race } from "./race"
 
 export enum BodyPart {
   Brains = "brains",
