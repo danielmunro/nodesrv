@@ -1,6 +1,6 @@
 import { ActionType } from "../action/actionType"
 import { DamageType } from "../damage/damageType"
-import { SpellType } from "../spell/spellType"
+import { SpellType } from "./spellType"
 import cureLight from "./actions/cureLight"
 import curePoison from "./actions/curePoison"
 import giantStrength from "./actions/giantStrength"
