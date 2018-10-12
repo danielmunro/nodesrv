@@ -1,8 +1,8 @@
-import TestBuilder from "../../test/testBuilder"
-import { newEquipment } from "../../item/factory"
 import { Equipment } from "../../item/equipment"
-import getActionCollection from "../actionCollection"
+import { newEquipment } from "../../item/factory"
 import { RequestType } from "../../request/requestType"
+import TestBuilder from "../../test/testBuilder"
+import getActionCollection from "../actionCollection"
 
 const itemName = "token"
 
