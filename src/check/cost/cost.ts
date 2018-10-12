@@ -30,9 +30,13 @@ export default class Cost {
     }
   }
 
-  public canApply(mob: Mob): boolean {
+  public canApplyTo(mob: Mob): boolean {
     if (this.costType === CostType.Mv) {
       return mob.vitals.mv >= this.amount
+    }
+
+    if (this.costType === CostType.Mana) {
+      return mob.vitals.mana >= this.amount
     }
 
     if (this.costType === CostType.Delay) {

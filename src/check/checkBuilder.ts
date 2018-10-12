@@ -30,7 +30,7 @@ export default class CheckBuilder {
   public requirePlayer(mob: Mob, failMessage = MESSAGE_FAIL_NOT_PLAYER): CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.IsPlayer,
-      new Maybe(mob).do(m => m.isPlayer) .or(() => false).get(),
+      new Maybe(mob).do(m => m.isPlayer).or(() => false).get(),
       failMessage))
 
     return this
@@ -130,7 +130,7 @@ export default class CheckBuilder {
       return Check.fail(checkFail.failMessage, this.checks, this.costs)
     }
 
-    const costFail = this.costs.find(cost => !cost.canApply(this.mob))
+    const costFail = this.costs.find(cost => !cost.canApplyTo(this.mob))
     if (costFail) {
       return Check.fail(costFail.failMessage, this.checks, this.costs)
     }
