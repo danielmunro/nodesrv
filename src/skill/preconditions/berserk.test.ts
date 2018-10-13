@@ -14,7 +14,10 @@ describe("berserk skill precondition", () => {
     const testBuilder = new TestBuilder()
 
     // given
-    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.vitals.mv = 0)
+    const playerBuilder = await testBuilder.withPlayer(p => {
+      p.sessionMob.vitals.mv = 0
+      p.sessionMob.level = 20
+    })
     playerBuilder.withSkill(SkillType.Berserk)
 
     // when
@@ -30,7 +33,10 @@ describe("berserk skill precondition", () => {
     const testBuilder = new TestBuilder()
 
     // given
-    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.addAffect(newAffect(AffectType.Berserk)))
+    const playerBuilder = await testBuilder.withPlayer(p => {
+      p.sessionMob.addAffect(newAffect(AffectType.Berserk))
+      p.sessionMob.level = 20
+    })
     playerBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when
@@ -46,7 +52,7 @@ describe("berserk skill precondition", () => {
     const testBuilder = new TestBuilder()
 
     // given
-    const playerBuilder = await testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 20)
     playerBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when

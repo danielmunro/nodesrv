@@ -9,7 +9,10 @@ describe("trip skill precondition", () => {
   it("should not work if the mob is out of movement", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.vitals.mv = 0)
+    const playerBuilder = await testBuilder.withPlayer(p => {
+      p.sessionMob.vitals.mv = 0
+      p.sessionMob.level = 10
+    })
     addFight(new Fight(
       playerBuilder.player.sessionMob,
       testBuilder.withMob().mob,
@@ -29,7 +32,7 @@ describe("trip skill precondition", () => {
   it("success sanity check", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 10)
     addFight(new Fight(
       playerBuilder.player.sessionMob,
       testBuilder.withMob().mob,

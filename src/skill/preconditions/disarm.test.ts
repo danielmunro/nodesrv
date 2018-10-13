@@ -14,7 +14,7 @@ describe("disarm preconditions", () => {
   it("should not work if not in a fight", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 20)
     playerBuilder.withSkill(SkillType.Disarm)
     const mob = playerBuilder.player.sessionMob
     const request = new Request(mob, new InputContext(RequestType.Disarm))
@@ -30,7 +30,7 @@ describe("disarm preconditions", () => {
   it("should not work if the target is not armed", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 20)
     playerBuilder.withSkill(SkillType.Disarm)
     const target = testBuilder.withMob().mob
     const mob = playerBuilder.player.sessionMob
@@ -48,7 +48,7 @@ describe("disarm preconditions", () => {
   it("should not work if the mob is too tired", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 20)
     const targetBuilder = testBuilder.withMob()
     targetBuilder.equip().withAxeEq()
     const target = targetBuilder.mob
@@ -71,7 +71,7 @@ describe("disarm preconditions", () => {
   it("should succeed if all conditions are met", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 20)
     const targetBuilder = testBuilder.withMob()
     targetBuilder.equip().withAxeEq()
     const target = targetBuilder.mob

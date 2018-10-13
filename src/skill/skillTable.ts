@@ -14,6 +14,7 @@ import fastHealing from "./actions/fastHealing"
 import secondAttack from "./actions/secondAttack"
 import sneak from "./actions/sneak"
 import trip from "./actions/trip"
+import { BASE_IMPROVE_CHANCE } from "./constants"
 import backstabPrecondition from "./preconditions/backstab"
 import bashPrecondition from "./preconditions/bash"
 import berserkPrecondition from "./preconditions/berserk"
@@ -28,8 +29,6 @@ import sneakPrecondition from "./preconditions/sneak"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
-
-const BASE_IMPROVE_CHANCE = 50
 
 function createSkill(
   type: SkillType, trigger: Trigger, action, preconditions = null): SkillDefinition {

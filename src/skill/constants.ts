@@ -63,3 +63,4 @@ export const Costs = {
 export const SuccessThreshold = {
   EnhancedDamage: 60,
 }
+export const BASE_IMPROVE_CHANCE = 50
