@@ -17,35 +17,40 @@ const startRoomID = process.argv[2]
 const port = +process.argv[3]
 
 assert.ok(startRoomID, "start room ID is required to be defined")
-console.info("loading start room", { startRoomID })
+console.info("0 - entry point", { startRoomID })
 
 async function startServer(service: Service, startRoom: Room) {
-  console.info("starting up server", { port })
+  console.info(`3 - starting up server on port ${port}`)
   return newServer(service, port, startRoom).start()
 }
 
 export async function newMobTable() {
   const mobRepository = await getMobRepository()
   const models = await mobRepository.findAll()
-  console.debug(`mob table initialized with ${models.length} mobs`)
+  console.debug(`2 - mob table initialized with ${models.length} mobs`)
   return new Table(models)
 }
 
 async function newRoomTable(): Promise<RoomTable> {
   const roomRepository = await getRoomRepository()
   const models = await roomRepository.findAll()
-  console.debug(`room table initialized with ${models.length} rooms`)
+  console.debug(`2 - room table initialized with ${models.length} rooms`)
   return RoomTable.new(models)
 }
 
 async function newItemTable(): Promise<ItemTable> {
   const itemRepository = await getItemRepository()
   const models = await itemRepository.findAll()
-  console.debug(`item table initialized with ${models.length} items`)
+  console.debug(`2 - item table initialized with ${models.length} items`)
   return new ItemTable(models)
 }
 
-initializeConnection().then(() =>
+async function createDbConnection(): Promise<void> {
+  await initializeConnection()
+  console.debug("1 - database connection created")
+}
+
+createDbConnection().then(() =>
   Promise.all([
     newRoomTable(),
     newMobTable(),
