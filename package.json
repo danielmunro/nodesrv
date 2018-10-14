@@ -79,6 +79,7 @@
       "constants.ts",
       "dontExecuteTestObserver.ts",
       "src/timer"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "./bin/test-setup.ts"
   }
 }

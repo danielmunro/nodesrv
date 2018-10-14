@@ -1,4 +1,5 @@
 import * as assert from "assert"
+import { initializeConnection } from "../src/db/connection"
 import ItemTable from "../src/item/itemTable"
 import { getItemRepository } from "../src/item/repository/item"
 import { getMobRepository } from "../src/mob/repository/mob"
@@ -44,9 +45,10 @@ async function newItemTable(): Promise<ItemTable> {
   return new ItemTable(models)
 }
 
-Promise.all([
-  newRoomTable(),
-  newMobTable(),
-  newItemTable(),
-]).then(async ([roomTable, mobTable, itemTable]) =>
-  startServer(await Service.new(roomTable, mobTable, itemTable), roomTable.get(startRoomID)))
+initializeConnection().then(() =>
+  Promise.all([
+    newRoomTable(),
+    newMobTable(),
+    newItemTable(),
+  ]).then(async ([roomTable, mobTable, itemTable]) =>
+    startServer(await Service.new(roomTable, mobTable, itemTable), roomTable.get(startRoomID))))

@@ -1,7 +1,7 @@
 import root from "../src/area/builder/forest/root"
 import { newWorld } from "../src/area/factory"
 import { newStartingAttributes, newStartingVitals } from "../src/attributes/factory"
-import { getConnection } from "../src/db/connection"
+import { initializeConnection } from "../src/db/connection"
 import { newContainer } from "../src/item/factory"
 import { newForestItem } from "../src/item/factory/trail"
 import { newMob } from "../src/mob/factory"
@@ -32,7 +32,7 @@ async function getNewPlayer(email: string, password: string): Promise<Player> {
   return player
 }
 
-getConnection().then(async () => {
+initializeConnection().then(async () => {
   const rootRoom = root()
   const service = await Service.new()
   await newWorld(await service.saveRoom(rootRoom))

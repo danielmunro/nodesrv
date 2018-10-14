@@ -1,14 +1,17 @@
-import {Connection, createConnection, getConnectionOptions} from "typeorm"
+import { Connection, createConnection, getConnectionOptions } from "typeorm"
 
 let connection: Connection
 
-export async function getConnection(): Promise<any> {
+export async function initializeConnection() {
   const options = await getConnectionOptions()
+
   if (process.env.ENV === "test") {
-    Object.assign(options, {database: `nodesrvtest`})
+    Object.assign(options, { database: "nodesrvtest" })
   }
-  if (connection) {
-    return Promise.resolve(connection)
-  }
-  return createConnection(options).then((conn) => connection = conn)
+
+  connection = await createConnection(options)
+}
+
+export async function getConnection(): Promise<Connection> {
+  return connection
 }
