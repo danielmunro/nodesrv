@@ -31,5 +31,5 @@ describe("region weather server observer", () => {
     const loadedRegions = await regionRepository.findByIds(savedRegions.map((region) => region.id))
     const newWeatherPatterns = loadedRegions.map((region) => region.weather)
     expect(weather).not.toBe(newWeatherPatterns)
-  })
+  }, 10000)
 })
