@@ -6,7 +6,7 @@ import { WeaponType } from "../item/weaponType"
 import ServiceBuilder from "../service/serviceBuilder"
 
 export default class AbstractBuilder {
-  constructor(private readonly serviceBuilder: ServiceBuilder) {}
+  constructor(protected readonly serviceBuilder: ServiceBuilder) {}
 
   public withHelmetEq(): Item {
     const equipment = newEquipment("a baseball cap", "a baseball cap is here", Equipment.Head)

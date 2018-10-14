@@ -5,6 +5,7 @@ import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
 import AbstractBuilder from "./abstractBuilder"
+import { newContainer } from "../item/factory"
 
 export default class MobBuilder extends AbstractBuilder {
   private equipNextEquipment = false
@@ -29,6 +30,14 @@ export default class MobBuilder extends AbstractBuilder {
 
   public withMaceEq(): Item {
     return this.doEquip(super.withMaceEq())
+  }
+
+  public withSatchelContainer(): Item {
+    const item = newContainer("a small leather satchel", "A small leather satchel is here.")
+    this.mob.inventory.addItem(item)
+    this.serviceBuilder.addItem(item)
+
+    return item
   }
 
   public withSkill(skillType: SkillType, level: number = 1): Skill {
