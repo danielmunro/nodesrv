@@ -1,3 +1,4 @@
+import { newContainer } from "../item/factory"
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
 import ServiceBuilder from "../service/serviceBuilder"
@@ -5,7 +6,6 @@ import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
 import AbstractBuilder from "./abstractBuilder"
-import { newContainer } from "../item/factory"
 
 export default class MobBuilder extends AbstractBuilder {
   private equipNextEquipment = false
