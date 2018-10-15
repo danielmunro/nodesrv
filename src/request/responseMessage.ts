@@ -1,11 +1,14 @@
+import { format } from "../support/string"
+
 export default class ResponseMessage {
   constructor(
-    public readonly toRequestCreator: string,
-    public readonly toTarget: string = null,
-    public readonly toObservers: string = null,
+    public readonly templateString: string,
+    public readonly toRequestCreator = [],
+    public readonly toTarget = [],
+    public readonly toObservers = toTarget,
   ) {}
 
   public toString() {
-    return this.toRequestCreator
+    return format(this.templateString, this.toRequestCreator)
   }
 }

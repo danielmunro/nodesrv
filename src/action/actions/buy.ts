@@ -15,5 +15,5 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
 
   return request
     .respondWith(ActionOutcome.ItemCreated, item)
-    .success(new ResponseMessage(format(Messages.Buy.Success, item.name, item.value)))
+    .success(new ResponseMessage(Messages.Buy.Success, [item.name, item.value]))
 }

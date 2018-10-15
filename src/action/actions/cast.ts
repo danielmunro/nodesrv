@@ -14,5 +14,8 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   spellDefinition.apply(check.result)
 
   return checkedRequest.respondWith().success(
-    new ResponseMessage(format(Messages.Cast.Success, spellDefinition.spellType)))
+    new ResponseMessage(
+      Messages.Cast.Success,
+      ["you", "utter", spellDefinition.spellType],
+      [request.mob.name, "utters", spellDefinition.spellType]))
 }

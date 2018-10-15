@@ -21,10 +21,10 @@ export const Messages = {
     Success: "You purchase {0} for {0} gold",
   },
   Cast: {
-    Success: "You utter the words, '{0}'.",
+    Success: "{0} {1} the words, '{2}'.",
   },
   Drop: {
-    Success: "You drop {0}.",
+    Success: "{0} {1} {2}.",
   },
   Flee: {
     Success: "You flee to the {0}!",

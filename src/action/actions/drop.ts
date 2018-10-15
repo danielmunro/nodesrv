@@ -11,5 +11,8 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   room.inventory.addItem(item)
 
   return checkedRequest.respondWith().success(
-    new ResponseMessage(format(Messages.Drop.Success, item.name)))
+    new ResponseMessage(
+      Messages.Drop.Success,
+      ["you", "drop", item.name],
+      [checkedRequest.mob.name, "drops", item.name]))
 }
