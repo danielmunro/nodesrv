@@ -31,7 +31,7 @@ describe("backstab skill action", () => {
 
     // then
     expect(response.isError()).toBeTruthy()
-    expect(response.message.toRequestCreator).toBe(AllMessages.All.NoSkill)
+    expect(response.message.getMessageToRequestCreator()).toBe(AllMessages.All.NoSkill)
   })
 
   it("should fail when not practiced", async () => {

@@ -3,8 +3,6 @@ import { CheckType } from "../../check/checkType"
 import { Mob } from "../../mob/model/mob"
 import roll from "../../random/dice"
 import Response from "../../request/response"
-import ResponseMessage from "../../request/responseMessage"
-import { format } from "../../support/string"
 import { Skill } from "../model/skill"
 import { Messages, Thresholds } from "./constants"
 
@@ -15,10 +13,16 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
   const responseBuilder = checkedRequest.respondWith()
 
   if (!isSuccessfulBackstab(skill, mob, target)) {
-    return responseBuilder.fail(new ResponseMessage(format(Messages.Backstab.Failure, target.name)))
+    return responseBuilder.fail(
+      Messages.Backstab.Failure,
+      { target, requestCreator: "your" },
+      { target, requestCreator: `${mob.name}'s`})
   }
 
-  return responseBuilder.success(new ResponseMessage(format(Messages.Backstab.Success, target.name)))
+  return responseBuilder.success(
+    Messages.Backstab.Success,
+    { target, verb: "backstab" },
+    { target, verb: "backstabs" })
 }
 
 function isSuccessfulBackstab(skill: Skill, mob: Mob, target: Mob): boolean {

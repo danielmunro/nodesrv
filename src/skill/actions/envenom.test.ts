@@ -62,7 +62,7 @@ describe("envenom skill action", () => {
 
     // then
     expect(response.isError()).toBeTruthy()
-    expect(response.message.toRequestCreator).toBe(Messages.Envenom.Error.NotAWeapon)
+    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Envenom.Error.NotAWeapon)
   })
 
   it("should only be able to envenom bladed weapons", async () => {
@@ -77,6 +77,6 @@ describe("envenom skill action", () => {
 
     // then
     expect(response.isError()).toBeTruthy()
-    expect(response.message.toRequestCreator).toBe(Messages.Envenom.Error.WrongWeaponType)
+    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Envenom.Error.WrongWeaponType)
   })
 })

@@ -31,7 +31,7 @@ describe("wear", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message.toRequestCreator).toBe("You wear the hat of might.")
+    expect(response.message.getMessageToRequestCreator()).toBe("You wear the hat of might.")
   })
 
   it("will remove an equipped item and wear a new item", async () => {
@@ -51,6 +51,6 @@ describe("wear", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message.toRequestCreator).toBe("You remove a pirate hat and wear the hat of might.")
+    expect(response.message.getMessageToRequestCreator()).toBe("You remove a pirate hat and wear the hat of might.")
   })
 })

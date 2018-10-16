@@ -66,7 +66,7 @@ describe("train action", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.ActionFailed)
-    expect(response.message.toRequestCreator).toBe(Messages.Train.CannotTrainMore)
+    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Train.CannotTrainMore)
   })
 
   it.each(allStats)("can describe what is trainable for %s", async (stat) => {
@@ -75,13 +75,13 @@ describe("train action", () => {
 
     // then
     expect(response1.status).toBe(ResponseStatus.Info)
-    expect(response1.message.toRequestCreator).toContain("str int wis dex con sta hp mana mv")
+    expect(response1.message.getMessageToRequestCreator()).toContain("str int wis dex con sta hp mana mv")
 
     // when
     trainedAttributes.stats[stat] = MAX_TRAINABLE_STATS
     const response2 = await definition.handle(testBuilder.createRequest(RequestType.Train))
 
     // then
-    expect(response2.message.toRequestCreator).not.toContain(stat)
+    expect(response2.message.getMessageToRequestCreator()).not.toContain(stat)
   })
 })

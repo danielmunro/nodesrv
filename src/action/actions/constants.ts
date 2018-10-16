@@ -18,16 +18,19 @@ export const FLEE_MOVEMENT_COST_MULTIPLIER = 3
 
 export const Messages = {
   Buy: {
-    Success: "You purchase {0} for {0} gold",
+    Success: "{requestCreator} {verb} {item} for {value} gold",
   },
   Cast: {
-    Success: "{0} {1} the words, '{2}'.",
+    Success: "{requestCreator} {verb} the words, '{spell}'.",
   },
   Drop: {
-    Success: "{0} {1} {2}.",
+    Success: "{requestCreator} {verb} {item}.",
+  },
+  Eat: {
+    Success: "{requestCreator} {verb} {item}{affects}{full}.",
   },
   Flee: {
-    Success: "You flee to the {0}!",
+    Success: "You flee to the {direction}!",
   },
   Get: {
     SuccessFromContainer: "You get {0} from {1}.",
@@ -37,7 +40,7 @@ export const Messages = {
     Success: "You scream and attack!",
   },
   Put: {
-    Success: "You put {0} in {1}.",
+    Success: "You put {item} in {container}.",
   },
   Sacrifice: {
     Success: "You sacrifice {0} to your deity, and are rewarded with {1} gold.",

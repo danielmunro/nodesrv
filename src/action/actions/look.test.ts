@@ -23,10 +23,11 @@ describe("look", () => {
   it("should describe a room when no arguments are provided", async () => {
     // when
     const response = await look(testBuilder.createRequest(RequestType.Look), testBuilder.getService())
+    const message = response.message.getMessageToRequestCreator()
 
     // then
-    expect(response.message.toRequestCreator).toContain(room.name)
-    expect(response.message.toRequestCreator).toContain(room.description)
+    expect(message).toContain(room.name)
+    expect(message).toContain(room.description)
   })
 
   it("should let the player know if the thing they want to look at does not exist", async () => {
@@ -35,7 +36,7 @@ describe("look", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.message.toRequestCreator).toBe(NOT_FOUND)
+    expect(response.message.getMessageToRequestCreator()).toBe(NOT_FOUND)
   })
 
   it("should describe a mob when a mob is present", async () => {
@@ -47,7 +48,7 @@ describe("look", () => {
     const response = await look(testBuilder.createRequest(RequestType.Look, "look alice"), testBuilder.getService())
 
     // then
-    expect(response.message.toRequestCreator).toBe(mob.description)
+    expect(response.message.getMessageToRequestCreator()).toBe(mob.description)
   })
 
   it("should be able to describe an item in the room", async () => {
@@ -63,7 +64,7 @@ describe("look", () => {
     const response = await look(testBuilder.createRequest(RequestType.Look, "look pirate"), service)
 
     // then
-    expect(response.message.toRequestCreator).toBe(item.description)
+    expect(response.message.getMessageToRequestCreator()).toBe(item.description)
   })
 
   it("should be able to describe an item in the session mob's inventory", async () => {
@@ -80,7 +81,7 @@ describe("look", () => {
     const response = await look(testBuilder.createRequest(RequestType.Look, "look pirate"), service)
 
     // then
-    expect(response.message.toRequestCreator).toBe(item.description)
+    expect(response.message.getMessageToRequestCreator()).toBe(item.description)
   })
 
   it("should not be able to see if blind", async () => {
@@ -88,6 +89,6 @@ describe("look", () => {
 
     const response = await look(testBuilder.createRequest(RequestType.Look), await testBuilder.getService())
 
-    expect(response.message.toRequestCreator).toBe(MESSAGE_LOOK_CANNOT_SEE)
+    expect(response.message.getMessageToRequestCreator()).toBe(MESSAGE_LOOK_CANNOT_SEE)
   })
 })

@@ -17,8 +17,8 @@ export const Messages = {
       NotAWeapon: "That's not a weapon.",
       WrongWeaponType: "You need a piercing or slashing weapon",
     },
-    Fail: "You fail to envenom {0}.",
-    Success: "You successfully envenom {0}.",
+    Fail: "You fail to envenom {item}.",
+    Success: "You successfully envenom {item}.",
   },
   Sneak: {
     Fail: "You fail to move silently.",

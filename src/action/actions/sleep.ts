@@ -1,11 +1,10 @@
 import CheckedRequest from "../../check/checkedRequest"
 import { Disposition } from "../../mob/disposition"
 import Response from "../../request/response"
-import ResponseMessage from "../../request/responseMessage"
 import { Messages } from "./constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   checkedRequest.request.mob.disposition = Disposition.Sleeping
 
-  return checkedRequest.respondWith().success(new ResponseMessage(Messages.Sleep.Success))
+  return checkedRequest.respondWith().success(Messages.Sleep.Success)
 }

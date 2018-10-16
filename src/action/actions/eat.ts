@@ -1,8 +1,8 @@
 import CheckedRequest from "../../check/checkedRequest"
 import { Item } from "../../item/model/item"
 import Response from "../../request/response"
-import ResponseMessage from "../../request/responseMessage"
 import { ActionOutcome } from "../actionOutcome"
+import {Messages} from "./constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const mob = checkedRequest.request.mob
@@ -13,8 +13,12 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
 
   const affects = item.affects.length > 0 ? ", and suddenly feel different" : ""
   const full = mob.playerMob.hunger === mob.playerMob.appetite ? ". You feel full" : ""
+  const replacements = { item, affects }
 
   return checkedRequest
     .respondWith(ActionOutcome.ItemDestroyed, item)
-    .success(new ResponseMessage(`You eat ${item.name}${affects}${full}.`))
+    .success(
+      Messages.Eat.Success,
+      { verb: "eat", full, ...replacements },
+      { verb: "eats", full: "", ...replacements })
 }

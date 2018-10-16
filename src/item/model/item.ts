@@ -80,4 +80,8 @@ export class Item {
     return this.description + (this.itemType === ItemType.Container ?
       "\n\nContainer inventory:\n" + this.containerInventory.toString() : "")
   }
+
+  public toString(): string {
+    return this.name
+  }
 }

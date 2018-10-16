@@ -14,7 +14,7 @@ describe("equipped", () => {
     const response = await equipped(testBuilder.createRequest(RequestType.Equipped))
 
     // then
-    const message = response.message.toRequestCreator
+    const message = response.message.getMessageToRequestCreator()
     expect(message).toContain(helmet.name)
     expect(message).not.toContain(axe.name)
   })

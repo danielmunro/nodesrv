@@ -28,6 +28,6 @@ describe("kill", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message.toRequestCreator).toBe(Messages.Kill.Success)
+    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Kill.Success)
   })
 })

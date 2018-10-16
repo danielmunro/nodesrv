@@ -11,20 +11,32 @@ export default class ResponseBuilder {
     private readonly responseAction: ResponseAction,
   ) {}
 
-  public success(message: ResponseMessage = null): Promise<Response> {
-    return this.response(ResponseStatus.Success, message)
+  public success(templateString, toRequestCreator = null, toTarget = null, toObservers = toTarget): Promise<Response> {
+    return this.response(
+      ResponseStatus.Success,
+      new ResponseMessage(this.request.mob, templateString, toRequestCreator, toTarget, toObservers))
   }
 
-  public fail(message: ResponseMessage = null): Promise<Response> {
-    return this.response(ResponseStatus.ActionFailed, message)
+  public fail(
+    messageToRequestCreator: string,
+    toRequestCreator = null,
+    toTarget = null,
+    toObservers = toTarget): Promise<Response> {
+    return this.response(
+      ResponseStatus.ActionFailed,
+      new ResponseMessage(this.request.mob, messageToRequestCreator, toTarget, toObservers))
   }
 
   public info(messageToRequestCreator: string): Promise<Response> {
-    return this.response(ResponseStatus.Info, new ResponseMessage(messageToRequestCreator))
+    return this.response(
+      ResponseStatus.Info,
+      new ResponseMessage(this.request.mob, messageToRequestCreator))
   }
 
   public error(messageToRequestCreator: string): Promise<Response> {
-    return this.response(ResponseStatus.PreconditionsFailed, new ResponseMessage(messageToRequestCreator))
+    return this.response(
+      ResponseStatus.PreconditionsFailed,
+      new ResponseMessage(this.request.mob, messageToRequestCreator))
   }
 
   private response(status: ResponseStatus, message: ResponseMessage): Promise<Response> {

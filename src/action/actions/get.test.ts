@@ -20,6 +20,6 @@ describe("get action", () => {
 
     // then
     expect(player.sessionMob.inventory.items.length).toBe(itemCount + 1)
-    expect(response.message.toRequestCreator).toContain("cap")
+    expect(response.message.getMessageToRequestCreator()).toContain("cap")
   })
 })

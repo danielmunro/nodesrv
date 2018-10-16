@@ -13,5 +13,5 @@ export default async function(checkedRequest: CheckedRequest,
   await service.moveMob(request.mob, direction)
   const lookAtRoom = await look(request, service)
 
-  return checkedRequest.respondWith().info(lookAtRoom.message)
+  return checkedRequest.respondWith().info(lookAtRoom.message.getMessageToRequestCreator())
 }

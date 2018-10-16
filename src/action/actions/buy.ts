@@ -1,8 +1,6 @@
 import CheckedRequest from "../../check/checkedRequest"
 import { copy } from "../../item/factory"
 import Response from "../../request/response"
-import ResponseMessage from "../../request/responseMessage"
-import { format } from "../../support/string"
 import { ActionOutcome } from "../actionOutcome"
 import { Messages } from "./constants"
 
@@ -13,7 +11,14 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   request.mob.inventory.addItem(item)
   request.mob.gold -= item.value
 
+  const replacements = {
+    item,
+    value: item.value,
+  }
+
   return request
     .respondWith(ActionOutcome.ItemCreated, item)
-    .success(new ResponseMessage(Messages.Buy.Success, [item.name, item.value]))
+    .success(Messages.Buy.Success,
+      { verb: "buy", ...replacements },
+      { verb: "buys", ...replacements })
 }

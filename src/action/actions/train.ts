@@ -6,7 +6,6 @@ import { CheckType } from "../../check/checkType"
 import { Mob } from "../../mob/model/mob"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
-import ResponseMessage from "../../request/responseMessage"
 import { format } from "../../support/string"
 import { Messages as PreconditionMessages } from "../precondition/constants"
 import {
@@ -31,17 +30,17 @@ function canTrain(stat: number): boolean {
 function trainStat(mob: Mob, responseBuilder: ResponseBuilder, message: string, stat: Stat): Promise<Response> {
   const stats = mob.playerMob.trainedAttributes.stats
   if (!canTrain(stats[stat])) {
-    return responseBuilder.fail(new ResponseMessage(PreconditionMessages.Train.CannotTrainMore))
+    return responseBuilder.fail(PreconditionMessages.Train.CannotTrainMore)
   }
   stats[stat] += 1
-  return responseBuilder.success(new ResponseMessage(message))
+  return responseBuilder.success(message)
 }
 
 function trainVital(mob: Mob, responseBuilder: ResponseBuilder, message: string, vital: Vital): Promise<Response> {
   const vitals = mob.playerMob.trainedAttributes.vitals
   vitals[vital] += VITAL_INCREMENT
   mob.playerMob.trains--
-  return responseBuilder.success(new ResponseMessage(message))
+  return responseBuilder.success(message)
 }
 
 function newTrainMapEntry(method, train: Stat | Vital, message: string) {

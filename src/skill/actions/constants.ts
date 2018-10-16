@@ -1,7 +1,7 @@
 export const Messages = {
   Backstab: {
-    Failure: "{0} dodges your backstab!",
-    Success: "You backstab {0}!",
+    Failure: "{target} dodges {requestCreator} backstab!",
+    Success: "{requestCreator} {verb} {target}!",
   },
   Disarm: {
     Failure: "You fail to disarm {0}.",

@@ -18,7 +18,7 @@ describe("affects", () => {
 
     // when
     const response = await affects(new Request(mob, new InputContext(RequestType.Affects)))
-    const message = response.message.toRequestCreator
+    const message = response.message.getMessageToRequestCreator()
 
     // then
     expect(message).toContain(AffectType.Noop)
