@@ -21,10 +21,14 @@ export default class ResponseMessage {
   }
 
   public getMessageToTarget(): string {
-    return format(this.templateString, { requestCreator: this.requestCreator.name, ...this.toTarget})
+    return format(
+      this.templateString,
+      { target: "you", requestCreator: this.requestCreator.name, ...this.toTarget})
   }
 
   public getMessageToObservers(): string {
-    return format(this.templateString, { requestCreator: this.requestCreator.name, ...this.toObservers})
+    return format(
+      this.templateString,
+      { requestCreator: this.requestCreator.name, ...this.toObservers})
   }
 }

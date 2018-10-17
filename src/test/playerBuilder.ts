@@ -23,6 +23,10 @@ export default class PlayerBuilder extends AbstractBuilder {
     return this
   }
 
+  public withSatchelEq(): Item {
+    return this.doEquip(super.withSatchelEq())
+  }
+
   public withHelmetEq(): Item {
     return this.doEquip(super.withHelmetEq())
   }

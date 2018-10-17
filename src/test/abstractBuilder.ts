@@ -1,12 +1,19 @@
 import { DamageType } from "../damage/damageType"
 import { Equipment } from "../item/equipment"
-import { newEquipment, newFood, newWeapon } from "../item/factory"
+import {newContainer, newEquipment, newFood, newWeapon} from "../item/factory"
 import { Item } from "../item/model/item"
 import { WeaponType } from "../item/weaponType"
 import ServiceBuilder from "../service/serviceBuilder"
 
 export default class AbstractBuilder {
   constructor(protected readonly serviceBuilder: ServiceBuilder) {}
+
+  public withSatchelEq(): Item {
+    const item = newContainer("a small leather satchel", "a small leather satchel is here")
+    this.serviceBuilder.addItem(item)
+
+    return item
+  }
 
   public withHelmetEq(): Item {
     const equipment = newEquipment("a baseball cap", "a baseball cap is here", Equipment.Head)

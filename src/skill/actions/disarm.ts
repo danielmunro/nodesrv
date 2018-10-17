@@ -3,8 +3,6 @@ import { CheckType } from "../../check/checkType"
 import { Mob } from "../../mob/model/mob"
 import roll from "../../random/dice"
 import Response from "../../request/response"
-import ResponseMessage from "../../request/responseMessage"
-import { format } from "../../support/string"
 import { Skill } from "../model/skill"
 import { Messages, Thresholds } from "./constants"
 
@@ -15,13 +13,19 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
   const responseBuilder = checkedRequest.respondWith()
 
   if (calculateDisarm(mob, target, skill) < Thresholds.Disarm) {
-    return responseBuilder.fail(new ResponseMessage(format(Messages.Disarm.Failure, target.name)))
+    return responseBuilder.fail(
+      Messages.Disarm.Failure,
+      { target, verb: "fail" },
+      { target, verb: "fails" })
   }
 
   const item = checkedRequest.getCheckTypeResult(CheckType.ItemPresent)
   checkedRequest.room.inventory.addItem(item)
 
-  return responseBuilder.success(new ResponseMessage(format(Messages.Disarm.Success, target.name, target.gender)))
+  return responseBuilder.success(
+    Messages.Disarm.Success,
+    { target, gender: target.gender, verb: "disarm" },
+    { target, gender: target.gender, verb: "disarms" })
 }
 
 function calculateDisarm(mob: Mob, target: Mob, skill: Skill): number {

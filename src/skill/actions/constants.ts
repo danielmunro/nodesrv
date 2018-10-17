@@ -4,8 +4,8 @@ export const Messages = {
     Success: "{requestCreator} {verb} {target}!",
   },
   Disarm: {
-    Failure: "You fail to disarm {0}.",
-    Success: "You disarm {0} and send {1} weapon flying!",
+    Failure: "{requestCreator} {verb} to disarm {target}.",
+    Success: "{requestCreator} {verb} {target} and send {gender} weapon flying!",
   },
 }
 

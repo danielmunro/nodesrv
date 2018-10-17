@@ -33,8 +33,8 @@ export const Messages = {
     Success: "You flee to the {direction}!",
   },
   Get: {
-    SuccessFromContainer: "You get {0} from {1}.",
-    SuccessFromRoom: "You pick up {0}.",
+    SuccessFromContainer: "{requestCreator} {verb} {item} from {container}.",
+    SuccessFromRoom: "{requestCreator} {verb} {item}.",
   },
   Kill: {
     Success: "You scream and attack!",
