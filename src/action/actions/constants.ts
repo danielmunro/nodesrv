@@ -30,7 +30,8 @@ export const Messages = {
     Success: "{requestCreator} {verb} {item}{affects}{full}.",
   },
   Flee: {
-    Success: "You flee to the {direction}!",
+    Fail: "You fail to flee!",
+    Success: "{requestCreator} {verb} to the {direction}!",
   },
   Get: {
     SuccessFromContainer: "{requestCreator} {verb} {item} from {container}.",

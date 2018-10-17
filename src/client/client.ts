@@ -93,7 +93,7 @@ export class Client {
     if (response.request instanceof CheckedRequest) {
       this.applyCosts(response.request.check.costs)
     }
-    this.send(response)
+    this.send(response.getPayload())
     this.sendMessage(this.player.prompt())
     this.evaluateResponseAction(response.responseAction)
 

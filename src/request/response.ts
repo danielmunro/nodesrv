@@ -26,4 +26,11 @@ export default class Response {
   public getCheckedRequest(): CheckedRequest {
     return this.request as CheckedRequest
   }
+
+  public getPayload(): object {
+    return {
+      message: this.message.getMessageToRequestCreator(),
+      status: this.status,
+    }
+  }
 }

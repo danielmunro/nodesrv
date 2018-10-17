@@ -22,7 +22,9 @@ beforeEach(async () => {
   reset()
   player = getTestPlayer()
   mob = getTestMob()
+  // room with a fight
   room1 = getTestRoom()
+  // room to flee to
   room2 = getTestRoom()
   fight = new Fight(player.sessionMob, mob, room1)
   const allRooms = [room1, room2]
@@ -60,5 +62,21 @@ describe("flee action handler", () => {
 
     // then
     expect(mob.room.id).toBe(room2.id)
+  })
+
+  it("flee should accurately build its response message", async () => {
+    // setup
+    mob.name = "bob"
+
+    // when
+    const response = await flee(
+      new CheckedRequest(
+        new Request(mob, new InputContext(RequestType.Flee)),
+        await Check.ok(fight)),
+      service)
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).toContain("you flee to the")
+    expect(response.message.getMessageToTarget()).toContain("bob flees to the")
   })
 })
