@@ -18,13 +18,13 @@ export default class ResponseBuilder {
   }
 
   public fail(
-    messageToRequestCreator: string,
+    templateString: string,
     toRequestCreator = null,
     toTarget = null,
     toObservers = toTarget): Promise<Response> {
     return this.response(
       ResponseStatus.ActionFailed,
-      new ResponseMessage(this.request.mob, messageToRequestCreator, toTarget, toObservers))
+      new ResponseMessage(this.request.mob, templateString, toTarget, toObservers))
   }
 
   public info(messageToRequestCreator: string): Promise<Response> {

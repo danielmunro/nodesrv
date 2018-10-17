@@ -129,10 +129,12 @@ export class Fight {
   }
 
   public async round(): Promise<Round> {
-    return new Round(
-      this.status === Status.InProgress ? await this.turnFor(this.aggressor, this.target) : [],
-      this.status === Status.InProgress ? await this.turnFor(this.target, this.aggressor) : [],
-      this.bodyPart)
+    if (this.isInProgress()) {
+      return new Round(
+        this.status === Status.InProgress ? await this.turnFor(this.aggressor, this.target) : [],
+        this.status === Status.InProgress ? await this.turnFor(this.target, this.aggressor) : [],
+        this.bodyPart)
+    }
   }
 
   public isInProgress(): boolean {

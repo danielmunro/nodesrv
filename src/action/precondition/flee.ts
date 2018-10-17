@@ -3,6 +3,8 @@ import { getFights } from "../../mob/fight/fight"
 import { Request } from "../../request/request"
 import { FLEE_MOVEMENT_COST_MULTIPLIER } from "../actions/constants"
 import { MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_NOT_FIGHTING, MESSAGE_FAIL_TOO_TIRED } from "./constants"
+import {CostType} from "../../check/cost/costType"
+import Cost from "../../check/cost/cost"
 
 export default function(request: Request): Promise<Check> {
   const fight = getFights().find((f) => f.isParticipant(request.mob))
@@ -19,5 +21,5 @@ export default function(request: Request): Promise<Check> {
     return Check.fail(MESSAGE_FAIL_TOO_TIRED)
   }
 
-  return Check.ok(fight)
+  return Check.ok(fight, [], [new Cost(CostType.Delay, 1)])
 }

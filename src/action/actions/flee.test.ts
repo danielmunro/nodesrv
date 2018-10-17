@@ -10,6 +10,7 @@ import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import flee from "./flee"
+import doNTimes from "../../functional/times"
 
 let fight
 let mob
@@ -42,11 +43,11 @@ describe("flee action handler", () => {
     expect(getFights().filter(f => f.isInProgress()).length).toBe(1)
 
     // when
-    await flee(
+    await doNTimes(10, async () => flee(
       new CheckedRequest(
         new Request(mob, new InputContext(RequestType.Flee)),
         await Check.ok(fight)),
-      service)
+      service))
 
     // then
     expect(getFights().filter(f => f.isInProgress()).length).toBe(0)
@@ -54,11 +55,11 @@ describe("flee action handler", () => {
 
   it("flee should cause the fleeing mob to change rooms", async () => {
     // when
-    await flee(
+    await doNTimes(20, async () => flee(
       new CheckedRequest(
         new Request(mob, new InputContext(RequestType.Flee)),
         await Check.ok(fight)),
-      service)
+      service))
 
     // then
     expect(mob.room.id).toBe(room2.id)
@@ -69,11 +70,13 @@ describe("flee action handler", () => {
     mob.name = "bob"
 
     // when
-    const response = await flee(
+    const responses = await doNTimes(10, async () => flee(
       new CheckedRequest(
         new Request(mob, new InputContext(RequestType.Flee)),
         await Check.ok(fight)),
-      service)
+      service))
+
+    const response = responses.find(r => r.isSuccessful())
 
     // then
     expect(response.message.getMessageToRequestCreator()).toContain("you flee to the")

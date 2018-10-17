@@ -5,12 +5,9 @@ import Response from "../../request/response"
 import Service from "../../service/service"
 import {FLEE_MOVEMENT_COST_MULTIPLIER, Messages} from "./constants"
 import roll from "../../random/dice"
-import Cost from "../../check/cost/cost"
-import {CostType} from "../../check/cost/costType"
 
 export default async function(checkedRequest: CheckedRequest, service: Service): Promise<Response> {
   if (roll(1, 2) === 1) {
-    checkedRequest.check.costs.push(new Cost(CostType.Delay, 1))
     return checkedRequest.respondWith().fail(Messages.Flee.Fail)
   }
 
