@@ -9,7 +9,11 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   fight(request.mob, request.getTarget() as Mob, request.getRoom())
 
-  return checkedRequest.respondWith().success(Messages.Kill.Success)
+  return checkedRequest.respondWith().success(
+    Messages.Kill.Success,
+    { screamVerb: "scream", attackVerb: "attack", target: request.getTarget() },
+    { screamVerb: "screams", attackVerb: "attacks", target: "you" },
+  { screamVerb: "screams", attackVerb: "attacks", target: request.getTarget() })
 }
 
 function fight(attacker: Mob, defender: Mob, room: Room) {

@@ -200,4 +200,8 @@ export class Mob {
     this.playerMob = playerMob
     playerMob.mob = this
   }
+
+  public toString(): string {
+    return this.name
+  }
 }

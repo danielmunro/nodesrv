@@ -38,7 +38,7 @@ export const Messages = {
     SuccessFromRoom: "{requestCreator} {verb} {item}.",
   },
   Kill: {
-    Success: "You scream and attack!",
+    Success: "{requestCreator} {screamVerb} and {attackVerb} {target}!",
   },
   Put: {
     Success: "You put {item} in {container}.",

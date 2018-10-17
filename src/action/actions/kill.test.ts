@@ -7,7 +7,6 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import { Messages } from "./constants"
 import kill from "./kill"
 
 function useKillRequest(player: Player, target, input: string) {
@@ -21,6 +20,7 @@ describe("kill", () => {
     // given
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.player.sessionMob.name = "alice"
     const target = testBuilder.withMob("bob").mob
 
     // when
@@ -28,6 +28,8 @@ describe("kill", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Kill.Success)
+    expect(response.message.getMessageToRequestCreator()).toBe("you scream and attack bob!")
+    expect(response.message.getMessageToTarget()).toBe("alice screams and attacks you!")
+    expect(response.message.getMessageToObservers()).toBe("alice screams and attacks bob!")
   })
 })
