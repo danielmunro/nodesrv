@@ -1,10 +1,10 @@
 import CheckedRequest from "../../check/checkedRequest"
 import {Fight} from "../../mob/fight/fight"
+import roll from "../../random/dice"
 import {pickOne} from "../../random/helpers"
 import Response from "../../request/response"
 import Service from "../../service/service"
 import {FLEE_MOVEMENT_COST_MULTIPLIER, Messages} from "./constants"
-import roll from "../../random/dice"
 
 export default async function(checkedRequest: CheckedRequest, service: Service): Promise<Response> {
   if (roll(1, 2) === 1) {

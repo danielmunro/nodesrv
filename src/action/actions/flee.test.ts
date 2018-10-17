@@ -1,5 +1,6 @@
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
+import doNTimes from "../../functional/times"
 import { addFight, Fight, getFights, reset } from "../../mob/fight/fight"
 import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
@@ -10,7 +11,6 @@ import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import flee from "./flee"
-import doNTimes from "../../functional/times"
 
 let fight
 let mob
