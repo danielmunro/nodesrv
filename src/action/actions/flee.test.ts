@@ -1,9 +1,9 @@
 import doNTimes from "../../functional/times"
 import { getFights } from "../../mob/fight/fight"
 import { RequestType } from "../../request/requestType"
-import TestBuilder from "../../test/testBuilder"
-import { newReciprocalExit } from "../../room/factory"
 import { Direction } from "../../room/constants"
+import { newReciprocalExit } from "../../room/factory"
+import TestBuilder from "../../test/testBuilder"
 
 let definition
 let mob
