@@ -10,6 +10,7 @@ import ResponseMessage from "../../request/responseMessage"
 import { format } from "../../support/string"
 import { Costs } from "../constants"
 import { Skill } from "../model/skill"
+import { Messages } from "./constants"
 
 export default async function(checkedRequest: CheckedRequest): Promise<Response> {
   const mob = checkedRequest.mob
@@ -18,14 +19,20 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
   const responseBuilder = checkedRequest.respondWith()
 
   if (calculateTripRoll(mob, skill) < calculateDefenseRoll(target)) {
-    return responseBuilder.fail(new ResponseMessage(format(`You failed to trip {0}.`, Costs.Trip.Delay)))
+    return responseBuilder.fail(
+      Messages.Trip.Failure,
+      { verb: "trip", target },
+      { verb: "trips", target })
   }
 
   const amount = skill.level / 10
   target.addAffect(newAffect(AffectType.Stunned, amount))
   target.vitals.hp -= amount
 
-  return responseBuilder.success(new ResponseMessage(format(`You tripped {0}!`, Costs.Trip.Delay)))
+  return responseBuilder.success(
+    Messages.Trip.Success,
+    { verb: "trip", target },
+    { verb: "trip", target })
 }
 
 function calculateDefenseRoll(mob: Mob): number {

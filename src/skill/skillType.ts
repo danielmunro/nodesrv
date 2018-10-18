@@ -5,26 +5,26 @@ export enum SkillType {
   Sneak = "sneak",
   Berserk = "berserk",
   Dodge = "dodge",
-
-  // implemented
   Disarm = "disarm",
   Backstab = "backstab",
+  SecondAttack = "second attack",
+  DirtKick = "dirt kick",
+  FastHealing = "fast healing",
+  Envenom = "envenom",
+  EnhancedDamage = "enhanced damage",
+
+  // implementation not needed?
+  Infravision = "infravision",
 
   // planned
-  Infravision = "infravision",
   Parry = "parry",
-  SecondAttack = "second attack",
   ThirdAttack = "third attack",
   FourthAttack = "fourth attack",
-  DirtKick = "dirt kick",
   Haggle = "haggle",
   Meditation = "meditation",
-  FastHealing = "fast healing",
   Throw = "throw",
   Bite = "bite",
   DualWield = "dual wield",
-  EnhancedDamage = "enhanced damage",
-  Envenom = "envenom",
   Hamstring = "hamstring",
   Garotte = "garotte",
   HandToHand = "hand to hand",
@@ -36,6 +36,7 @@ export enum SkillType {
   Lore = "lore",
   Peek = "peek",
   Sharpen = "sharpen",
+  Shout = "shout",
   Slice = "slice",
   Spellcraft = "spellcraft",
   Steal = "steal",

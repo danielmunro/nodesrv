@@ -5,7 +5,6 @@ import { CheckType } from "../../check/checkType"
 import { Mob } from "../../mob/model/mob"
 import roll from "../../random/dice"
 import Response from "../../request/response"
-import ResponseMessage from "../../request/responseMessage"
 import { Messages } from "../constants"
 import { Skill } from "../model/skill"
 import { Thresholds } from "./constants"
@@ -17,12 +16,12 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
   const target = checkedRequest.getCheckTypeResult(CheckType.IsFighting)
 
   if (calculateDirtKickRoll(mob, skill) < Thresholds.DirtKick) {
-    return responseBuilder.fail(new ResponseMessage(Messages.DirtKick.Fail))
+    return responseBuilder.fail(Messages.DirtKick.Fail)
   }
 
   target.addAffect(newAffect(AffectType.Blind, Math.max(1, mob.level / 12)))
 
-  return responseBuilder.success(new ResponseMessage(Messages.DirtKick.Success))
+  return responseBuilder.success(Messages.DirtKick.Success)
 }
 
 function calculateDirtKickRoll(mob: Mob, skill: Skill): number {

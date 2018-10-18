@@ -2,7 +2,7 @@ export const Messages = {
   Bash: {
     Fail: "You fall flat on your face!",
     NoSkill: "You bash around helplessly.",
-    Success: `You slam into {0} and send them flying!`,
+    Success: `You slam into {target} and send them flying!`,
   },
   Berserk: {
     Fail: "You fail to summon your inner rage.",

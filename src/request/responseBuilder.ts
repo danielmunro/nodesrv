@@ -11,14 +11,14 @@ export default class ResponseBuilder {
     private readonly responseAction: ResponseAction,
   ) {}
 
-  public success(templateString, toRequestCreator = null, toTarget = null, toObservers = toTarget): Promise<Response> {
+  public success(templateString: string = null, toRequestCreator = null, toTarget = null, toObservers = toTarget): Promise<Response> {
     return this.response(
       ResponseStatus.Success,
       new ResponseMessage(this.request.mob, templateString, toRequestCreator, toTarget, toObservers))
   }
 
   public fail(
-    templateString: string,
+    templateString: string = null,
     toRequestCreator = null,
     toTarget = null,
     toObservers = toTarget): Promise<Response> {

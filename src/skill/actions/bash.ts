@@ -4,8 +4,6 @@ import CheckedRequest from "../../check/checkedRequest"
 import { CheckType } from "../../check/checkType"
 import roll from "../../random/dice"
 import Response from "../../request/response"
-import ResponseMessage from "../../request/responseMessage"
-import { format } from "../../support/string"
 import { Messages } from "../constants"
 import { SkillType } from "../skillType"
 
@@ -16,11 +14,11 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
   const responseBuilder = checkedRequest.respondWith()
 
   if (roll(1, skill.level) - roll(1, target.getCombinedAttributes().stats.dex * 3) < 0) {
-    return responseBuilder.fail(new ResponseMessage(Messages.Bash.Fail))
+    return responseBuilder.fail(Messages.Bash.Fail)
   }
 
   target.vitals.hp--
   target.addAffect(newAffect(AffectType.Stunned))
 
-  return responseBuilder.success(new ResponseMessage(format(Messages.Bash.Success, target.name)))
+  return responseBuilder.success(Messages.Bash.Success, { target }, { target })
 }

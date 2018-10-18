@@ -6,7 +6,6 @@ import { Mob } from "../../mob/model/mob"
 import { getSizeModifier } from "../../mob/race/sizeModifier"
 import roll from "../../random/dice"
 import Response from "../../request/response"
-import ResponseMessage from "../../request/responseMessage"
 import { Messages } from "../constants"
 import { Skill } from "../model/skill"
 import { Thresholds } from "./constants"
@@ -17,12 +16,12 @@ export default async function(checkedRequest: CheckedRequest): Promise<Response>
   const responseBuilder = checkedRequest.respondWith()
 
   if (calculateSneakRoll(mob, skill) < Thresholds.Sneak) {
-    return responseBuilder.fail(new ResponseMessage(Messages.Sneak.Fail))
+    return responseBuilder.fail(Messages.Sneak.Fail)
   }
 
   mob.addAffect(newAffect(AffectType.Sneak, mob.level))
 
-  return responseBuilder.success(new ResponseMessage(Messages.Sneak.Success))
+  return responseBuilder.success(Messages.Sneak.Success)
 }
 
 function calculateSneakRoll(mob: Mob, skill: Skill): number {
