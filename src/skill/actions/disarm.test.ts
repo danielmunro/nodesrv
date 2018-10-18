@@ -42,15 +42,17 @@ describe("disarm skill action", () => {
   })
 
   it("should succeed a reasonable number of times when practiced", async () => {
+    // setup
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL * 0.75)
-
     testBuilder.fight(mob2.mob)
 
+    // when
     const responses = await doNTimes(iterations, () => {
       mob2.equip().withMaceEq()
       return definition.doAction(testBuilder.createRequest(RequestType.Disarm))
     })
 
+    // then
     expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations * 0.4)
   })
 })
