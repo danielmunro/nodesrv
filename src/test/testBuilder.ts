@@ -36,13 +36,18 @@ export default class TestBuilder {
   }
 
   public withRoom() {
-    this.room = newRoom("a test room", "description of a test room")
-    if (this.player) {
-      this.room.addMob(this.player.sessionMob)
-    }
-    this.serviceBuilder.addRoom(this.room)
+    const room = newRoom("a test room", "description of a test room")
 
-    return new RoomBuilder(this.room, this.serviceBuilder)
+    if (!this.room) {
+      this.room = room
+      if (this.player) {
+        room.addMob(this.player.sessionMob)
+      }
+    }
+
+    this.serviceBuilder.addRoom(room)
+
+    return new RoomBuilder(room, this.serviceBuilder)
   }
 
   public async withPlayerAndSkill(skillType: SkillType, level: number = 1): Promise<Player> {

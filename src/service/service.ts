@@ -47,15 +47,10 @@ export default class Service {
       throw new Error("cannot move in that direction")
     }
 
-    const exit = await this.findRoomExitWithDestination(roomExit.id)
-    this.roomTable.canonical(exit.destination).addMob(mob)
+    this.roomTable.canonical(roomExit.destination).addMob(mob)
   }
 
   public getNewDefinition(requestType: RequestType, action, precondition = null): Definition {
     return new Definition(this, requestType, action, precondition)
-  }
-
-  private async findRoomExitWithDestination(id: number): Promise<Exit> {
-    return this.exitRepository.findOneById(id)
   }
 }

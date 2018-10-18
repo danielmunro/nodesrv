@@ -23,7 +23,7 @@ export default class ServiceBuilder {
 
   public async createService(): Promise<Service> {
     return Service.new(
-      new RoomTable(this.rooms),
+      RoomTable.new(this.rooms),
       new MobTable(this.mobs),
       new ItemTable(this.items),
     )

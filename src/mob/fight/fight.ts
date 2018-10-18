@@ -27,6 +27,8 @@ export function addFight(fight: Fight): void {
 }
 
 export function getFights() {
+  filterCompleteFights()
+
   return fights
 }
 
