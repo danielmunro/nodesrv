@@ -14,6 +14,7 @@ import roll from "../../random/dice"
 import { Room } from "../../room/model/room"
 import { BaseRegenModifier } from "../../server/observers/constants"
 import { Skill } from "../../skill/model/skill"
+import { SkillType } from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
 import { BASE_KILL_EXPERIENCE } from "../constants"
 import { Disposition } from "../disposition"
@@ -27,7 +28,6 @@ import { SpecializationType } from "../specialization/specializationType"
 import { Standing } from "../standing"
 import { Trigger } from "../trigger"
 import { PlayerMob } from "./playerMob"
-import { SkillType } from "../../skill/skillType"
 
 @Entity()
 export class Mob {

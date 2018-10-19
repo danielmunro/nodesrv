@@ -234,4 +234,6 @@ describe("clients", () => {
     // then
     expect(client.player.sessionMob.playerMob.trains).toBe(0)
   })
+
+  // todo: add test for action outcome starting fights
 })

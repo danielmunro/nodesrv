@@ -1,12 +1,12 @@
+import { ActionOutcome } from "../../action/actionOutcome"
 import CheckedRequest from "../../check/checkedRequest"
-import Response from "../../request/response"
 import { CheckType } from "../../check/checkType"
 import { Mob } from "../../mob/model/mob"
+import roll from "../../random/dice"
+import Response from "../../request/response"
 import { Skill } from "../model/skill"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
-import roll from "../../random/dice"
-import { ActionOutcome } from "../../action/actionOutcome"
 
 export default async function(checkedRequest: CheckedRequest): Promise<Response> {
   const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)

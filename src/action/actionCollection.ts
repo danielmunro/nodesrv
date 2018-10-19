@@ -6,12 +6,14 @@ import berserk from "../skill/actions/berserk"
 import disarm from "../skill/actions/disarm"
 import envenom from "../skill/actions/envenom"
 import sneak from "../skill/actions/sneak"
+import steal from "../skill/actions/steal"
 import trip from "../skill/actions/trip"
 import { default as bashPrecondition } from "../skill/preconditions/bash"
 import { default as berserkPrecondition } from "../skill/preconditions/berserk"
 import { default as disarmPrecondition } from "../skill/preconditions/disarm"
 import { default as envenomPrecondition } from "../skill/preconditions/envenom"
 import { default as sneakPrecondition } from "../skill/preconditions/sneak"
+import { default as stealPrecondition } from "../skill/preconditions/steal"
 import { default as tripPrecondition } from "../skill/preconditions/trip"
 import affects from "./actions/affects"
 import buy from "./actions/buy"
@@ -94,6 +96,7 @@ export default function getActionCollection(service: Service) {
     service.getNewDefinition(RequestType.Envenom, envenom, envenomPrecondition),
     service.getNewDefinition(RequestType.Sneak, sneak, sneakPrecondition),
     service.getNewDefinition(RequestType.Trip, trip, tripPrecondition),
+    service.getNewDefinition(RequestType.Steal, steal, stealPrecondition),
 
     // casting
     service.getNewDefinition(RequestType.Cast, cast, castPrecondition),

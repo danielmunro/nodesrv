@@ -1,10 +1,9 @@
-import TestBuilder from "../../test/testBuilder"
-import { SkillType } from "../skillType"
-import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { getSkillActionDefinition } from "../skillTable"
-import { RequestType } from "../../request/requestType"
 import doNTimes from "../../functional/times"
-import { getFights } from "../../mob/fight/fight"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
+import { RequestType } from "../../request/requestType"
+import TestBuilder from "../../test/testBuilder"
+import { getSkillActionDefinition } from "../skillTable"
+import { SkillType } from "../skillType"
 
 const iterations = 100
 
@@ -36,10 +35,6 @@ describe("steal skill action", () => {
       expect(response.isError()).toBeFalsy()
       expect(mobBuilder1.mob.inventory.items).toHaveLength(response.isSuccessful() ? 1 : 0)
       expect(mobBuilder2.mob.inventory.items).toHaveLength(response.isSuccessful() ? 0 : 1)
-
-      // if (response.responseAction.wasFightStarted()) {
-      //   expect(getFights()).toHaveLength(1)
-      // }
     })
   })
 })

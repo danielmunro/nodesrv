@@ -13,6 +13,7 @@ import envenom from "./actions/envenom"
 import fastHealing from "./actions/fastHealing"
 import secondAttack from "./actions/secondAttack"
 import sneak from "./actions/sneak"
+import steal from "./actions/steal"
 import trip from "./actions/trip"
 import { BASE_IMPROVE_CHANCE } from "./constants"
 import backstabPrecondition from "./preconditions/backstab"
@@ -30,7 +31,6 @@ import stealPrecondition from "./preconditions/steal"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
-import steal from "./actions/steal"
 
 function createSkill(
   type: SkillType, trigger: Trigger, action, preconditions = null): SkillDefinition {

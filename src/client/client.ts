@@ -4,13 +4,13 @@ import { Definition } from "../action/definition/definition"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import { Item } from "../item/model/item"
+import { addFight, Fight } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
 import Table from "../mob/table"
 import { Player } from "../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import Response from "../request/response"
-import ResponseAction from "../request/responseAction"
 import { Room } from "../room/model/room"
 import Service from "../service/service"
 import Email from "../session/auth/login/email"
@@ -95,7 +95,7 @@ export class Client {
     }
     this.send(response.getPayload())
     this.sendMessage(this.player.prompt())
-    this.evaluateResponseAction(response.responseAction)
+    this.evaluateResponseAction(response)
 
     return response
   }
@@ -130,7 +130,9 @@ export class Client {
     costs.forEach(cost => cost.applyTo(this.player))
   }
 
-  private evaluateResponseAction(responseAction: ResponseAction) {
+  private evaluateResponseAction(response: Response) {
+    const responseAction = response.responseAction
+
     if (responseAction.wasItemCreated()) {
       this.service.itemTable.add(responseAction.thing as Item)
       return
@@ -139,6 +141,11 @@ export class Client {
     if (responseAction.wasItemDestroyed()) {
       this.service.itemTable.remove(responseAction.thing as Item)
       return
+    }
+
+    if (responseAction.wasFightStarted()) {
+      const request = response.request as Request
+      addFight(new Fight(this.player.sessionMob, request.getTarget() as Mob, this.player.sessionMob.room))
     }
   }
 

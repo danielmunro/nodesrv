@@ -1,12 +1,12 @@
 import Check from "../../check/check"
+import { CheckType } from "../../check/checkType"
 import Cost from "../../check/cost/cost"
 import { CostType } from "../../check/cost/costType"
+import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
 import { Costs } from "../constants"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
-import { Mob } from "../../mob/model/mob"
-import { CheckType } from "../../check/checkType"
 
 export default async function(request: Request): Promise<Check> {
   const target = request.getTarget() as Mob
