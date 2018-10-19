@@ -13,4 +13,7 @@ export const Messages = {
   Disarm: {
     FailNothingToDisarm: "They don't have a weapon to disarm.",
   },
+  Steal: {
+    ErrorNoItem: "They don't have that.",
+  },
 }

@@ -54,6 +54,10 @@ export const Costs = {
     Delay: 1,
     Mv: 5,
   },
+  Steal: {
+    Delay: 2,
+    Mv: 40,
+  },
   Trip: {
     Delay: 1,
     Mv: 5,

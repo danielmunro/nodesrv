@@ -27,6 +27,7 @@ import { SpecializationType } from "../specialization/specializationType"
 import { Standing } from "../standing"
 import { Trigger } from "../trigger"
 import { PlayerMob } from "./playerMob"
+import { SkillType } from "../../skill/skillType"
 
 @Entity()
 export class Mob {
@@ -199,6 +200,10 @@ export class Mob {
   public setPlayerMob(playerMob: PlayerMob) {
     this.playerMob = playerMob
     playerMob.mob = this
+  }
+
+  public findSkill(skillType: SkillType) {
+    return this.skills.find(s => s.skillType === skillType)
   }
 
   public toString(): string {
