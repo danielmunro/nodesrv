@@ -15,6 +15,7 @@ import Cost from "./cost/cost"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []
+  private checkResults = []
   private costs: Cost[] = []
   private confirm: boolean = true
   private mob: Mob
@@ -133,25 +134,40 @@ export default class CheckBuilder {
   }
 
   public async create(): Promise<Check> {
-    const checkResults = []
+    this.checkResults = []
+
+    const checkFail = await this.findCheckFailure()
+    if (checkFail) {
+      return checkFail
+    }
+
+    const costFail = await this.findCostFail()
+    if (costFail) {
+      return costFail
+    }
+
+    return Check.ok(this.captured, this.checkResults, this.costs)
+  }
+
+  private async findCostFail() {
+    const costFail = this.costs.find(cost => !cost.canApplyTo(this.mob))
+    if (costFail) {
+      return Check.fail(costFail.failMessage, this.checks, this.costs)
+    }
+  }
+
+  private async findCheckFailure() {
     let lastThing
 
     const checkFail = this.checks.find(checkComponent => {
       const checkResult = checkComponent.getThing(this.captured ? this.captured : lastThing)
-      checkResults.push(new CheckResult(checkComponent.checkType, checkResult))
+      this.checkResults.push(new CheckResult(checkComponent.checkType, checkResult))
       lastThing = checkResult
       return !checkResult
     })
     if (checkFail) {
       return Check.fail(checkFail.failMessage, this.checks, this.costs)
     }
-
-    const costFail = this.costs.find(cost => !cost.canApplyTo(this.mob))
-    if (costFail) {
-      return Check.fail(costFail.failMessage, this.checks, this.costs)
-    }
-
-    return Check.ok(this.captured, checkResults, this.costs)
   }
 
   private newCheckComponent(checkType: CheckType, thing, failMessage = ""): CheckComponent {
