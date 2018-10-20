@@ -21,8 +21,6 @@ export default class CheckBuilder {
   private mob: Mob
   private captured
 
-  constructor(private target = null) {}
-
   public requireMob(mob: Mob, failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
     this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob, failMessage))
 
