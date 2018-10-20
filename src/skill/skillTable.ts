@@ -12,6 +12,7 @@ import enhancedDamage from "./actions/enhancedDamage"
 import envenom from "./actions/envenom"
 import fastHealing from "./actions/fastHealing"
 import secondAttack from "./actions/secondAttack"
+import sharpen from "./actions/sharpen"
 import sneak from "./actions/sneak"
 import steal from "./actions/steal"
 import trip from "./actions/trip"
@@ -32,7 +33,6 @@ import stealPrecondition from "./preconditions/steal"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
-import sharpen from "./actions/sharpen"
 
 function createSkill(
   type: SkillType, trigger: Trigger, action, preconditions = null): SkillDefinition {

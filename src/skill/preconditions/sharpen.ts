@@ -1,14 +1,14 @@
+import { AffectType } from "../../affect/affectType"
 import Check from "../../check/check"
+import { CheckType } from "../../check/checkType"
 import Cost from "../../check/cost/cost"
 import { CostType } from "../../check/cost/costType"
+import { DamageType } from "../../damage/damageType"
+import Weapon from "../../item/model/weapon"
 import { Request } from "../../request/request"
 import { Costs } from "../constants"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
-import { CheckType } from "../../check/checkType"
-import { AffectType } from "../../affect/affectType"
-import Weapon from "../../item/model/weapon"
-import { DamageType } from "../../damage/damageType"
 
 export default async function(request: Request): Promise<Check> {
   const target = request.getTarget()

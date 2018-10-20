@@ -1,13 +1,12 @@
-import CheckedRequest from "../../check/checkedRequest"
-import Response from "../../request/response"
-import { CheckType } from "../../check/checkType"
-import { Skill } from "../model/skill"
-import roll from "../../random/dice"
-import { Messages, Thresholds } from "./constants"
-import { newAffect, newPermanentAffect } from "../../affect/factory"
-import { Affect } from "../../affect/model/affect"
 import { AffectType } from "../../affect/affectType"
-import { newAttributes, newAttributesWithHitroll, newHitroll } from "../../attributes/factory"
+import { newPermanentAffect } from "../../affect/factory"
+import { newAttributesWithHitroll, newHitroll } from "../../attributes/factory"
+import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
+import roll from "../../random/dice"
+import Response from "../../request/response"
+import { Skill } from "../model/skill"
+import { Messages, Thresholds } from "./constants"
 
 export default async function(checkedRequest: CheckedRequest): Promise<Response> {
   const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)

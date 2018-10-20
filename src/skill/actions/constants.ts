@@ -1,7 +1,9 @@
+const defaultSuccess = "{requestCreator} {verb} {target}!"
+
 export const Messages = {
   Backstab: {
     Failure: "{target} dodges {requestCreator} backstab!",
-    Success: "{requestCreator} {verb} {target}!",
+    Success: defaultSuccess,
   },
   Disarm: {
     Failure: "{requestCreator} {verb} to disarm {target}.",
@@ -9,7 +11,7 @@ export const Messages = {
   },
   Sharpen: {
     Failure: "{requestCreator} {verb} to sharpen {target}.",
-    Success: "{requestCreator} {verb} {target}!",
+    Success: defaultSuccess,
   },
   Steal: {
     Failure: "{requestCreator} {verb} to steal {item} from {target}.",
@@ -17,7 +19,7 @@ export const Messages = {
   },
   Trip: {
     Failure: "{requestCreator} {verb} to trip {target}!",
-    Success: "{requestCreator} {verb} {target}!",
+    Success: defaultSuccess,
   },
 }
 

@@ -1,10 +1,10 @@
-import TestBuilder from "../../test/testBuilder"
-import { SkillType } from "../skillType"
-import { getSkillActionDefinition } from "../skillTable"
-import { RequestType } from "../../request/requestType"
+import { AffectType } from "../../affect/affectType"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { AffectType } from "../../affect/affectType"
+import { RequestType } from "../../request/requestType"
+import TestBuilder from "../../test/testBuilder"
+import { getSkillActionDefinition } from "../skillTable"
+import { SkillType } from "../skillType"
 
 let testBuilder: TestBuilder
 const definition = getSkillActionDefinition(SkillType.Sharpen)
