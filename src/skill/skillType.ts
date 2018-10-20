@@ -12,6 +12,7 @@ export enum SkillType {
   FastHealing = "fast healing",
   Envenom = "envenom",
   EnhancedDamage = "enhanced damage",
+  Steal = "steal",
 
   // implementation not needed?
   Infravision = "infravision",
@@ -39,7 +40,6 @@ export enum SkillType {
   Shout = "shout",
   Slice = "slice",
   Spellcraft = "spellcraft",
-  Steal = "steal",
   Flying = "flying",
 
   // weapons
