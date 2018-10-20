@@ -18,6 +18,7 @@ export default class CheckBuilder {
   private costs: Cost[] = []
   private confirm: boolean = true
   private mob: Mob
+  private captured
 
   constructor(private target = null) {}
 
@@ -58,6 +59,12 @@ export default class CheckBuilder {
 
   public require(thing, failMessage, checkType: CheckType = CheckType.Unspecified) {
     this.checks.push(this.newCheckComponent(checkType, thing, failMessage))
+
+    return this
+  }
+
+  public capture() {
+    this.checks.push(this.newCheckComponent(CheckType.Unspecified, thing => this.captured = thing))
 
     return this
   }
@@ -126,13 +133,14 @@ export default class CheckBuilder {
   }
 
   public async create(target = this.target): Promise<Check> {
-    let lastThing = null
     const checkResults = []
+    let lastThing
 
     const checkFail = this.checks.find(checkComponent => {
-      lastThing = checkComponent.getThing(lastThing)
-      checkResults.push(new CheckResult(checkComponent.checkType, lastThing))
-      return !lastThing
+      const checkResult = checkComponent.getThing(this.captured ? this.captured : lastThing)
+      checkResults.push(new CheckResult(checkComponent.checkType, checkResult))
+      lastThing = checkResult
+      return !checkResult
     })
     if (checkFail) {
       return Check.fail(checkFail.failMessage, this.checks, this.costs)
@@ -143,7 +151,11 @@ export default class CheckBuilder {
       return Check.fail(costFail.failMessage, this.checks, this.costs)
     }
 
-    return Check.ok(target ? target : lastThing, checkResults, this.costs)
+    if (!this.captured && lastThing) {
+      this.captured = lastThing
+    }
+
+    return Check.ok(target ? target : this.captured, checkResults, this.costs)
   }
 
   private newCheckComponent(checkType: CheckType, thing, failMessage = ""): CheckComponent {
