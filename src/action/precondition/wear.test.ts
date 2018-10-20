@@ -44,6 +44,17 @@ describe("wear", () => {
     expect(check.result).toBe(item)
   })
 
+  it("can't equip things that aren't equipment", async () => {
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withFood()
+
+    const check = await useWearRequest("wear muffin", playerBuilder.player)
+
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(Messages.All.Item.NotEquipment)
+  })
+
   it("can't equip if not standing", () => {
     allDispositions.forEach(async disposition => {
       const testBuilder = new TestBuilder()

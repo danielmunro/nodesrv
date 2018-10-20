@@ -49,6 +49,7 @@ export const Messages = {
   All: {
     Item: {
       NoMerchant: "You don't see a merchant anywhere.",
+      NotEquipment: "That is not equipment.",
       NotFound: "You don't see that anywhere.",
       NotOwned: "You don't have that.",
     },

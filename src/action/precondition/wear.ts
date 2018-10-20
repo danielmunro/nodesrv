@@ -9,5 +9,7 @@ export default function(request: Request): Promise<Check> {
       request.mob.inventory.findItemByName(request.getContextAsInput().subject),
       Messages.All.Item.NotOwned,
       CheckType.HasItem)
+    .capture()
+    .require(item => !!item.equipment, Messages.All.Item.NotEquipment)
     .create()
 }
