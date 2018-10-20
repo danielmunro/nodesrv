@@ -38,6 +38,12 @@ export default class MobBuilder extends AbstractBuilder {
     return this.doEquip(super.withMaceEq())
   }
 
+  public withLevel(level: number) {
+    this.mob.level = level
+
+    return this
+  }
+
   public withSatchelContainer(): Item {
     const item = newContainer("a small leather satchel", "A small leather satchel is here.")
     this.mob.inventory.addItem(item)

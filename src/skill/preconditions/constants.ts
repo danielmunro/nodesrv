@@ -15,6 +15,7 @@ export const Messages = {
   },
   Sharpen: {
     AlreadySharpened: "That is already sharpened.",
+    NotABladedWeapon: "That weapon needs a blade to sharpen.",
     NotAWeapon: "That is not a weapon.",
   },
   Steal: {

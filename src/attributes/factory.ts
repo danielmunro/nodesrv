@@ -78,6 +78,13 @@ export function newAttributesWithHitrollStats(hitroll: Hitroll, stats: Stats): A
   )
 }
 
+export function newAttributesWithHitroll(hitroll: Hitroll) {
+  return newAttributes(
+    newVitals(0, 0, 0),
+    newStats(0, 0, 0, 0, 0, 0),
+    hitroll)
+}
+
 export function newEmptyAttributes(): Attributes {
   return newAttributes(
     newVitals(0, 0, 0),

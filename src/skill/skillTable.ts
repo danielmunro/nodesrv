@@ -26,11 +26,13 @@ import enhancedDamagePrecondition from "./preconditions/enhancedDamage"
 import envenomPrecondition from "./preconditions/envenom"
 import fastHealingPrecondition from "./preconditions/fastHealing"
 import secondAttackPrecondition from "./preconditions/secondAttack"
+import sharpenPrecondition from "./preconditions/sharpen"
 import sneakPrecondition from "./preconditions/sneak"
 import stealPrecondition from "./preconditions/steal"
 import tripPrecondition from "./preconditions/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
+import sharpen from "./actions/sharpen"
 
 function createSkill(
   type: SkillType, trigger: Trigger, action, preconditions = null): SkillDefinition {
@@ -83,6 +85,7 @@ export const skillTable = [
   createSkill(SkillType.DirtKick, Trigger.Input, improve(dirtKick), dirtKickPrecondition),
   createSkill(SkillType.FastHealing, Trigger.Tick, improve(fastHealing), fastHealingPrecondition),
   createSkill(SkillType.Steal, Trigger.Input, improve(steal), stealPrecondition),
+  createSkill(SkillType.Sharpen, Trigger.Input, improve(sharpen), sharpenPrecondition),
   newWeaponSkill(SkillType.Sword),
   newWeaponSkill(SkillType.Mace),
   newWeaponSkill(SkillType.Wand),

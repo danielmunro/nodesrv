@@ -11,3 +11,7 @@ export function newAffect(
 
   return affect
 }
+
+export function newPermanentAffect(affectType: AffectType, attributes: Attributes = new Attributes()) {
+  return newAffect(affectType, -1, attributes)
+}

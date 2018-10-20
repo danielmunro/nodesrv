@@ -7,6 +7,10 @@ export const Messages = {
     Failure: "{requestCreator} {verb} to disarm {target}.",
     Success: "{requestCreator} {verb} {target} and send {gender} weapon flying!",
   },
+  Sharpen: {
+    Failure: "{requestCreator} {verb} to sharpen {target}.",
+    Success: "{requestCreator} {verb} {target}!",
+  },
   Steal: {
     Failure: "{requestCreator} {verb} to steal {item} from {target}.",
     Success: "{requestCreator} {verb} {item} from {target}!",

@@ -7,23 +7,27 @@ import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 import { CheckType } from "../../check/checkType"
 import { AffectType } from "../../affect/affectType"
-import { Item } from "../../item/model/item"
-import { Equipment } from "../../item/equipment"
+import Weapon from "../../item/model/weapon"
+import { DamageType } from "../../damage/damageType"
 
 export default async function(request: Request): Promise<Check> {
-  const target = request.getTarget() as Item
+  const target = request.getTarget()
 
   return request.checkWithStandingDisposition()
     .not().requireFight(Messages.All.Fighting)
     .requireSkill(SkillType.Sharpen)
     .requireLevel(10)
     .require(target, Messages.All.NoItem, CheckType.HasItem)
+    .capture()
     .require(
-      !target.affects.find(affect => affect.affectType === AffectType.Sharpened),
+      weapon => !weapon.affects.find(affect => affect.affectType === AffectType.Sharpened),
       Messages.Sharpen.AlreadySharpened)
     .require(
-      target.equipment === Equipment.Weapon,
+      weapon => weapon instanceof Weapon,
       Messages.Sharpen.NotAWeapon)
+    .require(
+      weapon => weapon.damageType === DamageType.Slash,
+      Messages.Sharpen.NotABladedWeapon)
     .addCost(new Cost(CostType.Mana, Costs.Sharpen.Mana))
     .addCost(new Cost(CostType.Mv, Costs.Sharpen.Mv))
     .addCost(new Cost(CostType.Delay, Costs.Sharpen.Delay))
