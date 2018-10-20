@@ -16,7 +16,7 @@ export default function(request: Request): Promise<Check> {
       Messages.Train.CannotTrainMore,
       CheckType.ValidSubject)
     .requireMob(
-      request.getRoom().mobs.find((mob) => mob.role === Role.Trainer),
+      request.getRoom().mobs.find(mob => mob.role === Role.Trainer),
       Messages.Train.NoTrainer)
     .addCost(new Cost(CostType.Train, 1, Messages.Train.LackingTrains))
     .create()
