@@ -13,13 +13,14 @@ import {
 export default async function(request: Request, service: Service): Promise<Check> {
   const mob = service.mobTable.find(m => m.name === request.getContextAsInput().subject)
 
-  return new CheckBuilder().requireMob(mob, MESSAGE_FAIL_NO_TARGET)
+  return new CheckBuilder()
+    .requireMob(mob, MESSAGE_FAIL_NO_TARGET)
+    .capture()
     .requirePlayer(mob)
     .requireSpecialAuthorization(request.getAuthorizationLevel())
-    .require(Maybe.if(mob, () =>
-      !isBanned(mob.getStanding())), MESSAGE_FAIL_ALREADY_BANNED)
+    .require(m => !isBanned(m.getStanding()), MESSAGE_FAIL_ALREADY_BANNED)
     .not().requireSpecialAuthorization(
       Maybe.if(mob, () => mob.getAuthorizationLevel()),
       MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS)
-    .create(mob)
+    .create()
 }

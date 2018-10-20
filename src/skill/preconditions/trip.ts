@@ -11,6 +11,7 @@ export default function(request: Request): Promise<Check> {
     .requireSkill(SkillType.Trip)
     .requireLevel(10)
     .requireFight()
+    .capture()
     .addCost(new Cost(CostType.Mv, Costs.Trip.Mv, Messages.All.NotEnoughMv))
     .addCost(new Cost(CostType.Delay, Costs.Trip.Delay))
     .create()

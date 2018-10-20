@@ -132,7 +132,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public async create(target = this.target): Promise<Check> {
+  public async create(): Promise<Check> {
     const checkResults = []
     let lastThing
 
@@ -151,11 +151,7 @@ export default class CheckBuilder {
       return Check.fail(costFail.failMessage, this.checks, this.costs)
     }
 
-    if (!this.captured && lastThing) {
-      this.captured = lastThing
-    }
-
-    return Check.ok(target ? target : this.captured, checkResults, this.costs)
+    return Check.ok(this.captured, checkResults, this.costs)
   }
 
   private newCheckComponent(checkType: CheckType, thing, failMessage = ""): CheckComponent {

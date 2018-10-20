@@ -14,11 +14,12 @@ export default function(request: Request): Promise<Check> {
   if (merchant) {
     item = merchant.inventory.findItemByName(request.getContextAsInput().subject)
     checkBuilder.require(item, MESSAGE_ERROR_NO_ITEM)
+    checkBuilder.capture()
 
     if (item) {
       checkBuilder.require(request.mob.gold > item.value, Messages.Buy.CannotAfford)
     }
   }
 
-  return checkBuilder.create(item)
+  return checkBuilder.create()
 }

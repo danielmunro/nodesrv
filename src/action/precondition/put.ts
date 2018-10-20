@@ -18,6 +18,7 @@ export default function(request: Request, service: Service): Promise<Check> {
 
   return new CheckBuilder()
     .require(item, Messages.All.Item.NotOwned, CheckType.HasItem)
+    .capture()
     .require(container, MESSAGE_FAIL_CONTAINER_NOT_FOUND, CheckType.ContainerPresent)
-    .create(item)
+    .create()
 }

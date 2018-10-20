@@ -18,6 +18,7 @@ export default function(request: Request): Promise<Check> {
     .requireMob(
       request.getRoom().mobs.find(mob => mob.role === Role.Trainer),
       Messages.Train.NoTrainer)
+    .capture()
     .addCost(new Cost(CostType.Train, 1, Messages.Train.LackingTrains))
     .create()
 }

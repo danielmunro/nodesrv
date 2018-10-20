@@ -21,6 +21,7 @@ function getFromInventory(request: Request, itemTable: ItemTable) {
     .require(container, Messages.All.Item.NotFound, CheckType.ContainerPresent)
     .require(() => itemTable.findItemByInventory(container.containerInventory, request.getSubject()),
       Messages.All.Item.NotFound, CheckType.ItemPresent)
+    .capture()
     .create()
 }
 
@@ -28,6 +29,7 @@ function getFromRoom(request: Request, itemTable: ItemTable) {
   const item = itemTable.findItemByInventory(request.getRoom().inventory, request.getSubject())
   return new CheckBuilder()
     .require(item, Messages.All.Item.NotFound, CheckType.ItemPresent)
+    .capture()
     .require(() => item.isTransferable, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)
-    .create(item)
+    .create()
 }
