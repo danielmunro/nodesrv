@@ -12,6 +12,12 @@ import { getTestMob } from "../test/mob"
 import { getTestRoom } from "../test/room"
 import { Client, getDefaultUnhandledMessage } from "./client"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
+import TestBuilder from "../test/testBuilder"
+import { SkillType } from "../skill/skillType"
+import { getSkillActionDefinition } from "../skill/skillTable"
+import doNTimes from "../functional/times"
+import ResponseAction from "../request/responseAction"
+import { getFights } from "../mob/fight/fight"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
@@ -235,5 +241,13 @@ describe("clients", () => {
     expect(client.player.sessionMob.playerMob.trains).toBe(0)
   })
 
-  // todo: add test for action outcome starting fights
+  it("should create a fight if the action outcome is such", async () => {
+    await doNTimes(1000, async () => {
+      const testBuilder = new TestBuilder()
+      await testBuilder.withPlayerAndSkill(SkillType.Steal, 5)
+      testBuilder.withMob("bob").withAxeEq()
+      const response = await client.handleRequest(testBuilder.createRequest(RequestType.Steal))
+      expect(getFights()).toHaveLength(response.responseAction.wasFightStarted() ? 1 : 0)
+    })
+  })
 })

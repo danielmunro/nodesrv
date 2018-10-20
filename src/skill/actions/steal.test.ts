@@ -5,11 +5,11 @@ import TestBuilder from "../../test/testBuilder"
 import { getSkillActionDefinition } from "../skillTable"
 import { SkillType } from "../skillType"
 
-const iterations = 100
+const iterations = 1000
 
 describe("steal skill action", () => {
   it("should transfer an item when successful", async () => {
-    // account for randomization by repeating test and verifying outcome based on response
+    // highly random skill -- will need to run a few iterations
     await doNTimes(iterations, async () => {
       // setup
       const testBuilder = new TestBuilder()
