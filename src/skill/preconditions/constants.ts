@@ -13,6 +13,10 @@ export const Messages = {
   Disarm: {
     FailNothingToDisarm: "They don't have a weapon to disarm.",
   },
+  Sharpen: {
+    AlreadySharpened: "That is already sharpened.",
+    NotAWeapon: "That is not a weapon.",
+  },
   Steal: {
     ErrorNoItem: "They don't have that.",
   },

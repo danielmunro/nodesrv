@@ -50,6 +50,11 @@ export const Costs = {
   Envenom: {
     Mana: 100,
   },
+  Sharpen: {
+    Delay: 2,
+    Mana: 50,
+    Mv: 50,
+  },
   Sneak: {
     Delay: 1,
     Mv: 5,
