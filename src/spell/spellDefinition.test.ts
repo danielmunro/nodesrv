@@ -4,8 +4,8 @@ import { getTestClient } from "../test/client"
 import { getTestMob } from "../test/mob"
 import { Check } from "./check"
 import { newSpell } from "./factory"
-import spellTable from "./spellTable"
 import { SpellDefinition } from "./spellDefinition"
+import spellTable from "./spellTable"
 import { SpellType } from "./spellType"
 
 beforeEach(() => reset())
