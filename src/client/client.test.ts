@@ -1,4 +1,4 @@
-import look from "../action/actions/look"
+import look from "../action/action/look"
 import { Collection } from "../action/definition/collection"
 import doNTimes from "../functional/times"
 import { getFights } from "../mob/fight/fight"
@@ -136,7 +136,7 @@ describe("clients", () => {
     expect(request.getContextAsInput().input).toEqual(testMessage)
   })
 
-  it("should use the default actions when no handlers match", async () => {
+  it("should use the default action when no handlers match", async () => {
     // setup
     const request = getNewRequestFromMessageEvent(client, getNewTestMessageEvent()) as Request
     expect.assertions(1)
@@ -148,7 +148,7 @@ describe("clients", () => {
     expect(response).toEqual(await getDefaultUnhandledMessage(request))
   })
 
-  it("should be able to invoke a valid actions", async () => {
+  it("should be able to invoke a valid action", async () => {
     // setup
     const request = getNewRequestFromMessageEvent(client, getNewTestMessageEvent("look")) as Request
 
@@ -160,7 +160,7 @@ describe("clients", () => {
     expect(response).toEqual(lookResponse)
   })
 
-  it("invokes the default request actions when input has no action handler", async () => {
+  it("invokes the default request action when input has no action handler", async () => {
     // setup
     const request = getNewRequestFromMessageEvent(client, getNewTestMessageEvent("foo")) as Request
 

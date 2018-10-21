@@ -22,7 +22,7 @@ async function action() {
     await testBuilder.createCheckedRequestFrom(RequestType.Berserk, definition.preconditions))
 }
 
-describe("berserk skill actions", () => {
+describe("berserk skill action", () => {
   it("should be able to fail berserking", async () => {
     // given
     const mobBuilder = testBuilder.withMob()

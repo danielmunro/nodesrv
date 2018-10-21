@@ -5,7 +5,7 @@ import { SkillType } from "../skill/skillType"
 import TestBuilder from "../test/testBuilder"
 import { Definition } from "./definition/definition"
 
-describe("actions actions collection", () => {
+describe("action action collection", () => {
   it("should be able to bash", async () => {
     // given
     const testBuilder = new TestBuilder()
@@ -24,7 +24,7 @@ describe("actions actions collection", () => {
     expect(response.status).not.toBe(ResponseStatus.PreconditionsFailed)
   })
 
-  it("should not be able to access admin actions", async () => {
+  it("should not be able to access admin action", async () => {
     // given
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()
@@ -36,7 +36,7 @@ describe("actions actions collection", () => {
     expect(action).toBeNull()
   })
 
-  it("admins should be able to access admin actions", async () => {
+  it("admins should be able to access admin action", async () => {
     // given
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()

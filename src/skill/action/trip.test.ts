@@ -6,11 +6,11 @@ import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import tripPrecondition from "../preconditions/trip"
+import tripPrecondition from "../precondition/trip"
 import { SkillType } from "../skillType"
 import trip from "./trip"
 
-describe("trip skill actions", () => {
+describe("trip skill action", () => {
   it("should be able to fail tripping", async () => {
     // setup
     const testBuilder = new TestBuilder()

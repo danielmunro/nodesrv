@@ -1,7 +1,7 @@
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 
-describe("inventory actions actions", () => {
+describe("inventory action action", () => {
   it("should return a mob's inventory", async () => {
     // given
     const testBuilder = new TestBuilder()

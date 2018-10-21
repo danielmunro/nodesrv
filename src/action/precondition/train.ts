@@ -4,7 +4,7 @@ import Cost from "../../check/cost/cost"
 import { CostType } from "../../check/cost/costType"
 import { Role } from "../../mob/role"
 import { Request } from "../../request/request"
-import { trainMap } from "../actions/train"
+import { trainMap } from "../action/train"
 import { Messages } from "./constants"
 
 export default function(request: Request): Promise<Check> {

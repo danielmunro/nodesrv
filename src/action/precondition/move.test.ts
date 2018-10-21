@@ -38,7 +38,7 @@ describe("move", () => {
     expect(check.result).toBe(MESSAGE_OUT_OF_MOVEMENT)
   })
 
-  it("should allow movement when preconditions pass", async () => {
+  it("should allow movement when precondition pass", async () => {
     // given
     const player = getTestPlayer()
     const room1 = getTestRoom()

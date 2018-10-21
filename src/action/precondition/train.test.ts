@@ -62,7 +62,7 @@ describe("train action precondition", () => {
     expect(check.result).toBe(RequestMessages.NotStanding)
   })
 
-  it("should work if all preconditions are met", async () => {
+  it("should work if all precondition are met", async () => {
     // given
     const testBuilder = new TestBuilder()
     testBuilder.withRoom()

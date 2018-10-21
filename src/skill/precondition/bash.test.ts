@@ -39,7 +39,7 @@ describe("bash skill precondition", () => {
     expect(check.result).toBe(Messages.All.NoTarget)
   })
 
-  it("should pass the check if all preconditions pass", async () => {
+  it("should pass the check if all precondition pass", async () => {
     // given
     testBuilder.fight()
 

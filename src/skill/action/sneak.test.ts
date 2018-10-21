@@ -4,11 +4,11 @@ import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { newSkill } from "../factory"
-import sneakPrecondition from "../preconditions/sneak"
+import sneakPrecondition from "../precondition/sneak"
 import { SkillType } from "../skillType"
 import sneak from "./sneak"
 
-describe("sneak skill actions", () => {
+describe("sneak skill action", () => {
   it("should be able to fail sneaking", async () => {
     // setup
     const testBuilder = new TestBuilder()

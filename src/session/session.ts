@@ -1,4 +1,4 @@
-import look from "../action/actions/look"
+import look from "../action/action/look"
 import { Client } from "../client/client"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"

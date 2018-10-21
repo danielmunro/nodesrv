@@ -23,7 +23,7 @@ function createCheckedRequest(request: Request, spellDefinition: SpellDefinition
       new SpellCheck(request, spellDefinition)))
 }
 
-describe("cast actions actions", () => {
+describe("cast action action", () => {
   it("should be able to cast a known spell", async () => {
     // given
     const player = getTestPlayer()

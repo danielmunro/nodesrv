@@ -68,7 +68,7 @@ describe("flee action precondition", () => {
     expect(check.result).toBe(MESSAGE_FAIL_TOO_TIRED)
   })
 
-  it("should work if all preconditions met", async () => {
+  it("should work if all precondition met", async () => {
     // when
     const check = await flee(new Request(player.sessionMob, new InputContext(RequestType.Flee, "flee")))
 

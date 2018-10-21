@@ -5,7 +5,7 @@ import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_FAIL_DEAD, Messages } from "./constants"
 import sleep from "./sleep"
 
-describe("sleep actions precondition", () => {
+describe("sleep action precondition", () => {
   it("should not be able to sleep if already sleeping", async () => {
     // given
     const testBuilder = new TestBuilder()

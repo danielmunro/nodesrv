@@ -9,7 +9,7 @@ import berserk from "./berserk"
 import { Messages } from "./constants"
 
 describe("berserk skill precondition", () => {
-  it("should not allow berserking when preconditions fail", async () => {
+  it("should not allow berserking when precondition fail", async () => {
     // setup
     const testBuilder = new TestBuilder()
 

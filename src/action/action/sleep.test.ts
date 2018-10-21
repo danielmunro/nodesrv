@@ -5,7 +5,7 @@ import TestBuilder from "../../test/testBuilder"
 import { Messages } from "./constants"
 import sleep from "./sleep"
 
-describe("sleep actions actions", () => {
+describe("sleep action action", () => {
   it("should change the mob's disposition to sleeping", async () => {
     // given
     const testBuilder = new TestBuilder()

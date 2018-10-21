@@ -5,7 +5,7 @@ import TestBuilder from "../../test/testBuilder"
 import sellPrecondition from "../precondition/sell"
 import sell from "./sell"
 
-describe("sell actions actions", () => {
+describe("sell action action", () => {
   it("should execute the sell checked request", async () => {
     // given
     const testBuilder = new TestBuilder()
