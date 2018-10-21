@@ -7,7 +7,7 @@ import { getTestPlayer } from "../../test/player"
 import reset from "../../test/reset"
 import { Check } from "../check"
 import { newSpell } from "../factory"
-import spellCollection from "../spellCollection"
+import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
 
 beforeEach(() => reset())
@@ -19,7 +19,7 @@ describe("giant strength", () => {
     const mob = player.sessionMob
     const room = mob.room
     const target = getTestMob()
-    const spellDefinition = spellCollection.findSpell(SpellType.GiantStrength)
+    const spellDefinition = spellTable.findSpell(SpellType.GiantStrength)
     target.name = "alice"
     mob.level = 20
     mob.spells.push(newSpell(SpellType.GiantStrength, 5))

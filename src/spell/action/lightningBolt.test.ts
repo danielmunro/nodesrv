@@ -5,7 +5,7 @@ import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import { Check } from "../check"
-import spellCollection from "../spellCollection"
+import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
 import lightningBolt from "./lightningBolt"
 
@@ -23,7 +23,7 @@ describe("lightning bolt", () => {
     lightningBolt(
       new Check(
         new Request(player.sessionMob, new InputContext(RequestType.Cast, "cast 'lightning bolt' bob"), mob),
-        spellCollection.findSpell(SpellType.LightningBolt)))
+        spellTable.findSpell(SpellType.LightningBolt)))
 
     // then
     expect(mob.vitals.hp).toBeLessThan(mob.getCombinedAttributes().vitals.hp)

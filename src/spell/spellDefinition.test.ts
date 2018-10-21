@@ -4,14 +4,14 @@ import { getTestClient } from "../test/client"
 import { getTestMob } from "../test/mob"
 import { Check } from "./check"
 import { newSpell } from "./factory"
-import spellCollection from "./spellCollection"
+import spellTable from "./spellTable"
 import { SpellDefinition } from "./spellDefinition"
 import { SpellType } from "./spellType"
 
 beforeEach(() => reset())
 
 function getMagicMissile(): SpellDefinition {
-  return spellCollection.findSpell(SpellType.MagicMissile)
+  return spellTable.findSpell(SpellType.MagicMissile)
 }
 
 describe("spellDefinition", () => {

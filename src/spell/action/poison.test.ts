@@ -3,7 +3,7 @@ import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { Check } from "../check"
-import spellCollection from "../spellCollection"
+import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
 import poison from "./poison"
 
@@ -18,7 +18,7 @@ describe("poison", () => {
 
     poison(new Check(
       testBuilder.createRequest(RequestType.Cast, "cast poison bob", target),
-      spellCollection.findSpell(SpellType.Poison)))
+      spellTable.findSpell(SpellType.Poison)))
 
     expect(target.affects.length).toBe(1)
     expect(target.getAffect(AffectType.Poison)).toBeTruthy()

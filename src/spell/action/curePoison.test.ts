@@ -7,7 +7,7 @@ import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import { Check } from "../check"
 import { newSpell } from "../factory"
-import spellCollection from "../spellCollection"
+import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
 import curePoison from "./curePoison"
 
@@ -20,7 +20,7 @@ describe("cure poison", () => {
     curePoison(
       new Check(
         new Request(player.sessionMob, new InputContext(RequestType.Cast, "cast 'cure poison'")),
-        spellCollection.findSpell(SpellType.CurePoison)))
+        spellTable.findSpell(SpellType.CurePoison)))
 
     expect(player.sessionMob.affects.length).toBe(0)
   })
