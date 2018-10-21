@@ -4,7 +4,7 @@ import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
 import get from "./get"
 
-describe("get action precondition", () => {
+describe("get action preconditions", () => {
   it("should not work if the item specified does not exist", async () => {
     // given
     const testBuilder = new TestBuilder()

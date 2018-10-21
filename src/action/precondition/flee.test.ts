@@ -32,7 +32,7 @@ beforeEach(async () => {
   room1.addMob(mob)
 })
 
-describe("flee action precondition", () => {
+describe("flee action preconditions", () => {
   it("should not work if the mob is not fighting", async () => {
     // when
     const check = await flee(new Request(getTestMob(), new InputContext(RequestType.Flee, "flee")))
@@ -68,7 +68,7 @@ describe("flee action precondition", () => {
     expect(check.result).toBe(MESSAGE_FAIL_TOO_TIRED)
   })
 
-  it("should work if all precondition met", async () => {
+  it("should work if all preconditions met", async () => {
     // when
     const check = await flee(new Request(player.sessionMob, new InputContext(RequestType.Flee, "flee")))
 

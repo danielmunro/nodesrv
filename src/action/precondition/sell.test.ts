@@ -4,7 +4,7 @@ import TestBuilder from "../../test/testBuilder"
 import { Messages } from "./constants"
 import sell from "./sell"
 
-describe("sell action action precondition", () => {
+describe("sell action action preconditions", () => {
   it("should fail if a merchant is not in the room", async () => {
     // setup
     const testBuilder = new TestBuilder()

@@ -14,7 +14,7 @@ beforeEach(async () => {
   playerBuilder.withSkill(SkillType.Bash)
 })
 
-describe("bash skill precondition", () => {
+describe("bash skill preconditions", () => {
   it("should not allow bashing when too tired", async () => {
     // given
     playerBuilder.player.sessionMob.vitals.mv = 0
@@ -39,7 +39,7 @@ describe("bash skill precondition", () => {
     expect(check.result).toBe(Messages.All.NoTarget)
   })
 
-  it("should pass the check if all precondition pass", async () => {
+  it("should pass the check if all preconditions pass", async () => {
     // given
     testBuilder.fight()
 

@@ -1,29 +1,22 @@
-import InputContext from "../../request/context/inputContext"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { getTestMob } from "../../test/mob"
-import { getTestPlayer } from "../../test/player"
-import { getTestRoom } from "../../test/room"
-import { Check } from "../check"
 import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
-import lightningBolt from "./lightningBolt"
+import TestBuilder from "../../test/testBuilder"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 
 describe("lightning bolt", () => {
-  it("should do damage when casted", () => {
+  it("should do damage when casted", async () => {
     // setup
-    const player = getTestPlayer()
-    const mob = getTestMob("bob")
-    const room = getTestRoom()
-    room.addMob(player.sessionMob)
-    room.addMob(mob)
-    expect(mob.vitals.hp).toBe(mob.getCombinedAttributes().vitals.hp)
+    const testBuilder = new TestBuilder()
+    const mobBuilder1 = testBuilder.withMob()
+    mobBuilder1.withLevel(5)
+    mobBuilder1.withSpell(SpellType.LightningBolt, MAX_PRACTICE_LEVEL)
+    const mobBuilder2 = testBuilder.withMob("bob")
+    const mob = mobBuilder2.mob
+    const definition = spellTable.findSpell(SpellType.LightningBolt)
 
     // when
-    lightningBolt(
-      new Check(
-        new Request(player.sessionMob, new InputContext(RequestType.Cast, "cast 'lightning bolt' bob"), mob),
-        spellTable.findSpell(SpellType.LightningBolt)))
+    await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast lightning bob", mob))
 
     // then
     expect(mob.vitals.hp).toBeLessThan(mob.getCombinedAttributes().vitals.hp)

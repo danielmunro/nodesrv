@@ -23,7 +23,7 @@ let service: Service
 let player: Player
 let playerToPromote: Player
 
-describe("promote moderation precondition", () => {
+describe("promote moderation preconditions", () => {
   beforeEach(async () => {
     const testBuilder = new TestBuilder()
     const adminPlayerBuilder = await testBuilder.withAdminPlayer(AuthorizationLevel.Immortal)

@@ -33,33 +33,11 @@ import stealPrecondition from "./precondition/steal"
 import tripPrecondition from "./precondition/trip"
 import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
+import improve from "../improve/improve"
 
 function createSkill(
   type: SkillType, trigger: Trigger, action, preconditions = null): SkillDefinition {
   return new SkillDefinition(type, [trigger], action, preconditions)
-}
-
-function initialImproveRoll(): number {
-  return roll(1, 1000)
-}
-
-function successModifierRoll(): number {
-  return roll(5, 10)
-}
-
-function checkImprove(response: Response, baseImproveChance: number = BASE_IMPROVE_CHANCE) {
-  let it = initialImproveRoll()
-  if (response.isSuccessful()) {
-    it += successModifierRoll()
-  }
-  if (it <= baseImproveChance) {
-    response.getCheckedRequest().getCheckTypeResult(CheckType.HasSkill).level++
-  }
-  return response
-}
-
-function improve(method, improveChance = BASE_IMPROVE_CHANCE) {
-  return async request => checkImprove(await method(request), improveChance)
 }
 
 function newWeaponSkill(skillType: SkillType) {

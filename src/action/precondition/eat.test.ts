@@ -9,7 +9,7 @@ import {
 } from "./constants"
 import eat from "./eat"
 
-describe("eat action precondition", () => {
+describe("eat action preconditions", () => {
   it("should not allow eating food not in inventory", async () => {
     // given
     const testBuilder = new TestBuilder()

@@ -6,6 +6,9 @@ import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
 import AbstractBuilder from "./abstractBuilder"
+import { SpellType } from "../spell/spellType"
+import { Spell } from "../spell/model/spell"
+import { newSpell } from "../spell/factory"
 
 export default class MobBuilder extends AbstractBuilder {
   private equipNextEquipment = false
@@ -57,6 +60,13 @@ export default class MobBuilder extends AbstractBuilder {
     this.mob.skills.push(skill)
 
     return skill
+  }
+
+  public withSpell(spellType: SpellType, level: number = 1): Spell {
+    const spell = newSpell(spellType, level)
+    this.mob.spells.push(spell)
+
+    return spell
   }
 
   private doEquip(equipment) {

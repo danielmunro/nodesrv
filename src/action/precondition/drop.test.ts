@@ -6,7 +6,7 @@ import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
 import drop from "./drop"
 
-describe("drop action precondition", () => {
+describe("drop action preconditions", () => {
   it("should not work if the item is not in the right inventory", async () => {
     // given
     const testBuilder = new TestBuilder()

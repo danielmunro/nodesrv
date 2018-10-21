@@ -8,8 +8,8 @@ import { SkillType } from "../skillType"
 import berserk from "./berserk"
 import { Messages } from "./constants"
 
-describe("berserk skill precondition", () => {
-  it("should not allow berserking when precondition fail", async () => {
+describe("berserk skill preconditions", () => {
+  it("should not allow berserking when preconditions fail", async () => {
     // setup
     const testBuilder = new TestBuilder()
 

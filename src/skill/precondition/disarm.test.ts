@@ -8,7 +8,7 @@ import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 import disarm from "./disarm"
 
-describe("disarm precondition", () => {
+describe("disarm preconditions", () => {
   beforeEach(() => reset())
 
   it("should not work if not in a fight", async () => {

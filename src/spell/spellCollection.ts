@@ -1,4 +1,4 @@
-import { SpellDefinition } from "./spellDefinition"
+import SpellDefinition from "./spellDefinition"
 import { SpellType } from "./spellType"
 
 export default class SpellCollection {

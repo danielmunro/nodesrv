@@ -6,31 +6,24 @@ import giantStrength from "./action/giantStrength"
 import lightningBolt from "./action/lightningBolt"
 import magicMissile from "./action/magicMissile"
 import poison from "./action/poison"
+import lightningBoltPrecondition from "./precondition/lightningBolt"
+import magicMissilePrecondition from "./precondition/magicMissile"
 import shield from "./action/shield"
 import SpellCollection from "./spellCollection"
-import { SpellDefinition } from "./spellDefinition"
+import SpellDefinition from "./spellDefinition"
 import { SpellType } from "./spellType"
+import { newDefinition } from "./factory"
 
 export default new SpellCollection([
-  // Attack
-  new SpellDefinition(
-    SpellType.MagicMissile,
-    1,
-    ActionType.Offensive,
-    50,
-    magicMissile,
-    DamageType.Magic,
-  ),
-  new SpellDefinition(
-    SpellType.LightningBolt,
-    12,
-    ActionType.Offensive,
-    100,
-    lightningBolt,
-    DamageType.Electric,
-  ),
+  // attack
+  newDefinition(SpellType.MagicMissile, ActionType.Offensive, magicMissilePrecondition,
+    magicMissile, DamageType.Magic),
+  newDefinition(
+    SpellType.LightningBolt, ActionType.Offensive, lightningBoltPrecondition,
+    lightningBolt, DamageType.Electric),
 
-  // Healing
+  // healing
+  // newDefinition(SpellType.CureLight, ActionType.Defensive, )
   new SpellDefinition(
     SpellType.CureLight,
     1,

@@ -5,7 +5,7 @@ import roll from "../random/dice"
 import { Request } from "../request/request"
 import { MESSAGE_FAIL, MESSAGE_NO_SPELL, MESSAGE_NO_TARGET, MESSAGE_NOT_ENOUGH_MANA } from "./constants"
 import { Spell } from "./model/spell"
-import { SpellDefinition } from "./spellDefinition"
+import SpellDefinition from "./spellDefinition"
 
 export enum Status {
   NotEvaluated,

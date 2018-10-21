@@ -12,6 +12,7 @@ import CheckComponent from "./checkComponent"
 import CheckResult from "./checkResult"
 import { CheckType } from "./checkType"
 import Cost from "./cost/cost"
+import { SpellType } from "../spell/spellType"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []
@@ -99,6 +100,15 @@ export default class CheckBuilder {
       CheckType.HasSkill,
       this.mob.skills.find(s => s.skillType === skillType),
       Messages.All.NoSkill))
+
+    return this
+  }
+
+  public requireSpell(spellType: SpellType) {
+    this.checks.push(this.newCheckComponent(
+      CheckType.HasSpell,
+      this.mob.spells.find(s => s.spellType === spellType),
+      Messages.All.NoSpell))
 
     return this
   }

@@ -5,7 +5,7 @@ import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 import trip from "./trip"
 
-describe("trip skill precondition", () => {
+describe("trip skill preconditions", () => {
   it("should not work if the mob is out of movement", async () => {
     // setup
     const testBuilder = new TestBuilder()

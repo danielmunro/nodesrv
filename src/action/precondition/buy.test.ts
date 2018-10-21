@@ -12,7 +12,7 @@ import TestBuilder from "../../test/testBuilder"
 import buy from "./buy"
 import { MESSAGE_ERROR_NO_ITEM, Messages } from "./constants"
 
-describe("buy action precondition", () => {
+describe("buy action preconditions", () => {
   it("should fail if a merchant is not in the room", async () => {
     // setup
     const testBuilder = new TestBuilder()

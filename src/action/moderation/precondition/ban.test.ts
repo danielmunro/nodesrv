@@ -24,7 +24,7 @@ let requestBuilder: RequestBuilder
 let service: Service
 let playerToBan: Player
 
-describe("ban moderation precondition", () => {
+describe("ban moderation preconditions", () => {
   beforeEach(async () => {
     const testBuilder = new TestBuilder()
     const adminPlayerBuilder = await testBuilder.withAdminPlayer()

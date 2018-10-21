@@ -1,47 +1,28 @@
 import { ActionType } from "../action/actionType"
 import { DamageType } from "../damage/damageType"
 import { addFight, Fight, getFights } from "../mob/fight/fight"
-import { Check } from "./check"
+import Check from "../check/check"
 import { SpellType } from "./spellType"
+import { Request } from "../request/request"
+import CheckedRequest from "../check/checkedRequest"
+import Response from "../request/response"
 
-export class SpellDefinition {
-  public readonly spellType: SpellType
-  public readonly level: number
-  public readonly actionType: ActionType
-  public readonly damageType: DamageType
-  public readonly manaCost: number
-  public readonly cast: (check: Check) => void
-
+export default class SpellDefinition {
   constructor(
-    spellType: SpellType,
-    level: number,
-    actionType: ActionType,
-    manaCost: number,
-    cast: (check: Check) => void,
-    damageType: DamageType = null,
-  ) {
-    this.spellType = spellType
-    this.level = level
-    this.actionType = actionType
-    this.manaCost = manaCost
-    this.cast = cast
-    this.damageType = damageType
-  }
+    public readonly spellType: SpellType,
+    public readonly actionType: ActionType,
+    public readonly preconditions: (request: Request) => Promise<Check>,
+    public readonly action: (checkedRequest: CheckedRequest) => Promise<Response>,
+    public readonly damageType: DamageType = null,
+  ) {}
 
-  public apply(check: Check) {
-    check.applyManaCost()
-    this.checkForNewFight(check)
+  public async doAction(request: Request) {
+    const check = await this.preconditions(request)
 
-    if (check.isSuccessful()) {
-      this.cast(check)
+    if (check.isOk()) {
+      return this.action(new CheckedRequest(request, check))
     }
-  }
 
-  private checkForNewFight(check: Check): void {
-    if (this.actionType === ActionType.Offensive
-      && !getFights().find((f) => f.isParticipant(check.caster))
-      && check.caster !== check.target) {
-      addFight(new Fight(check.caster, check.target, check.request.getRoom()))
-    }
+    return request.respondWith().error(check.result)
   }
 }
