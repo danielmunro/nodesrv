@@ -1,15 +1,15 @@
 import CheckedRequest from "../../check/checkedRequest"
 import Response from "../../request/response"
-import spellCollection from "../../spell/spellCollection"
+import spellTable from "../../spell/spellTable"
 import { Messages } from "./constants"
 
-export default function(checkedRequest: CheckedRequest): Promise<Response> {
+export default async function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
   const check = checkedRequest.check
-  const spellDefinition = spellCollection.collection.find(spell =>
+  const spellDefinition = spellTable.collection.find(spell =>
     spell.spellType.startsWith(request.getContextAsInput().subject))
 
-  spellDefinition.apply(check.result)
+  await spellDefinition.doAction(check.result)
 
   return checkedRequest.respondWith().success(
       Messages.Cast.Success,

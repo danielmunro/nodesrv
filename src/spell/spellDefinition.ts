@@ -1,11 +1,10 @@
 import { ActionType } from "../action/actionType"
-import { DamageType } from "../damage/damageType"
-import { addFight, Fight, getFights } from "../mob/fight/fight"
 import Check from "../check/check"
-import { SpellType } from "./spellType"
-import { Request } from "../request/request"
 import CheckedRequest from "../check/checkedRequest"
+import { DamageType } from "../damage/damageType"
+import { Request } from "../request/request"
 import Response from "../request/response"
+import { SpellType } from "./spellType"
 
 export default class SpellDefinition {
   constructor(
@@ -22,6 +21,8 @@ export default class SpellDefinition {
     if (check.isOk()) {
       return this.action(new CheckedRequest(request, check))
     }
+
+    console.log(check)
 
     return request.respondWith().error(check.result)
   }

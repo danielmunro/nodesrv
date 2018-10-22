@@ -7,12 +7,13 @@ import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../player/authorizationLevel"
 import { Messages } from "../skill/precondition/constants"
 import { SkillType } from "../skill/skillType"
+import { SpellType } from "../spell/spellType"
 import Check from "./check"
 import CheckComponent from "./checkComponent"
 import CheckResult from "./checkResult"
 import { CheckType } from "./checkType"
 import Cost from "./cost/cost"
-import { SpellType } from "../spell/spellType"
+import { CostType } from "./cost/costType"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []
@@ -24,6 +25,12 @@ export default class CheckBuilder {
 
   public requireMob(mob: Mob, failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
     this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob, failMessage))
+
+    return this
+  }
+
+  public optionalMob(mob: Mob) {
+    this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob))
 
     return this
   }
@@ -81,6 +88,12 @@ export default class CheckBuilder {
     return this
   }
 
+  public addManaCost(amount: number) {
+    this.costs.push(new Cost(CostType.Mana, amount, Messages.All.NotEnoughMana))
+
+    return this
+  }
+
   public forMob(mob: Mob) {
     this.mob = mob
 
@@ -90,7 +103,8 @@ export default class CheckBuilder {
   public requireLevel(level: number) {
     this.checks.push(this.newCheckComponent(
       CheckType.Level,
-      this.mob.level >= level))
+      this.mob.level >= level,
+      Messages.All.NotEnoughExperience))
 
     return this
   }
@@ -171,14 +185,14 @@ export default class CheckBuilder {
       const checkResult = checkComponent.getThing(this.captured ? this.captured : lastThing)
       this.checkResults.push(new CheckResult(checkComponent.checkType, checkResult))
       lastThing = checkResult
-      return !checkResult
+      return !checkResult && checkComponent.isRequired
     })
     if (checkFail) {
       return Check.fail(checkFail.failMessage, this.checks, this.costs)
     }
   }
 
-  private newCheckComponent(checkType: CheckType, thing, failMessage = ""): CheckComponent {
+  private newCheckComponent(checkType: CheckType, thing, failMessage = null): CheckComponent {
     const component = new CheckComponent(checkType, this.confirm ? thing : !thing, failMessage)
     this.confirm = true
     return component

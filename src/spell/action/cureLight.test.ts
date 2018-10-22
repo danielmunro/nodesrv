@@ -1,26 +1,24 @@
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { createCastRequest } from "../../request/factory"
-import { getTestPlayer } from "../../test/player"
-import { Check } from "../check"
-import { newSpell } from "../factory"
+import { RequestType } from "../../request/requestType"
+import TestBuilder from "../../test/testBuilder"
 import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
-import cureLight from "./cureLight"
 
 describe("cure light", () => {
-  it("should restore a portion of hp", () => {
+  it("should heal when casted", async () => {
     // setup
-    const player = getTestPlayer()
-    player.sessionMob.spells.push(newSpell(SpellType.CureLight, MAX_PRACTICE_LEVEL))
-    player.sessionMob.vitals.hp = 1
+    const testBuilder = new TestBuilder()
+    const mobBuilder1 = testBuilder.withMob()
+    mobBuilder1.withSpell(SpellType.CureLight, MAX_PRACTICE_LEVEL)
+    const mobBuilder2 = testBuilder.withMob("bob")
+    const mob = mobBuilder2.mob
+    mob.vitals.hp = 1
+    const definition = spellTable.findSpell(SpellType.CureLight)
 
     // when
-    cureLight(
-      new Check(
-        createCastRequest(player, "cast 'cure light'"),
-        spellTable.findSpell(SpellType.CureLight)))
+    await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast cure bob", mob))
 
     // then
-    expect(player.sessionMob.vitals.hp).toBeGreaterThan(1)
+    expect(mob.vitals.hp).toBeGreaterThan(1)
   })
 })

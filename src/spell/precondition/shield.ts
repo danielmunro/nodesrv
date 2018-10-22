@@ -7,8 +7,9 @@ import { SpellType } from "../spellType"
 
 export default function(request: Request): Promise<Check> {
   return request.checkWithStandingDisposition()
-    .requireSpell(SpellType.MagicMissile)
-    .requireMob(request.getTarget() as Mob)
+    .requireSpell(SpellType.Shield)
+    .optionalMob(request.getTarget() as Mob)
+    .requireLevel(5)
     .addCost(new Cost(CostType.Mana, 50))
     .create()
 }

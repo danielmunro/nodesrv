@@ -2,25 +2,24 @@ import { AffectType } from "../../affect/affectType"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { Check } from "../check"
 import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
-import poison from "./poison"
 
-describe("poison", () => {
-  it("casting poison should add the poison affect to the target", async () => {
+describe("shield", () => {
+  it("should shield when casted", async () => {
     // setup
-    const mobName = "bob"
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
-    playerBuilder.withSpell(SpellType.Poison, MAX_PRACTICE_LEVEL)
-    const target = testBuilder.withMob(mobName).mob
+    const mobBuilder1 = testBuilder.withMob()
+    mobBuilder1.withSpell(SpellType.Poison, MAX_PRACTICE_LEVEL)
+    mobBuilder1.withLevel(20)
+    const mobBuilder2 = testBuilder.withMob("bob")
+    const mob = mobBuilder2.mob
+    const definition = spellTable.findSpell(SpellType.Poison)
 
-    poison(new Check(
-      testBuilder.createRequest(RequestType.Cast, "cast poison bob", target),
-      spellTable.findSpell(SpellType.Poison)))
+    // when
+    await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast poison bob", mob))
 
-    expect(target.affects.length).toBe(1)
-    expect(target.getAffect(AffectType.Poison)).toBeTruthy()
+    // then
+    expect(mob.getAffect(AffectType.Poison)).toBeTruthy()
   })
 })

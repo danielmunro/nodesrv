@@ -1,12 +1,12 @@
-import { Spell } from "./model/spell"
-import { SpellType } from "./spellType"
 import { ActionType } from "../action/actionType"
-import { DamageType } from "../damage/damageType"
-import { Request } from "../request/request"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
+import { DamageType } from "../damage/damageType"
+import { Request } from "../request/request"
 import Response from "../request/response"
+import { Spell } from "./model/spell"
 import SpellDefinition from "./spellDefinition"
+import { SpellType } from "./spellType"
 
 export function newSpell(spellType: SpellType, level: number = 1) {
   const spell = new Spell()

@@ -1,6 +1,6 @@
-import roll from "../../random/dice"
 import CheckedRequest from "../../check/checkedRequest"
 import { CheckType } from "../../check/checkType"
+import roll from "../../random/dice"
 
 export default function(checkedRequest: CheckedRequest) {
   const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)

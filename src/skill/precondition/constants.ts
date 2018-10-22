@@ -5,6 +5,7 @@ export const Messages = {
     NoSkill: "You lack the skill.",
     NoSpell: "You lack that spell.",
     NoTarget: "You need a target!",
+    NotEnoughExperience: "You don't have the required experience.",
     NotEnoughMana: "You lack the mana.",
     NotEnoughMv: "You are too tired.",
   },

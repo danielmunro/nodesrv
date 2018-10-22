@@ -1,11 +1,11 @@
 import { CheckStatus } from "../../check/checkStatus"
 import { createCastRequest } from "../../request/factory"
-import { MESSAGE_NOT_ENOUGH_MANA } from "../../spell/constants"
+import { Messages } from "../../skill/precondition/constants"
 import { newSpell } from "../../spell/factory"
 import { SpellType } from "../../spell/spellType"
 import { getTestPlayer } from "../../test/player"
 import cast from "./cast"
-import { MESSAGE_CAST_ERROR, MESSAGE_NO_SPELL, MESSAGE_SPELL_DOES_NOT_EXIST } from "./constants"
+import { MESSAGE_NO_SPELL, MESSAGE_SPELL_DOES_NOT_EXIST } from "./constants"
 
 const TEST_INPUT_GIANT = "cast giant"
 const TEST_INPUT_CAST = "cast"
@@ -30,7 +30,7 @@ describe("cast", () => {
     const poisonCheck = await cast(createCastRequest(player, TEST_INPUT_POISON))
 
     // then
-    expect(poisonCheck.result).toBe(MESSAGE_CAST_ERROR)
+    expect(poisonCheck.result).toBe(Messages.All.NoSpell)
     expect(poisonCheck.status).toBe(CheckStatus.Failed)
 
     // when
@@ -46,6 +46,7 @@ describe("cast", () => {
     const player = getTestPlayer()
     const spell = newSpell(SpellType.GiantStrength)
     player.sessionMob.spells.push(spell)
+    player.sessionMob.level = 20
 
     // when
     const check = await cast(createCastRequest(player, TEST_INPUT_GIANT))
@@ -59,12 +60,13 @@ describe("cast", () => {
     const player = getTestPlayer()
     player.sessionMob.spells.push(newSpell(SpellType.GiantStrength))
     player.sessionMob.vitals.mana = 0
+    player.sessionMob.level = 10
 
     // when
     const check = await cast(createCastRequest(player, TEST_INPUT_GIANT))
 
     // then
-    expect(check.result).toBe(MESSAGE_NOT_ENOUGH_MANA)
     expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(Messages.All.NotEnoughMana)
   })
 })

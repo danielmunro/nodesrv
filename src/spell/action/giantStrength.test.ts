@@ -1,42 +1,25 @@
 import { AffectType } from "../../affect/affectType"
-import InputContext from "../../request/context/inputContext"
-import { Request } from "../../request/request"
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
-import { getTestMob } from "../../test/mob"
-import { getTestPlayer } from "../../test/player"
-import reset from "../../test/reset"
-import { Check } from "../check"
-import { newSpell } from "../factory"
+import TestBuilder from "../../test/testBuilder"
 import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
 
-beforeEach(() => reset())
-
-describe("giant strength", () => {
-  it("should apply giant strength to the target, per the caster's giant strength level", () => {
+describe("shield", () => {
+  it("should shield when casted", async () => {
     // setup
-    const player = getTestPlayer()
-    const mob = player.sessionMob
-    const room = mob.room
-    const target = getTestMob()
-    const spellDefinition = spellTable.findSpell(SpellType.GiantStrength)
-    target.name = "alice"
-    mob.level = 20
-    mob.spells.push(newSpell(SpellType.GiantStrength, 5))
-    room.addMob(target)
-    const check = new Check(
-      new Request(player.sessionMob, new InputContext(RequestType.Cast, "cast giant strength alice"), target),
-      spellDefinition,
-      () => true)
+    const testBuilder = new TestBuilder()
+    const mobBuilder1 = testBuilder.withMob()
+    mobBuilder1.withSpell(SpellType.GiantStrength, MAX_PRACTICE_LEVEL)
+    mobBuilder1.withLevel(10)
+    const mobBuilder2 = testBuilder.withMob("bob")
+    const mob = mobBuilder2.mob
+    const definition = spellTable.findSpell(SpellType.GiantStrength)
 
     // when
-    spellDefinition.apply(check)
+    await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast giant bob", mob))
 
     // then
-    expect(target.affects.length).toBe(1)
-    const affect = target.affects[0]
-    expect(affect.affectType).toBe(AffectType.GiantStrength)
-    expect(affect.mob).toBe(target)
-    expect(mob.vitals.mana).toBe(mob.getCombinedAttributes().vitals.mana - spellDefinition.manaCost)
+    expect(mob.getAffect(AffectType.GiantStrength)).toBeTruthy()
   })
 })

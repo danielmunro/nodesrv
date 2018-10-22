@@ -5,10 +5,10 @@ import ServiceBuilder from "../service/serviceBuilder"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
-import AbstractBuilder from "./abstractBuilder"
-import { SpellType } from "../spell/spellType"
-import { Spell } from "../spell/model/spell"
 import { newSpell } from "../spell/factory"
+import { Spell } from "../spell/model/spell"
+import { SpellType } from "../spell/spellType"
+import AbstractBuilder from "./abstractBuilder"
 
 export default class MobBuilder extends AbstractBuilder {
   private equipNextEquipment = false

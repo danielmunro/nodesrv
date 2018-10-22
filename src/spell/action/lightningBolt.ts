@@ -1,7 +1,7 @@
-import roll from "../../random/dice"
 import CheckedRequest from "../../check/checkedRequest"
-import Response from "../../request/response"
 import { CheckType } from "../../check/checkType"
+import roll from "../../random/dice"
+import Response from "../../request/response"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)

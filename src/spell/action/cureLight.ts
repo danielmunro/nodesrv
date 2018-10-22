@@ -1,6 +1,12 @@
+import CheckedRequest from "../../check/checkedRequest"
+import { CheckType } from "../../check/checkType"
 import roll from "../../random/dice"
-import { Check } from "../check"
+import Response from "../../request/response"
 
-export default function(check: Check) {
-  check.target.vitals.hp += roll(1, 4)
+export default function(checkedRequest: CheckedRequest): Promise<Response> {
+  const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) || checkedRequest.mob
+
+  target.vitals.hp += roll(1, 4)
+
+  return checkedRequest.respondWith().success()
 }

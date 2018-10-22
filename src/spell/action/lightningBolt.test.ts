@@ -1,8 +1,8 @@
+import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
+import TestBuilder from "../../test/testBuilder"
 import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
-import TestBuilder from "../../test/testBuilder"
-import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 
 describe("lightning bolt", () => {
   it("should do damage when casted", async () => {
