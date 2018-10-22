@@ -1,16 +1,20 @@
 import { ActionType } from "../action/actionType"
 import { DamageType } from "../damage/damageType"
 import improve from "../improve/improve"
+import blind from "./action/blind"
 import cureLight from "./action/cureLight"
 import curePoison from "./action/curePoison"
+import curse from "./action/curse"
 import giantStrength from "./action/giantStrength"
 import lightningBolt from "./action/lightningBolt"
 import magicMissile from "./action/magicMissile"
 import poison from "./action/poison"
 import shield from "./action/shield"
 import { newDefinition } from "./factory"
+import blindPrecondition from "./precondition/blind"
 import cureLightPrecondition from "./precondition/cureLight"
 import curePoisonPrecondition from "./precondition/curePoison"
+import cursePrecondition from "./precondition/curse"
 import giantStrengthPrecondition from "./precondition/giantStrength"
 import lightningBoltPrecondition from "./precondition/lightningBolt"
 import magicMissilePrecondition from "./precondition/magicMissile"
@@ -31,13 +35,15 @@ export default new SpellCollection([
   newDefinition(SpellType.CureLight, ActionType.Defensive, cureLightPrecondition,
     cureLight),
 
-  // Benedictions
+  // benedictions
   newDefinition(SpellType.Shield, ActionType.Defensive, shieldPrecondition, shield),
   newDefinition(SpellType.GiantStrength, ActionType.Defensive, giantStrengthPrecondition, giantStrength),
 
-  // Maladictions
+  // maladictions
   newDefinition(SpellType.Poison, ActionType.Offensive, poisonPrecondition, poison),
+  newDefinition(SpellType.Curse, ActionType.Offensive, cursePrecondition, curse),
+  newDefinition(SpellType.Blind, ActionType.Offensive, blindPrecondition, blind),
 
-  // Curative
+  // curative
   newDefinition(SpellType.CurePoison, ActionType.Defensive, curePoisonPrecondition, curePoison),
 ])
