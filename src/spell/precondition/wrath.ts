@@ -1,0 +1,13 @@
+import Check from "../../check/check"
+import { Mob } from "../../mob/model/mob"
+import { Request } from "../../request/request"
+import { SpellType } from "../spellType"
+
+export default function(request: Request): Promise<Check> {
+  return request.checkWithStandingDisposition()
+    .requireSpell(SpellType.Wrath)
+    .optionalMob(request.getTarget() as Mob)
+    .requireLevel(20)
+    .addManaCost(100)
+    .create()
+}

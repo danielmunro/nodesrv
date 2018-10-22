@@ -8,5 +8,6 @@ export enum AffectType {
   Sneak = "sneak",
   Berserk = "berserk",
   Curse = "curse",
+  Wrath = "wrath",
   Noop = "noop",
 }

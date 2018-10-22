@@ -17,6 +17,7 @@ export enum SpellType {
   Blur = "blur",
   WithstandDeath = "withstand death",
   Sanctuary = "sanctuary",
+  Wrath = "wrath",
 
   // Maladictions
   Poison = "poison",
