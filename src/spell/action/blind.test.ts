@@ -5,19 +5,24 @@ import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
+import MobBuilder from "../../test/mobBuilder"
+import { Mob } from "../../mob/model/mob"
+
+let testBuilder: TestBuilder
+let mobBuilder: MobBuilder
+let mob: Mob
+const definition = spellTable.findSpell(SpellType.Blind)
+
+beforeEach(() => {
+  testBuilder = new TestBuilder()
+  mobBuilder = testBuilder.withMob()
+  mobBuilder.withLevel(20)
+  mobBuilder.withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
+  mob = testBuilder.withMob("bob").mob
+})
 
 describe("blind spell action", () => {
   it("should impart a blinding affect on success", async () => {
-    // setup
-    const testBuilder = new TestBuilder()
-    const mobBuilder = testBuilder.withMob()
-
-    // given
-    mobBuilder.withLevel(20)
-    mobBuilder.withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
-    const mob = testBuilder.withMob("bob").mob
-    const definition = spellTable.findSpell(SpellType.Blind)
-
     // when
     const responses = await doNTimes(10, () =>
       definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob)))
@@ -29,8 +34,14 @@ describe("blind spell action", () => {
     expect(response.message.getMessageToTarget()).toBe("you are suddenly blind!")
     expect(response.message.getMessageToObservers()).toBe("bob is suddenly blind!")
     expect(mob.getAffect(AffectType.Blind)).toBeTruthy()
+  })
 
-    // and
+  it("should error out if applied twice", async () => {
+    // when
+    const responses = await doNTimes(10, () =>
+      definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob)))
+
+    // then
     const errorResponse = responses.find(r => !r.isSuccessful())
     expect(errorResponse).toBeTruthy()
     expect(errorResponse.isError()).toBeTruthy()
