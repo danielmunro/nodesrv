@@ -1,6 +1,6 @@
 import { ActionType } from "../action/actionType"
 import { DamageType } from "../damage/damageType"
-import improve from "../improve/improve"
+import { improveSpell } from "../improve/improve"
 import blind from "./action/blind"
 import cureLight from "./action/cureLight"
 import curePoison from "./action/curePoison"
@@ -30,27 +30,27 @@ import { SpellType } from "./spellType"
 export default new SpellCollection([
   // attack
   newDefinition(SpellType.MagicMissile, ActionType.Offensive, magicMissilePrecondition,
-    improve(magicMissile), DamageType.Magic),
+    improveSpell(magicMissile), DamageType.Magic),
   newDefinition(
     SpellType.LightningBolt, ActionType.Offensive, lightningBoltPrecondition,
-    improve(lightningBolt), DamageType.Electric),
+    improveSpell(lightningBolt), DamageType.Electric),
 
   // healing
   newDefinition(SpellType.CureLight, ActionType.Defensive, cureLightPrecondition,
-    improve(cureLight)),
+    improveSpell(cureLight)),
   newDefinition(SpellType.Heal, ActionType.Defensive, healPrecondition,
-    improve(heal)),
+    improveSpell(heal)),
 
   // benedictions
-  newDefinition(SpellType.Shield, ActionType.Defensive, shieldPrecondition, improve(shield)),
-  newDefinition(SpellType.GiantStrength, ActionType.Defensive, giantStrengthPrecondition, improve(giantStrength)),
-  newDefinition(SpellType.Wrath, ActionType.Defensive, wrathPrecondition, improve(wrath)),
+  newDefinition(SpellType.Shield, ActionType.Defensive, shieldPrecondition, improveSpell(shield)),
+  newDefinition(SpellType.GiantStrength, ActionType.Defensive, giantStrengthPrecondition, improveSpell(giantStrength)),
+  newDefinition(SpellType.Wrath, ActionType.Defensive, wrathPrecondition, improveSpell(wrath)),
 
   // maladictions
-  newDefinition(SpellType.Poison, ActionType.Offensive, poisonPrecondition, improve(poison)),
-  newDefinition(SpellType.Curse, ActionType.Offensive, cursePrecondition, improve(curse)),
-  newDefinition(SpellType.Blind, ActionType.Offensive, blindPrecondition, improve(blind)),
+  newDefinition(SpellType.Poison, ActionType.Offensive, poisonPrecondition, improveSpell(poison)),
+  newDefinition(SpellType.Curse, ActionType.Offensive, cursePrecondition, improveSpell(curse)),
+  newDefinition(SpellType.Blind, ActionType.Offensive, blindPrecondition, improveSpell(blind)),
 
   // curative
-  newDefinition(SpellType.CurePoison, ActionType.Defensive, curePoisonPrecondition, improve(curePoison)),
+  newDefinition(SpellType.CurePoison, ActionType.Defensive, curePoisonPrecondition, improveSpell(curePoison)),
 ])

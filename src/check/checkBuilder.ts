@@ -193,7 +193,7 @@ export default class CheckBuilder {
   }
 
   private newCheckComponent(checkType: CheckType, thing, failMessage = null): CheckComponent {
-    const component = new CheckComponent(checkType, this.confirm ? thing : !thing, failMessage)
+    const component = new CheckComponent(checkType, this.confirm, thing, failMessage)
     this.confirm = true
     return component
   }

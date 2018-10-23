@@ -1,4 +1,4 @@
-import improve from "../improve/improve"
+import { improveSkill } from "../improve/improve"
 import { Trigger } from "../mob/trigger"
 import backstab from "./action/backstab"
 import bash from "./action/bash"
@@ -40,26 +40,26 @@ function newWeaponSkill(skillType: SkillType) {
   return createSkill(
     skillType,
     Trigger.DamageModifier,
-    improve(request => request))
+    improveSkill(request => request))
 }
 
 export const skillTable = [
-  createSkill(SkillType.Dodge, Trigger.AttackRoundDefend, improve(dodge), dodgePrecondition),
-  createSkill(SkillType.Disarm, Trigger.Input, improve(disarm), disarmPrecondition),
+  createSkill(SkillType.Dodge, Trigger.AttackRoundDefend, improveSkill(dodge), dodgePrecondition),
+  createSkill(SkillType.Disarm, Trigger.Input, improveSkill(disarm), disarmPrecondition),
   createSkill(SkillType.SecondAttack, Trigger.AttackRound,
-    improve(secondAttack), secondAttackPrecondition),
-  createSkill(SkillType.Bash, Trigger.Input, improve(bash), bashPrecondition),
-  createSkill(SkillType.Trip, Trigger.Input, improve(trip), tripPrecondition),
-  createSkill(SkillType.Berserk, Trigger.Input, improve(berserk), berserkPrecondition),
-  createSkill(SkillType.Sneak, Trigger.Input, improve(sneak), sneakPrecondition),
-  createSkill(SkillType.Envenom, Trigger.Input, improve(envenom), envenomPrecondition),
-  createSkill(SkillType.Backstab, Trigger.Input, improve(backstab), backstabPrecondition),
+    improveSkill(secondAttack), secondAttackPrecondition),
+  createSkill(SkillType.Bash, Trigger.Input, improveSkill(bash), bashPrecondition),
+  createSkill(SkillType.Trip, Trigger.Input, improveSkill(trip), tripPrecondition),
+  createSkill(SkillType.Berserk, Trigger.Input, improveSkill(berserk), berserkPrecondition),
+  createSkill(SkillType.Sneak, Trigger.Input, improveSkill(sneak), sneakPrecondition),
+  createSkill(SkillType.Envenom, Trigger.Input, improveSkill(envenom), envenomPrecondition),
+  createSkill(SkillType.Backstab, Trigger.Input, improveSkill(backstab), backstabPrecondition),
   createSkill(SkillType.EnhancedDamage, Trigger.DamageModifier,
-    improve(enhancedDamage), enhancedDamagePrecondition),
-  createSkill(SkillType.DirtKick, Trigger.Input, improve(dirtKick), dirtKickPrecondition),
-  createSkill(SkillType.FastHealing, Trigger.Tick, improve(fastHealing), fastHealingPrecondition),
-  createSkill(SkillType.Steal, Trigger.Input, improve(steal), stealPrecondition),
-  createSkill(SkillType.Sharpen, Trigger.Input, improve(sharpen), sharpenPrecondition),
+    improveSkill(enhancedDamage), enhancedDamagePrecondition),
+  createSkill(SkillType.DirtKick, Trigger.Input, improveSkill(dirtKick), dirtKickPrecondition),
+  createSkill(SkillType.FastHealing, Trigger.Tick, improveSkill(fastHealing), fastHealingPrecondition),
+  createSkill(SkillType.Steal, Trigger.Input, improveSkill(steal), stealPrecondition),
+  createSkill(SkillType.Sharpen, Trigger.Input, improveSkill(sharpen), sharpenPrecondition),
   newWeaponSkill(SkillType.Sword),
   newWeaponSkill(SkillType.Mace),
   newWeaponSkill(SkillType.Wand),

@@ -19,7 +19,7 @@ describe("remove", () => {
         RequestType.Remove,
         `remove ${item.name}`,
         item,
-        [new CheckComponent(CheckType.HasItem, item)]))
+        [new CheckComponent(CheckType.HasItem, true, item)]))
 
     // then
     expect(response.status).toBe(ResponseStatus.Info)

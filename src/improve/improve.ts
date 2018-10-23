@@ -11,17 +11,27 @@ function successModifierRoll(): number {
   return roll(5, 10)
 }
 
-function checkImprove(response: Response, baseImproveChance: number = BASE_IMPROVE_CHANCE) {
+function checkImprove(response: Response, checkType: CheckType, baseImproveChance: number = BASE_IMPROVE_CHANCE) {
   let it = initialImproveRoll()
   if (response.isSuccessful()) {
     it += successModifierRoll()
   }
   if (it <= baseImproveChance) {
-    response.getCheckedRequest().getCheckTypeResult(CheckType.HasSkill).level++
+    response
+      .getCheckedRequest()
+      .getCheckTypeResult(checkType).level++
   }
   return response
 }
 
-export default function improve(method, improveChance = BASE_IMPROVE_CHANCE) {
-  return async request => checkImprove(await method(request), improveChance)
+function improve(method, check, improveChance) {
+  return async request => checkImprove(await method(request), check, improveChance)
+}
+
+export function improveSkill(method, improveChance = BASE_IMPROVE_CHANCE) {
+  return improve(method, CheckType.HasSkill, improveChance)
+}
+
+export function improveSpell(method, improveChance = BASE_IMPROVE_CHANCE) {
+  return improve(method, CheckType.HasSpell, improveChance)
 }

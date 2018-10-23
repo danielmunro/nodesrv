@@ -22,8 +22,6 @@ export default class SpellDefinition {
       return this.action(new CheckedRequest(request, check))
     }
 
-    console.log(check)
-
     return request.respondWith().error(check.result)
   }
 }
