@@ -7,11 +7,13 @@ import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
 import MobBuilder from "../../test/mobBuilder"
 import { Mob } from "../../mob/model/mob"
+import Response from "../../request/response"
 
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
 let mob: Mob
 const definition = spellTable.findSpell(SpellType.Blind)
+const iterations = 10
 
 beforeEach(() => {
   testBuilder = new TestBuilder()
@@ -21,11 +23,15 @@ beforeEach(() => {
   mob = testBuilder.withMob("bob").mob
 })
 
+function getResponses(): Promise<Response[]> {
+  return doNTimes(iterations, () =>
+    definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob)))
+}
+
 describe("blind spell action", () => {
   it("should impart a blinding affect on success", async () => {
     // when
-    const responses = await doNTimes(10, () =>
-      definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob)))
+    const responses = await getResponses()
 
     // then
     const response = responses.find(r => r.isSuccessful())
@@ -38,8 +44,7 @@ describe("blind spell action", () => {
 
   it("should error out if applied twice", async () => {
     // when
-    const responses = await doNTimes(10, () =>
-      definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob)))
+    const responses = await getResponses()
 
     // then
     const errorResponse = responses.find(r => !r.isSuccessful())
