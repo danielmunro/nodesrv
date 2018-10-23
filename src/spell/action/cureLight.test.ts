@@ -4,8 +4,10 @@ import TestBuilder from "../../test/testBuilder"
 import spellTable from "../spellTable"
 import { SpellType } from "../spellType"
 
+const TO_TARGET = "you feel better!"
+
 describe("cure light", () => {
-  it("should heal when casted", async () => {
+  it("should heal a target when casted", async () => {
     // setup
     const testBuilder = new TestBuilder()
     const mobBuilder1 = testBuilder.withMob()
@@ -16,9 +18,33 @@ describe("cure light", () => {
     const definition = spellTable.findSpell(SpellType.CureLight)
 
     // when
-    await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast cure bob", mob))
+    const response = await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast cure bob", mob))
 
     // then
+    expect(response.isSuccessful()).toBeTruthy()
+    expect(response.message.getMessageToRequestCreator()).toBe("bob feels better!")
+    expect(response.message.getMessageToTarget()).toBe(TO_TARGET)
+    expect(response.message.getMessageToObservers()).toBe("bob feels better!")
+    expect(mob.vitals.hp).toBeGreaterThan(1)
+  })
+
+  it("should heal self casted", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+    const mobBuilder1 = testBuilder.withMob("alice")
+    mobBuilder1.withSpell(SpellType.CureLight, MAX_PRACTICE_LEVEL)
+    const mob = mobBuilder1.mob
+    mob.vitals.hp = 1
+    const definition = spellTable.findSpell(SpellType.CureLight)
+
+    // when
+    const response = await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast cure", mob))
+
+    // then
+    expect(response.isSuccessful()).toBeTruthy()
+    expect(response.message.getMessageToRequestCreator()).toBe(TO_TARGET)
+    expect(response.message.getMessageToTarget()).toBe(TO_TARGET)
+    expect(response.message.getMessageToObservers()).toBe("alice feels better!")
     expect(mob.vitals.hp).toBeGreaterThan(1)
   })
 })

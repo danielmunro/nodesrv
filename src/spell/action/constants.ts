@@ -4,4 +4,7 @@ export const Messages = {
     Failure: "{requestCreator} failed to blind {target}.",
     Success: "{target} {verb} suddenly blind!",
   },
+  CureLight: {
+    Success: "{target} {verb} better!",
+  },
 }
