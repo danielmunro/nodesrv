@@ -22,13 +22,18 @@ describe("blind spell action", () => {
     const responses = await doNTimes(10, () =>
       definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob)))
 
-    const response = responses.find(r => r.isSuccessful())
-
     // then
+    const response = responses.find(r => r.isSuccessful())
     expect(response).toBeTruthy()
     expect(response.message.getMessageToRequestCreator()).toBe("bob is suddenly blind!")
     expect(response.message.getMessageToTarget()).toBe("you are suddenly blind!")
     expect(response.message.getMessageToObservers()).toBe("bob is suddenly blind!")
     expect(mob.getAffect(AffectType.Blind)).toBeTruthy()
+
+    // and
+    const errorResponse = responses.find(r => !r.isSuccessful())
+    expect(errorResponse).toBeTruthy()
+    expect(errorResponse.isError()).toBeTruthy()
+    expect(errorResponse.message.getMessageToRequestCreator()).toBe("They are already blind.")
   })
 })
