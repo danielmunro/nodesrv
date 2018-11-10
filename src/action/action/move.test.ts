@@ -1,4 +1,3 @@
-import { newTrail } from "../../area/builder/forest/trail"
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import InputContext from "../../request/context/inputContext"
@@ -6,11 +5,11 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { Direction } from "../../room/constants"
+import { newReciprocalExit } from "../../room/factory"
 import Service from "../../service/service"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import move from "./move"
-import { newReciprocalExit } from "../../room/factory"
 
 describe("move", () => {
   it("should allow movement where rooms connect", async () => {

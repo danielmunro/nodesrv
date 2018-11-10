@@ -4,13 +4,13 @@ import ItemTable from "../src/item/itemTable"
 import { getItemRepository } from "../src/item/repository/item"
 import { getMobRepository } from "../src/mob/repository/mob"
 import Table from "../src/mob/table"
+import ExitTable from "../src/room/exitTable"
 import { Room } from "../src/room/model/room"
+import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { default as RoomTable } from "../src/room/table"
 import newServer from "../src/server/factory"
 import Service from "../src/service/service"
-import ExitTable from "../src/room/exitTable"
-import { getExitRepository } from "../src/room/repository/exit"
 
 /**
  * Obtain the start room ID and port from arguments passed in
