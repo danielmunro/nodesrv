@@ -5,9 +5,15 @@ import { default as MobTable } from "../mob/table"
 import { Room } from "../room/model/room"
 import { default as RoomTable } from "../room/table"
 import Service from "./service"
+import { Exit } from "../room/model/exit"
+import ExitTable from "../room/exitTable"
 
 export default class ServiceBuilder {
-  constructor(private rooms: Room[] = [], private mobs: Mob[] = [], private items: Item[] = []) {}
+  constructor(
+    private rooms: Room[] = [],
+    private mobs: Mob[] = [],
+    private items: Item[] = [],
+    private exits: Exit[] = []) {}
 
   public addRoom(room: Room): void {
     this.rooms.push(room)
@@ -21,11 +27,16 @@ export default class ServiceBuilder {
     this.items.push(item)
   }
 
+  public addExit(exit: Exit): void {
+    this.exits.push(exit)
+  }
+
   public async createService(): Promise<Service> {
     return Service.new(
       RoomTable.new(this.rooms),
       new MobTable(this.mobs),
       new ItemTable(this.items),
+      new ExitTable(this.exits),
     )
   }
 }

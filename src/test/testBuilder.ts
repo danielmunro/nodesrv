@@ -158,6 +158,10 @@ export default class TestBuilder {
     return this.service
   }
 
+  public addExit(exit) {
+    this.serviceBuilder.addExit(exit)
+  }
+
   private createCheckedRequest(
     requestType: RequestType,
     checkStatus: CheckStatus,

@@ -5,6 +5,7 @@ import ExitRepositoryImpl from "./exitImpl"
 export default interface ExitRepository {
   save(model)
   findOneById(id)
+  findAll()
 }
 
 export async function getExitRepository(): Promise<ExitRepository> {

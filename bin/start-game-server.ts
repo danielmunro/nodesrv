@@ -9,6 +9,8 @@ import { getRoomRepository } from "../src/room/repository/room"
 import { default as RoomTable } from "../src/room/table"
 import newServer from "../src/server/factory"
 import Service from "../src/service/service"
+import ExitTable from "../src/room/exitTable"
+import { getExitRepository } from "../src/room/repository/exit"
 
 /**
  * Obtain the start room ID and port from arguments passed in
@@ -38,6 +40,14 @@ async function newRoomTable(): Promise<RoomTable> {
   return RoomTable.new(models)
 }
 
+async function newExitTable(): Promise<ExitTable> {
+  const exitRepository = await getExitRepository()
+  const models = await exitRepository.findAll()
+  console.log(`2 - exit table initialized with ${models.length} exits`)
+
+  return new ExitTable(models)
+}
+
 async function newItemTable(): Promise<ItemTable> {
   const itemRepository = await getItemRepository()
   const models = await itemRepository.findAll()
@@ -55,5 +65,6 @@ createDbConnection().then(() =>
     newRoomTable(),
     newMobTable(),
     newItemTable(),
-  ]).then(async ([roomTable, mobTable, itemTable]) =>
-    startServer(await Service.new(roomTable, mobTable, itemTable), roomTable.get(startRoomID))))
+    newExitTable(),
+  ]).then(async ([roomTable, mobTable, itemTable, exitTable]) =>
+    startServer(await Service.new(roomTable, mobTable, itemTable, exitTable), roomTable.get(startRoomID))))

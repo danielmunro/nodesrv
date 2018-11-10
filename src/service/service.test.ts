@@ -21,7 +21,7 @@ describe("moveMob", () => {
     const exits = newReciprocalExit(source, destination, Direction.North)
     source.addMob(mob)
     const allRooms = [source, destination]
-    const service = await Service.newWithArray(allRooms)
+    const service = await Service.newWithArray(allRooms, exits)
     await service.saveRoom(allRooms)
     await service.saveExit(exits)
     await service.moveMob(mob, Direction.North)

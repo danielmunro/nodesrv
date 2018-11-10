@@ -20,6 +20,9 @@ export class Room {
   @Generated("uuid")
   public uuid: string = uuid()
 
+  @Column("integer", { nullable: true })
+  public importID: number
+
   @Column("text")
   public name: string
 

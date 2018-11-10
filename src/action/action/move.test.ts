@@ -2,7 +2,7 @@ import { newTrail } from "../../area/builder/forest/trail"
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import InputContext from "../../request/context/inputContext"
-import { Request, Request } from "../../request/request"
+import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { Direction } from "../../room/constants"
@@ -10,17 +10,18 @@ import Service from "../../service/service"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import move from "./move"
+import { newReciprocalExit } from "../../room/factory"
 
 describe("move", () => {
   it("should allow movement where rooms connect", async () => {
     // given
-    const root = getTestRoom()
-    const trail = await newTrail(root, Direction.East, 1)
-    const service = await Service.newWithArray([root, ...trail.getAllRooms()])
-    await service.saveRoom(root)
+    const source = getTestRoom()
+    const destination = getTestRoom()
+    const exit = newReciprocalExit(source, destination)
+    const service = await Service.newWithArray([source, destination], exit)
     const player = getTestPlayer()
     const mob = player.sessionMob
-    root.addMob(mob)
+    source.addMob(mob)
 
     // when
     const response = await move(
@@ -30,6 +31,6 @@ describe("move", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Info)
-    expect(mob.room.id).toBe(trail.getAllRooms()[1].id)
+    expect(mob.room.id).toBe(destination.id)
   })
 })

@@ -8,26 +8,31 @@ import { Room } from "../room/model/room"
 import ExitRepository, { getExitRepository } from "../room/repository/exit"
 import RoomRepository, { getRoomRepository } from "../room/repository/room"
 import { default as RoomTable } from "../room/table"
+import ExitTable from "../room/exitTable"
+import { Exit } from "../room/model/exit"
 
 export default class Service {
   public static async new(
     roomTable: RoomTable = new RoomTable({}),
     mobTable: MobTable = new MobTable(),
     itemTable: ItemTable = new ItemTable([]),
+    exitTable: ExitTable = new ExitTable([]),
   ): Promise<Service> {
     return new Service(
-      roomTable, mobTable, itemTable,
-      await getRoomRepository(), await getExitRepository())
+      roomTable, mobTable, itemTable, exitTable,
+      await getRoomRepository(),
+      await getExitRepository())
   }
 
-  public static async newWithArray(rooms: Room[]): Promise<Service> {
-    return Service.new(RoomTable.new(rooms))
+  public static async newWithArray(rooms: Room[], exits: Exit[] = []): Promise<Service> {
+    return Service.new(RoomTable.new(rooms), null, null, new ExitTable(exits))
   }
 
   constructor(
     public readonly roomTable: RoomTable,
     public readonly mobTable: MobTable,
     public readonly itemTable: ItemTable,
+    public readonly exitTable: ExitTable,
     private readonly roomRepository: RoomRepository,
     private readonly exitRepository: ExitRepository) {}
 
@@ -40,13 +45,14 @@ export default class Service {
   }
 
   public async moveMob(mob: Mob, direction: Direction) {
-    const roomExit = this.roomTable.exitsForMob(mob).find((e) => e.direction === direction)
+    const exits = this.exitTable.exitsForMob(mob)
+    const exit = exits.find(e => e.direction === direction)
 
-    if (!roomExit) {
+    if (!exit) {
       throw new Error("cannot move in that direction")
     }
 
-    this.roomTable.canonical(roomExit.destination).addMob(mob)
+    this.roomTable.canonical(exit.destination).addMob(mob)
   }
 
   public getNewDefinition(requestType: RequestType, action, precondition = null): Definition {

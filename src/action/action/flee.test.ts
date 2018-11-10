@@ -21,7 +21,7 @@ beforeEach(async () => {
   room1 = testBuilder.withRoom().room
   // room to flee to
   room2 = testBuilder.withRoom().room
-  newReciprocalExit(room1, room2, Direction.East)
+  testBuilder.addExit(...newReciprocalExit(room1, room2, Direction.East))
   await testBuilder.fight()
   const actionCollection = await testBuilder.getActionCollection()
   definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Flee)

@@ -16,10 +16,8 @@ describe("wander", () => {
     destination.name = "room 2"
     const allRooms = [source, destination]
     const exit = newExit(Direction.South, source, destination)
-    const service = await Service.newWithArray(allRooms)
+    const service = await Service.newWithArray(allRooms, [exit])
     const wander = new Wander(service, [mob])
-    await service.saveRoom(allRooms)
-    await service.saveExit(exit)
 
     // when
     await wander.notify([])
