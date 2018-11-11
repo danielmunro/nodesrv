@@ -12,6 +12,9 @@ export class Item {
   @PrimaryGeneratedColumn()
   public id: number
 
+  @Column("text", { nullable: true })
+  public canonicalIdentifier: string
+
   @Column("text")
   public name: string
 

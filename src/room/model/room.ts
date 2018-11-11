@@ -4,7 +4,7 @@ import { SectionType } from "../../area/sectionType"
 import { Inventory } from "../../item/model/inventory"
 import match from "../../matcher/match"
 import { Mob } from "../../mob/model/mob"
-import Reset from "../../mob/model/reset"
+import MobReset from "../../mob/model/mobReset"
 import { Region } from "../../region/model/region"
 import getMovementCost from "../../region/movementCost"
 import { Terrain } from "../../region/terrain"
@@ -49,8 +49,8 @@ export class Room {
   @ManyToOne((type) => Region, (region) => region.rooms, { eager: true })
   public region: Region
 
-  @OneToMany(type => Reset, reset => reset.room)
-  public roomResets: Reset[] = []
+  @OneToMany(type => MobReset, reset => reset.room)
+  public roomResets: MobReset[] = []
 
   public addMob(mob: Mob): void {
     if (mob.room) {

@@ -55,7 +55,7 @@ export default class Service {
     this.roomTable.canonical(exit.destination).addMob(mob)
   }
 
-  public getNewDefinition(requestType: RequestType, action, precondition = null): Definition {
+  public getNewActionDefinition(requestType: RequestType, action, precondition = null): Definition {
     return new Definition(this, requestType, action, precondition)
   }
 }

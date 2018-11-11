@@ -1,43 +1,47 @@
 import {Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm"
 import { format } from "../../support/string"
 import { Item } from "./item"
+import ItemReset from "./itemReset"
 
 @Entity()
 export class Inventory {
-    @PrimaryGeneratedColumn()
-    public id: number
+  @PrimaryGeneratedColumn()
+  public id: number
 
-    @OneToMany((type) => Item, (item) => item.inventory, { cascadeInsert: true, cascadeUpdate: true })
-    public items: Item[] = []
+  @OneToMany((type) => Item, (item) => item.inventory, { cascadeInsert: true, cascadeUpdate: true })
+  public items: Item[] = []
 
-    public find(search): Item | undefined {
-      return this.items.find(search)
+  @OneToMany(type => ItemReset, reset => reset.inventory)
+  public itemResets: ItemReset[]
+
+  public find(search): Item | undefined {
+    return this.items.find(search)
+  }
+
+  public findItemByName(search: string): Item | undefined {
+    return this.items.find((i) => i.matches(search))
+  }
+
+  public removeItem(item: Item): void {
+    this.items = this.items.filter((i) => i !== item)
+  }
+
+  public addItem(item: Item): void {
+    if (item.inventory) {
+      item.inventory.removeItem(item)
     }
+    item.inventory = this
+    this.items.push(item)
+  }
 
-    public findItemByName(search: string): Item | undefined {
-      return this.items.find((i) => i.matches(search))
-    }
+  public getItemFrom(item: Item, fromInventory: Inventory): void {
+    fromInventory.removeItem(item)
+    this.addItem(item)
+  }
 
-    public removeItem(item: Item): void {
-      this.items = this.items.filter((i) => i !== item)
-    }
-
-    public addItem(item: Item): void {
-      if (item.inventory) {
-        item.inventory.removeItem(item)
-      }
-      item.inventory = this
-      this.items.push(item)
-    }
-
-    public getItemFrom(item: Item, fromInventory: Inventory): void {
-      fromInventory.removeItem(item)
-      this.addItem(item)
-    }
-
-    public getItems(): Item[] {
-      return this.items
-    }
+  public getItems(): Item[] {
+    return this.items
+  }
 
   public toString(suffix: string = ""): string {
     const itemsMap = {}

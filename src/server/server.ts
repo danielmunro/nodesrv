@@ -13,6 +13,7 @@ import { events } from "./constants"
 import { DecrementPlayerDelay } from "./observers/decrementPlayerDelay"
 import { HandleClientRequests } from "./observers/handleClientRequests"
 import { Observer } from "./observers/observer"
+import ResetService from "../service/reset/resetService"
 
 enum Status {
   Initialized,
@@ -29,7 +30,8 @@ export class GameServer {
   constructor(
     public readonly wss,
     public readonly service: Service,
-    public readonly startRoom: Room) {}
+    public readonly startRoom: Room,
+    private readonly resetService: ResetService) {}
 
   public async start(): Promise<void> {
     if (!this.isInitialized()) {

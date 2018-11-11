@@ -1,5 +1,5 @@
 import * as assert from "assert"
-import { initializeConnection } from "../src/db/connection"
+import { getConnection, initializeConnection } from "../src/db/connection"
 import ItemTable from "../src/item/itemTable"
 import { getItemRepository } from "../src/item/repository/item"
 import { getMobRepository } from "../src/mob/repository/mob"
@@ -11,6 +11,10 @@ import { getRoomRepository } from "../src/room/repository/room"
 import { default as RoomTable } from "../src/room/table"
 import newServer from "../src/server/factory"
 import Service from "../src/service/service"
+import ResetService from "../src/service/reset/resetService"
+import { default as MobReset } from "../src/mob/model/mobReset"
+import { default as ItemReset } from "../src/item/model/itemReset"
+import ResetService from "../src/service/reset/resetService"
 
 /**
  * Obtain the start room ID and port from arguments passed in
@@ -21,9 +25,9 @@ const port = +process.argv[3]
 assert.ok(startRoomID, "start room ID is required to be defined")
 console.info("0 - entry point", { startRoomID })
 
-async function startServer(service: Service, startRoom: Room) {
+async function startServer(service: Service, startRoom: Room, resetService: ResetService) {
   console.info(`3 - starting up server on port ${port}`)
-  return newServer(service, port, startRoom).start()
+  return newServer(service, port, startRoom, resetService).start()
 }
 
 export async function newMobTable() {
@@ -60,6 +64,16 @@ async function createDbConnection(): Promise<void> {
   console.debug("1 - database connection created")
 }
 
+async function createResetService(): Promise<ResetService> {
+  const connection = await getConnection()
+  const mobResetRepository = await connection.getRepository(MobReset)
+  const itemResetRepository = await connection.getRepository(ItemReset)
+
+  return new ResetService(
+    await mobResetRepository.find(),
+    await itemResetRepository.find())
+}
+
 createDbConnection().then(() =>
   Promise.all([
     newRoomTable(),
@@ -67,4 +81,7 @@ createDbConnection().then(() =>
     newItemTable(),
     newExitTable(),
   ]).then(async ([roomTable, mobTable, itemTable, exitTable]) =>
-    startServer(await Service.new(roomTable, mobTable, itemTable, exitTable), roomTable.get(startRoomID))))
+    startServer(
+      await Service.new(roomTable, mobTable, itemTable, exitTable),
+      roomTable.get(startRoomID),
+      await createResetService())))

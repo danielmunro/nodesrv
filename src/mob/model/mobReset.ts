@@ -5,7 +5,7 @@ import { Disposition } from "../disposition"
 import { Mob } from "./mob"
 
 @Entity()
-export default class Reset {
+export default class MobReset {
   @PrimaryGeneratedColumn()
   public id: number
 

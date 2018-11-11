@@ -28,7 +28,7 @@ import { SpecializationType } from "../specialization/specializationType"
 import { Standing } from "../standing"
 import { Trigger } from "../trigger"
 import { PlayerMob } from "./playerMob"
-import Reset from "./reset"
+import MobReset from "./mobReset"
 
 @Entity()
 export class Mob {
@@ -38,6 +38,9 @@ export class Mob {
   @Column("text")
   @Generated("uuid")
   public uuid: string = v4()
+
+  @Column("text", { nullable: true })
+  public canonicalIdentifier: string
 
   @Column("text")
   public name: string
@@ -111,9 +114,9 @@ export class Mob {
     { nullable: true, cascadeInsert: true, cascadeUpdate: true })
   public playerMob: PlayerMob
 
-  @OneToOne(type => Reset, { eager: true })
+  @OneToOne(type => MobReset, { eager: true })
   @JoinColumn()
-  public reset: Reset = new Reset()
+  public reset: MobReset = new MobReset()
 
   public getAuthorizationLevel(): AuthorizationLevel {
     return this.playerMob ? this.playerMob.authorizationLevel : AuthorizationLevel.None
