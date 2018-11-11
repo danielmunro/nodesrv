@@ -3,6 +3,7 @@ import { Client } from "../client/client"
 import { getPlayerRepository } from "../player/repository/player"
 import { poll } from "../poll/poll"
 import { Room } from "../room/model/room"
+import ResetService from "../service/reset/resetService"
 import Service from "../service/service"
 import { default as AuthService } from "../session/auth/service"
 import { ImmediateTimer } from "../timer/immediateTimer"
@@ -13,7 +14,6 @@ import { events } from "./constants"
 import { DecrementPlayerDelay } from "./observers/decrementPlayerDelay"
 import { HandleClientRequests } from "./observers/handleClientRequests"
 import { Observer } from "./observers/observer"
-import ResetService from "../service/reset/resetService"
 
 enum Status {
   Initialized,

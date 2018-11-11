@@ -1,7 +1,9 @@
 import * as assert from "assert"
 import { getConnection, initializeConnection } from "../src/db/connection"
 import ItemTable from "../src/item/itemTable"
+import { default as ItemReset } from "../src/item/model/itemReset"
 import { getItemRepository } from "../src/item/repository/item"
+import { default as MobReset } from "../src/mob/model/mobReset"
 import { getMobRepository } from "../src/mob/repository/mob"
 import Table from "../src/mob/table"
 import ExitTable from "../src/room/exitTable"
@@ -10,11 +12,9 @@ import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { default as RoomTable } from "../src/room/table"
 import newServer from "../src/server/factory"
+import ResetService from "../src/service/reset/resetService"
+import ResetService from "../src/service/reset/resetService"
 import Service from "../src/service/service"
-import ResetService from "../src/service/reset/resetService"
-import { default as MobReset } from "../src/mob/model/mobReset"
-import { default as ItemReset } from "../src/item/model/itemReset"
-import ResetService from "../src/service/reset/resetService"
 
 /**
  * Obtain the start room ID and port from arguments passed in

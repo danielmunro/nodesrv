@@ -27,8 +27,8 @@ import { Role } from "../role"
 import { SpecializationType } from "../specialization/specializationType"
 import { Standing } from "../standing"
 import { Trigger } from "../trigger"
-import { PlayerMob } from "./playerMob"
 import MobReset from "./mobReset"
+import { PlayerMob } from "./playerMob"
 
 @Entity()
 export class Mob {
