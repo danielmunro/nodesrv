@@ -1,16 +1,15 @@
 import { readFileSync } from "fs"
+import { newStartingAttributes, newVitals } from "../src/attributes/factory"
 import { initializeConnection } from "../src/db/connection"
+import { newMob } from "../src/mob/factory"
+import { Mob } from "../src/mob/model/mob"
+import { getMobRepository } from "../src/mob/repository/mob"
+import roll from "../src/random/dice"
 import { Direction } from "../src/room/constants"
 import { newExit, newRoom } from "../src/room/factory"
 import { Room } from "../src/room/model/room"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
-import { Mob } from "../src/mob/model/mob"
-import { allRaces } from "../src/mob/race/constants"
-import { getMobRepository } from "../src/mob/repository/mob"
-import { newMob } from "../src/mob/factory"
-import { newAttributes, newStartingAttributes, newVitals } from "../src/attributes/factory"
-import roll from "../src/random/dice"
 
 const content = readFileSync("fixtures/areas/midgaard.json").toString()
 const data = JSON.parse(content)

@@ -1,5 +1,5 @@
 import { Client } from "../../client/client"
-import { Disposition, onlyLiving } from "../../mob/disposition"
+import { onlyLiving } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
 import { default as MobTable } from "../../mob/table"
 import { default as RoomTable } from "../../room/table"

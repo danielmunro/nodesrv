@@ -4,13 +4,13 @@ import { SectionType } from "../../area/sectionType"
 import { Inventory } from "../../item/model/inventory"
 import match from "../../matcher/match"
 import { Mob } from "../../mob/model/mob"
+import Reset from "../../mob/model/reset"
 import { Region } from "../../region/model/region"
 import getMovementCost from "../../region/movementCost"
 import { Terrain } from "../../region/terrain"
 import { Direction } from "../constants"
 import { newRoom } from "../factory"
 import { Exit } from "./exit"
-import Reset from "../../mob/model/reset"
 
 @Entity()
 export class Room {
