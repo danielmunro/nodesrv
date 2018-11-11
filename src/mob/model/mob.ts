@@ -44,6 +44,9 @@ export class Mob {
   @Column("text", { nullable: true })
   public description: string
 
+  public shortDescription
+  @Column("text", { nullable: true })
+
   @Column("text")
   public race: Race
 
