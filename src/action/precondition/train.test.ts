@@ -67,7 +67,7 @@ describe("train action preconditions", () => {
     const testBuilder = new TestBuilder()
     testBuilder.withRoom()
     await testBuilder.withPlayer()
-    testBuilder.with((player) => player.sessionMob.playerMob.trains = 1)
+    testBuilder.with(player => player.sessionMob.playerMob.trains = 1)
     const trainer = testBuilder.withTrainer().mob
 
     // when

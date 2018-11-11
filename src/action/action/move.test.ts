@@ -16,8 +16,8 @@ describe("move", () => {
     // given
     const source = getTestRoom()
     const destination = getTestRoom()
-    const exit = newReciprocalExit(source, destination)
-    const service = await Service.newWithArray([source, destination], exit)
+    const exits = newReciprocalExit(source, destination, Direction.East)
+    const service = await Service.newWithArray([source, destination], exits)
     const player = getTestPlayer()
     const mob = player.sessionMob
     source.addMob(mob)

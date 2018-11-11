@@ -13,17 +13,20 @@ describe("respawner", () => {
     // dead
     const mob1 = getTestMob()
     mob1.disposition = Disposition.Dead
-    mob1.startRoom = startRoom
+    mob1.reset.disposition = Disposition.Standing
+    mob1.reset.room = startRoom
 
     // dead
     const mob2 = getTestMob()
     mob2.disposition = Disposition.Dead
-    mob2.startRoom = startRoom
+    mob2.reset.disposition = Disposition.Sitting
+    mob2.reset.room = startRoom
 
     // not dead
     const mob3 = getTestMob()
     mob3.disposition = Disposition.Sitting
-    mob3.startRoom = startRoom
+    mob3.reset.disposition = Disposition.Standing
+    mob3.reset.room = startRoom
 
     // given
     const respawner = new Respawner(RoomTable.new([startRoom]), new MobTable([mob1, mob2, mob3]))
@@ -34,7 +37,7 @@ describe("respawner", () => {
     // then
     expect(mob1.disposition).toBe(Disposition.Standing)
     expect(mob1.room).toBe(startRoom)
-    expect(mob2.disposition).toBe(Disposition.Standing)
+    expect(mob2.disposition).toBe(Disposition.Sitting)
     expect(mob2.room).toBe(startRoom)
     expect(mob3.disposition).toBe(Disposition.Sitting)
     expect(mob3.room).not.toBe(startRoom)

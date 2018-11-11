@@ -28,6 +28,7 @@ import { SpecializationType } from "../specialization/specializationType"
 import { Standing } from "../standing"
 import { Trigger } from "../trigger"
 import { PlayerMob } from "./playerMob"
+import Reset from "./reset"
 
 @Entity()
 export class Mob {
@@ -88,10 +89,6 @@ export class Mob {
   @ManyToOne((type) => Room, (room) => room.mobs)
   public room: Room
 
-  @ManyToOne((type) => Room, { eager: true })
-  @JoinColumn()
-  public startRoom: Room
-
   @ManyToOne((type) => Player, (player) => player.mobs)
   public player: Player
 
@@ -113,6 +110,10 @@ export class Mob {
     (playerMob) => playerMob.mob,
     { nullable: true, cascadeInsert: true, cascadeUpdate: true })
   public playerMob: PlayerMob
+
+  @OneToOne(type => Reset, { eager: true })
+  @JoinColumn()
+  public reset: Reset = new Reset()
 
   public getAuthorizationLevel(): AuthorizationLevel {
     return this.playerMob ? this.playerMob.authorizationLevel : AuthorizationLevel.None

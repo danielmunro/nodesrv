@@ -17,11 +17,11 @@ export default class Respawner implements Observer {
   }
 
   private async respawn(mob: Mob) {
-    mob.disposition = Disposition.Standing
+    mob.disposition = mob.reset.disposition
     const combined = mob.getCombinedAttributes()
     mob.vitals.hp = combined.vitals.hp
     mob.vitals.mana = combined.vitals.mana
     mob.vitals.mv = combined.vitals.mv
-    this.roomTable.canonical(mob.startRoom).addMob(mob)
+    this.roomTable.canonical(mob.reset.room).addMob(mob)
   }
 }

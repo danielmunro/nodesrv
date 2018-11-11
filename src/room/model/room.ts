@@ -10,6 +10,7 @@ import { Terrain } from "../../region/terrain"
 import { Direction } from "../constants"
 import { newRoom } from "../factory"
 import { Exit } from "./exit"
+import Reset from "../../mob/model/reset"
 
 @Entity()
 export class Room {
@@ -47,6 +48,9 @@ export class Room {
 
   @ManyToOne((type) => Region, (region) => region.rooms, { eager: true })
   public region: Region
+
+  @OneToMany(type => Reset, reset => reset.room)
+  public roomResets: Reset[] = []
 
   public addMob(mob: Mob): void {
     if (mob.room) {
