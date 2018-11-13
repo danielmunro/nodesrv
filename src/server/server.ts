@@ -31,7 +31,7 @@ export class GameServer {
     public readonly wss,
     public readonly service: Service,
     public readonly startRoom: Room,
-    private readonly resetService: ResetService) {}
+    public readonly resetService: ResetService) {}
 
   public async start(): Promise<void> {
     if (!this.isInitialized()) {

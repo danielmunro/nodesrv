@@ -8,6 +8,21 @@ import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
 import Weapon from "./model/weapon"
 import { WeaponType } from "./weaponType"
+import ItemReset from "./model/itemReset"
+
+export function newItemReset(
+  item: Item,
+  inventory: Inventory,
+  itemLimit: number = -1,
+  equipmentPosition: Equipment = null): ItemReset {
+  const itemReset = new ItemReset()
+  itemReset.item = item
+  itemReset.inventory = inventory
+  itemReset.itemLimit = itemLimit
+  itemReset.equipmentPosition = equipmentPosition
+
+  return itemReset
+}
 
 export function newWeapon(name: string, description: string, weaponType: WeaponType, damageType: DamageType): Item {
   const weapon = new Weapon()

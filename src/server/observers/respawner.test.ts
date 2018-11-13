@@ -29,7 +29,10 @@ describe("respawner", () => {
     mob3.reset.room = startRoom
 
     // given
-    const respawner = new Respawner(RoomTable.new([startRoom]), new MobTable([mob1, mob2, mob3]))
+    const respawner = new Respawner(
+      RoomTable.new([startRoom]),
+      new MobTable([mob1, mob2, mob3]),
+      null)
 
     // when
     await respawner.notify([])
