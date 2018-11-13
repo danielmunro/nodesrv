@@ -2,6 +2,7 @@ import { Column, Entity, Generated, ManyToOne, OneToOne, PrimaryGeneratedColumn 
 import * as v4 from "uuid"
 import { Inventory } from "./inventory"
 import { Item } from "./item"
+import { Equipment } from "../equipment"
 
 @Entity()
 export default class ItemReset {
@@ -17,4 +18,10 @@ export default class ItemReset {
 
   @OneToOne(type => Item)
   public item: Item
+
+  @Column("integer")
+  public itemLimit: number = 0
+
+  @Column("text", { nullable: true })
+  public equipmentPosition: Equipment = null
 }

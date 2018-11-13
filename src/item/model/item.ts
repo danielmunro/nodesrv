@@ -6,6 +6,7 @@ import Attributes from "../../attributes/model/attributes"
 import { Equipment } from "../equipment"
 import { ItemType } from "../itemType"
 import { Inventory } from "./inventory"
+import { MaterialType } from "../material/materialType"
 
 @Entity()
 export class Item {
@@ -38,6 +39,15 @@ export class Item {
 
   @Column("integer")
   public level: number = 0
+
+  @Column("integer")
+  public weight: number = 0
+
+  @Column("text")
+  public material: MaterialType = MaterialType.Undefined
+
+  @Column("integer")
+  public condition: number = 1
 
   @ManyToOne(type => Inventory, inventory => inventory.items, { eager: true })
   public inventory: Inventory
