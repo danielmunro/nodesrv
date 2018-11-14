@@ -38,7 +38,7 @@ describe("get action preconditions", () => {
     const mobBuilder = testBuilder.withMob()
     const container = mobBuilder.withSatchelContainer()
     const item = mobBuilder.withAxeEq()
-    container.containerInventory.addItem(item)
+    container.container.addItem(item)
 
     // when
     const check = await get(testBuilder.createRequest(RequestType.Get, "get axe sat"), await testBuilder.getService())

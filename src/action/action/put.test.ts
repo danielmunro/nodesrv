@@ -18,7 +18,7 @@ describe("put action", () => {
 
     // then
     expect(response.isSuccessful()).toBeTruthy()
-    expect(container.containerInventory.items).toHaveLength(1)
+    expect(container.container.inventory.items).toHaveLength(1)
     expect(mobBuilder.mob.inventory.items).toHaveLength(1)
   })
 })

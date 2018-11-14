@@ -49,9 +49,9 @@ export function getCorpse(mob: Mob): Item {
     format(Messages.Fight.Corpse.Name, mob.name),
     format(Messages.Fight.Corpse.Description, mob.name))
   mob.inventory.items.forEach(item =>
-    corpse.containerInventory.getItemFrom(item, mob.inventory))
+    corpse.container.getItemFrom(item, mob.inventory))
   mob.equipped.inventory.items.forEach(item =>
-    corpse.containerInventory.getItemFrom(item, mob.equipped.inventory))
+    corpse.container.getItemFrom(item, mob.equipped.inventory))
 
   return corpse
 }

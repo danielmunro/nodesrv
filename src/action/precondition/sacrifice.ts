@@ -7,6 +7,6 @@ export default async function(request: Request): Promise<Check> {
     .require(request.findItemInRoomInventory(), Messages.All.Item.NotFound)
     .capture()
     .require(item => item.isContainer()
-      ? item.containerInventory.items.length === 0 : true, MESSAGE_FAIL_CONTAINER_NOT_EMPTY)
+      ? item.container.items.length === 0 : true, MESSAGE_FAIL_CONTAINER_NOT_EMPTY)
     .create()
 }

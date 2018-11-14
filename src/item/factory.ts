@@ -9,6 +9,7 @@ import { Item } from "./model/item"
 import Weapon from "./model/weapon"
 import { WeaponType } from "./weaponType"
 import ItemReset from "./model/itemReset"
+import Container from "./model/container"
 
 export function newItemReset(
   item: Item,
@@ -74,10 +75,16 @@ export function newItemFixture(name: string, description: string): Item {
   return item
 }
 
-export function newContainer(name: string, description: string): Item {
+export function newContainer(
+  name: string,
+  description: string,
+  weightCapacity: number = 0,
+  itemCapacity: number = 0): Item {
   const item = newItem(name, description)
-  item.containerInventory = new Inventory()
+  item.container = new Container()
   item.itemType = ItemType.Container
+  item.container.weightCapacity = weightCapacity
+  item.container.itemCapacity = itemCapacity
 
   return item
 }

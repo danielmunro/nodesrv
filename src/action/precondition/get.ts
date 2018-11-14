@@ -19,7 +19,7 @@ function getFromInventory(request: Request, itemTable: ItemTable) {
 
   return new CheckBuilder()
     .require(container, Messages.All.Item.NotFound, CheckType.ContainerPresent)
-    .require(() => itemTable.findItemByInventory(container.containerInventory, request.getSubject()),
+    .require(() => itemTable.findItemByInventory(container.container, request.getSubject()),
       Messages.All.Item.NotFound, CheckType.ItemPresent)
     .capture()
     .create()

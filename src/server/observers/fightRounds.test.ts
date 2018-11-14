@@ -110,7 +110,7 @@ describe("fight rounds", () => {
     const corpse = getCorpse(mob)
 
     // then
-    expect(corpse.containerInventory.items.length).toBe(3)
+    expect(corpse.container.inventory.items.length).toBe(3)
     expect(mob.inventory.items.length).toBe(0)
     expect(mob.equipped.inventory.items.length).toBe(0)
   })

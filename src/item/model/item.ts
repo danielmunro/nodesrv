@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import { newAffect } from "../../affect/factory"
 import { Affect } from "../../affect/model/affect"
 import { newEmptyAttributes } from "../../attributes/factory"
@@ -7,11 +7,17 @@ import { Equipment } from "../equipment"
 import { ItemType } from "../itemType"
 import { Inventory } from "./inventory"
 import { MaterialType } from "../material/materialType"
+import Container from "./container"
+import * as v4 from "uuid"
 
 @Entity()
 export class Item {
   @PrimaryGeneratedColumn()
   public id: number
+
+  @Column("text")
+  @Generated("uuid")
+  public uuid: string = v4()
 
   @Column("text", { nullable: true })
   public canonicalIdentifier: string
@@ -58,9 +64,9 @@ export class Item {
   @OneToMany(type => Affect, affect => affect.item)
   public affects: Affect[] = []
 
-  @OneToOne(type => Inventory, { cascadeAll: true, eager: true })
+  @OneToOne(type => Container, { cascadeAll: true, eager: true })
   @JoinColumn()
-  public containerInventory
+  public container
 
   public matches(subject: string): boolean {
     const words = this.name.split(" ")
@@ -72,7 +78,7 @@ export class Item {
   }
 
   public isContainer(): boolean {
-    return !!this.containerInventory
+    return !!this.container
   }
 
   public copy(): Item {
@@ -91,7 +97,7 @@ export class Item {
 
   public describe(): string {
     return this.description + (this.itemType === ItemType.Container ?
-      "\n\nContainer inventory:\n" + this.containerInventory.toString() : "")
+      "\n\nContainer inventory:\n" + this.container.toString() : "")
   }
 
   public toString(): string {
