@@ -1,12 +1,24 @@
-import {
-  newStartingAttributes,
-  newStartingVitals,
-} from "../attributes/factory"
+import { newStartingAttributes, newStartingVitals, } from "../attributes/factory"
 import Attributes from "../attributes/model/attributes"
 import Vitals from "../attributes/model/vitals"
 import { Item } from "../item/model/item"
 import { Mob } from "./model/mob"
 import { Race } from "./race/race"
+import MobReset from "./model/mobReset"
+import { Disposition } from "./disposition"
+import { Room } from "../room/model/room"
+
+export function newMobReset(
+  mob: Mob,
+  room: Room,
+  disposition: Disposition = Disposition.Standing): MobReset {
+  const mobReset = new MobReset()
+  mobReset.mob = mob
+  mobReset.room = room
+  mobReset.disposition = disposition
+
+  return mobReset
+}
 
 export function newCritterMob(name: string, description: string, level: number, race: Race = Race.Critter): Mob {
   const vitals = newStartingVitals(level)
