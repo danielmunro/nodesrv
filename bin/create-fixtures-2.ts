@@ -1,30 +1,33 @@
-import { readFileSync } from "fs"
+import { readFileSync, writeFileSync } from "fs"
 import { newStartingAttributes, newVitals } from "../src/attributes/factory"
-import { initializeConnection } from "../src/db/connection"
-import { newMob } from "../src/mob/factory"
-import { Mob } from "../src/mob/model/mob"
-import { getMobRepository } from "../src/mob/repository/mob"
+import { newMob, newMobReset } from "../src/mob/factory"
 import roll from "../src/random/dice"
 import { Direction } from "../src/room/constants"
-import { newExit, newRoom } from "../src/room/factory"
-import { Room } from "../src/room/model/room"
-import { getExitRepository } from "../src/room/repository/exit"
-import { getRoomRepository } from "../src/room/repository/room"
+import { newRoom } from "../src/room/factory"
+import { newContainer, newEquipment, newFood, newWeapon } from "../src/item/factory"
+import { Item } from "../src/item/model/item"
+import File from "../src/import/file"
 
-const content = readFileSync("fixtures/areas/midgaard.json").toString()
-const data = JSON.parse(content)
-const rooms: Room[] = []
-const mobs: Mob[] = []
-const roomMap = {}
-const mobMap = {}
-const roomDataMap = {}
-const resets = []
+const listFile = readFileSync("fixtures/area/area.lst").toString()
+const areaFiles = listFile.split("\n")
+const itemTypes = []
 
-initializeConnection().then(async () => {
-  const roomRepository = await getRoomRepository()
-  const exitRepository = await getExitRepository()
-  const mobRepository = await getMobRepository()
-  data.forEach(async section => {
+areaFiles.forEach(async area => {
+  const filename = `fixtures/${area}`
+  const content = readFileSync(filename).toString()
+  const file = new File(filename, JSON.parse(content))
+
+  await iterateSections(file)
+
+  createExits(file)
+})
+
+writeFileSync("itemTypes.json",
+  JSON.stringify(itemTypes.filter((type, i) => itemTypes.indexOf(type) === i).sort()))
+
+async function iterateSections(file: File) {
+  console.log(`${file.filename} processing now`)
+  file.data.forEach(async section => {
     let first = true
     let header = ""
     section.forEach(async row => {
@@ -33,26 +36,29 @@ initializeConnection().then(async () => {
       }
       switch (header) {
         case "MOBILES":
-          addMob(row)
+          addMob(file, row)
           break
         case "ROOMS":
-          addRoom(row)
+          addRoom(file, row)
           break
         case "RESETS":
-          addReset(row)
+          addReset(file, row)
+          break
+        case "OBJECTS":
+          addItem(file, row)
           break
       }
       first = false
     })
   })
+}
 
-  await roomRepository.save(rooms)
-
-  Object.keys(roomMap).forEach(importId => {
-    if (roomDataMap[importId] === undefined || roomDataMap[importId].doors === undefined) {
+function createExits(file: File) {
+  Object.keys(file.roomMap).forEach(importId => {
+    if (file.roomDataMap[importId] === undefined || file.roomDataMap[importId].doors === undefined) {
       return
     }
-    roomDataMap[importId].doors.forEach(async door => {
+    file.roomDataMap[importId].doors.forEach(async door => {
       let direction: Direction
       switch (door.door) {
         case "D0":
@@ -74,12 +80,12 @@ initializeConnection().then(async () => {
           direction = Direction.Down
           break
       }
-      if (roomMap[importId] && roomMap[door.vnum]) {
-        await exitRepository.save(newExit(direction, roomMap[importId], roomMap[door.vnum]))
+      if (file.roomMap[importId] && file.roomMap[door.vnum]) {
+        // await exitRepository.save(newExit(direction, roomMap[importId], roomMap[door.vnum]))
       }
     })
   })
-})
+}
 
 function dice(rollData) {
   const parts = rollData.split("d")
@@ -91,7 +97,7 @@ function dice(rollData) {
   return roll(count, sides) + bonus
 }
 
-function addMob(mobData) {
+function addMob(file, mobData) {
   const vitals = newVitals(dice(mobData.hit), dice(mobData.mana), 1000)
   const mob = newMob(
     mobData.name,
@@ -101,21 +107,90 @@ function addMob(mobData) {
     newStartingAttributes(vitals, mobData.level))
   mob.gold = mobData.wealth
 
-  mobs.push(mob)
-  mobMap[mobData.id] = mob
+  file.mobs.push(mob)
+  file.mobMap[mobData.id] = mob
 }
 
-function addRoom(roomData) {
+function addRoom(file, roomData) {
   const room = newRoom(roomData.title, roomData.description)
   room.importID = roomData.id
-  roomDataMap[room.importID] = roomData
-  roomMap[room.importID] = room
-  rooms.push(room)
+  file.roomDataMap[room.importID] = roomData
+  file.roomMap[room.importID] = room
+  file.rooms.push(room)
 }
 
-function addReset(resetData) {
+function addItem(file, itemData) {
+  const args = itemData.pObjFlags.split(" ")
+  itemTypes.push(itemData.type)
+  switch (itemData.type) {
+    case "weapon":
+      const weapon = newWeapon(
+        itemData.name,
+        itemData.description,
+        args[0],
+        args[2])
+      addPropertiesToItem(weapon, itemData)
+      break
+    case "armor":
+    case "clothing":
+      const armor = newEquipment(itemData.name, itemData.description, args[0])
+      addPropertiesToItem(armor, itemData)
+      break
+    case "boat":
+      break
+    case "container":
+      /**
+       * RESET
+       * 0 - all item weight
+       * 1 - container is open
+       * 2 - liquid
+       * 3 - individual item max weight
+       * 4 - loot count
+       */
+      const item = newContainer(itemData.name, itemData.description)
+      const itemFlags = itemData.pObjFlags.split(" ")
+      item.container.weightCapacity = itemFlags[0]
+      item.container.isOpen = itemFlags[1]
+      item.container.liquid = itemFlags[2]
+      item.container.maxWeightForItem = itemFlags[3]
+      addPropertiesToItem(item, itemData)
+      break
+    case "drink":
+      /**
+       * 0 - ?
+       * 1 - amount remaining
+       * 2 - liquid
+       */
+      break
+    case "food":
+      /**
+       * 0 - amount
+       * 1 - nourishment
+       * 2 - <not used>
+       * 3 - poisoned
+       */
+      const item = newFood(itemData.name, itemData.description, itemData.values[0])
+      break
+    default:
+      return
+  }
+}
+
+function addPropertiesToItem(item: Item, itemData) {
+  item.level = itemData.level
+  item.value = itemData.cost
+  item.weight = itemData.weight
+  item.material = itemData.material
+}
+
+function addReset(file, resetData) {
   if (resetData.command === "M") {
-    roomMap[resetData.args[2]].addMob(mobMap[resetData.args[0]])
+    file.mobResets.push(newMobReset(
+      file.mobMap[resetData.args[0]],
+      file.roomMap[resetData.args[2]]))
+  }
+  if (resetData.command === "E") {
+    // itemResets.push(newItemReset())
   }
   return resetData
 }
