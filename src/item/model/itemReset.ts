@@ -1,8 +1,8 @@
 import { Column, Entity, Generated, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
+import { Equipment } from "../equipment"
 import { Inventory } from "./inventory"
 import { Item } from "./item"
-import { Equipment } from "../equipment"
 
 @Entity()
 export default class ItemReset {

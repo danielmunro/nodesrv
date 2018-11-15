@@ -1,15 +1,15 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import * as v4 from "uuid"
 import { newAffect } from "../../affect/factory"
 import { Affect } from "../../affect/model/affect"
 import { newEmptyAttributes } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
 import { Equipment } from "../equipment"
 import { ItemType } from "../itemType"
-import { Inventory } from "./inventory"
 import { MaterialType } from "../material/materialType"
 import Container from "./container"
-import * as v4 from "uuid"
-import { Food } from "../food"
+import { Inventory } from "./inventory"
+import Food from "./food"
 
 @Entity()
 export class Item {

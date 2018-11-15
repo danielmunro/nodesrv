@@ -1,12 +1,13 @@
+/* tslint:disable */
 import { readFileSync, writeFileSync } from "fs"
 import { newStartingAttributes, newVitals } from "../src/attributes/factory"
+import File from "../src/import/file"
+import { newContainer, newEquipment, newFood, newWeapon } from "../src/item/factory"
+import { Item } from "../src/item/model/item"
 import { newMob, newMobReset } from "../src/mob/factory"
 import roll from "../src/random/dice"
 import { Direction } from "../src/room/constants"
 import { newRoom } from "../src/room/factory"
-import { newContainer, newEquipment, newFood, newWeapon } from "../src/item/factory"
-import { Item } from "../src/item/model/item"
-import File from "../src/import/file"
 
 const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")

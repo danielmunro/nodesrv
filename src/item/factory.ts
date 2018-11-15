@@ -4,12 +4,12 @@ import Attributes from "../attributes/model/attributes"
 import { DamageType } from "../damage/damageType"
 import { Equipment } from "./equipment"
 import { ItemType } from "./itemType"
+import Container from "./model/container"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
+import ItemReset from "./model/itemReset"
 import Weapon from "./model/weapon"
 import { WeaponType } from "./weaponType"
-import ItemReset from "./model/itemReset"
-import Container from "./model/container"
 
 export function newItemReset(
   item: Item,

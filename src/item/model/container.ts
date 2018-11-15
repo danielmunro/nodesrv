@@ -1,6 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
-import { Inventory } from "./inventory"
 import * as v4 from "uuid"
+import { Inventory } from "./inventory"
 import { Item } from "./item"
 
 @Entity()

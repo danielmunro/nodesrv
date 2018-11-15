@@ -1,12 +1,12 @@
-import { newStartingAttributes, newStartingVitals, } from "../attributes/factory"
+import { newStartingAttributes, newStartingVitals } from "../attributes/factory"
 import Attributes from "../attributes/model/attributes"
 import Vitals from "../attributes/model/vitals"
 import { Item } from "../item/model/item"
-import { Mob } from "./model/mob"
-import { Race } from "./race/race"
-import MobReset from "./model/mobReset"
-import { Disposition } from "./disposition"
 import { Room } from "../room/model/room"
+import { Disposition } from "./disposition"
+import { Mob } from "./model/mob"
+import MobReset from "./model/mobReset"
+import { Race } from "./race/race"
 
 export function newMobReset(
   mob: Mob,
