@@ -8,8 +8,9 @@ import { Equipment } from "../equipment"
 import { ItemType } from "../itemType"
 import { MaterialType } from "../material/materialType"
 import Container from "./container"
-import { Inventory } from "./inventory"
+import Drink from "./drink"
 import Food from "./food"
+import { Inventory } from "./inventory"
 
 @Entity()
 export class Item {
@@ -72,8 +73,8 @@ export class Item {
   @OneToOne(type => Food, food => food.item)
   public food: Food
 
-  @OneToOne(type => Attributes, attributes => attributes.item)
-  public attributes: Attributes = newEmptyAttributes()
+  @OneToOne(type => Drink, drink => drink.item)
+  public drink: Drink
 
   public matches(subject: string): boolean {
     const words = this.name.split(" ")
