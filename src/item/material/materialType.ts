@@ -60,6 +60,7 @@ export enum MaterialType {
   Steel = "steel",
   Tin = "tin",
   Vellum = "vellum",
+  Vegetation = "vegetation",
   Wire = "wire",
   Wood = "wood",
   Undefined = "undefined",
