@@ -21,6 +21,9 @@ export default class Container {
   @Column("integer")
   public itemCapacity: number = 0
 
+  @Column("integer")
+  public maxWeightForItem: number = 0
+
   @OneToOne(type => Inventory)
   @JoinColumn()
   public inventory: Inventory = new Inventory()

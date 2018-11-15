@@ -9,6 +9,7 @@ import { Inventory } from "./inventory"
 import { MaterialType } from "../material/materialType"
 import Container from "./container"
 import * as v4 from "uuid"
+import { Food } from "../food"
 
 @Entity()
 export class Item {
@@ -67,6 +68,12 @@ export class Item {
   @OneToOne(type => Container, { cascadeAll: true, eager: true })
   @JoinColumn()
   public container
+
+  @OneToOne(type => Food, food => food.item)
+  public food: Food
+
+  @OneToOne(type => Attributes, attributes => attributes.item)
+  public attributes: Attributes = newEmptyAttributes()
 
   public matches(subject: string): boolean {
     const words = this.name.split(" ")
