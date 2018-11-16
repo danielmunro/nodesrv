@@ -24,6 +24,7 @@ import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
+import { getTestClient } from "./client"
 
 export default class TestBuilder {
   public player: Player
@@ -34,6 +35,15 @@ export default class TestBuilder {
 
   constructor() {
     reset()
+  }
+
+  public async withClient() {
+    const client = await getTestClient()
+    this.player = client.player
+    this.mobForRequest = client.getSessionMob()
+    this.serviceBuilder.addMob(this.mobForRequest)
+
+    return client
   }
 
   public withRoom() {

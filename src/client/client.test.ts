@@ -210,19 +210,18 @@ describe("clients", () => {
 
   it("training will apply the cost appropriately", async () => {
     // setup
-    const room = getTestRoom()
-    const trainer = getTestMob()
-    trainer.role = Role.Trainer
-    room.addMob(trainer)
-    room.addMob(client.player.sessionMob)
-    client.player.sessionMob.playerMob.trains = 1
-    client.addRequest(new Request(client.player.sessionMob, room, new InputContext(RequestType.Train, "train str")))
+    const testBuilder = new TestBuilder()
+    const testClient = await testBuilder.withClient()
+    testBuilder.withRoom()
+    testBuilder.withTrainer()
+    testClient.player.sessionMob.playerMob.trains = 1
+    testClient.addRequest(testBuilder.createRequest(RequestType.Train, "train str"))
 
     // when
-    await client.handleNextRequest()
+    await testClient.handleNextRequest()
 
     // then
-    expect(client.player.sessionMob.playerMob.trains).toBe(0)
+    expect(testClient.getSessionMob().playerMob.trains).toBe(0)
   })
 
   it("should create a fight if the action outcome is such", async () => {
