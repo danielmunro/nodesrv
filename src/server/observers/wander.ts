@@ -11,6 +11,6 @@ export class Wander implements Observer {
 
   public async notify(clients: Client[]): Promise<any> {
     await Promise.all(this.mobs.map(async (mob) =>
-      await this.service.moveMob(mob, pickOne(this.service.roomTable.exitsForMob(mob)).direction)))
+      await this.service.moveMob(mob, pickOne(mob.room.exits).direction)))
   }
 }

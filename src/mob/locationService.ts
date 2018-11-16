@@ -5,8 +5,8 @@ import MobLocation from "./model/mobLocation"
 export default class LocationService {
   constructor(private mobLocations: MobLocation[]) {}
 
-  public updateMobLocation(mob: Mob, room: Room): void {
-    this.mobLocations.some(mobLocation => {
+  public updateMobLocation(mob: Mob, room: Room) {
+    return this.mobLocations.find(mobLocation => {
       if (mobLocation.mob === mob) {
         mobLocation.room = room
         return true
