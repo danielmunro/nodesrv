@@ -133,6 +133,7 @@ export class Fight {
   public async round(): Promise<Round> {
     if (this.isInProgress()) {
       return new Round(
+        this,
         this.status === Status.InProgress ? await this.turnFor(this.aggressor, this.target) : [],
         this.status === Status.InProgress ? await this.turnFor(this.target, this.aggressor) : [],
         this.bodyPart)

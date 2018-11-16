@@ -47,12 +47,6 @@ export class Player {
     return this.sessionMob.inventory
   }
 
-  public closeSession(): void {
-    if (this.sessionMob) {
-      this.sessionMob.room.removeMob(this.sessionMob)
-    }
-  }
-
   public prompt(): string {
     const combined = this.sessionMob.getCombinedAttributes().vitals
     const vitals = this.sessionMob.vitals

@@ -1,31 +1,27 @@
 import { Equipment } from "../item/equipment"
 import { Item } from "../item/model/item"
-import { Player } from "../player/model/player"
 import { getTestMob } from "../test/mob"
-import { getTestPlayer } from "../test/player"
-import { getTestRoom } from "../test/room"
-import InputContext from "./context/inputContext"
-import { Request } from "./request"
 import { RequestType } from "./requestType"
-
-function newLookRequest(player: Player, args: string): Request {
-  return new Request(player.sessionMob, player.sessionMob.room, new InputContext(RequestType.Look, args))
-}
+import TestBuilder from "../test/testBuilder"
 
 describe("request", () => {
-  it("should be able to find an item in a request session mob's inventory", () => {
-    const player = getTestPlayer()
+  it("should be able to find an item in a request session mob's inventory", async () => {
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    const player = playerBuilder.player
     const item = new Item()
     item.name = "a cracked wooden practice shield"
     item.equipment = Equipment.Shield
     player.getInventory().addItem(item)
-    expect(newLookRequest(player, "wear floodle").findItemInSessionMobInventory()).toBeUndefined()
-    expect(newLookRequest(player, "wear practice").findItemInSessionMobInventory()).toBe(item)
+    expect(testBuilder.createRequest(RequestType.Wear, "wear floodle").findItemInSessionMobInventory()).toBeUndefined()
+    expect(testBuilder.createRequest(RequestType.Wear, "wear practice").findItemInSessionMobInventory()).toBe(item)
   })
 
-  it("should be able to find a mob in a room", () => {
-    const room = getTestRoom()
-    const player = getTestPlayer()
+  it("should be able to find a mob in a room", async () => {
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    const player = playerBuilder.player
+    const room = testBuilder.withRoom().room
     const bob = getTestMob("bob")
     const alice = getTestMob("alice")
     room.addMob(bob)
@@ -33,8 +29,8 @@ describe("request", () => {
     room.addMob(getTestMob("sue"))
     room.addMob(player.sessionMob)
 
-    expect(newLookRequest(player, "look alice").findMobInRoom()).toBe(alice)
-    expect(newLookRequest(player, "look bob").findMobInRoom()).toBe(bob)
-    expect(newLookRequest(player, "look xander").findMobInRoom()).toBeUndefined()
+    expect(testBuilder.createRequest(RequestType.Wear, "look alice").findMobInRoom()).toBe(alice)
+    expect(testBuilder.createRequest(RequestType.Wear, "look bob").findMobInRoom()).toBe(bob)
+    expect(testBuilder.createRequest(RequestType.Wear, "look xander").findMobInRoom()).toBeUndefined()
   })
 })

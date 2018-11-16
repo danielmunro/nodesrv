@@ -24,7 +24,7 @@ describe("region weather server observer", () => {
     const weather = regions.map((region) => region.weather)
 
     // when
-    const regionWeather = new RegionWeather()
+    const regionWeather = new RegionWeather(null)
     await regionWeather.notify([])
 
     // then

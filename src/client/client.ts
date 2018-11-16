@@ -108,12 +108,6 @@ export class Client {
     this.send({ message })
   }
 
-  public shutdown(): void {
-    if (this.player) {
-      this.player.closeSession()
-    }
-  }
-
   public tick(id: string, timestamp: Date) {
     this.send({ tick: { id, timestamp }})
   }

@@ -6,11 +6,12 @@ import { getTestRoom } from "../test/room"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
 import { GameServer } from "./server"
+import LocationService from "../mob/locationService"
 
 let ws
 
 async function getGameServer(): Promise<GameServer> {
-  return new GameServer(ws, await Service.new(), getTestRoom(), null)
+  return new GameServer(ws, await Service.new(), getTestRoom(), null, new LocationService([]))
 }
 
 const mockWs = jest.fn(() => ({ send: jest.fn() }))

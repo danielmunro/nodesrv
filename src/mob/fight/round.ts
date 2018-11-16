@@ -2,6 +2,7 @@ import { Room } from "../../room/model/room"
 import { Mob } from "../model/mob"
 import { BodyPart } from "../race/bodyParts"
 import { Attack } from "./attack"
+import { Fight } from "./fight"
 
 export class Round {
   public readonly room: Room
@@ -9,12 +10,14 @@ export class Round {
   public readonly victor?: Mob
   public readonly vanquished?: Mob
 
-  constructor(public readonly attacks: Attack[] = [],
-              public readonly counters: Attack[] = [],
-              public readonly bodyPart: BodyPart = null) {
+  constructor(
+    public readonly fight: Fight,
+    public readonly attacks: Attack[] = [],
+    public readonly counters: Attack[] = [],
+    public readonly bodyPart: BodyPart = null) {
     const lastAttack = this.getLastAttack()
     const lastCounter = this.getLastCounter()
-    this.room = lastAttack.attacker.room
+    this.room = fight.room
     this.isFatality = this.attacks && !lastAttack.isDefenderAlive || this.counters && !lastCounter.isDefenderAlive
     if (!lastAttack.isDefenderAlive) {
       this.isFatality = true

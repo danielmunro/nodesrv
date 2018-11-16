@@ -192,20 +192,6 @@ describe("clients", () => {
     expect(buf[0]).toContain("tick")
   })
 
-  it("should remove a player's session mob from its room when the client shuts down", () => {
-    // setup
-    const room = client.getStartRoom()
-
-    // expect
-    expect(room.mobs).toContain(client.player.sessionMob)
-
-    // when
-    client.shutdown()
-
-    // then
-    expect(room.mobs).not.toContain(client.player.sessionMob)
-  })
-
   it("not logged in clients should always be able to handle requests if ones are available", () => {
     // setup
     const newClient = new Client(jest.fn(), "127.0.0.1", jest.fn(), jest.fn(), jest.fn(), jest.fn())

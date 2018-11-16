@@ -14,6 +14,7 @@ import { events } from "./constants"
 import { DecrementPlayerDelay } from "./observers/decrementPlayerDelay"
 import { HandleClientRequests } from "./observers/handleClientRequests"
 import { Observer } from "./observers/observer"
+import LocationService from "../mob/locationService"
 
 enum Status {
   Initialized,
@@ -31,7 +32,8 @@ export class GameServer {
     public readonly wss,
     public readonly service: Service,
     public readonly startRoom: Room,
-    public readonly resetService: ResetService) {}
+    public readonly resetService: ResetService,
+    public readonly locationService: LocationService) {}
 
   public async start(): Promise<void> {
     if (!this.isInitialized()) {
@@ -91,6 +93,7 @@ export class GameServer {
   private removeClient(client: Client): void {
     console.info("client disconnected", { ip: client.ip })
     this.clients = this.clients.filter((it) => it !== client)
-    client.shutdown()
+    this.locationService.removeMob(client.getSessionMob())
+
   }
 }
