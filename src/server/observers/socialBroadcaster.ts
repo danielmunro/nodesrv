@@ -1,9 +1,9 @@
 import { Client } from "../../client/client"
+import LocationService from "../../mob/locationService"
 import { Message } from "../../social/message"
 import { readPrivateMessages } from "../../social/privateBroadcast"
 import { readMessages} from "../../social/publicBroadcast"
 import { Observer } from "./observer"
-import LocationService from "../../mob/locationService"
 
 function sendToClientIfNotSender(client: Client, message: Message): void {
   if (client.isLoggedIn() && !client.isOwnMessage(message)) {

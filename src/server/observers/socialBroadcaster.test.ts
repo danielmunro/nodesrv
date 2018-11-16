@@ -1,4 +1,6 @@
 import { Client } from "../../client/client"
+import { newMobLocation } from "../../mob/factory"
+import LocationService from "../../mob/locationService"
 import Service from "../../service/service"
 import Complete from "../../session/auth/complete"
 import Session from "../../session/session"
@@ -10,8 +12,6 @@ import { getTestMob } from "../../test/mob"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import { SocialBroadcaster } from "./socialBroadcaster"
-import LocationService from "../../mob/locationService"
-import { newMobLocation } from "../../mob/factory"
 
 jest.mock("../../client/client")
 

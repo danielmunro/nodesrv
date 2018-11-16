@@ -19,12 +19,12 @@ import { Room } from "../room/model/room"
 import Service from "../service/service"
 import ServiceBuilder from "../service/serviceBuilder"
 import { SkillType } from "../skill/skillType"
+import { getTestClient } from "./client"
 import { getTestMob } from "./mob"
 import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
-import { getTestClient } from "./client"
 
 export default class TestBuilder {
   public player: Player

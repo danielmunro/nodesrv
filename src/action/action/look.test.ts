@@ -3,7 +3,6 @@ import { newAffect } from "../../affect/factory"
 import { Item } from "../../item/model/item"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
-import { getTestMob } from "../../test/mob"
 import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
 import look from "./look"
@@ -41,8 +40,7 @@ describe("look", () => {
 
   it("should describe a mob when a mob is present", async () => {
     // given
-    const mob = getTestMob("alice")
-    room.addMob(mob)
+    const mob = testBuilder.withMob("alice").mob
 
     // when
     const response = await look(testBuilder.createRequest(RequestType.Look, "look alice"), testBuilder.getService())
@@ -73,7 +71,6 @@ describe("look", () => {
     item.name = "a pirate hat"
     item.description = "this is a test item"
     player.sessionMob.inventory.addItem(item)
-    room.addMob(player.sessionMob)
     const service = await testBuilder.getService()
     service.itemTable.add(item)
 

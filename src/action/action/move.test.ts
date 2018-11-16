@@ -5,26 +5,22 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { Direction } from "../../room/constants"
-import { newReciprocalExit } from "../../room/factory"
-import Service from "../../service/service"
-import { getTestPlayer } from "../../test/player"
-import { getTestRoom } from "../../test/room"
+import TestBuilder from "../../test/testBuilder"
 import move from "./move"
 
 describe("move", () => {
   it("should allow movement where rooms connect", async () => {
     // given
-    const source = getTestRoom()
-    const destination = getTestRoom()
-    const exits = newReciprocalExit(source, destination, Direction.East)
-    const service = await Service.newWithArray([source, destination], exits)
-    const player = getTestPlayer()
-    const mob = player.sessionMob
-    source.addMob(mob)
+    const testBuilder = new TestBuilder()
+    const source = testBuilder.withRoom().room
+    const destination = testBuilder.withRoom().room
+    const service = await testBuilder.getService()
+    const mob = (await testBuilder.withPlayer()).player.sessionMob
+    const exit = source.exits[0]
 
     // when
     const response = await move(
-      new CheckedRequest(new Request(mob, source, new InputContext(RequestType.East)), await Check.ok()),
+      new CheckedRequest(new Request(mob, source, new InputContext(exit.direction as RequestType)), await Check.ok()),
       Direction.East,
       service)
 
