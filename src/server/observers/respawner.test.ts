@@ -1,6 +1,9 @@
 import { Disposition } from "../../mob/disposition"
+import { newMobLocation, newMobReset } from "../../mob/factory"
+import LocationService from "../../mob/locationService"
 import { default as MobTable } from "../../mob/table"
 import { default as RoomTable } from "../../room/table"
+import ResetService from "../../service/reset/resetService"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import Respawner from "./respawner"
@@ -9,6 +12,7 @@ describe("respawner", () => {
   it("should reset dispositions for dead mobs", async () => {
     // setup
     const startRoom = getTestRoom()
+    const currentRoom = getTestRoom()
 
     // dead
     const mob1 = getTestMob()
@@ -29,19 +33,29 @@ describe("respawner", () => {
     mob3.reset.room = startRoom
 
     // given
+    const locationService = new LocationService([
+      newMobLocation(mob1, currentRoom),
+      newMobLocation(mob2, currentRoom),
+      newMobLocation(mob3, currentRoom),
+    ])
     const respawner = new Respawner(
-      RoomTable.new([startRoom]),
-      new MobTable([mob1, mob2, mob3]))
+      new MobTable([mob1, mob2, mob3]),
+      new ResetService([
+        newMobReset(mob1, startRoom),
+        newMobReset(mob2, startRoom),
+        newMobReset(mob3, startRoom),
+      ], []),
+      locationService)
 
     // when
     await respawner.notify([])
 
     // then
     expect(mob1.disposition).toBe(Disposition.Standing)
-    expect(mob1.room).toBe(startRoom)
+    expect(locationService.getLocationForMob(mob1).room).toBe(startRoom)
     expect(mob2.disposition).toBe(Disposition.Sitting)
-    expect(mob2.room).toBe(startRoom)
+    expect(locationService.getLocationForMob(mob2).room).toBe(startRoom)
     expect(mob3.disposition).toBe(Disposition.Sitting)
-    expect(mob3.room).not.toBe(startRoom)
+    expect(locationService.getLocationForMob(mob3).room).not.toBe(startRoom)
   })
 })

@@ -1,15 +1,16 @@
 import { Client } from "../../client/client"
 import { onlyLiving } from "../../mob/disposition"
+import LocationService from "../../mob/locationService"
 import { Mob } from "../../mob/model/mob"
 import { default as MobTable } from "../../mob/table"
-import { default as RoomTable } from "../../room/table"
+import ResetService from "../../service/reset/resetService"
 import { Observer } from "./observer"
 
 export default class Respawner implements Observer {
   constructor(
-    private readonly roomTable: RoomTable,
     private readonly mobTable: MobTable,
-    // private readonly resetService: ResetService,
+    private readonly resetService: ResetService,
+    private readonly locationService: LocationService,
   ) {}
 
   public async notify(clients: Client[]): Promise<void> {
@@ -26,6 +27,7 @@ export default class Respawner implements Observer {
     mob.vitals.hp = combined.vitals.hp
     mob.vitals.mana = combined.vitals.mana
     mob.vitals.mv = combined.vitals.mv
-    this.roomTable.canonical(mob.reset.room).addMob(mob)
+    const reset = this.resetService.mobResets.find(mobReset => mobReset.mob === mob)
+    this.locationService.updateMobLocation(mob, reset.room)
   }
 }

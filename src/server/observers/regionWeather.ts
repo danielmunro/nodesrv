@@ -1,10 +1,10 @@
 import { Client } from "../../client/client"
+import LocationService from "../../mob/locationService"
 import roll from "../../random/dice"
 import { Region } from "../../region/model/region"
 import { getRegionRepository } from "../../region/repository/region"
 import { getRandomWeather, getWeatherTransitionMessage } from "../../region/weather"
 import { Observer } from "./observer"
-import LocationService from "../../mob/locationService"
 
 export class RegionWeather implements Observer {
   constructor(public readonly locationService: LocationService) {}

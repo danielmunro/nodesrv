@@ -1,8 +1,8 @@
 import { Equipment } from "../item/equipment"
 import { Item } from "../item/model/item"
 import { getTestMob } from "../test/mob"
-import { RequestType } from "./requestType"
 import TestBuilder from "../test/testBuilder"
+import { RequestType } from "./requestType"
 
 describe("request", () => {
   it("should be able to find an item in a request session mob's inventory", async () => {

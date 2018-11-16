@@ -5,6 +5,7 @@ import { Item } from "../item/model/item"
 import { Room } from "../room/model/room"
 import { Disposition } from "./disposition"
 import { Mob } from "./model/mob"
+import MobLocation from "./model/mobLocation"
 import MobReset from "./model/mobReset"
 import { Race } from "./race/race"
 
@@ -18,6 +19,16 @@ export function newMobReset(
   mobReset.disposition = disposition
 
   return mobReset
+}
+
+export function newMobLocation(
+  mob: Mob,
+  room: Room): MobLocation {
+  const mobLocation = new MobLocation()
+  mobLocation.mob = mob
+  mobLocation.room = room
+
+  return mobLocation
 }
 
 export function newCritterMob(name: string, description: string, level: number, race: Race = Race.Critter): Mob {

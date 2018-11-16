@@ -1,4 +1,5 @@
 import { Server } from "mock-socket"
+import LocationService from "../mob/locationService"
 import Service from "../service/service"
 import { DontExecuteTestObserver } from "../test/dontExecuteTestObserver"
 import { ExpectTestObserver } from "../test/expectTestObserver"
@@ -6,7 +7,6 @@ import { getTestRoom } from "../test/room"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
 import { GameServer } from "./server"
-import LocationService from "../mob/locationService"
 
 let ws
 

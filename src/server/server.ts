@@ -1,5 +1,6 @@
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
+import LocationService from "../mob/locationService"
 import { getPlayerRepository } from "../player/repository/player"
 import { poll } from "../poll/poll"
 import { Room } from "../room/model/room"
@@ -14,7 +15,6 @@ import { events } from "./constants"
 import { DecrementPlayerDelay } from "./observers/decrementPlayerDelay"
 import { HandleClientRequests } from "./observers/handleClientRequests"
 import { Observer } from "./observers/observer"
-import LocationService from "../mob/locationService"
 
 enum Status {
   Initialized,

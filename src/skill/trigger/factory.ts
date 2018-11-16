@@ -26,7 +26,7 @@ export function getSkillsByTrigger(mob: Mob, trigger: Trigger) {
 
 async function attemptSkillAction(mob: Mob, trigger: Trigger, target: Mob, skill: Skill): Promise<Response> {
   const definition = getSkillActionDefinition(skill.skillType)
-  const request = new Request(mob, new EventContext(RequestType.Event, trigger))
+  const request = new Request(mob, mob.room, new EventContext(RequestType.Event, trigger))
   const check = await definition.preconditions(request)
 
   return definition.action(new CheckedRequest(request, check))
