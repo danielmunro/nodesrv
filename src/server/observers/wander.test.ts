@@ -1,6 +1,7 @@
+import { newMobLocation } from "../../mob/factory"
+import LocationService from "../../mob/locationService"
 import { Direction } from "../../room/constants"
 import { newExit } from "../../room/factory"
-import Service from "../../service/service"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import { Wander } from "./wander"
@@ -16,15 +17,16 @@ describe("wander", () => {
     source.name = "room 1"
     const destination = getTestRoom()
     destination.name = "room 2"
-    const allRooms = [source, destination]
-    const exit = newExit(Direction.South, source, destination)
-    const service = await Service.newWithArray(allRooms, [exit])
-    const wander = new Wander(service, [mob])
+    newExit(Direction.South, source, destination)
+    const locationService = new LocationService([
+      newMobLocation(mob, source),
+    ])
+    const wander = new Wander([mob], locationService)
 
     // when
     await wander.notify([])
 
     // then
-    expect(mob.room.name).toBe(destination.name)
+    expect(locationService.getLocationForMob(mob).room.name).toBe(destination.name)
   })
 })

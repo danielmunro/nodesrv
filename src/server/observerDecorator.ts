@@ -1,4 +1,6 @@
+import LocationService from "../mob/locationService"
 import { DiceRoller } from "../random/dice"
+import ResetService from "../service/reset/resetService"
 import { FiveMinuteTimer } from "../timer/fiveMinuteTimer"
 import { MinuteTimer } from "../timer/minuteTimer"
 import { RandomTickTimer } from "../timer/randomTickTimer"
@@ -15,8 +17,6 @@ import { SocialBroadcaster } from "./observers/socialBroadcaster"
 import { Tick } from "./observers/tick"
 import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
-import LocationService from "../mob/locationService"
-import ResetService from "../service/reset/resetService"
 
 export default function addObservers(gameServer: GameServer): GameServer {
   const service = gameServer.service
