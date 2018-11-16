@@ -2,12 +2,12 @@ import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { addFight, Fight, reset } from "../../mob/fight/fight"
 import { Trigger } from "../../mob/trigger"
 import { getTestMob } from "../../test/mob"
+import { getTestRoom } from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
 import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import { createSkillTriggerEvent } from "./factory"
 import { Resolution } from "./resolution"
-import { getTestRoom } from "../../test/room"
 
 describe("skill trigger factory", () => {
   beforeEach(() => reset())

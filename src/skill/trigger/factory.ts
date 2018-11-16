@@ -5,11 +5,11 @@ import EventContext from "../../request/context/eventContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
+import { Room } from "../../room/model/room"
 import { Skill } from "../model/skill"
 import { getSkillActionDefinition } from "../skillTable"
 import { Event } from "./event"
 import { Resolution } from "./resolution"
-import { Room } from "../../room/model/room"
 
 function filterBySkillTrigger(skill: Skill, trigger: Trigger) {
   const action = getSkillActionDefinition(skill.skillType)
@@ -25,7 +25,8 @@ export function getSkillsByTrigger(mob: Mob, trigger: Trigger) {
   return mob.skills.filter((skill) => filterBySkillTrigger(skill, trigger))
 }
 
-async function attemptSkillAction(mob: Mob, trigger: Trigger, target: Mob, room: Room, skill: Skill): Promise<Response> {
+async function attemptSkillAction(
+  mob: Mob, trigger: Trigger, target: Mob, room: Room, skill: Skill): Promise<Response> {
   const definition = getSkillActionDefinition(skill.skillType)
   const request = new Request(mob, room, new EventContext(RequestType.Event, trigger))
   const check = await definition.preconditions(request)

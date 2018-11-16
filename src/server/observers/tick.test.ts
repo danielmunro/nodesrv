@@ -1,13 +1,13 @@
 import { newStartingAttributes, newVitals } from "../../attributes/factory"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
+import { newMobLocation } from "../../mob/factory"
+import LocationService from "../../mob/locationService"
 import { newSkill } from "../../skill/factory"
 import { SkillType } from "../../skill/skillType"
 import { getTestClient } from "../../test/client"
-import { Tick } from "./tick"
-import LocationService from "../../mob/locationService"
-import { newMobLocation } from "../../mob/factory"
 import { getTestRoom } from "../../test/room"
+import { Tick } from "./tick"
 
 describe("ticks", () => {
   it("should call tick on all clients", async () => {

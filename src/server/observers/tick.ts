@@ -1,9 +1,9 @@
 import { v4 } from "uuid"
 import { Client } from "../../client/client"
+import LocationService from "../../mob/locationService"
 import { Trigger } from "../../mob/trigger"
 import { createSkillTriggerEvent } from "../../skill/trigger/factory"
 import { Observer } from "./observer"
-import LocationService from "../../mob/locationService"
 
 const MESSAGE_HUNGRY = "You are hungry."
 const HOURS_IN_DAY = 24
