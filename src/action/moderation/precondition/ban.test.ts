@@ -37,7 +37,7 @@ describe("ban moderation preconditions", () => {
     service = await testBuilder.getService()
     service.mobTable.add(player.sessionMob)
     service.mobTable.add(playerToBan.sessionMob)
-    requestBuilder = new RequestBuilder(player.sessionMob, service.mobTable)
+    requestBuilder = await testBuilder.createRequestBuilder()
   })
 
   it("should not work on non-existent mobs", async () => {

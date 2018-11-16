@@ -23,6 +23,7 @@ import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
+import RequestBuilder from "../request/requestBuilder"
 
 export default class TestBuilder {
   public player: Player
@@ -60,20 +61,23 @@ export default class TestBuilder {
   }
 
   public async withPlayer(fn = null): Promise<PlayerBuilder> {
-    this.player = getTestPlayer()
+    const player = getTestPlayer()
+
+    if (!this.player) {
+      this.player = player
+      this.mobForRequest = player.sessionMob
+    }
 
     if (this.room) {
-      this.room.addMob(this.player.sessionMob)
+      this.room.addMob(player.sessionMob)
     }
-    this.serviceBuilder.addMob(this.player.sessionMob)
+    this.serviceBuilder.addMob(player.sessionMob)
 
     if (fn) {
-      fn(this.player)
+      fn(player)
     }
 
-    this.mobForRequest = this.player.sessionMob
-
-    return new PlayerBuilder(this.player, this.serviceBuilder)
+    return new PlayerBuilder(player, this.serviceBuilder)
   }
 
   public async withAdminPlayer(
@@ -147,6 +151,10 @@ export default class TestBuilder {
     input: string = requestType.toString(),
     target: Mob | Item = null): Request {
     return new Request(this.mobForRequest, this.room, new InputContext(requestType, input), target)
+  }
+
+  public async createRequestBuilder() {
+    return new RequestBuilder(this.mobForRequest, this.room, (await this.getService()).mobTable)
   }
 
   public async getActionCollection(): Promise<Collection> {

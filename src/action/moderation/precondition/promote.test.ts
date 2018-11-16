@@ -16,7 +16,7 @@ import {
 import { MESSAGE_FAIL_NOT_PLAYER } from "./constants"
 import promote from "./promote"
 
-const MOB_TO_BAN = "bob"
+const MOB_TO_PROMOTE = "bob"
 const MOB_SELF = "alice"
 let requestBuilder: RequestBuilder
 let service: Service
@@ -31,11 +31,9 @@ describe("promote moderation preconditions", () => {
     player.sessionMob.name = MOB_SELF
     const playerBuilder = await testBuilder.withPlayer()
     playerToPromote = playerBuilder.player
-    playerToPromote.sessionMob.name = MOB_TO_BAN
+    playerToPromote.sessionMob.name = MOB_TO_PROMOTE
+    requestBuilder = await testBuilder.createRequestBuilder()
     service = await testBuilder.getService()
-    service.mobTable.add(player.sessionMob)
-    service.mobTable.add(playerToPromote.sessionMob)
-    requestBuilder = new RequestBuilder(player.sessionMob, service.mobTable)
   })
 
   it("should not be able to promote if not an immortal", async () => {

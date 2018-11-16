@@ -22,7 +22,8 @@ export function getNewRequestFromMessageEvent(client: Client, messageEvent: Mess
     return new AuthRequest(client, data.request)
   }
   const requestArgs = data.request.split(" ")
-  const requestBuilder = new RequestBuilder(client.player.sessionMob, client.getMobTable())
+  const mob = client.player.sessionMob
+  const requestBuilder = new RequestBuilder(mob, mob.room, client.getMobTable())
   return requestBuilder.create(requestArgs[0], data.request)
 }
 
