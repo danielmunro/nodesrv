@@ -2,6 +2,7 @@ import { Attack, AttackResult } from "../../mob/fight/attack"
 import { addFight, Fight, filterCompleteFights, getCorpse, getFights } from "../../mob/fight/fight"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
+import { getTestRoom } from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
 
@@ -55,8 +56,10 @@ describe("fight rounds", () => {
   it("should filter complete fights", async () => {
     // Setup
     const mob = getTestMob()
+    const room = getTestRoom()
+    room.addMob(mob)
     mob.vitals.hp = 0
-    const fight = new Fight(getTestMob(), mob, mob.room)
+    const fight = new Fight(getTestMob(), mob, room)
     addFight(fight)
     expect(getFights().length).toBe(1)
     expect(fight.isInProgress()).toBe(true)
@@ -74,8 +77,10 @@ describe("fight rounds", () => {
     // Setup
     const client = await getTestClient()
     const opponent = getTestMob()
-    opponent.room = client.player.sessionMob.room
-    const fight = new Fight(opponent, client.player.sessionMob, opponent.room)
+    const room = getTestRoom()
+    room.addMob(client.player.sessionMob)
+    room.addMob(opponent)
+    const fight = new Fight(opponent, client.player.sessionMob, room)
     addFight(fight)
     const fightRounds = new FightRounds()
 

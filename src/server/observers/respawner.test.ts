@@ -31,8 +31,7 @@ describe("respawner", () => {
     // given
     const respawner = new Respawner(
       RoomTable.new([startRoom]),
-      new MobTable([mob1, mob2, mob3]),
-      null)
+      new MobTable([mob1, mob2, mob3]))
 
     // when
     await respawner.notify([])
