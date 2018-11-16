@@ -5,11 +5,13 @@ import { newSkill } from "../../skill/factory"
 import { SkillType } from "../../skill/skillType"
 import { getTestClient } from "../../test/client"
 import { Tick } from "./tick"
+import LocationService from "../../mob/locationService"
+import { newMobLocation } from "../../mob/factory"
+import { getTestRoom } from "../../test/room"
 
 describe("ticks", () => {
   it("should call tick on all clients", async () => {
     // given
-    const tick = new Tick()
     const clients = [
       await getTestClient(),
       await getTestClient(),
@@ -17,6 +19,8 @@ describe("ticks", () => {
       await getTestClient(),
       await getTestClient(),
     ]
+
+    const tick = new Tick(new LocationService(clients.map(c => newMobLocation(c.getSessionMob(), getTestRoom()))))
 
     // when
     await tick.notify(clients)
@@ -26,9 +30,6 @@ describe("ticks", () => {
   })
 
   it("should invoke fast healing", async () => {
-    // setup
-    const tick = new Tick()
-
     // given
     const client1 = await getTestClient()
     const mob1 = client1.getSessionMob()
@@ -41,6 +42,11 @@ describe("ticks", () => {
     const mob2 = client2.getSessionMob()
     mob2.level = 50
     mob2.attributes.push(newStartingAttributes(newVitals(1000, 0, 0)))
+
+    const tick = new Tick(new LocationService([
+      newMobLocation(mob1, getTestRoom()),
+      newMobLocation(mob2, getTestRoom()),
+    ]))
 
     // when
     const test = async () => {

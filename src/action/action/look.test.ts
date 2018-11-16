@@ -85,7 +85,7 @@ describe("look", () => {
   })
 
   it("should not be able to see if blind", async () => {
-    await testBuilder.withPlayer(p => p.sessionMob.addAffect(newAffect(AffectType.Blind)))
+    player.sessionMob.addAffect(newAffect(AffectType.Blind))
 
     const response = await look(testBuilder.createRequest(RequestType.Look), await testBuilder.getService())
 

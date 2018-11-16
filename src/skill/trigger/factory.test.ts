@@ -7,6 +7,7 @@ import { newSkill } from "../factory"
 import { SkillType } from "../skillType"
 import { createSkillTriggerEvent } from "./factory"
 import { Resolution } from "./resolution"
+import { getTestRoom } from "../../test/room"
 
 describe("skill trigger factory", () => {
   beforeEach(() => reset())
@@ -17,7 +18,7 @@ describe("skill trigger factory", () => {
     const target = getTestMob()
 
     // when
-    const triggerFail = await createSkillTriggerEvent(mob, Trigger.AttackRoundDefend, target)
+    const triggerFail = await createSkillTriggerEvent(mob, Trigger.AttackRoundDefend, target, getTestRoom())
 
     // then
     expect(triggerFail.skillEventResolution).toBe(Resolution.Failed)
@@ -33,7 +34,7 @@ describe("skill trigger factory", () => {
     addFight(new Fight(mob.mob, target.mob, testBuilder.room))
 
     // when
-    const triggerSuccess = await createSkillTriggerEvent(mob.mob, Trigger.AttackRoundDefend, target.mob)
+    const triggerSuccess = await createSkillTriggerEvent(mob.mob, Trigger.AttackRoundDefend, target.mob, getTestRoom())
 
     // then
     expect(triggerSuccess.skillEventResolution).toBe(Resolution.Invoked)
@@ -46,7 +47,7 @@ describe("skill trigger factory", () => {
     mob.skills.push(newSkill(SkillType.Noop, MAX_PRACTICE_LEVEL))
 
     // when
-    const triggerSuccess = await createSkillTriggerEvent(mob, Trigger.AttackRoundDefend, target)
+    const triggerSuccess = await createSkillTriggerEvent(mob, Trigger.AttackRoundDefend, target, getTestRoom())
 
     // then
     expect(triggerSuccess.skillEventResolution).toBe(Resolution.Failed)

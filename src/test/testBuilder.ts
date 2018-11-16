@@ -12,6 +12,7 @@ import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
 import InputContext from "../request/context/inputContext"
 import { Request } from "../request/request"
+import RequestBuilder from "../request/requestBuilder"
 import { RequestType } from "../request/requestType"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
@@ -23,7 +24,6 @@ import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
-import RequestBuilder from "../request/requestBuilder"
 
 export default class TestBuilder {
   public player: Player

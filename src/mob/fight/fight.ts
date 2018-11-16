@@ -40,8 +40,8 @@ export function reset() {
   fights = []
 }
 
-async function createStartRoundDefenderTrigger(attacker, defender) {
-  return await createSkillTriggerEvent(defender, Trigger.AttackRoundDefend, attacker)
+async function createStartRoundDefenderTrigger(attacker, defender, room) {
+  return await createSkillTriggerEvent(defender, Trigger.AttackRoundDefend, attacker, room)
 }
 
 export function getCorpse(mob: Mob): Item {
@@ -72,41 +72,6 @@ export class Fight {
     attackerAttributes: Attributes,
     defenderAttributes: Attributes): number {
     return Math.max(1, Math.random() * Math.pow(attackerAttributes.hitroll.dam, defenderAttributes.hitroll.hit))
-  }
-
-  private static async attack(attacker: Mob, defender: Mob): Promise<Attack> {
-    const initialEvent = await createStartRoundDefenderTrigger(attacker, defender)
-    if (initialEvent.wasSkillInvoked()) {
-      return Fight.attackDefeated(attacker, defender, getAttackResultFromSkillType(initialEvent.skillType))
-    }
-
-    const xAttributes = attacker.getCombinedAttributes()
-    const yAttributes = defender.getCombinedAttributes()
-
-    if (!Fight.isTargetAcDefeated(xAttributes, yAttributes)) {
-      return Fight.attackDefeated(attacker, defender, AttackResult.Miss)
-    }
-
-    let damage = Fight.calculateDamageFromAttackerToDefender(xAttributes, yAttributes)
-
-    damage = applyAffectModifier(
-      attacker.affects.map(a => a.affectType),
-      Trigger.DamageModifier,
-      damage)
-
-    damage = applyAffectModifier(
-      defender.affects.map(a => a.affectType),
-      Trigger.DamageAbsorption,
-      damage)
-
-    defender.vitals.hp -= damage
-
-    return new Attack(
-      attacker,
-      defender,
-      AttackResult.Hit,
-      damage,
-      defender.vitals.hp < 0 ? attacker.getExperienceFromKilling(defender) : 0)
   }
 
   private status: Status = Status.InProgress
@@ -156,13 +121,48 @@ export class Fight {
     this.status = Status.Done
   }
 
+  private async attack(attacker: Mob, defender: Mob): Promise<Attack> {
+    const initialEvent = await createStartRoundDefenderTrigger(attacker, defender, this.room)
+    if (initialEvent.wasSkillInvoked()) {
+      return Fight.attackDefeated(attacker, defender, getAttackResultFromSkillType(initialEvent.skillType))
+    }
+
+    const xAttributes = attacker.getCombinedAttributes()
+    const yAttributes = defender.getCombinedAttributes()
+
+    if (!Fight.isTargetAcDefeated(xAttributes, yAttributes)) {
+      return Fight.attackDefeated(attacker, defender, AttackResult.Miss)
+    }
+
+    let damage = Fight.calculateDamageFromAttackerToDefender(xAttributes, yAttributes)
+
+    damage = applyAffectModifier(
+      attacker.affects.map(a => a.affectType),
+      Trigger.DamageModifier,
+      damage)
+
+    damage = applyAffectModifier(
+      defender.affects.map(a => a.affectType),
+      Trigger.DamageAbsorption,
+      damage)
+
+    defender.vitals.hp -= damage
+
+    return new Attack(
+      attacker,
+      defender,
+      AttackResult.Hit,
+      damage,
+      defender.vitals.hp < 0 ? attacker.getExperienceFromKilling(defender) : 0)
+  }
+
   private async turnFor(x: Mob, y: Mob): Promise<Attack[]> {
     const attacks = []
-    const events = await createSkillTriggerEvents(x, Trigger.AttackRound, y)
+    const events = await createSkillTriggerEvents(x, Trigger.AttackRound, y, this.room)
     for (let i = -1; i < events.length; i++) {
       const doAttack = i >= 0 ? events[i].skillEventResolution === Resolution.Invoked : true
       if (doAttack) {
-        const attack = await Fight.attack(x, y)
+        const attack = await this.attack(x, y)
         attacks.push(attack)
         if (y.vitals.hp < 0) {
           this.deathOccurred(x, y, attack)

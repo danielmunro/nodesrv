@@ -21,15 +21,15 @@ import { GameServer } from "./server"
 export default function addObservers(gameServer: GameServer): GameServer {
   const service = gameServer.service
   const mobTable = service.mobTable
+  const locationService = new LocationService([])
   gameServer.addObserver(
     new ObserverChain([
-      new Tick(),
+      new Tick(locationService),
       new DecrementAffects(mobTable),
-      new Wander(service, mobTable.getWanderingMobs()),
+      new Wander(mobTable.getWanderingMobs(), locationService),
     ]),
     new RandomTickTimer(
       new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
-  const locationService = new LocationService([])
   const resetService = new ResetService([], [])
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(locationService), new MinuteTimer())

@@ -1,9 +1,9 @@
 import { CheckStatus } from "../../check/checkStatus"
-import { createCastRequest } from "../../request/factory"
+import { RequestType } from "../../request/requestType"
 import { Messages } from "../../skill/precondition/constants"
 import { newSpell } from "../../spell/factory"
 import { SpellType } from "../../spell/spellType"
-import { getTestPlayer } from "../../test/player"
+import TestBuilder from "../../test/testBuilder"
 import cast from "./cast"
 import { MESSAGE_NO_SPELL, MESSAGE_SPELL_DOES_NOT_EXIST } from "./constants"
 
@@ -14,8 +14,11 @@ const TEST_INPUT_INVALID = "cast floodle"
 
 describe("cast", () => {
   it("should require at least one argument", async () => {
+    const testBuilder = new TestBuilder()
+    await testBuilder.withPlayer()
+
     // when
-    const check = await cast(createCastRequest(getTestPlayer(), TEST_INPUT_CAST))
+    const check = await cast(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_CAST))
 
     // then
     expect(check.result).toBe(MESSAGE_NO_SPELL)
@@ -24,17 +27,18 @@ describe("cast", () => {
 
   it("should know if an argument is or is not a spell", async () => {
     // given
-    const player = getTestPlayer()
+    const testBuilder = new TestBuilder()
+    await testBuilder.withPlayer()
 
     // when
-    const poisonCheck = await cast(createCastRequest(player, TEST_INPUT_POISON))
+    const poisonCheck = await cast(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_POISON))
 
     // then
     expect(poisonCheck.result).toBe(Messages.All.NoSpell)
     expect(poisonCheck.status).toBe(CheckStatus.Failed)
 
     // when
-    const floodleCheck = await cast(createCastRequest(player, TEST_INPUT_INVALID))
+    const floodleCheck = await cast(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_INVALID))
 
     // then
     expect(floodleCheck.result).toBe(MESSAGE_SPELL_DOES_NOT_EXIST)
@@ -42,28 +46,33 @@ describe("cast", () => {
   })
 
   it("should be able to cast a known spell", async () => {
+    const testBuilder = new TestBuilder()
+
     // given
-    const player = getTestPlayer()
-    const spell = newSpell(SpellType.GiantStrength)
-    player.sessionMob.spells.push(spell)
-    player.sessionMob.level = 20
+    await testBuilder.withPlayer(p => {
+      p.sessionMob.spells.push(newSpell(SpellType.GiantStrength))
+      p.sessionMob.level = 20
+    })
 
     // when
-    const check = await cast(createCastRequest(player, TEST_INPUT_GIANT))
+    const check = await cast(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
   })
 
   it("should display an appropriate result if the caster lacks mana", async () => {
+    const testBuilder = new TestBuilder()
+
     // given
-    const player = getTestPlayer()
-    player.sessionMob.spells.push(newSpell(SpellType.GiantStrength))
-    player.sessionMob.vitals.mana = 0
-    player.sessionMob.level = 10
+    await testBuilder.withPlayer(p => {
+      p.sessionMob.spells.push(newSpell(SpellType.GiantStrength))
+      p.sessionMob.vitals.mana = 0
+      p.sessionMob.level = 10
+    })
 
     // when
-    const check = await cast(createCastRequest(player, TEST_INPUT_GIANT))
+    const check = await cast(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
