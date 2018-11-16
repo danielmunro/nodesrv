@@ -33,7 +33,7 @@ export default function addObservers(gameServer: GameServer): GameServer {
   const resetService = new ResetService([], [])
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(locationService), new MinuteTimer())
-  gameServer.addObserver(new SocialBroadcaster(), new ShortIntervalTimer())
+  gameServer.addObserver(new SocialBroadcaster(locationService), new ShortIntervalTimer())
   gameServer.addObserver(new FightRounds(), new SecondIntervalTimer())
   gameServer.addObserver(new Respawner(mobTable, resetService, locationService), new FiveMinuteTimer())
 
