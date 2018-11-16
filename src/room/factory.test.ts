@@ -1,4 +1,3 @@
-import { getTestMob } from "../test/mob"
 import { getTestRoom } from "../test/room"
 import { Direction } from "./constants"
 import { newReciprocalExit, newRoom } from "./factory"
@@ -8,15 +7,10 @@ describe("room factory", () => {
   it("should be able to create rooms", () => {
     const name = "a test room"
     const description = "this is a test fixture"
-    const mobs = [
-      getTestMob(),
-    ]
-    const room = newRoom(name, description, mobs)
+    const room = newRoom(name, description)
     expect(room).toBeInstanceOf(Room)
     expect(room.name).toBe(name)
     expect(room.description).toBe(description)
-    expect(room.mobs).toBe(mobs)
-    expect(newRoom("name", "description").mobs).toEqual([])
   })
 
   it("should be able to create reciprocal exits between rooms", () => {

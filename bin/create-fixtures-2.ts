@@ -98,7 +98,7 @@ function dice(rollData) {
   return roll(count, sides) + bonus
 }
 
-function addMob(file, mobData) {
+function addMob(file: File, mobData) {
   const vitals = newVitals(dice(mobData.hit), dice(mobData.mana), 1000)
   const mob = newMob(
     mobData.name,
@@ -112,7 +112,7 @@ function addMob(file, mobData) {
   file.mobMap[mobData.id] = mob
 }
 
-function addRoom(file, roomData) {
+function addRoom(file: File, roomData) {
   const room = newRoom(roomData.title, roomData.description)
   room.importID = roomData.id
   file.roomDataMap[room.importID] = roomData

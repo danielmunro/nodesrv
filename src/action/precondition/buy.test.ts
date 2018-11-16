@@ -2,12 +2,7 @@ import { CheckStatus } from "../../check/checkStatus"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { Role } from "../../mob/role"
-import InputContext from "../../request/context/inputContext"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { getTestMob } from "../../test/mob"
-import { getTestPlayer } from "../../test/player"
-import { getTestRoom } from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
 import buy from "./buy"
 import { MESSAGE_ERROR_NO_ITEM, Messages } from "./constants"
@@ -16,10 +11,11 @@ describe("buy action preconditions", () => {
   it("should fail if a merchant is not in the room", async () => {
     // setup
     const testBuilder = new TestBuilder()
+    await testBuilder.withPlayer()
+    testBuilder.withRoom()
 
     // when
-    const check = await buy(
-      new Request(testBuilder.withMob().mob, new InputContext(RequestType.Buy, "buy foo")))
+    const check = await buy(testBuilder.createRequest(RequestType.Buy, "buy foo"))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -31,14 +27,13 @@ describe("buy action preconditions", () => {
     const testBuilder = new TestBuilder()
 
     // given
-    const mobBuilder = testBuilder.withMob()
-    const mob = mobBuilder.mob
+    testBuilder.withMob()
 
     // and
     testBuilder.withMob().mob.role = Role.Merchant
 
     // when
-    const check = await buy(new Request(mob, new InputContext(RequestType.Buy, "buy foo")))
+    const check = await buy(testBuilder.createRequest(RequestType.Buy, "buy foo"))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -50,15 +45,14 @@ describe("buy action preconditions", () => {
     const testBuilder = new TestBuilder()
 
     // given
-    const mobBuilder = testBuilder.withMob()
-    const mob = mobBuilder.mob
+    testBuilder.withMob()
 
     // and
     const merchBuilder = testBuilder.withMerchant()
     const item = merchBuilder.withAxeEq()
 
     // when
-    const check = await buy(new Request(mob, new InputContext(RequestType.Buy, `buy ${item.name}`)))
+    const check = await buy(testBuilder.createRequest(RequestType.Buy, `buy ${item.name}`))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -71,23 +65,22 @@ describe("buy action preconditions", () => {
     const itemValue = 10
 
     // and
-    const player = getTestPlayer()
-    player.sessionMob.gold = initialGold
-    const room = getTestRoom()
-    room.addMob(player.sessionMob)
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.player.sessionMob.gold = initialGold
+    testBuilder.withRoom()
 
     // and
-    const merch = getTestMob()
-    merch.role = Role.Merchant
-    room.addMob(merch)
+    const merch = testBuilder.withMob()
+    merch.mob.role = Role.Merchant
 
     // and
     const eq = newEquipment("a sombrero", "a robust and eye-catching sombrero", Equipment.Head)
     eq.value = itemValue
-    merch.inventory.addItem(eq)
+    merch.mob.inventory.addItem(eq)
 
     // when
-    const check = await buy(new Request(player.sessionMob, new InputContext(RequestType.Buy, "buy sombrero")))
+    const check = await buy(testBuilder.createRequest(RequestType.Buy, "buy sombrero"))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

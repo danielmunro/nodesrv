@@ -24,7 +24,7 @@ describe("move", () => {
 
     // when
     const response = await move(
-      new CheckedRequest(new Request(mob, new InputContext(RequestType.East)), await Check.ok()),
+      new CheckedRequest(new Request(mob, source, new InputContext(RequestType.East)), await Check.ok()),
       Direction.East,
       service)
 

@@ -2,17 +2,18 @@ import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
+import { getTestRoom } from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 import { Definition} from "./definition"
 
-async function getNewHandlerDefinition(requestType = RequestType.Noop): Definition {
+async function getNewHandlerDefinition(requestType = RequestType.Noop): Promise<Definition> {
   const testBuilder = new TestBuilder()
   return new Definition(await testBuilder.getService(), requestType, () => new Promise((resolve) => resolve()))
 }
 
 function getNewTestRequest(requestType: RequestType): Request {
-  return new Request(getTestMob(), new InputContext(requestType))
+  return new Request(getTestMob(), getTestRoom(), new InputContext(requestType))
 }
 
 describe("Definition", () => {
@@ -41,7 +42,7 @@ describe("Definition", () => {
     testCases.forEach((requestType) => {
       const callback = jest.fn()
       handler
-        .handle(new Request(getTestMob(), new InputContext(requestType)))
+        .handle(new Request(getTestMob(), getTestRoom(), new InputContext(requestType)))
         .then(callback)
         .then(() => expect(callback).toBeCalled())
     })

@@ -10,6 +10,7 @@ describe("train action preconditions", () => {
   it("should fail if a requested train is not understood", async () => {
     // given
     const testBuilder = new TestBuilder()
+    testBuilder.withRoom()
     await testBuilder.withPlayer()
 
     // when
@@ -23,6 +24,7 @@ describe("train action preconditions", () => {
   it("should not work if a trainer is not present", async () => {
     // given
     const testBuilder = new TestBuilder()
+    testBuilder.withRoom()
     await testBuilder.withPlayer()
 
     // when

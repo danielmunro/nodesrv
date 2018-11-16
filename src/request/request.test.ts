@@ -9,7 +9,7 @@ import { Request } from "./request"
 import { RequestType } from "./requestType"
 
 function newLookRequest(player: Player, args: string): Request {
-  return new Request(player.sessionMob, new InputContext(RequestType.Look, args))
+  return new Request(player.sessionMob, player.sessionMob.room, new InputContext(RequestType.Look, args))
 }
 
 describe("request", () => {

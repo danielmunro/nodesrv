@@ -8,6 +8,7 @@ describe("get action preconditions", () => {
   it("should not work if the item specified does not exist", async () => {
     // given
     const testBuilder = new TestBuilder()
+    testBuilder.withRoom()
     await testBuilder.withPlayer()
 
     // when

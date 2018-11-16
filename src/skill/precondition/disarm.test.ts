@@ -1,7 +1,5 @@
 
 import { addFight, Fight, reset } from "../../mob/fight/fight"
-import InputContext from "../../request/context/inputContext"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { SkillType } from "../skillType"
@@ -16,8 +14,7 @@ describe("disarm preconditions", () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 20)
     playerBuilder.withSkill(SkillType.Disarm)
-    const mob = playerBuilder.player.sessionMob
-    const request = new Request(mob, new InputContext(RequestType.Disarm))
+    const request = testBuilder.createRequest(RequestType.Disarm)
 
     // when
     const check = await disarm(request)
@@ -35,7 +32,7 @@ describe("disarm preconditions", () => {
     const target = testBuilder.withMob().mob
     const mob = playerBuilder.player.sessionMob
     addFight(new Fight(mob, target, testBuilder.room))
-    const request = new Request(mob, new InputContext(RequestType.Disarm))
+    const request = testBuilder.createRequest(RequestType.Disarm)
 
     // when
     const check = await disarm(request)
@@ -55,7 +52,7 @@ describe("disarm preconditions", () => {
     const mob = playerBuilder.player.sessionMob
     playerBuilder.withSkill(SkillType.Disarm)
     addFight(new Fight(mob, target, testBuilder.room))
-    const request = new Request(mob, new InputContext(RequestType.Disarm))
+    const request = testBuilder.createRequest(RequestType.Disarm)
 
     // given
     mob.vitals.mv = 0
@@ -78,10 +75,9 @@ describe("disarm preconditions", () => {
     const mob = playerBuilder.player.sessionMob
     playerBuilder.withSkill(SkillType.Disarm)
     addFight(new Fight(mob, target, testBuilder.room))
-    const request = new Request(mob, new InputContext(RequestType.Disarm))
 
     // when
-    const response = await disarm(request)
+    const response = await disarm(testBuilder.createRequest(RequestType.Disarm))
 
     // then
     expect(response.isOk()).toBeTruthy()

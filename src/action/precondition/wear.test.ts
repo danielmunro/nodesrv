@@ -1,29 +1,16 @@
 import { CheckStatus } from "../../check/checkStatus"
-import { Equipment } from "../../item/equipment"
-import { newEquipment } from "../../item/factory"
-import { Item } from "../../item/model/item"
 import { allDispositions, Disposition } from "../../mob/disposition"
-import { Player } from "../../player/model/player"
-import InputContext from "../../request/context/inputContext"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
-import { getTestPlayer } from "../../test/player"
 import TestBuilder from "../../test/testBuilder"
 import { Messages } from "./constants"
 import wear from "./wear"
 
-function getHatOfMight(): Item {
-  return newEquipment("the hat of might", "a mighty hat", Equipment.Head)
-}
-
-function useWearRequest(input: string, player: Player = getTestPlayer()) {
-  return wear(new Request(player.sessionMob, new InputContext(RequestType.Wear, input)))
-}
-
 describe("wear", () => {
   it("should not work if an item is not found", async () => {
     // when
-    const check = await useWearRequest("wear foo")
+    const testBuilder = new TestBuilder()
+    await testBuilder.withPlayer()
+    const check = await wear(testBuilder.createRequest(RequestType.Wear, "wear foo"))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -32,16 +19,16 @@ describe("wear", () => {
 
   it("can equip an item", async () => {
     // given
-    const player = getTestPlayer()
-    const item = getHatOfMight()
-    player.sessionMob.inventory.addItem(item)
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.withAxeEq()
 
     // when
-    const check = await useWearRequest("wear hat", player)
+    const check = await wear(testBuilder.createRequest(RequestType.Wear, "wear axe"))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
-    expect(check.result).toBe(item)
+    expect(check.result).not.toBeNull()
   })
 
   it("can't equip things that aren't equipment", async () => {
@@ -49,7 +36,8 @@ describe("wear", () => {
     const playerBuilder = await testBuilder.withPlayer()
     playerBuilder.withFood()
 
-    const check = await useWearRequest("wear muffin", playerBuilder.player)
+    const check = await wear(
+      testBuilder.createRequest(RequestType.Wear, "wear muffin", playerBuilder.player.sessionMob))
 
     expect(check.status).toBe(CheckStatus.Failed)
     expect(check.result).toBe(Messages.All.Item.NotEquipment)
@@ -62,7 +50,7 @@ describe("wear", () => {
       playerBuilder.withAxeEq()
       const player = playerBuilder.player
       player.sessionMob.disposition = disposition
-      const check = await useWearRequest("wear axe", player)
+      const check = await wear(testBuilder.createRequest(RequestType.Wear, "wear axe", player.sessionMob))
       expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
     })
   })

@@ -8,6 +8,7 @@ describe("drop", () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()
     const mob = playerBuilder.player.sessionMob
+    testBuilder.withRoom()
 
     // and
     const equipment = playerBuilder.withHelmetEq()

@@ -29,6 +29,7 @@ export function getNewRequestFromMessageEvent(client: Client, messageEvent: Mess
 export class Request {
   constructor(
     public readonly mob: Mob,
+    public readonly room: Room,
     public readonly context: RequestContext,
     private readonly target: Mob | Item = null) {}
 
@@ -41,7 +42,7 @@ export class Request {
   }
 
   public getRoom(): Room {
-    return this.mob.room
+    return this.room
   }
 
   public findItemInSessionMobInventory(item = this.getContextAsInput().subject): Item | undefined {
@@ -49,11 +50,11 @@ export class Request {
   }
 
   public findItemInRoomInventory(item = this.getContextAsInput().subject): Item | undefined {
-    return this.mob.room.inventory.findItemByName(item)
+    return this.room.inventory.findItemByName(item)
   }
 
   public findMobInRoom(): Mob | undefined {
-    return this.mob.room.findMobByName(this.getContextAsInput().subject)
+    return this.room.findMobByName(this.getContextAsInput().subject)
   }
 
   public getTarget(): Mob | Item | null {

@@ -1,8 +1,6 @@
 import doNTimes from "../../functional/times"
 import { getFights } from "../../mob/fight/fight"
 import { RequestType } from "../../request/requestType"
-import { Direction } from "../../room/constants"
-import { newReciprocalExit } from "../../room/factory"
 import TestBuilder from "../../test/testBuilder"
 
 let definition
@@ -21,7 +19,6 @@ beforeEach(async () => {
   room1 = testBuilder.withRoom().room
   // room to flee to
   room2 = testBuilder.withRoom().room
-  testBuilder.addExit(...newReciprocalExit(room1, room2, Direction.East))
   await testBuilder.fight()
   const actionCollection = await testBuilder.getActionCollection()
   definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Flee)

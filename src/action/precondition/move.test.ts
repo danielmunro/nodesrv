@@ -1,12 +1,8 @@
 import { CheckStatus } from "../../check/checkStatus"
-import InputContext from "../../request/context/inputContext"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { Direction } from "../../room/constants"
 import { newReciprocalExit } from "../../room/factory"
-import { getTestMob } from "../../test/mob"
-import { getTestPlayer } from "../../test/player"
-import { getTestRoom } from "../../test/room"
+import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_DIRECTION_DOES_NOT_EXIST } from "./constants"
 import { MESSAGE_OUT_OF_MOVEMENT } from "./constants"
 import move from "./move"
@@ -14,7 +10,10 @@ import move from "./move"
 describe("move", () => {
   it("should not allow movement where an exit does not exist", async () => {
     // when
-    const check = await move(new Request(getTestMob(), new InputContext(RequestType.North)), Direction.North)
+    const testBuilder = new TestBuilder()
+    testBuilder.withRoom()
+    await testBuilder.withPlayer()
+    const check = await move(testBuilder.createRequest(RequestType.North), Direction.North)
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -23,15 +22,15 @@ describe("move", () => {
 
   it("should not allow movement when movement points are depleted", async () => {
     // given
-    const player = getTestPlayer()
-    player.sessionMob.vitals.mv = 0
-    const room1 = getTestRoom()
-    const room2 = getTestRoom()
-    newReciprocalExit(room1, room2, Direction.South)
-    room1.addMob(player.sessionMob)
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.player.sessionMob.vitals.mv = 0
+    const room1 = testBuilder.withRoom()
+    const room2 = testBuilder.withRoom()
+    newReciprocalExit(room1.room, room2.room, Direction.South)
 
     // when
-    const check = await move(new Request(player.sessionMob, new InputContext(RequestType.South)), Direction.South)
+    const check = await move(testBuilder.createRequest(RequestType.South), Direction.South)
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -40,14 +39,14 @@ describe("move", () => {
 
   it("should allow movement when preconditions pass", async () => {
     // given
-    const player = getTestPlayer()
-    const room1 = getTestRoom()
-    const room2 = getTestRoom()
-    newReciprocalExit(room1, room2, Direction.South)
-    room1.addMob(player.sessionMob)
+    const testBuilder = new TestBuilder()
+    await testBuilder.withPlayer()
+    const room1 = testBuilder.withRoom()
+    const room2 = testBuilder.withRoom()
+    newReciprocalExit(room1.room, room2.room, Direction.South)
 
     // when
-    const check = await move(new Request(player.sessionMob, new InputContext(RequestType.South)), Direction.South)
+    const check = await move(testBuilder.createRequest(RequestType.South), Direction.South)
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

@@ -8,6 +8,7 @@ describe("sell action action preconditions", () => {
   it("should fail if a merchant is not in the room", async () => {
     // setup
     const testBuilder = new TestBuilder()
+    testBuilder.withRoom()
     await testBuilder.withPlayer()
     const request = testBuilder.createRequest(RequestType.Sell, "sell foo")
 

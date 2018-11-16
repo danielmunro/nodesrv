@@ -8,6 +8,7 @@ import RequestBuilder from "../../../request/requestBuilder"
 import { RequestType } from "../../../request/requestType"
 import Service from "../../../service/service"
 import { getTestMob } from "../../../test/mob"
+import { getTestRoom } from "../../../test/room"
 import TestBuilder from "../../../test/testBuilder"
 import { default as banAction } from "../actions/ban"
 import ban from "./ban"
@@ -51,7 +52,7 @@ describe("ban moderation preconditions", () => {
   it("should not apply a ban if the requester is not an admin", async () => {
     // when
     const response = await ban(
-      new Request(getTestMob(), new InputContext(RequestType.Ban, `ban ${MOB_TO_BAN}`)), service)
+      new Request(getTestMob(), getTestRoom(), new InputContext(RequestType.Ban, `ban ${MOB_TO_BAN}`)), service)
 
     // then
     expect(response.status).toBe(CheckStatus.Failed)

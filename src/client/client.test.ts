@@ -35,7 +35,7 @@ describe("client sanity checks", () => {
     expect(client.hasRequests()).toBeFalsy()
 
     // when
-    client.addRequest(new Request(client.getSessionMob(), new InputContext(RequestType.Any)))
+    client.addRequest(new Request(client.getSessionMob(), getTestRoom(), new InputContext(RequestType.Any)))
 
     // then
     expect(client.hasRequests()).toBeTruthy()
@@ -46,7 +46,7 @@ describe("client sanity checks", () => {
     expect(client.canHandleRequests()).toBeFalsy()
 
     // when
-    client.addRequest(new Request(client.player.sessionMob, new InputContext(RequestType.Any)))
+    client.addRequest(new Request(client.player.sessionMob, getTestRoom(), new InputContext(RequestType.Any)))
 
     // then
     expect(client.canHandleRequests()).toBeTruthy()
@@ -73,7 +73,7 @@ describe("client sanity checks", () => {
     const ws = jest.fn(() => ({
       send,
     }))
-    client = new Client(ws(), "127.0.0.1", new Collection([]), jest.fn(), jest.fn(), jest.fn())
+    client = new Client(ws(), "127.0.0.1", new Collection([], []), jest.fn(), jest.fn(), jest.fn())
 
     // expect
     expect(send.mock.calls.length).toBe(0)
@@ -154,7 +154,7 @@ describe("clients", () => {
 
     // when
     const response = await client.handleRequest(request)
-    const lookResponse = await look(request, client)
+    const lookResponse = await look(request, client.service)
 
     // then
     expect(response).toEqual(lookResponse)
@@ -177,7 +177,7 @@ describe("clients", () => {
     const ws = jest.fn(() => ({
         send: (message) => buf.push(message),
       }))
-    client = new Client(ws(), "127.0.0.1", new Collection([]), jest.fn(), jest.fn(), jest.fn())
+    client = new Client(ws(), "127.0.0.1", new Collection([], []), jest.fn(), jest.fn(), jest.fn())
     const id = "test-tick-id"
     const timestamp = new Date()
 
@@ -230,7 +230,7 @@ describe("clients", () => {
     room.addMob(trainer)
     room.addMob(client.player.sessionMob)
     client.player.sessionMob.playerMob.trains = 1
-    client.addRequest(new Request(client.player.sessionMob, new InputContext(RequestType.Train, "train str")))
+    client.addRequest(new Request(client.player.sessionMob, room, new InputContext(RequestType.Train, "train str")))
 
     // when
     await client.handleNextRequest()

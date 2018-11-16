@@ -5,6 +5,7 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import reset from "../../test/reset"
+import { getTestRoom } from "../../test/room"
 import affects from "./affects"
 
 beforeEach(() => reset())
@@ -17,7 +18,8 @@ describe("affects", () => {
     mob.addAffect(newAffect(AffectType.Stunned, 2))
 
     // when
-    const response = await affects(new Request(mob, new InputContext(RequestType.Affects)))
+    const response = await affects(
+      new Request(mob, getTestRoom(), new InputContext(RequestType.Affects)))
     const message = response.message.getMessageToRequestCreator()
 
     // then

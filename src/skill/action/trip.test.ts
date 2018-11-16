@@ -2,8 +2,6 @@ import CheckedRequest from "../../check/checkedRequest"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { addFight, Fight } from "../../mob/fight/fight"
-import InputContext from "../../request/context/inputContext"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import tripPrecondition from "../precondition/trip"
@@ -25,7 +23,7 @@ describe("trip skill action", () => {
       testBuilder.withMob().mob,
       testBuilder.room))
 
-    const request = new Request(playerBuilder.player.sessionMob, new InputContext(RequestType.Trip))
+    const request = testBuilder.createRequest(RequestType.Trip)
     const check = await tripPrecondition(request)
 
     // when

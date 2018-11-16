@@ -17,7 +17,7 @@ describe("eat action", () => {
     const player = playerBuilder.player
 
     await eat(new CheckedRequest(
-      new Request(player.sessionMob, new InputContext(RequestType.Eat, `eat muf`)),
+      new Request(player.sessionMob, testBuilder.room, new InputContext(RequestType.Eat, `eat muf`)),
       await Check.ok(food)))
 
     expect(player.sessionMob.inventory.items.length).toBe(0)
@@ -32,8 +32,7 @@ describe("eat action", () => {
     player.sessionMob.playerMob.hunger = appetite(player.sessionMob.race) - 1
 
     const response = await eat(new CheckedRequest(
-      new Request(player.sessionMob, new InputContext(RequestType.Eat, `eat muf`)),
-      await Check.ok(food)))
+      testBuilder.createRequest(RequestType.Eat, `eat muffin`), await Check.ok(food)))
 
     expect(response.message.getMessageToRequestCreator()).toContain("You feel full")
   })
@@ -42,11 +41,10 @@ describe("eat action", () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()
     const food = playerBuilder.withFood()
-    const mob = playerBuilder.player.sessionMob
     food.affects.push(newAffect(AffectType.Poison))
 
     const response = await eat(new CheckedRequest(
-      new Request(mob, new InputContext(RequestType.Eat, `eat muff`)),
+      testBuilder.createRequest(RequestType.Eat, `eat muffin`),
       await Check.ok(food)))
 
     expect(response.message.getMessageToRequestCreator()).toContain("and suddenly feel different")
