@@ -66,6 +66,7 @@ export default class Session {
     this.status = SessionStatus.LoggedIn
     this.client.player = player
     this.client.send({ player: this.player })
-    this.client.send(await look(new Request(this.mob, this.mob.room, new InputContext(RequestType.Look)), null))
+    this.client.send(
+      await look(new Request(this.mob, this.client.getStartRoom(), new InputContext(RequestType.Look)), null))
   }
 }

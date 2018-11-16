@@ -25,6 +25,6 @@ describe("moveMob", () => {
     await service.saveRoom(allRooms)
     await service.saveExit(exits)
     await service.moveMob(mob, Direction.North)
-    expect(mob.room.id).toBe(destination.id)
+    expect(destination.mobs).toHaveLength(1)
   })
 })

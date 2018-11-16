@@ -194,7 +194,7 @@ describe("clients", () => {
 
   it("should remove a player's session mob from its room when the client shuts down", () => {
     // setup
-    const room = client.player.sessionMob.room
+    const room = client.getStartRoom()
 
     // expect
     expect(room.mobs).toContain(client.player.sessionMob)

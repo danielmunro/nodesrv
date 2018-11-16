@@ -7,10 +7,12 @@ import { Wander } from "./wander"
 
 describe("wander", () => {
   it("should cause a mob to move", async () => {
-    // given
     const mob = getTestMob()
+
+    // given
     mob.wanders = true
-    const source = mob.room
+    const source = getTestRoom()
+    source.addMob(mob)
     source.name = "room 1"
     const destination = getTestRoom()
     destination.name = "room 2"

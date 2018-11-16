@@ -145,7 +145,7 @@ export class Client {
 
     if (responseAction.wasFightStarted()) {
       const request = response.request as Request
-      addFight(new Fight(this.player.sessionMob, request.getTarget() as Mob, this.player.sessionMob.room))
+      addFight(new Fight(this.player.sessionMob, request.getTarget() as Mob, request.room))
     }
   }
 

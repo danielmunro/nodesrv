@@ -30,6 +30,6 @@ describe("move", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Info)
-    expect(mob.room.id).toBe(destination.id)
+    expect(destination.mobs).toHaveLength(1)
   })
 })

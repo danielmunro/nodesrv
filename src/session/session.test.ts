@@ -27,7 +27,6 @@ describe("session", () => {
     expect(session.isLoggedIn()).toBeTruthy()
     expect(session.getPlayer()).toBe(player)
     expect(session.getMob()).toBe(mob)
-    expect(session.getMob().room).toBe(client.getStartRoom())
   })
 
   it("should login when complete", async () => {

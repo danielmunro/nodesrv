@@ -47,7 +47,7 @@ describe("flee action handler", () => {
 
     // then
     expect(successResponse).toBeTruthy()
-    expect(mob.room.uuid).toBe(room2.uuid)
+    expect(room2.mobs).toHaveLength(1)
   })
 
   it("flee should accurately build its response message", async () => {

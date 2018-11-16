@@ -6,9 +6,9 @@ describe("drop", () => {
   it("should be able to drop an item", async () => {
     // given
     const testBuilder = new TestBuilder()
+    const room = testBuilder.withRoom().room
     const playerBuilder = await testBuilder.withPlayer()
     const mob = playerBuilder.player.sessionMob
-    testBuilder.withRoom()
 
     // and
     const equipment = playerBuilder.withHelmetEq()
@@ -24,7 +24,7 @@ describe("drop", () => {
     const message = response.message.getMessageToRequestCreator()
     expect(message).toContain("you drop")
     expect(message).toContain(equipment.name)
-    expect(mob.room.inventory.items).toHaveLength(1)
+    expect(room.inventory.items).toHaveLength(1)
     expect(mob.inventory.items).toHaveLength(0)
   })
 })

@@ -89,7 +89,7 @@ export class Mob {
     (type) => Attributes, (attributes) => attributes.mob, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   public attributes: Attributes[] = []
 
-  @ManyToOne((type) => Room, (room) => room.mobs)
+  @ManyToOne(type => Room, room => room.mobs)
   public room: Room
 
   @ManyToOne((type) => Player, (player) => player.mobs)
