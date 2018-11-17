@@ -4,6 +4,7 @@ import Check from "../check/check"
 import CheckComponent from "../check/checkComponent"
 import CheckedRequest from "../check/checkedRequest"
 import { CheckStatus } from "../check/checkStatus"
+import { Client } from "../client/client"
 import { Item } from "../item/model/item"
 import { newMobLocation } from "../mob/factory"
 import { addFight, Fight, reset } from "../mob/fight/fight"
@@ -12,6 +13,7 @@ import MobLocation from "../mob/model/mobLocation"
 import { Role } from "../mob/role"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
+import { getPlayerRepository } from "../player/repository/player"
 import newRegion from "../region/factory"
 import { Terrain } from "../region/terrain"
 import InputContext from "../request/context/inputContext"
@@ -23,13 +25,17 @@ import { newReciprocalExit, newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
 import Service from "../service/service"
 import ServiceBuilder from "../service/serviceBuilder"
+import { default as AuthService } from "../session/auth/service"
 import { SkillType } from "../skill/skillType"
-import { getTestClient } from "./client"
 import { getTestMob } from "./mob"
 import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
+
+const ws = jest.fn(() => ({
+  send: jest.fn(),
+}))
 
 export default class TestBuilder {
   public player: Player
@@ -50,8 +56,19 @@ export default class TestBuilder {
     if (!this.player) {
       await this.withPlayer()
     }
-    const client = await getTestClient(this.player, this.room)
-    this.player = client.player
+    if (!this.room) {
+      this.withRoom()
+    }
+    const service = await this.getService()
+    const client = new Client(
+      ws(),
+      "127.0.0.1",
+      await getActionCollection(service),
+      service,
+      this.room,
+      new AuthService(await getPlayerRepository()),
+      this.serviceBuilder.locationService)
+    await client.session.login(this.player)
     this.mobForRequest = client.getSessionMob()
     this.serviceBuilder.addMob(this.mobForRequest)
 

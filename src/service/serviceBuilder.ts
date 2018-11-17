@@ -11,7 +11,7 @@ import { default as RoomTable } from "../room/table"
 import Service from "./service"
 
 export default class ServiceBuilder {
-  private mobLocations: MobLocation[] = []
+  public readonly locationService: LocationService = new LocationService([])
 
   constructor(
     private rooms: Room[] = [],
@@ -36,17 +36,16 @@ export default class ServiceBuilder {
   }
 
   public addMobLocation(mobLocation: MobLocation) {
-    this.mobLocations.push(mobLocation)
+    this.locationService.addMobLocation(mobLocation)
   }
 
   public async createService(): Promise<Service> {
-    const locationService = new LocationService(this.mobLocations)
     return Service.new(
-      locationService,
+      this.locationService,
       RoomTable.new(this.rooms),
       new MobTable(this.mobs),
       new ItemTable(this.items),
-      new ExitTable(locationService, this.exits),
+      new ExitTable(this.locationService, this.exits),
     )
   }
 }

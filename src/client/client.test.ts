@@ -4,7 +4,7 @@ import doNTimes from "../functional/times"
 import { getFights } from "../mob/fight/fight"
 import { Player } from "../player/model/player"
 import InputContext from "../request/context/inputContext"
-import { getNewRequestFromMessageEvent, Request } from "../request/request"
+import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { default as AuthRequest } from "../session/auth/request"
 import { SkillType } from "../skill/skillType"
@@ -19,15 +19,14 @@ function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
 }
 
+let testBuilder: TestBuilder
 let client: Client
+beforeEach(async () => {
+  testBuilder = new TestBuilder()
+  client = await testBuilder.withClient()
+})
 
 describe("client sanity checks", () => {
-  beforeEach(async () => client = await getTestClient())
-
-  it("getSessionMob sanity check", () => {
-    expect(client.getSessionMob()).toBe(client.session.getMob())
-  })
-
   it("has requests sanity check", () => {
     // expect
     expect(client.hasRequests()).toBeFalsy()
@@ -96,8 +95,6 @@ describe("client sanity checks", () => {
 })
 
 describe("clients", () => {
-  beforeEach(async () => client = await getTestClient())
-
   it("should delegate handling requests to the session if not logged in", async () => {
     const newClient = await getTestClientLoggedOut()
     const authStep = newClient.session.getAuthStepMessage()
@@ -124,20 +121,9 @@ describe("clients", () => {
     expect(client.isOwnMessage(newMessage)).toBe(false)
   })
 
-  it("should be able to get a request from a result event", () => {
-    // setup
-    const testMessage = "this is a test"
-    const testEvent = getNewTestMessageEvent(testMessage)
-    const request = getNewRequestFromMessageEvent(client, testEvent) as Request
-
-    // expect
-    expect(request.getContextAsInput().input).toEqual(testMessage)
-  })
-
   it("should use the default action when no handlers match", async () => {
     // setup
-    const request = getNewRequestFromMessageEvent(client, getNewTestMessageEvent()) as Request
-    expect.assertions(1)
+    const request = testBuilder.createRequest(RequestType.Noop)
 
     // when
     const response = await client.handleRequest(request)
@@ -148,7 +134,6 @@ describe("clients", () => {
 
   it("should be able to invoke a valid action", async () => {
     // setup
-    const testBuilder = new TestBuilder()
     testBuilder.withRoom()
     await testBuilder.withClient()
 
@@ -162,7 +147,7 @@ describe("clients", () => {
 
   it("invokes the default request action when input has no action handler", async () => {
     // setup
-    const request = getNewRequestFromMessageEvent(client, getNewTestMessageEvent("foo")) as Request
+    const request = testBuilder.createRequest(RequestType.Noop)
 
     // when
     const response = await client.handleRequest(request)
@@ -210,7 +195,7 @@ describe("clients", () => {
 
   it("training will apply the cost appropriately", async () => {
     // setup
-    const testBuilder = new TestBuilder()
+    testBuilder = new TestBuilder()
     const testClient = await testBuilder.withClient()
     testBuilder.withRoom()
     testBuilder.withTrainer()
@@ -226,7 +211,7 @@ describe("clients", () => {
 
   it("should create a fight if the action outcome is such", async () => {
     await doNTimes(1000, async () => {
-      const testBuilder = new TestBuilder()
+      testBuilder = new TestBuilder()
       await testBuilder.withPlayerAndSkill(SkillType.Steal, 5)
       testBuilder.withMob("bob").withAxeEq()
       const response = await client.handleRequest(testBuilder.createRequest(RequestType.Steal))

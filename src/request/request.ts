@@ -16,14 +16,15 @@ import { RequestType } from "./requestType"
 import ResponseAction from "./responseAction"
 import ResponseBuilder from "./responseBuilder"
 
-export function getNewRequestFromMessageEvent(client: Client, messageEvent: MessageEvent): Request | AuthRequest {
+export function getNewRequestFromMessageEvent(
+  client: Client, room: Room, messageEvent: MessageEvent): Request | AuthRequest {
   const data = JSON.parse(messageEvent.data)
   if (!client.player) {
     return new AuthRequest(client, data.request)
   }
   const requestArgs = data.request.split(" ")
   const mob = client.player.sessionMob
-  const requestBuilder = new RequestBuilder(mob, mob.room, client.getMobTable())
+  const requestBuilder = new RequestBuilder(mob, room, client.getMobTable())
   return requestBuilder.create(requestArgs[0], data.request)
 }
 

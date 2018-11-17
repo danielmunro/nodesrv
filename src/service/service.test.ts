@@ -1,9 +1,9 @@
+import LocationService from "../mob/locationService"
 import { Direction } from "../room/constants"
 import { getTestMob } from "../test/mob"
 import { getTestRoom } from "../test/room"
 import TestBuilder from "../test/testBuilder"
 import Service from "./service"
-import LocationService from "../mob/locationService"
 
 describe("moveMob", () => {
   it("should not allow movement where an exit does not exist", async () => {

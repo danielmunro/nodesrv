@@ -5,6 +5,7 @@ import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import { Item } from "../item/model/item"
 import { addFight, Fight } from "../mob/fight/fight"
+import LocationService from "../mob/locationService"
 import { Mob } from "../mob/model/mob"
 import Table from "../mob/table"
 import { Player } from "../player/model/player"
@@ -27,7 +28,7 @@ export function getDefaultUnhandledMessage(request: Request) {
 
 export class Client {
   public player: Player
-  private session: Session
+  public readonly session: Session
   private requests = []
 
   constructor(
@@ -36,9 +37,14 @@ export class Client {
     public readonly handlers: Collection,
     private readonly service: Service,
     private readonly startRoom: Room,
-    private readonly authService: AuthService) {
+    private readonly authService: AuthService,
+    private readonly locationService: LocationService) {
     this.session = new Session(this, new Email(this.authService))
-    this.ws.onmessage = (data) => this.addRequest(getNewRequestFromMessageEvent(this, data))
+    this.ws.onmessage = data =>
+      this.addRequest(getNewRequestFromMessageEvent(
+        this,
+        this.locationService.getLocationForMob(this.getSessionMob()).room,
+        data))
     this.ws.onerror = (error: ErrorEvent) =>
       console.warn("received error from client ws", { ip: this.ip, message: error.message })
   }
