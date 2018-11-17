@@ -7,6 +7,7 @@ import Email from "./auth/login/email"
 import Request from "./auth/request"
 import Service from "./auth/service"
 import Session from "./session"
+import LocationService from "../mob/locationService"
 
 describe("session", () => {
   it("isLoggedIn sanity check", async () => {
@@ -15,7 +16,10 @@ describe("session", () => {
     const player = getTestPlayer()
     player.sessionMob = mob
     const client = await getTestClient()
-    const session = new Session(client, new Email(new Service(await getPlayerRepository())))
+    const session = new Session(
+      client,
+      new Email(new Service(await getPlayerRepository())),
+      new LocationService([]))
 
     // expect
     expect(session.isLoggedIn()).toBeFalsy()
@@ -32,7 +36,10 @@ describe("session", () => {
   it("should login when complete", async () => {
     // given
     const client = await getTestClient()
-    const session = new Session(client, new Complete(client.player))
+    const session = new Session(
+      client,
+      new Complete(client.player),
+      new LocationService([]))
 
     // expect
     expect(session.isLoggedIn()).toBeFalsy()

@@ -20,7 +20,7 @@ async function getMockClient(room = getTestRoom()): Promise<Client> {
   const client = new Client(null, null, null, null, null, null, locationService)
   client.service = await Service.new(locationService)
   client.player = getTestPlayer()
-  client.session = new Session(client, new Complete(client.player))
+  client.session = new Session(client, new Complete(client.player), locationService)
   client.player.sessionMob = getTestMob()
   client.getSessionMob = () => client.player.sessionMob
   client.isOwnMessage = (m: Message) => m.sender.uuid === client.player.sessionMob.uuid

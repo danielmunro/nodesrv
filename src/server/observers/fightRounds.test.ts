@@ -59,7 +59,6 @@ describe("fight rounds", () => {
     // Setup
     const mob = getTestMob()
     const room = getTestRoom()
-    room.addMob(mob)
     mob.vitals.hp = 0
     const fight = new Fight(getTestMob(), mob, room)
     addFight(fight)

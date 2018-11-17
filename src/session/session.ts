@@ -7,6 +7,8 @@ import { default as MobComplete } from "./auth/createMob/complete"
 import { default as PlayerComplete } from "./auth/createPlayer/complete"
 import { default as AuthRequest } from "./auth/request"
 import { SessionStatus } from "./status"
+import LocationService from "../mob/locationService"
+import { newMobLocation } from "../mob/factory"
 
 export default class Session {
   private player: Player
@@ -16,7 +18,8 @@ export default class Session {
 
   constructor(
     public readonly client: Client,
-    private authStep: AuthStep) {}
+    private authStep: AuthStep,
+    private readonly locationService: LocationService) {}
 
   public isLoggedIn(): boolean {
     return this.status === SessionStatus.LoggedIn
@@ -55,6 +58,7 @@ export default class Session {
   public async login(player: Player) {
     this.mob = player.sessionMob
     this.player = player
+    this.locationService.addMobLocation(newMobLocation(this.mob, this.client.getStartRoom()))
     this.client.getStartRoom().addMob(this.mob)
     if (this.isMobCreated) {
       this.client.getMobTable().add(this.mob)

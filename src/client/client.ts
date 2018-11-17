@@ -39,7 +39,7 @@ export class Client {
     private readonly startRoom: Room,
     private readonly authService: AuthService,
     private readonly locationService: LocationService) {
-    this.session = new Session(this, new Email(this.authService))
+    this.session = new Session(this, new Email(this.authService), this.locationService)
     this.ws.onmessage = data =>
       this.addRequest(getNewRequestFromMessageEvent(
         this,
