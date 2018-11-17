@@ -29,6 +29,8 @@ import { Trigger } from "../trigger"
 import MobReset from "./mobReset"
 import { PlayerMob } from "./playerMob"
 
+const ownedEntityOptions = { cascadeInsert: true, cascadeUpdate: true, eager: true }
+
 @Entity()
 export class Mob {
   @PrimaryGeneratedColumn()
@@ -47,8 +49,8 @@ export class Mob {
   @Column("text", { nullable: true })
   public description: string
 
-  public shortDescription
   @Column("text", { nullable: true })
+  public shortDescription
 
   @Column("text")
   public race: Race
@@ -77,40 +79,38 @@ export class Mob {
   @Column("integer", { default: Role.None })
   public role: Role = Role.None
 
-  @OneToMany((type) => Affect, (affect) => affect.mob, { cascadeInsert: true, eager: true })
+  @OneToMany(type => Affect, affect => affect.mob, { ...ownedEntityOptions })
   public affects: Affect[] = []
 
-  @OneToOne((type) => Vitals, { cascadeInsert: true, eager: true })
+  @OneToOne((type) => Vitals, { cascadeAll: true, eager: true })
   @JoinColumn()
   public vitals: Vitals = new Vitals()
 
   @OneToMany(
-    (type) => Attributes, (attributes) => attributes.mob, { cascadeInsert: true, cascadeUpdate: true, eager: true })
+    type => Attributes, attributes => attributes.mob, { ...ownedEntityOptions })
   public attributes: Attributes[] = []
 
-  @ManyToOne((type) => Player, (player) => player.mobs)
+  @ManyToOne(type => Player, player => player.mobs)
   public player: Player
 
-  @OneToOne((type) => Inventory, { cascadeInsert: true, eager: true })
+  @OneToOne(type => Inventory, { cascadeAll: true, eager: true })
   @JoinColumn()
   public inventory = new Inventory()
 
-  @OneToOne((type) => Equipped, { cascadeInsert: true, cascadeUpdate: true, eager: true })
+  @OneToOne(type => Equipped, { cascadeAll: true, eager: true })
   @JoinColumn()
   public equipped = new Equipped()
 
-  @OneToMany((type) => Skill, (skill) => skill.mob, { cascadeInsert: true, cascadeUpdate: true, eager: true })
+  @OneToMany(type => Skill, skill => skill.mob, { ...ownedEntityOptions })
   public skills: Skill[] = []
 
-  @OneToMany((type) => Spell, (spell) => spell.mob, { cascadeInsert: true, cascadeUpdate: true, eager: true })
+  @OneToMany(type => Spell, spell => spell.mob, { ...ownedEntityOptions })
   public spells: Spell[] = []
 
-  @OneToOne((type) => PlayerMob,
-    (playerMob) => playerMob.mob,
-    { nullable: true, cascadeInsert: true, cascadeUpdate: true })
+  @OneToOne(type => PlayerMob, playerMob => playerMob.mob, { nullable: true, ...ownedEntityOptions })
   public playerMob: PlayerMob
 
-  @OneToOne(type => MobReset, { eager: true })
+  @OneToOne(type => MobReset, { cascadeAll: true, eager: true })
   @JoinColumn()
   public reset: MobReset = new MobReset()
 

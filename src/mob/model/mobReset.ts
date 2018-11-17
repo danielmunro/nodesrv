@@ -19,6 +19,6 @@ export default class MobReset {
   @ManyToOne(type => Room, room => room.roomResets)
   public room: Room
 
-  @Column("text")
+  @Column("text", { nullable: true })
   public disposition: Disposition
 }
