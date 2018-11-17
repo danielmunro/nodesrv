@@ -5,7 +5,15 @@ import MobLocation from "./model/mobLocation"
 export default class LocationService {
   constructor(private mobLocations: MobLocation[]) {}
 
+  public getMobLocationCount(): number {
+    return this.mobLocations.length
+  }
+
   public addMobLocation(mobLocation: MobLocation) {
+    if (this.getLocationForMob(mobLocation.mob)) {
+      this.updateMobLocation(mobLocation.mob, mobLocation.room)
+      return
+    }
     this.mobLocations.push(mobLocation)
   }
 
