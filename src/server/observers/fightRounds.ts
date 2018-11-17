@@ -9,6 +9,7 @@ import damageDescriptor from "../../mob/fight/damageDescriptor"
 import { filterCompleteFights, getFights } from "../../mob/fight/fight"
 import healthIndicator from "../../mob/fight/healthIndicator"
 import { Round } from "../../mob/fight/round"
+import LocationService from "../../mob/locationService"
 import { Mob } from "../../mob/model/mob"
 import { getBodyPartMessage } from "../../mob/race/bodyParts"
 import { simpleD4 } from "../../random/dice"
@@ -124,6 +125,7 @@ export function createClientMobMap(clients: Client[]): object {
 }
 
 export class FightRounds implements Observer {
+
   private static proceedAllFightRounds(): Promise<Round[]> {
     return Promise.all(getFights().map(fight => fight.round()))
   }
@@ -138,6 +140,7 @@ export class FightRounds implements Observer {
     client.send({ message })
     client.sendMessage(client.player.prompt())
   }
+  constructor(private readonly locationService: LocationService) {}
 
   public async notify(clients: Client[]) {
     const rounds = await FightRounds.proceedAllFightRounds()
@@ -147,7 +150,7 @@ export class FightRounds implements Observer {
   }
 
   private updateRound(round: Round, clientMobMap) {
-    round.room.mobs.forEach(mob =>
+    this.locationService.getMobsByRoom(round.room).forEach(mob =>
       new Maybe(clientMobMap[mob.name])
         .do(() => FightRounds.updateClientIfMobIsOwned(clientMobMap, mob, round)))
   }

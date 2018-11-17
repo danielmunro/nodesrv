@@ -1,10 +1,6 @@
-import look from "../action/action/look"
 import { Client } from "../client/client"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
-import InputContext from "../request/context/inputContext"
-import { Request } from "../request/request"
-import { RequestType } from "../request/requestType"
 import AuthStep from "./auth/authStep"
 import Complete from "./auth/complete"
 import { default as MobComplete } from "./auth/createMob/complete"
@@ -65,8 +61,5 @@ export default class Session {
     }
     this.status = SessionStatus.LoggedIn
     this.client.player = player
-    this.client.send({ player: this.player })
-    this.client.send(
-      await look(new Request(this.mob, this.client.getStartRoom(), new InputContext(RequestType.Look)), null))
   }
 }

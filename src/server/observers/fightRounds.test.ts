@@ -1,5 +1,7 @@
+import { newMobLocation } from "../../mob/factory"
 import { Attack, AttackResult } from "../../mob/fight/attack"
 import { addFight, Fight, filterCompleteFights, getCorpse, getFights } from "../../mob/fight/fight"
+import LocationService from "../../mob/locationService"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
@@ -82,7 +84,10 @@ describe("fight rounds", () => {
     room.addMob(opponent)
     const fight = new Fight(opponent, client.player.sessionMob, room)
     addFight(fight)
-    const fightRounds = new FightRounds()
+    const fightRounds = new FightRounds(new LocationService([
+      newMobLocation(client.getSessionMob(), room),
+      newMobLocation(opponent, room),
+    ]))
 
     // When
     await fightRounds.notify([client])

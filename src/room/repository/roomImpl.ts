@@ -10,6 +10,6 @@ export default class RoomRepositoryImpl implements RoomRepository {
   }
 
   public findAll() {
-    return this.roomRepository.find({ relations: ["mobs"] })
+    return this.roomRepository.find()
   }
 }

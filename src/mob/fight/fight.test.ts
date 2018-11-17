@@ -31,8 +31,6 @@ describe("fight", () => {
     const aggressor = newFightingMob("aggressor", newHitroll(2, 3))
     const target = newFightingMob("target", newHitroll(1, 1))
     const room = getTestRoom()
-    room.addMob(aggressor)
-    room.addMob(target)
 
     // WHEN - a fight is allowed to complete
     const fight = new Fight(aggressor, target, room)

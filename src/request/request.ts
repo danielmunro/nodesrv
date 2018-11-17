@@ -55,10 +55,6 @@ export class Request {
     return this.room.inventory.findItemByName(item)
   }
 
-  public findMobInRoom(): Mob | undefined {
-    return this.room.findMobByName(this.getContextAsInput().subject)
-  }
-
   public getTarget(): Mob | Item | null {
     return this.target
   }

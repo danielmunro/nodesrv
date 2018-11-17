@@ -2,7 +2,6 @@ import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, 
 import * as uuid from "uuid"
 import { SectionType } from "../../area/sectionType"
 import { Inventory } from "../../item/model/inventory"
-import match from "../../matcher/match"
 import { Mob } from "../../mob/model/mob"
 import MobReset from "../../mob/model/mobReset"
 import { Region } from "../../region/model/region"
@@ -54,10 +53,6 @@ export class Room {
 
   public addMob(mob: Mob): void {
     this.mobs.push(mob)
-  }
-
-  public findMobByName(search: string): Mob | undefined {
-    return this.mobs.find((m) =>  match(m.name, search))
   }
 
   public isDirectionFree(direction: Direction): boolean {

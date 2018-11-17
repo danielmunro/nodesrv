@@ -16,8 +16,9 @@ import { SocialBroadcaster } from "./socialBroadcaster"
 jest.mock("../../client/client")
 
 async function getMockClient(room = getTestRoom()): Promise<Client> {
-  const client = new Client(null, null, null, null, null, null)
-  client.service = await Service.new()
+  const locationService = new LocationService([])
+  const client = new Client(null, null, null, null, null, null, locationService)
+  client.service = await Service.new(locationService)
   client.player = getTestPlayer()
   client.session = new Session(client, new Complete(client.player))
   client.player.sessionMob = getTestMob()
@@ -50,9 +51,9 @@ describe("socialBroadcaster", () => {
       client3,
     ])
 
-    expect(client1.send.mock.calls.length).toBe(2)
-    expect(client2.send.mock.calls.length).toBe(3)
-    expect(client3.send.mock.calls.length).toBe(3)
+    expect(client1.send.mock.calls.length).toBe(0)
+    expect(client2.send.mock.calls.length).toBe(1)
+    expect(client3.send.mock.calls.length).toBe(1)
   })
 
   it("should notify only clients in the same private channel", async () => {
@@ -74,8 +75,8 @@ describe("socialBroadcaster", () => {
       client3,
     ])
 
-    expect(client1.send.mock.calls.length).toBe(2)
-    expect(client2.send.mock.calls.length).toBe(3)
-    expect(client3.send.mock.calls.length).toBe(2)
+    expect(client1.send.mock.calls.length).toBe(0)
+    expect(client2.send.mock.calls.length).toBe(1)
+    expect(client3.send.mock.calls.length).toBe(0)
   })
 })

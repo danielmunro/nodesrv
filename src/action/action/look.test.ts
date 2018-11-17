@@ -21,7 +21,7 @@ beforeEach(async () => {
 describe("look", () => {
   it("should describe a room when no arguments are provided", async () => {
     // when
-    const response = await look(testBuilder.createRequest(RequestType.Look), testBuilder.getService())
+    const response = await look(testBuilder.createRequest(RequestType.Look), await testBuilder.getService())
     const message = response.message.getMessageToRequestCreator()
 
     // then

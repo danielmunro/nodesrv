@@ -27,7 +27,6 @@ export class SocialBroadcaster implements Observer {
       return
     }
     const location = this.locationService.getLocationForMob(client.getSessionMob())
-    console.log(location.room.uuid)
     const messages = privateMessages[location.room.uuid]
     if (messages) {
       messages.forEach(message => sendToClientIfNotSender(client, message))

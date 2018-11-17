@@ -14,8 +14,6 @@ describe("second attacks skill action", () => {
     mob.skills.push(newSkill(SkillType.SecondAttack, SKILL_LEVEL))
     const target = getTestMob()
     const room = getTestRoom()
-    room.addMob(mob)
-    room.addMob(target)
     mob.level = 30
     target.level = 30
 

@@ -1,3 +1,4 @@
+import { newMobLocation } from "../mob/factory"
 import LocationService from "../mob/locationService"
 import { Direction } from "../room/constants"
 import { getTestMob } from "../test/mob"
@@ -8,10 +9,10 @@ import Service from "./service"
 describe("moveMob", () => {
   it("should not allow movement where an exit does not exist", async () => {
     const source = getTestRoom()
-    const service = await Service.new(new LocationService([]))
     const mob = getTestMob()
-    source.addMob(mob)
-    await service.saveRoom(source)
+    const service = await Service.new(new LocationService([
+      newMobLocation(mob, source),
+    ]))
     return expect(service.moveMob(mob, Direction.North)).rejects.toThrowError()
   })
 
