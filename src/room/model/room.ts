@@ -53,10 +53,6 @@ export class Room {
   public roomResets: MobReset[] = []
 
   public addMob(mob: Mob): void {
-    if (mob.room) {
-      mob.room.removeMob(mob)
-    }
-    mob.room = this
     this.mobs.push(mob)
   }
 

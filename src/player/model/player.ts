@@ -1,7 +1,6 @@
 import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { Inventory } from "../../item/model/inventory"
 import { Mob } from "../../mob/model/mob"
-import { Room } from "../../room/model/room"
 import hash from "../password/hash"
 
 @Entity()
@@ -37,10 +36,6 @@ export class Player {
 
   public setPassword(password: string): void {
     this.password = hash(password)
-  }
-
-  public moveTo(room: Room): void {
-    room.addMob(this.sessionMob)
   }
 
   public getInventory(): Inventory {

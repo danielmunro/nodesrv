@@ -148,11 +148,13 @@ describe("clients", () => {
 
   it("should be able to invoke a valid action", async () => {
     // setup
-    const request = getNewRequestFromMessageEvent(client, getNewTestMessageEvent("look")) as Request
+    const testBuilder = new TestBuilder()
+    testBuilder.withRoom()
+    await testBuilder.withClient()
 
     // when
-    const response = await client.handleRequest(request)
-    const lookResponse = await look(request, client.service)
+    const response = await client.handleRequest(testBuilder.createRequest(RequestType.Look))
+    const lookResponse = await look(testBuilder.createRequest(RequestType.Look), client.service)
 
     // then
     expect(response).toEqual(lookResponse)

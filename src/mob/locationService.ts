@@ -7,7 +7,7 @@ export default class LocationService {
 
   public updateMobLocation(mob: Mob, room: Room) {
     return this.mobLocations.find(mobLocation => {
-      if (mobLocation.mob === mob) {
+      if (mobLocation.mob.uuid === mob.uuid) {
         mobLocation.room = room
         return true
       }

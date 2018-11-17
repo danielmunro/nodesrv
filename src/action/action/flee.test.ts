@@ -47,7 +47,9 @@ describe("flee action handler", () => {
 
     // then
     expect(successResponse).toBeTruthy()
-    expect(room2.mobs).toHaveLength(1)
+
+    const service = await testBuilder.getService()
+    expect(service.getMobLocation(mob).room).toBe(room2)
   })
 
   it("flee should accurately build its response message", async () => {

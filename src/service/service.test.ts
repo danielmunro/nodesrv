@@ -1,7 +1,7 @@
 import { Direction } from "../room/constants"
-import { newReciprocalExit } from "../room/factory"
 import { getTestMob } from "../test/mob"
 import { getTestRoom } from "../test/room"
+import TestBuilder from "../test/testBuilder"
 import Service from "./service"
 
 describe("moveMob", () => {
@@ -15,16 +15,18 @@ describe("moveMob", () => {
   })
 
   it("should allow movement where a direction exists", async () => {
-    const mob = getTestMob()
-    const source = getTestRoom()
-    const destination = getTestRoom()
-    const exits = newReciprocalExit(source, destination, Direction.North)
-    source.addMob(mob)
-    const allRooms = [source, destination]
-    const service = await Service.newWithArray(allRooms, exits)
-    await service.saveRoom(allRooms)
-    await service.saveExit(exits)
-    await service.moveMob(mob, Direction.North)
-    expect(destination.mobs).toHaveLength(1)
+    // setup
+    const testBuilder = new TestBuilder()
+    const mob = testBuilder.withMob().mob
+    const room = testBuilder.withRoom().room
+    const destination = testBuilder.withRoom(Direction.North).room
+    const service = await testBuilder.getService()
+
+    // when
+    const location = await service.moveMob(mob, Direction.North)
+
+    // then
+    console.log(room.uuid, destination.uuid)
+    expect(location.room.uuid).toBe(destination.uuid)
   })
 })

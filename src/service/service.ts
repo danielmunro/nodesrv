@@ -1,5 +1,6 @@
 import { Definition } from "../action/definition/definition"
 import ItemTable from "../item/itemTable"
+import LocationService from "../mob/locationService"
 import { Mob } from "../mob/model/mob"
 import { default as MobTable } from "../mob/table"
 import { RequestType } from "../request/requestType"
@@ -13,19 +14,27 @@ import { default as RoomTable } from "../room/table"
 
 export default class Service {
   public static async new(
+    locationService: LocationService,
     roomTable: RoomTable = new RoomTable({}),
     mobTable: MobTable = new MobTable(),
     itemTable: ItemTable = new ItemTable([]),
-    exitTable: ExitTable = new ExitTable([]),
+    exitTable: ExitTable = new ExitTable(locationService, []),
   ): Promise<Service> {
     return new Service(
       roomTable, mobTable, itemTable, exitTable,
       await getRoomRepository(),
-      await getExitRepository())
+      await getExitRepository(),
+      locationService)
   }
 
   public static async newWithArray(rooms: Room[], exits: Exit[] = []): Promise<Service> {
-    return Service.new(RoomTable.new(rooms), null, null, new ExitTable(exits))
+    const locationService = new LocationService([])
+    return Service.new(
+      locationService,
+      RoomTable.new(rooms),
+      null,
+      null,
+      new ExitTable(locationService, exits))
   }
 
   constructor(
@@ -34,7 +43,8 @@ export default class Service {
     public readonly itemTable: ItemTable,
     public readonly exitTable: ExitTable,
     private readonly roomRepository: RoomRepository,
-    private readonly exitRepository: ExitRepository) {}
+    private readonly exitRepository: ExitRepository,
+    private readonly locationService: LocationService) {}
 
   public async saveRoom(room): Promise<any> {
     return this.roomRepository.save(room)
@@ -52,10 +62,14 @@ export default class Service {
       throw new Error("cannot move in that direction")
     }
 
-    this.roomTable.canonical(exit.destination).addMob(mob)
+    return this.locationService.updateMobLocation(mob, exit.destination)
   }
 
   public getNewActionDefinition(requestType: RequestType, action, precondition = null): Definition {
     return new Definition(this, requestType, action, precondition)
+  }
+
+  public getMobLocation(mob: Mob) {
+    return this.locationService.getLocationForMob(mob)
   }
 }

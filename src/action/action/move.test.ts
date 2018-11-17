@@ -14,8 +14,8 @@ describe("move", () => {
     const testBuilder = new TestBuilder()
     const source = testBuilder.withRoom().room
     const destination = testBuilder.withRoom(Direction.East).room
-    const service = await testBuilder.getService()
     const mob = (await testBuilder.withPlayer()).player.sessionMob
+    const service = await testBuilder.getService()
 
     // when
     const response = await move(
@@ -25,6 +25,6 @@ describe("move", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.Info)
-    expect(destination.mobs).toHaveLength(1)
+    expect(service.getMobLocation(mob).room).toEqual(destination)
   })
 })

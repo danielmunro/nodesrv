@@ -3,6 +3,7 @@ import { getConnection, initializeConnection } from "../src/db/connection"
 import ItemTable from "../src/item/itemTable"
 import { default as ItemReset } from "../src/item/model/itemReset"
 import { getItemRepository } from "../src/item/repository/item"
+import LocationService from "../src/mob/locationService"
 import { default as MobReset } from "../src/mob/model/mobReset"
 import { getMobRepository } from "../src/mob/repository/mob"
 import Table from "../src/mob/table"
@@ -12,7 +13,6 @@ import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { default as RoomTable } from "../src/room/table"
 import newServer from "../src/server/factory"
-import ResetService from "../src/service/reset/resetService"
 import ResetService from "../src/service/reset/resetService"
 import Service from "../src/service/service"
 
@@ -44,12 +44,12 @@ async function newRoomTable(): Promise<RoomTable> {
   return RoomTable.new(models)
 }
 
-async function newExitTable(): Promise<ExitTable> {
+async function newExitTable(service: LocationService): Promise<ExitTable> {
   const exitRepository = await getExitRepository()
   const models = await exitRepository.findAll()
   console.log(`2 - exit table initialized with ${models.length} exits`)
 
-  return new ExitTable(models)
+  return new ExitTable(service, models)
 }
 
 async function newItemTable(): Promise<ItemTable> {
@@ -74,12 +74,13 @@ async function createResetService(): Promise<ResetService> {
     await itemResetRepository.find())
 }
 
+const locationService = new LocationService([])
 createDbConnection().then(() =>
   Promise.all([
     newRoomTable(),
     newMobTable(),
     newItemTable(),
-    newExitTable(),
+    newExitTable(locationService),
   ]).then(async ([roomTable, mobTable, itemTable, exitTable]) =>
     startServer(
       await Service.new(roomTable, mobTable, itemTable, exitTable),

@@ -5,11 +5,15 @@ import CheckComponent from "../check/checkComponent"
 import CheckedRequest from "../check/checkedRequest"
 import { CheckStatus } from "../check/checkStatus"
 import { Item } from "../item/model/item"
+import { newMobLocation } from "../mob/factory"
 import { addFight, Fight, reset } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
+import MobLocation from "../mob/model/mobLocation"
 import { Role } from "../mob/role"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
+import newRegion from "../region/factory"
+import { Terrain } from "../region/terrain"
 import InputContext from "../request/context/inputContext"
 import { Request } from "../request/request"
 import RequestBuilder from "../request/requestBuilder"
@@ -38,8 +42,15 @@ export default class TestBuilder {
     reset()
   }
 
+  public addMobLocation(mobLocation: MobLocation) {
+    this.serviceBuilder.addMobLocation(mobLocation)
+  }
+
   public async withClient() {
-    const client = await getTestClient()
+    if (!this.player) {
+      await this.withPlayer()
+    }
+    const client = await getTestClient(this.player, this.room)
     this.player = client.player
     this.mobForRequest = client.getSessionMob()
     this.serviceBuilder.addMob(this.mobForRequest)
@@ -49,11 +60,12 @@ export default class TestBuilder {
 
   public withRoom(direction: Direction = null) {
     const room = newRoom("a test room", "description of a test room")
+    room.region = newRegion("a test region", Terrain.Plains)
 
     if (!this.room) {
       this.room = room
       if (this.player) {
-        room.addMob(this.player.sessionMob)
+        this.serviceBuilder.addMobLocation(newMobLocation(this.player.sessionMob, room))
       }
     } else {
       newReciprocalExit(this.room, room, direction).forEach(exit => this.addExit(exit))
@@ -80,7 +92,7 @@ export default class TestBuilder {
     }
 
     if (this.room) {
-      this.room.addMob(player.sessionMob)
+      this.serviceBuilder.addMobLocation(newMobLocation(player.sessionMob, this.room))
     }
     this.serviceBuilder.addMob(player.sessionMob)
 
@@ -104,7 +116,7 @@ export default class TestBuilder {
     if (!this.room) {
       this.withRoom()
     }
-    this.room.addMob(mob)
+    this.serviceBuilder.addMobLocation(newMobLocation(mob, this.room))
     this.serviceBuilder.addMob(mob)
 
     if (!this.mobForRequest) {
