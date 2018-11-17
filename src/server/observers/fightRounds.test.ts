@@ -79,8 +79,6 @@ describe("fight rounds", () => {
     const client = await getTestClient()
     const opponent = getTestMob()
     const room = getTestRoom()
-    room.addMob(client.player.sessionMob)
-    room.addMob(opponent)
     const fight = new Fight(opponent, client.player.sessionMob, room)
     addFight(fight)
     const fightRounds = new FightRounds(new LocationService([

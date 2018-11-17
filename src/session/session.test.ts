@@ -1,3 +1,4 @@
+import LocationService from "../mob/locationService"
 import { getPlayerRepository } from "../player/repository/player"
 import { getTestClient } from "../test/client"
 import { getTestMob } from "../test/mob"
@@ -7,7 +8,6 @@ import Email from "./auth/login/email"
 import Request from "./auth/request"
 import Service from "./auth/service"
 import Session from "./session"
-import LocationService from "../mob/locationService"
 
 describe("session", () => {
   it("isLoggedIn sanity check", async () => {

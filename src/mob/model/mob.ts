@@ -11,7 +11,6 @@ import { Inventory } from "../../item/model/inventory"
 import { AuthorizationLevel } from "../../player/authorizationLevel"
 import { Player } from "../../player/model/player"
 import roll from "../../random/dice"
-import { Room } from "../../room/model/room"
 import { BaseRegenModifier } from "../../server/observers/constants"
 import { Skill } from "../../skill/model/skill"
 import { SkillType } from "../../skill/skillType"
@@ -88,9 +87,6 @@ export class Mob {
   @OneToMany(
     (type) => Attributes, (attributes) => attributes.mob, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   public attributes: Attributes[] = []
-
-  @ManyToOne(type => Room, room => room.mobs)
-  public room: Room
 
   @ManyToOne((type) => Player, (player) => player.mobs)
   public player: Player

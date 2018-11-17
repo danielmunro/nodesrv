@@ -95,7 +95,7 @@ export default class AreaBuilder {
   private async addMobsToRoom(sectionType: SectionType, room: Room) {
     await Promise.all(
       this.mobs.getRandomBySectionType(sectionType).map((mob) => {
-        room.addMob(mob)
+        // room.addMob(mob)
         return persistMob(mob)
       }))
   }

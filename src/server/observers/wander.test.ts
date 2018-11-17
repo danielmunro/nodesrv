@@ -13,7 +13,6 @@ describe("wander", () => {
     // given
     mob.wanders = true
     const source = getTestRoom()
-    source.addMob(mob)
     source.name = "room 1"
     const destination = getTestRoom()
     destination.name = "room 2"

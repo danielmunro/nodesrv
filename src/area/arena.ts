@@ -57,7 +57,7 @@ export class Arena {
         this.matrix[y][x] = await this.service.saveRoom(newRoom(this.root.name, this.root.description))
         if (this.mobFactory && roll(1, 2) === 1) {
           const mob = this.mobFactory()
-          this.matrix[y][x].addMob(mob)
+          // this.matrix[y][x].addMob(mob)
           await persistMob(mob)
         }
         await this.connectRoomAtCoords(x, y)

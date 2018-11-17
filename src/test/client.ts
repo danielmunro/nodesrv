@@ -1,11 +1,11 @@
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
+import LocationService from "../mob/locationService"
 import { getPlayerRepository } from "../player/repository/player"
 import Service from "../service/service"
 import { default as AuthService } from "../session/auth/service"
 import { getTestPlayer } from "./player"
 import { getTestRoom } from "./room"
-import LocationService from "../mob/locationService"
 
 const ws = jest.fn(() => ({
   send: jest.fn(),

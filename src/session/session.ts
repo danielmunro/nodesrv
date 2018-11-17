@@ -1,4 +1,6 @@
 import { Client } from "../client/client"
+import { newMobLocation } from "../mob/factory"
+import LocationService from "../mob/locationService"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import AuthStep from "./auth/authStep"
@@ -7,8 +9,6 @@ import { default as MobComplete } from "./auth/createMob/complete"
 import { default as PlayerComplete } from "./auth/createPlayer/complete"
 import { default as AuthRequest } from "./auth/request"
 import { SessionStatus } from "./status"
-import LocationService from "../mob/locationService"
-import { newMobLocation } from "../mob/factory"
 
 export default class Session {
   private player: Player
@@ -59,7 +59,6 @@ export default class Session {
     this.mob = player.sessionMob
     this.player = player
     this.locationService.addMobLocation(newMobLocation(this.mob, this.client.getStartRoom()))
-    this.client.getStartRoom().addMob(this.mob)
     if (this.isMobCreated) {
       this.client.getMobTable().add(this.mob)
     }

@@ -2,7 +2,6 @@ import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, 
 import * as uuid from "uuid"
 import { SectionType } from "../../area/sectionType"
 import { Inventory } from "../../item/model/inventory"
-import { Mob } from "../../mob/model/mob"
 import MobReset from "../../mob/model/mobReset"
 import { Region } from "../../region/model/region"
 import getMovementCost from "../../region/movementCost"
@@ -38,9 +37,6 @@ export class Room {
   @OneToMany((type) => Exit, (exit) => exit.destination, { eager: true })
   public entrances: Exit[] = []
 
-  @OneToMany((type) => Mob, (mob) => mob.room, { cascadeInsert: true })
-  public mobs: Mob[] = []
-
   @OneToOne((type) => Inventory, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   @JoinColumn()
   public inventory: Inventory = new Inventory()
@@ -50,10 +46,6 @@ export class Room {
 
   @OneToMany(type => MobReset, reset => reset.room)
   public roomResets: MobReset[] = []
-
-  public addMob(mob: Mob): void {
-    this.mobs.push(mob)
-  }
 
   public isDirectionFree(direction: Direction): boolean {
     return !this.exits.find((e) => e.direction === direction)
