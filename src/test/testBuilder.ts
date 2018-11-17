@@ -14,6 +14,7 @@ import InputContext from "../request/context/inputContext"
 import { Request } from "../request/request"
 import RequestBuilder from "../request/requestBuilder"
 import { RequestType } from "../request/requestType"
+import { Direction } from "../room/constants"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
 import Service from "../service/service"
@@ -46,7 +47,7 @@ export default class TestBuilder {
     return client
   }
 
-  public withRoom() {
+  public withRoom(direction: Direction = null) {
     const room = newRoom("a test room", "description of a test room")
 
     if (!this.room) {
@@ -55,7 +56,7 @@ export default class TestBuilder {
         room.addMob(this.player.sessionMob)
       }
     } else {
-      newReciprocalExit(this.room, room).forEach(exit => this.addExit(exit))
+      newReciprocalExit(this.room, room, direction).forEach(exit => this.addExit(exit))
     }
 
     this.serviceBuilder.addRoom(room)

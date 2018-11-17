@@ -1,9 +1,6 @@
 import { CheckStatus } from "../../check/checkStatus"
-import InputContext from "../../request/context/inputContext"
-import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import PlayerBuilder from "../../test/playerBuilder"
-import { getTestRoom } from "../../test/room"
 import RoomBuilder from "../../test/roomBuilder"
 import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_NOT_FIGHTING, MESSAGE_FAIL_TOO_TIRED } from "./constants"
@@ -39,12 +36,13 @@ describe("flee action preconditions", () => {
 
   it("should not work if no exits available", async () => {
     // given
-    const room3 = getTestRoom()
-    room3.addMob(player.player.sessionMob)
-    room3.addMob(mob)
+    testBuilder = new TestBuilder()
+    testBuilder.withRoom()
+    await testBuilder.withPlayer()
+    testBuilder.fight()
 
     // when
-    const check = await flee(new Request(player.player.sessionMob, room3, new InputContext(RequestType.Flee, "flee")))
+    const check = await flee(testBuilder.createRequest(RequestType.Flee, "flee"))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
