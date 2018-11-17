@@ -1,5 +1,5 @@
 import { AffectType } from "../../affect/affectType"
-import ItemTable from "../../item/itemTable"
+import match from "../../matcher/match"
 import { onlyLiving } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
 import getSight from "../../mob/race/sight"
@@ -10,20 +10,20 @@ import ResponseBuilder from "../../request/responseBuilder"
 import Service from "../../service/service"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
 
-function lookAtSubject(request: Request, builder: ResponseBuilder, itemTable: ItemTable) {
-  const mob = request.findMobInRoom()
+function lookAtSubject(request: Request, builder: ResponseBuilder, service: Service) {
+  const mob = service.getMobsByRoom(request.room).find(m => match(m.name, request.getSubject()))
   if (mob) {
     return builder.info(mob.description)
   }
 
   const subject = request.getContextAsInput().subject
 
-  let item = itemTable.findItemByInventory(request.getRoom().inventory, subject)
+  let item = service.itemTable.findItemByInventory(request.getRoom().inventory, subject)
   if (item) {
     return builder.info(item.describe())
   }
 
-  item = itemTable.findItemByInventory(request.mob.inventory, subject)
+  item = service.itemTable.findItemByInventory(request.mob.inventory, subject)
   if (item) {
     return builder.info(item.describe())
   }
@@ -39,7 +39,7 @@ export default function(request: Request, service: Service): Promise<Response> {
   }
 
   if (request.getContextAsInput().subject) {
-    return lookAtSubject(request, builder, service.itemTable)
+    return lookAtSubject(request, builder, service)
   }
 
   const room = request.getRoom()

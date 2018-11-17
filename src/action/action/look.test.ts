@@ -13,9 +13,9 @@ let player
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
+  room = testBuilder.withRoom().room
   const playerBuilder = await testBuilder.withPlayer()
   player = playerBuilder.player
-  room = testBuilder.withRoom().room
 })
 
 describe("look", () => {
@@ -43,7 +43,8 @@ describe("look", () => {
     const mob = testBuilder.withMob("alice").mob
 
     // when
-    const response = await look(testBuilder.createRequest(RequestType.Look, "look alice"), testBuilder.getService())
+    const response = await look(
+      testBuilder.createRequest(RequestType.Look, "look alice"), await testBuilder.getService())
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe(mob.description)

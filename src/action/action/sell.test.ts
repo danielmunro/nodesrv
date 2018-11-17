@@ -19,7 +19,7 @@ describe("sell action action", () => {
 
     // and
     const request = testBuilder.createRequest(RequestType.Sell, "sell cap")
-    const check = await sellPrecondition(request)
+    const check = await sellPrecondition(request, await testBuilder.getService())
 
     // when
     const response = await sell(new CheckedRequest(request, check))

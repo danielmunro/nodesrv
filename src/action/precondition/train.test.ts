@@ -14,7 +14,8 @@ describe("train action preconditions", () => {
     await testBuilder.withPlayer()
 
     // when
-    const check = await train(testBuilder.createRequest(RequestType.Train, "train floodle"))
+    const check = await train(
+      testBuilder.createRequest(RequestType.Train, "train floodle"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -28,7 +29,8 @@ describe("train action preconditions", () => {
     await testBuilder.withPlayer()
 
     // when
-    const check = await train(testBuilder.createRequest(RequestType.Train))
+    const check = await train(
+      testBuilder.createRequest(RequestType.Train), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -42,7 +44,8 @@ describe("train action preconditions", () => {
     testBuilder.withTrainer()
 
     // when
-    const check = await train(testBuilder.createRequest(RequestType.Train))
+    const check = await train(
+      testBuilder.createRequest(RequestType.Train), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -57,7 +60,8 @@ describe("train action preconditions", () => {
     testBuilder.withTrainer()
 
     // when
-    const check = await train(testBuilder.createRequest(RequestType.Train))
+    const check = await train(
+      testBuilder.createRequest(RequestType.Train), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -73,7 +77,8 @@ describe("train action preconditions", () => {
     const trainer = testBuilder.withTrainer().mob
 
     // when
-    const check = await train(testBuilder.createRequest(RequestType.Train, "train con"))
+    const check = await train(
+      testBuilder.createRequest(RequestType.Train, "train con"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

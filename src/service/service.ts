@@ -72,4 +72,8 @@ export default class Service {
   public getMobLocation(mob: Mob) {
     return this.locationService.getLocationForMob(mob)
   }
+
+  public getMobsByRoom(room: Room): Mob[] {
+    return this.locationService.getMobsByRoom(room)
+  }
 }

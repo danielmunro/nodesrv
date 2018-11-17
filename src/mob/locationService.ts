@@ -25,4 +25,8 @@ export default class LocationService {
   public removeMob(mob: Mob): void {
     this.mobLocations = this.mobLocations.filter(mobLocation => mobLocation.mob !== mob)
   }
+
+  public getMobsByRoom(room: Room) {
+    return this.mobLocations.filter(mobLocation => mobLocation.room === room).map(mobLocation => mobLocation.mob)
+  }
 }

@@ -13,7 +13,7 @@ describe("sell action action preconditions", () => {
     const request = testBuilder.createRequest(RequestType.Sell, "sell foo")
 
     // when
-    const check = await sell(request)
+    const check = await sell(request, await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -23,7 +23,7 @@ describe("sell action action preconditions", () => {
     testBuilder.withMob()
 
     // when
-    const check2 = await sell(request)
+    const check2 = await sell(request, await testBuilder.getService())
 
     // then
     expect(check2.status).toBe(CheckStatus.Failed)
@@ -39,7 +39,8 @@ describe("sell action action preconditions", () => {
     testBuilder.withMerchant()
 
     // when
-    const check = await sell(testBuilder.createRequest(RequestType.Sell, "sell foo"))
+    const check = await sell(
+      testBuilder.createRequest(RequestType.Sell, "sell foo"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -55,7 +56,8 @@ describe("sell action action preconditions", () => {
     testBuilder.withMerchant()
 
     // when
-    const check = await sell(testBuilder.createRequest(RequestType.Sell, `sell ${item.name}`))
+    const check = await sell(
+      testBuilder.createRequest(RequestType.Sell, `sell ${item.name}`), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

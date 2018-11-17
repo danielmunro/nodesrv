@@ -133,7 +133,6 @@ export default class TestBuilder {
     if (!this.room) {
       this.withRoom()
     }
-    this.room.addMob(mob)
     this.serviceBuilder.addMobLocation(newMobLocation(mob, this.room))
     this.serviceBuilder.addMob(mob)
 

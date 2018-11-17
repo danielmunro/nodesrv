@@ -15,7 +15,8 @@ describe("buy action preconditions", () => {
     testBuilder.withRoom()
 
     // when
-    const check = await buy(testBuilder.createRequest(RequestType.Buy, "buy foo"))
+    const check = await buy(
+      testBuilder.createRequest(RequestType.Buy, "buy foo"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -33,7 +34,9 @@ describe("buy action preconditions", () => {
     testBuilder.withMob().mob.role = Role.Merchant
 
     // when
-    const check = await buy(testBuilder.createRequest(RequestType.Buy, "buy foo"))
+    const check = await buy(
+      testBuilder.createRequest(RequestType.Buy, "buy foo"),
+      await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -52,7 +55,9 @@ describe("buy action preconditions", () => {
     const item = merchBuilder.withAxeEq()
 
     // when
-    const check = await buy(testBuilder.createRequest(RequestType.Buy, `buy ${item.name}`))
+    const check = await buy(
+      testBuilder.createRequest(RequestType.Buy, `buy ${item.name}`),
+      await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -80,7 +85,9 @@ describe("buy action preconditions", () => {
     merch.mob.inventory.addItem(eq)
 
     // when
-    const check = await buy(testBuilder.createRequest(RequestType.Buy, "buy sombrero"))
+    const check = await buy(
+      testBuilder.createRequest(RequestType.Buy, "buy sombrero"),
+      await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
