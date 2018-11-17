@@ -20,20 +20,25 @@ describe("location service", () => {
     expect(locationService.getMobLocationCount()).toBe(1)
   })
 
-  it("should get mobs by room", () => {
+  it("sanity checks", () => {
     // setup
     const mob1 = getTestMob()
     const room1 = getTestRoom()
-
     const mob2 = getTestMob()
     const room2 = getTestRoom()
 
+    // when
     const locationService = new LocationService([
       newMobLocation(mob1, room1),
       newMobLocation(mob2, room2),
     ])
 
+    // then
     expect(locationService.getLocationForMob(mob1).room).toBe(room1)
     expect(locationService.getLocationForMob(mob2).room).toBe(room2)
+
+    // and
+    expect(locationService.getMobsByRoom(room1)).toContain(mob1)
+    expect(locationService.getMobsByRoom(room2)).toContain(mob2)
   })
 })
