@@ -40,11 +40,13 @@ export class Client {
     private readonly authService: AuthService,
     private readonly locationService: LocationService) {
     this.session = new Session(this, new Email(this.authService), this.locationService)
-    this.ws.onmessage = data =>
+    this.ws.onmessage = data => {
+      const mobLocation = this.locationService.getLocationForMob(this.getSessionMob())
       this.addRequest(getNewRequestFromMessageEvent(
         this,
-        this.locationService.getLocationForMob(this.getSessionMob()).room,
+        mobLocation ? mobLocation.room : null,
         data))
+    }
     this.ws.onerror = (error: ErrorEvent) =>
       console.warn("received error from client ws", { ip: this.ip, message: error.message })
   }

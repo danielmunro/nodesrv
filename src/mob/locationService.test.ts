@@ -1,7 +1,7 @@
-import LocationService from "./locationService"
 import { getTestMob } from "../test/mob"
 import { getTestRoom } from "../test/room"
 import { newMobLocation } from "./factory"
+import LocationService from "./locationService"
 
 describe("location service", () => {
   it("should not add a mob twice, an update should occur", () => {

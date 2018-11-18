@@ -25,9 +25,10 @@ const port = +process.argv[3]
 assert.ok(startRoomID, "start room ID is required to be defined")
 console.info("0 - entry point", { startRoomID })
 
-async function startServer(service: Service, startRoom: Room, resetService: ResetService) {
+async function startServer(
+  service: Service, startRoom: Room, resetService: ResetService, aLocationService: LocationService) {
   console.info(`3 - starting up server on port ${port}`)
-  return newServer(service, port, startRoom, resetService).start()
+  return newServer(service, port, startRoom, resetService, aLocationService).start()
 }
 
 export async function newMobTable() {
@@ -83,6 +84,7 @@ createDbConnection().then(() =>
     newExitTable(locationService),
   ]).then(async ([roomTable, mobTable, itemTable, exitTable]) =>
     startServer(
-      await Service.new(roomTable, mobTable, itemTable, exitTable),
+      await Service.new(locationService, roomTable, mobTable, itemTable, exitTable),
       roomTable.get(startRoomID),
-      await createResetService())))
+      await createResetService(),
+      locationService)))

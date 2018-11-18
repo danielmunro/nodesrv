@@ -2,26 +2,34 @@
 import { readFileSync, writeFileSync } from "fs"
 import { newStartingAttributes, newVitals } from "../src/attributes/factory"
 import File from "../src/import/file"
-import { newContainer, newEquipment, newFood, newWeapon } from "../src/item/factory"
+import { newContainer, newEquipment, newWeapon } from "../src/item/factory"
 import { Item } from "../src/item/model/item"
 import { newMob, newMobReset } from "../src/mob/factory"
 import roll from "../src/random/dice"
 import { Direction } from "../src/room/constants"
 import { newRoom } from "../src/room/factory"
+import { getRoomRepository } from "../src/room/repository/room"
+import { initializeConnection } from "../src/db/connection"
 
 const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")
 const itemTypes = []
 
-areaFiles.forEach(async area => {
-  const filename = `fixtures/${area}`
-  const content = readFileSync(filename).toString()
-  const file = new File(filename, JSON.parse(content))
+initializeConnection().then(() => parse())
 
-  await iterateSections(file)
+async function parse() {
+  const roomRepository = await getRoomRepository()
+  areaFiles.forEach(async area => {
+    const filename = `fixtures/${area}`
+    const content = readFileSync(filename).toString()
+    const file = new File(filename, JSON.parse(content))
 
-  createExits(file)
-})
+    await iterateSections(file)
+
+    createExits(file)
+    await roomRepository.save(file.rooms)
+  })
+}
 
 writeFileSync("itemTypes.json",
   JSON.stringify(itemTypes.filter((type, i) => itemTypes.indexOf(type) === i).sort()))
@@ -80,9 +88,6 @@ function createExits(file: File) {
         case "D5":
           direction = Direction.Down
           break
-      }
-      if (file.roomMap[importId] && file.roomMap[door.vnum]) {
-        // await exitRepository.save(newExit(direction, roomMap[importId], roomMap[door.vnum]))
       }
     })
   })
@@ -148,13 +153,13 @@ function addItem(file, itemData) {
        * 3 - individual item max weight
        * 4 - loot count
        */
-      const item = newContainer(itemData.name, itemData.description)
+      const container = newContainer(itemData.name, itemData.description)
       const itemFlags = itemData.pObjFlags.split(" ")
-      item.container.weightCapacity = itemFlags[0]
-      item.container.isOpen = itemFlags[1]
-      item.container.liquid = itemFlags[2]
-      item.container.maxWeightForItem = itemFlags[3]
-      addPropertiesToItem(item, itemData)
+      container.container.weightCapacity = itemFlags[0]
+      container.container.isOpen = itemFlags[1]
+      container.container.liquid = itemFlags[2]
+      container.container.maxWeightForItem = itemFlags[3]
+      addPropertiesToItem(container, itemData)
       break
     case "drink":
       /**
@@ -170,7 +175,7 @@ function addItem(file, itemData) {
        * 2 - <not used>
        * 3 - poisoned
        */
-      const item = newFood(itemData.name, itemData.description, itemData.values[0])
+      // const item = newFood(itemData.name, itemData.description, itemData.values[0])
       break
     default:
       return

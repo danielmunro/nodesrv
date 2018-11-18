@@ -1,4 +1,3 @@
-import LocationService from "../mob/locationService"
 import { DiceRoller } from "../random/dice"
 import ResetService from "../service/reset/resetService"
 import { FiveMinuteTimer } from "../timer/fiveMinuteTimer"
@@ -19,9 +18,8 @@ import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
 
 export default function addObservers(gameServer: GameServer): GameServer {
-  const service = gameServer.service
-  const mobTable = service.mobTable
-  const locationService = new LocationService([])
+  const mobTable = gameServer.service.mobTable
+  const locationService = gameServer.locationService
   gameServer.addObserver(
     new ObserverChain([
       new Tick(locationService),
@@ -34,7 +32,7 @@ export default function addObservers(gameServer: GameServer): GameServer {
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(locationService), new MinuteTimer())
   gameServer.addObserver(new SocialBroadcaster(locationService), new ShortIntervalTimer())
-  gameServer.addObserver(new FightRounds(), new SecondIntervalTimer())
+  gameServer.addObserver(new FightRounds(locationService), new SecondIntervalTimer())
   gameServer.addObserver(new Respawner(mobTable, resetService, locationService), new FiveMinuteTimer())
 
   return gameServer

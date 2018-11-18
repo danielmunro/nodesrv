@@ -14,8 +14,9 @@ export default function newServer(
   service: Service,
   port: number,
   startRoom: Room,
-  resetService: ResetService): GameServer {
+  resetService: ResetService,
+  locationService: LocationService): GameServer {
   assert.ok(port > PORT_MIN && port < PORT_MAX, `port must be between ${PORT_MIN} and ${PORT_MAX}`)
   return addObservers(
-    new GameServer(new WebSocketServer({ port }), service, startRoom, resetService, new LocationService([])))
+    new GameServer(new WebSocketServer({ port }), service, startRoom, resetService, locationService))
 }

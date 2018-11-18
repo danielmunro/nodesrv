@@ -58,10 +58,12 @@ export default class Session {
   public async login(player: Player) {
     this.mob = player.sessionMob
     this.player = player
+    console.log("add location", this.mob.uuid, this.client.getStartRoom().uuid)
     this.locationService.addMobLocation(newMobLocation(this.mob, this.client.getStartRoom()))
     if (this.isMobCreated) {
       this.client.getMobTable().add(this.mob)
     }
+    console.log("logged in")
     this.status = SessionStatus.LoggedIn
     this.client.player = player
   }

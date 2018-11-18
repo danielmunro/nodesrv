@@ -8,5 +8,7 @@ export default interface RoomRepository {
 }
 
 export async function getRoomRepository(): Promise<RoomRepository> {
-  return getConnection().then((connection) => new RoomRepositoryImpl(connection.getRepository(Room)))
+  const connection = await getConnection()
+
+  return new RoomRepositoryImpl(connection.getRepository(Room))
 }

@@ -60,7 +60,8 @@ export class GameServer {
       this.actions,
       this.service,
       this.startRoom,
-      this.authService)
+      this.authService,
+      this.locationService)
     console.info("new client connected", { ip: client.ip })
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)
