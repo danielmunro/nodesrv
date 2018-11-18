@@ -46,6 +46,7 @@ export default function(request: Request, service: Service): Promise<Response> {
   const room = location.room
   const ableToSee = isAbleToSee(request.mob, room.region)
   const roomDescription = ableToSee ? room.toString() : MESSAGE_LOOK_CANNOT_SEE
+  console.log("look mob count", service.getMobsByRoom(room).length)
   const mobDescription = ableToSee ? reduceMobs(request.mob, service.getMobsByRoom(room)) : ""
 
   return builder.info(roomDescription

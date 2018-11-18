@@ -45,7 +45,7 @@ export class Room {
   public region: Region
 
   @OneToMany(type => MobReset, reset => reset.room)
-  public roomResets: MobReset[] = []
+  public mobResets: MobReset[] = []
 
   public isDirectionFree(direction: Direction): boolean {
     return !this.exits.find((e) => e.direction === direction)

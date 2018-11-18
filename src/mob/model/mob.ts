@@ -110,7 +110,7 @@ export class Mob {
   @OneToOne(type => PlayerMob, playerMob => playerMob.mob, { nullable: true, ...ownedEntityOptions })
   public playerMob: PlayerMob
 
-  @OneToOne(type => MobReset, { cascadeAll: true, eager: true })
+  @OneToOne(type => MobReset, reset => reset.mob, { cascadeAll: true, eager: true })
   @JoinColumn()
   public reset: MobReset = new MobReset()
 

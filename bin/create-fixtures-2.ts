@@ -12,6 +12,8 @@ import { getRoomRepository } from "../src/room/repository/room"
 import { initializeConnection } from "../src/db/connection"
 import ExitRepository, { getExitRepository } from "../src/room/repository/exit"
 import { getMobRepository } from "../src/mob/repository/mob"
+import { getRepository } from "typeorm"
+import MobReset from "../src/mob/model/mobReset"
 
 const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")
@@ -23,6 +25,7 @@ async function parse() {
   const roomRepository = await getRoomRepository()
   const exitRepository = await getExitRepository()
   const mobRepository = await getMobRepository()
+  const mobResetRepository = await getRepository(MobReset)
   areaFiles.forEach(async area => {
     const filename = `fixtures/${area}`
     const content = readFileSync(filename).toString()
@@ -32,6 +35,7 @@ async function parse() {
 
     await roomRepository.save(file.rooms)
     await mobRepository.save(file.mobs)
+    await mobResetRepository.save(file.mobResets)
     createExits(file, exitRepository)
   })
 }
@@ -199,9 +203,10 @@ function addPropertiesToItem(item: Item, itemData) {
 
 function addReset(file, resetData) {
   if (resetData.command === "M") {
-    file.mobResets.push(newMobReset(
+    const mobReset = newMobReset(
       file.mobMap[resetData.args[0]],
-      file.roomMap[resetData.args[2]]))
+      file.roomMap[resetData.args[2]])
+    file.mobResets.push(mobReset)
   }
   if (resetData.command === "E") {
     // itemResets.push(newItemReset())
