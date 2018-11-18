@@ -42,7 +42,8 @@ export default function(request: Request, service: Service): Promise<Response> {
     return lookAtSubject(request, builder, service)
   }
 
-  const room = request.getRoom()
+  const location = service.getMobLocation(request.mob)
+  const room = location.room
   const ableToSee = isAbleToSee(request.mob, room.region)
   const roomDescription = ableToSee ? room.toString() : MESSAGE_LOOK_CANNOT_SEE
   const mobDescription = ableToSee ? reduceMobs(request.mob, service.getMobsByRoom(room)) : ""

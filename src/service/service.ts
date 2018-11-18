@@ -62,7 +62,9 @@ export default class Service {
       throw new Error("cannot move in that direction")
     }
 
-    return this.locationService.updateMobLocation(mob, exit.destination)
+    const destination = this.roomTable.get(exit.destination.uuid)
+
+    return this.locationService.updateMobLocation(mob, destination)
   }
 
   public getNewActionDefinition(requestType: RequestType, action, precondition = null): Definition {

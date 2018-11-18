@@ -7,9 +7,11 @@ import { Item } from "../src/item/model/item"
 import { newMob, newMobReset } from "../src/mob/factory"
 import roll from "../src/random/dice"
 import { Direction } from "../src/room/constants"
-import { newRoom } from "../src/room/factory"
+import { newExit, newRoom } from "../src/room/factory"
 import { getRoomRepository } from "../src/room/repository/room"
 import { initializeConnection } from "../src/db/connection"
+import ExitRepository, { getExitRepository } from "../src/room/repository/exit"
+import { getMobRepository } from "../src/mob/repository/mob"
 
 const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")
@@ -19,6 +21,8 @@ initializeConnection().then(() => parse())
 
 async function parse() {
   const roomRepository = await getRoomRepository()
+  const exitRepository = await getExitRepository()
+  const mobRepository = await getMobRepository()
   areaFiles.forEach(async area => {
     const filename = `fixtures/${area}`
     const content = readFileSync(filename).toString()
@@ -26,8 +30,9 @@ async function parse() {
 
     await iterateSections(file)
 
-    createExits(file)
     await roomRepository.save(file.rooms)
+    await mobRepository.save(file.mobs)
+    createExits(file, exitRepository)
   })
 }
 
@@ -62,7 +67,7 @@ async function iterateSections(file: File) {
   })
 }
 
-function createExits(file: File) {
+function createExits(file: File, exitRepository: ExitRepository) {
   Object.keys(file.roomMap).forEach(importId => {
     if (file.roomDataMap[importId] === undefined || file.roomDataMap[importId].doors === undefined) {
       return
@@ -88,6 +93,9 @@ function createExits(file: File) {
         case "D5":
           direction = Direction.Down
           break
+      }
+      if (file.roomMap[importId] && file.roomMap[door.vnum]) {
+        await exitRepository.save(newExit(direction, file.roomMap[importId], file.roomMap[door.vnum]))
       }
     })
   })
