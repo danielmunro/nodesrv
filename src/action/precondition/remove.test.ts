@@ -7,8 +7,12 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
-import { MESSAGE_REMOVE_FAIL } from "./constants"
+import { MESSAGE_REMOVE_FAIL, Messages } from "./constants"
 import remove from "./remove"
+import TestBuilder from "../../test/testBuilder"
+import { AffectType } from "../../affect/affectType"
+import { newAffect } from "../../affect/factory"
+import { ResponseStatus } from "../../request/responseStatus"
 
 function useRemoveRequest(player: Player, input: string) {
   return remove(new Request(player.sessionMob, getTestRoom(), new InputContext(RequestType.Remove, input)))
@@ -35,5 +39,18 @@ describe("remove", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
+  })
+
+  it("cannot remove cursed items", async () => {
+    // given
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    const item = playerBuilder.equip().withMaceEq()
+    item.affects.push(newAffect(AffectType.Curse))
+
+    const response = await remove(testBuilder.createRequest(RequestType.Remove, "remove mace"))
+
+    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
+    expect(response.result).toBe(Messages.All.Item.CannotRemoveCursedItem)
   })
 })
