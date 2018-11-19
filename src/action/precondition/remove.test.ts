@@ -1,3 +1,5 @@
+import { AffectType } from "../../affect/affectType"
+import { newAffect } from "../../affect/factory"
 import { CheckStatus } from "../../check/checkStatus"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
@@ -7,12 +9,10 @@ import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
+import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_REMOVE_FAIL, Messages } from "./constants"
 import remove from "./remove"
-import TestBuilder from "../../test/testBuilder"
-import { AffectType } from "../../affect/affectType"
-import { newAffect } from "../../affect/factory"
-import { ResponseStatus } from "../../request/responseStatus"
+import { format } from "../../support/string"
 
 function useRemoveRequest(player: Player, input: string) {
   return remove(new Request(player.sessionMob, getTestRoom(), new InputContext(RequestType.Remove, input)))
@@ -48,9 +48,9 @@ describe("remove", () => {
     const item = playerBuilder.equip().withMaceEq()
     item.affects.push(newAffect(AffectType.Curse))
 
-    const response = await remove(testBuilder.createRequest(RequestType.Remove, "remove mace"))
+    const check = await remove(testBuilder.createRequest(RequestType.Remove, "remove mace"))
 
-    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.result).toBe(Messages.All.Item.CannotRemoveCursedItem)
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(format(Messages.All.Item.CannotRemoveCursedItem, item.toString()))
   })
 })

@@ -1,10 +1,10 @@
+import { AffectType } from "../../affect/affectType"
+import { newAffect } from "../../affect/factory"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import getActionCollection from "../actionCollection"
-import { newAffect } from "../../affect/factory"
-import { AffectType } from "../../affect/affectType"
 import { Messages } from "../precondition/constants"
 
 const itemName = "token"

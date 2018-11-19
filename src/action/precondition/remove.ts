@@ -1,14 +1,19 @@
+import { AffectType } from "../../affect/affectType"
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import { CheckType } from "../../check/checkType"
 import { Request } from "../../request/request"
-import { MESSAGE_REMOVE_FAIL } from "./constants"
+import { MESSAGE_REMOVE_FAIL, Messages } from "./constants"
+import { format } from "../../support/string"
 
 export default function(request: Request): Promise<Check> {
+  const item = request.mob.equipped.inventory.findItemByName(request.getContextAsInput().subject)
   return new CheckBuilder()
     .require(
-      request.mob.equipped.inventory.findItemByName(request.getContextAsInput().subject),
+      item,
       MESSAGE_REMOVE_FAIL,
       CheckType.HasItem)
+    .not().requireAffect(AffectType.Curse,
+      format(Messages.All.Item.CannotRemoveCursedItem,  item ? item.toString() : null))
     .create()
 }

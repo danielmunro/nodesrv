@@ -1,7 +1,7 @@
+import { AffectType } from "../../affect/affectType"
 import Check from "../../check/check"
 import { Request } from "../../request/request"
 import { MESSAGE_FAIL_CONTAINER_NOT_EMPTY, Messages } from "./constants"
-import { AffectType } from "../../affect/affectType"
 
 export default async function(request: Request): Promise<Check> {
   return request.checkWithStandingDisposition()
