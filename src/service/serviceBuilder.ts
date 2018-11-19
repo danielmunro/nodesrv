@@ -7,7 +7,7 @@ import { default as MobTable } from "../mob/table"
 import ExitTable from "../room/exitTable"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
-import { default as RoomTable } from "../room/table"
+import { default as RoomTable } from "../room/roomTable"
 import Service from "./service"
 
 export default class ServiceBuilder {

@@ -1,5 +1,4 @@
 import { DiceRoller } from "../random/dice"
-import ResetService from "../service/reset/resetService"
 import { FiveMinuteTimer } from "../timer/fiveMinuteTimer"
 import { MinuteTimer } from "../timer/minuteTimer"
 import { RandomTickTimer } from "../timer/randomTickTimer"
@@ -17,8 +16,9 @@ import { Tick } from "./observers/tick"
 import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
 
-export default function addObservers(gameServer: GameServer): GameServer {
+export default async function addObservers(gameServer: GameServer): Promise<GameServer> {
   const mobTable = gameServer.service.mobTable
+  const roomTable = gameServer.service.roomTable
   const locationService = gameServer.locationService
   gameServer.addObserver(
     new ObserverChain([
@@ -28,12 +28,14 @@ export default function addObservers(gameServer: GameServer): GameServer {
     ]),
     new RandomTickTimer(
       new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
-  const resetService = new ResetService([], [])
+  const resetService = gameServer.resetService
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(locationService), new MinuteTimer())
   gameServer.addObserver(new SocialBroadcaster(locationService), new ShortIntervalTimer())
   gameServer.addObserver(new FightRounds(locationService), new SecondIntervalTimer())
-  gameServer.addObserver(new Respawner(mobTable, resetService, locationService), new FiveMinuteTimer())
+  const respawner = new Respawner(mobTable, roomTable, resetService, locationService)
+  gameServer.addObserver(respawner, new FiveMinuteTimer())
+  await respawner.notify([])
 
   return gameServer
 }

@@ -11,7 +11,7 @@ import ExitTable from "../src/room/exitTable"
 import { Room } from "../src/room/model/room"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
-import { default as RoomTable } from "../src/room/table"
+import { default as RoomTable } from "../src/room/roomTable"
 import newServer from "../src/server/factory"
 import ResetService from "../src/service/reset/resetService"
 import Service from "../src/service/service"
@@ -28,7 +28,7 @@ console.info("0 - entry point", { startRoomID })
 async function startServer(
   service: Service, startRoom: Room, resetService: ResetService, aLocationService: LocationService) {
   console.info(`3 - starting up server on port ${port}`)
-  return newServer(service, port, startRoom, resetService, aLocationService).start()
+  return (await newServer(service, port, startRoom, resetService, aLocationService)).start()
 }
 
 export async function newMobTable() {

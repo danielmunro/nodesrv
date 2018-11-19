@@ -1,10 +1,13 @@
 import addObservers from "./observerDecorator"
 
 describe("observer decorator", () => {
-  it("should call addObserver on server", () => {
+  it("should call addObserver on server", async () => {
     // setup
     const mock = jest.fn(() => ({
       addObserver: jest.fn(),
+      resetService: {
+        mobResets: [],
+      },
       service: {
         mobTable: {
           getWanderingMobs: jest.fn(),
@@ -14,7 +17,7 @@ describe("observer decorator", () => {
     const mockServer = mock()
 
     // when
-    addObservers(mockServer)
+    await addObservers(mockServer)
 
     // then
     expect(mockServer.addObserver).toBeCalled()

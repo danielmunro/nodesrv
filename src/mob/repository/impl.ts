@@ -13,6 +13,14 @@ export default class MobRepositoryImpl implements MobRepository {
     return this.mobRepository.findOne({ uuid })
   }
 
+  public async findOneById(id) {
+    return this.mobRepository.findOneById(id)
+  }
+
+  public async findOneByImportId(importId) {
+    return this.mobRepository.findOne({ importId })
+  }
+
   public async save(mob: Mob) {
     return this.mobRepository.save(mob)
   }

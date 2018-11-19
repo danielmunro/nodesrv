@@ -1,10 +1,10 @@
 import { Room } from "./model/room"
 
-export default class Table {
+export default class RoomTable {
   public static new(rooms: Room[]) {
     const roomsById = {}
     rooms.forEach((room) => roomsById[room.uuid] = room)
-    return new Table(roomsById)
+    return new RoomTable(roomsById)
   }
 
   constructor(private readonly roomsById: object) {}

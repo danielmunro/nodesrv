@@ -10,7 +10,7 @@ import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
 import ExitRepository, { getExitRepository } from "../room/repository/exit"
 import RoomRepository, { getRoomRepository } from "../room/repository/room"
-import { default as RoomTable } from "../room/table"
+import { default as RoomTable } from "../room/roomTable"
 
 export default class Service {
   public static async new(

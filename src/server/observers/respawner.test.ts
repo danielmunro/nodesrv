@@ -2,6 +2,7 @@ import { Disposition } from "../../mob/disposition"
 import { newMobLocation, newMobReset } from "../../mob/factory"
 import LocationService from "../../mob/locationService"
 import { default as MobTable } from "../../mob/table"
+import RoomTable from "../../room/roomTable"
 import ResetService from "../../service/reset/resetService"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
@@ -16,20 +17,14 @@ describe("respawner", () => {
     // dead
     const mob1 = getTestMob()
     mob1.disposition = Disposition.Dead
-    mob1.reset.disposition = Disposition.Standing
-    mob1.reset.room = startRoom
 
     // dead
     const mob2 = getTestMob()
     mob2.disposition = Disposition.Dead
-    mob2.reset.disposition = Disposition.Sitting
-    mob2.reset.room = startRoom
 
     // not dead
     const mob3 = getTestMob()
     mob3.disposition = Disposition.Sitting
-    mob3.reset.disposition = Disposition.Standing
-    mob3.reset.room = startRoom
 
     // given
     const locationService = new LocationService([
@@ -39,10 +34,11 @@ describe("respawner", () => {
     ])
     const respawner = new Respawner(
       new MobTable([mob1, mob2, mob3]),
+      RoomTable.new([currentRoom, startRoom]),
       new ResetService([
         newMobReset(mob1, startRoom),
-        newMobReset(mob2, startRoom),
-        newMobReset(mob3, startRoom),
+        newMobReset(mob2, startRoom, Disposition.Sitting),
+        newMobReset(mob3, startRoom, Disposition.Sitting),
       ], []),
       locationService)
 

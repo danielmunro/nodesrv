@@ -1,7 +1,6 @@
 import { Item } from "../item/model/item"
 import ItemReset from "../item/model/itemReset"
 import { Mob } from "../mob/model/mob"
-import MobReset from "../mob/model/mobReset"
 import { Room } from "../room/model/room"
 
 export default class File {
@@ -12,7 +11,7 @@ export default class File {
   public items: Item[] = []
   public roomDataMap: object = {}
   public itemResets: ItemReset[] = []
-  public mobResets: MobReset[] = []
+  public mobResets = []
 
   constructor(
     public readonly filename: string,

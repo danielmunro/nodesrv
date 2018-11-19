@@ -79,6 +79,9 @@ export class Mob {
   @Column("integer", { default: Role.None })
   public role: Role = Role.None
 
+  @Column("text", { nullable: true })
+  public importId
+
   @OneToMany(type => Affect, affect => affect.mob, { ...ownedEntityOptions })
   public affects: Affect[] = []
 
@@ -110,9 +113,8 @@ export class Mob {
   @OneToOne(type => PlayerMob, playerMob => playerMob.mob, { nullable: true, ...ownedEntityOptions })
   public playerMob: PlayerMob
 
-  @OneToOne(type => MobReset, reset => reset.mob, { cascadeAll: true, eager: true })
-  @JoinColumn()
-  public reset: MobReset = new MobReset()
+  @OneToOne(type => MobReset, reset => reset.mob)
+  public mobReset: MobReset
 
   public getAuthorizationLevel(): AuthorizationLevel {
     return this.playerMob ? this.playerMob.authorizationLevel : AuthorizationLevel.None
@@ -211,5 +213,9 @@ export class Mob {
 
   public toString(): string {
     return this.name
+  }
+
+  public isDead(): boolean {
+    return this.disposition === Disposition.Dead
   }
 }
