@@ -7,12 +7,12 @@ import { Player } from "../../player/model/player"
 import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
+import { format } from "../../support/string"
 import { getTestPlayer } from "../../test/player"
 import { getTestRoom } from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_REMOVE_FAIL, Messages } from "./constants"
 import remove from "./remove"
-import { format } from "../../support/string"
 
 function useRemoveRequest(player: Player, input: string) {
   return remove(new Request(player.sessionMob, getTestRoom(), new InputContext(RequestType.Remove, input)))

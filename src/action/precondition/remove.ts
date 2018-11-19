@@ -3,8 +3,8 @@ import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import { CheckType } from "../../check/checkType"
 import { Request } from "../../request/request"
-import { MESSAGE_REMOVE_FAIL, Messages } from "./constants"
 import { format } from "../../support/string"
+import { MESSAGE_REMOVE_FAIL, Messages } from "./constants"
 
 export default function(request: Request): Promise<Check> {
   const item = request.mob.equipped.inventory.findItemByName(request.getContextAsInput().subject)
