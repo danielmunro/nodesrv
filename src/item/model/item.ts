@@ -63,7 +63,7 @@ export class Item {
   @OneToOne(type => Attributes, attributes => attributes.item)
   public attributes: Attributes = newEmptyAttributes()
 
-  @OneToMany(type => Affect, affect => affect.item)
+  @OneToMany(type => Affect, affect => affect.item, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   public affects: Affect[] = []
 
   @OneToOne(type => Container, { cascadeAll: true, eager: true })

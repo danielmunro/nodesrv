@@ -12,6 +12,9 @@ import { Room } from "../room/model/room"
 import ExitRepository from "../room/repository/exit"
 import RoomRepository from "../room/repository/room"
 import File from "./file"
+import ItemRepository from "../item/repository/item"
+import { newPermanentAffect } from "../affect/factory"
+import { AffectType } from "../affect/affectType"
 
 export default class ImportService {
   private static dice(rollData) {
@@ -34,10 +37,33 @@ export default class ImportService {
     item.material = itemData.material
   }
 
+  private static async addReset(file, resetData) {
+    /**
+     * Reset commands:
+     *   '*': comment
+     *   'M': read a mobile
+     *   'O': read an object
+     *   'P': put object in object
+     *   'G': give object to mobile
+     *   'E': equip object to mobile
+     *   'D': set state of door
+     *   'R': randomize room exits
+     *   'S': stop (end of list)
+     */
+    if (resetData.command === "M") {
+      file.mobResets.push({ mobId: resetData.args[0], roomId: resetData.args[2] })
+    }
+    if (resetData.command === "O") {
+      file.itemResets.push({ itemId: resetData.args[0], roomId: resetData.args[2] })
+    }
+    return resetData
+  }
+
   constructor(
     private readonly mobRepository: MobRepository,
     private readonly roomRepository: RoomRepository,
     private readonly exitRepository: ExitRepository,
+    private readonly itemRepository: ItemRepository,
   ) {}
 
   public async parseAreaFile(filename: string): Promise<File> {
@@ -56,7 +82,6 @@ export default class ImportService {
       await Promise.all(section.map(async row => {
         if (row.header) {
           header = row.header
-          console.log(row.header)
         }
         switch (header) {
           case "MOBILES":
@@ -66,15 +91,14 @@ export default class ImportService {
             await this.addRoom(file, row)
             break
           case "RESETS":
-            await this.addReset(file, row)
+            await ImportService.addReset(file, row)
             break
           case "OBJECTS":
-            // await this.addItem(file, row)
+            await this.addItem(file, row)
             break
         }
       }))
     }))
-    console.log("creating exits")
     await this.createExits(file)
   }
 
@@ -109,7 +133,7 @@ export default class ImportService {
     return room
   }
 
-  private async addItem(file, itemData) {
+  private async addItem(file: File, itemData) {
     const args = itemData.pObjFlags.split(" ")
     switch (itemData.type) {
       case "weapon":
@@ -119,11 +143,15 @@ export default class ImportService {
           args[0],
           args[2])
         await ImportService.addPropertiesToItem(weapon, itemData)
+        await this.itemRepository.save(weapon)
+        file.items.push(weapon)
         break
       case "armor":
       case "clothing":
         const armor = newEquipment(itemData.name, itemData.description, args[0])
         await ImportService.addPropertiesToItem(armor, itemData)
+        await this.itemRepository.save(armor)
+        file.items.push(armor)
         break
       case "boat":
         break
@@ -137,12 +165,15 @@ export default class ImportService {
          * 4 - loot count
          */
         const container = newContainer(itemData.name, itemData.description)
-        const itemFlags = itemData.pObjFlags.split(" ")
-        container.container.weightCapacity = itemFlags[0]
-        container.container.isOpen = itemFlags[1]
-        container.container.liquid = itemFlags[2]
-        container.container.maxWeightForItem = itemFlags[3]
+        const itemProps = itemData.pObjFlags.split(" ")
+        container.container.weightCapacity = itemProps[0]
+        container.container.liquid = itemProps[2]
+        container.container.maxWeightForItem = itemProps[3]
+        const flags = itemProps[1].split("")
+        this.setItemAffects(container, flags)
         await ImportService.addPropertiesToItem(container, itemData)
+        await this.itemRepository.save(container)
+        file.items.push(container)
         break
       case "drink":
         /**
@@ -165,14 +196,76 @@ export default class ImportService {
     }
   }
 
-  private async addReset(file, resetData) {
-    if (resetData.command === "M") {
-      file.mobResets.push({ mobId: resetData.args[0], roomId: resetData.args[2] })
+  private setItemAffects(item: Item, flags: string[]) {
+    /**
+     * #define ITEM_GLOW               (A)
+     * #define ITEM_HUM                (B)
+     * #define ITEM_IMM_LOAD           (C)
+     #define ITEM_LOCK               (D)
+     #define ITEM_EVIL               (E)
+     #define ITEM_INVIS              (F)
+     #define ITEM_MAGIC              (G)
+     #define ITEM_NODROP             (H)
+     #define ITEM_BLESS              (I)
+     #define ITEM_ANTI_GOOD          (J)
+     #define ITEM_ANTI_EVIL          (K)
+     #define ITEM_ANTI_NEUTRAL       (L)
+     #define ITEM_NOREMOVE           (M)
+     #define ITEM_INVENTORY          (N)
+     #define ITEM_NOPURGE            (O)
+     #define ITEM_ROT_DEATH          (P)
+     #define ITEM_VIS_DEATH          (Q)
+     #define ITEM_NOSAC              (R)
+     #define ITEM_NONMETAL           (S)
+     #define ITEM_NOLOCATE           (T)
+     #define ITEM_MELT_DROP          (U)
+     #define ITEM_HAD_TIMER          (V)
+     #define ITEM_SELL_EXTRACT       (W)
+     #define ITEM_WEAR_TIMER         (X)
+     #define ITEM_BURN_PROOF         (Y)
+     #define ITEM_NOUNCURSE          (Z)
+     #define ITEM_CLAN_CORPSE        (aa)
+     #define ITEM_WARPED	        (bb)
+     #define ITEM_TELEPORT		(cc)
+     #define ITEM_NOIDENTIFY		(dd)
+     */
+    const flagMap = {
+      "A": AffectType.Glow,
+      "B": AffectType.Hum,
+      "C": AffectType.ImmortalLoad,
+      "D": AffectType.Lock,
+      "E": AffectType.Evil,
+      "F": AffectType.Invisible,
+      "G": AffectType.Magic,
+      "H": AffectType.NoDrop,
+      "I": AffectType.Bless,
+      "J": AffectType.AntiGood,
+      "K": AffectType.AntiEvil,
+      "L": AffectType.AntiNeutral,
+      "M": AffectType.NoRemove,
+      "N": AffectType.Inventory,
+      "O": AffectType.NoPurge,
+      "P": AffectType.RotDeath,
+      "Q": AffectType.VisDeath,
+      "R": AffectType.NoSacrifice,
+      "S": AffectType.NonMetal,
+      "T": AffectType.NoLocate,
+      "U": AffectType.MeltDrop,
+      "V": AffectType.HasTimer,
+      "W": AffectType.SellExtract,
+      "X": AffectType.WearTimer,
+      "Y": AffectType.BurnProof,
+      "Z": AffectType.NounCurse,
+      "aa": AffectType.ClanCorpse,
+      "bb": AffectType.Warped,
+      "cc": AffectType.Teleport,
+      "dd": AffectType.NoIdentify,
     }
-    if (resetData.command === "E") {
-      // itemResets.push(newItemReset())
-    }
-    return resetData
+    flags.forEach(flag => {
+      if (flagMap[flag]) {
+        item.affects.push(newPermanentAffect(flagMap[flag]))
+      }
+    })
   }
 
   private createExits(file: File) {
