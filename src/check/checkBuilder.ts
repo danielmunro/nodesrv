@@ -70,13 +70,17 @@ export default class CheckBuilder {
     return this
   }
 
-  public capture() {
-    this.checks.push(this.newCheckComponent(CheckType.Unspecified, thing => this.captured = thing))
+  public capture(toCapture = null) {
+    this.checks.push(this.newCheckComponent(CheckType.Unspecified, thing =>
+      this.captured = toCapture ? toCapture : thing))
 
     return this
   }
 
-  public not() {
+  public not(toCapture = null) {
+    if (toCapture !== null) {
+      this.capture(toCapture)
+    }
     this.confirm = false
 
     return this
@@ -130,7 +134,7 @@ export default class CheckBuilder {
   public requireAffect(affectType: AffectType, failMessage: string) {
     this.checks.push(this.newCheckComponent(
       CheckType.HasAffect,
-      this.mob.getAffect(affectType),
+      captured => captured.affects.find(a => a.affectType === affectType),
       failMessage))
 
     return this
