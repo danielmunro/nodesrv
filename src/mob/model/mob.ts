@@ -80,7 +80,10 @@ export class Mob {
   public role: Role = Role.None
 
   @Column("text", { nullable: true })
-  public importId
+  public importId: string
+
+  @Column("integer", { default: 0 })
+  public alignment: number = 0
 
   @OneToMany(type => Affect, affect => affect.mob, { ...ownedEntityOptions })
   public affects: Affect[] = []
@@ -217,5 +220,13 @@ export class Mob {
 
   public isDead(): boolean {
     return this.disposition === Disposition.Dead
+  }
+
+  public isGoodAlignment(): boolean {
+    return this.alignment > 500
+  }
+
+  public isBadAlignment(): boolean {
+    return this.alignment < -500
   }
 }

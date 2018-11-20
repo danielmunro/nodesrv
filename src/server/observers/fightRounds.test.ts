@@ -1,12 +1,13 @@
 import { newMobLocation } from "../../mob/factory"
 import { Attack, AttackResult } from "../../mob/fight/attack"
-import { addFight, Fight, filterCompleteFights, getCorpse, getFights } from "../../mob/fight/fight"
+import { addFight, Fight, filterCompleteFights, getFights } from "../../mob/fight/fight"
 import LocationService from "../../mob/locationService"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
+import Death from "../../mob/fight/death"
 
 describe("fight rounds", () => {
   it("should generate accurate attacks messages", () => {
@@ -107,14 +108,15 @@ describe("fight rounds", () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()
     const mob = playerBuilder.player.sessionMob
-
-    // given
     playerBuilder.equip().withHelmetEq()
     playerBuilder.withAxeEq()
     playerBuilder.withFood()
 
+    // given
+    const death = new Death(mob, testBuilder.room)
+
     // when
-    const corpse = getCorpse(mob)
+    const corpse = death.createCorpse()
 
     // then
     expect(corpse.container.inventory.items.length).toBe(3)

@@ -14,6 +14,8 @@ import { BodyPart, getBodyPartItem, getRandomBodyPartForRace } from "../race/bod
 import { Trigger } from "../trigger"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import { Round } from "./round"
+import Death from "./death"
+import Death from "./death"
 
 enum Status {
   InProgress,
@@ -44,18 +46,6 @@ async function createStartRoundDefenderTrigger(attacker, defender, room) {
   return await createSkillTriggerEvent(defender, Trigger.AttackRoundDefend, attacker, room)
 }
 
-export function getCorpse(mob: Mob): Item {
-  const corpse = newContainer(
-    format(Messages.Fight.Corpse.Name, mob.name),
-    format(Messages.Fight.Corpse.Description, mob.name))
-  mob.inventory.items.forEach(item =>
-    corpse.container.getItemFrom(item, mob.inventory))
-  mob.equipped.inventory.items.forEach(item =>
-    corpse.container.getItemFrom(item, mob.equipped.inventory))
-
-  return corpse
-}
-
 export class Fight {
   private static attackDefeated(attacker, defender, result) {
     return new Attack(attacker, defender, result, 0)
@@ -77,6 +67,7 @@ export class Fight {
   private status: Status = Status.InProgress
   private winner: Mob
   private bodyPart: BodyPart
+  private death: Death
 
   constructor(
     public readonly aggressor: Mob,
@@ -180,21 +171,17 @@ export class Fight {
 
     this.status = Status.Done
     this.winner = winner
+    this.death = new Death(vanquished, this.room, winner)
 
     if (winner.isPlayer) {
-      winner.playerMob.experience += attack.experience
+      winner.playerMob.experience += this.death.calculateKillerExperience()
     }
 
     if (!vanquished.isPlayer) {
       vanquished.disposition = Disposition.Dead
     }
 
-    this.room.inventory.addItem(getCorpse(vanquished))
-    simpleD4(() => this.doBodyParts(vanquished))
-  }
-
-  private doBodyParts(vanquished: Mob) {
-    this.bodyPart = getRandomBodyPartForRace(vanquished.race)
-    this.room.inventory.items.push(getBodyPartItem(vanquished, this.bodyPart))
+    this.room.inventory.addItem(this.death.createCorpse())
+    simpleD4(() => this.death.createBodyPart())
   }
 }
