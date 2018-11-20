@@ -159,14 +159,6 @@ export default class ImportService {
       case "boat":
         break
       case "container":
-        /**
-         * RESET
-         * 0 - all item weight
-         * 1 - container is open
-         * 2 - liquid
-         * 3 - individual item max weight
-         * 4 - loot count
-         */
         const container = newContainer(itemData.name, itemData.description)
         const itemProps = itemData.pObjFlags.split(" ")
         container.container.weightCapacity = itemProps[0]
@@ -179,20 +171,8 @@ export default class ImportService {
         file.items.push(container)
         break
       case "drink":
-        /**
-         * 0 - ?
-         * 1 - amount remaining
-         * 2 - liquid
-         */
         break
       case "food":
-        /**
-         * 0 - amount
-         * 1 - nourishment
-         * 2 - <not used>
-         * 3 - poisoned
-         */
-        // const item = newFood(itemData.name, itemData.description, itemData.values[0])
         break
       default:
         return
