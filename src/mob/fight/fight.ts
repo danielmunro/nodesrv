@@ -10,7 +10,6 @@ import { BodyPart } from "../race/bodyParts"
 import { Trigger } from "../trigger"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import Death from "./death"
-import Death from "./death"
 import { Round } from "./round"
 
 enum Status {
@@ -152,7 +151,7 @@ export class Fight {
         const attack = await this.attack(x, y)
         attacks.push(attack)
         if (y.vitals.hp < 0) {
-          this.deathOccurred(x, y, attack)
+          this.deathOccurred(x, y)
 
           return attacks
         }
@@ -162,7 +161,7 @@ export class Fight {
     return attacks
   }
 
-  private deathOccurred(winner: Mob, vanquished: Mob, attack: Attack) {
+  private deathOccurred(winner: Mob, vanquished: Mob) {
     console.debug(`${vanquished.name} is killed by ${winner.name}`)
 
     this.status = Status.Done
