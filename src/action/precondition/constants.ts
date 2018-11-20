@@ -51,6 +51,7 @@ export const Messages = {
       CannotRemoveCursedItem: "{0} is cursed and binds to your flesh.",
       CannotSacrifice: "You cannot sacrifice that.",
       NoMerchant: "You don't see a merchant anywhere.",
+      NoRemoveItem: "{0} cannot be removed.",
       NotEquipment: "That is not equipment.",
       NotFound: "You don't see that anywhere.",
       NotOwned: "You don't have that.",

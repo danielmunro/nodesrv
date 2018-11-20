@@ -48,9 +48,26 @@ describe("remove", () => {
     const item = playerBuilder.equip().withMaceEq()
     item.affects.push(newAffect(AffectType.Curse))
 
+    // when
     const check = await remove(testBuilder.createRequest(RequestType.Remove, "remove mace"))
 
+    // then
     expect(check.status).toBe(CheckStatus.Failed)
     expect(check.result).toBe(format(Messages.All.Item.CannotRemoveCursedItem, item.toString()))
+  })
+
+  it("cannot remove no-remove items", async () => {
+    // given
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    const item = playerBuilder.equip().withMaceEq()
+    item.affects.push(newAffect(AffectType.NoRemove))
+
+    // when
+    const check = await remove(testBuilder.createRequest(RequestType.Remove, "remove mace"))
+
+    // then
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(format(Messages.All.Item.NoRemoveItem, item.toString()))
   })
 })
