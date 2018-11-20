@@ -1,9 +1,9 @@
-import { Mob } from "../model/mob"
-import { Room } from "../../room/model/room"
-import { Item } from "../../item/model/item"
 import { newContainer } from "../../item/factory"
-import { format } from "../../support/string"
+import { Item } from "../../item/model/item"
+import { Room } from "../../room/model/room"
 import { Messages } from "../../server/observers/constants"
+import { format } from "../../support/string"
+import { Mob } from "../model/mob"
 import { getBodyPartItem, getRandomBodyPartForRace } from "../race/bodyParts"
 
 const EXPERIENCE_GAIN = 100
