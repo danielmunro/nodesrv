@@ -115,6 +115,9 @@ export default class ImportService {
       newStartingAttributes(vitals, mobData.level))
     mob.gold = mobData.wealth
     mob.importId = mobData.id
+    mob.alignment = mobData.alignment
+    mob.level = mobData.level
+
     await this.mobRepository.save(mob)
 
     file.mobs.push(mob)
@@ -197,38 +200,6 @@ export default class ImportService {
   }
 
   private setItemAffects(item: Item, flags: string[]) {
-    /**
-     * #define ITEM_GLOW               (A)
-     * #define ITEM_HUM                (B)
-     * #define ITEM_IMM_LOAD           (C)
-     #define ITEM_LOCK               (D)
-     #define ITEM_EVIL               (E)
-     #define ITEM_INVIS              (F)
-     #define ITEM_MAGIC              (G)
-     #define ITEM_NODROP             (H)
-     #define ITEM_BLESS              (I)
-     #define ITEM_ANTI_GOOD          (J)
-     #define ITEM_ANTI_EVIL          (K)
-     #define ITEM_ANTI_NEUTRAL       (L)
-     #define ITEM_NOREMOVE           (M)
-     #define ITEM_INVENTORY          (N)
-     #define ITEM_NOPURGE            (O)
-     #define ITEM_ROT_DEATH          (P)
-     #define ITEM_VIS_DEATH          (Q)
-     #define ITEM_NOSAC              (R)
-     #define ITEM_NONMETAL           (S)
-     #define ITEM_NOLOCATE           (T)
-     #define ITEM_MELT_DROP          (U)
-     #define ITEM_HAD_TIMER          (V)
-     #define ITEM_SELL_EXTRACT       (W)
-     #define ITEM_WEAR_TIMER         (X)
-     #define ITEM_BURN_PROOF         (Y)
-     #define ITEM_NOUNCURSE          (Z)
-     #define ITEM_CLAN_CORPSE        (aa)
-     #define ITEM_WARPED	        (bb)
-     #define ITEM_TELEPORT		(cc)
-     #define ITEM_NOIDENTIFY		(dd)
-     */
     const flagMap = {
       "A": AffectType.Glow,
       "B": AffectType.Hum,
