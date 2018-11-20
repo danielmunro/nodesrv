@@ -19,15 +19,17 @@ export default class Service {
     mobTable: MobTable = new MobTable(),
     itemTable: ItemTable = new ItemTable([]),
     exitTable: ExitTable = new ExitTable(locationService, []),
+    time: number = 0,
   ): Promise<Service> {
     return new Service(
       roomTable, mobTable, itemTable, exitTable,
       await getRoomRepository(),
       await getExitRepository(),
-      locationService)
+      locationService,
+      time)
   }
 
-  public static async newWithArray(rooms: Room[], exits: Exit[] = []): Promise<Service> {
+  public static async newWithArray(rooms: Room[] = [], exits: Exit[] = []): Promise<Service> {
     const locationService = new LocationService([])
     return Service.new(
       locationService,
@@ -37,6 +39,7 @@ export default class Service {
       new ExitTable(locationService, exits))
   }
 
+  /* tslint:disable */
   constructor(
     public readonly roomTable: RoomTable,
     public readonly mobTable: MobTable,
@@ -44,7 +47,21 @@ export default class Service {
     public readonly exitTable: ExitTable,
     private readonly roomRepository: RoomRepository,
     private readonly exitRepository: ExitRepository,
-    private readonly locationService: LocationService) {}
+    private readonly locationService: LocationService,
+    private time = 0) {
+  }
+
+  public incrementTime() {
+    this.time += 1
+  }
+
+  public getCurrentTime() {
+    return this.time
+  }
+
+  public resetTime() {
+    this.time = 0
+  }
 
   public async saveRoom(room): Promise<any> {
     return this.roomRepository.save(room)

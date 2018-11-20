@@ -201,6 +201,12 @@ export default class TestBuilder {
     return getActionCollection(await this.getService())
   }
 
+  public setTime(time: number) {
+    this.serviceBuilder.setTime(time)
+
+    return this
+  }
+
   public async getService(): Promise<Service> {
     if (!this.service) {
       this.service = await this.serviceBuilder.createService()

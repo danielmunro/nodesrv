@@ -52,6 +52,7 @@ import { default as eatPrecondition } from "./precondition/eat"
 import { default as fleePrecondition } from "./precondition/flee"
 import { default as getPrecondition } from "./precondition/get"
 import { default as killPrecondition } from "./precondition/kill"
+import { default as lookPrecondition } from "./precondition/look"
 import { default as movePrecondition } from "./precondition/move"
 import { default as putPrecondition } from "./precondition/put"
 import { default as removePrecondition } from "./precondition/remove"
@@ -103,7 +104,7 @@ export default function getActionCollection(service: Service) {
 
     // info
     service.getNewActionDefinition(RequestType.Affects, affects),
-    service.getNewActionDefinition(RequestType.Look, look),
+    service.getNewActionDefinition(RequestType.Look, look, lookPrecondition),
     service.getNewActionDefinition(RequestType.Score, score),
 
     // merchants

@@ -12,12 +12,17 @@ import Service from "./service"
 
 export default class ServiceBuilder {
   public readonly locationService: LocationService = new LocationService([])
+  private time: number = 0
 
   constructor(
     private rooms: Room[] = [],
     private mobs: Mob[] = [],
     private items: Item[] = [],
     private exits: Exit[] = []) {}
+
+  public setTime(time: number) {
+    this.time = time
+  }
 
   public addRoom(room: Room): void {
     this.rooms.push(room)
@@ -46,6 +51,6 @@ export default class ServiceBuilder {
       new MobTable(this.mobs),
       new ItemTable(this.items),
       new ExitTable(this.locationService, this.exits),
-    )
+      this.time)
   }
 }

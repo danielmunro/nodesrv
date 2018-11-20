@@ -3,6 +3,7 @@ import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { newMobLocation } from "../../mob/factory"
 import LocationService from "../../mob/locationService"
+import Service from "../../service/service"
 import { newSkill } from "../../skill/factory"
 import { SkillType } from "../../skill/skillType"
 import { getTestClient } from "../../test/client"
@@ -20,7 +21,9 @@ describe("ticks", () => {
       await getTestClient(),
     ]
 
-    const tick = new Tick(new LocationService(clients.map(c => newMobLocation(c.getSessionMob(), getTestRoom()))))
+    const tick = new Tick(
+      await Service.newWithArray(),
+      new LocationService(clients.map(c => newMobLocation(c.getSessionMob(), getTestRoom()))))
 
     // when
     await tick.notify(clients)
@@ -43,10 +46,12 @@ describe("ticks", () => {
     mob2.level = 50
     mob2.attributes.push(newStartingAttributes(newVitals(1000, 0, 0)))
 
-    const tick = new Tick(new LocationService([
-      newMobLocation(mob1, getTestRoom()),
-      newMobLocation(mob2, getTestRoom()),
-    ]))
+    const tick = new Tick(
+      await Service.newWithArray(),
+      new LocationService([
+        newMobLocation(mob1, getTestRoom()),
+        newMobLocation(mob2, getTestRoom()),
+      ]))
 
     // when
     const test = async () => {

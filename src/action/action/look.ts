@@ -1,14 +1,12 @@
-import { AffectType } from "../../affect/affectType"
+import CheckedRequest from "../../check/checkedRequest"
 import match from "../../matcher/match"
 import { onlyLiving } from "../../mob/disposition"
 import { Mob } from "../../mob/model/mob"
-import getSight from "../../mob/race/sight"
-import { Region } from "../../region/model/region"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import Service from "../../service/service"
-import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
+import { NOT_FOUND } from "./constants"
 
 function lookAtSubject(request: Request, builder: ResponseBuilder, service: Service) {
   const mob = service.getMobsByRoom(request.room).find(m => match(m.name, request.getSubject()))
@@ -31,12 +29,9 @@ function lookAtSubject(request: Request, builder: ResponseBuilder, service: Serv
   return builder.error(NOT_FOUND)
 }
 
-export default function(request: Request, service: Service): Promise<Response> {
-  const builder = request.respondWith()
-
-  if (request.mob.getAffect(AffectType.Blind)) {
-    return builder.fail(MESSAGE_LOOK_CANNOT_SEE)
-  }
+export default function(checkedRequest: CheckedRequest, service: Service): Promise<Response> {
+  const builder = checkedRequest.respondWith()
+  const request = checkedRequest.request
 
   if (request.getContextAsInput().subject) {
     return lookAtSubject(request, builder, service)
@@ -44,22 +39,11 @@ export default function(request: Request, service: Service): Promise<Response> {
 
   const location = service.getMobLocation(request.mob)
   const room = location.room
-  const ableToSee = isAbleToSee(request.mob, room.region)
-  const roomDescription = ableToSee ? room.toString() : MESSAGE_LOOK_CANNOT_SEE
-  console.log("look mob count", service.getMobsByRoom(room).length)
-  const mobDescription = ableToSee ? reduceMobs(request.mob, service.getMobsByRoom(room)) : ""
 
-  return builder.info(roomDescription
-    + mobDescription
+  return builder.info(
+    room.toString()
+    + reduceMobs(request.mob, service.getMobsByRoom(room))
     + room.inventory.toString("is here."))
-}
-
-function isAbleToSee(mob: Mob, region: Region = null) {
-  if (!region) {
-    return true
-  }
-
-  return getSight(mob.race).isAbleToSee(12, region.terrain, region.weather)
 }
 
 function reduceMobs(mob: Mob, mobs: Mob[]): string {

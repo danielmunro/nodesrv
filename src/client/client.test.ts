@@ -1,4 +1,3 @@
-import look from "../action/action/look"
 import { Collection } from "../action/definition/collection"
 import doNTimes from "../functional/times"
 import { getFights } from "../mob/fight/fight"
@@ -70,7 +69,7 @@ describe("client sanity checks", () => {
     const ws = jest.fn(() => ({
       send,
     }))
-    client = new Client(ws(), "127.0.0.1", new Collection([], []), jest.fn(), jest.fn(), jest.fn())
+    client = new Client(ws(), "127.0.0.1", new Collection([], []), jest.fn(), jest.fn(), jest.fn(), jest.fn())
 
     // expect
     expect(send.mock.calls.length).toBe(0)
@@ -132,19 +131,6 @@ describe("clients", () => {
     expect(response).toEqual(await getDefaultUnhandledMessage(request))
   })
 
-  it("should be able to invoke a valid action", async () => {
-    // setup
-    testBuilder.withRoom()
-    await testBuilder.withClient()
-
-    // when
-    const response = await client.handleRequest(testBuilder.createRequest(RequestType.Look))
-    const lookResponse = await look(testBuilder.createRequest(RequestType.Look), client.service)
-
-    // then
-    expect(response).toEqual(lookResponse)
-  })
-
   it("invokes the default request action when input has no action handler", async () => {
     // setup
     const request = testBuilder.createRequest(RequestType.Noop)
@@ -162,7 +148,7 @@ describe("clients", () => {
     const ws = jest.fn(() => ({
         send: (message) => buf.push(message),
       }))
-    client = new Client(ws(), "127.0.0.1", new Collection([], []), jest.fn(), jest.fn(), jest.fn())
+    client = new Client(ws(), "127.0.0.1", new Collection([], []), jest.fn(), jest.fn(), jest.fn(), jest.fn())
     const id = "test-tick-id"
     const timestamp = new Date()
 
@@ -179,7 +165,7 @@ describe("clients", () => {
 
   it("not logged in clients should always be able to handle requests if ones are available", () => {
     // setup
-    const newClient = new Client(jest.fn(), "127.0.0.1", jest.fn(), jest.fn(), jest.fn(), jest.fn())
+    const newClient = new Client(jest.fn(), "127.0.0.1", jest.fn(), jest.fn(), jest.fn(), jest.fn(), jest.fn())
     newClient.player = new Player()
     newClient.addRequest(new AuthRequest(newClient, RequestType.Any))
 

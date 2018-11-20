@@ -2,6 +2,7 @@ import { v4 } from "uuid"
 import { Client } from "../../client/client"
 import LocationService from "../../mob/locationService"
 import { Trigger } from "../../mob/trigger"
+import Service from "../../service/service"
 import { createSkillTriggerEvent } from "../../skill/trigger/factory"
 import { Observer } from "./observer"
 
@@ -9,17 +10,17 @@ const MESSAGE_HUNGRY = "You are hungry."
 const HOURS_IN_DAY = 24
 
 export class Tick implements Observer {
-  private hourInDay: number = 8
-
-  constructor(private readonly locationService: LocationService) {}
+  constructor(
+    private readonly service: Service,
+    private readonly locationService: LocationService) {}
 
   public async notify(clients: Client[]): Promise<void> {
     const id = v4()
     const timestamp = new Date()
-    this.hourInDay += 1
+    this.service.incrementTime()
 
-    if (this.hourInDay > HOURS_IN_DAY) {
-      this.hourInDay = 0
+    if (this.service.getCurrentTime() > HOURS_IN_DAY) {
+      this.service.resetTime()
     }
 
     await Promise.all(clients
