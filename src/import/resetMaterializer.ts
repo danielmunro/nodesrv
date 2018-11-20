@@ -17,8 +17,8 @@ export default class ResetMaterializer {
 
   public async materializeResets(file: File) {
     await Promise.all(file.mobResets.map(async resetObject => {
-      const room = await this.roomRepository.findOneByImportId(resetObject.roomId)
-      const mob = await this.mobRepository.findOneByImportId(resetObject.mobId)
+      const room = await this.roomRepository.findOneByImportId(resetObject.idOfResetDestination)
+      const mob = await this.mobRepository.findOneByImportId(resetObject.idOfResetSubject)
       await this.mobResetRepository.save(newMobReset(mob, room))
     }))
   }

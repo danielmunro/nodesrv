@@ -15,6 +15,7 @@ import File from "./file"
 import ItemRepository from "../item/repository/item"
 import { newPermanentAffect } from "../affect/factory"
 import { AffectType } from "../affect/affectType"
+import Reset from "./reset"
 
 export default class ImportService {
   private static dice(rollData) {
@@ -51,10 +52,10 @@ export default class ImportService {
      *   'S': stop (end of list)
      */
     if (resetData.command === "M") {
-      file.mobResets.push({ mobId: resetData.args[0], roomId: resetData.args[2] })
+      file.mobResets.push(new Reset(resetData.command, resetData.args[0], resetData.args[2]))
     }
     if (resetData.command === "O") {
-      file.itemResets.push({ itemId: resetData.args[0], roomId: resetData.args[2] })
+      file.itemResets.push(new Reset(resetData.command, resetData.args[0], resetData.args[2]))
     }
     return resetData
   }
