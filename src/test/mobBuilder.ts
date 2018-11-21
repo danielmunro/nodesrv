@@ -72,7 +72,7 @@ export default class MobBuilder extends AbstractBuilder {
   private doEquip(equipment) {
     if (this.equipNextEquipment) {
       this.equipNextEquipment = false
-      this.mob.equipped.inventory.addItem(equipment)
+      this.mob.equipped.addItem(equipment)
       return equipment
     }
 

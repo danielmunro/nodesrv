@@ -1,17 +1,16 @@
+import { newItemReset } from "../item/factory"
+import ItemReset from "../item/model/itemReset"
+import ContainerRepository from "../item/repository/container"
 import ItemRepository from "../item/repository/item"
 import ItemResetRepository from "../item/repository/itemReset"
 import { newMobReset } from "../mob/factory"
+import MobReset from "../mob/model/mobReset"
 import MobRepository from "../mob/repository/mob"
 import MobResetRepository from "../mob/repository/mobReset"
 import RoomRepository from "../room/repository/room"
 import File from "./file"
 import Reset from "./reset"
-import MobReset from "../mob/model/mobReset"
 import { ResetFlag } from "./resetFlag"
-import ItemReset from "../item/model/itemReset"
-import { newItemReset } from "../item/factory"
-import ContainerRepository from "../item/repository/container"
-import EquippedRepository from "../item/repository/equipped"
 
 export default class ResetMaterializer {
   private lastMobReset: MobReset
@@ -24,7 +23,6 @@ export default class ResetMaterializer {
     public readonly itemRepository: ItemRepository,
     public readonly roomRepository: RoomRepository,
     public readonly containerRepository: ContainerRepository,
-    public readonly equippedRepository: EquippedRepository,
   ) {}
 
   public async materializeResets(file: File) {
@@ -112,13 +110,8 @@ export default class ResetMaterializer {
     if (!this.lastMobReset) {
       return
     }
-    const equipped = await this.equippedRepository.findOneById(this.lastMobReset.mob.equipped.id)
-    if (!equipped) {
-      console.error("unknown equipped inventory for reset", reset)
-      return
-    }
-    console.log("equipped", equipped.id)
-    const itemReset = newItemReset(item, equipped.inventory)
+    const mob = await this.mobRepository.findOneById(this.lastMobReset.mob.id)
+    const itemReset = newItemReset(item, mob.inventory)
     await this.itemResetRepository.save(itemReset)
 
     return itemReset
@@ -137,7 +130,6 @@ export default class ResetMaterializer {
       console.error("unknown item container for reset", reset)
       return
     }
-    console.log("container", container)
     const itemReset = newItemReset(item, container.inventory)
     await this.itemResetRepository.save(itemReset)
 

@@ -1,18 +1,16 @@
-/* tslint:disable */
 import { readFileSync } from "fs"
 import { initializeConnection } from "../src/db/connection"
-import { getExitRepository } from "../src/room/repository/exit"
 import ImportService from "../src/import/importService"
+import ResetMaterializer from "../src/import/resetMaterializer"
+import { getContainerRepository } from "../src/item/repository/container"
+import { getItemRepository } from "../src/item/repository/item"
+import { getItemResetRepository } from "../src/item/repository/itemReset"
 import { getMobRepository } from "../src/mob/repository/mob"
 import { getMobResetRepository } from "../src/mob/repository/mobReset"
+import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
-import { getItemRepository } from "../src/item/repository/item"
-import ResetMaterializer from "../src/import/resetMaterializer"
-import { getItemResetRepository } from "../src/item/repository/itemReset"
-import { getContainerRepository } from "../src/item/repository/container"
-import { getEquippedRepository } from "../src/item/repository/equipped"
 
-const listFile = readFileSync("fixtures/area/area-midgaard.lst").toString()
+const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")
 
 initializeConnection().then(async () => {
@@ -41,8 +39,7 @@ async function parse(importService: ImportService) {
     await getMobRepository(),
     await getItemRepository(),
     await getRoomRepository(),
-    await getContainerRepository(),
-    await getEquippedRepository())
+    await getContainerRepository())
   console.log("3 - materialize resets")
   await Promise.all(areas.map(async area =>
     resetMaterializer.materializeResets(area)))

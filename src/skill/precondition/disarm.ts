@@ -14,7 +14,7 @@ export default function(request: Request): Promise<Check> {
     .requireLevel(10)
     .requireFight()
     .require(
-      opponent => opponent.equipped.inventory.find(i => i.equipment === Equipment.Weapon),
+      opponent => opponent.equipped.find(i => i.equipment === Equipment.Weapon),
       Messages.Disarm.FailNothingToDisarm,
       CheckType.ItemPresent)
     .addCost(new Cost(CostType.Mv, Costs.Disarm.Mv, Messages.All.NotEnoughMv))

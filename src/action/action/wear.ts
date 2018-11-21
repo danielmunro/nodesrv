@@ -1,6 +1,5 @@
 import CheckedRequest from "../../check/checkedRequest"
 import { CheckType } from "../../check/checkType"
-import { Equipped } from "../../item/model/equipped"
 import { Inventory } from "../../item/model/inventory"
 import { Item } from "../../item/model/item"
 import Response from "../../request/response"
@@ -14,10 +13,10 @@ export default function(checkedRequest: CheckedRequest): Promise<Response> {
       mob.inventory,
       mob.equipped,
       checkedRequest.getCheckTypeResult(CheckType.HasItem),
-      mob.equipped.byPosition(item.equipment)))
+      mob.equipped.find(i => i.equipment === item.equipment)))
 }
 
-function wear(inventory: Inventory, equipped: Equipped, item: Item, currentlyEquipped?: Item): string {
+function wear(inventory: Inventory, equipped: Inventory, item: Item, currentlyEquipped?: Item): string {
   let removal = ""
 
   if (currentlyEquipped) {
@@ -25,7 +24,7 @@ function wear(inventory: Inventory, equipped: Equipped, item: Item, currentlyEqu
     removal = ` remove ${currentlyEquipped.name} and`
   }
 
-  equipped.inventory.addItem(item)
+  equipped.addItem(item)
 
   return `You${removal} wear ${item.name}.`
 }

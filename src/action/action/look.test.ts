@@ -151,7 +151,7 @@ describe("look", () => {
     const item = getTestItem()
     item.affects.push(newAffect(AffectType.Glow))
     service.itemTable.add(item)
-    player.sessionMob.equipped.inventory.addItem(item)
+    player.sessionMob.equipped.addItem(item)
 
     // when
     const response2 = await definition.handle(testBuilder.createRequest(RequestType.Look))

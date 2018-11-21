@@ -41,7 +41,7 @@ describe("wear", () => {
     // given
     await testBuilder.withPlayer(p => {
       p.sessionMob.inventory.addItem(getHatOfMight())
-      p.sessionMob.equipped.inventory.addItem(getPirateHat())
+      p.sessionMob.equipped.addItem(getPirateHat())
     })
 
     // when

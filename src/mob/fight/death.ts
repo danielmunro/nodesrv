@@ -29,8 +29,8 @@ export default class Death {
       format(Messages.Fight.Corpse.Description, this.mobKilled.name))
     this.mobKilled.inventory.items.forEach(item =>
       corpse.container.getItemFrom(item, this.mobKilled.inventory))
-    this.mobKilled.equipped.inventory.items.forEach(item =>
-      corpse.container.getItemFrom(item, this.mobKilled.equipped.inventory))
+    this.mobKilled.equipped.items.forEach(item =>
+      corpse.container.getItemFrom(item, this.mobKilled.equipped))
 
     return corpse
   }

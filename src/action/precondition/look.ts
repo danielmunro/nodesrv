@@ -28,7 +28,7 @@ export default function(request: Request, service: Service): Promise<Check> {
 }
 
 function somethingIsGlowing(request: Request) {
-  return request.mob.equipped.inventory.find(isGlowingAffect)
+  return request.mob.equipped.find(isGlowingAffect)
   || request.room.inventory.find(isGlowingAffect)
 }
 

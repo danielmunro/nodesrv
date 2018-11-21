@@ -6,7 +6,6 @@ import { Affect } from "../../affect/model/affect"
 import { newAttributes, newEmptyAttributes, newHitroll, newStats, newVitals } from "../../attributes/factory"
 import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
-import { Equipped } from "../../item/model/equipped"
 import { Inventory } from "../../item/model/inventory"
 import { AuthorizationLevel } from "../../player/authorizationLevel"
 import { Player } from "../../player/model/player"
@@ -103,9 +102,9 @@ export class Mob {
   @JoinColumn()
   public inventory = new Inventory()
 
-  @OneToOne(type => Equipped, { cascadeAll: true, eager: true })
+  @OneToOne(type => Inventory, { cascadeAll: true, eager: true })
   @JoinColumn()
-  public equipped = new Equipped()
+  public equipped = new Inventory()
 
   @OneToMany(type => Skill, skill => skill.mob, { ...ownedEntityOptions })
   public skills: Skill[] = []
@@ -135,7 +134,7 @@ export class Mob {
   public getCombinedAttributes(): Attributes {
     let attributes = newEmptyAttributes()
     this.attributes.forEach((a) => attributes = attributes.combine(a))
-    this.equipped.inventory.items.forEach((i) => attributes = attributes.combine(i.attributes))
+    this.equipped.items.forEach((i) => attributes = attributes.combine(i.attributes))
     modifiers.forEach((modifier) => attributes = modifier(this.race, attributes))
     if (this.playerMob) {
       attributes.combine(this.playerMob.trainedAttributes)

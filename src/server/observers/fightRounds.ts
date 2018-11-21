@@ -49,7 +49,7 @@ function getAttackVerb(weapon: Item): AttackVerb {
 
 export function attackMessage(attack: Attack, mob: Mob): string {
   const d = getDamageDescriptor(attack.damage)
-  const attackVerb = getAttackVerb(mob.equipped.inventory.items.find(i => i.equipment === Equipment.Weapon))
+  const attackVerb = getAttackVerb(mob.equipped.items.find(i => i.equipment === Equipment.Weapon))
   if (attack.attacker === mob) {
     let attackerMessage = format(
       "Your {0} {1} {2} {3}{4}",

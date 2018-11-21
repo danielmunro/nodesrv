@@ -1,6 +1,6 @@
 import { Repository } from "typeorm"
-import ContainerRepository from "./container"
 import Container from "../model/container"
+import ContainerRepository from "./container"
 
 export default class ContainerRepositoryImpl implements ContainerRepository {
   constructor(private readonly containerRepository: Repository<Container>) {}

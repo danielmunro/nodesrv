@@ -32,7 +32,7 @@ describe("remove", () => {
     // given
     const player = getTestPlayer()
     const eq = newEquipment("a cowboy hat", "a sturdy cowboy hat", Equipment.Head)
-    player.sessionMob.equipped.inventory.addItem(eq)
+    player.sessionMob.equipped.addItem(eq)
 
     // when
     const check = await useRemoveRequest(player, "remove cowboy")

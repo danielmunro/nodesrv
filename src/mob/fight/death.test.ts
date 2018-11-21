@@ -24,7 +24,7 @@ describe("death", () => {
     // then
     expect(corpse.container.inventory.items.length).toBe(3)
     expect(mob.inventory.items.length).toBe(0)
-    expect(mob.equipped.inventory.items.length).toBe(0)
+    expect(mob.equipped.items.length).toBe(0)
   })
 
   it("should not calculate kill xp for non-players", () => {

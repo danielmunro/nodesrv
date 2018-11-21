@@ -38,7 +38,7 @@ describe("disarm skill action", () => {
     // then
     expect(responses.filter(r => r.isSuccessful())).toHaveLength(1)
     expect(testBuilder.room.inventory.items).toHaveLength(1)
-    expect(mob2.mob.equipped.inventory.items).toHaveLength(0)
+    expect(mob2.mob.equipped.items).toHaveLength(0)
   })
 
   it("should succeed a reasonable number of times when practiced", async () => {
