@@ -111,13 +111,7 @@ export default class ImportService {
     mob.importId = mobData.id
     mob.alignment = mobData.alignment
     mob.level = mobData.level
-
-    try {
-      await this.mobRepository.save(mob)
-    } catch (exception) {
-      console.log("exception saving mob", mobData)
-    }
-
+    await this.mobRepository.save(mob)
     file.mobs.push(mob)
     file.mobMap[mob.importId] = mob
   }
@@ -125,12 +119,7 @@ export default class ImportService {
   private async addRoom(file, roomData): Promise<Room> {
     const room = newRoom(roomData.title, roomData.description)
     room.importID = roomData.id
-    try {
-      await this.roomRepository.save(room)
-    } catch (exception) {
-      console.log("exception saving room", roomData)
-    }
-
+    await this.roomRepository.save(room)
     file.roomDataMap[room.importID] = roomData
     file.roomMap[room.importID] = room
     file.rooms.push(room)
@@ -169,11 +158,7 @@ export default class ImportService {
         const flags = itemProps[1].split("")
         this.setItemAffects(container, flags)
         await ImportService.addPropertiesToItem(container, itemData)
-        try {
-          await this.itemRepository.save(container)
-        } catch (exception) {
-          console.log("exception saving item", itemData)
-        }
+        await this.itemRepository.save(container)
         file.items.push(container)
         break
       case "drink":
