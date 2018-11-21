@@ -29,10 +29,11 @@ async function parse(importService: ImportService) {
   const areas = []
   for (let i = 0; i < areaLength; i++) {
     const file = areaFiles[i]
-    console.log(`${file} processing now`)
+    console.log(`  - ${file} processing now`)
     areas.push(await importService.parseAreaFile(areaFiles[i]))
   }
-  console.log("2 - initialize reset materializer")
+
+  console.log("2 - materialize resets")
   const resetMaterializer = new ResetMaterializer(
     await getMobResetRepository(),
     await getItemResetRepository(),
@@ -40,8 +41,9 @@ async function parse(importService: ImportService) {
     await getItemRepository(),
     await getRoomRepository(),
     await getContainerRepository())
-  console.log("3 - materialize resets")
-  await Promise.all(areas.map(async area =>
-    resetMaterializer.materializeResets(area)))
-  console.log("4 - done")
+  for (let i = 0; i < areaLength; i++) {
+    const area = areas[i]
+    console.log(`  - materialize resets for file ${area.filename}`)
+    await resetMaterializer.materializeResets(area)
+  }
 }

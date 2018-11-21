@@ -26,7 +26,6 @@ export default class ResetMaterializer {
   ) {}
 
   public async materializeResets(file: File) {
-    console.log(`materialize resets for file ${file.filename}`)
     const resetCount = file.resets.length
     for (let i = 0; i < resetCount; i++) {
       const reset = file.resets[i]
