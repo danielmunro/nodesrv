@@ -1,4 +1,4 @@
-import { Column, Entity, Generated, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import { Equipment } from "../equipment"
 import { Inventory } from "./inventory"
@@ -17,6 +17,7 @@ export default class ItemReset {
   public inventory: Inventory
 
   @OneToOne(type => Item)
+  @JoinColumn()
   public item: Item
 
   @Column("integer")

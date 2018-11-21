@@ -22,6 +22,9 @@ export class Item {
   public uuid: string = v4()
 
   @Column("text", { nullable: true })
+  public importId: string
+
+  @Column("text", { nullable: true })
   public canonicalIdentifier: string
 
   @Column("text")

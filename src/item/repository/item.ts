@@ -4,6 +4,7 @@ import ItemRepositoryImpl from "./itemImpl"
 
 export default interface ItemRepository {
   findAll(): Promise<Item[]>
+  findOneByImportId(importId): Promise<Item>
   save(item)
 }
 

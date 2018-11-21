@@ -36,28 +36,15 @@ export default class ImportService {
     item.value = itemData.cost
     item.weight = itemData.weight
     item.material = itemData.material
+    item.importId = itemData.id
   }
 
   private static async addReset(file, resetData) {
-    /**
-     * Reset commands:
-     *   '*': comment
-     *   'M': read a mobile
-     *   'O': read an object
-     *   'P': put object in object
-     *   'G': give object to mobile
-     *   'E': equip object to mobile
-     *   'D': set state of door
-     *   'R': randomize room exits
-     *   'S': stop (end of list)
-     */
-    if (resetData.command === "M") {
-      file.mobResets.push(new Reset(resetData.command, resetData.args[0], resetData.args[2]))
+    if (!resetData.args) {
+      // bad reset
+      return
     }
-    if (resetData.command === "O") {
-      file.itemResets.push(new Reset(resetData.command, resetData.args[0], resetData.args[2]))
-    }
-    return resetData
+    file.resets.push(new Reset(resetData.command, resetData.args[0], resetData.args[2]))
   }
 
   constructor(
@@ -72,15 +59,22 @@ export default class ImportService {
     const file = new File(filename, JSON.parse(content))
 
     await this.iterateSections(file)
+    await this.createExits(file)
 
     return file
   }
 
   private async iterateSections(file: File) {
-    console.log(`${file.filename} processing now`)
     let header = ""
-    await Promise.all(file.data.map(async section => {
-      await Promise.all(section.map(async row => {
+    const dataLength = file.data.length
+    for (let i = 0; i < dataLength; i++) {
+      const section = file.data[i]
+      const sectionLength = section.length
+      if (sectionLength === 1) {
+        continue
+      }
+      for (let j = 0; j < sectionLength; j++) {
+        const row = section[j]
         if (row.header) {
           header = row.header
         }
@@ -98,9 +92,8 @@ export default class ImportService {
             await this.addItem(file, row)
             break
         }
-      }))
-    }))
-    await this.createExits(file)
+      }
+    }
   }
 
   private async addMob(file, mobData) {
@@ -119,7 +112,11 @@ export default class ImportService {
     mob.alignment = mobData.alignment
     mob.level = mobData.level
 
-    await this.mobRepository.save(mob)
+    try {
+      await this.mobRepository.save(mob)
+    } catch (exception) {
+      console.log("exception saving mob", mobData)
+    }
 
     file.mobs.push(mob)
     file.mobMap[mob.importId] = mob
@@ -128,7 +125,11 @@ export default class ImportService {
   private async addRoom(file, roomData): Promise<Room> {
     const room = newRoom(roomData.title, roomData.description)
     room.importID = roomData.id
-    await this.roomRepository.save(room)
+    try {
+      await this.roomRepository.save(room)
+    } catch (exception) {
+      console.log("exception saving room", roomData)
+    }
 
     file.roomDataMap[room.importID] = roomData
     file.roomMap[room.importID] = room
@@ -168,7 +169,11 @@ export default class ImportService {
         const flags = itemProps[1].split("")
         this.setItemAffects(container, flags)
         await ImportService.addPropertiesToItem(container, itemData)
-        await this.itemRepository.save(container)
+        try {
+          await this.itemRepository.save(container)
+        } catch (exception) {
+          console.log("exception saving item", itemData)
+        }
         file.items.push(container)
         break
       case "drink":
@@ -220,12 +225,13 @@ export default class ImportService {
     })
   }
 
-  private createExits(file: File) {
-    Object.keys(file.roomMap).forEach(importId => {
+  private async createExits(file: File) {
+    console.log(`creating exits for ${file.filename}`)
+    await Promise.all(Object.keys(file.roomMap).map(async importId => {
       if (file.roomDataMap[importId] === undefined || file.roomDataMap[importId].doors === undefined) {
         return
       }
-      file.roomDataMap[importId].doors.forEach(async door => {
+      await Promise.all(file.roomDataMap[importId].doors.map(async door => {
         let direction: Direction
         switch (door.door) {
           case "D0":
@@ -250,7 +256,8 @@ export default class ImportService {
         if (file.roomMap[importId] && file.roomMap[door.vnum]) {
           await this.exitRepository.save(newExit(direction, file.roomMap[importId], file.roomMap[door.vnum]))
         }
-      })
-    })
+      }))
+    }))
+    console.log(`done creating exits for ${file.filename}`)
   }
 }

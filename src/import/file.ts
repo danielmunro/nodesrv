@@ -10,8 +10,7 @@ export default class File {
   public mobMap: object = {}
   public items: Item[] = []
   public roomDataMap: object = {}
-  public itemResets: Reset[] = []
-  public mobResets: Reset[] = []
+  public resets: Reset[] = []
 
   constructor(
     public readonly filename: string,

@@ -10,7 +10,7 @@ import { getItemRepository } from "../src/item/repository/item"
 import ResetMaterializer from "../src/import/resetMaterializer"
 import { getItemResetRepository } from "../src/item/repository/itemReset"
 
-const listFile = readFileSync("fixtures/area/area-midgaard.lst").toString()
+const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")
 
 initializeConnection().then(async () => {
@@ -24,20 +24,23 @@ initializeConnection().then(async () => {
 })
 
 async function parse(importService: ImportService) {
-  const areas = await Promise.all(areaFiles.map(async area => importService.parseAreaFile(area)))
+  console.log("1 - parsing file")
+  const areaLength = areaFiles.length
+  const areas = []
+  for (let i = 0; i < areaLength; i++) {
+    const file = areaFiles[i]
+    console.log(`${file} processing now`)
+    areas.push(await importService.parseAreaFile(areaFiles[i]))
+  }
+  console.log("2 - initialize reset materializer")
   const resetMaterializer = new ResetMaterializer(
     await getMobResetRepository(),
     await getItemResetRepository(),
     await getMobRepository(),
     await getItemRepository(),
     await getRoomRepository())
-
-  await Promise.all(areas.map(async area => {
-    return resetMaterializer.materializeResets(area)
-    // await area.mobResets.forEach(async resetObject => {
-    //   const room = await roomRepository.findOneByImportId(resetObject.roomId)
-    //   const mob = await mobRepository.findOneByImportId(resetObject.mobId)
-    //   await mobResetRepository.save(newMobReset(mob, room))
-    // })
-  }))
+  console.log("3 - materialize resets")
+  await Promise.all(areas.map(async area =>
+    resetMaterializer.materializeResets(area)))
+  console.log("4 - done")
 }

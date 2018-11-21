@@ -12,4 +12,8 @@ export default class ItemRepositoryImpl implements ItemRepository {
   public save(item) {
     return this.itemRepository.save(item)
   }
+
+  public findOneByImportId(importId): Promise<Item> {
+    return this.itemRepository.findOne({ importId })
+  }
 }
