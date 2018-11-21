@@ -10,6 +10,8 @@ import MobReset from "../mob/model/mobReset"
 import { ResetFlag } from "./resetFlag"
 import ItemReset from "../item/model/itemReset"
 import { newItemReset } from "../item/factory"
+import ContainerRepository from "../item/repository/container"
+import EquippedRepository from "../item/repository/equipped"
 
 export default class ResetMaterializer {
   private lastMobReset: MobReset
@@ -21,6 +23,8 @@ export default class ResetMaterializer {
     public readonly mobRepository: MobRepository,
     public readonly itemRepository: ItemRepository,
     public readonly roomRepository: RoomRepository,
+    public readonly containerRepository: ContainerRepository,
+    public readonly equippedRepository: EquippedRepository,
   ) {}
 
   public async materializeResets(file: File) {
@@ -36,13 +40,13 @@ export default class ResetMaterializer {
           await this.createItemRoomReset(reset)
           break
         case ResetFlag.GiveItemToMob:
-          // await this.createItemMobReset(reset)
+          await this.createItemMobReset(reset)
           break
         case ResetFlag.EquipItemToMob:
-          // await this.createItemEquipReset(reset)
+          await this.createItemEquipReset(reset)
           break
         case ResetFlag.PutItemInContainer:
-          // await this.createItemContainerReset(reset)
+          await this.createItemContainerReset(reset)
           break
         case ResetFlag.Door:
           break
@@ -93,7 +97,8 @@ export default class ResetMaterializer {
     if (!this.lastMobReset) {
       return
     }
-    const itemReset = newItemReset(item, this.lastMobReset.mob.inventory)
+    const mob = await this.mobRepository.findOneById(this.lastMobReset.mob.id)
+    const itemReset = newItemReset(item, mob.inventory)
     await this.itemResetRepository.save(itemReset)
 
     return itemReset
@@ -107,7 +112,13 @@ export default class ResetMaterializer {
     if (!this.lastMobReset) {
       return
     }
-    const itemReset = newItemReset(item, this.lastMobReset.mob.equipped.inventory)
+    const equipped = await this.equippedRepository.findOneById(this.lastMobReset.mob.equipped.id)
+    if (!equipped) {
+      console.error("unknown equipped inventory for reset", reset)
+      return
+    }
+    console.log("equipped", equipped.id)
+    const itemReset = newItemReset(item, equipped.inventory)
     await this.itemResetRepository.save(itemReset)
 
     return itemReset
@@ -121,7 +132,13 @@ export default class ResetMaterializer {
     if (!this.lastItemReset) {
       return
     }
-    const itemReset = newItemReset(item, this.lastItemReset.item.container.inventory)
+    const container = await this.containerRepository.findOneById(this.lastItemReset.item.container.id)
+    if (!container) {
+      console.error("unknown item container for reset", reset)
+      return
+    }
+    console.log("container", container)
+    const itemReset = newItemReset(item, container.inventory)
     await this.itemResetRepository.save(itemReset)
 
     return itemReset

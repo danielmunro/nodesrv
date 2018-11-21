@@ -24,7 +24,7 @@ export default class Container {
   @Column("integer")
   public maxWeightForItem: number = 0
 
-  @OneToOne(type => Inventory)
+  @OneToOne(type => Inventory, { eager: true })
   @JoinColumn()
   public inventory: Inventory = new Inventory()
 

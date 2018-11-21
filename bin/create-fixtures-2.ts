@@ -9,8 +9,10 @@ import { getRoomRepository } from "../src/room/repository/room"
 import { getItemRepository } from "../src/item/repository/item"
 import ResetMaterializer from "../src/import/resetMaterializer"
 import { getItemResetRepository } from "../src/item/repository/itemReset"
+import { getContainerRepository } from "../src/item/repository/container"
+import { getEquippedRepository } from "../src/item/repository/equipped"
 
-const listFile = readFileSync("fixtures/area/area.lst").toString()
+const listFile = readFileSync("fixtures/area/area-midgaard.lst").toString()
 const areaFiles = listFile.split("\n")
 
 initializeConnection().then(async () => {
@@ -38,7 +40,9 @@ async function parse(importService: ImportService) {
     await getItemResetRepository(),
     await getMobRepository(),
     await getItemRepository(),
-    await getRoomRepository())
+    await getRoomRepository(),
+    await getContainerRepository(),
+    await getEquippedRepository())
   console.log("3 - materialize resets")
   await Promise.all(areas.map(async area =>
     resetMaterializer.materializeResets(area)))

@@ -7,7 +7,7 @@ export class Equipped {
     @PrimaryGeneratedColumn()
     public id: number
 
-    @OneToOne((type) => Inventory)
+    @OneToOne(type => Inventory, { eager: true, cascadeAll: true })
     @JoinColumn()
     public inventory: Inventory = new Inventory()
 
