@@ -16,6 +16,10 @@ import ItemRepository from "../item/repository/item"
 import { newPermanentAffect } from "../affect/factory"
 import { AffectType } from "../affect/affectType"
 import Reset from "./reset"
+import { SectionHeader } from "./sectionHeader"
+import { ItemType } from "./itemType"
+import { flagMap } from "./affectMap"
+import { DirectionFlag } from "./directionFlag"
 
 export default class ImportService {
   private static dice(rollData) {
@@ -79,16 +83,16 @@ export default class ImportService {
           header = row.header
         }
         switch (header) {
-          case "MOBILES":
+          case SectionHeader.Mobiles:
             await this.addMob(file, row)
             break
-          case "ROOMS":
+          case SectionHeader.Rooms:
             await this.addRoom(file, row)
             break
-          case "RESETS":
+          case SectionHeader.Resets:
             await ImportService.addReset(file, row)
             break
-          case "OBJECTS":
+          case SectionHeader.Objects:
             await this.addItem(file, row)
             break
         }
@@ -130,7 +134,7 @@ export default class ImportService {
   private async addItem(file: File, itemData) {
     const args = itemData.pObjFlags.split(" ")
     switch (itemData.type) {
-      case "weapon":
+      case ItemType.Weapon:
         const weapon = newWeapon(
           itemData.name,
           itemData.description,
@@ -140,16 +144,16 @@ export default class ImportService {
         await this.itemRepository.save(weapon)
         file.items.push(weapon)
         break
-      case "armor":
-      case "clothing":
+      case ItemType.Armor:
+      case ItemType.Clothing:
         const armor = newEquipment(itemData.name, itemData.description, args[0])
         await ImportService.addPropertiesToItem(armor, itemData)
         await this.itemRepository.save(armor)
         file.items.push(armor)
         break
-      case "boat":
+      case ItemType.Boat:
         break
-      case "container":
+      case ItemType.Container:
         const container = newContainer(itemData.name, itemData.description)
         const itemProps = itemData.pObjFlags.split(" ")
         container.container.weightCapacity = itemProps[0]
@@ -161,9 +165,9 @@ export default class ImportService {
         await this.itemRepository.save(container)
         file.items.push(container)
         break
-      case "drink":
+      case ItemType.Drink:
         break
-      case "food":
+      case ItemType.Food:
         break
       default:
         return
@@ -171,38 +175,6 @@ export default class ImportService {
   }
 
   private setItemAffects(item: Item, flags: string[]) {
-    const flagMap = {
-      "A": AffectType.Glow,
-      "B": AffectType.Hum,
-      "C": AffectType.ImmortalLoad,
-      "D": AffectType.Lock,
-      "E": AffectType.Evil,
-      "F": AffectType.Invisible,
-      "G": AffectType.Magic,
-      "H": AffectType.NoDrop,
-      "I": AffectType.Bless,
-      "J": AffectType.AntiGood,
-      "K": AffectType.AntiEvil,
-      "L": AffectType.AntiNeutral,
-      "M": AffectType.NoRemove,
-      "N": AffectType.Inventory,
-      "O": AffectType.NoPurge,
-      "P": AffectType.RotDeath,
-      "Q": AffectType.VisDeath,
-      "R": AffectType.NoSacrifice,
-      "S": AffectType.NonMetal,
-      "T": AffectType.NoLocate,
-      "U": AffectType.MeltDrop,
-      "V": AffectType.HasTimer,
-      "W": AffectType.SellExtract,
-      "X": AffectType.WearTimer,
-      "Y": AffectType.BurnProof,
-      "Z": AffectType.NounCurse,
-      "aa": AffectType.ClanCorpse,
-      "bb": AffectType.Warped,
-      "cc": AffectType.Teleport,
-      "dd": AffectType.NoIdentify,
-    }
     flags.forEach(flag => {
       if (flagMap[flag]) {
         item.affects.push(newPermanentAffect(flagMap[flag]))
@@ -211,38 +183,39 @@ export default class ImportService {
   }
 
   private async createExits(file: File) {
-    console.log(`creating exits for ${file.filename}`)
     await Promise.all(Object.keys(file.roomMap).map(async importId => {
       if (file.roomDataMap[importId] === undefined || file.roomDataMap[importId].doors === undefined) {
         return
       }
-      await Promise.all(file.roomDataMap[importId].doors.map(async door => {
-        let direction: Direction
-        switch (door.door) {
-          case "D0":
-            direction = Direction.North
-            break
-          case "D1":
-            direction = Direction.East
-            break
-          case "D2":
-            direction = Direction.South
-            break
-          case "D3":
-            direction = Direction.West
-            break
-          case "D4":
-            direction = Direction.Up
-            break
-          case "D5":
-            direction = Direction.Down
-            break
-        }
-        if (file.roomMap[importId] && file.roomMap[door.vnum]) {
-          await this.exitRepository.save(newExit(direction, file.roomMap[importId], file.roomMap[door.vnum]))
-        }
-      }))
+      await Promise.all(file.roomDataMap[importId].doors.map(async door =>
+        this.createExitFromDoor(file, door, importId)))
     }))
-    console.log(`done creating exits for ${file.filename}`)
+  }
+
+  private async createExitFromDoor(file: File, door, importId) {
+    let direction: Direction
+    switch (door.door) {
+      case DirectionFlag.North:
+        direction = Direction.North
+        break
+      case DirectionFlag.East:
+        direction = Direction.East
+        break
+      case DirectionFlag.South:
+        direction = Direction.South
+        break
+      case DirectionFlag.West:
+        direction = Direction.West
+        break
+      case DirectionFlag.Up:
+        direction = Direction.Up
+        break
+      case DirectionFlag.Down:
+        direction = Direction.Down
+        break
+    }
+    if (file.roomMap[importId] && file.roomMap[door.vnum]) {
+      await this.exitRepository.save(newExit(direction, file.roomMap[importId], file.roomMap[door.vnum]))
+    }
   }
 }
