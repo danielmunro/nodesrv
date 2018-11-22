@@ -27,6 +27,7 @@ import gossip from "./action/gossip"
 import inventory from "./action/inventory"
 import kill from "./action/kill"
 import look from "./action/look"
+import lore from "./action/lore"
 import move from "./action/move"
 import put from "./action/put"
 import remove from "./action/remove"
@@ -53,6 +54,7 @@ import { default as fleePrecondition } from "./precondition/flee"
 import { default as getPrecondition } from "./precondition/get"
 import { default as killPrecondition } from "./precondition/kill"
 import { default as lookPrecondition } from "./precondition/look"
+import { default as lorePrecondition } from "./precondition/lore"
 import { default as movePrecondition } from "./precondition/move"
 import { default as putPrecondition } from "./precondition/put"
 import { default as removePrecondition } from "./precondition/remove"
@@ -105,6 +107,7 @@ export default function getActionCollection(service: Service) {
     // info
     service.getNewActionDefinition(RequestType.Affects, affects),
     service.getNewActionDefinition(RequestType.Look, look, lookPrecondition),
+    service.getNewActionDefinition(RequestType.Lore, lore, lorePrecondition),
     service.getNewActionDefinition(RequestType.Score, score),
 
     // merchants

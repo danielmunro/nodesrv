@@ -61,6 +61,9 @@ export class Item {
   @Column("integer")
   public condition: number = 1
 
+  @Column("boolean", { default: true })
+  public identified = true
+
   @ManyToOne(type => Inventory, inventory => inventory.items, { eager: true })
   public inventory: Inventory
 

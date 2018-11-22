@@ -40,6 +40,9 @@ export const Messages = {
   Kill: {
     Success: "{requestCreator} {screamVerb} and {attackVerb} {target}!",
   },
+  Lore: {
+    Success: "{item} details:\nlevel: {level}  weight: {weight}  value: {value}",
+  },
   Put: {
     Success: "You put {item} in {container}.",
   },

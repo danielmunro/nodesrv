@@ -60,6 +60,9 @@ export const Messages = {
   Buy: {
     CannotAfford: "You can't afford it.",
   },
+  Lore: {
+    FailNotIdentified: "{item} is not identified yet.",
+  },
   Remove: {
     Success: "You remove {0} and put it in your inventory.",
   },
