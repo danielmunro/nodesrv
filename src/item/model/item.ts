@@ -1,5 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
+import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import { Affect } from "../../affect/model/affect"
 import { newEmptyAttributes } from "../../attributes/factory"
@@ -113,5 +114,9 @@ export class Item {
 
   public toString(): string {
     return this.name
+  }
+
+  public isVisible(): boolean {
+    return this.affects.find(affect => affect.affectType === AffectType.Invisible) === undefined
   }
 }

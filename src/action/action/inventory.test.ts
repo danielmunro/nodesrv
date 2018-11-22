@@ -1,8 +1,8 @@
-import { RequestType } from "../../request/requestType"
-import TestBuilder from "../../test/testBuilder"
-import PlayerBuilder from "../../test/playerBuilder"
-import { newAffect } from "../../affect/factory"
 import { AffectType } from "../../affect/affectType"
+import { newAffect } from "../../affect/factory"
+import { RequestType } from "../../request/requestType"
+import PlayerBuilder from "../../test/playerBuilder"
+import TestBuilder from "../../test/testBuilder"
 
 let testBuilder: TestBuilder
 let playerBuilder: PlayerBuilder
