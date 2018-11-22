@@ -14,7 +14,6 @@ export enum AffectType {
   Glow = "glow",
   Hum = "hum",
   ImmortalLoad = "imm",
-  Inventory = "inventory",
   Lock = "lock",
   Evil = "evil",
   HasTimer = "has timer",
@@ -41,5 +40,10 @@ export enum AffectType {
   Warped = "warped",
   WearTimer = "wear timer",
   Wrath = "wrath",
+
+  // testing
   Noop = "noop",
+
+  // import
+  Inventory = "inventory",
 }
