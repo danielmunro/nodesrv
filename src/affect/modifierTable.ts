@@ -7,7 +7,7 @@ export const modifierTable = [
   new AffectModifier(
     AffectType.Poison,
     Trigger.DamageModifier,
-    damage => damage / 1.2),
+    damage => damage * 0.85),
   new AffectModifier(
     AffectType.Poison,
     Trigger.DamageAbsorption,
@@ -16,6 +16,12 @@ export const modifierTable = [
     AffectType.Poison,
     Trigger.MovementCost,
     cost => cost * 1.3),
+
+  // curse
+  new AffectModifier(
+    AffectType.Curse,
+    Trigger.DamageModifier,
+    cost => cost * 0.9),
 
   // shield
   new AffectModifier(
