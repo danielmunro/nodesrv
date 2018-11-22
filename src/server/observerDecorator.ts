@@ -22,7 +22,7 @@ export default async function addObservers(gameServer: GameServer): Promise<Game
   const locationService = gameServer.locationService
   gameServer.addObserver(
     new ObserverChain([
-      new Tick(locationService),
+      new Tick(gameServer.service, locationService),
       new DecrementAffects(mobTable),
       new Wander(mobTable.getWanderingMobs(), locationService),
     ]),
