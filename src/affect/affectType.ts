@@ -8,6 +8,8 @@ export enum AffectType {
   BurnProof = "burn proof",
   ClanCorpse = "clan corpse",
   Curse = "curse",
+  DetectInvisible = "detect invisible",
+  DetectHidden = "detect hidden",
   GiantStrength = "giant strength",
   Glow = "glow",
   Hum = "hum",

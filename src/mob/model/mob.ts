@@ -228,4 +228,8 @@ export class Mob {
   public isBadAlignment(): boolean {
     return this.alignment < -500
   }
+
+  public canDetectInvisible(): boolean {
+    return this.affects.find(a => a.affectType === AffectType.DetectInvisible) !== undefined
+  }
 }
