@@ -1,9 +1,9 @@
-import CheckedRequest from "../../check/checkedRequest"
-import Response from "../../request/response"
-import { Messages } from "./constants"
-import { Item } from "../../item/model/item"
 import { AffectType } from "../../affect/affectType"
+import CheckedRequest from "../../check/checkedRequest"
+import { Item } from "../../item/model/item"
+import Response from "../../request/response"
 import { ActionOutcome } from "../actionOutcome"
+import { Messages } from "./constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const item = checkedRequest.check.result as Item
