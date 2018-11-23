@@ -178,48 +178,4 @@ export default class ImportService {
       }
     })
   }
-
-  public async createExits(file: File) {
-    const ids = Object.keys(file.roomMap)
-    const idLength = ids.length
-    for (let i = 0; i < idLength; i++) {
-      const importId = ids[i]
-      const room = file.roomDataMap[importId]
-      if (room === undefined || room.doors === undefined) {
-        continue
-      }
-      const doorLength = room.doors.length
-      for (let j = 0; j < doorLength; j++) {
-        const door = room.doors[j]
-        await this.createExitFromDoor(file, door, importId)
-      }
-    }
-  }
-
-  private async createExitFromDoor(file: File, door, importId) {
-    let direction: Direction
-    switch (door.door) {
-      case DirectionFlag.North:
-        direction = Direction.North
-        break
-      case DirectionFlag.East:
-        direction = Direction.East
-        break
-      case DirectionFlag.South:
-        direction = Direction.South
-        break
-      case DirectionFlag.West:
-        direction = Direction.West
-        break
-      case DirectionFlag.Up:
-        direction = Direction.Up
-        break
-      case DirectionFlag.Down:
-        direction = Direction.Down
-        break
-    }
-    if (file.roomMap[importId] && file.roomMap[door.vnum]) {
-      await this.exitRepository.save(newExit(direction, file.roomMap[importId], file.roomMap[door.vnum]))
-    }
-  }
 }

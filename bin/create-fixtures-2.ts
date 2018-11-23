@@ -9,6 +9,7 @@ import { getMobRepository } from "../src/mob/repository/mob"
 import { getMobResetRepository } from "../src/mob/repository/mobReset"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
+import ExitMaterializer from "../src/import/exitMaterializer"
 
 const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")
@@ -32,13 +33,11 @@ async function parse(importService: ImportService) {
     console.log(`  - importing ${file}`)
     areas.push(await importService.parseAreaFile(areaFiles[i]))
   }
-  for (let i = 0; i < areaLength; i++) {
-    const area = areas[i]
-    console.log(`  - generating exits ${area.filename}`)
-    await importService.createExits(area)
-  }
 
-  console.log("2 - materialize resets")
+  console.log("2 - exits")
+  const exitMaterializer = new ExitMaterializer(
+    await getRoomRepository(),
+    await getExitRepository())
   const resetMaterializer = new ResetMaterializer(
     await getMobResetRepository(),
     await getItemResetRepository(),
@@ -48,7 +47,8 @@ async function parse(importService: ImportService) {
     await getContainerRepository())
   for (let i = 0; i < areaLength; i++) {
     const area = areas[i]
-    console.log(`  - materialize resets for file ${area.filename}`)
+    console.log(`  - generating exits & resets for ${area.filename}`)
+    await exitMaterializer.materializeExits(area)
     await resetMaterializer.materializeResets(area)
   }
 }

@@ -64,7 +64,6 @@ export default class ResetMaterializer {
     if (!mob) {
       return
     }
-
     this.lastMobReset = newMobReset(mob, room)
     await this.mobResetRepository.save(this.lastMobReset)
 
