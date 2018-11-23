@@ -7,6 +7,7 @@ import ResetService from "../../service/reset/resetService"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import Respawner from "./respawner"
+import { getMobRepository } from "../../mob/repository/mob"
 
 describe("respawner", () => {
   it("should reset dispositions for dead mobs", async () => {
@@ -33,12 +34,13 @@ describe("respawner", () => {
       newMobLocation(mob3, currentRoom),
     ])
     const respawner = new Respawner(
+      await getMobRepository(),
       new MobTable([mob1, mob2, mob3]),
       RoomTable.new([currentRoom, startRoom]),
       new ResetService([
         newMobReset(mob1, startRoom),
-        newMobReset(mob2, startRoom, Disposition.Sitting),
-        newMobReset(mob3, startRoom, Disposition.Sitting),
+        newMobReset(mob2, startRoom),
+        newMobReset(mob3, startRoom),
       ], []),
       locationService)
 

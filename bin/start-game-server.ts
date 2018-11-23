@@ -32,10 +32,11 @@ async function startServer(
 }
 
 export async function newMobTable() {
-  const mobRepository = await getMobRepository()
-  const models = await mobRepository.findAll()
-  console.debug(`2 - mob table initialized with ${models.length} mobs`)
-  return new Table(models)
+  // const mobRepository = await getMobRepository()
+  // const models = await mobRepository.findAll()
+  // console.debug(`2 - mob table initialized with ${models.length} mobs`)
+  // return new Table(models)
+  return new Table([])
 }
 
 async function newRoomTable(): Promise<RoomTable> {

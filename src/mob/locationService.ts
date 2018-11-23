@@ -10,10 +10,6 @@ export default class LocationService {
   }
 
   public addMobLocation(mobLocation: MobLocation) {
-    if (this.getLocationForMob(mobLocation.mob)) {
-      this.updateMobLocation(mobLocation.mob, mobLocation.room)
-      return
-    }
     this.mobLocations.push(mobLocation)
   }
 

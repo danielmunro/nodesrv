@@ -13,7 +13,7 @@ describe("location service", () => {
 
     // when
     locationService.addMobLocation(newMobLocation(mob, room1))
-    locationService.addMobLocation(newMobLocation(mob, room2))
+    locationService.updateMobLocation(mob, room2)
 
     // then
     expect(locationService.getLocationForMob(mob).room).toBe(room2)

@@ -7,6 +7,9 @@ import { SpellType } from "../spell/spellType"
 import { MESSAGE_MOB_ALREADY_HAS_SPECIALIZATION } from "./constants"
 import { Mob } from "./model/mob"
 import { Specialization } from "./specialization/specialization"
+import Table from "./table"
+import MobRepository from "./repository/mob"
+import LocationService from "./locationService"
 
 function createSkillFromSkillType(skillType: SkillType): Skill {
   return newSkill(skillType, 1)
@@ -25,4 +28,12 @@ export function assignSpecializationToMob(mob: Mob, specialization: Specializati
   mob.attributes.push(specialization.getAttributes())
   mob.skills = [...mob.skills, ...specialization.getSkills().map(createSkillFromSkillType)]
   mob.spells = [...mob.spells, ...specialization.getSpells().map(createSpellFromSpellType)]
+}
+
+export default class MobService {
+  constructor(
+    private readonly mobTable: Table,
+    private readonly mobRepository: MobRepository,
+    private readonly locationService: LocationService) {}
+
 }

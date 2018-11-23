@@ -13,6 +13,7 @@ describe("observer decorator", () => {
       },
       service: {
         mobTable: {
+          getMobs: [],
           getWanderingMobs: jest.fn(),
         },
       },

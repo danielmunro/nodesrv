@@ -6,9 +6,11 @@ import { default as MobTable } from "../../mob/table"
 import RoomTable from "../../room/roomTable"
 import ResetService from "../../service/reset/resetService"
 import { Observer } from "./observer"
+import MobRepository from "../../mob/repository/mob"
 
 export default class Respawner implements Observer {
   constructor(
+    private readonly mobRepository: MobRepository,
     private readonly mobTable: MobTable,
     private readonly roomTable: RoomTable,
     private readonly resetService: ResetService,
@@ -16,23 +18,29 @@ export default class Respawner implements Observer {
   ) {}
 
   public async notify(clients: Client[]): Promise<void> {
-    this.resetService.mobResets.forEach(this.respawnMob.bind(this))
+    const mobResetLength = this.resetService.mobResets.length
+
+
+    for (let i = 0; i < mobResetLength; i++) {
+      const mobReset = this.resetService.mobResets[i]
+      const mob = await this.respawnMob(mobReset)
+      const room = this.roomTable.get(mobReset.room.uuid)
+      this.mobTable.add(mob)
+      this.locationService.addMobLocation(newMobLocation(mob, room))
+    }
     console.log(`reset service done with ${this.resetService.mobResets.length} mobs reset`)
     console.log(`location service has ${this.locationService.getMobLocationCount()} mobs`)
+    console.log(`mob table has ${this.mobTable.getMobs().length} mobs`)
   }
+
+  private pruneDeadMobs() {}
 
   private async respawnMob(mobReset: MobReset) {
     if (!mobReset.room || !mobReset.mob) {
       console.log(`mobReset ${mobReset.id} corrupt`)
       return
     }
-    const mob = this.mobTable.find(m =>  m.uuid === mobReset.mob.uuid)
-    const room = this.roomTable.get(mobReset.room.uuid)
-    mob.disposition = mobReset.disposition
-    const combined = mob.getCombinedAttributes()
-    mob.vitals.hp = combined.vitals.hp
-    mob.vitals.mana = combined.vitals.mana
-    mob.vitals.mv = combined.vitals.mv
-    this.locationService.addMobLocation(newMobLocation(mob, room))
+    const mob = await this.mobRepository.findOneById(mobReset.mob.id)
+    return Object.assign({}, mob, { id: null, uuid: null })
   }
 }
