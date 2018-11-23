@@ -1,4 +1,4 @@
-import { Mob } from "./model/mob"
+import { Mob } from "../model/mob"
 
 export enum Disposition {
   Standing = "standing",

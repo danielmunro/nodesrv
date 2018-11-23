@@ -1,4 +1,4 @@
-import { assignSpecializationToMob } from "../../../mob/service"
+import { assignSpecializationToMob } from "../../../mob/mobService"
 import { allSpecializations } from "../../../mob/specialization/constants"
 import { createSpecializationFromType } from "../../../mob/specialization/factory"
 import AuthStep from "../authStep"

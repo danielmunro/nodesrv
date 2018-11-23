@@ -1,8 +1,8 @@
 import { newAttributes, newHitroll, newStartingStats, newVitals } from "../../attributes/factory"
+import { Role } from "../enum/role"
 import { newMob } from "../factory"
 import { Mob } from "../model/mob"
 import { Race } from "../race/race"
-import { Role } from "../role"
 
 export function newTraveller(name: string, description: string): Mob {
   return newMob(

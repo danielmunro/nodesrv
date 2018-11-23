@@ -1,7 +1,7 @@
 import { v4 } from "uuid"
 import { Client } from "../../client/client"
+import { Trigger } from "../../mob/enum/trigger"
 import LocationService from "../../mob/locationService"
-import { Trigger } from "../../mob/trigger"
 import Service from "../../service/service"
 import { createSkillTriggerEvent } from "../../skill/trigger/factory"
 import { Observer } from "./observer"

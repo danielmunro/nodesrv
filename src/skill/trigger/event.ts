@@ -1,5 +1,5 @@
+import { Trigger } from "../../mob/enum/trigger"
 import { Mob } from "../../mob/model/mob"
-import { Trigger } from "../../mob/trigger"
 import { SkillType } from "../skillType"
 import { Resolution } from "./resolution"
 

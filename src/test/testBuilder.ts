@@ -6,11 +6,11 @@ import CheckedRequest from "../check/checkedRequest"
 import { CheckStatus } from "../check/checkStatus"
 import { Client } from "../client/client"
 import { Item } from "../item/model/item"
+import { Role } from "../mob/enum/role"
 import { newMobLocation } from "../mob/factory"
 import { addFight, Fight, reset } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
-import { Role } from "../mob/role"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
 import { getPlayerRepository } from "../player/repository/player"
@@ -194,7 +194,7 @@ export default class TestBuilder {
   }
 
   public async createRequestBuilder() {
-    return new RequestBuilder(this.mobForRequest, this.room, (await this.getService()).mobTable)
+    return new RequestBuilder(this.mobForRequest, this.room, (await this.getService()).mobService.mobTable)
   }
 
   public async getActionCollection(): Promise<Collection> {

@@ -1,7 +1,7 @@
 import { CheckStatus } from "../../check/checkStatus"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
-import { Role } from "../../mob/role"
+import { Role } from "../../mob/enum/role"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import buy from "./buy"

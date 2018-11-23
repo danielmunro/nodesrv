@@ -1,3 +1,6 @@
+import MobService from "../../mob/mobService"
+import MobTable from "../../mob/mobTable"
+import { getMobRepository } from "../../mob/repository/mob"
 import Service from "../../service/service"
 import { Direction } from "../constants"
 import { Exit } from "../model/exit"
@@ -23,7 +26,7 @@ describe("exit repository", () => {
     exit.destination = destination
 
     // and -- entities are persisted
-    const service = await Service.new()
+    const service = await Service.new(new MobService(new MobTable(), await getMobRepository()))
     await service.saveRoom([source, destination])
     await service.saveExit(exit)
 

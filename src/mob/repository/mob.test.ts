@@ -1,7 +1,7 @@
 import * as sillyname from "sillyname"
 import { getTestMob } from "../../test/mob"
+import MobTable from "../mobTable"
 import { Mob } from "../model/mob"
-import Table from "../table"
 
 function getTestWanderingMob(): Mob {
   const mob = getTestMob()
@@ -10,14 +10,14 @@ function getTestWanderingMob(): Mob {
   return mob
 }
 
-function findByName(table: Table, name: string) {
+function findByName(table: MobTable, name: string) {
   return table.find((mob) => mob.name === name)
 }
 
 describe("mob repository", () => {
   it("findWanderingMobs should be able to find wandering mobs", async () => {
     // setup
-    const table = new Table([
+    const table = new MobTable([
       getTestWanderingMob(),
       getTestWanderingMob(),
       getTestWanderingMob(),
@@ -39,7 +39,7 @@ describe("mob repository", () => {
     // given
     const name = sillyname()
     const mob = getTestMob(name)
-    const table = new Table([mob])
+    const table = new MobTable([mob])
 
     // when
     const lookup = findByName(table, sillyname())

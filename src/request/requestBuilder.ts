@@ -1,13 +1,16 @@
 import match from "../matcher/match"
+import MobTable from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
-import Table from "../mob/table"
 import { Room } from "../room/model/room"
 import InputContext from "./context/inputContext"
 import { Request } from "./request"
 import { RequestType } from "./requestType"
 
 export default class RequestBuilder {
-  constructor(private readonly mob: Mob, private readonly room: Room, private readonly mobTable: Table = new Table()) {}
+  constructor(
+    private readonly mob: Mob,
+    private readonly room: Room,
+    private readonly mobTable: MobTable = new MobTable()) {}
 
   public create(requestType: RequestType, input: string = null): Request {
     if (!input) {

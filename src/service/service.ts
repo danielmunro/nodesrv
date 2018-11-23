@@ -1,8 +1,11 @@
 import { Definition } from "../action/definition/definition"
 import ItemTable from "../item/itemTable"
+import FightTable from "../mob/fight/fightTable"
 import LocationService from "../mob/locationService"
+import MobService from "../mob/mobService"
+import { default as MobTable } from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
-import { default as MobTable } from "../mob/table"
+import { getMobRepository } from "../mob/repository/mob"
 import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
 import ExitTable from "../room/exitTable"
@@ -14,40 +17,42 @@ import { default as RoomTable } from "../room/roomTable"
 
 export default class Service {
   public static async new(
-    locationService: LocationService,
+    mobService: MobService,
     roomTable: RoomTable = new RoomTable({}),
-    mobTable: MobTable = new MobTable(),
     itemTable: ItemTable = new ItemTable([]),
-    exitTable: ExitTable = new ExitTable(locationService, []),
+    exitTable: ExitTable = new ExitTable(mobService.locationService, []),
     time: number = 0,
   ): Promise<Service> {
     return new Service(
-      roomTable, mobTable, itemTable, exitTable,
+      mobService,
+      roomTable, itemTable, exitTable,
       await getRoomRepository(),
       await getExitRepository(),
-      locationService,
       time)
   }
 
   public static async newWithArray(rooms: Room[] = [], exits: Exit[] = []): Promise<Service> {
     const locationService = new LocationService([])
+    const mobService = new MobService(
+      new MobTable(),
+      await getMobRepository(),
+      new FightTable(),
+      locationService)
     return Service.new(
-      locationService,
+      mobService,
       RoomTable.new(rooms),
-      null,
       null,
       new ExitTable(locationService, exits))
   }
 
   /* tslint:disable */
   constructor(
+    public readonly mobService: MobService,
     public readonly roomTable: RoomTable,
-    public readonly mobTable: MobTable,
     public readonly itemTable: ItemTable,
     public readonly exitTable: ExitTable,
     private readonly roomRepository: RoomRepository,
     private readonly exitRepository: ExitRepository,
-    private readonly locationService: LocationService,
     private time = 0) {
   }
 
@@ -81,7 +86,7 @@ export default class Service {
 
     const destination = this.roomTable.get(exit.destination.uuid)
 
-    return this.locationService.updateMobLocation(mob, destination)
+    return this.mobService.locationService.updateMobLocation(mob, destination)
   }
 
   public getNewActionDefinition(requestType: RequestType, action, precondition = null): Definition {
@@ -89,10 +94,10 @@ export default class Service {
   }
 
   public getMobLocation(mob: Mob) {
-    return this.locationService.getLocationForMob(mob)
+    return this.mobService.locationService.getLocationForMob(mob)
   }
 
   public getMobsByRoom(room: Room): Mob[] {
-    return this.locationService.getMobsByRoom(room)
+    return this.mobService.locationService.getMobsByRoom(room)
   }
 }

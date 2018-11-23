@@ -1,6 +1,6 @@
 import * as assert from "assert"
 import { Server as WebSocketServer } from "ws"
-import LocationService from "../mob/locationService"
+import MobService from "../mob/mobService"
 import { Room } from "../room/model/room"
 import ResetService from "../service/reset/resetService"
 import Service from "../service/service"
@@ -15,8 +15,8 @@ export default async function newServer(
   port: number,
   startRoom: Room,
   resetService: ResetService,
-  locationService: LocationService): Promise<GameServer> {
+  mobService: MobService): Promise<GameServer> {
   assert.ok(port > PORT_MIN && port < PORT_MAX, `port must be between ${PORT_MIN} and ${PORT_MAX}`)
   return addObservers(
-    new GameServer(new WebSocketServer({ port }), service, startRoom, resetService, locationService))
+    new GameServer(new WebSocketServer({ port }), service, startRoom, resetService, mobService))
 }

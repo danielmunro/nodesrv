@@ -1,9 +1,12 @@
 import ItemTable from "../item/itemTable"
 import { Item } from "../item/model/item"
+import FightTable from "../mob/fight/fightTable"
 import LocationService from "../mob/locationService"
+import MobService from "../mob/mobService"
+import { default as MobTable } from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
-import { default as MobTable } from "../mob/table"
+import { getMobRepository } from "../mob/repository/mob"
 import ExitTable from "../room/exitTable"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
@@ -46,9 +49,12 @@ export default class ServiceBuilder {
 
   public async createService(): Promise<Service> {
     return Service.new(
-      this.locationService,
+      new MobService(
+        new MobTable(this.mobs),
+        await getMobRepository(),
+        new FightTable(),
+        this.locationService),
       RoomTable.new(this.rooms),
-      new MobTable(this.mobs),
       new ItemTable(this.items),
       new ExitTable(this.locationService, this.exits),
       this.time)

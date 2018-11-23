@@ -1,9 +1,9 @@
-import RoomRepository from "../room/repository/room"
-import File from "./file"
-import ExitRepository from "../room/repository/exit"
 import { Direction } from "../room/constants"
-import { DirectionFlag } from "./directionFlag"
 import { newExit } from "../room/factory"
+import ExitRepository from "../room/repository/exit"
+import RoomRepository from "../room/repository/room"
+import { DirectionFlag } from "./directionFlag"
+import File from "./file"
 
 export default class ExitMaterializer {
   constructor(

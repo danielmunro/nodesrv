@@ -1,6 +1,6 @@
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
-import { Trigger } from "../mob/trigger"
+import { Trigger } from "../mob/enum/trigger"
 import { Request } from "../request/request"
 import Response from "../request/response"
 import { SkillType } from "./skillType"

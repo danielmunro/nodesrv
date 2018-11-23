@@ -3,10 +3,12 @@ import { getConnection, initializeConnection } from "../src/db/connection"
 import ItemTable from "../src/item/itemTable"
 import { default as ItemReset } from "../src/item/model/itemReset"
 import { getItemRepository } from "../src/item/repository/item"
+import FightTable from "../src/mob/fight/fightTable"
 import LocationService from "../src/mob/locationService"
+import MobService from "../src/mob/mobService"
+import MobTable from "../src/mob/mobTable"
 import { default as MobReset } from "../src/mob/model/mobReset"
 import { getMobRepository } from "../src/mob/repository/mob"
-import Table from "../src/mob/table"
 import ExitTable from "../src/room/exitTable"
 import { Room } from "../src/room/model/room"
 import { getExitRepository } from "../src/room/repository/exit"
@@ -26,17 +28,13 @@ assert.ok(startRoomID, "start room ID is required to be defined")
 console.info("0 - entry point", { startRoomID })
 
 async function startServer(
-  service: Service, startRoom: Room, resetService: ResetService, aLocationService: LocationService) {
+  service: Service, startRoom: Room, resetService: ResetService, mobService: MobService) {
   console.info(`3 - starting up server on port ${port}`)
-  return (await newServer(service, port, startRoom, resetService, aLocationService)).start()
+  return (await newServer(service, port, startRoom, resetService, mobService)).start()
 }
 
 export async function newMobTable() {
-  // const mobRepository = await getMobRepository()
-  // const models = await mobRepository.findAll()
-  // console.debug(`2 - mob table initialized with ${models.length} mobs`)
-  // return new Table(models)
-  return new Table([])
+  return new MobTable([])
 }
 
 async function newRoomTable(): Promise<RoomTable> {
@@ -85,7 +83,11 @@ createDbConnection().then(() =>
     newExitTable(locationService),
   ]).then(async ([roomTable, mobTable, itemTable, exitTable]) =>
     startServer(
-      await Service.new(locationService, roomTable, mobTable, itemTable, exitTable),
+      await Service.new(await createMobService(mobTable, locationService), roomTable, itemTable, exitTable),
       roomTable.get(startRoomID),
       await createResetService(),
-      locationService)))
+      await createMobService(mobTable, locationService))))
+
+async function createMobService(mobTable: MobTable, aLocationService: LocationService) {
+  return new MobService(mobTable, await getMobRepository(), new FightTable(), aLocationService)
+}

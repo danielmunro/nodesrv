@@ -1,5 +1,5 @@
 import CheckedRequest from "../../../check/checkedRequest"
-import { Standing } from "../../../mob/standing"
+import { Standing } from "../../../mob/enum/standing"
 import Response from "../../../request/response"
 import ResponseMessage from "../../../request/responseMessage"
 

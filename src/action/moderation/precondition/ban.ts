@@ -1,7 +1,7 @@
 import Check from "../../../check/check"
 import CheckBuilder from "../../../check/checkBuilder"
 import Maybe from "../../../functional/maybe"
-import { isBanned } from "../../../mob/standing"
+import { isBanned } from "../../../mob/enum/standing"
 import { Request } from "../../../request/request"
 import Service from "../../../service/service"
 import {
@@ -11,7 +11,7 @@ import {
 } from "./constants"
 
 export default async function(request: Request, service: Service): Promise<Check> {
-  const mob = service.mobTable.find(m => m.name === request.getContextAsInput().subject)
+  const mob = service.mobService.mobTable.find(m => m.name === request.getContextAsInput().subject)
 
   return new CheckBuilder()
     .requireMob(mob, MESSAGE_FAIL_NO_TARGET)

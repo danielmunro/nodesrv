@@ -3,7 +3,7 @@ import { Mob } from "./model/mob"
 import MobLocation from "./model/mobLocation"
 
 export default class LocationService {
-  constructor(private mobLocations: MobLocation[]) {}
+  constructor(private mobLocations: MobLocation[] = []) {}
 
   public getMobLocationCount(): number {
     return this.mobLocations.length

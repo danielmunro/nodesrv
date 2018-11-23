@@ -1,4 +1,4 @@
-import { Disposition } from "../../mob/disposition"
+import { Disposition } from "../../mob/enum/disposition"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"

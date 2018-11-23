@@ -1,5 +1,5 @@
 import { CheckStatus } from "../../check/checkStatus"
-import { Disposition } from "../../mob/disposition"
+import { Disposition } from "../../mob/enum/disposition"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { MESSAGE_FAIL_ALREADY_AWAKE, MESSAGE_FAIL_DEAD } from "./constants"

@@ -1,5 +1,5 @@
 import { improveSkill } from "../improve/improve"
-import { Trigger } from "../mob/trigger"
+import { Trigger } from "../mob/enum/trigger"
 import backstab from "./action/backstab"
 import bash from "./action/bash"
 import berserk from "./action/berserk"

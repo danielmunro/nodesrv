@@ -1,5 +1,5 @@
 import Check from "../../check/check"
-import { Disposition } from "../../mob/disposition"
+import { Disposition } from "../../mob/enum/disposition"
 import { Request } from "../../request/request"
 import { Messages } from "./constants"
 

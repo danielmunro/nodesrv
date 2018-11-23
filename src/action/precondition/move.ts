@@ -1,6 +1,6 @@
 import { applyAffectModifier } from "../../affect/applyAffect"
 import Check from "../../check/check"
-import { Trigger } from "../../mob/trigger"
+import { Trigger } from "../../mob/enum/trigger"
 import { Request } from "../../request/request"
 import { Direction } from "../../room/constants"
 import { MESSAGE_DIRECTION_DOES_NOT_EXIST, MESSAGE_OUT_OF_MOVEMENT } from "./constants"

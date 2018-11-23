@@ -1,6 +1,8 @@
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
-import LocationService from "../mob/locationService"
+import MobService from "../mob/mobService"
+import MobTable from "../mob/mobTable"
+import { getMobRepository } from "../mob/repository/mob"
 import { getPlayerRepository } from "../player/repository/player"
 import Service from "../service/service"
 import { default as AuthService } from "../session/auth/service"
@@ -21,10 +23,10 @@ async function createClient(player, actions, service, startRoom, locationService
 }
 
 export async function getTestClient(player = getTestPlayer(), room = getTestRoom()): Promise<Client> {
-  const locationService = new LocationService([])
-  const service = await Service.new(locationService)
+  const service = await Service.new(
+    new MobService(new MobTable(), await getMobRepository()))
   const actions = await getActionCollection(service)
-  const client = await createClient(player, actions, service, room, locationService)
+  const client = await createClient(player, actions, service, room, service.mobService.locationService)
   await client.session.login(player)
 
   return Promise.resolve(client)
@@ -33,5 +35,5 @@ export async function getTestClient(player = getTestPlayer(), room = getTestRoom
 export async function getTestClientLoggedOut(player = getTestPlayer(), room = getTestRoom()): Promise<Client> {
   const service = await Service.newWithArray([room])
   const actions = await getActionCollection(service)
-  return createClient(player, actions, service, room, service.locationService)
+  return createClient(player, actions, service, room, service.mobService.mobTable)
 }

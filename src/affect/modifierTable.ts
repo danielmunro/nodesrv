@@ -1,4 +1,4 @@
-import { Trigger } from "../mob/trigger"
+import { Trigger } from "../mob/enum/trigger"
 import AffectModifier from "./affectModifier"
 import { AffectType } from "./affectType"
 

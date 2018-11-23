@@ -4,12 +4,13 @@ import roll, { simpleD4 } from "../../random/dice"
 import { Room } from "../../room/model/room"
 import { createSkillTriggerEvent, createSkillTriggerEvents } from "../../skill/trigger/factory"
 import { Resolution } from "../../skill/trigger/resolution"
-import { Disposition } from "../disposition"
+import { Disposition } from "../enum/disposition"
+import { Trigger } from "../enum/trigger"
 import { Mob } from "../model/mob"
 import { BodyPart } from "../race/bodyParts"
-import { Trigger } from "../trigger"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import Death from "./death"
+import FightTable from "./fightTable"
 import { Round } from "./round"
 
 enum Status {
@@ -17,24 +18,24 @@ enum Status {
   Done,
 }
 
-let fights: Fight[] = []
+let fights: FightTable = new FightTable()
 
 export function addFight(fight: Fight): void {
-  fights.push(fight)
+  fights.addFight(fight)
 }
 
 export function getFights() {
   filterCompleteFights()
 
-  return fights
+  return fights.getFights()
 }
 
 export function filterCompleteFights() {
-  fights = fights.filter(fight => fight.isInProgress())
+  fights.filterCompleteFights()
 }
 
 export function reset() {
-  fights = []
+  fights = new FightTable()
 }
 
 async function createStartRoundDefenderTrigger(attacker, defender, room) {

@@ -1,5 +1,5 @@
 import { Item } from "../item/model/item"
-import { Disposition } from "../mob/disposition"
+import { Disposition } from "../mob/enum/disposition"
 import { Player } from "../player/model/player"
 import ServiceBuilder from "../service/serviceBuilder"
 import { newSkill } from "../skill/factory"

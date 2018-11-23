@@ -1,5 +1,6 @@
 import { readFileSync } from "fs"
 import { initializeConnection } from "../src/db/connection"
+import ExitMaterializer from "../src/import/exitMaterializer"
 import ImportService from "../src/import/importService"
 import ResetMaterializer from "../src/import/resetMaterializer"
 import { getContainerRepository } from "../src/item/repository/container"
@@ -9,7 +10,6 @@ import { getMobRepository } from "../src/mob/repository/mob"
 import { getMobResetRepository } from "../src/mob/repository/mobReset"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
-import ExitMaterializer from "../src/import/exitMaterializer"
 
 const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")

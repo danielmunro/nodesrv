@@ -1,5 +1,5 @@
 import { Client } from "../../client/client"
-import Table from "../../mob/table"
+import MobTable from "../../mob/mobTable"
 import { Observer } from "./observer"
 
 export function decrementAffects(mob) {
@@ -10,7 +10,7 @@ export function decrementAffects(mob) {
 }
 
 export class DecrementAffects implements Observer {
-  constructor(private readonly table: Table) {}
+  constructor(private readonly table: MobTable) {}
 
   public notify(clients: Client[]): void {
     this.table.apply(decrementAffects)

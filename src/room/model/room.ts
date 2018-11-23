@@ -1,6 +1,5 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as uuid from "uuid"
-import { SectionType } from "../../area/sectionType"
 import { Inventory } from "../../item/model/inventory"
 import MobReset from "../../mob/model/mobReset"
 import { Region } from "../../region/model/region"
@@ -27,9 +26,6 @@ export class Room {
 
   @Column("text")
   public description: string
-
-  @Column("integer", { nullable: true })
-  public sectionType: SectionType = null
 
   @OneToMany((type) => Exit, (exit) => exit.source, { eager: true })
   public exits: Exit[] = []

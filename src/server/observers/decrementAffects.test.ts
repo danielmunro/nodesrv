@@ -1,6 +1,6 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
-import Table from "../../mob/table"
+import MobTable from "../../mob/mobTable"
 import { getTestClient } from "../../test/client"
 import { decrementAffects } from "./decrementAffects"
 
@@ -16,7 +16,7 @@ describe("decrementAffects", () => {
     const mob = client.player.sessionMob
     mob.addAffect(newAffect(AffectType.Stunned, TEST_TIMEOUT_1))
     mob.addAffect(newAffect(AffectType.Shield, TEST_TIMEOUT_2))
-    const table = new Table([mob])
+    const table = new MobTable([mob])
 
     // when
     table.apply(decrementAffects)
@@ -33,7 +33,7 @@ describe("decrementAffects", () => {
     // given
     const mob = client.player.sessionMob
     mob.addAffect(newAffect(AffectType.Stunned, 0))
-    const table = new Table([mob])
+    const table = new MobTable([mob])
 
     // when
     table.apply(decrementAffects)

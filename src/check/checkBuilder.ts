@@ -1,7 +1,7 @@
 import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_PLAYER } from "../action/constants"
 import { AffectType } from "../affect/affectType"
 import Maybe from "../functional/maybe"
-import { Disposition } from "../mob/disposition"
+import { Disposition } from "../mob/enum/disposition"
 import { getFights } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../player/authorizationLevel"

@@ -1,6 +1,7 @@
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
-import LocationService from "../mob/locationService"
+import MobService from "../mob/mobService"
+import MobTable from "../mob/mobTable"
 import { getPlayerRepository } from "../player/repository/player"
 import { poll } from "../poll/poll"
 import { Room } from "../room/model/room"
@@ -33,7 +34,7 @@ export class GameServer {
     public readonly service: Service,
     public readonly startRoom: Room,
     public readonly resetService: ResetService,
-    public readonly locationService: LocationService) {}
+    public readonly mobService: MobService) {}
 
   public async start(): Promise<void> {
     if (!this.isInitialized()) {
@@ -61,7 +62,7 @@ export class GameServer {
       this.service,
       this.startRoom,
       this.authService,
-      this.locationService)
+      this.mobService.locationService)
     console.info("new client connected", { ip: client.ip })
     this.clients.push(client)
     ws.onclose = () => this.removeClient(client)
@@ -91,10 +92,14 @@ export class GameServer {
     return this.clients.length
   }
 
+  public getMobTable(): MobTable {
+    return this.mobService.mobTable
+  }
+
   private removeClient(client: Client): void {
     console.info("client disconnected", { ip: client.ip })
     this.clients = this.clients.filter((it) => it !== client)
-    this.locationService.removeMob(client.getSessionMob())
+    this.mobService.locationService.removeMob(client.getSessionMob())
 
   }
 }

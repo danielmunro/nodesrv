@@ -1,6 +1,6 @@
 import { Mob } from "./model/mob"
 
-export default class Table {
+export default class MobTable {
   constructor(private mobs: Mob[] = []) {}
 
   public getWanderingMobs(): Mob[] {
@@ -21,5 +21,14 @@ export default class Table {
 
   public getMobs(): Mob[] {
     return this.mobs
+  }
+
+  public pruneDeadMobs() {
+    const aliveMobs = this.mobs.filter(m => !m.isDead())
+    const deadMobs = this.mobs.filter(m => m.isDead())
+
+    this.mobs = aliveMobs
+
+    return deadMobs
   }
 }

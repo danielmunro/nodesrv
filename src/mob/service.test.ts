@@ -1,5 +1,5 @@
 import { getTestMob } from "../test/mob"
-import { assignSpecializationToMob } from "./service"
+import { assignSpecializationToMob } from "./mobService"
 import Cleric from "./specialization/cleric"
 import Warrior from "./specialization/warrior"
 

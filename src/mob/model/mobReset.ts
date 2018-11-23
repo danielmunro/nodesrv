@@ -1,7 +1,7 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import { Room } from "../../room/model/room"
-import { Disposition } from "../disposition"
+import { Disposition } from "../enum/disposition"
 import { Mob } from "./mob"
 
 @Entity()

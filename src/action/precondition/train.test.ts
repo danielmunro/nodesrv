@@ -1,5 +1,5 @@
 import { CheckStatus } from "../../check/checkStatus"
-import { Disposition } from "../../mob/disposition"
+import { Disposition } from "../../mob/enum/disposition"
 import { Messages as RequestMessages } from "../../request/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"

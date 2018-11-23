@@ -1,4 +1,4 @@
-import { Trigger } from "../../mob/trigger"
+import { Trigger } from "../../mob/enum/trigger"
 import { RequestType } from "../requestType"
 import RequestContext from "./requestContext"
 

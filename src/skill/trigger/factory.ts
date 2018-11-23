@@ -1,6 +1,6 @@
 import CheckedRequest from "../../check/checkedRequest"
+import { Trigger } from "../../mob/enum/trigger"
 import { Mob } from "../../mob/model/mob"
-import { Trigger } from "../../mob/trigger"
 import EventContext from "../../request/context/eventContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"

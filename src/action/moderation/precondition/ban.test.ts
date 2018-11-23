@@ -35,8 +35,8 @@ describe("ban moderation preconditions", () => {
     playerToBan = playerBuilder.player
     playerToBan.sessionMob.name = MOB_TO_BAN
     service = await testBuilder.getService()
-    service.mobTable.add(player.sessionMob)
-    service.mobTable.add(playerToBan.sessionMob)
+    service.mobService.mobTable.add(player.sessionMob)
+    service.mobService.mobTable.add(playerToBan.sessionMob)
     requestBuilder = await testBuilder.createRequestBuilder()
   })
 
@@ -96,7 +96,7 @@ describe("ban moderation preconditions", () => {
     // given
     const MOB_NAME = "fubar"
     const nonPlayerMob = getTestMob(MOB_NAME)
-    service.mobTable.add(nonPlayerMob)
+    service.mobService.mobTable.add(nonPlayerMob)
     // when
     const response = await ban(requestBuilder.create(RequestType.Ban, `ban ${MOB_NAME}`), service)
 

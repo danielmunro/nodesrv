@@ -1,6 +1,6 @@
 import CheckedRequest from "../../check/checkedRequest"
 import match from "../../matcher/match"
-import { onlyLiving } from "../../mob/disposition"
+import { onlyLiving } from "../../mob/enum/disposition"
 import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
 import Response from "../../request/response"

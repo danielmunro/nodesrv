@@ -15,17 +15,15 @@ import { SocialBroadcaster } from "./observers/socialBroadcaster"
 import { Tick } from "./observers/tick"
 import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
-import { getMobRepository } from "../mob/repository/mob"
 
 export default async function addObservers(gameServer: GameServer): Promise<GameServer> {
-  const mobTable = gameServer.service.mobTable
   const roomTable = gameServer.service.roomTable
-  const locationService = gameServer.locationService
+  const locationService = gameServer.mobService.locationService
   gameServer.addObserver(
     new ObserverChain([
       new Tick(gameServer.service, locationService),
-      new DecrementAffects(mobTable),
-      new Wander(mobTable.getWanderingMobs(), locationService),
+      new DecrementAffects(gameServer.getMobTable()),
+      new Wander(gameServer.getMobTable().getWanderingMobs(), locationService),
     ]),
     new RandomTickTimer(
       new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
@@ -34,7 +32,8 @@ export default async function addObservers(gameServer: GameServer): Promise<Game
   gameServer.addObserver(new RegionWeather(locationService), new MinuteTimer())
   gameServer.addObserver(new SocialBroadcaster(locationService), new ShortIntervalTimer())
   gameServer.addObserver(new FightRounds(locationService), new SecondIntervalTimer())
-  const respawner = new Respawner(await getMobRepository(), mobTable, roomTable, resetService, locationService)
+  const respawner = new Respawner(gameServer.mobService, roomTable, resetService)
+  await respawner.seedMobTable()
   gameServer.addObserver(respawner, new FiveMinuteTimer())
   await respawner.notify([])
 

@@ -1,5 +1,5 @@
+import MobTable from "../../../mob/mobTable"
 import { Mob } from "../../../mob/model/mob"
-import Table from "../../../mob/table"
 import { Player } from "../../../player/model/player"
 import AuthStep from "../authStep"
 import Complete from "../complete"
@@ -10,7 +10,7 @@ import Request from "../request"
 import Response from "../response"
 
 export default class Name extends PlayerAuthStep implements AuthStep {
-  constructor(player: Player, private readonly mobTable: Table) {
+  constructor(player: Player, private readonly mobTable: MobTable) {
     super(player)
   }
 

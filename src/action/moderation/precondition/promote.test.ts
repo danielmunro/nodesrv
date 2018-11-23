@@ -1,5 +1,5 @@
 import { CheckStatus } from "../../../check/checkStatus"
-import { Standing } from "../../../mob/standing"
+import { Standing } from "../../../mob/enum/standing"
 import { AuthorizationLevel } from "../../../player/authorizationLevel"
 import { allAuthorizationLevels } from "../../../player/constants"
 import { Player } from "../../../player/model/player"
@@ -86,7 +86,7 @@ describe("promote moderation preconditions", () => {
   it("cannot promote non-player mobs", async () => {
     const MOB_NAME = "baz"
     const mob = getTestMob(MOB_NAME)
-    service.mobTable.add(mob)
+    service.mobService.mobTable.add(mob)
 
     const check = await promote(requestBuilder.create(RequestType.Promote, `promote ${mob.name}`), service)
 

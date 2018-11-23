@@ -1,6 +1,6 @@
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
+import { Trigger } from "../../mob/enum/trigger"
 import { addFight, Fight, reset } from "../../mob/fight/fight"
-import { Trigger } from "../../mob/trigger"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import TestBuilder from "../../test/testBuilder"

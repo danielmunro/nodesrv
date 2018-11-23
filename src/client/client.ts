@@ -6,8 +6,8 @@ import Cost from "../check/cost/cost"
 import { Item } from "../item/model/item"
 import { addFight, Fight } from "../mob/fight/fight"
 import LocationService from "../mob/locationService"
+import MobTable from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
-import Table from "../mob/table"
 import { Player } from "../player/model/player"
 import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
@@ -124,8 +124,8 @@ export class Client {
     return this.startRoom
   }
 
-  public getMobTable(): Table {
-    return this.service.mobTable
+  public getMobTable(): MobTable {
+    return this.service.mobService.mobTable
   }
 
   private applyCosts(costs: Cost[]): void {
