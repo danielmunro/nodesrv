@@ -29,8 +29,13 @@ async function parse(importService: ImportService) {
   const areas = []
   for (let i = 0; i < areaLength; i++) {
     const file = areaFiles[i]
-    console.log(`  - ${file} processing now`)
+    console.log(`  - importing ${file}`)
     areas.push(await importService.parseAreaFile(areaFiles[i]))
+  }
+  for (let i = 0; i < areaLength; i++) {
+    const area = areas[i]
+    console.log(`  - generating exits ${area.filename}`)
+    await importService.createExits(area)
   }
 
   console.log("2 - materialize resets")

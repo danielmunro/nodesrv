@@ -61,9 +61,7 @@ export default class ImportService {
   public async parseAreaFile(filename: string): Promise<File> {
     const content = readFileSync(`fixtures/${filename}`).toString()
     const file = new File(filename, JSON.parse(content))
-
     await this.iterateSections(file)
-    await this.createExits(file)
 
     return file
   }
@@ -182,14 +180,21 @@ export default class ImportService {
     })
   }
 
-  private async createExits(file: File) {
-    await Promise.all(Object.keys(file.roomMap).map(async importId => {
-      if (file.roomDataMap[importId] === undefined || file.roomDataMap[importId].doors === undefined) {
-        return
+  public async createExits(file: File) {
+    const ids = Object.keys(file.roomMap)
+    const idLength = ids.length
+    for (let i = 0; i < idLength; i++) {
+      const importId = ids[i]
+      const room = file.roomDataMap[importId]
+      if (room === undefined || room.doors === undefined) {
+        continue
       }
-      await Promise.all(file.roomDataMap[importId].doors.map(async door =>
-        this.createExitFromDoor(file, door, importId)))
-    }))
+      const doorLength = room.doors.length
+      for (let j = 0; j < doorLength; j++) {
+        const door = room.doors[j]
+        await this.createExitFromDoor(file, door, importId)
+      }
+    }
   }
 
   private async createExitFromDoor(file: File, door, importId) {

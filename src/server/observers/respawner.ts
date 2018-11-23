@@ -16,8 +16,9 @@ export default class Respawner implements Observer {
   ) {}
 
   public async notify(clients: Client[]): Promise<void> {
-    this.resetService.mobResets.forEach(mobReset => this.respawnMob(mobReset))
+    this.resetService.mobResets.forEach(this.respawnMob.bind(this))
     console.log(`reset service done with ${this.resetService.mobResets.length} mobs reset`)
+    console.log(`location service has ${this.locationService.getMobLocationCount()} mobs`)
   }
 
   private async respawnMob(mobReset: MobReset) {
@@ -27,9 +28,6 @@ export default class Respawner implements Observer {
     }
     const mob = this.mobTable.find(m =>  m.uuid === mobReset.mob.uuid)
     const room = this.roomTable.get(mobReset.room.uuid)
-    if (!mob.isDead()) {
-      return
-    }
     mob.disposition = mobReset.disposition
     const combined = mob.getCombinedAttributes()
     mob.vitals.hp = combined.vitals.hp
