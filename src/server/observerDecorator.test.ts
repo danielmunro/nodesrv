@@ -5,6 +5,9 @@ describe("observer decorator", () => {
     // setup
     const mock = jest.fn(() => ({
       addObserver: jest.fn(),
+      locationService: {
+        getMobLocationCount: jest.fn(),
+      },
       resetService: {
         mobResets: [],
       },

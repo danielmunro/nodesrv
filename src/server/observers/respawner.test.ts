@@ -51,6 +51,6 @@ describe("respawner", () => {
     expect(mob2.disposition).toBe(Disposition.Sitting)
     expect(locationService.getLocationForMob(mob2).room).toBe(startRoom)
     expect(mob3.disposition).toBe(Disposition.Sitting)
-    expect(locationService.getLocationForMob(mob3).room).not.toBe(startRoom)
+    expect(locationService.getLocationForMob(mob3).room).toBe(startRoom)
   })
 })
