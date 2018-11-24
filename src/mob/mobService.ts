@@ -7,6 +7,7 @@ import { Spell } from "../spell/model/spell"
 import { SpellType } from "../spell/spellType"
 import { MESSAGE_MOB_ALREADY_HAS_SPECIALIZATION } from "./constants"
 import { newMobLocation } from "./factory"
+import { Fight } from "./fight/fight"
 import FightTable from "./fight/fightTable"
 import LocationService from "./locationService"
 import MobTable from "./mobTable"
@@ -45,6 +46,22 @@ export default class MobService {
   public add(mob: Mob, room: Room) {
     this.mobTable.add(mob)
     this.locationService.addMobLocation(newMobLocation(mob, room))
+  }
+
+  public addFight(fight: Fight) {
+    this.fightTable.addFight(fight)
+  }
+
+  public findFight(search) {
+    return this.fightTable.getFights().find(search)
+  }
+
+  public filterCompleteFights() {
+    this.fightTable.filterCompleteFights()
+  }
+
+  public async doFightRounds() {
+    return await Promise.all(this.fightTable.getFights().map(async fight => await fight.round()))
   }
 
   public pruneDeadMobs() {

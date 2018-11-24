@@ -1,4 +1,3 @@
-import { addFight, Fight } from "../../mob/fight/fight"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { SkillType } from "../skillType"
@@ -13,16 +12,13 @@ describe("trip skill preconditions", () => {
       p.sessionMob.vitals.mv = 0
       p.sessionMob.level = 10
     })
-    addFight(new Fight(
-      playerBuilder.player.sessionMob,
-      testBuilder.withMob().mob,
-      testBuilder.room))
+    await testBuilder.fight()
 
     // given
     playerBuilder.withSkill(SkillType.Trip)
 
     // when
-    const check = await trip(testBuilder.createRequest(RequestType.Trip))
+    const check = await trip(testBuilder.createRequest(RequestType.Trip), await testBuilder.getService())
 
     // then
     expect(check.isOk()).toBeFalsy()
@@ -33,16 +29,13 @@ describe("trip skill preconditions", () => {
     // setup
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 10)
-    addFight(new Fight(
-      playerBuilder.player.sessionMob,
-      testBuilder.withMob().mob,
-      testBuilder.room))
+    await testBuilder.fight()
 
     // given
     playerBuilder.withSkill(SkillType.Trip)
 
     // when
-    const check = await trip(testBuilder.createRequest(RequestType.Trip))
+    const check = await trip(testBuilder.createRequest(RequestType.Trip), await testBuilder.getService())
 
     // then
     expect(check.isOk()).toBeTruthy()

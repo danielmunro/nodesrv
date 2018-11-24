@@ -2,17 +2,21 @@ import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { getSkillActionDefinition } from "../skillTable"
+import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
 
 const iterations = 100
-const definition = getSkillActionDefinition(SkillType.FastHealing)
-const testBuilder = new TestBuilder()
+let testBuilder: TestBuilder
+let skillDefinition: SkillDefinition
 
 async function action() {
-  return definition.action(
-    await testBuilder.createCheckedRequestFrom(RequestType.Event, definition.preconditions))
+  return skillDefinition.doAction(testBuilder.createRequest(RequestType.Noop))
 }
+
+beforeEach(async () => {
+  testBuilder = new TestBuilder()
+  skillDefinition = await testBuilder.getSkillDefinition(SkillType.FastHealing)
+})
 
 describe("fast healing skill action", () => {
   it("should succeed and fail periodically", async () => {

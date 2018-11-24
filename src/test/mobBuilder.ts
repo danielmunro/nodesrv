@@ -23,12 +23,6 @@ export default class MobBuilder extends AbstractBuilder {
     return this
   }
 
-  public atLevel(level: number) {
-    this.mob.level = level
-
-    return this
-  }
-
   public withHelmetEq(): Item {
     return this.doEquip(super.withHelmetEq())
   }

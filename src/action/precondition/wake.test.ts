@@ -12,7 +12,7 @@ describe("wake action preconditions", () => {
     await testBuilder.withPlayer(p => p.sessionMob.disposition = Disposition.Standing)
 
     // when
-    const check = await wake(testBuilder.createRequest(RequestType.Wake))
+    const check = await wake(testBuilder.createRequest(RequestType.Wake), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -25,7 +25,7 @@ describe("wake action preconditions", () => {
     await testBuilder.withPlayer(p => p.sessionMob.disposition = Disposition.Dead)
 
     // when
-    const check = await wake(testBuilder.createRequest(RequestType.Wake))
+    const check = await wake(testBuilder.createRequest(RequestType.Wake), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)

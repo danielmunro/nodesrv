@@ -31,7 +31,7 @@ export default async function addObservers(gameServer: GameServer): Promise<Game
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(locationService), new MinuteTimer())
   gameServer.addObserver(new SocialBroadcaster(locationService), new ShortIntervalTimer())
-  gameServer.addObserver(new FightRounds(locationService), new SecondIntervalTimer())
+  gameServer.addObserver(new FightRounds(gameServer.mobService), new SecondIntervalTimer())
   const respawner = new Respawner(gameServer.mobService, roomTable, resetService)
   await respawner.seedMobTable()
   gameServer.addObserver(respawner, new FiveMinuteTimer())

@@ -12,7 +12,7 @@ describe("sleep action preconditions", () => {
     await testBuilder.withPlayer((player) => player.sessionMob.disposition = Disposition.Sleeping)
 
     // when
-    const check = await sleep(testBuilder.createRequest(RequestType.Sleep))
+    const check = await sleep(testBuilder.createRequest(RequestType.Sleep), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -25,7 +25,7 @@ describe("sleep action preconditions", () => {
     await testBuilder.withPlayer((player) => player.sessionMob.disposition = Disposition.Dead)
 
     // when
-    const check = await sleep(testBuilder.createRequest(RequestType.Sleep))
+    const check = await sleep(testBuilder.createRequest(RequestType.Sleep), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)

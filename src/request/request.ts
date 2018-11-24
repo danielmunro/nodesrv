@@ -4,6 +4,7 @@ import CheckBuilder from "../check/checkBuilder"
 import { Client } from "../client/client"
 import { Item } from "../item/model/item"
 import { Disposition } from "../mob/enum/disposition"
+import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Room } from "../room/model/room"
@@ -77,13 +78,13 @@ export class Request {
     return new ResponseBuilder(this, new ResponseAction(actionOutcome, thing))
   }
 
-  public check(): CheckBuilder {
-    return new CheckBuilder()
+  public check(mobService: MobService): CheckBuilder {
+    return new CheckBuilder(mobService)
       .forMob(this.mob)
       .not().requireDisposition(Disposition.Dead, MESSAGE_FAIL_DEAD)
   }
 
-  public checkWithStandingDisposition(): CheckBuilder {
-    return this.check().requireDisposition(Disposition.Standing, Messages.NotStanding)
+  public checkWithStandingDisposition(mobService: MobService): CheckBuilder {
+    return this.check(mobService).requireDisposition(Disposition.Standing, Messages.NotStanding)
   }
 }

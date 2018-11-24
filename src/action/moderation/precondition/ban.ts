@@ -13,7 +13,7 @@ import {
 export default async function(request: Request, service: Service): Promise<Check> {
   const mob = service.mobService.mobTable.find(m => m.name === request.getContextAsInput().subject)
 
-  return new CheckBuilder()
+  return new CheckBuilder(service.mobService)
     .requireMob(mob, MESSAGE_FAIL_NO_TARGET)
     .capture()
     .requirePlayer(mob)

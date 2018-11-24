@@ -14,7 +14,7 @@ describe("sneak skill action", () => {
     const testBuilder = new TestBuilder()
     await testBuilder.withPlayer(p => p.sessionMob.skills.push(newSkill(SkillType.Sneak)))
     const request = testBuilder.createRequest(RequestType.Sneak)
-    const check = await sneakPrecondition(request)
+    const check = await sneakPrecondition(request, await testBuilder.getService())
 
     // when
     const responses = await doNTimes(10, async () => sneak(new CheckedRequest(request, check)))
@@ -28,7 +28,7 @@ describe("sneak skill action", () => {
     const testBuilder = new TestBuilder()
     await testBuilder.withPlayer(p => p.sessionMob.skills.push(newSkill(SkillType.Sneak, MAX_PRACTICE_LEVEL)))
     const request = testBuilder.createRequest(RequestType.Sneak)
-    const check = await sneakPrecondition(testBuilder.createRequest(RequestType.Sneak))
+    const check = await sneakPrecondition(testBuilder.createRequest(RequestType.Sneak), await testBuilder.getService())
 
     // when
     const responses = await doNTimes(10, async () => sneak(new CheckedRequest(request, check)))

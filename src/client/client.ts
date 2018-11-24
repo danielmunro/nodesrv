@@ -4,7 +4,7 @@ import { Definition } from "../action/definition/definition"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import { Item } from "../item/model/item"
-import { addFight, Fight } from "../mob/fight/fight"
+import { Fight } from "../mob/fight/fight"
 import LocationService from "../mob/locationService"
 import MobTable from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
@@ -147,7 +147,7 @@ export class Client {
 
     if (responseAction.wasFightStarted()) {
       const request = response.request as Request
-      addFight(new Fight(this.player.sessionMob, request.getTarget() as Mob, request.room))
+      this.service.mobService.addFight(new Fight(this.player.sessionMob, request.getTarget() as Mob, request.room))
     }
   }
 

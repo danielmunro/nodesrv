@@ -1,7 +1,6 @@
 import CheckedRequest from "../../check/checkedRequest"
 import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { addFight, Fight } from "../../mob/fight/fight"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import tripPrecondition from "../precondition/trip"
@@ -18,13 +17,10 @@ describe("trip skill action", () => {
     playerBuilder.withSkill(SkillType.Trip)
 
     // and
-    addFight(new Fight(
-      playerBuilder.player.sessionMob,
-      testBuilder.withMob().mob,
-      testBuilder.room))
+    await testBuilder.fight()
 
     const request = testBuilder.createRequest(RequestType.Trip)
-    const check = await tripPrecondition(request)
+    const check = await tripPrecondition(request, await testBuilder.getService())
 
     // when
     const results = await doNTimes(10, () => trip(new CheckedRequest(request, check)))
@@ -42,13 +38,10 @@ describe("trip skill action", () => {
     playerBuilder.withSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)
 
     // and
-    addFight(new Fight(
-      playerBuilder.player.sessionMob,
-      testBuilder.withMob().mob,
-      testBuilder.room))
+    await testBuilder.fight()
 
     const request = testBuilder.createRequest(RequestType.Trip)
-    const check = await tripPrecondition(request)
+    const check = await tripPrecondition(request, await testBuilder.getService())
 
     // when
     const results = await doNTimes(10, () => trip(new CheckedRequest(request, check)))

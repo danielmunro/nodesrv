@@ -1,5 +1,3 @@
-
-import { addFight, Fight, reset } from "../../mob/fight/fight"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { SkillType } from "../skillType"
@@ -7,8 +5,6 @@ import { Messages } from "./constants"
 import disarm from "./disarm"
 
 describe("disarm preconditions", () => {
-  beforeEach(() => reset())
-
   it("should not work if not in a fight", async () => {
     // setup
     const testBuilder = new TestBuilder()
@@ -17,7 +13,7 @@ describe("disarm preconditions", () => {
     const request = testBuilder.createRequest(RequestType.Disarm)
 
     // when
-    const check = await disarm(request)
+    const check = await disarm(request, await testBuilder.getService())
 
     // then
     expect(check.isOk()).toBeFalsy()
@@ -29,13 +25,11 @@ describe("disarm preconditions", () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 20)
     playerBuilder.withSkill(SkillType.Disarm)
-    const target = testBuilder.withMob().mob
-    const mob = playerBuilder.player.sessionMob
-    addFight(new Fight(mob, target, testBuilder.room))
+    await testBuilder.fight()
     const request = testBuilder.createRequest(RequestType.Disarm)
 
     // when
-    const check = await disarm(request)
+    const check = await disarm(request, await testBuilder.getService())
 
     // then
     expect(check.isOk()).toBeFalsy()
@@ -51,14 +45,14 @@ describe("disarm preconditions", () => {
     const target = targetBuilder.mob
     const mob = playerBuilder.player.sessionMob
     playerBuilder.withSkill(SkillType.Disarm)
-    addFight(new Fight(mob, target, testBuilder.room))
+    await testBuilder.fight(target)
     const request = testBuilder.createRequest(RequestType.Disarm)
 
     // given
     mob.vitals.mv = 0
 
     // when
-    const response = await disarm(request)
+    const response = await disarm(request, await testBuilder.getService())
 
     // then
     expect(response.isOk()).toBeFalsy()
@@ -72,12 +66,11 @@ describe("disarm preconditions", () => {
     const targetBuilder = testBuilder.withMob()
     targetBuilder.equip().withAxeEq()
     const target = targetBuilder.mob
-    const mob = playerBuilder.player.sessionMob
     playerBuilder.withSkill(SkillType.Disarm)
-    addFight(new Fight(mob, target, testBuilder.room))
+    await testBuilder.fight(target)
 
     // when
-    const response = await disarm(testBuilder.createRequest(RequestType.Disarm))
+    const response = await disarm(testBuilder.createRequest(RequestType.Disarm), await testBuilder.getService())
 
     // then
     expect(response.isOk()).toBeTruthy()

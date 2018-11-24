@@ -1,5 +1,4 @@
 import { CheckStatus } from "../../check/checkStatus"
-import { addFight, Fight } from "../../mob/fight/fight"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import TestBuilder from "../../test/testBuilder"
@@ -15,7 +14,8 @@ describe("kill", () => {
     const target = getTestMob()
 
     // when
-    const check = await kill(testBuilder.createRequest(RequestType.Kill, `kill ${target.name}`))
+    const check = await kill(
+      testBuilder.createRequest(RequestType.Kill, `kill ${target.name}`), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -26,16 +26,17 @@ describe("kill", () => {
     // given
     const testBuilder = new TestBuilder()
     testBuilder.withRoom()
-    const playerBuilder = await testBuilder.withPlayer()
-    const player = playerBuilder.player
+    await testBuilder.withPlayer()
     const mob1 = testBuilder.withMob("bob").mob
     const mob2 = testBuilder.withMob("alice").mob
 
     // and
-    addFight(new Fight(player.sessionMob, mob1, testBuilder.room))
+    await testBuilder.fight(mob1)
 
     // when
-    const check = await kill(testBuilder.createRequest(RequestType.Kill, `kill ${mob2.name}`, mob2))
+    const check = await kill(
+      testBuilder.createRequest(RequestType.Kill, `kill ${mob2.name}`, mob2),
+      await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -49,7 +50,9 @@ describe("kill", () => {
     const target = testBuilder.withMob("bob").mob
 
     // when
-    const check = await kill(testBuilder.createRequest(RequestType.Kill, `kill ${target.name}`, target))
+    const check = await kill(
+      testBuilder.createRequest(RequestType.Kill, `kill ${target.name}`, target),
+      await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

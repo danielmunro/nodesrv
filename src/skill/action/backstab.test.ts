@@ -7,21 +7,22 @@ import { format } from "../../support/string"
 import MobBuilder from "../../test/mobBuilder"
 import TestBuilder from "../../test/testBuilder"
 import { Messages as AllMessages } from "../precondition/constants"
-import { getSkillActionDefinition } from "../skillTable"
+import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 
 const iterations = 1000
-const definition = getSkillActionDefinition(SkillType.Backstab)
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
 let opponent: Mob
+let definition: SkillDefinition
 
-beforeEach(() => {
+beforeEach(async () => {
   testBuilder = new TestBuilder()
   mobBuilder = testBuilder.withMob()
-  const fight = testBuilder.fight()
+  const fight = await testBuilder.fight()
   opponent = fight.getOpponentFor(mobBuilder.mob)
+  definition = await testBuilder.getSkillDefinition(SkillType.Backstab)
 })
 
 describe("backstab skill action", () => {

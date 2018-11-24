@@ -5,7 +5,7 @@ import Service from "../../service/service"
 import { Messages } from "./constants"
 
 export default function(request: Request, service: Service): Promise<Check> {
-  return request.checkWithStandingDisposition()
+  return request.checkWithStandingDisposition(service.mobService)
     .requireMob(
       service.getMobsByRoom(request.room).find(mob => mob.isMerchant()),
       Messages.All.Item.NoMerchant)

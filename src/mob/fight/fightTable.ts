@@ -1,7 +1,7 @@
 import { Fight } from "./fight"
 
 export default class FightTable {
-  private fights: Fight[] = []
+  constructor(private fights: Fight[] = []) {}
 
   public addFight(fight: Fight) {
     this.fights.push(fight)

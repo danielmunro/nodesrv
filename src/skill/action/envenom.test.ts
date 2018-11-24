@@ -4,25 +4,22 @@ import { RequestType } from "../../request/requestType"
 import MobBuilder from "../../test/mobBuilder"
 import TestBuilder from "../../test/testBuilder"
 import { Messages } from "../constants"
-import { getSkillActionDefinition } from "../skillTable"
+import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
 
 const iterations = 10
-const definition = getSkillActionDefinition(SkillType.Envenom)
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
+let skillDefinition: SkillDefinition
 
-beforeEach(() => {
+beforeEach(async () => {
   testBuilder = new TestBuilder()
-  mobBuilder = testBuilder.withMob()
+  mobBuilder = testBuilder.withMob().withLevel(20)
+  skillDefinition = await testBuilder.getSkillDefinition(SkillType.Envenom)
 })
 
 async function action(input: string, target: any) {
-  return definition.action(await testBuilder.createCheckedRequestFrom(
-    RequestType.Envenom,
-    definition.preconditions,
-    input,
-    target))
+  return skillDefinition.doAction(testBuilder.createRequest(RequestType.Envenom, input, target))
 }
 
 describe("envenom skill action", () => {
@@ -44,10 +41,13 @@ describe("envenom skill action", () => {
     mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
 
     // when
-    const responses = await doNTimes(iterations, () => action("envenom axe", axe))
+    const responses = await doNTimes(iterations, async () => {
+      axe.affects = []
+      return action("envenom axe", axe)
+    })
 
     // then
-    expect(responses.filter(response => response.isSuccessful()).length).toBeGreaterThan(iterations / 2)
+    expect(responses.filter(response => response.isSuccessful()).length).toBe(1)
   })
 
   it("should not be able to envenom a non weapon", async () => {

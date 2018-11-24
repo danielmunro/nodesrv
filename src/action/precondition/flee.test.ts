@@ -1,4 +1,5 @@
 import { CheckStatus } from "../../check/checkStatus"
+import { Fight } from "../../mob/fight/fight"
 import { RequestType } from "../../request/requestType"
 import PlayerBuilder from "../../test/playerBuilder"
 import RoomBuilder from "../../test/roomBuilder"
@@ -7,7 +8,7 @@ import { MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_NOT_FIGHTING, MESSAGE_
 import flee from "./flee"
 
 let testBuilder: TestBuilder
-let fight
+let fight: Fight
 let mob
 let player: PlayerBuilder
 let room1: RoomBuilder
@@ -19,7 +20,7 @@ beforeEach(async () => {
   mob = testBuilder.withMob()
   room1 = testBuilder.withRoom()
   room2 = testBuilder.withRoom()
-  fight = testBuilder.fight(mob)
+  fight = await testBuilder.fight(mob)
 })
 
 describe("flee action preconditions", () => {
@@ -27,7 +28,7 @@ describe("flee action preconditions", () => {
     // when
     testBuilder = new TestBuilder()
     await testBuilder.withPlayer()
-    const check = await flee(testBuilder.createRequest(RequestType.Flee, "flee"))
+    const check = await flee(testBuilder.createRequest(RequestType.Flee, "flee"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -39,10 +40,10 @@ describe("flee action preconditions", () => {
     testBuilder = new TestBuilder()
     testBuilder.withRoom()
     await testBuilder.withPlayer()
-    testBuilder.fight()
+    await testBuilder.fight()
 
     // when
-    const check = await flee(testBuilder.createRequest(RequestType.Flee, "flee"))
+    const check = await flee(testBuilder.createRequest(RequestType.Flee, "flee"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -54,7 +55,7 @@ describe("flee action preconditions", () => {
     player.player.sessionMob.vitals.mv = 0
 
     // when
-    const check = await flee(testBuilder.createRequest(RequestType.Flee, "flee"))
+    const check = await flee(testBuilder.createRequest(RequestType.Flee, "flee"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -63,7 +64,7 @@ describe("flee action preconditions", () => {
 
   it("should work if all preconditions met", async () => {
     // when
-    const check = await flee(testBuilder.createRequest(RequestType.Flee, "flee"))
+    const check = await flee(testBuilder.createRequest(RequestType.Flee, "flee"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

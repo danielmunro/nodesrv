@@ -1,5 +1,6 @@
 import { improveSkill } from "../improve/improve"
 import { Trigger } from "../mob/enum/trigger"
+import Service from "../service/service"
 import backstab from "./action/backstab"
 import bash from "./action/bash"
 import berserk from "./action/berserk"
@@ -32,46 +33,49 @@ import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
 
 function createSkill(
-  type: SkillType, trigger: Trigger, action, preconditions = null): SkillDefinition {
-  return new SkillDefinition(type, [trigger], action, preconditions)
+  service: Service, type: SkillType, trigger: Trigger, action, preconditions = null): SkillDefinition {
+  return new SkillDefinition(service, type, [trigger], action, preconditions)
 }
 
-function newWeaponSkill(skillType: SkillType) {
+function newWeaponSkill(service: Service, skillType: SkillType) {
   return createSkill(
+    service,
     skillType,
     Trigger.DamageModifier,
     improveSkill(request => request))
 }
 
-export const skillTable = [
-  createSkill(SkillType.Dodge, Trigger.AttackRoundDefend, improveSkill(dodge), dodgePrecondition),
-  createSkill(SkillType.Disarm, Trigger.Input, improveSkill(disarm), disarmPrecondition),
-  createSkill(SkillType.SecondAttack, Trigger.AttackRound,
-    improveSkill(secondAttack), secondAttackPrecondition),
-  createSkill(SkillType.Bash, Trigger.Input, improveSkill(bash), bashPrecondition),
-  createSkill(SkillType.Trip, Trigger.Input, improveSkill(trip), tripPrecondition),
-  createSkill(SkillType.Berserk, Trigger.Input, improveSkill(berserk), berserkPrecondition),
-  createSkill(SkillType.Sneak, Trigger.Input, improveSkill(sneak), sneakPrecondition),
-  createSkill(SkillType.Envenom, Trigger.Input, improveSkill(envenom), envenomPrecondition),
-  createSkill(SkillType.Backstab, Trigger.Input, improveSkill(backstab), backstabPrecondition),
-  createSkill(SkillType.EnhancedDamage, Trigger.DamageModifier,
-    improveSkill(enhancedDamage), enhancedDamagePrecondition),
-  createSkill(SkillType.DirtKick, Trigger.Input, improveSkill(dirtKick), dirtKickPrecondition),
-  createSkill(SkillType.FastHealing, Trigger.Tick, improveSkill(fastHealing), fastHealingPrecondition),
-  createSkill(SkillType.Steal, Trigger.Input, improveSkill(steal), stealPrecondition),
-  createSkill(SkillType.Sharpen, Trigger.Input, improveSkill(sharpen), sharpenPrecondition),
-  newWeaponSkill(SkillType.Sword),
-  newWeaponSkill(SkillType.Mace),
-  newWeaponSkill(SkillType.Wand),
-  newWeaponSkill(SkillType.Dagger),
-  newWeaponSkill(SkillType.Stave),
-  newWeaponSkill(SkillType.Whip),
-  newWeaponSkill(SkillType.Spear),
-  newWeaponSkill(SkillType.Axe),
-  newWeaponSkill(SkillType.Flail),
-  newWeaponSkill(SkillType.Polearm),
-]
+export function getSkillTable(service: Service) {
+  return [
+    createSkill(service, SkillType.Dodge, Trigger.AttackRoundDefend, improveSkill(dodge), dodgePrecondition),
+    createSkill(service, SkillType.Disarm, Trigger.Input, improveSkill(disarm), disarmPrecondition),
+    createSkill(service, SkillType.SecondAttack, Trigger.AttackRound,
+      improveSkill(secondAttack), secondAttackPrecondition),
+    createSkill(service, SkillType.Bash, Trigger.Input, improveSkill(bash), bashPrecondition),
+    createSkill(service, SkillType.Trip, Trigger.Input, improveSkill(trip), tripPrecondition),
+    createSkill(service, SkillType.Berserk, Trigger.Input, improveSkill(berserk), berserkPrecondition),
+    createSkill(service, SkillType.Sneak, Trigger.Input, improveSkill(sneak), sneakPrecondition),
+    createSkill(service, SkillType.Envenom, Trigger.Input, improveSkill(envenom), envenomPrecondition),
+    createSkill(service, SkillType.Backstab, Trigger.Input, improveSkill(backstab), backstabPrecondition),
+    createSkill(service, SkillType.EnhancedDamage, Trigger.DamageModifier,
+      improveSkill(enhancedDamage), enhancedDamagePrecondition),
+    createSkill(service, SkillType.DirtKick, Trigger.Input, improveSkill(dirtKick), dirtKickPrecondition),
+    createSkill(service, SkillType.FastHealing, Trigger.Tick, improveSkill(fastHealing), fastHealingPrecondition),
+    createSkill(service, SkillType.Steal, Trigger.Input, improveSkill(steal), stealPrecondition),
+    createSkill(service, SkillType.Sharpen, Trigger.Input, improveSkill(sharpen), sharpenPrecondition),
+    newWeaponSkill(service, SkillType.Sword),
+    newWeaponSkill(service, SkillType.Mace),
+    newWeaponSkill(service, SkillType.Wand),
+    newWeaponSkill(service, SkillType.Dagger),
+    newWeaponSkill(service, SkillType.Stave),
+    newWeaponSkill(service, SkillType.Whip),
+    newWeaponSkill(service, SkillType.Spear),
+    newWeaponSkill(service, SkillType.Axe),
+    newWeaponSkill(service, SkillType.Flail),
+    newWeaponSkill(service, SkillType.Polearm),
+  ]
+}
 
-export function getSkillActionDefinition(skillType: SkillType) {
-  return skillTable.find((action) => action.isSkillTypeMatch(skillType))
+export async function getSkillActionDefinition(service: Service, skillType: SkillType) {
+  return (await getSkillTable(service)).find(action => action.isSkillTypeMatch(skillType))
 }

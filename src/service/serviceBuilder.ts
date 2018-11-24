@@ -1,5 +1,6 @@
 import ItemTable from "../item/itemTable"
 import { Item } from "../item/model/item"
+import { Fight } from "../mob/fight/fight"
 import FightTable from "../mob/fight/fightTable"
 import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
@@ -16,6 +17,7 @@ import Service from "./service"
 export default class ServiceBuilder {
   public readonly locationService: LocationService = new LocationService([])
   private time: number = 0
+  private fights: Fight[] = []
 
   constructor(
     private rooms: Room[] = [],
@@ -25,6 +27,10 @@ export default class ServiceBuilder {
 
   public setTime(time: number) {
     this.time = time
+  }
+
+  public addFight(fight: Fight): void {
+    this.fights.push(fight)
   }
 
   public addRoom(room: Room): void {
@@ -52,7 +58,7 @@ export default class ServiceBuilder {
       new MobService(
         new MobTable(this.mobs),
         await getMobRepository(),
-        new FightTable(),
+        new FightTable(this.fights),
         this.locationService),
       RoomTable.new(this.rooms),
       new ItemTable(this.items),

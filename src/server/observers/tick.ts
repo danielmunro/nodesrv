@@ -39,7 +39,7 @@ export class Tick implements Observer {
     }
 
     const location = this.locationService.getLocationForMob(mob)
-    await createSkillTriggerEvent(mob, Trigger.Tick, null, location.room)
+    await createSkillTriggerEvent(this.service, mob, Trigger.Tick, null, location.room)
 
     client.tick(id, timestamp)
   }

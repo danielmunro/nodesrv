@@ -2,11 +2,11 @@ import { AffectType } from "../../affect/affectType"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import spellTable from "../spellTable"
+import getSpellTable from "../spellTable"
 import { SpellType } from "../spellType"
 
-describe("shield", () => {
-  it("should shield when casted", async () => {
+describe("poison", () => {
+  it("should poison when casted", async () => {
     // setup
     const testBuilder = new TestBuilder()
     const mobBuilder1 = testBuilder.withMob()
@@ -14,7 +14,7 @@ describe("shield", () => {
     mobBuilder1.withLevel(20)
     const mobBuilder2 = testBuilder.withMob("bob")
     const mob = mobBuilder2.mob
-    const definition = spellTable.findSpell(SpellType.Poison)
+    const definition = getSpellTable(await testBuilder.getService()).findSpell(SpellType.Poison)
 
     // when
     await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast poison bob", mob))

@@ -6,14 +6,15 @@ import { CostType } from "../../check/cost/costType"
 import { DamageType } from "../../damage/damageType"
 import Weapon from "../../item/model/weapon"
 import { Request } from "../../request/request"
+import Service from "../../service/service"
 import { Costs } from "../constants"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 
-export default async function(request: Request): Promise<Check> {
+export default async function(request: Request, service: Service): Promise<Check> {
   const target = request.getTarget()
 
-  return request.checkWithStandingDisposition()
+  return request.checkWithStandingDisposition(service.mobService)
     .not().requireFight(Messages.All.Fighting)
     .requireSkill(SkillType.Sharpen)
     .requireLevel(10)

@@ -1,6 +1,7 @@
 import { ActionType } from "../action/actionType"
 import { DamageType } from "../damage/damageType"
 import { improveSpell } from "../improve/improve"
+import Service from "../service/service"
 import blind from "./action/blind"
 import cureLight from "./action/cureLight"
 import curePoison from "./action/curePoison"
@@ -27,30 +28,34 @@ import wrathPrecondition from "./precondition/wrath"
 import SpellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
 
-export default new SpellCollection([
-  // attack
-  newDefinition(SpellType.MagicMissile, ActionType.Offensive, magicMissilePrecondition,
-    improveSpell(magicMissile), DamageType.Magic),
-  newDefinition(
-    SpellType.LightningBolt, ActionType.Offensive, lightningBoltPrecondition,
-    improveSpell(lightningBolt), DamageType.Electric),
+export default function getSpellTable(service: Service) {
+  return new SpellCollection([
+    // attack
+    newDefinition(service, SpellType.MagicMissile, ActionType.Offensive, magicMissilePrecondition,
+      improveSpell(magicMissile), DamageType.Magic),
+    newDefinition(
+      service, SpellType.LightningBolt, ActionType.Offensive, lightningBoltPrecondition,
+      improveSpell(lightningBolt), DamageType.Electric),
 
-  // healing
-  newDefinition(SpellType.CureLight, ActionType.Defensive, cureLightPrecondition,
-    improveSpell(cureLight)),
-  newDefinition(SpellType.Heal, ActionType.Defensive, healPrecondition,
-    improveSpell(heal)),
+    // healing
+    newDefinition(service, SpellType.CureLight, ActionType.Defensive, cureLightPrecondition,
+      improveSpell(cureLight)),
+    newDefinition(service, SpellType.Heal, ActionType.Defensive, healPrecondition,
+      improveSpell(heal)),
 
-  // benedictions
-  newDefinition(SpellType.Shield, ActionType.Defensive, shieldPrecondition, improveSpell(shield)),
-  newDefinition(SpellType.GiantStrength, ActionType.Defensive, giantStrengthPrecondition, improveSpell(giantStrength)),
-  newDefinition(SpellType.Wrath, ActionType.Defensive, wrathPrecondition, improveSpell(wrath)),
+    // benedictions
+    newDefinition(service, SpellType.Shield, ActionType.Defensive, shieldPrecondition, improveSpell(shield)),
+    newDefinition(service, SpellType.GiantStrength, ActionType.Defensive,
+      giantStrengthPrecondition, improveSpell(giantStrength)),
+    newDefinition(service, SpellType.Wrath, ActionType.Defensive, wrathPrecondition, improveSpell(wrath)),
 
-  // maladictions
-  newDefinition(SpellType.Poison, ActionType.Offensive, poisonPrecondition, improveSpell(poison)),
-  newDefinition(SpellType.Curse, ActionType.Offensive, cursePrecondition, improveSpell(curse)),
-  newDefinition(SpellType.Blind, ActionType.Offensive, blindPrecondition, improveSpell(blind)),
+    // maladictions
+    newDefinition(service, SpellType.Poison, ActionType.Offensive, poisonPrecondition, improveSpell(poison)),
+    newDefinition(service, SpellType.Curse, ActionType.Offensive, cursePrecondition, improveSpell(curse)),
+    newDefinition(service, SpellType.Blind, ActionType.Offensive, blindPrecondition, improveSpell(blind)),
 
-  // curative
-  newDefinition(SpellType.CurePoison, ActionType.Defensive, curePoisonPrecondition, improveSpell(curePoison)),
-])
+    // curative
+    newDefinition(service, SpellType.CurePoison, ActionType.Defensive,
+      curePoisonPrecondition, improveSpell(curePoison)),
+  ])
+}

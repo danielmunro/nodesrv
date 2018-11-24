@@ -1,13 +1,13 @@
 import Check from "../../check/check"
 import Cost from "../../check/cost/cost"
 import {CostType} from "../../check/cost/costType"
-import { getFights } from "../../mob/fight/fight"
 import { Request } from "../../request/request"
+import Service from "../../service/service"
 import { FLEE_MOVEMENT_COST_MULTIPLIER } from "../action/constants"
 import { MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_NOT_FIGHTING, MESSAGE_FAIL_TOO_TIRED } from "./constants"
 
-export default function(request: Request): Promise<Check> {
-  const fight = getFights().find((f) => f.isParticipant(request.mob))
+export default function(request: Request, service: Service): Promise<Check> {
+  const fight = service.mobService.findFight(f => f.isParticipant(request.mob))
 
   if (!fight) {
     return Check.fail(MESSAGE_FAIL_NOT_FIGHTING)

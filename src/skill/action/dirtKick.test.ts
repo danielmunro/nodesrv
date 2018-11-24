@@ -7,33 +7,30 @@ import { format } from "../../support/string"
 import MobBuilder from "../../test/mobBuilder"
 import TestBuilder from "../../test/testBuilder"
 import { Messages } from "../constants"
-import { getSkillActionDefinition } from "../skillTable"
+import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
 
 const iterations = 10
-const definition = getSkillActionDefinition(SkillType.DirtKick)
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
+let skillDefinition: SkillDefinition
 
-beforeEach(() => {
+beforeEach(async () => {
   testBuilder = new TestBuilder()
-  mobBuilder = testBuilder.withMob()
+  mobBuilder = testBuilder.withMob().withLevel(20)
+  skillDefinition = await testBuilder.getSkillDefinition(SkillType.DirtKick)
 })
-
-async function action() {
-  return definition.action(
-    await testBuilder.createCheckedRequestFrom(RequestType.DirtKick, definition.preconditions))
-}
 
 describe("dirt kick skill action", () => {
   it("should fail when not practiced", async () => {
     // given
     mobBuilder.withSkill(SkillType.DirtKick)
-    const fight = testBuilder.fight()
+    const fight = await testBuilder.fight()
     const opponent = fight.getOpponentFor(mobBuilder.mob)
 
     // when
-    const responses = await doNTimes(iterations, () => action())
+    const responses = await doNTimes(iterations, () =>
+      skillDefinition.doAction(testBuilder.createRequest(RequestType.DirtKick)))
 
     // then
     expect(all(responses, r => !r.isSuccessful())).toBeTruthy()
@@ -43,11 +40,12 @@ describe("dirt kick skill action", () => {
   it("should succeed when practiced", async () => {
     // given
     mobBuilder.withSkill(SkillType.DirtKick, MAX_PRACTICE_LEVEL)
-    const fight = testBuilder.fight()
+    const fight = await testBuilder.fight()
     const opponent = fight.getOpponentFor(mobBuilder.mob)
 
     // when
-    const responses = await doNTimes(iterations, () => action())
+    const responses = await doNTimes(iterations, () =>
+      skillDefinition.doAction(testBuilder.createRequest(RequestType.DirtKick)))
 
     // then
     expect(responses.some(r => r.isSuccessful())).toBeTruthy()
@@ -57,11 +55,12 @@ describe("dirt kick skill action", () => {
   it("should not be able to stack blind affects", async () => {
     // given
     mobBuilder.withSkill(SkillType.DirtKick, MAX_PRACTICE_LEVEL)
-    const fight = testBuilder.fight()
+    const fight = await testBuilder.fight()
     const opponent = fight.getOpponentFor(mobBuilder.mob)
 
     // when
-    const responses = await doNTimes(iterations * 10, () => action())
+    const responses = await doNTimes(iterations * 10, () =>
+      skillDefinition.doAction(testBuilder.createRequest(RequestType.DirtKick)))
 
     // then
     expect(responses.some(r => r.isSuccessful())).toBeTruthy()

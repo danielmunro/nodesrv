@@ -6,20 +6,19 @@ import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { Messages } from "../constants"
 import SkillDefinition from "../skillDefinition"
-import { getSkillActionDefinition } from "../skillTable"
 import { SkillType } from "../skillType"
 
 const iterations = 10
 let testBuilder: TestBuilder
-const definition: SkillDefinition = getSkillActionDefinition(SkillType.Berserk)
+let skillDefinition: SkillDefinition
 
-beforeEach(() => {
+beforeEach(async () => {
   testBuilder = new TestBuilder()
+  skillDefinition = await testBuilder.getSkillDefinition(SkillType.Berserk)
 })
 
 async function action() {
-  return definition.action(
-    await testBuilder.createCheckedRequestFrom(RequestType.Berserk, definition.preconditions))
+  return skillDefinition.doAction(testBuilder.createRequest(RequestType.Berserk))
 }
 
 describe("berserk skill action", () => {
@@ -40,6 +39,7 @@ describe("berserk skill action", () => {
   it("should be able to succeed berserking", async () => {
     // given
     const mobBuilder = testBuilder.withMob()
+    mobBuilder.withLevel(20)
     mobBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when

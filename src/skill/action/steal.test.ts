@@ -2,7 +2,6 @@ import doNTimes from "../../functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { getSkillActionDefinition } from "../skillTable"
 import { SkillType } from "../skillType"
 
 const iterations = 1000
@@ -13,11 +12,11 @@ describe("steal skill action", () => {
     await doNTimes(iterations, async () => {
       // setup
       const testBuilder = new TestBuilder()
-      const definition = await getSkillActionDefinition(SkillType.Steal)
+      const definition = await testBuilder.getSkillDefinition(SkillType.Steal)
 
       // given
       const mobBuilder1 = testBuilder.withMob()
-      mobBuilder1.atLevel(5)
+      mobBuilder1.withLevel(5)
       mobBuilder1.withSkill(SkillType.Steal, MAX_PRACTICE_LEVEL)
 
       // and

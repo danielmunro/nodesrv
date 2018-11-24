@@ -10,7 +10,7 @@ describe("wear", () => {
     // when
     const testBuilder = new TestBuilder()
     await testBuilder.withPlayer()
-    const check = await wear(testBuilder.createRequest(RequestType.Wear, "wear foo"))
+    const check = await wear(testBuilder.createRequest(RequestType.Wear, "wear foo"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -24,7 +24,7 @@ describe("wear", () => {
     playerBuilder.withAxeEq()
 
     // when
-    const check = await wear(testBuilder.createRequest(RequestType.Wear, "wear axe"))
+    const check = await wear(testBuilder.createRequest(RequestType.Wear, "wear axe"), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
@@ -37,7 +37,11 @@ describe("wear", () => {
     playerBuilder.withFood()
 
     const check = await wear(
-      testBuilder.createRequest(RequestType.Wear, "wear muffin", playerBuilder.player.sessionMob))
+      testBuilder.createRequest(
+        RequestType.Wear,
+        "wear muffin",
+        playerBuilder.player.sessionMob),
+      await testBuilder.getService())
 
     expect(check.status).toBe(CheckStatus.Failed)
     expect(check.result).toBe(Messages.All.Item.NotEquipment)
@@ -50,7 +54,9 @@ describe("wear", () => {
       playerBuilder.withAxeEq()
       const player = playerBuilder.player
       player.sessionMob.disposition = disposition
-      const check = await wear(testBuilder.createRequest(RequestType.Wear, "wear axe", player.sessionMob))
+      const check = await wear(
+        testBuilder.createRequest(RequestType.Wear, "wear axe", player.sessionMob),
+        await testBuilder.getService())
       expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
     })
   })

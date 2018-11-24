@@ -4,11 +4,8 @@ import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
-import reset from "../../test/reset"
 import { getTestRoom } from "../../test/room"
 import affects from "./affects"
-
-beforeEach(() => reset())
 
 describe("affects", () => {
   it("should report when an affect is added", async () => {

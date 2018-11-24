@@ -1,6 +1,5 @@
 import { Collection } from "../action/definition/collection"
 import doNTimes from "../functional/times"
-import { getFights } from "../mob/fight/fight"
 import { Player } from "../player/model/player"
 import InputContext from "../request/context/inputContext"
 import { Request } from "../request/request"
@@ -201,7 +200,9 @@ describe("clients", () => {
       await testBuilder.withPlayerAndSkill(SkillType.Steal, 5)
       testBuilder.withMob("bob").withAxeEq()
       const response = await client.handleRequest(testBuilder.createRequest(RequestType.Steal))
-      expect(getFights()).toHaveLength(response.responseAction.wasFightStarted() ? 1 : 0)
+      const service = await testBuilder.getService()
+      expect(service.mobService.findFight(() => true)).toBe(
+        response.responseAction.wasFightStarted() ? true : undefined)
     })
   })
 })

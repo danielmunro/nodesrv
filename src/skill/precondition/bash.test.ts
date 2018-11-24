@@ -20,10 +20,10 @@ describe("bash skill preconditions", () => {
     playerBuilder.player.sessionMob.vitals.mv = 0
 
     // and
-    testBuilder.fight()
+    await testBuilder.fight()
 
     // when
-    const check = await bash(testBuilder.createRequest(RequestType.Bash))
+    const check = await bash(testBuilder.createRequest(RequestType.Bash), await testBuilder.getService())
 
     // then
     expect(check.isOk()).toBeFalsy()
@@ -32,7 +32,7 @@ describe("bash skill preconditions", () => {
 
   it("should not allow bashing when not fighting", async () => {
     // when
-    const check = await bash(testBuilder.createRequest(RequestType.Bash))
+    const check = await bash(testBuilder.createRequest(RequestType.Bash), await testBuilder.getService())
 
     // then
     expect(check.isOk()).toBeFalsy()
@@ -41,10 +41,10 @@ describe("bash skill preconditions", () => {
 
   it("should pass the check if all preconditions pass", async () => {
     // given
-    testBuilder.fight()
+    await testBuilder.fight()
 
     // when
-    const check = await bash(testBuilder.createRequest(RequestType.Bash))
+    const check = await bash(testBuilder.createRequest(RequestType.Bash), await testBuilder.getService())
 
     // then
     expect(check.isOk()).toBeTruthy()

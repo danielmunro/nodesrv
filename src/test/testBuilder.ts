@@ -8,7 +8,7 @@ import { Client } from "../client/client"
 import { Item } from "../item/model/item"
 import { Role } from "../mob/enum/role"
 import { newMobLocation } from "../mob/factory"
-import { addFight, Fight, reset } from "../mob/fight/fight"
+import { Fight } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
 import { AuthorizationLevel } from "../player/authorizationLevel"
@@ -26,7 +26,12 @@ import { Room } from "../room/model/room"
 import Service from "../service/service"
 import ServiceBuilder from "../service/serviceBuilder"
 import { default as AuthService } from "../session/auth/service"
+import SkillDefinition from "../skill/skillDefinition"
+import { getSkillTable } from "../skill/skillTable"
 import { SkillType } from "../skill/skillType"
+import SpellDefinition from "../spell/spellDefinition"
+import getSpellTable from "../spell/spellTable"
+import { SpellType } from "../spell/spellType"
 import { getTestMob } from "./mob"
 import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
@@ -43,10 +48,6 @@ export default class TestBuilder {
   private mobForRequest: Mob
   private service: Service
   private serviceBuilder: ServiceBuilder = new ServiceBuilder()
-
-  constructor() {
-    reset()
-  }
 
   public addMobLocation(mobLocation: MobLocation) {
     this.serviceBuilder.addMobLocation(mobLocation)
@@ -161,21 +162,11 @@ export default class TestBuilder {
     fn(this.player)
   }
 
-  public fight(target = this.withMob().mob): Fight {
-    const fight = new Fight(this.mobForRequest, target, this.room)
-    addFight(fight)
+  public async fight(target = this.withMob().mob): Promise<Fight> {
+    const fight = new Fight(await this.getService(), this.mobForRequest, target, this.room)
+    this.serviceBuilder.addFight(fight)
 
     return fight
-  }
-
-  public async createCheckedRequestFrom(
-    requestType: RequestType,
-    check: (request: Request) => Promise<Check>,
-    input: string = requestType.toString(),
-    target = null): Promise<CheckedRequest> {
-    const request = this.createRequest(requestType, input, target)
-
-    return new CheckedRequest(request, await check(request))
   }
 
   public createOkCheckedRequest(
@@ -199,6 +190,14 @@ export default class TestBuilder {
 
   public async getActionCollection(): Promise<Collection> {
     return getActionCollection(await this.getService())
+  }
+
+  public async getSkillDefinition(skillType: SkillType): Promise<SkillDefinition> {
+    return getSkillTable(await this.getService()).find(skill => skill.skillType === skillType)
+  }
+
+  public async getSpellDefinition(spellType: SpellType): Promise<SpellDefinition> {
+    return getSpellTable(await this.getService()).findSpell(spellType)
   }
 
   public setTime(time: number) {

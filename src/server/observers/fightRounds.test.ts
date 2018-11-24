@@ -1,10 +1,8 @@
-import { newMobLocation } from "../../mob/factory"
+import { Disposition } from "../../mob/enum/disposition"
 import { Attack, AttackResult } from "../../mob/fight/attack"
-import { addFight, Fight, filterCompleteFights, getFights } from "../../mob/fight/fight"
-import LocationService from "../../mob/locationService"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
-import { getTestRoom } from "../../test/room"
+import TestBuilder from "../../test/testBuilder"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
 
 describe("fight rounds", () => {
@@ -55,50 +53,52 @@ describe("fight rounds", () => {
   })
 
   it("should filter complete fights", async () => {
-    // Setup
-    const mob = getTestMob()
-    const room = getTestRoom()
-    mob.vitals.hp = 0
-    const fight = new Fight(getTestMob(), mob, room)
-    addFight(fight)
-    expect(getFights().length).toBe(1)
+    // setup
+    const testBuilder = new TestBuilder()
+    const mobBuilder = testBuilder.withMob()
+    mobBuilder.mob.vitals.hp = 0
+    await testBuilder.fight()
+    const service = await testBuilder.getService()
+    const mobService = service.mobService
+
+    // when
+    const fight = mobService.findFight(f => f.isParticipant(mobBuilder.mob))
+
+    // then
     expect(fight.isInProgress()).toBe(true)
 
-    // When
+    // when
     await fight.round()
-    filterCompleteFights()
 
-    // Then
+    // then
+    mobService.filterCompleteFights()
     expect(fight.isInProgress()).toBe(false)
-    expect(getFights().length).toBe(0)
+    expect(mobService.findFight(f => f.isParticipant(mobBuilder.mob))).toBeUndefined()
   })
 
   it("should filter out fight rounds that are complete", async () => {
-    // Setup
-    const client = await getTestClient()
-    const opponent = getTestMob()
-    const room = getTestRoom()
-    const fight = new Fight(opponent, client.player.sessionMob, room)
-    addFight(fight)
-    const fightRounds = new FightRounds(new LocationService([
-      newMobLocation(client.getSessionMob(), room),
-      newMobLocation(opponent, room),
-    ]))
+    // setup
+    const testBuilder = new TestBuilder()
+    const client = await testBuilder.withClient()
+    await testBuilder.fight()
+    const service = await testBuilder.getService()
+    const fightRounds = new FightRounds(service.mobService)
 
-    // When
+    // when
     await fightRounds.notify([client])
 
-    // Then
-    expect(getFights().length).toBe(1)
+    // then
+    const fight = service.mobService.findFight(f => f.isParticipant(client.player.sessionMob))
     expect(fight.isInProgress()).toBe(true)
 
-    // When
+    // and when
     client.player.sessionMob.vitals.hp = -1
+    client.player.sessionMob.disposition = Disposition.Dead
     await fightRounds.notify([client])
 
-    // Then
-    expect(getFights().length).toBe(0)
-    expect(fight.isInProgress()).toBe(false)
+    // then
+    const fight2 = service.mobService.findFight(f => f.isParticipant(client.player.sessionMob))
+    expect(fight2).toBeUndefined()
   })
 })
 

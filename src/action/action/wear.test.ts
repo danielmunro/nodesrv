@@ -26,7 +26,7 @@ describe("wear", () => {
 
     // when
     const request = testBuilder.createRequest(RequestType.Wear, "wear hat")
-    const check = await wearPrecondition(request)
+    const check = await wearPrecondition(request, await testBuilder.getService())
     const response = await wear(new CheckedRequest(request, check))
 
     // then
@@ -46,7 +46,7 @@ describe("wear", () => {
 
     // when
     const request = testBuilder.createRequest(RequestType.Wear, "wear hat")
-    const check = await wearPrecondition(request)
+    const check = await wearPrecondition(request, await testBuilder.getService())
     const response = await wear(new CheckedRequest(request, check))
 
     // then

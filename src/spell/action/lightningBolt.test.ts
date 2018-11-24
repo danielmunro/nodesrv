@@ -1,7 +1,7 @@
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import spellTable from "../spellTable"
+import getSpellTable from "../spellTable"
 import { SpellType } from "../spellType"
 
 describe("lightning bolt", () => {
@@ -13,7 +13,7 @@ describe("lightning bolt", () => {
     mobBuilder1.withSpell(SpellType.LightningBolt, MAX_PRACTICE_LEVEL)
     const mobBuilder2 = testBuilder.withMob("bob")
     const mob = mobBuilder2.mob
-    const definition = spellTable.findSpell(SpellType.LightningBolt)
+    const definition = getSpellTable(await testBuilder.getService()).findSpell(SpellType.LightningBolt)
 
     // when
     await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast lightning bob", mob))

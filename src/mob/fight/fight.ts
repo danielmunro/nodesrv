@@ -2,6 +2,7 @@ import { applyAffectModifier } from "../../affect/applyAffect"
 import Attributes from "../../attributes/model/attributes"
 import roll, { simpleD4 } from "../../random/dice"
 import { Room } from "../../room/model/room"
+import Service from "../../service/service"
 import { createSkillTriggerEvent, createSkillTriggerEvents } from "../../skill/trigger/factory"
 import { Resolution } from "../../skill/trigger/resolution"
 import { Disposition } from "../enum/disposition"
@@ -10,7 +11,6 @@ import { Mob } from "../model/mob"
 import { BodyPart } from "../race/bodyParts"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import Death from "./death"
-import FightTable from "./fightTable"
 import { Round } from "./round"
 
 enum Status {
@@ -18,28 +18,8 @@ enum Status {
   Done,
 }
 
-let fights: FightTable = new FightTable()
-
-export function addFight(fight: Fight): void {
-  fights.addFight(fight)
-}
-
-export function getFights() {
-  filterCompleteFights()
-
-  return fights.getFights()
-}
-
-export function filterCompleteFights() {
-  fights.filterCompleteFights()
-}
-
-export function reset() {
-  fights = new FightTable()
-}
-
-async function createStartRoundDefenderTrigger(attacker, defender, room) {
-  return await createSkillTriggerEvent(defender, Trigger.AttackRoundDefend, attacker, room)
+async function createStartRoundDefenderTrigger(service: Service, attacker, defender, room) {
+  return await createSkillTriggerEvent(service, defender, Trigger.AttackRoundDefend, attacker, room)
 }
 
 export class Fight {
@@ -66,6 +46,7 @@ export class Fight {
   private death: Death
 
   constructor(
+    public readonly service: Service,
     public readonly aggressor: Mob,
     public readonly target: Mob,
     public readonly room: Room) {}
@@ -109,7 +90,7 @@ export class Fight {
   }
 
   private async attack(attacker: Mob, defender: Mob): Promise<Attack> {
-    const initialEvent = await createStartRoundDefenderTrigger(attacker, defender, this.room)
+    const initialEvent = await createStartRoundDefenderTrigger(this.service, attacker, defender, this.room)
     if (initialEvent.wasSkillInvoked()) {
       return Fight.attackDefeated(attacker, defender, getAttackResultFromSkillType(initialEvent.skillType))
     }
@@ -145,7 +126,7 @@ export class Fight {
 
   private async turnFor(x: Mob, y: Mob): Promise<Attack[]> {
     const attacks = []
-    const events = await createSkillTriggerEvents(x, Trigger.AttackRound, y, this.room)
+    const events = await createSkillTriggerEvents(this.service, x, Trigger.AttackRound, y, this.room)
     for (let i = -1; i < events.length; i++) {
       const doAttack = i >= 0 ? events[i].skillEventResolution === Resolution.Invoked : true
       if (doAttack) {

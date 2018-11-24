@@ -5,31 +5,30 @@ import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { Messages } from "../constants"
-import { getSkillActionDefinition } from "../skillTable"
+import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
 
 const iterations = 10
 let testBuilder: TestBuilder
-const definition = getSkillActionDefinition(SkillType.Bash)
+let definition: SkillDefinition
 
-beforeEach(() => {
+beforeEach(async () => {
   testBuilder = new TestBuilder()
+  definition = await testBuilder.getSkillDefinition(SkillType.Bash)
 })
 
 async function action() {
-  return definition.action(await testBuilder.createCheckedRequestFrom(
-    RequestType.Bash,
-    definition.preconditions))
+  return definition.doAction(testBuilder.createRequest(RequestType.Bash))
 }
 
 describe("bash", () => {
   it("should be able to trigger a failed bash", async () => {
     // given
     await testBuilder.withPlayerAndSkill(SkillType.Bash)
-    testBuilder.fight()
+    await testBuilder.fight()
 
     // when
-    const responses = await doNTimes(iterations, async () => action())
+    const responses = await doNTimes(iterations, action)
 
     // then
     expect(responses.some(r => !r.isSuccessful())).toBeTruthy()
@@ -39,10 +38,11 @@ describe("bash", () => {
   it("should be able to trigger a successful bash", async () => {
     // given
     const player = await testBuilder.withPlayerAndSkill(SkillType.Bash, MAX_PRACTICE_LEVEL)
-    const fight = testBuilder.fight()
+    player.sessionMob.level = 20
+    const fight = await testBuilder.fight()
 
     // when
-    const responses = await doNTimes(iterations, async () => action())
+    const responses = await doNTimes(iterations, action)
 
     // then
     expect(responses.some(r => r.isSuccessful())).toBeTruthy()

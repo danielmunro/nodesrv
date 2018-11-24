@@ -11,7 +11,7 @@ import { Messages } from "./constants"
 export default function(request: Request, service: Service): Promise<Check> {
   const subject = request.getContextAsInput().subject
 
-  return request.checkWithStandingDisposition()
+  return request.checkWithStandingDisposition(service.mobService)
     .require(
       !subject || trainMap.find(t => t.train === subject),
       Messages.Train.CannotTrainMore,

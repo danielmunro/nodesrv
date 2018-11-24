@@ -1,5 +1,4 @@
 import doNTimes from "../../functional/times"
-import { getFights } from "../../mob/fight/fight"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 
@@ -8,7 +7,7 @@ let mob
 let player
 let room1
 let room2
-let testBuilder
+let testBuilder: TestBuilder
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
@@ -26,8 +25,10 @@ beforeEach(async () => {
 
 describe("flee action handler", () => {
   it("flee should stop a fight", async () => {
+    const service = await testBuilder.getService()
+
     // verify
-    expect(getFights().filter(f => f.isInProgress()).length).toBe(1)
+    expect(service.mobService.findFight(f => f.isInProgress())).toBeTruthy()
 
     // when
     const responses = await doNTimes(10, async () =>
@@ -36,7 +37,7 @@ describe("flee action handler", () => {
 
     // then
     expect(successfulResponse).toBeTruthy()
-    expect(getFights().filter(f => f.isInProgress()).length).toBe(0)
+    expect(service.mobService.findFight(f => f.isInProgress())).toBeUndefined()
   })
 
   it("flee should cause the fleeing mob to change rooms", async () => {

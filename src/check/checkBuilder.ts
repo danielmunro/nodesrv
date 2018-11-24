@@ -2,7 +2,7 @@ import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_P
 import { AffectType } from "../affect/affectType"
 import Maybe from "../functional/maybe"
 import { Disposition } from "../mob/enum/disposition"
-import { getFights } from "../mob/fight/fight"
+import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../player/authorizationLevel"
 import { Messages } from "../skill/precondition/constants"
@@ -22,6 +22,8 @@ export default class CheckBuilder {
   private confirm: boolean = true
   private mob: Mob
   private captured
+
+  constructor(private readonly mobService: MobService) {}
 
   public requireMob(mob: Mob, failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
     this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob, failMessage))
@@ -150,7 +152,7 @@ export default class CheckBuilder {
   public requireFight(failMessage: string = Messages.All.NoTarget) {
     this.checks.push(this.newCheckComponent(
       CheckType.IsFighting,
-      new Maybe(getFights().find(f => f.isParticipant(this.mob)))
+      new Maybe(this.mobService.findFight(f => f.isParticipant(this.mob)))
         .do(f => f.getOpponentFor(this.mob))
         .or(() => false)
         .get(),

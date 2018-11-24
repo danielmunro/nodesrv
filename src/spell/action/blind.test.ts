@@ -6,21 +6,22 @@ import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
 import MobBuilder from "../../test/mobBuilder"
 import TestBuilder from "../../test/testBuilder"
-import spellTable from "../spellTable"
+import SpellDefinition from "../spellDefinition"
 import { SpellType } from "../spellType"
 
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
 let mob: Mob
-const definition = spellTable.findSpell(SpellType.Blind)
+let definition: SpellDefinition
 const iterations = 10
 
-beforeEach(() => {
+beforeEach(async () => {
   testBuilder = new TestBuilder()
   mobBuilder = testBuilder.withMob()
   mobBuilder.withLevel(20)
   mobBuilder.withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
   mob = testBuilder.withMob("bob").mob
+  definition = await testBuilder.getSpellDefinition(SpellType.Blind)
 })
 
 function getResponses(): Promise<Response[]> {

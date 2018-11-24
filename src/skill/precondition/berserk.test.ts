@@ -21,7 +21,7 @@ describe("berserk skill preconditions", () => {
     playerBuilder.withSkill(SkillType.Berserk)
 
     // when
-    const check = await berserk(testBuilder.createRequest(RequestType.Berserk))
+    const check = await berserk(testBuilder.createRequest(RequestType.Berserk), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -40,7 +40,7 @@ describe("berserk skill preconditions", () => {
     playerBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when
-    const check = await berserk(testBuilder.createRequest(RequestType.Berserk))
+    const check = await berserk(testBuilder.createRequest(RequestType.Berserk), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -56,7 +56,7 @@ describe("berserk skill preconditions", () => {
     playerBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when
-    const check = await berserk(testBuilder.createRequest(RequestType.Berserk))
+    const check = await berserk(testBuilder.createRequest(RequestType.Berserk), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)

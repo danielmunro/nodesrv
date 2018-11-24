@@ -6,10 +6,9 @@ import { Item } from "../../item/model/item"
 import { Attack } from "../../mob/fight/attack"
 import { AttackVerb } from "../../mob/fight/attackVerb"
 import damageDescriptor from "../../mob/fight/damageDescriptor"
-import { filterCompleteFights, getFights } from "../../mob/fight/fight"
 import healthIndicator from "../../mob/fight/healthIndicator"
 import { Round } from "../../mob/fight/round"
-import LocationService from "../../mob/locationService"
+import MobService from "../../mob/mobService"
 import { Mob } from "../../mob/model/mob"
 import { getBodyPartMessage } from "../../mob/race/bodyParts"
 import { simpleD4 } from "../../random/dice"
@@ -125,33 +124,32 @@ export function createClientMobMap(clients: Client[]): object {
 }
 
 export class FightRounds implements Observer {
-
-  private static proceedAllFightRounds(): Promise<Round[]> {
-    return Promise.all(getFights().map(fight => fight.round()))
-  }
-
-  private static updateClientIfMobIsOwned(clientMobMap, mob, round): void {
-    new Maybe(clientMobMap[mob.name]).do((client) =>
-      FightRounds.updateClient(client, mob, round))
-  }
-
   private static updateClient(client, mob, round) {
     const message = createMessageFromFightRound(round, mob)
     client.send({ message })
     client.sendMessage(client.player.prompt())
   }
-  constructor(private readonly locationService: LocationService) {}
+  constructor(private readonly mobService: MobService) {}
 
   public async notify(clients: Client[]) {
-    const rounds = await FightRounds.proceedAllFightRounds()
+    const rounds = await this.proceedAllFightRounds()
     const clientMobMap = createClientMobMap(clients)
-    filterCompleteFights()
+    this.mobService.filterCompleteFights()
     rounds.forEach(round => this.updateRound(round, clientMobMap))
   }
 
   private updateRound(round: Round, clientMobMap) {
-    this.locationService.getMobsByRoom(round.room).forEach(mob =>
+    this.mobService.locationService.getMobsByRoom(round.room).forEach(mob =>
       new Maybe(clientMobMap[mob.name])
-        .do(() => FightRounds.updateClientIfMobIsOwned(clientMobMap, mob, round)))
+        .do(() => this.updateClientIfMobIsOwned(clientMobMap, mob, round)))
+  }
+
+  private async proceedAllFightRounds(): Promise<Round[]> {
+    return this.mobService.doFightRounds()
+  }
+
+  private updateClientIfMobIsOwned(clientMobMap, mob, round): void {
+    new Maybe(clientMobMap[mob.name]).do((client) =>
+      FightRounds.updateClient(client, mob, round))
   }
 }
