@@ -64,7 +64,7 @@ import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
 
 function newMoveDefinition(service: GameService, requestType: RequestType, direction: Direction) {
-  return service.getNewActionDefinition(requestType,
+  return service.createActionDefinition(requestType,
     checkedRequest => move(checkedRequest, direction, service),
     request => movePrecondition(request, direction))
 }
@@ -80,56 +80,56 @@ export default function getActionCollection(service: GameService) {
     newMoveDefinition(service, RequestType.Down, Direction.Down),
 
     // items
-    service.getNewActionDefinition(RequestType.Inventory, inventory),
-    service.getNewActionDefinition(RequestType.Get, get, getPrecondition),
-    service.getNewActionDefinition(RequestType.Drop, drop, dropPrecondition),
-    service.getNewActionDefinition(RequestType.Put, put, putPrecondition),
-    service.getNewActionDefinition(RequestType.Wear, wear, wearPrecondition),
-    service.getNewActionDefinition(RequestType.Remove, remove, removePrecondition),
-    service.getNewActionDefinition(RequestType.Equipped, equipped),
+    service.createActionDefinition(RequestType.Inventory, inventory),
+    service.createActionDefinition(RequestType.Get, get, getPrecondition),
+    service.createActionDefinition(RequestType.Drop, drop, dropPrecondition),
+    service.createActionDefinition(RequestType.Put, put, putPrecondition),
+    service.createActionDefinition(RequestType.Wear, wear, wearPrecondition),
+    service.createActionDefinition(RequestType.Remove, remove, removePrecondition),
+    service.createActionDefinition(RequestType.Equipped, equipped),
 
     // fighting
-    service.getNewActionDefinition(RequestType.Kill, kill, killPrecondition),
-    service.getNewActionDefinition(RequestType.Flee, flee, fleePrecondition),
+    service.createActionDefinition(RequestType.Kill, kill, killPrecondition),
+    service.createActionDefinition(RequestType.Flee, flee, fleePrecondition),
 
     // skills
-    service.getNewActionDefinition(RequestType.Bash, bash, bashPrecondition),
-    service.getNewActionDefinition(RequestType.Berserk, berserk, berserkPrecondition),
-    service.getNewActionDefinition(RequestType.Disarm, disarm, disarmPrecondition),
-    service.getNewActionDefinition(RequestType.Envenom, envenom, envenomPrecondition),
-    service.getNewActionDefinition(RequestType.Sneak, sneak, sneakPrecondition),
-    service.getNewActionDefinition(RequestType.Trip, trip, tripPrecondition),
-    service.getNewActionDefinition(RequestType.Steal, steal, stealPrecondition),
+    service.createActionDefinition(RequestType.Bash, bash, bashPrecondition),
+    service.createActionDefinition(RequestType.Berserk, berserk, berserkPrecondition),
+    service.createActionDefinition(RequestType.Disarm, disarm, disarmPrecondition),
+    service.createActionDefinition(RequestType.Envenom, envenom, envenomPrecondition),
+    service.createActionDefinition(RequestType.Sneak, sneak, sneakPrecondition),
+    service.createActionDefinition(RequestType.Trip, trip, tripPrecondition),
+    service.createActionDefinition(RequestType.Steal, steal, stealPrecondition),
 
     // casting
-    service.getNewActionDefinition(RequestType.Cast, cast, castPrecondition),
+    service.createActionDefinition(RequestType.Cast, cast, castPrecondition),
 
     // info
-    service.getNewActionDefinition(RequestType.Affects, affects),
-    service.getNewActionDefinition(RequestType.Look, look, lookPrecondition),
-    service.getNewActionDefinition(RequestType.Lore, lore, lorePrecondition),
-    service.getNewActionDefinition(RequestType.Score, score),
+    service.createActionDefinition(RequestType.Affects, affects),
+    service.createActionDefinition(RequestType.Look, look, lookPrecondition),
+    service.createActionDefinition(RequestType.Lore, lore, lorePrecondition),
+    service.createActionDefinition(RequestType.Score, score),
 
     // merchants
-    service.getNewActionDefinition(RequestType.Buy, buy, buyPrecondition),
-    service.getNewActionDefinition(RequestType.Sell, sell, sellPrecondition),
+    service.createActionDefinition(RequestType.Buy, buy, buyPrecondition),
+    service.createActionDefinition(RequestType.Sell, sell, sellPrecondition),
 
     // social
-    service.getNewActionDefinition(RequestType.Gossip, gossip),
-    service.getNewActionDefinition(RequestType.Say, say),
+    service.createActionDefinition(RequestType.Gossip, gossip),
+    service.createActionDefinition(RequestType.Say, say),
 
     // training
-    service.getNewActionDefinition(RequestType.Train, train, trainPrecondition),
+    service.createActionDefinition(RequestType.Train, train, trainPrecondition),
 
     // nourishment
-    service.getNewActionDefinition(RequestType.Eat, eat, eatPrecondition),
+    service.createActionDefinition(RequestType.Eat, eat, eatPrecondition),
 
     // sacrifice
-    service.getNewActionDefinition(RequestType.Sacrifice, sacrifice, sacrificePrecondition),
+    service.createActionDefinition(RequestType.Sacrifice, sacrifice, sacrificePrecondition),
   ], [
-    service.getNewActionDefinition(RequestType.Ban, ban, banPrecondition),
-    service.getNewActionDefinition(RequestType.Unban, unban, unbanPrecondition),
-    service.getNewActionDefinition(RequestType.Promote, promote, promotePrecondition),
-    service.getNewActionDefinition(RequestType.Demote, demote, demotePrecondition),
+    service.createActionDefinition(RequestType.Ban, ban, banPrecondition),
+    service.createActionDefinition(RequestType.Unban, unban, unbanPrecondition),
+    service.createActionDefinition(RequestType.Promote, promote, promotePrecondition),
+    service.createActionDefinition(RequestType.Demote, demote, demotePrecondition),
   ])
 }

@@ -31,14 +31,16 @@ describe("cast", () => {
     await testBuilder.withPlayer()
 
     // when
-    const poisonCheck = await cast(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_POISON))
+    const poisonCheck = await cast(
+      testBuilder.createRequest(RequestType.Cast, TEST_INPUT_POISON), await testBuilder.getService())
 
     // then
     expect(poisonCheck.result).toBe(Messages.All.NoSpell)
     expect(poisonCheck.status).toBe(CheckStatus.Failed)
 
     // when
-    const floodleCheck = await cast(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_INVALID))
+    const floodleCheck = await cast(
+      testBuilder.createRequest(RequestType.Cast, TEST_INPUT_INVALID), await testBuilder.getService())
 
     // then
     expect(floodleCheck.result).toBe(MESSAGE_SPELL_DOES_NOT_EXIST)
@@ -55,7 +57,8 @@ describe("cast", () => {
     })
 
     // when
-    const check = await cast(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT))
+    const check = await cast(
+      testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
@@ -72,7 +75,8 @@ describe("cast", () => {
     })
 
     // when
-    const check = await cast(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT))
+    const check = await cast(
+      testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT), await testBuilder.getService())
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)

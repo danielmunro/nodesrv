@@ -1,5 +1,4 @@
 import GameService from "../gameService/gameService"
-import { improveSkill } from "../improve/improve"
 import { Trigger } from "../mob/enum/trigger"
 import backstab from "./action/backstab"
 import bash from "./action/bash"
@@ -29,40 +28,32 @@ import sharpenPrecondition from "./precondition/sharpen"
 import sneakPrecondition from "./precondition/sneak"
 import stealPrecondition from "./precondition/steal"
 import tripPrecondition from "./precondition/trip"
-import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
 
-function createSkill(
-  service: GameService, type: SkillType, trigger: Trigger, action, preconditions = null): SkillDefinition {
-  return new SkillDefinition(service, type, [trigger], action, preconditions)
-}
-
 function newWeaponSkill(service: GameService, skillType: SkillType) {
-  return createSkill(
-    service,
+  return service.createSkillDefinition(
     skillType,
     Trigger.DamageModifier,
-    improveSkill(request => request))
+    request => request)
 }
 
 export function getSkillTable(service: GameService) {
   return [
-    createSkill(service, SkillType.Dodge, Trigger.AttackRoundDefend, improveSkill(dodge), dodgePrecondition),
-    createSkill(service, SkillType.Disarm, Trigger.Input, improveSkill(disarm), disarmPrecondition),
-    createSkill(service, SkillType.SecondAttack, Trigger.AttackRound,
-      improveSkill(secondAttack), secondAttackPrecondition),
-    createSkill(service, SkillType.Bash, Trigger.Input, improveSkill(bash), bashPrecondition),
-    createSkill(service, SkillType.Trip, Trigger.Input, improveSkill(trip), tripPrecondition),
-    createSkill(service, SkillType.Berserk, Trigger.Input, improveSkill(berserk), berserkPrecondition),
-    createSkill(service, SkillType.Sneak, Trigger.Input, improveSkill(sneak), sneakPrecondition),
-    createSkill(service, SkillType.Envenom, Trigger.Input, improveSkill(envenom), envenomPrecondition),
-    createSkill(service, SkillType.Backstab, Trigger.Input, improveSkill(backstab), backstabPrecondition),
-    createSkill(service, SkillType.EnhancedDamage, Trigger.DamageModifier,
-      improveSkill(enhancedDamage), enhancedDamagePrecondition),
-    createSkill(service, SkillType.DirtKick, Trigger.Input, improveSkill(dirtKick), dirtKickPrecondition),
-    createSkill(service, SkillType.FastHealing, Trigger.Tick, improveSkill(fastHealing), fastHealingPrecondition),
-    createSkill(service, SkillType.Steal, Trigger.Input, improveSkill(steal), stealPrecondition),
-    createSkill(service, SkillType.Sharpen, Trigger.Input, improveSkill(sharpen), sharpenPrecondition),
+    service.createSkillDefinition(SkillType.Dodge, Trigger.AttackRoundDefend, dodge, dodgePrecondition),
+    service.createSkillDefinition(SkillType.Disarm, Trigger.Input, disarm, disarmPrecondition),
+    service.createSkillDefinition(SkillType.SecondAttack, Trigger.AttackRound, secondAttack, secondAttackPrecondition),
+    service.createSkillDefinition(SkillType.Bash, Trigger.Input, bash, bashPrecondition),
+    service.createSkillDefinition(SkillType.Trip, Trigger.Input, trip, tripPrecondition),
+    service.createSkillDefinition(SkillType.Berserk, Trigger.Input, berserk, berserkPrecondition),
+    service.createSkillDefinition(SkillType.Sneak, Trigger.Input, sneak, sneakPrecondition),
+    service.createSkillDefinition(SkillType.Envenom, Trigger.Input, envenom, envenomPrecondition),
+    service.createSkillDefinition(SkillType.Backstab, Trigger.Input, backstab, backstabPrecondition),
+    service.createSkillDefinition(SkillType.EnhancedDamage, Trigger.DamageModifier,
+      enhancedDamage, enhancedDamagePrecondition),
+    service.createSkillDefinition(SkillType.DirtKick, Trigger.Input, dirtKick, dirtKickPrecondition),
+    service.createSkillDefinition(SkillType.FastHealing, Trigger.Tick, fastHealing, fastHealingPrecondition),
+    service.createSkillDefinition(SkillType.Steal, Trigger.Input, steal, stealPrecondition),
+    service.createSkillDefinition(SkillType.Sharpen, Trigger.Input, sharpen, sharpenPrecondition),
     newWeaponSkill(service, SkillType.Sword),
     newWeaponSkill(service, SkillType.Mace),
     newWeaponSkill(service, SkillType.Wand),
