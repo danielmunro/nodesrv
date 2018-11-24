@@ -1,14 +1,14 @@
 import CheckedRequest from "../../check/checkedRequest"
+import GameService from "../../gameService/gameService"
 import match from "../../matcher/match"
 import { onlyLiving } from "../../mob/enum/disposition"
 import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
-import Service from "../../service/service"
 import { NOT_FOUND } from "./constants"
 
-function lookAtSubject(request: Request, builder: ResponseBuilder, service: Service) {
+function lookAtSubject(request: Request, builder: ResponseBuilder, service: GameService) {
   const mob = service.getMobsByRoom(request.room).find(m => match(m.name, request.getSubject()))
   if (mob) {
     return builder.info(mob.description)
@@ -29,7 +29,7 @@ function lookAtSubject(request: Request, builder: ResponseBuilder, service: Serv
   return builder.error(NOT_FOUND)
 }
 
-export default function(checkedRequest: CheckedRequest, service: Service): Promise<Response> {
+export default function(checkedRequest: CheckedRequest, service: GameService): Promise<Response> {
   const builder = checkedRequest.respondWith()
   const request = checkedRequest.request
 

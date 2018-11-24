@@ -1,18 +1,18 @@
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import { CheckStatus } from "../../check/checkStatus"
+import GameService from "../../gameService/gameService"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
-import Service from "../../service/service"
 import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 
 export class Definition {
   constructor(
-    private readonly service: Service,
+    private readonly service: GameService,
     private readonly requestType: RequestType,
-    private readonly callback: (request: Request|CheckedRequest, service: Service) => Promise<Response>,
-    private readonly precondition: (request: Request, service: Service) => Promise<Check> = null,
+    private readonly callback: (request: Request|CheckedRequest, service: GameService) => Promise<Response>,
+    private readonly precondition: (request: Request, service: GameService) => Promise<Check> = null,
     ) {}
 
   public isAbleToHandleRequestType(requestType: RequestType): boolean {

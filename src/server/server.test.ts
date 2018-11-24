@@ -1,10 +1,10 @@
 import { Server } from "mock-socket"
+import GameService from "../gameService/gameService"
 import FightTable from "../mob/fight/fightTable"
 import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
 import { getMobRepository } from "../mob/repository/mob"
-import Service from "../service/service"
 import { DontExecuteTestObserver } from "../test/dontExecuteTestObserver"
 import { ExpectTestObserver } from "../test/expectTestObserver"
 import { getTestRoom } from "../test/room"
@@ -22,7 +22,7 @@ async function getGameServer(): Promise<GameServer> {
     new FightTable(),
     locationService)
 
-  return new GameServer(ws, await Service.new(mobService), getTestRoom(), null, mobService)
+  return new GameServer(ws, await GameService.new(mobService), getTestRoom(), null, mobService)
 }
 
 const mockWs = jest.fn(() => ({ send: jest.fn() }))

@@ -1,6 +1,6 @@
+import GameService from "../gameService/gameService"
 import { improveSkill } from "../improve/improve"
 import { Trigger } from "../mob/enum/trigger"
-import Service from "../service/service"
 import backstab from "./action/backstab"
 import bash from "./action/bash"
 import berserk from "./action/berserk"
@@ -33,11 +33,11 @@ import SkillDefinition from "./skillDefinition"
 import { SkillType } from "./skillType"
 
 function createSkill(
-  service: Service, type: SkillType, trigger: Trigger, action, preconditions = null): SkillDefinition {
+  service: GameService, type: SkillType, trigger: Trigger, action, preconditions = null): SkillDefinition {
   return new SkillDefinition(service, type, [trigger], action, preconditions)
 }
 
-function newWeaponSkill(service: Service, skillType: SkillType) {
+function newWeaponSkill(service: GameService, skillType: SkillType) {
   return createSkill(
     service,
     skillType,
@@ -45,7 +45,7 @@ function newWeaponSkill(service: Service, skillType: SkillType) {
     improveSkill(request => request))
 }
 
-export function getSkillTable(service: Service) {
+export function getSkillTable(service: GameService) {
   return [
     createSkill(service, SkillType.Dodge, Trigger.AttackRoundDefend, improveSkill(dodge), dodgePrecondition),
     createSkill(service, SkillType.Disarm, Trigger.Input, improveSkill(disarm), disarmPrecondition),
@@ -76,6 +76,6 @@ export function getSkillTable(service: Service) {
   ]
 }
 
-export async function getSkillActionDefinition(service: Service, skillType: SkillType) {
+export async function getSkillActionDefinition(service: GameService, skillType: SkillType) {
   return (await getSkillTable(service)).find(action => action.isSkillTypeMatch(skillType))
 }

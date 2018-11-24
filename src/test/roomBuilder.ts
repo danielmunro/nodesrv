@@ -1,6 +1,6 @@
+import ServiceBuilder from "../gameService/serviceBuilder"
 import { Item } from "../item/model/item"
 import { Room } from "../room/model/room"
-import ServiceBuilder from "../service/serviceBuilder"
 import AbstractBuilder from "./abstractBuilder"
 
 export default class RoomBuilder extends AbstractBuilder {

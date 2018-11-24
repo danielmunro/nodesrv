@@ -1,9 +1,9 @@
 import { newStartingAttributes, newVitals } from "../../attributes/factory"
 import doNTimes from "../../functional/times"
+import GameService from "../../gameService/gameService"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { newMobLocation } from "../../mob/factory"
 import LocationService from "../../mob/locationService"
-import Service from "../../service/service"
 import { newSkill } from "../../skill/factory"
 import { SkillType } from "../../skill/skillType"
 import { getTestClient } from "../../test/client"
@@ -26,7 +26,7 @@ describe("ticks", () => {
     ]
 
     const tick = new Tick(
-      await Service.new((await testBuilder.getService()).mobService),
+      await GameService.new((await testBuilder.getService()).mobService),
       new LocationService(clients.map(c => newMobLocation(c.getSessionMob(), getTestRoom()))))
 
     // when
@@ -54,7 +54,7 @@ describe("ticks", () => {
     mob2.attributes.push(newStartingAttributes(newVitals(1000, 0, 0)))
 
     const tick = new Tick(
-      await Service.new((await testBuilder.getService()).mobService),
+      await GameService.new((await testBuilder.getService()).mobService),
       new LocationService([
         newMobLocation(mob1, getTestRoom()),
         newMobLocation(mob2, getTestRoom()),

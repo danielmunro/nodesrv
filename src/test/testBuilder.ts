@@ -5,6 +5,8 @@ import CheckComponent from "../check/checkComponent"
 import CheckedRequest from "../check/checkedRequest"
 import { CheckStatus } from "../check/checkStatus"
 import { Client } from "../client/client"
+import GameService from "../gameService/gameService"
+import ServiceBuilder from "../gameService/serviceBuilder"
 import { Item } from "../item/model/item"
 import { Role } from "../mob/enum/role"
 import { newMobLocation } from "../mob/factory"
@@ -23,8 +25,6 @@ import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
-import Service from "../service/service"
-import ServiceBuilder from "../service/serviceBuilder"
 import { default as AuthService } from "../session/auth/service"
 import SkillDefinition from "../skill/skillDefinition"
 import { getSkillTable } from "../skill/skillTable"
@@ -46,7 +46,7 @@ export default class TestBuilder {
   public player: Player
   public room: Room
   private mobForRequest: Mob
-  private service: Service
+  private service: GameService
   private serviceBuilder: ServiceBuilder = new ServiceBuilder()
 
   public addMobLocation(mobLocation: MobLocation) {
@@ -206,7 +206,7 @@ export default class TestBuilder {
     return this
   }
 
-  public async getService(): Promise<Service> {
+  public async getService(): Promise<GameService> {
     if (!this.service) {
       this.service = await this.serviceBuilder.createService()
     }

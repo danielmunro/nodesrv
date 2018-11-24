@@ -1,12 +1,12 @@
 import CheckedRequest from "../../check/checkedRequest"
+import GameService from "../../gameService/gameService"
 import {Fight} from "../../mob/fight/fight"
 import roll from "../../random/dice"
 import {pickOne} from "../../random/helpers"
 import Response from "../../request/response"
-import Service from "../../service/service"
 import {FLEE_MOVEMENT_COST_MULTIPLIER, Messages} from "./constants"
 
-export default async function(checkedRequest: CheckedRequest, service: Service): Promise<Response> {
+export default async function(checkedRequest: CheckedRequest, service: GameService): Promise<Response> {
   if (roll(1, 2) === 1) {
     return checkedRequest.respondWith().fail(Messages.Flee.Fail)
   }

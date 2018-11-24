@@ -3,7 +3,7 @@ import { assignSpecializationToMob } from "./mobService"
 import Cleric from "./specialization/cleric"
 import Warrior from "./specialization/warrior"
 
-describe("mob service", () => {
+describe("mob gameService", () => {
   it("should be able to assign a specialization to a mob", () => {
     // setup
     const mob = getTestMob()

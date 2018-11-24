@@ -6,34 +6,25 @@ import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
 import ExitTable from "../room/exitTable"
 import { Room } from "../room/model/room"
-import ExitRepository, { getExitRepository } from "../room/repository/exit"
-import RoomRepository, { getRoomRepository } from "../room/repository/room"
 import { default as RoomTable } from "../room/roomTable"
 
-export default class Service {
+export default class GameService {
   public static async new(
     mobService: MobService,
     roomTable: RoomTable = new RoomTable({}),
     itemTable: ItemTable = new ItemTable([]),
     exitTable: ExitTable = new ExitTable(mobService.locationService, []),
     time: number = 0,
-  ): Promise<Service> {
-    return new Service(
-      mobService,
-      roomTable, itemTable, exitTable,
-      await getRoomRepository(),
-      await getExitRepository(),
-      time)
+  ): Promise<GameService> {
+    return new GameService(
+      mobService, roomTable, itemTable, exitTable, time)
   }
 
-  /* tslint:disable */
   constructor(
     public readonly mobService: MobService,
     public readonly roomTable: RoomTable,
     public readonly itemTable: ItemTable,
     public readonly exitTable: ExitTable,
-    private readonly roomRepository: RoomRepository,
-    private readonly exitRepository: ExitRepository,
     private time = 0) {
   }
 
@@ -47,14 +38,6 @@ export default class Service {
 
   public resetTime() {
     this.time = 0
-  }
-
-  public async saveRoom(room): Promise<any> {
-    return this.roomRepository.save(room)
-  }
-
-  public async saveExit(exit): Promise<any> {
-    return this.exitRepository.save(exit)
   }
 
   public async moveMob(mob: Mob, direction: Direction) {

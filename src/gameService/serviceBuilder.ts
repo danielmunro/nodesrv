@@ -12,7 +12,7 @@ import ExitTable from "../room/exitTable"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
 import { default as RoomTable } from "../room/roomTable"
-import Service from "./service"
+import GameService from "./gameService"
 
 export default class ServiceBuilder {
   public readonly locationService: LocationService = new LocationService([])
@@ -53,8 +53,8 @@ export default class ServiceBuilder {
     this.locationService.addMobLocation(mobLocation)
   }
 
-  public async createService(): Promise<Service> {
-    return Service.new(
+  public async createService(): Promise<GameService> {
+    return GameService.new(
       new MobService(
         new MobTable(this.mobs),
         await getMobRepository(),

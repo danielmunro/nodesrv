@@ -1,8 +1,8 @@
 import { v4 } from "uuid"
 import { Client } from "../../client/client"
+import GameService from "../../gameService/gameService"
 import { Trigger } from "../../mob/enum/trigger"
 import LocationService from "../../mob/locationService"
-import Service from "../../service/service"
 import { createSkillTriggerEvent } from "../../skill/trigger/factory"
 import { Observer } from "./observer"
 
@@ -11,7 +11,7 @@ const HOURS_IN_DAY = 24
 
 export class Tick implements Observer {
   constructor(
-    private readonly service: Service,
+    private readonly service: GameService,
     private readonly locationService: LocationService) {}
 
   public async notify(clients: Client[]): Promise<void> {

@@ -1,7 +1,7 @@
 import { ActionType } from "../action/actionType"
 import { DamageType } from "../damage/damageType"
+import GameService from "../gameService/gameService"
 import { improveSpell } from "../improve/improve"
-import Service from "../service/service"
 import blind from "./action/blind"
 import cureLight from "./action/cureLight"
 import curePoison from "./action/curePoison"
@@ -28,7 +28,7 @@ import wrathPrecondition from "./precondition/wrath"
 import SpellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
 
-export default function getSpellTable(service: Service) {
+export default function getSpellTable(service: GameService) {
   return new SpellCollection([
     // attack
     newDefinition(service, SpellType.MagicMissile, ActionType.Offensive, magicMissilePrecondition,

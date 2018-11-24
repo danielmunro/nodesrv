@@ -2,13 +2,13 @@ import Check from "../../check/check"
 import { CheckType } from "../../check/checkType"
 import Cost from "../../check/cost/cost"
 import { CostType } from "../../check/cost/costType"
+import GameService from "../../gameService/gameService"
 import { Role } from "../../mob/enum/role"
 import { Request } from "../../request/request"
-import Service from "../../service/service"
 import { trainMap } from "../action/train"
 import { Messages } from "./constants"
 
-export default function(request: Request, service: Service): Promise<Check> {
+export default function(request: Request, service: GameService): Promise<Check> {
   const subject = request.getContextAsInput().subject
 
   return request.checkWithStandingDisposition(service.mobService)

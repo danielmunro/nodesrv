@@ -1,11 +1,11 @@
 import { CheckStatus } from "../../../check/checkStatus"
+import GameService from "../../../gameService/gameService"
 import { Standing } from "../../../mob/enum/standing"
 import { AuthorizationLevel } from "../../../player/authorizationLevel"
 import { allAuthorizationLevels } from "../../../player/constants"
 import { Player } from "../../../player/model/player"
 import RequestBuilder from "../../../request/requestBuilder"
 import { RequestType } from "../../../request/requestType"
-import Service from "../../../service/service"
 import { getTestMob } from "../../../test/mob"
 import TestBuilder from "../../../test/testBuilder"
 import {
@@ -19,7 +19,7 @@ import promote from "./promote"
 const MOB_TO_PROMOTE = "bob"
 const MOB_SELF = "alice"
 let requestBuilder: RequestBuilder
-let service: Service
+let service: GameService
 let player: Player
 let playerToPromote: Player
 

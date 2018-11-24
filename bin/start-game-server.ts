@@ -1,5 +1,7 @@
 import * as assert from "assert"
 import { getConnection, initializeConnection } from "../src/db/connection"
+import GameService from "../src/gameService/gameService"
+import ResetService from "../src/gameService/reset/resetService"
 import ItemTable from "../src/item/itemTable"
 import { default as ItemReset } from "../src/item/model/itemReset"
 import { getItemRepository } from "../src/item/repository/item"
@@ -15,8 +17,6 @@ import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { default as RoomTable } from "../src/room/roomTable"
 import newServer from "../src/server/factory"
-import ResetService from "../src/service/reset/resetService"
-import Service from "../src/service/service"
 
 /**
  * Obtain the start room ID and port from arguments passed in
@@ -28,7 +28,7 @@ assert.ok(startRoomID, "start room ID is required to be defined")
 console.info("0 - entry point", { startRoomID })
 
 async function startServer(
-  service: Service, startRoom: Room, resetService: ResetService, mobService: MobService) {
+  service: GameService, startRoom: Room, resetService: ResetService, mobService: MobService) {
   console.info(`3 - starting up server on port ${port}`)
   return (await newServer(service, port, startRoom, resetService, mobService)).start()
 }
@@ -83,7 +83,7 @@ createDbConnection().then(() =>
     newExitTable(locationService),
   ]).then(async ([roomTable, mobTable, itemTable, exitTable]) =>
     startServer(
-      await Service.new(await createMobService(mobTable, locationService), roomTable, itemTable, exitTable),
+      await GameService.new(await createMobService(mobTable, locationService), roomTable, itemTable, exitTable),
       roomTable.get(startRoomID),
       await createResetService(),
       await createMobService(mobTable, locationService))))

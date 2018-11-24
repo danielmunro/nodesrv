@@ -1,11 +1,11 @@
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import { CheckType } from "../../check/checkType"
+import GameService from "../../gameService/gameService"
 import { Request } from "../../request/request"
-import Service from "../../service/service"
 import { Messages } from "./constants"
 
-export default function(request: Request, service: Service): Promise<Check> {
+export default function(request: Request, service: GameService): Promise<Check> {
   const itemTable = service.itemTable
   const mobInventory = request.mob.inventory
   const item = itemTable.findItemByInventory(mobInventory, request.getContextAsInput().subject)

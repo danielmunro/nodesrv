@@ -1,9 +1,9 @@
 import { Client } from "../../client/client"
+import ResetService from "../../gameService/reset/resetService"
 import MobService from "../../mob/mobService"
 import { Mob } from "../../mob/model/mob"
 import MobReset from "../../mob/model/mobReset"
 import RoomTable from "../../room/roomTable"
-import ResetService from "../../service/reset/resetService"
 import { Observer } from "./observer"
 
 export default class Respawner implements Observer {

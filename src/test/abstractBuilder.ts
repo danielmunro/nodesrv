@@ -1,9 +1,9 @@
 import { DamageType } from "../damage/damageType"
+import ServiceBuilder from "../gameService/serviceBuilder"
 import { Equipment } from "../item/equipment"
 import {newContainer, newEquipment, newFood, newWeapon} from "../item/factory"
 import { Item } from "../item/model/item"
 import { WeaponType } from "../item/weaponType"
-import ServiceBuilder from "../service/serviceBuilder"
 
 export default class AbstractBuilder {
   constructor(protected readonly serviceBuilder: ServiceBuilder) {}

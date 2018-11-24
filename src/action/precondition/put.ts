@@ -2,11 +2,11 @@ import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import { CheckType } from "../../check/checkType"
 import Maybe from "../../functional/maybe"
+import GameService from "../../gameService/gameService"
 import { Request } from "../../request/request"
-import Service from "../../service/service"
 import { MESSAGE_FAIL_CONTAINER_NOT_FOUND, Messages } from "./constants"
 
-export default function(request: Request, service: Service): Promise<Check> {
+export default function(request: Request, service: GameService): Promise<Check> {
   const containerName = request.getContextAsInput().component
   const itemTable = service.itemTable
   const mobInventory = request.mob.inventory

@@ -1,12 +1,12 @@
 import CheckedRequest from "../../../check/checkedRequest"
 import { CheckStatus } from "../../../check/checkStatus"
+import GameService from "../../../gameService/gameService"
 import { AuthorizationLevel } from "../../../player/authorizationLevel"
 import { Player } from "../../../player/model/player"
 import InputContext from "../../../request/context/inputContext"
 import { Request } from "../../../request/request"
 import RequestBuilder from "../../../request/requestBuilder"
 import { RequestType } from "../../../request/requestType"
-import Service from "../../../service/service"
 import { getTestMob } from "../../../test/mob"
 import { getTestRoom } from "../../../test/room"
 import TestBuilder from "../../../test/testBuilder"
@@ -22,7 +22,7 @@ const MOB_TO_BAN = "bob"
 const MOB_SELF = "alice"
 const NOT_EXISTING_MOB = "foo"
 let requestBuilder: RequestBuilder
-let service: Service
+let service: GameService
 let playerToBan: Player
 
 describe("ban moderation preconditions", () => {

@@ -1,12 +1,12 @@
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
+import GameService from "../gameService/gameService"
+import ResetService from "../gameService/reset/resetService"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
 import { getPlayerRepository } from "../player/repository/player"
 import { poll } from "../poll/poll"
 import { Room } from "../room/model/room"
-import ResetService from "../service/reset/resetService"
-import Service from "../service/service"
 import { default as AuthService } from "../session/auth/service"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { SecondIntervalTimer } from "../timer/secondTimer"
@@ -31,7 +31,7 @@ export class GameServer {
 
   constructor(
     public readonly wss,
-    public readonly service: Service,
+    public readonly service: GameService,
     public readonly startRoom: Room,
     public readonly resetService: ResetService,
     public readonly mobService: MobService) {}

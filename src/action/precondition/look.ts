@@ -1,13 +1,13 @@
 import { AffectType } from "../../affect/affectType"
 import Check from "../../check/check"
+import GameService from "../../gameService/gameService"
 import { Mob } from "../../mob/model/mob"
 import getSight from "../../mob/race/sight"
 import { Region } from "../../region/model/region"
 import { Request } from "../../request/request"
-import Service from "../../service/service"
 import { MESSAGE_LOOK_CANNOT_SEE } from "../action/constants"
 
-export default function(request: Request, service: Service): Promise<Check> {
+export default function(request: Request, service: GameService): Promise<Check> {
   const room = request.getRoom()
 
   if (request.mob.getAffect(AffectType.Blind)) {
@@ -36,7 +36,7 @@ function isGlowingAffect(item) {
   return item.affects.find(affect => affect.affectType === AffectType.Glow)
 }
 
-function isAbleToSee(mob: Mob, region: Region = null, service: Service) {
+function isAbleToSee(mob: Mob, region: Region = null, service: GameService) {
   if (!region) {
     return true
   }

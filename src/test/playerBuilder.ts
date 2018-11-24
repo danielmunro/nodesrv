@@ -1,7 +1,7 @@
+import ServiceBuilder from "../gameService/serviceBuilder"
 import { Item } from "../item/model/item"
 import { Disposition } from "../mob/enum/disposition"
 import { Player } from "../player/model/player"
-import ServiceBuilder from "../service/serviceBuilder"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"

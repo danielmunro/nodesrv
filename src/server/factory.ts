@@ -1,9 +1,9 @@
 import * as assert from "assert"
 import { Server as WebSocketServer } from "ws"
+import GameService from "../gameService/gameService"
+import ResetService from "../gameService/reset/resetService"
 import MobService from "../mob/mobService"
 import { Room } from "../room/model/room"
-import ResetService from "../service/reset/resetService"
-import Service from "../service/service"
 import addObservers from "./observerDecorator"
 import { GameServer } from "./server"
 
@@ -11,7 +11,7 @@ const PORT_MIN = 1080
 const PORT_MAX = 65535
 
 export default async function newServer(
-  service: Service,
+  service: GameService,
   port: number,
   startRoom: Room,
   resetService: ResetService,

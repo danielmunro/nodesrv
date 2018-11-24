@@ -1,7 +1,7 @@
+import ServiceBuilder from "../gameService/serviceBuilder"
 import { newContainer } from "../item/factory"
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
-import ServiceBuilder from "../service/serviceBuilder"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"

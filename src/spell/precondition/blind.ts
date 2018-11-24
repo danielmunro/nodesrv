@@ -1,12 +1,12 @@
 import { AffectType } from "../../affect/affectType"
 import Check from "../../check/check"
+import GameService from "../../gameService/gameService"
 import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
-import Service from "../../service/service"
 import { SpellType } from "../spellType"
 import { Messages } from "./constants"
 
-export default function(request: Request, service: Service): Promise<Check> {
+export default function(request: Request, service: GameService): Promise<Check> {
   return request.checkWithStandingDisposition(service.mobService)
     .requireSpell(SpellType.Blind)
     .requireMob(request.getTarget() as Mob)

@@ -1,10 +1,10 @@
 import { Client } from "../../client/client"
+import GameService from "../../gameService/gameService"
 import { newMobLocation } from "../../mob/factory"
 import LocationService from "../../mob/locationService"
 import MobService from "../../mob/mobService"
 import MobTable from "../../mob/mobTable"
 import { getMobRepository } from "../../mob/repository/mob"
-import Service from "../../service/service"
 import Complete from "../../session/auth/complete"
 import Session from "../../session/session"
 import { Channel } from "../../social/channel"
@@ -21,7 +21,7 @@ jest.mock("../../client/client")
 async function getMockClient(room = getTestRoom()): Promise<Client> {
   const locationService = new LocationService([])
   const client = new Client(null, null, null, null, null, null, locationService)
-  client.service = await Service.new(
+  client.service = await GameService.new(
     new MobService(new MobTable(), await getMobRepository()))
   client.player = getTestPlayer()
   client.session = new Session(client, new Complete(client.player), locationService)

@@ -1,6 +1,6 @@
+import GameService from "../gameService/gameService"
 import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
-import Service from "../service/service"
 import bash from "../skill/action/bash"
 import berserk from "../skill/action/berserk"
 import disarm from "../skill/action/disarm"
@@ -63,13 +63,13 @@ import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as wearPrecondition } from "./precondition/wear"
 
-function newMoveDefinition(service: Service, requestType: RequestType, direction: Direction) {
+function newMoveDefinition(service: GameService, requestType: RequestType, direction: Direction) {
   return service.getNewActionDefinition(requestType,
     checkedRequest => move(checkedRequest, direction, service),
     request => movePrecondition(request, direction))
 }
 
-export default function getActionCollection(service: Service) {
+export default function getActionCollection(service: GameService) {
   return new Collection([
     // moving
     newMoveDefinition(service, RequestType.North, Direction.North),

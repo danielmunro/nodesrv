@@ -1,15 +1,15 @@
 import Check from "../../../check/check"
 import CheckBuilder from "../../../check/checkBuilder"
 import Maybe from "../../../functional/maybe"
+import GameService from "../../../gameService/gameService"
 import { isBanned } from "../../../mob/enum/standing"
 import { Request } from "../../../request/request"
-import Service from "../../../service/service"
 import {
   MESSAGE_FAIL_BANNED,
   MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS, MESSAGE_FAIL_NO_TARGET,
 } from "./constants"
 
-export default async function(request: Request, service: Service): Promise<Check> {
+export default async function(request: Request, service: GameService): Promise<Check> {
   const mob = service.mobService.mobTable.find((m) => m.name === request.getContextAsInput().subject)
   return new CheckBuilder()
     .requireMob(mob, MESSAGE_FAIL_NO_TARGET)

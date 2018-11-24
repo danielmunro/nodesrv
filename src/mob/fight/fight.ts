@@ -1,8 +1,8 @@
 import { applyAffectModifier } from "../../affect/applyAffect"
 import Attributes from "../../attributes/model/attributes"
+import GameService from "../../gameService/gameService"
 import roll, { simpleD4 } from "../../random/dice"
 import { Room } from "../../room/model/room"
-import Service from "../../service/service"
 import { createSkillTriggerEvent, createSkillTriggerEvents } from "../../skill/trigger/factory"
 import { Resolution } from "../../skill/trigger/resolution"
 import { Disposition } from "../enum/disposition"
@@ -18,7 +18,7 @@ enum Status {
   Done,
 }
 
-async function createStartRoundDefenderTrigger(service: Service, attacker, defender, room) {
+async function createStartRoundDefenderTrigger(service: GameService, attacker, defender, room) {
   return await createSkillTriggerEvent(service, defender, Trigger.AttackRoundDefend, attacker, room)
 }
 
@@ -46,7 +46,7 @@ export class Fight {
   private death: Death
 
   constructor(
-    public readonly service: Service,
+    public readonly service: GameService,
     public readonly aggressor: Mob,
     public readonly target: Mob,
     public readonly room: Room) {}

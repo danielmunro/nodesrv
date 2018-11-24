@@ -3,6 +3,7 @@ import { Collection } from "../action/definition/collection"
 import { Definition } from "../action/definition/definition"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
+import GameService from "../gameService/gameService"
 import { Item } from "../item/model/item"
 import { Fight } from "../mob/fight/fight"
 import LocationService from "../mob/locationService"
@@ -13,7 +14,6 @@ import { getNewRequestFromMessageEvent, Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import Response from "../request/response"
 import { Room } from "../room/model/room"
-import Service from "../service/service"
 import Email from "../session/auth/login/email"
 import { default as AuthRequest } from "../session/auth/request"
 import { default as AuthService } from "../session/auth/service"
@@ -35,7 +35,7 @@ export class Client {
     public readonly ws: WebSocket,
     public readonly ip: string,
     public readonly handlers: Collection,
-    private readonly service: Service,
+    private readonly service: GameService,
     private readonly startRoom: Room,
     private readonly authService: AuthService,
     private readonly locationService: LocationService) {

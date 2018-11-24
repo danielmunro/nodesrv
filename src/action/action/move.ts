@@ -1,12 +1,12 @@
 import CheckedRequest from "../../check/checkedRequest"
+import GameService from "../../gameService/gameService"
 import Response from "../../request/response"
 import { Direction } from "../../room/constants"
-import Service from "../../service/service"
 import look from "./look"
 
 export default async function(checkedRequest: CheckedRequest,
                               direction: Direction,
-                              service: Service): Promise<Response> {
+                              service: GameService): Promise<Response> {
   const request = checkedRequest.request
 
   request.mob.vitals.mv -= request.getRoom().getMovementCost()
