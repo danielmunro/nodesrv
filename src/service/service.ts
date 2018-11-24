@@ -1,15 +1,10 @@
 import { Definition } from "../action/definition/definition"
 import ItemTable from "../item/itemTable"
-import FightTable from "../mob/fight/fightTable"
-import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
-import { default as MobTable } from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
-import { getMobRepository } from "../mob/repository/mob"
 import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
 import ExitTable from "../room/exitTable"
-import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
 import ExitRepository, { getExitRepository } from "../room/repository/exit"
 import RoomRepository, { getRoomRepository } from "../room/repository/room"
@@ -29,20 +24,6 @@ export default class Service {
       await getRoomRepository(),
       await getExitRepository(),
       time)
-  }
-
-  public static async newWithArray(rooms: Room[] = [], exits: Exit[] = []): Promise<Service> {
-    const locationService = new LocationService([])
-    const mobService = new MobService(
-      new MobTable(),
-      await getMobRepository(),
-      new FightTable(),
-      locationService)
-    return Service.new(
-      mobService,
-      RoomTable.new(rooms),
-      null,
-      new ExitTable(locationService, exits))
   }
 
   /* tslint:disable */

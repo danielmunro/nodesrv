@@ -4,6 +4,7 @@ import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
 import { getMobRepository } from "../mob/repository/mob"
 import { getPlayerRepository } from "../player/repository/player"
+import RoomTable from "../room/roomTable"
 import Service from "../service/service"
 import { default as AuthService } from "../session/auth/service"
 import { getTestPlayer } from "./player"
@@ -33,7 +34,8 @@ export async function getTestClient(player = getTestPlayer(), room = getTestRoom
 }
 
 export async function getTestClientLoggedOut(player = getTestPlayer(), room = getTestRoom()): Promise<Client> {
-  const service = await Service.newWithArray([room])
+  const service = await Service.new(
+    new MobService(new MobTable(), await getMobRepository()), RoomTable.new([room]))
   const actions = await getActionCollection(service)
   return createClient(player, actions, service, room, service.mobService.mobTable)
 }
