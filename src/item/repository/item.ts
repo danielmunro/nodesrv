@@ -1,4 +1,4 @@
-import { getConnection } from "../../db/connection"
+import { getConnection } from "../../support/db/connection"
 import { Item } from "../model/item"
 import ItemRepositoryImpl from "./itemImpl"
 

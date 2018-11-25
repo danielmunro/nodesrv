@@ -1,5 +1,5 @@
 import { readFileSync } from "fs"
-import { initializeConnection } from "../src/db/connection"
+import { initializeConnection } from "../src/support/db/connection"
 import ExitMaterializer from "../src/import/exitMaterializer"
 import ImportService from "../src/import/importService"
 import ResetMaterializer from "../src/import/resetMaterializer"

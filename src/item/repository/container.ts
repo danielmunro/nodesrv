@@ -1,4 +1,4 @@
-import { getConnection } from "../../db/connection"
+import { getConnection } from "../../support/db/connection"
 import Container from "../model/container"
 import ContainerRepositoryImpl from "./containerRepositoryImpl"
 

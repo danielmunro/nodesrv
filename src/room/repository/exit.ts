@@ -1,4 +1,4 @@
-import { getConnection } from "../../db/connection"
+import { getConnection } from "../../support/db/connection"
 import { Exit } from "../model/exit"
 import ExitRepositoryImpl from "./exitImpl"
 

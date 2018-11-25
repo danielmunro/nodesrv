@@ -1,4 +1,4 @@
-import { getConnection, initializeConnection } from "../src/db/connection"
+import { getConnection, initializeConnection } from "../src/support/db/connection"
 
 beforeAll(async () => {
   await initializeConnection()

@@ -1,4 +1,4 @@
-import { getConnection } from "../../db/connection"
+import { getConnection } from "../../support/db/connection"
 import MobReset from "../model/mobReset"
 import MobResetRepositoryImpl from "./mobResetRepositoryImpl"
 

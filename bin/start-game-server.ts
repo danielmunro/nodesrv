@@ -1,5 +1,5 @@
 import * as assert from "assert"
-import { getConnection, initializeConnection } from "../src/db/connection"
+import { getConnection, initializeConnection } from "../src/support/db/connection"
 import GameService from "../src/gameService/gameService"
 import ResetService from "../src/gameService/reset/resetService"
 import ItemTable from "../src/item/itemTable"

@@ -1,4 +1,4 @@
-import { getConnection } from "../../db/connection"
+import { getConnection } from "../../support/db/connection"
 import { Mob } from "../model/mob"
 import MobRepositoryImpl from "./impl"
 

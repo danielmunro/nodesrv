@@ -1,4 +1,4 @@
-import { getConnection } from "../../db/connection"
+import { getConnection } from "../../support/db/connection"
 import ItemReset from "../model/itemReset"
 import ItemResetRepositoryImpl from "./itemResetRepositoryImpl"
 
