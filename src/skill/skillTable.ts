@@ -31,29 +31,30 @@ import tripPrecondition from "./precondition/trip"
 import { SkillType } from "./skillType"
 
 function newWeaponSkill(service: GameService, skillType: SkillType) {
-  return service.createSkillDefinition(
+  return service.definition().skill(
     skillType,
     Trigger.DamageModifier,
     request => request)
 }
 
 export function getSkillTable(service: GameService) {
+  const definition = service.definition()
   return [
-    service.createSkillDefinition(SkillType.Dodge, Trigger.AttackRoundDefend, dodge, dodgePrecondition),
-    service.createSkillDefinition(SkillType.Disarm, Trigger.Input, disarm, disarmPrecondition),
-    service.createSkillDefinition(SkillType.SecondAttack, Trigger.AttackRound, secondAttack, secondAttackPrecondition),
-    service.createSkillDefinition(SkillType.Bash, Trigger.Input, bash, bashPrecondition),
-    service.createSkillDefinition(SkillType.Trip, Trigger.Input, trip, tripPrecondition),
-    service.createSkillDefinition(SkillType.Berserk, Trigger.Input, berserk, berserkPrecondition),
-    service.createSkillDefinition(SkillType.Sneak, Trigger.Input, sneak, sneakPrecondition),
-    service.createSkillDefinition(SkillType.Envenom, Trigger.Input, envenom, envenomPrecondition),
-    service.createSkillDefinition(SkillType.Backstab, Trigger.Input, backstab, backstabPrecondition),
-    service.createSkillDefinition(SkillType.EnhancedDamage, Trigger.DamageModifier,
+    definition.skill(SkillType.Dodge, Trigger.AttackRoundDefend, dodge, dodgePrecondition),
+    definition.skill(SkillType.Disarm, Trigger.Input, disarm, disarmPrecondition),
+    definition.skill(SkillType.SecondAttack, Trigger.AttackRound, secondAttack, secondAttackPrecondition),
+    definition.skill(SkillType.Bash, Trigger.Input, bash, bashPrecondition),
+    definition.skill(SkillType.Trip, Trigger.Input, trip, tripPrecondition),
+    definition.skill(SkillType.Berserk, Trigger.Input, berserk, berserkPrecondition),
+    definition.skill(SkillType.Sneak, Trigger.Input, sneak, sneakPrecondition),
+    definition.skill(SkillType.Envenom, Trigger.Input, envenom, envenomPrecondition),
+    definition.skill(SkillType.Backstab, Trigger.Input, backstab, backstabPrecondition),
+    definition.skill(SkillType.EnhancedDamage, Trigger.DamageModifier,
       enhancedDamage, enhancedDamagePrecondition),
-    service.createSkillDefinition(SkillType.DirtKick, Trigger.Input, dirtKick, dirtKickPrecondition),
-    service.createSkillDefinition(SkillType.FastHealing, Trigger.Tick, fastHealing, fastHealingPrecondition),
-    service.createSkillDefinition(SkillType.Steal, Trigger.Input, steal, stealPrecondition),
-    service.createSkillDefinition(SkillType.Sharpen, Trigger.Input, sharpen, sharpenPrecondition),
+    definition.skill(SkillType.DirtKick, Trigger.Input, dirtKick, dirtKickPrecondition),
+    definition.skill(SkillType.FastHealing, Trigger.Tick, fastHealing, fastHealingPrecondition),
+    definition.skill(SkillType.Steal, Trigger.Input, steal, stealPrecondition),
+    definition.skill(SkillType.Sharpen, Trigger.Input, sharpen, sharpenPrecondition),
     newWeaponSkill(service, SkillType.Sword),
     newWeaponSkill(service, SkillType.Mace),
     newWeaponSkill(service, SkillType.Wand),

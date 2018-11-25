@@ -27,31 +27,32 @@ import SpellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
 
 export default function getSpellTable(service: GameService) {
+  const definition = service.definition()
   return new SpellCollection([
     // attack
-    service.createSpellDefinition(SpellType.MagicMissile, ActionType.Offensive,
+    definition.spell(SpellType.MagicMissile, ActionType.Offensive,
       magicMissile, magicMissilePrecondition, DamageType.Magic),
-    service.createSpellDefinition(SpellType.LightningBolt, ActionType.Offensive,
+    definition.spell(SpellType.LightningBolt, ActionType.Offensive,
       lightningBolt, lightningBoltPrecondition, DamageType.Electric),
 
     // healing
-    service.createSpellDefinition(SpellType.CureLight, ActionType.Defensive,
+    definition.spell(SpellType.CureLight, ActionType.Defensive,
       cureLight, cureLightPrecondition),
-    service.createSpellDefinition(SpellType.Heal, ActionType.Defensive, heal, healPrecondition),
+    definition.spell(SpellType.Heal, ActionType.Defensive, heal, healPrecondition),
 
     // benedictions
-    service.createSpellDefinition(SpellType.Shield, ActionType.Defensive, shield, shieldPrecondition),
-    service.createSpellDefinition(SpellType.GiantStrength, ActionType.Defensive,
+    definition.spell(SpellType.Shield, ActionType.Defensive, shield, shieldPrecondition),
+    definition.spell(SpellType.GiantStrength, ActionType.Defensive,
       giantStrength, giantStrengthPrecondition),
-    service.createSpellDefinition(SpellType.Wrath, ActionType.Defensive, wrath, wrathPrecondition),
+    definition.spell(SpellType.Wrath, ActionType.Defensive, wrath, wrathPrecondition),
 
     // maladictions
-    service.createSpellDefinition(SpellType.Poison, ActionType.Offensive, poison, poisonPrecondition),
-    service.createSpellDefinition(SpellType.Curse, ActionType.Offensive, curse, cursePrecondition),
-    service.createSpellDefinition(SpellType.Blind, ActionType.Offensive, blind, blindPrecondition),
+    definition.spell(SpellType.Poison, ActionType.Offensive, poison, poisonPrecondition),
+    definition.spell(SpellType.Curse, ActionType.Offensive, curse, cursePrecondition),
+    definition.spell(SpellType.Blind, ActionType.Offensive, blind, blindPrecondition),
 
     // curative
-    service.createSpellDefinition(SpellType.CurePoison, ActionType.Defensive,
+    definition.spell(SpellType.CurePoison, ActionType.Defensive,
       curePoison, curePoisonPrecondition),
   ])
 }

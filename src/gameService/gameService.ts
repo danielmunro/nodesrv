@@ -16,6 +16,7 @@ import { SkillType } from "../skill/skillType"
 import SpellDefinition from "../spell/spellDefinition"
 import { SpellType } from "../spell/spellType"
 import TimeService from "./timeService"
+import DefinitionService from "./definitionService"
 
 export default class GameService {
   public static async new(
@@ -69,16 +70,7 @@ export default class GameService {
     return this.mobService.locationService.getMobsByRoom(room)
   }
 
-  public createActionDefinition(requestType: RequestType, action, precondition = null): Definition {
-    return new Definition(this, requestType, action, precondition)
-  }
-
-  public createSkillDefinition(skillType: SkillType, trigger: Trigger, action, precondition = null) {
-    return new SkillDefinition(this, skillType, [trigger], improveSkill(action), precondition)
-  }
-
-  public createSpellDefinition(
-    spellType: SpellType, actionType: ActionType, action, precondition, damageType: DamageType = null) {
-    return new SpellDefinition(this, spellType, actionType, precondition, improveSpell(action), damageType)
+  public definition(): DefinitionService {
+    return new DefinitionService(this)
   }
 }
