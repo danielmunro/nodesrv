@@ -6,28 +6,29 @@ import GameService from "../../gameService/gameService"
 import ItemTable from "../../item/itemTable"
 import { Request } from "../../request/request"
 import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
+import Service from "../../session/auth/service"
 
 export default function(request: Request, service: GameService): Promise<Check> {
   return new Maybe(request.getContextAsInput().component)
-    .do(() => getFromInventory(request, service.itemTable))
-    .or(() => getFromRoom(request, service.itemTable))
+    .do(() => getFromInventory(request, service))
+    .or(() => getFromRoom(request, service))
     .get()
 }
 
-function getFromInventory(request: Request, itemTable: ItemTable) {
-  const container = itemTable.findItemByInventory(request.mob.inventory, request.getContextAsInput().component)
+function getFromInventory(request: Request, service: GameService) {
+  const container = service.itemService.findItem(request.mob.inventory, request.getContextAsInput().component)
 
-  return new CheckBuilder()
+  return new CheckBuilder(service.mobService)
     .require(container, Messages.All.Item.NotFound, CheckType.ContainerPresent)
-    .require(() => itemTable.findItemByInventory(container.container, request.getSubject()),
+    .require(() => service.itemService.findItem(container.container, request.getSubject()),
       Messages.All.Item.NotFound, CheckType.ItemPresent)
     .capture()
     .create()
 }
 
-function getFromRoom(request: Request, itemTable: ItemTable) {
-  const item = itemTable.findItemByInventory(request.getRoom().inventory, request.getSubject())
-  return new CheckBuilder()
+function getFromRoom(request: Request, service: GameService) {
+  const item = service.itemService.findItem(request.getRoom().inventory, request.getSubject())
+  return new CheckBuilder(service.mobService)
     .require(item, Messages.All.Item.NotFound, CheckType.ItemPresent)
     .capture()
     .require(() => item.isTransferable, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)

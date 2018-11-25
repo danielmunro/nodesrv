@@ -16,12 +16,12 @@ function lookAtSubject(request: Request, builder: ResponseBuilder, service: Game
 
   const subject = request.getContextAsInput().subject
 
-  let item = service.itemTable.findItemByInventory(request.getRoom().inventory, subject)
+  let item = service.itemService.findItem(request.getRoom().inventory, subject)
   if (item) {
     return builder.info(item.describe())
   }
 
-  item = service.itemTable.findItemByInventory(request.mob.inventory, subject)
+  item = service.itemService.findItem(request.mob.inventory, subject)
   if (item) {
     return builder.info(item.describe())
   }

@@ -6,4 +6,5 @@ export enum ItemType {
   Container = "container",
   Drink = "drink",
   Food = "food",
+  Fountain = "fountain",
 }

@@ -56,7 +56,7 @@ describe("get action preconditions", () => {
     const item = testBuilder.withRoom().withHelmetEq()
     const service = await testBuilder.getService()
     item.isTransferable = false
-    service.itemTable.add(item)
+    service.itemService.add(item)
 
     // when
     const check = await get(

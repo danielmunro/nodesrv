@@ -34,7 +34,7 @@ describe("get action", () => {
     const satchel = playerBuilder.withSatchelEq()
     const item = newFood("a pretzel", "a pretzel")
     const service = await testBuilder.getService()
-    service.itemTable.add(item)
+    service.itemService.add(item)
     satchel.container.addItem(item)
 
     const player = playerBuilder.player

@@ -122,7 +122,7 @@ export default function getActionCollection(service: GameService) {
     // training
     definition.action(RequestType.Train, train, trainPrecondition),
 
-    // nourishment
+    // hunger
     definition.action(RequestType.Eat, eat, eatPrecondition),
 
     // sacrifice

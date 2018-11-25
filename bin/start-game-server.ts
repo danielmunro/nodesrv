@@ -17,6 +17,7 @@ import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { default as RoomTable } from "../src/room/roomTable"
 import newServer from "../src/server/factory"
+import ItemService from "../src/item/itemService"
 
 /**
  * Obtain the start room ID and port from arguments passed in
@@ -29,7 +30,7 @@ console.info("0 - entry point", { startRoomID })
 
 async function startServer(
   service: GameService, startRoom: Room, resetService: ResetService, mobService: MobService) {
-  console.info(`3 - starting up server on port ${port}`)
+  console.info(`4 - starting up server on port ${port}`)
   return (await newServer(service, port, startRoom, resetService, mobService)).start()
 }
 
@@ -53,10 +54,7 @@ async function newExitTable(service: LocationService): Promise<ExitTable> {
 }
 
 async function newItemTable(): Promise<ItemTable> {
-  const itemRepository = await getItemRepository()
-  const models = await itemRepository.findAll()
-  console.debug(`2 - item table initialized with ${models.length} items`)
-  return new ItemTable(models)
+  return new ItemTable([])
 }
 
 async function createDbConnection(): Promise<void> {
@@ -64,14 +62,31 @@ async function createDbConnection(): Promise<void> {
   console.debug("1 - database connection created")
 }
 
-async function createResetService(): Promise<ResetService> {
+async function createResetService(mobService: MobService, roomTable: RoomTable): Promise<ResetService> {
   const connection = await getConnection()
   const mobResetRepository = await connection.getRepository(MobReset)
   const itemResetRepository = await connection.getRepository(ItemReset)
 
-  return new ResetService(
+  const resetService = new ResetService(
     await mobResetRepository.find(),
-    await itemResetRepository.find())
+    await itemResetRepository.find(),
+    mobService,
+    roomTable)
+
+  console.log("2 - seeding world")
+  await resetService.seedMobTable()
+  await resetService.seedItemTable()
+
+  /*tslint:disable*/
+  console.log(`2 - reset service initialized with ${resetService.mobResets.length} mob resets, and ${resetService.itemResets.length} item resets`)
+
+  return resetService
+}
+
+async function createItemService(itemTable: ItemTable) {
+  return new ItemService(
+    await getItemRepository(),
+    itemTable)
 }
 
 const locationService = new LocationService([])
@@ -81,13 +96,15 @@ createDbConnection().then(() =>
     newMobTable(),
     newItemTable(),
     newExitTable(locationService),
-  ]).then(async ([roomTable, mobTable, itemTable, exitTable]) =>
-    startServer(
-      await GameService.new(await createMobService(mobTable, locationService), roomTable, itemTable, exitTable),
+  ]).then(async ([roomTable, mobTable, itemTable, exitTable]) => {
+    const mobService = await createMobService(mobTable, locationService)
+    const resetService = await createResetService(mobService, roomTable)
+    await startServer(
+      await GameService.new(mobService, roomTable, itemTable, exitTable),
       roomTable.get(startRoomID),
-      await createResetService(),
-      await createMobService(mobTable, locationService))))
-
+      resetService,
+      await createMobService(mobTable, locationService))
+  }))
 async function createMobService(mobTable: MobTable, aLocationService: LocationService) {
   return new MobService(mobTable, await getMobRepository(), new FightTable(), aLocationService)
 }

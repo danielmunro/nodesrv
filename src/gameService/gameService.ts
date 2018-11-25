@@ -7,6 +7,8 @@ import { Room } from "../room/model/room"
 import { default as RoomTable } from "../room/roomTable"
 import DefinitionService from "./definitionService"
 import TimeService from "./timeService"
+import ItemService from "../item/itemService"
+import { getItemRepository } from "../item/repository/item"
 
 export default class GameService {
   public static async new(
@@ -17,7 +19,7 @@ export default class GameService {
     time: number = 0,
   ): Promise<GameService> {
     return new GameService(
-      mobService, roomTable, itemTable, exitTable, time)
+      mobService, roomTable, new ItemService(await getItemRepository(), itemTable), exitTable, time)
   }
 
   private timeService: TimeService
@@ -25,7 +27,7 @@ export default class GameService {
   constructor(
     public readonly mobService: MobService,
     public readonly roomTable: RoomTable,
-    public readonly itemTable: ItemTable,
+    public readonly itemService: ItemService,
     public readonly exitTable: ExitTable,
     time = 0) {
     this.timeService = new TimeService(time)

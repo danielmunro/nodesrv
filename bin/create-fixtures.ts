@@ -1,4 +1,4 @@
-import { readFileSync } from "fs"
+import { readFileSync, writeFileSync } from "fs"
 import { initializeConnection } from "../src/support/db/connection"
 import ExitImportService from "../src/import/service/exitImportService"
 import ImportService from "../src/import/service/importService"
@@ -10,9 +10,12 @@ import { getMobRepository } from "../src/mob/repository/mob"
 import { getMobResetRepository } from "../src/mob/repository/mobReset"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
+import * as minimist from "minimist"
 
 const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")
+const args = minimist(process.argv.slice(2))
+const writeNewData = args.write === undefined ? false : args.write
 
 initializeConnection().then(async () => {
   const importService = new ImportService(
@@ -20,8 +23,10 @@ initializeConnection().then(async () => {
     await getRoomRepository(),
     await getExitRepository(),
     await getItemRepository(),
-  )
+    writeNewData)
   await parse(importService)
+  writeFileSync("itemTypes.json",
+    JSON.stringify(importService.getItemTypes().filter((value, index, self) => self.indexOf(value) === index)))
 })
 
 async function parse(importService: ImportService) {
@@ -32,6 +37,9 @@ async function parse(importService: ImportService) {
     const file = areaFiles[i]
     console.log(`  - importing ${file}`)
     areas.push(await importService.parseAreaFile(areaFiles[i]))
+  }
+  if (!writeNewData) {
+    return
   }
 
   console.log("2 - exits")

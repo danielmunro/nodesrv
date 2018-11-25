@@ -136,18 +136,19 @@ export class Client {
     const responseAction = response.responseAction
 
     if (responseAction.wasItemCreated()) {
-      this.service.itemTable.add(responseAction.thing as Item)
+      this.service.itemService.add(responseAction.thing as Item)
       return
     }
 
     if (responseAction.wasItemDestroyed()) {
-      this.service.itemTable.remove(responseAction.thing as Item)
+      this.service.itemService.remove(responseAction.thing as Item)
       return
     }
 
     if (responseAction.wasFightStarted()) {
       const request = response.request as Request
-      this.service.mobService.addFight(new Fight(this.player.sessionMob, request.getTarget() as Mob, request.room))
+      this.service.mobService.addFight(
+        new Fight(this.service, this.player.sessionMob, request.getTarget() as Mob, request.room))
     }
   }
 

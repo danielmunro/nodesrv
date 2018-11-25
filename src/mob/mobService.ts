@@ -70,7 +70,7 @@ export default class MobService {
     return deadMobs
   }
 
-  public async generateNewMobInstance(mobReset: MobReset) {
+  public async generateNewMobInstance(mobReset: MobReset): Promise<Mob> {
     const mob = await this.mobRepository.findOneById(mobReset.mob.id)
     const clone = mob.copy()
     clone.mobReset = mobReset

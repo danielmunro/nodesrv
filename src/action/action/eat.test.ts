@@ -21,7 +21,7 @@ describe("eat action", () => {
       await Check.ok(food)))
 
     expect(player.sessionMob.inventory.items.length).toBe(0)
-    expect(player.sessionMob.playerMob.hunger).toBe(food.nourishment)
+    expect(player.sessionMob.playerMob.hunger).toBe(food.hunger)
   })
 
   it("should notify if the player is full", async () => {

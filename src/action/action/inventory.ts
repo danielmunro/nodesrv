@@ -5,7 +5,7 @@ import { Request } from "../../request/request"
 import Response from "../../request/response"
 
 export default function(request: Request, service: GameService): Promise<Response> {
-  const items = service.itemTable.findByInventory(request.mob.inventory)
+  const items = service.itemService.findAllByInventory(request.mob.inventory)
   return request.respondWith()
     .info("Your inventory:\n" +
         items.reduce((previous, current) => previous + getItemName(request.mob, current) + "\n", ""))

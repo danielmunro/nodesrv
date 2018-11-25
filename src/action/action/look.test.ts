@@ -87,7 +87,7 @@ describe("look", () => {
     const item = getTestItem()
     room.inventory.addItem(item)
     const service = await testBuilder.getService()
-    service.itemTable.add(item)
+    service.itemService.add(item)
 
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Look, "look pirate"))
@@ -105,7 +105,7 @@ describe("look", () => {
     const item = getTestItem()
     player.sessionMob.inventory.addItem(item)
     const service = await testBuilder.getService()
-    service.itemTable.add(item)
+    service.itemService.add(item)
 
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Look, "look pirate"))
@@ -150,7 +150,7 @@ describe("look", () => {
     // and
     const item = getTestItem()
     item.affects.push(newAffect(AffectType.Glow))
-    service.itemTable.add(item)
+    service.itemService.add(item)
     player.sessionMob.equipped.addItem(item)
 
     // when

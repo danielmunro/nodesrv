@@ -6,11 +6,10 @@ import { Request } from "../../request/request"
 import { Messages } from "./constants"
 
 export default function(request: Request, service: GameService): Promise<Check> {
-  const itemTable = service.itemTable
   const mobInventory = request.mob.inventory
-  const item = itemTable.findItemByInventory(mobInventory, request.getContextAsInput().subject)
+  const item = service.itemService.findItem(mobInventory, request.getContextAsInput().subject)
 
-  return new CheckBuilder()
+  return new CheckBuilder(service.mobService)
     .require(item, Messages.All.Item.NotFound, CheckType.HasItem)
     .require(item.identified, Messages.Lore.FailNotIdentified)
     .create()

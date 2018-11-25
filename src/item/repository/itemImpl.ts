@@ -16,4 +16,8 @@ export default class ItemRepositoryImpl implements ItemRepository {
   public findOneByImportId(importId): Promise<Item> {
     return this.itemRepository.findOne({ importId })
   }
+
+  public findOneById(id): Promise<Item> {
+    return this.itemRepository.findOneById(id)
+  }
 }

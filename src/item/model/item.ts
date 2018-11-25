@@ -43,8 +43,11 @@ export class Item {
   @Column("integer")
   public value: number = 0
 
-  @Column("integer")
-  public nourishment: number = 0
+  @Column("integer", { nullable: true })
+  public hunger: number
+
+  @Column("integer", { nullable: true })
+  public thirst: number
 
   @Column("boolean", { default: true })
   public isTransferable: boolean = true
@@ -63,6 +66,9 @@ export class Item {
 
   @Column("boolean", { default: true })
   public identified = true
+
+  @Column("integer", { nullable: true })
+  public capacity: number
 
   @ManyToOne(type => Inventory, inventory => inventory.items, { eager: true })
   public inventory: Inventory
@@ -103,7 +109,7 @@ export class Item {
     item.equipment = this.equipment
     item.itemType = this.itemType
     item.value = this.value
-    item.nourishment = this.nourishment
+    item.hunger = this.hunger
     item.attributes = this.attributes.copy()
     item.affects = this.affects.map(affect => newAffect(affect.affectType, affect.timeout))
 
