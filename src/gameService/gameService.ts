@@ -1,22 +1,12 @@
-import { ActionType } from "../action/actionType"
-import { Definition } from "../action/definition/definition"
-import { DamageType } from "../damage/damageType"
-import { improveSkill, improveSpell } from "../improve/improve"
 import ItemTable from "../item/itemTable"
-import { Trigger } from "../mob/enum/trigger"
 import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
-import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
 import ExitTable from "../room/exitTable"
 import { Room } from "../room/model/room"
 import { default as RoomTable } from "../room/roomTable"
-import SkillDefinition from "../skill/skillDefinition"
-import { SkillType } from "../skill/skillType"
-import SpellDefinition from "../spell/spellDefinition"
-import { SpellType } from "../spell/spellType"
-import TimeService from "./timeService"
 import DefinitionService from "./definitionService"
+import TimeService from "./timeService"
 
 export default class GameService {
   public static async new(

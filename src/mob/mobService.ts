@@ -36,7 +36,6 @@ export function assignSpecializationToMob(mob: Mob, specialization: Specializati
 }
 
 export default class MobService {
-  /*tslint:disable*/
   constructor(
     public readonly mobTable: MobTable,
     private readonly mobRepository: MobRepository,
