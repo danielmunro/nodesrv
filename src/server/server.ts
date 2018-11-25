@@ -1,7 +1,7 @@
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
 import GameService from "../gameService/gameService"
-import ResetService from "../gameService/reset/resetService"
+import ResetService from "../gameService/resetService"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
 import { getPlayerRepository } from "../player/repository/player"

@@ -1,5 +1,5 @@
 import { Client } from "../../client/client"
-import ResetService from "../../gameService/reset/resetService"
+import ResetService from "../../gameService/resetService"
 import MobService from "../../mob/mobService"
 import { Mob } from "../../mob/model/mob"
 import MobReset from "../../mob/model/mobReset"

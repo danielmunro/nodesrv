@@ -1,5 +1,5 @@
-import { default as ItemReset } from "../../item/model/itemReset"
-import { default as MobReset } from "../../mob/model/mobReset"
+import { default as ItemReset } from "../item/model/itemReset"
+import { default as MobReset } from "../mob/model/mobReset"
 
 export default class ResetService {
   constructor(

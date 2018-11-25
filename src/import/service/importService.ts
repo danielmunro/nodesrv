@@ -1,24 +1,25 @@
-/* tslint:disable */
 import { readFileSync } from "fs"
-import { newStartingAttributes, newVitals } from "../attributes/factory"
-import { newContainer, newEquipment, newWeapon } from "../item/factory"
-import { Item } from "../item/model/item"
-import { newMob } from "../mob/factory"
-import MobRepository from "../mob/repository/mob"
-import roll from "../random/dice"
-import { Direction } from "../room/constants"
-import { newExit, newRoom } from "../room/factory"
-import { Room } from "../room/model/room"
-import ExitRepository from "../room/repository/exit"
-import RoomRepository from "../room/repository/room"
-import File from "./file"
-import ItemRepository from "../item/repository/item"
-import { newPermanentAffect } from "../affect/factory"
-import Reset from "./reset"
-import { SectionHeader } from "./sectionHeader"
-import { ItemType } from "./itemType"
-import { flagMap } from "./affectMap"
-import { DirectionFlag } from "./directionFlag"
+import { newStartingAttributes, newVitals } from "../../attributes/factory"
+import { newContainer, newEquipment, newWeapon } from "../../item/factory"
+import { Item } from "../../item/model/item"
+import { newMob } from "../../mob/factory"
+import MobRepository from "../../mob/repository/mob"
+import roll from "../../random/dice"
+import { Direction } from "../../room/constants"
+import { newExit, newRoom } from "../../room/factory"
+import { Room } from "../../room/model/room"
+import ExitRepository from "../../room/repository/exit"
+import RoomRepository from "../../room/repository/room"
+import File from "../file"
+import ItemRepository from "../../item/repository/item"
+import { newPermanentAffect } from "../../affect/factory"
+import Reset from "../reset"
+import { SectionHeader } from "../enum/sectionHeader"
+import { ItemType } from "../enum/itemType"
+import { flagMap } from "../affectMap"
+import { DirectionFlag } from "../enum/directionFlag"
+
+const NPC_MOVEMENT = 1000
 
 export default class ImportService {
   private static dice(rollData) {
@@ -44,7 +45,6 @@ export default class ImportService {
 
   private static async addReset(file, resetData) {
     if (!resetData.args) {
-      // bad reset
       return
     }
     file.resets.push(new Reset(resetData.command, resetData.args[0], resetData.args[2]))
@@ -101,7 +101,7 @@ export default class ImportService {
     if (!mobData.hit) {
       return
     }
-    const vitals = newVitals(ImportService.dice(mobData.hit), ImportService.dice(mobData.mana), 1000)
+    const vitals = newVitals(ImportService.dice(mobData.hit), ImportService.dice(mobData.mana), NPC_MOVEMENT)
     const mob = newMob(
       mobData.name,
       mobData.description,

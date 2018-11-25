@@ -1,4 +1,4 @@
-import ResetService from "../../gameService/reset/resetService"
+import ResetService from "../../gameService/resetService"
 import { Disposition } from "../../mob/enum/disposition"
 import { newMobReset } from "../../mob/factory"
 import FightTable from "../../mob/fight/fightTable"

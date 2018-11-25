@@ -1,18 +1,18 @@
-import { newItemReset } from "../item/factory"
-import ItemReset from "../item/model/itemReset"
-import ContainerRepository from "../item/repository/container"
-import ItemRepository from "../item/repository/item"
-import ItemResetRepository from "../item/repository/itemReset"
-import { newMobReset } from "../mob/factory"
-import MobReset from "../mob/model/mobReset"
-import MobRepository from "../mob/repository/mob"
-import MobResetRepository from "../mob/repository/mobReset"
-import RoomRepository from "../room/repository/room"
-import File from "./file"
-import Reset from "./reset"
-import { ResetFlag } from "./resetFlag"
+import { newItemReset } from "../../item/factory"
+import ItemReset from "../../item/model/itemReset"
+import ContainerRepository from "../../item/repository/container"
+import ItemRepository from "../../item/repository/item"
+import ItemResetRepository from "../../item/repository/itemReset"
+import { newMobReset } from "../../mob/factory"
+import MobReset from "../../mob/model/mobReset"
+import MobRepository from "../../mob/repository/mob"
+import MobResetRepository from "../../mob/repository/mobReset"
+import RoomRepository from "../../room/repository/room"
+import File from "../file"
+import Reset from "../reset"
+import { ResetFlag } from "../enum/resetFlag"
 
-export default class ResetMaterializer {
+export default class ResetImportService {
   private lastMobReset: MobReset
   private lastItemReset: ItemReset
 

@@ -1,8 +1,8 @@
 import { readFileSync } from "fs"
 import { initializeConnection } from "../src/support/db/connection"
-import ExitMaterializer from "../src/import/exitMaterializer"
-import ImportService from "../src/import/importService"
-import ResetMaterializer from "../src/import/resetMaterializer"
+import ExitImportService from "../src/import/service/exitImportService"
+import ImportService from "../src/import/service/importService"
+import ResetImportService from "../src/import/service/resetImportService"
 import { getContainerRepository } from "../src/item/repository/container"
 import { getItemRepository } from "../src/item/repository/item"
 import { getItemResetRepository } from "../src/item/repository/itemReset"
@@ -35,10 +35,10 @@ async function parse(importService: ImportService) {
   }
 
   console.log("2 - exits")
-  const exitMaterializer = new ExitMaterializer(
+  const exitMaterializer = new ExitImportService(
     await getRoomRepository(),
     await getExitRepository())
-  const resetMaterializer = new ResetMaterializer(
+  const resetMaterializer = new ResetImportService(
     await getMobResetRepository(),
     await getItemResetRepository(),
     await getMobRepository(),

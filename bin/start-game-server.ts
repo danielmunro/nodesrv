@@ -1,7 +1,7 @@
 import * as assert from "assert"
 import { getConnection, initializeConnection } from "../src/support/db/connection"
 import GameService from "../src/gameService/gameService"
-import ResetService from "../src/gameService/reset/resetService"
+import ResetService from "../src/gameService/resetService"
 import ItemTable from "../src/item/itemTable"
 import { default as ItemReset } from "../src/item/model/itemReset"
 import { getItemRepository } from "../src/item/repository/item"

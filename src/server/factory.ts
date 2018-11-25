@@ -1,7 +1,7 @@
 import * as assert from "assert"
 import { Server as WebSocketServer } from "ws"
 import GameService from "../gameService/gameService"
-import ResetService from "../gameService/reset/resetService"
+import ResetService from "../gameService/resetService"
 import MobService from "../mob/mobService"
 import { Room } from "../room/model/room"
 import addObservers from "./observerDecorator"

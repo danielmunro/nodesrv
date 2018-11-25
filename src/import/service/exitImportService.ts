@@ -1,11 +1,11 @@
-import { Direction } from "../room/constants"
-import { newExit } from "../room/factory"
-import ExitRepository from "../room/repository/exit"
-import RoomRepository from "../room/repository/room"
-import { DirectionFlag } from "./directionFlag"
-import File from "./file"
+import { Direction } from "../../room/constants"
+import { newExit } from "../../room/factory"
+import ExitRepository from "../../room/repository/exit"
+import RoomRepository from "../../room/repository/room"
+import { DirectionFlag } from "../enum/directionFlag"
+import File from "../file"
 
-export default class ExitMaterializer {
+export default class ExitImportService {
   constructor(
     public readonly roomRepository: RoomRepository,
     public readonly exitRepository: ExitRepository,
