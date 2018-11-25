@@ -1,6 +1,6 @@
 import { Client } from "../../client/client"
-import Maybe from "../../functional/maybe"
-import withValue from "../../functional/withValue"
+import Maybe from "../../support/functional/maybe"
+import withValue from "../../support/functional/withValue"
 import { Equipment } from "../../item/equipment"
 import { Item } from "../../item/model/item"
 import { Attack } from "../../mob/fight/attack"

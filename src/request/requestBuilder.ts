@@ -1,4 +1,4 @@
-import match from "../matcher/match"
+import match from "../support/matcher/match"
 import MobTable from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
 import { Room } from "../room/model/room"

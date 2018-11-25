@@ -1,4 +1,4 @@
-import match from "../matcher/match"
+import match from "../support/matcher/match"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
 

@@ -1,5 +1,5 @@
 import { AffectType } from "../../affect/affectType"
-import doNTimes from "../../functional/times"
+import doNTimes from "../../support/functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { Mob } from "../../mob/model/mob"
 import { RequestType } from "../../request/requestType"

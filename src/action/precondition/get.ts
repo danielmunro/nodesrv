@@ -1,7 +1,7 @@
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import { CheckType } from "../../check/checkType"
-import Maybe from "../../functional/maybe"
+import Maybe from "../../support/functional/maybe"
 import GameService from "../../gameService/gameService"
 import ItemTable from "../../item/itemTable"
 import { Request } from "../../request/request"

@@ -1,4 +1,4 @@
-import doNTimes from "../../functional/times"
+import doNTimes from "../../support/functional/times"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 

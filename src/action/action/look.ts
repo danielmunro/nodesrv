@@ -1,6 +1,6 @@
 import CheckedRequest from "../../check/checkedRequest"
 import GameService from "../../gameService/gameService"
-import match from "../../matcher/match"
+import match from "../../support/matcher/match"
 import { onlyLiving } from "../../mob/enum/disposition"
 import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"

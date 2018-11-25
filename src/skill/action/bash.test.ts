@@ -1,6 +1,6 @@
 import { AffectType } from "../../affect/affectType"
-import { all } from "../../functional/collection"
-import doNTimes from "../../functional/times"
+import { all } from "../../support/functional/collection"
+import doNTimes from "../../support/functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"

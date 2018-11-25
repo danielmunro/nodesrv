@@ -1,5 +1,5 @@
 import { ActionOutcome } from "../action/actionOutcome"
-import Maybe from "../functional/maybe"
+import Maybe from "../support/functional/maybe"
 import { Mob } from "../mob/model/mob"
 import { Request } from "../request/request"
 import ResponseAction from "../request/responseAction"

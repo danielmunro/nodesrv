@@ -1,5 +1,5 @@
 import CheckedRequest from "../../../check/checkedRequest"
-import Maybe from "../../../functional/maybe"
+import Maybe from "../../../support/functional/maybe"
 import { Mob } from "../../../mob/model/mob"
 import { AuthorizationLevel, getAuthorizationLevelName } from "../../../player/authorizationLevel"
 import Response from "../../../request/response"

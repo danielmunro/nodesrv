@@ -1,7 +1,7 @@
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import { CheckType } from "../../check/checkType"
-import Maybe from "../../functional/maybe"
+import Maybe from "../../support/functional/maybe"
 import GameService from "../../gameService/gameService"
 import { Request } from "../../request/request"
 import { MESSAGE_FAIL_CONTAINER_NOT_FOUND, Messages } from "./constants"

@@ -1,4 +1,4 @@
-import doNTimes from "../../functional/times"
+import doNTimes from "../../support/functional/times"
 import TestBuilder from "../../test/testBuilder"
 import { SkillType } from "../skillType"
 

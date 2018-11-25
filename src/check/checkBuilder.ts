@@ -1,6 +1,6 @@
 import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_PLAYER } from "../action/constants"
 import { AffectType } from "../affect/affectType"
-import Maybe from "../functional/maybe"
+import Maybe from "../support/functional/maybe"
 import { Disposition } from "../mob/enum/disposition"
 import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"

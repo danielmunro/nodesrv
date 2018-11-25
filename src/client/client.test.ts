@@ -1,5 +1,5 @@
 import { Collection } from "../action/definition/collection"
-import doNTimes from "../functional/times"
+import doNTimes from "../support/functional/times"
 import { Player } from "../player/model/player"
 import InputContext from "../request/context/inputContext"
 import { Request } from "../request/request"

@@ -1,5 +1,5 @@
 import { newStartingAttributes, newVitals } from "../../attributes/factory"
-import doNTimes from "../../functional/times"
+import doNTimes from "../../support/functional/times"
 import GameService from "../../gameService/gameService"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { newMobLocation } from "../../mob/factory"

@@ -1,4 +1,4 @@
-import doNTimes from "../../functional/times"
+import doNTimes from "../../support/functional/times"
 import { Item } from "../../item/model/item"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
