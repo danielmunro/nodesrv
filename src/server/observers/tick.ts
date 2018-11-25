@@ -7,7 +7,6 @@ import { createSkillTriggerEvent } from "../../skill/trigger/factory"
 import { Observer } from "./observer"
 
 const MESSAGE_HUNGRY = "You are hungry."
-const HOURS_IN_DAY = 24
 
 export class Tick implements Observer {
   constructor(
@@ -18,10 +17,6 @@ export class Tick implements Observer {
     const id = v4()
     const timestamp = new Date()
     this.service.incrementTime()
-
-    if (this.service.getCurrentTime() > HOURS_IN_DAY) {
-      this.service.resetTime()
-    }
 
     await Promise.all(clients
       .filter(client => client.isLoggedIn())
@@ -40,7 +35,6 @@ export class Tick implements Observer {
 
     const location = this.locationService.getLocationForMob(mob)
     await createSkillTriggerEvent(this.service, mob, Trigger.Tick, null, location.room)
-
     client.tick(id, timestamp)
   }
 }

@@ -15,6 +15,7 @@ import SkillDefinition from "../skill/skillDefinition"
 import { SkillType } from "../skill/skillType"
 import SpellDefinition from "../spell/spellDefinition"
 import { SpellType } from "../spell/spellType"
+import TimeService from "./timeService"
 
 export default class GameService {
   public static async new(
@@ -28,24 +29,23 @@ export default class GameService {
       mobService, roomTable, itemTable, exitTable, time)
   }
 
+  private timeService: TimeService
+
   constructor(
     public readonly mobService: MobService,
     public readonly roomTable: RoomTable,
     public readonly itemTable: ItemTable,
     public readonly exitTable: ExitTable,
-    private time = 0) {
+    time = 0) {
+    this.timeService = new TimeService(time)
   }
 
   public incrementTime() {
-    this.time += 1
+    this.timeService.incrementTime()
   }
 
   public getCurrentTime() {
-    return this.time
-  }
-
-  public resetTime() {
-    this.time = 0
+    return this.timeService.getCurrentTime()
   }
 
   public async moveMob(mob: Mob, direction: Direction) {
