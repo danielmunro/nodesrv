@@ -12,13 +12,18 @@ const TEST_INPUT_CAST = "cast"
 const TEST_INPUT_POISON = "cast poison"
 const TEST_INPUT_INVALID = "cast floodle"
 
+let testBuilder: TestBuilder
+
+async function castAction(input: string) {
+  return cast(testBuilder.createRequest(RequestType.Cast, input), await testBuilder.getService())
+}
+
+beforeEach(() => testBuilder = new TestBuilder())
+
 describe("cast", () => {
   it("should require at least one argument", async () => {
-    const testBuilder = new TestBuilder()
-    await testBuilder.withPlayer()
-
     // when
-    const check = await cast(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_CAST))
+    const check = await castAction(TEST_INPUT_CAST)
 
     // then
     expect(check.result).toBe(MESSAGE_NO_SPELL)
@@ -26,21 +31,15 @@ describe("cast", () => {
   })
 
   it("should know if an argument is or is not a spell", async () => {
-    // given
-    const testBuilder = new TestBuilder()
-    await testBuilder.withPlayer()
-
     // when
-    const poisonCheck = await cast(
-      testBuilder.createRequest(RequestType.Cast, TEST_INPUT_POISON), await testBuilder.getService())
+    const poisonCheck = await castAction(TEST_INPUT_POISON)
 
     // then
     expect(poisonCheck.result).toBe(Messages.All.NoSpell)
     expect(poisonCheck.status).toBe(CheckStatus.Failed)
 
-    // when
-    const floodleCheck = await cast(
-      testBuilder.createRequest(RequestType.Cast, TEST_INPUT_INVALID), await testBuilder.getService())
+    // and when
+    const floodleCheck = await castAction(TEST_INPUT_INVALID)
 
     // then
     expect(floodleCheck.result).toBe(MESSAGE_SPELL_DOES_NOT_EXIST)
@@ -48,8 +47,6 @@ describe("cast", () => {
   })
 
   it("should be able to cast a known spell", async () => {
-    const testBuilder = new TestBuilder()
-
     // given
     await testBuilder.withPlayer(p => {
       p.sessionMob.spells.push(newSpell(SpellType.GiantStrength))
@@ -57,16 +54,13 @@ describe("cast", () => {
     })
 
     // when
-    const check = await cast(
-      testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT), await testBuilder.getService())
+    const check = await castAction(TEST_INPUT_GIANT)
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
   })
 
   it("should display an appropriate result if the caster lacks mana", async () => {
-    const testBuilder = new TestBuilder()
-
     // given
     await testBuilder.withPlayer(p => {
       p.sessionMob.spells.push(newSpell(SpellType.GiantStrength))
@@ -75,8 +69,7 @@ describe("cast", () => {
     })
 
     // when
-    const check = await cast(
-      testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT), await testBuilder.getService())
+    const check = await castAction(TEST_INPUT_GIANT)
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)

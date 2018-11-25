@@ -181,6 +181,9 @@ export default class TestBuilder {
     requestType: RequestType,
     input: string = requestType.toString(),
     target: Mob | Item = null): Request {
+    if (!this.mobForRequest) {
+      this.withMob()
+    }
     return new Request(this.mobForRequest, this.room, new InputContext(requestType, input), target)
   }
 
