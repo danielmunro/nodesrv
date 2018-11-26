@@ -17,7 +17,6 @@ import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
 
 export default async function addObservers(gameServer: GameServer): Promise<GameServer> {
-  const roomTable = gameServer.service.roomTable
   const locationService = gameServer.mobService.locationService
   gameServer.addObserver(
     new ObserverChain([

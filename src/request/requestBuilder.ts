@@ -1,7 +1,7 @@
-import match from "../support/matcher/match"
 import MobTable from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
 import { Room } from "../room/model/room"
+import match from "../support/matcher/match"
 import InputContext from "./context/inputContext"
 import { Request } from "./request"
 import { RequestType } from "./requestType"

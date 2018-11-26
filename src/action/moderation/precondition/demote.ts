@@ -1,8 +1,8 @@
 import Check from "../../../check/check"
 import CheckBuilder from "../../../check/checkBuilder"
-import Maybe from "../../../support/functional/maybe"
 import GameService from "../../../gameService/gameService"
 import { Request } from "../../../request/request"
+import Maybe from "../../../support/functional/maybe"
 import {
   MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS,
   MESSAGE_FAIL_NO_TARGET,

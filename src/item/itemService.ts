@@ -1,8 +1,8 @@
-import ItemReset from "./model/itemReset"
-import { Item } from "./model/item"
-import ItemRepository from "./repository/item"
 import ItemTable from "./itemTable"
 import { Inventory } from "./model/inventory"
+import { Item } from "./model/item"
+import ItemReset from "./model/itemReset"
+import ItemRepository from "./repository/item"
 
 export default class ItemService {
   constructor(

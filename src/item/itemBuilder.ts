@@ -1,10 +1,10 @@
-import { ItemType as ImportItemType } from "../import/enum/itemType"
-import { newContainer, newEquipment, newFood, newItem, newItemFixture, newWeapon } from "./factory"
-import { Item } from "./model/item"
-import { flagMap } from "../import/affectMap"
-import { newAffect, newPermanentAffect } from "../affect/factory"
-import { ItemType } from "./itemType"
 import { AffectType } from "../affect/affectType"
+import { newAffect, newPermanentAffect } from "../affect/factory"
+import { flagMap } from "../import/affectMap"
+import { ItemType as ImportItemType } from "../import/enum/itemType"
+import { newContainer, newEquipment, newItem, newWeapon } from "./factory"
+import { ItemType } from "./itemType"
+import { Item } from "./model/item"
 
 export default class ItemBuilder {
   private static async addPropertiesToItem(item: Item, itemData) {

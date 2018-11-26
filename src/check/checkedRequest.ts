@@ -1,10 +1,10 @@
 import { ActionOutcome } from "../action/actionOutcome"
-import Maybe from "../support/functional/maybe"
 import { Mob } from "../mob/model/mob"
 import { Request } from "../request/request"
 import ResponseAction from "../request/responseAction"
 import ResponseBuilder from "../request/responseBuilder"
 import { Room } from "../room/model/room"
+import Maybe from "../support/functional/maybe"
 import Check from "./check"
 import { CheckType } from "./checkType"
 

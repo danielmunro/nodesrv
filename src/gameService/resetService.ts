@@ -1,8 +1,7 @@
 import { default as ItemReset } from "../item/model/itemReset"
-import { default as MobReset } from "../mob/model/mobReset"
 import MobService from "../mob/mobService"
+import { default as MobReset } from "../mob/model/mobReset"
 import RoomTable from "../room/roomTable"
-import { Mob } from "../mob/model/mob"
 
 export default class ResetService {
   constructor(
@@ -17,12 +16,6 @@ export default class ResetService {
     this.mobService.add(mob, room)
   }
 
-  public async respawnFromItemReset(itemReset: ItemReset): Promise<void> {
-    // const mob = await this.item
-    // const room = this.roomTable.get(mobReset.room.uuid)
-    // this.mobService.add(mob, room)
-  }
-
   public async pruneDeadMobs() {
     return this.mobService.pruneDeadMobs()
   }
@@ -30,9 +23,4 @@ export default class ResetService {
   public async seedMobTable() {
     await Promise.all(this.mobResets.map(this.respawnFromMobReset.bind(this)))
   }
-
-  public async seedItemTable() {
-    await Promise.all(this.itemResets.map(this.respawnFromItemReset.bind(this)))
-  }
-
 }

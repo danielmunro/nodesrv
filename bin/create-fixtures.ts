@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from "fs"
-import { initializeConnection } from "../src/support/db/connection"
+import * as minimist from "minimist"
 import ExitImportService from "../src/import/service/exitImportService"
 import ImportService from "../src/import/service/importService"
 import ResetImportService from "../src/import/service/resetImportService"
@@ -10,7 +10,7 @@ import { getMobRepository } from "../src/mob/repository/mob"
 import { getMobResetRepository } from "../src/mob/repository/mobReset"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
-import * as minimist from "minimist"
+import { initializeConnection } from "../src/support/db/connection"
 
 const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")
@@ -21,7 +21,6 @@ initializeConnection().then(async () => {
   const importService = new ImportService(
     await getMobRepository(),
     await getRoomRepository(),
-    await getExitRepository(),
     await getItemRepository(),
     writeNewData)
   await parse(importService)

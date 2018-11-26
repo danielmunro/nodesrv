@@ -1,7 +1,7 @@
 import { AffectType } from "../../affect/affectType"
-import doNTimes from "../../support/functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
+import doNTimes from "../../support/functional/times"
 import TestBuilder from "../../test/testBuilder"
 import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"

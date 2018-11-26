@@ -1,24 +1,16 @@
 import { readFileSync } from "fs"
 import { newStartingAttributes, newVitals } from "../../attributes/factory"
-import { newContainer, newEquipment, newItemFixture, newWeapon } from "../../item/factory"
-import { Item } from "../../item/model/item"
+import ItemBuilder from "../../item/itemBuilder"
+import ItemRepository from "../../item/repository/item"
 import { newMob } from "../../mob/factory"
 import MobRepository from "../../mob/repository/mob"
 import roll from "../../random/dice"
-import { Direction } from "../../room/constants"
-import { newExit, newRoom } from "../../room/factory"
+import { newRoom } from "../../room/factory"
 import { Room } from "../../room/model/room"
-import ExitRepository from "../../room/repository/exit"
 import RoomRepository from "../../room/repository/room"
-import File from "../file"
-import ItemRepository from "../../item/repository/item"
-import { newPermanentAffect } from "../../affect/factory"
-import Reset from "../reset"
 import { SectionHeader } from "../enum/sectionHeader"
-import { ItemType } from "../enum/itemType"
-import { flagMap } from "../affectMap"
-import { DirectionFlag } from "../enum/directionFlag"
-import ItemBuilder from "../../item/itemBuilder"
+import File from "../file"
+import Reset from "../reset"
 
 const NPC_MOVEMENT = 1000
 
@@ -49,7 +41,6 @@ export default class ImportService {
   constructor(
     private readonly mobRepository: MobRepository,
     private readonly roomRepository: RoomRepository,
-    private readonly exitRepository: ExitRepository,
     private readonly itemRepository: ItemRepository,
     private readonly writeNewData: boolean = true,
   ) {}

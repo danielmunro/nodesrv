@@ -1,6 +1,6 @@
-import doNTimes from "../../support/functional/times"
 import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { AttackResult } from "../../mob/fight/attack"
+import doNTimes from "../../support/functional/times"
 import TestBuilder from "../../test/testBuilder"
 import { SkillType } from "../skillType"
 

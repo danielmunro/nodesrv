@@ -1,10 +1,8 @@
 import * as assert from "assert"
-import { getConnection, initializeConnection } from "../src/support/db/connection"
 import GameService from "../src/gameService/gameService"
 import ResetService from "../src/gameService/resetService"
 import ItemTable from "../src/item/itemTable"
 import { default as ItemReset } from "../src/item/model/itemReset"
-import { getItemRepository } from "../src/item/repository/item"
 import FightTable from "../src/mob/fight/fightTable"
 import LocationService from "../src/mob/locationService"
 import MobService from "../src/mob/mobService"
@@ -17,7 +15,7 @@ import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { default as RoomTable } from "../src/room/roomTable"
 import newServer from "../src/server/factory"
-import ItemService from "../src/item/itemService"
+import { getConnection, initializeConnection } from "../src/support/db/connection"
 
 /**
  * Obtain the start room ID and port from arguments passed in
@@ -75,18 +73,11 @@ async function createResetService(mobService: MobService, roomTable: RoomTable):
 
   console.log("2 - seeding world")
   await resetService.seedMobTable()
-  await resetService.seedItemTable()
 
   /*tslint:disable*/
   console.log(`2 - reset service initialized with ${resetService.mobResets.length} mob resets, and ${resetService.itemResets.length} item resets`)
 
   return resetService
-}
-
-async function createItemService(itemTable: ItemTable) {
-  return new ItemService(
-    await getItemRepository(),
-    itemTable)
 }
 
 const locationService = new LocationService([])

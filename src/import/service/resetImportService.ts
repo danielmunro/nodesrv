@@ -8,9 +8,9 @@ import MobReset from "../../mob/model/mobReset"
 import MobRepository from "../../mob/repository/mob"
 import MobResetRepository from "../../mob/repository/mobReset"
 import RoomRepository from "../../room/repository/room"
+import { ResetFlag } from "../enum/resetFlag"
 import File from "../file"
 import Reset from "../reset"
-import { ResetFlag } from "../enum/resetFlag"
 
 export default class ResetImportService {
   private lastMobReset: MobReset

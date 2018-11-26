@@ -1,11 +1,11 @@
 import CheckedRequest from "../../check/checkedRequest"
 import GameService from "../../gameService/gameService"
-import match from "../../support/matcher/match"
 import { onlyLiving } from "../../mob/enum/disposition"
 import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
+import match from "../../support/matcher/match"
 import { NOT_FOUND } from "./constants"
 
 function lookAtSubject(request: Request, builder: ResponseBuilder, service: GameService) {

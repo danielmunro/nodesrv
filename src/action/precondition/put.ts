@@ -1,9 +1,9 @@
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import { CheckType } from "../../check/checkType"
-import Maybe from "../../support/functional/maybe"
 import GameService from "../../gameService/gameService"
 import { Request } from "../../request/request"
+import Maybe from "../../support/functional/maybe"
 import { MESSAGE_FAIL_CONTAINER_NOT_FOUND, Messages } from "./constants"
 
 export default function(request: Request, service: GameService): Promise<Check> {

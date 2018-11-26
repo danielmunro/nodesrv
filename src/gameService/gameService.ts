@@ -1,4 +1,6 @@
+import ItemService from "../item/itemService"
 import ItemTable from "../item/itemTable"
+import { getItemRepository } from "../item/repository/item"
 import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
 import { Direction } from "../room/constants"
@@ -7,8 +9,6 @@ import { Room } from "../room/model/room"
 import { default as RoomTable } from "../room/roomTable"
 import DefinitionService from "./definitionService"
 import TimeService from "./timeService"
-import ItemService from "../item/itemService"
-import { getItemRepository } from "../item/repository/item"
 
 export default class GameService {
   public static async new(

@@ -1,9 +1,9 @@
 import Check from "../../../check/check"
 import CheckBuilder from "../../../check/checkBuilder"
-import Maybe from "../../../support/functional/maybe"
 import GameService from "../../../gameService/gameService"
 import { isBanned } from "../../../mob/enum/standing"
 import { Request } from "../../../request/request"
+import Maybe from "../../../support/functional/maybe"
 import {
   MESSAGE_FAIL_BANNED,
   MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS, MESSAGE_FAIL_NO_TARGET,

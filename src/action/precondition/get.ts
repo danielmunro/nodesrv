@@ -1,12 +1,10 @@
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import { CheckType } from "../../check/checkType"
-import Maybe from "../../support/functional/maybe"
 import GameService from "../../gameService/gameService"
-import ItemTable from "../../item/itemTable"
 import { Request } from "../../request/request"
+import Maybe from "../../support/functional/maybe"
 import { MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages } from "./constants"
-import Service from "../../session/auth/service"
 
 export default function(request: Request, service: GameService): Promise<Check> {
   return new Maybe(request.getContextAsInput().component)

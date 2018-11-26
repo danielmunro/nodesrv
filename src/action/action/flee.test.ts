@@ -1,5 +1,5 @@
-import doNTimes from "../../support/functional/times"
 import { RequestType } from "../../request/requestType"
+import doNTimes from "../../support/functional/times"
 import TestBuilder from "../../test/testBuilder"
 
 let definition
