@@ -1,5 +1,7 @@
+import ItemService from "../item/itemService"
 import ItemTable from "../item/itemTable"
 import { Item } from "../item/model/item"
+import { getItemRepository } from "../item/repository/item"
 import { Fight } from "../mob/fight/fight"
 import FightTable from "../mob/fight/fightTable"
 import LocationService from "../mob/locationService"
@@ -13,8 +15,6 @@ import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
 import { default as RoomTable } from "../room/roomTable"
 import GameService from "./gameService"
-import ItemService from "../item/itemService"
-import { getItemRepository } from "../item/repository/item"
 
 export default class ServiceBuilder {
   public readonly locationService: LocationService = new LocationService([])
