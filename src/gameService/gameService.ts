@@ -1,6 +1,4 @@
 import ItemService from "../item/itemService"
-import ItemTable from "../item/itemTable"
-import { getItemRepository } from "../item/repository/item"
 import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
 import { Direction } from "../room/constants"
@@ -13,13 +11,13 @@ import TimeService from "./timeService"
 export default class GameService {
   public static async new(
     mobService: MobService,
+    itemService: ItemService,
     roomTable: RoomTable = new RoomTable({}),
-    itemTable: ItemTable = new ItemTable([]),
     exitTable: ExitTable = new ExitTable(mobService.locationService, []),
     time: number = 0,
   ): Promise<GameService> {
     return new GameService(
-      mobService, roomTable, new ItemService(await getItemRepository(), itemTable), exitTable, time)
+      mobService, roomTable, itemService, exitTable, time)
   }
 
   private timeService: TimeService

@@ -13,16 +13,12 @@ export default class ExitImportService {
 
   public async materializeExits(file: File) {
     const ids = Object.keys(file.roomMap)
-    const idLength = ids.length
-    for (let i = 0; i < idLength; i++) {
-      const importId = ids[i]
+    for (const importId of ids) {
       const room = file.roomDataMap[importId]
       if (room === undefined || room.doors === undefined) {
         continue
       }
-      const doorLength = room.doors.length
-      for (let j = 0; j < doorLength; j++) {
-        const door = room.doors[j]
+      for (const door of room.doors) {
         await this.createExitFromDoor(door, importId)
       }
     }

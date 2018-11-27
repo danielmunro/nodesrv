@@ -3,7 +3,7 @@ import { Room } from "./model/room"
 export default class RoomTable {
   public static new(rooms: Room[]) {
     const roomsById = {}
-    rooms.forEach((room) => roomsById[room.uuid] = room)
+    rooms.forEach(room => roomsById[room.uuid] = room)
     return new RoomTable(roomsById)
   }
 
@@ -13,7 +13,7 @@ export default class RoomTable {
     return this.roomsById[uuid]
   }
 
-  public canonical(room: Room): Room {
-    return this.get(room.uuid)
+  public count() {
+    return Object.keys(this.roomsById).length
   }
 }

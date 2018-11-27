@@ -1,5 +1,5 @@
 import { AffectType } from "../affect/affectType"
-import { newAffect, newPermanentAffect } from "../affect/factory"
+import { newPermanentAffect } from "../affect/factory"
 import { flagMap } from "../import/affectMap"
 import { ItemType as ImportItemType } from "../import/enum/itemType"
 import { newContainer, newEquipment, newItem, newWeapon } from "./factory"
@@ -7,12 +7,32 @@ import { ItemType } from "./itemType"
 import { Item } from "./model/item"
 
 export default class ItemBuilder {
+  private static setItemAffects(item: Item, flags: string[]) {
+    for (const flag of flags) {
+      if (flagMap[flag]) {
+        item.affects.push(newPermanentAffect(flagMap[flag]))
+      }
+    }
+  }
+
   private static async addPropertiesToItem(item: Item, itemData) {
     item.level = itemData.level
     item.value = itemData.cost
     item.weight = itemData.weight
     item.material = itemData.material
     item.importId = itemData.id
+    if (itemData.extraFlag !== "0") {
+      ItemBuilder.setItemAffects(item, itemData.extraFlag.split(""))
+    }
+    if (item.name === "pit") {
+      item.isTransferable = false
+    }
+  }
+
+  private static applyPoisonIfFlagged(item: Item, flag: string) {
+    if (flag !== "0") {
+      item.affects.push(newPermanentAffect(AffectType.Poison))
+    }
   }
 
   public async createItemFromImportData(itemData) {
@@ -36,7 +56,7 @@ export default class ItemBuilder {
         container.container.liquid = args[2]
         container.container.maxWeightForItem = args[3]
         const flags = args[1].split("")
-        this.setItemAffects(container, flags)
+        ItemBuilder.setItemAffects(container, flags)
         await ItemBuilder.addPropertiesToItem(container, itemData)
         return container
       case ImportItemType.Drink:
@@ -45,37 +65,23 @@ export default class ItemBuilder {
         drink.thirst = args[1]
         drink.drink = args[2]
         await ItemBuilder.addPropertiesToItem(drink, itemData)
-        if (args[3] !== "0") {
-          drink.affects.push(newAffect(AffectType.Poison))
-        }
+        ItemBuilder.applyPoisonIfFlagged(drink, args[3])
         return drink
       case ImportItemType.Food:
         const food = newItem(ItemType.Food, name, description)
         food.hunger = args[0]
         food.thirst = args[1]
         await ItemBuilder.addPropertiesToItem(food, itemData)
-        if (args[3] !== "0") {
-          food.affects.push(newAffect(AffectType.Poison))
-        }
+        ItemBuilder.applyPoisonIfFlagged(food, args[3])
         return food
       case ImportItemType.Fountain:
         const fountain = newItem(ItemType.Fountain, name, description)
         fountain.drink = args[2]
         fountain.isTransferable = false
-        if (args[3] !== "0") {
-          fountain.affects.push(newAffect(AffectType.Poison))
-        }
+        ItemBuilder.applyPoisonIfFlagged(fountain, args[3])
         return fountain
       default:
         return
     }
-  }
-
-  private setItemAffects(item: Item, flags: string[]) {
-    flags.forEach(flag => {
-      if (flagMap[flag]) {
-        item.affects.push(newPermanentAffect(flagMap[flag]))
-      }
-    })
   }
 }

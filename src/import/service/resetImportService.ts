@@ -1,10 +1,8 @@
-import { newItemReset } from "../../item/factory"
-import ItemReset from "../../item/model/itemReset"
+import { newItemRoomReset } from "../../item/factory"
 import ContainerRepository from "../../item/repository/container"
 import ItemRepository from "../../item/repository/item"
-import ItemResetRepository from "../../item/repository/itemReset"
+import ItemRoomResetRepository from "../../item/repository/itemRoomReset"
 import { newMobReset } from "../../mob/factory"
-import MobReset from "../../mob/model/mobReset"
 import MobRepository from "../../mob/repository/mob"
 import MobResetRepository from "../../mob/repository/mobReset"
 import RoomRepository from "../../room/repository/room"
@@ -13,12 +11,9 @@ import File from "../file"
 import Reset from "../reset"
 
 export default class ResetImportService {
-  private lastMobReset: MobReset
-  private lastItemReset: ItemReset
-
   constructor(
     public readonly mobResetRepository: MobResetRepository,
-    public readonly itemResetRepository: ItemResetRepository,
+    public readonly itemRoomResetRepository: ItemRoomResetRepository,
     public readonly mobRepository: MobRepository,
     public readonly itemRepository: ItemRepository,
     public readonly roomRepository: RoomRepository,
@@ -26,9 +21,7 @@ export default class ResetImportService {
   ) {}
 
   public async materializeResets(file: File) {
-    const resetCount = file.resets.length
-    for (let i = 0; i < resetCount; i++) {
-      const reset = file.resets[i]
+    for (const reset of file.resets) {
       switch (reset.resetFlag) {
         case ResetFlag.Mob:
           await this.createMobRoomReset(reset)
@@ -37,13 +30,13 @@ export default class ResetImportService {
           await this.createItemRoomReset(reset)
           break
         case ResetFlag.GiveItemToMob:
-          await this.createItemMobReset(reset)
+          // await this.createItemMobReset(reset)
           break
         case ResetFlag.EquipItemToMob:
-          await this.createItemEquipReset(reset)
+          // await this.createItemEquipReset(reset)
           break
         case ResetFlag.PutItemInContainer:
-          await this.createItemContainerReset(reset)
+          // await this.createItemContainerReset(reset)
           break
         case ResetFlag.Door:
           break
@@ -55,7 +48,7 @@ export default class ResetImportService {
     }
   }
 
-  private async createMobRoomReset(reset: Reset): Promise<MobReset> {
+  private async createMobRoomReset(reset: Reset) {
     const room = await this.roomRepository.findOneByImportId(reset.idOfResetDestination)
     const mob = await this.mobRepository.findOneByImportId(reset.idOfResetSubject)
     if (!room) {
@@ -64,13 +57,10 @@ export default class ResetImportService {
     if (!mob) {
       return
     }
-    this.lastMobReset = newMobReset(mob, room)
-    await this.mobResetRepository.save(this.lastMobReset)
-
-    return this.lastMobReset
+    await this.mobResetRepository.save(newMobReset(mob, room))
   }
 
-  private async createItemRoomReset(reset: Reset): Promise<ItemReset> {
+  private async createItemRoomReset(reset: Reset) {
     const room = await this.roomRepository.findOneByImportId(reset.idOfResetDestination)
     const item = await this.itemRepository.findOneByImportId(reset.idOfResetSubject)
     if (!room) {
@@ -79,58 +69,6 @@ export default class ResetImportService {
     if (!item) {
       return
     }
-    this.lastItemReset = newItemReset(item, room.inventory)
-    await this.itemResetRepository.save(this.lastItemReset)
-
-    return this.lastItemReset
-  }
-
-  private async createItemMobReset(reset: Reset): Promise<ItemReset> {
-    const item = await this.itemRepository.findOneByImportId(reset.idOfResetSubject)
-    if (!item) {
-      return
-    }
-    if (!this.lastMobReset) {
-      return
-    }
-    const mob = await this.mobRepository.findOneById(this.lastMobReset.mob.id)
-    const itemReset = newItemReset(item, mob.inventory)
-    await this.itemResetRepository.save(itemReset)
-
-    return itemReset
-  }
-
-  private async createItemEquipReset(reset: Reset): Promise<ItemReset> {
-    const item = await this.itemRepository.findOneByImportId(reset.idOfResetSubject)
-    if (!item) {
-      return
-    }
-    if (!this.lastMobReset) {
-      return
-    }
-    const mob = await this.mobRepository.findOneById(this.lastMobReset.mob.id)
-    const itemReset = newItemReset(item, mob.inventory)
-    await this.itemResetRepository.save(itemReset)
-
-    return itemReset
-  }
-
-  private async createItemContainerReset(reset: Reset): Promise<ItemReset> {
-    const item = await this.itemRepository.findOneByImportId(reset.idOfResetSubject)
-    if (!item) {
-      return
-    }
-    if (!this.lastItemReset) {
-      return
-    }
-    const container = await this.containerRepository.findOneById(this.lastItemReset.item.container.id)
-    if (!container) {
-      console.error("unknown item container for reset", reset)
-      return
-    }
-    const itemReset = newItemReset(item, container.inventory)
-    await this.itemResetRepository.save(itemReset)
-
-    return itemReset
+    await this.itemRoomResetRepository.save(newItemRoomReset(item, room))
   }
 }

@@ -112,13 +112,16 @@ export class Item {
     item.hunger = this.hunger
     item.attributes = this.attributes.copy()
     item.affects = this.affects.map(affect => newAffect(affect.affectType, affect.timeout))
+    if (this.container) {
+      item.container = this.container.copy()
+    }
 
     return item
   }
 
   public describe(): string {
     return this.description + (this.itemType === ItemType.Container ?
-      "\n\nContainer inventory:\n" + this.container.toString() : "")
+      `\n\n${this.name} contents:\n${this.container.toString()}` : "")
   }
 
   public toString(): string {

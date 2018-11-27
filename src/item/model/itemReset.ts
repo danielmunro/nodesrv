@@ -1,7 +1,6 @@
-import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import { Equipment } from "../equipment"
-import { Inventory } from "./inventory"
 import { Item } from "./item"
 
 @Entity()
@@ -13,10 +12,7 @@ export default class ItemReset {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @ManyToOne(type => Inventory, inventory => inventory.itemResets)
-  public inventory: Inventory
-
-  @OneToOne(type => Item)
+  @OneToOne(type => Item, { eager: true })
   @JoinColumn()
   public item: Item
 

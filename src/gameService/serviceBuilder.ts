@@ -13,6 +13,8 @@ import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
 import { default as RoomTable } from "../room/roomTable"
 import GameService from "./gameService"
+import ItemService from "../item/itemService"
+import { getItemRepository } from "../item/repository/item"
 
 export default class ServiceBuilder {
   public readonly locationService: LocationService = new LocationService([])
@@ -60,8 +62,8 @@ export default class ServiceBuilder {
         await getMobRepository(),
         new FightTable(this.fights),
         this.locationService),
+      new ItemService(await getItemRepository(), new ItemTable(this.items)),
       RoomTable.new(this.rooms),
-      new ItemTable(this.items),
       new ExitTable(this.locationService, this.exits),
       this.time)
   }

@@ -2,23 +2,34 @@ import { AffectType } from "../affect/affectType"
 import { newAffect } from "../affect/factory"
 import Attributes from "../attributes/model/attributes"
 import { DamageType } from "../damage/damageType"
+import { Room } from "../room/model/room"
 import { Equipment } from "./equipment"
 import { ItemType } from "./itemType"
 import Container from "./model/container"
-import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
 import ItemReset from "./model/itemReset"
+import { ItemRoomReset } from "./model/itemRoomReset"
 import Weapon from "./model/weapon"
 import { WeaponType } from "./weaponType"
 
+export function newItemRoomReset(
+  item: Item,
+  room: Room,
+  itemLimit: number = 1): ItemReset {
+  const itemReset = new ItemRoomReset()
+  itemReset.item = item
+  itemReset.room = room
+  itemReset.itemLimit = itemLimit
+
+  return itemReset
+}
+
 export function newItemReset(
   item: Item,
-  inventory: Inventory,
   itemLimit: number = -1,
   equipmentPosition: Equipment = null): ItemReset {
   const itemReset = new ItemReset()
   itemReset.item = item
-  itemReset.inventory = inventory
   itemReset.itemLimit = itemLimit
   itemReset.equipmentPosition = equipmentPosition
 

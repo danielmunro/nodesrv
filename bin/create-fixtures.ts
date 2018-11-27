@@ -5,7 +5,7 @@ import ImportService from "../src/import/service/importService"
 import ResetImportService from "../src/import/service/resetImportService"
 import { getContainerRepository } from "../src/item/repository/container"
 import { getItemRepository } from "../src/item/repository/item"
-import { getItemResetRepository } from "../src/item/repository/itemReset"
+import { getItemRoomResetRepository } from "../src/item/repository/itemRoomReset"
 import { getMobRepository } from "../src/mob/repository/mob"
 import { getMobResetRepository } from "../src/mob/repository/mobReset"
 import { getExitRepository } from "../src/room/repository/exit"
@@ -47,7 +47,7 @@ async function parse(importService: ImportService) {
     await getExitRepository())
   const resetMaterializer = new ResetImportService(
     await getMobResetRepository(),
-    await getItemResetRepository(),
+    await getItemRoomResetRepository(),
     await getMobRepository(),
     await getItemRepository(),
     await getRoomRepository(),

@@ -1,7 +1,6 @@
 import {Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm"
 import { format } from "../../support/string"
 import { Item } from "./item"
-import ItemReset from "./itemReset"
 
 @Entity()
 export class Inventory {
@@ -10,9 +9,6 @@ export class Inventory {
 
   @OneToMany((type) => Item, (item) => item.inventory, { cascadeInsert: true, cascadeUpdate: true })
   public items: Item[] = []
-
-  @OneToMany(type => ItemReset, reset => reset.inventory)
-  public itemResets: ItemReset[]
 
   public find(search): Item | undefined {
     return this.items.find(search)
