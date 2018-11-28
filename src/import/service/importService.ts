@@ -11,6 +11,7 @@ import RoomRepository from "../../room/repository/room"
 import { SectionHeader } from "../enum/sectionHeader"
 import File from "../file"
 import Reset from "../reset"
+import { ResetFlag } from "../enum/resetFlag"
 
 const NPC_MOVEMENT = 1000
 
@@ -28,15 +29,9 @@ export default class ImportService {
     return roll(count, sides) + bonus
   }
 
-  private static async addReset(file, resetData) {
-    if (!resetData.args) {
-      return
-    }
-    file.resets.push(new Reset(resetData.command, resetData.args[0], resetData.args[2]))
-  }
-
   private itemTypes = []
   private itemBuilder = new ItemBuilder()
+  private lastReset: Reset
 
   constructor(
     private readonly mobRepository: MobRepository,
@@ -81,13 +76,32 @@ export default class ImportService {
         await this.addRoom(file, row)
         break
       case SectionHeader.Resets:
-        await ImportService.addReset(file, row)
+        await this.addReset(file, row)
         break
       case SectionHeader.Objects:
         this.itemTypes.push(row.type)
         await this.addItem(file, row)
         break
     }
+  }
+
+  private async addReset(file, resetData) {
+    const resetSubject = resetData.args[0]
+    const reset = new Reset(resetData.command, resetSubject, this.getResetDestination(resetData))
+    if (resetData.command === ResetFlag.Mob) {
+      this.lastReset = reset
+    }
+    file.resets.push(reset)
+  }
+
+  private getResetDestination(resetData) {
+    if (resetData.command === ResetFlag.GiveItemToMob) {
+      return this.lastReset.idOfResetSubject
+    }
+    if (resetData.command === ResetFlag.EquipItemToMob) {
+      return this.lastReset.idOfResetSubject
+    }
+    return resetData.args[2]
   }
 
   private async addItem(file, itemData) {

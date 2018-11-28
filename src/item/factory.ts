@@ -11,11 +11,13 @@ import ItemReset from "./model/itemReset"
 import { ItemRoomReset } from "./model/itemRoomReset"
 import Weapon from "./model/weapon"
 import { WeaponType } from "./weaponType"
+import { Mob } from "../mob/model/mob"
+import ItemMobReset from "./model/itemMobReset"
 
 export function newItemRoomReset(
   item: Item,
   room: Room,
-  itemLimit: number = 1): ItemReset {
+  itemLimit: number = 1): ItemRoomReset {
   const itemReset = new ItemRoomReset()
   itemReset.item = item
   itemReset.room = room
@@ -24,14 +26,14 @@ export function newItemRoomReset(
   return itemReset
 }
 
-export function newItemReset(
+export function newItemMobReset(
   item: Item,
-  itemLimit: number = -1,
-  equipmentPosition: Equipment = null): ItemReset {
-  const itemReset = new ItemReset()
+  mob: Mob,
+  itemLimit: number = -1): ItemMobReset {
+  const itemReset = new ItemMobReset()
   itemReset.item = item
+  itemReset.mob = mob
   itemReset.itemLimit = itemLimit
-  itemReset.equipmentPosition = equipmentPosition
 
   return itemReset
 }
@@ -65,13 +67,6 @@ export function newEquipment(name: string, description: string, equipment: Equip
 export function newFood(name: string, description: string, nourishment: number = 1): Item {
   const item = newItem(ItemType.Food, name, description)
   item.hunger = nourishment
-
-  return item
-}
-
-export function newItemFixture(name: string, description: string): Item {
-  const item = newItem(ItemType.Fixture, name, description)
-  item.isTransferable = false
 
   return item
 }

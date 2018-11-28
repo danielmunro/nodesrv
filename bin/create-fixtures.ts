@@ -3,7 +3,6 @@ import * as minimist from "minimist"
 import ExitImportService from "../src/import/service/exitImportService"
 import ImportService from "../src/import/service/importService"
 import ResetImportService from "../src/import/service/resetImportService"
-import { getContainerRepository } from "../src/item/repository/container"
 import { getItemRepository } from "../src/item/repository/item"
 import { getItemRoomResetRepository } from "../src/item/repository/itemRoomReset"
 import { getMobRepository } from "../src/mob/repository/mob"
@@ -11,8 +10,9 @@ import { getMobResetRepository } from "../src/mob/repository/mobReset"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { initializeConnection } from "../src/support/db/connection"
+import { getItemMobResetRepository } from "../src/item/repository/itemMobReset"
 
-const listFile = readFileSync("fixtures/area/area.lst").toString()
+const listFile = readFileSync("fixtures/area/area-midgaard.lst").toString()
 const areaFiles = listFile.split("\n")
 const args = minimist(process.argv.slice(2))
 const writeNewData = args.write === undefined ? false : args.write
@@ -30,17 +30,14 @@ initializeConnection().then(async () => {
 
 async function parse(importService: ImportService) {
   console.log("1 - parsing file")
-  const areaLength = areaFiles.length
   const areas = []
-  for (let i = 0; i < areaLength; i++) {
-    const file = areaFiles[i]
+  for (const file of areaFiles) {
     console.log(`  - importing ${file}`)
-    areas.push(await importService.parseAreaFile(areaFiles[i]))
+    areas.push(await importService.parseAreaFile(file))
   }
   if (!writeNewData) {
     return
   }
-
   console.log("2 - exits")
   const exitMaterializer = new ExitImportService(
     await getRoomRepository(),
@@ -48,12 +45,11 @@ async function parse(importService: ImportService) {
   const resetMaterializer = new ResetImportService(
     await getMobResetRepository(),
     await getItemRoomResetRepository(),
+    await getItemMobResetRepository(),
     await getMobRepository(),
     await getItemRepository(),
-    await getRoomRepository(),
-    await getContainerRepository())
-  for (let i = 0; i < areaLength; i++) {
-    const area = areas[i]
+    await getRoomRepository())
+  for (const area of areas) {
     console.log(`  - generating exits & resets for ${area.filename}`)
     await exitMaterializer.materializeExits(area)
     await resetMaterializer.materializeResets(area)

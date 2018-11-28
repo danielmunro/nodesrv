@@ -24,7 +24,7 @@ export default class ResetService {
     await Promise.all(this.itemRoomResets.map(this.respawnFromItemRoomReset.bind(this)))
   }
 
-  private async respawnFromMobReset(mobReset: MobReset): Promise<void> {
+  private async respawnFromMobReset(mobReset: MobReset) {
     const mob = await this.mobService.generateNewMobInstance(mobReset)
     const room = this.roomTable.get(mobReset.room.uuid)
     this.mobService.add(mob, room)
