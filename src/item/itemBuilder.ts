@@ -7,35 +7,7 @@ import { ItemType } from "./itemType"
 import { Item } from "./model/item"
 
 export default class ItemBuilder {
-  private static setItemAffects(item: Item, flags: string[]) {
-    for (const flag of flags) {
-      if (flagMap[flag]) {
-        item.affects.push(newPermanentAffect(flagMap[flag]))
-      }
-    }
-  }
-
-  private static async addPropertiesToItem(item: Item, itemData) {
-    item.level = itemData.level
-    item.value = itemData.cost
-    item.weight = itemData.weight
-    item.material = itemData.material
-    item.importId = itemData.id
-    if (itemData.extraFlag !== "0") {
-      ItemBuilder.setItemAffects(item, itemData.extraFlag.split(""))
-    }
-    if (item.name === "pit") {
-      item.isTransferable = false
-    }
-  }
-
-  private static applyPoisonIfFlagged(item: Item, flag: string) {
-    if (flag !== "0") {
-      item.affects.push(newPermanentAffect(AffectType.Poison))
-    }
-  }
-
-  public async createItemFromImportData(itemData) {
+  public static async createItemFromImportData(itemData) {
     const args = itemData.pObjFlags.split(" ")
     const { name, description } = itemData
     switch (itemData.type) {
@@ -82,6 +54,34 @@ export default class ItemBuilder {
         return fountain
       default:
         return
+    }
+  }
+
+  private static setItemAffects(item: Item, flags: string[]) {
+    for (const flag of flags) {
+      if (flagMap[flag]) {
+        item.affects.push(newPermanentAffect(flagMap[flag]))
+      }
+    }
+  }
+
+  private static async addPropertiesToItem(item: Item, itemData) {
+    item.level = itemData.level
+    item.value = itemData.cost
+    item.weight = itemData.weight
+    item.material = itemData.material
+    item.importId = itemData.id
+    if (itemData.extraFlag !== "0") {
+      ItemBuilder.setItemAffects(item, itemData.extraFlag.split(""))
+    }
+    if (item.name === "pit") {
+      item.isTransferable = false
+    }
+  }
+
+  private static applyPoisonIfFlagged(item: Item, flag: string) {
+    if (flag !== "0") {
+      item.affects.push(newPermanentAffect(AffectType.Poison))
     }
   }
 }

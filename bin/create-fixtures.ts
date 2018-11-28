@@ -4,13 +4,13 @@ import ExitImportService from "../src/import/service/exitImportService"
 import ImportService from "../src/import/service/importService"
 import ResetImportService from "../src/import/service/resetImportService"
 import { getItemRepository } from "../src/item/repository/item"
+import { getItemMobResetRepository } from "../src/item/repository/itemMobReset"
 import { getItemRoomResetRepository } from "../src/item/repository/itemRoomReset"
 import { getMobRepository } from "../src/mob/repository/mob"
 import { getMobResetRepository } from "../src/mob/repository/mobReset"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { initializeConnection } from "../src/support/db/connection"
-import { getItemMobResetRepository } from "../src/item/repository/itemMobReset"
 
 const listFile = readFileSync("fixtures/area/area-midgaard.lst").toString()
 const areaFiles = listFile.split("\n")

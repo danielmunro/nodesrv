@@ -8,10 +8,10 @@ import roll from "../../random/dice"
 import { newRoom } from "../../room/factory"
 import { Room } from "../../room/model/room"
 import RoomRepository from "../../room/repository/room"
+import { ResetFlag } from "../enum/resetFlag"
 import { SectionHeader } from "../enum/sectionHeader"
 import File from "../file"
 import Reset from "../reset"
-import { ResetFlag } from "../enum/resetFlag"
 
 const NPC_MOVEMENT = 1000
 
@@ -30,7 +30,6 @@ export default class ImportService {
   }
 
   private itemTypes = []
-  private itemBuilder = new ItemBuilder()
   private lastReset: Reset
 
   constructor(
@@ -105,7 +104,7 @@ export default class ImportService {
   }
 
   private async addItem(file, itemData) {
-    const item = await this.itemBuilder.createItemFromImportData(itemData)
+    const item = await ItemBuilder.createItemFromImportData(itemData)
     if (!item) {
       return
     }
