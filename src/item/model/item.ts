@@ -70,6 +70,9 @@ export class Item {
   @Column("integer", { nullable: true })
   public capacity: number
 
+  @Column("integer", { nullable: true })
+  public wearTimer: number
+
   @ManyToOne(type => Inventory, inventory => inventory.items, { eager: true })
   public inventory: Inventory
 

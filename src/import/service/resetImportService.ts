@@ -71,7 +71,7 @@ export default class ResetImportService {
     const room = await this.roomRepository.findOneByImportId(reset.idOfResetDestination)
     const item = await this.itemRepository.findOneByImportId(reset.idOfResetSubject)
     if (!item || !room) {
-      console.log("bad item room reset", reset)
+      console.log("bad item room reset", reset, !!item, !!room)
       return
     }
     await this.itemRoomResetRepository.save(newItemRoomReset(item, room))

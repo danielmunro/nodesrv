@@ -106,6 +106,7 @@ export default class ImportService {
   private async addItem(file, itemData) {
     const item = await ItemBuilder.createItemFromImportData(itemData)
     if (!item) {
+      console.log(`skipping ${itemData.type}: ${itemData.id}`)
       return
     }
     file.items.push(item)

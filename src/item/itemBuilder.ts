@@ -1,16 +1,18 @@
 import { AffectType } from "../affect/affectType"
 import { newPermanentAffect } from "../affect/factory"
+import { DamageType } from "../damage/damageType"
 import { flagMap } from "../import/affectMap"
 import { ItemType as ImportItemType } from "../import/enum/itemType"
 import { newContainer, newEquipment, newItem, newWeapon } from "./factory"
 import { ItemType } from "./itemType"
 import { Item } from "./model/item"
+import { WeaponType } from "./weaponType"
 
 export default class ItemBuilder {
   public static async createItemFromImportData(itemData) {
     const args = itemData.pObjFlags.split(" ")
-    const { name, description } = itemData
-    switch (itemData.type) {
+    const { name, description, type } = itemData
+    switch (type) {
       case ImportItemType.Weapon:
         const weapon = newWeapon(name, description, args[0], args[2])
         await ItemBuilder.addPropertiesToItem(weapon, itemData)
@@ -52,9 +54,43 @@ export default class ItemBuilder {
         fountain.isTransferable = false
         ItemBuilder.applyPoisonIfFlagged(fountain, args[3])
         return fountain
+      case ImportItemType.Forge:
+        const mageLab = newItem(ItemType.Forge, name, description)
+        mageLab.isTransferable = false
+        await ItemBuilder.addPropertiesToItem(mageLab, itemData)
+        return mageLab
+      case ImportItemType.Light:
+        const light = newItem(ItemType.Light, name, description)
+        light.wearTimer = args[2]
+        await ItemBuilder.addPropertiesToItem(light, itemData)
+        return light
+      case ImportItemType.Map:
+        return ItemBuilder.createItem(ItemType.Map, name, description, itemData)
+      case ImportItemType.Trash:
+        return ItemBuilder.createItem(ItemType.Trash, name, description, itemData)
+      case ImportItemType.Gem:
+        return ItemBuilder.createItem(ItemType.Gem, name, description, itemData)
+      case ImportItemType.Key:
+        return ItemBuilder.createItem(ItemType.Key, name, description, itemData)
+      case ImportItemType.Wand:
+        const wand = newWeapon(name, description, WeaponType.Wand, DamageType.Magic)
+        await ItemBuilder.addPropertiesToItem(wand, itemData)
+        return wand
+      case ImportItemType.Furniture:
+        const furniture = newItem(ItemType.Fixture, name, description)
+        await ItemBuilder.addPropertiesToItem(furniture, itemData)
+        return furniture
+      case ImportItemType.Money:
+        return ItemBuilder.createItem(ItemType.Money, name, description, itemData)
       default:
         return
     }
+  }
+
+  private static async createItem(itemType: ItemType, name, description, itemData) {
+    const item = newItem(itemType, name, description)
+    await ItemBuilder.addPropertiesToItem(item, itemData)
+    return item
   }
 
   private static setItemAffects(item: Item, flags: string[]) {
