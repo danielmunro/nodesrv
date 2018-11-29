@@ -54,7 +54,7 @@ export default class ImportService {
   private async iterateSections(file: File) {
     let header = ""
     for (const section of file.data) {
-      if (section.length === 1) {
+      if (section.length === 1 && Array.isArray(section[0])) {
         continue
       }
       for (const row of section) {
@@ -116,9 +116,6 @@ export default class ImportService {
   }
 
   private async addMob(file, mobData) {
-    if (!mobData.hit) {
-      return
-    }
     const vitals = newVitals(ImportService.dice(mobData.hit), ImportService.dice(mobData.mana), NPC_MOVEMENT)
     const mob = newMob(
       mobData.name,

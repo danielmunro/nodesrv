@@ -22,8 +22,11 @@ export enum ItemType {
   Portal,
   Potion,
   Scroll,
+  SpellPage,
   TrapPart,
   Trash,
   Treasure,
   WarpStone,
+  Jukebox,
+  None,
 }

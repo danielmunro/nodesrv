@@ -22,8 +22,6 @@ export default class ItemBuilder {
         const armor = newEquipment(name, description, args[0])
         await ItemBuilder.addPropertiesToItem(armor, itemData)
         return armor
-      case ImportItemType.Boat:
-        break
       case ImportItemType.Container:
         const container = newContainer(name, description)
         container.container.weightCapacity = args[0]
@@ -82,6 +80,44 @@ export default class ItemBuilder {
         return furniture
       case ImportItemType.Money:
         return ItemBuilder.createItem(ItemType.Money, name, description, itemData)
+      case ImportItemType.Treasure:
+        return ItemBuilder.createItem(ItemType.Treasure, name, description, itemData)
+      case ImportItemType.Potion:
+        return ItemBuilder.createItem(ItemType.Potion, name, description, itemData)
+      case ImportItemType.Scroll:
+        return ItemBuilder.createItem(ItemType.Scroll, name, description, itemData)
+      case ImportItemType.SpellPage:
+        return ItemBuilder.createItem(ItemType.SpellPage, name, description, itemData)
+      case ImportItemType.ItemPart:
+        return ItemBuilder.createItem(ItemType.ItemPart, name, description, itemData)
+      case ImportItemType.Boat:
+        return ItemBuilder.createItem(ItemType.Boat, name, description, itemData)
+      case ImportItemType.Grenade:
+        return ItemBuilder.createItem(ItemType.Grenade, name, description, itemData)
+      case ImportItemType.Jukebox:
+        return ItemBuilder.createItem(ItemType.Jukebox, name, description, itemData)
+      case ImportItemType.TrapPart:
+        return ItemBuilder.createItem(ItemType.Boat, name, description, itemData)
+      case ImportItemType.Jewelry:
+        return ItemBuilder.createItem(ItemType.Jewelry, name, description, itemData)
+      case ImportItemType.Pill:
+        return ItemBuilder.createItem(ItemType.Pill, name, description, itemData)
+      case ImportItemType.WarpStone:
+        return ItemBuilder.createItem(ItemType.WarpStone, name, description, itemData)
+      case ImportItemType.Portal:
+        return ItemBuilder.createItem(ItemType.Portal, name, description, itemData)
+      case ImportItemType.None:
+        return ItemBuilder.createItem(ItemType.None, name, description, itemData)
+      case ImportItemType.RoomKey:
+        return ItemBuilder.createItem(ItemType.Key, name, description, itemData)
+      case ImportItemType.NpcCorpse:
+        return ItemBuilder.createItem(ItemType.Corpse, name, description, itemData)
+      case ImportItemType.PcCorpse:
+        return ItemBuilder.createItem(ItemType.Corpse, name, description, itemData)
+      case ImportItemType.Staff:
+        const staff = newWeapon(name, description, WeaponType.Stave, DamageType.Magic)
+        await ItemBuilder.addPropertiesToItem(staff, itemData)
+        return staff
       default:
         return
     }

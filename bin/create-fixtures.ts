@@ -11,8 +11,9 @@ import { getMobResetRepository } from "../src/mob/repository/mobReset"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { initializeConnection } from "../src/support/db/connection"
+import File from "../src/import/file"
 
-const listFile = readFileSync("fixtures/area/area-midgaard.lst").toString()
+const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")
 const args = minimist(process.argv.slice(2))
 const writeNewData = args.write === undefined ? false : args.write
@@ -30,10 +31,13 @@ initializeConnection().then(async () => {
 
 async function parse(importService: ImportService) {
   console.log("1 - parsing file")
-  const areas = []
+  const areas: File[] = []
+  const rowCount = areaFiles.length
+  let i = 1
   for (const file of areaFiles) {
-    console.log(`  - importing ${file}`)
+    console.log(`  - importing ${file} (${i}/${rowCount})`)
     areas.push(await importService.parseAreaFile(file))
+    i++
   }
   if (!writeNewData) {
     return
@@ -49,9 +53,11 @@ async function parse(importService: ImportService) {
     await getMobRepository(),
     await getItemRepository(),
     await getRoomRepository())
+  i = 1
   for (const area of areas) {
-    console.log(`  - generating exits & resets for ${area.filename}`)
+    console.log(`  - generating exits & resets for ${area.filename} (${i}/${rowCount})`)
     await exitMaterializer.materializeExits(area)
     await resetMaterializer.materializeResets(area)
+    i++
   }
 }
