@@ -1,23 +1,23 @@
 import { newItemMobReset, newItemRoomReset } from "../../item/factory"
-import ItemRepository from "../../item/repository/item"
 import ItemMobResetRepository from "../../item/repository/itemMobReset"
 import ItemRoomResetRepository from "../../item/repository/itemRoomReset"
 import { newMobReset } from "../../mob/factory"
-import MobRepository from "../../mob/repository/mob"
 import MobResetRepository from "../../mob/repository/mobReset"
-import RoomRepository from "../../room/repository/room"
 import { ResetFlag } from "../enum/resetFlag"
 import File from "../file"
 import Reset from "../reset"
+import ItemTable from "../table/itemTable"
+import MobTable from "../table/mobTable"
+import RoomTable from "../table/roomTable"
 
 export default class ResetImportService {
   constructor(
     public readonly mobResetRepository: MobResetRepository,
     public readonly itemRoomResetRepository: ItemRoomResetRepository,
     public readonly itemMobResetRepository: ItemMobResetRepository,
-    public readonly mobRepository: MobRepository,
-    public readonly itemRepository: ItemRepository,
-    public readonly roomRepository: RoomRepository) {}
+    public readonly mobTable: MobTable,
+    public readonly itemTable: ItemTable,
+    public readonly roomTable: RoomTable) {}
 
   public async materializeResets(file: File) {
     for (const reset of file.resets) {
@@ -48,8 +48,8 @@ export default class ResetImportService {
   }
 
   private async createItemMobReset(reset: Reset) {
-    const item = await this.itemRepository.findOneByImportId(reset.idOfResetSubject)
-    const mob = await this.mobRepository.findOneByImportId(reset.idOfResetDestination)
+    const item = await this.itemTable.getByImportId(reset.idOfResetSubject)
+    const mob = await this.mobTable.getByImportId(reset.idOfResetDestination)
     if (!item || !mob) {
       console.log("bad item mob reset", reset)
       return
@@ -58,8 +58,8 @@ export default class ResetImportService {
   }
 
   private async createMobRoomReset(reset: Reset) {
-    const room = await this.roomRepository.findOneByImportId(reset.idOfResetDestination)
-    const mob = await this.mobRepository.findOneByImportId(reset.idOfResetSubject)
+    const room = await this.roomTable.getByImportId(reset.idOfResetDestination)
+    const mob = await this.mobTable.getByImportId(reset.idOfResetSubject)
     if (!room || !mob) {
       console.log("bad mob room reset", reset)
       return
@@ -68,8 +68,8 @@ export default class ResetImportService {
   }
 
   private async createItemRoomReset(reset: Reset) {
-    const room = await this.roomRepository.findOneByImportId(reset.idOfResetDestination)
-    const item = await this.itemRepository.findOneByImportId(reset.idOfResetSubject)
+    const room = await this.roomTable.getByImportId(reset.idOfResetDestination)
+    const item = await this.itemTable.getByImportId(reset.idOfResetSubject)
     if (!item || !room) {
       console.log("bad item room reset", reset, !!item, !!room)
       return

@@ -1,13 +1,13 @@
 import { Direction } from "../../room/constants"
 import { newExit } from "../../room/factory"
 import ExitRepository from "../../room/repository/exit"
-import RoomRepository from "../../room/repository/room"
 import { DirectionFlag } from "../enum/directionFlag"
 import File from "../file"
+import RoomTable from "../table/roomTable"
 
 export default class ExitImportService {
   constructor(
-    public readonly roomRepository: RoomRepository,
+    public readonly roomTable: RoomTable,
     public readonly exitRepository: ExitRepository,
   ) {}
 
@@ -46,8 +46,8 @@ export default class ExitImportService {
         direction = Direction.Down
         break
     }
-    const source = await this.roomRepository.findOneByImportId(importId)
-    const destination = await this.roomRepository.findOneByImportId(door.vnum)
+    const source = await this.roomTable.getByImportId(importId)
+    const destination = await this.roomTable.getByImportId(door.vnum)
 
     if (source && destination) {
       await this.exitRepository.save(newExit(direction, source, destination))
