@@ -16,11 +16,13 @@ import { WeaponType } from "./weaponType"
 export function newItemRoomReset(
   item: Item,
   room: Room,
-  itemLimit: number = 1): ItemRoomReset {
+  maxQuantity,
+  maxPerRoom): ItemRoomReset {
   const itemReset = new ItemRoomReset()
   itemReset.item = item
   itemReset.room = room
-  itemReset.itemLimit = itemLimit
+  itemReset.maxQuantity = maxQuantity
+  itemReset.maxPerRoom = maxPerRoom
 
   return itemReset
 }
@@ -28,11 +30,13 @@ export function newItemRoomReset(
 export function newItemMobReset(
   item: Item,
   mob: Mob,
-  itemLimit: number = -1): ItemMobReset {
+  maxQuantity,
+  maxPerRoom): ItemMobReset {
   const itemReset = new ItemMobReset()
   itemReset.item = item
   itemReset.mob = mob
-  itemReset.itemLimit = itemLimit
+  itemReset.maxQuantity = maxQuantity
+  itemReset.maxPerRoom = maxPerRoom
 
   return itemReset
 }

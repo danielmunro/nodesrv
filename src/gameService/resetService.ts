@@ -27,12 +27,23 @@ export default class ResetService {
   private async respawnFromMobReset(mobReset: MobReset) {
     const mob = await this.mobService.generateNewMobInstance(mobReset)
     const room = this.roomTable.get(mobReset.room.uuid)
-    this.mobService.add(mob, room)
+    const mobsInRoom = this.mobService.locationService
+      .getMobsByRoom(room).filter(m => m.importId === mob.importId)
+    const mobsTotal = this.mobService.locationService
+      .getMobsByImportId(mob.importId)
+    if (mobsInRoom.length < mobReset.maxPerRoom && mobsTotal.length < mobReset.maxQuantity) {
+      this.mobService.add(mob, room)
+    }
   }
 
   private async respawnFromItemRoomReset(itemRoomReset: ItemRoomReset) {
     const item = await this.itemService.generateNewItemInstance(itemRoomReset)
     const room = this.roomTable.get(itemRoomReset.room.uuid)
-    room.inventory.addItem(item)
+    const itemsInRoom = this.itemService.findAllByInventory(room.inventory).filter(i => i.importId === item.importId)
+    const itemsTotal = this.itemService.getByImportId(item.importId)
+    if (itemsInRoom.length < itemRoomReset.maxPerRoom && itemsTotal.length < itemRoomReset.maxQuantity) {
+      room.inventory.addItem(item)
+      this.itemService.add(item)
+    }
   }
 }

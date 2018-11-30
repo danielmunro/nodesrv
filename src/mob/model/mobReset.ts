@@ -23,4 +23,10 @@ export default class MobReset {
 
   @Column("text", { nullable: true })
   public disposition: Disposition
+
+  @Column("integer")
+  public maxQuantity
+
+  @Column("integer", { nullable: true })
+  public maxPerRoom
 }

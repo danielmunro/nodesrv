@@ -12,9 +12,13 @@ export default class ItemService {
 
   public async generateNewItemInstance(itemReset: ItemReset): Promise<Item> {
     const item = await this.itemRepository.findOneById(itemReset.item.id)
-    const instance = item.copy()
-    this.itemTable.add(instance)
-    return instance
+    const copy = item.copy()
+    copy.importId = itemReset.item.importId
+    return copy
+  }
+
+  public getByImportId(importId) {
+    return this.itemTable.items.filter(item => item.importId === importId)
   }
 
   public findItem(inventory: Inventory, search: string) {

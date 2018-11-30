@@ -4,7 +4,7 @@ import { Equipment } from "../equipment"
 import { Item } from "./item"
 
 @Entity()
-export default class ItemReset {
+export default abstract class ItemReset {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -16,9 +16,12 @@ export default class ItemReset {
   @JoinColumn()
   public item: Item
 
-  @Column("integer")
-  public itemLimit: number = 0
-
   @Column("text", { nullable: true })
   public equipmentPosition: Equipment = null
+
+  @Column("integer")
+  public maxQuantity
+
+  @Column("integer", { nullable: true })
+  public maxPerRoom
 }

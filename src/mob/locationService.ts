@@ -31,6 +31,12 @@ export default class LocationService {
   }
 
   public getMobsByRoom(room: Room) {
-    return this.mobLocations.filter(mobLocation => mobLocation.room === room).map(mobLocation => mobLocation.mob)
+    return this.mobLocations.filter(mobLocation => mobLocation.room === room)
+      .map(mobLocation => mobLocation.mob)
+  }
+
+  public getMobsByImportId(importId) {
+    return this.mobLocations.filter(mobLocation => mobLocation.mob.importId === importId)
+      .map(mobLocation => mobLocation.mob)
   }
 }

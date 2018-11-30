@@ -173,6 +173,7 @@ export class Mob {
       ),
       this.wanders)
     mob.role = this.role
+    mob.importId = this.importId
     return mob
   }
 

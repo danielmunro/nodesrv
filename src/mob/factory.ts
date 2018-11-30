@@ -12,11 +12,14 @@ import { Race } from "./race/race"
 export function newMobReset(
   mob: Mob,
   room: Room,
-  disposition: Disposition = Disposition.Standing): MobReset {
+  maxQuantity: number,
+  maxPerRoom: number): MobReset {
   const mobReset = new MobReset()
   mobReset.mob = mob
   mobReset.room = room
-  mobReset.disposition = disposition
+  mobReset.disposition = Disposition.Standing
+  mobReset.maxQuantity = maxQuantity
+  mobReset.maxPerRoom = maxPerRoom
 
   return mobReset
 }

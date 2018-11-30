@@ -113,6 +113,7 @@ export class Item {
     item.itemType = this.itemType
     item.value = this.value
     item.hunger = this.hunger
+    item.importId = this.importId
     item.attributes = this.attributes.copy()
     item.affects = this.affects.map(affect => newAffect(affect.affectType, affect.timeout))
     if (this.container) {

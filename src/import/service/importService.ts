@@ -29,6 +29,14 @@ export default class ImportService {
     return roll(count, sides) + bonus
   }
 
+  private static getAmount(amount) {
+    if (amount <= 0) {
+      return 999
+    }
+
+    return amount
+  }
+
   private itemTypes = []
   private lastReset: Reset
 
@@ -86,7 +94,12 @@ export default class ImportService {
 
   private async addReset(file, resetData) {
     const resetSubject = resetData.args[0]
-    const reset = new Reset(resetData.command, resetSubject, this.getResetDestination(resetData))
+    const reset = new Reset(
+      resetData.command,
+      resetSubject,
+      this.getResetDestination(resetData),
+      ImportService.getAmount(resetData.args[1]),
+      3 in resetData.args ? ImportService.getAmount(resetData.args[3]) : null)
     if (resetData.command === ResetFlag.Mob) {
       this.lastReset = reset
     }

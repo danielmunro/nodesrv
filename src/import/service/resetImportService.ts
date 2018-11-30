@@ -54,7 +54,7 @@ export default class ResetImportService {
       console.log("bad item mob reset", reset)
       return
     }
-    await this.itemMobResetRepository.save(newItemMobReset(item, mob))
+    await this.itemMobResetRepository.save(newItemMobReset(item, mob, reset.maxQuantity, reset.maxPerRoom))
   }
 
   private async createMobRoomReset(reset: Reset) {
@@ -64,7 +64,8 @@ export default class ResetImportService {
       console.log("bad mob room reset", reset)
       return
     }
-    await this.mobResetRepository.save(newMobReset(mob, room))
+
+    await this.mobResetRepository.save(newMobReset(mob, room, reset.maxQuantity, reset.maxPerRoom))
   }
 
   private async createItemRoomReset(reset: Reset) {
@@ -74,6 +75,6 @@ export default class ResetImportService {
       console.log("bad item room reset", reset, !!item, !!room)
       return
     }
-    await this.itemRoomResetRepository.save(newItemRoomReset(item, room))
+    await this.itemRoomResetRepository.save(newItemRoomReset(item, room, reset.maxQuantity, reset.maxPerRoom))
   }
 }
