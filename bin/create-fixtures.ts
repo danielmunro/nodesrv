@@ -18,8 +18,9 @@ import { Room } from "../src/room/model/room"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { initializeConnection } from "../src/support/db/connection"
+import { getMobEquipResetRepository } from "../src/item/repository/mobEquipReset"
 
-const listFile = readFileSync("fixtures/area/area.lst").toString()
+const listFile = readFileSync("fixtures/area/area-midgaard.lst").toString()
 const areaFiles = listFile.split("\n")
 const args = minimist(process.argv.slice(2))
 const writeNewData = args.write === undefined ? false : args.write
@@ -66,6 +67,7 @@ async function parse(importService: ImportService) {
     await getMobResetRepository(),
     await getItemRoomResetRepository(),
     await getItemMobResetRepository(),
+    await getMobEquipResetRepository(),
     mobTable,
     itemTable,
     roomTable)

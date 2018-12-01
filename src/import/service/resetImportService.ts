@@ -1,4 +1,4 @@
-import { newItemMobReset, newItemRoomReset } from "../../item/factory"
+import { newItemMobReset, newItemRoomReset, newMobEquipReset } from "../../item/factory"
 import ItemMobResetRepository from "../../item/repository/itemMobReset"
 import ItemRoomResetRepository from "../../item/repository/itemRoomReset"
 import { newMobReset } from "../../mob/factory"
@@ -9,12 +9,14 @@ import Reset from "../reset"
 import ItemTable from "../table/itemTable"
 import MobTable from "../table/mobTable"
 import RoomTable from "../table/roomTable"
+import MobEquipResetRepository from "../../item/repository/mobEquipReset"
 
 export default class ResetImportService {
   constructor(
     public readonly mobResetRepository: MobResetRepository,
     public readonly itemRoomResetRepository: ItemRoomResetRepository,
     public readonly itemMobResetRepository: ItemMobResetRepository,
+    public readonly mobEquipResetRepository: MobEquipResetRepository,
     public readonly mobTable: MobTable,
     public readonly itemTable: ItemTable,
     public readonly roomTable: RoomTable) {}
@@ -32,7 +34,7 @@ export default class ResetImportService {
           await this.createItemMobReset(reset)
           break
         case ResetFlag.EquipItemToMob:
-          // await this.createItemEquipReset(reset)
+          await this.createMobEquipReset(reset)
           break
         case ResetFlag.PutItemInContainer:
           // await this.createItemContainerReset(reset)
@@ -55,6 +57,16 @@ export default class ResetImportService {
       return
     }
     await this.itemMobResetRepository.save(newItemMobReset(item, mob, reset.maxQuantity, reset.maxPerRoom))
+  }
+
+  private async createMobEquipReset(reset: Reset) {
+    const item = await this.itemTable.getByImportId(reset.idOfResetSubject)
+    const mob = await this.mobTable.getByImportId(reset.idOfResetDestination)
+    if (!item || !mob) {
+      console.log("bad mob equip reset", reset)
+      return
+    }
+    await this.mobEquipResetRepository.save(newMobEquipReset(item, mob, reset.maxQuantity, reset.maxPerRoom))
   }
 
   private async createMobRoomReset(reset: Reset) {
