@@ -1,6 +1,6 @@
 import { Entity, JoinColumn, OneToOne } from "typeorm"
-import ItemReset from "./itemReset"
 import { Mob } from "../../mob/model/mob"
+import ItemReset from "./itemReset"
 
 @Entity()
 export class MobEquipReset extends ItemReset {

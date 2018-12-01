@@ -1,6 +1,8 @@
-import { newItemMobReset, newItemRoomReset, newMobEquipReset } from "../../item/factory"
+import { newItemContainerReset, newItemMobReset, newItemRoomReset, newMobEquipReset } from "../../item/factory"
+import ItemContainerResetRepository from "../../item/repository/itemContainerReset"
 import ItemMobResetRepository from "../../item/repository/itemMobReset"
 import ItemRoomResetRepository from "../../item/repository/itemRoomReset"
+import MobEquipResetRepository from "../../item/repository/mobEquipReset"
 import { newMobReset } from "../../mob/factory"
 import MobResetRepository from "../../mob/repository/mobReset"
 import { ResetFlag } from "../enum/resetFlag"
@@ -9,14 +11,15 @@ import Reset from "../reset"
 import ItemTable from "../table/itemTable"
 import MobTable from "../table/mobTable"
 import RoomTable from "../table/roomTable"
-import MobEquipResetRepository from "../../item/repository/mobEquipReset"
 
 export default class ResetImportService {
+  /* tslint:disable */
   constructor(
     public readonly mobResetRepository: MobResetRepository,
     public readonly itemRoomResetRepository: ItemRoomResetRepository,
     public readonly itemMobResetRepository: ItemMobResetRepository,
     public readonly mobEquipResetRepository: MobEquipResetRepository,
+    public readonly itemContainerResetRepository: ItemContainerResetRepository,
     public readonly mobTable: MobTable,
     public readonly itemTable: ItemTable,
     public readonly roomTable: RoomTable) {}
@@ -37,7 +40,7 @@ export default class ResetImportService {
           await this.createMobEquipReset(reset)
           break
         case ResetFlag.PutItemInContainer:
-          // await this.createItemContainerReset(reset)
+          await this.createItemContainerReset(reset)
           break
         case ResetFlag.Door:
           break
@@ -67,6 +70,17 @@ export default class ResetImportService {
       return
     }
     await this.mobEquipResetRepository.save(newMobEquipReset(item, mob, reset.maxQuantity, reset.maxPerRoom))
+  }
+
+  private async createItemContainerReset(reset: Reset) {
+    const itemSubject = await this.itemTable.getByImportId(reset.idOfResetSubject)
+    const itemDestination = await this.itemTable.getByImportId(reset.idOfResetDestination)
+
+    if (!itemSubject || !itemDestination) {
+      console.log("bad item container reset", reset)
+      return
+    }
+    await this.itemContainerResetRepository.save(newItemContainerReset(itemSubject, itemDestination))
   }
 
   private async createMobRoomReset(reset: Reset) {

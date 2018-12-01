@@ -8,11 +8,12 @@ import { Equipment } from "./equipment"
 import { ItemType } from "./itemType"
 import Container from "./model/container"
 import { Item } from "./model/item"
+import { ItemContainerReset } from "./model/itemContainerReset"
 import ItemMobReset from "./model/itemMobReset"
 import { ItemRoomReset } from "./model/itemRoomReset"
+import { MobEquipReset } from "./model/mobEquipReset"
 import Weapon from "./model/weapon"
 import { WeaponType } from "./weaponType"
-import { MobEquipReset } from "./model/mobEquipReset"
 
 export function newItemRoomReset(
   item: Item,
@@ -50,6 +51,16 @@ export function newMobEquipReset(item: Item, mob: Mob, maxQuantity, maxPerRoom) 
   equipMobReset.maxPerRoom = maxPerRoom
 
   return equipMobReset
+}
+
+export function newItemContainerReset(itemSource: Item, itemDestination: Item) {
+  const itemContainerReset = new ItemContainerReset()
+  itemContainerReset.item = itemSource
+  itemContainerReset.itemDestination = itemDestination
+  itemContainerReset.maxQuantity = 1
+  itemContainerReset.maxPerRoom = 1
+
+  return itemContainerReset
 }
 
 export function newItem(itemType: ItemType, name: string, description: string, level: number = 1): Item {

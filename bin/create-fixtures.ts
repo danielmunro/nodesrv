@@ -9,8 +9,10 @@ import MobTable from "../src/import/table/mobTable"
 import RoomTable from "../src/import/table/roomTable"
 import { Item } from "../src/item/model/item"
 import { getItemRepository } from "../src/item/repository/item"
+import { getItemContainerResetRepository } from "../src/item/repository/itemContainerReset"
 import { getItemMobResetRepository } from "../src/item/repository/itemMobReset"
 import { getItemRoomResetRepository } from "../src/item/repository/itemRoomReset"
+import { getMobEquipResetRepository } from "../src/item/repository/mobEquipReset"
 import { Mob } from "../src/mob/model/mob"
 import { getMobRepository } from "../src/mob/repository/mob"
 import { getMobResetRepository } from "../src/mob/repository/mobReset"
@@ -18,9 +20,8 @@ import { Room } from "../src/room/model/room"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { initializeConnection } from "../src/support/db/connection"
-import { getMobEquipResetRepository } from "../src/item/repository/mobEquipReset"
 
-const listFile = readFileSync("fixtures/area/area-midgaard.lst").toString()
+const listFile = readFileSync("fixtures/area/area.lst").toString()
 const areaFiles = listFile.split("\n")
 const args = minimist(process.argv.slice(2))
 const writeNewData = args.write === undefined ? false : args.write
@@ -68,6 +69,7 @@ async function parse(importService: ImportService) {
     await getItemRoomResetRepository(),
     await getItemMobResetRepository(),
     await getMobEquipResetRepository(),
+    await getItemContainerResetRepository(),
     mobTable,
     itemTable,
     roomTable)

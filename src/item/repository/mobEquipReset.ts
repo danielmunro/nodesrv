@@ -1,6 +1,6 @@
 import { getConnection } from "../../support/db/connection"
-import MobEquipResetRepositoryImpl from "./mobEquipResetRepositoryImpl"
 import { MobEquipReset } from "../model/mobEquipReset"
+import MobEquipResetRepositoryImpl from "./mobEquipResetRepositoryImpl"
 
 export default interface MobEquipResetRepository {
   findAll()
