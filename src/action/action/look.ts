@@ -11,7 +11,7 @@ import { NOT_FOUND } from "./constants"
 function lookAtSubject(request: Request, builder: ResponseBuilder, service: GameService) {
   const mob = service.getMobsByRoom(request.room).find(m => match(m.name, request.getSubject()))
   if (mob) {
-    return builder.info(mob.description)
+    return builder.info(mob.describe())
   }
 
   const subject = request.getContextAsInput().subject

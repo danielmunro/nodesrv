@@ -4,7 +4,9 @@ import ResetService from "../src/gameService/resetService"
 import ItemService from "../src/item/itemService"
 import ItemTable from "../src/item/itemTable"
 import { getItemRepository } from "../src/item/repository/item"
+import { getItemContainerResetRepository } from "../src/item/repository/itemContainerReset"
 import { getItemRoomResetRepository } from "../src/item/repository/itemRoomReset"
+import { getMobEquipResetRepository } from "../src/item/repository/mobEquipReset"
 import FightTable from "../src/mob/fight/fightTable"
 import LocationService from "../src/mob/locationService"
 import MobService from "../src/mob/mobService"
@@ -57,10 +59,14 @@ async function createResetService(
   mobService: MobService, roomTable: RoomTable, itemService: ItemService): Promise<ResetService> {
   const mobResetRepository = await getMobResetRepository()
   const itemRoomResetRepository = await getItemRoomResetRepository()
+  const mobEquipResetRepository = await getMobEquipResetRepository()
+  const itemContainerResetRepository = await getItemContainerResetRepository()
 
   return new ResetService(
     await mobResetRepository.findAll(),
     await itemRoomResetRepository.findAll(),
+    await mobEquipResetRepository.findAll(),
+    await itemContainerResetRepository.findAll(),
     mobService,
     roomTable,
     itemService)

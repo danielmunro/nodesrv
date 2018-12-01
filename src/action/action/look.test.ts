@@ -75,7 +75,7 @@ describe("look", () => {
       testBuilder.createRequest(RequestType.Look, "look alice"))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(mob.description)
+    expect(response.message.getMessageToRequestCreator()).toBe(mob.describe())
   })
 
   it("should be able to describe an item in the room", async () => {

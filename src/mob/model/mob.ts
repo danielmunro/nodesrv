@@ -218,6 +218,11 @@ export class Mob {
     return this.name
   }
 
+  public describe(): string {
+    return this.description + "\n\nEquipped:\n" + this.equipped.items.reduce(
+      (previous, current) => previous + current.equipment + ": " + current.name + "\n", "")
+  }
+
   public isDead(): boolean {
     return this.disposition === Disposition.Dead
   }

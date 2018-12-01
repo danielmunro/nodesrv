@@ -40,10 +40,10 @@ describe("respawner", () => {
     const roomTable = RoomTable.new([currentRoom, startRoom])
     const respawner = new Respawner(
       new ResetService([
-        newMobReset(mob1, startRoom),
-        newMobReset(mob2, startRoom),
-        newMobReset(mob3, startRoom),
-      ], [], mobService, roomTable))
+        newMobReset(mob1, startRoom, 1, 1),
+        newMobReset(mob2, startRoom, 1, 1),
+        newMobReset(mob3, startRoom, 1, 1),
+      ], [], [], [], mobService, roomTable, null))
     await respawner.seedMobTable()
     mobTable.getMobs().forEach(mob => {
       mob.disposition = Disposition.Dead
