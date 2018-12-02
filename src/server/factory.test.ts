@@ -1,11 +1,8 @@
 import GameService from "../gameService/gameService"
+import ItemService from "../item/itemService"
 import MobService from "../mob/mobService"
-import MobTable from "../mob/mobTable"
-import { getMobRepository } from "../mob/repository/mob"
 import { getTestRoom } from "../test/room"
 import newServer from "./factory"
-import ItemService from "../item/itemService"
-import { getItemRepository } from "../item/repository/item"
 
 describe("game server factory", () => {
   it("should not start if passed a bad port", async () => {

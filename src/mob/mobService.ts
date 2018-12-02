@@ -13,7 +13,6 @@ import LocationService from "./locationService"
 import MobTable from "./mobTable"
 import { Mob } from "./model/mob"
 import MobReset from "./model/mobReset"
-import MobRepository from "./repository/mob"
 import { Specialization } from "./specialization/specialization"
 
 function createSkillFromSkillType(skillType: SkillType): Skill {

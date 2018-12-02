@@ -12,7 +12,6 @@ import { Mob } from "./model/mob"
 import MobLocation from "./model/mobLocation"
 import MobReset from "./model/mobReset"
 import { Race } from "./race/race"
-import { getMobRepository } from "./repository/mob"
 
 export function newMobReset(
   mob: Mob,

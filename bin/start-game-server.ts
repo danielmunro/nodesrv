@@ -7,10 +7,10 @@ import { getItemRepository } from "../src/item/repository/item"
 import { createMobService } from "../src/mob/factory"
 import LocationService from "../src/mob/locationService"
 import MobTable from "../src/mob/mobTable"
+import { getMobRepository } from "../src/mob/repository/mob"
 import { newExitTable, newRoomTable } from "../src/room/factory"
 import newServer from "../src/server/factory"
 import { initializeConnection } from "../src/support/db/connection"
-import { getMobRepository } from "../src/mob/repository/mob"
 
 const Timings = {
   init: "total game initialization",
