@@ -60,7 +60,7 @@ export default class ServiceBuilder {
         new MobTable(this.mobs),
         new FightTable(this.fights),
         this.locationService),
-      new ItemService(new ItemTable(), new ItemTable(this.items)),
+      new ItemService(new ItemTable(this.items), new ItemTable(this.items)),
       RoomTable.new(this.rooms),
       new ExitTable(this.locationService, this.exits),
       this.time)

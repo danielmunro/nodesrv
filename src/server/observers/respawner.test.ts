@@ -33,8 +33,8 @@ describe("respawner", () => {
     const locationService = new LocationService()
     const mobTable = new MobTable()
     const mobService = new MobService(
-      new MobTable(),
       mobTable,
+      new MobTable([mob1, mob2, mob3]),
       new FightTable(),
       locationService)
     const roomTable = RoomTable.new([currentRoom, startRoom])
