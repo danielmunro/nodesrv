@@ -1,8 +1,13 @@
+import LocationService from "../mob/locationService"
 import roll from "../random/dice"
 import { allDirections, Direction } from "./constants"
 import { getFreeReciprocalDirection, isReciprocalFree, reverse } from "./direction"
+import ExitTable from "./exitTable"
 import { Exit } from "./model/exit"
 import { Room } from "./model/room"
+import { getExitRepository } from "./repository/exit"
+import { getRoomRepository } from "./repository/room"
+import { default as RoomTable } from "./roomTable"
 
 export function newRoom(name: string, description: string, items = []): Room {
   const room = new Room()
@@ -50,4 +55,16 @@ export function newReciprocalExit(source: Room, destination: Room, direction: Di
     newExit(direction, source, destination),
     newExit(reverse(direction), destination, source),
   ]
+}
+
+export async function newRoomTable(): Promise<RoomTable> {
+  const roomRepository = await getRoomRepository()
+  const models = await roomRepository.findAll()
+  return RoomTable.new(models)
+}
+
+export async function newExitTable(service: LocationService): Promise<ExitTable> {
+  const exitRepository = await getExitRepository()
+  const models = await exitRepository.findAll()
+  return new ExitTable(service, models)
 }
