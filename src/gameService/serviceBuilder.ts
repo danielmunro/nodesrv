@@ -59,10 +59,10 @@ export default class ServiceBuilder {
     return GameService.new(
       new MobService(
         new MobTable(this.mobs),
-        await getMobRepository(),
+        new MobTable(this.mobs),
         new FightTable(this.fights),
         this.locationService),
-      new ItemService(await getItemRepository(), new ItemTable(this.items)),
+      new ItemService(new ItemTable(), new ItemTable(this.items)),
       RoomTable.new(this.rooms),
       new ExitTable(this.locationService, this.exits),
       this.time)

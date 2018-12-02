@@ -10,6 +10,7 @@ import MobTable from "../src/mob/mobTable"
 import { newExitTable, newRoomTable } from "../src/room/factory"
 import newServer from "../src/server/factory"
 import { initializeConnection } from "../src/support/db/connection"
+import { getMobRepository } from "../src/mob/repository/mob"
 
 const Timings = {
   init: "total game initialization",
@@ -33,13 +34,15 @@ initializeConnection().then(async () => {
   console.time(Timings.roomAndMobTables)
   const tables = await initializeRoomAndMobTables()
   const roomTable = tables[0]
-  const mobService = tables[1]
+  const mobTable = tables[1]
   const exitTable = tables[2]
+  const mobService = await createMobService(mobTable, locationService)
   console.debug(`room table initialized with ${roomTable.count()} rooms`)
   console.timeEnd(Timings.roomAndMobTables)
 
   console.time(Timings.resetService)
-  const itemService = await new ItemService(await getItemRepository(), new ItemTable())
+  const itemService = await new ItemService(
+    new ItemTable(), new ItemTable(await (await getItemRepository()).findAll()))
   const resetService = await createResetService(mobService, roomTable, itemService)
   console.timeEnd(Timings.resetService)
 
@@ -65,7 +68,7 @@ initializeConnection().then(async () => {
 async function initializeRoomAndMobTables() {
   return Promise.all([
     newRoomTable(),
-    createMobService(new MobTable(), locationService),
+    new MobTable(await (await getMobRepository()).findAll()),
     newExitTable(locationService),
   ])
 }

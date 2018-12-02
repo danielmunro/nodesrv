@@ -25,7 +25,7 @@ async function createClient(player, actions, service, startRoom, locationService
 
 export async function getTestClient(player = getTestPlayer(), room = getTestRoom()): Promise<Client> {
   const service = await GameService.new(
-    new MobService(new MobTable(), await getMobRepository()))
+    new MobService(), null)
   const actions = await getActionCollection(service)
   const client = await createClient(player, actions, service, room, service.mobService.locationService)
   await client.session.login(player)
@@ -35,7 +35,7 @@ export async function getTestClient(player = getTestPlayer(), room = getTestRoom
 
 export async function getTestClientLoggedOut(player = getTestPlayer(), room = getTestRoom()): Promise<Client> {
   const service = await GameService.new(
-    new MobService(new MobTable(), await getMobRepository()), RoomTable.new([room]))
+    new MobService(), null, RoomTable.new([room]))
   const actions = await getActionCollection(service)
   return createClient(player, actions, service, room, service.mobService.mobTable)
 }

@@ -30,11 +30,11 @@ describe("respawner", () => {
     await mobRepository.save([mob1, mob2, mob3])
 
     // given
-    const locationService = new LocationService([])
-    const mobTable = new MobTable([])
+    const locationService = new LocationService()
+    const mobTable = new MobTable()
     const mobService = new MobService(
+      new MobTable(),
       mobTable,
-      mobRepository,
       new FightTable(),
       locationService)
     const roomTable = RoomTable.new([currentRoom, startRoom])

@@ -17,12 +17,12 @@ let ws
 async function getGameServer(): Promise<GameServer> {
   const locationService = new LocationService([])
   const mobService = new MobService(
-    new MobTable([]),
-    await getMobRepository(),
+    new MobTable(),
+    new MobTable(),
     new FightTable(),
     locationService)
 
-  return new GameServer(ws, await GameService.new(mobService), getTestRoom(), null, mobService)
+  return new GameServer(ws, await GameService.new(mobService, null), getTestRoom(), null, mobService)
 }
 
 const mockWs = jest.fn(() => ({ send: jest.fn() }))

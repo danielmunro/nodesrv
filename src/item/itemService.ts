@@ -2,16 +2,15 @@ import ItemTable from "./itemTable"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
 import ItemReset from "./model/itemReset"
-import ItemRepository from "./repository/item"
 
 export default class ItemService {
   constructor(
-    private readonly itemRepository: ItemRepository,
-    private readonly itemTable: ItemTable,
+    private readonly itemTable: ItemTable = new ItemTable(),
+    private readonly itemTemplateTable: ItemTable = new ItemTable(),
   ) {}
 
   public async generateNewItemInstance(itemReset: ItemReset): Promise<Item> {
-    const item = await this.itemRepository.findOneById(itemReset.item.id)
+    const item = await this.itemTemplateTable.items.find(i => i.id === itemReset.item.id)
     const copy = item.copy()
     copy.importId = itemReset.item.importId
     return copy

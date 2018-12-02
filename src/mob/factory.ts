@@ -66,5 +66,5 @@ export function newMob(name: string, description: string, race: Race, vitals: Vi
 }
 
 export async function createMobService(mobTable: MobTable, aLocationService: LocationService) {
-  return new MobService(mobTable, await getMobRepository(), new FightTable(), aLocationService)
+  return new MobService(new MobTable(), mobTable, new FightTable(), aLocationService)
 }

@@ -37,8 +37,8 @@ export function assignSpecializationToMob(mob: Mob, specialization: Specializati
 
 export default class MobService {
   constructor(
-    public readonly mobTable: MobTable,
-    private readonly mobRepository: MobRepository,
+    public readonly mobTable: MobTable = new MobTable(),
+    private readonly mobTemplateTable: MobTable = new MobTable(),
     private readonly fightTable: FightTable = new FightTable(),
     public readonly locationService: LocationService = new LocationService()) {}
 
@@ -71,7 +71,7 @@ export default class MobService {
   }
 
   public async generateNewMobInstance(mobReset: MobReset): Promise<Mob> {
-    const mob = await this.mobRepository.findOneById(mobReset.mob.id)
+    const mob = await this.mobTemplateTable.find(m => m.id === mobReset.mob.id)
     const clone = mob.copy()
     clone.mobReset = mobReset
 
