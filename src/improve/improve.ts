@@ -12,15 +12,15 @@ function successModifierRoll(): number {
 }
 
 function checkImprove(response: Response, checkType: CheckType, baseImproveChance: number = BASE_IMPROVE_CHANCE) {
-  let it = initialImproveRoll()
-  if (response.isSuccessful()) {
-    it += successModifierRoll()
-  }
-  if (it <= baseImproveChance) {
-    response
-      .getCheckedRequest()
-      .getCheckTypeResult(checkType).level++
-  }
+  // let it = initialImproveRoll()
+  // if (response.isSuccessful()) {
+  //   it += successModifierRoll()
+  // }
+  // if (it <= baseImproveChance) {
+  //   response
+  //     .getCheckedRequest()
+  //     .getCheckTypeResult(checkType).level++
+  // }
   return response
 }
 

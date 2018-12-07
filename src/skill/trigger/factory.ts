@@ -9,34 +9,32 @@ import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
 import { Room } from "../../room/model/room"
 import { Skill } from "../model/skill"
-import { getSkillActionDefinition } from "../skillTable"
+import { getSkillActionDefinition, getSkillTable } from "../skillTable"
 import { Event } from "./event"
 import { Resolution } from "./resolution"
 
-async function filterBySkillTrigger(service: GameService, skill: Skill, trigger: Trigger) {
-  const action = await getSkillActionDefinition(service, skill.skillType)
-  if (!action) {
-    return false
-  }
-  return action.triggers.some((skillTrigger) => {
-    return skillTrigger === trigger
-  })
-}
-
 export function getSkillsByTrigger(service: GameService, mob: Mob, trigger: Trigger) {
-  return mob.skills.filter((skill) => filterBySkillTrigger(service, skill, trigger))
+  return []
+  const definitions = getSkillTable(service)
+  return mob.skills.filter(
+    skill => definitions.find(d => d.skillType === skill.skillType).triggers.indexOf(trigger) > -1)
 }
 
 async function attemptSkillAction(
   service: GameService, mob: Mob, trigger: Trigger, target: Mob, room: Room, skill: Skill): Promise<Response> {
+  console.log(`attempting ${skill.skillType} on trigger ${trigger}`)
   const definition = await getSkillActionDefinition(service, skill.skillType)
   const request = new Request(mob, room, new EventContext(RequestType.Event, trigger))
   if (!definition) {
     return request.respondWith(ActionOutcome.None).error("not a skill definition")
   }
-  const check = await definition.preconditions(request, service)
 
-  return definition.action(new CheckedRequest(request, check), service)
+  if (definition.preconditions) {
+    const check = await definition.preconditions(request, service)
+    return definition.action(new CheckedRequest(request, check), service)
+  }
+
+  return definition.action(request, service)
 }
 
 export async function createSkillTriggerEvent(
@@ -58,6 +56,7 @@ export async function createSkillTriggerEvents(
   service: GameService, mob: Mob, trigger: Trigger, target: Mob, room: Room): Promise<Event[]> {
   const events = []
   for (const skill of getSkillsByTrigger(service, mob, trigger)) {
+    console.log(`trigger ${trigger} got ${skill.skillType}`)
     const event = new Event(mob, trigger)
     if ((await attemptSkillAction(service, mob, trigger, target, room, skill)).isSuccessful()) {
       event.resolveWith(skill.skillType)

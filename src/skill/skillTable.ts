@@ -1,5 +1,6 @@
 import GameService from "../gameService/gameService"
 import { Trigger } from "../mob/enum/trigger"
+import { Request } from "../request/request"
 import backstab from "./action/backstab"
 import bash from "./action/bash"
 import berserk from "./action/berserk"
@@ -34,7 +35,7 @@ function newWeaponSkill(service: GameService, skillType: SkillType) {
   return service.definition().skill(
     skillType,
     Trigger.DamageModifier,
-    request => request)
+    (request: Request) => request.respondWith().success())
 }
 
 export function getSkillTable(service: GameService) {

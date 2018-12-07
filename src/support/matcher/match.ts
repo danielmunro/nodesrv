@@ -1,3 +1,4 @@
 export default function(thing: string, subject: string): boolean {
-  return thing.split(" ").some((word) => word.startsWith(subject))
+  const subjectToLower = subject.toLowerCase()
+  return thing.toLowerCase().split(" ").some(word => word.startsWith(subjectToLower))
 }

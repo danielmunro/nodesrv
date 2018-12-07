@@ -11,7 +11,7 @@ export default class SkillDefinition {
     private readonly service: GameService,
     public readonly skillType: SkillType,
     public readonly triggers: Trigger[],
-    public readonly action: (checkedRequest: CheckedRequest, service: GameService) => Promise<Response>,
+    public readonly action: (checkedRequest: CheckedRequest | Request, service: GameService) => Promise<Response>,
     public readonly preconditions: (request: Request, service: GameService) => Promise<Check> = null) {}
 
   public isSkillTypeMatch(skillType: SkillType) {
