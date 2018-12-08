@@ -1,7 +1,7 @@
+import {ActionOutcome} from "../action/actionOutcome"
+import {RequestType} from "../request/requestType"
 import TestBuilder from "../test/testBuilder"
 import {SkillType} from "./skillType"
-import {RequestType} from "../request/requestType"
-import {ActionOutcome} from "../action/actionOutcome"
 
 describe("skill table", () => {
   it("should be able to invoke a weapon skill", async () => {
