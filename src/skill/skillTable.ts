@@ -34,7 +34,7 @@ function newWeaponSkill(service: GameService, skillType: SkillType) {
   return service.definition().skill(
     skillType,
     Trigger.DamageModifier,
-    request => request)
+    request => request.respondWith().success())
 }
 
 export function getSkillTable(service: GameService) {
