@@ -19,6 +19,10 @@ export default class SkillDefinition {
   }
 
   public async doAction(request: Request) {
+    if (!this.preconditions) {
+      return this.action(new CheckedRequest(request, await Check.ok()), this.service)
+    }
+
     const check = await this.preconditions(request, this.service)
 
     if (check.isOk()) {
