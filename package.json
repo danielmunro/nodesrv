@@ -81,6 +81,7 @@
       "dontExecuteTestObserver.ts",
       "src/timer"
     ],
-    "setupTestFrameworkScriptFile": "./bin/test-setup.ts"
+    "setupTestFrameworkScriptFile": "./bin/test-setup.ts",
+    "testResultsProcessor": "jest-sonar-reporter"
   }
 }
