@@ -84,5 +84,8 @@
     ],
     "setupTestFrameworkScriptFile": "./bin/test-setup.ts",
     "testResultsProcessor": "jest-sonar-reporter"
+  },
+  "jestSonar": {
+    "reportFile": "test-report.xml"
   }
 }
