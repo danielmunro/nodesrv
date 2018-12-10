@@ -11,4 +11,11 @@ before_script:
   - psql -c 'create database nodesrvtest;' -U postgres
   - cp ormconfig-travis.json ormconfig.json
   - yarn lint
-script: yarn test-coverage -i
+script:
+  - yarn test-coverage -i
+  - sonar-scanner
+addons:
+  sonarcloud:
+    organization: danielmunro-github
+    token:
+      secure: befa09151a77d699e6e168d61eec0aafe1aadc6e
