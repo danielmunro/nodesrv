@@ -69,6 +69,9 @@ export default class ImportService {
         if (row.header) {
           header = row.header
         }
+        if (Object.keys(row).length === 1) {
+          continue
+        }
         await this.addRow(header, file, row)
       }
     }

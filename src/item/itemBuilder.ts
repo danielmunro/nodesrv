@@ -10,7 +10,7 @@ import { WeaponType } from "./weaponType"
 
 export default class ItemBuilder {
   public static async createItemFromImportData(itemData) {
-    const args = itemData.pObjFlags.split(" ")
+    const args = itemData.pObjFlags ? itemData.pObjFlags.split(" ") : []
     const { name, description, type } = itemData
     switch (type) {
       case ImportItemType.Weapon:

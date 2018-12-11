@@ -1,11 +1,7 @@
-[![Build Status](https://travis-ci.org/danielmunro/nodesrv.svg?branch=master)](https://travis-ci.org/danielmunro/nodesrv)
+[![Build Status](https://travis-ci.org/danielmunro/nodesrv.svg?branch=master)](https://travis-ci.org/danielmunro/nodesrv) ![Sonatype](https://sonarcloud.io/api/project_badges/measure?project=nodesrv&metric=coverage)
 
 # nodesrv
 Nodesrv is a text-based web socket [MUD framework](https://en.wikipedia.org/wiki/MUD).
-
-Written in Typescript, using the [ts-node](https://github.com/TypeStrong/ts-node) runtime, this project is under active development.
-
-![A screenshot of the client](https://danmunro.com/images/client.png)
 
 ## Getting Started
 
