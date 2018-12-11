@@ -65,7 +65,7 @@ export default class ImportService {
       if (section.length === 1 && Array.isArray(section[0])) {
         continue
       }
-      for (const row of section) {
+      for (const row of section.values) {
         if (row.header) {
           header = row.header
         }
