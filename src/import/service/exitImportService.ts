@@ -15,7 +15,7 @@ export default class ExitImportService {
     const ids = Object.keys(file.roomMap)
     for (const importId of ids) {
       const room = file.roomDataMap[importId]
-      if (room === undefined || room.doors === undefined) {
+      if (!room.doors) {
         continue
       }
       for (const door of room.doors) {
@@ -45,6 +45,9 @@ export default class ExitImportService {
       case DirectionFlag.Down:
         direction = Direction.Down
         break
+      default:
+        console.error("no direction for door", door, importId)
+        return
     }
     const source = await this.roomTable.getByImportId(importId)
     const destination = await this.roomTable.getByImportId(door.vnum)
