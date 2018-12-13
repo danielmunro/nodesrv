@@ -30,7 +30,7 @@ export default class ImportService {
   }
 
   private static getAmount(amount) {
-    if (amount <= 0) {
+    if (amount <= 0 || amount === null) {
       return 999
     }
 
@@ -102,7 +102,7 @@ export default class ImportService {
       resetSubject,
       this.getResetDestination(resetData),
       ImportService.getAmount(resetData.args[1]),
-      3 in resetData.args ? ImportService.getAmount(resetData.args[3]) : null)
+      ImportService.getAmount(3 in resetData.args ? resetData.args[3] : null))
     if (resetData.command === ResetFlag.Mob) {
       this.lastReset = reset
     }
