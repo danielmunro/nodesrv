@@ -62,4 +62,19 @@ describe("mob model", () => {
     expect(mob.vitals.mana).toBe(combined.vitals.mana)
     expect(mob.vitals.mv).toBe(combined.vitals.mv)
   })
+
+  it("should describe if it's a merchant", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
+    // given
+    const mob = testBuilder.withMob().mob
+    const merchant = testBuilder.withMerchant().mob
+    const player = (await testBuilder.withPlayer()).player
+
+    // expect
+    expect(mob.isMerchant()).toBeFalsy()
+    expect(merchant.isMerchant()).toBeTruthy()
+    expect(player.sessionMob.isMerchant()).toBeFalsy()
+  })
 })

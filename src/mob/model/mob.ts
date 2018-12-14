@@ -85,7 +85,7 @@ export class Mob {
   @OneToMany(type => Affect, affect => affect.mob, { ...ownedEntityOptions })
   public affects: Affect[] = []
 
-  @OneToOne((type) => Vitals, { cascadeAll: true, eager: true })
+  @OneToOne(type => Vitals, { cascadeAll: true, eager: true })
   @JoinColumn()
   public vitals: Vitals = new Vitals()
 
