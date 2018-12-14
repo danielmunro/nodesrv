@@ -19,10 +19,10 @@ export default class Drink {
   public capacity: number = 0
 
   @Column("integer")
-  public amount: number = 0
+  public drinkAmount: number = 0
 
   @Column("integer")
-  public nourishment: number = 0
+  public foodAmount: number = 0
 
   @OneToOne(type => Item, item => item.food)
   public item

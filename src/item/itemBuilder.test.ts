@@ -55,4 +55,75 @@ describe("itemBuilder", () => {
     expect(item.affects.some(affect => affect.affectType === AffectType.Hum)).toBeTruthy()
     expect(item.affects).toHaveLength(2)
   })
+
+  it("should build a drink", async () => {
+    // given
+    const drink = await ItemBuilder.createItemFromImportData({
+      pObjFlags: "1 2 milk 0",
+      type: ItemType.Drink,
+    })
+
+    expect(drink.drink.drinkAmount).toBe(2)
+    expect(drink.drink.capacity).toBe(2)
+    expect(drink.drink.liquid).toBe("milk")
+    expect(drink.drink.foodAmount).toBe(1)
+  })
+
+  it("should build a poisoned drink", async () => {
+    // given
+    const drink = await ItemBuilder.createItemFromImportData({
+      pObjFlags: "1 2 milk 1",
+      type: ItemType.Drink,
+    })
+
+    // expect
+    expect(drink.affects.find(affect => affect.affectType === AffectType.Poison)).toBeTruthy()
+  })
+
+  it("should build food", async () => {
+    // given
+    const food = await ItemBuilder.createItemFromImportData({
+      pObjFlags: "1 2",
+      type: ItemType.Food,
+    })
+
+    // expect
+    expect(food.food.foodAmount).toBe(1)
+    expect(food.food.drinkAmount).toBe(2)
+  })
+
+  it("should build poisoned food", async () => {
+    // given
+    const food = await ItemBuilder.createItemFromImportData({
+      pObjFlags: "1 2 0 1",
+      type: ItemType.Food,
+    })
+
+    // expect
+    expect(food.affects.find(affect => affect.affectType === AffectType.Poison)).toBeTruthy()
+  })
+
+  it("should build a fountain", async () => {
+    // given
+    const fountain = await ItemBuilder.createItemFromImportData({
+      pObjFlags: "1 2 water 0",
+      type: ItemType.Fountain,
+    })
+
+    // expect
+    expect(fountain.drink.foodAmount).toBe(1)
+    expect(fountain.drink.drinkAmount).toBe(2)
+    expect(fountain.drink.liquid).toBe("water")
+  })
+
+  it("should build a poisoned fountain", async () => {
+    // given
+    const fountain = await ItemBuilder.createItemFromImportData({
+      pObjFlags: "1 2 water 1",
+      type: ItemType.Fountain,
+    })
+
+    // expect
+    expect(fountain.affects.find(affect => affect.affectType === AffectType.Poison)).toBeTruthy()
+  })
 })

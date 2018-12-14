@@ -46,9 +46,6 @@ export class Item {
   @Column("integer", { nullable: true })
   public hunger: number
 
-  @Column("integer", { nullable: true })
-  public thirst: number
-
   @Column("boolean", { default: true })
   public isTransferable: boolean = true
 

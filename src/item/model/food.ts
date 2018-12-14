@@ -12,7 +12,10 @@ export default class Food {
   public uuid: string = v4()
 
   @Column("integer")
-  public nourishment: number = 1
+  public foodAmount: number = 1
+
+  @Column("integer")
+  public drinkAmount: number = 0
 
   @OneToOne(type => Item, item => item.food)
   public item

@@ -68,6 +68,7 @@ export function newItem(itemType: ItemType, name: string, description: string, l
   item.itemType = itemType
   item.name = name
   item.description = description
+  item.level = level
 
   return item
 }

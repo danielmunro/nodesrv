@@ -37,7 +37,6 @@ export default class ImportService {
     return amount
   }
 
-  private itemTypes = []
   private lastReset: Reset
 
   constructor(
@@ -53,10 +52,6 @@ export default class ImportService {
     await this.iterateSections(file)
 
     return file
-  }
-
-  public getItemTypes() {
-    return this.itemTypes
   }
 
   private async iterateSections(file: File) {
@@ -89,7 +84,6 @@ export default class ImportService {
         await this.addReset(file, row)
         break
       case SectionHeader.Objects:
-        this.itemTypes.push(row.type)
         await this.addItem(file, row)
         break
     }

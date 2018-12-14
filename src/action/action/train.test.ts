@@ -57,7 +57,7 @@ describe("train action", () => {
     expect(trainedAttributes.vitals[vital]).toBe(initialVital + VITAL_INCREMENT)
   })
 
-  it.each(allStats)("should not exceed %s max training amount", async (stat) => {
+  it.each(allStats)("should not exceed %s max training drinkAmount", async (stat) => {
     // given
     trainedAttributes.stats[stat] = MAX_TRAINABLE_STATS
 

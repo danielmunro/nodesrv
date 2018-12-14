@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "fs"
+import { readFileSync } from "fs"
 import * as minimist from "minimist"
 import File from "../src/import/file"
 import ExitImportService from "../src/import/service/exitImportService"
@@ -26,16 +26,12 @@ const areaFiles = listFile.split("\n")
 const args = minimist(process.argv.slice(2))
 const writeNewData = args.write === undefined ? false : args.write
 
-initializeConnection().then(async () => {
-  const importService = new ImportService(
+initializeConnection().then(async () =>
+  await parse(new ImportService(
     await getMobRepository(),
     await getRoomRepository(),
     await getItemRepository(),
-    writeNewData)
-  await parse(importService)
-  writeFileSync("itemTypes.json",
-    JSON.stringify(importService.getItemTypes().filter((value, index, self) => self.indexOf(value) === index)))
-})
+    writeNewData)))
 
 async function parse(importService: ImportService) {
   console.log("1 - parsing file")

@@ -8,6 +8,8 @@ import {equipmentMap} from "../import/equipmentMap"
 import {weaponTypeMap} from "../import/weaponTypeMap"
 import { newContainer, newEquipment, newItem, newWeapon } from "./factory"
 import { ItemType } from "./itemType"
+import Drink from "./model/drink"
+import Food from "./model/food"
 import { Item } from "./model/item"
 import { WeaponType } from "./weaponType"
 
@@ -36,22 +38,28 @@ export default class ItemBuilder {
         return container
       case ImportItemType.Drink:
         const drink = newItem(ItemType.Drink, name, description)
-        drink.hunger = args[0]
-        drink.thirst = args[1]
-        drink.drink = args[2]
+        drink.drink = new Drink()
+        drink.drink.foodAmount = +args[0]
+        drink.drink.drinkAmount = +args[1]
+        drink.drink.capacity = +args[1]
+        drink.drink.liquid = args[2]
         await ItemBuilder.addPropertiesToItem(drink, itemData)
         ItemBuilder.applyPoisonIfFlagged(drink, args[3])
         return drink
       case ImportItemType.Food:
         const food = newItem(ItemType.Food, name, description)
-        food.hunger = args[0]
-        food.thirst = args[1]
+        food.food = new Food()
+        food.food.foodAmount = +args[0]
+        food.food.drinkAmount = +args[1]
         await ItemBuilder.addPropertiesToItem(food, itemData)
         ItemBuilder.applyPoisonIfFlagged(food, args[3])
         return food
       case ImportItemType.Fountain:
         const fountain = newItem(ItemType.Fountain, name, description)
-        fountain.drink = args[2]
+        fountain.drink = new Drink()
+        fountain.drink.foodAmount = +args[0]
+        fountain.drink.drinkAmount = +args[1]
+        fountain.drink.liquid = args[2]
         fountain.isTransferable = false
         ItemBuilder.applyPoisonIfFlagged(fountain, args[3])
         return fountain
