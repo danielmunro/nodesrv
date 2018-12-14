@@ -86,7 +86,10 @@ export function newWeapon(name: string, description: string, weaponType: WeaponT
 }
 
 export function newEquipment(name: string, description: string, equipment: Equipment): Item {
-  return newItem(ItemType.Equipment, name, description)
+  const item = newItem(ItemType.Equipment, name, description)
+  item.equipment = equipment
+
+  return item
 }
 
 export function newFood(name: string, description: string, nourishment: number = 1): Item {

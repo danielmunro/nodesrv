@@ -2,7 +2,10 @@ import { AffectType } from "../affect/affectType"
 import { newPermanentAffect } from "../affect/factory"
 import { DamageType } from "../damage/damageType"
 import { flagMap } from "../import/affectMap"
+import {damageTypeMap} from "../import/damageTypeMap"
 import { ItemType as ImportItemType } from "../import/enum/itemType"
+import {equipmentMap} from "../import/equipmentMap"
+import {weaponTypeMap} from "../import/weaponTypeMap"
 import { newContainer, newEquipment, newItem, newWeapon } from "./factory"
 import { ItemType } from "./itemType"
 import { Item } from "./model/item"
@@ -14,19 +17,19 @@ export default class ItemBuilder {
     const { name, description, type } = itemData
     switch (type) {
       case ImportItemType.Weapon:
-        const weapon = newWeapon(name, description, args[0], args[2])
+        const weapon = newWeapon(name, description, weaponTypeMap[args[0]], damageTypeMap[args[2]])
         await ItemBuilder.addPropertiesToItem(weapon, itemData)
         return weapon
       case ImportItemType.Armor:
       case ImportItemType.Clothing:
-        const armor = newEquipment(name, description, args[0])
+        const armor = newEquipment(name, description, equipmentMap[args[0]])
         await ItemBuilder.addPropertiesToItem(armor, itemData)
         return armor
       case ImportItemType.Container:
         const container = newContainer(name, description)
-        container.container.weightCapacity = args[0]
+        container.container.weightCapacity = +args[0]
         container.container.liquid = args[2]
-        container.container.maxWeightForItem = args[3]
+        container.container.maxWeightForItem = +args[3]
         const flags = args[1].split("")
         ItemBuilder.setItemAffects(container, flags)
         await ItemBuilder.addPropertiesToItem(container, itemData)
@@ -143,7 +146,7 @@ export default class ItemBuilder {
     item.weight = itemData.weight
     item.material = itemData.material
     item.importId = itemData.id
-    if (itemData.extraFlag !== "0") {
+    if (itemData.extraFlag && itemData.extraFlag !== "0") {
       ItemBuilder.setItemAffects(item, itemData.extraFlag.split(""))
     }
     if (item.name === "pit") {
