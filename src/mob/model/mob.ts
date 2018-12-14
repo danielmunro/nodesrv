@@ -14,14 +14,12 @@ import { BaseRegenModifier } from "../../server/observers/constants"
 import { Skill } from "../../skill/model/skill"
 import { SkillType } from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
-import { BASE_KILL_EXPERIENCE } from "../constants"
 import { Disposition } from "../enum/disposition"
 import { Gender } from "../enum/gender"
 import { Role } from "../enum/role"
 import { Standing } from "../enum/standing"
 import { Trigger } from "../enum/trigger"
 import { newMob } from "../factory"
-import modifierNormalizer from "../multiplierNormalizer"
 import { modifiers } from "../race/constants"
 import { Race } from "../race/race"
 import { SpecializationType } from "../specialization/specializationType"
@@ -126,16 +124,11 @@ export class Mob {
     return this.playerMob ? this.playerMob.standing : Standing.Good
   }
 
-  public getExperienceFromKilling(mob: Mob) {
-    const levelDelta = mob.level - this.level
-    return BASE_KILL_EXPERIENCE * modifierNormalizer(levelDelta)
-  }
-
   public getCombinedAttributes(): Attributes {
     let attributes = newEmptyAttributes()
-    this.attributes.forEach((a) => attributes = attributes.combine(a))
-    this.equipped.items.forEach((i) => attributes = attributes.combine(i.attributes))
-    modifiers.forEach((modifier) => attributes = modifier(this.race, attributes))
+    this.attributes.forEach(a => attributes = attributes.combine(a))
+    this.equipped.items.forEach(i => attributes = attributes.combine(i.attributes))
+    modifiers.forEach(modifier => attributes = modifier(this.race, attributes))
     if (this.playerMob) {
       attributes.combine(this.playerMob.trainedAttributes)
     }
@@ -205,11 +198,6 @@ export class Mob {
     }
   }
 
-  public setPlayerMob(playerMob: PlayerMob) {
-    this.playerMob = playerMob
-    playerMob.mob = this
-  }
-
   public findSkill(skillType: SkillType) {
     return this.skills.find(s => s.skillType === skillType)
   }
@@ -225,14 +213,6 @@ export class Mob {
 
   public isDead(): boolean {
     return this.disposition === Disposition.Dead
-  }
-
-  public isGoodAlignment(): boolean {
-    return this.alignment > 500
-  }
-
-  public isBadAlignment(): boolean {
-    return this.alignment < -500
   }
 
   public canDetectInvisible(): boolean {

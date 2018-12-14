@@ -5,9 +5,11 @@ import roll, { simpleD4 } from "../../random/dice"
 import { Room } from "../../room/model/room"
 import { createSkillTriggerEvent, createSkillTriggerEvents } from "../../skill/trigger/factory"
 import { Resolution } from "../../skill/trigger/resolution"
+import {BASE_KILL_EXPERIENCE} from "../constants"
 import { Disposition } from "../enum/disposition"
 import { Trigger } from "../enum/trigger"
 import { Mob } from "../model/mob"
+import modifierNormalizer from "../multiplierNormalizer"
 import { BodyPart } from "../race/bodyParts"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import Death from "./death"
@@ -38,6 +40,11 @@ export class Fight {
     attackerAttributes: Attributes,
     defenderAttributes: Attributes): number {
     return Math.max(1, Math.random() * Math.pow(attackerAttributes.hitroll.dam, defenderAttributes.hitroll.hit))
+  }
+
+  private static getExperienceFromKilling(attacker: Mob, defender: Mob) {
+    const levelDelta = defender.level - attacker.level
+    return BASE_KILL_EXPERIENCE * modifierNormalizer(levelDelta)
   }
 
   private status: Status = Status.InProgress
@@ -121,7 +128,7 @@ export class Fight {
       defender,
       AttackResult.Hit,
       damage,
-      defender.vitals.hp < 0 ? attacker.getExperienceFromKilling(defender) : 0)
+      defender.vitals.hp < 0 ? Fight.getExperienceFromKilling(attacker, defender) : 0)
   }
 
   private async turnFor(x: Mob, y: Mob): Promise<Attack[]> {

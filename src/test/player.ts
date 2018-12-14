@@ -11,7 +11,8 @@ export function getTestPlayer(): Player {
   player.password = ""
   player.sessionMob = getTestMob()
   player.sessionMob.isPlayer = true
-  player.sessionMob.setPlayerMob(new PlayerMob())
+  player.sessionMob.playerMob = new PlayerMob()
+  player.sessionMob.playerMob.mob = player.sessionMob
   player.sessionMob.playerMob.appetite = appetite(player.sessionMob.race)
   player.mobs.push(player.sessionMob)
 
