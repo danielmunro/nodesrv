@@ -4,8 +4,6 @@ import ItemPrototype from "../itemPrototype"
 import {Item} from "../model/item"
 
 export default function(itemPrototype: ItemPrototype): Item {
-  return newEquipment(
-    itemPrototype.name,
-    itemPrototype.description,
-    equipmentMap[itemPrototype.args[0]])
+  const { name, description, args } = itemPrototype
+  return newEquipment(name, description, equipmentMap[args[0]])
 }

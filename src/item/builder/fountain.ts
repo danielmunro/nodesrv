@@ -8,12 +8,12 @@ import {Item} from "../model/item"
 
 export default function(itemPrototype: ItemPrototype): Item {
   const { name, description, args } = itemPrototype
-  const drink = newItem(ItemType.Drink, name, description)
-  drink.drink = new Drink()
-  drink.drink.foodAmount = +args[0]
-  drink.drink.drinkAmount = +args[1]
-  drink.drink.capacity = +args[1]
-  drink.drink.liquid = liquidMap[args[2]]
-  ItemBuilder.applyPoisonIfFlagged(drink, args[3])
-  return drink
+  const fountain = newItem(ItemType.Fountain, name, description)
+  fountain.drink = new Drink()
+  fountain.drink.foodAmount = +args[0]
+  fountain.drink.drinkAmount = +args[1]
+  fountain.drink.liquid = liquidMap[args[2]]
+  fountain.isTransferable = false
+  ItemBuilder.applyPoisonIfFlagged(fountain, args[3])
+  return fountain
 }

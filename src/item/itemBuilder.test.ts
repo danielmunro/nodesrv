@@ -4,6 +4,8 @@ import {ItemType} from "../import/enum/itemType"
 import armor from "./builder/armor"
 import container from "./builder/container"
 import drink from "./builder/drink"
+import food from "./builder/food"
+import fountain from "./builder/fountain"
 import weapon from "./builder/weapon"
 import BuilderDefinition from "./builderDefinition"
 import {Equipment} from "./equipment"
@@ -18,6 +20,8 @@ const itemBuilder = new ItemBuilder([
   new BuilderDefinition(ItemType.Clothing, armor),
   new BuilderDefinition(ItemType.Container, container),
   new BuilderDefinition(ItemType.Drink, drink),
+  new BuilderDefinition(ItemType.Food, food),
+  new BuilderDefinition(ItemType.Fountain, fountain),
 ])
 
 describe("itemBuilder", () => {
@@ -96,48 +100,49 @@ describe("itemBuilder", () => {
 
   it("should build food", async () => {
     // given
-    const food = await itemBuilder.createItemFromImportData({
+    const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "1 2",
       type: ItemType.Food,
     })
 
     // expect
-    expect(food.food.foodAmount).toBe(1)
-    expect(food.food.drinkAmount).toBe(2)
+    expect(item.food.foodAmount).toBe(1)
+    expect(item.food.drinkAmount).toBe(2)
   })
 
   it("should build poisoned food", async () => {
     // given
-    const food = await itemBuilder.createItemFromImportData({
+    const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "1 2 0 1",
       type: ItemType.Food,
     })
 
     // expect
-    expect(food.affects.find(affect => affect.affectType === AffectType.Poison)).toBeTruthy()
+    expect(item.affects.find(affect => affect.affectType === AffectType.Poison)).toBeTruthy()
   })
 
   it("should build a fountain", async () => {
     // given
-    const fountain = await itemBuilder.createItemFromImportData({
+    const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "1 2 water 0",
       type: ItemType.Fountain,
     })
 
     // expect
-    expect(fountain.drink.foodAmount).toBe(1)
-    expect(fountain.drink.drinkAmount).toBe(2)
-    expect(fountain.drink.liquid).toBe(Liquid.Water)
+    expect(item.drink.foodAmount).toBe(1)
+    expect(item.drink.drinkAmount).toBe(2)
+    expect(item.isTransferable).toBeFalsy()
+    expect(item.drink.liquid).toBe(Liquid.Water)
   })
 
   it("should build a poisoned fountain", async () => {
     // given
-    const fountain = await itemBuilder.createItemFromImportData({
+    const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "1 2 water 1",
       type: ItemType.Fountain,
     })
 
     // expect
-    expect(fountain.affects.find(affect => affect.affectType === AffectType.Poison)).toBeTruthy()
+    expect(item.affects.find(affect => affect.affectType === AffectType.Poison)).toBeTruthy()
   })
 })
