@@ -21,7 +21,7 @@ export default class ItemBuilder {
 
   private static async createItem(itemType: ItemType, name, description, itemData) {
     const item = newItem(itemType, name, description)
-    await ItemBuilder.addPropertiesToItem(item, itemData)
+    ItemBuilder.addPropertiesToItem(item, itemData)
     return item
   }
 
@@ -69,12 +69,12 @@ export default class ItemBuilder {
       case ImportItemType.Forge:
         const mageLab = newItem(ItemType.Forge, name, description)
         mageLab.isTransferable = false
-        await ItemBuilder.addPropertiesToItem(mageLab, itemData)
+        ItemBuilder.addPropertiesToItem(mageLab, itemData)
         return mageLab
       case ImportItemType.Light:
         const light = newItem(ItemType.Light, name, description)
         light.wearTimer = args[2]
-        await ItemBuilder.addPropertiesToItem(light, itemData)
+        ItemBuilder.addPropertiesToItem(light, itemData)
         return light
       case ImportItemType.Map:
         return ItemBuilder.createItem(ItemType.Map, name, description, itemData)
@@ -86,11 +86,11 @@ export default class ItemBuilder {
         return ItemBuilder.createItem(ItemType.Key, name, description, itemData)
       case ImportItemType.Wand:
         const wand = newWeapon(name, description, WeaponType.Wand, DamageType.Magic)
-        await ItemBuilder.addPropertiesToItem(wand, itemData)
+        ItemBuilder.addPropertiesToItem(wand, itemData)
         return wand
       case ImportItemType.Furniture:
         const furniture = newItem(ItemType.Fixture, name, description)
-        await ItemBuilder.addPropertiesToItem(furniture, itemData)
+        ItemBuilder.addPropertiesToItem(furniture, itemData)
         return furniture
       case ImportItemType.Money:
         return ItemBuilder.createItem(ItemType.Money, name, description, itemData)
@@ -130,7 +130,7 @@ export default class ItemBuilder {
         return ItemBuilder.createItem(ItemType.Corpse, name, description, itemData)
       case ImportItemType.Staff:
         const staff = newWeapon(name, description, WeaponType.Stave, DamageType.Magic)
-        await ItemBuilder.addPropertiesToItem(staff, itemData)
+        ItemBuilder.addPropertiesToItem(staff, itemData)
         return staff
       default:
         return
