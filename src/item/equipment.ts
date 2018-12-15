@@ -5,4 +5,5 @@ export enum Equipment {
   Legs = "legs",
   Weapon = "weapon",
   Shield = "shield",
+  Held = "held",
 }

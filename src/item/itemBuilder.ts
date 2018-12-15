@@ -66,11 +66,6 @@ export default class ItemBuilder {
           ItemBuilder.addPropertiesToItem(builder.builder(prototype), itemData), flags)
     }
     switch (type) {
-      case ImportItemType.Light:
-        const light = newItem(ItemType.Light, name, description)
-        light.wearTimer = args[2]
-        ItemBuilder.addPropertiesToItem(light, itemData)
-        return light
       case ImportItemType.Map:
         return ItemBuilder.createItem(ItemType.Map, name, description, itemData)
       case ImportItemType.Trash:

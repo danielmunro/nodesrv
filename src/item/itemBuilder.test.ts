@@ -7,6 +7,7 @@ import drink from "./builder/drink"
 import food from "./builder/food"
 import forge from "./builder/forge"
 import fountain from "./builder/fountain"
+import light from "./builder/light"
 import weapon from "./builder/weapon"
 import BuilderDefinition from "./builderDefinition"
 import {Equipment} from "./equipment"
@@ -26,6 +27,7 @@ const itemBuilder = new ItemBuilder([
   new BuilderDefinition(ImportItemType.Food, food),
   new BuilderDefinition(ImportItemType.Fountain, fountain),
   new BuilderDefinition(ImportItemType.Forge, forge),
+  new BuilderDefinition(ImportItemType.Light, light),
 ])
 
 describe("itemBuilder", () => {
@@ -168,5 +170,18 @@ describe("itemBuilder", () => {
     expect(item.itemType).toBe(ItemType.Forge)
     expect(item.isTransferable).toBeFalsy()
     expect(item.forge).toBeInstanceOf(Forge)
+  })
+
+  it("should build a light", async () => {
+    // given
+    const item = await itemBuilder.createItemFromImportData({
+      pObjFlags: "0 0 50 0 0",
+      type: ImportItemType.Light,
+    })
+
+    // expect
+    expect(item.itemType).toBe(ItemType.Equipment)
+    expect(item.equipment).toBe(Equipment.Held)
+    expect(item.wearTimer).toBe(50)
   })
 })
