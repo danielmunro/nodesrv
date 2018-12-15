@@ -3,8 +3,9 @@ import { newPermanentAffect } from "../affect/factory"
 import { DamageType } from "../damage/damageType"
 import { ItemType as ImportItemType } from "../import/enum/itemType"
 import { flagMap } from "../import/map/affectMap"
+import {liquidMap} from "../import/map/liquidMap"
 import BuilderDefinition from "./builderDefinition"
-import { newContainer, newItem, newWeapon } from "./factory"
+import { newItem, newWeapon } from "./factory"
 import ItemPrototype from "./itemPrototype"
 import { ItemType } from "./itemType"
 import Drink from "./model/drink"
@@ -25,6 +26,8 @@ export default class ItemBuilder {
         item.affects.push(newPermanentAffect(flagMap[flag]))
       }
     }
+
+    return item
   }
 
   private static addPropertiesToItem(item: Item, itemData) {
@@ -47,6 +50,8 @@ export default class ItemBuilder {
     if (flag !== "0") {
       item.affects.push(newPermanentAffect(AffectType.Poison))
     }
+
+    return item
   }
 
   constructor(
@@ -59,28 +64,15 @@ export default class ItemBuilder {
     const prototype = new ItemPrototype(type, name, description, args)
     const builder = this.builders.find(b => b.itemType === type)
     if (builder) {
-      return ItemBuilder.addPropertiesToItem(builder.builder(prototype), itemData)
+      const flags = 1 in args ? args[1].split("") : []
+      const item = ItemBuilder.setItemAffects(
+          ItemBuilder.addPropertiesToItem(builder.builder(prototype), itemData), flags)
+      if (type === ImportItemType.Food || type === ImportItemType.Drink) {
+        ItemBuilder.applyPoisonIfFlagged(item, args[3])
+      }
+      return item
     }
     switch (type) {
-      case ImportItemType.Container:
-        const container = newContainer(name, description)
-        container.container.weightCapacity = +args[0]
-        container.container.liquid = args[2]
-        container.container.maxWeightForItem = +args[3]
-        const flags = args[1].split("")
-        ItemBuilder.setItemAffects(container, flags)
-        await ItemBuilder.addPropertiesToItem(container, itemData)
-        return container
-      case ImportItemType.Drink:
-        const drink = newItem(ItemType.Drink, name, description)
-        drink.drink = new Drink()
-        drink.drink.foodAmount = +args[0]
-        drink.drink.drinkAmount = +args[1]
-        drink.drink.capacity = +args[1]
-        drink.drink.liquid = args[2]
-        await ItemBuilder.addPropertiesToItem(drink, itemData)
-        ItemBuilder.applyPoisonIfFlagged(drink, args[3])
-        return drink
       case ImportItemType.Food:
         const food = newItem(ItemType.Food, name, description)
         food.food = new Food()
@@ -94,7 +86,7 @@ export default class ItemBuilder {
         fountain.drink = new Drink()
         fountain.drink.foodAmount = +args[0]
         fountain.drink.drinkAmount = +args[1]
-        fountain.drink.liquid = args[2]
+        fountain.drink.liquid = liquidMap[args[2]]
         fountain.isTransferable = false
         ItemBuilder.applyPoisonIfFlagged(fountain, args[3])
         return fountain

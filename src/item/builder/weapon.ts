@@ -6,9 +6,8 @@ import {Item} from "../model/item"
 
 export default function(itemPrototype: ItemPrototype): Item {
   return newWeapon(
-      itemPrototype.name,
-      itemPrototype.description,
-      weaponTypeMap[itemPrototype.args[0]],
-      damageTypeMap[itemPrototype.args[2]])
-
+    itemPrototype.name,
+    itemPrototype.description,
+    weaponTypeMap[itemPrototype.args[0]],
+    damageTypeMap[itemPrototype.args[2]])
 }

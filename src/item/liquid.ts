@@ -1,4 +1,4 @@
 export enum Liquid {
-  Water = "water",
-
+  Water,
+  Milk,
 }
