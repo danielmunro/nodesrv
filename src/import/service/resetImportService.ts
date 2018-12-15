@@ -53,8 +53,8 @@ export default class ResetImportService {
   }
 
   private async createItemMobReset(reset: Reset) {
-    const item = await this.itemTable.getByImportId(reset.idOfResetSubject)
-    const mob = await this.mobTable.getByImportId(reset.idOfResetDestination)
+    const item = this.itemTable.getByImportId(reset.idOfResetSubject)
+    const mob = this.mobTable.getByImportId(reset.idOfResetDestination)
     if (!item || !mob) {
       console.log("bad item mob reset", reset)
       return
@@ -63,8 +63,8 @@ export default class ResetImportService {
   }
 
   private async createMobEquipReset(reset: Reset) {
-    const item = await this.itemTable.getByImportId(reset.idOfResetSubject)
-    const mob = await this.mobTable.getByImportId(reset.idOfResetDestination)
+    const item = this.itemTable.getByImportId(reset.idOfResetSubject)
+    const mob = this.mobTable.getByImportId(reset.idOfResetDestination)
     if (!item || !mob) {
       console.log("bad mob equip reset", reset)
       return
@@ -73,8 +73,8 @@ export default class ResetImportService {
   }
 
   private async createItemContainerReset(reset: Reset) {
-    const itemSubject = await this.itemTable.getByImportId(reset.idOfResetSubject)
-    const itemDestination = await this.itemTable.getByImportId(reset.idOfResetDestination)
+    const itemSubject = this.itemTable.getByImportId(reset.idOfResetSubject)
+    const itemDestination = this.itemTable.getByImportId(reset.idOfResetDestination)
 
     if (!itemSubject || !itemDestination) {
       console.log("bad item container reset", reset)
@@ -84,8 +84,8 @@ export default class ResetImportService {
   }
 
   private async createMobRoomReset(reset: Reset) {
-    const room = await this.roomTable.getByImportId(reset.idOfResetDestination)
-    const mob = await this.mobTable.getByImportId(reset.idOfResetSubject)
+    const room = this.roomTable.getByImportId(reset.idOfResetDestination)
+    const mob = this.mobTable.getByImportId(reset.idOfResetSubject)
     if (!room || !mob) {
       console.log("bad mob room reset", reset)
       return
@@ -95,8 +95,8 @@ export default class ResetImportService {
   }
 
   private async createItemRoomReset(reset: Reset) {
-    const room = await this.roomTable.getByImportId(reset.idOfResetDestination)
-    const item = await this.itemTable.getByImportId(reset.idOfResetSubject)
+    const room = this.roomTable.getByImportId(reset.idOfResetDestination)
+    const item = this.itemTable.getByImportId(reset.idOfResetSubject)
     if (!item || !room) {
       console.log("bad item room reset", reset, !!item, !!room)
       return

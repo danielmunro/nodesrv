@@ -70,7 +70,7 @@ export default class MobService {
   }
 
   public async generateNewMobInstance(mobReset: MobReset): Promise<Mob> {
-    const mob = await this.mobTemplateTable.find(m => m.id === mobReset.mob.id)
+    const mob = this.mobTemplateTable.find(m => m.id === mobReset.mob.id)
     const clone = mob.copy()
     clone.mobReset = mobReset
 

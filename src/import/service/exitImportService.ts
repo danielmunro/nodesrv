@@ -49,8 +49,8 @@ export default class ExitImportService {
         console.error("no direction for door", door, importId)
         return
     }
-    const source = await this.roomTable.getByImportId(importId)
-    const destination = await this.roomTable.getByImportId(door.vnum)
+    const source = this.roomTable.getByImportId(importId)
+    const destination = this.roomTable.getByImportId(door.vnum)
 
     if (source && destination) {
       await this.exitRepository.save(newExit(direction, source, destination))

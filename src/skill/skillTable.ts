@@ -69,5 +69,5 @@ export function getSkillTable(service: GameService) {
 }
 
 export async function getSkillActionDefinition(service: GameService, skillType: SkillType) {
-  return (await getSkillTable(service)).find(action => action.isSkillTypeMatch(skillType))
+  return getSkillTable(service).find(action => action.isSkillTypeMatch(skillType))
 }

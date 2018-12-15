@@ -10,7 +10,7 @@ export default class ItemService {
   ) {}
 
   public async generateNewItemInstance(itemReset: ItemReset): Promise<Item> {
-    const item = await this.itemTemplateTable.items.find(i => i.id === itemReset.item.id)
+    const item = this.itemTemplateTable.items.find(i => i.id === itemReset.item.id)
     const copy = item.copy()
     copy.importId = itemReset.item.importId
     return copy

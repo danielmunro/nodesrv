@@ -42,7 +42,7 @@ export class GameServer {
     }
 
     this.authService = new AuthService(await getPlayerRepository())
-    this.actions = await getActionCollection(this.service)
+    this.actions = getActionCollection(this.service)
     this.status = Status.Started
     this.wss.on(events.connection, this.addWS.bind(this))
     this.addObserver(new DecrementPlayerDelay(), new SecondIntervalTimer())

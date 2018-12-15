@@ -49,10 +49,6 @@ export default class TestBuilder {
   private service: GameService
   private serviceBuilder: ServiceBuilder = new ServiceBuilder()
 
-  public addMobLocation(mobLocation: MobLocation) {
-    this.serviceBuilder.addMobLocation(mobLocation)
-  }
-
   public async withClient() {
     if (!this.player) {
       await this.withPlayer()
@@ -64,7 +60,7 @@ export default class TestBuilder {
     const client = new Client(
       ws(),
       "127.0.0.1",
-      await getActionCollection(service),
+      getActionCollection(service),
       service,
       this.room,
       new AuthService(await getPlayerRepository()),
