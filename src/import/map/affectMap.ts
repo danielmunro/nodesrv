@@ -1,4 +1,4 @@
-import { AffectType } from "../affect/affectType"
+import { AffectType } from "../../affect/affectType"
 
 export const flagMap = {
   A: AffectType.Glow,

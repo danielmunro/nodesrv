@@ -1,4 +1,4 @@
-import {WeaponType} from "../item/weaponType"
+import {WeaponType} from "../../item/weaponType"
 
 export const weaponTypeMap = {
   sword: WeaponType.Sword,

@@ -1,12 +1,11 @@
 import { AffectType } from "../affect/affectType"
 import { newPermanentAffect } from "../affect/factory"
 import { DamageType } from "../damage/damageType"
-import { flagMap } from "../import/affectMap"
-import {damageTypeMap} from "../import/damageTypeMap"
 import { ItemType as ImportItemType } from "../import/enum/itemType"
-import {equipmentMap} from "../import/equipmentMap"
-import {weaponTypeMap} from "../import/weaponTypeMap"
-import { newContainer, newEquipment, newItem, newWeapon } from "./factory"
+import { flagMap } from "../import/map/affectMap"
+import BuilderDefinition from "./builder/builderDefinition"
+import ItemPrototype from "./builder/itemPrototype"
+import { newContainer, newItem, newWeapon } from "./factory"
 import { ItemType } from "./itemType"
 import Drink from "./model/drink"
 import Food from "./model/food"
@@ -14,19 +13,55 @@ import { Item } from "./model/item"
 import { WeaponType } from "./weaponType"
 
 export default class ItemBuilder {
-  public static async createItemFromImportData(itemData) {
+  private static async createItem(itemType: ItemType, name, description, itemData) {
+    const item = newItem(itemType, name, description)
+    await ItemBuilder.addPropertiesToItem(item, itemData)
+    return item
+  }
+
+  private static setItemAffects(item: Item, flags: string[]) {
+    for (const flag of flags) {
+      if (flagMap[flag]) {
+        item.affects.push(newPermanentAffect(flagMap[flag]))
+      }
+    }
+  }
+
+  private static addPropertiesToItem(item: Item, itemData) {
+    item.level = itemData.level
+    item.value = itemData.cost
+    item.weight = itemData.weight
+    item.material = itemData.material
+    item.importId = itemData.id
+    if (itemData.extraFlag && itemData.extraFlag !== "0") {
+      ItemBuilder.setItemAffects(item, itemData.extraFlag.split(""))
+    }
+    if (item.name === "pit") {
+      item.isTransferable = false
+    }
+
+    return item
+  }
+
+  private static applyPoisonIfFlagged(item: Item, flag: string) {
+    if (flag !== "0") {
+      item.affects.push(newPermanentAffect(AffectType.Poison))
+    }
+  }
+
+  constructor(
+      private readonly builders: BuilderDefinition[] = [],
+  ) {}
+
+  public async createItemFromImportData(itemData): Promise<Item> {
     const args = itemData.pObjFlags ? itemData.pObjFlags.split(" ") : []
     const { name, description, type } = itemData
+    const prototype = new ItemPrototype(type, name, description, args)
+    const builder = this.builders.find(b => b.itemType === type)
+    if (builder) {
+      return ItemBuilder.addPropertiesToItem(builder.builder(prototype), itemData)
+    }
     switch (type) {
-      case ImportItemType.Weapon:
-        const weapon = newWeapon(name, description, weaponTypeMap[args[0]], damageTypeMap[args[2]])
-        await ItemBuilder.addPropertiesToItem(weapon, itemData)
-        return weapon
-      case ImportItemType.Armor:
-      case ImportItemType.Clothing:
-        const armor = newEquipment(name, description, equipmentMap[args[0]])
-        await ItemBuilder.addPropertiesToItem(armor, itemData)
-        return armor
       case ImportItemType.Container:
         const container = newContainer(name, description)
         container.container.weightCapacity = +args[0]
@@ -131,40 +166,6 @@ export default class ItemBuilder {
         return staff
       default:
         return
-    }
-  }
-
-  private static async createItem(itemType: ItemType, name, description, itemData) {
-    const item = newItem(itemType, name, description)
-    await ItemBuilder.addPropertiesToItem(item, itemData)
-    return item
-  }
-
-  private static setItemAffects(item: Item, flags: string[]) {
-    for (const flag of flags) {
-      if (flagMap[flag]) {
-        item.affects.push(newPermanentAffect(flagMap[flag]))
-      }
-    }
-  }
-
-  private static async addPropertiesToItem(item: Item, itemData) {
-    item.level = itemData.level
-    item.value = itemData.cost
-    item.weight = itemData.weight
-    item.material = itemData.material
-    item.importId = itemData.id
-    if (itemData.extraFlag && itemData.extraFlag !== "0") {
-      ItemBuilder.setItemAffects(item, itemData.extraFlag.split(""))
-    }
-    if (item.name === "pit") {
-      item.isTransferable = false
-    }
-  }
-
-  private static applyPoisonIfFlagged(item: Item, flag: string) {
-    if (flag !== "0") {
-      item.affects.push(newPermanentAffect(AffectType.Poison))
     }
   }
 }
