@@ -49,7 +49,7 @@ psql -U postgres -h localhost nodesrv -c 'select "uuid" from room where "importI
 Start the server.
 
 ```
-yarn start <start room uuid> <port to listen on -- default 5151>
+yarn start <start room uuid> <port to listen on: 5151>
 ```
 
 ### Start A Client
