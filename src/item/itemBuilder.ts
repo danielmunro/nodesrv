@@ -66,11 +66,6 @@ export default class ItemBuilder {
           ItemBuilder.addPropertiesToItem(builder.builder(prototype), itemData), flags)
     }
     switch (type) {
-      case ImportItemType.Forge:
-        const mageLab = newItem(ItemType.Forge, name, description)
-        mageLab.isTransferable = false
-        ItemBuilder.addPropertiesToItem(mageLab, itemData)
-        return mageLab
       case ImportItemType.Light:
         const light = newItem(ItemType.Light, name, description)
         light.wearTimer = args[2]

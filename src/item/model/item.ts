@@ -11,6 +11,7 @@ import { MaterialType } from "../material/materialType"
 import Container from "./container"
 import Drink from "./drink"
 import Food from "./food"
+import Forge from "./forge"
 import { Inventory } from "./inventory"
 
 @Entity()
@@ -88,6 +89,9 @@ export class Item {
 
   @OneToOne(type => Drink, drink => drink.item)
   public drink: Drink
+
+  @OneToOne(type => Forge)
+  public forge: Forge
 
   public matches(subject: string): boolean {
     const words = this.name.split(" ")

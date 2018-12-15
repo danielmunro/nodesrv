@@ -1,27 +1,31 @@
 import {AffectType} from "../affect/affectType"
 import {DamageType} from "../damage/damageType"
-import {ItemType} from "../import/enum/itemType"
+import { ItemType as ImportItemType } from "../import/enum/itemType"
 import armor from "./builder/armor"
 import container from "./builder/container"
 import drink from "./builder/drink"
 import food from "./builder/food"
+import forge from "./builder/forge"
 import fountain from "./builder/fountain"
 import weapon from "./builder/weapon"
 import BuilderDefinition from "./builderDefinition"
 import {Equipment} from "./equipment"
 import ItemBuilder from "./itemBuilder"
+import {ItemType} from "./itemType"
 import {Liquid} from "./liquid"
+import Forge from "./model/forge"
 import Weapon from "./model/weapon"
 import {WeaponType} from "./weaponType"
 
 const itemBuilder = new ItemBuilder([
-  new BuilderDefinition(ItemType.Weapon, weapon),
-  new BuilderDefinition(ItemType.Armor, armor),
-  new BuilderDefinition(ItemType.Clothing, armor),
-  new BuilderDefinition(ItemType.Container, container),
-  new BuilderDefinition(ItemType.Drink, drink),
-  new BuilderDefinition(ItemType.Food, food),
-  new BuilderDefinition(ItemType.Fountain, fountain),
+  new BuilderDefinition(ImportItemType.Weapon, weapon),
+  new BuilderDefinition(ImportItemType.Armor, armor),
+  new BuilderDefinition(ImportItemType.Clothing, armor),
+  new BuilderDefinition(ImportItemType.Container, container),
+  new BuilderDefinition(ImportItemType.Drink, drink),
+  new BuilderDefinition(ImportItemType.Food, food),
+  new BuilderDefinition(ImportItemType.Fountain, fountain),
+  new BuilderDefinition(ImportItemType.Forge, forge),
 ])
 
 describe("itemBuilder", () => {
@@ -29,7 +33,7 @@ describe("itemBuilder", () => {
     // given
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "sword (null) slash",
-      type: ItemType.Weapon,
+      type: ImportItemType.Weapon,
     }) as Weapon
 
     // expect
@@ -42,19 +46,21 @@ describe("itemBuilder", () => {
     // given
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "head",
-      type: ItemType.Armor,
+      type: ImportItemType.Armor,
     })
 
     // expect
+    expect(item.itemType).toBe(ItemType.Equipment)
     expect(item.equipment).toBe(Equipment.Head)
 
     // given
     const clothing = await itemBuilder.createItemFromImportData({
       pObjFlags: "arms",
-      type: ItemType.Clothing,
+      type: ImportItemType.Clothing,
     })
 
     // expect
+    expect(item.itemType).toBe(ItemType.Equipment)
     expect(clothing.equipment).toBe(Equipment.Arms)
   })
 
@@ -62,10 +68,11 @@ describe("itemBuilder", () => {
     // given
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "10 AB water 1",
-      type: ItemType.Container,
+      type: ImportItemType.Container,
     })
 
     // expect
+    expect(item.itemType).toBe(ItemType.Container)
     expect(item.container.weightCapacity).toBe(10)
     expect(item.container.liquid).toBe(Liquid.Water)
     expect(item.container.maxWeightForItem).toBe(1)
@@ -78,9 +85,11 @@ describe("itemBuilder", () => {
     // given
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "1 2 milk 0",
-      type: ItemType.Drink,
+      type: ImportItemType.Drink,
     })
 
+    // expect
+    expect(item.itemType).toBe(ItemType.Drink)
     expect(item.drink.drinkAmount).toBe(2)
     expect(item.drink.capacity).toBe(2)
     expect(item.drink.liquid).toBe(Liquid.Milk)
@@ -91,7 +100,7 @@ describe("itemBuilder", () => {
     // given
     const poisonDrink = await itemBuilder.createItemFromImportData({
       pObjFlags: "1 2 milk 1",
-      type: ItemType.Drink,
+      type: ImportItemType.Drink,
     })
 
     // expect
@@ -102,10 +111,11 @@ describe("itemBuilder", () => {
     // given
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "1 2",
-      type: ItemType.Food,
+      type: ImportItemType.Food,
     })
 
     // expect
+    expect(item.itemType).toBe(ItemType.Food)
     expect(item.food.foodAmount).toBe(1)
     expect(item.food.drinkAmount).toBe(2)
   })
@@ -114,7 +124,7 @@ describe("itemBuilder", () => {
     // given
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "1 2 0 1",
-      type: ItemType.Food,
+      type: ImportItemType.Food,
     })
 
     // expect
@@ -125,10 +135,11 @@ describe("itemBuilder", () => {
     // given
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "1 2 water 0",
-      type: ItemType.Fountain,
+      type: ImportItemType.Fountain,
     })
 
     // expect
+    expect(item.itemType).toBe(ItemType.Fountain)
     expect(item.drink.foodAmount).toBe(1)
     expect(item.drink.drinkAmount).toBe(2)
     expect(item.isTransferable).toBeFalsy()
@@ -139,10 +150,23 @@ describe("itemBuilder", () => {
     // given
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "1 2 water 1",
-      type: ItemType.Fountain,
+      type: ImportItemType.Fountain,
     })
 
     // expect
     expect(item.affects.find(affect => affect.affectType === AffectType.Poison)).toBeTruthy()
+  })
+
+  it("should build a forge", async () => {
+    // given
+    const item = await itemBuilder.createItemFromImportData({
+      pObjFlags: "1 2 3 4 5",
+      type: ImportItemType.Forge,
+    })
+
+    // expect
+    expect(item.itemType).toBe(ItemType.Forge)
+    expect(item.isTransferable).toBeFalsy()
+    expect(item.forge).toBeInstanceOf(Forge)
   })
 })
