@@ -110,7 +110,7 @@ export default class ItemBuilder {
     const { name, description, type } = itemData
     const prototype = new ItemPrototype(type, name, description, args)
     const builder = this.builders.find(b => b.itemType === type)
-    const flags = args.includes(1) ? args[1].split("") : []
+    const flags = args[1] !== undefined ? args[1].split("") : []
     if (builder) {
       return ItemBuilder.setItemAffects(
         ItemBuilder.addPropertiesToItem(builder.buildItem(prototype), itemData), flags)
