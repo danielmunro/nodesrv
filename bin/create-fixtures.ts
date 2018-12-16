@@ -7,6 +7,7 @@ import ResetImportService from "../src/import/service/resetImportService"
 import ItemTable from "../src/import/table/itemTable"
 import MobTable from "../src/import/table/mobTable"
 import RoomTable from "../src/import/table/roomTable"
+import ItemBuilder from "../src/item/itemBuilder"
 import { Item } from "../src/item/model/item"
 import { getItemRepository } from "../src/item/repository/item"
 import { getItemContainerResetRepository } from "../src/item/repository/itemContainerReset"
@@ -31,6 +32,7 @@ initializeConnection().then(async () =>
     await getMobRepository(),
     await getRoomRepository(),
     await getItemRepository(),
+    ItemBuilder.new(),
     writeNewData)))
 
 async function parse(importService: ImportService) {

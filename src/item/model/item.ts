@@ -85,12 +85,15 @@ export class Item {
   public container
 
   @OneToOne(type => Food, food => food.item)
+  @JoinColumn()
   public food: Food
 
   @OneToOne(type => Drink, drink => drink.item)
+  @JoinColumn()
   public drink: Drink
 
   @OneToOne(type => Forge)
+  @JoinColumn()
   public forge: Forge
 
   public matches(subject: string): boolean {

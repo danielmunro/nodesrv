@@ -1,15 +1,6 @@
 import {AffectType} from "../affect/affectType"
 import {DamageType} from "../damage/damageType"
 import { ItemType as ImportItemType } from "../import/enum/itemType"
-import armor from "./builder/armor"
-import container from "./builder/container"
-import drink from "./builder/drink"
-import food from "./builder/food"
-import forge from "./builder/forge"
-import fountain from "./builder/fountain"
-import light from "./builder/light"
-import weapon from "./builder/weapon"
-import BuilderDefinition from "./builderDefinition"
 import {Equipment} from "./equipment"
 import ItemBuilder from "./itemBuilder"
 import {ItemType} from "./itemType"
@@ -18,17 +9,7 @@ import Forge from "./model/forge"
 import Weapon from "./model/weapon"
 import {WeaponType} from "./weaponType"
 
-const itemBuilder = new ItemBuilder([
-  new BuilderDefinition(ImportItemType.Weapon, weapon),
-  new BuilderDefinition(ImportItemType.Armor, armor),
-  new BuilderDefinition(ImportItemType.Clothing, armor),
-  new BuilderDefinition(ImportItemType.Container, container),
-  new BuilderDefinition(ImportItemType.Drink, drink),
-  new BuilderDefinition(ImportItemType.Food, food),
-  new BuilderDefinition(ImportItemType.Fountain, fountain),
-  new BuilderDefinition(ImportItemType.Forge, forge),
-  new BuilderDefinition(ImportItemType.Light, light),
-])
+const itemBuilder = ItemBuilder.new()
 
 describe("itemBuilder", () => {
   it("should build a weapon", async () => {
@@ -183,5 +164,28 @@ describe("itemBuilder", () => {
     expect(item.itemType).toBe(ItemType.Equipment)
     expect(item.equipment).toBe(Equipment.Held)
     expect(item.wearTimer).toBe(50)
+  })
+
+  it("should build furniture", async () => {
+    // given
+    const item = await itemBuilder.createItemFromImportData({
+      pObjFlags: "0 0 0 0 0",
+      type: ImportItemType.Furniture,
+    })
+
+    // expect
+    expect(item.itemType).toBe(ItemType.Furniture)
+    expect(item.isTransferable).toBeFalsy()
+  })
+
+  it("should build a map", async () => {
+    // given
+    const item = await itemBuilder.createItemFromImportData({
+      pObjFlags: "0 0 0 0 0",
+      type: ImportItemType.Map,
+    })
+
+    // expect
+    expect(item.itemType).toBe(ItemType.Map)
   })
 })

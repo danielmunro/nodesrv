@@ -1,4 +1,4 @@
-import {Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn} from "typeorm"
+import {Column, Entity, Generated, JoinColumn, OneToMany, PrimaryGeneratedColumn} from "typeorm"
 import * as v4 from "uuid"
 import Recipe from "./recipe"
 
@@ -12,5 +12,6 @@ export default class Forge {
   public uuid: string = v4()
 
   @OneToMany(type => Recipe, recipe => recipe.forge)
+  @JoinColumn()
   public recipes: Recipe[] = []
 }

@@ -1,27 +1,46 @@
 import { AffectType } from "../affect/affectType"
 import { newPermanentAffect } from "../affect/factory"
-import { DamageType } from "../damage/damageType"
 import { ItemType as ImportItemType } from "../import/enum/itemType"
 import { flagMap } from "../import/map/affectMap"
+import any from "./builder/any"
+import armor from "./builder/armor"
+import container from "./builder/container"
+import drink from "./builder/drink"
+import food from "./builder/food"
+import forge from "./builder/forge"
+import fountain from "./builder/fountain"
+import furniture from "./builder/furniture"
+import light from "./builder/light"
+import staff from "./builder/staff"
+import wand from "./builder/wand"
+import weapon from "./builder/weapon"
 import BuilderDefinition from "./builderDefinition"
-import { newItem, newWeapon } from "./factory"
 import ItemPrototype from "./itemPrototype"
-import { ItemType } from "./itemType"
 import { Item } from "./model/item"
-import { WeaponType } from "./weaponType"
 
 export default class ItemBuilder {
+  public static new(): ItemBuilder {
+    return new ItemBuilder([
+      new BuilderDefinition(ImportItemType.Weapon, weapon),
+      new BuilderDefinition(ImportItemType.Armor, armor),
+      new BuilderDefinition(ImportItemType.Clothing, armor),
+      new BuilderDefinition(ImportItemType.Container, container),
+      new BuilderDefinition(ImportItemType.Drink, drink),
+      new BuilderDefinition(ImportItemType.Food, food),
+      new BuilderDefinition(ImportItemType.Fountain, fountain),
+      new BuilderDefinition(ImportItemType.Forge, forge),
+      new BuilderDefinition(ImportItemType.Light, light),
+      new BuilderDefinition(ImportItemType.Wand, wand),
+      new BuilderDefinition(ImportItemType.Furniture, furniture),
+      new BuilderDefinition(ImportItemType.Staff, staff),
+    ])
+  }
+
   public static applyPoisonIfFlagged(item: Item, flag: string) {
     if (flag !== "0") {
       item.affects.push(newPermanentAffect(AffectType.Poison))
     }
 
-    return item
-  }
-
-  private static async createItem(itemType: ItemType, name, description, itemData) {
-    const item = newItem(itemType, name, description)
-    ItemBuilder.addPropertiesToItem(item, itemData)
     return item
   }
 
@@ -52,7 +71,7 @@ export default class ItemBuilder {
   }
 
   constructor(
-      private readonly builders: BuilderDefinition[] = [],
+    private readonly builders: BuilderDefinition[] = [],
   ) {}
 
   public async createItemFromImportData(itemData): Promise<Item> {
@@ -60,70 +79,11 @@ export default class ItemBuilder {
     const { name, description, type } = itemData
     const prototype = new ItemPrototype(type, name, description, args)
     const builder = this.builders.find(b => b.itemType === type)
+    const flags = 1 in args ? args[1].split("") : []
     if (builder) {
-      const flags = 1 in args ? args[1].split("") : []
       return ItemBuilder.setItemAffects(
-          ItemBuilder.addPropertiesToItem(builder.builder(prototype), itemData), flags)
+        ItemBuilder.addPropertiesToItem(builder.builder(prototype), itemData), flags)
     }
-    switch (type) {
-      case ImportItemType.Map:
-        return ItemBuilder.createItem(ItemType.Map, name, description, itemData)
-      case ImportItemType.Trash:
-        return ItemBuilder.createItem(ItemType.Trash, name, description, itemData)
-      case ImportItemType.Gem:
-        return ItemBuilder.createItem(ItemType.Gem, name, description, itemData)
-      case ImportItemType.Key:
-        return ItemBuilder.createItem(ItemType.Key, name, description, itemData)
-      case ImportItemType.Wand:
-        const wand = newWeapon(name, description, WeaponType.Wand, DamageType.Magic)
-        ItemBuilder.addPropertiesToItem(wand, itemData)
-        return wand
-      case ImportItemType.Furniture:
-        const furniture = newItem(ItemType.Fixture, name, description)
-        ItemBuilder.addPropertiesToItem(furniture, itemData)
-        return furniture
-      case ImportItemType.Money:
-        return ItemBuilder.createItem(ItemType.Money, name, description, itemData)
-      case ImportItemType.Treasure:
-        return ItemBuilder.createItem(ItemType.Treasure, name, description, itemData)
-      case ImportItemType.Potion:
-        return ItemBuilder.createItem(ItemType.Potion, name, description, itemData)
-      case ImportItemType.Scroll:
-        return ItemBuilder.createItem(ItemType.Scroll, name, description, itemData)
-      case ImportItemType.SpellPage:
-        return ItemBuilder.createItem(ItemType.SpellPage, name, description, itemData)
-      case ImportItemType.ItemPart:
-        return ItemBuilder.createItem(ItemType.ItemPart, name, description, itemData)
-      case ImportItemType.Boat:
-        return ItemBuilder.createItem(ItemType.Boat, name, description, itemData)
-      case ImportItemType.Grenade:
-        return ItemBuilder.createItem(ItemType.Grenade, name, description, itemData)
-      case ImportItemType.Jukebox:
-        return ItemBuilder.createItem(ItemType.Jukebox, name, description, itemData)
-      case ImportItemType.TrapPart:
-        return ItemBuilder.createItem(ItemType.Boat, name, description, itemData)
-      case ImportItemType.Jewelry:
-        return ItemBuilder.createItem(ItemType.Jewelry, name, description, itemData)
-      case ImportItemType.Pill:
-        return ItemBuilder.createItem(ItemType.Pill, name, description, itemData)
-      case ImportItemType.WarpStone:
-        return ItemBuilder.createItem(ItemType.WarpStone, name, description, itemData)
-      case ImportItemType.Portal:
-        return ItemBuilder.createItem(ItemType.Portal, name, description, itemData)
-      case ImportItemType.None:
-        return ItemBuilder.createItem(ItemType.None, name, description, itemData)
-      case ImportItemType.RoomKey:
-        return ItemBuilder.createItem(ItemType.Key, name, description, itemData)
-      case ImportItemType.NpcCorpse:
-        return ItemBuilder.createItem(ItemType.Corpse, name, description, itemData)
-      case ImportItemType.PcCorpse:
-        return ItemBuilder.createItem(ItemType.Corpse, name, description, itemData)
-      case ImportItemType.Staff:
-        const staff = newWeapon(name, description, WeaponType.Stave, DamageType.Magic)
-        ItemBuilder.addPropertiesToItem(staff, itemData)
-        return staff
-      default:
-        return
-    }
+    return ItemBuilder.setItemAffects(ItemBuilder.addPropertiesToItem(any(prototype), itemData), flags)
   }
 }

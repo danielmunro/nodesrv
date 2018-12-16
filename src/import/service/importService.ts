@@ -43,6 +43,7 @@ export default class ImportService {
     private readonly mobRepository: MobRepository,
     private readonly roomRepository: RoomRepository,
     private readonly itemRepository: ItemRepository,
+    private readonly itemBuilder: ItemBuilder,
     private readonly writeNewData: boolean = true,
   ) {}
 
@@ -114,7 +115,7 @@ export default class ImportService {
   }
 
   private async addItem(file, itemData) {
-    const item = await ItemBuilder.createItemFromImportData(itemData)
+    const item = await this.itemBuilder.createItemFromImportData(itemData)
     if (!item) {
       console.log(`skipping ${itemData.type}: ${itemData.id}`)
       return
