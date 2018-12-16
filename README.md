@@ -29,7 +29,7 @@ Create the database instance.
 ```
 docker-compose up -d db
 
-psql -U postgres -h localhost -c 'create database foo;'
+psql -U postgres -h localhost -c 'create database nodesrv;'
 ```
 
 Import fixtures.
@@ -40,13 +40,7 @@ yarn create-fixtures
 
 ### Start The Game Server
 
-Capture the unique ID of the start room for players.
-
-```
-psql -U postgres -h localhost nodesrv -c 'select "uuid" from room where "importID"=3001';
-```
-
-Start the server: the first argument is the room ID for starting players, the second is the port for the server to listen on.
+Start the server: the first argument is the room ID for starting players, the second is the server port.
 
 ```
 yarn start 3001 5151
