@@ -9,6 +9,10 @@ export default class RoomTable {
 
   constructor(private readonly roomsById: object) {}
 
+  public getRooms(): Room[] {
+    return Object.values(this.roomsById)
+  }
+
   public get(uuid: string): Room {
     return this.roomsById[uuid]
   }

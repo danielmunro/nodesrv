@@ -23,7 +23,7 @@ const Timings = {
 /**
  * Obtain the start room ID and port from arguments passed in
  */
-const startRoomID = process.argv[2]
+const startRoomID = +process.argv[2]
 const port = +process.argv[3]
 console.time(Timings.init)
 assert.ok(startRoomID, "start room ID is required to be defined")
@@ -57,7 +57,7 @@ initializeConnection().then(async () => {
   const server = await newServer(
     gameService,
     port,
-    roomTable.get(startRoomID),
+    roomTable.getRooms().find(room => room.importID === startRoomID),
     resetService,
     mobService)
   await server.start()
