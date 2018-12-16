@@ -6,7 +6,6 @@ ormconfig.json
 .idea
 postgres-data/
 /fixtures/
-test-report.xml
 
 # Logs
 logs
