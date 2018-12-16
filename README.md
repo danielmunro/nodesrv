@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/danielmunro/nodesrv.svg?branch=master)](https://travis-ci.org/danielmunro/nodesrv) [![Sonatype](https://sonarcloud.io/api/project_badges/measure?project=nodesrv&metric=coverage)](https://sonarcloud.io/dashboard?id=nodesrv)
+[![Build Status](https://travis-ci.org/danielmunro/nodesrv.svg?branch=master)](https://travis-ci.org/danielmunro/nodesrv) [![Sonatype](https://sonarcloud.io/api/project_badges/measure?project=nodesrv&metric=coverage)](https://sonarcloud.io/dashboard?id=nodesrv) [![Sonatype](https://sonarcloud.io/api/project_badges/measure?project=nodesrv&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=nodesrv)  [![Sonatype](https://sonarcloud.io/api/project_badges/measure?project=nodesrv&metric=security_rating)](https://sonarcloud.io/dashboard?id=nodesrv)
 
 # nodesrv
 Nodesrv is a text-based web socket [MUD framework](https://en.wikipedia.org/wiki/MUD).
