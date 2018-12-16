@@ -8,9 +8,11 @@ import {Liquid} from "./liquid"
 import Forge from "./model/forge"
 import Weapon from "./model/weapon"
 import {WeaponType} from "./weaponType"
+import {SpellType} from "../spell/spellType"
 
 const itemBuilder = ItemBuilder.new()
 
+/* tslint:disable:no-big-function */
 describe("itemBuilder", () => {
   it("should build a weapon", async () => {
     // given
@@ -23,6 +25,37 @@ describe("itemBuilder", () => {
     expect(item).toBeInstanceOf(Weapon)
     expect(item.damageType).toBe(DamageType.Slash)
     expect(item.weaponType).toBe(WeaponType.Sword)
+  })
+
+  it("should build a wand", async () => {
+    // given
+    const item = await itemBuilder.createItemFromImportData({
+      pObjFlags: "4 10 10 'magic missile' 0",
+      type: ImportItemType.Wand,
+    }) as Weapon
+
+    // expect
+    expect(item).toBeInstanceOf(Weapon)
+    expect(item.damageType).toBe(DamageType.Magic)
+    expect(item.weaponType).toBe(WeaponType.Wand)
+    expect(item.itemType).toBe(ItemType.Equipment)
+    expect(item.equipment).toBe(Equipment.Weapon)
+    expect(item.currentCharges).toBe(10)
+    expect(item.maxCharges).toBe(10)
+    expect(item.castLevel).toBe(4)
+    expect(item.spellType).toBe(SpellType.MagicMissile)
+  })
+
+  it("should build a staff", async () => {
+    // given
+    const item = await itemBuilder.createItemFromImportData({
+      pObjFlags: "4 10 10 'magic missile' 0",
+      type: ImportItemType.Staff,
+    }) as Weapon
+
+    // expect
+    expect(item).toBeInstanceOf(Weapon)
+    expect(item.weaponType).toBe(WeaponType.Stave)
   })
 
   it("should build armor", async () => {
