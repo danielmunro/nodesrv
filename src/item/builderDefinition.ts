@@ -5,6 +5,6 @@ import {Item} from "./model/item"
 export default class BuilderDefinition {
   constructor(
     public readonly itemType: ItemType,
-    public readonly builder: (itemPrototype: ItemPrototype) => Item,
+    public readonly buildItem: (itemPrototype: ItemPrototype) => Item,
   ) {}
 }

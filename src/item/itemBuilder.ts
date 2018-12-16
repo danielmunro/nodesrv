@@ -82,7 +82,7 @@ export default class ItemBuilder {
     const flags = 1 in args ? args[1].split("") : []
     if (builder) {
       return ItemBuilder.setItemAffects(
-        ItemBuilder.addPropertiesToItem(builder.builder(prototype), itemData), flags)
+        ItemBuilder.addPropertiesToItem(builder.buildItem(prototype), itemData), flags)
     }
     return ItemBuilder.setItemAffects(ItemBuilder.addPropertiesToItem(any(prototype), itemData), flags)
   }
