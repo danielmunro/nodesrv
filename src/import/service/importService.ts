@@ -17,9 +17,6 @@ const NPC_MOVEMENT = 1000
 
 export default class ImportService {
   private static dice(rollData) {
-    if (rollData === undefined) {
-      return 1
-    }
     const parts = rollData.split("d")
     const count = parts[0]
     const secondPart = parts[1].split("+")
