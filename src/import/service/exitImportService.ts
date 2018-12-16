@@ -1,5 +1,6 @@
 import { Direction } from "../../room/constants"
 import { newExit } from "../../room/factory"
+import {Exit} from "../../room/model/exit"
 import ExitRepository from "../../room/repository/exit"
 import { DirectionFlag } from "../enum/directionFlag"
 import File from "../file"
@@ -12,6 +13,7 @@ export default class ExitImportService {
   ) {}
 
   public async materializeExits(file: File) {
+    const exits = []
     const ids = Object.keys(file.roomMap)
     for (const importId of ids) {
       const room = file.roomDataMap[importId]
@@ -19,12 +21,13 @@ export default class ExitImportService {
         continue
       }
       for (const door of room.doors) {
-        await this.createExitFromDoor(door, importId)
+        exits.push(await this.createExitFromDoor(door, importId))
       }
     }
+    return exits
   }
 
-  private async createExitFromDoor(door, importId) {
+  private async createExitFromDoor(door, importId): Promise<Exit> {
     let direction: Direction
     switch (door.door) {
       case DirectionFlag.North:
@@ -52,8 +55,6 @@ export default class ExitImportService {
     const source = this.roomTable.getByImportId(importId)
     const destination = this.roomTable.getByImportId(door.vnum)
 
-    if (source && destination) {
-      await this.exitRepository.save(newExit(direction, source, destination))
-    }
+    return this.exitRepository.save(newExit(direction, source, destination))
   }
 }
