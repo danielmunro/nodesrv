@@ -1,448 +1,595 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testExecutions version="1">
-  <file path="/Users/danmunro/github/nodesrv/src/mob/fight/death.test.ts">
-    <testCase name="death should transfer all items when a corpse is created" duration="7"/>
-    <testCase name="death should not calculate kill xp for non-players" duration="1"/>
-    <testCase name="death should generate random body parts" duration="4"/>
+  <file path="/Users/danmunro/github/nodesrv/src/action/definition/collection.test.ts">
+    <testCase name="collection action definition should return east before equipped" duration="2"/>
+    <testCase name="collection action definition should return west before wear" duration="1"/>
+    <testCase name="collection action definition should return get before gossip" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createMob/specialization.test.ts">
+    <testCase name="specialization create mob auth step should not allow invalid specialization options" duration="13"/>
+    <testCase name="specialization create mob auth step should allow valid specializations" duration="6"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observers/tick.test.ts">
+    <testCase name="ticks should call tick on all clients" duration="38"/>
+    <testCase name="ticks should invoke fast healing" duration="1177"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observers/handleClientRequests.test.ts">
+    <testCase name="handleClientRequests should be able to handle requests on clients" duration="5"/>
+    <testCase name="handleClientRequests should not notify a client if the client has a delay" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observers/decrementPlayerDelay.test.ts">
+    <testCase name="decrement player delay should decrement delay for players if needed" duration="6"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/drop.test.ts">
+    <testCase name="drop should be able to drop an item" duration="5"/>
+    <testCase name="drop an item with MeltDrop affect should destroy on drop" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/room/factory.test.ts">
+    <testCase name="room factory should be able to create rooms" duration="1"/>
+    <testCase name="room factory should be able to create reciprocal exits between rooms" duration="2"/>
+    <testCase name="room factory should not be able to connect a room to itself" duration="1"/>
+    <testCase name="room factory should not allow connecting two rooms that cannot be connected" duration="23"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/sneak.test.ts">
+    <testCase name="sneak skill action should be able to fail sneaking" duration="8"/>
+    <testCase name="sneak skill action should be able to succeed sneaking" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/affect/factory.test.ts">
+    <testCase name="affect factory should create an affect with the parameters passed in" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/session/auth/login/password.test.ts">
+    <testCase name="password login auth step should be able to login in" duration="78"/>
+    <testCase name="password login auth step should fail login with the wrong password" duration="38"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/spell/action/lightningBolt.test.ts">
+    <testCase name="lightning bolt should do damage when casted" duration="8"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/race/modifier.test.ts">
+    <testCase name="race modifiers modifiers" duration="9"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/affects.test.ts">
+    <testCase name="affects should report when an affect is added" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/sell.test.ts">
+    <testCase name="sell action action should execute the sell checked request" duration="4"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/session/auth/login/email.test.ts">
+    <testCase name="login email auth step should disallow invalid email formats" duration="2"/>
+    <testCase name="login email auth step should allow valid email formats" duration="56"/>
+    <testCase name="login email auth step should ask for a password for an existing player" duration="94"/>
+    <testCase name="login email auth step should allow creating new players" duration="22"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/spell/action/shield.test.ts">
+    <testCase name="shield should shield when casted" duration="4"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/spell/action/poison.test.ts">
+    <testCase name="poison should poison when casted" duration="3"/>
   </file>
   <file path="/Users/danmunro/github/nodesrv/src/item/itemBuilder.test.ts">
-    <testCase name="itemBuilder should build a weapon" duration="8"/>
-    <testCase name="itemBuilder should build a wand" duration="3"/>
-    <testCase name="itemBuilder should build a staff" duration="0"/>
-    <testCase name="itemBuilder should build armor" duration="2"/>
-    <testCase name="itemBuilder should build a container" duration="5"/>
+    <testCase name="itemBuilder should build a weapon" duration="3"/>
+    <testCase name="itemBuilder should build a wand" duration="2"/>
+    <testCase name="itemBuilder should build a staff" duration="1"/>
+    <testCase name="itemBuilder should build armor" duration="1"/>
+    <testCase name="itemBuilder should build a container" duration="1"/>
     <testCase name="itemBuilder should build a drink" duration="1"/>
     <testCase name="itemBuilder should build a poisoned drink" duration="1"/>
     <testCase name="itemBuilder should build food" duration="1"/>
-    <testCase name="itemBuilder should build poisoned food" duration="1"/>
+    <testCase name="itemBuilder should build poisoned food" duration="0"/>
     <testCase name="itemBuilder should build a fountain" duration="1"/>
-    <testCase name="itemBuilder should build a poisoned fountain" duration="1"/>
-    <testCase name="itemBuilder should build a forge" duration="0"/>
+    <testCase name="itemBuilder should build a poisoned fountain" duration="0"/>
+    <testCase name="itemBuilder should build a forge" duration="1"/>
     <testCase name="itemBuilder should build a light" duration="1"/>
-    <testCase name="itemBuilder should build furniture" duration="0"/>
+    <testCase name="itemBuilder should build furniture" duration="1"/>
     <testCase name="itemBuilder should build a map" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observers/tick.test.ts">
-    <testCase name="ticks should call tick on all clients" duration="22"/>
-    <testCase name="ticks should invoke fast healing" duration="885"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/player/authorizationLevel.test.ts">
-    <testCase name="authorization level isSpecialAuthorizationLevel sanity tests" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/sharpen.test.ts">
-    <testCase name="sharpen skill action should error out for weapons without blades" duration="5"/>
-    <testCase name="sharpen skill action should succeed and fail" duration="15"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createMob/complete.test.ts">
-    <testCase name="create mob auth step: complete should proceed to the final step unconditionally" duration="97"/>
-    <testCase name="create mob auth step: complete should persist the mob" duration="81"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/wake.test.ts">
-    <testCase name="wake action preconditions should not be able to wake if already standing" duration="2"/>
-    <testCase name="wake action preconditions should not be able to wake if dead" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/client/client.test.ts">
-    <testCase name="client sanity checks has requests sanity check" duration="3"/>
-    <testCase name="client sanity checks can handle requests sanity check" duration="1"/>
-    <testCase name="client sanity checks create result sanity checks" duration="1"/>
-    <testCase name="client sanity checks send sanity test" duration="0"/>
-    <testCase name="client sanity checks on result sanity test" duration="5"/>
-    <testCase name="clients should delegate handling requests to the session if not logged in" duration="60"/>
-    <testCase name="clients should recognize its own messages as its own and not others" duration="1"/>
-    <testCase name="clients should use the default action when no handlers match" duration="2"/>
-    <testCase name="clients invokes the default request action when input has no action handler" duration="1"/>
-    <testCase name="clients should pass tick info through the socket" duration="1"/>
-    <testCase name="clients not logged in clients should always be able to handle requests if ones are available" duration="0"/>
-    <testCase name="clients training will apply the cost appropriately" duration="2"/>
-    <testCase name="clients should create a fight if the action outcome is such" duration="258"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/move.test.ts">
-    <testCase name="move should not allow movement where an exit does not exist" duration="2"/>
-    <testCase name="move should not allow movement when movement points are depleted" duration="1"/>
-    <testCase name="move should allow movement when preconditions pass" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observers/socialBroadcaster.test.ts">
-    <testCase name="socialBroadcaster should notify all clients when a client sends a result, except the sender" duration="4"/>
-    <testCase name="socialBroadcaster should notify only clients in the same private channel" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/social.test.ts">
-    <testCase name="social gossip should produce a result to the social buffer" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observers/regionWeather.test.ts">
-    <testCase name="region weather server observer should update some regions" duration="616"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/cast.test.ts">
-    <testCase name="cast should require at least one argument" duration="2"/>
-    <testCase name="cast should know if an argument is or is not a spell" duration="2"/>
-    <testCase name="cast should be able to cast a known spell" duration="1"/>
-    <testCase name="cast should display an appropriate result if the caster lacks mana" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/sell.test.ts">
-    <testCase name="sell action action preconditions should fail if a merchant is not in the room" duration="2"/>
-    <testCase name="sell action action preconditions should fail if the seller does not have the item" duration="2"/>
-    <testCase name="sell action action preconditions should succeed if all conditions met" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/steal.test.ts">
-    <testCase name="steal skill action should transfer an item when successful" duration="394"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/inventory.test.ts">
-    <testCase name="inventory action action should return a mob&apos;s inventory" duration="2"/>
-    <testCase name="inventory action action should not show an invisible item" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/spell/action/giantStrength.test.ts">
-    <testCase name="shield should shield when casted" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/auth/login/password.test.ts">
-    <testCase name="password login auth step should be able to login in" duration="81"/>
-    <testCase name="password login auth step should fail login with the wrong password" duration="43"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/auth/complete.test.ts">
-    <testCase name="final auth step: complete should be ok unconditionally, but not have any more steps to complete" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/item/inventory.test.ts">
-    <testCase name="inventory model should be able to find an item" duration="2"/>
-    <testCase name="inventory model should combine items with the same name" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/auth/login/name.test.ts">
-    <testCase name="auth login name should be able to request a new mob" duration="1"/>
-    <testCase name="auth login name should not allow a player to use another player&apos;s mob" duration="261"/>
-    <testCase name="auth login name should be able to log into a player&apos;s own mob" duration="73"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/get.test.ts">
-    <testCase name="get action should be able to get an item from a room inventory" duration="5"/>
-    <testCase name="get action should be able to get an item from a container" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/request/request.test.ts">
-    <testCase name="request should be able to find an item in a request session mob&apos;s inventory" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/player/player.test.ts">
-    <testCase name="player model should not own a random mob" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/trip.test.ts">
-    <testCase name="trip skill action should be able to fail tripping" duration="3"/>
-    <testCase name="trip skill action should be able to succeed tripping" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/wear.test.ts">
-    <testCase name="wear can equip an item" duration="2"/>
-    <testCase name="wear will remove an equipped item and wear a new item" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/kill.test.ts">
-    <testCase name="kill should be able to kill a mob in the same room" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/fastHealing.test.ts">
-    <testCase name="fast healing skill action should succeed and fail periodically" duration="8"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/support/poll/poll.test.ts">
-    <testCase name="polling should work" duration="13"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/actionCollection.test.ts">
-    <testCase name="action action collection should be able to bash" duration="3"/>
-    <testCase name="action action collection should not be able to access admin action" duration="0"/>
-    <testCase name="action action collection admins should be able to access admin action" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/buy.test.ts">
-    <testCase name="buy action preconditions should fail if a merchant is not in the room" duration="2"/>
-    <testCase name="buy action preconditions should fail if the merchant doesn&apos;t have the item requested" duration="1"/>
-    <testCase name="buy action preconditions should fail if the item is too expensive" duration="1"/>
-    <testCase name="buy action preconditions should succeed if all conditions are met" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/gossip.test.ts">
-    <testCase name="should be to handle gossiping" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/dirtKick.test.ts">
-    <testCase name="dirt kick skill action should fail when not practiced" duration="9"/>
-    <testCase name="dirt kick skill action should succeed when practiced" duration="3"/>
-    <testCase name="dirt kick skill action should not be able to stack blind affects" duration="9"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/sell.test.ts">
-    <testCase name="sell action action should execute the sell checked request" duration="5"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/random/dice.test.ts">
-    <testCase name="dice roller should always be sane (within min/max possibilities)" duration="2"/>
-    <testCase name="dice roller class wrapper should be sane as well" duration="1"/>
-    <testCase name="dice roller coin flip should return a random boolean for every test call" duration="1"/>
-    <testCase name="dice roller onCoinFlipSuccess should only call the callback when the flip is successful" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/support/matcher/matcher.test.ts">
-    <testCase name="matcher should match on any word" duration="2"/>
   </file>
   <file path="/Users/danmunro/github/nodesrv/src/mob/locationService.test.ts">
     <testCase name="location gameService should not add a mob twice, an update should occur" duration="1"/>
     <testCase name="location gameService sanity checks" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/moderation/precondition/ban.test.ts">
-    <testCase name="ban moderation preconditions should not work on non-existent mobs" duration="2"/>
-    <testCase name="ban moderation preconditions should not apply a ban if the requester is not an admin" duration="1"/>
-    <testCase name="ban moderation preconditions should apply a ban (sanity)" duration="0"/>
-    <testCase name="ban moderation preconditions should not be able to ban an admin mob" duration="1"/>
-    <testCase name="ban moderation preconditions should not be able to ban a mob who&apos;s already banned" duration="0"/>
-    <testCase name="ban moderation preconditions should not be able to ban mobs who are not players" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/mob/race/sizeModifier.test.ts">
-    <testCase name="size modifier should assign the expected modifier" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/precondition/disarm.test.ts">
-    <testCase name="disarm preconditions should not work if not in a fight" duration="2"/>
-    <testCase name="disarm preconditions should not work if the target is not armed" duration="1"/>
-    <testCase name="disarm preconditions should not work if the mob is too tired" duration="1"/>
-    <testCase name="disarm preconditions should succeed if all conditions are met" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/region/movementCost.test.ts">
-    <testCase name="movement cost calculator for regions settlements should have the lowest movement cost" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/auth/login/newPlayerConfirm.test.ts">
-    <testCase name="new player confirm auth step should bounce back to email if the client selects &apos;n&apos;" duration="1"/>
-    <testCase name="new player confirm auth step should proceed to the next step (mob name) if &apos;y&apos; selected" duration="0"/>
-    <testCase name="new player confirm auth step should error out for any other input" duration="3"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observers/observerChain.test.ts">
-    <testCase name="observerChain should call all observers" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/social/message.test.ts">
-    <testCase name="message should include relevant data in getData() request" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/mob/specialization/warrior.test.ts">
-    <testCase name="warriors should get warrior specialization" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observers/persistPlayers.test.ts">
-    <testCase name="persistPlayers should save any player models passed in" duration="168"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/cast.test.ts">
-    <testCase name="cast action action should be able to cast a known spell" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/auth/login/email.test.ts">
-    <testCase name="login email auth step should disallow invalid email formats" duration="2"/>
-    <testCase name="login email auth step should allow valid email formats" duration="53"/>
-    <testCase name="login email auth step should ask for a password for an existing player" duration="107"/>
-    <testCase name="login email auth step should allow creating new players" duration="26"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/definition/collection.test.ts">
-    <testCase name="collection action definition should return east before equipped" duration="1"/>
-    <testCase name="collection action definition should return west before wear" duration="1"/>
-    <testCase name="collection action definition should return get before gossip" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/spell/action/blind.test.ts">
-    <testCase name="blind spell action should impart a blinding affect on success" duration="3"/>
-    <testCase name="blind spell action should error out if applied twice" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/eat.test.ts">
-    <testCase name="eat action should remove food from inventory when consumed" duration="1"/>
-    <testCase name="eat action should notify if the player is full" duration="1"/>
-    <testCase name="eat action should notify if the player receives an affect from eating" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createPlayer/password.test.ts">
-    <testCase name="create player password should require at least three characters" duration="1"/>
-    <testCase name="create player password should proceed to confirmation if the password is at least four characters long" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/mob/fight/fight.test.ts">
-    <testCase name="fight getOpponentFor should return null for mobs not in the fight" duration="2"/>
-    <testCase name="fight should stop when hit points reach zero" duration="17"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/gameService/gameService.test.ts">
-    <testCase name="moveMob should not allow movement where an exit does not exist" duration="3"/>
-    <testCase name="moveMob should allow movement where a direction exists" duration="1"/>
-    <testCase name="moveMob sanity checks with mob rooms and location" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/precondition/trip.test.ts">
-    <testCase name="trip skill preconditions should not work if the mob is out of movement" duration="2"/>
-    <testCase name="trip skill preconditions success sanity check" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/spell/action/lightningBolt.test.ts">
-    <testCase name="lightning bolt should do damage when casted" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/random/helpers.test.ts">
-    <testCase name="helpers pickOne should be able to pick one element randomly out of an array" duration="0"/>
-    <testCase name="helpers pickOne should not be able to pick from an empty array" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/mob/mob.test.ts">
-    <testCase name="mob model should not exceed its max appetite when eating" duration="1"/>
-    <testCase name="mob model should get a mob of requested level" duration="1"/>
-    <testCase name="mob model should be able to normalize vitals" duration="1"/>
-    <testCase name="mob model should normalize vitals after regen" duration="1"/>
-    <testCase name="mob model should describe if it&apos;s a merchant" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/mob/race/modifier.test.ts">
-    <testCase name="race modifiers modifiers" duration="15"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observers/wander.test.ts">
-    <testCase name="wander should cause a mob to move" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/dodge.test.ts">
-    <testCase name="dodge skill should be able to succeed and fail in a small collection of attempts" duration="6"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createMob/specialization.test.ts">
-    <testCase name="specialization create mob auth step should not allow invalid specialization options" duration="4"/>
-    <testCase name="specialization create mob auth step should allow valid specializations" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/spell/action/cureLight.test.ts">
-    <testCase name="cure light should heal a target when casted" duration="2"/>
-    <testCase name="cure light should heal self casted" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/mob/repository/mob.test.ts">
-    <testCase name="mob repository findWanderingMobs should be able to find wandering mobs" duration="2"/>
-    <testCase name="mob repository findPlayerMobByName should not return a non-player mob" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/spell/action/shield.test.ts">
-    <testCase name="shield should shield when casted" duration="2"/>
+  <file path="/Users/danmunro/github/nodesrv/src/player/player.test.ts">
+    <testCase name="player model should not own a random mob" duration="2"/>
   </file>
   <file path="/Users/danmunro/github/nodesrv/src/session/auth/createMob/race.test.ts">
     <testCase name="race create mob auth step should not allow invalid race options" duration="3"/>
     <testCase name="race create mob auth step should allow playable races" duration="3"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/remove.test.ts">
-    <testCase name="remove can remove an equipped item" duration="1"/>
-  </file>
   <file path="/Users/danmunro/github/nodesrv/src/mob/specialization/mage.test.ts">
     <testCase name="mages should get mage specialization" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/support/db/connection.test.ts">
-    <testCase name="connection should be recycled" duration="0"/>
+  <file path="/Users/danmunro/github/nodesrv/src/spell/action/giantStrength.test.ts">
+    <testCase name="shield should shield when casted" duration="3"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/mob/factory.test.ts">
-    <testCase name="mob factory should be able to create a mob" duration="2"/>
-    <testCase name="mob factory should be able to make a wandering mob" duration="0"/>
-    <testCase name="mob factory should be able to newTable with items" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/skillTable.test.ts">
-    <testCase name="skill table should be able to invoke a weapon skill" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/precondition/bash.test.ts">
-    <testCase name="bash skill preconditions should not allow bashing when too tired" duration="2"/>
-    <testCase name="bash skill preconditions should not allow bashing when not fighting" duration="1"/>
-    <testCase name="bash skill preconditions should pass the check if all preconditions pass" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/envenom.test.ts">
-    <testCase name="envenom skill action should fail at low levels" duration="2"/>
-    <testCase name="envenom skill action should succeed sometimes with sufficient practice" duration="1"/>
-    <testCase name="envenom skill action should not be able to envenom a non weapon" duration="1"/>
-    <testCase name="envenom skill action should only be able to envenom bladed weapons" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/enhancedDamage.test.ts">
-    <testCase name="enhanced damage should succeed more than half the time when practiced" duration="59"/>
-    <testCase name="enhanced damage should succeed somewhat when practiced some" duration="69"/>
-    <testCase name="enhanced damage should succeed infrequently when not practiced" duration="40"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observers/handleClientRequests.test.ts">
-    <testCase name="handleClientRequests should be able to handle requests on clients" duration="4"/>
-    <testCase name="handleClientRequests should not notify a client if the client has a delay" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/disarm.test.ts">
-    <testCase name="disarm skill action should disarm the equipped weapon onto the ground only once" duration="6"/>
-    <testCase name="disarm skill action should succeed a reasonable number of times when practiced" duration="9"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/sleep.test.ts">
-    <testCase name="sleep action preconditions should not be able to sleep if already sleeping" duration="1"/>
-    <testCase name="sleep action preconditions should not be able to sleep if dead" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/factory.test.ts">
-    <testCase name="game server factory should not start if passed a bad port" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createPlayer/complete.test.ts">
-    <testCase name="create player auth step: complete should proceed to the final step unconditionally" duration="100"/>
-    <testCase name="create player auth step: complete should persist the player" duration="58"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/affects.test.ts">
-    <testCase name="affects should report when an affect is added" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/social/privateBroadcast.test.ts">
-    <testCase name="private social broadcast should be able to publish to a private channel" duration="1"/>
-    <testCase name="private social broadcast reading private messages should clear the queue" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/action/moderation/precondition/ban.test.ts">
+    <testCase name="ban moderation preconditions should not work on non-existent mobs" duration="3"/>
+    <testCase name="ban moderation preconditions should not apply a ban if the requester is not an admin" duration="1"/>
+    <testCase name="ban moderation preconditions should apply a ban (sanity)" duration="1"/>
+    <testCase name="ban moderation preconditions should not be able to ban an admin mob" duration="0"/>
+    <testCase name="ban moderation preconditions should not be able to ban a mob who&apos;s already banned" duration="1"/>
+    <testCase name="ban moderation preconditions should not be able to ban mobs who are not players" duration="1"/>
   </file>
   <file path="/Users/danmunro/github/nodesrv/src/mob/multiplierNormalizer.test.ts">
     <testCase name="Multiplier normalizer creates a small multiplier from negative values" duration="2"/>
-    <testCase name="Multiplier normalizer reduces large multipliers" duration="1"/>
+    <testCase name="Multiplier normalizer reduces large multipliers" duration="0"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/buy.test.ts">
-    <testCase name="buy action action purchaser should receive an item" duration="2"/>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/precondition/trip.test.ts">
+    <testCase name="trip skill preconditions should not work if the mob is out of movement" duration="3"/>
+    <testCase name="trip skill preconditions success sanity check" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/eat.test.ts">
-    <testCase name="eat action preconditions should not allow eating food not in inventory" duration="2"/>
-    <testCase name="eat action preconditions should not allow eating items that are not food" duration="1"/>
-    <testCase name="eat action preconditions should not allow eating when already full" duration="1"/>
-    <testCase name="eat action preconditions should allow eating when all conditions are met" duration="0"/>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/lore.test.ts">
+    <testCase name="lore should not work on unidentified items" duration="2"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/train.test.ts">
-    <testCase name="train action preconditions should fail if a requested train is not understood" duration="1"/>
-    <testCase name="train action preconditions should not work if a trainer is not present" duration="1"/>
-    <testCase name="train action preconditions should not work if the player has no available trains" duration="1"/>
-    <testCase name="train action preconditions should not work if the mob is not standing" duration="0"/>
-    <testCase name="train action preconditions should work if all preconditions are met" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/service.test.ts">
+    <testCase name="mob gameService should be able to assign a specialization to a mob" duration="2"/>
+    <testCase name="mob gameService should not be able to assign a specialization if a mob already has a specialization" duration="1"/>
+    <testCase name="mob gameService should apply attributes to a mob" duration="0"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/player/service.test.ts">
-    <testCase name="player gameService should be able to save a player" duration="94"/>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/gossip.test.ts">
+    <testCase name="should be to handle gossiping" duration="3"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/move.test.ts">
+    <testCase name="move should not allow movement where an exit does not exist" duration="2"/>
+    <testCase name="move should not allow movement when movement points are depleted" duration="2"/>
+    <testCase name="move should allow movement when preconditions pass" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/sharpen.test.ts">
+    <testCase name="sharpen skill action should error out for weapons without blades" duration="4"/>
+    <testCase name="sharpen skill action should succeed and fail" duration="20"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/secondAttack.test.ts">
+    <testCase name="second attacks skill action should invoke a second attacks" duration="9"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observerDecorator.test.ts">
+    <testCase name="observer decorator should call addObserver on server" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/import/service/importService.test.ts">
+    <testCase name="import service aggregate counts should import Midgaard" duration="3671"/>
+    <testCase name="import service aggregate counts should import new thalos" duration="41"/>
+    <testCase name="import service aggregate counts should import buldtown" duration="58"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/enhancedDamage.test.ts">
+    <testCase name="enhanced damage should succeed more than half the time when practiced" duration="171"/>
+    <testCase name="enhanced damage should succeed somewhat when practiced some" duration="124"/>
+    <testCase name="enhanced damage should succeed infrequently when not practiced" duration="82"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createMob/complete.test.ts">
+    <testCase name="create mob auth step: complete should proceed to the final step unconditionally" duration="60"/>
+    <testCase name="create mob auth step: complete should persist the mob" duration="67"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/wear.test.ts">
+    <testCase name="wear can equip an item" duration="3"/>
+    <testCase name="wear will remove an equipped item and wear a new item" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/session/auth/complete.test.ts">
+    <testCase name="final auth step: complete should be ok unconditionally, but not have any more steps to complete" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/support/matcher/matcher.test.ts">
+    <testCase name="matcher should match on any word" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/spell/action/curePoison.test.ts">
+    <testCase name="cure light should heal when casted" duration="4"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observers/fightRounds.test.ts">
+    <testCase name="fight rounds should generate accurate attacks messages" duration="2"/>
+    <testCase name="fight rounds should be able to create a map between clients and session mobs" duration="2"/>
+    <testCase name="fight rounds should filter complete fights" duration="6"/>
+    <testCase name="fight rounds should filter out fight rounds that are complete" duration="7"/>
+    <testCase name="health indicator should be able to provide a string description for any level of health" duration="11"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/look.test.ts">
+    <testCase name="look should describe a room when no arguments are provided" duration="4"/>
+    <testCase name="look should let the player know if the thing they want to look at does not exist" duration="1"/>
+    <testCase name="look should describe a mob when a mob is present" duration="1"/>
+    <testCase name="look should be able to describe an item in the room" duration="0"/>
+    <testCase name="look should be able to describe an item in the session mob&apos;s inventory" duration="0"/>
+    <testCase name="look should not be able to see if blind" duration="1"/>
+    <testCase name="look should see in a dark room if holding something glowing" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/fastHealing.test.ts">
+    <testCase name="fast healing skill action should succeed and fail periodically" duration="22"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/disarm.test.ts">
+    <testCase name="disarm skill action should disarm the equipped weapon onto the ground only once" duration="12"/>
+    <testCase name="disarm skill action should succeed a reasonable number of times when practiced" duration="20"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/actionCollection.test.ts">
+    <testCase name="action action collection should be able to bash" duration="2"/>
+    <testCase name="action action collection should not be able to access admin action" duration="0"/>
+    <testCase name="action action collection admins should be able to access admin action" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/wear.test.ts">
+    <testCase name="wear should not work if an item is not found" duration="2"/>
+    <testCase name="wear can equip an item" duration="1"/>
+    <testCase name="wear can&apos;t equip things that aren&apos;t equipment" duration="1"/>
+    <testCase name="wear can&apos;t equip if not standing" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/session/auth/login/name.test.ts">
+    <testCase name="auth login name should be able to request a new mob" duration="2"/>
+    <testCase name="auth login name should not allow a player to use another player&apos;s mob" duration="161"/>
+    <testCase name="auth login name should be able to log into a player&apos;s own mob" duration="57"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/flee.test.ts">
+    <testCase name="flee action preconditions should not work if the mob is not fighting" duration="3"/>
+    <testCase name="flee action preconditions should not work if no exits available" duration="1"/>
+    <testCase name="flee action preconditions should not work if a mob has no movement" duration="0"/>
+    <testCase name="flee action preconditions should work if all preconditions met" duration="0"/>
   </file>
   <file path="/Users/danmunro/github/nodesrv/src/request/responseMessage.test.ts">
-    <testCase name="response message should interpolate the message" duration="1"/>
+    <testCase name="response message should interpolate the message" duration="2"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/room/direction.test.ts">
-    <testCase name="direction should be able to get the reverse direction" duration="2"/>
-    <testCase name="direction getFreeDirection should never return a direction which is in use, nor up or down" duration="1"/>
-    <testCase name="direction getFreeReciprocalDirection should consider the destination room when finding a random direction" duration="0"/>
-    <testCase name="direction getFreeReciprocalDirection should not make impossible connections" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/sneak.test.ts">
-    <testCase name="sneak skill action should be able to fail sneaking" duration="2"/>
-    <testCase name="sneak skill action should be able to succeed sneaking" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createPlayer/passwordConfirm.test.ts">
+    <testCase name="create player password confirm auth step should work with matching passwords" duration="3"/>
+    <testCase name="create player password confirm auth step should reject mismatched passwords" duration="1"/>
   </file>
   <file path="/Users/danmunro/github/nodesrv/src/action/action/train.test.ts">
-    <testCase name="train action should be able to train str" duration="2"/>
-    <testCase name="train action should be able to train int" duration="0"/>
+    <testCase name="train action should be able to train str" duration="3"/>
+    <testCase name="train action should be able to train int" duration="1"/>
     <testCase name="train action should be able to train wis" duration="1"/>
-    <testCase name="train action should be able to train dex" duration="1"/>
-    <testCase name="train action should be able to train con" duration="0"/>
+    <testCase name="train action should be able to train dex" duration="0"/>
+    <testCase name="train action should be able to train con" duration="1"/>
     <testCase name="train action should be able to train sta" duration="1"/>
-    <testCase name="train action should be able to train hp" duration="0"/>
-    <testCase name="train action should be able to train mana" duration="1"/>
-    <testCase name="train action should be able to train mv" duration="0"/>
+    <testCase name="train action should be able to train hp" duration="1"/>
+    <testCase name="train action should be able to train mana" duration="0"/>
+    <testCase name="train action should be able to train mv" duration="1"/>
     <testCase name="train action should not exceed str max training drinkAmount" duration="1"/>
-    <testCase name="train action should not exceed int max training drinkAmount" duration="0"/>
+    <testCase name="train action should not exceed int max training drinkAmount" duration="1"/>
     <testCase name="train action should not exceed wis max training drinkAmount" duration="1"/>
     <testCase name="train action should not exceed dex max training drinkAmount" duration="1"/>
-    <testCase name="train action should not exceed con max training drinkAmount" duration="0"/>
-    <testCase name="train action should not exceed sta max training drinkAmount" duration="1"/>
-    <testCase name="train action can describe what is trainable for str" duration="1"/>
-    <testCase name="train action can describe what is trainable for int" duration="1"/>
+    <testCase name="train action should not exceed con max training drinkAmount" duration="1"/>
+    <testCase name="train action should not exceed sta max training drinkAmount" duration="0"/>
+    <testCase name="train action can describe what is trainable for str" duration="2"/>
+    <testCase name="train action can describe what is trainable for int" duration="0"/>
     <testCase name="train action can describe what is trainable for wis" duration="0"/>
-    <testCase name="train action can describe what is trainable for dex" duration="1"/>
+    <testCase name="train action can describe what is trainable for dex" duration="0"/>
     <testCase name="train action can describe what is trainable for con" duration="1"/>
     <testCase name="train action can describe what is trainable for sta" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createPlayer/passwordConfirm.test.ts">
-    <testCase name="create player password confirm auth step should work with matching passwords" duration="1"/>
-    <testCase name="create player password confirm auth step should reject mismatched passwords" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observers/persistPlayers.test.ts">
+    <testCase name="persistPlayers should save any player models passed in" duration="141"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/drop.test.ts">
-    <testCase name="drop action preconditions should not work if the item is not in the right inventory" duration="1"/>
-    <testCase name="drop action preconditions should be ok if the item is in the mob&apos;s inventory" duration="0"/>
-    <testCase name="drop action preconditions should fail if the item is cursed" duration="1"/>
-    <testCase name="drop action preconditions should not be able to drop an item that is not transferable" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/sell.test.ts">
+    <testCase name="sell action action preconditions should fail if a merchant is not in the room" duration="3"/>
+    <testCase name="sell action action preconditions should fail if the seller does not have the item" duration="1"/>
+    <testCase name="sell action action preconditions should succeed if all conditions met" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/wake.test.ts">
-    <testCase name="sleep action action should change the mob&apos;s disposition to standing" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/item/factory.test.ts">
+    <testCase name="item factories should be able to create a weapon" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/random/dice.test.ts">
+    <testCase name="dice roller should always be sane (within min/max possibilities)" duration="3"/>
+    <testCase name="dice roller class wrapper should be sane as well" duration="2"/>
+    <testCase name="dice roller coin flip should return a random boolean for every test call" duration="0"/>
+    <testCase name="dice roller onCoinFlipSuccess should only call the callback when the flip is successful" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observers/socialBroadcaster.test.ts">
+    <testCase name="socialBroadcaster should notify all clients when a client sends a result, except the sender" duration="4"/>
+    <testCase name="socialBroadcaster should notify only clients in the same private channel" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/precondition/disarm.test.ts">
+    <testCase name="disarm preconditions should not work if not in a fight" duration="3"/>
+    <testCase name="disarm preconditions should not work if the target is not armed" duration="2"/>
+    <testCase name="disarm preconditions should not work if the mob is too tired" duration="1"/>
+    <testCase name="disarm preconditions should succeed if all conditions are met" duration="0"/>
   </file>
   <file path="/Users/danmunro/github/nodesrv/src/action/moderation/precondition/promote.test.ts">
-    <testCase name="promote moderation preconditions should not be able to promote if not an immortal" duration="5"/>
+    <testCase name="promote moderation preconditions should not be able to promote if not an immortal" duration="6"/>
     <testCase name="promote moderation preconditions should be able to promote a player&apos;s mob" duration="1"/>
     <testCase name="promote moderation preconditions should not promote if already immortal" duration="0"/>
     <testCase name="promote moderation preconditions should not be able to promote banned mobs" duration="1"/>
     <testCase name="promote moderation preconditions cannot promote non-player mobs" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/flee.test.ts">
-    <testCase name="flee action handler flee should stop a fight" duration="4"/>
-    <testCase name="flee action handler flee should cause the fleeing mob to change rooms" duration="1"/>
-    <testCase name="flee action handler flee should accurately build its response message" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/kill.test.ts">
+    <testCase name="kill should be able to kill a mob in the same room" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/sleep.test.ts">
+    <testCase name="sleep action action should change the mob&apos;s disposition to sleeping" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/fight/death.test.ts">
+    <testCase name="death should transfer all items when a corpse is created" duration="4"/>
+    <testCase name="death should not calculate kill xp for non-players" duration="1"/>
+    <testCase name="death should generate random body parts" duration="3"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/dirtKick.test.ts">
+    <testCase name="dirt kick skill action should fail when not practiced" duration="4"/>
+    <testCase name="dirt kick skill action should succeed when practiced" duration="2"/>
+    <testCase name="dirt kick skill action should not be able to stack blind affects" duration="17"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/factory.test.ts">
+    <testCase name="game server factory should not start if passed a bad port" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/session/auth/login/newPlayerConfirm.test.ts">
+    <testCase name="new player confirm auth step should bounce back to email if the client selects &apos;n&apos;" duration="2"/>
+    <testCase name="new player confirm auth step should proceed to the next step (mob name) if &apos;y&apos; selected" duration="1"/>
+    <testCase name="new player confirm auth step should error out for any other input" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/skillTable.test.ts">
+    <testCase name="skill table should be able to invoke a weapon skill" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/specialization/factory.test.ts">
+    <testCase name="specialization factory should be able to create a cleric" duration="0"/>
+    <testCase name="specialization factory should be able to create a mage" duration="1"/>
+    <testCase name="specialization factory should be able to create a ranger" duration="0"/>
+    <testCase name="specialization factory should be able to create a warrior" duration="0"/>
+    <testCase name="specialization factory should throw an error if the specialization type is unknown" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createMob/newMobConfirm.test.ts">
+    <testCase name="new mob confirm auth step should bounce back to mob name if the client selects &apos;n&apos;" duration="3"/>
+    <testCase name="new mob confirm auth step should proceed to the next step (race selection) if &apos;y&apos; selected" duration="1"/>
+    <testCase name="new mob confirm auth step should error out for any other input" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/sacrifice.test.ts">
+    <testCase name="sacrifice action destroys the item" duration="3"/>
+    <testCase name="sacrifice action cannot sacrifice an item affected by NoSac" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/mob.test.ts">
+    <testCase name="mob model should not exceed its max appetite when eating" duration="1"/>
+    <testCase name="mob model should get a mob of requested level" duration="0"/>
+    <testCase name="mob model should be able to normalize vitals" duration="1"/>
+    <testCase name="mob model should normalize vitals after regen" duration="0"/>
+    <testCase name="mob model should describe if it&apos;s a merchant" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/spell/action/cureLight.test.ts">
+    <testCase name="cure light should heal a target when casted" duration="3"/>
+    <testCase name="cure light should heal self casted" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observers/decrementAffects.test.ts">
+    <testCase name="decrementAffects should decrement all affects for a mob" duration="2"/>
+    <testCase name="decrementAffects should remove an affect once it decrements to zero" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/precondition/berserk.test.ts">
+    <testCase name="berserk skill preconditions should not allow berserking when preconditions fail" duration="2"/>
+    <testCase name="berserk skill preconditions should not allow berserking if already berserked" duration="1"/>
+    <testCase name="berserk skill preconditions should be able to get a success check if conditions met" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/gameService/gameService.test.ts">
+    <testCase name="moveMob should not allow movement where an exit does not exist" duration="2"/>
+    <testCase name="moveMob should allow movement where a direction exists" duration="1"/>
+    <testCase name="moveMob sanity checks with mob rooms and location" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/backstab.test.ts">
+    <testCase name="backstab skill action should require having the skill" duration="3"/>
+    <testCase name="backstab skill action should fail when not practiced" duration="85"/>
+    <testCase name="backstab skill action should succeed sometimes when partially practiced" duration="92"/>
+    <testCase name="backstab skill action should succeed sometimes when fully practiced" duration="49"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observers/respawner.test.ts">
+    <testCase name="respawner should reset dispositions for dead mobs" duration="148"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/room/direction.test.ts">
+    <testCase name="direction should be able to get the reverse direction" duration="3"/>
+    <testCase name="direction getFreeDirection should never return a direction which is in use, nor up or down" duration="0"/>
+    <testCase name="direction getFreeReciprocalDirection should consider the destination room when finding a random direction" duration="1"/>
+    <testCase name="direction getFreeReciprocalDirection should not make impossible connections" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/steal.test.ts">
+    <testCase name="steal skill action should transfer an item when successful" duration="572"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/social.test.ts">
+    <testCase name="social gossip should produce a result to the social buffer" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/remove.test.ts">
+    <testCase name="remove should not work if an item is not equipped" duration="1"/>
+    <testCase name="remove should be successful if the item is equipped" duration="1"/>
+    <testCase name="remove cannot remove cursed items" duration="1"/>
+    <testCase name="remove cannot remove no-remove items" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/client/client.test.ts">
+    <testCase name="client sanity checks has requests sanity check" duration="5"/>
+    <testCase name="client sanity checks can handle requests sanity check" duration="2"/>
+    <testCase name="client sanity checks create result sanity checks" duration="1"/>
+    <testCase name="client sanity checks send sanity test" duration="2"/>
+    <testCase name="client sanity checks on result sanity test" duration="1"/>
+    <testCase name="clients should delegate handling requests to the session if not logged in" duration="60"/>
+    <testCase name="clients should recognize its own messages as its own and not others" duration="2"/>
+    <testCase name="clients should use the default action when no handlers match" duration="2"/>
+    <testCase name="clients invokes the default request action when input has no action handler" duration="1"/>
+    <testCase name="clients should pass tick info through the socket" duration="1"/>
+    <testCase name="clients not logged in clients should always be able to handle requests if ones are available" duration="0"/>
+    <testCase name="clients training will apply the cost appropriately" duration="3"/>
+    <testCase name="clients should create a fight if the action outcome is such" duration="399"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/random/helpers.test.ts">
+    <testCase name="helpers pickOne should be able to pick one element randomly out of an array" duration="0"/>
+    <testCase name="helpers pickOne should not be able to pick from an empty array" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/affect/modifierTable.test.ts">
+    <testCase name="modifier table should apply appropriate modifiers for poison" duration="1"/>
+    <testCase name="modifier table should apply appropriate modifiers for shield" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/trigger/factory.test.ts">
+    <testCase name="skill trigger factory should handle no skills" duration="3"/>
+    <testCase name="skill trigger factory should invoke a skill if it matches the event trigger" duration="2"/>
+    <testCase name="skill trigger factory should be ok if the skill type was not found" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/cast.test.ts">
+    <testCase name="cast should require at least one argument" duration="2"/>
+    <testCase name="cast should know if an argument is or is not a spell" duration="1"/>
+    <testCase name="cast should be able to cast a known spell" duration="1"/>
+    <testCase name="cast should display an appropriate result if the caster lacks mana" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/player/factory.test.ts">
+    <testCase name="player factory should set the name and session mob" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/drop.test.ts">
+    <testCase name="drop action preconditions should not work if the item is not in the right inventory" duration="2"/>
+    <testCase name="drop action preconditions should be ok if the item is in the mob&apos;s inventory" duration="1"/>
+    <testCase name="drop action preconditions should fail if the item is cursed" duration="1"/>
+    <testCase name="drop action preconditions should not be able to drop an item that is not transferable" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/buy.test.ts">
+    <testCase name="buy action preconditions should fail if a merchant is not in the room" duration="2"/>
+    <testCase name="buy action preconditions should fail if the merchant doesn&apos;t have the item requested" duration="1"/>
+    <testCase name="buy action preconditions should fail if the item is too expensive" duration="0"/>
+    <testCase name="buy action preconditions should succeed if all conditions are met" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/get.test.ts">
+    <testCase name="get action preconditions should not work if the item specified does not exist" duration="10"/>
+    <testCase name="get action preconditions should be ok if the item is in the room&apos;s inventory" duration="2"/>
+    <testCase name="get action preconditions should be ok if the item is in a mob&apos;s container" duration="1"/>
+    <testCase name="get action preconditions should not be able to get an item that is not transferable" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/remove.test.ts">
+    <testCase name="remove can remove an equipped item" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/spell/action/blind.test.ts">
+    <testCase name="blind spell action should impart a blinding affect on success" duration="4"/>
+    <testCase name="blind spell action should error out if applied twice" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/fight/fight.test.ts">
+    <testCase name="fight getOpponentFor should return null for mobs not in the fight" duration="1"/>
+    <testCase name="fight should stop when hit points reach zero" duration="26"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/social/message.test.ts">
+    <testCase name="message should include relevant data in getData() request" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/race/sight.test.ts">
+    <testCase name="sight sanity check human (time: 14, terrain: 0, weather: 0). Should be able to see: true" duration="1"/>
+    <testCase name="sight sanity check human (time: 0, terrain: 0, weather: 0). Should be able to see: false" duration="1"/>
+    <testCase name="sight sanity check faerie (time: 0, terrain: 2, weather: 4). Should be able to see: false" duration="0"/>
+    <testCase name="sight sanity check faerie (time: 0, terrain: 1, weather: 0). Should be able to see: false" duration="0"/>
+    <testCase name="sight sanity check giant (time: 0, terrain: 2, weather: 4). Should be able to see: false" duration="0"/>
+    <testCase name="sight sanity check giant (time: 6, terrain: 0, weather: 0). Should be able to see: false" duration="0"/>
+    <testCase name="sight sanity check giant (time: 6, terrain: 2, weather: 3). Should be able to see: false" duration="0"/>
+    <testCase name="sight sanity check giant (time: 7, terrain: 0, weather: 0). Should be able to see: true" duration="1"/>
+    <testCase name="sight sanity check kender (time: 20, terrain: 2, weather: 4). Should be able to see: true" duration="0"/>
+    <testCase name="sight sanity check kender (time: 21, terrain: 2, weather: 4). Should be able to see: false" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/kill.test.ts">
+    <testCase name="kill should not be able to kill a mob that isn&apos;t in the room" duration="2"/>
+    <testCase name="kill shouldn&apos;t be able to target a mob when already fighting" duration="1"/>
+    <testCase name="kill should be able to kill a mob in the same room" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observers/regionWeather.test.ts">
+    <testCase name="region weather server observer should update some regions" duration="765"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/specialization/warrior.test.ts">
+    <testCase name="warriors should get warrior specialization" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/support/poll/poll.test.ts">
+    <testCase name="polling should work" duration="11"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/server.test.ts">
+    <testCase name="the server should start if initialized" duration="2"/>
+    <testCase name="the server should not start again if already started" duration="2"/>
+    <testCase name="the server with new WS connections should add a client" duration="5"/>
+    <testCase name="the server should remove clients that have been closed" duration="5"/>
+    <testCase name="the server closing a client should remove it from the server&apos;s clients" duration="3"/>
+    <testCase name="the server should notify an observer immediately if it is added with an immediate timer" duration="1"/>
+    <testCase name="the server should not notify an observer immediately if a timeout larger than 0 is specified" duration="3"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/race/sizeModifier.test.ts">
+    <testCase name="size modifier should assign the expected modifier" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/eat.test.ts">
+    <testCase name="eat action should remove food from inventory when consumed" duration="2"/>
+    <testCase name="eat action should notify if the player is full" duration="1"/>
+    <testCase name="eat action should notify if the player receives an affect from eating" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/cast.test.ts">
+    <testCase name="cast action action should be able to cast a known spell" duration="3"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/definition/definition.test.ts">
+    <testCase name="Definition isAbleToHandleRequestType should only handle its own request type" duration="1"/>
+    <testCase name="Definition applyCallback should fail on different request types" duration="1"/>
+    <testCase name="Definition applyCallback should succeed on matching request types" duration="1"/>
+    <testCase name="Definition &apos;Any&apos; action can handle different types of requests" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/specialization/cleric.test.ts">
+    <testCase name="clerics should get cleric specialization" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createPlayer/complete.test.ts">
+    <testCase name="create player auth step: complete should proceed to the final step unconditionally" duration="81"/>
+    <testCase name="create player auth step: complete should persist the player" duration="45"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observers/observerChain.test.ts">
+    <testCase name="observerChain should call all observers" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/wake.test.ts">
+    <testCase name="wake action preconditions should not be able to wake if already standing" duration="2"/>
+    <testCase name="wake action preconditions should not be able to wake if dead" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/trip.test.ts">
+    <testCase name="trip skill action should be able to fail tripping" duration="3"/>
+    <testCase name="trip skill action should be able to succeed tripping" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/attributes/attributes.test.ts">
+    <testCase name="attributes should be able to combine test attributes three times and each value should be multiplied accordingly" duration="3"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/berserk.test.ts">
+    <testCase name="berserk skill action should be able to fail berserking" duration="4"/>
+    <testCase name="berserk skill action should be able to succeed berserking" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/buy.test.ts">
+    <testCase name="buy action action purchaser should receive an item" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/wake.test.ts">
+    <testCase name="sleep action action should change the mob&apos;s disposition to standing" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/server/observers/wander.test.ts">
+    <testCase name="wander should cause a mob to move" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/sleep.test.ts">
+    <testCase name="sleep action preconditions should not be able to sleep if already sleeping" duration="2"/>
+    <testCase name="sleep action preconditions should not be able to sleep if dead" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/train.test.ts">
+    <testCase name="train action preconditions should fail if a requested train is not understood" duration="2"/>
+    <testCase name="train action preconditions should not work if a trainer is not present" duration="1"/>
+    <testCase name="train action preconditions should not work if the player has no available trains" duration="1"/>
+    <testCase name="train action preconditions should not work if the mob is not standing" duration="1"/>
+    <testCase name="train action preconditions should work if all preconditions are met" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/item/inventory.test.ts">
+    <testCase name="inventory model should be able to find an item" duration="2"/>
+    <testCase name="inventory model should combine items with the same name" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/inventory.test.ts">
+    <testCase name="inventory action action should return a mob&apos;s inventory" duration="14"/>
+    <testCase name="inventory action action should not show an invisible item" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/bash.test.ts">
+    <testCase name="bash should be able to trigger a failed bash" duration="3"/>
+    <testCase name="bash should be able to trigger a successful bash" duration="2"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/precondition/bash.test.ts">
+    <testCase name="bash skill preconditions should not allow bashing when too tired" duration="3"/>
+    <testCase name="bash skill preconditions should not allow bashing when not fighting" duration="1"/>
+    <testCase name="bash skill preconditions should pass the check if all preconditions pass" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/social/publicBroadcast.test.ts">
+    <testCase name="chat should be able to broadcast and receive messages" duration="1"/>
+    <testCase name="chat should not broadcast the same result more than once" duration="1"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/eat.test.ts">
+    <testCase name="eat action preconditions should not allow eating food not in inventory" duration="1"/>
+    <testCase name="eat action preconditions should not allow eating items that are not food" duration="1"/>
+    <testCase name="eat action preconditions should not allow eating when already full" duration="1"/>
+    <testCase name="eat action preconditions should allow eating when all conditions are met" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/get.test.ts">
+    <testCase name="get action should be able to get an item from a room inventory" duration="3"/>
+    <testCase name="get action should be able to get an item from a container" duration="2"/>
   </file>
   <file path="/Users/danmunro/github/nodesrv/src/action/action/put.test.ts">
     <testCase name="put action should transfer an item" duration="2"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/move.test.ts">
-    <testCase name="move should allow movement where rooms connect" duration="2"/>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/flee.test.ts">
+    <testCase name="flee action handler flee should stop a fight" duration="3"/>
+    <testCase name="flee action handler flee should cause the fleeing mob to change rooms" duration="2"/>
+    <testCase name="flee action handler flee should accurately build its response message" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/room/factory.test.ts">
-    <testCase name="room factory should be able to create rooms" duration="1"/>
-    <testCase name="room factory should be able to create reciprocal exits between rooms" duration="1"/>
-    <testCase name="room factory should not be able to connect a room to itself" duration="1"/>
-    <testCase name="room factory should not allow connecting two rooms that cannot be connected" duration="15"/>
+  <file path="/Users/danmunro/github/nodesrv/src/session/session.test.ts">
+    <testCase name="session isLoggedIn sanity check" duration="2"/>
+    <testCase name="session should login when complete" duration="7"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/repository/mob.test.ts">
+    <testCase name="mob repository findWanderingMobs should be able to find wandering mobs" duration="2"/>
+    <testCase name="mob repository findPlayerMobByName should not return a non-player mob" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/gameService/timeService.test.ts">
+    <testCase name="time service should accurately report time of day" duration="0"/>
+  </file>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/equipped.test.ts">
+    <testCase name="equipped should describe the items worn by a mob" duration="2"/>
   </file>
   <file path="/Users/danmunro/github/nodesrv/src/check/cost/cost.test.ts">
     <testCase name="cost check should be able to apply a mv cost" duration="1"/>
@@ -450,189 +597,47 @@
     <testCase name="cost check should be able to apply a delay cost" duration="0"/>
     <testCase name="cost check should be able to apply a train cost" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/affect/factory.test.ts">
-    <testCase name="affect factory should create an affect with the parameters passed in" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createPlayer/password.test.ts">
+    <testCase name="create player password should require at least three characters" duration="2"/>
+    <testCase name="create player password should proceed to confirmation if the password is at least four characters long" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/look.test.ts">
-    <testCase name="look should describe a room when no arguments are provided" duration="2"/>
-    <testCase name="look should let the player know if the thing they want to look at does not exist" duration="1"/>
-    <testCase name="look should describe a mob when a mob is present" duration="1"/>
-    <testCase name="look should be able to describe an item in the room" duration="0"/>
-    <testCase name="look should be able to describe an item in the session mob&apos;s inventory" duration="1"/>
-    <testCase name="look should not be able to see if blind" duration="0"/>
-    <testCase name="look should see in a dark room if holding something glowing" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/action/action/move.test.ts">
+    <testCase name="move should allow movement where rooms connect" duration="3"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/trigger/factory.test.ts">
-    <testCase name="skill trigger factory should handle no skills" duration="2"/>
-    <testCase name="skill trigger factory should invoke a skill if it matches the event trigger" duration="2"/>
-    <testCase name="skill trigger factory should be ok if the skill type was not found" duration="0"/>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/dodge.test.ts">
+    <testCase name="dodge skill should be able to succeed and fail in a small collection of attempts" duration="8"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/mob/service.test.ts">
-    <testCase name="mob gameService should be able to assign a specialization to a mob" duration="2"/>
-    <testCase name="mob gameService should not be able to assign a specialization if a mob already has a specialization" duration="1"/>
-    <testCase name="mob gameService should apply attributes to a mob" duration="0"/>
+  <file path="/Users/danmunro/github/nodesrv/src/skill/action/envenom.test.ts">
+    <testCase name="envenom skill action should fail at low levels" duration="3"/>
+    <testCase name="envenom skill action should succeed sometimes with sufficient practice" duration="2"/>
+    <testCase name="envenom skill action should not be able to envenom a non weapon" duration="1"/>
+    <testCase name="envenom skill action should only be able to envenom bladed weapons" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/item/factory.test.ts">
-    <testCase name="item factories should be able to create a weapon" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/definition/definition.test.ts">
-    <testCase name="Definition isAbleToHandleRequestType should only handle its own request type" duration="1"/>
-    <testCase name="Definition applyCallback should fail on different request types" duration="1"/>
-    <testCase name="Definition applyCallback should succeed on matching request types" duration="1"/>
-    <testCase name="Definition &apos;Any&apos; action can handle different types of requests" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/spell/action/poison.test.ts">
-    <testCase name="poison should poison when casted" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/backstab.test.ts">
-    <testCase name="backstab skill action should require having the skill" duration="2"/>
-    <testCase name="backstab skill action should fail when not practiced" duration="53"/>
-    <testCase name="backstab skill action should succeed sometimes when partially practiced" duration="45"/>
-    <testCase name="backstab skill action should succeed sometimes when fully practiced" duration="43"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/flee.test.ts">
-    <testCase name="flee action preconditions should not work if the mob is not fighting" duration="3"/>
-    <testCase name="flee action preconditions should not work if no exits available" duration="1"/>
-    <testCase name="flee action preconditions should not work if a mob has no movement" duration="1"/>
-    <testCase name="flee action preconditions should work if all preconditions met" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/spell/action/curePoison.test.ts">
-    <testCase name="cure light should heal when casted" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/wear.test.ts">
-    <testCase name="wear should not work if an item is not found" duration="1"/>
-    <testCase name="wear can equip an item" duration="1"/>
-    <testCase name="wear can&apos;t equip things that aren&apos;t equipment" duration="1"/>
-    <testCase name="wear can&apos;t equip if not standing" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/equipped.test.ts">
-    <testCase name="equipped should describe the items worn by a mob" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/berserk.test.ts">
-    <testCase name="berserk skill action should be able to fail berserking" duration="3"/>
-    <testCase name="berserk skill action should be able to succeed berserking" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/bash.test.ts">
-    <testCase name="bash should be able to trigger a failed bash" duration="5"/>
-    <testCase name="bash should be able to trigger a successful bash" duration="3"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/auth/createMob/newMobConfirm.test.ts">
-    <testCase name="new mob confirm auth step should bounce back to mob name if the client selects &apos;n&apos;" duration="2"/>
-    <testCase name="new mob confirm auth step should proceed to the next step (race selection) if &apos;y&apos; selected" duration="1"/>
-    <testCase name="new mob confirm auth step should error out for any other input" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/lore.test.ts">
-    <testCase name="lore should not work on unidentified items" duration="3"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observers/decrementPlayerDelay.test.ts">
-    <testCase name="decrement player delay should decrement delay for players if needed" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/session/session.test.ts">
-    <testCase name="session isLoggedIn sanity check" duration="2"/>
-    <testCase name="session should login when complete" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observers/respawner.test.ts">
-    <testCase name="respawner should reset dispositions for dead mobs" duration="118"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/remove.test.ts">
-    <testCase name="remove should not work if an item is not equipped" duration="1"/>
-    <testCase name="remove should be successful if the item is equipped" duration="0"/>
-    <testCase name="remove cannot remove cursed items" duration="1"/>
-    <testCase name="remove cannot remove no-remove items" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/mob/specialization/cleric.test.ts">
-    <testCase name="clerics should get cleric specialization" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/kill.test.ts">
-    <testCase name="kill should not be able to kill a mob that isn&apos;t in the room" duration="2"/>
-    <testCase name="kill shouldn&apos;t be able to target a mob when already fighting" duration="1"/>
-    <testCase name="kill should be able to kill a mob in the same room" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/precondition/berserk.test.ts">
-    <testCase name="berserk skill preconditions should not allow berserking when preconditions fail" duration="2"/>
-    <testCase name="berserk skill preconditions should not allow berserking if already berserked" duration="1"/>
-    <testCase name="berserk skill preconditions should be able to get a success check if conditions met" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/social/publicBroadcast.test.ts">
-    <testCase name="chat should be able to broadcast and receive messages" duration="1"/>
-    <testCase name="chat should not broadcast the same result more than once" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/drop.test.ts">
-    <testCase name="drop should be able to drop an item" duration="3"/>
-    <testCase name="drop an item with MeltDrop affect should destroy on drop" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/sleep.test.ts">
-    <testCase name="sleep action action should change the mob&apos;s disposition to sleeping" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/mob/race/sight.test.ts">
-    <testCase name="sight sanity check human (time: 14, terrain: 0, weather: 0). Should be able to see: true" duration="1"/>
-    <testCase name="sight sanity check human (time: 0, terrain: 0, weather: 0). Should be able to see: false" duration="1"/>
-    <testCase name="sight sanity check faerie (time: 0, terrain: 2, weather: 4). Should be able to see: false" duration="0"/>
-    <testCase name="sight sanity check faerie (time: 0, terrain: 1, weather: 0). Should be able to see: false" duration="1"/>
-    <testCase name="sight sanity check giant (time: 0, terrain: 2, weather: 4). Should be able to see: false" duration="1"/>
-    <testCase name="sight sanity check giant (time: 6, terrain: 0, weather: 0). Should be able to see: false" duration="0"/>
-    <testCase name="sight sanity check giant (time: 6, terrain: 2, weather: 3). Should be able to see: false" duration="0"/>
-    <testCase name="sight sanity check giant (time: 7, terrain: 0, weather: 0). Should be able to see: true" duration="1"/>
-    <testCase name="sight sanity check kender (time: 20, terrain: 2, weather: 4). Should be able to see: true" duration="0"/>
-    <testCase name="sight sanity check kender (time: 21, terrain: 2, weather: 4). Should be able to see: false" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/mob/specialization/factory.test.ts">
-    <testCase name="specialization factory should be able to create a cleric" duration="1"/>
-    <testCase name="specialization factory should be able to create a mage" duration="0"/>
-    <testCase name="specialization factory should be able to create a ranger" duration="0"/>
-    <testCase name="specialization factory should be able to create a warrior" duration="1"/>
-    <testCase name="specialization factory should throw an error if the specialization type is unknown" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/server.test.ts">
-    <testCase name="the server should start if initialized" duration="2"/>
-    <testCase name="the server should not start again if already started" duration="1"/>
-    <testCase name="the server with new WS connections should add a client" duration="7"/>
-    <testCase name="the server should remove clients that have been closed" duration="7"/>
-    <testCase name="the server closing a client should remove it from the server&apos;s clients" duration="3"/>
-    <testCase name="the server should notify an observer immediately if it is added with an immediate timer" duration="4"/>
-    <testCase name="the server should not notify an observer immediately if a timeout larger than 0 is specified" duration="2"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/attributes/attributes.test.ts">
-    <testCase name="attributes should be able to combine test attributes three times and each value should be multiplied accordingly" duration="3"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observers/fightRounds.test.ts">
-    <testCase name="fight rounds should generate accurate attacks messages" duration="2"/>
-    <testCase name="fight rounds should be able to create a map between clients and session mobs" duration="1"/>
-    <testCase name="fight rounds should filter complete fights" duration="7"/>
-    <testCase name="fight rounds should filter out fight rounds that are complete" duration="4"/>
-    <testCase name="health indicator should be able to provide a string description for any level of health" duration="9"/>
+  <file path="/Users/danmunro/github/nodesrv/src/player/service.test.ts">
+    <testCase name="player gameService should be able to save a player" duration="74"/>
   </file>
   <file path="/Users/danmunro/github/nodesrv/src/mob/specialization/ranger.test.ts">
-    <testCase name="rangers should get ranger specialization" duration="0"/>
+    <testCase name="rangers should get ranger specialization" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/gameService/timeService.test.ts">
-    <testCase name="time service should accurately report time of day" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/request/request.test.ts">
+    <testCase name="request should be able to find an item in a request session mob&apos;s inventory" duration="2"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/affect/modifierTable.test.ts">
-    <testCase name="modifier table should apply appropriate modifiers for poison" duration="1"/>
-    <testCase name="modifier table should apply appropriate modifiers for shield" duration="0"/>
+  <file path="/Users/danmunro/github/nodesrv/src/mob/factory.test.ts">
+    <testCase name="mob factory should be able to create a mob" duration="2"/>
+    <testCase name="mob factory should be able to make a wandering mob" duration="0"/>
+    <testCase name="mob factory should be able to newTable with items" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/player/factory.test.ts">
-    <testCase name="player factory should set the name and session mob" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/support/db/connection.test.ts">
+    <testCase name="connection should be recycled" duration="0"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/action/sacrifice.test.ts">
-    <testCase name="sacrifice action destroys the item" duration="3"/>
-    <testCase name="sacrifice action cannot sacrifice an item affected by NoSac" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/player/authorizationLevel.test.ts">
+    <testCase name="authorization level isSpecialAuthorizationLevel sanity tests" duration="1"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/action/precondition/get.test.ts">
-    <testCase name="get action preconditions should not work if the item specified does not exist" duration="2"/>
-    <testCase name="get action preconditions should be ok if the item is in the room&apos;s inventory" duration="1"/>
-    <testCase name="get action preconditions should be ok if the item is in a mob&apos;s container" duration="0"/>
-    <testCase name="get action preconditions should not be able to get an item that is not transferable" duration="1"/>
+  <file path="/Users/danmunro/github/nodesrv/src/social/privateBroadcast.test.ts">
+    <testCase name="private social broadcast should be able to publish to a private channel" duration="1"/>
+    <testCase name="private social broadcast reading private messages should clear the queue" duration="0"/>
   </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observers/decrementAffects.test.ts">
-    <testCase name="decrementAffects should decrement all affects for a mob" duration="2"/>
-    <testCase name="decrementAffects should remove an affect once it decrements to zero" duration="0"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/server/observerDecorator.test.ts">
-    <testCase name="observer decorator should call addObserver on server" duration="1"/>
-  </file>
-  <file path="/Users/danmunro/github/nodesrv/src/skill/action/secondAttack.test.ts">
-    <testCase name="second attacks skill action should invoke a second attacks" duration="4"/>
+  <file path="/Users/danmunro/github/nodesrv/src/region/movementCost.test.ts">
+    <testCase name="movement cost calculator for regions settlements should have the lowest movement cost" duration="1"/>
   </file>
 </testExecutions>
