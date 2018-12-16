@@ -5,7 +5,6 @@ ormconfig.json
 .vscode
 .idea
 postgres-data/
-/fixtures/
 
 # Logs
 logs
