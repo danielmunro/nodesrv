@@ -26,7 +26,7 @@ describe("import service aggregate counts", () => {
     file.items.forEach(item => expect(item.id).toBeDefined())
     file.mobs.forEach(mob => expect(mob.id).toBeDefined())
     file.rooms.forEach(room => expect(room.id).toBeDefined())
-  })
+  }, 10000)
 
   it("should import new thalos", async () => {
     // given
@@ -45,7 +45,7 @@ describe("import service aggregate counts", () => {
     expect(file.mobs).toHaveLength(111)
     expect(file.resets).toHaveLength(1081)
     expect(file.rooms).toHaveLength(261)
-  })
+  }, 10000)
 
   it("should import buldtown", async () => {
     // given
@@ -64,5 +64,5 @@ describe("import service aggregate counts", () => {
     expect(file.mobs).toHaveLength(6)
     expect(file.resets).toHaveLength(774)
     expect(file.rooms).toHaveLength(316)
-  })
+  }, 10000)
 })
