@@ -1,10 +1,10 @@
 import {DamageType} from "../../damage/damageType"
+import {SpellType} from "../../spell/spellType"
 import {newWeapon} from "../factory"
 import ItemPrototype from "../itemPrototype"
 import {Item} from "../model/item"
-import {WeaponType} from "../weaponType"
 import Weapon from "../model/weapon"
-import {SpellType} from "../../spell/spellType"
+import {WeaponType} from "../weaponType"
 
 export default function(itemPrototype: ItemPrototype): Item {
   const { name, description, args } = itemPrototype

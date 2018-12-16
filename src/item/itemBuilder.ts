@@ -11,12 +11,12 @@ import forge from "./builder/forge"
 import fountain from "./builder/fountain"
 import furniture from "./builder/furniture"
 import light from "./builder/light"
+import staff from "./builder/staff"
+import wand from "./builder/wand"
 import weapon from "./builder/weapon"
 import BuilderDefinition from "./builderDefinition"
 import ItemPrototype from "./itemPrototype"
 import { Item } from "./model/item"
-import wand from "./builder/wand"
-import staff from "./builder/staff"
 
 export default class ItemBuilder {
   public static new(): ItemBuilder {
@@ -110,7 +110,7 @@ export default class ItemBuilder {
     const { name, description, type } = itemData
     const prototype = new ItemPrototype(type, name, description, args)
     const builder = this.builders.find(b => b.itemType === type)
-    const flags = 1 in args ? args[1].split("") : []
+    const flags = args.includes(1) ? args[1].split("") : []
     if (builder) {
       return ItemBuilder.setItemAffects(
         ItemBuilder.addPropertiesToItem(builder.buildItem(prototype), itemData), flags)
