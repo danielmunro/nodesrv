@@ -12,8 +12,8 @@ describe("move", () => {
     const destination = testBuilder.withRoom(Direction.East).room
     const mob = (await testBuilder.withPlayer()).player.sessionMob
     const service = await testBuilder.getService()
-    const actionCollection = await getActionCollection(service)
-    const definition = await actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.East)
+    const actionCollection = getActionCollection(service)
+    const definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.East)
 
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.East))

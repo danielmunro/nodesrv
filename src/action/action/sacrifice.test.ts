@@ -18,7 +18,7 @@ describe("sacrifice action", () => {
     const item = getItem()
     item.value = 100
     const testBuilder = new TestBuilder()
-    const mobBuilder = await testBuilder.withMob()
+    const mobBuilder = testBuilder.withMob()
     testBuilder.room.inventory.addItem(item)
 
     const definition = getActionCollection(await testBuilder.getService())

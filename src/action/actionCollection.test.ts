@@ -31,7 +31,7 @@ describe("action action collection", () => {
     playerBuilder.withSkill(SkillType.Bash)
     const actions = await testBuilder.getActionCollection()
 
-    const action = await actions.getMatchingHandlerDefinitionForRequestType(RequestType.Ban, AuthorizationLevel.Mortal)
+    const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Ban, AuthorizationLevel.Mortal)
 
     expect(action).toBeNull()
   })
@@ -43,7 +43,7 @@ describe("action action collection", () => {
     playerBuilder.withSkill(SkillType.Bash)
     const actions = await testBuilder.getActionCollection()
 
-    const action = await actions.getMatchingHandlerDefinitionForRequestType(RequestType.Ban, AuthorizationLevel.Admin)
+    const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Ban, AuthorizationLevel.Admin)
 
     expect(action).toBeInstanceOf(Definition)
   })

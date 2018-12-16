@@ -37,7 +37,7 @@ function getTestItem(): Item {
 describe("look", () => {
   it("should describe a room when no arguments are provided", async () => {
     // setup
-    const actionCollection = await getActionCollection(await testBuilder.getService())
+    const actionCollection = getActionCollection(await testBuilder.getService())
     definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
 
     // when
@@ -51,7 +51,7 @@ describe("look", () => {
 
   it("should let the player know if the thing they want to look at does not exist", async () => {
     // setup
-    const actionCollection = await getActionCollection(await testBuilder.getService())
+    const actionCollection = getActionCollection(await testBuilder.getService())
     definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
 
     // when
@@ -64,7 +64,7 @@ describe("look", () => {
 
   it("should describe a mob when a mob is present", async () => {
     // setup
-    const actionCollection = await getActionCollection(await testBuilder.getService())
+    const actionCollection = getActionCollection(await testBuilder.getService())
     definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
 
     // given
@@ -80,7 +80,7 @@ describe("look", () => {
 
   it("should be able to describe an item in the room", async () => {
     // setup
-    const actionCollection = await getActionCollection(await testBuilder.getService())
+    const actionCollection = getActionCollection(await testBuilder.getService())
     definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
 
     // given
@@ -98,7 +98,7 @@ describe("look", () => {
 
   it("should be able to describe an item in the session mob's inventory", async () => {
     // setup
-    const actionCollection = await getActionCollection(await testBuilder.getService())
+    const actionCollection = getActionCollection(await testBuilder.getService())
     definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
 
     // given
@@ -116,7 +116,7 @@ describe("look", () => {
 
   it("should not be able to see if blind", async () => {
     // setup
-    const actionCollection = await getActionCollection(await testBuilder.getService())
+    const actionCollection = getActionCollection(await testBuilder.getService())
     definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
 
     // given
@@ -132,7 +132,7 @@ describe("look", () => {
   it("should see in a dark room if holding something glowing", async () => {
     // setup
     testBuilder.setTime(0)
-    const actionCollection = await getActionCollection(await testBuilder.getService())
+    const actionCollection = getActionCollection(await testBuilder.getService())
     definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
 
     // given

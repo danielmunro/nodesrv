@@ -41,7 +41,7 @@ initializeConnection().then(async () => {
   console.timeEnd(Timings.roomAndMobTables)
 
   console.time(Timings.resetService)
-  const itemService = await new ItemService(
+  const itemService = new ItemService(
     new ItemTable(), new ItemTable(await (await getItemRepository()).findAll()))
   const resetService = await createResetService(mobService, roomTable, itemService)
   console.timeEnd(Timings.resetService)
