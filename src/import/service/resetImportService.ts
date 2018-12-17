@@ -1,9 +1,13 @@
 import { newItemContainerReset, newItemMobReset, newItemRoomReset, newMobEquipReset } from "../../item/factory"
+import {ItemContainerReset} from "../../item/model/itemContainerReset"
+import {ItemRoomReset} from "../../item/model/itemRoomReset"
+import {MobEquipReset} from "../../item/model/mobEquipReset"
 import ItemContainerResetRepository from "../../item/repository/itemContainerReset"
 import ItemMobResetRepository from "../../item/repository/itemMobReset"
 import ItemRoomResetRepository from "../../item/repository/itemRoomReset"
 import MobEquipResetRepository from "../../item/repository/mobEquipReset"
 import { newMobReset } from "../../mob/factory"
+import MobReset from "../../mob/model/mobReset"
 import MobResetRepository from "../../mob/repository/mobReset"
 import { ResetFlag } from "../enum/resetFlag"
 import File from "../file"
@@ -25,22 +29,33 @@ export default class ResetImportService {
     public readonly roomTable: RoomTable) {}
 
   public async materializeResets(file: File) {
+    const resets = []
     for (const reset of file.resets) {
       switch (reset.resetFlag) {
         case ResetFlag.Mob:
-          await this.createMobRoomReset(reset)
+          try {
+            resets.push(await this.createMobRoomReset(reset))
+          } catch (error) {}
           break
         case ResetFlag.Item:
-          await this.createItemRoomReset(reset)
+          try {
+            resets.push(await this.createItemRoomReset(reset))
+          } catch (error) {}
           break
         case ResetFlag.GiveItemToMob:
-          await this.createItemMobReset(reset)
+          try {
+            resets.push(await this.createItemMobReset(reset))
+          } catch (error) {}
           break
         case ResetFlag.EquipItemToMob:
-          await this.createMobEquipReset(reset)
+          try {
+            resets.push(await this.createMobEquipReset(reset))
+          } catch (error) {}
           break
         case ResetFlag.PutItemInContainer:
-          await this.createItemContainerReset(reset)
+          try {
+            resets.push(await this.createItemContainerReset(reset))
+          } catch (error) {}
           break
         case ResetFlag.Door:
           break
@@ -50,57 +65,53 @@ export default class ResetImportService {
           break
       }
     }
+    return resets
   }
 
-  private async createItemMobReset(reset: Reset) {
+  private async createItemMobReset(reset: Reset): Promise<MobReset> {
     const item = this.itemTable.getByImportId(reset.idOfResetSubject)
     const mob = this.mobTable.getByImportId(reset.idOfResetDestination)
     if (!item || !mob) {
-      console.log("bad item mob reset", reset)
-      return
+      throw new Error("bad item mob reset")
     }
-    await this.itemMobResetRepository.save(newItemMobReset(item, mob, reset.maxQuantity, reset.maxPerRoom))
+    return this.itemMobResetRepository.save(newItemMobReset(item, mob, reset.maxQuantity, reset.maxPerRoom))
   }
 
-  private async createMobEquipReset(reset: Reset) {
+  private async createMobEquipReset(reset: Reset): Promise<MobEquipReset> {
     const item = this.itemTable.getByImportId(reset.idOfResetSubject)
     const mob = this.mobTable.getByImportId(reset.idOfResetDestination)
     if (!item || !mob) {
-      console.log("bad mob equip reset", reset)
-      return
+      throw new Error("bad mob equip reset")
     }
-    await this.mobEquipResetRepository.save(newMobEquipReset(item, mob, reset.maxQuantity, reset.maxPerRoom))
+    return this.mobEquipResetRepository.save(newMobEquipReset(item, mob, reset.maxQuantity, reset.maxPerRoom))
   }
 
-  private async createItemContainerReset(reset: Reset) {
+  private async createItemContainerReset(reset: Reset): Promise<ItemContainerReset> {
     const itemSubject = this.itemTable.getByImportId(reset.idOfResetSubject)
     const itemDestination = this.itemTable.getByImportId(reset.idOfResetDestination)
 
     if (!itemSubject || !itemDestination) {
-      console.log("bad item container reset", reset)
-      return
+      throw new Error("bad item container reset")
     }
-    await this.itemContainerResetRepository.save(newItemContainerReset(itemSubject, itemDestination))
+    return this.itemContainerResetRepository.save(newItemContainerReset(itemSubject, itemDestination))
   }
 
-  private async createMobRoomReset(reset: Reset) {
+  private async createMobRoomReset(reset: Reset): Promise<MobReset> {
     const room = this.roomTable.getByImportId(reset.idOfResetDestination)
     const mob = this.mobTable.getByImportId(reset.idOfResetSubject)
     if (!room || !mob) {
-      console.log("bad mob room reset", reset)
-      return
+      throw new Error("bad mob room reset")
     }
 
-    await this.mobResetRepository.save(newMobReset(mob, room, reset.maxQuantity, reset.maxPerRoom))
+    return this.mobResetRepository.save(newMobReset(mob, room, reset.maxQuantity, reset.maxPerRoom))
   }
 
-  private async createItemRoomReset(reset: Reset) {
+  private async createItemRoomReset(reset: Reset): Promise<ItemRoomReset> {
     const room = this.roomTable.getByImportId(reset.idOfResetDestination)
     const item = this.itemTable.getByImportId(reset.idOfResetSubject)
     if (!item || !room) {
-      console.log("bad item room reset", reset, !!item, !!room)
-      return
+      throw new Error("bad item room reset")
     }
-    await this.itemRoomResetRepository.save(newItemRoomReset(item, room, reset.maxQuantity, reset.maxPerRoom))
+    return this.itemRoomResetRepository.save(newItemRoomReset(item, room, reset.maxQuantity, reset.maxPerRoom))
   }
 }
