@@ -30,5 +30,5 @@ describe("exit import service", () => {
       expect(exit.direction).toBeDefined()
       expect(exit.source).toBeDefined()
     })
-  }, 10000)
+  }, 15000)
 })
