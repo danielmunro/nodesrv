@@ -1,4 +1,5 @@
 export enum CheckType {
+  HasArguments,
   HasTarget,
   HasItem,
   ItemPresent,

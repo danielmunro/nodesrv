@@ -47,6 +47,10 @@ export const MESSAGE_FAIL_CONTAINER_NOT_EMPTY = "That is not empty."
 
 export const Messages = {
   All: {
+    Arguments: {
+      Buy: "What do you want to buy?",
+      Open: "What do you want to open?",
+    },
     Item: {
       CannotRemoveCursedItem: "{0} is cursed and binds to your flesh.",
       CannotSacrifice: "You cannot sacrifice that.",

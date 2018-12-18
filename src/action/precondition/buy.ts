@@ -5,14 +5,16 @@ import { Request } from "../../request/request"
 import { MESSAGE_ERROR_NO_ITEM, Messages } from "./constants"
 
 export default function(request: Request, service: GameService): Promise<Check> {
+  const subject = request.getContextAsInput().subject
   const merchant = service.getMobsByRoom(request.room).find(mob => mob.isMerchant())
   let item
 
-  const checkBuilder = new CheckBuilder()
+  const checkBuilder = new CheckBuilder(service.mobService)
+    .require(subject, Messages.All.Arguments.Buy)
     .requireMob(merchant, Messages.All.Item.NoMerchant)
 
   if (merchant) {
-    item = merchant.inventory.findItemByName(request.getContextAsInput().subject)
+    item = merchant.inventory.findItemByName(subject)
     checkBuilder.require(item, MESSAGE_ERROR_NO_ITEM)
     checkBuilder.capture()
 
