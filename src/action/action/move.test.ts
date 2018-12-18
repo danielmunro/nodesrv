@@ -3,6 +3,7 @@ import { ResponseStatus } from "../../request/responseStatus"
 import { Direction } from "../../room/constants"
 import TestBuilder from "../../test/testBuilder"
 import getActionCollection from "../actionCollection"
+import Door from "../../room/model/door"
 
 describe("move", () => {
   it("should allow movement where rooms connect", async () => {
@@ -21,5 +22,26 @@ describe("move", () => {
     // then
     expect(response.status).toBe(ResponseStatus.Info)
     expect(service.getMobLocation(mob).room).toEqual(destination)
+  })
+
+  it("should not allow movement when an exit has a closed door", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+    const source = testBuilder.withRoom().room
+    testBuilder.withRoom(Direction.East)
+    const door = new Door()
+    door.isClosed = true
+    source.exits[0].door = door
+    const mob = (await testBuilder.withPlayer()).player.sessionMob
+    const service = await testBuilder.getService()
+    const actionCollection = getActionCollection(service)
+    const definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.East)
+
+    // when
+    const response = await definition.handle(testBuilder.createRequest(RequestType.East))
+
+    // then
+    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
+    expect(service.getMobLocation(mob).room).toEqual(source)
   })
 })
