@@ -1,11 +1,9 @@
-import TestBuilder from "../../test/testBuilder"
-import {Direction} from "../../room/constants"
-import getActionCollection from "../actionCollection"
 import {RequestType} from "../../request/requestType"
-import Door from "../../room/model/door"
 import {ResponseStatus} from "../../request/responseStatus"
-import {Messages} from "../precondition/constants"
-import {format} from "../../support/string"
+import {Direction} from "../../room/constants"
+import Door from "../../room/model/door"
+import TestBuilder from "../../test/testBuilder"
+import getActionCollection from "../actionCollection"
 
 describe("open action", () => {
   it("should be able to open doors", async () => {

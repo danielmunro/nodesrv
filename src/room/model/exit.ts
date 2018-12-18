@@ -1,7 +1,7 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm"
 import { Direction } from "../constants"
-import { Room } from "./room"
 import Door from "./door"
+import { Room } from "./room"
 
 @Entity()
 export class Exit {

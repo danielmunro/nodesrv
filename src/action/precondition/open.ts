@@ -3,8 +3,8 @@ import CheckBuilder from "../../check/checkBuilder"
 import {CheckType} from "../../check/checkType"
 import GameService from "../../gameService/gameService"
 import {Request} from "../../request/request"
-import {Messages} from "./constants"
 import match from "../../support/matcher/match"
+import {Messages} from "./constants"
 
 export default function(request: Request, service: GameService): Promise<Check> {
   return new CheckBuilder(service.mobService)

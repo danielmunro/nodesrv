@@ -1,8 +1,8 @@
 import CheckedRequest from "../../check/checkedRequest"
 import { CheckType } from "../../check/checkType"
 import Response from "../../request/response"
-import { Messages } from "./constants"
 import {Exit} from "../../room/model/exit"
+import { Messages } from "./constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const exit = checkedRequest.getCheckTypeResult(CheckType.HasTarget) as Exit

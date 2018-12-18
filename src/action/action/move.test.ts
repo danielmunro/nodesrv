@@ -1,9 +1,9 @@
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { Direction } from "../../room/constants"
+import Door from "../../room/model/door"
 import TestBuilder from "../../test/testBuilder"
 import getActionCollection from "../actionCollection"
-import Door from "../../room/model/door"
 import {Messages} from "../precondition/constants"
 
 describe("move", () => {
