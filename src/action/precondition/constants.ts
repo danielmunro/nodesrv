@@ -72,6 +72,13 @@ export const Messages = {
       DoorIsClosed: "The door is closed.",
     },
   },
+  Open: {
+    Fail: {
+      AlreadyOpen: "That is already open.",
+      NotFound: "You can't find that.",
+    },
+    Success: "{0} open {1}.",
+  },
   Remove: {
     Success: "You remove {0} and put it in your inventory.",
   },

@@ -29,6 +29,7 @@ import kill from "./action/kill"
 import look from "./action/look"
 import lore from "./action/lore"
 import move from "./action/move"
+import open from "./action/open"
 import put from "./action/put"
 import remove from "./action/remove"
 import sacrifice from "./action/sacrifice"
@@ -56,6 +57,7 @@ import { default as killPrecondition } from "./precondition/kill"
 import { default as lookPrecondition } from "./precondition/look"
 import { default as lorePrecondition } from "./precondition/lore"
 import { default as movePrecondition } from "./precondition/move"
+import { default as openPrecondition } from "./precondition/open"
 import { default as putPrecondition } from "./precondition/put"
 import { default as removePrecondition } from "./precondition/remove"
 import { default as sacrificePrecondition } from "./precondition/sacrifice"
@@ -88,6 +90,9 @@ export default function getActionCollection(service: GameService) {
     definition.action(RequestType.Wear, wear, wearPrecondition),
     definition.action(RequestType.Remove, remove, removePrecondition),
     definition.action(RequestType.Equipped, equipped),
+
+    // manipulating environment
+    definition.action(RequestType.Open, open, openPrecondition),
 
     // fighting
     definition.action(RequestType.Kill, kill, killPrecondition),

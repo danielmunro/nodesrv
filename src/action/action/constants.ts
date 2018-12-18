@@ -43,6 +43,9 @@ export const Messages = {
   Lore: {
     Success: "{item} details:\nlevel: {level}  weight: {weight}  value: {value}",
   },
+  Open: {
+    Success: "{requestCreator} {openVerb} a {door} {direction}.",
+  },
   Put: {
     Success: "You put {item} in {container}.",
   },
