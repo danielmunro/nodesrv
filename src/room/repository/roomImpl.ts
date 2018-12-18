@@ -12,12 +12,4 @@ export default class RoomRepositoryImpl implements RoomRepository {
   public findAll() {
     return this.roomRepository.find()
   }
-
-  public findOneById(id) {
-    return this.roomRepository.findOneById(id)
-  }
-
-  public async findOneByImportId(importID) {
-    return this.roomRepository.findOne({ importID })
-  }
 }

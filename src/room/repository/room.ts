@@ -5,8 +5,6 @@ import RoomRepositoryImpl from "./roomImpl"
 export default interface RoomRepository {
   save(model)
   findAll()
-  findOneByImportId(importId)
-  findOneById(id)
 }
 
 export async function getRoomRepository(): Promise<RoomRepository> {

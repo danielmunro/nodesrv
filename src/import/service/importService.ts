@@ -144,12 +144,12 @@ export default class ImportService {
 
   private async addRoom(file, roomData): Promise<Room> {
     const room = newRoom(roomData.title, roomData.description)
-    room.importID = roomData.id
+    room.canonicalId = roomData.id
     if (this.writeNewData) {
       await this.roomRepository.save(room)
     }
-    file.roomDataMap[room.importID] = roomData
-    file.roomMap[room.importID] = room
+    file.roomDataMap[room.canonicalId] = roomData
+    file.roomMap[room.canonicalId] = room
     file.rooms.push(room)
 
     return room

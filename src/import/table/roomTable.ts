@@ -5,7 +5,7 @@ export default class RoomTable {
 
   constructor(rooms: Room[]) {
     for (const room of rooms) {
-      this.roomsByImportId[room.importID] = room
+      this.roomsByImportId[room.canonicalId] = room
     }
   }
 

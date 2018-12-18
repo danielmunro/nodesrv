@@ -6,7 +6,6 @@ import { Region } from "../../region/model/region"
 import getMovementCost from "../../region/movementCost"
 import { Terrain } from "../../region/terrain"
 import { Direction } from "../constants"
-import { newRoom } from "../factory"
 import { Exit } from "./exit"
 
 @Entity()
@@ -19,7 +18,7 @@ export class Room {
   public uuid: string = uuid()
 
   @Column("integer", { nullable: true })
-  public importID: number
+  public canonicalId: number
 
   @Column("text")
   public name: string
@@ -27,20 +26,20 @@ export class Room {
   @Column("text")
   public description: string
 
-  @OneToMany((type) => Exit, (exit) => exit.source, { eager: true })
+  @OneToMany(() => Exit, (exit) => exit.source, { eager: true })
   public exits: Exit[] = []
 
-  @OneToMany((type) => Exit, (exit) => exit.destination, { eager: true })
+  @OneToMany(() => Exit, (exit) => exit.destination, { eager: true })
   public entrances: Exit[] = []
 
-  @OneToOne((type) => Inventory, { cascadeInsert: true, cascadeUpdate: true, eager: true })
+  @OneToOne(() => Inventory, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   @JoinColumn()
   public inventory: Inventory = new Inventory()
 
-  @ManyToOne((type) => Region, (region) => region.rooms, { eager: true })
+  @ManyToOne(() => Region, (region) => region.rooms, { eager: true })
   public region: Region
 
-  @OneToMany(type => MobReset, reset => reset.room)
+  @OneToMany(() => MobReset, reset => reset.room)
   public mobResets: MobReset[] = []
 
   public isDirectionFree(direction: Direction): boolean {
@@ -53,10 +52,6 @@ export class Room {
 ${this.description}
 
 Exits [${this.getExitsString()}]`
-  }
-
-  public copy(): Room {
-    return newRoom(this.name, this.description)
   }
 
   public getMovementCost() {

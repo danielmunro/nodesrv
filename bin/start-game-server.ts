@@ -57,7 +57,7 @@ initializeConnection().then(async () => {
   const server = await newServer(
     gameService,
     port,
-    roomTable.getRooms().find(room => room.importID === startRoomID),
+    roomTable.getRooms().find(room => room.canonicalId === startRoomID),
     resetService,
     mobService)
   await server.start()
