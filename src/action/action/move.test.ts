@@ -30,22 +30,22 @@ describe("move", () => {
     const testBuilder = new TestBuilder()
     const source = testBuilder.withRoom().room
     testBuilder.withRoom(Direction.East)
+    const mob = (await testBuilder.withPlayer()).player.sessionMob
+    const service = await testBuilder.getService()
+    const actionCollection = getActionCollection(service)
+    const definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.East)
 
     // given
     const door = new Door()
     door.isClosed = true
     source.exits[0].door = door
-    const mob = (await testBuilder.withPlayer()).player.sessionMob
-    const service = await testBuilder.getService()
-    const actionCollection = getActionCollection(service)
-    const definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.East)
 
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.East))
 
     // then
     expect(response.status).toBe(ResponseStatus.ActionFailed)
-    expect(response.message).toBe(Messages.Move.Fail.DoorIsClosed)
+    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Move.Fail.DoorIsClosed)
     expect(service.getMobLocation(mob).room).toEqual(source)
   })
 })
