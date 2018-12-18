@@ -63,6 +63,11 @@ export const Messages = {
   Lore: {
     FailNotIdentified: "{item} is not identified yet.",
   },
+  Move: {
+    Fail: {
+      DoorIsClosed: "The door is closed.",
+    },
+  },
   Remove: {
     Success: "You remove {0} and put it in your inventory.",
   },

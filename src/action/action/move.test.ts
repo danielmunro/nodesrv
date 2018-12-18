@@ -4,6 +4,7 @@ import { Direction } from "../../room/constants"
 import TestBuilder from "../../test/testBuilder"
 import getActionCollection from "../actionCollection"
 import Door from "../../room/model/door"
+import {Messages} from "../precondition/constants"
 
 describe("move", () => {
   it("should allow movement where rooms connect", async () => {
@@ -29,6 +30,8 @@ describe("move", () => {
     const testBuilder = new TestBuilder()
     const source = testBuilder.withRoom().room
     testBuilder.withRoom(Direction.East)
+
+    // given
     const door = new Door()
     door.isClosed = true
     source.exits[0].door = door
@@ -41,7 +44,8 @@ describe("move", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.East))
 
     // then
-    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
+    expect(response.status).toBe(ResponseStatus.ActionFailed)
+    expect(response.message).toBe(Messages.Move.Fail.DoorIsClosed)
     expect(service.getMobLocation(mob).room).toEqual(source)
   })
 })
