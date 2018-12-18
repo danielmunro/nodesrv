@@ -8,6 +8,19 @@ import buy from "./buy"
 import { MESSAGE_ERROR_NO_ITEM, Messages } from "./constants"
 
 describe("buy action preconditions", () => {
+  it("should fail if an argument is not provided", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
+    // when
+    const check = await buy(
+      testBuilder.createRequest(RequestType.Buy, "buy"), await testBuilder.getService())
+
+    // then
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(Messages.All.Arguments.Buy)
+  })
+
   it("should fail if a merchant is not in the room", async () => {
     // setup
     const testBuilder = new TestBuilder()
