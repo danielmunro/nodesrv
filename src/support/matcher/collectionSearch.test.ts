@@ -1,6 +1,6 @@
-import collectionSearch from "./collectionSearch"
 import {newItem} from "../../item/factory"
 import {ItemType} from "../../item/itemType"
+import collectionSearch from "./collectionSearch"
 
 describe("collectionSearch", () => {
   it("should find in an array", () => {

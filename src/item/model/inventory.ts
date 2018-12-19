@@ -1,7 +1,7 @@
 import {Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm"
+import collectionSearch from "../../support/matcher/collectionSearch"
 import { format } from "../../support/string"
 import { Item } from "./item"
-import collectionSearch from "../../support/matcher/collectionSearch"
 
 @Entity()
 export class Inventory {

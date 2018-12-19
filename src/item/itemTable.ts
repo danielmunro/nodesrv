@@ -1,6 +1,6 @@
+import collectionSearch from "../support/matcher/collectionSearch"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
-import collectionSearch from "../support/matcher/collectionSearch"
 
 export default class ItemTable {
   constructor(public items: Item[] = []) {}
