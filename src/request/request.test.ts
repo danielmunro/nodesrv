@@ -12,7 +12,7 @@ describe("request", () => {
     item.name = "a cracked wooden practice shield"
     item.equipment = Equipment.Shield
     player.getInventory().addItem(item)
-    expect(testBuilder.createRequest(RequestType.Wear, "wear floodle").findItemInSessionMobInventory()).toBeUndefined()
+    expect(testBuilder.createRequest(RequestType.Wear, "wear floodle").findItemInSessionMobInventory()).toBeFalsy()
     expect(testBuilder.createRequest(RequestType.Wear, "wear practice").findItemInSessionMobInventory()).toBe(item)
   })
 })

@@ -1,6 +1,7 @@
 import {Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm"
 import { format } from "../../support/string"
 import { Item } from "./item"
+import collectionSearch from "../../support/matcher/collectionSearch"
 
 @Entity()
 export class Inventory {
@@ -15,7 +16,7 @@ export class Inventory {
   }
 
   public findItemByName(search: string): Item | undefined {
-    return this.items.find((i) => i.matches(search))
+    return collectionSearch(this.items, search)
   }
 
   public removeItem(item: Item): void {
