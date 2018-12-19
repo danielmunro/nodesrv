@@ -12,7 +12,7 @@ export default function(request: Request, service: GameService): Promise<Check> 
       Messages.All.Arguments.Open,
       CheckType.HasArguments)
     .require(
-      request.room.exits.find(exit => match(exit.door.name, request.getSubject())),
+      request.room.exits.find(exit => exit.door && match(exit.door.name, request.getSubject())),
       Messages.Open.Fail.NotFound,
       CheckType.HasTarget)
     .capture()

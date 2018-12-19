@@ -3,11 +3,20 @@ import roll from "../random/dice"
 import { allDirections, Direction } from "./constants"
 import { getFreeReciprocalDirection, isReciprocalFree, reverse } from "./direction"
 import ExitTable from "./exitTable"
+import Door from "./model/door"
 import { Exit } from "./model/exit"
 import { Room } from "./model/room"
 import { getExitRepository } from "./repository/exit"
 import { getRoomRepository } from "./repository/room"
 import { default as RoomTable } from "./roomTable"
+
+export function newDoor(name: string, isClosed: boolean, isLocked: boolean): Door {
+  const door = new Door()
+  door.name = name
+  door.isClosed = isClosed
+  door.isLocked = isLocked
+  return door
+}
 
 export function newRoom(name: string, description: string, items = []): Room {
   const room = new Room()
