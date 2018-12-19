@@ -49,6 +49,7 @@ export const Messages = {
   All: {
     Arguments: {
       Buy: "What do you want to buy?",
+      Close: "What do you want to close?",
       Open: "What do you want to open?",
     },
     Item: {
@@ -63,6 +64,13 @@ export const Messages = {
   },
   Buy: {
     CannotAfford: "You can't afford it.",
+  },
+  Close: {
+    Fail: {
+      AlreadyClosed: "That is already closed.",
+      CannotClose: "You cannot close that.",
+      NotFound: "You can't find that anywhere.",
+    },
   },
   Lore: {
     FailNotIdentified: "{item} is not identified yet.",

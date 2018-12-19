@@ -23,6 +23,9 @@ export const Messages = {
   Cast: {
     Success: "{requestCreator} {verb} the words, '{spell}'.",
   },
+  Close: {
+    Success: "{requestCreator} {closeVerb} a {door} {direction}.",
+  },
   Drop: {
     Success: "{requestCreator} {verb} {item}.",
   },

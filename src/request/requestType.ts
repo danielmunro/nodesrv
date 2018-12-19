@@ -40,6 +40,7 @@ export enum RequestType {
   Steal = "steal",
   Sharpen = "sharpen",
   Open = "open",
+  Close = "close",
   Noop = "noop",
   Any = "any",
   Event = "event",

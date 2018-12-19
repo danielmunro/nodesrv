@@ -18,6 +18,7 @@ import { default as tripPrecondition } from "../skill/precondition/trip"
 import affects from "./action/affects"
 import buy from "./action/buy"
 import cast from "./action/cast"
+import close from "./action/close"
 import drop from "./action/drop"
 import eat from "./action/eat"
 import equipped from "./action/equipped"
@@ -49,6 +50,7 @@ import { default as promotePrecondition } from "./moderation/precondition/promot
 import { default as unbanPrecondition } from "./moderation/precondition/unban"
 import { default as buyPrecondition } from "./precondition/buy"
 import { default as castPrecondition } from "./precondition/cast"
+import { default as closePrecondition } from "./precondition/close"
 import { default as dropPrecondition } from "./precondition/drop"
 import { default as eatPrecondition } from "./precondition/eat"
 import { default as fleePrecondition } from "./precondition/flee"
@@ -92,6 +94,7 @@ export default function getActionCollection(service: GameService) {
     definition.action(RequestType.Equipped, equipped),
 
     // manipulating environment
+    definition.action(RequestType.Close, close, closePrecondition),
     definition.action(RequestType.Open, open, openPrecondition),
 
     // fighting
