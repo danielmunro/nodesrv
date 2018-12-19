@@ -48,7 +48,6 @@ describe("open action", () => {
     const testBuilder = new TestBuilder()
     const source = testBuilder.withRoom().room
     testBuilder.withRoom(Direction.East)
-    const mob = (await testBuilder.withPlayer()).player.sessionMob
     const service = await testBuilder.getService()
     const actionCollection = getActionCollection(service)
     const definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Open)
@@ -65,7 +64,7 @@ describe("open action", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.ActionFailed)
-    expect(response.message.getMessageToRequestCreator()).toBe("a door is locked.")
+    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Open.Fail.Locked)
     expect(door.isClosed).toBeTruthy()
   })
 })

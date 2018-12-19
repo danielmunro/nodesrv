@@ -15,6 +15,10 @@ export default function(request: Request, service: GameService): Promise<Check> 
       request.room.exits.find(exit => match(exit.door.name, request.getSubject())),
       Messages.Open.Fail.NotFound,
       CheckType.HasTarget)
+    .capture()
+    .require(
+      exit => !exit.door.isLocked,
+      Messages.Open.Fail.Locked)
     .require(
       exit => exit.door.isClosed,
       Messages.Open.Fail.AlreadyOpen)
