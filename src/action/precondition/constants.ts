@@ -75,6 +75,7 @@ export const Messages = {
   Open: {
     Fail: {
       AlreadyOpen: "That is already open.",
+      Locked: "A {0} is locked.",
       NotFound: "You can't find that.",
     },
     Success: "{0} open {1}.",
