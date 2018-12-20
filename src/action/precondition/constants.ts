@@ -74,6 +74,13 @@ export const Messages = {
       NotFound: "You can't find that anywhere.",
     },
   },
+  Lock: {
+    Fail: {
+      AlreadyLocked: "That is already locked.",
+      NoKey: "You lack the key.",
+    },
+    Success: "{0} lock a {1}.",
+  },
   Lore: {
     FailNotIdentified: "{item} is not identified yet.",
   },

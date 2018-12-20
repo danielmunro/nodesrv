@@ -43,6 +43,9 @@ export const Messages = {
   Kill: {
     Success: "{requestCreator} {screamVerb} and {attackVerb} {target}!",
   },
+  Lock: {
+    Success: "{requestCreator} {lockVerb} a {door} {direction}.",
+  },
   Lore: {
     Success: "{item} details:\nlevel: {level}  weight: {weight}  value: {value}",
   },
