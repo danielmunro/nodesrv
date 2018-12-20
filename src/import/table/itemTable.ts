@@ -5,7 +5,7 @@ export default class ItemTable {
 
   constructor(items: Item[]) {
     for (const item of items) {
-      this.itemsByImportId[item.importId] = item
+      this.itemsByImportId[item.canonicalId] = item
     }
   }
 

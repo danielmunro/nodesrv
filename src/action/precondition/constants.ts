@@ -50,7 +50,9 @@ export const Messages = {
     Arguments: {
       Buy: "What do you want to buy?",
       Close: "What do you want to close?",
+      Lock: "What do you want to lock?",
       Open: "What do you want to open?",
+      Unlock: "What do you want to unlock?",
     },
     Item: {
       CannotRemoveCursedItem: "{0} is cursed and binds to your flesh.",
@@ -99,5 +101,13 @@ export const Messages = {
     LackingTrains: "You need more training sessions first.",
     NoTrainer: "No trainer is here.",
     NotStanding: "You must be standing to train.",
+  },
+  Unlock: {
+    Fail: {
+      AlreadyUnlocked: "That is already unlocked.",
+      NoKey: "You lack the key.",
+      NotFound: "You can't find that.",
+    },
+    Success: "{0} unlock a {1}.",
   },
 }

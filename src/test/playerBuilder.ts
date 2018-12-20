@@ -1,13 +1,12 @@
 import ServiceBuilder from "../gameService/serviceBuilder"
-import { Item } from "../item/model/item"
-import { Disposition } from "../mob/enum/disposition"
-import { Player } from "../player/model/player"
-import { newSkill } from "../skill/factory"
-import { Skill } from "../skill/model/skill"
-import { SkillType } from "../skill/skillType"
-import { newSpell } from "../spell/factory"
-import { Spell } from "../spell/model/spell"
-import { SpellType } from "../spell/spellType"
+import {newItem} from "../item/factory"
+import {ItemType} from "../item/itemType"
+import {Item} from "../item/model/item"
+import {Disposition} from "../mob/enum/disposition"
+import {Player} from "../player/model/player"
+import {newSkill} from "../skill/factory"
+import {Skill} from "../skill/model/skill"
+import {SkillType} from "../skill/skillType"
 import AbstractBuilder from "./abstractBuilder"
 
 export default class PlayerBuilder extends AbstractBuilder {
@@ -39,6 +38,13 @@ export default class PlayerBuilder extends AbstractBuilder {
     return this.doEquip(super.withMaceEq())
   }
 
+  public withKey(canonicalId): Item {
+    const item = newItem(ItemType.Key, "a key", "a key")
+    item.canonicalId = canonicalId
+    this.player.sessionMob.inventory.addItem(item)
+    return item
+  }
+
   public withFood(): Item {
     const food = super.withFood()
     this.player.sessionMob.inventory.addItem(food)
@@ -51,13 +57,6 @@ export default class PlayerBuilder extends AbstractBuilder {
     this.player.sessionMob.skills.push(skill)
 
     return skill
-  }
-
-  public withSpell(spellType: SpellType, level: number = 1): Spell {
-    const spell = newSpell(spellType, level)
-    this.player.sessionMob.spells.push(spell)
-
-    return spell
   }
 
   public withDisposition(disposition: Disposition) {

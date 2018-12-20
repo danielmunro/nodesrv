@@ -46,8 +46,9 @@ export default class ResetService {
   private async respawnFromItemRoomReset(itemRoomReset: ItemRoomReset) {
     const item = await this.itemService.generateNewItemInstance(itemRoomReset)
     const room = this.roomTable.get(itemRoomReset.room.uuid)
-    const itemsInRoom = this.itemService.findAllByInventory(room.inventory).filter(i => i.importId === item.importId)
-    const itemsTotal = this.itemService.getByImportId(item.importId)
+    const itemsInRoom = this.itemService.findAllByInventory(room.inventory)
+      .filter(i => i.canonicalId === item.canonicalId)
+    const itemsTotal = this.itemService.getByCanonicalId(item.canonicalId)
     if (itemsInRoom.length < itemRoomReset.maxPerRoom && itemsTotal.length < itemRoomReset.maxQuantity) {
       room.inventory.addItem(item)
       if (item.container) {
@@ -70,7 +71,7 @@ export default class ResetService {
 
   private async addToContainer(item: Item) {
     for (const itemContainerReset of this.itemContainerResets) {
-      if (itemContainerReset.item.importId === item.importId) {
+      if (itemContainerReset.item.canonicalId === item.canonicalId) {
         const instance = await this.itemService.generateNewItemInstance(itemContainerReset)
         item.container.addItem(instance)
         this.itemService.add(instance)

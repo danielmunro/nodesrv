@@ -24,7 +24,7 @@ export class Item {
   public uuid: string = v4()
 
   @Column("text", { nullable: true })
-  public importId: string
+  public canonicalId: string
 
   @Column("text", { nullable: true })
   public canonicalIdentifier: string
@@ -117,7 +117,7 @@ export class Item {
     item.itemType = this.itemType
     item.value = this.value
     item.hunger = this.hunger
-    item.importId = this.importId
+    item.canonicalId = this.canonicalId
     item.attributes = this.attributes.copy()
     item.affects = this.affects.map(affect => newAffect(affect.affectType, affect.timeout))
     if (this.container) {

@@ -66,7 +66,7 @@ export default class ItemBuilder {
     item.value = itemData.cost
     item.weight = itemData.weight
     item.material = itemData.material
-    item.importId = itemData.id
+    item.canonicalId = itemData.id
     if (itemData.extraFlag && itemData.extraFlag !== "0") {
       ItemBuilder.setItemAffects(item, itemData.extraFlag.split(""))
     }

@@ -38,6 +38,7 @@ import say from "./action/say"
 import score from "./action/score"
 import sell from "./action/sell"
 import train from "./action/train"
+import unlock from "./action/unlock"
 import wear from "./action/wear"
 import { Collection } from "./definition/collection"
 import ban from "./moderation/actions/ban"
@@ -65,6 +66,7 @@ import { default as removePrecondition } from "./precondition/remove"
 import { default as sacrificePrecondition } from "./precondition/sacrifice"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as trainPrecondition } from "./precondition/train"
+import { default as unlockPrecondition } from "./precondition/unlock"
 import { default as wearPrecondition } from "./precondition/wear"
 
 function newMoveDefinition(service: GameService, requestType: RequestType, direction: Direction) {
@@ -96,6 +98,7 @@ export default function getActionCollection(service: GameService) {
     // manipulating environment
     definition.action(RequestType.Close, close, closePrecondition),
     definition.action(RequestType.Open, open, openPrecondition),
+    definition.action(RequestType.Unlock, unlock, unlockPrecondition),
 
     // fighting
     definition.action(RequestType.Kill, kill, killPrecondition),

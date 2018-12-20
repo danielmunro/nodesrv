@@ -12,6 +12,9 @@ export default class Door {
   @Column("text")
   public name: string
 
+  @Column("integer")
+  public unlockedByCanonicalId: number
+
   @Column("boolean")
   public isClosed: boolean
 

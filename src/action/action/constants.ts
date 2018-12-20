@@ -64,6 +64,9 @@ export const Messages = {
   Train: {
     Info: "You can train: {0}hp mana mv",
   },
+  Unlock: {
+    Success: "{requestCreator} {unlockVerb} a {door} {direction}.",
+  },
   Wake: {
     Success: "You wake and stand up.",
   },

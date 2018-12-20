@@ -5,19 +5,19 @@ import ItemReset from "./model/itemReset"
 
 export default class ItemService {
   constructor(
-    private readonly itemTable: ItemTable = new ItemTable(),
+    public readonly itemTable: ItemTable = new ItemTable(),
     private readonly itemTemplateTable: ItemTable = new ItemTable(),
   ) {}
 
   public async generateNewItemInstance(itemReset: ItemReset): Promise<Item> {
     const item = this.itemTemplateTable.items.find(i => i.id === itemReset.item.id)
     const copy = item.copy()
-    copy.importId = itemReset.item.importId
+    copy.canonicalId = itemReset.item.canonicalId
     return copy
   }
 
-  public getByImportId(importId) {
-    return this.itemTable.items.filter(item => item.importId === importId)
+  public getByCanonicalId(canonicalId) {
+    return this.itemTable.items.filter(item => item.canonicalId === canonicalId)
   }
 
   public findItem(inventory: Inventory, search: string) {
