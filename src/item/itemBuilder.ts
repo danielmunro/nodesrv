@@ -1,7 +1,7 @@
 import { AffectType } from "../affect/affectType"
 import { newPermanentAffect } from "../affect/factory"
 import { ItemType as ImportItemType } from "../import/enum/itemType"
-import { flagMap } from "../import/map/affectMap"
+import { itemAffectMap } from "../import/map/itemAffectMap"
 import any from "./builder/any"
 import armor from "./builder/armor"
 import container from "./builder/container"
@@ -53,8 +53,8 @@ export default class ItemBuilder {
 
   private static setItemAffects(item: Item, flags: string[]) {
     for (const flag of flags) {
-      if (flagMap[flag]) {
-        item.affects.push(newPermanentAffect(flagMap[flag]))
+      if (itemAffectMap[flag]) {
+        item.affects.push(newPermanentAffect(itemAffectMap[flag]))
       }
     }
 

@@ -1,6 +1,6 @@
 import { AffectType } from "../../affect/affectType"
 
-export const flagMap = {
+export const itemAffectMap = {
   A: AffectType.Glow,
   B: AffectType.Hum,
   C: AffectType.ImmortalLoad,
