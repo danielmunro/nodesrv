@@ -47,6 +47,9 @@ function requireItemPreconditions(checkBuilder: CheckBuilder, item) {
     .require(
       !item.container.isClosed,
       Messages.Close.Fail.AlreadyClosed)
+    .require(
+      item.container.isCloseable,
+      Messages.Close.Fail.CannotClose)
 }
 
 function getDoor(request) {

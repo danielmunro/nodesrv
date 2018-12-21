@@ -15,6 +15,9 @@ export default class Container {
   @Column("boolean")
   public isOpen: boolean = false
 
+  @Column("boolean", { nullable: true })
+  public isCloseable: boolean = false
+
   @Column("integer")
   public weightCapacity: number = 0
 

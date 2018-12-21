@@ -17,6 +17,7 @@ describe("close action", () => {
   let source: Room
   let mob: Mob
   let item: Item
+  const closeCommand = "close satchel"
 
   beforeEach(async () => {
     testBuilder = new TestBuilder()
@@ -75,7 +76,7 @@ describe("close action", () => {
   describe("closing containers", () => {
     it("should be able to close item containers", async () => {
       // when
-      const response = await definition.handle(testBuilder.createRequest(RequestType.Close, "close satchel"))
+      const response = await definition.handle(testBuilder.createRequest(RequestType.Close, closeCommand))
 
       // then
       expect(response.status).toBe(ResponseStatus.Success)
@@ -84,12 +85,25 @@ describe("close action", () => {
       expect(item.container.isClosed).toBeTruthy()
     })
 
+    it("should not be able to close uncloseable item containers", async () => {
+      // given
+      item.container.isCloseable = false
+
+      // when
+      const response = await definition.handle(testBuilder.createRequest(RequestType.Close, closeCommand))
+
+      // then
+      expect(response.status).toBe(ResponseStatus.ActionFailed)
+      expect(response.message.getMessageToRequestCreator()).toBe(Messages.Close.Fail.CannotClose)
+      expect(item.container.isClosed).toBeFalsy()
+    })
+
     it("should not be able to close a container that's already closed", async () => {
       // given
       item.container.isClosed = true
 
       // when
-      const response = await definition.handle(testBuilder.createRequest(RequestType.Close, "close satchel"))
+      const response = await definition.handle(testBuilder.createRequest(RequestType.Close, closeCommand))
 
       // then
       expect(response.status).toBe(ResponseStatus.ActionFailed)
