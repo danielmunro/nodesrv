@@ -71,6 +71,7 @@ export const Messages = {
     Fail: {
       AlreadyClosed: "That is already closed.",
       CannotClose: "You cannot close that.",
+      ItemIsNotAContainer: "You can't close that.",
       NotFound: "You can't find that anywhere.",
     },
   },

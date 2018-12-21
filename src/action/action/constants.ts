@@ -23,7 +23,10 @@ export const Messages = {
   Cast: {
     Success: "{requestCreator} {verb} the words, '{spell}'.",
   },
-  Close: {
+  CloseContainer: {
+    Success: "{requestCreator} {closeVerb} {item}.",
+  },
+  CloseDoor: {
     Success: "{requestCreator} {closeVerb} a {door} {direction}.",
   },
   Drop: {
