@@ -16,7 +16,7 @@ export default class Death {
   ) {}
 
   public calculateKillerExperience(): number {
-    if (this.killer && this.killer.isPlayer) {
+    if (this.killer && !this.killer.traits.isNpc) {
       return EXPERIENCE_GAIN
     }
 

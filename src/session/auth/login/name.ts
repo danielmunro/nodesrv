@@ -21,7 +21,7 @@ export default class Name extends PlayerAuthStep implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     const name = request.input
-    const mob = this.mobTable.find((m: Mob) => m.name === name && m.isPlayer)
+    const mob = this.mobTable.find((m: Mob) => m.name === name && !m.traits.isNpc)
 
     if (mob) {
       return this.existingMobFound(request, mob)

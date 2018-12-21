@@ -157,11 +157,11 @@ export class Fight {
     this.winner = winner
     this.death = new Death(vanquished, this.room, winner)
 
-    if (winner.isPlayer) {
+    if (!winner.traits.isNpc) {
       winner.playerMob.experience += this.death.calculateKillerExperience()
     }
 
-    if (!vanquished.isPlayer) {
+    if (vanquished.traits.isNpc) {
       vanquished.disposition = Disposition.Dead
     }
 

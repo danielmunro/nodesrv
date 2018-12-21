@@ -59,9 +59,6 @@ export class Mob {
   @Column("integer")
   public level: number = 1
 
-  @Column("boolean", { default: false })
-  public isPlayer: boolean = false
-
   @Column("integer", { default: 0 })
   public gold: number = 0
 
@@ -150,7 +147,7 @@ export class Mob {
   }
 
   public isMerchant(): boolean {
-    return !this.isPlayer && this.role === Role.Merchant
+    return this.traits.isNpc && this.role === Role.Merchant
   }
 
   // @todo fully implement

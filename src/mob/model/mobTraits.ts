@@ -14,6 +14,9 @@ export class MobTraits {
   @Column("boolean")
   public wanders: boolean = false
 
+  @Column("boolean")
+  public isNpc: boolean = true
+
   @OneToOne(() => Mob, mob => mob.traits)
   public mob
 }

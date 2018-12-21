@@ -14,7 +14,7 @@ async function createAuthUser(name: string): Promise<Client> {
   const client = await getTestClient()
   const mob = getTestMob(name)
   mob.player = client.player
-  mob.isPlayer = true
+  mob.traits.isNpc = false
   client.player.mobs.push(mob)
   client.session.mob = mob
   await savePlayer(client.player)

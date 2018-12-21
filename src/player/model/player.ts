@@ -28,12 +28,6 @@ export class Player {
 
   public delay: number = 0
 
-  public addMob(mob: Mob) {
-    mob.isPlayer = true
-    mob.player = this
-    this.mobs.push(mob)
-  }
-
   public setPassword(password: string): void {
     this.password = hash(password)
   }
