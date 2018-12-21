@@ -93,9 +93,9 @@ export const Messages = {
     Fail: {
       AlreadyOpen: "That is already open.",
       Locked: "That is locked.",
+      NotAContainer: "That's not a container.",
       NotFound: "You can't find that.",
     },
-    Success: "{0} open {1}.",
   },
   Remove: {
     Success: "You remove {0} and put it in your inventory.",

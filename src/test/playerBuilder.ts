@@ -1,6 +1,7 @@
 import ServiceBuilder from "../gameService/serviceBuilder"
 import {newItem} from "../item/factory"
 import {ItemType} from "../item/itemType"
+import Container from "../item/model/container"
 import {Item} from "../item/model/item"
 import {Disposition} from "../mob/enum/disposition"
 import {Player} from "../player/model/player"
@@ -41,6 +42,13 @@ export default class PlayerBuilder extends AbstractBuilder {
   public withKey(canonicalId): Item {
     const item = newItem(ItemType.Key, "a key", "a key")
     item.canonicalId = canonicalId
+    this.player.sessionMob.inventory.addItem(item)
+    return item
+  }
+
+  public withContainer(): Item {
+    const item = newItem(ItemType.Container, "a small leather satchel", "description")
+    item.container = new Container()
     this.player.sessionMob.inventory.addItem(item)
     return item
   }

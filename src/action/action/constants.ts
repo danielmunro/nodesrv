@@ -49,7 +49,10 @@ export const Messages = {
   Lore: {
     Success: "{item} details:\nlevel: {level}  weight: {weight}  value: {value}",
   },
-  Open: {
+  OpenContainer: {
+    Success: "{requestCreator} {openVerb} {item}.",
+  },
+  OpenDoor: {
     Success: "{requestCreator} {openVerb} a {door} {direction}.",
   },
   Put: {
