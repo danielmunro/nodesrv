@@ -5,7 +5,7 @@ import { Mob } from "../model/mob"
 
 function getTestWanderingMob(): Mob {
   const mob = getTestMob()
-  mob.wanders = true
+  mob.traits.wanders = true
 
   return mob
 }
@@ -32,7 +32,7 @@ describe("mob repository", () => {
     expect(wanderers.length).toBe(3)
 
     // verify
-    wanderers.forEach((wanderer) => expect(wanderer.wanders).toBeTruthy())
+    wanderers.forEach(wanderer => expect(wanderer.traits.wanders).toBeTruthy())
   })
 
   it("findPlayerMobByName should not return a non-player mob", async () => {

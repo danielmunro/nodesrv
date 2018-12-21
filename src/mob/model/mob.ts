@@ -24,6 +24,7 @@ import { modifiers } from "../race/constants"
 import { Race } from "../race/race"
 import { SpecializationType } from "../specialization/specializationType"
 import MobReset from "./mobReset"
+import {MobTraits} from "./mobTraits"
 import { PlayerMob } from "./playerMob"
 
 const ownedEntityOptions = { cascadeInsert: true, cascadeUpdate: true, eager: true }
@@ -38,7 +39,7 @@ export class Mob {
   public uuid: string = v4()
 
   @Column("text", { nullable: true })
-  public canonicalIdentifier: string
+  public canonicalId: string
 
   @Column("text")
   public name: string
@@ -57,9 +58,6 @@ export class Mob {
 
   @Column("integer")
   public level: number = 1
-
-  @Column("boolean", { default: false })
-  public wanders: boolean = false
 
   @Column("boolean", { default: false })
   public isPlayer: boolean = false
@@ -84,6 +82,9 @@ export class Mob {
 
   @OneToMany(type => Affect, affect => affect.mob, { ...ownedEntityOptions })
   public affects: Affect[] = []
+
+  @OneToOne(() => MobTraits, mobTrait => mobTrait.mob)
+  public traits: MobTraits = new MobTraits()
 
   @OneToOne(type => Vitals, { cascadeAll: true, eager: true })
   @JoinColumn()
@@ -164,7 +165,7 @@ export class Mob {
         newStats(0, 0, 0, 0, 0, 0),
         newHitroll(0, 0),
       ),
-      this.wanders)
+      this.traits.wanders)
     mob.role = this.role
     mob.importId = this.importId
     return mob

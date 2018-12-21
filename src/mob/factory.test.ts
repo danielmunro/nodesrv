@@ -35,7 +35,7 @@ describe("mob factory", () => {
 
   it("should be able to make a wandering mob", () => {
     const mob = newMob("", "", Race.Critter, newStartingVitals(), newAttributesWithStats(newStartingStats()), true)
-    expect(mob.wanders).toBe(true)
+    expect(mob.traits.wanders).toBe(true)
   })
 
   it("should be able to newTable with items", () => {

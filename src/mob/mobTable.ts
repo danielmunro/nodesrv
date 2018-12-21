@@ -4,7 +4,7 @@ export default class MobTable {
   constructor(private mobs: Mob[] = []) {}
 
   public getWanderingMobs(): Mob[] {
-    return this.mobs.filter((mob: Mob) => mob.wanders)
+    return this.mobs.filter((mob: Mob) => mob.traits.wanders)
   }
 
   public find(criteria): Mob {

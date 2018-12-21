@@ -27,6 +27,7 @@ describe("close action", () => {
     mob = playerBuilder.player.sessionMob
     item = playerBuilder.withContainer()
     item.container.isClosed = false
+    item.container.isCloseable = true
     mob.inventory.addItem(item)
     const service = await testBuilder.getService()
     const actionCollection = getActionCollection(service)

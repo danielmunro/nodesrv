@@ -58,7 +58,7 @@ export function newMob(name: string, description: string, race: Race, vitals: Vi
   mob.race = race
   mob.vitals = vitals
   mob.attributes.push(attributes)
-  mob.wanders = wanders
+  mob.traits.wanders = wanders
   items.forEach((item) => mob.inventory.addItem(item))
 
   return mob
