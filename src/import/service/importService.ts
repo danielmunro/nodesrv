@@ -3,6 +3,7 @@ import { newStartingAttributes, newVitals } from "../../attributes/factory"
 import ItemBuilder from "../../item/itemBuilder"
 import ItemRepository from "../../item/repository/item"
 import { newMob } from "../../mob/factory"
+import Shop from "../../mob/model/shop"
 import MobRepository from "../../mob/repository/mob"
 import roll from "../../random/dice"
 import { newRoom } from "../../room/factory"
@@ -13,7 +14,6 @@ import { ResetFlag } from "../enum/resetFlag"
 import { SectionHeader } from "../enum/sectionHeader"
 import File from "../file"
 import Reset from "../reset"
-import Shop from "../../mob/model/shop"
 
 const NPC_MOVEMENT = 1000
 

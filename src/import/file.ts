@@ -1,8 +1,8 @@
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
+import Shop from "../mob/model/shop"
 import { Room } from "../room/model/room"
 import Reset from "./reset"
-import Shop from "../mob/model/shop"
 
 export default class File {
   public rooms: Room[] = []

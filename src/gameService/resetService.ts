@@ -1,13 +1,13 @@
 import ItemService from "../item/itemService"
 import { Item } from "../item/model/item"
 import { ItemContainerReset } from "../item/model/itemContainerReset"
+import ItemMobReset from "../item/model/itemMobReset"
 import { ItemRoomReset } from "../item/model/itemRoomReset"
 import { MobEquipReset } from "../item/model/mobEquipReset"
 import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
 import { default as MobReset } from "../mob/model/mobReset"
 import RoomTable from "../room/roomTable"
-import ItemMobReset from "../item/model/itemMobReset"
 
 export default class ResetService {
   constructor(
@@ -63,11 +63,9 @@ export default class ResetService {
 
   private async giveItemToMob(mob: Mob) {
     for (const reset of this.itemMobResets) {
-      // for (let i = 0; i < reset.maxQuantity; i++) {
-        const item = reset.item.copy()
-        mob.inventory.addItem(item)
-        this.itemService.add(item)
-      // }
+      const item = reset.item.copy()
+      mob.inventory.addItem(item)
+      this.itemService.add(item)
     }
   }
 

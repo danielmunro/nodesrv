@@ -11,6 +11,7 @@ import { Item } from "../item/model/item"
 import { newMobLocation } from "../mob/factory"
 import { Fight } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
+import Shop from "../mob/model/shop"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
 import { getPlayerRepository } from "../player/repository/player"
@@ -35,7 +36,6 @@ import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
-import Shop from "../mob/model/shop"
 
 const ws = jest.fn(() => ({
   send: jest.fn(),
