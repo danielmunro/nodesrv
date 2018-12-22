@@ -1,7 +1,6 @@
 import { CheckStatus } from "../../check/checkStatus"
 import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
-import { Role } from "../../mob/enum/role"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import buy from "./buy"
@@ -44,7 +43,7 @@ describe("buy action preconditions", () => {
     testBuilder.withMob()
 
     // and
-    testBuilder.withMob().mob.role = Role.Merchant
+    testBuilder.withMerchant()
 
     // when
     const check = await buy(
@@ -89,8 +88,7 @@ describe("buy action preconditions", () => {
     testBuilder.withRoom()
 
     // and
-    const merch = testBuilder.withMob()
-    merch.mob.role = Role.Merchant
+    const merch = testBuilder.withMerchant()
 
     // and
     const eq = newEquipment("a sombrero", "a robust and eye-catching sombrero", Equipment.Head)

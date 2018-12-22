@@ -8,6 +8,7 @@ import roll from "../../random/dice"
 import { newRoom } from "../../room/factory"
 import { Room } from "../../room/model/room"
 import RoomRepository from "../../room/repository/room"
+import {MobTrait} from "../enum/mobTrait"
 import { ResetFlag } from "../enum/resetFlag"
 import { SectionHeader } from "../enum/sectionHeader"
 import File from "../file"
@@ -32,6 +33,90 @@ export default class ImportService {
     }
 
     return amount
+  }
+
+  private static addMobTraits(mob, traits: string[]) {
+    for (const trait of traits) {
+      switch (trait) {
+        case MobTrait.IsNpc:
+          mob.traits.isNpc = true
+          break
+        case MobTrait.Sentinel:
+          mob.traits.wanders = false
+          break
+        case MobTrait.Scavenger:
+          mob.traits.scavenger = true
+          break
+        case MobTrait.Aggressive:
+          mob.traits.aggressive = true
+          break
+        case MobTrait.StayArea:
+          mob.traits.stayArea = true
+          break
+        case MobTrait.Wimpy:
+          mob.traits.wimpy = true
+          break
+        case MobTrait.Pet:
+          mob.traits.isPet = true
+          break
+        case MobTrait.Trainer:
+          mob.traits.trainer = true
+          break
+        case MobTrait.Practice:
+          mob.traits.practice = true
+          break
+        case MobTrait.Undead:
+          mob.traits.undead = true
+          break
+        case MobTrait.Weaponsmith:
+          mob.traits.weaponsmith = true
+          break
+        case MobTrait.Armorer:
+          mob.traits.armorer = true
+          break
+        case MobTrait.Cleric:
+          mob.traits.cleric = true
+          break
+        case MobTrait.Mage:
+          mob.traits.mage = true
+          break
+        case MobTrait.Ranger:
+          mob.traits.ranger = true
+          break
+        case MobTrait.Warrior:
+          mob.traits.warrior = true
+          break
+        case MobTrait.NoAlign:
+          mob.traits.noAlign = true
+          break
+        case MobTrait.NoPurge:
+          mob.traits.noPurge = true
+          break
+        case MobTrait.Outdoors:
+          mob.traits.outdoors = true
+          break
+        case MobTrait.Indoors:
+          mob.traits.indoors = true
+          break
+        case MobTrait.Mount:
+          mob.traits.mount = true
+          break
+        case MobTrait.Healer:
+          mob.traits.healer = true
+          break
+        case MobTrait.Gain:
+          mob.traits.gain = true
+          break
+        case MobTrait.Changer:
+          mob.traits.changer = true
+          break
+        case MobTrait.NoTrans:
+          mob.traits.noTrans = true
+          break
+        default:
+          console.error("unknown trait", trait)
+      }
+    }
   }
 
   private lastReset: Reset
@@ -132,9 +217,11 @@ export default class ImportService {
       vitals,
       newStartingAttributes(vitals, mobData.level))
     mob.gold = mobData.wealth
+    mob.canonicalId = mobData.id
     mob.importId = mobData.id
     mob.alignment = mobData.alignment
     mob.level = mobData.level
+    ImportService.addMobTraits(mob, Array.isArray(mobData.affects) ? mobData.affects : [mobData.affects])
     if (this.writeNewData) {
       await this.mobRepository.save(mob)
     }

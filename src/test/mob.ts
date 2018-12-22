@@ -16,6 +16,7 @@ export function getTestMob(name: string = null, level: number = 1): Mob {
     vitals,
     newStartingAttributes(vitals.copy(), level))
   mob.level = level
+  mob.traits.isNpc = true
 
   return mob
 }

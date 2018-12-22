@@ -16,7 +16,6 @@ import { SkillType } from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
 import { Disposition } from "../enum/disposition"
 import { Gender } from "../enum/gender"
-import { Role } from "../enum/role"
 import { Standing } from "../enum/standing"
 import { Trigger } from "../enum/trigger"
 import { newMob } from "../factory"
@@ -68,9 +67,6 @@ export class Mob {
   @Column("text", { nullable: true })
   public disposition = Disposition.Standing
 
-  @Column("integer", { default: Role.None })
-  public role: Role = Role.None
-
   @Column("text", { nullable: true })
   public importId: string
 
@@ -80,7 +76,8 @@ export class Mob {
   @OneToMany(type => Affect, affect => affect.mob, { ...ownedEntityOptions })
   public affects: Affect[] = []
 
-  @OneToOne(() => MobTraits, mobTrait => mobTrait.mob)
+  @OneToOne(() => MobTraits, mobTrait => mobTrait.mob, { cascadeAll: true, eager: true })
+  @JoinColumn()
   public traits: MobTraits = new MobTraits()
 
   @OneToOne(type => Vitals, { cascadeAll: true, eager: true })
@@ -147,7 +144,7 @@ export class Mob {
   }
 
   public isMerchant(): boolean {
-    return this.traits.isNpc && this.role === Role.Merchant
+    return this.traits.weaponsmith || this.traits.armorer || this.traits.changer
   }
 
   // @todo fully implement
@@ -163,7 +160,7 @@ export class Mob {
         newHitroll(0, 0),
       ),
       this.traits.wanders)
-    mob.role = this.role
+    mob.traits = this.traits.copy()
     mob.importId = this.importId
     return mob
   }

@@ -3,7 +3,6 @@ import { CheckType } from "../../check/checkType"
 import Cost from "../../check/cost/cost"
 import { CostType } from "../../check/cost/costType"
 import GameService from "../../gameService/gameService"
-import { Role } from "../../mob/enum/role"
 import { Request } from "../../request/request"
 import { trainMap } from "../action/train"
 import { Messages } from "./constants"
@@ -17,7 +16,7 @@ export default function(request: Request, service: GameService): Promise<Check> 
       Messages.Train.CannotTrainMore,
       CheckType.ValidSubject)
     .requireMob(
-      service.getMobsByRoom(request.room).find(mob => mob.role === Role.Trainer),
+      service.getMobsByRoom(request.room).find(mob => mob.traits.trainer),
       Messages.Train.NoTrainer)
     .capture()
     .addCost(new Cost(CostType.Train, 1, Messages.Train.LackingTrains))

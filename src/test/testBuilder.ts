@@ -8,7 +8,6 @@ import { Client } from "../client/client"
 import GameService from "../gameService/gameService"
 import ServiceBuilder from "../gameService/serviceBuilder"
 import { Item } from "../item/model/item"
-import { Role } from "../mob/enum/role"
 import { newMobLocation } from "../mob/factory"
 import { Fight } from "../mob/fight/fight"
 import { Mob } from "../mob/model/mob"
@@ -141,14 +140,14 @@ export default class TestBuilder {
 
   public withTrainer(name: string = null): MobBuilder {
     const mobBuilder = this.withMob(name)
-    mobBuilder.mob.role = Role.Trainer
+    mobBuilder.mob.traits.trainer = true
 
     return mobBuilder
   }
 
   public withMerchant() {
     const mobBuilder = this.withMob(name)
-    mobBuilder.mob.role = Role.Merchant
+    mobBuilder.mob.traits.weaponsmith = true
 
     return mobBuilder
   }
