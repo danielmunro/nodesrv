@@ -1,3 +1,4 @@
+import {cloneDeep} from "lodash"
 import ItemTable from "./itemTable"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
@@ -11,7 +12,7 @@ export default class ItemService {
 
   public async generateNewItemInstance(itemReset: ItemReset): Promise<Item> {
     const item = this.itemTemplateTable.items.find(i => i.id === itemReset.item.id)
-    const copy = item.copy()
+    const copy = cloneDeep(item)
     copy.canonicalId = itemReset.item.canonicalId
     return copy
   }

@@ -1,12 +1,12 @@
+import { cloneDeep } from "lodash"
 import CheckedRequest from "../../check/checkedRequest"
-import { copy } from "../../item/factory"
 import Response from "../../request/response"
 import { ActionOutcome } from "../actionOutcome"
 import { Messages } from "./constants"
 
 export default function(checkedRequest: CheckedRequest): Promise<Response> {
   const request = checkedRequest.request
-  const item = copy(checkedRequest.check.result)
+  const item = cloneDeep(checkedRequest.check.result)
 
   request.mob.inventory.addItem(item)
   request.mob.gold -= item.value

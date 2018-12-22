@@ -39,16 +39,6 @@ export default class Container {
     this.inventory.getItemFrom(item, inventory)
   }
 
-  public copy(): Container {
-    const container = new Container()
-    container.weightCapacity = this.weightCapacity
-    container.maxWeightForItem = this.maxWeightForItem
-    container.itemCapacity = this.itemCapacity
-    container.isOpen = this.isOpen
-
-    return container
-  }
-
   public toString(): string {
     return this.inventory.items.reduce((previous, current) => `${previous}\n${current.name}`, "")
   }

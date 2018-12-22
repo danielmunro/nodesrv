@@ -1,7 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import { AffectType } from "../../affect/affectType"
-import { newAffect } from "../../affect/factory"
 import { Affect } from "../../affect/model/affect"
 import { newEmptyAttributes } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
@@ -107,24 +106,6 @@ export class Item {
 
   public isContainer(): boolean {
     return !!this.container
-  }
-
-  public copy(): Item {
-    const item = new Item()
-    item.name = this.name
-    item.description = this.description
-    item.equipment = this.equipment
-    item.itemType = this.itemType
-    item.value = this.value
-    item.hunger = this.hunger
-    item.canonicalId = this.canonicalId
-    item.attributes = this.attributes.copy()
-    item.affects = this.affects.map(affect => newAffect(affect.affectType, affect.timeout))
-    if (this.container) {
-      item.container = this.container.copy()
-    }
-
-    return item
   }
 
   public describe(): string {

@@ -21,14 +21,4 @@ export default class Shop {
 
   @Column("integer")
   public closeHour: number
-
-  public copy() {
-    const shop = new Shop()
-    shop.buyModifier = this.buyModifier
-    shop.sellModifier = this.sellModifier
-    shop.openHour = this.openHour
-    shop.closeHour = this.closeHour
-
-    return shop
-  }
 }

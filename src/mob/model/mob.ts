@@ -3,7 +3,7 @@ import * as v4 from "uuid"
 import { AffectType } from "../../affect/affectType"
 import { applyAffectModifier } from "../../affect/applyAffect"
 import { Affect } from "../../affect/model/affect"
-import { newAttributes, newEmptyAttributes, newHitroll, newStats, newVitals } from "../../attributes/factory"
+import { newEmptyAttributes } from "../../attributes/factory"
 import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
 import { Inventory } from "../../item/model/inventory"
@@ -18,7 +18,6 @@ import { Disposition } from "../enum/disposition"
 import { Gender } from "../enum/gender"
 import { Standing } from "../enum/standing"
 import { Trigger } from "../enum/trigger"
-import { newMob } from "../factory"
 import { modifiers } from "../race/constants"
 import { Race } from "../race/race"
 import { SpecializationType } from "../specialization/specializationType"
@@ -149,27 +148,6 @@ export class Mob {
 
   public isMerchant(): boolean {
     return !!this.shop
-  }
-
-  // @todo fully implement
-  public copy(): Mob {
-    const mob = newMob(
-      this.name,
-      this.description,
-      this.race,
-      newVitals(this.vitals.hp, this.vitals.mana, this.vitals.mv),
-      newAttributes(
-        newVitals(this.vitals.hp, this.vitals.mana, this.vitals.mv),
-        newStats(0, 0, 0, 0, 0, 0),
-        newHitroll(0, 0),
-      ),
-      this.traits.wanders)
-    mob.traits = this.traits.copy()
-    if (this.shop) {
-      mob.shop = this.shop.copy()
-    }
-    mob.importId = this.importId
-    return mob
   }
 
   public regen(): void {

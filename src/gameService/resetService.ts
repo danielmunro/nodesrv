@@ -1,3 +1,4 @@
+import {cloneDeep} from "lodash"
 import ItemService from "../item/itemService"
 import { Item } from "../item/model/item"
 import { ItemContainerReset } from "../item/model/itemContainerReset"
@@ -63,7 +64,7 @@ export default class ResetService {
 
   private async giveItemToMob(mob: Mob) {
     for (const reset of this.itemMobResets) {
-      const item = reset.item.copy()
+      const item = cloneDeep(reset.item)
       mob.inventory.addItem(item)
       this.itemService.add(item)
     }

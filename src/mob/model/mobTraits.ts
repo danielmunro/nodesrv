@@ -84,34 +84,4 @@ export class MobTraits {
 
   @Column("boolean")
   public noTrans: boolean = false
-
-  public copy() {
-    const traits = new MobTraits()
-    traits.isNpc = this.isNpc
-    traits.wanders = this.wanders
-    traits.scavenger = this.scavenger
-    traits.aggressive = this.aggressive
-    traits.stayArea = this.stayArea
-    traits.wimpy = this.wimpy
-    traits.isPet = this.isPet
-    traits.trainer = this.trainer
-    traits.practice = this.practice
-    traits.undead = this.undead
-    traits.weaponsmith = this.weaponsmith
-    traits.armorer = this.armorer
-    traits.cleric = this.cleric
-    traits.mage = this.mage
-    traits.ranger = this.ranger
-    traits.warrior = this.warrior
-    traits.noAlign = this.noAlign
-    traits.noPurge = this.noPurge
-    traits.outdoors = this.outdoors
-    traits.indoors = this.indoors
-    traits.mount = this.mount
-    traits.healer = this.healer
-    traits.gain = this.gain
-    traits.changer = this.changer
-    traits.noTrans = this.noTrans
-    return traits
-  }
 }

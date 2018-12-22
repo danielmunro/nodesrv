@@ -1,4 +1,3 @@
-import { newStartingAttributes, newStartingVitals } from "../attributes/factory"
 import Attributes from "../attributes/model/attributes"
 import Vitals from "../attributes/model/vitals"
 import { Item } from "../item/model/item"
@@ -36,17 +35,6 @@ export function newMobLocation(
   mobLocation.room = room
 
   return mobLocation
-}
-
-export function newCritterMob(name: string, description: string, level: number, race: Race = Race.Critter): Mob {
-  const vitals = newStartingVitals(level)
-  return newMob(
-    name,
-    description,
-    race,
-    vitals,
-    newStartingAttributes(vitals.copy(), level),
-    true)
 }
 
 export function newMob(name: string, description: string, race: Race, vitals: Vitals,

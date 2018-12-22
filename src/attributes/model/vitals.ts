@@ -1,5 +1,4 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
-import { newVitals } from "../factory"
 
 @Entity()
 export default class Vitals {
@@ -23,8 +22,4 @@ export default class Vitals {
 
   @Column("integer")
   public mv: number
-
-  public copy(): Vitals {
-    return newVitals(this.hp, this.mana, this.mv)
-  }
 }

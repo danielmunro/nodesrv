@@ -1,3 +1,4 @@
+import {cloneDeep} from "lodash"
 import * as sillyname from "sillyname"
 import { newStartingAttributes, newStartingVitals } from "../attributes/factory"
 import { newMob } from "../mob/factory"
@@ -14,7 +15,7 @@ export function getTestMob(name: string = null, level: number = 1): Mob {
     "a test fixture",
     Race.Human,
     vitals,
-    newStartingAttributes(vitals.copy(), level))
+    newStartingAttributes(cloneDeep(vitals), level))
   mob.level = level
   mob.traits.isNpc = true
 

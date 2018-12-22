@@ -1,3 +1,4 @@
+import {cloneDeep} from "lodash"
 import { Room } from "../room/model/room"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
@@ -71,7 +72,7 @@ export default class MobService {
 
   public async generateNewMobInstance(mobReset: MobReset): Promise<Mob> {
     const mob = this.mobTemplateTable.find(m => m.id === mobReset.mob.id)
-    const clone = mob.copy()
+    const clone = cloneDeep(mob)
     clone.mobReset = mobReset
 
     return clone

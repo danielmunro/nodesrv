@@ -1,6 +1,5 @@
 import { AffectType } from "../affect/affectType"
 import { newAffect } from "../affect/factory"
-import Attributes from "../attributes/model/attributes"
 import { DamageType } from "../damage/damageType"
 import { Mob } from "../mob/model/mob"
 import { Room } from "../room/model/room"
@@ -115,16 +114,6 @@ export function newContainer(
 
 export function newTrash(name: string, description: string) {
   return newItem(ItemType.Trash, name, description)
-}
-
-export function copy(item: Item): Item {
-  const itemCopy = newItem(item.itemType, item.name, item.description, item.level)
-  itemCopy.equipment = item.equipment
-  itemCopy.itemType = item.itemType
-  itemCopy.attributes = new Attributes().combine(item.attributes)
-  itemCopy.value = item.value
-
-  return itemCopy
 }
 
 export function poison(item: Item, timeout: number = -1): Item {

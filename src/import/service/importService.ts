@@ -184,8 +184,8 @@ export default class ImportService {
       }
     }
     if (this.writeNewData) {
-      await Promise.all(this.mobRepository.save(file.mobs))
-      await Promise.all(this.itemRepository.save(file.items))
+      await this.mobRepository.save(file.mobs)
+      await this.itemRepository.save(file.items)
     }
   }
 
