@@ -7,10 +7,12 @@ import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
 import { default as MobReset } from "../mob/model/mobReset"
 import RoomTable from "../room/roomTable"
+import ItemMobReset from "../item/model/itemMobReset"
 
 export default class ResetService {
   constructor(
     private readonly mobResets: MobReset[],
+    private readonly itemMobResets: ItemMobReset[],
     private readonly itemRoomResets: ItemRoomReset[],
     private readonly mobEquipResets: MobEquipReset[],
     private readonly itemContainerResets: ItemContainerReset[],
@@ -30,7 +32,7 @@ export default class ResetService {
     await Promise.all(this.itemRoomResets.map(this.respawnFromItemRoomReset.bind(this)))
   }
 
-  private async respawnFromMobReset(mobReset: MobReset) {
+  public async respawnFromMobReset(mobReset: MobReset) {
     const mob = await this.mobService.generateNewMobInstance(mobReset)
     const room = this.roomTable.get(mobReset.room.uuid)
     const mobsInRoom = this.mobService.locationService
@@ -39,6 +41,7 @@ export default class ResetService {
       .getMobsByImportId(mob.importId)
     if (mobsInRoom.length < mobReset.maxPerRoom && mobsTotal.length < mobReset.maxQuantity) {
       await this.equipToMob(mob)
+      await this.giveItemToMob(mob)
       this.mobService.add(mob, room)
     }
   }
@@ -55,6 +58,16 @@ export default class ResetService {
         await this.addToContainer(item)
       }
       this.itemService.add(item)
+    }
+  }
+
+  private async giveItemToMob(mob: Mob) {
+    for (const reset of this.itemMobResets) {
+      // for (let i = 0; i < reset.maxQuantity; i++) {
+        const item = reset.item.copy()
+        mob.inventory.addItem(item)
+        this.itemService.add(item)
+      // }
     }
   }
 

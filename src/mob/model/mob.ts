@@ -25,6 +25,7 @@ import { SpecializationType } from "../specialization/specializationType"
 import MobReset from "./mobReset"
 import {MobTraits} from "./mobTraits"
 import { PlayerMob } from "./playerMob"
+import Shop from "./shop"
 
 const ownedEntityOptions = { cascadeInsert: true, cascadeUpdate: true, eager: true }
 
@@ -76,16 +77,19 @@ export class Mob {
   @OneToMany(type => Affect, affect => affect.mob, { ...ownedEntityOptions })
   public affects: Affect[] = []
 
-  @OneToOne(() => MobTraits, mobTrait => mobTrait.mob, { cascadeAll: true, eager: true })
+  @OneToOne(() => MobTraits, { cascadeAll: true, eager: true })
   @JoinColumn()
   public traits: MobTraits = new MobTraits()
+
+  @OneToOne(() => Shop, { cascadeAll: true, eager: true })
+  @JoinColumn()
+  public shop: Shop
 
   @OneToOne(type => Vitals, { cascadeAll: true, eager: true })
   @JoinColumn()
   public vitals: Vitals = new Vitals()
 
-  @OneToMany(
-    type => Attributes, attributes => attributes.mob, { ...ownedEntityOptions })
+  @OneToMany(type => Attributes, attributes => attributes.mob, { ...ownedEntityOptions })
   public attributes: Attributes[] = []
 
   @ManyToOne(type => Player, player => player.mobs)
@@ -144,7 +148,7 @@ export class Mob {
   }
 
   public isMerchant(): boolean {
-    return this.traits.weaponsmith || this.traits.armorer || this.traits.changer
+    return !!this.shop
   }
 
   // @todo fully implement
@@ -161,6 +165,9 @@ export class Mob {
       ),
       this.traits.wanders)
     mob.traits = this.traits.copy()
+    if (this.shop) {
+      mob.shop = this.shop.copy()
+    }
     mob.importId = this.importId
     return mob
   }

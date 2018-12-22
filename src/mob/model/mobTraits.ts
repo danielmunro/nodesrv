@@ -1,6 +1,5 @@
-import {Column, Entity, Generated, OneToOne, PrimaryGeneratedColumn} from "typeorm"
+import {Column, Entity, Generated, PrimaryGeneratedColumn} from "typeorm"
 import * as v4 from "uuid"
-import {Mob} from "./mob"
 
 @Entity()
 export class MobTraits {
@@ -85,9 +84,6 @@ export class MobTraits {
 
   @Column("boolean")
   public noTrans: boolean = false
-
-  @OneToOne(() => Mob, mob => mob.traits)
-  public mob
 
   public copy() {
     const traits = new MobTraits()

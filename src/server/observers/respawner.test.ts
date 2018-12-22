@@ -43,7 +43,7 @@ describe("respawner", () => {
         newMobReset(mob1, startRoom, 1, 1),
         newMobReset(mob2, startRoom, 1, 1),
         newMobReset(mob3, startRoom, 1, 1),
-      ], [], [], [], mobService, roomTable, null))
+      ], [], [], [], [], mobService, roomTable, null))
     await respawner.seedMobTable()
     mobTable.getMobs().forEach(mob => {
       mob.disposition = Disposition.Dead

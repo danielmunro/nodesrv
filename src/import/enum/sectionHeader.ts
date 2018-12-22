@@ -3,4 +3,5 @@ export enum SectionHeader {
   Rooms = "ROOMS",
   Resets = "RESETS",
   Objects = "OBJECTS",
+  Shops = "SHOPS",
 }

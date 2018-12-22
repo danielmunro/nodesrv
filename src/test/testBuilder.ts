@@ -35,6 +35,7 @@ import MobBuilder from "./mobBuilder"
 import { getTestPlayer } from "./player"
 import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
+import Shop from "../mob/model/shop"
 
 const ws = jest.fn(() => ({
   send: jest.fn(),
@@ -147,7 +148,7 @@ export default class TestBuilder {
 
   public withMerchant() {
     const mobBuilder = this.withMob(name)
-    mobBuilder.mob.traits.weaponsmith = true
+    mobBuilder.mob.shop = new Shop()
 
     return mobBuilder
   }

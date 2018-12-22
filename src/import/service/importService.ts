@@ -13,6 +13,7 @@ import { ResetFlag } from "../enum/resetFlag"
 import { SectionHeader } from "../enum/sectionHeader"
 import File from "../file"
 import Reset from "../reset"
+import Shop from "../../mob/model/shop"
 
 const NPC_MOVEMENT = 1000
 
@@ -119,6 +120,35 @@ export default class ImportService {
     }
   }
 
+  private static async addShop(file: File, resetData) {
+    const mob = file.mobs.find(m => m.canonicalId === resetData.keeper)
+    const shop = new Shop()
+    shop.buyModifier = resetData.profitBuy
+    shop.sellModifier = resetData.profitSell
+    shop.openHour = resetData.openHour
+    shop.closeHour = resetData.closeHour
+    mob.shop = shop
+    file.shops.push(shop)
+  }
+
+  private static async addMob(file, mobData) {
+    const vitals = newVitals(ImportService.dice(mobData.hit), ImportService.dice(mobData.mana), NPC_MOVEMENT)
+    const mob = newMob(
+      mobData.name,
+      mobData.description,
+      mobData.race,
+      vitals,
+      newStartingAttributes(vitals, mobData.level))
+    mob.gold = mobData.wealth
+    mob.canonicalId = mobData.id
+    mob.importId = mobData.id
+    mob.alignment = mobData.alignment
+    mob.level = mobData.level
+    ImportService.addMobTraits(mob, Array.isArray(mobData.affects) ? mobData.affects : [mobData.affects])
+    file.mobs.push(mob)
+    file.mobMap[mob.importId] = mob
+  }
+
   private lastReset: Reset
 
   constructor(
@@ -153,12 +183,16 @@ export default class ImportService {
         await this.addRow(header, file, row)
       }
     }
+    if (this.writeNewData) {
+      await Promise.all(this.mobRepository.save(file.mobs))
+      await Promise.all(this.itemRepository.save(file.items))
+    }
   }
 
   private async addRow(header, file: File, row) {
     switch (header) {
       case SectionHeader.Mobiles:
-        await this.addMob(file, row)
+        await ImportService.addMob(file, row)
         break
       case SectionHeader.Rooms:
         await this.addRoom(file, row)
@@ -168,6 +202,9 @@ export default class ImportService {
         break
       case SectionHeader.Objects:
         await this.addItem(file, row)
+        break
+      case SectionHeader.Shops:
+        await ImportService.addShop(file, row)
         break
     }
   }
@@ -203,30 +240,6 @@ export default class ImportService {
       return
     }
     file.items.push(item)
-    if (this.writeNewData) {
-      this.itemRepository.save(item)
-    }
-  }
-
-  private async addMob(file, mobData) {
-    const vitals = newVitals(ImportService.dice(mobData.hit), ImportService.dice(mobData.mana), NPC_MOVEMENT)
-    const mob = newMob(
-      mobData.name,
-      mobData.description,
-      mobData.race,
-      vitals,
-      newStartingAttributes(vitals, mobData.level))
-    mob.gold = mobData.wealth
-    mob.canonicalId = mobData.id
-    mob.importId = mobData.id
-    mob.alignment = mobData.alignment
-    mob.level = mobData.level
-    ImportService.addMobTraits(mob, Array.isArray(mobData.affects) ? mobData.affects : [mobData.affects])
-    if (this.writeNewData) {
-      await this.mobRepository.save(mob)
-    }
-    file.mobs.push(mob)
-    file.mobMap[mob.importId] = mob
   }
 
   private async addRoom(file, roomData): Promise<Room> {
