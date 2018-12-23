@@ -39,7 +39,8 @@ export class Fight {
   private static calculateDamageFromAttackerToDefender(
     attackerAttributes: Attributes,
     defenderAttributes: Attributes): number {
-    return Math.max(1, Math.random() * Math.pow(attackerAttributes.hitroll.dam, defenderAttributes.hitroll.hit))
+    const hit = attackerAttributes.hitroll
+    return roll(hit.hit, hit.dam)
   }
 
   private static getExperienceFromKilling(attacker: Mob, defender: Mob) {
