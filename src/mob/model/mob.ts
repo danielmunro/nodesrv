@@ -21,8 +21,10 @@ import { Trigger } from "../enum/trigger"
 import { modifiers } from "../race/constants"
 import { Race } from "../race/race"
 import { SpecializationType } from "../specialization/specializationType"
+import DamageSource from "./damageSource"
 import MobReset from "./mobReset"
 import {MobTraits} from "./mobTraits"
+import OffensiveTraits from "./offensiveTraits"
 import { PlayerMob } from "./playerMob"
 import Shop from "./shop"
 
@@ -73,45 +75,61 @@ export class Mob {
   @Column("integer", { default: 0 })
   public alignment: number = 0
 
-  @OneToMany(type => Affect, affect => affect.mob, { ...ownedEntityOptions })
+  @OneToOne(() => DamageSource, { cascadeAll: true, eager: true })
+  @JoinColumn()
+  public immune: DamageSource = new DamageSource()
+
+  @OneToOne(() => DamageSource, { cascadeAll: true, eager: true })
+  @JoinColumn()
+  public resist: DamageSource = new DamageSource()
+
+  @OneToOne(() => DamageSource, { cascadeAll: true, eager: true })
+  @JoinColumn()
+  public vulnerable: DamageSource = new DamageSource()
+
+  @OneToMany(() => Affect, affect => affect.mob, { ...ownedEntityOptions })
   public affects: Affect[] = []
 
   @OneToOne(() => MobTraits, { cascadeAll: true, eager: true })
   @JoinColumn()
   public traits: MobTraits = new MobTraits()
 
+  @OneToOne(() => OffensiveTraits, { cascadeAll: true, eager: true })
+  @JoinColumn()
+  public offensiveTraits: OffensiveTraits = new OffensiveTraits()
+
   @OneToOne(() => Shop, { cascadeAll: true, eager: true })
   @JoinColumn()
   public shop: Shop
 
-  @OneToOne(type => Vitals, { cascadeAll: true, eager: true })
+  @OneToOne(() => Vitals, { cascadeAll: true, eager: true })
   @JoinColumn()
   public vitals: Vitals = new Vitals()
 
-  @OneToMany(type => Attributes, attributes => attributes.mob, { ...ownedEntityOptions })
+  @OneToMany(() => Attributes, attributes => attributes.mob, { ...ownedEntityOptions })
   public attributes: Attributes[] = []
 
-  @ManyToOne(type => Player, player => player.mobs)
+  @ManyToOne(() => Player, player => player.mobs)
   public player: Player
 
-  @OneToOne(type => Inventory, { cascadeAll: true, eager: true })
+  @OneToOne(() => Inventory, { cascadeAll: true, eager: true })
   @JoinColumn()
   public inventory = new Inventory()
 
-  @OneToOne(type => Inventory, { cascadeAll: true, eager: true })
+  @OneToOne(() => Inventory, { cascadeAll: true, eager: true })
   @JoinColumn()
   public equipped = new Inventory()
 
-  @OneToMany(type => Skill, skill => skill.mob, { ...ownedEntityOptions })
+  @OneToMany(() => Skill, skill => skill.mob, { ...ownedEntityOptions })
   public skills: Skill[] = []
 
-  @OneToMany(type => Spell, spell => spell.mob, { ...ownedEntityOptions })
+  @OneToMany(() => Spell, spell => spell.mob, { ...ownedEntityOptions })
   public spells: Spell[] = []
 
-  @OneToOne(type => PlayerMob, playerMob => playerMob.mob, { nullable: true, ...ownedEntityOptions })
+  @OneToOne(() => PlayerMob, playerMob => playerMob.mob, { nullable: true, ...ownedEntityOptions })
   public playerMob: PlayerMob
 
-  @OneToOne(type => MobReset, reset => reset.mob)
+  @OneToOne(() => MobReset, reset => reset.mob)
   public mobReset: MobReset
 
   public getAuthorizationLevel(): AuthorizationLevel {

@@ -22,7 +22,7 @@ import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { initializeConnection } from "../src/support/db/connection"
 
-const listFile = readFileSync("fixtures/areas/area-midgaard.lst").toString()
+const listFile = readFileSync("fixtures/areas/area.lst").toString()
 const areaFiles = listFile.split("\n")
 const args = minimist(process.argv.slice(2))
 const writeNewData = args.write === undefined ? false : args.write
