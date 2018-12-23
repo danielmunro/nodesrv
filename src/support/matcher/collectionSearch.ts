@@ -30,5 +30,5 @@ function getCounterAmount(search: string) {
 }
 
 function hasCounter(search: string): boolean {
-  return search.indexOf(".") > -1
+  return search && search.indexOf(".") > -1
 }
