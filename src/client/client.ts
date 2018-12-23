@@ -146,7 +146,7 @@ export class Client {
     }
 
     if (responseAction.wasFightStarted()) {
-      const request = response.request as Request
+      const request = response.getCheckedRequest().request
       this.service.mobService.addFight(
         new Fight(this.service, this.player.sessionMob, request.getTarget() as Mob, request.room))
     }
