@@ -17,7 +17,8 @@ const Timings = {
   openPort: "open server port",
   resetService: "create reset service initialization",
   roomAndMobTables: "room, mob, and exit table initialization",
-  seedWorld: "seeding world",
+  seedItems: "seeding items",
+  seedMobs: "seeding world",
 }
 
 /**
@@ -46,11 +47,13 @@ initializeConnection().then(async () => {
   const resetService = await createResetService(mobService, roomTable, itemService)
   console.timeEnd(Timings.resetService)
 
-  console.time(Timings.seedWorld)
-  await Promise.all([
-    resetService.seedMobTable(),
-    resetService.seedItemRoomResets()])
-  console.timeEnd(Timings.seedWorld)
+  console.time(Timings.seedMobs)
+  await resetService.seedMobTable()
+  console.timeEnd(Timings.seedMobs)
+
+  console.time(Timings.seedMobs)
+  await resetService.seedItemRoomResets()
+  console.timeEnd(Timings.seedMobs)
 
   console.time(Timings.openPort)
   const gameService = await GameService.new(mobService, itemService, roomTable, exitTable)

@@ -64,9 +64,11 @@ export default class ResetService {
 
   private async giveItemToMob(mob: Mob) {
     for (const reset of this.itemMobResets) {
-      const item = cloneDeep(reset.item)
-      mob.inventory.addItem(item)
-      this.itemService.add(item)
+      if (reset.mob.importId === mob.importId) {
+        const item = cloneDeep(reset.item)
+        mob.inventory.addItem(item)
+        this.itemService.add(item)
+      }
     }
   }
 
