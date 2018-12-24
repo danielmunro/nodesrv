@@ -1,4 +1,6 @@
 import * as assert from "assert"
+import eventConsumerTable from "../src/event/eventConsumerTable"
+import EventService from "../src/event/eventService"
 import { createResetService } from "../src/gameService/factory"
 import GameService from "../src/gameService/gameService"
 import ItemService from "../src/item/itemService"
@@ -51,12 +53,13 @@ initializeConnection().then(async () => {
   await resetService.seedMobTable()
   console.timeEnd(Timings.seedMobs)
 
-  console.time(Timings.seedMobs)
+  console.time(Timings.seedItems)
   await resetService.seedItemRoomResets()
-  console.timeEnd(Timings.seedMobs)
+  console.timeEnd(Timings.seedItems)
 
   console.time(Timings.openPort)
-  const gameService = await GameService.new(mobService, itemService, roomTable, exitTable)
+  const gameService = await GameService.new(
+    mobService, itemService, roomTable, exitTable, new EventService(eventConsumerTable))
   const server = await newServer(
     gameService,
     port,

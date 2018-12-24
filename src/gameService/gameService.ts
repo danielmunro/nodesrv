@@ -1,10 +1,13 @@
+import MobEvent from "../event/event/mobEvent"
+import EventService from "../event/eventService"
+import {EventType} from "../event/eventType"
 import ItemService from "../item/itemService"
 import MobService from "../mob/mobService"
-import { Mob } from "../mob/model/mob"
-import { Direction } from "../room/constants"
+import {Mob} from "../mob/model/mob"
+import {Direction} from "../room/constants"
 import ExitTable from "../room/exitTable"
-import { Room } from "../room/model/room"
-import { default as RoomTable } from "../room/roomTable"
+import {Room} from "../room/model/room"
+import {default as RoomTable} from "../room/roomTable"
 import DefinitionService from "./definitionService"
 import TimeService from "./timeService"
 
@@ -14,10 +17,11 @@ export default class GameService {
     itemService: ItemService,
     roomTable: RoomTable = new RoomTable({}),
     exitTable: ExitTable = new ExitTable(mobService.locationService, []),
+    eventService: EventService = new EventService(),
     time: number = 0,
   ): Promise<GameService> {
     return new GameService(
-      mobService, roomTable, itemService, exitTable, time)
+      mobService, roomTable, itemService, exitTable, eventService, time)
   }
 
   private timeService: TimeService
@@ -27,6 +31,7 @@ export default class GameService {
     public readonly roomTable: RoomTable,
     public readonly itemService: ItemService,
     public readonly exitTable: ExitTable,
+    public readonly eventService: EventService = new EventService(),
     time = 0) {
     this.timeService = new TimeService(time)
   }
@@ -47,9 +52,10 @@ export default class GameService {
       throw new Error("cannot move in that direction")
     }
 
+    this.eventService.publish(new MobEvent(EventType.MobLeft, mob))
     const destination = this.roomTable.get(exit.destination.uuid)
-
-    return this.mobService.locationService.updateMobLocation(mob, destination)
+    this.mobService.locationService.updateMobLocation(mob, destination)
+    this.eventService.publish(new MobEvent(EventType.MobArrived, mob))
   }
 
   public getMobLocation(mob: Mob) {

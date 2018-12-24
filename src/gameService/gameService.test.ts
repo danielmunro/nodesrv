@@ -21,9 +21,10 @@ describe("moveMob", () => {
     const service = await testBuilder.getService()
 
     // when
-    const location = await service.moveMob(mob, Direction.North)
+    await service.moveMob(mob, Direction.North)
 
     // then
+    const location = service.getMobLocation(mob)
     expect(location.room.uuid).toBe(destination.uuid)
   })
 
