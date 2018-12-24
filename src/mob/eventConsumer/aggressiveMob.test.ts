@@ -3,7 +3,7 @@ import {EventType} from "../../event/eventType"
 import TestBuilder from "../../test/testBuilder"
 import {Fight} from "../fight/fight"
 
-describe("mob arrived event consumer", () => {
+describe("aggressive mob event consumer", () => {
   it("arriving in a room with an aggressive mob should trigger a fight", async () => {
     // setup
     const testBuilder = new TestBuilder()

@@ -7,7 +7,7 @@ import LocationService from "../locationService"
 import MobService from "../mobService"
 import {Mob} from "../model/mob"
 
-export default class MobArrived implements EventConsumer {
+export default class AggressiveMob implements EventConsumer {
   constructor(
     private readonly mobService: MobService,
     private readonly locationService: LocationService,

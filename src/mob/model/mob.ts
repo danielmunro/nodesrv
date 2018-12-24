@@ -132,6 +132,10 @@ export class Mob {
   @OneToOne(() => MobReset, reset => reset.mob)
   public mobReset: MobReset
 
+  @OneToOne(() => Mob, { nullable: true })
+  @JoinColumn()
+  public pet: Mob
+
   public getAuthorizationLevel(): AuthorizationLevel {
     return this.playerMob ? this.playerMob.authorizationLevel : AuthorizationLevel.None
   }

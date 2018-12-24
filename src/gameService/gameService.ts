@@ -56,10 +56,11 @@ export default class GameService {
       throw new Error("cannot move in that direction")
     }
 
-    this.eventService.publish(new MobEvent(EventType.MobLeft, mob))
+    const source = this.roomTable.get(exit.source.uuid)
     const destination = this.roomTable.get(exit.destination.uuid)
     this.mobService.locationService.updateMobLocation(mob, destination)
-    this.eventService.publish(new MobEvent(EventType.MobArrived, mob))
+    this.eventService.publish(new MobEvent(EventType.MobLeft, mob, source))
+    this.eventService.publish(new MobEvent(EventType.MobArrived, mob, destination))
   }
 
   public getMobLocation(mob: Mob) {
