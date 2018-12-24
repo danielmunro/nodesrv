@@ -1,4 +1,3 @@
-import EventService from "../event/eventService"
 import ItemService from "../item/itemService"
 import ItemTable from "../item/itemTable"
 import { Item } from "../item/model/item"
@@ -64,7 +63,6 @@ export default class ServiceBuilder {
       new ItemService(new ItemTable(this.items), new ItemTable(this.items)),
       RoomTable.new(this.rooms),
       new ExitTable(this.locationService, this.exits),
-      new EventService(),
       this.time)
   }
 }

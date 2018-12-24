@@ -1,7 +1,11 @@
-import MobArrived from "../gameService/eventConsumer/mobArrived"
-import MobLeft from "../gameService/eventConsumer/mobLeft"
+import MobArrived from "../mob/eventConsumer/mobArrived"
+import MobLeft from "../mob/eventConsumer/mobLeft"
+import FightBuilder from "../mob/fight/fightBuilder"
+import MobService from "../mob/mobService"
 
-export default [
-  new MobArrived(),
-  new MobLeft(),
-]
+export default function createEventConsumerTable(mobService: MobService, fightBuilder: FightBuilder) {
+  return [
+    new MobArrived(mobService, mobService.locationService, fightBuilder),
+    new MobLeft(),
+  ]
+}

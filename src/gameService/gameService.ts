@@ -1,7 +1,11 @@
+import Event from "../event/event"
 import MobEvent from "../event/event/mobEvent"
+import createEventConsumerTable from "../event/eventConsumerTable"
+import {EventResponse} from "../event/eventResponse"
 import EventService from "../event/eventService"
 import {EventType} from "../event/eventType"
 import ItemService from "../item/itemService"
+import FightBuilder from "../mob/fight/fightBuilder"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import {Direction} from "../room/constants"
@@ -17,23 +21,23 @@ export default class GameService {
     itemService: ItemService,
     roomTable: RoomTable = new RoomTable({}),
     exitTable: ExitTable = new ExitTable(mobService.locationService, []),
-    eventService: EventService = new EventService(),
     time: number = 0,
   ): Promise<GameService> {
     return new GameService(
-      mobService, roomTable, itemService, exitTable, eventService, time)
+      mobService, roomTable, itemService, exitTable, time)
   }
 
-  private timeService: TimeService
+  private readonly timeService: TimeService
+  private readonly eventService: EventService
 
   constructor(
     public readonly mobService: MobService,
     public readonly roomTable: RoomTable,
     public readonly itemService: ItemService,
     public readonly exitTable: ExitTable,
-    public readonly eventService: EventService = new EventService(),
     time = 0) {
     this.timeService = new TimeService(time)
+    this.eventService = new EventService(createEventConsumerTable(mobService, new FightBuilder(this)))
   }
 
   public incrementTime() {
@@ -68,5 +72,9 @@ export default class GameService {
 
   public definition(): DefinitionService {
     return new DefinitionService(this)
+  }
+
+  public publishEvent(event: Event): EventResponse {
+    return this.eventService.publish(event)
   }
 }
