@@ -12,8 +12,8 @@ export default class MobLeaves implements EventConsumer {
     private readonly gameServer: GameServer,
     private readonly locationService: LocationService) {}
 
-  public getConsumingEventType(): EventType {
-    return EventType.MobLeft
+  public getConsumingEventTypes(): EventType[] {
+    return [EventType.MobLeft]
   }
 
   public consume(event: MobEvent): EventResponse {

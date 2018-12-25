@@ -4,8 +4,8 @@ import {EventResponse} from "../eventResponse"
 import {EventType} from "../eventType"
 
 export default class TestBConsumer implements EventConsumer {
-  public getConsumingEventType(): EventType {
-    return EventType.TestB
+  public getConsumingEventTypes(): EventType[] {
+    return [EventType.TestB]
   }
 
   public consume(event: Event): EventResponse {

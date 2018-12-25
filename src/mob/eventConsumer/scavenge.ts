@@ -16,8 +16,8 @@ export default class Scavenge implements EventConsumer {
     private readonly locationService: LocationService,
     private readonly scavengeTimeoutMS: number = SCAVENGE_TIMEOUT_MS) {}
 
-  public getConsumingEventType(): EventType {
-    return EventType.MobArrived
+  public getConsumingEventTypes(): EventType[] {
+    return [EventType.MobArrived, EventType.ItemDropped]
   }
 
   public consume(event: MobEvent): EventResponse {

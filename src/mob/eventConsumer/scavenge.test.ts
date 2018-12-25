@@ -1,7 +1,13 @@
 import MobEvent from "../../event/event/mobEvent"
 import {EventType} from "../../event/eventType"
+import GameService from "../../gameService/gameService"
 import TestBuilder from "../../test/testBuilder"
 import Scavenge from "./scavenge"
+
+function hackScavengeEventConsumer(service: GameService) {
+  const scavenge = service.eventService.eventConsumers.find(eventConsumer => eventConsumer instanceof Scavenge)
+  scavenge.scavengeTimeoutMS = 0
+}
 
 describe("scavenge", () => {
   it("scavengers should scavenge items on the ground", async () => {
@@ -13,9 +19,8 @@ describe("scavenge", () => {
     roomBuilder.withHelmetEq()
     const service = await testBuilder.getService()
 
-    // and -- hack timeout to 0 ms
-    const scavenge = service.eventService.eventConsumers.find(eventConsumer => eventConsumer instanceof Scavenge)
-    scavenge.scavengeTimeoutMS = 0
+    // and
+    hackScavengeEventConsumer(service)
     const itemService = service.itemService
 
     // when

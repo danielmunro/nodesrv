@@ -9,8 +9,8 @@ import {Mob} from "../model/mob"
 export default class PetFollowsOwner implements EventConsumer {
   constructor(private readonly locationService: LocationService) {}
 
-  public getConsumingEventType(): EventType {
-    return EventType.MobLeft
+  public getConsumingEventTypes(): EventType[] {
+    return [EventType.MobLeft]
   }
 
   public consume(event: MobEvent): EventResponse {

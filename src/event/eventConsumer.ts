@@ -3,6 +3,6 @@ import {EventResponse} from "./eventResponse"
 import {EventType} from "./eventType"
 
 export default interface EventConsumer {
-  getConsumingEventType(): EventType
+  getConsumingEventTypes(): EventType[]
   consume(event: Event): EventResponse
 }

@@ -13,8 +13,8 @@ export default class AggressiveMob implements EventConsumer {
     private readonly locationService: LocationService,
     private readonly fightBuilder: FightBuilder) {}
 
-  public getConsumingEventType(): EventType {
-    return EventType.MobArrived
+  public getConsumingEventTypes(): EventType[] {
+    return [EventType.MobArrived]
   }
 
   public consume(event: MobEvent): EventResponse {

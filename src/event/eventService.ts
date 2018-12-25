@@ -12,7 +12,7 @@ export default class EventService {
   public publish(event: Event) {
     let response = EventResponse.Unhandled
     for (const eventConsumer of this.eventConsumers) {
-      if (eventConsumer.getConsumingEventType() === event.getEventType()) {
+      if (eventConsumer.getConsumingEventTypes().includes(event.getEventType())) {
         response = eventConsumer.consume(event)
         if (response === EventResponse.Satisfied) {
           return response

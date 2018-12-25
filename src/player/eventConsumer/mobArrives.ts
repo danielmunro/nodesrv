@@ -12,8 +12,8 @@ export default class MobArrives implements EventConsumer {
     private readonly gameServer: GameServer,
     private readonly locationService: LocationService) {}
 
-  public getConsumingEventType(): EventType {
-    return EventType.MobArrived
+  public getConsumingEventTypes(): EventType[] {
+    return [EventType.MobArrived]
   }
 
   public consume(event: MobEvent): EventResponse {

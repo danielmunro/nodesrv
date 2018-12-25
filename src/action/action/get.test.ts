@@ -33,18 +33,19 @@ describe("get action", () => {
     const playerBuilder = await testBuilder.withPlayer()
     const satchel = playerBuilder.withSatchelEq()
     const item = newFood("a pretzel", "a pretzel")
+    satchel.container.addItem(item)
     const service = await testBuilder.getService()
     service.itemService.add(item)
-    satchel.container.addItem(item)
+
+    const definition = (await testBuilder.getActionCollection())
+      .getMatchingHandlerDefinitionForRequestType(RequestType.Get)
 
     const player = playerBuilder.player
     const itemCount = player.sessionMob.inventory.items.length
     player.sessionMob.name = "alice"
 
     // when
-    const request = testBuilder.createRequest(RequestType.Get, "get pretzel satchel")
-    const check = await getPrecondition(request, await testBuilder.getService())
-    const response = await get(new CheckedRequest(request, check))
+    const response = await definition.handle(testBuilder.createRequest(RequestType.Get, "get pretzel satchel"))
 
     // then
     expect(player.sessionMob.inventory.items.length).toBe(itemCount + 1)

@@ -18,7 +18,7 @@ function getFromInventory(request: Request, service: GameService) {
 
   return new CheckBuilder(service.mobService)
     .require(container, Messages.All.Item.NotFound, CheckType.ContainerPresent)
-    .require(() => service.itemService.findItem(container.container, request.getSubject()),
+    .require(() => service.itemService.findItem(container.container.inventory, request.getSubject()),
       Messages.All.Item.NotFound, CheckType.ItemPresent)
     .capture()
     .create()
