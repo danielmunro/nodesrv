@@ -15,6 +15,7 @@ import { ImmediateTimer } from "../timer/immediateTimer"
 import { SecondIntervalTimer } from "../timer/secondTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
 import { Timer } from "../timer/timer"
+import ClientService from "./clientService"
 import { events } from "./constants"
 import { DecrementPlayerDelay } from "./observers/decrementPlayerDelay"
 import { HandleClientRequests } from "./observers/handleClientRequests"
@@ -28,6 +29,7 @@ enum Status {
 
 export class GameServer {
   public readonly clients: Client[] = []
+  public readonly clientService: ClientService
   private status: Status = Status.Initialized
   private authService: AuthService
   private actions
@@ -37,7 +39,9 @@ export class GameServer {
     public readonly service: GameService,
     public readonly startRoom: Room,
     public readonly resetService: ResetService,
-    public readonly mobService: MobService) {}
+    public readonly mobService: MobService) {
+    this.clientService = new ClientService(mobService.locationService)
+  }
 
   public async start(): Promise<void> {
     if (!this.isInitialized()) {
@@ -70,7 +74,7 @@ export class GameServer {
       this.authService,
       this.mobService.locationService)
     console.info("new client connected", { ip: client.ip })
-    this.clients.push(client)
+    this.clientService.add(client)
     ws.onclose = () => this.removeClient(client)
     client.send({ message: client.session.getAuthStepMessage() })
   }
@@ -90,12 +94,12 @@ export class GameServer {
   public addObserver(observer: Observer, timer: Timer): void {
     poll(() => observer.notify(this.clients), timer)
     if (timer instanceof ImmediateTimer) {
-      observer.notify(this.clients)
+      observer.notify(this.clientService.getClients())
     }
   }
 
   public getClientCount(): number {
-    return this.clients.length
+    return this.clientService.getClientCount()
   }
 
   public getMobTable(): MobTable {
@@ -104,7 +108,7 @@ export class GameServer {
 
   private removeClient(client: Client): void {
     console.info("client disconnected", { ip: client.ip })
-    this.clients = this.clients.filter((it) => it !== client)
+    this.clientService.remove(client)
     this.mobService.locationService.removeMob(client.getSessionMob())
 
   }

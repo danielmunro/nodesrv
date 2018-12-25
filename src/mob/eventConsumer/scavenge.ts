@@ -3,7 +3,7 @@ import EventConsumer from "../../event/eventConsumer"
 import {EventResponse} from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import ItemService from "../../item/itemService"
-import {GameServer} from "../../server/server"
+import ClientService from "../../server/clientService"
 import LocationService from "../locationService"
 import {Mob} from "../model/mob"
 
@@ -11,7 +11,7 @@ export const SCAVENGE_TIMEOUT_MS = 10000
 
 export default class Scavenge implements EventConsumer {
   constructor(
-    private readonly gameServer: GameServer,
+    private readonly clientService: ClientService,
     private readonly itemService: ItemService,
     private readonly locationService: LocationService,
     private readonly scavengeTimeoutMS: number = SCAVENGE_TIMEOUT_MS) {}
@@ -36,9 +36,7 @@ export default class Scavenge implements EventConsumer {
         mob.inventory.addItem(item)
         message += `${mob.name} picks up ${item.name}.\n`
       })
-      this.gameServer.clients.filter(client =>
-        client.isLoggedIn() && this.locationService.getLocationForMob(client.getSessionMob()) === location)
-        .forEach(client => client.sendMessage(message))
+      this.clientService.sendMessageInRoom(mob, message)
     }, this.scavengeTimeoutMS)
   }
 }

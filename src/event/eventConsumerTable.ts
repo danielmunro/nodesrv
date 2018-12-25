@@ -13,8 +13,8 @@ export default function createEventConsumerTable(
   return [
     new AggressiveMob(mobService, mobService.locationService, fightBuilder),
     new PetFollowsOwner(mobService.locationService),
-    new MobArrives(gameServer, mobService.locationService),
-    new MobLeaves(gameServer, mobService.locationService),
-    new Scavenge(gameServer, itemService, mobService.locationService),
+    new MobArrives(gameServer.clientService),
+    new MobLeaves(gameServer.clientService),
+    new Scavenge(gameServer.clientService, itemService, mobService.locationService),
   ]
 }
