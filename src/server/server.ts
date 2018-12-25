@@ -1,7 +1,10 @@
 import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
+import createEventConsumerTable from "../event/eventConsumerTable"
+import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
 import ResetService from "../gameService/resetService"
+import FightBuilder from "../mob/fight/fightBuilder"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
 import { getPlayerRepository } from "../player/repository/player"
@@ -24,8 +27,8 @@ enum Status {
 }
 
 export class GameServer {
+  public readonly clients: Client[] = []
   private status: Status = Status.Initialized
-  private clients: Client[] = []
   private authService: AuthService
   private actions
 
@@ -41,6 +44,8 @@ export class GameServer {
       throw new Error("Status must be initialized to start")
     }
 
+    this.service.setEventService(
+      new EventService(createEventConsumerTable(this, this.mobService, new FightBuilder(this.service))))
     this.authService = new AuthService(await getPlayerRepository())
     this.actions = getActionCollection(this.service)
     this.status = Status.Started

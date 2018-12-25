@@ -5,11 +5,14 @@ import CheckComponent from "../check/checkComponent"
 import CheckedRequest from "../check/checkedRequest"
 import { CheckStatus } from "../check/checkStatus"
 import { Client } from "../client/client"
+import eventConsumerTable from "../event/eventConsumerTable"
+import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
 import ServiceBuilder from "../gameService/serviceBuilder"
 import { Item } from "../item/model/item"
 import { newMobLocation } from "../mob/factory"
 import { Fight } from "../mob/fight/fight"
+import FightBuilder from "../mob/fight/fightBuilder"
 import { Mob } from "../mob/model/mob"
 import Shop from "../mob/model/shop"
 import { AuthorizationLevel } from "../player/authorizationLevel"
@@ -24,6 +27,7 @@ import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
+import {GameServer} from "../server/server"
 import { default as AuthService } from "../session/auth/service"
 import SkillDefinition from "../skill/skillDefinition"
 import { getSkillTable } from "../skill/skillTable"
@@ -208,6 +212,9 @@ export default class TestBuilder {
     if (!this.service) {
       this.service = await this.serviceBuilder.createService()
     }
+    const gameServer = new GameServer(null, this.service, null, null, this.service.mobService)
+    this.service.setEventService(
+      new EventService(eventConsumerTable(gameServer, this.service.mobService, new FightBuilder(this.service))))
     return this.service
   }
 
