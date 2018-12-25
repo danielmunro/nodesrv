@@ -1,4 +1,5 @@
-import {Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm"
+import {Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn} from "typeorm"
+import * as v4 from "uuid"
 import collectionSearch from "../../support/matcher/collectionSearch"
 import { format } from "../../support/string"
 import { Item } from "./item"
@@ -7,6 +8,10 @@ import { Item } from "./item"
 export class Inventory {
   @PrimaryGeneratedColumn()
   public id: number
+
+  @Column("text")
+  @Generated("uuid")
+  public uuid: string = v4()
 
   @OneToMany((type) => Item, (item) => item.inventory, { cascadeInsert: true, cascadeUpdate: true })
   public items: Item[] = []

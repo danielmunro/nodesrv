@@ -45,7 +45,8 @@ export class GameServer {
     }
 
     this.service.setEventService(
-      new EventService(createEventConsumerTable(this, this.mobService, new FightBuilder(this.service))))
+      new EventService(createEventConsumerTable(
+        this, this.mobService, this.service.itemService, new FightBuilder(this.service))))
     this.authService = new AuthService(await getPlayerRepository())
     this.actions = getActionCollection(this.service)
     this.status = Status.Started
