@@ -5,7 +5,7 @@ import { Exit } from "./model/exit"
 export default class ExitTable {
   constructor(
     private readonly locationService: LocationService,
-    private readonly exits: Exit[]) {}
+    private readonly exits: Exit[] = []) {}
 
   public exitsForMob(mob: Mob): Exit[] {
     const location = this.locationService.getLocationForMob(mob)

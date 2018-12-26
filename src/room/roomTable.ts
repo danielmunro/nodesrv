@@ -7,7 +7,7 @@ export default class RoomTable {
     return new RoomTable(roomsById)
   }
 
-  constructor(private readonly roomsById: object) {}
+  constructor(private readonly roomsById: object = {}) {}
 
   public getRooms(): Room[] {
     return Object.values(this.roomsById)

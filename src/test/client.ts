@@ -21,7 +21,7 @@ async function createClient(player, actions, service, startRoom, locationService
 }
 
 export async function getTestClient(player = getTestPlayer(), room = getTestRoom()): Promise<Client> {
-  const service = await GameService.new(new MobService(), null)
+  const service = new GameService(new MobService(), null, null, null)
   const actions = service.getActionCollection()
   const client = await createClient(player, actions, service, room, service.mobService.locationService)
   await client.session.login(player)

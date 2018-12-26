@@ -60,7 +60,7 @@ describe("ticks", () => {
     mob2.attributes.push(newStartingAttributes(newVitals(1000, 0, 0)))
 
     const tick = new Tick(
-      await GameService.new((await testBuilder.getService()).mobService),
+      new GameService((await testBuilder.getService()).mobService, null, null, null),
       new LocationService([
         newMobLocation(mob1, getTestRoom()),
         newMobLocation(mob2, getTestRoom()),

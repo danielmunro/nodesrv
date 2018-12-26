@@ -19,7 +19,7 @@ jest.mock("../../client/client")
 async function getMockClient(room = getTestRoom()): Promise<Client> {
   const locationService = new LocationService([])
   const client = new Client(null, null, null, null, null, null, locationService)
-  client.service = await GameService.new(new MobService(), null)
+  client.service = new GameService(new MobService(), null, null, null)
   client.player = getTestPlayer()
   client.session = new Session(client, new Complete(client.player), locationService)
   client.player.sessionMob = getTestMob()

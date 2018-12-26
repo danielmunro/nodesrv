@@ -18,17 +18,6 @@ import DefinitionService from "./definitionService"
 import TimeService from "./timeService"
 
 export default class GameService {
-  public static async new(
-    mobService: MobService,
-    itemService: ItemService,
-    roomTable: RoomTable = new RoomTable({}),
-    exitTable: ExitTable = new ExitTable(mobService.locationService, []),
-    time: number = 0,
-  ): Promise<GameService> {
-    return new GameService(
-      mobService, roomTable, itemService, exitTable, time)
-  }
-
   private readonly timeService: TimeService
   private eventService: EventService
   private actionCollection: Collection
