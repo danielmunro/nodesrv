@@ -104,6 +104,9 @@ export const Messages = {
   Sleep: {
     AlreadySleeping: "You are already asleep.",
   },
+  Social: {
+    LackingStanding: "You need to cool off before doing that.",
+  },
   Train: {
     CannotTrainMore: "You can't train that anymore.",
     LackingTrains: "You need more training sessions first.",

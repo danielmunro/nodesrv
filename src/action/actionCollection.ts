@@ -67,6 +67,7 @@ import { default as putPrecondition } from "./precondition/put"
 import { default as removePrecondition } from "./precondition/remove"
 import { default as sacrificePrecondition } from "./precondition/sacrifice"
 import { default as sellPrecondition } from "./precondition/sell"
+import { default as socialPrecondition } from "./precondition/socialPrecondition"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as unlockPrecondition } from "./precondition/unlock"
 import { default as wearPrecondition } from "./precondition/wear"
@@ -130,8 +131,8 @@ export default function getActionCollection(service: GameService) {
     definition.action(RequestType.Sell, sell, sellPrecondition),
 
     // social
-    definition.action(RequestType.Gossip, gossip),
-    definition.action(RequestType.Say, say),
+    definition.action(RequestType.Gossip, gossip, socialPrecondition),
+    definition.action(RequestType.Say, say, socialPrecondition),
 
     // training
     definition.action(RequestType.Train, train, trainPrecondition),
