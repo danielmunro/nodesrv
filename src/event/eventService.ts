@@ -9,11 +9,11 @@ export default class EventService {
     this.eventConsumers.push(eventConsumer)
   }
 
-  public publish(event: Event) {
+  public async publish(event: Event) {
     let response = EventResponse.Unhandled
     for (const eventConsumer of this.eventConsumers) {
       if (eventConsumer.getConsumingEventTypes().includes(event.getEventType())) {
-        response = eventConsumer.consume(event)
+        response = await eventConsumer.consume(event)
         if (response === EventResponse.Satisfied) {
           return response
         }

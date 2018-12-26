@@ -20,11 +20,11 @@ export default class Scavenge implements EventConsumer {
     return [EventType.MobArrived, EventType.ItemDropped]
   }
 
-  public consume(event: MobEvent): EventResponse {
+  public async consume(event: MobEvent): Promise<EventResponse> {
     if (event.mob.traits.scavenger) {
       this.scavenge(event.mob)
     }
-    return EventResponse.None
+    return Promise.resolve(EventResponse.None)
   }
 
   private scavenge(mob: Mob) {

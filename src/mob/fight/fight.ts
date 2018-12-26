@@ -14,6 +14,8 @@ import { BodyPart } from "../race/bodyParts"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import Death from "./death"
 import { Round } from "./round"
+import MobEvent from "../../event/event/mobEvent"
+import {EventType} from "../../event/eventType"
 
 enum Status {
   InProgress,
@@ -123,6 +125,7 @@ export class Fight {
       damage)
 
     defender.vitals.hp -= damage
+    await this.service.publishEvent(new MobEvent(EventType.AttackRound, attacker, this))
 
     return new Attack(
       attacker,

@@ -13,9 +13,9 @@ export default class PetFollowsOwner implements EventConsumer {
     return [EventType.MobLeft]
   }
 
-  public consume(event: MobEvent): EventResponse {
+  public async consume(event: MobEvent): Promise<EventResponse> {
     this.followIfPetOfMob(event.mob, event.context as Room)
-    return EventResponse.None
+    return Promise.resolve(EventResponse.None)
   }
 
   private followIfPetOfMob(mob: Mob, roomLeft: Room) {

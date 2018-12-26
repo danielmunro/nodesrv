@@ -4,5 +4,5 @@ import {EventType} from "./eventType"
 
 export default interface EventConsumer {
   getConsumingEventTypes(): EventType[]
-  consume(event: Event): EventResponse
+  consume(event: Event): Promise<EventResponse>
 }

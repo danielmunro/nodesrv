@@ -8,7 +8,7 @@ import Response from "../../request/response"
 import {ActionOutcome} from "../actionOutcome"
 import {Messages} from "./constants"
 
-export default function(checkedRequest: CheckedRequest, service: GameService): Promise<Response> {
+export default async function(checkedRequest: CheckedRequest, service: GameService): Promise<Response> {
   const item = checkedRequest.check.result as Item
   const room = checkedRequest.request.getRoom()
   let actionOutcome = null
@@ -19,7 +19,7 @@ export default function(checkedRequest: CheckedRequest, service: GameService): P
     room.inventory.addItem(item)
   }
 
-  service.publishEvent(new MobEvent(EventType.ItemDropped, checkedRequest.mob, item))
+  await service.publishEvent(new MobEvent(EventType.ItemDropped, checkedRequest.mob, item))
 
   return checkedRequest.respondWith(actionOutcome, item).success(
     Messages.Drop.Success,

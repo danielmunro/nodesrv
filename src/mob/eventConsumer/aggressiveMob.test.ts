@@ -14,7 +14,7 @@ describe("aggressive mob event consumer", () => {
     testBuilder.withMob().mob.traits.aggressive = true
 
     // when
-    gameService.publishEvent(new MobEvent(EventType.MobArrived, mob1))
+    await gameService.publishEvent(new MobEvent(EventType.MobArrived, mob1))
 
     // then
     const fight = gameService.mobService.findFight(f => f.isParticipant(mob1))
@@ -34,7 +34,7 @@ describe("aggressive mob event consumer", () => {
     mob1.level = mob2.level + 1
 
     // when
-    gameService.publishEvent(new MobEvent(EventType.MobArrived, mob1))
+    await gameService.publishEvent(new MobEvent(EventType.MobArrived, mob1))
 
     // then
     const fight = gameService.mobService.findFight(f => f.isParticipant(mob1))

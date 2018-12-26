@@ -19,7 +19,7 @@ describe("pet follows owner event consumer", () => {
 
     // when
     gameService.mobService.locationService.updateMobLocation(mob1, room2)
-    gameService.publishEvent(new MobEvent(EventType.MobLeft, mob1, room1))
+    await gameService.publishEvent(new MobEvent(EventType.MobLeft, mob1, room1))
 
     // then
     const mob2Location = gameService.getMobLocation(mob2)

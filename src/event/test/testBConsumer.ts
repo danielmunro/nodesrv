@@ -8,7 +8,7 @@ export default class TestBConsumer implements EventConsumer {
     return [EventType.TestB]
   }
 
-  public consume(event: Event): EventResponse {
+  public async consume(event: Event): Promise<EventResponse> {
     return EventResponse.None
   }
 }

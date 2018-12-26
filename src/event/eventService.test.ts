@@ -6,15 +6,15 @@ import TestBConsumer from "./test/testBConsumer"
 import TestEvent from "./test/testEvent"
 
 describe("event service", () => {
-  it("should correct events to consumers", () => {
+  it("should correct events to consumers", async () => {
     const eventService = new EventService()
     eventService.addConsumer(new TestAConsumer())
     eventService.addConsumer(new TestAConsumer())
     eventService.addConsumer(new TestBConsumer())
     eventService.addConsumer(new TestBConsumer())
 
-    expect(eventService.publish(new TestEvent(EventType.TestA))).toBe(EventResponse.Satisfied)
-    expect(eventService.publish(new TestEvent(EventType.TestB))).toBe(EventResponse.None)
-    expect(eventService.publish(new TestEvent(EventType.TestC))).toBe(EventResponse.Unhandled)
+    expect(await eventService.publish(new TestEvent(EventType.TestA))).toBe(EventResponse.Satisfied)
+    expect(await eventService.publish(new TestEvent(EventType.TestB))).toBe(EventResponse.None)
+    expect(await eventService.publish(new TestEvent(EventType.TestC))).toBe(EventResponse.Unhandled)
   })
 })

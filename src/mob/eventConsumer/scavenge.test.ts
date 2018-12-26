@@ -24,7 +24,7 @@ describe("scavenge", () => {
     const itemService = service.itemService
 
     // when
-    service.publishEvent(new MobEvent(EventType.MobArrived, mob, roomBuilder.room))
+    await service.publishEvent(new MobEvent(EventType.MobArrived, mob, roomBuilder.room))
 
     // then
     return setTimeout(() => {

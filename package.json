@@ -10,7 +10,7 @@
     "lint": "yarn clean && tslint --project .",
     "test": "ENV=test jest --forceExit --detectOpenHandles --bail -w 2",
     "reset-test-db": "ts-node bin/reset-test-db.ts",
-    "test-coverage": "ENV=test jest --coverage --forceExit --detectOpenHandles",
+    "test-coverage": "yarn test --coverage",
     "complexity": "ts-complexity --max-complexity 14 src/**/*"
   },
   "repository": "https://github.com/danielmunro/nodesrv",

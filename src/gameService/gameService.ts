@@ -76,7 +76,7 @@ export default class GameService {
     return new DefinitionService(this)
   }
 
-  public publishEvent(event: Event): EventResponse {
+  public publishEvent(event: Event): Promise<EventResponse> {
     return this.eventService.publish(event)
   }
 }
