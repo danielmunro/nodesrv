@@ -1,9 +1,9 @@
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
+import {CheckType} from "../../check/checkType"
 import GameService from "../../gameService/gameService"
 import {Request} from "../../request/request"
 import {MESSAGE_ERROR_NO_ITEM, Messages} from "./constants"
-import {CheckType} from "../../check/checkType"
 
 export default function(request: Request, service: GameService): Promise<Check> {
   const subject = request.getContextAsInput().subject
