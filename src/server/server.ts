@@ -27,7 +27,6 @@ enum Status {
 }
 
 export class GameServer {
-  public readonly clients: Client[] = []
   public readonly clientService: ClientService
   private status: Status = Status.Initialized
   private authService: AuthService
@@ -91,7 +90,7 @@ export class GameServer {
   }
 
   public addObserver(observer: Observer, timer: Timer): void {
-    poll(() => observer.notify(this.clients), timer)
+    poll(() => observer.notify(this.clientService.getClients()), timer)
     if (timer instanceof ImmediateTimer) {
       observer.notify(this.clientService.getClients())
     }
