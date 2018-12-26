@@ -12,7 +12,7 @@ before_script:
   - cp ormconfig-travis.json ormconfig.json
   - yarn lint
 script:
-  - yarn test-coverage -i
+  - yarn test-coverage
   - sonar-scanner
 addons:
   sonarcloud:
