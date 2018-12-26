@@ -5,7 +5,6 @@ import {Direction} from "../../room/constants"
 import {newDoor} from "../../room/factory"
 import {Room} from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import getActionCollection from "../actionCollection"
 import {Definition} from "../definition/definition"
 import {Messages} from "../precondition/constants"
 
@@ -27,8 +26,7 @@ describe("lock action", () => {
     mob = playerBuilder.player.sessionMob
     const service = await testBuilder.getService()
     service.itemService.add(key)
-    const actionCollection = getActionCollection(service)
-    definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Lock)
+    definition = await testBuilder.getActionDefinition(RequestType.Lock)
   })
 
   it("should require arguments", async () => {

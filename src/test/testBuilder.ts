@@ -1,4 +1,3 @@
-import getActionCollection from "../action/actionCollection"
 import { Collection } from "../action/definition/collection"
 import Check from "../check/check"
 import CheckComponent from "../check/checkComponent"
@@ -63,7 +62,7 @@ export default class TestBuilder {
     const client = new Client(
       ws(),
       "127.0.0.1",
-      getActionCollection(service),
+      service.getActionCollection(),
       service,
       this.room,
       new AuthService(await getPlayerRepository()),
@@ -191,7 +190,11 @@ export default class TestBuilder {
   }
 
   public async getActionCollection(): Promise<Collection> {
-    return getActionCollection(await this.getService())
+    return (await this.getService()).getActionCollection()
+  }
+
+  public async getActionDefinition(requestType: RequestType) {
+    return (await this.getService()).getActionDefinition(requestType)
   }
 
   public async getSkillDefinition(skillType: SkillType): Promise<SkillDefinition> {

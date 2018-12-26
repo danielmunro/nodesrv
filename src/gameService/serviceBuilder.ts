@@ -54,14 +54,14 @@ export default class ServiceBuilder {
   }
 
   public async createService(): Promise<GameService> {
-    return GameService.new(
+    return new GameService(
       new MobService(
         new MobTable(this.mobs),
         new MobTable(this.mobs),
         new FightTable(this.fights),
         this.locationService),
-      new ItemService(new ItemTable(this.items), new ItemTable(this.items)),
       RoomTable.new(this.rooms),
+      new ItemService(new ItemTable(this.items), new ItemTable(this.items)),
       new ExitTable(this.locationService, this.exits),
       this.time)
   }

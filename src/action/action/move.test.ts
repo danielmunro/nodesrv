@@ -1,22 +1,32 @@
+import GameService from "../../gameService/gameService"
+import {Mob} from "../../mob/model/mob"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { Direction } from "../../room/constants"
 import Door from "../../room/model/door"
+import {Room} from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import getActionCollection from "../actionCollection"
+import {Definition} from "../definition/definition"
 import {Messages} from "../precondition/constants"
+
+let testBuilder: TestBuilder
+let service: GameService
+let definition: Definition
+let mob: Mob
+let source: Room
+let destination: Room
+
+beforeEach(async () => {
+  testBuilder = new TestBuilder()
+  source = testBuilder.withRoom().room
+  destination = testBuilder.withRoom(Direction.East).room
+  mob = (await testBuilder.withPlayer()).player.sessionMob
+  service = await testBuilder.getService()
+  definition = await testBuilder.getActionDefinition(RequestType.East)
+})
 
 describe("move", () => {
   it("should allow movement where rooms connect", async () => {
-    // given
-    const testBuilder = new TestBuilder()
-    testBuilder.withRoom()
-    const destination = testBuilder.withRoom(Direction.East).room
-    const mob = (await testBuilder.withPlayer()).player.sessionMob
-    const service = await testBuilder.getService()
-    const actionCollection = getActionCollection(service)
-    const definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.East)
-
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.East))
 
@@ -26,15 +36,6 @@ describe("move", () => {
   })
 
   it("should not allow movement when an exit has a closed door", async () => {
-    // setup
-    const testBuilder = new TestBuilder()
-    const source = testBuilder.withRoom().room
-    testBuilder.withRoom(Direction.East)
-    const mob = (await testBuilder.withPlayer()).player.sessionMob
-    const service = await testBuilder.getService()
-    const actionCollection = getActionCollection(service)
-    const definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.East)
-
     // given
     const door = new Door()
     door.isClosed = true

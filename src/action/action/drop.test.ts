@@ -5,7 +5,6 @@ import { Mob } from "../../mob/model/mob"
 import { RequestType } from "../../request/requestType"
 import { Room } from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import getActionCollection from "../actionCollection"
 import { Definition } from "../definition/definition"
 
 let testBuilder: TestBuilder
@@ -20,8 +19,7 @@ beforeEach(async () => {
   const playerBuilder = await testBuilder.withPlayer()
   mob = playerBuilder.player.sessionMob
   equipment = playerBuilder.withHelmetEq()
-  const actionCollection = getActionCollection(await testBuilder.getService())
-  actionDefinition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Drop)
+  actionDefinition = await testBuilder.getActionDefinition(RequestType.Drop)
 })
 
 describe("drop", () => {

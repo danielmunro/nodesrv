@@ -5,7 +5,6 @@ import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import PlayerBuilder from "../../test/playerBuilder"
 import TestBuilder from "../../test/testBuilder"
-import getActionCollection from "../actionCollection"
 import { Definition } from "../definition/definition"
 import { Messages } from "../precondition/constants"
 import { MAX_TRAINABLE_STATS } from "./constants"
@@ -24,8 +23,7 @@ beforeEach(async () => {
   player = playerBuilder.player
   trainedAttributes = player.sessionMob.playerMob.trainedAttributes
   player.sessionMob.playerMob.trains = 1
-  definition = getActionCollection(await testBuilder.getService())
-    .getMatchingHandlerDefinitionForRequestType(RequestType.Train)
+  definition = await testBuilder.getActionDefinition(RequestType.Train)
 })
 
 describe("train action", () => {

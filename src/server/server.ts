@@ -1,4 +1,3 @@
-import getActionCollection from "../action/actionCollection"
 import { Client } from "../client/client"
 import createEventConsumerTable from "../event/eventConsumerTable"
 import EventService from "../event/eventService"
@@ -52,7 +51,7 @@ export class GameServer {
       new EventService(await createEventConsumerTable(
         this, this.mobService, this.service.itemService, new FightBuilder(this.service))))
     this.authService = new AuthService(await getPlayerRepository())
-    this.actions = getActionCollection(this.service)
+    this.actions = this.service.getActionCollection()
     this.status = Status.Started
     this.wss.on(events.connection, this.addWS.bind(this))
     this.addObserver(new DecrementPlayerDelay(), new SecondIntervalTimer())

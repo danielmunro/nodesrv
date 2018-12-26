@@ -4,7 +4,6 @@ import { Equipment } from "../../item/equipment"
 import { newEquipment } from "../../item/factory"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import getActionCollection from "../actionCollection"
 import { Messages } from "../precondition/constants"
 
 const itemName = "token"
@@ -21,8 +20,7 @@ describe("sacrifice action", () => {
     const mobBuilder = testBuilder.withMob()
     testBuilder.room.inventory.addItem(item)
 
-    const definition = getActionCollection(await testBuilder.getService())
-      .getMatchingHandlerDefinitionForRequestType(RequestType.Sacrifice)
+    const definition = await testBuilder.getActionDefinition(RequestType.Sacrifice)
 
     const response = await definition.handle(
       testBuilder.createRequest(RequestType.Sacrifice, `sacrifice ${itemName}`, item))
@@ -39,8 +37,7 @@ describe("sacrifice action", () => {
     testBuilder.withMob()
     testBuilder.room.inventory.addItem(item)
 
-    const definition = getActionCollection(await testBuilder.getService())
-      .getMatchingHandlerDefinitionForRequestType(RequestType.Sacrifice)
+    const definition = await testBuilder.getActionDefinition(RequestType.Sacrifice)
 
     const response = await definition.handle(
       testBuilder.createRequest(RequestType.Sacrifice, `sacrifice ${itemName}`, item))

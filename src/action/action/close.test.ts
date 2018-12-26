@@ -6,7 +6,6 @@ import {Direction} from "../../room/constants"
 import {newDoor} from "../../room/factory"
 import {Room} from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import getActionCollection from "../actionCollection"
 import {Definition} from "../definition/definition"
 import {Messages} from "../precondition/constants"
 
@@ -29,9 +28,7 @@ describe("close action", () => {
     item.container.isClosed = false
     item.container.isCloseable = true
     mob.inventory.addItem(item)
-    const service = await testBuilder.getService()
-    const actionCollection = getActionCollection(service)
-    definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Close)
+    definition = await testBuilder.getActionDefinition(RequestType.Close)
   })
 
   describe("closing doors", () => {

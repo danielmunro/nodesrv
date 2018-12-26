@@ -10,7 +10,6 @@ import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { Room } from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import getActionCollection from "../actionCollection"
 import { Definition } from "../definition/definition"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
 
@@ -25,6 +24,7 @@ beforeEach(async () => {
   room = testBuilder.withRoom().room
   const playerBuilder = await testBuilder.withPlayer()
   player = playerBuilder.player
+  definition = await testBuilder.getActionDefinition(RequestType.Look)
 })
 
 function getTestItem(): Item {
@@ -36,10 +36,6 @@ function getTestItem(): Item {
 
 describe("look", () => {
   it("should describe a room when no arguments are provided", async () => {
-    // setup
-    const actionCollection = getActionCollection(await testBuilder.getService())
-    definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
-
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Look))
     const message = response.message.getMessageToRequestCreator()
@@ -50,10 +46,6 @@ describe("look", () => {
   })
 
   it("should let the player know if the thing they want to look at does not exist", async () => {
-    // setup
-    const actionCollection = getActionCollection(await testBuilder.getService())
-    definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
-
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Look, "look foo"))
 
@@ -63,10 +55,6 @@ describe("look", () => {
   })
 
   it("should describe a mob when a mob is present", async () => {
-    // setup
-    const actionCollection = getActionCollection(await testBuilder.getService())
-    definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
-
     // given
     const mob = testBuilder.withMob("alice").mob
 
@@ -79,10 +67,6 @@ describe("look", () => {
   })
 
   it("should be able to describe an item in the room", async () => {
-    // setup
-    const actionCollection = getActionCollection(await testBuilder.getService())
-    definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
-
     // given
     const item = getTestItem()
     room.inventory.addItem(item)
@@ -97,10 +81,6 @@ describe("look", () => {
   })
 
   it("should be able to describe an item in the session mob's inventory", async () => {
-    // setup
-    const actionCollection = getActionCollection(await testBuilder.getService())
-    definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
-
     // given
     const item = getTestItem()
     player.sessionMob.inventory.addItem(item)
@@ -115,10 +95,6 @@ describe("look", () => {
   })
 
   it("should not be able to see if blind", async () => {
-    // setup
-    const actionCollection = getActionCollection(await testBuilder.getService())
-    definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
-
     // given
     player.sessionMob.addAffect(newAffect(AffectType.Blind))
 
@@ -130,14 +106,10 @@ describe("look", () => {
   })
 
   it("should see in a dark room if holding something glowing", async () => {
-    // setup
-    testBuilder.setTime(0)
-    const actionCollection = getActionCollection(await testBuilder.getService())
-    definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
-
     // given
     room.region = newRegion("test", Terrain.Forest, Weather.Storming)
     const service = await testBuilder.getService()
+    service.timeService.time = 0
     player.sessionMob.race = Race.HalfOrc
 
     // when

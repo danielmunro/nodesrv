@@ -56,8 +56,7 @@ initializeConnection().then(async () => {
   console.timeEnd(Timings.seedItems)
 
   console.time(Timings.openPort)
-  const gameService = await GameService.new(
-    mobService, itemService, roomTable, exitTable)
+  const gameService = new GameService(mobService, roomTable, itemService, exitTable)
   const server = await newServer(
     gameService,
     port,
