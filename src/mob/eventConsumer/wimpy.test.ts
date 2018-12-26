@@ -1,7 +1,7 @@
 import MobEvent from "../../event/event/mobEvent"
+import {EventResponse} from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import TestBuilder from "../../test/testBuilder"
-import {EventResponse} from "../../event/eventResponse"
 
 describe("wimpy", () => {
   it("should cause a weak mob to flee", async () => {

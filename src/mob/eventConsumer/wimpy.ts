@@ -1,16 +1,16 @@
+import {Definition} from "../../action/definition/definition"
 import MobEvent from "../../event/event/mobEvent"
 import EventConsumer from "../../event/eventConsumer"
 import {EventResponse} from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
-import {Mob} from "../model/mob"
-import {Fight} from "../fight/fight"
-import {Definition} from "../../action/definition/definition"
 import GameService from "../../gameService/gameService"
-import {Request} from "../../request/request"
-import LocationService from "../locationService"
 import EventContext from "../../request/context/eventContext"
+import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import {Trigger} from "../enum/trigger"
+import {Fight} from "../fight/fight"
+import LocationService from "../locationService"
+import {Mob} from "../model/mob"
 
 export default class Wimpy implements EventConsumer {
   private static isWimpy(mob: Mob, target: Mob) {
@@ -18,7 +18,6 @@ export default class Wimpy implements EventConsumer {
   }
 
   constructor(
-    private readonly gameService: GameService,
     private readonly locationService: LocationService,
     private readonly fleeDefinition: Definition) {}
 

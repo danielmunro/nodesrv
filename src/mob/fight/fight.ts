@@ -1,5 +1,7 @@
 import { applyAffectModifier } from "../../affect/applyAffect"
 import Attributes from "../../attributes/model/attributes"
+import MobEvent from "../../event/event/mobEvent"
+import {EventType} from "../../event/eventType"
 import GameService from "../../gameService/gameService"
 import roll, { simpleD4 } from "../../random/dice"
 import { Room } from "../../room/model/room"
@@ -14,8 +16,6 @@ import { BodyPart } from "../race/bodyParts"
 import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
 import Death from "./death"
 import { Round } from "./round"
-import MobEvent from "../../event/event/mobEvent"
-import {EventType} from "../../event/eventType"
 
 enum Status {
   InProgress,
