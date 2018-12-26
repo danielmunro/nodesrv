@@ -12,7 +12,7 @@ export default class MobArrives implements EventConsumer {
     return [EventType.MobArrived]
   }
 
-  public consume(event: MobEvent): EventResponse {
+  public async consume(event: MobEvent): Promise<EventResponse> {
     this.announceArrival(event.mob)
     return EventResponse.None
   }

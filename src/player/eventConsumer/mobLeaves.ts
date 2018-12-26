@@ -12,7 +12,7 @@ export default class MobLeaves implements EventConsumer {
     return [EventType.MobLeft]
   }
 
-  public consume(event: MobEvent): EventResponse {
+  public async consume(event: MobEvent): Promise<EventResponse> {
     this.announceLeaving(event.mob)
     return EventResponse.None
   }

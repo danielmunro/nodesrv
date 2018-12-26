@@ -214,7 +214,7 @@ export default class TestBuilder {
     }
     const gameServer = new GameServer(null, this.service, null, null, this.service.mobService)
     this.service.setEventService(
-      new EventService(eventConsumerTable(
+      new EventService(await eventConsumerTable(
         gameServer, this.service.mobService, this.service.itemService, new FightBuilder(this.service))))
     return this.service
   }

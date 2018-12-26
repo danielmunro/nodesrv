@@ -1,3 +1,6 @@
+import actionCollection from "../action/actionCollection"
+import {Collection} from "../action/definition/collection"
+import {Definition} from "../action/definition/definition"
 import Event from "../event/event"
 import MobEvent from "../event/event/mobEvent"
 import {EventResponse} from "../event/eventResponse"
@@ -6,6 +9,7 @@ import {EventType} from "../event/eventType"
 import ItemService from "../item/itemService"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
+import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import ExitTable from "../room/exitTable"
 import {Room} from "../room/model/room"
@@ -27,6 +31,7 @@ export default class GameService {
 
   private readonly timeService: TimeService
   private eventService: EventService
+  private actionCollection: Collection
 
   constructor(
     public readonly mobService: MobService,
@@ -60,8 +65,8 @@ export default class GameService {
     const source = this.roomTable.get(exit.source.uuid)
     const destination = this.roomTable.get(exit.destination.uuid)
     this.mobService.locationService.updateMobLocation(mob, destination)
-    this.eventService.publish(new MobEvent(EventType.MobLeft, mob, source))
-    this.eventService.publish(new MobEvent(EventType.MobArrived, mob, destination))
+    await this.eventService.publish(new MobEvent(EventType.MobLeft, mob, source))
+    await this.eventService.publish(new MobEvent(EventType.MobArrived, mob, destination))
   }
 
   public getMobLocation(mob: Mob) {
@@ -78,5 +83,16 @@ export default class GameService {
 
   public publishEvent(event: Event): Promise<EventResponse> {
     return this.eventService.publish(event)
+  }
+
+  public getActionCollection(): Collection {
+    if (!this.actionCollection) {
+      this.actionCollection = actionCollection(this)
+    }
+    return this.actionCollection
+  }
+
+  public async getActionDefinition(requestType: RequestType): Promise<Definition> {
+    return this.getActionCollection().getMatchingHandlerDefinitionForRequestType(requestType)
   }
 }
