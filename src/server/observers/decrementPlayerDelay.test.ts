@@ -1,5 +1,9 @@
+import {getConnection, initializeConnection} from "../../support/db/connection"
 import { getTestClient } from "../../test/client"
 import { DecrementPlayerDelay } from "./decrementPlayerDelay"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("decrement player delay", () => {
   it("should decrement delay for players if needed", async () => {

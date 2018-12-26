@@ -1,8 +1,12 @@
+import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
 import Name from "../login/name"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Complete from "./complete"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("create player auth step: complete", () => {
   it("should proceed to the final step unconditionally", async () => {

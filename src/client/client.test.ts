@@ -6,6 +6,7 @@ import { RequestType } from "../request/requestType"
 import { default as AuthRequest } from "../session/auth/request"
 import { SkillType } from "../skill/skillType"
 import { Channel } from "../social/channel"
+import {getConnection, initializeConnection} from "../support/db/connection"
 import doNTimes from "../support/functional/times"
 import { getTestClient, getTestClientLoggedOut } from "../test/client"
 import { getTestRoom } from "../test/room"
@@ -19,10 +20,14 @@ function getNewTestMessageEvent(message = "hello world") {
 
 let testBuilder: TestBuilder
 let client: Client
+
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   client = await testBuilder.withClient()
 })
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("client sanity checks", () => {
   it("has requests sanity check", () => {

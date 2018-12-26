@@ -4,6 +4,7 @@ import FightTable from "../mob/fight/fightTable"
 import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
+import {getConnection, initializeConnection} from "../support/db/connection"
 import { DontExecuteTestObserver } from "../test/dontExecuteTestObserver"
 import { ExpectTestObserver } from "../test/expectTestObserver"
 import { getTestRoom } from "../test/room"
@@ -25,6 +26,9 @@ async function getGameServer(): Promise<GameServer> {
 }
 
 const mockWs = jest.fn(() => ({ send: jest.fn() }))
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 beforeEach(() => {
   ws = new Server("ws://localhost:1234")

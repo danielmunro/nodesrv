@@ -1,9 +1,13 @@
 import { allSpecializations } from "../../../mob/specialization/constants"
+import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Complete from "./complete"
 import Specialization from "./specialization"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("specialization create mob auth step", () => {
   it("should not allow invalid specialization options", async () => {

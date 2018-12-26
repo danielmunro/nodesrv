@@ -1,11 +1,15 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import MobTable from "../../mob/mobTable"
+import {getConnection, initializeConnection} from "../../support/db/connection"
 import { getTestClient } from "../../test/client"
 import { decrementAffects } from "./decrementAffects"
 
 const TEST_TIMEOUT_1 = 50
 const TEST_TIMEOUT_2 = 122
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("decrementAffects", () => {
   it("should decrement all affects for a mob", async () => {

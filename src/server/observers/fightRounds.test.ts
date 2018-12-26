@@ -1,9 +1,13 @@
 import { Disposition } from "../../mob/enum/disposition"
 import { Attack, AttackResult } from "../../mob/fight/attack"
+import {getConnection, initializeConnection} from "../../support/db/connection"
 import { getTestClient } from "../../test/client"
 import { getTestMob } from "../../test/mob"
 import TestBuilder from "../../test/testBuilder"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("fight rounds", () => {
   it("should generate accurate attacks messages", () => {

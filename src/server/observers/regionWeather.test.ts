@@ -1,6 +1,10 @@
 import { getRegionRepository } from "../../region/repository/region"
+import {getConnection, initializeConnection} from "../../support/db/connection"
 import { getTestRegion } from "../../test/region"
 import { RegionWeather } from "./regionWeather"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("region weather server observer", () => {
   it("should update some regions", async () => {

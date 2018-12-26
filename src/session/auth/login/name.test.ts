@@ -1,6 +1,7 @@
 import * as sillyname from "sillyname"
 import { Client } from "../../../client/client"
 import { savePlayer } from "../../../player/service"
+import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
 import { getTestMob } from "../../../test/mob"
 import Complete from "../complete"
@@ -21,6 +22,9 @@ async function createAuthUser(name: string): Promise<Client> {
 
   return client
 }
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("auth login name", () => {
   it("should be able to request a new mob", async () => {

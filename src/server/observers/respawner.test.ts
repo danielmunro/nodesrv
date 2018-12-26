@@ -7,9 +7,13 @@ import MobService from "../../mob/mobService"
 import { default as MobTable } from "../../mob/mobTable"
 import { getMobRepository } from "../../mob/repository/mob"
 import RoomTable from "../../room/roomTable"
+import {getConnection, initializeConnection} from "../../support/db/connection"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import Respawner from "./respawner"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("respawner", () => {
   it("should reset dispositions for dead mobs", async () => {

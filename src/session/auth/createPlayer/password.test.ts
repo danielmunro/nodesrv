@@ -1,9 +1,13 @@
+import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
 import { MESSAGE_FAIL_PASSWORD_TOO_SHORT } from "../constants"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Password from "./password"
 import PasswordConfirm from "./passwordConfirm"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("create player password", () => {
   it("should require at least three characters", async () => {

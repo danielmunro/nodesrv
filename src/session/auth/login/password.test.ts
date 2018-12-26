@@ -1,10 +1,14 @@
 import hash from "../../../player/password/hash"
 import { savePlayer } from "../../../player/service"
+import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Name from "./name"
 import Password from "./password"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("password login auth step", () => {
   it("should be able to login in", async () => {

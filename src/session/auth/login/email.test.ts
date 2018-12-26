@@ -1,6 +1,7 @@
 import { v4 } from "uuid"
 import { getPlayerRepository } from "../../../player/repository/player"
 import { savePlayer } from "../../../player/service"
+import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import Response from "../response"
@@ -17,6 +18,9 @@ async function processInput(input: string, client = null): Promise<Response> {
   return new Email(new Service(await getPlayerRepository())).processRequest(
     new Request(client, input))
 }
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("login email auth step", () => {
   it("should disallow invalid email formats", async () => {

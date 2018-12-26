@@ -5,11 +5,15 @@ import { newMobLocation } from "../../mob/factory"
 import LocationService from "../../mob/locationService"
 import { newSkill } from "../../skill/factory"
 import { SkillType } from "../../skill/skillType"
+import {getConnection, initializeConnection} from "../../support/db/connection"
 import doNTimes from "../../support/functional/times"
 import { getTestClient } from "../../test/client"
 import { getTestRoom } from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
 import { Tick } from "./tick"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("ticks", () => {
   it("should call tick on all clients", async () => {
@@ -25,8 +29,10 @@ describe("ticks", () => {
       await getTestClient(),
     ]
 
+    const service = await testBuilder.getService()
+
     const tick = new Tick(
-      await GameService.new((await testBuilder.getService()).mobService),
+      service,
       new LocationService(clients.map(c => newMobLocation(c.getSessionMob(), getTestRoom()))))
 
     // when

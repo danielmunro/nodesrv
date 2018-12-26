@@ -1,5 +1,6 @@
 import LocationService from "../mob/locationService"
 import { getPlayerRepository } from "../player/repository/player"
+import {getConnection, initializeConnection} from "../support/db/connection"
 import { getTestClient } from "../test/client"
 import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
@@ -8,6 +9,9 @@ import Email from "./auth/login/email"
 import Request from "./auth/request"
 import Service from "./auth/service"
 import Session from "./session"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("session", () => {
   it("isLoggedIn sanity check", async () => {

@@ -7,11 +7,15 @@ import {getMobEquipResetRepository} from "../../item/repository/mobEquipReset"
 import {getMobRepository} from "../../mob/repository/mob"
 import {getMobResetRepository} from "../../mob/repository/mobReset"
 import {getRoomRepository} from "../../room/repository/room"
+import {getConnection, initializeConnection} from "../../support/db/connection"
 import ItemTable from "../table/itemTable"
 import MobTable from "../table/mobTable"
 import RoomTable from "../table/roomTable"
 import ImportService from "./importService"
 import ResetImportService from "./resetImportService"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("reset import service", () => {
   it("should create resets", async () => {

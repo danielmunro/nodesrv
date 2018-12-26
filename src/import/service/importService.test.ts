@@ -2,7 +2,11 @@ import ItemBuilder from "../../item/itemBuilder"
 import {getItemRepository} from "../../item/repository/item"
 import {getMobRepository} from "../../mob/repository/mob"
 import {getRoomRepository} from "../../room/repository/room"
+import {getConnection, initializeConnection} from "../../support/db/connection"
 import ImportService from "./importService"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("import service aggregate counts", () => {
   it("should import Midgaard", async () => {

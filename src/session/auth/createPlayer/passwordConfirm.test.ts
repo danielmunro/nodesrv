@@ -1,10 +1,14 @@
 import * as uuid from "uuid"
+import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Complete from "./complete"
 import Password from "./password"
 import PasswordConfirm from "./passwordConfirm"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("create player password confirm auth step", () => {
   it("should work with matching passwords", async () => {

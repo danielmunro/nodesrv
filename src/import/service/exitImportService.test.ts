@@ -3,9 +3,13 @@ import {getItemRepository} from "../../item/repository/item"
 import {getMobRepository} from "../../mob/repository/mob"
 import {getExitRepository} from "../../room/repository/exit"
 import {getRoomRepository} from "../../room/repository/room"
+import {getConnection, initializeConnection} from "../../support/db/connection"
 import RoomTable from "../table/roomTable"
 import ExitImportService from "./exitImportService"
 import ImportService from "./importService"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("exit import service", () => {
   it("should materialize the expected number of exits", async () => {

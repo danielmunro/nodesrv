@@ -1,5 +1,9 @@
+import {getConnection, initializeConnection} from "../support/db/connection"
 import { getTestPlayer } from "../test/player"
 import { savePlayer } from "./service"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("player gameService", () => {
   it("should be able to save a player", async () => {

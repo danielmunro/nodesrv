@@ -1,4 +1,5 @@
 import { getPlayerRepository } from "../../../player/repository/player"
+import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
 import Password from "../createPlayer/password"
 import Request from "../request"
@@ -12,6 +13,9 @@ const TEST_EMAIL = "foo@bar.com"
 async function getNewPlayerConfirm(email: string) {
    return new NewPlayerConfirm(new Service(await getPlayerRepository()), email)
 }
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("new player confirm auth step", () => {
   it("should bounce back to email if the client selects 'n'", async () => {

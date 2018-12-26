@@ -1,9 +1,13 @@
 import { allRaces } from "../../../mob/race/constants"
+import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Race from "./race"
 import Specialization from "./specialization"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("race create mob auth step", () => {
   it("should not allow invalid race options", async () => {
