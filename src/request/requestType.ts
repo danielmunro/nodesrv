@@ -1,6 +1,7 @@
 export enum RequestType {
   Gossip = "gossip",
   Say = "say",
+  Tell = "tell",
   Get = "get",
   Drop = "drop",
   Inventory = "inventory",

@@ -18,8 +18,6 @@ import Email from "../session/auth/login/email"
 import { default as AuthRequest } from "../session/auth/request"
 import { default as AuthService } from "../session/auth/service"
 import Session from "../session/session"
-import { Channel } from "../social/channel"
-import { Message } from "../social/message"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
 
 export function getDefaultUnhandledMessage(request: Request) {
@@ -49,14 +47,6 @@ export class Client {
     }
     this.ws.onerror = (error: ErrorEvent) =>
       console.warn("received error from client ws", { ip: this.ip, message: error.message })
-  }
-
-  public createMessage(channel: Channel, message: string) {
-    return new Message(this.player.sessionMob, channel, message)
-  }
-
-  public isOwnMessage(message: Message): boolean {
-    return message.sender.uuid === this.player.sessionMob.uuid
   }
 
   public hasRequests(): boolean {

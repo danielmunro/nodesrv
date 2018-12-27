@@ -68,9 +68,11 @@ import { default as removePrecondition } from "./precondition/remove"
 import { default as sacrificePrecondition } from "./precondition/sacrifice"
 import { default as sellPrecondition } from "./precondition/sell"
 import { default as socialPrecondition } from "./precondition/socialPrecondition"
+import { default as tellPrecondition } from "./precondition/tell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as unlockPrecondition } from "./precondition/unlock"
 import { default as wearPrecondition } from "./precondition/wear"
+import tell from "./action/tell"
 
 function newMoveDefinition(service: GameService, requestType: RequestType, direction: Direction) {
   return service.definition().action(requestType,
@@ -133,6 +135,7 @@ export default function getActionCollection(service: GameService) {
     // social
     definition.action(RequestType.Gossip, gossip, socialPrecondition),
     definition.action(RequestType.Say, say, socialPrecondition),
+    definition.action(RequestType.Tell, tell, tellPrecondition),
 
     // training
     definition.action(RequestType.Train, train, trainPrecondition),

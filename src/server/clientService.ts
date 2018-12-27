@@ -23,9 +23,16 @@ export default class ClientService {
     return this.clients
   }
 
+  public sendMessageToMob(mob: Mob, message: string) {
+    const client = this.clients.find(c => c.getSessionMob() === mob)
+    if (client) {
+      client.sendMessage(message)
+    }
+  }
+
   public sendMessageInRoom(mob: Mob, message: string): void {
     const mobs = this.getRoomMobs(mob)
-    const clients = this.clients.filter(c => mobs.includes(c.getSessionMob()))
+    const clients = this.clients.filter(c => mobs.includes(c.getSessionMob()) && c.getSessionMob() !== mob)
     clients.forEach(c => c.sendMessage(message))
   }
 

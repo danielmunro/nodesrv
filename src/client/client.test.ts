@@ -5,7 +5,7 @@ import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { default as AuthRequest } from "../session/auth/request"
 import { SkillType } from "../skill/skillType"
-import { Channel } from "../social/channel"
+import { Channel } from "./channel"
 import {getConnection, initializeConnection} from "../support/db/connection"
 import doNTimes from "../support/functional/times"
 import { getTestClient, getTestClientLoggedOut } from "../test/client"
@@ -58,15 +58,6 @@ describe("client sanity checks", () => {
     expect(client.canHandleRequests()).toBeFalsy()
   })
 
-  it("create result sanity checks", () => {
-    // when
-    const messageString = "this is a test"
-    const message = client.createMessage(Channel.Gossip, messageString)
-
-    // then
-    expect(message.message).toBe(messageString)
-  })
-
   it("send sanity test", () => {
     // setup
     const send = jest.fn()
@@ -104,24 +95,6 @@ describe("clients", () => {
     newClient.addRequest(new AuthRequest(newClient, "testemail@email.com"))
     await newClient.handleNextRequest()
     expect(newClient.session.getAuthStepMessage()).not.toBe(authStep)
-  })
-
-  it("should recognize its own messages as its own and not others", async () => {
-    // setup
-    const message = client.createMessage(
-      Channel.Gossip,
-      "this is a test of the public broadcasting system",
-    )
-
-    // expect
-    expect(client.isOwnMessage(message)).toBe(true)
-
-    // when
-    const anotherClient = await getTestClient()
-    const newMessage = anotherClient.createMessage(Channel.Gossip, "hullo")
-
-    // then
-    expect(client.isOwnMessage(newMessage)).toBe(false)
   })
 
   it("should use the default action when no handlers match", async () => {
