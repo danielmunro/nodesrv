@@ -29,6 +29,14 @@ export default class ClientService {
     clients.forEach(c => c.sendMessage(message))
   }
 
+  public sendMessage(mob: Mob, message: string): void {
+    this.clients.forEach(c => {
+      if (c.getSessionMob() !== mob) {
+        c.sendMessage(message)
+      }
+    })
+  }
+
   private getRoomMobs(mob: Mob): Mob[] {
     const location = this.locationService.getLocationForMob(mob)
     return this.locationService.getMobsByRoom(location.room)

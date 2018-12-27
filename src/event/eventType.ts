@@ -3,6 +3,7 @@ export enum EventType {
   MobLeft,
   ItemDropped,
   AttackRound,
+  Social,
   TestA,
   TestB,
   TestC,
