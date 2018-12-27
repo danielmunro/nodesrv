@@ -1,6 +1,6 @@
-import {Mob} from "../../mob/model/mob"
-import Event from "../event"
-import {EventType} from "../eventType"
+import {Mob} from "../model/mob"
+import Event from "../../event/event"
+import {EventType} from "../../event/eventType"
 
 export default class MobEvent implements Event {
   constructor(

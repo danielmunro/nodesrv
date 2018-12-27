@@ -1,6 +1,6 @@
 import { applyAffectModifier } from "../../affect/applyAffect"
 import Attributes from "../../attributes/model/attributes"
-import MobEvent from "../../event/event/mobEvent"
+import MobEvent from "../event/mobEvent"
 import {EventType} from "../../event/eventType"
 import GameService from "../../gameService/gameService"
 import roll, { simpleD4 } from "../../random/dice"

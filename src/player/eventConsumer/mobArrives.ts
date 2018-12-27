@@ -1,4 +1,4 @@
-import MobEvent from "../../event/event/mobEvent"
+import MobEvent from "../../mob/event/mobEvent"
 import EventConsumer from "../../event/eventConsumer"
 import {EventResponse} from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"

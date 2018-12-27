@@ -1,6 +1,6 @@
 import {AffectType} from "../../affect/affectType"
 import CheckedRequest from "../../check/checkedRequest"
-import MobEvent from "../../event/event/mobEvent"
+import MobEvent from "../../mob/event/mobEvent"
 import {EventType} from "../../event/eventType"
 import GameService from "../../gameService/gameService"
 import {Item} from "../../item/model/item"

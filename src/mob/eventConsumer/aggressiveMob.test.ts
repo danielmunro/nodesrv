@@ -1,4 +1,4 @@
-import MobEvent from "../../event/event/mobEvent"
+import MobEvent from "../event/mobEvent"
 import {EventType} from "../../event/eventType"
 import TestBuilder from "../../test/testBuilder"
 import {Fight} from "../fight/fight"
