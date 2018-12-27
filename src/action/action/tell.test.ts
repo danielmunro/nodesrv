@@ -1,28 +1,31 @@
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
+import CheckResult from "../../check/checkResult"
+import {CheckType} from "../../check/checkType"
 import SocialEvent from "../../client/event/socialEvent"
 import InputContext from "../../request/context/inputContext"
-import { Request } from "../../request/request"
-import { RequestType } from "../../request/requestType"
+import {Request} from "../../request/request"
+import {RequestType} from "../../request/requestType"
 import {getTestMob} from "../../test/mob"
 import {getTestRoom} from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
-import gossip from "./gossip"
+import tell from "./tell"
 
-describe("gossip social action", () => {
+describe("tell social action", () => {
   it("should be to handle gossiping", async () => {
     // setup
     const testBuilder = new TestBuilder()
     await testBuilder.withPlayer()
+    const mob = testBuilder.withMob("foo").mob
     const actions = await testBuilder.getActionCollection()
-    const request = testBuilder.createRequest(RequestType.Gossip, "gossip hello world")
+    const request = testBuilder.createRequest(RequestType.Tell, "tell foo hello world")
     const handler = actions.getMatchingHandlerDefinitionForRequestType(request.getType())
 
     // when
     const response = await handler.handle(request)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toEqual("You gossip, \"hello world\"")
+    expect(response.message.getMessageToRequestCreator()).toEqual(`You tell ${mob.name}, \"hello world\"`)
   })
 
   it("should publish a social event", async () => {
@@ -32,12 +35,12 @@ describe("gossip social action", () => {
     }))()
 
     // when
-    await gossip(new CheckedRequest(
+    await tell(new CheckedRequest(
       new Request(
         getTestMob(),
         getTestRoom(),
-        new InputContext(RequestType.Gossip, "gossip hello")),
-      await Check.ok()), service)
+        new InputContext(RequestType.Tell, "tell foo hello")),
+      await Check.ok(null, [new CheckResult(CheckType.HasTarget, getTestMob())])), service)
 
     // then
     expect(service.publishEvent.mock.calls.length).toBe(1)

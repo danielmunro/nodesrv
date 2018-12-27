@@ -7,12 +7,13 @@ import Response from "../../request/response"
 
 export default async function(checkedRequest: CheckedRequest, service: GameService): Promise<Response> {
   const request = checkedRequest.request
-  const message = request.getContextAsInput().message
+  const message = request.getContextAsInput().words.slice(2).join(" ")
+  const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
   await service.publishEvent(new SocialEvent(
     checkedRequest.mob,
     Channel.Tell,
     `${checkedRequest.mob.name} tells you, "${message}"`,
-    checkedRequest.getCheckTypeResult(CheckType.HasTarget)))
+    target))
 
-  return request.respondWith().success(`You tell ${request.mob.name}, "${message}"`)
+  return request.respondWith().success(`You tell ${target.name}, "${message}"`)
 }
