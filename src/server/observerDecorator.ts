@@ -1,3 +1,4 @@
+import ResetService from "../gameService/resetService"
 import { DiceRoller } from "../random/dice"
 import { FiveMinuteTimer } from "../timer/fiveMinuteTimer"
 import { MinuteTimer } from "../timer/minuteTimer"
@@ -14,7 +15,7 @@ import { Tick } from "./observers/tick"
 import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
 
-export default async function addObservers(gameServer: GameServer): Promise<GameServer> {
+export default async function addObservers(gameServer: GameServer, resetService: ResetService): Promise<GameServer> {
   const locationService = gameServer.mobService.locationService
   gameServer.addObserver(
     new ObserverChain([
@@ -24,7 +25,6 @@ export default async function addObservers(gameServer: GameServer): Promise<Game
     ]),
     new RandomTickTimer(
       new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
-  const resetService = gameServer.resetService
   gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(locationService), new MinuteTimer())
   gameServer.addObserver(new FightRounds(gameServer.mobService), new SecondIntervalTimer())

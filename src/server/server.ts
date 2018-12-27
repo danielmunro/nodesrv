@@ -2,7 +2,6 @@ import { Client } from "../client/client"
 import createEventConsumerTable from "../event/eventConsumerTable"
 import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
-import ResetService from "../gameService/resetService"
 import FightBuilder from "../mob/fight/fightBuilder"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
@@ -36,7 +35,6 @@ export class GameServer {
     public readonly wss,
     public readonly service: GameService,
     public readonly startRoom: Room,
-    public readonly resetService: ResetService,
     public readonly mobService: MobService) {
     this.clientService = new ClientService(mobService.locationService)
   }
