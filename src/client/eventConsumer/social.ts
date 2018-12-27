@@ -2,8 +2,8 @@ import EventConsumer from "../../event/eventConsumer"
 import {EventResponse} from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import ClientService from "../../server/clientService"
-import SocialEvent from "../event/socialEvent"
 import {Channel} from "../channel"
+import SocialEvent from "../event/socialEvent"
 
 export default class Social implements EventConsumer {
   constructor(private readonly clientService: ClientService) {}

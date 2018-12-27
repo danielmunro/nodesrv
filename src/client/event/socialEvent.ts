@@ -1,6 +1,6 @@
-import {Mob} from "../../mob/model/mob"
 import Event from "../../event/event"
 import {EventType} from "../../event/eventType"
+import {Mob} from "../../mob/model/mob"
 import {Channel} from "../channel"
 
 export default class SocialEvent implements Event {

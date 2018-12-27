@@ -1,9 +1,9 @@
-import Response from "../../request/response"
-import {Channel} from "../../client/channel"
-import GameService from "../../gameService/gameService"
-import SocialEvent from "../../client/event/socialEvent"
 import CheckedRequest from "../../check/checkedRequest"
 import {CheckType} from "../../check/checkType"
+import {Channel} from "../../client/channel"
+import SocialEvent from "../../client/event/socialEvent"
+import GameService from "../../gameService/gameService"
+import Response from "../../request/response"
 
 export default async function(checkedRequest: CheckedRequest, service: GameService): Promise<Response> {
   const request = checkedRequest.request

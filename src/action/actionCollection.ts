@@ -38,6 +38,7 @@ import sacrifice from "./action/sacrifice"
 import say from "./action/say"
 import score from "./action/score"
 import sell from "./action/sell"
+import tell from "./action/tell"
 import train from "./action/train"
 import unlock from "./action/unlock"
 import wear from "./action/wear"
@@ -72,7 +73,6 @@ import { default as tellPrecondition } from "./precondition/tell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as unlockPrecondition } from "./precondition/unlock"
 import { default as wearPrecondition } from "./precondition/wear"
-import tell from "./action/tell"
 
 function newMoveDefinition(service: GameService, requestType: RequestType, direction: Direction) {
   return service.definition().action(requestType,
