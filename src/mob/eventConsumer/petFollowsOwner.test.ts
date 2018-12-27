@@ -1,7 +1,7 @@
-import MobEvent from "../event/mobEvent"
 import {EventType} from "../../event/eventType"
 import {Direction} from "../../room/constants"
 import TestBuilder from "../../test/testBuilder"
+import MobEvent from "../event/mobEvent"
 
 describe("pet follows owner event consumer", () => {
   it("a pet should follow its owner", async () => {

@@ -17,13 +17,16 @@ export default async function createEventConsumerTable(
   mobService: MobService,
   itemService: ItemService,
   fightBuilder: FightBuilder): Promise<EventConsumer[]> {
+  const clientService = gameServer.clientService
+  const locationService = mobService.locationService
+  const fleeActionDefinition = await gameServer.service.getActionDefinition(RequestType.Flee)
   return Promise.resolve([
-    new AggressiveMob(mobService, mobService.locationService, fightBuilder),
-    new PetFollowsOwner(mobService.locationService),
-    new MobArrives(gameServer.clientService),
-    new MobLeaves(gameServer.clientService),
-    new Scavenge(gameServer.clientService, itemService, mobService.locationService),
-    new Wimpy(mobService.locationService, await gameServer.service.getActionDefinition(RequestType.Flee)),
-    new Social(gameServer.clientService),
+    new AggressiveMob(mobService, locationService, fightBuilder),
+    new PetFollowsOwner(locationService),
+    new MobArrives(clientService),
+    new MobLeaves(clientService),
+    new Scavenge(clientService, itemService, locationService),
+    new Wimpy(locationService, fleeActionDefinition),
+    new Social(clientService),
   ])
 }

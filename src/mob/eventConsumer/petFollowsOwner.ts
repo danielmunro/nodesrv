@@ -1,8 +1,8 @@
-import MobEvent from "../event/mobEvent"
 import EventConsumer from "../../event/eventConsumer"
 import {EventResponse} from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import {Room} from "../../room/model/room"
+import MobEvent from "../event/mobEvent"
 import LocationService from "../locationService"
 import {Mob} from "../model/mob"
 

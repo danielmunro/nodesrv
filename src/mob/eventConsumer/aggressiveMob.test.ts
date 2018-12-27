@@ -1,6 +1,6 @@
-import MobEvent from "../event/mobEvent"
 import {EventType} from "../../event/eventType"
 import TestBuilder from "../../test/testBuilder"
+import MobEvent from "../event/mobEvent"
 import {Fight} from "../fight/fight"
 
 describe("aggressive mob event consumer", () => {

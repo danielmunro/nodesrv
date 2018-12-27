@@ -1,7 +1,7 @@
-import MobEvent from "../event/mobEvent"
 import {EventType} from "../../event/eventType"
 import GameService from "../../gameService/gameService"
 import TestBuilder from "../../test/testBuilder"
+import MobEvent from "../event/mobEvent"
 import Scavenge from "./scavenge"
 
 function hackScavengeEventConsumer(service: GameService) {

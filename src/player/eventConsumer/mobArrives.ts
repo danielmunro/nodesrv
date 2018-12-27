@@ -1,7 +1,7 @@
-import MobEvent from "../../mob/event/mobEvent"
 import EventConsumer from "../../event/eventConsumer"
 import {EventResponse} from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
+import MobEvent from "../../mob/event/mobEvent"
 import {Mob} from "../../mob/model/mob"
 import ClientService from "../../server/clientService"
 
