@@ -1,33 +1,18 @@
 import { ActionOutcome } from "../action/actionOutcome"
 import { MESSAGE_FAIL_DEAD } from "../action/precondition/constants"
 import CheckBuilder from "../check/checkBuilder"
-import { Client } from "../client/client"
 import { Item } from "../item/model/item"
 import { Disposition } from "../mob/enum/disposition"
 import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Room } from "../room/model/room"
-import { default as AuthRequest } from "../session/auth/request"
 import { Messages } from "./constants"
 import InputContext from "./context/inputContext"
 import RequestContext from "./context/requestContext"
-import RequestBuilder from "./requestBuilder"
 import { RequestType } from "./requestType"
 import ResponseAction from "./responseAction"
 import ResponseBuilder from "./responseBuilder"
-
-export function getNewRequestFromMessageEvent(
-  client: Client, room: Room, messageEvent: MessageEvent): Request | AuthRequest {
-  const data = JSON.parse(messageEvent.data)
-  if (!client.player) {
-    return new AuthRequest(client, data.request)
-  }
-  const requestArgs = data.request.split(" ")
-  const mob = client.player.sessionMob
-  const requestBuilder = new RequestBuilder(mob, room, client.getMobTable())
-  return requestBuilder.create(requestArgs[0], data.request)
-}
 
 export class Request {
   constructor(

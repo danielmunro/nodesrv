@@ -10,7 +10,8 @@ import LocationService from "../mob/locationService"
 import MobTable from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
-import { getNewRequestFromMessageEvent, Request } from "../request/request"
+import { Request } from "../request/request"
+import RequestBuilder from "../request/requestBuilder"
 import { RequestType } from "../request/requestType"
 import Response from "../request/response"
 import { Room } from "../room/model/room"
@@ -40,10 +41,7 @@ export class Client {
     this.session = new Session(this, new Email(this.authService), this.locationService)
     this.ws.onmessage = data => {
       const mobLocation = this.locationService.getLocationForMob(this.getSessionMob())
-      this.addRequest(getNewRequestFromMessageEvent(
-        this,
-        mobLocation ? mobLocation.room : null,
-        data))
+      this.addRequest(this.getNewRequestFromMessageEvent(mobLocation ? mobLocation.room : null, data))
     }
     this.ws.onerror = (error: ErrorEvent) =>
       console.warn("received error from client ws", { ip: this.ip, message: error.message })
@@ -116,6 +114,17 @@ export class Client {
 
   public getMobTable(): MobTable {
     return this.service.mobService.mobTable
+  }
+
+  private getNewRequestFromMessageEvent(room: Room, messageEvent: MessageEvent): Request | AuthRequest {
+    const data = JSON.parse(messageEvent.data)
+    if (!this.player) {
+      return new AuthRequest(this, data.request)
+    }
+    const requestArgs = data.request.split(" ")
+    const mob = this.player.sessionMob
+    const requestBuilder = new RequestBuilder(mob, room, this.getMobTable())
+    return requestBuilder.create(requestArgs[0], data.request)
   }
 
   private applyCosts(costs: Cost[]): void {
