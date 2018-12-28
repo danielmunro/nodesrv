@@ -1,4 +1,4 @@
-import {EventResponse} from "./eventResponse"
+import {EventResponseStatus} from "./eventResponseStatus"
 import EventService from "./eventService"
 import {EventType} from "./eventType"
 import TestAConsumer from "./test/testAConsumer"
@@ -13,8 +13,11 @@ describe("event service", () => {
     eventService.addConsumer(new TestBConsumer())
     eventService.addConsumer(new TestBConsumer())
 
-    expect(await eventService.publish(new TestEvent(EventType.TestA))).toBe(EventResponse.Satisfied)
-    expect(await eventService.publish(new TestEvent(EventType.TestB))).toBe(EventResponse.None)
-    expect(await eventService.publish(new TestEvent(EventType.TestC))).toBe(EventResponse.Unhandled)
+    expect((await eventService.publish(new TestEvent(EventType.TestA))).eventResponseStatus)
+      .toBe(EventResponseStatus.Satisfied)
+    expect((await eventService.publish(new TestEvent(EventType.TestB))).eventResponseStatus)
+      .toBe(EventResponseStatus.None)
+    expect((await eventService.publish(new TestEvent(EventType.TestC))).eventResponseStatus)
+      .toBe(EventResponseStatus.Unhandled)
   })
 })

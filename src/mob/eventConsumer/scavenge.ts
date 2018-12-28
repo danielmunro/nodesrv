@@ -1,5 +1,5 @@
 import EventConsumer from "../../event/eventConsumer"
-import {EventResponse} from "../../event/eventResponse"
+import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import ItemService from "../../item/itemService"
 import ClientService from "../../server/clientService"
@@ -20,11 +20,11 @@ export default class Scavenge implements EventConsumer {
     return [EventType.MobArrived, EventType.ItemDropped]
   }
 
-  public async consume(event: MobEvent): Promise<EventResponse> {
+  public async consume(event: MobEvent): Promise<EventResponseStatus> {
     if (event.mob.traits.scavenger) {
       this.scavenge(event.mob)
     }
-    return Promise.resolve(EventResponse.None)
+    return Promise.resolve(EventResponseStatus.None)
   }
 
   private scavenge(mob: Mob) {

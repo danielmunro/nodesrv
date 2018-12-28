@@ -1,6 +1,6 @@
 import {Definition} from "../../action/definition/definition"
 import EventConsumer from "../../event/eventConsumer"
-import {EventResponse} from "../../event/eventResponse"
+import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
@@ -23,15 +23,15 @@ export default class Wimpy implements EventConsumer {
     return [EventType.AttackRound]
   }
 
-  public async consume(event: FightEvent): Promise<EventResponse> {
+  public async consume(event: FightEvent): Promise<EventResponseStatus> {
     const target = event.fight.getOpponentFor(event.mob)
     if (target.traits.wimpy && Wimpy.isWimpy(event.mob, target)) {
       const response = await this.tryWimpy(target)
       if (response.isSuccessful()) {
-        return Promise.resolve(EventResponse.Satisfied)
+        return Promise.resolve(EventResponseStatus.Satisfied)
       }
     }
-    return Promise.resolve(EventResponse.None)
+    return Promise.resolve(EventResponseStatus.None)
   }
 
   private tryWimpy(mob: Mob) {

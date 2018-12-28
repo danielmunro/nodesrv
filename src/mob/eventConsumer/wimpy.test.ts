@@ -1,4 +1,4 @@
-import {EventResponse} from "../../event/eventResponse"
+import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import TestBuilder from "../../test/testBuilder"
 import FightEvent from "../fight/event/fightEvent"
@@ -19,9 +19,10 @@ describe("wimpy", () => {
     target.vitals.hp = 1
 
     // when
-    let eventResponse: EventResponse = EventResponse.None
-    while (eventResponse !== EventResponse.Satisfied) {
-      eventResponse = await service.publishEvent(new FightEvent(EventType.AttackRound, mob, fight))
+    let eventResponse: EventResponseStatus = EventResponseStatus.None
+    while (eventResponse !== EventResponseStatus.Satisfied) {
+      eventResponse = (await service.publishEvent(
+        new FightEvent(EventType.AttackRound, mob, fight))).eventResponseStatus
     }
 
     // then

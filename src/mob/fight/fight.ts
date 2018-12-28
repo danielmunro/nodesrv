@@ -1,6 +1,6 @@
 import {applyAffectModifier} from "../../affect/applyAffect"
 import Attributes from "../../attributes/model/attributes"
-import {EventResponse} from "../../event/eventResponse"
+import {EventResponseStatus} from "../../event/eventResponseStatus"
 import EventService from "../../event/eventService"
 import {EventType} from "../../event/eventType"
 import GameService from "../../gameService/gameService"
@@ -102,7 +102,7 @@ export class Fight {
   private async attack(attacker: Mob, defender: Mob): Promise<Attack> {
     const eventResponse = await this.eventService.publish(
       new FightEvent(EventType.AttackRoundStart, attacker, this))
-    if (eventResponse === EventResponse.Satisfied) {
+    if (eventResponse.eventResponseStatus === EventResponseStatus.Satisfied) {
       return Fight.attackDefeated(attacker, defender, getAttackResultFromSkillType(SkillType.Dodge))
     }
 

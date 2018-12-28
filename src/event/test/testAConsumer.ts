@@ -1,6 +1,6 @@
 import Event from "../event"
 import EventConsumer from "../eventConsumer"
-import {EventResponse} from "../eventResponse"
+import {EventResponseStatus} from "../eventResponseStatus"
 import {EventType} from "../eventType"
 
 export default class TestAConsumer implements EventConsumer {
@@ -8,7 +8,7 @@ export default class TestAConsumer implements EventConsumer {
     return [EventType.TestA]
   }
 
-  public async consume(event: Event): Promise<EventResponse> {
-    return EventResponse.Satisfied
+  public async consume(event: Event): Promise<EventResponseStatus> {
+    return EventResponseStatus.Satisfied
   }
 }

@@ -1,5 +1,5 @@
 import EventConsumer from "../../event/eventConsumer"
-import {EventResponse} from "../../event/eventResponse"
+import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import {Room} from "../../room/model/room"
 import MobEvent from "../event/mobEvent"
@@ -13,9 +13,9 @@ export default class PetFollowsOwner implements EventConsumer {
     return [EventType.MobLeft]
   }
 
-  public async consume(event: MobEvent): Promise<EventResponse> {
+  public async consume(event: MobEvent): Promise<EventResponseStatus> {
     this.followIfPetOfMob(event.mob, event.context as Room)
-    return Promise.resolve(EventResponse.None)
+    return Promise.resolve(EventResponseStatus.None)
   }
 
   private followIfPetOfMob(mob: Mob, roomLeft: Room) {

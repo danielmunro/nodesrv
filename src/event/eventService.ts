@@ -1,6 +1,7 @@
 import Event from "./event"
 import EventConsumer from "./eventConsumer"
-import {EventResponse} from "./eventResponse"
+import EventResponse from "./eventResponse"
+import {EventResponseStatus} from "./eventResponseStatus"
 
 export default class EventService {
   constructor(private readonly eventConsumers: EventConsumer[] = []) {}
@@ -10,15 +11,15 @@ export default class EventService {
   }
 
   public async publish(event: Event): Promise<EventResponse> {
-    let response = EventResponse.Unhandled
+    let response = EventResponseStatus.Unhandled
     for (const eventConsumer of this.eventConsumers) {
       if (eventConsumer.getConsumingEventTypes().includes(event.getEventType())) {
         response = await eventConsumer.consume(event)
-        if (response === EventResponse.Satisfied) {
-          return response
+        if (response === EventResponseStatus.Satisfied) {
+          return new EventResponse(event, response)
         }
       }
     }
-    return response
+    return new EventResponse(event, response)
   }
 }
