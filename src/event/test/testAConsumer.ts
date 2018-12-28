@@ -1,8 +1,8 @@
 import Event from "../event"
 import EventConsumer from "../eventConsumer"
+import EventResponse from "../eventResponse"
 import {EventResponseStatus} from "../eventResponseStatus"
 import {EventType} from "../eventType"
-import EventResponse from "../eventResponse"
 
 export default class TestAConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {

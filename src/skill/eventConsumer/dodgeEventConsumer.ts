@@ -1,4 +1,5 @@
 import EventConsumer from "../../event/eventConsumer"
+import EventResponse from "../../event/eventResponse"
 import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import {Trigger} from "../../mob/enum/trigger"
@@ -7,7 +8,6 @@ import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import SkillDefinition from "../skillDefinition"
-import EventResponse from "../../event/eventResponse"
 import {SkillType} from "../skillType"
 
 export default class DodgeEventConsumer implements EventConsumer {

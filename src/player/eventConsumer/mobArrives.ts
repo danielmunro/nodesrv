@@ -1,10 +1,10 @@
 import EventConsumer from "../../event/eventConsumer"
+import EventResponse from "../../event/eventResponse"
 import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import MobEvent from "../../mob/event/mobEvent"
 import {Mob} from "../../mob/model/mob"
 import ClientService from "../../server/clientService"
-import EventResponse from "../../event/eventResponse"
 
 export default class MobArrives implements EventConsumer {
   constructor(private readonly clientService: ClientService) {}

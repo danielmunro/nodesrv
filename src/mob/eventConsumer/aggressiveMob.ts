@@ -1,4 +1,5 @@
 import EventConsumer from "../../event/eventConsumer"
+import EventResponse from "../../event/eventResponse"
 import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import MobEvent from "../event/mobEvent"
@@ -6,7 +7,6 @@ import FightBuilder from "../fight/fightBuilder"
 import LocationService from "../locationService"
 import MobService from "../mobService"
 import {Mob} from "../model/mob"
-import EventResponse from "../../event/eventResponse"
 
 export default class AggressiveMob implements EventConsumer {
   constructor(

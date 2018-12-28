@@ -1,5 +1,6 @@
 import {Definition} from "../../action/definition/definition"
 import EventConsumer from "../../event/eventConsumer"
+import EventResponse from "../../event/eventResponse"
 import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import EventContext from "../../request/context/eventContext"
@@ -9,7 +10,6 @@ import {Trigger} from "../enum/trigger"
 import FightEvent from "../fight/event/fightEvent"
 import LocationService from "../locationService"
 import {Mob} from "../model/mob"
-import EventResponse from "../../event/eventResponse"
 
 export default class Wimpy implements EventConsumer {
   private static isWimpy(mob: Mob, target: Mob) {
