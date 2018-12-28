@@ -43,10 +43,11 @@ export class GameServer {
     if (!this.isInitialized()) {
       throw new Error("Status must be initialized to start")
     }
-
-    this.service.setEventService(
-      new EventService(await createEventConsumerTable(
-        this, this.mobService, this.service.itemService, new FightBuilder(this.service))))
+    const eventService = new EventService()
+    this.service.setEventService(eventService)
+    const eventConsumers = await createEventConsumerTable(
+      this, this.mobService, this.service.itemService, new FightBuilder(eventService, this.service))
+    eventConsumers.forEach(eventConsumer => eventService.addConsumer(eventConsumer))
     this.authService = new AuthService(await getPlayerRepository())
     this.actions = this.service.getActionCollection()
     this.status = Status.Started

@@ -14,6 +14,9 @@ import {Direction} from "../room/constants"
 import ExitTable from "../room/exitTable"
 import {Room} from "../room/model/room"
 import {default as RoomTable} from "../room/roomTable"
+import SkillDefinition from "../skill/skillDefinition"
+import {getSkillTable} from "../skill/skillTable"
+import {SkillType} from "../skill/skillType"
 import DefinitionService from "./definitionService"
 import TimeService from "./timeService"
 
@@ -21,6 +24,7 @@ export default class GameService {
   private readonly timeService: TimeService
   private eventService: EventService
   private actionCollection: Collection
+  private readonly skillTable: SkillDefinition[]
 
   constructor(
     public readonly mobService: MobService,
@@ -29,6 +33,7 @@ export default class GameService {
     public readonly exitTable: ExitTable,
     time = 0) {
     this.timeService = new TimeService(time)
+    this.skillTable = getSkillTable(this)
   }
 
   public setEventService(eventService: EventService) {
@@ -83,5 +88,9 @@ export default class GameService {
 
   public async getActionDefinition(requestType: RequestType): Promise<Definition> {
     return this.getActionCollection().getMatchingHandlerDefinitionForRequestType(requestType)
+  }
+
+  public getSkillDefinition(skillType: SkillType): SkillDefinition {
+    return this.skillTable.find(skill => skill.skillType === skillType)
   }
 }

@@ -9,7 +9,7 @@ export default class EventService {
     this.eventConsumers.push(eventConsumer)
   }
 
-  public async publish(event: Event) {
+  public async publish(event: Event): Promise<EventResponse> {
     let response = EventResponse.Unhandled
     for (const eventConsumer of this.eventConsumers) {
       if (eventConsumer.getConsumingEventTypes().includes(event.getEventType())) {

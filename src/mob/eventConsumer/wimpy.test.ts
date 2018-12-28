@@ -1,7 +1,7 @@
 import {EventResponse} from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import TestBuilder from "../../test/testBuilder"
-import MobEvent from "../event/mobEvent"
+import FightEvent from "../fight/event/fightEvent"
 
 describe("wimpy", () => {
   it("should cause a weak mob to flee", async () => {
@@ -21,7 +21,7 @@ describe("wimpy", () => {
     // when
     let eventResponse: EventResponse = EventResponse.None
     while (eventResponse !== EventResponse.Satisfied) {
-      eventResponse = await service.publishEvent(new MobEvent(EventType.AttackRound, mob, fight))
+      eventResponse = await service.publishEvent(new FightEvent(EventType.AttackRound, mob, fight))
     }
 
     // then

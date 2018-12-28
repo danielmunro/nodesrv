@@ -26,7 +26,12 @@ describe("fight", () => {
     const bystander = mobFactory("collateral")
 
     // when
-    const fight = new Fight(await testBuilder.getService(), aggressor, target, getTestRoom())
+    const fight = new Fight(
+      await testBuilder.getService(),
+      await testBuilder.getEventService(),
+      aggressor,
+      target,
+      getTestRoom())
 
     // then
     expect(fight.getOpponentFor(bystander)).toBeNull()

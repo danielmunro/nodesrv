@@ -8,19 +8,21 @@ const iterations = 10
 
 describe("dodge skill", () => {
   it("should be able to succeed and fail in a small collection of attempts", async () => {
+    // setup
     const testBuilder = new TestBuilder()
+
+    // given
     const attacker = testBuilder.withMob()
     attacker.withLevel(20).withSkill(SkillType.Dodge, MAX_PRACTICE_LEVEL / 50)
-    const defender = testBuilder.withMob()
-    const fight = await testBuilder.fight(defender.mob)
+
+    // and
+    const fight = await testBuilder.fight(testBuilder.withMob().mob)
+
+    // when
     const results = await doNTimes(iterations, () => fight.round())
 
-    expect(results.filter(r => r).every(r => {
-      const lastAttack = r.getLastAttack()
-      return lastAttack.result === AttackResult.Hit || lastAttack.result === AttackResult.Miss
-    })).toBeTruthy()
-
-    expect(results.some(r => r.getLastCounter().result === AttackResult.Dodge)).toBeTruthy()
-    expect(results.some(r => r.getLastCounter().result === AttackResult.Hit)).toBeTruthy()
+    // then
+    expect(results.some(r => r.getLastAttack().result === AttackResult.Dodge)).toBeTruthy()
+    expect(results.some(r => r.getLastAttack().result === AttackResult.Hit)).toBeTruthy()
   })
 })

@@ -49,6 +49,7 @@ export default class TestBuilder {
   public room: Room
   private mobForRequest: Mob
   private service: GameService
+  private eventService: EventService
   private serviceBuilder: ServiceBuilder = new ServiceBuilder()
 
   public async withClient() {
@@ -161,7 +162,11 @@ export default class TestBuilder {
   }
 
   public async fight(target = this.withMob().mob): Promise<Fight> {
-    const fight = new Fight(await this.getService(), this.mobForRequest, target, this.room)
+    const fight = new Fight(
+      await this.getService(),
+      await this.getEventService(),
+      this.mobForRequest, target,
+      this.room)
     this.serviceBuilder.addFight(fight)
 
     return fight
@@ -215,11 +220,22 @@ export default class TestBuilder {
     if (!this.service) {
       this.service = await this.serviceBuilder.createService()
     }
-    const gameServer = new GameServer(null, this.service, null, this.service.mobService)
-    this.service.setEventService(
-      new EventService(await eventConsumerTable(
-        gameServer, this.service.mobService, this.service.itemService, new FightBuilder(this.service))))
+    this.service.setEventService(await this.getEventService())
     return this.service
+  }
+
+  public async getEventService() {
+    if (!this.eventService) {
+      const gameServer = new GameServer(null, this.service, null, this.service.mobService)
+      this.eventService = new EventService()
+      const eventConsumers = await eventConsumerTable(
+        gameServer,
+        this.service.mobService,
+        this.service.itemService,
+        new FightBuilder(this.eventService, this.service))
+      eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
+    }
+    return this.eventService
   }
 
   public addExit(exit) {

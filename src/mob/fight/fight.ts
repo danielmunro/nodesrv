@@ -1,29 +1,28 @@
-import { applyAffectModifier } from "../../affect/applyAffect"
+import {applyAffectModifier} from "../../affect/applyAffect"
 import Attributes from "../../attributes/model/attributes"
+import {EventResponse} from "../../event/eventResponse"
+import EventService from "../../event/eventService"
 import {EventType} from "../../event/eventType"
 import GameService from "../../gameService/gameService"
-import roll, { simpleD4 } from "../../random/dice"
-import { Room } from "../../room/model/room"
-import { createSkillTriggerEvent, createSkillTriggerEvents } from "../../skill/trigger/factory"
-import { Resolution } from "../../skill/trigger/resolution"
+import roll, {simpleD4} from "../../random/dice"
+import {Room} from "../../room/model/room"
+import {SkillType} from "../../skill/skillType"
+import {createSkillTriggerEvents} from "../../skill/trigger/factory"
+import {Resolution} from "../../skill/trigger/resolution"
 import {BASE_KILL_EXPERIENCE} from "../constants"
-import { Disposition } from "../enum/disposition"
-import { Trigger } from "../enum/trigger"
-import MobEvent from "../event/mobEvent"
-import { Mob } from "../model/mob"
+import {Disposition} from "../enum/disposition"
+import {Trigger} from "../enum/trigger"
+import {Mob} from "../model/mob"
 import modifierNormalizer from "../multiplierNormalizer"
-import { BodyPart } from "../race/bodyParts"
-import { Attack, AttackResult, getAttackResultFromSkillType } from "./attack"
+import {BodyPart} from "../race/bodyParts"
+import {Attack, AttackResult, getAttackResultFromSkillType} from "./attack"
 import Death from "./death"
-import { Round } from "./round"
+import FightEvent from "./event/fightEvent"
+import {Round} from "./round"
 
 enum Status {
   InProgress,
   Done,
-}
-
-async function createStartRoundDefenderTrigger(service: GameService, attacker, defender, room) {
-  return await createSkillTriggerEvent(service, defender, Trigger.AttackRoundDefend, attacker, room)
 }
 
 export class Fight {
@@ -57,6 +56,7 @@ export class Fight {
 
   constructor(
     public readonly service: GameService,
+    public readonly eventService: EventService,
     public readonly aggressor: Mob,
     public readonly target: Mob,
     public readonly room: Room) {}
@@ -100,9 +100,10 @@ export class Fight {
   }
 
   private async attack(attacker: Mob, defender: Mob): Promise<Attack> {
-    const initialEvent = await createStartRoundDefenderTrigger(this.service, attacker, defender, this.room)
-    if (initialEvent.wasSkillInvoked()) {
-      return Fight.attackDefeated(attacker, defender, getAttackResultFromSkillType(initialEvent.skillType))
+    const eventResponse = await this.eventService.publish(
+      new FightEvent(EventType.AttackRoundStart, attacker, this))
+    if (eventResponse === EventResponse.Satisfied) {
+      return Fight.attackDefeated(attacker, defender, getAttackResultFromSkillType(SkillType.Dodge))
     }
 
     const xAttributes = attacker.getCombinedAttributes()
@@ -125,7 +126,7 @@ export class Fight {
       damage)
 
     defender.vitals.hp -= damage
-    await this.service.publishEvent(new MobEvent(EventType.AttackRound, attacker, this))
+    await this.service.publishEvent(new FightEvent(EventType.AttackRound, attacker, this))
 
     return new Attack(
       attacker,
