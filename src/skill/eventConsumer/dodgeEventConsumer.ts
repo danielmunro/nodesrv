@@ -7,6 +7,8 @@ import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import SkillDefinition from "../skillDefinition"
+import EventResponse from "../../event/eventResponse"
+import {SkillType} from "../skillType"
 
 export default class DodgeEventConsumer implements EventConsumer {
   constructor(private readonly dodge: SkillDefinition) {}
@@ -15,12 +17,12 @@ export default class DodgeEventConsumer implements EventConsumer {
     return [EventType.AttackRoundStart]
   }
 
-  public async consume(event: FightEvent): Promise<EventResponseStatus> {
+  public async consume(event: FightEvent): Promise<EventResponse> {
     const request = new Request(event.mob, event.fight.room, new EventContext(RequestType.Noop, Trigger.AttackRound))
     const result = await this.dodge.doAction(request)
     if (result.isSuccessful()) {
-      return Promise.resolve(EventResponseStatus.Satisfied)
+      return Promise.resolve(new EventResponse(event, EventResponseStatus.Satisfied, SkillType.Dodge))
     }
-    return Promise.resolve(EventResponseStatus.None)
+    return Promise.resolve(new EventResponse(event, EventResponseStatus.None))
   }
 }

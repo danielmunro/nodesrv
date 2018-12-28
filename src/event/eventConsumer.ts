@@ -1,8 +1,8 @@
 import Event from "./event"
-import {EventResponseStatus} from "./eventResponseStatus"
 import {EventType} from "./eventType"
+import EventResponse from "./eventResponse"
 
 export default interface EventConsumer {
   getConsumingEventTypes(): EventType[]
-  consume(event: Event): Promise<EventResponseStatus>
+  consume(event: Event): Promise<EventResponse>
 }

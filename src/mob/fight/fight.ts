@@ -102,8 +102,8 @@ export class Fight {
   private async attack(attacker: Mob, defender: Mob): Promise<Attack> {
     const eventResponse = await this.eventService.publish(
       new FightEvent(EventType.AttackRoundStart, attacker, this))
-    if (eventResponse.eventResponseStatus === EventResponseStatus.Satisfied) {
-      return Fight.attackDefeated(attacker, defender, getAttackResultFromSkillType(SkillType.Dodge))
+    if (eventResponse.status === EventResponseStatus.Satisfied) {
+      return Fight.attackDefeated(attacker, defender, getAttackResultFromSkillType(eventResponse.context))
     }
 
     const xAttributes = attacker.getCombinedAttributes()

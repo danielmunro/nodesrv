@@ -6,6 +6,7 @@ import FightBuilder from "../fight/fightBuilder"
 import LocationService from "../locationService"
 import MobService from "../mobService"
 import {Mob} from "../model/mob"
+import EventResponse from "../../event/eventResponse"
 
 export default class AggressiveMob implements EventConsumer {
   constructor(
@@ -17,9 +18,9 @@ export default class AggressiveMob implements EventConsumer {
     return [EventType.MobArrived]
   }
 
-  public async consume(event: MobEvent): Promise<EventResponseStatus> {
+  public async consume(event: MobEvent): Promise<EventResponse> {
     this.checkForAggressiveMobs(event.mob)
-    return Promise.resolve(EventResponseStatus.None)
+    return Promise.resolve(new EventResponse(event, EventResponseStatus.None))
   }
 
   private checkForAggressiveMobs(mob: Mob) {

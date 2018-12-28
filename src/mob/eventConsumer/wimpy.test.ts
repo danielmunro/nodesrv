@@ -22,7 +22,7 @@ describe("wimpy", () => {
     let eventResponse: EventResponseStatus = EventResponseStatus.None
     while (eventResponse !== EventResponseStatus.Satisfied) {
       eventResponse = (await service.publishEvent(
-        new FightEvent(EventType.AttackRound, mob, fight))).eventResponseStatus
+        new FightEvent(EventType.AttackRound, mob, fight))).status
     }
 
     // then

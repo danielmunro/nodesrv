@@ -11,15 +11,16 @@ export default class EventService {
   }
 
   public async publish(event: Event): Promise<EventResponse> {
-    let response = EventResponseStatus.Unhandled
+    let status = EventResponseStatus.Unhandled
     for (const eventConsumer of this.eventConsumers) {
       if (eventConsumer.getConsumingEventTypes().includes(event.getEventType())) {
-        response = await eventConsumer.consume(event)
-        if (response === EventResponseStatus.Satisfied) {
-          return new EventResponse(event, response)
+        const eventResponse = await eventConsumer.consume(event)
+        status = eventResponse.status
+        if (eventResponse.isSatisifed()) {
+          return eventResponse
         }
       }
     }
-    return new EventResponse(event, response)
+    return new EventResponse(event, status)
   }
 }

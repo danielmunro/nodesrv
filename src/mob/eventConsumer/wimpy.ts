@@ -9,6 +9,7 @@ import {Trigger} from "../enum/trigger"
 import FightEvent from "../fight/event/fightEvent"
 import LocationService from "../locationService"
 import {Mob} from "../model/mob"
+import EventResponse from "../../event/eventResponse"
 
 export default class Wimpy implements EventConsumer {
   private static isWimpy(mob: Mob, target: Mob) {
@@ -23,15 +24,15 @@ export default class Wimpy implements EventConsumer {
     return [EventType.AttackRound]
   }
 
-  public async consume(event: FightEvent): Promise<EventResponseStatus> {
+  public async consume(event: FightEvent): Promise<EventResponse> {
     const target = event.fight.getOpponentFor(event.mob)
     if (target.traits.wimpy && Wimpy.isWimpy(event.mob, target)) {
       const response = await this.tryWimpy(target)
       if (response.isSuccessful()) {
-        return Promise.resolve(EventResponseStatus.Satisfied)
+        return Promise.resolve(new EventResponse(event, EventResponseStatus.Satisfied))
       }
     }
-    return Promise.resolve(EventResponseStatus.None)
+    return Promise.resolve(new EventResponse(event, EventResponseStatus.None))
   }
 
   private tryWimpy(mob: Mob) {
