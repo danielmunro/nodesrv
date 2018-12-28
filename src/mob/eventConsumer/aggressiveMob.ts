@@ -1,6 +1,5 @@
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import MobEvent from "../event/mobEvent"
 import FightBuilder from "../fight/fightBuilder"
@@ -20,7 +19,7 @@ export default class AggressiveMob implements EventConsumer {
 
   public async consume(event: MobEvent): Promise<EventResponse> {
     this.checkForAggressiveMobs(event.mob)
-    return Promise.resolve(new EventResponse(event, EventResponseStatus.None))
+    return EventResponse.none(event)
   }
 
   private checkForAggressiveMobs(mob: Mob) {

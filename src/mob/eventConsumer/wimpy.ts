@@ -1,7 +1,6 @@
 import {Definition} from "../../action/definition/definition"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
@@ -29,10 +28,10 @@ export default class Wimpy implements EventConsumer {
     if (target.traits.wimpy && Wimpy.isWimpy(event.mob, target)) {
       const response = await this.tryWimpy(target)
       if (response.isSuccessful()) {
-        return Promise.resolve(new EventResponse(event, EventResponseStatus.Satisfied))
+        return EventResponse.satisfied(event)
       }
     }
-    return Promise.resolve(new EventResponse(event, EventResponseStatus.None))
+    return EventResponse.none(event)
   }
 
   private tryWimpy(mob: Mob) {

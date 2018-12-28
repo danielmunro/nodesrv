@@ -1,6 +1,5 @@
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import ClientService from "../../server/clientService"
 import {Channel} from "../channel"
@@ -25,6 +24,6 @@ export default class Social implements EventConsumer {
         this.clientService.sendMessageToMob(event.toMob, event.message)
         break
     }
-    return Promise.resolve(new EventResponse(event, EventResponseStatus.None))
+    return EventResponse.satisfied(event)
   }
 }

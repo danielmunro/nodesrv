@@ -1,6 +1,5 @@
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import MobEvent from "../../mob/event/mobEvent"
 import {Mob} from "../../mob/model/mob"
@@ -15,7 +14,7 @@ export default class MobArrives implements EventConsumer {
 
   public async consume(event: MobEvent): Promise<EventResponse> {
     this.announceArrival(event.mob)
-    return new EventResponse(event, EventResponseStatus.None)
+    return EventResponse.none(event)
   }
 
   private announceArrival(mob: Mob) {
