@@ -1,25 +1,22 @@
-import { newStartingAttributes, newVitals } from "../../attributes/factory"
-import GameService from "../../gameService/gameService"
-import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { newMobLocation } from "../../mob/factory"
+import EventService from "../../event/eventService"
+import TimeService from "../../gameService/timeService"
+import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
+import {newMobLocation} from "../../mob/factory"
 import LocationService from "../../mob/locationService"
-import { newSkill } from "../../skill/factory"
-import { SkillType } from "../../skill/skillType"
+import FastHealingEventConsumer from "../../skill/eventConsumer/fastHealingEventConsumer"
+import {newSkill} from "../../skill/factory"
+import {SkillType} from "../../skill/skillType"
 import {getConnection, initializeConnection} from "../../support/db/connection"
-import doNTimes from "../../support/functional/times"
-import { getTestClient } from "../../test/client"
-import { getTestRoom } from "../../test/room"
+import {getTestClient} from "../../test/client"
+import {getTestRoom} from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
-import { Tick } from "./tick"
+import {Tick} from "./tick"
 
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
 describe("ticks", () => {
   it("should call tick on all clients", async () => {
-    // setup
-    const testBuilder = new TestBuilder()
-
     // given
     const clients = [
       await getTestClient(),
@@ -29,10 +26,9 @@ describe("ticks", () => {
       await getTestClient(),
     ]
 
-    const service = await testBuilder.getService()
-
     const tick = new Tick(
-      service,
+      new TimeService(),
+      new EventService(),
       new LocationService(clients.map(c => newMobLocation(c.getSessionMob(), getTestRoom()))))
 
     // when
@@ -42,42 +38,29 @@ describe("ticks", () => {
     clients.forEach((client) => expect(client.ws.send.mock.calls.length).toBeGreaterThan(1))
   })
 
-  it("should invoke fast healing", async () => {
+  it("should invoke fast healing on tick", async () => {
     // setup
     const testBuilder = new TestBuilder()
 
     // given
-    const client1 = await getTestClient()
-    const mob1 = client1.getSessionMob()
-    mob1.level = 50
-    mob1.attributes.push(newStartingAttributes(newVitals(1000, 0, 0)))
-    mob1.skills.push(newSkill(SkillType.FastHealing, MAX_PRACTICE_LEVEL))
-
-    // and
-    const client2 = await getTestClient()
-    const mob2 = client2.getSessionMob()
-    mob2.level = 50
-    mob2.attributes.push(newStartingAttributes(newVitals(1000, 0, 0)))
-
-    const tick = new Tick(
-      new GameService((await testBuilder.getService()).mobService, null, null, null),
-      new LocationService([
-        newMobLocation(mob1, getTestRoom()),
-        newMobLocation(mob2, getTestRoom()),
-      ]))
+    const client = await testBuilder.withClient()
+    client.getSessionMob().skills.push(newSkill(SkillType.FastHealing, MAX_PRACTICE_LEVEL))
+    const clients = [client]
+    const mockSkill = jest.fn(() => ({
+      doAction: jest.fn(() => ({
+        isSuccessful: jest.fn(),
+      })),
+    }))()
 
     // when
-    const test = async () => {
-      mob1.vitals.hp = 1
-      mob2.vitals.hp = 1
-      await tick.notify([client1, client2])
-
-      return mob1.vitals.hp > mob2.vitals.hp
-    }
-    const times = 1000
-    const tests = await doNTimes(times, test)
+    await new Tick(
+      new TimeService(),
+      new EventService([
+        new FastHealingEventConsumer(mockSkill),
+      ]),
+      new LocationService(clients.map(c => newMobLocation(c.getSessionMob(), getTestRoom())))).notify(clients)
 
     // then
-    expect(tests.filter(t => t).length).toBeGreaterThan(times / 2)
+    expect(mockSkill.doAction.mock.calls.length).toBe(1)
   })
 })

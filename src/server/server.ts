@@ -35,7 +35,8 @@ export class GameServer {
     public readonly wss,
     public readonly service: GameService,
     public readonly startRoom: Room,
-    public readonly mobService: MobService) {
+    public readonly mobService: MobService,
+    public readonly eventService: EventService) {
     this.clientService = new ClientService(mobService.locationService)
   }
 
@@ -43,11 +44,10 @@ export class GameServer {
     if (!this.isInitialized()) {
       throw new Error("Status must be initialized to start")
     }
-    const eventService = new EventService()
-    this.service.setEventService(eventService)
+    this.service.setEventService(this.eventService)
     const eventConsumers = await createEventConsumerTable(
-      this, this.mobService, this.service.itemService, new FightBuilder(eventService, this.service))
-    eventConsumers.forEach(eventConsumer => eventService.addConsumer(eventConsumer))
+      this, this.mobService, this.service.itemService, new FightBuilder(this.eventService, this.service))
+    eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
     this.authService = new AuthService(await getPlayerRepository())
     this.actions = this.service.getActionCollection()
     this.status = Status.Started

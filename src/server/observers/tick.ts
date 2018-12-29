@@ -1,24 +1,26 @@
-import { v4 } from "uuid"
-import { Client } from "../../client/client"
-import GameService from "../../gameService/gameService"
-import { Trigger } from "../../mob/enum/trigger"
+import {v4} from "uuid"
+import {Client} from "../../client/client"
+import EventService from "../../event/eventService"
+import {EventType} from "../../event/eventType"
+import TimeService from "../../gameService/timeService"
+import MobEvent from "../../mob/event/mobEvent"
 import LocationService from "../../mob/locationService"
-import { createSkillTriggerEvent } from "../../skill/trigger/factory"
-import { Observer } from "./observer"
+import {Observer} from "./observer"
 
 const MESSAGE_HUNGRY = "You are hungry."
 const TIMING = "tick notification duration"
 
 export class Tick implements Observer {
   constructor(
-    private readonly service: GameService,
+    private readonly timeService: TimeService,
+    private readonly eventService: EventService,
     private readonly locationService: LocationService) {}
 
   public async notify(clients: Client[]): Promise<void> {
     console.time(TIMING)
     const id = v4()
     const timestamp = new Date()
-    this.service.incrementTime()
+    this.timeService.incrementTime()
     await Promise.all(clients
       .filter(client => client.isLoggedIn())
       .map(client => this.notifyClient(client, id, timestamp)))
@@ -35,7 +37,7 @@ export class Tick implements Observer {
     }
 
     const location = this.locationService.getLocationForMob(mob)
-    await createSkillTriggerEvent(this.service, mob, Trigger.Tick, null, location.room)
+    await this.eventService.publish(new MobEvent(EventType.Tick, mob, location.room))
     client.tick(id, timestamp)
   }
 }

@@ -21,7 +21,7 @@ import DefinitionService from "./definitionService"
 import TimeService from "./timeService"
 
 export default class GameService {
-  private readonly timeService: TimeService
+  public readonly timeService: TimeService
   private eventService: EventService
   private actionCollection: Collection
   private readonly skillTable: SkillDefinition[]

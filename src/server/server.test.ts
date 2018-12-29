@@ -1,4 +1,5 @@
 import { Server } from "mock-socket"
+import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
 import FightTable from "../mob/fight/fightTable"
 import LocationService from "../mob/locationService"
@@ -22,10 +23,16 @@ async function getGameServer(): Promise<GameServer> {
     new FightTable(),
     locationService)
 
-  return new GameServer(ws, new GameService(mobService, null, null, null), getTestRoom(), mobService)
+  return new GameServer(
+    ws,
+    new GameService(mobService, null, null, null),
+    getTestRoom(),
+    mobService,
+    new EventService())
 }
 
 const mockWs = jest.fn(() => ({ send: jest.fn() }))
+const mockRequest = jest.fn(() => ({connection: { remoteAddress: "123"}}))
 
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
@@ -58,7 +65,7 @@ describe("the server", () => {
   test("with new WS connections should add a client", async () => {
     const server = await getGameServer()
     await server.start()
-    server.addWS(mockWs())
+    await server.addWS(mockWs(), mockRequest())
     expect(server.getClientCount()).toBe(1)
   })
 
@@ -66,7 +73,7 @@ describe("the server", () => {
     const server = await getGameServer()
     await server.start()
     const client = mockWs()
-    server.addWS(client)
+    await server.addWS(client, mockRequest())
     client.onclose()
     expect(server.getClientCount()).toBe(0)
   })
@@ -75,7 +82,7 @@ describe("the server", () => {
     const server = await getGameServer()
     await server.start()
     const wsClient = mockWs()
-    server.addWS(wsClient)
+    await server.addWS(wsClient, mockRequest())
     expect(server.getClientCount()).toBe(1)
     wsClient.onclose()
     expect(server.getClientCount()).toBe(0)
@@ -84,7 +91,7 @@ describe("the server", () => {
   test("should notify an observer immediately if it is added with an immediate timer", async () => {
     const server = await getGameServer()
     await server.start()
-    server.addWS(mockWs())
+    await server.addWS(mockWs(), mockRequest())
     expect.assertions(1)
     server.addObserver(new ExpectTestObserver(), new ImmediateTimer())
   })
@@ -92,7 +99,7 @@ describe("the server", () => {
   test("should not notify an observer immediately if a timeout larger than 0 is specified", async () => {
     const server = await getGameServer()
     await server.start()
-    server.addWS(mockWs())
+    await server.addWS(mockWs(), mockRequest())
     const observer = new DontExecuteTestObserver()
     const spy = jest.spyOn(observer, "notify")
     const shortIntervalTimer = new ShortIntervalTimer()
