@@ -3,7 +3,6 @@ import Attributes from "../../attributes/model/attributes"
 import {EventResponseStatus} from "../../event/eventResponseStatus"
 import EventService from "../../event/eventService"
 import {EventType} from "../../event/eventType"
-import GameService from "../../gameService/gameService"
 import roll, {simpleD4} from "../../random/dice"
 import {Room} from "../../room/model/room"
 import {BASE_KILL_EXPERIENCE} from "../constants"
@@ -52,7 +51,6 @@ export class Fight {
   private death: Death
 
   constructor(
-    public readonly service: GameService,
     public readonly eventService: EventService,
     public readonly aggressor: Mob,
     public readonly target: Mob,
@@ -123,7 +121,7 @@ export class Fight {
       damage)
 
     defender.vitals.hp -= damage
-    await this.service.publishEvent(new FightEvent(EventType.AttackRound, attacker, this))
+    await this.eventService.publish(new FightEvent(EventType.AttackRound, attacker, this))
 
     return new Attack(
       attacker,

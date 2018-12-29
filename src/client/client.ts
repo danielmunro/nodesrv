@@ -148,7 +148,6 @@ export class Client {
       const request = response.getCheckedRequest().request
       this.service.mobService.addFight(
         new Fight(
-          this.service,
           this.service.eventService,
           this.player.sessionMob,
           request.getTarget() as Mob,

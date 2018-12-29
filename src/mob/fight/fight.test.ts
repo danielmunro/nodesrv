@@ -24,10 +24,10 @@ describe("fight", () => {
     const aggressor = mobFactory("aggressor")
     const target = mobFactory("target")
     const bystander = mobFactory("collateral")
+    await testBuilder.getService()
 
     // when
     const fight = new Fight(
-      await testBuilder.getService(),
       await testBuilder.getEventService(),
       aggressor,
       target,

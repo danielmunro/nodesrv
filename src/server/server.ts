@@ -46,7 +46,10 @@ export class GameServer {
     }
     this.service.setEventService(this.eventService)
     const eventConsumers = await createEventConsumerTable(
-      this, this.mobService, this.service.itemService, new FightBuilder(this.eventService, this.service))
+      this,
+      this.mobService,
+      this.service.itemService,
+      new FightBuilder(this.eventService, this.service.mobService.locationService))
     eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
     this.authService = new AuthService(await getPlayerRepository())
     this.actions = this.service.getActionCollection()

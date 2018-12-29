@@ -162,8 +162,8 @@ export default class TestBuilder {
   }
 
   public async fight(target = this.withMob().mob): Promise<Fight> {
+    await this.getService()
     const fight = new Fight(
-      await this.getService(),
       await this.getEventService(),
       this.mobForRequest, target,
       this.room)
@@ -226,13 +226,18 @@ export default class TestBuilder {
 
   public async getEventService() {
     if (!this.eventService) {
-      const gameServer = new GameServer(null, this.service, null, this.service.mobService)
       this.eventService = new EventService()
+      const gameServer = new GameServer(
+        null,
+        this.service,
+        null,
+        this.service.mobService,
+        this.eventService)
       const eventConsumers = await eventConsumerTable(
         gameServer,
         this.service.mobService,
         this.service.itemService,
-        new FightBuilder(this.eventService, this.service))
+        new FightBuilder(this.eventService, this.service.mobService.locationService))
       eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
     }
     return this.eventService
