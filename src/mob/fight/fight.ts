@@ -6,8 +6,6 @@ import {EventType} from "../../event/eventType"
 import GameService from "../../gameService/gameService"
 import roll, {simpleD4} from "../../random/dice"
 import {Room} from "../../room/model/room"
-import {createSkillTriggerEvents} from "../../skill/trigger/factory"
-import {Resolution} from "../../skill/trigger/resolution"
 import {BASE_KILL_EXPERIENCE} from "../constants"
 import {Disposition} from "../enum/disposition"
 import {Trigger} from "../enum/trigger"
@@ -98,7 +96,7 @@ export class Fight {
     this.status = Status.Done
   }
 
-  private async attack(attacker: Mob, defender: Mob): Promise<Attack> {
+  public async attack(attacker: Mob, defender: Mob): Promise<Attack> {
     const eventResponse = await this.eventService.publish(
       new FightEvent(EventType.AttackRoundStart, attacker, this))
     if (eventResponse.status === EventResponseStatus.Satisfied) {
@@ -136,21 +134,13 @@ export class Fight {
   }
 
   private async turnFor(x: Mob, y: Mob): Promise<Attack[]> {
-    const attacks = []
-    const events = await createSkillTriggerEvents(this.service, x, Trigger.AttackRound, y, this.room)
-    for (let i = -1; i < events.length; i++) {
-      const doAttack = i >= 0 ? events[i].skillEventResolution === Resolution.Invoked : true
-      if (doAttack) {
-        const attack = await this.attack(x, y)
-        attacks.push(attack)
-        if (y.vitals.hp < 0) {
-          this.deathOccurred(x, y)
+    const attacks = [await this.attack(x, y)]
+    if (y.vitals.hp < 0) {
+      this.deathOccurred(x, y)
 
-          return attacks
-        }
-      }
+      return attacks
     }
-
+    await this.eventService.publish(new FightEvent(EventType.AttackRound, x, this, attacks))
     return attacks
   }
 
