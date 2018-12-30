@@ -125,8 +125,7 @@ export class Client {
     }
     const requestArgs = data.request.split(" ")
     const mob = this.player.sessionMob
-    const requestBuilder = new RequestBuilder(mob, room, this.getMobTable())
-    return requestBuilder.create(requestArgs[0], data.request)
+    return new RequestBuilder(mob, room, this.getMobTable()).create(requestArgs[0], data.request)
   }
 
   private applyCosts(costs: Cost[]): void {
