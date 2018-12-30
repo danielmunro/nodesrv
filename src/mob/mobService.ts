@@ -38,7 +38,7 @@ export function assignSpecializationToMob(mob: Mob, specialization: Specializati
 export default class MobService {
   constructor(
     public readonly mobTable: MobTable = new MobTable(),
-    private readonly mobTemplateTable: MobTable = new MobTable(),
+    public readonly mobTemplateTable: MobTable = new MobTable(),
     private readonly fightTable: FightTable = new FightTable(),
     public readonly locationService: LocationService = new LocationService()) {}
 

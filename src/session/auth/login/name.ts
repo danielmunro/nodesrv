@@ -20,7 +20,7 @@ export default class Name extends PlayerAuthStep implements AuthStep {
       return this.existingMobFound(request, mob)
     }
 
-    return request.ok(new NewMobConfirm(this.player, name))
+    return request.ok(new NewMobConfirm(this.authService, this.player, name))
   }
 
   private async existingMobFound(request, mob): Promise<Response> {
@@ -30,6 +30,6 @@ export default class Name extends PlayerAuthStep implements AuthStep {
 
     this.player.sessionMob = mob
 
-    return request.ok(new Complete(this.player))
+    return request.ok(new Complete(this.authService, this.player))
   }
 }

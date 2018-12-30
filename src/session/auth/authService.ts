@@ -12,6 +12,6 @@ export default class AuthService {
   }
 
   public findOnePlayerMob(name: string) {
-    return this.mobService.mobTable.find(m => m.name === name && !m.traits.isNpc)
+    return this.mobService.mobTemplateTable.find(m => m.name === name && !m.traits.isNpc)
   }
 }
