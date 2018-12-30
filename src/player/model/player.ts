@@ -21,7 +21,7 @@ export class Player {
   @Column("text")
   public password: string
 
-  @OneToMany((type) => Mob, (mob) => mob.player, { eager: true, cascadeInsert: true, cascadeUpdate: true })
+  @OneToMany(() => Mob, mob => mob.player, { eager: true })
   public mobs: Mob[] = []
 
   public sessionMob: Mob

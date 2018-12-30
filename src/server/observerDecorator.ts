@@ -1,5 +1,6 @@
 import EventService from "../event/eventService"
 import ResetService from "../gameService/resetService"
+import {getPlayerRepository} from "../player/repository/player"
 import { DiceRoller } from "../random/dice"
 import { FiveMinuteTimer } from "../timer/fiveMinuteTimer"
 import { MinuteTimer } from "../timer/minuteTimer"
@@ -29,7 +30,7 @@ export default async function addObservers(
     ]),
     new RandomTickTimer(
       new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
-  gameServer.addObserver(new PersistPlayers(), new MinuteTimer())
+  gameServer.addObserver(new PersistPlayers(await getPlayerRepository()), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(locationService), new MinuteTimer())
   gameServer.addObserver(new FightRounds(gameServer.mobService), new SecondIntervalTimer())
   const respawner = new Respawner(resetService)

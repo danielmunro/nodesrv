@@ -1,4 +1,9 @@
+import EventService from "../event/eventService"
+import {getConnection, initializeConnection} from "../support/db/connection"
 import addObservers from "./observerDecorator"
+
+beforeAll(async () => initializeConnection())
+afterAll(async () => (await getConnection()).close())
 
 describe("observer decorator", () => {
   it("should call addObserver on server", async () => {
@@ -26,7 +31,7 @@ describe("observer decorator", () => {
     const mockServer = mock()
 
     // when
-    await addObservers(mockServer, null)
+    await addObservers(mockServer, null, new EventService())
 
     // then
     expect(mockServer.addObserver).toBeCalled()
