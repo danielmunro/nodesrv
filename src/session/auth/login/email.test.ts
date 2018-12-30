@@ -3,10 +3,10 @@ import { getPlayerRepository } from "../../../player/repository/player"
 import { savePlayer } from "../../../player/service"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
+import AuthService from "../authService"
 import Request from "../request"
 import Response from "../response"
 import { ResponseStatus } from "../responseStatus"
-import AuthService from "../authService"
 import Email from "./email"
 import NewPlayerConfirm from "./newPlayerConfirm"
 import Password from "./password"
@@ -15,7 +15,7 @@ async function processInput(input: string, client = null): Promise<Response> {
   if (!client) {
     client = await getTestClient()
   }
-  return new Email(new AuthService(await getPlayerRepository())).processRequest(
+  return new Email(new AuthService(await getPlayerRepository(), null)).processRequest(
     new Request(client, input))
 }
 

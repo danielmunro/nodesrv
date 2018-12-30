@@ -9,6 +9,8 @@ import PasswordConfirm from "./passwordConfirm"
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
+const mockAuthService = jest.fn()
+
 describe("create player password", () => {
   it("should require at least three characters", async () => {
     // given
@@ -16,7 +18,7 @@ describe("create player password", () => {
 
     // setup
     const client = await getTestClient()
-    const password = new Password(client.player)
+    const password = new Password(mockAuthService(), client.player)
 
     // when
     const response = await password.processRequest(new Request(client, playerPassword))
@@ -33,7 +35,7 @@ describe("create player password", () => {
 
     // setup
     const client = await getTestClient()
-    const password = new Password(client.player)
+    const password = new Password(mockAuthService(), client.player)
 
     // when
     const response = await password.processRequest(new Request(client, playerPassword))

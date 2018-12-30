@@ -23,6 +23,6 @@ export default class Specialization extends PlayerAuthStep implements AuthStep {
 
     assignSpecializationToMob(this.player.sessionMob, createSpecializationFromType(specialization))
 
-    return request.ok(new Complete(this.player))
+    return request.ok(new Complete(this.authService, this.player))
   }
 }

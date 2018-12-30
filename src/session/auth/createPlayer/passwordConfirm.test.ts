@@ -10,6 +10,8 @@ import PasswordConfirm from "./passwordConfirm"
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
+const mockAuthService = jest.fn()
+
 describe("create player password confirm auth step", () => {
   it("should work with matching passwords", async () => {
     // given
@@ -17,7 +19,7 @@ describe("create player password confirm auth step", () => {
     const client = await getTestClient()
 
     // setup
-    const passwordConfirm = new PasswordConfirm(client.player, password)
+    const passwordConfirm = new PasswordConfirm(mockAuthService(), client.player, password)
 
     // when
     const response = await passwordConfirm.processRequest(new Request(client, password))
@@ -34,7 +36,7 @@ describe("create player password confirm auth step", () => {
     const client = await getTestClient()
 
     // setup
-    const passwordConfirm = new PasswordConfirm(client.player, password1)
+    const passwordConfirm = new PasswordConfirm(mockAuthService(), client.player, password1)
 
     // when
     const response = await passwordConfirm.processRequest(new Request(client, password2))

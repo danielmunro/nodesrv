@@ -4,14 +4,16 @@ import {getConnection, initializeConnection} from "../support/db/connection"
 import { getTestClient } from "../test/client"
 import { getTestMob } from "../test/mob"
 import { getTestPlayer } from "../test/player"
+import AuthService from "./auth/authService"
 import Complete from "./auth/complete"
 import Email from "./auth/login/email"
 import Request from "./auth/request"
-import AuthService from "./auth/authService"
 import Session from "./session"
 
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
+
+const mockAuthService = jest.fn()
 
 describe("session", () => {
   it("isLoggedIn sanity check", async () => {
@@ -21,7 +23,7 @@ describe("session", () => {
     player.sessionMob = mob
     const client = await getTestClient()
     const session = new Session(
-      new Email(new AuthService(await getPlayerRepository())),
+      new Email(new AuthService(await getPlayerRepository(), null)),
       new LocationService([]))
 
     // expect
@@ -40,7 +42,7 @@ describe("session", () => {
     // given
     const client = await getTestClient()
     const session = new Session(
-      new Complete(client.player),
+      new Complete(mockAuthService(), client.player),
       new LocationService([]))
 
     // expect

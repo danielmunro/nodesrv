@@ -1,9 +1,13 @@
 import * as sillyname from "sillyname"
 import { Client } from "../../../client/client"
+import MobService from "../../../mob/mobService"
+import MobTable from "../../../mob/mobTable"
+import {getPlayerRepository} from "../../../player/repository/player"
 import { savePlayer } from "../../../player/service"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
 import { getTestMob } from "../../../test/mob"
+import AuthService from "../authService"
 import Complete from "../complete"
 import { MESSAGE_UNAVAILABLE } from "../constants"
 import NewMobConfirm from "../createMob/newMobConfirm"
@@ -26,6 +30,10 @@ async function createAuthUser(name: string): Promise<Client> {
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
+async function getAuthService(mobTable: MobTable = new MobTable()) {
+  return new AuthService(await getPlayerRepository(), new MobService(mobTable))
+}
+
 describe("auth login name", () => {
   it("should be able to request a new mob", async () => {
     // given
@@ -33,7 +41,7 @@ describe("auth login name", () => {
 
     // setup
     const client = await getTestClient()
-    const name = new Name(client.player, client.getMobTable())
+    const name = new Name(await getAuthService(), client.player)
 
     // when
     const response = await name.processRequest(new Request(client, validMobName))
@@ -56,7 +64,7 @@ describe("auth login name", () => {
     table.add(client2.getSessionMob())
 
     // setup -- create a name auth step
-    const name = new Name(client1.player, table)
+    const name = new Name(await getAuthService(table), client1.player)
 
     // when
     const response = await name.processRequest(new Request(client1, player2MobName))
@@ -75,7 +83,7 @@ describe("auth login name", () => {
     const client = await createAuthUser(mobName)
     const table = client.getMobTable()
     table.add(client.getSessionMob())
-    const name = new Name(client.player, table)
+    const name = new Name(await getAuthService(table), client.player)
 
     // when
     const response = await name.processRequest(new Request(client, mobName))

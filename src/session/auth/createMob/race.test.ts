@@ -9,6 +9,8 @@ import Specialization from "./specialization"
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
+const mockAuthService = jest.fn()
+
 describe("race create mob auth step", () => {
   it("should not allow invalid race options", async () => {
     // given
@@ -20,7 +22,7 @@ describe("race create mob auth step", () => {
 
     // setup
     const client = await getTestClient()
-    const race = new Race(client.player)
+    const race = new Race(mockAuthService(), client.player)
 
     // when
     return Promise.all(badInputs.map(async (badInput) => {
@@ -33,7 +35,7 @@ describe("race create mob auth step", () => {
   it("should allow playable races", async () => {
     // setup
     const client = await getTestClient()
-    const race = new Race(client.player)
+    const race = new Race(mockAuthService(), client.player)
 
     // when
     return Promise.all(allRaces.map(async (input) => {

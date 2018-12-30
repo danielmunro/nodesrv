@@ -1,10 +1,10 @@
 import { Player } from "../../../player/model/player"
+import AuthService from "../authService"
 import AuthStep from "../authStep"
 import { MESSAGE_NEW_PLAYER_CONFIRM, MESSAGE_YN_FAILED } from "../constants"
 import Password from "../createPlayer/password"
 import Request from "../request"
 import Response from "../response"
-import AuthService from "../authService"
 import Email from "./email"
 
 export default class NewPlayerConfirm implements AuthStep {

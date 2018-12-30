@@ -4,8 +4,8 @@ import GameService from "../gameService/gameService"
 import MobService from "../mob/mobService"
 import { getPlayerRepository } from "../player/repository/player"
 import RoomTable from "../room/roomTable"
-import Email from "../session/auth/login/email"
 import { default as AuthService } from "../session/auth/authService"
+import Email from "../session/auth/login/email"
 import Session from "../session/session"
 import { getTestPlayer } from "./player"
 import { getTestRoom } from "./room"
@@ -31,9 +31,10 @@ async function createClient(
 }
 
 export async function getTestClient(player = getTestPlayer(), room = getTestRoom()): Promise<Client> {
-  const service = new GameService(new MobService(), null, null, null)
+  const mobService = new MobService()
+  const service = new GameService(mobService, null, null, null)
   const actions = service.getActionCollection()
-  const authService = new AuthService(await getPlayerRepository())
+  const authService = new AuthService(await getPlayerRepository(), mobService)
   const client = await createClient(player, actions, service, room, service.mobService.locationService, authService)
   await client.session.login(client, player)
 
@@ -41,7 +42,8 @@ export async function getTestClient(player = getTestPlayer(), room = getTestRoom
 }
 
 export async function getTestClientLoggedOut(player = getTestPlayer(), room = getTestRoom()): Promise<Client> {
+  const mobService = new MobService()
   const service = new GameService(new MobService(), RoomTable.new([room]), null, null)
-  const authService = new AuthService(await getPlayerRepository())
+  const authService = new AuthService(await getPlayerRepository(), mobService)
   return createClient(player, service.getActionCollection(), service, room, service.mobService.mobTable, authService)
 }

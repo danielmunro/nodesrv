@@ -9,6 +9,8 @@ import Specialization from "./specialization"
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
+const mockAuthService = jest.fn()
+
 describe("specialization create mob auth step", () => {
   it("should not allow invalid specialization options", async () => {
     // given
@@ -20,7 +22,7 @@ describe("specialization create mob auth step", () => {
 
     // setup
     const client = await getTestClient()
-    const specialization = new Specialization(client.player)
+    const specialization = new Specialization(mockAuthService(), client.player)
 
     // when
     return Promise.all(badInputs.map(async (badInput) => {
@@ -34,7 +36,7 @@ describe("specialization create mob auth step", () => {
     // when
     return Promise.all(allSpecializations.map(async (input) => {
       const client = await getTestClient()
-      const specialization = new Specialization(client.player)
+      const specialization = new Specialization(mockAuthService(), client.player)
       const response = await specialization.processRequest(new Request(client, input))
       expect(response.status).toBe(ResponseStatus.OK)
       expect(response.authStep).toBeInstanceOf(Complete)

@@ -1,18 +1,16 @@
 import { validate } from "email-validator"
+import AbstractAuthStep from "../abstractAuthStep"
 import AuthStep from "../authStep"
 import { MESSAGE_EMAIL, MESSAGE_FAIL_EMAIL_ADDRESS_INVALID } from "../constants"
 import Request from "../request"
 import Response from "../response"
-import AuthService from "../authService"
 import NewPlayerConfirm from "./newPlayerConfirm"
 import Password from "./password"
 
-export default class Email implements AuthStep {
+export default class Email extends AbstractAuthStep implements AuthStep {
   private static isEmailValid(email: string): boolean {
     return validate(email)
   }
-
-  constructor(private readonly authService: AuthService) {}
 
   /* istanbul ignore next */
   public getStepMessage(): string {
@@ -29,7 +27,7 @@ export default class Email implements AuthStep {
     const player = await this.authService.getOnePlayer(email)
 
     if (player) {
-      return request.ok(new Password(player))
+      return request.ok(new Password(this.authService, player))
     }
 
     return request.ok(new NewPlayerConfirm(this.authService, email))

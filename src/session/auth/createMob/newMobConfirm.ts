@@ -2,20 +2,18 @@ import { newAttributes, newHitroll, newStartingStats, newStartingVitals } from "
 import { Mob } from "../../../mob/model/mob"
 import { PlayerMob } from "../../../mob/model/playerMob"
 import { Player } from "../../../player/model/player"
+import AuthService from "../authService"
 import AuthStep from "../authStep"
 import { MESSAGE_NEW_MOB_CONFIRM, MESSAGE_YN_FAILED } from "../constants"
 import Name from "../login/name"
+import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
 import Race from "./race"
 
-export default class NewMobConfirm implements AuthStep {
-  public readonly player: Player
-  public readonly name: string
-
-  constructor(player: Player, name: string) {
-    this.player = player
-    this.name = name
+export default class NewMobConfirm extends PlayerAuthStep implements AuthStep {
+  constructor(authService: AuthService, player: Player, public readonly name: string) {
+    super(authService, player)
   }
 
   /* istanbul ignore next */
@@ -25,12 +23,12 @@ export default class NewMobConfirm implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     if (request.didDeny()) {
-      return request.ok(new Name(this.player, request.client.getMobTable()))
+      return request.ok(new Name(this.authService, this.player))
     } else if (request.didConfirm()) {
       const mob = await this.createMob()
       this.player.mobs.push(mob)
       this.player.sessionMob = mob
-      return request.ok(new Race(this.player))
+      return request.ok(new Race(this.authService, this.player))
     }
 
     return request.fail(this, MESSAGE_YN_FAILED)

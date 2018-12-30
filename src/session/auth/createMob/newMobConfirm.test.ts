@@ -9,13 +9,15 @@ import Race from "./race"
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
+const mockAuthService = jest.fn()
+
 describe("new mob confirm auth step", () => {
   it("should bounce back to mob name if the client selects 'n'", async () => {
     // given
     const client = await getTestClient()
 
     // setup
-    const newMobConfirm = new NewMobConfirm(client.player, "foo")
+    const newMobConfirm = new NewMobConfirm(mockAuthService(), client.player, "foo")
 
     // when
     const response = await newMobConfirm.processRequest(new Request(client, "n"))
@@ -30,7 +32,7 @@ describe("new mob confirm auth step", () => {
     const client = await getTestClient()
 
     // setup
-    const newMobConfirm = new NewMobConfirm(client.player, "foo")
+    const newMobConfirm = new NewMobConfirm(mockAuthService(), client.player, "foo")
 
     // when
     const response = await newMobConfirm.processRequest(new Request(client, "y"))
@@ -45,7 +47,7 @@ describe("new mob confirm auth step", () => {
     const client = await getTestClient()
 
     // setup
-    const newMobConfirm = new NewMobConfirm(client.player, "foo")
+    const newMobConfirm = new NewMobConfirm(mockAuthService(), client.player, "foo")
 
     // when
     const inputs = [

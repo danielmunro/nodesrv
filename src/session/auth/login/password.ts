@@ -14,7 +14,7 @@ export default class Password extends PlayerAuthStep implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     if (verify(request.input, this.player.password)) {
-      return request.ok(new Name(this.player, request.client.getMobTable()), MESSAGE_NAME_OK)
+      return request.ok(new Name(this.authService, this.player), MESSAGE_NAME_OK)
     }
 
     return request.fail(this, MESSAGE_LOGIN_FAILED)

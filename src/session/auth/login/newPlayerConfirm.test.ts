@@ -1,17 +1,17 @@
 import { getPlayerRepository } from "../../../player/repository/player"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
+import AuthService from "../authService"
 import Password from "../createPlayer/password"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
-import AuthService from "../authService"
 import Email from "./email"
 import NewPlayerConfirm from "./newPlayerConfirm"
 
 const TEST_EMAIL = "foo@bar.com"
 
 async function getNewPlayerConfirm(email: string) {
-   return new NewPlayerConfirm(new AuthService(await getPlayerRepository()), email)
+   return new NewPlayerConfirm(new AuthService(await getPlayerRepository(), null), email)
 }
 
 beforeAll(async () => initializeConnection())

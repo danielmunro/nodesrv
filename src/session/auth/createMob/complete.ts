@@ -15,6 +15,6 @@ export default class Complete extends PlayerAuthStep implements AuthStep {
   public async processRequest(request: Request): Promise<Response> {
     await persistMob(this.player.sessionMob)
 
-    return request.ok(new FinalComplete(this.player))
+    return request.ok(new FinalComplete(this.authService, this.player))
   }
 }

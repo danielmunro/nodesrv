@@ -10,6 +10,8 @@ import Password from "./password"
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
+const mockAuthService = jest.fn()
+
 describe("password login auth step", () => {
   it("should be able to login in", async () => {
     // given
@@ -19,7 +21,7 @@ describe("password login auth step", () => {
     const client = await getTestClient()
     client.player.password = hash(playerPassword)
     await savePlayer(client.player)
-    const password = new Password(client.player)
+    const password = new Password(mockAuthService(), client.player)
 
     // when
     const response = await password.processRequest(new Request(client, playerPassword))
@@ -38,7 +40,7 @@ describe("password login auth step", () => {
     const client = await getTestClient()
     client.player.password = hash(playerPassword)
     await savePlayer(client.player)
-    const password = new Password(client.player)
+    const password = new Password(mockAuthService(), client.player)
 
     // when
     const response = await password.processRequest(new Request(client, input))

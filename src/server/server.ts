@@ -7,8 +7,8 @@ import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
 import { getPlayerRepository } from "../player/repository/player"
 import { Room } from "../room/model/room"
-import Email from "../session/auth/login/email"
 import { default as AuthService } from "../session/auth/authService"
+import Email from "../session/auth/login/email"
 import Session from "../session/session"
 import { poll } from "../support/poll/poll"
 import { ImmediateTimer } from "../timer/immediateTimer"
@@ -53,7 +53,7 @@ export class GameServer {
       this.service.itemService,
       new FightBuilder(this.eventService, this.service.mobService.locationService))
     eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
-    this.authService = new AuthService(await getPlayerRepository())
+    this.authService = new AuthService(await getPlayerRepository(), this.mobService)
     this.actions = this.service.getActionCollection()
     this.status = Status.Started
     this.wss.on(events.connection, this.addWS.bind(this))

@@ -10,13 +10,15 @@ import Complete from "./complete"
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
+const mockAuthService = jest.fn()
+
 describe("create mob auth step: complete", () => {
   it("should proceed to the final step unconditionally", async () => {
     // given
     const client = await getTestClient()
 
     // when
-    const response = await new Complete(client.player).processRequest(new Request(client, ""))
+    const response = await new Complete(mockAuthService(), client.player).processRequest(new Request(client, ""))
 
     // then
     expect(response.status).toBe(ResponseStatus.OK)
@@ -31,7 +33,7 @@ describe("create mob auth step: complete", () => {
     expect(client.player.sessionMob.id).toBeUndefined()
 
     // when
-    await new Complete(client.player).processRequest(new Request(client, ""))
+    await new Complete(mockAuthService(), client.player).processRequest(new Request(client, ""))
 
     // then
     expect(client.player.sessionMob.id).not.toBeUndefined()

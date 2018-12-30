@@ -1,6 +1,3 @@
-import MobTable from "../../../mob/mobTable"
-import { Mob } from "../../../mob/model/mob"
-import { Player } from "../../../player/model/player"
 import AuthStep from "../authStep"
 import Complete from "../complete"
 import { MESSAGE_NAME, MESSAGE_UNAVAILABLE } from "../constants"
@@ -10,10 +7,6 @@ import Request from "../request"
 import Response from "../response"
 
 export default class Name extends PlayerAuthStep implements AuthStep {
-  constructor(player: Player, private readonly mobTable: MobTable) {
-    super(player)
-  }
-
   /* istanbul ignore next */
   public getStepMessage(): string {
     return MESSAGE_NAME
@@ -21,7 +14,7 @@ export default class Name extends PlayerAuthStep implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     const name = request.input
-    const mob = this.mobTable.find((m: Mob) => m.name === name && !m.traits.isNpc)
+    const mob = this.authService.findOnePlayerMob(name)
 
     if (mob) {
       return this.existingMobFound(request, mob)

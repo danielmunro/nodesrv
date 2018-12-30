@@ -17,6 +17,6 @@ export default class Password extends PlayerAuthStep implements AuthStep {
       return request.fail(this, MESSAGE_FAIL_PASSWORD_TOO_SHORT)
     }
 
-    return request.ok(new PasswordConfirm(this.player, request.input))
+    return request.ok(new PasswordConfirm(this.authService, this.player, request.input))
   }
 }

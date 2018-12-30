@@ -27,6 +27,6 @@ export default class Race extends PlayerAuthStep implements AuthStep {
     mob.playerMob.appetite = appetite(race)
     mob.playerMob.hunger = appetite(race)
     mob.skills.push(...getRaceSkills(race).map((skill) => newSkill(skill.skillType)))
-    return request.ok(new Specialization(this.player))
+    return request.ok(new Specialization(this.authService, this.player))
   }
 }
