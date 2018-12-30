@@ -30,8 +30,8 @@ async function createAuthUser(name: string): Promise<Client> {
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
-async function getAuthService(mobTable: MobTable = new MobTable()) {
-  return new AuthService(await getPlayerRepository(), new MobService(mobTable))
+async function getAuthService(mobTable: MobTable = new MobTable(), mobTemplateTable: MobTable = new MobTable()) {
+  return new AuthService(await getPlayerRepository(), new MobService(mobTable, mobTemplateTable))
 }
 
 describe("auth login name", () => {
@@ -59,12 +59,12 @@ describe("auth login name", () => {
     // setup -- persist some players/mobs
     const client1 = await createAuthUser(player1MobName)
     const client2 = await createAuthUser(player2MobName)
-    const table = client1.getMobTable()
+    const table = new MobTable()
     table.add(client1.getSessionMob())
     table.add(client2.getSessionMob())
 
     // setup -- create a name auth step
-    const name = new Name(await getAuthService(table), client1.player)
+    const name = new Name(await getAuthService(new MobTable(), table), client1.player)
 
     // when
     const response = await name.processRequest(new Request(client1, player2MobName))
@@ -81,9 +81,9 @@ describe("auth login name", () => {
 
     // setup
     const client = await createAuthUser(mobName)
-    const table = client.getMobTable()
+    const table = new MobTable()
     table.add(client.getSessionMob())
-    const name = new Name(await getAuthService(table), client.player)
+    const name = new Name(await getAuthService(new MobTable(), table), client.player)
 
     // when
     const response = await name.processRequest(new Request(client, mobName))
