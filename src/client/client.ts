@@ -3,6 +3,7 @@ import { Collection } from "../action/definition/collection"
 import { Definition } from "../action/definition/definition"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
+import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
 import { Item } from "../item/model/item"
 import { Fight } from "../mob/fight/fight"
@@ -34,7 +35,8 @@ export class Client {
     public readonly handlers: Collection,
     private readonly service: GameService,
     private readonly startRoom: Room,
-    private readonly locationService: LocationService) {
+    private readonly locationService: LocationService,
+    private readonly eventService: EventService) {
     this.ws.onmessage = data => {
       const mobLocation = this.locationService.getLocationForMob(this.getSessionMob())
       this.addRequest(this.getNewRequestFromMessageEvent(mobLocation ? mobLocation.room : null, data))
@@ -70,7 +72,11 @@ export class Client {
   public async handleNextRequest() {
     if (!this.session.isLoggedIn()) {
       const request = this.requests.shift() as AuthRequest
-      return this.session.handleRequest(this, request)
+      const response = await this.session.handleRequest(this, request)
+      if (this.session.isLoggedIn() && this.session.getIsMobCreated()) {
+        this.getMobTable().add(this.session.getMob())
+      }
+      return response
     }
 
     return this.handleRequest(this.requests.shift())
@@ -144,7 +150,7 @@ export class Client {
       const request = response.getCheckedRequest().request
       this.service.mobService.addFight(
         new Fight(
-          this.service.eventService,
+          this.eventService,
           this.player.sessionMob,
           request.getTarget() as Mob,
           request.room))

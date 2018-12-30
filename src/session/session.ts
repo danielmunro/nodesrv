@@ -36,7 +36,8 @@ export default class Session {
       || this.authStep instanceof PlayerComplete || this.authStep instanceof Complete) {
       this.authStep = (await this.authStep.processRequest(request)).authStep
       if (this.authStep instanceof Complete) {
-        return await this.login(client, this.authStep.player)
+        await this.login(client, this.authStep.player)
+        return
       }
       client.send({ message: this.authStep.getStepMessage() })
     }
@@ -54,13 +55,14 @@ export default class Session {
     return this.player
   }
 
-  public async login(client: Client, player: Player) {
+  public getIsMobCreated(): boolean {
+    return this.isMobCreated
+  }
+
+  public async login(client: Client, player: Player): Promise<void> {
     this.mob = player.sessionMob
     this.player = player
     this.locationService.addMobLocation(newMobLocation(this.mob, client.getStartRoom()))
-    if (this.isMobCreated) {
-      client.getMobTable().add(this.mob)
-    }
     this.status = SessionStatus.LoggedIn
     client.player = player
   }

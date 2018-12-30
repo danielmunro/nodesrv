@@ -66,7 +66,8 @@ export default class TestBuilder {
       service.getActionCollection(),
       service,
       this.room,
-      this.serviceBuilder.locationService)
+      this.serviceBuilder.locationService,
+      await this.getEventService())
     await client.session.login(client, this.player)
     this.mobForRequest = client.getSessionMob()
     this.serviceBuilder.addMob(this.mobForRequest)

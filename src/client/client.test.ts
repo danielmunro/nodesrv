@@ -72,7 +72,7 @@ describe("client sanity checks", () => {
         ws(),
         "127.0.0.1",
         new Collection([], []),
-        mockService(), mockService(), mockService())
+        mockService(), mockService(), mockService(), mockService())
     })
 
     it("send sanity test", () => {

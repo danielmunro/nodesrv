@@ -1,4 +1,5 @@
 import { Client } from "../client/client"
+import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
 import MobService from "../mob/mobService"
 import { getPlayerRepository } from "../player/repository/player"
@@ -22,7 +23,8 @@ async function createClient(
     actions,
     service,
     startRoom,
-    locationService)
+    locationService,
+    new EventService())
   client.player = player
 
   return client
