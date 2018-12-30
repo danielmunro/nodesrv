@@ -17,7 +17,6 @@ export default class Session {
   private isMobCreated: boolean
 
   constructor(
-    public readonly client: Client,
     private authStep: AuthStep,
     private readonly locationService: LocationService) {}
 
@@ -25,11 +24,11 @@ export default class Session {
     return this.status === SessionStatus.LoggedIn
   }
 
-  public async handleRequest(request: AuthRequest) {
+  public async handleRequest(client: Client, request: AuthRequest) {
     const response = await this.authStep.processRequest(request)
     this.authStep = response.authStep
-    this.client.send({ message: response.message })
-    this.client.send({ message: this.authStep.getStepMessage() })
+    client.send({ message: response.message })
+    client.send({ message: this.authStep.getStepMessage() })
     if (this.authStep instanceof MobComplete) {
       this.isMobCreated = true
     }
@@ -37,9 +36,9 @@ export default class Session {
       || this.authStep instanceof PlayerComplete || this.authStep instanceof Complete) {
       this.authStep = (await this.authStep.processRequest(request)).authStep
       if (this.authStep instanceof Complete) {
-        return await this.login(this.authStep.player)
+        return await this.login(client, this.authStep.player)
       }
-      this.client.send({ message: this.authStep.getStepMessage() })
+      client.send({ message: this.authStep.getStepMessage() })
     }
   }
 
@@ -55,14 +54,14 @@ export default class Session {
     return this.player
   }
 
-  public async login(player: Player) {
+  public async login(client: Client, player: Player) {
     this.mob = player.sessionMob
     this.player = player
-    this.locationService.addMobLocation(newMobLocation(this.mob, this.client.getStartRoom()))
+    this.locationService.addMobLocation(newMobLocation(this.mob, client.getStartRoom()))
     if (this.isMobCreated) {
-      this.client.getMobTable().add(this.mob)
+      client.getMobTable().add(this.mob)
     }
     this.status = SessionStatus.LoggedIn
-    this.client.player = player
+    client.player = player
   }
 }

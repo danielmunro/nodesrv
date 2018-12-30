@@ -40,10 +40,6 @@ export default class GameService {
     this.eventService = eventService
   }
 
-  public incrementTime() {
-    this.timeService.incrementTime()
-  }
-
   public getCurrentTime() {
     return this.timeService.getCurrentTime()
   }

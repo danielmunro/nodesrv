@@ -16,7 +16,6 @@ import { Mob } from "../mob/model/mob"
 import Shop from "../mob/model/shop"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Player } from "../player/model/player"
-import { getPlayerRepository } from "../player/repository/player"
 import newRegion from "../region/factory"
 import { Terrain } from "../region/terrain"
 import InputContext from "../request/context/inputContext"
@@ -27,7 +26,7 @@ import { Direction } from "../room/constants"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
 import {GameServer} from "../server/server"
-import { default as AuthService } from "../session/auth/service"
+import Session from "../session/session"
 import SkillDefinition from "../skill/skillDefinition"
 import { getSkillTable } from "../skill/skillTable"
 import { SkillType } from "../skill/skillType"
@@ -61,14 +60,14 @@ export default class TestBuilder {
     }
     const service = await this.getService()
     const client = new Client(
+      new Session(null, this.serviceBuilder.locationService),
       ws(),
       "127.0.0.1",
       service.getActionCollection(),
       service,
       this.room,
-      new AuthService(await getPlayerRepository()),
       this.serviceBuilder.locationService)
-    await client.session.login(this.player)
+    await client.session.login(client, this.player)
     this.mobForRequest = client.getSessionMob()
     this.serviceBuilder.addMob(this.mobForRequest)
 

@@ -4,6 +4,7 @@ import InputContext from "../request/context/inputContext"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { default as AuthRequest } from "../session/auth/request"
+import Session from "../session/session"
 import { SkillType } from "../skill/skillType"
 import {getConnection, initializeConnection} from "../support/db/connection"
 import doNTimes from "../support/functional/times"
@@ -57,22 +58,61 @@ describe("client sanity checks", () => {
     expect(client.canHandleRequests()).toBeFalsy()
   })
 
-  it("send sanity test", () => {
-    // setup
-    const send = jest.fn()
-    const ws = jest.fn(() => ({
-      send,
-    }))
-    client = new Client(ws(), "127.0.0.1", new Collection([], []), jest.fn(), jest.fn(), jest.fn(), jest.fn())
+  describe("client sanity checks with mock services", () => {
+    let send
 
-    // expect
-    expect(send.mock.calls.length).toBe(0)
+    beforeEach(() => {
+      send = jest.fn()
+      const ws = jest.fn(() => ({
+        send,
+      }))
+      const mockService = jest.fn()
+      client = new Client(
+        new Session(null, null),
+        ws(),
+        "127.0.0.1",
+        new Collection([], []),
+        mockService(), mockService(), mockService())
+    })
 
-    // when
-    client.send({})
+    it("send sanity test", () => {
+      // expect
+      expect(send.mock.calls.length).toBe(0)
 
-    // then
-    expect(send.mock.calls.length).toBe(1)
+      // when
+      client.send({})
+
+      // then
+      expect(send.mock.calls.length).toBe(1)
+    })
+
+    it("should pass tick info through the socket", () => {
+      // setup
+      const id = "test-tick-id"
+      const timestamp = new Date()
+
+      // when
+      client.tick(id, timestamp)
+
+      // then
+      expect(send.mock.calls.length).toBe(1)
+      expect(send.mock.calls[0][0]).toContain("tick")
+    })
+
+    it("not logged in clients should always be able to handle requests if ones are available", () => {
+      // setup
+      client.player = new Player()
+      client.addRequest(new AuthRequest(client, RequestType.Any))
+
+      // expect
+      expect(client.isLoggedIn()).toBeFalsy()
+
+      // when
+      client.player.delay += 1
+
+      // then
+      expect(client.canHandleRequests()).toBeTruthy()
+    })
   })
 
   it("on result sanity test", () => {
@@ -116,43 +156,6 @@ describe("clients", () => {
 
     // then
     expect(response.message.getMessageToRequestCreator()).toContain(MESSAGE_NOT_UNDERSTOOD)
-  })
-
-  it("should pass tick info through the socket", () => {
-    // setup
-    const buf = []
-    const ws = jest.fn(() => ({
-        send: (message) => buf.push(message),
-      }))
-    client = new Client(ws(), "127.0.0.1", new Collection([], []), jest.fn(), jest.fn(), jest.fn(), jest.fn())
-    const id = "test-tick-id"
-    const timestamp = new Date()
-
-    // expect
-    expect(buf.length).toBe(0)
-
-    // when
-    client.tick(id, timestamp)
-
-    // then
-    expect(buf.length).toBe(1)
-    expect(buf[0]).toContain("tick")
-  })
-
-  it("not logged in clients should always be able to handle requests if ones are available", () => {
-    // setup
-    const newClient = new Client(jest.fn(), "127.0.0.1", jest.fn(), jest.fn(), jest.fn(), jest.fn(), jest.fn())
-    newClient.player = new Player()
-    newClient.addRequest(new AuthRequest(newClient, RequestType.Any))
-
-    // expect
-    expect(newClient.isLoggedIn()).toBeFalsy()
-
-    // when
-    newClient.player.delay += 1
-
-    // then
-    expect(newClient.canHandleRequests()).toBeTruthy()
   })
 
   it("training will apply the cost appropriately", async () => {

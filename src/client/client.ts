@@ -15,9 +15,7 @@ import RequestBuilder from "../request/requestBuilder"
 import { RequestType } from "../request/requestType"
 import Response from "../request/response"
 import { Room } from "../room/model/room"
-import Email from "../session/auth/login/email"
 import { default as AuthRequest } from "../session/auth/request"
-import { default as AuthService } from "../session/auth/service"
 import Session from "../session/session"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
 
@@ -27,18 +25,16 @@ export function getDefaultUnhandledMessage(request: Request) {
 
 export class Client {
   public player: Player
-  public readonly session: Session
   private requests = []
 
   constructor(
+    public readonly session: Session,
     public readonly ws: WebSocket,
     public readonly ip: string,
     public readonly handlers: Collection,
     private readonly service: GameService,
     private readonly startRoom: Room,
-    private readonly authService: AuthService,
     private readonly locationService: LocationService) {
-    this.session = new Session(this, new Email(this.authService), this.locationService)
     this.ws.onmessage = data => {
       const mobLocation = this.locationService.getLocationForMob(this.getSessionMob())
       this.addRequest(this.getNewRequestFromMessageEvent(mobLocation ? mobLocation.room : null, data))
@@ -74,7 +70,7 @@ export class Client {
   public async handleNextRequest() {
     if (!this.session.isLoggedIn()) {
       const request = this.requests.shift() as AuthRequest
-      return this.session.handleRequest(request)
+      return this.session.handleRequest(this, request)
     }
 
     return this.handleRequest(this.requests.shift())

@@ -21,7 +21,6 @@ describe("session", () => {
     player.sessionMob = mob
     const client = await getTestClient()
     const session = new Session(
-      client,
       new Email(new Service(await getPlayerRepository())),
       new LocationService([]))
 
@@ -29,7 +28,7 @@ describe("session", () => {
     expect(session.isLoggedIn()).toBeFalsy()
 
     // when
-    await session.login(player)
+    await session.login(client, player)
 
     // then
     expect(session.isLoggedIn()).toBeTruthy()
@@ -41,7 +40,6 @@ describe("session", () => {
     // given
     const client = await getTestClient()
     const session = new Session(
-      client,
       new Complete(client.player),
       new LocationService([]))
 
@@ -49,7 +47,7 @@ describe("session", () => {
     expect(session.isLoggedIn()).toBeFalsy()
 
     // when
-    await session.handleRequest(new Request(client, ""))
+    await session.handleRequest(client, new Request(client, ""))
 
     // then
     expect(session.isLoggedIn()).toBeTruthy()

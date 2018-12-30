@@ -7,7 +7,9 @@ import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
 import { getPlayerRepository } from "../player/repository/player"
 import { Room } from "../room/model/room"
+import Email from "../session/auth/login/email"
 import { default as AuthService } from "../session/auth/service"
+import Session from "../session/session"
 import { poll } from "../support/poll/poll"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { SecondIntervalTimer } from "../timer/secondTimer"
@@ -66,12 +68,12 @@ export class GameServer {
 
   public async addWS(ws: WebSocket, req): Promise<void> {
     const client = new Client(
+      new Session(new Email(this.authService), this.mobService.locationService),
       ws,
       req ? req.connection.remoteAddress : null,
       this.actions,
       this.service,
       this.startRoom,
-      this.authService,
       this.mobService.locationService)
     console.info("new client connected", { ip: client.ip })
     this.clientService.add(client)
