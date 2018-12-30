@@ -3,7 +3,7 @@ import AuthStep from "../authStep"
 import { MESSAGE_EMAIL, MESSAGE_FAIL_EMAIL_ADDRESS_INVALID } from "../constants"
 import Request from "../request"
 import Response from "../response"
-import Service from "../service"
+import AuthService from "../authService"
 import NewPlayerConfirm from "./newPlayerConfirm"
 import Password from "./password"
 
@@ -12,7 +12,7 @@ export default class Email implements AuthStep {
     return validate(email)
   }
 
-  constructor(private readonly authService: Service) {}
+  constructor(private readonly authService: AuthService) {}
 
   /* istanbul ignore next */
   public getStepMessage(): string {

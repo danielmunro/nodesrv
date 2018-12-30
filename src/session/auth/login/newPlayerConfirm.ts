@@ -4,11 +4,11 @@ import { MESSAGE_NEW_PLAYER_CONFIRM, MESSAGE_YN_FAILED } from "../constants"
 import Password from "../createPlayer/password"
 import Request from "../request"
 import Response from "../response"
-import Service from "../service"
+import AuthService from "../authService"
 import Email from "./email"
 
 export default class NewPlayerConfirm implements AuthStep {
-  constructor(private readonly authService: Service, private readonly email: string) {}
+  constructor(private readonly authService: AuthService, private readonly email: string) {}
 
   /* istanbul ignore next */
   public getStepMessage(): string {

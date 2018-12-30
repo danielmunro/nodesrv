@@ -7,7 +7,7 @@ import { getTestPlayer } from "../test/player"
 import Complete from "./auth/complete"
 import Email from "./auth/login/email"
 import Request from "./auth/request"
-import Service from "./auth/service"
+import AuthService from "./auth/authService"
 import Session from "./session"
 
 beforeAll(async () => initializeConnection())
@@ -21,7 +21,7 @@ describe("session", () => {
     player.sessionMob = mob
     const client = await getTestClient()
     const session = new Session(
-      new Email(new Service(await getPlayerRepository())),
+      new Email(new AuthService(await getPlayerRepository())),
       new LocationService([]))
 
     // expect

@@ -4,14 +4,14 @@ import { getTestClient } from "../../../test/client"
 import Password from "../createPlayer/password"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
-import Service from "../service"
+import AuthService from "../authService"
 import Email from "./email"
 import NewPlayerConfirm from "./newPlayerConfirm"
 
 const TEST_EMAIL = "foo@bar.com"
 
 async function getNewPlayerConfirm(email: string) {
-   return new NewPlayerConfirm(new Service(await getPlayerRepository()), email)
+   return new NewPlayerConfirm(new AuthService(await getPlayerRepository()), email)
 }
 
 beforeAll(async () => initializeConnection())
