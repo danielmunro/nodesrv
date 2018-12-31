@@ -173,16 +173,4 @@ describe("clients", () => {
     // then
     expect(testClient.getSessionMob().playerMob.trains).toBe(0)
   })
-
-  it("should create a fight if the action outcome is such", async () => {
-    await doNTimes(1000, async () => {
-      testBuilder = new TestBuilder()
-      await testBuilder.withPlayerAndSkill(SkillType.Steal, 5)
-      testBuilder.withMob("bob").withAxeEq()
-      const response = await client.handleRequest(testBuilder.createRequest(RequestType.Steal))
-      const service = await testBuilder.getService()
-      expect(service.mobService.findFight(() => true)).toBe(
-        response.responseAction.wasFightStarted() ? true : undefined)
-    })
-  })
 })

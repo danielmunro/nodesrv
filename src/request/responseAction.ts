@@ -10,8 +10,4 @@ export default class ResponseAction {
   public wasItemDestroyed(): boolean {
     return this.actionOutcome === ActionOutcome.ItemDestroyed
   }
-
-  public wasFightStarted(): boolean {
-    return this.actionOutcome === ActionOutcome.FightStarted
-  }
 }

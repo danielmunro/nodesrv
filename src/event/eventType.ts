@@ -5,6 +5,7 @@ export enum EventType {
   ItemDropped,
   AttackRoundStart,
   AttackRound,
+  Attack,
   Social,
   Tick,
   TestA,

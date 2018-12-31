@@ -7,7 +7,6 @@ import {EventType} from "../event/eventType"
 import GameService from "../gameService/gameService"
 import { Item } from "../item/model/item"
 import MobEvent from "../mob/event/mobEvent"
-import { Fight } from "../mob/fight/fight"
 import LocationService from "../mob/locationService"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
@@ -137,16 +136,6 @@ export class Client {
     if (responseAction.wasItemDestroyed()) {
       this.service.itemService.remove(responseAction.thing as Item)
       return
-    }
-
-    if (responseAction.wasFightStarted()) {
-      const request = response.getCheckedRequest().request
-      this.service.mobService.addFight(
-        new Fight(
-          this.eventService,
-          this.player.sessionMob,
-          request.getTarget() as Mob,
-          request.room))
     }
   }
 }

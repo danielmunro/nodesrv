@@ -1,16 +1,17 @@
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import { CheckStatus } from "../../check/checkStatus"
+import GameService from "../../gameService/gameService"
 import { Player } from "../../player/model/player"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
 import kill from "./kill"
 
-function useKillRequest(player: Player, target, input: string) {
+function useKillRequest(service: GameService, player: Player, target, input: string) {
   return kill(new CheckedRequest(
     testBuilder.createRequest(RequestType.Kill, input, target),
-    new Check(CheckStatus.Ok, target, [])))
+    new Check(CheckStatus.Ok, target, [])), service)
 }
 
 let testBuilder: TestBuilder
@@ -25,7 +26,8 @@ describe("kill", () => {
     const target = testBuilder.withMob("bob").mob
 
     // when
-    const response = await useKillRequest(playerBuilder.player, target, `kill ${target.name}`)
+    const response = await useKillRequest(
+      await testBuilder.getService(), playerBuilder.player, target, `kill ${target.name}`)
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
