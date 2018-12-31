@@ -43,6 +43,6 @@ export class Player {
   }
 
   public ownsMob(mob: Mob): boolean {
-    return this.mobs.includes(mob)
+    return !!this.mobs.find(m => m.uuid === mob.uuid)
   }
 }
