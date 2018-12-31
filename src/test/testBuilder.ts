@@ -192,7 +192,7 @@ export default class TestBuilder {
   }
 
   public async createRequestBuilder() {
-    return new RequestBuilder(this.mobForRequest, this.room, (await this.getService()).mobService.mobTable)
+    return new RequestBuilder(this.mobForRequest, this.room)
   }
 
   public async getActionCollection(): Promise<Collection> {

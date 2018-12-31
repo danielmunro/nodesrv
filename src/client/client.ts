@@ -9,7 +9,6 @@ import { Item } from "../item/model/item"
 import MobEvent from "../mob/event/mobEvent"
 import { Fight } from "../mob/fight/fight"
 import LocationService from "../mob/locationService"
-import MobTable from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { Request } from "../request/request"
@@ -113,10 +112,6 @@ export class Client {
     return this.startRoom
   }
 
-  private getMobTable(): MobTable {
-    return this.service.mobService.mobTable
-  }
-
   private getNewRequestFromMessageEvent(room: Room, messageEvent: MessageEvent): Request | AuthRequest {
     const data = JSON.parse(messageEvent.data)
     if (!this.player) {
@@ -124,7 +119,7 @@ export class Client {
     }
     const requestArgs = data.request.split(" ")
     const mob = this.player.sessionMob
-    return new RequestBuilder(mob, room, this.getMobTable()).create(requestArgs[0], data.request)
+    return new RequestBuilder(mob, room).create(requestArgs[0], data.request)
   }
 
   private applyCosts(costs: Cost[]): void {
