@@ -11,6 +11,7 @@ import { ExpectTestObserver } from "../test/expectTestObserver"
 import { getTestRoom } from "../test/room"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
+import ClientService from "./clientService"
 import { GameServer } from "./server"
 
 let ws
@@ -22,13 +23,14 @@ async function getGameServer(): Promise<GameServer> {
     new MobTable(),
     new FightTable(),
     locationService)
-
+  const gameService = new GameService(mobService, null, null, null)
   return new GameServer(
     ws,
-    new GameService(mobService, null, null, null),
+    gameService,
     getTestRoom(),
     mobService,
-    new EventService())
+    new EventService(),
+    new ClientService(mobService.locationService, gameService.getActionCollection()))
 }
 
 const mockWs = jest.fn(() => ({ send: jest.fn() }))

@@ -6,12 +6,12 @@ export class Collection {
   constructor(
     private readonly actions: Definition[],
     private readonly moderationActions: Definition[],
+    private readonly defaultAction: Definition = null,
   ) {}
 
   public getMatchingHandlerDefinitionForRequestType(
     requestType: RequestType,
     authorizationLevel: AuthorizationLevel = AuthorizationLevel.Mortal,
-    defaultHandler: Definition = null,
   ): Definition {
     const action = this.actions.find((it) => it.isAbleToHandleRequestType(requestType))
 
@@ -27,6 +27,6 @@ export class Collection {
       }
     }
 
-    return defaultHandler
+    return this.defaultAction
   }
 }

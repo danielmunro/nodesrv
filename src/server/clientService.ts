@@ -1,3 +1,4 @@
+import {Collection} from "../action/definition/collection"
 import {Client} from "../client/client"
 import LocationService from "../mob/locationService"
 import {Mob} from "../mob/model/mob"
@@ -5,7 +6,21 @@ import {Mob} from "../mob/model/mob"
 export default class ClientService {
   private clients: Client[] = []
 
-  constructor(private readonly locationService: LocationService) {}
+  constructor(
+    private readonly locationService: LocationService,
+    private readonly actionCollection: Collection) {}
+
+  public createNewClient() {
+    // return new Client(
+    //   new Session(new Email(this.authService), this.locationService),
+    //   ws,
+    //   req ? req.connection.remoteAddress : null,
+    //   this.actionCollection,
+    //   this.service,
+    //   this.startRoom,
+    //   this.locationService,
+    //   this.eventService)
+  }
 
   public add(client: Client) {
     this.clients.push(client)

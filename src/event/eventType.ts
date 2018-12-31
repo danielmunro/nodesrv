@@ -1,4 +1,5 @@
 export enum EventType {
+  MobCreated,
   MobArrived,
   MobLeft,
   ItemDropped,

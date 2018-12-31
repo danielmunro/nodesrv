@@ -1,4 +1,5 @@
 import * as assert from "assert"
+import createEventConsumerTable from "../src/event/eventConsumerTable"
 import EventService from "../src/event/eventService"
 import { createResetService } from "../src/gameService/factory"
 import GameService from "../src/gameService/gameService"
@@ -6,10 +7,12 @@ import ItemService from "../src/item/itemService"
 import ItemTable from "../src/item/itemTable"
 import { getItemRepository } from "../src/item/repository/item"
 import { createMobService } from "../src/mob/factory"
+import FightBuilder from "../src/mob/fight/fightBuilder"
 import LocationService from "../src/mob/locationService"
 import MobTable from "../src/mob/mobTable"
 import { getMobRepository } from "../src/mob/repository/mob"
 import { newExitTable, newRoomTable } from "../src/room/factory"
+import ClientService from "../src/server/clientService"
 import newServer from "../src/server/factory"
 import { initializeConnection } from "../src/support/db/connection"
 
@@ -54,13 +57,21 @@ initializeConnection().then(async () => {
   console.time(Timings.openPort)
   const eventService = new EventService()
   const gameService = new GameService(mobService, roomTable, itemService, exitTable)
+  const clientService = new ClientService(mobService.locationService, gameService.getActionCollection())
   const server = await newServer(
     gameService,
     port,
     roomTable.getRooms().find(room => room.canonicalId === startRoomID),
     resetService,
     mobService,
-    eventService)
+    eventService,
+    clientService)
+  const eventConsumerTable = await createEventConsumerTable(
+    server,
+    mobService,
+    itemService,
+    new FightBuilder(eventService, mobService.locationService))
+  eventConsumerTable.forEach(eventConsumer => eventService.addConsumer(eventConsumer))
   await server.start()
   console.timeEnd(Timings.openPort)
   console.timeEnd(Timings.init)

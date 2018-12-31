@@ -5,6 +5,7 @@ import GameService from "../gameService/gameService"
 import ResetService from "../gameService/resetService"
 import MobService from "../mob/mobService"
 import { Room } from "../room/model/room"
+import ClientService from "./clientService"
 import addObservers from "./observerDecorator"
 import { GameServer } from "./server"
 
@@ -17,10 +18,17 @@ export default async function newServer(
   startRoom: Room,
   resetService: ResetService,
   mobService: MobService,
-  eventService: EventService): Promise<GameServer> {
+  eventService: EventService,
+  clientService: ClientService): Promise<GameServer> {
   assert.ok(port > PORT_MIN && port < PORT_MAX, `port must be between ${PORT_MIN} and ${PORT_MAX}`)
   return addObservers(
-    new GameServer(new WebSocketServer({ port }), service, startRoom, mobService, eventService),
+    new GameServer(
+      new WebSocketServer({ port }),
+      service,
+      startRoom,
+      mobService,
+      eventService,
+      clientService),
     resetService,
     eventService)
 }

@@ -1,11 +1,12 @@
 import * as stringify from "json-stringify-safe"
 import { Collection } from "../action/definition/collection"
-import { Definition } from "../action/definition/definition"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import EventService from "../event/eventService"
+import {EventType} from "../event/eventType"
 import GameService from "../gameService/gameService"
 import { Item } from "../item/model/item"
+import MobEvent from "../mob/event/mobEvent"
 import { Fight } from "../mob/fight/fight"
 import LocationService from "../mob/locationService"
 import MobTable from "../mob/mobTable"
@@ -13,7 +14,6 @@ import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import { Request } from "../request/request"
 import RequestBuilder from "../request/requestBuilder"
-import { RequestType } from "../request/requestType"
 import Response from "../request/response"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
@@ -32,7 +32,7 @@ export class Client {
     public readonly session: Session,
     public readonly ws: WebSocket,
     public readonly ip: string,
-    public readonly handlers: Collection,
+    public readonly actionCollection: Collection,
     private readonly service: GameService,
     private readonly startRoom: Room,
     private readonly locationService: LocationService,
@@ -73,8 +73,8 @@ export class Client {
     if (!this.session.isLoggedIn()) {
       const request = this.requests.shift() as AuthRequest
       const response = await this.session.handleRequest(this, request)
-      if (this.session.isLoggedIn() && this.session.getIsMobCreated()) {
-        this.getMobTable().add(this.session.getMob())
+      if (this.session.isLoggedIn()) {
+        await this.eventService.publish(new MobEvent(EventType.MobCreated, this.session.getMob()))
       }
       return response
     }
@@ -83,10 +83,9 @@ export class Client {
   }
 
   public async handleRequest(request: Request): Promise<Response> {
-    const matchingHandlerDefinition = this.handlers.getMatchingHandlerDefinitionForRequestType(
+    const matchingHandlerDefinition = this.actionCollection.getMatchingHandlerDefinitionForRequestType(
       request.getType(),
-      request.getAuthorizationLevel(),
-      this.getDefaultRequestHandler(request))
+      request.getAuthorizationLevel())
     const response = await matchingHandlerDefinition.handle(request)
     if (response.request instanceof CheckedRequest) {
       this.applyCosts(response.request.check.costs)
@@ -114,7 +113,7 @@ export class Client {
     return this.startRoom
   }
 
-  public getMobTable(): MobTable {
+  private getMobTable(): MobTable {
     return this.service.mobService.mobTable
   }
 
@@ -154,9 +153,5 @@ export class Client {
           request.getTarget() as Mob,
           request.room))
     }
-  }
-
-  private getDefaultRequestHandler(request: Request): Definition {
-    return new Definition(this.service, RequestType.Any, () => Promise.resolve(getDefaultUnhandledMessage(request)))
   }
 }

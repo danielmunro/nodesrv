@@ -25,6 +25,7 @@ import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
 import { newReciprocalExit, newRoom } from "../room/factory"
 import { Room } from "../room/model/room"
+import ClientService from "../server/clientService"
 import {GameServer} from "../server/server"
 import Session from "../session/session"
 import SkillDefinition from "../skill/skillDefinition"
@@ -232,7 +233,8 @@ export default class TestBuilder {
         this.service,
         null,
         this.service.mobService,
-        this.eventService)
+        this.eventService,
+        new ClientService(this.service.mobService.locationService, this.service.getActionCollection()))
       const eventConsumers = await eventConsumerTable(
         gameServer,
         this.service.mobService,

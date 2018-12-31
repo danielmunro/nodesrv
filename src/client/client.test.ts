@@ -136,7 +136,7 @@ describe("clients", () => {
     expect(newClient.session.getAuthStepMessage()).not.toBe(authStep)
   })
 
-  it("should use the default action when no handlers match", async () => {
+  it("should use the default action when no actionCollection match", async () => {
     // setup
     const request = testBuilder.createRequest(RequestType.Noop)
 

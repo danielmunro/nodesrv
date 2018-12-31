@@ -1,3 +1,4 @@
+import {getDefaultUnhandledMessage} from "../client/client"
 import GameService from "../gameService/gameService"
 import { RequestType } from "../request/requestType"
 import { Direction } from "../room/constants"
@@ -150,5 +151,7 @@ export default function getActionCollection(service: GameService) {
     definition.action(RequestType.Unban, unban, unbanPrecondition),
     definition.action(RequestType.Promote, promote, promotePrecondition),
     definition.action(RequestType.Demote, demote, demotePrecondition),
-  ])
+  ],
+  definition.action(RequestType.Any,
+      request => Promise.resolve(getDefaultUnhandledMessage(request))))
 }

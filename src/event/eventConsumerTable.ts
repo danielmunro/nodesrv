@@ -9,6 +9,7 @@ import MobService from "../mob/mobService"
 import MobArrives from "../player/eventConsumer/mobArrives"
 import MobLeaves from "../player/eventConsumer/mobLeaves"
 import {RequestType} from "../request/requestType"
+import MobCreated from "../server/eventConsumer/mobCreated"
 import {GameServer} from "../server/server"
 import DodgeEventConsumer from "../skill/eventConsumer/dodgeEventConsumer"
 import FastHealingEventConsumer from "../skill/eventConsumer/fastHealingEventConsumer"
@@ -25,15 +26,23 @@ export default async function createEventConsumerTable(
   const locationService = mobService.locationService
   const gameService = gameServer.service
   return Promise.resolve([
+    // mob
     new AggressiveMob(mobService, locationService, fightBuilder),
     new PetFollowsOwner(locationService),
     new MobArrives(clientService),
     new MobLeaves(clientService),
     new Scavenge(clientService, itemService, locationService),
     new Wimpy(locationService, await gameService.getActionDefinition(RequestType.Flee)),
+
+    // social
     new Social(clientService),
+
+    // skills
     new DodgeEventConsumer(gameService.getSkillDefinition(SkillType.Dodge)),
     new FastHealingEventConsumer(gameService.getSkillDefinition(SkillType.FastHealing)),
     new SecondAttackEventConsumer(gameService.getSkillDefinition(SkillType.SecondAttack)),
+
+    // app
+    new MobCreated(mobService, gameServer.startRoom),
   ])
 }

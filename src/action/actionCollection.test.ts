@@ -33,7 +33,7 @@ describe("action action collection", () => {
 
     const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Ban, AuthorizationLevel.Mortal)
 
-    expect(action).toBeNull()
+    expect(action.requestType).toBe(RequestType.Any)
   })
 
   it("admins should be able to access admin action", async () => {

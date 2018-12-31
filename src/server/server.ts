@@ -1,8 +1,7 @@
+import {Collection} from "../action/definition/collection"
 import { Client } from "../client/client"
-import createEventConsumerTable from "../event/eventConsumerTable"
 import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
-import FightBuilder from "../mob/fight/fightBuilder"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
 import { getPlayerRepository } from "../player/repository/player"
@@ -28,31 +27,23 @@ enum Status {
 }
 
 export class GameServer {
-  public readonly clientService: ClientService
   private status: Status = Status.Initialized
   private authService: AuthService
-  private actions
+  private actions: Collection
 
   constructor(
     public readonly wss,
     public readonly service: GameService,
     public readonly startRoom: Room,
     public readonly mobService: MobService,
-    public readonly eventService: EventService) {
-    this.clientService = new ClientService(mobService.locationService)
-  }
+    public readonly eventService: EventService,
+    public readonly clientService: ClientService) {}
 
   public async start(): Promise<void> {
     if (!this.isInitialized()) {
       throw new Error("Status must be initialized to start")
     }
     this.service.setEventService(this.eventService)
-    const eventConsumers = await createEventConsumerTable(
-      this,
-      this.mobService,
-      this.service.itemService,
-      new FightBuilder(this.eventService, this.mobService.locationService))
-    eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
     this.authService = new AuthService(await getPlayerRepository(), this.mobService)
     this.actions = this.service.getActionCollection()
     this.status = Status.Started
