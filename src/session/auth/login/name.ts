@@ -17,7 +17,6 @@ export default class Name extends PlayerAuthStep implements AuthStep {
     const mob = this.authService.findOnePlayerMob(name)
 
     if (mob && this.player.ownsMob(mob)) {
-      console.log("yes", mob.name, this.player.ownsMob(mob))
       return this.existingMobFound(request, mob)
     }
 
