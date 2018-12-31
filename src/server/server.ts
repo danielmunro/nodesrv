@@ -51,7 +51,7 @@ export class GameServer {
       this,
       this.mobService,
       this.service.itemService,
-      new FightBuilder(this.eventService, this.service.mobService.locationService))
+      new FightBuilder(this.eventService, this.mobService.locationService))
     eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
     this.authService = new AuthService(await getPlayerRepository(), this.mobService)
     this.actions = this.service.getActionCollection()

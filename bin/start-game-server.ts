@@ -34,17 +34,12 @@ console.log(`startup parameters:  port: ${port}, room: ${startRoomID}`)
 
 initializeConnection().then(async () => {
   console.time(Timings.roomAndMobTables)
-  const tables = await initializeRoomAndMobTables()
-  const roomTable = tables[0]
-  const mobTable = tables[1]
-  const exitTable = tables[2]
+  const [ roomTable, mobTable, exitTable ] = await getAllRoomsAndMobs()
   const mobService = await createMobService(mobTable, locationService)
-  console.debug(`room table initialized with ${roomTable.count()} rooms`)
   console.timeEnd(Timings.roomAndMobTables)
 
   console.time(Timings.resetService)
-  const itemService = new ItemService(
-    new ItemTable(), new ItemTable(await (await getItemRepository()).findAll()))
+  const itemService = new ItemService(new ItemTable(), await getAllItems())
   const resetService = await createResetService(mobService, roomTable, itemService)
   console.timeEnd(Timings.resetService)
 
@@ -71,10 +66,14 @@ initializeConnection().then(async () => {
   console.timeEnd(Timings.init)
 })
 
-async function initializeRoomAndMobTables() {
+async function getAllRoomsAndMobs() {
   return Promise.all([
     newRoomTable(),
     new MobTable(await (await getMobRepository()).findAll()),
     newExitTable(locationService),
   ])
+}
+
+async function getAllItems(): Promise<ItemTable> {
+  return new ItemTable(await (await getItemRepository()).findAll())
 }
