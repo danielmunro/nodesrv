@@ -19,6 +19,9 @@ import Respawner from "./observers/respawner"
 import { Tick } from "./observers/tick"
 import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
+import {DecrementPlayerDelay} from "./observers/decrementPlayerDelay"
+import {HandleClientRequests} from "./observers/handleClientRequests"
+import {ShortIntervalTimer} from "../timer/shortIntervalTimer"
 
 export default async function addObservers(
   gameService: GameService,
@@ -40,6 +43,8 @@ export default async function addObservers(
   gameServer.addObserver(new RegionWeather(locationService), new MinuteTimer())
   gameServer.addObserver(new FightRounds(mobService), new SecondIntervalTimer())
   gameServer.addObserver(new Respawner(resetService), new FiveMinuteTimer())
+  gameServer.addObserver(new DecrementPlayerDelay(), new SecondIntervalTimer())
+  gameServer.addObserver(new HandleClientRequests(), new ShortIntervalTimer())
 
   return gameServer
 }
