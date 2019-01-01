@@ -39,6 +39,8 @@ export default async function createEventConsumerTable(
     new Scavenge(clientService, itemService, locationService),
     new Wimpy(locationService, await gameService.getActionDefinition(RequestType.Flee)),
     new FightStarter(mobService, fightBuilder),
+    new ClientDisconnected(locationService),
+    new MobCreated(mobService, gameServer.startRoom),
 
     // item
     new ItemCreated(itemService),
@@ -54,8 +56,5 @@ export default async function createEventConsumerTable(
 
     // app
     new MobCreated(mobService, gameServer.startRoom),
-
-    // client
-    new ClientDisconnected(locationService),
   ])
 }
