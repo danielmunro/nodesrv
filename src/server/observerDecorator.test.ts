@@ -31,7 +31,7 @@ describe("observer decorator", () => {
     const mockServer = mock()
 
     // when
-    await addObservers(mockServer, null, new EventService())
+    await addObservers(mockServer.service, mockServer, null, new EventService())
 
     // then
     expect(mockServer.addObserver).toBeCalled()

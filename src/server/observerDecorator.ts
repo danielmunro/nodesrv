@@ -1,4 +1,5 @@
 import EventService from "../event/eventService"
+import GameService from "../gameService/gameService"
 import ResetService from "../gameService/resetService"
 import {getMobRepository} from "../mob/repository/mob"
 import {getPlayerRepository} from "../player/repository/player"
@@ -19,13 +20,14 @@ import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
 
 export default async function addObservers(
+  gameService: GameService,
   gameServer: GameServer,
   resetService: ResetService,
   eventService: EventService): Promise<GameServer> {
   const locationService = gameServer.mobService.locationService
   gameServer.addObserver(
     new ObserverChain([
-      new Tick(gameServer.service.timeService, eventService, locationService),
+      new Tick(gameService.timeService, eventService, locationService),
       new DecrementAffects(gameServer.getMobTable()),
       new Wander(gameServer.getMobTable().getWanderingMobs(), locationService),
     ]),

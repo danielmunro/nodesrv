@@ -22,12 +22,11 @@ export default async function newServer(
   clientService: ClientService): Promise<GameServer> {
   assert.ok(port > PORT_MIN && port < PORT_MAX, `port must be between ${PORT_MIN} and ${PORT_MAX}`)
   return addObservers(
+    service,
     new GameServer(
       new WebSocketServer({ port }),
-      service,
       startRoom,
       mobService,
-      eventService,
       clientService),
     resetService,
     eventService)

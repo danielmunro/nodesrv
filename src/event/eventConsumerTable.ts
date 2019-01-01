@@ -1,4 +1,5 @@
 import Social from "../client/eventConsumer/social"
+import GameService from "../gameService/gameService"
 import ItemCreated from "../item/eventConsumer/itemCreated"
 import ItemDestroyed from "../item/eventConsumer/itemDestroyed"
 import ItemService from "../item/itemService"
@@ -21,13 +22,13 @@ import {SkillType} from "../skill/skillType"
 import EventConsumer from "./eventConsumer"
 
 export default async function createEventConsumerTable(
+  gameService: GameService,
   gameServer: GameServer,
   mobService: MobService,
   itemService: ItemService,
   fightBuilder: FightBuilder): Promise<EventConsumer[]> {
   const clientService = gameServer.clientService
   const locationService = mobService.locationService
-  const gameService = gameServer.service
   return Promise.resolve([
     // mob
     new AggressiveMob(mobService, locationService, fightBuilder),

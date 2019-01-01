@@ -75,6 +75,7 @@ initializeConnection().then(async () => {
     eventService,
     clientService)
   const eventConsumerTable = await createEventConsumerTable(
+    gameService,
     server,
     mobService,
     itemService,

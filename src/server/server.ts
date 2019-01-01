@@ -1,6 +1,4 @@
 import { Client } from "../client/client"
-import EventService from "../event/eventService"
-import GameService from "../gameService/gameService"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
 import { Room } from "../room/model/room"
@@ -26,10 +24,8 @@ export class GameServer {
 
   constructor(
     public readonly wss,
-    public readonly service: GameService,
     public readonly startRoom: Room,
     public readonly mobService: MobService,
-    public readonly eventService: EventService,
     public readonly clientService: ClientService) {}
 
   public async start(): Promise<void> {

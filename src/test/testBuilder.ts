@@ -240,10 +240,8 @@ export default class TestBuilder {
   private async attachEventConsumers() {
     const gameServer = new GameServer(
       null,
-      this.service,
       null,
       this.service.mobService,
-      this.eventService,
       new ClientService(
         this.eventService,
         null,
@@ -251,6 +249,7 @@ export default class TestBuilder {
         this.service.getActionCollection(),
         this.room))
     const eventConsumers = await eventConsumerTable(
+      this.service,
       gameServer,
       this.service.mobService,
       this.service.itemService,

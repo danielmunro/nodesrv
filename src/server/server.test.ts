@@ -30,10 +30,8 @@ async function getGameServer(): Promise<GameServer> {
   const eventService = new EventService()
   return new GameServer(
     ws,
-    gameService,
     room,
     mobService,
-    eventService,
     new ClientService(
       eventService,
       new AuthService(await getPlayerRepository(), mobService),
