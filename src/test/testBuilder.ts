@@ -241,13 +241,13 @@ export default class TestBuilder {
     const gameServer = new GameServer(
       null,
       null,
-      this.service.mobService,
       new ClientService(
         this.eventService,
         null,
         this.service.mobService.locationService,
         this.service.getActionCollection(),
-        this.room))
+        this.room),
+      this.eventService)
     const eventConsumers = await eventConsumerTable(
       this.service,
       gameServer,

@@ -14,10 +14,12 @@ describe("observer decorator", () => {
     }
     const mock = jest.fn(() => ({
       addObserver: jest.fn(),
-      getMobTable: () => mobTable,
       mobService: {
         locationService: {
           getMobLocationCount: jest.fn(),
+        },
+        mobTable: {
+          getWanderingMobs: jest.fn(),
         },
         pruneDeadMobs: () => [],
       },
@@ -31,7 +33,7 @@ describe("observer decorator", () => {
     const mockServer = mock()
 
     // when
-    await addObservers(mockServer.service, mockServer, null, new EventService())
+    await addObservers(mockServer.service, mockServer, null, new EventService(), mockServer.mobService)
 
     // then
     expect(mockServer.addObserver).toBeCalled()

@@ -31,13 +31,13 @@ async function getGameServer(): Promise<GameServer> {
   return new GameServer(
     ws,
     room,
-    mobService,
     new ClientService(
       eventService,
       new AuthService(await getPlayerRepository(), mobService),
       mobService.locationService,
       gameService.getActionCollection(),
-      room))
+      room),
+    eventService)
 }
 
 const mockWs = jest.fn(() => ({ send: jest.fn() }))

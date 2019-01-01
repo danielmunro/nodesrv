@@ -13,7 +13,8 @@ import MobService from "../mob/mobService"
 import MobArrives from "../player/eventConsumer/mobArrives"
 import MobLeaves from "../player/eventConsumer/mobLeaves"
 import {RequestType} from "../request/requestType"
-import MobCreated from "../server/eventConsumer/mobCreated"
+import ClientDisconnected from "../mob/eventConsumer/clientDisconnected"
+import MobCreated from "../mob/eventConsumer/mobCreated"
 import {GameServer} from "../server/server"
 import DodgeEventConsumer from "../skill/eventConsumer/dodgeEventConsumer"
 import FastHealingEventConsumer from "../skill/eventConsumer/fastHealingEventConsumer"
@@ -53,5 +54,8 @@ export default async function createEventConsumerTable(
 
     // app
     new MobCreated(mobService, gameServer.startRoom),
+
+    // client
+    new ClientDisconnected(locationService),
   ])
 }

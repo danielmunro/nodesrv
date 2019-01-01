@@ -1,6 +1,7 @@
 import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
 import ResetService from "../gameService/resetService"
+import MobService from "../mob/mobService"
 import {getMobRepository} from "../mob/repository/mob"
 import {getPlayerRepository} from "../player/repository/player"
 import { DiceRoller } from "../random/dice"
@@ -23,20 +24,21 @@ export default async function addObservers(
   gameService: GameService,
   gameServer: GameServer,
   resetService: ResetService,
-  eventService: EventService): Promise<GameServer> {
-  const locationService = gameServer.mobService.locationService
+  eventService: EventService,
+  mobService: MobService): Promise<GameServer> {
+  const locationService = mobService.locationService
   gameServer.addObserver(
     new ObserverChain([
       new Tick(gameService.timeService, eventService, locationService),
-      new DecrementAffects(gameServer.getMobTable()),
-      new Wander(gameServer.getMobTable().getWanderingMobs(), locationService),
+      new DecrementAffects(mobService.mobTable),
+      new Wander(mobService.mobTable.getWanderingMobs(), locationService),
     ]),
     new RandomTickTimer(
       new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
   gameServer.addObserver(new PersistPlayers(
     await getPlayerRepository(), await getMobRepository()), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(locationService), new MinuteTimer())
-  gameServer.addObserver(new FightRounds(gameServer.mobService), new SecondIntervalTimer())
+  gameServer.addObserver(new FightRounds(mobService), new SecondIntervalTimer())
   gameServer.addObserver(new Respawner(resetService), new FiveMinuteTimer())
 
   return gameServer

@@ -26,8 +26,9 @@ export default async function newServer(
     new GameServer(
       new WebSocketServer({ port }),
       startRoom,
-      mobService,
-      clientService),
+      clientService,
+      eventService),
     resetService,
-    eventService)
+    eventService,
+    mobService)
 }

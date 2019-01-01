@@ -1,17 +1,18 @@
-import { Client } from "../client/client"
-import MobService from "../mob/mobService"
-import MobTable from "../mob/mobTable"
-import { Room } from "../room/model/room"
-import { poll } from "../support/poll/poll"
-import { ImmediateTimer } from "../timer/immediateTimer"
-import { SecondIntervalTimer } from "../timer/secondTimer"
-import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
-import { Timer } from "../timer/timer"
+import {Client} from "../client/client"
+import ClientEvent from "../client/event/clientEvent"
+import EventService from "../event/eventService"
+import {EventType} from "../event/eventType"
+import {Room} from "../room/model/room"
+import {poll} from "../support/poll/poll"
+import {ImmediateTimer} from "../timer/immediateTimer"
+import {SecondIntervalTimer} from "../timer/secondTimer"
+import {ShortIntervalTimer} from "../timer/shortIntervalTimer"
+import {Timer} from "../timer/timer"
 import ClientService from "./clientService"
-import { events } from "./constants"
-import { DecrementPlayerDelay } from "./observers/decrementPlayerDelay"
-import { HandleClientRequests } from "./observers/handleClientRequests"
-import { Observer } from "./observers/observer"
+import {events} from "./constants"
+import {DecrementPlayerDelay} from "./observers/decrementPlayerDelay"
+import {HandleClientRequests} from "./observers/handleClientRequests"
+import {Observer} from "./observers/observer"
 
 enum Status {
   Initialized,
@@ -25,8 +26,8 @@ export class GameServer {
   constructor(
     public readonly wss,
     public readonly startRoom: Room,
-    public readonly mobService: MobService,
-    public readonly clientService: ClientService) {}
+    public readonly clientService: ClientService,
+    public readonly eventService: EventService) {}
 
   public async start(): Promise<void> {
     if (!this.isInitialized()) {
@@ -73,14 +74,9 @@ export class GameServer {
     return this.clientService.getClientCount()
   }
 
-  public getMobTable(): MobTable {
-    return this.mobService.mobTable
-  }
-
-  private removeClient(client: Client): void {
+  private async removeClient(client: Client) {
     console.info("client disconnected", { ip: client.ip })
     this.clientService.remove(client)
-    this.mobService.locationService.removeMob(client.getSessionMob())
-
+    await this.eventService.publish(new ClientEvent(EventType.ClientDisconnected, client))
   }
 }
