@@ -7,7 +7,6 @@ describe("pet follows owner event consumer", () => {
   it("a pet should follow its owner", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const gameService = await testBuilder.getService()
     const room1 = testBuilder.withRoom().room
     const room2 = testBuilder.withRoom(Direction.North).room
     const mob1 = testBuilder.withMob().mob
@@ -18,6 +17,7 @@ describe("pet follows owner event consumer", () => {
     mob1.pet = mob2
 
     // when
+    const gameService = await testBuilder.getService()
     gameService.mobService.locationService.updateMobLocation(mob1, room2)
     await gameService.publishEvent(new MobEvent(EventType.MobLeft, mob1, room1))
 

@@ -22,7 +22,6 @@ import TimeService from "./timeService"
 
 export default class GameService {
   public readonly timeService: TimeService
-  private eventService: EventService
   private actionCollection: Collection
   private readonly skillTable: SkillDefinition[]
 
@@ -31,13 +30,10 @@ export default class GameService {
     public readonly roomTable: RoomTable,
     public readonly itemService: ItemService,
     public readonly exitTable: ExitTable,
+    public readonly eventService: EventService,
     time = 0) {
     this.timeService = new TimeService(time)
     this.skillTable = getSkillTable(this)
-  }
-
-  public setEventService(eventService: EventService) {
-    this.eventService = eventService
   }
 
   public getCurrentTime() {

@@ -5,6 +5,8 @@ import FightTable from "../mob/fight/fightTable"
 import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
+import {getPlayerRepository} from "../player/repository/player"
+import AuthService from "../session/auth/authService"
 import {getConnection, initializeConnection} from "../support/db/connection"
 import { DontExecuteTestObserver } from "../test/dontExecuteTestObserver"
 import { ExpectTestObserver } from "../test/expectTestObserver"
@@ -23,14 +25,21 @@ async function getGameServer(): Promise<GameServer> {
     new MobTable(),
     new FightTable(),
     locationService)
-  const gameService = new GameService(mobService, null, null, null)
+  const gameService = new GameService(mobService, null, null, null, null)
+  const room = getTestRoom()
+  const eventService = new EventService()
   return new GameServer(
     ws,
     gameService,
-    getTestRoom(),
+    room,
     mobService,
-    new EventService(),
-    new ClientService(mobService.locationService, gameService.getActionCollection()))
+    eventService,
+    new ClientService(
+      eventService,
+      new AuthService(await getPlayerRepository(), mobService),
+      mobService.locationService,
+      gameService.getActionCollection(),
+      room))
 }
 
 const mockWs = jest.fn(() => ({ send: jest.fn() }))

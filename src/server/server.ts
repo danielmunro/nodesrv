@@ -1,14 +1,9 @@
-import {Collection} from "../action/definition/collection"
 import { Client } from "../client/client"
 import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
-import { getPlayerRepository } from "../player/repository/player"
 import { Room } from "../room/model/room"
-import { default as AuthService } from "../session/auth/authService"
-import Email from "../session/auth/login/email"
-import Session from "../session/session"
 import { poll } from "../support/poll/poll"
 import { ImmediateTimer } from "../timer/immediateTimer"
 import { SecondIntervalTimer } from "../timer/secondTimer"
@@ -28,8 +23,6 @@ enum Status {
 
 export class GameServer {
   private status: Status = Status.Initialized
-  private authService: AuthService
-  private actions: Collection
 
   constructor(
     public readonly wss,
@@ -43,9 +36,6 @@ export class GameServer {
     if (!this.isInitialized()) {
       throw new Error("Status must be initialized to start")
     }
-    this.service.setEventService(this.eventService)
-    this.authService = new AuthService(await getPlayerRepository(), this.mobService)
-    this.actions = this.service.getActionCollection()
     this.status = Status.Started
     this.wss.on(events.connection, this.addWS.bind(this))
     this.addObserver(new DecrementPlayerDelay(), new SecondIntervalTimer())
@@ -58,16 +48,8 @@ export class GameServer {
   }
 
   public async addWS(ws: WebSocket, req): Promise<void> {
-    const client = new Client(
-      new Session(new Email(this.authService), this.mobService.locationService),
-      ws,
-      req ? req.connection.remoteAddress : null,
-      this.actions,
-      this.startRoom,
-      this.mobService.locationService,
-      this.eventService)
+    const client = this.clientService.createNewClient(ws, req)
     console.info("new client connected", { ip: client.ip })
-    this.clientService.add(client)
     ws.onclose = () => this.removeClient(client)
     client.send({ message: client.session.getAuthStepMessage() })
   }

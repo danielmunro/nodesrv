@@ -11,9 +11,11 @@ import FightBuilder from "../src/mob/fight/fightBuilder"
 import LocationService from "../src/mob/locationService"
 import MobTable from "../src/mob/mobTable"
 import { getMobRepository } from "../src/mob/repository/mob"
+import {getPlayerRepository} from "../src/player/repository/player"
 import { newExitTable, newRoomTable } from "../src/room/factory"
 import ClientService from "../src/server/clientService"
 import newServer from "../src/server/factory"
+import AuthService from "../src/session/auth/authService"
 import { initializeConnection } from "../src/support/db/connection"
 
 const Timings = {
@@ -56,12 +58,18 @@ initializeConnection().then(async () => {
 
   console.time(Timings.openPort)
   const eventService = new EventService()
-  const gameService = new GameService(mobService, roomTable, itemService, exitTable)
-  const clientService = new ClientService(mobService.locationService, gameService.getActionCollection())
+  const gameService = new GameService(mobService, roomTable, itemService, exitTable, eventService)
+  const startRoom = roomTable.getRooms().find(room => room.canonicalId === startRoomID)
+  const clientService = new ClientService(
+    eventService,
+    new AuthService(await getPlayerRepository(), mobService),
+    mobService.locationService,
+    gameService.getActionCollection(),
+    startRoom)
   const server = await newServer(
     gameService,
     port,
-    roomTable.getRooms().find(room => room.canonicalId === startRoomID),
+    startRoom,
     resetService,
     mobService,
     eventService,

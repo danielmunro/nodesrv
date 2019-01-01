@@ -1,3 +1,4 @@
+import EventService from "../event/eventService"
 import ItemService from "../item/itemService"
 import ItemTable from "../item/itemTable"
 import { Item } from "../item/model/item"
@@ -53,7 +54,7 @@ export default class ServiceBuilder {
     this.locationService.addMobLocation(mobLocation)
   }
 
-  public async createService(): Promise<GameService> {
+  public async createService(eventService: EventService = new EventService()): Promise<GameService> {
     return new GameService(
       new MobService(
         new MobTable(this.mobs),
@@ -63,6 +64,7 @@ export default class ServiceBuilder {
       RoomTable.new(this.rooms),
       new ItemService(new ItemTable(this.items), new ItemTable(this.items)),
       new ExitTable(this.locationService, this.exits),
+      eventService,
       this.time)
   }
 }

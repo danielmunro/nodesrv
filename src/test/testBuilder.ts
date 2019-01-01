@@ -218,34 +218,44 @@ export default class TestBuilder {
 
   public async getService(): Promise<GameService> {
     if (!this.service) {
-      this.service = await this.serviceBuilder.createService()
+      this.eventService = new EventService()
+      this.service = await this.serviceBuilder.createService(this.eventService)
+      await this.attachEventConsumers()
     }
-    this.service.setEventService(await this.getEventService())
     return this.service
   }
 
   public async getEventService() {
     if (!this.eventService) {
       this.eventService = new EventService()
-      const gameServer = new GameServer(
-        null,
-        this.service,
-        null,
-        this.service.mobService,
-        this.eventService,
-        new ClientService(this.service.mobService.locationService, this.service.getActionCollection()))
-      const eventConsumers = await eventConsumerTable(
-        gameServer,
-        this.service.mobService,
-        this.service.itemService,
-        new FightBuilder(this.eventService, this.service.mobService.locationService))
-      eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
+      await this.attachEventConsumers()
     }
     return this.eventService
   }
 
   public addExit(exit) {
     this.serviceBuilder.addExit(exit)
+  }
+
+  private async attachEventConsumers() {
+    const gameServer = new GameServer(
+      null,
+      this.service,
+      null,
+      this.service.mobService,
+      this.eventService,
+      new ClientService(
+        this.eventService,
+        null,
+        this.service.mobService.locationService,
+        this.service.getActionCollection(),
+        this.room))
+    const eventConsumers = await eventConsumerTable(
+      gameServer,
+      this.service.mobService,
+      this.service.itemService,
+      new FightBuilder(this.eventService, this.service.mobService.locationService))
+    eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
   }
 
   private createCheckedRequest(
