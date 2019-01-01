@@ -22,7 +22,7 @@ describe("sell action action", () => {
     const check = await sellPrecondition(request, await testBuilder.getService())
 
     // when
-    const response = await sell(new CheckedRequest(request, check))
+    const response = await sell(new CheckedRequest(request, check), await testBuilder.getService())
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)

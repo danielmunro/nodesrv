@@ -21,7 +21,6 @@ async function createClient(
     ws(),
     "127.0.0.1",
     actions,
-    service,
     startRoom,
     locationService,
     new EventService())

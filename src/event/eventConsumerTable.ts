@@ -1,4 +1,6 @@
 import Social from "../client/eventConsumer/social"
+import ItemCreated from "../item/eventConsumer/itemCreated"
+import ItemDestroyed from "../item/eventConsumer/itemDestroyed"
 import ItemService from "../item/itemService"
 import AggressiveMob from "../mob/eventConsumer/aggressiveMob"
 import FightStarter from "../mob/eventConsumer/fightStarter"
@@ -35,6 +37,10 @@ export default async function createEventConsumerTable(
     new Scavenge(clientService, itemService, locationService),
     new Wimpy(locationService, await gameService.getActionDefinition(RequestType.Flee)),
     new FightStarter(mobService, fightBuilder),
+
+    // item
+    new ItemCreated(itemService),
+    new ItemDestroyed(itemService),
 
     // social
     new Social(clientService),

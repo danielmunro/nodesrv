@@ -5,9 +5,7 @@ import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import { default as AuthRequest } from "../session/auth/request"
 import Session from "../session/session"
-import { SkillType } from "../skill/skillType"
 import {getConnection, initializeConnection} from "../support/db/connection"
-import doNTimes from "../support/functional/times"
 import { getTestClientLoggedOut } from "../test/client"
 import { getTestRoom } from "../test/room"
 import TestBuilder from "../test/testBuilder"
@@ -72,7 +70,7 @@ describe("client sanity checks", () => {
         ws(),
         "127.0.0.1",
         new Collection([], []),
-        mockService(), mockService(), mockService(), mockService())
+        mockService(), mockService(), mockService())
     })
 
     it("send sanity test", () => {

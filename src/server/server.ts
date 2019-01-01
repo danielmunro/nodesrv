@@ -63,7 +63,6 @@ export class GameServer {
       ws,
       req ? req.connection.remoteAddress : null,
       this.actions,
-      this.service,
       this.startRoom,
       this.mobService.locationService,
       this.eventService)

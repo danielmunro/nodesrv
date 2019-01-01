@@ -1,4 +1,3 @@
-import {ActionOutcome} from "../action/actionOutcome"
 import {RequestType} from "../request/requestType"
 import TestBuilder from "../test/testBuilder"
 import {SkillType} from "./skillType"
@@ -15,6 +14,6 @@ describe("skill table", () => {
     const response = await skill.doAction(testBuilder.createRequest(RequestType.Noop))
 
     // then
-    expect(response.responseAction.actionOutcome).toBe(ActionOutcome.None)
+    expect(response.isSuccessful()).toBeTruthy()
   })
 })

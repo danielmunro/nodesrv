@@ -1,4 +1,3 @@
-import { ActionOutcome } from "../action/actionOutcome"
 import { MESSAGE_FAIL_DEAD } from "../action/precondition/constants"
 import CheckBuilder from "../check/checkBuilder"
 import { Item } from "../item/model/item"
@@ -11,7 +10,6 @@ import { Messages } from "./constants"
 import InputContext from "./context/inputContext"
 import RequestContext from "./context/requestContext"
 import { RequestType } from "./requestType"
-import ResponseAction from "./responseAction"
 import ResponseBuilder from "./responseBuilder"
 
 export class Request {
@@ -57,10 +55,8 @@ export class Request {
     return AuthorizationLevel.None
   }
 
-  public respondWith(
-    actionOutcome: ActionOutcome = ActionOutcome.None,
-    thing: any = null): ResponseBuilder {
-    return new ResponseBuilder(this, new ResponseAction(actionOutcome, thing))
+  public respondWith(): ResponseBuilder {
+    return new ResponseBuilder(this)
   }
 
   public check(mobService: MobService): CheckBuilder {

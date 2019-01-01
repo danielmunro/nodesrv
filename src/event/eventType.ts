@@ -3,6 +3,8 @@ export enum EventType {
   MobArrived,
   MobLeft,
   ItemDropped,
+  ItemDestroyed,
+  ItemCreated,
   AttackRoundStart,
   AttackRound,
   Attack,

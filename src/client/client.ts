@@ -4,8 +4,6 @@ import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import EventService from "../event/eventService"
 import {EventType} from "../event/eventType"
-import GameService from "../gameService/gameService"
-import { Item } from "../item/model/item"
 import MobEvent from "../mob/event/mobEvent"
 import LocationService from "../mob/locationService"
 import { Mob } from "../mob/model/mob"
@@ -31,7 +29,6 @@ export class Client {
     public readonly ws: WebSocket,
     public readonly ip: string,
     public readonly actionCollection: Collection,
-    private readonly service: GameService,
     private readonly startRoom: Room,
     private readonly locationService: LocationService,
     private readonly eventService: EventService) {
@@ -90,8 +87,6 @@ export class Client {
     }
     this.send(response.getPayload())
     this.sendMessage(this.player.prompt())
-    this.evaluateResponseAction(response)
-
     return response
   }
 
@@ -123,19 +118,5 @@ export class Client {
 
   private applyCosts(costs: Cost[]): void {
     costs.forEach(cost => cost.applyTo(this.player))
-  }
-
-  private evaluateResponseAction(response: Response) {
-    const responseAction = response.responseAction
-
-    if (responseAction.wasItemCreated()) {
-      this.service.itemService.add(responseAction.thing as Item)
-      return
-    }
-
-    if (responseAction.wasItemDestroyed()) {
-      this.service.itemService.remove(responseAction.thing as Item)
-      return
-    }
   }
 }

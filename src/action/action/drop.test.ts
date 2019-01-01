@@ -48,6 +48,5 @@ describe("drop", () => {
     const message = response.message.getMessageToRequestCreator()
     expect(message).toContain("you drop")
     expect(message).toContain(equipment.name)
-    expect(response.responseAction.wasItemDestroyed()).toBeTruthy()
   })
 })

@@ -20,7 +20,8 @@ describe("buy action action", () => {
 
     // when
     const response = await buy(
-      testBuilder.createOkCheckedRequest(RequestType.Buy, "buy axe", axe))
+      testBuilder.createOkCheckedRequest(RequestType.Buy, "buy axe", axe),
+      await testBuilder.getService())
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)

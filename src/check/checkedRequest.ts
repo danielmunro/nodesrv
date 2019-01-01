@@ -1,7 +1,5 @@
-import { ActionOutcome } from "../action/actionOutcome"
 import { Mob } from "../mob/model/mob"
 import { Request } from "../request/request"
-import ResponseAction from "../request/responseAction"
 import ResponseBuilder from "../request/responseBuilder"
 import { Room } from "../room/model/room"
 import Maybe from "../support/functional/maybe"
@@ -31,8 +29,7 @@ export default class CheckedRequest {
       .get()
   }
 
-  public respondWith(actionOutcome: ActionOutcome = ActionOutcome.None,
-                     thing: any = null): ResponseBuilder {
-    return new ResponseBuilder(this, new ResponseAction(actionOutcome, thing))
+  public respondWith(): ResponseBuilder {
+    return new ResponseBuilder(this)
   }
 }

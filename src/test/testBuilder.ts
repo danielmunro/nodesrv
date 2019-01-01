@@ -65,7 +65,6 @@ export default class TestBuilder {
       ws(),
       "127.0.0.1",
       service.getActionCollection(),
-      service,
       this.room,
       this.serviceBuilder.locationService,
       await this.getEventService())

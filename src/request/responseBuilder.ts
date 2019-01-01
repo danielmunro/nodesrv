@@ -1,15 +1,11 @@
 import CheckedRequest from "../check/checkedRequest"
 import { Request } from "./request"
 import Response from "./response"
-import ResponseAction from "./responseAction"
 import ResponseMessage from "./responseMessage"
 import { ResponseStatus } from "./responseStatus"
 
 export default class ResponseBuilder {
-  constructor(
-    private readonly request: Request | CheckedRequest,
-    private readonly responseAction: ResponseAction,
-  ) {}
+  constructor(private readonly request: Request | CheckedRequest) {}
 
   public success(
     templateString: string = null,
@@ -44,6 +40,6 @@ export default class ResponseBuilder {
   }
 
   private response(status: ResponseStatus, message: ResponseMessage): Promise<Response> {
-    return Promise.resolve(new Response(this.request, status, message, this.responseAction))
+    return Promise.resolve(new Response(this.request, status, message))
   }
 }
