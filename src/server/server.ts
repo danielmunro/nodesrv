@@ -5,13 +5,9 @@ import {EventType} from "../event/eventType"
 import {Room} from "../room/model/room"
 import {poll} from "../support/poll/poll"
 import {ImmediateTimer} from "../timer/immediateTimer"
-import {SecondIntervalTimer} from "../timer/secondTimer"
-import {ShortIntervalTimer} from "../timer/shortIntervalTimer"
 import {Timer} from "../timer/timer"
 import ClientService from "./clientService"
 import {events} from "./constants"
-import {DecrementPlayerDelay} from "./observers/decrementPlayerDelay"
-import {HandleClientRequests} from "./observers/handleClientRequests"
 import {Observer} from "./observers/observer"
 
 enum Status {
@@ -35,8 +31,6 @@ export class GameServer {
     }
     this.status = Status.Started
     this.wss.on(events.connection, this.addWS.bind(this))
-    this.addObserver(new DecrementPlayerDelay(), new SecondIntervalTimer())
-    this.addObserver(new HandleClientRequests(), new ShortIntervalTimer())
   }
 
   public terminate(): void {
@@ -75,8 +69,6 @@ export class GameServer {
   }
 
   private async removeClient(client: Client) {
-    console.info("client disconnected", { ip: client.ip })
-    this.clientService.remove(client)
     await this.eventService.publish(new ClientEvent(EventType.ClientDisconnected, client))
   }
 }

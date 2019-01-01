@@ -78,25 +78,6 @@ describe("the server", () => {
     expect(server.getClientCount()).toBe(1)
   })
 
-  test("should remove clients that have been closed", async () => {
-    const server = await getGameServer()
-    await server.start()
-    const client = mockWs()
-    await server.addWS(client, mockRequest())
-    client.onclose()
-    expect(server.getClientCount()).toBe(0)
-  })
-
-  test("closing a client should remove it from the server's clients", async () => {
-    const server = await getGameServer()
-    await server.start()
-    const wsClient = mockWs()
-    await server.addWS(wsClient, mockRequest())
-    expect(server.getClientCount()).toBe(1)
-    wsClient.onclose()
-    expect(server.getClientCount()).toBe(0)
-  })
-
   test("should notify an observer immediately if it is added with an immediate timer", async () => {
     const server = await getGameServer()
     await server.start()
