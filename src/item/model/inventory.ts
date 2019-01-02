@@ -2,6 +2,7 @@ import {Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn} from "type
 import * as v4 from "uuid"
 import collectionSearch from "../../support/matcher/collectionSearch"
 import { format } from "../../support/string"
+import ItemQuantity from "../itemQuantity"
 import { Item } from "./item"
 
 @Entity()
@@ -13,7 +14,7 @@ export class Inventory {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @OneToMany((type) => Item, (item) => item.inventory, { cascadeInsert: true, cascadeUpdate: true })
+  @OneToMany(() => Item, (item) => item.inventory, { cascadeInsert: true, cascadeUpdate: true })
   public items: Item[] = []
 
   public find(search): Item | undefined {
@@ -45,16 +46,27 @@ export class Inventory {
     return this.items
   }
 
-  public toString(suffix: string = ""): string {
+  public getItemQuantityMap() {
     const itemsMap = {}
-    this.items.forEach(i => itemsMap[i.name] ? itemsMap[i.name]++ : itemsMap[i.name] = 1)
+    this.items.forEach(item => {
+      if (!itemsMap[item.canonicalId]) {
+        itemsMap[item.canonicalId] = new ItemQuantity(item)
+      }
+      itemsMap[item.canonicalId].incrementQuantity()
+    })
+    return itemsMap
+  }
+
+  public toString(suffix: string = ""): string {
+    const itemsMap = this.getItemQuantityMap()
     return Object.keys(itemsMap).reduce(
       (aggregate, current) => {
+        const itemQuantity: ItemQuantity = itemsMap[current]
         return format(
           "{0}\n{1}{2} {3}",
           aggregate,
-          itemsMap[current] > 1 ? "(" + itemsMap[current] + ") " : "",
-          current,
+          itemQuantity.getQuantity() > 1 ? "(" + itemQuantity.getQuantity() + ") " : "",
+          itemQuantity.item.name,
           suffix)
       }, "")
   }
