@@ -61,11 +61,10 @@ export default class TestBuilder {
     }
     const service = await this.getService()
     const client = new Client(
-      new Session(null, this.serviceBuilder.locationService),
+      new Session(null),
       ws(),
       "127.0.0.1",
       service.getActionCollection(),
-      this.room,
       this.serviceBuilder.locationService,
       await this.getEventService())
     await client.session.login(client, this.player)

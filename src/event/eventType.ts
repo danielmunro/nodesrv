@@ -1,5 +1,6 @@
 export enum EventType {
   ClientDisconnected,
+  ClientLogin,
   MobCreated,
   MobArrived,
   MobLeft,

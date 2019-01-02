@@ -5,6 +5,7 @@ import ItemCreated from "../item/eventConsumer/itemCreated"
 import ItemDestroyed from "../item/eventConsumer/itemDestroyed"
 import ItemService from "../item/itemService"
 import AggressiveMob from "../mob/eventConsumer/aggressiveMob"
+import ClientCreated from "../mob/eventConsumer/clientCreated"
 import {default as MobClientDisconnected} from "../mob/eventConsumer/clientDisconnected"
 import FightStarter from "../mob/eventConsumer/fightStarter"
 import MobCreated from "../mob/eventConsumer/mobCreated"
@@ -60,5 +61,6 @@ export default async function createEventConsumerTable(
 
     // client
     new ClientDisconnected(clientService),
+    new ClientCreated(locationService, gameServer.startRoom),
   ])
 }

@@ -20,11 +20,10 @@ export default class ClientService {
 
   public createNewClient(ws: WebSocket, req) {
     const client = new Client(
-      new Session(new Email(this.authService), this.locationService),
+      new Session(new Email(this.authService)),
       ws,
       req ? req.connection.remoteAddress : null,
       this.actionCollection,
-      this.startRoom,
       this.locationService,
       this.eventService)
     this.add(client)

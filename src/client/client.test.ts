@@ -66,11 +66,11 @@ describe("client sanity checks", () => {
       }))
       const mockService = jest.fn()
       client = new Client(
-        new Session(null, null),
+        new Session(null),
         ws(),
         "127.0.0.1",
         new Collection([], []),
-        mockService(), mockService(), mockService())
+        mockService(), mockService())
     })
 
     it("send sanity test", () => {

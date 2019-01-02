@@ -17,11 +17,10 @@ const ws = jest.fn(() => ({
 async function createClient(
   player, actions, service: GameService, startRoom, locationService, authService: AuthService): Promise<Client> {
   const client = new Client(
-    new Session(new Email(authService), locationService),
+    new Session(new Email(authService)),
     ws(),
     "127.0.0.1",
     actions,
-    startRoom,
     locationService,
     new EventService())
   client.player = player

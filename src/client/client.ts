@@ -15,6 +15,7 @@ import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
 import Session from "../session/session"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
+import ClientEvent from "./event/clientEvent"
 
 export function getDefaultUnhandledMessage(request: Request) {
   return request.respondWith().error(MESSAGE_NOT_UNDERSTOOD)
@@ -28,16 +29,10 @@ export class Client {
     public readonly session: Session,
     public readonly ws: WebSocket,
     public readonly ip: string,
-    public readonly actionCollection: Collection,
-    private readonly startRoom: Room,
+    private readonly actionCollection: Collection,
     private readonly locationService: LocationService,
     private readonly eventService: EventService) {
-    this.ws.onmessage = data => {
-      const mobLocation = this.locationService.getLocationForMob(this.getSessionMob())
-      this.addRequest(this.getNewRequestFromMessageEvent(mobLocation ? mobLocation.room : null, data))
-    }
-    this.ws.onerror = (error: ErrorEvent) =>
-      console.warn("received error from client ws", { ip: this.ip, message: error.message })
+    this.ws.onmessage = this.onMessage.bind(this)
   }
 
   public hasRequests(): boolean {
@@ -70,10 +65,10 @@ export class Client {
       const response = await this.session.handleRequest(this, request)
       if (this.session.isLoggedIn()) {
         await this.eventService.publish(new MobEvent(EventType.MobCreated, this.session.getMob()))
+        await this.eventService.publish(new ClientEvent(EventType.ClientLogin, this))
       }
       return response
     }
-
     return this.handleRequest(this.requests.shift())
   }
 
@@ -102,8 +97,9 @@ export class Client {
     this.send({ tick: { id, timestamp }})
   }
 
-  public getStartRoom(): Room {
-    return this.startRoom
+  private onMessage(data) {
+    const mobLocation = this.locationService.getLocationForMob(this.getSessionMob())
+    this.addRequest(this.getNewRequestFromMessageEvent(mobLocation ? mobLocation.room : null, data))
   }
 
   private getNewRequestFromMessageEvent(room: Room, messageEvent: MessageEvent): Request | AuthRequest {

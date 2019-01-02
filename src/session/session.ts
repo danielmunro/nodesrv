@@ -1,6 +1,4 @@
 import { Client } from "../client/client"
-import { newMobLocation } from "../mob/factory"
-import LocationService from "../mob/locationService"
 import { Mob } from "../mob/model/mob"
 import { Player } from "../player/model/player"
 import AuthStep from "./auth/authStep"
@@ -14,11 +12,9 @@ export default class Session {
   private player: Player
   private mob: Mob
   private status: SessionStatus = SessionStatus.Initialized
-  private isMobCreated: boolean
 
   constructor(
-    private authStep: AuthStep,
-    private readonly locationService: LocationService) {}
+    private authStep: AuthStep) {}
 
   public isLoggedIn(): boolean {
     return this.status === SessionStatus.LoggedIn
@@ -29,9 +25,6 @@ export default class Session {
     this.authStep = response.authStep
     client.send({ message: response.message })
     client.send({ message: this.authStep.getStepMessage() })
-    if (this.authStep instanceof MobComplete) {
-      this.isMobCreated = true
-    }
     if (this.authStep instanceof MobComplete
       || this.authStep instanceof PlayerComplete || this.authStep instanceof Complete) {
       this.authStep = (await this.authStep.processRequest(request)).authStep
@@ -55,14 +48,9 @@ export default class Session {
     return this.player
   }
 
-  public getIsMobCreated(): boolean {
-    return this.isMobCreated
-  }
-
   public async login(client: Client, player: Player): Promise<void> {
     this.mob = player.sessionMob
     this.player = player
-    this.locationService.addMobLocation(newMobLocation(this.mob, client.getStartRoom()))
     this.status = SessionStatus.LoggedIn
     client.player = player
   }

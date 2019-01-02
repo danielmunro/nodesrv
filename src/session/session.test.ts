@@ -1,4 +1,3 @@
-import LocationService from "../mob/locationService"
 import { getPlayerRepository } from "../player/repository/player"
 import {getConnection, initializeConnection} from "../support/db/connection"
 import { getTestClient } from "../test/client"
@@ -24,7 +23,7 @@ describe("session", () => {
     const client = await getTestClient()
     const session = new Session(
       new Email(new AuthService(await getPlayerRepository(), null)),
-      new LocationService([]))
+    )
 
     // expect
     expect(session.isLoggedIn()).toBeFalsy()
@@ -43,7 +42,7 @@ describe("session", () => {
     const client = await getTestClient()
     const session = new Session(
       new Complete(mockAuthService(), client.player),
-      new LocationService([]))
+    )
 
     // expect
     expect(session.isLoggedIn()).toBeFalsy()
