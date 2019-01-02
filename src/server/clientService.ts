@@ -15,8 +15,7 @@ export default class ClientService {
     private readonly eventService: EventService,
     private readonly authService: AuthService,
     private readonly locationService: LocationService,
-    private readonly actionCollection: Collection,
-    private readonly startRoom: Room) {}
+    private readonly actionCollection: Collection) {}
 
   public createNewClient(ws: WebSocket, req) {
     const client = new Client(

@@ -35,8 +35,8 @@ async function getGameServer(): Promise<GameServer> {
       eventService,
       new AuthService(await getPlayerRepository(), mobService),
       mobService.locationService,
-      gameService.getActionCollection(),
-      room),
+      gameService.getActionCollection()
+    ),
     eventService)
 }
 

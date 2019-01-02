@@ -1,7 +1,6 @@
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
-import {Trigger} from "../../mob/enum/trigger"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
@@ -17,7 +16,7 @@ export default class DodgeEventConsumer implements EventConsumer {
   }
 
   public async consume(event: FightEvent): Promise<EventResponse> {
-    const request = new Request(event.mob, event.fight.room, new EventContext(RequestType.Noop, Trigger.AttackRound))
+    const request = new Request(event.mob, event.fight.room, new EventContext(RequestType.Noop))
     const result = await this.dodge.doAction(request)
     if (result.isSuccessful()) {
       return EventResponse.satisfied(event, SkillType.Dodge)

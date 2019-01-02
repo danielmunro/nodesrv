@@ -5,7 +5,7 @@ import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import ClientService from "../../server/clientService"
 
-export default class ClientDisconnected implements EventConsumer {
+export default class Disconnected implements EventConsumer {
   constructor(private readonly clientService: ClientService) {}
 
   public getConsumingEventTypes(): EventType[] {

@@ -244,8 +244,8 @@ export default class TestBuilder {
         this.eventService,
         null,
         this.service.mobService.locationService,
-        this.service.getActionCollection(),
-        this.room),
+        this.service.getActionCollection()
+      ),
       this.eventService)
     const eventConsumers = await eventConsumerTable(
       this.service,
