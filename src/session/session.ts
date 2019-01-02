@@ -13,8 +13,7 @@ export default class Session {
   private mob: Mob
   private status: SessionStatus = SessionStatus.Initialized
 
-  constructor(
-    private authStep: AuthStep) {}
+  constructor(private authStep: AuthStep) {}
 
   public isLoggedIn(): boolean {
     return this.status === SessionStatus.LoggedIn
@@ -25,14 +24,8 @@ export default class Session {
     this.authStep = response.authStep
     client.send({ message: response.message })
     client.send({ message: this.authStep.getStepMessage() })
-    if (this.authStep instanceof MobComplete
-      || this.authStep instanceof PlayerComplete || this.authStep instanceof Complete) {
-      this.authStep = (await this.authStep.processRequest(request)).authStep
-      if (this.authStep instanceof Complete) {
-        await this.login(client, this.authStep.player)
-        return
-      }
-      client.send({ message: this.authStep.getStepMessage() })
+    if (this.isEndStep()) {
+      await this.doEndStep(client, request)
     }
   }
 
@@ -53,5 +46,24 @@ export default class Session {
     this.player = player
     this.status = SessionStatus.LoggedIn
     client.player = player
+  }
+
+  private async doEndStep(client: Client, request: AuthRequest) {
+    this.authStep = (await this.authStep.processRequest(request)).authStep
+    if (this.isCompleteAuth()) {
+      await this.login(client, (this.authStep as Complete).player)
+      return
+    }
+    client.send({ message: this.authStep.getStepMessage() })
+  }
+
+  private isEndStep() {
+    return this.authStep instanceof MobComplete ||
+      this.authStep instanceof PlayerComplete ||
+      this.authStep instanceof Complete
+  }
+
+  private isCompleteAuth() {
+    return this.authStep instanceof Complete
   }
 }
