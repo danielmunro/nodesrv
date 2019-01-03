@@ -48,5 +48,5 @@ export default function(checkedRequest: CheckedRequest, service: GameService): P
 
 function reduceMobs(mob: Mob, mobs: Mob[]): string {
   return mobs.filter(onlyLiving).reduce((previous: string, current: Mob) =>
-    previous + (current !== mob ? `\n${current.name} is here.` : ""), "")
+    previous + (current !== mob ? "\n" + current.brief : ""), "")
 }

@@ -81,6 +81,7 @@ export default class ImportService {
       mobData.race,
       vitals,
       newStartingAttributes(vitals, mobData.level))
+    mob.brief = mobData.brief
     mob.gold = mobData.wealth
     mob.canonicalId = mobData.id
     mob.importId = mobData.id

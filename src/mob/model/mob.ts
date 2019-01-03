@@ -49,7 +49,7 @@ export class Mob {
   public description: string
 
   @Column("text", { nullable: true })
-  public shortDescription
+  public brief: string
 
   @Column("text")
   public race: Race
