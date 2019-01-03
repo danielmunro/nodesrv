@@ -32,6 +32,9 @@ export class Item {
   public name: string
 
   @Column("text")
+  public brief: string
+
+  @Column("text")
   public description: string
 
   @Column("text", { nullable: true })

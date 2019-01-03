@@ -26,6 +26,7 @@ export enum RequestType {
   Berserk = "berserk",
   Buy = "buy",
   Sell = "sell",
+  List = "list",
   Sleep = "sleep",
   Wake = "wake",
   Train = "train",

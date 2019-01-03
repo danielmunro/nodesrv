@@ -9,8 +9,6 @@ import Complete from "./complete"
 import Password from "./password"
 
 export default class PasswordConfirm extends PlayerAuthStep implements AuthStep {
-  public readonly player: Player
-
   constructor(authService: AuthService, player: Player, public readonly firstPassword: string) {
     super(authService, player)
   }

@@ -28,6 +28,7 @@ import get from "./action/get"
 import gossip from "./action/gossip"
 import inventory from "./action/inventory"
 import kill from "./action/kill"
+import list from "./action/list"
 import lock from "./action/lock"
 import look from "./action/look"
 import lore from "./action/lore"
@@ -60,6 +61,7 @@ import { default as eatPrecondition } from "./precondition/eat"
 import { default as fleePrecondition } from "./precondition/flee"
 import { default as getPrecondition } from "./precondition/get"
 import { default as killPrecondition } from "./precondition/kill"
+import { default as listPrecondition } from "./precondition/list"
 import { default as lockPrecondition } from "./precondition/lock"
 import { default as lookPrecondition } from "./precondition/look"
 import { default as lorePrecondition } from "./precondition/lore"
@@ -132,6 +134,7 @@ export default function getActionCollection(service: GameService) {
     // merchants
     definition.action(RequestType.Buy, buy, buyPrecondition),
     definition.action(RequestType.Sell, sell, sellPrecondition),
+    definition.action(RequestType.List, list, listPrecondition),
 
     // social
     definition.action(RequestType.Gossip, gossip, socialPrecondition),

@@ -21,7 +21,7 @@ export default class NewPlayerConfirm implements AuthStep {
     } else if (request.didConfirm()) {
       const player = new Player()
       player.email = this.email
-      return request.ok(new Password(player))
+      return request.ok(new Password(this.authService, player))
     }
 
     return request.fail(this, MESSAGE_YN_FAILED)
