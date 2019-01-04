@@ -206,7 +206,7 @@ export default class TestBuilder {
   }
 
   public async getSpellDefinition(spellType: SpellType): Promise<SpellDefinition> {
-    return getSpellTable(await this.getService()).findSpell(spellType)
+    return getSpellTable(await this.getService()).find(spell => spell.spellType === spellType)
   }
 
   public setTime(time: number) {

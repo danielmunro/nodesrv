@@ -1,12 +1,13 @@
 import CheckedRequest from "../../check/checkedRequest"
+import GameService from "../../gameService/gameService"
 import Response from "../../request/response"
-import spellTable from "../../spell/spellTable"
+import getSpellTable from "../../spell/spellTable"
 import { Messages } from "./constants"
 
-export default async function(checkedRequest: CheckedRequest): Promise<Response> {
+export default async function(checkedRequest: CheckedRequest, service: GameService): Promise<Response> {
   const request = checkedRequest.request
   const check = checkedRequest.check
-  const spellDefinition = spellTable.collection.find(spell =>
+  const spellDefinition = getSpellTable(service).find(spell =>
     spell.spellType.startsWith(request.getContextAsInput().subject))
 
   await spellDefinition.doAction(check.result)

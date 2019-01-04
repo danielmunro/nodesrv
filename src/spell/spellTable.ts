@@ -23,12 +23,11 @@ import magicMissilePrecondition from "./precondition/magicMissile"
 import poisonPrecondition from "./precondition/poison"
 import shieldPrecondition from "./precondition/shield"
 import wrathPrecondition from "./precondition/wrath"
-import SpellCollection from "./spellCollection"
 import { SpellType } from "./spellType"
 
 export default function getSpellTable(service: GameService) {
   const definition = service.definition()
-  return new SpellCollection([
+  return [
     // attack
     definition.spell(SpellType.MagicMissile, ActionType.Offensive,
       magicMissile, magicMissilePrecondition, DamageType.Magic),
@@ -54,5 +53,5 @@ export default function getSpellTable(service: GameService) {
     // curative
     definition.spell(SpellType.CurePoison, ActionType.Defensive,
       curePoison, curePoisonPrecondition),
-  ])
+  ]
 }

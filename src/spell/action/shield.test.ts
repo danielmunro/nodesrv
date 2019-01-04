@@ -14,7 +14,8 @@ describe("shield", () => {
     mobBuilder1.withLevel(5)
     const mobBuilder2 = testBuilder.withMob("bob")
     const mob = mobBuilder2.mob
-    const definition = getSpellTable(await testBuilder.getService()).findSpell(SpellType.Shield)
+    const definition = getSpellTable(await testBuilder.getService())
+      .find(spell => spell.spellType === SpellType.Shield)
 
     // when
     await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast shield bob", mob))

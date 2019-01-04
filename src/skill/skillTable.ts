@@ -67,7 +67,3 @@ export function getSkillTable(service: GameService) {
     newWeaponSkill(service, SkillType.Polearm),
   ]
 }
-
-export async function getSkillActionDefinition(service: GameService, skillType: SkillType) {
-  return getSkillTable(service).find(action => action.isSkillTypeMatch(skillType))
-}

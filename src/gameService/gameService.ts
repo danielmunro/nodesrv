@@ -17,6 +17,9 @@ import {default as RoomTable} from "../room/roomTable"
 import SkillDefinition from "../skill/skillDefinition"
 import {getSkillTable} from "../skill/skillTable"
 import {SkillType} from "../skill/skillType"
+import SpellDefinition from "../spell/spellDefinition"
+import getSpellTable from "../spell/spellTable"
+import {SpellType} from "../spell/spellType"
 import DefinitionService from "./definitionService"
 import TimeService from "./timeService"
 
@@ -24,6 +27,7 @@ export default class GameService {
   public readonly timeService: TimeService
   private actionCollection: Collection
   private readonly skillTable: SkillDefinition[]
+  private readonly spellTable: SpellDefinition[]
 
   constructor(
     public readonly mobService: MobService,
@@ -34,6 +38,7 @@ export default class GameService {
     time = 0) {
     this.timeService = new TimeService(time)
     this.skillTable = getSkillTable(this)
+    this.spellTable = getSpellTable(this)
   }
 
   public getCurrentTime() {
@@ -84,5 +89,10 @@ export default class GameService {
 
   public getSkillDefinition(skillType: SkillType): SkillDefinition {
     return this.skillTable.find(skill => skill.skillType === skillType)
+  }
+
+  public getSpellDefinition(spellType: SpellType): SpellDefinition {
+    console.log("get spell definition", spellType, this.spellTable.length)
+    return this.spellTable.find(spell => spell.spellType === spellType)
   }
 }

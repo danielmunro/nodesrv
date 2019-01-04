@@ -12,7 +12,7 @@ export default function(request: Request, service: GameService): Promise<Check> 
     return Check.fail(MESSAGE_NO_SPELL)
   }
 
-  const spellDefinition = getSpellTable(service).collection.find(spell =>
+  const spellDefinition = getSpellTable(service).find(spell =>
     spell.spellType.startsWith(request.getContextAsInput().subject))
 
   if (!spellDefinition) {

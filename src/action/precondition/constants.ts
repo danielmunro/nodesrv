@@ -80,7 +80,9 @@ export const Messages = {
   },
   Heal: {
     Fail: {
+      CannotAffordSpell: "You can't afford that.",
       HealerNotFound: "A healer isn't here.",
+      SpellNotKnown: "They don't know that spell.",
     },
   },
   Lock: {
