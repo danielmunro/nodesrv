@@ -63,6 +63,9 @@ export const Messages = {
       NotFound: "You don't see that anywhere.",
       NotOwned: "You don't have that.",
     },
+    Mob: {
+      NotFound: "They aren't here.",
+    },
   },
   Buy: {
     CannotAfford: "You can't afford it.",
@@ -73,6 +76,11 @@ export const Messages = {
       CannotClose: "You cannot close that.",
       ItemIsNotAContainer: "You can't close that.",
       NotFound: "You can't find that anywhere.",
+    },
+  },
+  Heal: {
+    Fail: {
+      HealerNotFound: "A healer isn't here.",
     },
   },
   Lock: {

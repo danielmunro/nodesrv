@@ -26,6 +26,7 @@ import equipped from "./action/equipped"
 import flee from "./action/flee"
 import get from "./action/get"
 import gossip from "./action/gossip"
+import heal from "./action/heal"
 import inventory from "./action/inventory"
 import kill from "./action/kill"
 import list from "./action/list"
@@ -60,6 +61,7 @@ import { default as dropPrecondition } from "./precondition/drop"
 import { default as eatPrecondition } from "./precondition/eat"
 import { default as fleePrecondition } from "./precondition/flee"
 import { default as getPrecondition } from "./precondition/get"
+import { default as healPrecondition } from "./precondition/heal"
 import { default as killPrecondition } from "./precondition/kill"
 import { default as listPrecondition } from "./precondition/list"
 import { default as lockPrecondition } from "./precondition/lock"
@@ -131,10 +133,11 @@ export default function getActionCollection(service: GameService) {
     definition.action(RequestType.Lore, lore, lorePrecondition),
     definition.action(RequestType.Score, score),
 
-    // merchants
+    // merchants/healers
     definition.action(RequestType.Buy, buy, buyPrecondition),
     definition.action(RequestType.Sell, sell, sellPrecondition),
     definition.action(RequestType.List, list, listPrecondition),
+    definition.action(RequestType.Heal, heal, healPrecondition),
 
     // social
     definition.action(RequestType.Gossip, gossip, socialPrecondition),

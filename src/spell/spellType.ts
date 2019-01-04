@@ -10,6 +10,7 @@ export enum SpellType {
   DetectInvisible = "detect invisibility",
 
   // Benedictions
+  Armor = "armor",
   Shield = "shield",
   Bless = "bless",
   GiantStrength = "giant strength",
@@ -27,6 +28,7 @@ export enum SpellType {
 
   // Curative
   CurePoison = "cure poison",
+  CureDisease = "cure disease",
   CureBlindness = "cure blindness",
   RemoveCurse = "remove curse",
 
@@ -34,4 +36,6 @@ export enum SpellType {
   CureLight = "cure light",
   CureSerious = "cure serious",
   Heal = "heal",
+  RestoreMana = "restore mana",
+  RefreshMovement = "refresh movement",
 }
