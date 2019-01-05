@@ -39,7 +39,7 @@ export default function getSpellTable(service: GameService) {
     // healing
     definition.spell(SpellType.CureLight, ActionType.Defensive,
       cureLight, cureLightPrecondition, 10),
-    definition.spell(SpellType.CureLight, ActionType.Defensive,
+    definition.spell(SpellType.CureSerious, ActionType.Defensive,
       cureSerious, cureSeriousPrecondition, 15),
     definition.spell(SpellType.Heal, ActionType.Defensive, heal, healPrecondition, 50),
 
