@@ -7,8 +7,9 @@ import { Messages } from "./constants"
 export default async function(checkedRequest: CheckedRequest, service: GameService): Promise<Response> {
   const request = checkedRequest.request
   const check = checkedRequest.check
+  const subject = request.getContextAsInput().subject
   const spellDefinition = getSpellTable(service).find(spell =>
-    spell.spellType.startsWith(request.getContextAsInput().subject))
+    spell.spellType.startsWith(subject))
 
   await spellDefinition.doAction(check.result)
 

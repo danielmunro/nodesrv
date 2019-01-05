@@ -14,6 +14,7 @@ export default class SpellDefinition {
     public readonly actionType: ActionType,
     public readonly preconditions: (request: Request, service: GameService) => Promise<Check>,
     public readonly action: (checkedRequest: CheckedRequest) => Promise<Response>,
+    public readonly minimumManaCost: number,
     public readonly damageType: DamageType = null,
   ) {}
 

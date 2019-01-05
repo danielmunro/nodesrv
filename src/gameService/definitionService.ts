@@ -22,7 +22,18 @@ export default class DefinitionService {
   }
 
   public spell(
-    spellType: SpellType, actionType: ActionType, action, precondition, damageType: DamageType = null) {
-    return new SpellDefinition(this.gameService, spellType, actionType, precondition, improveSpell(action), damageType)
+    spellType: SpellType,
+    actionType: ActionType,
+    action, precondition,
+    minimumManaCost: number,
+    damageType: DamageType = null) {
+    return new SpellDefinition(
+      this.gameService,
+      spellType,
+      actionType,
+      precondition,
+      improveSpell(action),
+      minimumManaCost,
+      damageType)
   }
 }
