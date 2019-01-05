@@ -5,6 +5,7 @@ import { DamageType } from "../damage/damageType"
 import GameService from "../gameService/gameService"
 import { Request } from "../request/request"
 import Response from "../request/response"
+import SpellLevel from "./spellLevel"
 import { SpellType } from "./spellType"
 
 export default class SpellDefinition {
@@ -15,6 +16,7 @@ export default class SpellDefinition {
     public readonly preconditions: (request: Request, service: GameService) => Promise<Check>,
     public readonly action: (checkedRequest: CheckedRequest) => Promise<Response>,
     public readonly minimumManaCost: number,
+    public readonly spellLevels: SpellLevel[],
     public readonly damageType: DamageType = null,
   ) {}
 

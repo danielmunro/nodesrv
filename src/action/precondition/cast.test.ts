@@ -1,7 +1,7 @@
 import { CheckStatus } from "../../check/checkStatus"
 import { RequestType } from "../../request/requestType"
 import { Messages } from "../../skill/precondition/constants"
-import { newSpell } from "../../spell/factory"
+import {Spell} from "../../spell/model/spell"
 import { SpellType } from "../../spell/spellType"
 import TestBuilder from "../../test/testBuilder"
 import cast from "./cast"
@@ -16,6 +16,13 @@ let testBuilder: TestBuilder
 
 async function castAction(input: string) {
   return cast(testBuilder.createRequest(RequestType.Cast, input), await testBuilder.getService())
+}
+
+function newSpell(spellType: SpellType) {
+  const spell = new Spell()
+  spell.spellType = spellType
+
+  return spell
 }
 
 beforeEach(() => testBuilder = new TestBuilder())

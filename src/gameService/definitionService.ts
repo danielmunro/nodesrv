@@ -7,6 +7,7 @@ import { RequestType } from "../request/requestType"
 import SkillDefinition from "../skill/skillDefinition"
 import { SkillType } from "../skill/skillType"
 import SpellDefinition from "../spell/spellDefinition"
+import SpellLevel from "../spell/spellLevel"
 import { SpellType } from "../spell/spellType"
 import GameService from "./gameService"
 
@@ -26,6 +27,7 @@ export default class DefinitionService {
     actionType: ActionType,
     action, precondition,
     minimumManaCost: number,
+    spellLevels: SpellLevel[],
     damageType: DamageType = null) {
     return new SpellDefinition(
       this.gameService,
@@ -34,6 +36,7 @@ export default class DefinitionService {
       precondition,
       improveSpell(action),
       minimumManaCost,
+      spellLevels,
       damageType)
   }
 }

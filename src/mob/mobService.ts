@@ -3,7 +3,6 @@ import { Room } from "../room/model/room"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
-import { newSpell } from "../spell/factory"
 import { Spell } from "../spell/model/spell"
 import { SpellType } from "../spell/spellType"
 import { MESSAGE_MOB_ALREADY_HAS_SPECIALIZATION } from "./constants"
@@ -21,7 +20,10 @@ function createSkillFromSkillType(skillType: SkillType): Skill {
 }
 
 function createSpellFromSpellType(spellType: SpellType): Spell {
-  return newSpell(spellType, 1)
+  const spell = new Spell()
+  spell.spellType = spellType
+  spell.level = 1
+  return spell
 }
 
 export function assignSpecializationToMob(mob: Mob, specialization: Specialization) {
