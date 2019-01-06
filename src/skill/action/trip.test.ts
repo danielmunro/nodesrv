@@ -23,7 +23,7 @@ describe("trip skill action", () => {
     const check = await tripPrecondition(request, await testBuilder.getService())
 
     // when
-    const results = await doNTimes(10, () => trip(new CheckedRequest(request, check)))
+    const results = await doNTimes(100, () => trip(new CheckedRequest(request, check)))
 
     // then
     expect(results.some(result => !result.isSuccessful())).toBeTruthy()

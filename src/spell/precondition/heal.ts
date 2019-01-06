@@ -1,12 +1,11 @@
 import Check from "../../check/check"
-import { Mob } from "../../mob/model/mob"
+import CheckTemplate from "../../check/checkTemplate"
+import GameService from "../../gameService/gameService"
 import { Request } from "../../request/request"
-import { SpellType } from "../spellType"
+import SpellDefinition from "../spellDefinition"
 
-export default function(request: Request): Promise<Check> {
-  return request.checkWithStandingDisposition()
-    .requireSpell(SpellType.Heal)
-    .optionalMob(request.getTarget() as Mob)
-    .addManaCost(100)
+export default function(request: Request, spellDefinition: SpellDefinition, gameService: GameService): Promise<Check> {
+  return new CheckTemplate(gameService.mobService, request)
+    .cast(spellDefinition)
     .create()
 }

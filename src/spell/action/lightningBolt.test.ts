@@ -8,7 +8,7 @@ describe("lightning bolt", () => {
     // setup
     const testBuilder = new TestBuilder()
     const mobBuilder1 = testBuilder.withMob()
-    mobBuilder1.withLevel(5)
+    mobBuilder1.withLevel(30)
     mobBuilder1.withSpell(SpellType.LightningBolt, MAX_PRACTICE_LEVEL)
     const mobBuilder2 = testBuilder.withMob("bob")
     const mob = mobBuilder2.mob

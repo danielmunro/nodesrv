@@ -1,11 +1,12 @@
-import { CheckStatus } from "../../check/checkStatus"
-import { RequestType } from "../../request/requestType"
-import { Messages } from "../../skill/precondition/constants"
+import {CheckStatus} from "../../check/checkStatus"
+import {SpecializationType} from "../../mob/specialization/specializationType"
+import {RequestType} from "../../request/requestType"
+import {Messages} from "../../skill/precondition/constants"
 import {Spell} from "../../spell/model/spell"
-import { SpellType } from "../../spell/spellType"
+import {SpellType} from "../../spell/spellType"
 import TestBuilder from "../../test/testBuilder"
 import cast from "./cast"
-import { MESSAGE_NO_SPELL, MESSAGE_SPELL_DOES_NOT_EXIST } from "./constants"
+import {MESSAGE_NO_SPELL, MESSAGE_SPELL_DOES_NOT_EXIST} from "./constants"
 
 const TEST_INPUT_GIANT = "cast giant"
 const TEST_INPUT_CAST = "cast"
@@ -70,9 +71,10 @@ describe("cast", () => {
   it("should display an appropriate result if the caster lacks mana", async () => {
     // given
     await testBuilder.withPlayer(p => {
+      p.sessionMob.specialization = SpecializationType.Cleric
       p.sessionMob.spells.push(newSpell(SpellType.GiantStrength))
       p.sessionMob.vitals.mana = 0
-      p.sessionMob.level = 10
+      p.sessionMob.level = 30
     })
 
     // when
