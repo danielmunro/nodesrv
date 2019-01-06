@@ -5,7 +5,6 @@ import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
 import { Spell } from "../spell/model/spell"
 import { SpellType } from "../spell/spellType"
-import { MESSAGE_MOB_ALREADY_HAS_SPECIALIZATION } from "./constants"
 import { newMobLocation } from "./factory"
 import { Fight } from "./fight/fight"
 import FightTable from "./fight/fightTable"
@@ -27,10 +26,6 @@ function createSpellFromSpellType(spellType: SpellType): Spell {
 }
 
 export function assignSpecializationToMob(mob: Mob, specialization: Specialization) {
-  if (mob.specialization !== undefined) {
-    throw Error(MESSAGE_MOB_ALREADY_HAS_SPECIALIZATION)
-  }
-
   mob.specialization = specialization.getSpecializationType()
   mob.attributes.push(specialization.getAttributes())
   mob.skills = [...mob.skills, ...specialization.getSkills().map(createSkillFromSkillType)]

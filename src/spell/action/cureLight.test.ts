@@ -1,7 +1,8 @@
-import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { RequestType } from "../../request/requestType"
+import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
+import {SpecializationType} from "../../mob/specialization/specializationType"
+import {RequestType} from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { SpellType } from "../spellType"
+import {SpellType} from "../spellType"
 
 const TO_TARGET = "you feel better!"
 
@@ -9,8 +10,9 @@ describe("cure light", () => {
   it("should heal a target when casted", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const mobBuilder1 = testBuilder.withMob()
+    const mobBuilder1 = testBuilder.withMob("alice", SpecializationType.Cleric)
     mobBuilder1.withSpell(SpellType.CureLight, MAX_PRACTICE_LEVEL)
+    mobBuilder1.mob.level = 30
     const mobBuilder2 = testBuilder.withMob("bob")
     const mob = mobBuilder2.mob
     mob.vitals.hp = 1
@@ -30,9 +32,10 @@ describe("cure light", () => {
   it("should heal self casted", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const mobBuilder1 = testBuilder.withMob("alice")
+    const mobBuilder1 = testBuilder.withMob("alice", SpecializationType.Cleric)
     mobBuilder1.withSpell(SpellType.CureLight, MAX_PRACTICE_LEVEL)
     const mob = mobBuilder1.mob
+    mob.level = 30
     mob.vitals.hp = 1
     const definition = await testBuilder.getSpellDefinition(SpellType.CureLight)
 

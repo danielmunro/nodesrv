@@ -1,17 +1,15 @@
 import { AffectType } from "../../affect/affectType"
 import Check from "../../check/check"
+import CheckTemplate from "../../check/checkTemplate"
 import GameService from "../../gameService/gameService"
-import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
-import { SpellType } from "../spellType"
+import SpellDefinition from "../spellDefinition"
 import { Messages } from "./constants"
 
-export default function(request: Request, service: GameService): Promise<Check> {
-  return request.checkWithStandingDisposition(service.mobService)
-    .requireSpell(SpellType.Blind)
-    .requireMob(request.getTarget() as Mob)
+export default function(
+  request: Request, spellDefinition: SpellDefinition, service: GameService): Promise<Check> {
+  return new CheckTemplate(service.mobService, request)
+    .cast(spellDefinition)
     .not().require(mob => mob.getAffect(AffectType.Blind), Messages.Blind.AlreadyBlind)
-    .requireLevel(10)
-    .addManaCost(80)
     .create()
 }

@@ -1,16 +1,17 @@
 import Attributes from "../attributes/model/attributes"
 import Vitals from "../attributes/model/vitals"
-import { Item } from "../item/model/item"
-import { Room } from "../room/model/room"
-import { Disposition } from "./enum/disposition"
+import {Item} from "../item/model/item"
+import {Room} from "../room/model/room"
+import {Disposition} from "./enum/disposition"
 import FightTable from "./fight/fightTable"
 import LocationService from "./locationService"
 import MobService from "./mobService"
 import MobTable from "./mobTable"
-import { Mob } from "./model/mob"
+import {Mob} from "./model/mob"
 import MobLocation from "./model/mobLocation"
 import MobReset from "./model/mobReset"
-import { Race } from "./race/race"
+import {Race} from "./race/race"
+import {SpecializationType} from "./specialization/specializationType"
 
 export function newMobReset(
   mob: Mob,
@@ -37,8 +38,10 @@ export function newMobLocation(
   return mobLocation
 }
 
+/*tslint:disable*/
 export function newMob(name: string, description: string, race: Race, vitals: Vitals,
-                       attributes: Attributes, wanders: boolean = false, items: Item[] = []): Mob {
+                       attributes: Attributes, wanders: boolean = false, items: Item[] = [],
+                       specialization = SpecializationType.Warrior): Mob {
 
   const mob = new Mob()
   mob.name = name
@@ -47,6 +50,7 @@ export function newMob(name: string, description: string, race: Race, vitals: Vi
   mob.vitals = vitals
   mob.attributes.push(attributes)
   mob.traits.wanders = wanders
+  mob.specialization = specialization
   items.forEach((item) => mob.inventory.addItem(item))
 
   return mob

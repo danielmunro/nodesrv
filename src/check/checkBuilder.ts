@@ -21,7 +21,7 @@ export default class CheckBuilder {
   private costs: Cost[] = []
   private confirm: boolean = true
   private mob: Mob
-  private captured
+  private captured: any
 
   constructor(private readonly mobService: MobService) {}
 

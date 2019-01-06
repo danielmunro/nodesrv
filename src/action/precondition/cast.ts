@@ -8,16 +8,17 @@ import {
 } from "./constants"
 
 export default function(request: Request, service: GameService): Promise<Check> {
-  if (!request.getContextAsInput().subject) {
+  const subject = request.getSubject()
+  if (!subject) {
     return Check.fail(MESSAGE_NO_SPELL)
   }
 
   const spellDefinition = getSpellTable(service).find(spell =>
-    spell.spellType.startsWith(request.getContextAsInput().subject))
+    spell.spellType.startsWith(subject))
 
   if (!spellDefinition) {
     return Check.fail(MESSAGE_SPELL_DOES_NOT_EXIST)
   }
 
-  return spellDefinition.preconditions(request, service)
+  return spellDefinition.preconditions(request, spellDefinition, service)
 }
