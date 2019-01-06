@@ -1,4 +1,5 @@
 export enum ActionType {
-    Offensive,
-    Defensive,
+  Offensive,
+  Defensive,
+  Neutral,
 }

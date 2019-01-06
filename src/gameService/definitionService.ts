@@ -1,13 +1,13 @@
 import { ActionType } from "../action/actionType"
 import { Definition } from "../action/definition/definition"
+import Cost from "../check/cost/cost"
 import { DamageType } from "../damage/damageType"
 import { improveSpell } from "../improve/improve"
-import { Trigger } from "../mob/enum/trigger"
+import SpecializationLevel from "../mob/specialization/specializationLevel"
 import { RequestType } from "../request/requestType"
 import SkillDefinition from "../skill/skillDefinition"
 import { SkillType } from "../skill/skillType"
 import SpellDefinition from "../spell/spellDefinition"
-import SpellLevel from "../spell/spellLevel"
 import { SpellType } from "../spell/spellType"
 import GameService from "./gameService"
 
@@ -18,8 +18,21 @@ export default class DefinitionService {
     return new Definition(this.gameService, requestType, action, precondition)
   }
 
-  public skill(skillType: SkillType, trigger: Trigger, action, precondition = null) {
-    return new SkillDefinition(this.gameService, skillType, [trigger], action, precondition)
+  public skill(
+    skillType: SkillType,
+    action,
+    precondition,
+    skillLevels: SpecializationLevel[],
+    actionType: ActionType,
+    costs: Cost[] = []) {
+    return new SkillDefinition(
+      this.gameService,
+      skillType,
+      action,
+      precondition,
+      skillLevels,
+      actionType,
+      costs)
   }
 
   public spell(
@@ -27,7 +40,7 @@ export default class DefinitionService {
     actionType: ActionType,
     action, precondition,
     minimumManaCost: number,
-    spellLevels: SpellLevel[],
+    spellLevels: SpecializationLevel[],
     damageType: DamageType = null) {
     return new SpellDefinition(
       this.gameService,

@@ -4,10 +4,10 @@ import CheckedRequest from "../check/checkedRequest"
 import { DamageType } from "../damage/damageType"
 import GameService from "../gameService/gameService"
 import {Mob} from "../mob/model/mob"
+import SpecializationLevel from "../mob/specialization/specializationLevel"
 import {SpecializationType} from "../mob/specialization/specializationType"
 import { Request } from "../request/request"
 import Response from "../request/response"
-import SpellLevel from "./spellLevel"
 import { SpellType } from "./spellType"
 
 export const MAX_CAST_COST = 1000
@@ -21,7 +21,7 @@ export default class SpellDefinition {
       (request: Request, spellDefinition: SpellDefinition, service: GameService) => Promise<Check>,
     public readonly action: (checkedRequest: CheckedRequest) => Promise<Response>,
     public readonly minimumManaCost: number,
-    public readonly spellLevels: SpellLevel[],
+    public readonly spellLevels: SpecializationLevel[],
     public readonly damageType: DamageType = null,
   ) {}
 
@@ -35,7 +35,7 @@ export default class SpellDefinition {
     return request.respondWith().error(check.result)
   }
 
-  public getLevelFor(specializationType: SpecializationType): SpellLevel {
+  public getLevelFor(specializationType: SpecializationType): SpecializationLevel {
     return this.spellLevels.find(sp => sp.specialization === specializationType)
   }
 

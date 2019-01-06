@@ -1,6 +1,7 @@
 import { ActionType } from "../action/actionType"
 import { DamageType } from "../damage/damageType"
 import GameService from "../gameService/gameService"
+import SpecializationLevel from "../mob/specialization/specializationLevel"
 import blind from "./action/blind"
 import cureLight from "./action/cureLight"
 import curePoison from "./action/curePoison"
@@ -25,7 +26,6 @@ import magicMissilePrecondition from "./precondition/magicMissile"
 import poisonPrecondition from "./precondition/poison"
 import shieldPrecondition from "./precondition/shield"
 import wrathPrecondition from "./precondition/wrath"
-import SpellLevel from "./spellLevel"
 import { SpellType } from "./spellType"
 
 export default function getSpellTable(service: GameService) {
@@ -38,7 +38,7 @@ export default function getSpellTable(service: GameService) {
       magicMissile,
       magicMissilePrecondition,
       15,
-      SpellLevel.create(0, 1, 2, 2),
+      SpecializationLevel.create(0, 1, 2, 2),
       DamageType.Magic),
 
     definition.spell(
@@ -47,7 +47,7 @@ export default function getSpellTable(service: GameService) {
       lightningBolt,
       lightningBoltPrecondition,
       15,
-      SpellLevel.create(23, 13, 18, 16),
+      SpecializationLevel.create(23, 13, 18, 16),
       DamageType.Electric),
 
     // healing
@@ -57,7 +57,7 @@ export default function getSpellTable(service: GameService) {
       cureLight,
       cureLightPrecondition,
       10,
-      SpellLevel.create(1, 0, 0, 3)),
+      SpecializationLevel.create(1, 0, 0, 3)),
 
     definition.spell(
       SpellType.CureSerious,
@@ -65,7 +65,7 @@ export default function getSpellTable(service: GameService) {
       cureSerious,
       cureSeriousPrecondition,
       15,
-      SpellLevel.create(7, 0, 0, 9)),
+      SpecializationLevel.create(7, 0, 0, 9)),
 
     definition.spell(
       SpellType.Heal,
@@ -73,7 +73,7 @@ export default function getSpellTable(service: GameService) {
       heal,
       healPrecondition,
       50,
-      SpellLevel.create(20, 0, 33, 31)),
+      SpecializationLevel.create(20, 0, 33, 31)),
 
     // benedictions
     definition.spell(
@@ -82,7 +82,7 @@ export default function getSpellTable(service: GameService) {
       shield,
       shieldPrecondition,
       12,
-      SpellLevel.create(20, 35, 40, 35)),
+      SpecializationLevel.create(20, 35, 40, 35)),
 
     definition.spell(
       SpellType.GiantStrength,
@@ -90,7 +90,7 @@ export default function getSpellTable(service: GameService) {
       giantStrength,
       giantStrengthPrecondition,
       20,
-      SpellLevel.create(11, 0, 22, 20)),
+      SpecializationLevel.create(11, 0, 22, 20)),
 
     definition.spell(
       SpellType.Wrath,
@@ -98,7 +98,7 @@ export default function getSpellTable(service: GameService) {
       wrath,
       wrathPrecondition,
       25,
-      SpellLevel.create(10, 10, 10, 10)),
+      SpecializationLevel.create(10, 10, 10, 10)),
 
     // maladictions
     definition.spell(
@@ -107,7 +107,7 @@ export default function getSpellTable(service: GameService) {
       poison,
       poisonPrecondition,
       10,
-      SpellLevel.create(17, 12, 15, 21)),
+      SpecializationLevel.create(17, 12, 15, 21)),
 
     definition.spell(
       SpellType.Curse,
@@ -115,7 +115,7 @@ export default function getSpellTable(service: GameService) {
       curse,
       cursePrecondition,
       20,
-      SpellLevel.create(18, 18, 22, 26)),
+      SpecializationLevel.create(18, 18, 22, 26)),
 
     definition.spell(
       SpellType.Blind,
@@ -123,7 +123,7 @@ export default function getSpellTable(service: GameService) {
       blind,
       blindPrecondition,
       20,
-      SpellLevel.create(12, 8, 15, 17)),
+      SpecializationLevel.create(12, 8, 15, 17)),
 
     // curative
     definition.spell(
@@ -132,6 +132,6 @@ export default function getSpellTable(service: GameService) {
       curePoison,
       curePoisonPrecondition,
       5,
-      SpellLevel.create(13, 0, 0, 18)),
+      SpecializationLevel.create(13, 0, 0, 18)),
   ]
 }
