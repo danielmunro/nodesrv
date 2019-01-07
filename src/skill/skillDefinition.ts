@@ -4,10 +4,10 @@ import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import GameService from "../gameService/gameService"
 import SpecializationLevel from "../mob/specialization/specializationLevel"
+import {SpecializationType} from "../mob/specialization/specializationType"
 import { Request } from "../request/request"
 import Response from "../request/response"
 import { SkillType } from "./skillType"
-import {SpecializationType} from "../mob/specialization/specializationType"
 
 export default class SkillDefinition {
   constructor(

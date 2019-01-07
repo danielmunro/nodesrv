@@ -2,10 +2,9 @@ import {ActionType} from "../action/actionType"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import {Request} from "../request/request"
+import SkillDefinition from "../skill/skillDefinition"
 import SpellDefinition from "../spell/spellDefinition"
 import CheckBuilder from "./checkBuilder"
-import SkillDefinition from "../skill/skillDefinition"
-import {Fight} from "../mob/fight/fight"
 import {Messages} from "./constants"
 
 export default class CheckTemplate {

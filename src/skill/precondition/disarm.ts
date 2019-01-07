@@ -6,9 +6,9 @@ import GameService from "../../gameService/gameService"
 import { Equipment } from "../../item/equipment"
 import { Request } from "../../request/request"
 import { Costs } from "../constants"
+import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
-import SkillDefinition from "../skillDefinition"
 
 export default function(request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
   return request.checkWithStandingDisposition(service.mobService)

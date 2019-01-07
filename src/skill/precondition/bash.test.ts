@@ -1,10 +1,10 @@
+import {Mob} from "../../mob/model/mob"
 import { RequestType } from "../../request/requestType"
 import PlayerBuilder from "../../test/playerBuilder"
 import TestBuilder from "../../test/testBuilder"
+import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
-import SkillDefinition from "../skillDefinition"
-import {Mob} from "../../mob/model/mob"
 
 let testBuilder: TestBuilder
 let playerBuilder: PlayerBuilder

@@ -8,11 +8,12 @@ import GameService from "../../gameService/gameService"
 import Weapon from "../../item/model/weapon"
 import { Request } from "../../request/request"
 import { Costs } from "../constants"
+import SkillDefinition from "../skillDefinition"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
-import SkillDefinition from "../skillDefinition"
 
-export default async function(request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
+export default async function(
+  request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
   const target = request.getTarget()
 
   return request.checkWithStandingDisposition(service.mobService)

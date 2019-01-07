@@ -1,8 +1,8 @@
+import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
 import { Request } from "./request"
 import ResponseMessage from "./responseMessage"
 import { ResponseStatus } from "./responseStatus"
-import Check from "../check/check"
 
 export default class Response {
   constructor(

@@ -1,9 +1,9 @@
 import {RequestType} from "../../request/requestType"
+import PlayerBuilder from "../../test/playerBuilder"
 import TestBuilder from "../../test/testBuilder"
+import SkillDefinition from "../skillDefinition"
 import {SkillType} from "../skillType"
 import {Messages} from "./constants"
-import SkillDefinition from "../skillDefinition"
-import PlayerBuilder from "../../test/playerBuilder"
 
 let testBuilder: TestBuilder
 let skillDefinition: SkillDefinition
