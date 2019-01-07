@@ -6,19 +6,18 @@ import TestBuilder from "../test/testBuilder"
 import { Definition } from "./definition/definition"
 
 describe("action action collection", () => {
-  it("should be able to bash", async () => {
+  it("should be able to look", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
-    playerBuilder.withSkill(SkillType.Bash)
+    await testBuilder.withPlayer()
     const target = testBuilder.withMob("bob").mob
     const actions = await testBuilder.getActionCollection()
 
     // and
-    const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Bash)
+    const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Look)
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Bash, "bash bob", target))
+    const response = await action.handle(testBuilder.createRequest(RequestType.Look, "look bob", target))
 
     // then
     expect(response.status).not.toBe(ResponseStatus.PreconditionsFailed)
@@ -27,8 +26,7 @@ describe("action action collection", () => {
   it("should not be able to access admin action", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
-    playerBuilder.withSkill(SkillType.Bash)
+    await testBuilder.withPlayer()
     const actions = await testBuilder.getActionCollection()
 
     const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Ban, AuthorizationLevel.Mortal)
@@ -39,8 +37,7 @@ describe("action action collection", () => {
   it("admins should be able to access admin action", async () => {
     // given
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
-    playerBuilder.withSkill(SkillType.Bash)
+    await testBuilder.withPlayer()
     const actions = await testBuilder.getActionCollection()
 
     const action = actions.getMatchingHandlerDefinitionForRequestType(RequestType.Ban, AuthorizationLevel.Admin)

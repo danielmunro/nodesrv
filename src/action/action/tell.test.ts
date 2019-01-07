@@ -12,7 +12,7 @@ import TestBuilder from "../../test/testBuilder"
 import tell from "./tell"
 
 describe("tell social action", () => {
-  it("should be to handle gossiping", async () => {
+  it("should be to handle telling", async () => {
     // setup
     const testBuilder = new TestBuilder()
     await testBuilder.withPlayer()

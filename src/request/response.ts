@@ -2,6 +2,7 @@ import CheckedRequest from "../check/checkedRequest"
 import { Request } from "./request"
 import ResponseMessage from "./responseMessage"
 import { ResponseStatus } from "./responseStatus"
+import Check from "../check/check"
 
 export default class Response {
   constructor(
@@ -23,6 +24,10 @@ export default class Response {
 
   public getCheckedRequest(): CheckedRequest {
     return this.request as CheckedRequest
+  }
+
+  public getCheck(): Check {
+    return this.getCheckedRequest().check
   }
 
   public getPayload(): object {

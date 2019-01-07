@@ -9,7 +9,7 @@ import { SkillType } from "../skillType"
 
 export default async function(checkedRequest: CheckedRequest): Promise<Response> {
   const mob = checkedRequest.mob
-  const target = checkedRequest.getCheckTypeResult(CheckType.IsFighting)
+  const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
   const skill = mob.skills.find(s => s.skillType === SkillType.Bash)
   const responseBuilder = checkedRequest.respondWith()
 

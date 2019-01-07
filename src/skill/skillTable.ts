@@ -42,7 +42,7 @@ function newWeaponSkill(service: GameService, skillType: SkillType) {
     skillType,
     (checkedRequest: CheckedRequest) => checkedRequest.respondWith().success(),
     () => Check.ok(),
-    [],
+    SpecializationLevel.create(1, 1, 1, 1),
     ActionType.Neutral)
 }
 
