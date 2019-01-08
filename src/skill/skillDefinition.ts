@@ -1,4 +1,5 @@
 import {ActionType} from "../action/actionType"
+import {AffectType} from "../affect/affectType"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
@@ -19,7 +20,8 @@ export default class SkillDefinition {
       (request: Request, skillDefinition: SkillDefinition, service: GameService) => Promise<Check>,
     public readonly skillLevels: SpecializationLevel[],
     public readonly actionType: ActionType,
-    public readonly costs: Cost[] = []) {}
+    public readonly costs: Cost[] = [],
+    public readonly affect: AffectType = null) {}
 
   public async doAction(request: Request): Promise<Response> {
     if (!this.preconditions) {

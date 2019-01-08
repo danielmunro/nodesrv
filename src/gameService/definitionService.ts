@@ -1,5 +1,6 @@
 import { ActionType } from "../action/actionType"
 import { Definition } from "../action/definition/definition"
+import {AffectType} from "../affect/affectType"
 import Cost from "../check/cost/cost"
 import { DamageType } from "../damage/damageType"
 import { improveSpell } from "../improve/improve"
@@ -24,7 +25,8 @@ export default class DefinitionService {
     precondition,
     skillLevels: SpecializationLevel[],
     actionType: ActionType,
-    costs: Cost[] = []) {
+    costs: Cost[] = [],
+    affectType: AffectType = null) {
     return new SkillDefinition(
       this.gameService,
       skillType,
@@ -32,7 +34,8 @@ export default class DefinitionService {
       precondition,
       skillLevels,
       actionType,
-      costs)
+      costs,
+      affectType)
   }
 
   public spell(

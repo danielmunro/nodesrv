@@ -1,4 +1,5 @@
 import {ActionType} from "../action/actionType"
+import {AffectType} from "../affect/affectType"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
@@ -82,7 +83,8 @@ export function getSkillTable(service: GameService) {
       ActionType.Offensive,
       [
         new Cost(CostType.Mv, Costs.Bash.Mv, Messages.All.NotEnoughMv),
-      ]),
+      ],
+      AffectType.Stunned),
 
     definition.skill(
       SkillType.Trip,
@@ -93,7 +95,8 @@ export function getSkillTable(service: GameService) {
       [
         new Cost(CostType.Mv, Costs.Trip.Mv, Messages.All.NotEnoughMv),
         new Cost(CostType.Delay, Costs.Trip.Delay),
-      ]),
+      ],
+      AffectType.Stunned),
 
     definition.skill(
       SkillType.Berserk,
@@ -103,7 +106,8 @@ export function getSkillTable(service: GameService) {
       ActionType.Defensive,
       [
         new Cost(CostType.Delay, Costs.Berserk.Delay),
-      ]),
+      ],
+      AffectType.Berserk),
 
     definition.skill(
       SkillType.Sneak,
@@ -114,7 +118,8 @@ export function getSkillTable(service: GameService) {
       [
         new Cost(CostType.Mv, Costs.Sneak.Mv),
         new Cost(CostType.Delay, Costs.Sneak.Delay),
-      ]),
+      ],
+      AffectType.Sneak),
 
     definition.skill(
       SkillType.Envenom,
@@ -124,7 +129,8 @@ export function getSkillTable(service: GameService) {
       ActionType.Defensive,
       [
         new Cost(CostType.Mana, Costs.Envenom.Mana),
-      ]),
+      ],
+      AffectType.Poison),
 
     definition.skill(
       SkillType.Backstab,
@@ -152,7 +158,8 @@ export function getSkillTable(service: GameService) {
       ActionType.Offensive,
       [
         new Cost(CostType.Mv, Costs.DirtKick.Mv, Messages.All.NotEnoughMv),
-      ]),
+      ],
+      AffectType.Blind),
 
     definition.skill(
       SkillType.FastHealing,
@@ -182,7 +189,8 @@ export function getSkillTable(service: GameService) {
         new Cost(CostType.Mana, Costs.Sharpen.Mana),
         new Cost(CostType.Mv, Costs.Sharpen.Mv),
         new Cost(CostType.Delay, Costs.Sharpen.Delay),
-      ]),
+      ],
+      AffectType.Sharpened),
 
     newWeaponSkill(service, SkillType.Sword),
     newWeaponSkill(service, SkillType.Mace),

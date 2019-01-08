@@ -1,17 +1,17 @@
 import { AffectType } from "../../affect/affectType"
 import Check from "../../check/check"
+import CheckTemplate from "../../check/checkTemplate"
 import Cost from "../../check/cost/cost"
 import { CostType } from "../../check/cost/costType"
 import GameService from "../../gameService/gameService"
 import { Request } from "../../request/request"
 import { Costs } from "../constants"
-import { SkillType } from "../skillType"
+import SkillDefinition from "../skillDefinition"
 import { Messages } from "./constants"
 
-export default function(request: Request, service: GameService): Promise<Check> {
-  return request.checkWithStandingDisposition(service.mobService)
-    .requireSkill(SkillType.Berserk)
-    .requireLevel(20)
+export default function(request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
+  return new CheckTemplate(service.mobService, request)
+    .perform(skillDefinition)
     .not(request.mob).requireAffect(AffectType.Berserk, Messages.Berserk.FailAlreadyInvoked)
     .addCost(
       new Cost(
