@@ -1,7 +1,9 @@
 import {AffectType} from "../../affect/affectType"
 import {newAffect} from "../../affect/factory"
+import {Messages as CheckMessages} from "../../check/constants"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
 import {RequestType} from "../../request/requestType"
+import {format} from "../../support/string"
 import TestBuilder from "../../test/testBuilder"
 import SkillDefinition from "../skillDefinition"
 import {SkillType} from "../skillType"
@@ -45,7 +47,8 @@ describe("berserk skill preconditions", () => {
 
     // then
     expect(response.isError()).toBeTruthy()
-    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Berserk.FailAlreadyInvoked)
+    expect(response.message.getMessageToRequestCreator())
+      .toBe(format(CheckMessages.AlreadyAffected, AffectType.Berserk))
   })
 
   it("should be able to get a success check if conditions met", async () => {

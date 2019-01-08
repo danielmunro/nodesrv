@@ -1,9 +1,13 @@
 import {ActionType} from "../action/actionType"
+import affectTable from "../affect/affectTable"
+import {AffectType} from "../affect/affectType"
+import {StackBehavior} from "../affect/stackBehavior"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import {Request} from "../request/request"
 import SkillDefinition from "../skill/skillDefinition"
 import SpellDefinition from "../spell/spellDefinition"
+import {format} from "../support/string"
 import CheckBuilder from "./checkBuilder"
 import {Messages} from "./constants"
 
@@ -29,8 +33,16 @@ export default class CheckTemplate {
 
     skillDefinition.costs.forEach(cost => checkBuilder.addCost(cost))
     this.checkActionType(checkBuilder, skillDefinition.actionType)
+    this.checkAffectStackingBehavior(checkBuilder, skillDefinition.affect)
 
     return checkBuilder
+  }
+
+  private checkAffectStackingBehavior(checkBuilder: CheckBuilder, affectType: AffectType) {
+    const affectDefinition = affectTable.find(a => a.affectType === affectType)
+    if (affectDefinition && affectDefinition.stackBehavior === StackBehavior.NoReplace) {
+      checkBuilder.not(this.request.mob).requireAffect(affectType, format(Messages.AlreadyAffected, affectType))
+    }
   }
 
   private checkActionType(checkBuilder: CheckBuilder, actionType: ActionType) {
