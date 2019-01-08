@@ -2,6 +2,7 @@ import {ActionType} from "../action/actionType"
 import {AffectType} from "../affect/affectType"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
+import {Messages as CheckMessages} from "../check/constants"
 import Cost from "../check/cost/cost"
 import {CostType} from "../check/cost/costType"
 import GameService from "../gameService/gameService"
@@ -106,6 +107,8 @@ export function getSkillTable(service: GameService) {
       ActionType.Defensive,
       [
         new Cost(CostType.Delay, Costs.Berserk.Delay),
+        new Cost(CostType.Mv, mob =>
+          Math.max(mob.getCombinedAttributes().vitals.mv / 2, Costs.Berserk.Mv), CheckMessages.TooTired),
       ],
       AffectType.Berserk),
 
