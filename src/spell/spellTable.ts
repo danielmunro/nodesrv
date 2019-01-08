@@ -15,17 +15,9 @@ import poison from "./action/poison"
 import shield from "./action/shield"
 import wrath from "./action/wrath"
 import blindPrecondition from "./precondition/blind"
-import cureLightPrecondition from "./precondition/cureLight"
-import curePoisonPrecondition from "./precondition/curePoison"
-import cureSeriousPrecondition from "./precondition/cureSerious"
 import cursePrecondition from "./precondition/curse"
-import giantStrengthPrecondition from "./precondition/giantStrength"
-import healPrecondition from "./precondition/heal"
-import lightningBoltPrecondition from "./precondition/lightningBolt"
-import magicMissilePrecondition from "./precondition/magicMissile"
+import defaultSpellPrecondition from "./precondition/defaultSpellPrecondition"
 import poisonPrecondition from "./precondition/poison"
-import shieldPrecondition from "./precondition/shield"
-import wrathPrecondition from "./precondition/wrath"
 import { SpellType } from "./spellType"
 
 export default function getSpellTable(service: GameService) {
@@ -36,7 +28,7 @@ export default function getSpellTable(service: GameService) {
       SpellType.MagicMissile,
       ActionType.Offensive,
       magicMissile,
-      magicMissilePrecondition,
+      defaultSpellPrecondition,
       15,
       SpecializationLevel.create(0, 1, 2, 2),
       DamageType.Magic),
@@ -45,7 +37,7 @@ export default function getSpellTable(service: GameService) {
       SpellType.LightningBolt,
       ActionType.Offensive,
       lightningBolt,
-      lightningBoltPrecondition,
+      defaultSpellPrecondition,
       15,
       SpecializationLevel.create(23, 13, 18, 16),
       DamageType.Electric),
@@ -55,7 +47,7 @@ export default function getSpellTable(service: GameService) {
       SpellType.CureLight,
       ActionType.Defensive,
       cureLight,
-      cureLightPrecondition,
+      defaultSpellPrecondition,
       10,
       SpecializationLevel.create(1, 0, 0, 3)),
 
@@ -63,7 +55,7 @@ export default function getSpellTable(service: GameService) {
       SpellType.CureSerious,
       ActionType.Defensive,
       cureSerious,
-      cureSeriousPrecondition,
+      defaultSpellPrecondition,
       15,
       SpecializationLevel.create(7, 0, 0, 9)),
 
@@ -71,7 +63,7 @@ export default function getSpellTable(service: GameService) {
       SpellType.Heal,
       ActionType.Defensive,
       heal,
-      healPrecondition,
+      defaultSpellPrecondition,
       50,
       SpecializationLevel.create(20, 0, 33, 31)),
 
@@ -80,7 +72,7 @@ export default function getSpellTable(service: GameService) {
       SpellType.Shield,
       ActionType.Defensive,
       shield,
-      shieldPrecondition,
+      defaultSpellPrecondition,
       12,
       SpecializationLevel.create(20, 35, 40, 35)),
 
@@ -88,7 +80,7 @@ export default function getSpellTable(service: GameService) {
       SpellType.GiantStrength,
       ActionType.Defensive,
       giantStrength,
-      giantStrengthPrecondition,
+      defaultSpellPrecondition,
       20,
       SpecializationLevel.create(11, 0, 22, 20)),
 
@@ -96,7 +88,7 @@ export default function getSpellTable(service: GameService) {
       SpellType.Wrath,
       ActionType.Defensive,
       wrath,
-      wrathPrecondition,
+      defaultSpellPrecondition,
       25,
       SpecializationLevel.create(10, 10, 10, 10)),
 
@@ -130,7 +122,7 @@ export default function getSpellTable(service: GameService) {
       SpellType.CurePoison,
       ActionType.Defensive,
       curePoison,
-      curePoisonPrecondition,
+      defaultSpellPrecondition,
       5,
       SpecializationLevel.create(13, 0, 0, 18)),
   ]
