@@ -84,25 +84,21 @@ export default class CheckBuilder {
       this.capture(toCapture)
     }
     this.confirm = false
-
     return this
   }
 
   public addCost(cost: Cost) {
     this.costs.push(cost)
-
     return this
   }
 
   public addManaCost(amount: number) {
     this.costs.push(new Cost(CostType.Mana, amount, Messages.All.NotEnoughMana))
-
     return this
   }
 
   public forMob(mob: Mob) {
     this.mob = mob
-
     return this
   }
 
@@ -111,7 +107,6 @@ export default class CheckBuilder {
       CheckType.Level,
       this.mob.level >= level,
       Messages.All.NotEnoughExperience))
-
     return this
   }
 
@@ -120,7 +115,6 @@ export default class CheckBuilder {
       CheckType.HasSkill,
       this.mob.skills.find(s => s.skillType === skillType),
       Messages.All.NoSkill))
-
     return this
   }
 
@@ -129,7 +123,6 @@ export default class CheckBuilder {
       CheckType.HasSpell,
       this.mob.spells.find(s => s.spellType === spellType),
       Messages.All.NoSpell))
-
     return this
   }
 
@@ -138,14 +131,12 @@ export default class CheckBuilder {
       CheckType.HasAffect,
       captured => captured.affects.find(a => a.affectType === affectType),
       failMessage))
-
     return this
   }
 
   public requireDisposition(disposition: Disposition, failMessage: string) {
     this.checks.push(
       this.newCheckComponent(CheckType.Disposition, this.mob.disposition === disposition, failMessage))
-
     return this
   }
 
@@ -157,7 +148,6 @@ export default class CheckBuilder {
         .or(() => false)
         .get(),
       failMessage))
-
     return this
   }
 
