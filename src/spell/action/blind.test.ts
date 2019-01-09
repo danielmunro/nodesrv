@@ -46,11 +46,11 @@ describe("blind spell action", () => {
   it("should error out if applied twice", async () => {
     // when
     const responses = await getResponses()
+    responses.forEach(response => console.log(response.message.getMessageToRequestCreator()))
 
     // then
-    const errorResponse = responses.find(r => !r.isSuccessful())
-    expect(errorResponse).toBeTruthy()
-    expect(errorResponse.isError()).toBeTruthy()
+    const errorResponse = responses.find(r => r.isError())
+    expect(errorResponse).toBeDefined()
     expect(errorResponse.message.getMessageToRequestCreator()).toBe("They are already blind.")
   })
 })

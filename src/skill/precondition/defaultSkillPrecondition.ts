@@ -2,11 +2,11 @@ import Check from "../../check/check"
 import CheckTemplate from "../../check/checkTemplate"
 import GameService from "../../gameService/gameService"
 import { Request } from "../../request/request"
-import SpellDefinition from "../spellDefinition"
+import SkillDefinition from "../skillDefinition"
 
 export default function(
-  request: Request, spellDefinition: SpellDefinition, service: GameService): Promise<Check> {
+  request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
   return new CheckTemplate(service.mobService, request)
-    .cast(spellDefinition)
+    .perform(skillDefinition)
     .create()
 }

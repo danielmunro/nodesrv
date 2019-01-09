@@ -24,8 +24,8 @@ import trip from "./action/trip"
 import {Costs} from "./constants"
 import backstabPrecondition from "./precondition/backstab"
 import bashPrecondition from "./precondition/bash"
-import berserkPrecondition from "./precondition/berserk"
 import {Messages} from "./precondition/constants"
+import defaultSkillPrecondition from "./precondition/defaultSkillPrecondition"
 import dirtKickPrecondition from "./precondition/dirtKick"
 import disarmPrecondition from "./precondition/disarm"
 import dodgePrecondition from "./precondition/dodge"
@@ -102,7 +102,7 @@ export function getSkillTable(service: GameService) {
     definition.skill(
       SkillType.Berserk,
       berserk,
-      berserkPrecondition,
+      defaultSkillPrecondition,
       SpecializationLevel.create(0, 0, 15, 1),
       ActionType.Defensive,
       [

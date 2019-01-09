@@ -1,4 +1,5 @@
 import { ActionType } from "../action/actionType"
+import {AffectType} from "../affect/affectType"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
 import { DamageType } from "../damage/damageType"
@@ -22,6 +23,7 @@ export default class SpellDefinition {
     public readonly action: (checkedRequest: CheckedRequest) => Promise<Response>,
     public readonly minimumManaCost: number,
     public readonly spellLevels: SpecializationLevel[],
+    public readonly affectType: AffectType = null,
     public readonly damageType: DamageType = null,
   ) {}
 

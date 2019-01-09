@@ -7,7 +7,6 @@ import {Mob} from "../mob/model/mob"
 import {Request} from "../request/request"
 import SkillDefinition from "../skill/skillDefinition"
 import SpellDefinition from "../spell/spellDefinition"
-import {format} from "../support/string"
 import CheckBuilder from "./checkBuilder"
 import {Messages} from "./constants"
 
@@ -22,6 +21,9 @@ export default class CheckTemplate {
       .addManaCost(spellDefinition.getCastCost(mob))
 
     this.checkActionType(checkBuilder, spellDefinition.actionType)
+    if (spellDefinition.affectType) {
+      this.checkAffectStackingBehavior(checkBuilder, spellDefinition.affectType)
+    }
 
     return checkBuilder
   }
@@ -30,6 +32,7 @@ export default class CheckTemplate {
     const checkBuilder = this.request.checkWithStandingDisposition(this.mobService)
       .requireSkill(skillDefinition.skillType)
       .requireLevel(skillDefinition.getLevelFor(this.request.mob.specialization).minimumLevel)
+      .capture(this.request.mob)
 
     skillDefinition.costs.forEach(cost => checkBuilder.addCost(cost))
     this.checkActionType(checkBuilder, skillDefinition.actionType)
@@ -41,7 +44,7 @@ export default class CheckTemplate {
   private checkAffectStackingBehavior(checkBuilder: CheckBuilder, affectType: AffectType) {
     const affectDefinition = affectTable.find(a => a.affectType === affectType)
     if (affectDefinition && affectDefinition.stackBehavior === StackBehavior.NoReplace) {
-      checkBuilder.not(this.request.mob).requireAffect(affectType, format(Messages.AlreadyAffected, affectType))
+      checkBuilder.not().requireAffect(affectType, affectDefinition.stackMessage)
     }
   }
 

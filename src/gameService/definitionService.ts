@@ -38,12 +38,14 @@ export default class DefinitionService {
       affectType)
   }
 
+  /*tslint:disable*/
   public spell(
     spellType: SpellType,
     actionType: ActionType,
     action, precondition,
     minimumManaCost: number,
     spellLevels: SpecializationLevel[],
+    affectType: AffectType = null,
     damageType: DamageType = null) {
     return new SpellDefinition(
       this.gameService,
@@ -53,6 +55,7 @@ export default class DefinitionService {
       improveSpell(action),
       minimumManaCost,
       spellLevels,
+      affectType,
       damageType)
   }
 }
