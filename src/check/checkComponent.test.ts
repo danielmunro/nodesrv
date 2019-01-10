@@ -1,0 +1,59 @@
+import CheckComponent from "./checkComponent"
+import {CheckType} from "./checkType"
+import {AffectType} from "../affect/affectType"
+import {getTestMob} from "../test/mob"
+import {newAffect} from "../affect/factory"
+
+describe("check component", () => {
+  it("should be required if a fail message is provided", () => {
+    // given
+    const checkComponent = new CheckComponent(CheckType.Unspecified, true, true, "this is a fail message")
+
+    // expect
+    expect(checkComponent.isRequired).toBeTruthy()
+  })
+
+  it("should not be required with no fail message", () => {
+    // given
+    const checkComponent = new CheckComponent(CheckType.Unspecified, true, true)
+
+    // expect
+    expect(checkComponent.isRequired).toBeFalsy()
+  })
+
+  it("should be able to use a function as the thing being evaluated", () => {
+    // given
+    const checkComponentTrue = new CheckComponent(CheckType.Unspecified, true, () => true)
+    const checkComponentFalse = new CheckComponent(CheckType.Unspecified, true, () => false)
+
+    // expect
+    expect(checkComponentTrue.getThing()).toBeTruthy()
+    expect(checkComponentFalse.getThing()).toBeFalsy()
+  })
+
+  it("should re-evaluate thing for subsequent requests (not cache the first result)", () => {
+    // given
+    const checkComponent = new CheckComponent(CheckType.HasAffect, true, m =>
+      m.affects.find(a => a.affectType === AffectType.Noop))
+    const mob = getTestMob()
+
+    // expect
+    expect(checkComponent.getThing(mob)).toBeFalsy()
+
+    // and when
+    mob.affects.push(newAffect(AffectType.Noop))
+
+    // then
+    expect(checkComponent.getThing(mob)).toBeTruthy()
+  })
+
+  it("negative evaluation should work", () => {
+    // given
+    const checkComponent = new CheckComponent(CheckType.HasAffect, false, m =>
+      m.affects.find(a => a.affectType === AffectType.Noop))
+    const mob = getTestMob()
+
+    // expect
+    expect(checkComponent.getThing(mob)).toBeTruthy()
+  })
+})

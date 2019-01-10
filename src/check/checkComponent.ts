@@ -6,20 +6,20 @@ export default class CheckComponent {
   constructor(
     public readonly checkType: CheckType,
     public readonly confirm,
-    public readonly thing,
+    private readonly thing,
     public readonly failMessage: string = null) {
     this.isRequired = this.failMessage !== null
   }
 
-  public getThing(lastThing = null) {
+  public getThing(lastThing = null): any {
     if (this.confirm) {
-      return this.confirmThing(lastThing)
+      return this.calculateThing(lastThing)
     }
 
-    return !this.confirmThing(lastThing)
+    return !this.calculateThing(lastThing)
   }
 
-  private confirmThing(lastThing = null) {
+  private calculateThing(lastThing = null) {
     if (typeof this.thing === "function") {
       return this.thing(lastThing)
     }
