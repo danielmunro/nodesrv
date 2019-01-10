@@ -1,25 +1,28 @@
-import CheckComponent from "../../check/checkComponent"
-import { CheckType } from "../../check/checkType"
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import remove from "./remove"
+import {Definition} from "../definition/definition"
+
+let testBuilder: TestBuilder
+let actionDefinition: Definition
+
+beforeEach(() => {
+  testBuilder = new TestBuilder()
+})
 
 describe("remove", () => {
   it("can remove an equipped item", async () => {
-    const testBuilder = new TestBuilder()
-
     // given
     const playerBuilder = await testBuilder.withPlayer()
     const item = playerBuilder.equip().withHelmetEq()
+    actionDefinition = await testBuilder.getActionDefinition(RequestType.Remove)
 
     // when
-    const response = await remove(
-      testBuilder.createOkCheckedRequest(
+    const response = await actionDefinition.handle(
+      testBuilder.createRequest(
         RequestType.Remove,
         `remove ${item.name}`,
-        item,
-        [new CheckComponent(CheckType.HasItem, true, item)]))
+        item))
 
     // then
     expect(response.status).toBe(ResponseStatus.Info)

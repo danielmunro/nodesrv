@@ -11,7 +11,7 @@ describe("trip skill action", () => {
   it("should be able to fail tripping", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 40)
 
     // given
     playerBuilder.withSkill(SkillType.Trip)
@@ -32,7 +32,7 @@ describe("trip skill action", () => {
   it("should be able to succeed tripping", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 40)
 
     // given
     playerBuilder.withSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)

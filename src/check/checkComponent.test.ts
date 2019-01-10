@@ -1,8 +1,8 @@
+import {AffectType} from "../affect/affectType"
+import {newAffect} from "../affect/factory"
+import {getTestMob} from "../test/mob"
 import CheckComponent from "./checkComponent"
 import {CheckType} from "./checkType"
-import {AffectType} from "../affect/affectType"
-import {getTestMob} from "../test/mob"
-import {newAffect} from "../affect/factory"
 
 describe("check component", () => {
   it("should be required if a fail message is provided", () => {

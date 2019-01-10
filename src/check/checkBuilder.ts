@@ -170,7 +170,7 @@ export default class CheckBuilder {
   private async findCostFail() {
     const costFail = this.costs.find(cost => !cost.canApplyTo(this.mob))
     if (costFail) {
-      return Check.fail(costFail.failMessage, this.checks, this.costs)
+      return Check.fail(costFail.failMessage, this.checkResults, this.costs)
     }
   }
 
@@ -184,7 +184,7 @@ export default class CheckBuilder {
       return !checkResult && checkComponent.isRequired
     })
     if (checkFail) {
-      return Check.fail(checkFail.failMessage, this.checks, this.costs)
+      return Check.fail(checkFail.failMessage, this.checkResults, this.costs)
     }
   }
 

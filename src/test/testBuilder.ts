@@ -1,6 +1,5 @@
 import {Collection} from "../action/definition/collection"
 import Check from "../check/check"
-import CheckComponent from "../check/checkComponent"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckStatus} from "../check/checkStatus"
 import {Client} from "../client/client"
@@ -176,9 +175,8 @@ export default class TestBuilder {
   public createOkCheckedRequest(
     requestType: RequestType,
     input: string = null,
-    result: any = null,
-    checkComponents: CheckComponent[] = []): CheckedRequest {
-    return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result, checkComponents)
+    result: any = null): CheckedRequest {
+    return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result)
   }
 
   public createRequest(
@@ -262,15 +260,14 @@ export default class TestBuilder {
     requestType: RequestType,
     checkStatus: CheckStatus,
     input: string = null,
-    result: any = null,
-    checkComponents: CheckComponent[] = []): CheckedRequest {
+    result: any = null): CheckedRequest {
     if (!input) {
       input = requestType.toString()
     }
 
     return new CheckedRequest(
       new Request(this.player.sessionMob, this.room, new InputContext(requestType, input)),
-      new Check(checkStatus, result, checkComponents),
+      new Check(checkStatus, result),
     )
   }
 }
