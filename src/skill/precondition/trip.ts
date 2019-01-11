@@ -10,7 +10,7 @@ import { Messages } from "./constants"
 export default function(request: Request, service: GameService): Promise<Check> {
   return request.checkWithStandingDisposition(service.mobService)
     .requireSkill(SkillType.Trip)
-    .requireLevel(10)
+    .atLevelOrGreater(10)
     .requireFight()
     .capture()
     .addCost(new Cost(CostType.Mv, Costs.Trip.Mv, Messages.All.NotEnoughMv))

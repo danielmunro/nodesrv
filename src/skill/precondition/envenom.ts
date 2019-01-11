@@ -11,7 +11,7 @@ import { Messages } from "./constants"
 export default function(request: Request, service: GameService): Promise<Check> {
   return request.checkWithStandingDisposition(service.mobService)
     .requireSkill(SkillType.Envenom)
-    .requireLevel(15)
+    .atLevelOrGreater(15)
     .require(
       request.findItemInSessionMobInventory(),
       Messages.All.NoItem,

@@ -17,7 +17,7 @@ export default class CheckTemplate {
     const mob = this.request.mob
     const checkBuilder = this.request.checkWithStandingDisposition(this.mobService)
       .requireSpell(spellDefinition.spellType)
-      .requireLevel(spellDefinition.getLevelFor(mob.specialization).minimumLevel)
+      .atLevelOrGreater(spellDefinition.getLevelFor(mob.specialization).minimumLevel)
       .addManaCost(spellDefinition.getCastCost(mob))
 
     this.checkActionType(checkBuilder, spellDefinition.actionType)
@@ -31,7 +31,7 @@ export default class CheckTemplate {
   public perform(skillDefinition: SkillDefinition): CheckBuilder {
     const checkBuilder = this.request.checkWithStandingDisposition(this.mobService)
       .requireSkill(skillDefinition.skillType)
-      .requireLevel(skillDefinition.getLevelFor(this.request.mob.specialization).minimumLevel)
+      .atLevelOrGreater(skillDefinition.getLevelFor(this.request.mob.specialization).minimumLevel)
       .capture(this.request.mob)
 
     skillDefinition.costs.forEach(cost => checkBuilder.addCost(cost))

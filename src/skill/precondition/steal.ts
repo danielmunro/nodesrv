@@ -19,7 +19,7 @@ export default async function(
     .not().requireFight(Messages.All.Fighting)
     .requireMob(target)
     .requireSkill(SkillType.Steal)
-    .requireLevel(5)
+    .atLevelOrGreater(5)
     .require(
       target ? target.inventory.findItemByName(subject) : false,
       Messages.Steal.ErrorNoItem,

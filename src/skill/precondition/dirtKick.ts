@@ -11,7 +11,7 @@ import { Messages } from "./constants"
 export default function(request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
   return request.checkWithStandingDisposition(service.mobService)
     .requireSkill(SkillType.DirtKick)
-    .requireLevel(5)
+    .atLevelOrGreater(5)
     .requireFight()
     .addCost(new Cost(CostType.Mv, Costs.DirtKick.Mv, Messages.All.NotEnoughMv))
     .create()

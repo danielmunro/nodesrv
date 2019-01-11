@@ -102,7 +102,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public requireLevel(level: number) {
+  public atLevelOrGreater(level: number) {
     this.checks.push(this.newCheckComponent(
       CheckType.Level,
       this.mob.level >= level,

@@ -11,7 +11,7 @@ export default async function(request: Request, service: GameService): Promise<C
   return request.checkWithStandingDisposition(service.mobService)
     .not().requireFight(Messages.All.Fighting)
     .requireSkill(SkillType.Sneak)
-    .requireLevel(5)
+    .atLevelOrGreater(5)
     .addCost(new Cost(CostType.Mv, Costs.Sneak.Mv))
     .addCost(new Cost(CostType.Delay, Costs.Sneak.Delay))
     .create()

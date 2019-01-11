@@ -13,7 +13,7 @@ import { Messages } from "./constants"
 export default function(request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
   return request.checkWithStandingDisposition(service.mobService)
     .requireSkill(SkillType.Disarm)
-    .requireLevel(10)
+    .atLevelOrGreater(10)
     .requireFight()
     .require(
       opponent => opponent.equipped.find(i => i.equipment === Equipment.Weapon),

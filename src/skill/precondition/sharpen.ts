@@ -19,7 +19,7 @@ export default async function(
   return request.checkWithStandingDisposition(service.mobService)
     .not().requireFight(Messages.All.Fighting)
     .requireSkill(SkillType.Sharpen)
-    .requireLevel(10)
+    .atLevelOrGreater(10)
     .require(target, Messages.All.NoItem, CheckType.HasItem)
     .capture()
     .require(
