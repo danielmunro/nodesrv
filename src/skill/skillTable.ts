@@ -27,12 +27,12 @@ import defaultSkillPrecondition from "./precondition/defaultSkillPrecondition"
 import dirtKickPrecondition from "./precondition/dirtKick"
 import disarmPrecondition from "./precondition/disarm"
 import envenomPrecondition from "./precondition/envenom"
+import fightSkillPrecondition from "./precondition/fightSkillPrecondition"
 import sharpenPrecondition from "./precondition/sharpen"
 import sneakPrecondition from "./precondition/sneak"
 import stealPrecondition from "./precondition/steal"
 import tripPrecondition from "./precondition/trip"
 import {SkillType} from "./skillType"
-import fightSkillPrecondition from "./precondition/fightSkillPrecondition"
 
 function newWeaponSkill(service: GameService, skillType: SkillType) {
   return service.definition().skill(

@@ -9,6 +9,7 @@ import envenom from "../skill/action/envenom"
 import sneak from "../skill/action/sneak"
 import steal from "../skill/action/steal"
 import trip from "../skill/action/trip"
+import defaultSkillPrecondition from "../skill/precondition/defaultSkillPrecondition"
 import { default as disarmPrecondition } from "../skill/precondition/disarm"
 import { default as envenomPrecondition } from "../skill/precondition/envenom"
 import { default as sneakPrecondition } from "../skill/precondition/sneak"
@@ -76,7 +77,6 @@ import { default as tellPrecondition } from "./precondition/tell"
 import { default as trainPrecondition } from "./precondition/train"
 import { default as unlockPrecondition } from "./precondition/unlock"
 import { default as wearPrecondition } from "./precondition/wear"
-import defaultSkillPrecondition from "../skill/precondition/defaultSkillPrecondition"
 
 function newMoveDefinition(service: GameService, requestType: RequestType, direction: Direction) {
   return service.definition().action(requestType,
