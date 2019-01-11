@@ -22,22 +22,17 @@ import sneak from "./action/sneak"
 import steal from "./action/steal"
 import trip from "./action/trip"
 import {Costs} from "./constants"
-import backstabPrecondition from "./precondition/backstab"
-import bashPrecondition from "./precondition/bash"
 import {Messages} from "./precondition/constants"
 import defaultSkillPrecondition from "./precondition/defaultSkillPrecondition"
 import dirtKickPrecondition from "./precondition/dirtKick"
 import disarmPrecondition from "./precondition/disarm"
-import dodgePrecondition from "./precondition/dodge"
-import enhancedDamagePrecondition from "./precondition/enhancedDamage"
 import envenomPrecondition from "./precondition/envenom"
-import fastHealingPrecondition from "./precondition/fastHealing"
-import secondAttackPrecondition from "./precondition/secondAttack"
 import sharpenPrecondition from "./precondition/sharpen"
 import sneakPrecondition from "./precondition/sneak"
 import stealPrecondition from "./precondition/steal"
 import tripPrecondition from "./precondition/trip"
 import {SkillType} from "./skillType"
+import fightSkillPrecondition from "./precondition/fightSkillPrecondition"
 
 function newWeaponSkill(service: GameService, skillType: SkillType) {
   return service.definition().skill(
@@ -54,7 +49,7 @@ export function getSkillTable(service: GameService) {
     definition.skill(
       SkillType.Dodge,
       dodge,
-      dodgePrecondition,
+      fightSkillPrecondition,
       SpecializationLevel.create(22, 20, 1, 13),
       ActionType.Defensive),
 
@@ -72,14 +67,14 @@ export function getSkillTable(service: GameService) {
     definition.skill(
       SkillType.SecondAttack,
       secondAttack,
-      secondAttackPrecondition,
+      fightSkillPrecondition,
       SpecializationLevel.create(24, 30, 12, 5),
       ActionType.Offensive),
 
     definition.skill(
       SkillType.Bash,
       bash,
-      bashPrecondition,
+      defaultSkillPrecondition,
       SpecializationLevel.create(0, 0, 0, 1),
       ActionType.Offensive,
       [
@@ -138,7 +133,7 @@ export function getSkillTable(service: GameService) {
     definition.skill(
       SkillType.Backstab,
       backstab,
-      backstabPrecondition,
+      fightSkillPrecondition,
       SpecializationLevel.create(0, 0, 1, 0),
       ActionType.Offensive,
       [
@@ -149,7 +144,7 @@ export function getSkillTable(service: GameService) {
     definition.skill(
       SkillType.EnhancedDamage,
       enhancedDamage,
-      enhancedDamagePrecondition,
+      fightSkillPrecondition,
       SpecializationLevel.create(30, 45, 25, 1),
       ActionType.Neutral),
 
@@ -167,7 +162,7 @@ export function getSkillTable(service: GameService) {
     definition.skill(
       SkillType.FastHealing,
       fastHealing,
-      fastHealingPrecondition,
+      defaultSkillPrecondition,
       SpecializationLevel.create(9, 15, 16, 6),
       ActionType.Neutral),
 
