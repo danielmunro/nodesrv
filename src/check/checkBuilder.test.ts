@@ -193,4 +193,29 @@ describe("checkBuilder", () => {
       expect(check.isOk()).toBeFalsy()
     })
   })
+
+  describe("requirePlayer", () => {
+    it("fails if the mob is not a player mob", async () => {
+      // given
+      checkBuilder.requirePlayer(mob)
+
+      // when
+      const check = await checkBuilder.create()
+
+      // then
+      expect(check.isOk()).toBeFalsy()
+    })
+
+    it("succeeds if the mob is a player mob", async () => {
+      // given
+      const playerBuilder = await testBuilder.withPlayer()
+      checkBuilder.requirePlayer(playerBuilder.player.sessionMob)
+
+      // when
+      const check = await checkBuilder.create()
+
+      // then
+      expect(check.isOk()).toBeTruthy()
+    })
+  })
 })

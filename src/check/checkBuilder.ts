@@ -79,10 +79,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public not(toCapture = null) {
-    if (toCapture !== null) {
-      this.capture(toCapture)
-    }
+  public not() {
     this.confirm = false
     return this
   }
