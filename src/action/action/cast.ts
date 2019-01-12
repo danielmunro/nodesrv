@@ -1,18 +1,11 @@
 import CheckedRequest from "../../check/checkedRequest"
-import GameService from "../../gameService/gameService"
+import {CheckType} from "../../check/checkType"
 import Response from "../../request/response"
-import getSpellTable from "../../spell/spellTable"
-import { Messages } from "./constants"
+import {Messages} from "./constants"
 
-export default async function(checkedRequest: CheckedRequest, service: GameService): Promise<Response> {
-  const request = checkedRequest.request
-  const check = checkedRequest.check
-  const subject = request.getContextAsInput().subject
-  const spellDefinition = getSpellTable(service).find(spell =>
-    spell.spellType.startsWith(subject))
-
-  await spellDefinition.doAction(check.result)
-
+export default async function(checkedRequest: CheckedRequest): Promise<Response> {
+  const spellDefinition = checkedRequest.getCheckTypeResult(CheckType.HasSpell)
+  await spellDefinition.doAction(checkedRequest.request)
   return checkedRequest.respondWith().success(
       Messages.Cast.Success,
     { verb: "utter", spell: spellDefinition.spellType },
