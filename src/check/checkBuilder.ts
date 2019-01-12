@@ -4,10 +4,12 @@ import { Disposition } from "../mob/enum/disposition"
 import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../player/authorizationLevel"
+import {Request} from "../request/request"
 import { Messages } from "../skill/precondition/constants"
 import { SkillType } from "../skill/skillType"
 import { SpellType } from "../spell/spellType"
 import Maybe from "../support/functional/maybe"
+import {format} from "../support/string"
 import Check from "./check"
 import CheckComponent from "./checkComponent"
 import CheckResult from "./checkResult"
@@ -61,6 +63,15 @@ export default class CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.AuthorizationLevel,
       authorizationLevel === AuthorizationLevel.Immortal,
+      failMessage))
+
+    return this
+  }
+
+  public requireSubject(request: Request, failMessage: string = null) {
+    this.checks.push(this.newCheckComponent(
+      CheckType.HasArguments,
+      request.getSubject(),
       failMessage))
 
     return this
@@ -123,7 +134,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public requireAffect(affectType: AffectType, failMessage: string) {
+  public requireAffect(affectType: AffectType, failMessage) {
     this.checks.push(this.newCheckComponent(
       CheckType.HasAffect,
       captured => captured.affects.find(a => a.affectType === affectType),
@@ -181,8 +192,12 @@ export default class CheckBuilder {
       return !checkResult && checkComponent.isRequired
     })
     if (checkFail) {
-      return Check.fail(checkFail.failMessage, this.checkResults, this.costs)
+      return Check.fail(this.getFailMessage(checkFail.failMessage), this.checkResults, this.costs)
     }
+  }
+
+  private getFailMessage(failMessage) {
+    return typeof(failMessage) === "function" ? format(failMessage(), this.captured) : failMessage
   }
 
   private newCheckComponent(checkType: CheckType, thing, failMessage = null): CheckComponent {

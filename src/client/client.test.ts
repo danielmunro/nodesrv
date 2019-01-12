@@ -28,7 +28,7 @@ beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
 describe("client sanity checks", () => {
-  it("has requests sanity check", () => {
+  it("has requests sanity createCheckFor", () => {
     // expect
     expect(client.hasRequests()).toBeFalsy()
 
@@ -39,7 +39,7 @@ describe("client sanity checks", () => {
     expect(client.hasRequests()).toBeTruthy()
   })
 
-  it("can handle requests sanity check", () => {
+  it("can handle requests sanity createCheckFor", () => {
     // expect
     expect(client.canHandleRequests()).toBeFalsy()
 

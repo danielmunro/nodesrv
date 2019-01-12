@@ -15,7 +15,7 @@ afterAll(async () => (await getConnection()).close())
 const mockAuthService = jest.fn()
 
 describe("session", () => {
-  it("isLoggedIn sanity check", async () => {
+  it("isLoggedIn sanity createCheckFor", async () => {
     // given
     const mob = getTestMob()
     const player = getTestPlayer()

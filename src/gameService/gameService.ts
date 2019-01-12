@@ -1,14 +1,17 @@
 import actionCollection from "../action/actionCollection"
 import {Collection} from "../action/definition/collection"
 import {Definition} from "../action/definition/definition"
+import CheckBuilder from "../check/checkBuilder"
 import Event from "../event/event"
 import EventResponse from "../event/eventResponse"
 import EventService from "../event/eventService"
 import {EventType} from "../event/eventType"
 import ItemService from "../item/itemService"
+import {Disposition} from "../mob/enum/disposition"
 import MobEvent from "../mob/event/mobEvent"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
+import {Messages} from "../request/constants"
 import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import ExitTable from "../room/exitTable"
@@ -92,7 +95,12 @@ export default class GameService {
   }
 
   public getSpellDefinition(spellType: SpellType): SpellDefinition {
-    console.log("get spell definition", spellType, this.spellTable.length)
     return this.spellTable.find(spell => spell.spellType === spellType)
+  }
+
+  public createCheckFor(mob: Mob): CheckBuilder {
+    return new CheckBuilder(this.mobService)
+      .forMob(mob)
+      .requireDisposition(Disposition.Standing, Messages.NotStanding)
   }
 }

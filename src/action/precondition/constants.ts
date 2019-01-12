@@ -1,20 +1,12 @@
 // buying
 export const MESSAGE_ERROR_NO_ITEM = "They don't have that."
-export const MESSAGE_ERROR_CANNOT_AFFORD = "You can't afford it."
 
 // casting
 export const MESSAGE_NO_SPELL = "What do you want to cast?"
 export const MESSAGE_SPELL_DOES_NOT_EXIST = "That is not a spell."
-export const MESSAGE_CAST_ERROR = "You don't know that spell."
-export const MESSAGE_CAST_FAIL = "You lose your concentration."
-export const MESSAGE_FAIL_NOT_ENOUGH_MANA = "You don't have enough mana."
 
 // general -- items
 export const MESSAGE_FAIL_CONTAINER_NOT_FOUND = "That container isn't here."
-
-// eating
-export const MESSAGE_FAIL_CANNOT_EAT_ITEM = "You can't eat that."
-export const MESSAGE_FAIL_ALREADY_FULL = "You are too full to eat more."
 
 // flee
 export const MESSAGE_FAIL_NOT_FIGHTING = "You're not fighting anyone."
@@ -50,6 +42,8 @@ export const Messages = {
     Arguments: {
       Buy: "What do you want to buy?",
       Close: "What do you want to close?",
+      Drop: "What would you like to drop?",
+      Eat: "What would you like to eat?",
       Lock: "What do you want to lock?",
       Open: "What do you want to open?",
       Unlock: "What do you want to unlock?",
@@ -62,6 +56,7 @@ export const Messages = {
       NotEquipment: "That is not equipment.",
       NotFound: "You don't see that anywhere.",
       NotOwned: "You don't have that.",
+      NotTransferrable: "{0} is not transferrable.",
     },
     Mob: {
       NotFound: "They aren't here.",
@@ -77,6 +72,10 @@ export const Messages = {
       ItemIsNotAContainer: "You can't close that.",
       NotFound: "You can't find that anywhere.",
     },
+  },
+  Eat: {
+    AlreadyFull: "You are too full to eat more.",
+    NotFood: "You can't eat that.",
   },
   Heal: {
     Fail: {

@@ -1,26 +1,15 @@
 import Check from "../../check/check"
+import GameService from "../../gameService/gameService"
 import appetite from "../../mob/race/appetite"
 import { Request } from "../../request/request"
-import {
-  MESSAGE_FAIL_ALREADY_FULL,
-  MESSAGE_FAIL_CANNOT_EAT_ITEM,
-  Messages,
-} from "./constants"
+import {Messages} from "./constants"
 
-export default function(request: Request): Promise<Check> {
-  const item = request.findItemInSessionMobInventory()
-
-  if (!item) {
-    return Check.fail(Messages.All.Item.NotOwned)
-  }
-
-  if (!item.isFood()) {
-    return Check.fail(MESSAGE_FAIL_CANNOT_EAT_ITEM)
-  }
-
-  if (request.mob.playerMob.hunger >= appetite(request.mob.race)) {
-    return Check.fail(MESSAGE_FAIL_ALREADY_FULL)
-  }
-
-  return Check.ok(item)
+export default function(request: Request, gameService: GameService): Promise<Check> {
+  return gameService.createCheckFor(request.mob)
+    .requireSubject(request, Messages.All.Arguments.Eat)
+    .require(request.findItemInSessionMobInventory(), Messages.All.Item.NotOwned)
+    .capture()
+    .require(captured => captured.isFood(), Messages.Eat.NotFood)
+    .require(request.mob.playerMob.hunger < appetite(request.mob.race), Messages.Eat.AlreadyFull)
+    .create()
 }
