@@ -11,12 +11,11 @@ export default async function(checkedRequest: CheckedRequest, service: GameServi
   const item = cloneDeep(checkedRequest.check.result)
   request.mob.inventory.addItem(item)
   request.mob.gold -= item.value
+  await service.publishEvent(new ItemEvent(EventType.ItemCreated, item))
   const replacements = {
     item,
     value: item.value,
   }
-  await service.publishEvent(new ItemEvent(EventType.ItemCreated, item))
-
   return request
     .respondWith()
     .success(Messages.Buy.Success,
