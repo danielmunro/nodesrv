@@ -2,23 +2,18 @@ import Check from "../../check/check"
 import GameService from "../../gameService/gameService"
 import { Request } from "../../request/request"
 import getSpellTable from "../../spell/spellTable"
-import {
-  MESSAGE_NO_SPELL,
-  MESSAGE_SPELL_DOES_NOT_EXIST,
-} from "./constants"
+import {Messages} from "./constants"
 
-export default function(request: Request, service: GameService): Promise<Check> {
-  const subject = request.getSubject()
-  if (!subject) {
-    return Check.fail(MESSAGE_NO_SPELL)
+export default async function(request: Request, service: GameService): Promise<Check> {
+  const actionCheck = await service.createCheckFor(request.mob)
+    .requireSubject(request, Messages.All.Arguments.Cast)
+    .require(getSpellTable(service).find(s =>
+      s.spellType.startsWith(request.getSubject())), Messages.Cast.NotASpell)
+    .capture()
+    .create()
+  if (!actionCheck.isOk()) {
+    return actionCheck
   }
-
-  const spellDefinition = getSpellTable(service).find(spell =>
-    spell.spellType.startsWith(subject))
-
-  if (!spellDefinition) {
-    return Check.fail(MESSAGE_SPELL_DOES_NOT_EXIST)
-  }
-
-  return spellDefinition.preconditions(request, spellDefinition, service)
+  const spell = actionCheck.result
+  return spell.preconditions(request, spell, service)
 }

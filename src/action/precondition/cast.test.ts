@@ -1,12 +1,12 @@
 import {CheckStatus} from "../../check/checkStatus"
 import {SpecializationType} from "../../mob/specialization/specializationType"
 import {RequestType} from "../../request/requestType"
-import {Messages} from "../../skill/precondition/constants"
+import {Messages as SkillMessages} from "../../skill/precondition/constants"
 import {Spell} from "../../spell/model/spell"
 import {SpellType} from "../../spell/spellType"
 import TestBuilder from "../../test/testBuilder"
 import cast from "./cast"
-import {MESSAGE_NO_SPELL, MESSAGE_SPELL_DOES_NOT_EXIST} from "./constants"
+import {Messages} from "./constants"
 
 const TEST_INPUT_GIANT = "cast giant"
 const TEST_INPUT_CAST = "cast"
@@ -34,7 +34,7 @@ describe("cast", () => {
     const check = await castAction(TEST_INPUT_CAST)
 
     // then
-    expect(check.result).toBe(MESSAGE_NO_SPELL)
+    expect(check.result).toBe(Messages.All.Arguments.Cast)
     expect(check.status).toBe(CheckStatus.Failed)
   })
 
@@ -43,14 +43,14 @@ describe("cast", () => {
     const poisonCheck = await castAction(TEST_INPUT_POISON)
 
     // then
-    expect(poisonCheck.result).toBe(Messages.All.NoSpell)
+    expect(poisonCheck.result).toBe(Messages.Cast.SpellNotKnown)
     expect(poisonCheck.status).toBe(CheckStatus.Failed)
 
     // and when
     const floodleCheck = await castAction(TEST_INPUT_INVALID)
 
     // then
-    expect(floodleCheck.result).toBe(MESSAGE_SPELL_DOES_NOT_EXIST)
+    expect(floodleCheck.result).toBe(Messages.Cast.NotASpell)
     expect(floodleCheck.status).toBe(CheckStatus.Failed)
   })
 
@@ -82,6 +82,6 @@ describe("cast", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(Messages.All.NotEnoughMana)
+    expect(check.result).toBe(SkillMessages.All.NotEnoughMana)
   })
 })

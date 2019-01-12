@@ -18,7 +18,7 @@ export default function(request: Request, service: GameService): Promise<Check> 
     console.log("test 1")
     const healerSpell: HealerSpell = collectionSearch(getHealerSpellTable(service), subject)
     console.log("test 2")
-    checkBuilder.require(healerSpell, Messages.Heal.Fail.SpellNotKnown, CheckType.HasSpell)
+    checkBuilder.require(healerSpell, Messages.Heal.Fail.NotASpell, CheckType.HasSpell)
     checkBuilder.require(request.mob.gold >= healerSpell.goldValue, Messages.Heal.Fail.CannotAffordSpell)
   }
 

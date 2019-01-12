@@ -1,10 +1,6 @@
 // buying
 export const MESSAGE_ERROR_NO_ITEM = "They don't have that."
 
-// casting
-export const MESSAGE_NO_SPELL = "What do you want to cast?"
-export const MESSAGE_SPELL_DOES_NOT_EXIST = "That is not a spell."
-
 // general -- items
 export const MESSAGE_FAIL_CONTAINER_NOT_FOUND = "That container isn't here."
 
@@ -41,6 +37,7 @@ export const Messages = {
   All: {
     Arguments: {
       Buy: "What do you want to buy?",
+      Cast: "What do you want to cast?",
       Close: "What do you want to close?",
       Drop: "What would you like to drop?",
       Eat: "What would you like to eat?",
@@ -65,6 +62,10 @@ export const Messages = {
   Buy: {
     CannotAfford: "You can't afford it.",
   },
+  Cast: {
+    NotASpell: "That is not a spell.",
+    SpellNotKnown: "You lack that spell.",
+  },
   Close: {
     Fail: {
       AlreadyClosed: "That is already closed.",
@@ -81,7 +82,7 @@ export const Messages = {
     Fail: {
       CannotAffordSpell: "You can't afford that.",
       HealerNotFound: "A healer isn't here.",
-      SpellNotKnown: "They don't know that spell.",
+      NotASpell: "They don't know that spell.",
     },
   },
   Lock: {
