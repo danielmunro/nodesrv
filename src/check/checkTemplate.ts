@@ -8,6 +8,7 @@ import {Request} from "../request/request"
 import SkillDefinition from "../skill/skillDefinition"
 import SpellDefinition from "../spell/spellDefinition"
 import CheckBuilder from "./checkBuilder"
+import {CheckType} from "./checkType"
 import {Messages} from "./constants"
 
 export default class CheckTemplate {
@@ -15,7 +16,8 @@ export default class CheckTemplate {
 
   public cast(spellDefinition: SpellDefinition): CheckBuilder {
     const mob = this.request.mob
-    const checkBuilder = this.request.checkWithStandingDisposition(this.mobService)
+    const checkBuilder = new CheckBuilder(this.mobService, this.request)
+      .forMob(mob)
       .requireSpell(spellDefinition.spellType)
       .atLevelOrGreater(spellDefinition.getLevelFor(mob.specialization).minimumLevel)
       .addManaCost(spellDefinition.getCastCost(mob))
@@ -29,7 +31,8 @@ export default class CheckTemplate {
   }
 
   public perform(skillDefinition: SkillDefinition): CheckBuilder {
-    const checkBuilder = this.request.checkWithStandingDisposition(this.mobService)
+    const checkBuilder = new CheckBuilder(this.mobService, this.request)
+      .forMob(this.request.mob)
       .requireSkill(skillDefinition.skillType)
       .atLevelOrGreater(skillDefinition.getLevelFor(this.request.mob.specialization).minimumLevel)
       .capture(this.request.mob)
@@ -57,7 +60,7 @@ export default class CheckTemplate {
       target = fight.getOpponentFor(this.request.mob)
     }
     if (actionType === ActionType.Offensive) {
-      checkBuilder.requireMob(target, Messages.NoTarget)
+      checkBuilder.require(target, Messages.NoTarget, CheckType.HasTarget)
     } else if (actionType === ActionType.Defensive) {
       checkBuilder.optionalMob(target)
     }

@@ -67,6 +67,11 @@ export default class MobService {
     return deadMobs
   }
 
+  public findMobInRoomWithMob(mob: Mob, searchCriteria) {
+    const mobs = this.locationService.getMobsInRoomWithMob(mob)
+    return mobs.find(searchCriteria)
+  }
+
   public async generateNewMobInstance(mobReset: MobReset): Promise<Mob> {
     const mob = this.mobTemplateTable.find(m => m.id === mobReset.mob.id)
     const clone = cloneDeep(mob)

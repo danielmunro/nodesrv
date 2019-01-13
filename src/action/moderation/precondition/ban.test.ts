@@ -10,11 +10,12 @@ import { RequestType } from "../../../request/requestType"
 import { getTestMob } from "../../../test/mob"
 import { getTestRoom } from "../../../test/room"
 import TestBuilder from "../../../test/testBuilder"
+import {MESSAGE_FAIL_NO_TARGET} from "../../constants"
 import { default as banAction } from "../actions/ban"
 import ban from "./ban"
 import {
   MESSAGE_FAIL_ALREADY_BANNED, MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS,
-  MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED,
+  MESSAGE_FAIL_NOT_AUTHORIZED,
   MESSAGE_FAIL_NOT_PLAYER,
 } from "./constants"
 

@@ -12,6 +12,7 @@ import MobEvent from "../mob/event/mobEvent"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import {Messages} from "../request/constants"
+import {Request} from "../request/request"
 import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import ExitTable from "../room/exitTable"
@@ -98,9 +99,13 @@ export default class GameService {
     return this.spellTable.find(spell => spell.spellType === spellType)
   }
 
-  public createCheckFor(mob: Mob): CheckBuilder {
-    return new CheckBuilder(this.mobService)
-      .forMob(mob)
-      .requireDisposition(Disposition.Standing, Messages.NotStanding)
+  public createDefaultCheckFor(request: Request): CheckBuilder {
+    return this.createCheckFor(request).requireDisposition(Disposition.Standing, Messages.NotStanding)
+  }
+
+  public createCheckFor(request: Request): CheckBuilder {
+    return new CheckBuilder(this.mobService, request)
+      .forMob(request.mob)
+      .not().requireDisposition(Disposition.Dead, Messages.Dead)
   }
 }

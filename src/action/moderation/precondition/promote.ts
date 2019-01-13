@@ -1,5 +1,4 @@
 import Check from "../../../check/check"
-import CheckBuilder from "../../../check/checkBuilder"
 import GameService from "../../../gameService/gameService"
 import { isBanned } from "../../../mob/enum/standing"
 import { Request } from "../../../request/request"
@@ -11,8 +10,8 @@ import {
 
 export default async function(request: Request, service: GameService): Promise<Check> {
   const mob = service.mobService.mobTable.find((m) => m.name === request.getContextAsInput().subject)
-  return new CheckBuilder()
-    .requireMob(mob, MESSAGE_FAIL_NO_TARGET)
+  return service.createDefaultCheckFor(request)
+    .requireMob(MESSAGE_FAIL_NO_TARGET)
     .capture()
     .requirePlayer(mob)
     .requireImmortal(request.getAuthorizationLevel())

@@ -5,12 +5,10 @@ import { Request } from "../../request/request"
 import { Messages } from "./constants"
 
 export default function(request: Request, service: GameService): Promise<Check> {
-  return request.checkWithStandingDisposition(service.mobService)
-    .requireMob(
-      service.getMobsByRoom(request.room).find(mob => mob.isMerchant()),
-      Messages.All.Item.NoMerchant)
+  return service.createDefaultCheckFor(request)
+    .requireMerchant()
     .require(
-      request.mob.inventory.findItemByName(request.getContextAsInput().subject),
+      request.mob.inventory.findItemByName(request.getSubject()),
       Messages.All.Item.NotOwned,
       CheckType.HasItem)
     .capture()

@@ -4,7 +4,7 @@ import {getTestMob} from "../test/mob"
 import CheckComponent from "./checkComponent"
 import {CheckType} from "./checkType"
 
-describe("createCheckFor component", () => {
+describe("createDefaultCheckFor component", () => {
   it("should be required if a fail message is provided", () => {
     // given
     const checkComponent = new CheckComponent(CheckType.Unspecified, true, true, "this is a fail message")

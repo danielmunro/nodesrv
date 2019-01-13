@@ -16,7 +16,7 @@ export default async function(
   request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
   const target = request.getTarget()
 
-  return request.checkWithStandingDisposition(service.mobService)
+  return service.createDefaultCheckFor(request)
     .not().requireFight(Messages.All.Fighting)
     .requireSkill(SkillType.Sharpen)
     .atLevelOrGreater(10)

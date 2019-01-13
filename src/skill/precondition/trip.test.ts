@@ -25,7 +25,7 @@ describe("trip skill preconditions", () => {
     expect(check.result).toBe(Messages.All.NotEnoughMv)
   })
 
-  it("success sanity createCheckFor", async () => {
+  it("success sanity createDefaultCheckFor", async () => {
     // setup
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 10)

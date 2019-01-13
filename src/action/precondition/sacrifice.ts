@@ -5,7 +5,7 @@ import { Request } from "../../request/request"
 import { MESSAGE_FAIL_CONTAINER_NOT_EMPTY, Messages } from "./constants"
 
 export default async function(request: Request, service: GameService): Promise<Check> {
-  return request.checkWithStandingDisposition(service.mobService)
+  return service.createDefaultCheckFor(request)
     .require(request.findItemInRoomInventory(), Messages.All.Item.NotFound)
     .capture()
     .not()

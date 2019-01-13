@@ -8,7 +8,7 @@ import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 
 export default function(request: Request, service: GameService): Promise<Check> {
-  return request.checkWithStandingDisposition(service.mobService)
+  return service.createDefaultCheckFor(request)
     .requireSkill(SkillType.Trip)
     .atLevelOrGreater(10)
     .requireFight()

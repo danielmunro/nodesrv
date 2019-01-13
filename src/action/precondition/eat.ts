@@ -5,8 +5,8 @@ import { Request } from "../../request/request"
 import {Messages} from "./constants"
 
 export default function(request: Request, gameService: GameService): Promise<Check> {
-  return gameService.createCheckFor(request.mob)
-    .requireSubject(request, Messages.All.Arguments.Eat)
+  return gameService.createDefaultCheckFor(request)
+    .requireSubject(Messages.All.Arguments.Eat)
     .require(request.findItemInSessionMobInventory(), Messages.All.Item.NotOwned)
     .capture()
     .require(captured => captured.isFood(), Messages.Eat.NotFood)

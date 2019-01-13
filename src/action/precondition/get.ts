@@ -1,5 +1,4 @@
 import Check from "../../check/check"
-import CheckBuilder from "../../check/checkBuilder"
 import { CheckType } from "../../check/checkType"
 import GameService from "../../gameService/gameService"
 import { Request } from "../../request/request"
@@ -16,7 +15,7 @@ export default function(request: Request, service: GameService): Promise<Check> 
 function getFromInventory(request: Request, service: GameService) {
   const container = service.itemService.findItem(request.mob.inventory, request.getContextAsInput().component)
 
-  return new CheckBuilder(service.mobService)
+  return service.createDefaultCheckFor(request)
     .require(container, Messages.All.Item.NotFound, CheckType.ContainerPresent)
     .require(() => service.itemService.findItem(container.container.inventory, request.getSubject()),
       Messages.All.Item.NotFound, CheckType.ItemPresent)
@@ -26,7 +25,7 @@ function getFromInventory(request: Request, service: GameService) {
 
 function getFromRoom(request: Request, service: GameService) {
   const item = service.itemService.findItem(request.getRoom().inventory, request.getSubject())
-  return new CheckBuilder(service.mobService)
+  return service.createDefaultCheckFor(request)
     .require(item, Messages.All.Item.NotFound, CheckType.ItemPresent)
     .capture()
     .require(() => item.isTransferable, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)

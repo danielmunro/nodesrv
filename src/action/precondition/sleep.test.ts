@@ -2,7 +2,7 @@ import { CheckStatus } from "../../check/checkStatus"
 import { Disposition } from "../../mob/enum/disposition"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import { MESSAGE_FAIL_DEAD, Messages } from "./constants"
+import { Messages } from "./constants"
 import sleep from "./sleep"
 
 describe("sleep action preconditions", () => {
@@ -17,18 +17,5 @@ describe("sleep action preconditions", () => {
     // then
     expect(check.status).toBe(CheckStatus.Failed)
     expect(check.result).toBe(Messages.Sleep.AlreadySleeping)
-  })
-
-  it("should not be able to sleep if dead", async () => {
-    // given
-    const testBuilder = new TestBuilder()
-    await testBuilder.withPlayer((player) => player.sessionMob.disposition = Disposition.Dead)
-
-    // when
-    const check = await sleep(testBuilder.createRequest(RequestType.Sleep), await testBuilder.getService())
-
-    // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_DEAD)
   })
 })

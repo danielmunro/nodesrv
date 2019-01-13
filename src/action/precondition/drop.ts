@@ -5,8 +5,8 @@ import {Request} from "../../request/request"
 import {Messages} from "./constants"
 
 export default function(request: Request, gameService: GameService): Promise<Check> {
-  return gameService.createCheckFor(request.mob)
-    .requireSubject(request, Messages.All.Arguments.Drop)
+  return gameService.createDefaultCheckFor(request)
+    .requireSubject(Messages.All.Arguments.Drop)
     .require(request.findItemInSessionMobInventory(request.getSubject()), Messages.All.Item.NotOwned)
     .capture()
     .not().requireAffect(AffectType.Curse, () => Messages.All.Item.CannotRemoveCursedItem)

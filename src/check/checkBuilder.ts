@@ -5,15 +5,17 @@ import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../player/authorizationLevel"
 import {Request} from "../request/request"
-import { Messages } from "../skill/precondition/constants"
+import { Messages as SkillMessages } from "../skill/precondition/constants"
 import { SkillType } from "../skill/skillType"
 import { SpellType } from "../spell/spellType"
 import Maybe from "../support/functional/maybe"
+import collectionSearch from "../support/matcher/collectionSearch"
 import {format} from "../support/string"
 import Check from "./check"
 import CheckComponent from "./checkComponent"
 import CheckResult from "./checkResult"
 import { CheckType } from "./checkType"
+import {Messages} from "./constants"
 import Cost from "./cost/cost"
 import { CostType } from "./cost/costType"
 
@@ -25,10 +27,23 @@ export default class CheckBuilder {
   private mob: Mob
   private captured: any
 
-  constructor(private readonly mobService: MobService) {}
+  constructor(private readonly mobService: MobService, private readonly request: Request) {}
 
-  public requireMob(mob: Mob, failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
-    this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob, failMessage))
+  public requireMob(failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
+    this.checks.push(this.newCheckComponent(
+      CheckType.HasTarget,
+      collectionSearch(this.mobService.mobTable.getMobs(), this.request.getSubject()),
+      failMessage))
+
+    return this
+  }
+
+  public requireMerchant() {
+    this.checks.push(this.newCheckComponent(
+      CheckType.HasTarget,
+      this.mobService.findMobInRoomWithMob(this.request.mob, m => m.isMerchant()),
+      Messages.NoMerchant,
+    ))
 
     return this
   }
@@ -68,10 +83,10 @@ export default class CheckBuilder {
     return this
   }
 
-  public requireSubject(request: Request, failMessage: string = null) {
+  public requireSubject(failMessage: string = null) {
     this.checks.push(this.newCheckComponent(
       CheckType.HasArguments,
-      request.getSubject(),
+      this.request.getSubject(),
       failMessage))
 
     return this
@@ -101,7 +116,7 @@ export default class CheckBuilder {
   }
 
   public addManaCost(amount: number) {
-    this.costs.push(new Cost(CostType.Mana, amount, Messages.All.NotEnoughMana))
+    this.costs.push(new Cost(CostType.Mana, amount, SkillMessages.All.NotEnoughMana))
     return this
   }
 
@@ -114,7 +129,7 @@ export default class CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.Level,
       this.mob.level >= level,
-      Messages.All.NotEnoughExperience))
+      SkillMessages.All.NotEnoughExperience))
     return this
   }
 
@@ -122,7 +137,7 @@ export default class CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.HasSkill,
       this.mob.skills.find(s => s.skillType === skillType),
-      Messages.All.NoSkill))
+      SkillMessages.All.NoSkill))
     return this
   }
 
@@ -130,7 +145,7 @@ export default class CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.HasSpell,
       this.mob.spells.find(s => s.spellType === spellType),
-      Messages.All.NoSpell))
+      SkillMessages.All.NoSpell))
     return this
   }
 
@@ -148,7 +163,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public requireFight(failMessage: string = Messages.All.NoTarget) {
+  public requireFight(failMessage: string = SkillMessages.All.NoTarget) {
     this.checks.push(this.newCheckComponent(
       CheckType.IsFighting,
       new Maybe(this.mobService.findFight(f => f.isParticipant(this.mob)))

@@ -1,12 +1,7 @@
-import { MESSAGE_FAIL_DEAD } from "../action/precondition/constants"
-import CheckBuilder from "../check/checkBuilder"
 import { Item } from "../item/model/item"
-import { Disposition } from "../mob/enum/disposition"
-import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import { Room } from "../room/model/room"
-import { Messages } from "./constants"
 import InputContext from "./context/inputContext"
 import RequestContext from "./context/requestContext"
 import { RequestType } from "./requestType"
@@ -57,15 +52,5 @@ export class Request {
 
   public respondWith(): ResponseBuilder {
     return new ResponseBuilder(this)
-  }
-
-  public check(mobService: MobService): CheckBuilder {
-    return new CheckBuilder(mobService)
-      .forMob(this.mob)
-      .not().requireDisposition(Disposition.Dead, MESSAGE_FAIL_DEAD)
-  }
-
-  public checkWithStandingDisposition(mobService: MobService): CheckBuilder {
-    return this.check(mobService).requireDisposition(Disposition.Standing, Messages.NotStanding)
   }
 }

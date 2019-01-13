@@ -8,7 +8,7 @@ import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 
 export default async function(request: Request, service: GameService): Promise<Check> {
-  return request.checkWithStandingDisposition(service.mobService)
+  return service.createDefaultCheckFor(request)
     .not().requireFight(Messages.All.Fighting)
     .requireSkill(SkillType.Sneak)
     .atLevelOrGreater(5)

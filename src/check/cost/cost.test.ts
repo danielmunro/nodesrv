@@ -11,7 +11,7 @@ beforeEach(async () => {
   playerBuilder = await testBuilder.withPlayer()
 })
 
-describe("cost createCheckFor", () => {
+describe("cost createDefaultCheckFor", () => {
   it("should be able to apply a mv cost", async () => {
     // setup
     const mob = playerBuilder.player.sessionMob

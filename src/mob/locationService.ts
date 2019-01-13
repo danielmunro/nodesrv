@@ -35,6 +35,11 @@ export default class LocationService {
       .map(mobLocation => mobLocation.mob)
   }
 
+  public getMobsInRoomWithMob(mob: Mob): Mob[] {
+    const location = this.getLocationForMob(mob)
+    return this.getMobsByRoom(location.room)
+  }
+
   public getMobsByImportId(importId) {
     return this.mobLocations.filter(mobLocation => mobLocation.mob.importId === importId)
       .map(mobLocation => mobLocation.mob)

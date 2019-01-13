@@ -15,9 +15,10 @@ describe("lightning bolt", () => {
     const definition = await testBuilder.getSpellDefinition(SpellType.LightningBolt)
 
     // when
-    await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast lightning bob", mob))
+    const response = await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast lightning bob", mob))
 
     // then
+    expect(response.isSuccessful()).toBeTruthy()
     expect(mob.vitals.hp).toBeLessThan(mob.getCombinedAttributes().vitals.hp)
   })
 })

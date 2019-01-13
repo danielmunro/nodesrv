@@ -6,7 +6,7 @@ import match from "../../support/matcher/match"
 import {Messages} from "./constants"
 
 export default function(request: Request, service: GameService): Promise<Check> {
-  return request.checkWithStandingDisposition(service.mobService)
+  return service.createDefaultCheckFor(request)
     .require(
       request.getSubject(),
       Messages.All.Arguments.Unlock,

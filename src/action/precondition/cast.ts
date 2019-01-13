@@ -6,8 +6,8 @@ import getSpellTable from "../../spell/spellTable"
 import {Messages} from "./constants"
 
 export default async function(request: Request, service: GameService): Promise<Check> {
-  const actionCheck = await service.createCheckFor(request.mob)
-    .requireSubject(request, Messages.All.Arguments.Cast)
+  const actionCheck = await service.createDefaultCheckFor(request)
+    .requireSubject(Messages.All.Arguments.Cast)
     .require(getSpellTable(service).find(s =>
       s.spellType.startsWith(request.getSubject())), Messages.Cast.NotASpell, CheckType.HasSpell)
     .capture()

@@ -8,7 +8,7 @@ import match from "../../support/matcher/match"
 import {Messages} from "./constants"
 
 export default function(request: Request, service: GameService): Promise<Check> {
-  const checkBuilder = service.createCheckFor(request.mob)
+  const checkBuilder = service.createDefaultCheckFor(request)
     .require(
       request.getSubject(),
       Messages.All.Arguments.Close,

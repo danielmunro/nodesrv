@@ -176,6 +176,10 @@ export class Mob {
     return this.traits.healer
   }
 
+  public isTrainer(): boolean {
+    return this.traits.trainer
+  }
+
   public regen(): void {
     const combined = this.getCombinedAttributes()
     const regenModifier = applyAffectModifier(

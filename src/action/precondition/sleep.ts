@@ -5,7 +5,7 @@ import { Request } from "../../request/request"
 import { Messages } from "./constants"
 
 export default function(request: Request, service: GameService): Promise<Check> {
-  return request.check(service.mobService)
+  return service.createCheckFor(request)
     .not().requireDisposition(Disposition.Sleeping, Messages.Sleep.AlreadySleeping)
     .create()
 }

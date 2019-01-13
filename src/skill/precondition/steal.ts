@@ -1,23 +1,23 @@
 import Check from "../../check/check"
-import { CheckType } from "../../check/checkType"
+import {CheckType} from "../../check/checkType"
 import Cost from "../../check/cost/cost"
-import { CostType } from "../../check/cost/costType"
+import {CostType} from "../../check/cost/costType"
 import GameService from "../../gameService/gameService"
-import { Mob } from "../../mob/model/mob"
-import { Request } from "../../request/request"
-import { Costs } from "../constants"
+import {Mob} from "../../mob/model/mob"
+import {Request} from "../../request/request"
+import {Costs} from "../constants"
 import SkillDefinition from "../skillDefinition"
-import { SkillType } from "../skillType"
-import { Messages } from "./constants"
+import {SkillType} from "../skillType"
+import {Messages} from "./constants"
 
 export default async function(
   request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
   const target = request.getTarget() as Mob
   const subject = request.getSubject()
 
-  return request.checkWithStandingDisposition(service.mobService)
+  return service.createDefaultCheckFor(request)
     .not().requireFight(Messages.All.Fighting)
-    .requireMob(target)
+    .require(target, Messages.All.NoTarget, CheckType.HasTarget)
     .requireSkill(SkillType.Steal)
     .atLevelOrGreater(5)
     .require(

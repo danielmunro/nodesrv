@@ -1,5 +1,4 @@
 import Check from "../../check/check"
-import CheckBuilder from "../../check/checkBuilder"
 import GameService from "../../gameService/gameService"
 import { Mob } from "../../mob/model/mob"
 import { Request } from "../../request/request"
@@ -12,8 +11,8 @@ import {
 export default async function(request: Request, service: GameService): Promise<Check> {
   const target = request.getTarget() as Mob
   const mob = request.mob
-  return new CheckBuilder(service.mobService)
-    .requireMob(target, MESSAGE_FAIL_KILL_NO_TARGET)
+  return service.createDefaultCheckFor(request)
+    .requireMob(MESSAGE_FAIL_KILL_NO_TARGET)
     .capture()
     .require(mob !== target, MESSAGE_FAIL_CANNOT_ATTACK_SELF)
     .require(!service.mobService.findFight(f => f.isParticipant(mob)), MESSAGE_FAIL_KILL_ALREADY_FIGHTING)

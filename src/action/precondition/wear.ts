@@ -5,9 +5,9 @@ import { Request } from "../../request/request"
 import { Messages } from "./constants"
 
 export default function(request: Request, service: GameService): Promise<Check> {
-  return request.checkWithStandingDisposition(service.mobService)
+  return service.createDefaultCheckFor(request)
     .require(
-      request.mob.inventory.findItemByName(request.getContextAsInput().subject),
+      request.mob.inventory.findItemByName(request.getSubject()),
       Messages.All.Item.NotOwned,
       CheckType.HasItem)
     .capture()

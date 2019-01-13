@@ -8,9 +8,9 @@ export default function(request: Request, service: GameService): Promise<Check> 
   const subject = request.getSubject()
   const merchant = service.getMobsByRoom(request.room).find(mob => mob.isMerchant())
 
-  return service.createCheckFor(request.mob)
+  return service.createDefaultCheckFor(request)
     .require(subject, Messages.All.Arguments.Buy)
-    .requireMob(merchant, Messages.All.Item.NoMerchant)
+    .require(merchant, Messages.All.Item.NoMerchant)
     .require(mob => mob.inventory.findItemByName(subject), MESSAGE_ERROR_NO_ITEM, CheckType.HasItem)
     .capture()
     .require(item => request.mob.gold > item.value, Messages.Buy.CannotAfford)
