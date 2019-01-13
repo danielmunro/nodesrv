@@ -24,7 +24,6 @@ import trip from "./action/trip"
 import {Costs} from "./constants"
 import {Messages} from "./precondition/constants"
 import defaultSkillPrecondition from "./precondition/defaultSkillPrecondition"
-import dirtKickPrecondition from "./precondition/dirtKick"
 import disarmPrecondition from "./precondition/disarm"
 import envenomPrecondition from "./precondition/envenom"
 import fightSkillPrecondition from "./precondition/fightSkillPrecondition"
@@ -151,7 +150,7 @@ export function getSkillTable(service: GameService) {
     definition.skill(
       SkillType.DirtKick,
       dirtKick,
-      dirtKickPrecondition,
+      fightSkillPrecondition,
       SpecializationLevel.create(0, 0, 3, 3),
       ActionType.Offensive,
       [
