@@ -9,7 +9,7 @@ import { Messages, Thresholds } from "./constants"
 export default async function(checkedRequest: CheckedRequest): Promise<Response> {
   const mob = checkedRequest.mob
   const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-  const target = checkedRequest.getCheckTypeResult(CheckType.IsFighting)
+  const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
   const responseBuilder = checkedRequest.respondWith()
 
   if (calculateDisarm(mob, target, skill) < Thresholds.Disarm) {

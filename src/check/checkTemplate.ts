@@ -12,7 +12,13 @@ import {CheckType} from "./checkType"
 import {Messages} from "./constants"
 
 export default class CheckTemplate {
+  private target
+
   constructor(private readonly mobService: MobService, private readonly request: Request) {}
+
+  public getTarget() {
+    return this.target
+  }
 
   public cast(spellDefinition: SpellDefinition): CheckBuilder {
     const mob = this.request.mob
@@ -59,6 +65,7 @@ export default class CheckTemplate {
     } else if (!target && fight) {
       target = fight.getOpponentFor(this.request.mob)
     }
+    this.target = target
     if (actionType === ActionType.Offensive) {
       checkBuilder.require(target, Messages.NoTarget, CheckType.HasTarget)
     } else if (actionType === ActionType.Defensive) {

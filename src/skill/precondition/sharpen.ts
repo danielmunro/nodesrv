@@ -1,38 +1,36 @@
-import { AffectType } from "../../affect/affectType"
+import {AffectType} from "../../affect/affectType"
 import Check from "../../check/check"
-import { CheckType } from "../../check/checkType"
+import CheckTemplate from "../../check/checkTemplate"
+import {CheckType} from "../../check/checkType"
 import Cost from "../../check/cost/cost"
-import { CostType } from "../../check/cost/costType"
-import { DamageType } from "../../damage/damageType"
+import {CostType} from "../../check/cost/costType"
+import {DamageType} from "../../damage/damageType"
 import GameService from "../../gameService/gameService"
 import Weapon from "../../item/model/weapon"
-import { Request } from "../../request/request"
-import { Costs } from "../constants"
+import {Request} from "../../request/request"
+import collectionSearch from "../../support/matcher/collectionSearch"
+import {Costs} from "../constants"
 import SkillDefinition from "../skillDefinition"
-import { SkillType } from "../skillType"
-import { Messages } from "./constants"
+import {Messages} from "./constants"
 
 export default async function(
   request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
-  const target = request.getTarget()
+  const item = collectionSearch(request.mob.inventory.items, request.getSubject())
 
-  return service.createDefaultCheckFor(request)
+  return new CheckTemplate(service.mobService, request)
+    .perform(skillDefinition)
     .not().requireFight(Messages.All.Fighting)
-    .requireSkill(SkillType.Sharpen)
-    .atLevelOrGreater(10)
-    .require(target, Messages.All.NoItem, CheckType.HasItem)
+    .require(item, Messages.All.NoItem, CheckType.HasItem)
     .capture()
     .require(
-      weapon => !weapon.affects.find(affect => affect.affectType === AffectType.Sharpened),
+      item.affects.find(affect => affect.affectType === AffectType.Sharpened) === undefined,
       Messages.Sharpen.AlreadySharpened)
     .require(
-      weapon => weapon instanceof Weapon,
+     item instanceof Weapon,
       Messages.Sharpen.NotAWeapon)
     .require(
-      weapon => weapon.damageType === DamageType.Slash,
+      item.damageType === DamageType.Slash,
       Messages.Sharpen.NotABladedWeapon)
     .addCost(new Cost(CostType.Mana, Costs.Sharpen.Mana))
-    .addCost(new Cost(CostType.Mv, Costs.Sharpen.Mv))
-    .addCost(new Cost(CostType.Delay, Costs.Sharpen.Delay))
     .create()
 }

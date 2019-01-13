@@ -12,9 +12,9 @@ import trip from "../skill/action/trip"
 import defaultSkillPrecondition from "../skill/precondition/defaultSkillPrecondition"
 import { default as disarmPrecondition } from "../skill/precondition/disarm"
 import { default as envenomPrecondition } from "../skill/precondition/envenom"
+import fightSkillPrecondition from "../skill/precondition/fightSkillPrecondition"
 import { default as sneakPrecondition } from "../skill/precondition/sneak"
 import { default as stealPrecondition } from "../skill/precondition/steal"
-import { default as tripPrecondition } from "../skill/precondition/trip"
 import affects from "./action/affects"
 import buy from "./action/buy"
 import cast from "./action/cast"
@@ -120,7 +120,7 @@ export default function getActionCollection(service: GameService) {
     definition.action(RequestType.Disarm, disarm, disarmPrecondition),
     definition.action(RequestType.Envenom, envenom, envenomPrecondition),
     definition.action(RequestType.Sneak, sneak, sneakPrecondition),
-    definition.action(RequestType.Trip, trip, tripPrecondition),
+    definition.action(RequestType.Trip, trip, fightSkillPrecondition),
     definition.action(RequestType.Steal, steal, stealPrecondition),
 
     // casting

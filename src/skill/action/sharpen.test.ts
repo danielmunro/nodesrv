@@ -25,7 +25,7 @@ describe("sharpen skill action", () => {
   it("should error out for weapons without blades", async () => {
     // when
     const response = await skillDefinition.doAction(
-      testBuilder.createRequest(RequestType.Sharpen, "sharpen mace", mace))
+      testBuilder.createRequest(RequestType.Sharpen, "sharpen mace"))
 
     // then
     expect(response.isError()).toBeTruthy()

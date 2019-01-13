@@ -30,7 +30,6 @@ import fightSkillPrecondition from "./precondition/fightSkillPrecondition"
 import sharpenPrecondition from "./precondition/sharpen"
 import sneakPrecondition from "./precondition/sneak"
 import stealPrecondition from "./precondition/steal"
-import tripPrecondition from "./precondition/trip"
 import {SkillType} from "./skillType"
 
 function newWeaponSkill(service: GameService, skillType: SkillType) {
@@ -84,7 +83,7 @@ export function getSkillTable(service: GameService) {
     definition.skill(
       SkillType.Trip,
       trip,
-      tripPrecondition,
+      fightSkillPrecondition,
       SpecializationLevel.create(0, 0, 15, 1),
       ActionType.Offensive,
       [

@@ -8,7 +8,7 @@
     "create-fixtures": "ts-node --no-cache bin/create-fixtures.ts .",
     "clean": "rm -rf ./coverage",
     "lint": "yarn clean && tslint --project .",
-    "test": "ENV=test jest --forceExit --detectOpenHandles -w 2",
+    "test": "ENV=test jest --forceExit --detectOpenHandles -i",
     "reset-test-db": "ts-node bin/reset-test-db.ts",
     "test-coverage": "yarn test --coverage",
     "complexity": "ts-complexity --max-complexity 14 src/**/*"
