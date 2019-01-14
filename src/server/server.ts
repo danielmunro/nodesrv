@@ -58,9 +58,9 @@ export class GameServer {
   }
 
   public addObserver(observer: Observer, timer: Timer): void {
-    poll(() => observer.notify(this.clientService.getClients()), timer)
+    poll(() => this.clientService.notifyClients(observer), timer)
     if (timer instanceof ImmediateTimer) {
-      observer.notify(this.clientService.getClients())
+      this.clientService.notifyClients(observer)
     }
   }
 

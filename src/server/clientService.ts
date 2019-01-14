@@ -6,6 +6,7 @@ import {Mob} from "../mob/model/mob"
 import AuthService from "../session/auth/authService"
 import Email from "../session/auth/login/email"
 import Session from "../session/session"
+import {Observer} from "./observers/observer"
 
 export default class ClientService {
   private clients: Client[] = []
@@ -40,8 +41,8 @@ export default class ClientService {
     return this.clients.length
   }
 
-  public getClients(): Client[] {
-    return this.clients
+  public notifyClients(observer: Observer) {
+    observer.notify(this.clients)
   }
 
   public sendMessageToMob(mob: Mob, message: string) {
