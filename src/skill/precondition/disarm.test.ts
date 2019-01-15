@@ -1,12 +1,12 @@
 import {RequestType} from "../../request/requestType"
 import PlayerBuilder from "../../test/playerBuilder"
 import TestBuilder from "../../test/testBuilder"
-import SkillDefinition from "../skillDefinition"
+import Skill from "../skill"
 import {SkillType} from "../skillType"
 import {Messages} from "./constants"
 
 let testBuilder: TestBuilder
-let skillDefinition: SkillDefinition
+let skillDefinition: Skill
 let playerBuilder: PlayerBuilder
 
 beforeEach(async () => {

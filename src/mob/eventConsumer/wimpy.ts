@@ -1,4 +1,4 @@
-import {Definition} from "../../action/definition/definition"
+import {Action} from "../../action/definition/action"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
@@ -16,7 +16,7 @@ export default class Wimpy implements EventConsumer {
 
   constructor(
     private readonly locationService: LocationService,
-    private readonly fleeDefinition: Definition) {}
+    private readonly fleeDefinition: Action) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.AttackRound]

@@ -1,4 +1,4 @@
-import {Definition} from "../action/definition/definition"
+import {Action} from "../action/definition/action"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckStatus} from "../check/checkStatus"
@@ -28,10 +28,10 @@ import {Room} from "../room/model/room"
 import ClientService from "../server/clientService"
 import {GameServer} from "../server/server"
 import Session from "../session/session"
-import SkillDefinition from "../skill/skillDefinition"
+import Skill from "../skill/skill"
 import {getSkillTable} from "../skill/skillTable"
 import {SkillType} from "../skill/skillType"
-import SpellDefinition from "../spell/spellDefinition"
+import Spell from "../spell/spell"
 import getSpellTable from "../spell/spellTable"
 import {SpellType} from "../spell/spellType"
 import {getTestMob} from "./mob"
@@ -193,7 +193,7 @@ export default class TestBuilder {
     return new RequestBuilder(this.mobForRequest, this.room)
   }
 
-  public async getActionCollection(): Promise<Definition[]> {
+  public async getActionCollection(): Promise<Action[]> {
     return (await this.getService()).getActions()
   }
 
@@ -201,11 +201,11 @@ export default class TestBuilder {
     return (await this.getService()).getActionDefinition(requestType)
   }
 
-  public async getSkillDefinition(skillType: SkillType): Promise<SkillDefinition> {
+  public async getSkillDefinition(skillType: SkillType): Promise<Skill> {
     return getSkillTable(await this.getService()).find(skill => skill.skillType === skillType)
   }
 
-  public async getSpellDefinition(spellType: SpellType): Promise<SpellDefinition> {
+  public async getSpellDefinition(spellType: SpellType): Promise<Spell> {
     return getSpellTable(await this.getService()).find(spell => spell.spellType === spellType)
   }
 

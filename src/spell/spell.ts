@@ -13,13 +13,13 @@ import { SpellType } from "./spellType"
 
 export const MAX_CAST_COST = 1000
 
-export default class SpellDefinition {
+export default class Spell {
   constructor(
     private readonly service: GameService,
     public readonly spellType: SpellType,
     public readonly actionType: ActionType,
     public readonly preconditions:
-      (request: Request, spellDefinition: SpellDefinition, service: GameService) => Promise<Check>,
+      (request: Request, spellDefinition: Spell, service: GameService) => Promise<Check>,
     public readonly action: (checkedRequest: CheckedRequest) => Promise<Response>,
     public readonly minimumManaCost: number,
     public readonly spellLevels: SpecializationLevel[],

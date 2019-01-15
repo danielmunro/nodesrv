@@ -2,12 +2,12 @@ import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
 import { RequestType } from "../../request/requestType"
 import doNTimes from "../../support/functional/times"
 import TestBuilder from "../../test/testBuilder"
-import SkillDefinition from "../skillDefinition"
+import Skill from "../skill"
 import { SkillType } from "../skillType"
 
 const iterations = 100
 let testBuilder: TestBuilder
-let skillDefinition: SkillDefinition
+let skillDefinition: Skill
 
 async function action() {
   return skillDefinition.doAction(testBuilder.createRequest(RequestType.Noop))

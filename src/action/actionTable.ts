@@ -44,7 +44,7 @@ import tell from "./action/tell"
 import train from "./action/train"
 import unlock from "./action/unlock"
 import wear from "./action/wear"
-import {Definition} from "./definition/definition"
+import {Action} from "./definition/action"
 import ban from "./moderation/actions/ban"
 import demote from "./moderation/actions/demote"
 import promote from "./moderation/actions/promote"
@@ -84,7 +84,7 @@ function newMoveDefinition(service: GameService, requestType: RequestType, direc
     request => movePrecondition(request, direction))
 }
 
-export default function getActionTable(service: GameService): Definition[] {
+export default function getActionTable(service: GameService): Action[] {
   const definition = service.definition()
   return [
     // moving

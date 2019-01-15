@@ -1,5 +1,5 @@
-import SpellDefinition from "../../spell/spellDefinition"
+import Spell from "../../spell/spell"
 
 export default class HealerSpell {
-  constructor(public readonly spellDefinition: SpellDefinition, public readonly goldValue: number) {}
+  constructor(public readonly spellDefinition: Spell, public readonly goldValue: number) {}
 }

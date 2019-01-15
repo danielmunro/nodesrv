@@ -1,18 +1,18 @@
 import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../../player/authorizationLevel"
 import { RequestType } from "../../request/requestType"
-import { Definition } from "./definition"
+import { Action } from "./action"
 
 export class Collection {
   constructor(
-    private readonly actions: Definition[],
-    private readonly moderationActions: Definition[],
-    private readonly defaultAction: Definition = null,
+    private readonly actions: Action[],
+    private readonly moderationActions: Action[],
+    private readonly defaultAction: Action = null,
   ) {}
 
   public getMatchingHandlerDefinitionForRequestType(
     requestType: RequestType,
     authorizationLevel: AuthorizationLevel = AuthorizationLevel.Mortal,
-  ): Definition {
+  ): Action {
     const action = this.actions.find((it) => it.isAbleToHandleRequestType(requestType))
 
     if (action) {

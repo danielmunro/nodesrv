@@ -6,13 +6,13 @@ import {Direction} from "../../room/constants"
 import {newDoor} from "../../room/factory"
 import {Room} from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import {Definition} from "../definition/definition"
+import {Action} from "../definition/action"
 import {Messages} from "../precondition/constants"
 
 describe("open action", () => {
 
   let testBuilder: TestBuilder
-  let definition: Definition
+  let definition: Action
   let source: Room
   let mob: Mob
   let item: Item

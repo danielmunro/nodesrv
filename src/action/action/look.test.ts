@@ -10,13 +10,13 @@ import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { Room } from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import { Definition } from "../definition/definition"
+import { Action } from "../definition/action"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
 
 let testBuilder: TestBuilder
 let room: Room
 let player: Player
-let definition: Definition
+let definition: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()

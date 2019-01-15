@@ -5,11 +5,11 @@ import FightEvent from "../../mob/fight/event/fightEvent"
 import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
-import SkillDefinition from "../skillDefinition"
+import Skill from "../skill"
 import {SkillType} from "../skillType"
 
 export default class DodgeEventConsumer implements EventConsumer {
-  constructor(private readonly dodge: SkillDefinition) {}
+  constructor(private readonly dodge: Skill) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.AttackRoundStart]

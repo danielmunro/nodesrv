@@ -6,13 +6,13 @@ import Response from "../../request/response"
 import doNTimes from "../../support/functional/times"
 import MobBuilder from "../../test/mobBuilder"
 import TestBuilder from "../../test/testBuilder"
-import SpellDefinition from "../spellDefinition"
+import Spell from "../spell"
 import { SpellType } from "../spellType"
 
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
 let mob: Mob
-let definition: SpellDefinition
+let definition: Spell
 const iterations = 10
 
 beforeEach(async () => {

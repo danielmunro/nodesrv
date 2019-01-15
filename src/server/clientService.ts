@@ -1,4 +1,4 @@
-import {Definition} from "../action/definition/definition"
+import {Action} from "../action/definition/action"
 import {Client} from "../client/client"
 import EventService from "../event/eventService"
 import LocationService from "../mob/locationService"
@@ -15,7 +15,7 @@ export default class ClientService {
     private readonly eventService: EventService,
     private readonly authService: AuthService,
     private readonly locationService: LocationService,
-    private readonly actions: Definition[]) {}
+    private readonly actions: Action[]) {}
 
   public createNewClient(ws: WebSocket, req) {
     const client = new Client(

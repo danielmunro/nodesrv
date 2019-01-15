@@ -6,12 +6,12 @@ import { Direction } from "../../room/constants"
 import Door from "../../room/model/door"
 import {Room} from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import {Definition} from "../definition/definition"
+import {Action} from "../definition/action"
 import {Messages} from "../precondition/constants"
 
 let testBuilder: TestBuilder
 let service: GameService
-let definition: Definition
+let definition: Action
 let mob: Mob
 let source: Room
 let destination: Room

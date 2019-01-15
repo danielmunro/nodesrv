@@ -3,12 +3,12 @@ import { RequestType } from "../../request/requestType"
 import doNTimes from "../../support/functional/times"
 import MobBuilder from "../../test/mobBuilder"
 import TestBuilder from "../../test/testBuilder"
-import SkillDefinition from "../skillDefinition"
+import Skill from "../skill"
 import { SkillType } from "../skillType"
 
 const iterations = 100
 let testBuilder: TestBuilder
-let skillDefinition: SkillDefinition
+let skillDefinition: Skill
 let mob1: MobBuilder
 let mob2: MobBuilder
 

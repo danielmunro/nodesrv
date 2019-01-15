@@ -5,10 +5,10 @@ import { Mob } from "../../mob/model/mob"
 import { RequestType } from "../../request/requestType"
 import { Room } from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import { Definition } from "../definition/definition"
+import { Action } from "../definition/action"
 
 let testBuilder: TestBuilder
-let actionDefinition: Definition
+let actionDefinition: Action
 let room: Room
 let mob: Mob
 let equipment: Item

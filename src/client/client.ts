@@ -1,5 +1,5 @@
 import * as stringify from "json-stringify-safe"
-import {Definition} from "../action/definition/definition"
+import {Action} from "../action/definition/action"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import EventService from "../event/eventService"
@@ -29,7 +29,7 @@ export class Client {
     public readonly session: Session,
     public readonly ws: WebSocket,
     public readonly ip: string,
-    private readonly actions: Definition[],
+    private readonly actions: Action[],
     private readonly locationService: LocationService,
     private readonly eventService: EventService) {
     this.ws.onmessage = this.onMessage.bind(this)

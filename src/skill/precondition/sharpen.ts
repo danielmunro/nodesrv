@@ -10,11 +10,11 @@ import Weapon from "../../item/model/weapon"
 import {Request} from "../../request/request"
 import collectionSearch from "../../support/matcher/collectionSearch"
 import {Costs} from "../constants"
-import SkillDefinition from "../skillDefinition"
+import Skill from "../skill"
 import {Messages} from "./constants"
 
 export default async function(
-  request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
+  request: Request, skillDefinition: Skill, service: GameService): Promise<Check> {
   const item = collectionSearch(request.mob.inventory.items, request.getSubject())
 
   return new CheckTemplate(service.mobService, request)

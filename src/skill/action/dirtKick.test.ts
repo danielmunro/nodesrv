@@ -7,13 +7,13 @@ import { format } from "../../support/string"
 import MobBuilder from "../../test/mobBuilder"
 import TestBuilder from "../../test/testBuilder"
 import { Messages } from "../constants"
-import SkillDefinition from "../skillDefinition"
+import Skill from "../skill"
 import { SkillType } from "../skillType"
 
 const iterations = 10
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
-let skillDefinition: SkillDefinition
+let skillDefinition: Skill
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()

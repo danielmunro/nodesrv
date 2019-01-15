@@ -5,7 +5,7 @@ import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import PlayerBuilder from "../../test/playerBuilder"
 import TestBuilder from "../../test/testBuilder"
-import { Definition } from "../definition/definition"
+import { Action } from "../definition/action"
 import { Messages } from "../precondition/constants"
 import { MAX_TRAINABLE_STATS } from "./constants"
 import { VITAL_INCREMENT } from "./train"
@@ -13,7 +13,7 @@ import { VITAL_INCREMENT } from "./train"
 let testBuilder: TestBuilder
 let playerBuilder: PlayerBuilder
 let player: Player
-let definition: Definition
+let definition: Action
 let trainedAttributes: Attributes
 
 beforeEach(async () => {

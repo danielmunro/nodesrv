@@ -1,9 +1,9 @@
 import { RequestType } from "../../request/requestType"
 import doNTimes from "../../support/functional/times"
 import TestBuilder from "../../test/testBuilder"
-import {Definition} from "../definition/definition"
+import {Action} from "../definition/action"
 
-let definition: Definition
+let definition: Action
 let mob
 let player
 let room1

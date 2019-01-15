@@ -4,19 +4,19 @@ import { RequestType } from "../../request/requestType"
 import { getTestMob } from "../../test/mob"
 import { getTestRoom } from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
+import { Action} from "./action"
 import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
-import { Definition} from "./definition"
 
-async function getNewHandlerDefinition(requestType = RequestType.Noop): Promise<Definition> {
+async function getNewHandlerDefinition(requestType = RequestType.Noop): Promise<Action> {
   const testBuilder = new TestBuilder()
-  return new Definition(await testBuilder.getService(), requestType, () => new Promise((resolve) => resolve()))
+  return new Action(await testBuilder.getService(), requestType, () => new Promise((resolve) => resolve()))
 }
 
 function getNewTestRequest(requestType: RequestType): Request {
   return new Request(getTestMob(), getTestRoom(), new InputContext(requestType))
 }
 
-describe("Definition", () => {
+describe("Action", () => {
   it("isAbleToHandleRequestType should only handle its own request type", async () => {
     const def = await getNewHandlerDefinition(RequestType.Noop)
     expect(def.isAbleToHandleRequestType(RequestType.Gossip)).toBe(false)

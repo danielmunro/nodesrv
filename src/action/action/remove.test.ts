@@ -1,10 +1,10 @@
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import {Definition} from "../definition/definition"
+import {Action} from "../definition/action"
 
 let testBuilder: TestBuilder
-let actionDefinition: Definition
+let actionDefinition: Action
 
 beforeEach(() => {
   testBuilder = new TestBuilder()

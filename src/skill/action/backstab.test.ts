@@ -7,7 +7,7 @@ import { format } from "../../support/string"
 import MobBuilder from "../../test/mobBuilder"
 import TestBuilder from "../../test/testBuilder"
 import { Messages as AllMessages } from "../precondition/constants"
-import SkillDefinition from "../skillDefinition"
+import Skill from "../skill"
 import { SkillType } from "../skillType"
 import { Messages } from "./constants"
 
@@ -15,7 +15,7 @@ const iterations = 1000
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
 let opponent: Mob
-let definition: SkillDefinition
+let definition: Skill
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()

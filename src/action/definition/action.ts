@@ -7,7 +7,7 @@ import { RequestType } from "../../request/requestType"
 import Response from "../../request/response"
 import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 
-export class Definition {
+export class Action {
   constructor(
     private readonly service: GameService,
     private readonly requestType: RequestType,

@@ -1,4 +1,4 @@
-import {Definition} from "../../action/definition/definition"
+import {Action} from "../../action/definition/action"
 import ClientEvent from "../../client/event/clientEvent"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
@@ -12,7 +12,7 @@ import {Room} from "../../room/model/room"
 export default class LoggedIn implements EventConsumer {
   constructor(
     private readonly startRoom: Room,
-    private readonly lookDefinition: Definition) {}
+    private readonly lookDefinition: Action) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.ClientLogin]

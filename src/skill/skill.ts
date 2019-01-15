@@ -10,14 +10,14 @@ import { Request } from "../request/request"
 import Response from "../request/response"
 import { SkillType } from "./skillType"
 
-export default class SkillDefinition {
+export default class Skill {
   constructor(
     private readonly service: GameService,
     public readonly skillType: SkillType,
     public readonly action:
       (checkedRequest: CheckedRequest, service: GameService) => Promise<Response>,
     public readonly preconditions:
-      (request: Request, skillDefinition: SkillDefinition, service: GameService) => Promise<Check>,
+      (request: Request, skillDefinition: Skill, service: GameService) => Promise<Check>,
     public readonly skillLevels: SpecializationLevel[],
     public readonly actionType: ActionType,
     public readonly costs: Cost[] = [],

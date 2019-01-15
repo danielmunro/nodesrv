@@ -5,12 +5,12 @@ import { all } from "../../support/functional/collection"
 import doNTimes from "../../support/functional/times"
 import TestBuilder from "../../test/testBuilder"
 import { Messages } from "../constants"
-import SkillDefinition from "../skillDefinition"
+import Skill from "../skill"
 import { SkillType } from "../skillType"
 
 const iterations = 10
 let testBuilder: TestBuilder
-let definition: SkillDefinition
+let definition: Skill
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()

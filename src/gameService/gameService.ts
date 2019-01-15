@@ -1,5 +1,5 @@
-import getActionTable from "../action/actionCollection"
-import {Definition} from "../action/definition/definition"
+import getActionTable from "../action/actionTable"
+import {Action} from "../action/definition/action"
 import CheckBuilder from "../check/checkBuilder"
 import Event from "../event/event"
 import EventResponse from "../event/eventResponse"
@@ -17,10 +17,10 @@ import {Direction} from "../room/constants"
 import ExitTable from "../room/exitTable"
 import {Room} from "../room/model/room"
 import {default as RoomTable} from "../room/roomTable"
-import SkillDefinition from "../skill/skillDefinition"
+import Skill from "../skill/skill"
 import {getSkillTable} from "../skill/skillTable"
 import {SkillType} from "../skill/skillType"
-import SpellDefinition from "../spell/spellDefinition"
+import Spell from "../spell/spell"
 import getSpellTable from "../spell/spellTable"
 import {SpellType} from "../spell/spellType"
 import DefinitionService from "./definitionService"
@@ -28,9 +28,9 @@ import TimeService from "./timeService"
 
 export default class GameService {
   public readonly timeService: TimeService
-  private actions: Definition[]
-  private readonly skillTable: SkillDefinition[]
-  private readonly spellTable: SpellDefinition[]
+  private actions: Action[]
+  private readonly skillTable: Skill[]
+  private readonly spellTable: Spell[]
 
   constructor(
     public readonly mobService: MobService,
@@ -79,22 +79,22 @@ export default class GameService {
     return this.eventService.publish(event)
   }
 
-  public getActions(): Definition[] {
+  public getActions(): Action[] {
     if (!this.actions) {
       this.actions = getActionTable(this)
     }
     return this.actions
   }
 
-  public async getActionDefinition(requestType: RequestType): Promise<Definition> {
+  public async getActionDefinition(requestType: RequestType): Promise<Action> {
     return this.getActions().find(action => action.isAbleToHandleRequestType(requestType))
   }
 
-  public getSkillDefinition(skillType: SkillType): SkillDefinition {
+  public getSkillDefinition(skillType: SkillType): Skill {
     return this.skillTable.find(skill => skill.skillType === skillType)
   }
 
-  public getSpellDefinition(spellType: SpellType): SpellDefinition {
+  public getSpellDefinition(spellType: SpellType): Spell {
     return this.spellTable.find(spell => spell.spellType === spellType)
   }
 

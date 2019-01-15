@@ -1,22 +1,22 @@
 import { ActionType } from "../action/actionType"
-import { Definition } from "../action/definition/definition"
+import { Action } from "../action/definition/action"
 import {AffectType} from "../affect/affectType"
 import Cost from "../check/cost/cost"
 import { DamageType } from "../damage/damageType"
 import { improveSpell } from "../improve/improve"
 import SpecializationLevel from "../mob/specialization/specializationLevel"
 import { RequestType } from "../request/requestType"
-import SkillDefinition from "../skill/skillDefinition"
+import Skill from "../skill/skill"
 import { SkillType } from "../skill/skillType"
-import SpellDefinition from "../spell/spellDefinition"
+import Spell from "../spell/spell"
 import { SpellType } from "../spell/spellType"
 import GameService from "./gameService"
 
 export default class DefinitionService {
   constructor(private readonly gameService: GameService) {}
 
-  public action(requestType: RequestType, action, precondition = null): Definition {
-    return new Definition(this.gameService, requestType, action, precondition)
+  public action(requestType: RequestType, action, precondition = null): Action {
+    return new Action(this.gameService, requestType, action, precondition)
   }
 
   public skill(
@@ -27,7 +27,7 @@ export default class DefinitionService {
     actionType: ActionType,
     costs: Cost[] = [],
     affectType: AffectType = null) {
-    return new SkillDefinition(
+    return new Skill(
       this.gameService,
       skillType,
       action,
@@ -47,7 +47,7 @@ export default class DefinitionService {
     spellLevels: SpecializationLevel[],
     affectType: AffectType = null,
     damageType: DamageType = null) {
-    return new SpellDefinition(
+    return new Spell(
       this.gameService,
       spellType,
       actionType,

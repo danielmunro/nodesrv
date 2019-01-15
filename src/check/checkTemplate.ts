@@ -5,8 +5,8 @@ import {StackBehavior} from "../affect/stackBehavior"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import {Request} from "../request/request"
-import SkillDefinition from "../skill/skillDefinition"
-import SpellDefinition from "../spell/spellDefinition"
+import Skill from "../skill/skill"
+import Spell from "../spell/spell"
 import CheckBuilder from "./checkBuilder"
 import {CheckType} from "./checkType"
 import {Messages} from "./constants"
@@ -20,7 +20,7 @@ export default class CheckTemplate {
     return this.target
   }
 
-  public cast(spellDefinition: SpellDefinition): CheckBuilder {
+  public cast(spellDefinition: Spell): CheckBuilder {
     const mob = this.request.mob
     const checkBuilder = new CheckBuilder(this.mobService, this.request)
       .forMob(mob)
@@ -36,7 +36,7 @@ export default class CheckTemplate {
     return checkBuilder
   }
 
-  public perform(skillDefinition: SkillDefinition): CheckBuilder {
+  public perform(skillDefinition: Skill): CheckBuilder {
     const checkBuilder = new CheckBuilder(this.mobService, this.request)
       .forMob(this.request.mob)
       .requireSkill(skillDefinition.skillType)

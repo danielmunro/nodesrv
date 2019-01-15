@@ -7,11 +7,11 @@ import {RequestType} from "../../request/requestType"
 import {ResponseStatus} from "../../request/responseStatus"
 import {format} from "../../support/string"
 import TestBuilder from "../../test/testBuilder"
-import {Definition} from "../definition/definition"
+import {Action} from "../definition/action"
 import {MESSAGE_REMOVE_FAIL, Messages} from "./constants"
 
 let testBuilder: TestBuilder
-let actionDefinition: Definition
+let actionDefinition: Action
 let mob: Mob
 
 beforeEach(async () => {

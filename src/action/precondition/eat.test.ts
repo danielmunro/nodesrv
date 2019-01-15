@@ -1,11 +1,11 @@
 import appetite from "../../mob/race/appetite"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import {Definition} from "../definition/definition"
+import {Action} from "../definition/action"
 import {Messages} from "./constants"
 
 let testBuilder: TestBuilder
-let actionDefinition: Definition
+let actionDefinition: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()

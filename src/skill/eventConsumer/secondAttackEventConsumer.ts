@@ -5,10 +5,10 @@ import FightEvent from "../../mob/fight/event/fightEvent"
 import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
-import SkillDefinition from "../skillDefinition"
+import Skill from "../skill"
 
 export default class SecondAttackEventConsumer implements EventConsumer {
-  constructor(private readonly secondAttack: SkillDefinition) {}
+  constructor(private readonly secondAttack: Skill) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.AttackRound]

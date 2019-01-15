@@ -5,11 +5,11 @@ import MobEvent from "../../mob/event/mobEvent"
 import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
-import SkillDefinition from "../skillDefinition"
+import Skill from "../skill"
 import {SkillType} from "../skillType"
 
 export default class FastHealingEventConsumer implements EventConsumer {
-  constructor(private readonly fastHealing: SkillDefinition) {}
+  constructor(private readonly fastHealing: Skill) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.Tick]

@@ -4,11 +4,11 @@ import {CheckType} from "../../check/checkType"
 import GameService from "../../gameService/gameService"
 import {Mob} from "../../mob/model/mob"
 import {Request} from "../../request/request"
-import SkillDefinition from "../skillDefinition"
+import Skill from "../skill"
 import {Messages} from "./constants"
 
 export default async function(
-  request: Request, skillDefinition: SkillDefinition, service: GameService): Promise<Check> {
+  request: Request, skillDefinition: Skill, service: GameService): Promise<Check> {
   const target = request.getTarget() as Mob
   const subject = request.getSubject()
 
