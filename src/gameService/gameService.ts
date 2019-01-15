@@ -1,5 +1,5 @@
 import getActionTable from "../action/actionTable"
-import {Action} from "../action/definition/action"
+import {Action} from "../action/action"
 import CheckBuilder from "../check/checkBuilder"
 import Event from "../event/event"
 import EventResponse from "../event/eventResponse"

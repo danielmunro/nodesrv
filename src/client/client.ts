@@ -1,5 +1,5 @@
 import * as stringify from "json-stringify-safe"
-import {Action} from "../action/definition/action"
+import {Action} from "../action/action"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import EventService from "../event/eventService"

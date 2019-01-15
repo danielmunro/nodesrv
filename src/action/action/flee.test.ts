@@ -1,7 +1,7 @@
 import { RequestType } from "../../request/requestType"
 import doNTimes from "../../support/functional/times"
 import TestBuilder from "../../test/testBuilder"
-import {Action} from "../definition/action"
+import {Action} from "../action"
 
 let definition: Action
 let mob

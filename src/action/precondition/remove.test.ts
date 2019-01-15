@@ -7,7 +7,7 @@ import {RequestType} from "../../request/requestType"
 import {ResponseStatus} from "../../request/responseStatus"
 import {format} from "../../support/string"
 import TestBuilder from "../../test/testBuilder"
-import {Action} from "../definition/action"
+import {Action} from "../action"
 import {MESSAGE_REMOVE_FAIL, Messages} from "./constants"
 
 let testBuilder: TestBuilder

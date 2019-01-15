@@ -1,5 +1,5 @@
 import { ActionType } from "../action/actionType"
-import { Action } from "../action/definition/action"
+import { Action } from "../action/action"
 import {AffectType} from "../affect/affectType"
 import Cost from "../check/cost/cost"
 import { DamageType } from "../damage/damageType"

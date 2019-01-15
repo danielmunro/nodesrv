@@ -3,7 +3,7 @@ import { newAffect } from "../../affect/factory"
 import { RequestType } from "../../request/requestType"
 import PlayerBuilder from "../../test/playerBuilder"
 import TestBuilder from "../../test/testBuilder"
-import {Action} from "../definition/action"
+import {Action} from "../action"
 
 let testBuilder: TestBuilder
 let playerBuilder: PlayerBuilder

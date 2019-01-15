@@ -5,7 +5,7 @@ import { Mob } from "../../mob/model/mob"
 import { RequestType } from "../../request/requestType"
 import { Room } from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import { Action } from "../definition/action"
+import { Action } from "../action"
 
 let testBuilder: TestBuilder
 let actionDefinition: Action

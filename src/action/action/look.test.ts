@@ -10,7 +10,7 @@ import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import { Room } from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import { Action } from "../definition/action"
+import { Action } from "../action"
 import { MESSAGE_LOOK_CANNOT_SEE, NOT_FOUND } from "./constants"
 
 let testBuilder: TestBuilder

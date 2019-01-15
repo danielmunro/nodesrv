@@ -1,4 +1,4 @@
-import {Action} from "../action/definition/action"
+import {Action} from "../action/action"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckStatus} from "../check/checkStatus"

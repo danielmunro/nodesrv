@@ -6,7 +6,7 @@ import {Direction} from "../../room/constants"
 import {newDoor} from "../../room/factory"
 import {Room} from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import {Action} from "../definition/action"
+import {Action} from "../action"
 import {Messages} from "../precondition/constants"
 
 describe("close action", () => {

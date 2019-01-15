@@ -1,7 +1,7 @@
 import { RequestType } from "../../request/requestType"
 import { ResponseStatus } from "../../request/responseStatus"
 import TestBuilder from "../../test/testBuilder"
-import {Action} from "../definition/action"
+import {Action} from "../action"
 
 let testBuilder: TestBuilder
 let actionDefinition: Action

@@ -1,10 +1,10 @@
-import Check from "../../check/check"
-import CheckedRequest from "../../check/checkedRequest"
-import { CheckStatus } from "../../check/checkStatus"
-import GameService from "../../gameService/gameService"
-import { Request } from "../../request/request"
-import { RequestType } from "../../request/requestType"
-import Response from "../../request/response"
+import Check from "../check/check"
+import CheckedRequest from "../check/checkedRequest"
+import { CheckStatus } from "../check/checkStatus"
+import GameService from "../gameService/gameService"
+import { Request } from "../request/request"
+import { RequestType } from "../request/requestType"
+import Response from "../request/response"
 import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 
 export class Action {

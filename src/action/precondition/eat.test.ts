@@ -1,7 +1,7 @@
 import appetite from "../../mob/race/appetite"
 import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
-import {Action} from "../definition/action"
+import {Action} from "../action"
 import {Messages} from "./constants"
 
 let testBuilder: TestBuilder

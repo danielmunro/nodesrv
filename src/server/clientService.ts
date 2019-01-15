@@ -1,4 +1,4 @@
-import {Action} from "../action/definition/action"
+import {Action} from "../action/action"
 import {Client} from "../client/client"
 import EventService from "../event/eventService"
 import LocationService from "../mob/locationService"

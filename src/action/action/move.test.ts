@@ -6,7 +6,7 @@ import { Direction } from "../../room/constants"
 import Door from "../../room/model/door"
 import {Room} from "../../room/model/room"
 import TestBuilder from "../../test/testBuilder"
-import {Action} from "../definition/action"
+import {Action} from "../action"
 import {Messages} from "../precondition/constants"
 
 let testBuilder: TestBuilder
