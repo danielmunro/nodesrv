@@ -64,7 +64,7 @@ initializeConnection().then(async () => {
     eventService,
     new AuthService(await getPlayerRepository(), mobService),
     mobService.locationService,
-    gameService.getActionCollection(),
+    gameService.getActions(),
   )
   const server = await newServer(
     gameService,

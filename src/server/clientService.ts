@@ -1,4 +1,4 @@
-import {Collection} from "../action/definition/collection"
+import {Definition} from "../action/definition/definition"
 import {Client} from "../client/client"
 import EventService from "../event/eventService"
 import LocationService from "../mob/locationService"
@@ -15,14 +15,14 @@ export default class ClientService {
     private readonly eventService: EventService,
     private readonly authService: AuthService,
     private readonly locationService: LocationService,
-    private readonly actionCollection: Collection) {}
+    private readonly actions: Definition[]) {}
 
   public createNewClient(ws: WebSocket, req) {
     const client = new Client(
       new Session(new Email(this.authService)),
       ws,
       req ? req.connection.remoteAddress : null,
-      this.actionCollection,
+      this.actions,
       this.locationService,
       this.eventService)
     this.add(client)

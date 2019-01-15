@@ -37,8 +37,7 @@ describe("get action", () => {
     const service = await testBuilder.getService()
     service.itemService.add(item)
 
-    const definition = (await testBuilder.getActionCollection())
-      .getMatchingHandlerDefinitionForRequestType(RequestType.Get)
+    const definition = await testBuilder.getActionDefinition(RequestType.Get)
 
     const player = playerBuilder.player
     const itemCount = player.sessionMob.inventory.items.length

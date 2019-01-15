@@ -10,11 +10,10 @@ describe("put action", () => {
     // given
     mobBuilder.withAxeEq()
     const container = mobBuilder.withSatchelContainer()
-    const definition = await testBuilder.getActionCollection()
-    const put = definition.getMatchingHandlerDefinitionForRequestType(RequestType.Put)
+    const definition = await testBuilder.getActionDefinition(RequestType.Put)
 
     // when
-    const response = await put.handle(testBuilder.createRequest(RequestType.Put, "put axe satchel"))
+    const response = await definition.handle(testBuilder.createRequest(RequestType.Put, "put axe satchel"))
 
     // then
     expect(response.isSuccessful()).toBeTruthy()

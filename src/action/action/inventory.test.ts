@@ -3,13 +3,16 @@ import { newAffect } from "../../affect/factory"
 import { RequestType } from "../../request/requestType"
 import PlayerBuilder from "../../test/playerBuilder"
 import TestBuilder from "../../test/testBuilder"
+import {Definition} from "../definition/definition"
 
 let testBuilder: TestBuilder
 let playerBuilder: PlayerBuilder
+let actionDefinition: Definition
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   playerBuilder = await testBuilder.withPlayer()
+  actionDefinition = await testBuilder.getActionDefinition(RequestType.Inventory)
 })
 
 describe("inventory action action", () => {
@@ -17,11 +20,9 @@ describe("inventory action action", () => {
     // given
     const item1 = playerBuilder.withAxeEq()
     const item2 = playerBuilder.withHelmetEq()
-    const actionCollection = await testBuilder.getActionCollection()
-    const inventoryDefinition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Inventory)
 
     // when
-    const response = await inventoryDefinition.handle(testBuilder.createRequest(RequestType.Inventory))
+    const response = await actionDefinition.handle(testBuilder.createRequest(RequestType.Inventory))
     const message = response.message.getMessageToRequestCreator()
 
     // then
@@ -33,11 +34,9 @@ describe("inventory action action", () => {
     // given
     const item = playerBuilder.withAxeEq()
     item.affects.push(newAffect(AffectType.Invisible))
-    const actionCollection = await testBuilder.getActionCollection()
-    const inventoryDefinition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Inventory)
 
     // when
-    const response = await inventoryDefinition.handle(testBuilder.createRequest(RequestType.Inventory))
+    const response = await actionDefinition.handle(testBuilder.createRequest(RequestType.Inventory))
     const message1 = response.message.getMessageToRequestCreator()
 
     // then

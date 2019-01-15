@@ -17,12 +17,11 @@ describe("tell social action", () => {
     const testBuilder = new TestBuilder()
     await testBuilder.withPlayer()
     const mob = testBuilder.withMob("foo").mob
-    const actions = await testBuilder.getActionCollection()
+    const action = await testBuilder.getActionDefinition(RequestType.Tell)
     const request = testBuilder.createRequest(RequestType.Tell, "tell foo hello world")
-    const handler = actions.getMatchingHandlerDefinitionForRequestType(request.getType())
 
     // when
-    const response = await handler.handle(request)
+    const response = await action.handle(request)
 
     // then
     expect(response.message.getMessageToRequestCreator()).toEqual(`You tell ${mob.name}, \"hello world\"`)

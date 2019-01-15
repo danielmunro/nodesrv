@@ -1,5 +1,4 @@
-import actionCollection from "../action/actionCollection"
-import {Collection} from "../action/definition/collection"
+import getActionTable from "../action/actionCollection"
 import {Definition} from "../action/definition/definition"
 import CheckBuilder from "../check/checkBuilder"
 import Event from "../event/event"
@@ -29,7 +28,7 @@ import TimeService from "./timeService"
 
 export default class GameService {
   public readonly timeService: TimeService
-  private actionCollection: Collection
+  private actions: Definition[]
   private readonly skillTable: SkillDefinition[]
   private readonly spellTable: SpellDefinition[]
 
@@ -80,15 +79,15 @@ export default class GameService {
     return this.eventService.publish(event)
   }
 
-  public getActionCollection(): Collection {
-    if (!this.actionCollection) {
-      this.actionCollection = actionCollection(this)
+  public getActions(): Definition[] {
+    if (!this.actions) {
+      this.actions = getActionTable(this)
     }
-    return this.actionCollection
+    return this.actions
   }
 
   public async getActionDefinition(requestType: RequestType): Promise<Definition> {
-    return this.getActionCollection().getMatchingHandlerDefinitionForRequestType(requestType)
+    return this.getActions().find(action => action.isAbleToHandleRequestType(requestType))
   }
 
   public getSkillDefinition(skillType: SkillType): SkillDefinition {

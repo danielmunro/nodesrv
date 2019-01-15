@@ -1,4 +1,4 @@
-import {Collection} from "../action/definition/collection"
+import {Definition} from "../action/definition/definition"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckStatus} from "../check/checkStatus"
@@ -64,7 +64,7 @@ export default class TestBuilder {
       new Session(null),
       ws(),
       "127.0.0.1",
-      service.getActionCollection(),
+      service.getActions(),
       this.serviceBuilder.locationService,
       await this.getEventService())
     await client.session.login(client, this.player)
@@ -193,8 +193,8 @@ export default class TestBuilder {
     return new RequestBuilder(this.mobForRequest, this.room)
   }
 
-  public async getActionCollection(): Promise<Collection> {
-    return (await this.getService()).getActionCollection()
+  public async getActionCollection(): Promise<Definition[]> {
+    return (await this.getService()).getActions()
   }
 
   public async getActionDefinition(requestType: RequestType) {
@@ -244,7 +244,7 @@ export default class TestBuilder {
         this.eventService,
         null,
         this.service.mobService.locationService,
-        this.service.getActionCollection(),
+        this.service.getActions(),
       ),
       this.eventService)
     const eventConsumers = await eventConsumerTable(

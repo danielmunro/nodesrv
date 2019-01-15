@@ -1,5 +1,5 @@
 import * as stringify from "json-stringify-safe"
-import { Collection } from "../action/definition/collection"
+import {Definition} from "../action/definition/definition"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import EventService from "../event/eventService"
@@ -29,7 +29,7 @@ export class Client {
     public readonly session: Session,
     public readonly ws: WebSocket,
     public readonly ip: string,
-    private readonly actionCollection: Collection,
+    private readonly actions: Definition[],
     private readonly locationService: LocationService,
     private readonly eventService: EventService) {
     this.ws.onmessage = this.onMessage.bind(this)
@@ -73,9 +73,8 @@ export class Client {
   }
 
   public async handleRequest(request: Request): Promise<Response> {
-    const matchingHandlerDefinition = this.actionCollection.getMatchingHandlerDefinitionForRequestType(
-      request.getType(),
-      request.getAuthorizationLevel())
+    const matchingHandlerDefinition = this.actions.find(action =>
+      action.isAbleToHandleRequestType(request.getType()))
     const response = await matchingHandlerDefinition.handle(request)
     if (response.request instanceof CheckedRequest) {
       this.applyCosts(response.request.check.costs)

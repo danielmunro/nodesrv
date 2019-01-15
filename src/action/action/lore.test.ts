@@ -9,8 +9,7 @@ describe("lore", () => {
     const item = mobBuilder.withAxeEq()
     item.identified = false
 
-    const actionCollection = await testBuilder.getActionCollection()
-    const definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Lore)
+    const definition = await testBuilder.getActionDefinition(RequestType.Lore)
     const response = await definition.handle(testBuilder.createRequest(RequestType.Lore, "lore axe"))
 
     expect(response.status).toBe(ResponseStatus.ActionFailed)

@@ -44,7 +44,7 @@ import tell from "./action/tell"
 import train from "./action/train"
 import unlock from "./action/unlock"
 import wear from "./action/wear"
-import { Collection } from "./definition/collection"
+import {Definition} from "./definition/definition"
 import ban from "./moderation/actions/ban"
 import demote from "./moderation/actions/demote"
 import promote from "./moderation/actions/promote"
@@ -84,9 +84,9 @@ function newMoveDefinition(service: GameService, requestType: RequestType, direc
     request => movePrecondition(request, direction))
 }
 
-export default function getActionCollection(service: GameService) {
+export default function getActionTable(service: GameService): Definition[] {
   const definition = service.definition()
-  return new Collection([
+  return [
     // moving
     newMoveDefinition(service, RequestType.North, Direction.North),
     newMoveDefinition(service, RequestType.South, Direction.South),
@@ -151,12 +151,15 @@ export default function getActionCollection(service: GameService) {
 
     // sacrifice
     definition.action(RequestType.Sacrifice, sacrifice, sacrificePrecondition),
-  ], [
+
+    // moderation
     definition.action(RequestType.Ban, ban, banPrecondition),
     definition.action(RequestType.Unban, unban, unbanPrecondition),
     definition.action(RequestType.Promote, promote, promotePrecondition),
     definition.action(RequestType.Demote, demote, demotePrecondition),
-  ],
-  definition.action(RequestType.Any,
-      request => Promise.resolve(getDefaultUnhandledMessage(request))))
+
+    // catch-all
+    definition.action(RequestType.Any,
+      request => Promise.resolve(getDefaultUnhandledMessage(request))),
+    ]
 }

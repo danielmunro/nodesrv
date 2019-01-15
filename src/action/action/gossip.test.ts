@@ -2,8 +2,8 @@ import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import SocialEvent from "../../client/event/socialEvent"
 import InputContext from "../../request/context/inputContext"
-import { Request } from "../../request/request"
-import { RequestType } from "../../request/requestType"
+import {Request} from "../../request/request"
+import {RequestType} from "../../request/requestType"
 import {getTestMob} from "../../test/mob"
 import {getTestRoom} from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
@@ -14,9 +14,8 @@ describe("gossip social action", () => {
     // setup
     const testBuilder = new TestBuilder()
     await testBuilder.withPlayer()
-    const actions = await testBuilder.getActionCollection()
     const request = testBuilder.createRequest(RequestType.Gossip, "gossip hello world")
-    const handler = actions.getMatchingHandlerDefinitionForRequestType(request.getType())
+    const handler = await testBuilder.getActionDefinition(RequestType.Gossip)
 
     // when
     const response = await handler.handle(request)

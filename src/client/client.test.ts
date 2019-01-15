@@ -1,4 +1,3 @@
-import { Collection } from "../action/definition/collection"
 import { Player } from "../player/model/player"
 import InputContext from "../request/context/inputContext"
 import { Request } from "../request/request"
@@ -69,7 +68,7 @@ describe("client sanity checks", () => {
         new Session(null),
         ws(),
         "127.0.0.1",
-        new Collection([], []),
+        [],
         mockService(), mockService())
     })
 

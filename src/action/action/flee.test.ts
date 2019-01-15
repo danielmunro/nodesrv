@@ -1,8 +1,9 @@
 import { RequestType } from "../../request/requestType"
 import doNTimes from "../../support/functional/times"
 import TestBuilder from "../../test/testBuilder"
+import {Definition} from "../definition/definition"
 
-let definition
+let definition: Definition
 let mob
 let player
 let room1
@@ -19,8 +20,7 @@ beforeEach(async () => {
   // room to flee to
   room2 = testBuilder.withRoom().room
   await testBuilder.fight()
-  const actionCollection = await testBuilder.getActionCollection()
-  definition = actionCollection.getMatchingHandlerDefinitionForRequestType(RequestType.Flee)
+  definition = await testBuilder.getActionDefinition(RequestType.Flee)
 })
 
 describe("flee action handler", () => {
