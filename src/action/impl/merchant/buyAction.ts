@@ -6,12 +6,12 @@ import {CheckType} from "../../../check/checkType"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
 import ItemEvent from "../../../item/event/itemEvent"
-import { Request } from "../../../request/request"
+import {Disposition} from "../../../mob/enum/disposition"
+import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
-import {MESSAGE_ERROR_NO_ITEM, Messages as ActionMessages} from "../../constants"
-import {ConditionMessages} from "../../constants"
+import {ConditionMessages, MESSAGE_ERROR_NO_ITEM, Messages as ActionMessages} from "../../constants"
 
 export default class BuyAction extends Action {
   constructor(
@@ -22,7 +22,7 @@ export default class BuyAction extends Action {
 
   public check(request: Request): Promise<Check> {
     const subject = request.getSubject()
-    return this.checkBuilderFactory.createCheckBuilder(request)
+    return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .require(subject, ConditionMessages.All.Arguments.Buy)
       .requireMerchant()
       .require(mob => mob.inventory.findItemByName(subject), MESSAGE_ERROR_NO_ITEM, CheckType.HasItem)

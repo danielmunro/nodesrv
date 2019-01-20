@@ -1,4 +1,6 @@
 import {CheckStatus} from "../../../check/checkStatus"
+import {allDispositions, Disposition} from "../../../mob/enum/disposition"
+import {Mob} from "../../../mob/model/mob"
 import { RequestType } from "../../../request/requestType"
 import { ResponseStatus } from "../../../request/responseStatus"
 import {getTestMob} from "../../../test/mob"
@@ -9,17 +11,18 @@ import {MESSAGE_FAIL_KILL_ALREADY_FIGHTING} from "../../constants"
 
 let testBuilder: TestBuilder
 let action: Action
+let mob: Mob
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   action = await testBuilder.getActionDefinition(RequestType.Kill)
+  mob = (await testBuilder.withPlayer()).player.sessionMob
 })
 
 describe("kill", () => {
   it("should be able to kill a mob in the same room", async () => {
     // given
-    const playerBuilder = await testBuilder.withPlayer()
-    playerBuilder.player.sessionMob.name = "alice"
+    mob.name = "alice"
     const target = testBuilder.withMob("bob").mob
 
     // when
@@ -46,8 +49,6 @@ describe("kill", () => {
 
   it("shouldn't be able to target a mob when already fighting", async () => {
     // given
-    testBuilder.withRoom()
-    await testBuilder.withPlayer()
     const mob1 = testBuilder.withMob("bob").mob
     const mob2 = testBuilder.withMob("alice").mob
 
@@ -64,7 +65,6 @@ describe("kill", () => {
 
   it("should be able to kill a mob in the same room", async () => {
     // given
-    await testBuilder.withPlayer()
     const target = testBuilder.withMob("bob").mob
 
     // when
@@ -73,5 +73,17 @@ describe("kill", () => {
     // then
     expect(check.status).toBe(CheckStatus.Ok)
     expect(check.result.id).toBe(target.id)
+  })
+
+  it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
+    // given
+    mob.disposition = disposition
+    testBuilder.withMob("bob")
+
+    // when
+    const check = await action.check(testBuilder.createRequest(RequestType.Kill, "kill bob"))
+
+    // then
+    expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
   })
 })

@@ -4,6 +4,7 @@ import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
+import {Disposition} from "../../../mob/enum/disposition"
 import {Fight} from "../../../mob/fight/fight"
 import LocationService from "../../../mob/locationService"
 import MobService from "../../../mob/mobService"
@@ -16,12 +17,10 @@ import Action from "../../action"
 import {
   FLEE_MOVEMENT_COST_MULTIPLIER,
   MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE,
-  MESSAGE_FAIL_TOO_TIRED,
-} from "../../constants"
-import {
   MESSAGE_FAIL_NOT_FIGHTING,
-  } from "../../constants"
-import {Messages} from "../../constants"
+  MESSAGE_FAIL_TOO_TIRED,
+  Messages,
+} from "../../constants"
 
 export default class FleeAction extends Action {
   constructor(
@@ -33,7 +32,7 @@ export default class FleeAction extends Action {
 
   public check(request: Request): Promise<Check> {
     const mvCost = request.getRoom().getMovementCost() * FLEE_MOVEMENT_COST_MULTIPLIER
-    return this.checkBuilderFactory.createCheckBuilder(request)
+    return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .require(
         this.mobService.findFight(f => f.isParticipant(request.mob)),
         MESSAGE_FAIL_NOT_FIGHTING,

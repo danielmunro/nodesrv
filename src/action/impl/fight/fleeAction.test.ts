@@ -1,4 +1,5 @@
 import {CheckStatus} from "../../../check/checkStatus"
+import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import { RequestType } from "../../../request/requestType"
 import doNTimes from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
@@ -78,7 +79,7 @@ describe("flee action handler", () => {
     testBuilder = new TestBuilder()
     testBuilder.withRoom()
     await testBuilder.withPlayer()
-    const check = await definition.check(testBuilder.createRequest(RequestType.Flee, "flee"))
+    const check = await definition.check(testBuilder.createRequest(RequestType.Flee))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -94,7 +95,7 @@ describe("flee action handler", () => {
     definition = await testBuilder.getActionDefinition(RequestType.Flee)
 
     // when
-    const check = await definition.check(testBuilder.createRequest(RequestType.Flee, "flee"))
+    const check = await definition.check(testBuilder.createRequest(RequestType.Flee))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -103,10 +104,10 @@ describe("flee action handler", () => {
 
   it("should not work if a mob has no movement", async () => {
     // given
-    player.sessionMob.vitals.mv = 0
+    mob.vitals.mv = 0
 
     // when
-    const check = await definition.check(testBuilder.createRequest(RequestType.Flee, "flee"))
+    const check = await definition.check(testBuilder.createRequest(RequestType.Flee))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -115,9 +116,20 @@ describe("flee action handler", () => {
 
   it("should work if all preconditions met", async () => {
     // when
-    const check = await definition.check(testBuilder.createRequest(RequestType.Flee, "flee"))
+    const check = await definition.check(testBuilder.createRequest(RequestType.Flee))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
+  })
+
+  it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
+    // given
+    mob.disposition = disposition
+
+    // when
+    const check = await definition.check(testBuilder.createRequest(RequestType.Flee))
+
+    // then
+    expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
   })
 })

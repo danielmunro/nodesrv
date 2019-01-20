@@ -3,7 +3,8 @@ import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import ItemQuantity from "../../../item/itemQuantity"
-import { Request } from "../../../request/request"
+import {Disposition} from "../../../mob/enum/disposition"
+import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -15,7 +16,7 @@ export default class ListAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    return this.checkBuilderFactory.createCheckBuilder(request)
+    return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .requireMerchant()
       .create()
   }

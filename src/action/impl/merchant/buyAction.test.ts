@@ -1,6 +1,7 @@
 import {CheckStatus} from "../../../check/checkStatus"
 import {Equipment} from "../../../item/equipment"
 import {newEquipment} from "../../../item/factory"
+import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import { RequestType } from "../../../request/requestType"
 import { ResponseStatus } from "../../../request/responseStatus"
 import TestBuilder from "../../../test/testBuilder"
@@ -113,5 +114,17 @@ describe("buy action", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
+  })
+
+  it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
+    // given
+    testBuilder.withMob().withDisposition(disposition).withGold(100)
+    testBuilder.withMerchant().withAxeEq()
+
+    // when
+    const check = await action.check(testBuilder.createRequest(RequestType.Buy, `buy axe`))
+
+    // then
+    expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
   })
 })

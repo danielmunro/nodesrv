@@ -1,8 +1,10 @@
 import {cloneDeep} from "lodash"
 import * as uuid from "uuid"
+import {CheckStatus} from "../../../check/checkStatus"
 import {newItem} from "../../../item/factory"
 import {ItemType} from "../../../item/itemType"
 import {Item} from "../../../item/model/item"
+import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/requestType"
 import doNTimes from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
@@ -46,5 +48,19 @@ describe("list action", () => {
     const message = response.message.getMessageToRequestCreator()
     expect(message).toContain("[ 3 100 ] a test item")
     expect(message).toContain("[ 1 20 ] a different test item")
+  })
+
+  it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
+    // given
+    const testBuilder = new TestBuilder()
+    testBuilder.withMob().withDisposition(disposition)
+    testBuilder.withMerchant().withAxeEq()
+    const definition = await testBuilder.getActionDefinition(RequestType.List)
+
+    // when
+    const check = await definition.check(testBuilder.createRequest(RequestType.List))
+
+    // then
+    expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
   })
 })

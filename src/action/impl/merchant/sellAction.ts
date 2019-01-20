@@ -6,14 +6,14 @@ import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
 import ItemEvent from "../../../item/event/itemEvent"
 import {Item} from "../../../item/model/item"
+import {Disposition} from "../../../mob/enum/disposition"
 import {Mob} from "../../../mob/model/mob"
-import { Request } from "../../../request/request"
+import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
 import Action from "../../action"
-import {Messages as ActionMessages} from "../../constants"
-import {ConditionMessages} from "../../constants"
+import {ConditionMessages, Messages as ActionMessages} from "../../constants"
 
 function sell(mob: Mob, item: Item) {
   mob.inventory.removeItem(item)
@@ -30,7 +30,7 @@ export default class SellAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    return this.checkBuilderFactory.createCheckBuilder(request)
+    return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .requireMerchant()
       .require(
         request.mob.inventory.findItemByName(request.getSubject()),

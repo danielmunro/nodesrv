@@ -3,15 +3,18 @@ import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
+import {Disposition} from "../../../mob/enum/disposition"
 import MobEvent from "../../../mob/event/mobEvent"
 import {Mob} from "../../../mob/model/mob"
-import { Request } from "../../../request/request"
+import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
-import {MESSAGE_FAIL_CANNOT_ATTACK_SELF, MESSAGE_FAIL_KILL_ALREADY_FIGHTING, Messages} from "../../constants"
 import {
+  MESSAGE_FAIL_CANNOT_ATTACK_SELF,
+  MESSAGE_FAIL_KILL_ALREADY_FIGHTING,
   MESSAGE_FAIL_KILL_NO_TARGET,
+  Messages,
 } from "../../constants"
 
 export default class KillAction extends Action {
@@ -23,7 +26,7 @@ export default class KillAction extends Action {
 
   public check(request: Request): Promise<Check> {
     const target = request.getTarget() as Mob
-    return this.checkBuilderFactory.createCheckBuilder(request)
+    return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .requireMob(MESSAGE_FAIL_KILL_NO_TARGET)
       .capture()
       .require(request.mob !== target, MESSAGE_FAIL_CANNOT_ATTACK_SELF)

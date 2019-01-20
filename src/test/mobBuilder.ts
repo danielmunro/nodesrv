@@ -71,6 +71,11 @@ export default class MobBuilder extends AbstractBuilder {
     return spell
   }
 
+  public withGold(gold: number) {
+    this.mob.gold = gold
+    return this
+  }
+
   private doEquip(equipment) {
     if (this.equipNextEquipment) {
       this.equipNextEquipment = false
