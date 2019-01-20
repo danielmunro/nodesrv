@@ -1,165 +1,132 @@
-import {getDefaultUnhandledMessage} from "../client/client"
+import CheckBuilderFactory from "../check/checkBuilderFactory"
 import GameService from "../gameService/gameService"
-import { RequestType } from "../request/requestType"
-import { Direction } from "../room/constants"
-import bash from "../skill/action/bash"
-import berserk from "../skill/action/berserk"
-import disarm from "../skill/action/disarm"
-import envenom from "../skill/action/envenom"
-import sneak from "../skill/action/sneak"
-import steal from "../skill/action/steal"
-import trip from "../skill/action/trip"
-import defaultSkillPrecondition from "../skill/precondition/defaultSkillPrecondition"
-import { default as disarmPrecondition } from "../skill/precondition/disarm"
-import { default as envenomPrecondition } from "../skill/precondition/envenom"
-import fightSkillPrecondition from "../skill/precondition/fightSkillPrecondition"
-import { default as sneakPrecondition } from "../skill/precondition/sneak"
-import { default as stealPrecondition } from "../skill/precondition/steal"
-import affects from "./action/affects"
-import buy from "./action/buy"
-import cast from "./action/cast"
-import close from "./action/close"
-import drop from "./action/drop"
-import eat from "./action/eat"
-import equipped from "./action/equipped"
-import flee from "./action/flee"
-import get from "./action/get"
-import gossip from "./action/gossip"
-import heal from "./action/heal"
-import inventory from "./action/inventory"
-import kill from "./action/kill"
-import list from "./action/list"
-import lock from "./action/lock"
-import look from "./action/look"
-import lore from "./action/lore"
-import move from "./action/move"
-import open from "./action/open"
-import put from "./action/put"
-import remove from "./action/remove"
-import sacrifice from "./action/sacrifice"
-import say from "./action/say"
-import score from "./action/score"
-import sell from "./action/sell"
-import tell from "./action/tell"
-import train from "./action/train"
-import unlock from "./action/unlock"
-import wear from "./action/wear"
-import {Action} from "./action"
-import ban from "./moderation/actions/ban"
-import demote from "./moderation/actions/demote"
-import promote from "./moderation/actions/promote"
-import unban from "./moderation/actions/unban"
-import { default as banPrecondition } from "./moderation/precondition/ban"
-import { default as demotePrecondition } from "./moderation/precondition/demote"
-import { default as promotePrecondition } from "./moderation/precondition/promote"
-import { default as unbanPrecondition } from "./moderation/precondition/unban"
-import { default as buyPrecondition } from "./precondition/buy"
-import { default as castPrecondition } from "./precondition/cast"
-import { default as closePrecondition } from "./precondition/close"
-import { default as dropPrecondition } from "./precondition/drop"
-import { default as eatPrecondition } from "./precondition/eat"
-import { default as fleePrecondition } from "./precondition/flee"
-import { default as getPrecondition } from "./precondition/get"
-import { default as healPrecondition } from "./precondition/heal"
-import { default as killPrecondition } from "./precondition/kill"
-import { default as listPrecondition } from "./precondition/list"
-import { default as lockPrecondition } from "./precondition/lock"
-import { default as lookPrecondition } from "./precondition/look"
-import { default as lorePrecondition } from "./precondition/lore"
-import { default as movePrecondition } from "./precondition/move"
-import { default as openPrecondition } from "./precondition/open"
-import { default as putPrecondition } from "./precondition/put"
-import { default as removePrecondition } from "./precondition/remove"
-import { default as sacrificePrecondition } from "./precondition/sacrifice"
-import { default as sellPrecondition } from "./precondition/sell"
-import { default as socialPrecondition } from "./precondition/socialPrecondition"
-import { default as tellPrecondition } from "./precondition/tell"
-import { default as trainPrecondition } from "./precondition/train"
-import { default as unlockPrecondition } from "./precondition/unlock"
-import { default as wearPrecondition } from "./precondition/wear"
-
-function newMoveDefinition(service: GameService, requestType: RequestType, direction: Direction) {
-  return service.definition().action(requestType,
-    checkedRequest => move(checkedRequest, direction, service),
-    request => movePrecondition(request, direction))
-}
+import getHealerSpellTable from "../mob/healer/healerSpellTable"
+import SocialService from "../social/socialService"
+import getSpellTable from "../spell/spellTable"
+import Action from "./action"
+import AnyAction from "./impl/anyAction"
+import CastAction from "./impl/castAction"
+import SleepAction from "./impl/disposition/sleepAction"
+import WakeAction from "./impl/disposition/wakeAction"
+import FleeAction from "./impl/fight/fleeAction"
+import KillAction from "./impl/fight/killAction"
+import AffectsAction from "./impl/info/affectsAction"
+import EquippedAction from "./impl/info/equippedAction"
+import InventoryAction from "./impl/info/inventoryAction"
+import LookAction from "./impl/info/lookAction"
+import LoreAction from "./impl/info/loreAction"
+import ScoreAction from "./impl/info/scoreAction"
+import DropAction from "./impl/item/dropAction"
+import EatAction from "./impl/item/eatAction"
+import GetAction from "./impl/item/getAction"
+import PutAction from "./impl/item/putAction"
+import RemoveAction from "./impl/item/removeAction"
+import SacrificeAction from "./impl/item/sacrificeAction"
+import WearAction from "./impl/item/wearAction"
+import CloseAction from "./impl/manipulate/closeAction"
+import LockAction from "./impl/manipulate/lockAction"
+import OpenAction from "./impl/manipulate/openAction"
+import UnlockAction from "./impl/manipulate/unlockAction"
+import BuyAction from "./impl/merchant/buyAction"
+import HealAction from "./impl/merchant/healAction"
+import ListAction from "./impl/merchant/listAction"
+import SellAction from "./impl/merchant/sellAction"
+import BanAction from "./impl/moderation/banAction"
+import DemoteAction from "./impl/moderation/demoteAction"
+import PromoteAction from "./impl/moderation/promoteAction"
+import UnbanAction from "./impl/moderation/unbanAction"
+import DownAction from "./impl/move/downAction"
+import EastAction from "./impl/move/eastAction"
+import NorthAction from "./impl/move/northAction"
+import SouthAction from "./impl/move/southAction"
+import UpAction from "./impl/move/upAction"
+import WestAction from "./impl/move/westAction"
+import NoopAction from "./impl/noopAction"
+import GossipAction from "./impl/social/gossipAction"
+import SayAction from "./impl/social/sayAction"
+import TellAction from "./impl/social/tellAction"
+import TrainAction from "./impl/trainAction"
 
 export default function getActionTable(service: GameService): Action[] {
-  const definition = service.definition()
+  const locationService = service.mobService.locationService
+  const { mobService, itemService, timeService, eventService } = service
+  const checkBuilderFactory = new CheckBuilderFactory(mobService)
+  const lookAction = new LookAction(locationService, itemService, timeService)
+  const socialService = new SocialService(checkBuilderFactory, eventService)
   return [
     // moving
-    newMoveDefinition(service, RequestType.North, Direction.North),
-    newMoveDefinition(service, RequestType.South, Direction.South),
-    newMoveDefinition(service, RequestType.East, Direction.East),
-    newMoveDefinition(service, RequestType.West, Direction.West),
-    newMoveDefinition(service, RequestType.Up, Direction.Up),
-    newMoveDefinition(service, RequestType.Down, Direction.Down),
+    new NorthAction(checkBuilderFactory, locationService, lookAction),
+    new SouthAction(checkBuilderFactory, locationService, lookAction),
+    new EastAction(checkBuilderFactory, locationService, lookAction),
+    new WestAction(checkBuilderFactory, locationService, lookAction),
+    new UpAction(checkBuilderFactory, locationService, lookAction),
+    new DownAction(checkBuilderFactory, locationService, lookAction),
 
     // items
-    definition.action(RequestType.Inventory, inventory),
-    definition.action(RequestType.Get, get, getPrecondition),
-    definition.action(RequestType.Drop, drop, dropPrecondition),
-    definition.action(RequestType.Put, put, putPrecondition),
-    definition.action(RequestType.Wear, wear, wearPrecondition),
-    definition.action(RequestType.Remove, remove, removePrecondition),
-    definition.action(RequestType.Equipped, equipped),
+    new GetAction(checkBuilderFactory, itemService),
+    new DropAction(checkBuilderFactory, eventService),
+    new PutAction(checkBuilderFactory, itemService),
+    new WearAction(checkBuilderFactory),
+    new RemoveAction(checkBuilderFactory),
+    new EatAction(checkBuilderFactory, eventService),
+    new SacrificeAction(checkBuilderFactory, eventService),
 
-    // manipulating environment
-    definition.action(RequestType.Close, close, closePrecondition),
-    definition.action(RequestType.Open, open, openPrecondition),
-    definition.action(RequestType.Unlock, unlock, unlockPrecondition),
-    definition.action(RequestType.Lock, lock, lockPrecondition),
+    // manipulate
+    new CloseAction(checkBuilderFactory),
+    new OpenAction(checkBuilderFactory),
+    new UnlockAction(checkBuilderFactory, itemService),
+    new LockAction(checkBuilderFactory, itemService),
 
     // fighting
-    definition.action(RequestType.Kill, kill, killPrecondition),
-    definition.action(RequestType.Flee, flee, fleePrecondition),
+    new KillAction(checkBuilderFactory, eventService),
+    new FleeAction(checkBuilderFactory, mobService, locationService),
 
     // skills
-    definition.action(RequestType.Bash, bash, defaultSkillPrecondition),
-    definition.action(RequestType.Berserk, berserk, defaultSkillPrecondition),
-    definition.action(RequestType.Disarm, disarm, disarmPrecondition),
-    definition.action(RequestType.Envenom, envenom, envenomPrecondition),
-    definition.action(RequestType.Sneak, sneak, sneakPrecondition),
-    definition.action(RequestType.Trip, trip, fightSkillPrecondition),
-    definition.action(RequestType.Steal, steal, stealPrecondition),
+    // definition.action(RequestType.Bash, bash, defaultSkillPrecondition),
+    // definition.action(RequestType.Berserk, berserk, defaultSkillPrecondition),
+    // definition.action(RequestType.Disarm, disarm, disarmPrecondition),
+    // definition.action(RequestType.Envenom, envenom, envenomPrecondition),
+    // definition.action(RequestType.Sneak, sneak, sneakPrecondition),
+    // definition.action(RequestType.Trip, trip, fightSkillPrecondition),
+    // definition.action(RequestType.Steal, steal, stealPrecondition),
 
     // casting
-    definition.action(RequestType.Cast, cast, castPrecondition),
+    new CastAction(checkBuilderFactory, service, getSpellTable(service)),
 
     // info
-    definition.action(RequestType.Affects, affects),
-    definition.action(RequestType.Look, look, lookPrecondition),
-    definition.action(RequestType.Lore, lore, lorePrecondition),
-    definition.action(RequestType.Score, score),
+    new AffectsAction(),
+    lookAction,
+    new LoreAction(checkBuilderFactory, itemService),
+    new ScoreAction(),
+    new InventoryAction(itemService),
+    new EquippedAction(),
 
     // merchants/healers
-    definition.action(RequestType.Buy, buy, buyPrecondition),
-    definition.action(RequestType.Sell, sell, sellPrecondition),
-    definition.action(RequestType.List, list, listPrecondition),
-    definition.action(RequestType.Heal, heal, healPrecondition),
+    new BuyAction(checkBuilderFactory, eventService),
+    new SellAction(checkBuilderFactory, eventService),
+    new ListAction(checkBuilderFactory),
+    new HealAction(checkBuilderFactory, locationService, getHealerSpellTable(service)),
 
     // social
-    definition.action(RequestType.Gossip, gossip, socialPrecondition),
-    definition.action(RequestType.Say, say, socialPrecondition),
-    definition.action(RequestType.Tell, tell, tellPrecondition),
+    new GossipAction(socialService),
+    new SayAction(socialService),
+    new TellAction(socialService),
 
     // training
-    definition.action(RequestType.Train, train, trainPrecondition),
+    new TrainAction(checkBuilderFactory, locationService),
 
-    // hunger
-    definition.action(RequestType.Eat, eat, eatPrecondition),
+    // // moderation
+    new BanAction(checkBuilderFactory, mobService),
+    new UnbanAction(checkBuilderFactory, mobService),
+    new PromoteAction(checkBuilderFactory, mobService),
+    new DemoteAction(checkBuilderFactory, mobService),
 
-    // sacrifice
-    definition.action(RequestType.Sacrifice, sacrifice, sacrificePrecondition),
-
-    // moderation
-    definition.action(RequestType.Ban, ban, banPrecondition),
-    definition.action(RequestType.Unban, unban, unbanPrecondition),
-    definition.action(RequestType.Promote, promote, promotePrecondition),
-    definition.action(RequestType.Demote, demote, demotePrecondition),
+    // disposition
+    new WakeAction(checkBuilderFactory),
+    new SleepAction(checkBuilderFactory),
 
     // catch-all
-    definition.action(RequestType.Any,
-      request => Promise.resolve(getDefaultUnhandledMessage(request))),
+    new NoopAction(),
+    new AnyAction(),
     ]
 }

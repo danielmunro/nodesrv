@@ -34,12 +34,14 @@ const startRoomID = +process.argv[2]
 const port = +process.argv[3]
 console.time(Timings.init)
 assert.ok(startRoomID, "start room ID is required to be defined")
-const locationService = new LocationService()
+let locationService: LocationService
 console.log(`startup parameters:  port: ${port}, room: ${startRoomID}`)
 
 initializeConnection().then(async () => {
+  const eventService = new EventService()
   console.time(Timings.roomAndMobTables)
   const [ roomTable, mobTable, exitTable ] = await getAllRoomsAndMobs()
+  locationService = new LocationService(roomTable, exitTable, eventService)
   const mobService = await createMobService(mobTable, locationService)
   console.timeEnd(Timings.roomAndMobTables)
 
@@ -57,8 +59,7 @@ initializeConnection().then(async () => {
   console.timeEnd(Timings.seedItems)
 
   console.time(Timings.openPort)
-  const eventService = new EventService()
-  const gameService = new GameService(mobService, roomTable, itemService, exitTable, eventService)
+  const gameService = new GameService(mobService, roomTable, itemService, eventService)
   const startRoom = roomTable.getRooms().find(room => room.canonicalId === startRoomID)
   const clientService = new ClientService(
     eventService,

@@ -1,23 +1,23 @@
-import { MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_PLAYER } from "../action/constants"
-import { AffectType } from "../affect/affectType"
-import { Disposition } from "../mob/enum/disposition"
+import {MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_PLAYER} from "../action/constants"
+import {AffectType} from "../affect/affectType"
+import {Disposition} from "../mob/enum/disposition"
 import MobService from "../mob/mobService"
-import { Mob } from "../mob/model/mob"
-import { AuthorizationLevel, isSpecialAuthorizationLevel } from "../player/authorizationLevel"
+import {Mob} from "../mob/model/mob"
+import {AuthorizationLevel, isSpecialAuthorizationLevel} from "../player/authorizationLevel"
 import {Request} from "../request/request"
-import { Messages as SkillMessages } from "../skill/precondition/constants"
-import { SkillType } from "../skill/skillType"
-import { SpellType } from "../spell/spellType"
+import {Messages as SkillMessages} from "../skill/precondition/constants"
+import {SkillType} from "../skill/skillType"
+import {SpellType} from "../spell/spellType"
 import Maybe from "../support/functional/maybe"
 import collectionSearch from "../support/matcher/collectionSearch"
 import {format} from "../support/string"
 import Check from "./check"
 import CheckComponent from "./checkComponent"
 import CheckResult from "./checkResult"
-import { CheckType } from "./checkType"
+import {CheckType} from "./checkType"
 import {Messages} from "./constants"
 import Cost from "./cost/cost"
-import { CostType } from "./cost/costType"
+import {CostType} from "./cost/costType"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []
@@ -27,7 +27,9 @@ export default class CheckBuilder {
   private mob: Mob
   private captured: any
 
-  constructor(private readonly mobService: MobService, private readonly request: Request) {}
+  constructor(private readonly mobService: MobService, private readonly request: Request) {
+    this.mob = request.mob
+  }
 
   public requireMob(failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
     this.checks.push(this.newCheckComponent(
@@ -158,6 +160,10 @@ export default class CheckBuilder {
   }
 
   public requireDisposition(disposition: Disposition, failMessage: string) {
+    if (disposition === Disposition.Any) {
+      this.not()
+      disposition = Disposition.Dead
+    }
     this.checks.push(
       this.newCheckComponent(CheckType.Disposition, this.mob.disposition === disposition, failMessage))
     return this

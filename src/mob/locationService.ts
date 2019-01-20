@@ -1,9 +1,35 @@
+import EventService from "../event/eventService"
+import {EventType} from "../event/eventType"
+import {Direction} from "../room/constants"
+import ExitTable from "../room/exitTable"
 import { Room } from "../room/model/room"
+import RoomTable from "../room/roomTable"
+import MobEvent from "./event/mobEvent"
 import { Mob } from "./model/mob"
 import MobLocation from "./model/mobLocation"
 
 export default class LocationService {
-  constructor(private mobLocations: MobLocation[] = []) {}
+  constructor(
+    private readonly roomTable: RoomTable,
+    private readonly exitTable: ExitTable,
+    private readonly eventService: EventService,
+    private mobLocations: MobLocation[] = []) {}
+
+  public async moveMob(mob: Mob, direction: Direction) {
+    const location = this.getLocationForMob(mob)
+    const exits = this.exitTable.exitsForRoom(location.room)
+    const exit = exits.find(e => e.direction === direction)
+
+    if (!exit) {
+      throw new Error("cannot move in that direction")
+    }
+
+    const source = this.roomTable.get(exit.source.uuid)
+    const destination = this.roomTable.get(exit.destination.uuid)
+    this.updateMobLocation(mob, destination)
+    await this.eventService.publish(new MobEvent(EventType.MobLeft, mob, source))
+    await this.eventService.publish(new MobEvent(EventType.MobArrived, mob, destination))
+  }
 
   public getMobLocationCount(): number {
     return this.mobLocations.length
@@ -14,12 +40,12 @@ export default class LocationService {
   }
 
   public updateMobLocation(mob: Mob, room: Room) {
-    return this.mobLocations.find(mobLocation => {
+    for (const mobLocation of this.mobLocations) {
       if (mobLocation.mob.uuid === mob.uuid) {
         mobLocation.room = room
-        return true
+        return
       }
-    })
+    }
   }
 
   public getLocationForMob(mob: Mob): MobLocation {

@@ -1,4 +1,4 @@
-import {ActionType} from "../action/actionType"
+import {ActionType} from "../action/enum/actionType"
 import {AffectType} from "../affect/affectType"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"

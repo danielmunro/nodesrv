@@ -2,6 +2,7 @@ import {AffectType} from "../affect/affectType"
 import {newAffect} from "../affect/factory"
 import {Disposition} from "../mob/enum/disposition"
 import {Mob} from "../mob/model/mob"
+import {RequestType} from "../request/requestType"
 import TestBuilder from "../test/testBuilder"
 import CheckBuilder from "./checkBuilder"
 
@@ -14,9 +15,8 @@ let mob: Mob
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   const gameService = await testBuilder.getService()
-  checkBuilder = new CheckBuilder(gameService.mobService)
   mob = testBuilder.withMob().mob
-  checkBuilder.forMob(mob)
+  checkBuilder = new CheckBuilder(gameService.mobService, testBuilder.createRequest(RequestType.Noop))
   checkBuilder.capture(mob)
 })
 

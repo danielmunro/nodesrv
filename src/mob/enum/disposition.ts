@@ -5,6 +5,7 @@ export enum Disposition {
   Sitting = "sitting",
   Sleeping = "sleeping",
   Dead = "dead",
+  Any = "any",
 }
 
 export function onlyLiving(mob: Mob): boolean {

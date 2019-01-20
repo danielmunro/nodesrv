@@ -1,6 +1,7 @@
 import ServiceBuilder from "../gameService/serviceBuilder"
 import { newContainer } from "../item/factory"
 import { Item } from "../item/model/item"
+import {Disposition} from "../mob/enum/disposition"
 import { Mob } from "../mob/model/mob"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
@@ -36,6 +37,12 @@ export default class MobBuilder extends AbstractBuilder {
 
   public withLevel(level: number) {
     this.mob.level = level
+
+    return this
+  }
+
+  public withDisposition(disposition: Disposition) {
+    this.mob.disposition = disposition
 
     return this
   }

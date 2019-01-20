@@ -1,11 +1,9 @@
-import { ActionType } from "../action/actionType"
-import { Action } from "../action/action"
+import { ActionType } from "../action/enum/actionType"
 import {AffectType} from "../affect/affectType"
 import Cost from "../check/cost/cost"
 import { DamageType } from "../damage/damageType"
 import { improveSpell } from "../improve/improve"
 import SpecializationLevel from "../mob/specialization/specializationLevel"
-import { RequestType } from "../request/requestType"
 import Skill from "../skill/skill"
 import { SkillType } from "../skill/skillType"
 import Spell from "../spell/spell"
@@ -14,10 +12,6 @@ import GameService from "./gameService"
 
 export default class DefinitionService {
   constructor(private readonly gameService: GameService) {}
-
-  public action(requestType: RequestType, action, precondition = null): Action {
-    return new Action(this.gameService, requestType, action, precondition)
-  }
 
   public skill(
     skillType: SkillType,

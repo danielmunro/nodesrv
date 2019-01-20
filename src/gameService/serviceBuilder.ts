@@ -16,9 +16,9 @@ import { default as RoomTable } from "../room/roomTable"
 import GameService from "./gameService"
 
 export default class ServiceBuilder {
-  public readonly locationService: LocationService = new LocationService([])
   private time: number = 0
   private fights: Fight[] = []
+  private locations: MobLocation[] = []
 
   constructor(
     private rooms: Room[] = [],
@@ -51,19 +51,20 @@ export default class ServiceBuilder {
   }
 
   public addMobLocation(mobLocation: MobLocation) {
-    this.locationService.addMobLocation(mobLocation)
+    this.locations.push(mobLocation)
   }
 
   public async createService(eventService: EventService = new EventService()): Promise<GameService> {
+    const roomTable = RoomTable.new(this.rooms)
+    const locationService = new LocationService(roomTable, new ExitTable(this.exits), eventService, this.locations)
     return new GameService(
       new MobService(
         new MobTable(this.mobs),
         new MobTable(this.mobs),
         new FightTable(this.fights),
-        this.locationService),
-      RoomTable.new(this.rooms),
+        locationService),
+      roomTable,
       new ItemService(new ItemTable(this.items), new ItemTable(this.items)),
-      new ExitTable(this.locationService, this.exits),
       eventService,
       this.time)
   }

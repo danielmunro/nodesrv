@@ -1,22 +1,15 @@
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
 import { CheckStatus } from "../check/checkStatus"
-import GameService from "../gameService/gameService"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import Response from "../request/response"
 import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 
-export class Action {
-  constructor(
-    private readonly service: GameService,
-    private readonly requestType: RequestType,
-    private readonly callback: (request: Request|CheckedRequest, service: GameService) => Promise<Response>,
-    private readonly precondition: (request: Request, service: GameService) => Promise<Check> = null,
-    ) {}
-
+export default abstract class Action {
   public isAbleToHandleRequestType(requestType: RequestType): boolean {
-    return this.requestType.startsWith(requestType) || this.requestType === RequestType.Any
+    const thisRequestType = this.getRequestType()
+    return thisRequestType.startsWith(requestType) || requestType === RequestType.Any
   }
 
   public async handle(request: Request): Promise<Response> {
@@ -24,15 +17,15 @@ export class Action {
       throw new Error(MESSAGE_REQUEST_TYPE_MISMATCH)
     }
 
-    if (this.precondition) {
-      const checkResponse = await this.precondition(request, this.service)
-      if (checkResponse.status === CheckStatus.Failed) {
-        return request.respondWith().fail(checkResponse.result)
-      }
-
-      return this.callback(new CheckedRequest(request, checkResponse), this.service)
+    const checkResponse = await this.check(request)
+    if (checkResponse.status === CheckStatus.Failed) {
+      return request.respondWith().fail(checkResponse.result)
     }
 
-    return this.callback(request, this.service)
+    return this.invoke(new CheckedRequest(request, checkResponse))
   }
+
+  public abstract check(request: Request): Promise<Check>
+  public abstract invoke(checkedRequest: CheckedRequest): Promise<Response>
+  protected abstract getRequestType(): RequestType
 }

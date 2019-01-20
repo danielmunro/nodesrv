@@ -15,6 +15,10 @@ import {Tick} from "./tick"
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
+function getLocationService(clients) {
+  return new LocationService(null, null, null, clients.map(c => newMobLocation(c.getSessionMob(), getTestRoom())))
+}
+
 describe("ticks", () => {
   it("should call tick on all clients", async () => {
     // given
@@ -29,7 +33,7 @@ describe("ticks", () => {
     const tick = new Tick(
       new TimeService(),
       new EventService(),
-      new LocationService(clients.map(c => newMobLocation(c.getSessionMob(), getTestRoom()))))
+      getLocationService(clients))
 
     // when
     await tick.notify(clients)
@@ -58,7 +62,7 @@ describe("ticks", () => {
       new EventService([
         new FastHealingEventConsumer(mockSkill),
       ]),
-      new LocationService(clients.map(c => newMobLocation(c.getSessionMob(), getTestRoom())))).notify(clients)
+      getLocationService(clients)).notify(clients)
 
     // then
     expect(mockSkill.doAction.mock.calls.length).toBe(1)

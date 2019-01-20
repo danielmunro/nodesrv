@@ -1,4 +1,4 @@
-import {ActionType} from "../action/actionType"
+import {ActionType} from "../action/enum/actionType"
 import affectTable from "../affect/affectTable"
 import {AffectType} from "../affect/affectType"
 import {StackBehavior} from "../affect/stackBehavior"

@@ -1,4 +1,4 @@
-import {Action} from "../action/action"
+import Action from "../action/action"
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckStatus} from "../check/checkStatus"
@@ -65,7 +65,7 @@ export default class TestBuilder {
       ws(),
       "127.0.0.1",
       service.getActions(),
-      this.serviceBuilder.locationService,
+      service.mobService.locationService,
       await this.getEventService())
     await client.session.login(client, this.player)
     this.mobForRequest = client.getSessionMob()
@@ -167,7 +167,7 @@ export default class TestBuilder {
       await this.getEventService(),
       this.mobForRequest, target,
       this.room)
-    this.serviceBuilder.addFight(fight)
+    this.service.mobService.addFight(fight)
 
     return fight
   }
@@ -193,11 +193,7 @@ export default class TestBuilder {
     return new RequestBuilder(this.mobForRequest, this.room)
   }
 
-  public async getActionCollection(): Promise<Action[]> {
-    return (await this.getService()).getActions()
-  }
-
-  public async getActionDefinition(requestType: RequestType) {
+  public async getActionDefinition(requestType: RequestType): Promise<Action> {
     return (await this.getService()).getActionDefinition(requestType)
   }
 

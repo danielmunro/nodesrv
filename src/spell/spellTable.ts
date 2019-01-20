@@ -1,4 +1,4 @@
-import { ActionType } from "../action/actionType"
+import { ActionType } from "../action/enum/actionType"
 import {AffectType} from "../affect/affectType"
 import { DamageType } from "../damage/damageType"
 import GameService from "../gameService/gameService"

@@ -8,7 +8,7 @@ import {getConnection, initializeConnection} from "../support/db/connection"
 import { getTestClientLoggedOut } from "../test/client"
 import { getTestRoom } from "../test/room"
 import TestBuilder from "../test/testBuilder"
-import { Client, getDefaultUnhandledMessage } from "./client"
+import { Client } from "./client"
 import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
 
 function getNewTestMessageEvent(message = "hello world") {
@@ -141,7 +141,7 @@ describe("clients", () => {
     const response = await client.handleRequest(request)
 
     // then
-    expect(response).toEqual(await getDefaultUnhandledMessage(request))
+    expect(response.message.getMessageToRequestCreator()).toEqual(MESSAGE_NOT_UNDERSTOOD)
   })
 
   it("invokes the default request action when input has no action handler", async () => {
