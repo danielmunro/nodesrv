@@ -16,12 +16,20 @@ export async function createResetService(
   const mobEquipResetRepository = await getMobEquipResetRepository()
   const itemContainerResetRepository = await getItemContainerResetRepository()
 
+  const [ mobResets, itemMobResets, itemRoomResets, mobEquipResets, itemContainerResets ] = await Promise.all([
+    mobResetRepository.findAll(),
+    itemMobResetRepository.findAll(),
+    itemRoomResetRepository.findAll(),
+    mobEquipResetRepository.findAll(),
+    itemContainerResetRepository.findAll(),
+  ])
+
   return new ResetService(
-    await mobResetRepository.findAll(),
-    await itemMobResetRepository.findAll(),
-    await itemRoomResetRepository.findAll(),
-    await mobEquipResetRepository.findAll(),
-    await itemContainerResetRepository.findAll(),
+    mobResets,
+    itemMobResets,
+    itemRoomResets,
+    mobEquipResets,
+    itemContainerResets,
     mobService,
     roomTable,
     itemService)
