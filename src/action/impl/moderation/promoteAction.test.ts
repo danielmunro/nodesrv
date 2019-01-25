@@ -1,4 +1,5 @@
 import { CheckStatus } from "../../../check/checkStatus"
+import {Messages} from "../../../check/constants"
 import GameService from "../../../gameService/gameService"
 import { Standing } from "../../../mob/enum/standing"
 import { AuthorizationLevel } from "../../../player/authorizationLevel"
@@ -12,8 +13,6 @@ import Action from "../../action"
 import {
   MESSAGE_FAIL_BANNED,
   MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS,
-  MESSAGE_FAIL_NOT_AUTHORIZED,
-  MESSAGE_FAIL_NOT_PLAYER,
 } from "../../constants"
 
 const MOB_TO_PROMOTE = "bob"
@@ -48,7 +47,7 @@ describe("promote moderation preconditions", () => {
       const check = await action.check(
         requestBuilder.create(RequestType.Promote, `promote ${playerToPromote.sessionMob.name}`))
       expect(check.status).toBe(CheckStatus.Failed)
-      expect(check.result).toBe(MESSAGE_FAIL_NOT_AUTHORIZED)
+      expect(check.result).toBe(Messages.NotAuthorized)
     }))
   })
 
@@ -95,6 +94,6 @@ describe("promote moderation preconditions", () => {
     const check = await action.check(requestBuilder.create(RequestType.Promote, `promote ${mob.name}`))
 
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_NOT_PLAYER)
+    expect(check.result).toBe(Messages.NotAPlayer)
   })
 })

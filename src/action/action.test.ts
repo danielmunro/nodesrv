@@ -1,7 +1,6 @@
 import { RequestType } from "../request/requestType"
 import TestBuilder from "../test/testBuilder"
 import Action from "./action"
-import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 
 let testBuilder: TestBuilder
 let noopDefinition: Action
@@ -20,7 +19,7 @@ describe("Action", () => {
   it("applyCallback should fail on different request types", async () => {
     const def = await testBuilder.getActionDefinition(RequestType.Noop)
     await expect(def.handle(testBuilder.createRequest(RequestType.Gossip)))
-      .rejects.toThrowError(MESSAGE_REQUEST_TYPE_MISMATCH)
+      .rejects.toThrowError()
   })
 
   it("applyCallback should succeed on matching request types", async () => {

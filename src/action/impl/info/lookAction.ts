@@ -14,8 +14,7 @@ import Response from "../../../request/response"
 import ResponseBuilder from "../../../request/responseBuilder"
 import match from "../../../support/matcher/match"
 import Action from "../../action"
-import {NOT_FOUND} from "../../constants"
-import {MESSAGE_LOOK_CANNOT_SEE} from "../../constants"
+import {Messages} from "../../constants"
 
 export default class LookAction extends Action {
   constructor(
@@ -29,7 +28,7 @@ export default class LookAction extends Action {
     const room = request.getRoom()
 
     if (request.mob.getAffect(AffectType.Blind)) {
-      return Check.fail(MESSAGE_LOOK_CANNOT_SEE)
+      return Check.fail(Messages.Look.Fail)
     }
 
     if (this.somethingIsGlowing(request)) {
@@ -39,7 +38,7 @@ export default class LookAction extends Action {
     const ableToSee = this.isAbleToSee(request.mob, room.region)
 
     if (!ableToSee) {
-      return Check.fail(MESSAGE_LOOK_CANNOT_SEE)
+      return Check.fail(Messages.Look.Fail)
     }
 
     return Check.ok()
@@ -91,7 +90,7 @@ export default class LookAction extends Action {
       return builder.info(item.describe())
     }
 
-    return builder.error(NOT_FOUND)
+    return builder.error(Messages.Look.NotFound)
   }
 
   protected somethingIsGlowing(request: Request) {

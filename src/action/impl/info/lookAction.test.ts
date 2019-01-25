@@ -11,8 +11,7 @@ import { ResponseStatus } from "../../../request/responseStatus"
 import { Room } from "../../../room/model/room"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
-import { NOT_FOUND } from "../../constants"
-import {MESSAGE_LOOK_CANNOT_SEE} from "../../constants"
+import {Messages} from "../../constants"
 
 let testBuilder: TestBuilder
 let room: Room
@@ -52,7 +51,7 @@ describe("look", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.message.getMessageToRequestCreator()).toBe(NOT_FOUND)
+    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Look.NotFound)
   })
 
   it("should describe a mob when a mob is present", async () => {
@@ -103,7 +102,7 @@ describe("look", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.Look))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(MESSAGE_LOOK_CANNOT_SEE)
+    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Look.Fail)
   })
 
   it("should see in a dark room if holding something glowing", async () => {
@@ -117,7 +116,7 @@ describe("look", () => {
     const response1 = await definition.handle(testBuilder.createRequest(RequestType.Look))
 
     // then
-    expect(response1.message.getMessageToRequestCreator()).toBe(MESSAGE_LOOK_CANNOT_SEE)
+    expect(response1.message.getMessageToRequestCreator()).toBe(Messages.Look.Fail)
     expect(response1.status).toBe(ResponseStatus.ActionFailed)
 
     // and

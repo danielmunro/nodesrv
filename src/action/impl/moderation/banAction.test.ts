@@ -1,4 +1,5 @@
 import { CheckStatus } from "../../../check/checkStatus"
+import {Messages} from "../../../check/constants"
 import GameService from "../../../gameService/gameService"
 import { AuthorizationLevel } from "../../../player/authorizationLevel"
 import { Player } from "../../../player/model/player"
@@ -14,8 +15,6 @@ import {
   MESSAGE_FAIL_ALREADY_BANNED,
   MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS,
   MESSAGE_FAIL_NO_TARGET,
-  MESSAGE_FAIL_NOT_AUTHORIZED,
-  MESSAGE_FAIL_NOT_PLAYER,
 } from "../../constants"
 
 const MOB_TO_BAN = "bob"
@@ -58,7 +57,7 @@ describe("ban moderation preconditions", () => {
 
     // then
     expect(response.status).toBe(CheckStatus.Failed)
-    expect(response.result).toBe(MESSAGE_FAIL_NOT_AUTHORIZED)
+    expect(response.result).toBe(Messages.NotAuthorized)
   })
 
   it("should apply a ban (sanity)", async () => {
@@ -103,6 +102,6 @@ describe("ban moderation preconditions", () => {
 
     // then
     expect(response.status).toBe(CheckStatus.Failed)
-    expect(response.result).toBe(MESSAGE_FAIL_NOT_PLAYER)
+    expect(response.result).toBe(Messages.NotAPlayer)
   })
 })

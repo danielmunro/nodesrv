@@ -4,7 +4,6 @@ import { CheckStatus } from "../check/checkStatus"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import Response from "../request/response"
-import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
 
 export default abstract class Action {
   public isAbleToHandleRequestType(requestType: RequestType): boolean {
@@ -14,7 +13,7 @@ export default abstract class Action {
 
   public async handle(request: Request): Promise<Response> {
     if (!this.isAbleToHandleRequestType(request.getType())) {
-      throw new Error(MESSAGE_REQUEST_TYPE_MISMATCH)
+      throw new Error("request type mismatch")
     }
 
     const checkResponse = await this.check(request)

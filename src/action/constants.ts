@@ -1,9 +1,4 @@
 export const MESSAGE_FAIL_NO_TARGET = "They aren't here."
-export const MESSAGE_FAIL_NOT_PLAYER = "They are not a player."
-export const MESSAGE_FAIL_NOT_AUTHORIZED = "You cannot do that."
-export const MESSAGE_REQUEST_TYPE_MISMATCH = "Request type mismatch"
-export const NOT_FOUND = "You don't see that anywhere."
-export const MESSAGE_LOOK_CANNOT_SEE = "You can't see anything!"
 export const MESSAGE_SUCCESS_STR = "You become stronger!"
 export const MESSAGE_SUCCESS_INT = "You gain in intelligence!"
 export const MESSAGE_SUCCESS_WIS = "Your wisdom increases!"
@@ -47,6 +42,10 @@ export const Messages = {
   },
   Lock: {
     Success: "{requestCreator} {lockVerb} a {door} {direction}.",
+  },
+  Look: {
+    Fail: "You can't see anything!",
+    NotFound: "You don't see that anywhere.",
   },
   Lore: {
     Success: "{item} details:\nlevel: {level}  weight: {weight}  value: {value}",

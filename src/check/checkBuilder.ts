@@ -1,4 +1,4 @@
-import {MESSAGE_FAIL_NO_TARGET, MESSAGE_FAIL_NOT_AUTHORIZED, MESSAGE_FAIL_NOT_PLAYER} from "../action/constants"
+import {MESSAGE_FAIL_NO_TARGET} from "../action/constants"
 import {AffectType} from "../affect/affectType"
 import {Disposition} from "../mob/enum/disposition"
 import MobService from "../mob/mobService"
@@ -56,7 +56,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public requirePlayer(mob: Mob, failMessage = MESSAGE_FAIL_NOT_PLAYER): CheckBuilder {
+  public requirePlayer(mob: Mob, failMessage = Messages.NotAPlayer): CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.IsPlayer,
       new Maybe(mob).do(m => !m.traits.isNpc).or(() => false).get(),
@@ -66,7 +66,7 @@ export default class CheckBuilder {
   }
 
   public requireSpecialAuthorization(
-    authorizationLevel: AuthorizationLevel, failMessage = MESSAGE_FAIL_NOT_AUTHORIZED) {
+    authorizationLevel: AuthorizationLevel, failMessage = Messages.NotAuthorized) {
     this.checks.push(this.newCheckComponent(
       CheckType.AuthorizationLevel,
       isSpecialAuthorizationLevel(authorizationLevel),
@@ -76,7 +76,7 @@ export default class CheckBuilder {
   }
 
   public requireImmortal(
-    authorizationLevel: AuthorizationLevel, failMessage = MESSAGE_FAIL_NOT_AUTHORIZED) {
+    authorizationLevel: AuthorizationLevel, failMessage = Messages.NotAuthorized) {
     this.checks.push(this.newCheckComponent(
       CheckType.AuthorizationLevel,
       authorizationLevel === AuthorizationLevel.Immortal,
