@@ -207,7 +207,7 @@ export default class CheckBuilder {
     let lastThing
 
     const checkFail = this.checks.find(checkComponent => {
-      const checkResult = checkComponent.getThing(this.captured ? this.captured : lastThing)
+      const checkResult = checkComponent.getThing(this.captured ? this.captured : lastThing, lastThing)
       this.checkResults.push(new CheckResult(checkComponent.checkType, checkResult))
       lastThing = checkResult
       return !checkResult && checkComponent.isRequired

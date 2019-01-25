@@ -1,7 +1,5 @@
 import Action from "../action/action"
-import Check from "../check/check"
-import CheckedRequest from "../check/checkedRequest"
-import {CheckStatus} from "../check/checkStatus"
+import Skill from "../action/skill"
 import {Client} from "../client/client"
 import eventConsumerTable from "../event/eventConsumerTable"
 import EventService from "../event/eventService"
@@ -28,7 +26,6 @@ import {Room} from "../room/model/room"
 import ClientService from "../server/clientService"
 import {GameServer} from "../server/server"
 import Session from "../session/session"
-import Skill from "../skill/skill"
 import {getSkillTable} from "../skill/skillTable"
 import {SkillType} from "../skill/skillType"
 import Spell from "../spell/spell"
@@ -172,13 +169,6 @@ export default class TestBuilder {
     return fight
   }
 
-  public createOkCheckedRequest(
-    requestType: RequestType,
-    input: string = null,
-    result: any = null): CheckedRequest {
-    return this.createCheckedRequest(requestType, CheckStatus.Ok, input, result)
-  }
-
   public createRequest(
     requestType: RequestType,
     input: string = requestType.toString(),
@@ -198,7 +188,7 @@ export default class TestBuilder {
   }
 
   public async getSkillDefinition(skillType: SkillType): Promise<Skill> {
-    return getSkillTable(await this.getService()).find(skill => skill.skillType === skillType)
+    return getSkillTable(await this.getService()).find(skill => skill.getSkillType() === skillType)
   }
 
   public async getSpellDefinition(spellType: SpellType): Promise<Spell> {
@@ -250,20 +240,5 @@ export default class TestBuilder {
       this.service.itemService,
       new FightBuilder(this.eventService, this.service.mobService.locationService))
     eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
-  }
-
-  private createCheckedRequest(
-    requestType: RequestType,
-    checkStatus: CheckStatus,
-    input: string = null,
-    result: any = null): CheckedRequest {
-    if (!input) {
-      input = requestType.toString()
-    }
-
-    return new CheckedRequest(
-      new Request(this.player.sessionMob, this.room, new InputContext(requestType, input)),
-      new Check(checkStatus, result),
-    )
   }
 }

@@ -6,12 +6,13 @@ describe("skill table", () => {
   it("should be able to invoke a weapon skill", async () => {
     // setup
     const testBuilder = new TestBuilder()
+    testBuilder.withMob().withSkill(SkillType.Axe)
 
     // given
     const skill = await testBuilder.getSkillDefinition(SkillType.Axe)
 
     // when
-    const response = await skill.doAction(testBuilder.createRequest(RequestType.Noop))
+    const response = await skill.handle(testBuilder.createRequest(RequestType.Noop))
 
     // then
     expect(response.isSuccessful()).toBeTruthy()

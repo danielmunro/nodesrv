@@ -1,8 +1,4 @@
-import InputContext from "../request/context/inputContext"
-import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
-import { getTestMob } from "../test/mob"
-import { getTestRoom } from "../test/room"
 import TestBuilder from "../test/testBuilder"
 import Action from "./action"
 import { MESSAGE_REQUEST_TYPE_MISMATCH } from "./constants"
@@ -32,16 +28,5 @@ describe("Action", () => {
     noopDefinition.handle(testBuilder.createRequest(RequestType.Noop))
       .then(callback)
       .then(() => expect(callback).toBeCalled())
-  })
-
-  it("'AnyAction' action can handle different types of requests", async () => {
-    const testCases = [RequestType.Noop, RequestType.Look, RequestType.Gossip]
-    testCases.forEach((requestType) => {
-      const callback = jest.fn()
-      noopDefinition
-        .handle(new Request(getTestMob(), getTestRoom(), new InputContext(requestType)))
-        .then(callback)
-        .then(() => expect(callback).toBeCalled())
-    })
   })
 })

@@ -1,6 +1,9 @@
 import { Mob } from "../mob/model/mob"
 import { Request } from "../request/request"
+import Response from "../request/response"
 import ResponseBuilder from "../request/responseBuilder"
+import ResponseMessage from "../request/responseMessage"
+import {ResponseStatus} from "../request/responseStatus"
 import { Room } from "../room/model/room"
 import Maybe from "../support/functional/maybe"
 import Check from "./check"
@@ -29,7 +32,16 @@ export default class CheckedRequest {
       .get()
   }
 
+  public results(...checkTypes: CheckType[]) {
+    return checkTypes.map(checkType => this.getCheckTypeResult(checkType))
+  }
+
   public respondWith(): ResponseBuilder {
     return new ResponseBuilder(this)
+  }
+
+  public response(responseStatus: ResponseStatus, message: string, toRequestCreator, toTarget, toObservers): Response {
+    return new Response(this, responseStatus, new ResponseMessage(
+      this.mob, message, toRequestCreator, toTarget, toObservers))
   }
 }

@@ -42,6 +42,16 @@ import SouthAction from "./impl/move/southAction"
 import UpAction from "./impl/move/upAction"
 import WestAction from "./impl/move/westAction"
 import NoopAction from "./impl/noopAction"
+import BackstabAction from "./impl/skill/backstabAction"
+import BashAction from "./impl/skill/bashAction"
+import BerserkAction from "./impl/skill/berserkAction"
+import DirtKickAction from "./impl/skill/dirtKickAction"
+import DisarmAction from "./impl/skill/disarmAction"
+import EnvenomAction from "./impl/skill/envenomAction"
+import SharpenAction from "./impl/skill/sharpenAction"
+import SneakAction from "./impl/skill/sneakAction"
+import StealAction from "./impl/skill/stealAction"
+import TripAction from "./impl/skill/tripAction"
 import GossipAction from "./impl/social/gossipAction"
 import SayAction from "./impl/social/sayAction"
 import TellAction from "./impl/social/tellAction"
@@ -82,13 +92,16 @@ export default function getActionTable(service: GameService): Action[] {
     new FleeAction(checkBuilderFactory, mobService, locationService),
 
     // skills
-    // definition.action(RequestType.Bash, bash, defaultSkillPrecondition),
-    // definition.action(RequestType.Berserk, berserk, defaultSkillPrecondition),
-    // definition.action(RequestType.Disarm, disarm, disarmPrecondition),
-    // definition.action(RequestType.Envenom, envenom, envenomPrecondition),
-    // definition.action(RequestType.Sneak, sneak, sneakPrecondition),
-    // definition.action(RequestType.Trip, trip, fightSkillPrecondition),
-    // definition.action(RequestType.Steal, steal, stealPrecondition),
+    new BackstabAction(checkBuilderFactory),
+    new BashAction(checkBuilderFactory),
+    new BerserkAction(checkBuilderFactory),
+    new DirtKickAction(checkBuilderFactory),
+    new DisarmAction(checkBuilderFactory),
+    new TripAction(checkBuilderFactory),
+    new EnvenomAction(checkBuilderFactory),
+    new SharpenAction(checkBuilderFactory),
+    new SneakAction(checkBuilderFactory),
+    new StealAction(eventService, checkBuilderFactory),
 
     // casting
     new CastAction(checkBuilderFactory, service, getSpellTable(service)),

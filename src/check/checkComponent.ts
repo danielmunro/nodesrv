@@ -11,17 +11,17 @@ export default class CheckComponent {
     this.isRequired = this.failMessage !== null
   }
 
-  public getThing(lastThing = null): any {
+  public getThing(captured = null, lastThing = null): any {
     if (this.confirm) {
-      return this.calculateThing(lastThing)
+      return this.calculateThing(captured, lastThing)
     }
 
-    return !this.calculateThing(lastThing)
+    return !this.calculateThing(captured, lastThing)
   }
 
-  private calculateThing(lastThing = null) {
+  private calculateThing(captured = null, lastThing = null) {
     if (typeof this.thing === "function") {
-      return this.thing(lastThing)
+      return this.thing(captured, lastThing)
     }
 
     return this.thing

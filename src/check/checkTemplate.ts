@@ -1,11 +1,11 @@
 import {ActionType} from "../action/enum/actionType"
+import Skill from "../action/skill"
 import affectTable from "../affect/affectTable"
 import {AffectType} from "../affect/affectType"
 import {StackBehavior} from "../affect/stackBehavior"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import {Request} from "../request/request"
-import Skill from "../skill/skill"
 import Spell from "../spell/spell"
 import CheckBuilder from "./checkBuilder"
 import {CheckType} from "./checkType"
@@ -36,21 +36,24 @@ export default class CheckTemplate {
     return checkBuilder
   }
 
-  public perform(skillDefinition: Skill): CheckBuilder {
+  public perform(skill: Skill): CheckBuilder {
     const checkBuilder = new CheckBuilder(this.mobService, this.request)
       .forMob(this.request.mob)
-      .requireSkill(skillDefinition.skillType)
-      .atLevelOrGreater(skillDefinition.getLevelFor(this.request.mob.specialization).minimumLevel)
+      .requireSkill(skill.getSkillType())
+      .atLevelOrGreater(skill.getSpecializationLevel(this.request.mob.specialization).minimumLevel)
       .capture(this.request.mob)
 
-    skillDefinition.costs.forEach(cost => checkBuilder.addCost(cost))
-    this.checkActionType(checkBuilder, skillDefinition.actionType)
-    this.checkAffectStackingBehavior(checkBuilder, skillDefinition.affect)
+    skill.getCosts().forEach(cost => checkBuilder.addCost(cost))
+    this.checkAffectStackingBehavior(checkBuilder, skill.getAffectType())
+    this.checkActionType(checkBuilder, skill.getActionType())
 
     return checkBuilder
   }
 
   private checkAffectStackingBehavior(checkBuilder: CheckBuilder, affectType: AffectType) {
+    if (!affectType) {
+      return
+    }
     const affectDefinition = affectTable.find(a => a.affectType === affectType)
     if (affectDefinition && affectDefinition.stackBehavior === StackBehavior.NoReplace) {
       checkBuilder.not().requireAffect(affectType, affectDefinition.stackMessage)

@@ -2,7 +2,7 @@ const defaultSuccess = "{requestCreator} {verb} {target}!"
 
 export const Messages = {
   Backstab: {
-    Failure: "{target} dodges {requestCreator} backstab!",
+    Failure: "{target} {verb} {requestCreator} backstab!",
     Success: defaultSuccess,
   },
   Disarm: {

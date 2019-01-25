@@ -1,8 +1,8 @@
 export const Messages = {
   Bash: {
-    Fail: "You fall flat on your face!",
+    Fail: "{requestCreator} {verb} flat on {requestCreator2} face!",
     NoSkill: "You bash around helplessly.",
-    Success: `You slam into {target} and send them flying!`,
+    Success: "{requestCreator} {verb} into {target} and {verb2} {target2} flying!",
   },
   Berserk: {
     Fail: "You fail to summon your inner rage.",
@@ -48,6 +48,7 @@ export const Costs = {
     Mv: 20,
   },
   Envenom: {
+    Delay: 2,
     Mana: 100,
   },
   Sharpen: {

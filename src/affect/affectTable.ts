@@ -10,4 +10,5 @@ export default [
   new AffectDefinition(AffectType.Poison, StackBehavior.Replace),
   new AffectDefinition(AffectType.Curse, StackBehavior.NoReplace),
   new AffectDefinition(AffectType.Blind, StackBehavior.NoReplace, Messages.Blind.AlreadyBlind),
+  new AffectDefinition(AffectType.Stunned, StackBehavior.Replace),
 ]

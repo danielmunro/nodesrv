@@ -1,20 +1,16 @@
 import Action from "../action/action"
 import getActionTable from "../action/actionTable"
-import CheckBuilder from "../check/checkBuilder"
+import Skill from "../action/skill"
 import Event from "../event/event"
 import EventResponse from "../event/eventResponse"
 import EventService from "../event/eventService"
 import ItemService from "../item/itemService"
-import {Disposition} from "../mob/enum/disposition"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
-import {Messages} from "../request/constants"
-import {Request} from "../request/request"
 import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import {Room} from "../room/model/room"
 import {default as RoomTable} from "../room/roomTable"
-import Skill from "../skill/skill"
 import {getSkillTable} from "../skill/skillTable"
 import {SkillType} from "../skill/skillType"
 import Spell from "../spell/spell"
@@ -72,20 +68,10 @@ export default class GameService {
   }
 
   public getSkillDefinition(skillType: SkillType): Skill {
-    return this.skillTable.find(skill => skill.skillType === skillType)
+    return this.skillTable.find(skill => skill.getSkillType() === skillType)
   }
 
   public getSpellDefinition(spellType: SpellType): Spell {
     return this.spellTable.find(spell => spell.spellType === spellType)
-  }
-
-  public createDefaultCheckFor(request: Request): CheckBuilder {
-    return this.createCheckFor(request).requireDisposition(Disposition.Standing, Messages.NotStanding)
-  }
-
-  public createCheckFor(request: Request): CheckBuilder {
-    return new CheckBuilder(this.mobService, request)
-      .forMob(request.mob)
-      .not().requireDisposition(Disposition.Dead, Messages.Dead)
   }
 }
