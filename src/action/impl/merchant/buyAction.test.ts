@@ -7,7 +7,6 @@ import { ResponseStatus } from "../../../request/responseStatus"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 import {ConditionMessages} from "../../constants"
-import {MESSAGE_ERROR_NO_ITEM} from "../../constants"
 
 let testBuilder: TestBuilder
 let action: Action
@@ -72,7 +71,7 @@ describe("buy action", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_ERROR_NO_ITEM)
+    expect(check.result).toBe(ConditionMessages.Buy.MerchantNoItem)
   })
 
   it("should fail if the item is too expensive", async () => {

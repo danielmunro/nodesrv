@@ -1,12 +1,3 @@
-export const MESSAGE_SUCCESS_STR = "You become stronger!"
-export const MESSAGE_SUCCESS_INT = "You gain in intelligence!"
-export const MESSAGE_SUCCESS_WIS = "Your wisdom increases!"
-export const MESSAGE_SUCCESS_DEX = "Your dexterity increases!"
-export const MESSAGE_SUCCESS_CON = "Your constitution grows!"
-export const MESSAGE_SUCCESS_STA = "Your stamina increases!"
-export const MESSAGE_SUCCESS_HP = "Your hp increases!"
-export const MESSAGE_SUCCESS_MANA = "Your mana increases!"
-export const MESSAGE_SUCCESS_MV = "Your movement increases!"
 export const MAX_TRAINABLE_STATS = 4
 export const FLEE_MOVEMENT_COST_MULTIPLIER = 3
 export const Messages = {
@@ -68,7 +59,16 @@ export const Messages = {
     Success: "You lay down and go to sleep.",
   },
   Train: {
+    Con: "Your constitution grows!",
+    Dex: "Your dexterity increases!",
+    Hp: "Your hp increases!",
     Info: "You can train: {0}hp mana mv",
+    Int: "You gain in intelligence!",
+    Mana: "Your mana increases!",
+    Mv: "Your movement increases!",
+    Sta: "Your stamina increases!",
+    Str: "You become stronger!",
+    Wis: "Your wisdom increases!",
   },
   Unlock: {
     Success: "{requestCreator} {unlockVerb} a {door} {direction}.",
@@ -77,7 +77,6 @@ export const Messages = {
     Success: "You wake and stand up.",
   },
 }
-export const MESSAGE_ERROR_NO_ITEM = "They don't have that."
 export const MESSAGE_FAIL_CONTAINER_NOT_FOUND = "That container isn't here."
 export const MESSAGE_FAIL_NOT_FIGHTING = "You're not fighting anyone."
 export const MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE = "You don't see any directions to flee."
@@ -120,6 +119,7 @@ export const ConditionMessages = {
   },
   Buy: {
     CannotAfford: "You can't afford it.",
+    MerchantNoItem: "They don't have that.",
   },
   Cast: {
     NotASpell: "That is not a spell.",

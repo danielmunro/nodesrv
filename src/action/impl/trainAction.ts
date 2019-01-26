@@ -15,18 +15,11 @@ import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import {format} from "../../support/string"
 import Action from "../action"
-import {
-  ConditionMessages,
-  MESSAGE_SUCCESS_STR,
-} from "../constants"
 import {ConditionMessages as PreconditionMessages} from "../constants"
 import {
-  MAX_TRAINABLE_STATS, MESSAGE_SUCCESS_CON, MESSAGE_SUCCESS_DEX,
-  MESSAGE_SUCCESS_HP, MESSAGE_SUCCESS_INT,
-  MESSAGE_SUCCESS_MANA,
-  MESSAGE_SUCCESS_MV,
-  MESSAGE_SUCCESS_STA, MESSAGE_SUCCESS_WIS,
+  MAX_TRAINABLE_STATS,
   Messages,
+  ConditionMessages,
 } from "../constants"
 
 export const VITAL_INCREMENT = 10
@@ -56,15 +49,15 @@ function newTrainMapEntry(method, train: Stat | Vital, message: string) {
 }
 
 const trainMap = [
-  newTrainMapEntry(trainStat, Stat.Str, MESSAGE_SUCCESS_STR),
-  newTrainMapEntry(trainStat, Stat.Int, MESSAGE_SUCCESS_INT),
-  newTrainMapEntry(trainStat, Stat.Wis, MESSAGE_SUCCESS_WIS),
-  newTrainMapEntry(trainStat, Stat.Dex, MESSAGE_SUCCESS_DEX),
-  newTrainMapEntry(trainStat, Stat.Con, MESSAGE_SUCCESS_CON),
-  newTrainMapEntry(trainStat, Stat.Sta, MESSAGE_SUCCESS_STA),
-  newTrainMapEntry(trainVital, Vital.Hp, MESSAGE_SUCCESS_HP),
-  newTrainMapEntry(trainVital, Vital.Mana, MESSAGE_SUCCESS_MANA),
-  newTrainMapEntry(trainVital, Vital.Mv, MESSAGE_SUCCESS_MV),
+  newTrainMapEntry(trainStat, Stat.Str, Messages.Train.Str),
+  newTrainMapEntry(trainStat, Stat.Int, Messages.Train.Int),
+  newTrainMapEntry(trainStat, Stat.Wis, Messages.Train.Wis),
+  newTrainMapEntry(trainStat, Stat.Dex, Messages.Train.Dex),
+  newTrainMapEntry(trainStat, Stat.Con, Messages.Train.Con),
+  newTrainMapEntry(trainStat, Stat.Sta, Messages.Train.Sta),
+  newTrainMapEntry(trainVital, Vital.Hp, Messages.Train.Hp),
+  newTrainMapEntry(trainVital, Vital.Mana, Messages.Train.Mana),
+  newTrainMapEntry(trainVital, Vital.Mv, Messages.Train.Mv),
 ]
 
 export default class TrainAction extends Action {

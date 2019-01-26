@@ -11,7 +11,7 @@ import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
-import {ConditionMessages, MESSAGE_ERROR_NO_ITEM, Messages as ActionMessages} from "../../constants"
+import {ConditionMessages, Messages as ActionMessages} from "../../constants"
 
 export default class BuyAction extends Action {
   constructor(
@@ -25,7 +25,7 @@ export default class BuyAction extends Action {
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .require(subject, ConditionMessages.All.Arguments.Buy)
       .requireMerchant()
-      .require(mob => mob.inventory.findItemByName(subject), MESSAGE_ERROR_NO_ITEM, CheckType.HasItem)
+      .require(mob => mob.inventory.findItemByName(subject), ConditionMessages.Buy.MerchantNoItem, CheckType.HasItem)
       .capture()
       .require(item => request.mob.gold > item.value, ConditionMessages.Buy.CannotAfford)
       .create()
