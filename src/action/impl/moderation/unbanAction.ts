@@ -10,7 +10,6 @@ import Maybe from "../../../support/functional/maybe"
 import Action from "../../action"
 import {
   MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS,
-  MESSAGE_FAIL_NO_TARGET,
   MESSAGE_FAIL_NOT_BANNED,
 } from "../../constants"
 
@@ -24,7 +23,7 @@ export default class UnbanAction extends Action {
   public check(request: Request): Promise<Check> {
     const mob = this.mobService.mobTable.find(m => m.name === request.getContextAsInput().subject)
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireMob(MESSAGE_FAIL_NO_TARGET)
+      .requireMob()
       .capture()
       .requirePlayer(mob)
       .requireSpecialAuthorization(request.getAuthorizationLevel())

@@ -1,4 +1,3 @@
-import {MESSAGE_FAIL_NO_TARGET} from "../action/constants"
 import {AffectType} from "../affect/affectType"
 import {Disposition} from "../mob/enum/disposition"
 import MobService from "../mob/mobService"
@@ -31,7 +30,7 @@ export default class CheckBuilder {
     this.mob = request.mob
   }
 
-  public requireMob(failMessage = MESSAGE_FAIL_NO_TARGET): CheckBuilder {
+  public requireMob(failMessage = Messages.NoMob): CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
       collectionSearch(this.mobService.mobTable.getMobs(), this.request.getSubject()),

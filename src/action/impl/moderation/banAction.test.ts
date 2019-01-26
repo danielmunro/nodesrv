@@ -14,7 +14,6 @@ import Action from "../../action"
 import {
   MESSAGE_FAIL_ALREADY_BANNED,
   MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS,
-  MESSAGE_FAIL_NO_TARGET,
 } from "../../constants"
 
 const MOB_TO_BAN = "bob"
@@ -47,7 +46,7 @@ describe("ban moderation preconditions", () => {
 
     // then
     expect(response.status).toBe(CheckStatus.Failed)
-    expect(response.result).toBe(MESSAGE_FAIL_NO_TARGET)
+    expect(response.result).toBe(Messages.NoMob)
   })
 
   it("should not apply a ban if the requester is not an admin", async () => {

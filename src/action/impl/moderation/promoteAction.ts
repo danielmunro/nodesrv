@@ -11,7 +11,7 @@ import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
 import Action from "../../action"
 import {MESSAGE_FAIL_NO_MORE_PROMOTIONS} from "../../constants"
-import {MESSAGE_FAIL_BANNED, MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS, MESSAGE_FAIL_NO_TARGET} from "../../constants"
+import {MESSAGE_FAIL_BANNED, MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS} from "../../constants"
 
 export default class PromoteAction extends Action {
   public static getNextPromotion(mob: Mob) {
@@ -38,7 +38,7 @@ export default class PromoteAction extends Action {
   public check(request: Request): Promise<Check> {
     const mob = this.mobService.mobTable.find(m => m.name === request.getSubject())
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireMob(MESSAGE_FAIL_NO_TARGET)
+      .requireMob()
       .capture()
       .requirePlayer(mob)
       .requireImmortal(request.getAuthorizationLevel())

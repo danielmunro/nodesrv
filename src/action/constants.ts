@@ -1,4 +1,3 @@
-export const MESSAGE_FAIL_NO_TARGET = "They aren't here."
 export const MESSAGE_SUCCESS_STR = "You become stronger!"
 export const MESSAGE_SUCCESS_INT = "You gain in intelligence!"
 export const MESSAGE_SUCCESS_WIS = "Your wisdom increases!"
