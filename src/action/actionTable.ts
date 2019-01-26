@@ -9,9 +9,11 @@ import CastAction from "./impl/castAction"
 import SleepAction from "./impl/disposition/sleepAction"
 import WakeAction from "./impl/disposition/wakeAction"
 import FleeAction from "./impl/fight/fleeAction"
+import HitAction from "./impl/fight/hitAction"
 import KillAction from "./impl/fight/killAction"
 import AffectsAction from "./impl/info/affectsAction"
 import EquippedAction from "./impl/info/equippedAction"
+import ExitsAction from "./impl/info/exitsAction"
 import InventoryAction from "./impl/info/inventoryAction"
 import LookAction from "./impl/info/lookAction"
 import LoreAction from "./impl/info/loreAction"
@@ -89,6 +91,7 @@ export default function getActionTable(service: GameService): Action[] {
 
     // fighting
     new KillAction(checkBuilderFactory, eventService),
+    new HitAction(checkBuilderFactory, eventService),
     new FleeAction(checkBuilderFactory, mobService, locationService),
 
     // skills
@@ -113,6 +116,7 @@ export default function getActionTable(service: GameService): Action[] {
     new ScoreAction(),
     new InventoryAction(itemService),
     new EquippedAction(),
+    new ExitsAction(),
 
     // merchants/healers
     new BuyAction(checkBuilderFactory, eventService),

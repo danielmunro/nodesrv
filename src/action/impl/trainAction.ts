@@ -17,9 +17,9 @@ import {format} from "../../support/string"
 import Action from "../action"
 import {ConditionMessages as PreconditionMessages} from "../constants"
 import {
+  ConditionMessages,
   MAX_TRAINABLE_STATS,
   Messages,
-  ConditionMessages,
 } from "../constants"
 
 export const VITAL_INCREMENT = 10
