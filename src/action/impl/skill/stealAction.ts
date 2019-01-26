@@ -14,10 +14,10 @@ import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import {Messages} from "../../../skill/action/constants"
+import {ActionMessages} from "../../../skill/constants"
 import {Costs} from "../../../skill/constants"
 import {Skill as SkillModel} from "../../../skill/model/skill"
-import {Messages as PreconditionMessages} from "../../../skill/precondition/constants"
+import {ConditionMessages as PreconditionMessages} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
@@ -65,7 +65,7 @@ export default class StealAction extends Skill {
       return checkedRequest
         .respondWith()
         .fail(
-          Messages.Steal.Failure,
+          ActionMessages.Steal.Failure,
           { verb: "fail", ...replacements },
           success ? { verb: "fails", target: "you", ...replacements } : null,
           success ? { verb: "fails", ...replacements } : null)
@@ -81,7 +81,7 @@ export default class StealAction extends Skill {
     return checkedRequest
       .respondWith()
       .success(
-        Messages.Steal.Success,
+        ActionMessages.Steal.Success,
         success ? { verb: "steal", ...replacements } : null,
         success ? { verb: "steals", item, target: "you" } : null)
   }

@@ -13,6 +13,6 @@ export class Skill {
   @Column("integer")
   public level: number = 1
 
-  @ManyToOne((type) => Mob, (mob) => mob.skills)
+  @ManyToOne(() => Mob, mob => mob.skills)
   public mob: Mob
 }

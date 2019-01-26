@@ -12,7 +12,7 @@ import {SpecializationType} from "../../../mob/specialization/specializationType
 import roll from "../../../random/dice"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import {Messages} from "../../../skill/action/constants"
+import {ActionMessages} from "../../../skill/constants"
 import {Costs} from "../../../skill/constants"
 import {Skill as SkillModel} from "../../../skill/model/skill"
 import {SkillType} from "../../../skill/skillType"
@@ -38,7 +38,7 @@ export default class TripAction extends Skill {
 
     if (!TripAction.succeedsTripRoll(checkedRequest.mob, skill, target)) {
       return checkedRequest.respondWith().fail(
-        Messages.Trip.Failure,
+        ActionMessages.Trip.Failure,
         { verb: "trip", target },
         { verb: "trips", target })
     }
@@ -48,7 +48,7 @@ export default class TripAction extends Skill {
     target.vitals.hp -= amount
 
     return checkedRequest.respondWith().success(
-      Messages.Trip.Success,
+      ActionMessages.Trip.Success,
       { verb: "trip", target },
       { verb: "trip", target })
   }

@@ -1,6 +1,6 @@
 import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
 import {RequestType} from "../../../request/requestType"
-import {Messages} from "../../../skill/precondition/constants"
+import {ConditionMessages} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import doNTimes from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
@@ -67,7 +67,7 @@ describe("trip skill action", () => {
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
-    expect(response.message.getMessageToRequestCreator()).toBe(Messages.All.NotEnoughMv)
+    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.All.NotEnoughMv)
   })
 
   it("success sanity createDefaultCheckFor", async () => {

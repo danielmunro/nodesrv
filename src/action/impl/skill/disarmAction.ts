@@ -12,10 +12,10 @@ import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import {Messages, Thresholds} from "../../../skill/action/constants"
-import {Costs} from "../../../skill/constants"
+import {ActionMessages} from "../../../skill/constants"
+import {Costs, Thresholds} from "../../../skill/constants"
 import {Skill as SkillModel} from "../../../skill/model/skill"
-import {Messages as PreconditionMessages} from "../../../skill/precondition/constants"
+import {ConditionMessages as PreconditionMessages} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
@@ -41,7 +41,7 @@ export default class DisarmAction extends Skill {
 
     if (DisarmAction.calculateDisarm(checkedRequest.mob, target, skill) < Thresholds.Disarm) {
       return checkedRequest.respondWith().fail(
-        Messages.Disarm.Failure,
+        ActionMessages.Disarm.Failure,
         { target, verb: "fail" },
         { target, verb: "fails" })
     }
@@ -50,7 +50,7 @@ export default class DisarmAction extends Skill {
     checkedRequest.room.inventory.addItem(item)
 
     return checkedRequest.respondWith().success(
-      Messages.Disarm.Success,
+      ActionMessages.Disarm.Success,
       { target, gender: target.gender, verb: "disarm" },
       { target, gender: target.gender, verb: "disarms" })
   }

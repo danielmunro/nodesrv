@@ -8,8 +8,8 @@ import {SpecializationType} from "../../../mob/specialization/specializationType
 import roll from "../../../random/dice"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import {Messages, Thresholds} from "../../../skill/action/constants"
-import {Costs} from "../../../skill/constants"
+import {ActionMessages} from "../../../skill/constants"
+import {Costs, Thresholds} from "../../../skill/constants"
 import {Skill as SkillModel} from "../../../skill/model/skill"
 import {SkillType} from "../../../skill/skillType"
 import {ConditionMessages} from "../../constants"
@@ -27,14 +27,14 @@ export default class BackstabAction extends Skill {
 
     if (!BackstabAction.isSuccessfulBackstab(skill, checkedRequest.mob, target)) {
       return checkedRequest.respondWith().fail(
-        Messages.Backstab.Failure,
+        ActionMessages.Backstab.Failure,
         { target, verb: "dodges", requestCreator: "your" },
         { verb: "dodge", requestCreator: `${checkedRequest.mob.name}'s`},
         { target, verb: "dodges", requestCreator: `${checkedRequest.mob.name}'s`})
     }
 
     return checkedRequest.respondWith().success(
-      Messages.Backstab.Success,
+      ActionMessages.Backstab.Success,
       { target, verb: "backstab" },
       { verb: "backstabs" },
       { target, verb: "backstabs" })

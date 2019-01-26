@@ -2,8 +2,8 @@ import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
 import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import {Messages} from "../../../skill/action/constants"
-import {Messages as AllMessages} from "../../../skill/precondition/constants"
+import {ActionMessages} from "../../../skill/constants"
+import {ConditionMessages as AllMessages} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {all} from "../../../support/functional/collection"
 import doNTimes from "../../../support/functional/times"
@@ -47,7 +47,7 @@ describe("backstab skill action", () => {
 
     // then
     expect(responses.filter(r => r.isFailure()).length).toBeGreaterThan(iterations * 0.92)
-    expect(all(responses, r => r.message.toRequestCreator === format(Messages.Backstab.Failure, opponent)))
+    expect(all(responses, r => r.message.toRequestCreator === format(ActionMessages.Backstab.Failure, opponent)))
   })
 
   it("should succeed sometimes when partially practiced", async () => {

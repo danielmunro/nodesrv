@@ -7,7 +7,7 @@ import {SpecializationType} from "../../../../mob/specialization/specializationT
 import roll from "../../../../random/dice"
 import {RequestType} from "../../../../request/requestType"
 import Response from "../../../../request/response"
-import {Thresholds} from "../../../../skill/action/constants"
+import {Thresholds} from "../../../../skill/constants"
 import {Skill as SkillModel} from "../../../../skill/model/skill"
 import {SkillType} from "../../../../skill/skillType"
 import {ActionType} from "../../../enum/actionType"

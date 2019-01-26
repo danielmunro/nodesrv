@@ -15,10 +15,10 @@ import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import {Messages, Thresholds} from "../../../skill/action/constants"
-import {Costs} from "../../../skill/constants"
+import {ActionMessages} from "../../../skill/constants"
+import {Costs, Thresholds} from "../../../skill/constants"
 import {Skill as SkillModel} from "../../../skill/model/skill"
-import {Messages as PreconditionMessages} from "../../../skill/precondition/constants"
+import {ConditionMessages as PreconditionMessages} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import collectionSearch from "../../../support/matcher/collectionSearch"
 import {ActionType} from "../../enum/actionType"
@@ -55,7 +55,7 @@ export default class SharpenAction extends Skill {
 
     if (SharpenAction.calculateSharpenSaves(skill) < Thresholds.Sharpen) {
       return responseBuilder.fail(
-        Messages.Sharpen.Failure,
+        ActionMessages.Sharpen.Failure,
         { verb: "fail", target },
         { verb: "fail", target },
         { verb: "fails", target })
@@ -66,7 +66,7 @@ export default class SharpenAction extends Skill {
       newAttributesWithHitroll(newHitroll(1, roll(1, skill.level / 10) + 1))))
 
     return responseBuilder.success(
-      Messages.Sharpen.Success,
+      ActionMessages.Sharpen.Success,
       { verb: "sharpen", target },
       { verb: "sharpen", target },
       { verb: "sharpens", target })

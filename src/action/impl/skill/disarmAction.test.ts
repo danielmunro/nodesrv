@@ -1,6 +1,6 @@
 import { MAX_PRACTICE_LEVEL } from "../../../mob/constants"
 import { RequestType } from "../../../request/requestType"
-import {Messages} from "../../../skill/precondition/constants"
+import {ConditionMessages} from "../../../skill/constants"
 import { SkillType } from "../../../skill/skillType"
 import doNTimes from "../../../support/functional/times"
 import MobBuilder from "../../../test/mobBuilder"
@@ -67,7 +67,7 @@ describe("disarm skill action", () => {
 
     // then
     expect(result.isSuccessful()).toBeFalsy()
-    expect(result.message.getMessageToRequestCreator()).toBe(Messages.All.NoTarget)
+    expect(result.message.getMessageToRequestCreator()).toBe(ConditionMessages.All.NoTarget)
   })
 
   it("should not work if the target is not armed", async () => {
@@ -82,7 +82,7 @@ describe("disarm skill action", () => {
 
     // then
     expect(result.isSuccessful()).toBeFalsy()
-    expect(result.message.getMessageToRequestCreator()).toBe(Messages.Disarm.FailNothingToDisarm)
+    expect(result.message.getMessageToRequestCreator()).toBe(ConditionMessages.Disarm.FailNothingToDisarm)
   })
 
   it("should not work if the mob is too tired", async () => {
@@ -100,7 +100,7 @@ describe("disarm skill action", () => {
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
-    expect(response.message.getMessageToRequestCreator()).toBe(Messages.All.NotEnoughMv)
+    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.All.NotEnoughMv)
   })
 
   it("should succeed if all conditions are met", async () => {
