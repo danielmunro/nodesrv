@@ -1,9 +1,6 @@
-import {AffectType} from "../../../affect/affectType"
 import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
 import {RequestType} from "../../../request/requestType"
-import {Messages} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
-import {all} from "../../../support/functional/collection"
 import doNTimes from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
@@ -18,6 +15,23 @@ beforeEach(async () => {
 })
 
 describe("hamstring skill action", () => {
+  it("should not work if already fighting", async () => {
+    // setup
+    testBuilder.withMob().withSkill(SkillType.Hamstring, MAX_PRACTICE_LEVEL)
+    const target = testBuilder.withMob().mob
+
+    // given
+    await testBuilder.fight(target)
+
+    // when
+    const response = await action.handle(
+      testBuilder.createRequest(RequestType.Hamstring, `hamstring ${target.name}`, target))
+
+    // then
+    expect(response.isFailure()).toBeTruthy()
+    expect(response.message.getMessageToRequestCreator()).toBe("You are already fighting!")
+  })
+
   it("should be able to succeed and fail hamstring", async () => {
     // given
     const mobBuilder = testBuilder.withMob()

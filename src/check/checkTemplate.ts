@@ -12,8 +12,6 @@ import {CheckType} from "./checkType"
 import {Messages} from "./constants"
 
 export default class CheckTemplate {
-  private target
-
   constructor(private readonly mobService: MobService, private readonly request: Request) {}
 
   public cast(spellDefinition: Spell): CheckBuilder {
@@ -64,14 +62,13 @@ export default class CheckTemplate {
     } else if (!target && fight) {
       target = fight.getOpponentFor(this.request.mob)
     }
-    this.target = target
     if (actionType === ActionType.Offensive) {
       checkBuilder.require(target, Messages.NoTarget, CheckType.HasTarget)
     } else if (actionType === ActionType.Defensive) {
       checkBuilder.optionalMob(target)
     } else if (actionType === ActionType.SneakAttack) {
       checkBuilder.require(target, Messages.NoTarget, CheckType.HasTarget)
-        .not().requireFight()
+        .not().requireFight(Messages.AlreadyFighting)
     }
   }
 }

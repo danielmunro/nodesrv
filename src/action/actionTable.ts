@@ -50,6 +50,7 @@ import BerserkAction from "./impl/skill/berserkAction"
 import DirtKickAction from "./impl/skill/dirtKickAction"
 import DisarmAction from "./impl/skill/disarmAction"
 import EnvenomAction from "./impl/skill/envenomAction"
+import HamstringAction from "./impl/skill/hamstringAction"
 import SharpenAction from "./impl/skill/sharpenAction"
 import SneakAction from "./impl/skill/sneakAction"
 import StealAction from "./impl/skill/stealAction"
@@ -58,7 +59,6 @@ import GossipAction from "./impl/social/gossipAction"
 import SayAction from "./impl/social/sayAction"
 import TellAction from "./impl/social/tellAction"
 import TrainAction from "./impl/trainAction"
-import HamstringAction from "./impl/skill/hamstringAction"
 
 export default function getActionTable(service: GameService): Action[] {
   const locationService = service.mobService.locationService
