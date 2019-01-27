@@ -15,11 +15,9 @@ import {Attack, AttackResult, getAttackResultFromSkillType} from "./attack"
 import Death from "./death"
 import FightEvent from "./event/fightEvent"
 import {Round} from "./round"
+import {FightStatus} from "./fightStatus"
 
-enum Status {
-  InProgress,
-  Done,
-}
+
 
 export class Fight {
   private static attackDefeated(attacker, defender, result) {
@@ -45,7 +43,7 @@ export class Fight {
     return BASE_KILL_EXPERIENCE * modifierNormalizer(levelDelta)
   }
 
-  private status: Status = Status.InProgress
+  private status: FightStatus = FightStatus.InProgress
   private winner: Mob
   private bodyPart: BodyPart
   private death: Death
@@ -72,14 +70,14 @@ export class Fight {
     if (this.isInProgress()) {
       return new Round(
         this,
-        this.status === Status.InProgress ? await this.turnFor(this.aggressor, this.target) : [],
-        this.status === Status.InProgress ? await this.turnFor(this.target, this.aggressor) : [],
+        this.status === FightStatus.InProgress ? await this.turnFor(this.aggressor, this.target) : [],
+        this.status === FightStatus.InProgress ? await this.turnFor(this.target, this.aggressor) : [],
         this.bodyPart)
     }
   }
 
   public isInProgress(): boolean {
-    return this.status === Status.InProgress
+    return this.status === FightStatus.InProgress
   }
 
   public getWinner() {
@@ -91,7 +89,7 @@ export class Fight {
       throw new Error("Not part of the fight")
     }
 
-    this.status = Status.Done
+    this.status = FightStatus.Done
   }
 
   public async attack(attacker: Mob, defender: Mob): Promise<Attack> {
@@ -145,7 +143,7 @@ export class Fight {
   private deathOccurred(winner: Mob, vanquished: Mob) {
     console.debug(`${vanquished.name} is killed by ${winner.name}`)
 
-    this.status = Status.Done
+    this.status = FightStatus.Done
     this.winner = winner
     this.death = new Death(vanquished, this.room, winner)
 
