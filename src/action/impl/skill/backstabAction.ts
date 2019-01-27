@@ -2,6 +2,7 @@ import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
+import {Fight} from "../../../mob/fight/fight"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import roll from "../../../random/dice"
@@ -15,7 +16,9 @@ import Skill from "../../skill"
 
 export default class BackstabAction extends Skill {
   public applySkill(checkedRequest: CheckedRequest): void {
-    // damage
+    const mob = checkedRequest.mob
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    Fight.oneHit(mob, target)
   }
 
   public roll(checkedRequest: CheckedRequest): boolean {
