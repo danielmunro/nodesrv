@@ -2,42 +2,47 @@ import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
-import {Mob} from "../../../mob/model/mob"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import roll from "../../../random/dice"
 import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
-import {ActionMessages} from "../../../skill/constants"
-import {Costs, Thresholds} from "../../../skill/constants"
-import {Skill as SkillModel} from "../../../skill/model/skill"
+import ResponseMessage from "../../../request/responseMessage"
+import {ActionMessages, Costs, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ConditionMessages} from "../../constants"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
 export default class BackstabAction extends Skill {
-  private static isSuccessfulBackstab(skill: SkillModel, mob: Mob, target: Mob): boolean {
-    return roll(3, skill.level / 3) + roll(2, Math.max(1, mob.level - target.level))
-      > Thresholds.Backstab
+  public applySkill(checkedRequest: CheckedRequest): void {
+    // damage
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
+  public roll(checkedRequest: CheckedRequest): boolean {
     const [ skill, target ] = checkedRequest.results(CheckType.HasSkill, CheckType.HasTarget)
+    return roll(3, skill.level / 3) +
+      roll(2, Math.max(1, checkedRequest.mob.level - target.level)) > Thresholds.Backstab
+  }
 
-    if (!BackstabAction.isSuccessfulBackstab(skill, checkedRequest.mob, target)) {
-      return checkedRequest.respondWith().fail(
-        ActionMessages.Backstab.Failure,
-        { target, verb: "dodges", requestCreator: "your" },
-        { verb: "dodge", requestCreator: `${checkedRequest.mob.name}'s`},
-        { target, verb: "dodges", requestCreator: `${checkedRequest.mob.name}'s`})
-    }
-
-    return checkedRequest.respondWith().success(
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      checkedRequest.mob,
       ActionMessages.Backstab.Success,
       { target, verb: "backstab" },
       { verb: "backstabs" },
       { target, verb: "backstabs" })
+  }
+
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const mob = checkedRequest.mob
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      mob,
+      ActionMessages.Backstab.Failure,
+      { target, verb: "dodges", requestCreator: "your" },
+      { verb: "dodge", requestCreator: `${mob.name}'s`},
+      { target, verb: "dodges", requestCreator: `${mob.name}'s`})
   }
 
   public getActionType(): ActionType {

@@ -8,35 +8,40 @@ import SpecializationLevel from "../../../mob/specialization/specializationLevel
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import roll from "../../../random/dice"
 import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
-import {Messages} from "../../../skill/constants"
-import {Costs} from "../../../skill/constants"
-import {ConditionMessages as ConditionMessages} from "../../../skill/constants"
+import ResponseMessage from "../../../request/responseMessage"
+import {ConditionMessages as ConditionMessages, Costs, Messages} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
 export default class BashAction extends Skill {
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const mob = checkedRequest.mob
+  public applySkill(checkedRequest: CheckedRequest): void {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    const skill = mob.skills.find(s => s.skillType === SkillType.Bash)
+    target.affects.push(newAffect(AffectType.Stunned, 1))
+  }
 
-    if (roll(1, skill.level) - roll(1, target.getCombinedAttributes().stats.dex * 3) < 0) {
-      return checkedRequest.respondWith().fail(
-        Messages.Bash.Fail,
-        { requestCreator: "you", verb: "fall", requestCreator2: "your"},
-        { requestCreator: mob, verb: "falls", requestCreator2: "their"})
-    }
+  public roll(checkedRequest: CheckedRequest): boolean {
+    const [ skill, target ] = checkedRequest.results(CheckType.HasSkill, CheckType.HasTarget)
+    return roll(1, skill.level) - roll(1, target.getCombinedAttributes().stats.dex * 3) < 0
+  }
 
-    target.vitals.hp--
-    target.addAffect(newAffect(AffectType.Stunned))
-
-    return checkedRequest.respondWith().success(
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      checkedRequest.mob,
       Messages.Bash.Success,
       { target, verb: "slam", verb2: "send", target2: "them" },
       { target: "you", verb: "slams", verb2: "sends", target2: "you" },
       {target, verb: "slams", verb2: "sends", target2: "them"})
+  }
+
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const mob = checkedRequest.mob
+    return new ResponseMessage(
+      mob,
+      Messages.Bash.Fail,
+      { requestCreator: "you", verb: "fall", requestCreator2: "your"},
+      { requestCreator: mob, verb: "falls", requestCreator2: "their"})
   }
 
   public getActionType(): ActionType {
