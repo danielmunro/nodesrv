@@ -55,7 +55,7 @@ describe("disarm skill action", () => {
     })
 
     // then
-    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations * 0.4)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations * 0.3)
   })
 
   it("should not work if not in a fight", async () => {
@@ -115,5 +115,34 @@ describe("disarm skill action", () => {
 
     // then
     expect(response.isError()).toBeFalsy()
+  })
+
+  it("generates accurate messages", async () => {
+    // setup
+    mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
+    const targetBuilder = testBuilder.withMob()
+    targetBuilder.equip().withAxeEq()
+    await testBuilder.fight(targetBuilder.mob)
+
+    // when
+    const responses = await doNTimes(iterations, () => action.handle(testBuilder.createRequest(RequestType.Disarm)))
+
+    // then
+    const successMessage = responses.find(response => response.isSuccessful()).message
+    expect(successMessage.getMessageToRequestCreator())
+      .toBe(`you disarm ${targetBuilder.mob.name} and send its weapon flying!`)
+    expect(successMessage.getMessageToTarget())
+      .toBe(`${mob1.mob.name} disarms you and sends your weapon flying!`)
+    expect(successMessage.getMessageToObservers())
+      .toBe(`${mob1.mob.name} disarms ${targetBuilder.mob.name} and sends its weapon flying!`)
+
+    // and
+    const failMessage = responses.find(response => !response.isSuccessful()).message
+    expect(failMessage.getMessageToRequestCreator())
+      .toBe(`you fail to disarm ${targetBuilder.mob.name}.`)
+    expect(failMessage.getMessageToTarget())
+      .toBe(`${mob1.mob.name} fails to disarm you.`)
+    expect(failMessage.getMessageToObservers())
+      .toBe(`${mob1.mob.name} fails to disarm ${targetBuilder.mob.name}.`)
   })
 })

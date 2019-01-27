@@ -5,26 +5,18 @@ import {Messages as CheckMessages} from "../../../check/constants"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import {Equipment} from "../../../item/equipment"
-import {Mob} from "../../../mob/model/mob"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
-import {ActionMessages} from "../../../skill/constants"
-import {Costs, Thresholds} from "../../../skill/constants"
-import {ConditionMessages as PreconditionMessages} from "../../../skill/constants"
-import {Skill as SkillModel} from "../../../skill/model/skill"
+import ResponseMessage from "../../../request/responseMessage"
+import {ActionMessages, ConditionMessages as PreconditionMessages, Costs, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
 export default class DisarmAction extends Skill {
-  private static calculateDisarm(mob: Mob, target: Mob, skill: SkillModel): number {
-    return roll(4, (Math.max(1, mob.level - target.level) + skill.level) / 2)
-  }
-
   public async check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckTemplate(request)
       .perform(this)
@@ -35,24 +27,34 @@ export default class DisarmAction extends Skill {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+  public roll(checkedRequest: CheckedRequest): boolean {
+    const [ skill, target ] = checkedRequest.results(CheckType.HasSkill, CheckType.HasTarget)
+    return roll(4, (Math.max(1, checkedRequest.mob.level - target.level) + skill.level) / 2) < Thresholds.Disarm
+  }
 
-    if (DisarmAction.calculateDisarm(checkedRequest.mob, target, skill) < Thresholds.Disarm) {
-      return checkedRequest.respondWith().fail(
-        ActionMessages.Disarm.Failure,
-        { target, verb: "fail" },
-        { target, verb: "fails" })
-    }
-
+  public applySkill(checkedRequest: CheckedRequest): void {
     const item = checkedRequest.getCheckTypeResult(CheckType.ItemPresent)
     checkedRequest.room.inventory.addItem(item)
+  }
 
-    return checkedRequest.respondWith().success(
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      checkedRequest.mob,
+      ActionMessages.Disarm.Failure,
+      { target, verb: "fail" },
+      { target: "you", verb: "fails" },
+      { target, verb: "fails" })
+  }
+
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      checkedRequest.mob,
       ActionMessages.Disarm.Success,
-      { target, gender: target.gender, verb: "disarm" },
-      { target, gender: target.gender, verb: "disarms" })
+      { target, gender: target.gender, verb: "disarm", verb2: "send" },
+      { target: "you", gender: "your", verb: "disarms", verb2: "sends" },
+      { target, gender: target.gender, verb: "disarms", verb2: "sends" })
   }
 
   public getActionType(): ActionType {

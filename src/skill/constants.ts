@@ -113,7 +113,7 @@ export const ActionMessages = {
   },
   Disarm: {
     Failure: "{requestCreator} {verb} to disarm {target}.",
-    Success: "{requestCreator} {verb} {target} and send {gender} weapon flying!",
+    Success: "{requestCreator} {verb} {target} and {verb2} {gender} weapon flying!",
   },
   Sharpen: {
     Failure: "{requestCreator} {verb} to sharpen {target}.",
