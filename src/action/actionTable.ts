@@ -58,6 +58,7 @@ import GossipAction from "./impl/social/gossipAction"
 import SayAction from "./impl/social/sayAction"
 import TellAction from "./impl/social/tellAction"
 import TrainAction from "./impl/trainAction"
+import HamstringAction from "./impl/skill/hamstringAction"
 
 export default function getActionTable(service: GameService): Action[] {
   const locationService = service.mobService.locationService
@@ -93,6 +94,7 @@ export default function getActionTable(service: GameService): Action[] {
     new KillAction(checkBuilderFactory, eventService),
     new HitAction(checkBuilderFactory, eventService),
     new FleeAction(checkBuilderFactory, mobService, locationService),
+    new HamstringAction(checkBuilderFactory),
 
     // skills
     new BackstabAction(checkBuilderFactory),

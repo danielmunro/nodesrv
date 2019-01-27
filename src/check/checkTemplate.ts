@@ -16,10 +16,6 @@ export default class CheckTemplate {
 
   constructor(private readonly mobService: MobService, private readonly request: Request) {}
 
-  public getTarget() {
-    return this.target
-  }
-
   public cast(spellDefinition: Spell): CheckBuilder {
     const mob = this.request.mob
     const checkBuilder = new CheckBuilder(this.mobService, this.request)
@@ -73,6 +69,9 @@ export default class CheckTemplate {
       checkBuilder.require(target, Messages.NoTarget, CheckType.HasTarget)
     } else if (actionType === ActionType.Defensive) {
       checkBuilder.optionalMob(target)
+    } else if (actionType === ActionType.SneakAttack) {
+      checkBuilder.require(target, Messages.NoTarget, CheckType.HasTarget)
+        .not().requireFight()
     }
   }
 }

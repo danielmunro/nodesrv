@@ -137,6 +137,10 @@ export const ConditionMessages = {
     AlreadyFull: "You are too full to eat more.",
     NotFood: "You can't eat that.",
   },
+  Hamstring: {
+    Fail: "{requestCreator} {verb} to hamstring {target} but {verb2}.",
+    Success: "{requestCreator} {verb} {target} hamstring! {target2} can barely move!",
+  },
   Heal: {
     Fail: {
       CannotAffordSpell: "You can't afford that.",

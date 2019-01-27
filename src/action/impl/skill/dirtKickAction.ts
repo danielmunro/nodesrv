@@ -11,8 +11,7 @@ import {SpecializationType} from "../../../mob/specialization/specializationType
 import roll from "../../../random/dice"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import {Thresholds} from "../../../skill/constants"
-import {Costs, Messages} from "../../../skill/constants"
+import {Costs, Messages, Thresholds} from "../../../skill/constants"
 import {Skill as SkillModel} from "../../../skill/model/skill"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
@@ -53,6 +52,7 @@ export default class DirtKickAction extends Skill {
   public getCosts(): Cost[] {
     return [
       new Cost(CostType.Mv, Costs.DirtKick.Mv, CheckMessages.TooTired),
+      new Cost(CostType.Delay, Costs.DirtKick.Delay),
     ]
   }
 
