@@ -1,3 +1,4 @@
+import {AffectType} from "../affect/affectType"
 import {applyAffectModifier} from "../affect/applyAffect"
 import Check from "../check/check"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
@@ -16,7 +17,6 @@ import {Exit} from "../room/model/exit"
 import Action from "./action"
 import {ConditionMessages} from "./constants"
 import LookAction from "./impl/info/lookAction"
-import {AffectType} from "../affect/affectType"
 
 export default abstract class Move extends Action {
   private static calculateMvCost(request: Request) {

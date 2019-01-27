@@ -1,3 +1,5 @@
+import {AffectType} from "../affect/affectType"
+import {newAffect} from "../affect/factory"
 import {CheckStatus} from "../check/checkStatus"
 import GameService from "../gameService/gameService"
 import {Mob} from "../mob/model/mob"
@@ -10,8 +12,6 @@ import TestBuilder from "../test/testBuilder"
 import Action from "./action"
 import {ConditionMessages} from "./constants"
 import {MESSAGE_DIRECTION_DOES_NOT_EXIST, MESSAGE_OUT_OF_MOVEMENT} from "./constants"
-import {newAffect} from "../affect/factory"
-import {AffectType} from "../affect/affectType"
 
 let testBuilder: TestBuilder
 let service: GameService
