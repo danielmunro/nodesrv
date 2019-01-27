@@ -10,6 +10,8 @@ import TestBuilder from "../test/testBuilder"
 import Action from "./action"
 import {ConditionMessages} from "./constants"
 import {MESSAGE_DIRECTION_DOES_NOT_EXIST, MESSAGE_OUT_OF_MOVEMENT} from "./constants"
+import {newAffect} from "../affect/factory"
+import {AffectType} from "../affect/affectType"
 
 let testBuilder: TestBuilder
 let service: GameService
@@ -35,6 +37,18 @@ describe("move", () => {
     // then
     expect(response.status).toBe(ResponseStatus.Info)
     expect(service.getMobLocation(mob).room).toEqual(destination)
+  })
+
+  it("should not be able to move if immobilized", async () => {
+    // given
+    mob.affects.push(newAffect(AffectType.Immobilize))
+
+    // when
+    const response = await definition.handle(testBuilder.createRequest(RequestType.East))
+
+    // then
+    expect(response.isFailure()).toBeTruthy()
+    expect(service.getMobLocation(mob).room).toEqual(source)
   })
 
   it("should not allow movement when an exit has a closed door", async () => {

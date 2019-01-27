@@ -16,6 +16,7 @@ import {Exit} from "../room/model/exit"
 import Action from "./action"
 import {ConditionMessages} from "./constants"
 import LookAction from "./impl/info/lookAction"
+import {AffectType} from "../affect/affectType"
 
 export default abstract class Move extends Action {
   private static calculateMvCost(request: Request) {
@@ -41,6 +42,8 @@ export default abstract class Move extends Action {
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .require(this.aValidExit(request.room.exits), ConditionMessages.Move.Fail.DirectionDoesNotExist)
       .require(Move.eitherNoDoorOrDoorIsOpen, ConditionMessages.Move.Fail.DoorIsClosed)
+      .capture(request.mob)
+      .not().requireAffect(AffectType.Immobilize, ConditionMessages.Move.Fail.Immobilized)
       .addCost(new Cost(CostType.Mv, Move.calculateMvCost(request), ConditionMessages.Move.Fail.OutOfMovement))
       .create()
   }

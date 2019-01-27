@@ -162,6 +162,7 @@ export const ConditionMessages = {
     Fail: {
       DirectionDoesNotExist: "Alas, that direction does not exist.",
       DoorIsClosed: "The door is closed.",
+      Immobilized: "You are immobilized and cannot move.",
       OutOfMovement: "You are too tired.",
     },
   },
