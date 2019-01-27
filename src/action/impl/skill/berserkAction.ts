@@ -5,35 +5,40 @@ import {CheckType} from "../../../check/checkType"
 import {Messages as CheckMessages} from "../../../check/constants"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
-import {Mob} from "../../../mob/model/mob"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import roll from "../../../random/dice"
 import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
-import {Thresholds} from "../../../skill/constants"
-import {Costs, Messages} from "../../../skill/constants"
-import {Skill as SkillModel} from "../../../skill/model/skill"
+import ResponseMessage from "../../../request/responseMessage"
+import {Costs, Messages, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
 export default class BerserkAction extends Skill {
-  private static calculateBerserkRoll(mob: Mob, skill: SkillModel): number {
-    return roll(1, mob.level) + roll(2, skill.level)
+  public roll(checkedRequest: CheckedRequest): boolean {
+    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+    return roll(1, checkedRequest.mob.level) + roll(2, skill.level) < Thresholds.Berserk
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
+  public applySkill(checkedRequest: CheckedRequest): void {
+    checkedRequest.mob.addAffect(newAffect(AffectType.Berserk, checkedRequest.mob.level / 10))
+  }
+
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    return new ResponseMessage(
+      checkedRequest.mob,
+      Messages.Berserk.Fail)
+  }
+
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
     const mob = checkedRequest.mob
-    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-
-    if (BerserkAction.calculateBerserkRoll(mob, skill) < Thresholds.Berserk) {
-      return checkedRequest.respondWith().fail(Messages.Berserk.Fail)
-    }
-
-    mob.addAffect(newAffect(AffectType.Berserk, mob.level / 10))
-
-    return checkedRequest.respondWith().success(Messages.Berserk.Success)
+    return new ResponseMessage(
+      mob,
+      Messages.Berserk.Success,
+      { requestCreator: "your", requestCreator2: "you" },
+      { requestCreator2: "they" },
+      { requestCreator: `${mob.name}'s`, requestCreator2: "they" })
   }
 
   public getActionType(): ActionType {

@@ -6,7 +6,7 @@ export const Messages = {
   },
   Berserk: {
     Fail: "You fail to summon your inner rage.",
-    Success: "Your pulse speeds up as you are consumed by rage!",
+    Success: "{requestCreator} pulse speeds up as {requestCreator2} are consumed by rage!",
   },
   DirtKick: {
     Fail: "You kick dirt and miss {0}!",

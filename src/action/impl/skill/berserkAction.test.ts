@@ -1,6 +1,7 @@
 import { AffectType } from "../../../affect/affectType"
 import { MAX_PRACTICE_LEVEL } from "../../../mob/constants"
 import { RequestType } from "../../../request/requestType"
+import Response from "../../../request/response"
 import { Messages } from "../../../skill/constants"
 import { SkillType } from "../../../skill/skillType"
 import { all } from "../../../support/functional/collection"
@@ -8,7 +9,7 @@ import doNTimes from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
-const iterations = 10
+const iterations = 100
 let testBuilder: TestBuilder
 let skillDefinition: Action
 
@@ -48,5 +49,22 @@ describe("berserk skill action", () => {
     // then
     expect(responses.some(response => response.isSuccessful())).toBeTruthy()
     expect(mobBuilder.mob.getAffect(AffectType.Berserk)).toBeTruthy()
+  })
+
+  it("should generate accurate messages", async () => {
+    // given
+    const mobBuilder = testBuilder.withMob()
+    mobBuilder.withLevel(40)
+    mobBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
+
+    // when
+    const responses: Response[] = await doNTimes(iterations, () => action())
+
+    // then
+    const message = responses.find(response => response.isSuccessful()).message
+    expect(message.getMessageToRequestCreator())
+      .toBe("your pulse speeds up as you are consumed by rage!")
+    expect(message.getMessageToObservers())
+      .toBe(`${mobBuilder.mob.name}'s pulse speeds up as they are consumed by rage!`)
   })
 })
