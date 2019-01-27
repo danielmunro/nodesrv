@@ -5,36 +5,46 @@ import {CheckType} from "../../../check/checkType"
 import {Messages as CheckMessages} from "../../../check/constants"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
-import {Mob} from "../../../mob/model/mob"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import roll from "../../../random/dice"
 import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
+import ResponseMessage from "../../../request/responseMessage"
 import {Costs, Messages, Thresholds} from "../../../skill/constants"
-import {Skill as SkillModel} from "../../../skill/model/skill"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
 export default class DirtKickAction extends Skill {
-  private static calculateDirtKickRoll(mob: Mob, skill: SkillModel): number {
-    return roll(1, mob.level) + roll(2, skill.level)
+  public roll(checkedRequest: CheckedRequest): boolean {
+    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+    return roll(1, checkedRequest.mob.level) + roll(2, skill.level) < Thresholds.DirtKick
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const mob = checkedRequest.mob
-    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-    const responseBuilder = checkedRequest.respondWith()
+  public applySkill(checkedRequest: CheckedRequest): void {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    target.addAffect(newAffect(AffectType.Blind, Math.max(1, checkedRequest.mob.level / 12)))
+  }
 
-    if (DirtKickAction.calculateDirtKickRoll(mob, skill) < Thresholds.DirtKick) {
-      return responseBuilder.fail(Messages.DirtKick.Fail)
-    }
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      checkedRequest.mob,
+      Messages.DirtKick.Success,
+      { verb: "kick", target: `${target.name}'s` },
+      { verb: "kicks", target: "your" },
+      { verb: "kicks", target: `${target.name}'s` })
+  }
 
-    target.addAffect(newAffect(AffectType.Blind, Math.max(1, mob.level / 12)))
-
-    return responseBuilder.success(Messages.DirtKick.Success)
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const mob = checkedRequest.mob
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      mob,
+      Messages.DirtKick.Fail,
+      { requestCreator: "you", verb: "kick", verb2: "miss", target },
+      { requestCreator: mob, verb: "kicks", verb2: "misses", target: "you" },
+      { requestCreator: mob, verb: "kicks", verb2: "misses", target })
   }
 
   public getActionType(): ActionType {

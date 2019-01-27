@@ -9,8 +9,8 @@ export const Messages = {
     Success: "{requestCreator} pulse speeds up as {requestCreator2} are consumed by rage!",
   },
   DirtKick: {
-    Fail: "You kick dirt and miss {0}!",
-    Success: "You kick dirt right in {0}'s eyes!",
+    Fail: "{requestCreator} {verb} dirt and {verb2} {target}!",
+    Success: "{requestCreator} {verb} dirt right in {target} eyes!",
   },
   Envenom: {
     Error: {
