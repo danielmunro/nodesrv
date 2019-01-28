@@ -27,7 +27,7 @@ beforeEach(async () => {
 })
 
 describe("backstab skill action", () => {
-  it("should require having the skill", async () => {
+  it("requires having the skill", async () => {
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Backstab))
 
@@ -36,7 +36,7 @@ describe("backstab skill action", () => {
     expect(response.message.getMessageToRequestCreator()).toBe(AllMessages.All.NoSkill)
   })
 
-  it("should fail when not practiced", async () => {
+  it("fails when not practiced", async () => {
     // given
     mobBuilder.withSkill(SkillType.Backstab)
     mobBuilder.mob.level = 20
@@ -50,7 +50,7 @@ describe("backstab skill action", () => {
     expect(all(responses, r => r.message.toRequestCreator === format(ActionMessages.Backstab.Failure, opponent)))
   })
 
-  it("should succeed sometimes when partially practiced", async () => {
+  it("succeeds sometimes when partially practiced", async () => {
     // given
     mobBuilder.mob.level = 30
     mobBuilder.withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL / 2)
@@ -63,7 +63,7 @@ describe("backstab skill action", () => {
     expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations / 3)
   })
 
-  it("should succeed sometimes when fully practiced", async () => {
+  it("succeeds sometimes when fully practiced", async () => {
     // given
     mobBuilder.mob.level = 50
     mobBuilder.withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL)
@@ -76,7 +76,7 @@ describe("backstab skill action", () => {
     expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations * 0.90)
   })
 
-  it("should generate the right messages for observers", async () => {
+  it("generates the right messages", async () => {
     // given
     mobBuilder.mob.level = 50
     mobBuilder.withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL)
