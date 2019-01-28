@@ -35,8 +35,8 @@ export default class EnvenomAction extends Skill {
   }
 
   public roll(checkedRequest: CheckedRequest): boolean {
-    const [ skill, item ] = checkedRequest.results(CheckType.HasSkill, CheckType.HasItem)
-    return roll(1, skill.level / 3) > item.level
+    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+    return roll(1, skill.level / 3) > 30
   }
 
   public applySkill(checkedRequest: CheckedRequest): void {
@@ -49,7 +49,8 @@ export default class EnvenomAction extends Skill {
     return new ResponseMessage(
       checkedRequest.mob,
       Messages.Envenom.Success,
-      { item })
+      { item, verb: "envenom" },
+    { item, verb: "envenoms" })
   }
 
   public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
@@ -57,7 +58,9 @@ export default class EnvenomAction extends Skill {
     return new ResponseMessage(
       checkedRequest.mob,
       Messages.Envenom.Fail,
-      { item })
+      { item, verb: "fail" },
+      { item, verb: "fails" },
+      { item, verb: "fails" })
   }
 
   public getActionType(): ActionType {

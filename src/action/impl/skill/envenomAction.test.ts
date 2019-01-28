@@ -79,4 +79,30 @@ describe("envenom skill action", () => {
     expect(response.isSuccessful()).toBeFalsy()
     expect(response.message.getMessageToRequestCreator()).toBe(Messages.Envenom.Error.WrongWeaponType)
   })
+
+  it("generates accurate messages", async () => {
+    // setup
+    const axe = mobBuilder.withAxeEq()
+    mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
+
+    // when
+    const responses = await doNTimes(iterations, () => doAction("envenom axe", axe))
+
+    // then
+    const successResponse = responses.find(response => response.isSuccessful()).message
+    expect(successResponse.getMessageToRequestCreator())
+      .toBe("you successfully envenom a toy axe.")
+    expect(successResponse.getMessageToTarget())
+      .toBe(`${mobBuilder.mob.name} successfully envenoms a toy axe.`)
+    expect(successResponse.getMessageToObservers())
+      .toBe(`${mobBuilder.mob.name} successfully envenoms a toy axe.`)
+
+    const failResponse = responses.find(response => !response.isSuccessful()).message
+    expect(failResponse.getMessageToRequestCreator())
+      .toBe("you fail to envenom a toy axe.")
+    expect(failResponse.getMessageToTarget())
+      .toBe(`${mobBuilder.mob.name} fails to envenom a toy axe.`)
+    expect(failResponse.getMessageToObservers())
+      .toBe(`${mobBuilder.mob.name} fails to envenom a toy axe.`)
+  })
 })

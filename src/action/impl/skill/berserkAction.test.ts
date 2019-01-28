@@ -57,10 +57,19 @@ describe("berserk skill action", () => {
     const responses: Response[] = await doNTimes(iterations, () => action())
 
     // then
-    const message = responses.find(response => response.isSuccessful()).message
-    expect(message.getMessageToRequestCreator())
+    const successMessage = responses.find(response => response.isSuccessful()).message
+    expect(successMessage.getMessageToRequestCreator())
       .toBe("your pulse speeds up as you are consumed by rage!")
-    expect(message.getMessageToObservers())
+    expect(successMessage.getMessageToObservers())
       .toBe(`${mobBuilder.mob.name}'s pulse speeds up as they are consumed by rage!`)
+
+    // and
+    const failMessage = responses.find(response => !response.isSuccessful()).message
+    expect(failMessage.getMessageToRequestCreator())
+      .toBe("You fail to summon your inner rage.")
+    expect(failMessage.getMessageToTarget())
+      .toBe("")
+    expect(failMessage.getMessageToObservers())
+      .toBe("")
   })
 })
