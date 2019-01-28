@@ -45,8 +45,9 @@ export default class TripAction extends Skill {
     return new ResponseMessage(
       checkedRequest.mob,
       ActionMessages.Trip.Failure,
-      { verb: "trip", target },
-      { verb: "trips", target })
+      { verb: "fail", target },
+      { verb: "fails", target: "you" },
+      { requestCreator: checkedRequest.mob, verb: "fails", target })
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
@@ -55,7 +56,8 @@ export default class TripAction extends Skill {
       checkedRequest.mob,
       ActionMessages.Trip.Success,
       { verb: "trip", target },
-      { verb: "trip", target })
+      { verb: "trips", target: "you" },
+      { verb: "trips", target })
   }
 
   public getActionType(): ActionType {

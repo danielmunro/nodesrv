@@ -6,6 +6,7 @@ import doNTimes from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
+const ITERATIONS = 100
 let testBuilder: TestBuilder
 let action: Action
 
@@ -15,7 +16,7 @@ beforeEach(async () => {
 })
 
 describe("trip skill action", () => {
-  it("should be able to fail tripping", async () => {
+  it("can fail tripping", async () => {
     // setup
     const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 40)
 
@@ -26,14 +27,14 @@ describe("trip skill action", () => {
     await testBuilder.fight()
 
     // when
-    const responses = await doNTimes(100,
+    const responses = await doNTimes(ITERATIONS,
       () => action.handle(testBuilder.createRequest(RequestType.Trip)))
 
     // then
     expect(responses.some(result => !result.isSuccessful())).toBeTruthy()
   })
 
-  it("should be able to succeed tripping", async () => {
+  it("can succeed tripping", async () => {
     // setup
     const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 40)
 
@@ -44,14 +45,14 @@ describe("trip skill action", () => {
     await testBuilder.fight()
 
     // when
-    const results = await doNTimes(10,
+    const results = await doNTimes(ITERATIONS,
       () => action.handle(testBuilder.createRequest(RequestType.Trip)))
 
     // then
     expect(results.some(result => result.isSuccessful())).toBeTruthy()
   })
 
-  it("should not work if the mob is out of movement", async () => {
+  it("need movement to work", async () => {
     // setup
     const playerBuilder = await testBuilder.withPlayer(p => {
       p.sessionMob.vitals.mv = 0
@@ -83,5 +84,35 @@ describe("trip skill action", () => {
 
     // then
     expect(response.isError()).toBeFalsy()
+  })
+
+  it("generates accurate messages", async () => {
+    // setup
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 10)
+    const target = testBuilder.withMob().mob
+    await testBuilder.fight(target)
+
+    // given
+    playerBuilder.withSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)
+
+    // when
+    const responses = await doNTimes(ITERATIONS, () => action.handle(testBuilder.createRequest(RequestType.Trip)))
+
+    // then
+    const successMessage = responses.find(response => response.isSuccessful()).message
+    expect(successMessage.getMessageToRequestCreator())
+      .toBe(`you trip ${target.name}!`)
+    expect(successMessage.getMessageToTarget())
+      .toBe(`${playerBuilder.player.sessionMob} trips you!`)
+    expect(successMessage.getMessageToObservers())
+      .toBe(`${playerBuilder.player.sessionMob} trips ${target.name}!`)
+
+    const failMessage = responses.find(response => !response.isSuccessful()).message
+    expect(failMessage.getMessageToRequestCreator())
+      .toBe(`you fail to trip ${target.name}!`)
+    expect(failMessage.getMessageToTarget())
+      .toBe(`${playerBuilder.player.sessionMob} fails to trip you!`)
+    expect(failMessage.getMessageToObservers())
+      .toBe(`${playerBuilder.player.sessionMob} fails to trip ${target.name}!`)
   })
 })
