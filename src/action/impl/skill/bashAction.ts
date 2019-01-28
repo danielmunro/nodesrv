@@ -22,7 +22,7 @@ export default class BashAction extends Skill {
 
   public roll(checkedRequest: CheckedRequest): boolean {
     const [ skill, target ] = checkedRequest.results(CheckType.HasSkill, CheckType.HasTarget)
-    return roll(1, skill.level) - roll(1, target.getCombinedAttributes().stats.dex * 3) < 0
+    return roll(1, skill.level) - roll(1, target.getCombinedAttributes().stats.dex * 3) > 0
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {

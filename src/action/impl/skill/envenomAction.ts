@@ -6,54 +6,58 @@ import {CheckType} from "../../../check/checkType"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import {DamageType} from "../../../damage/damageType"
-import Weapon from "../../../item/model/weapon"
+import {Equipment} from "../../../item/equipment"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
-import {Costs} from "../../../skill/constants"
-import {Messages} from "../../../skill/constants"
-import {ConditionMessages as PreconditionMessages} from "../../../skill/constants"
+import ResponseMessage from "../../../request/responseMessage"
+import {ConditionMessages as PreconditionMessages, Costs, Messages} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
 export default class EnvenomAction extends Skill {
   public check(request: Request): Promise<Check> {
+    const item = request.findItemInSessionMobInventory()
     return this.checkBuilderFactory.createCheckTemplate(request)
       .perform(this)
       .require(
-        request.findItemInSessionMobInventory(),
+        item,
         PreconditionMessages.All.NoItem,
         CheckType.HasItem)
+      .capture(item)
+      .require(captured => captured.equipment === Equipment.Weapon, Messages.Envenom.Error.NotAWeapon)
+      .require(captured => captured.damageType === DamageType.Slash || captured.damageType === DamageType.Pierce,
+        Messages.Envenom.Error.WrongWeaponType)
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
+  public roll(checkedRequest: CheckedRequest): boolean {
+    const [ skill, item ] = checkedRequest.results(CheckType.HasSkill, CheckType.HasItem)
+    return roll(1, skill.level / 3) > item.level
+  }
+
+  public applySkill(checkedRequest: CheckedRequest): void {
     const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-    const responseBuilder = checkedRequest.respondWith()
+    item.affects.push(newAffect(AffectType.Poison, checkedRequest.mob.level))
+  }
 
-    if (!(item instanceof Weapon)) {
-      return responseBuilder.error(Messages.Envenom.Error.NotAWeapon)
-    }
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+    return new ResponseMessage(
+      checkedRequest.mob,
+      Messages.Envenom.Success,
+      { item })
+  }
 
-    if (item.damageType !== DamageType.Slash && item.damageType !== DamageType.Pierce) {
-      return responseBuilder.error(Messages.Envenom.Error.WrongWeaponType)
-    }
-
-    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-    const mob = checkedRequest.mob
-
-    if (roll(1, skill.level / 3) <= item.level) {
-      return responseBuilder.fail(Messages.Envenom.Fail, { item })
-    }
-
-    mob.vitals.mana -= Costs.Envenom.Mana
-    item.affects.push(newAffect(AffectType.Poison, mob.level))
-
-    return responseBuilder.success(Messages.Envenom.Success, { item })
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+    return new ResponseMessage(
+      checkedRequest.mob,
+      Messages.Envenom.Fail,
+      { item })
   }
 
   public getActionType(): ActionType {

@@ -3,6 +3,7 @@ import doNTimes from "../../../../support/functional/times"
 import TestBuilder from "../../../../test/testBuilder"
 
 const SKILL_LEVEL = 50
+const ITERATIONS = 100
 
 describe("second attacks skill action", () => {
   it("should invoke a second attack", async () => {
@@ -17,10 +18,10 @@ describe("second attacks skill action", () => {
     const fight = await testBuilder.fight(target.mob)
 
     // when
-    const rounds = await doNTimes(100, () => fight.round())
+    const rounds = await doNTimes(ITERATIONS, () => fight.round())
 
     // then
-    expect(rounds.find(round => round.attacks.length > 1)).not.toBeUndefined()
-    expect(rounds.find(round => round.attacks.length === 1)).not.toBeUndefined()
+    expect(rounds.find(round => round.attacks.length > 1)).toBeDefined()
+    expect(rounds.find(round => round.attacks.length === 1)).toBeDefined()
   })
 })

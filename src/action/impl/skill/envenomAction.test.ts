@@ -7,7 +7,7 @@ import MobBuilder from "../../../test/mobBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
-const iterations = 10
+const iterations = 100
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
 let action: Action
@@ -32,7 +32,7 @@ describe("envenom skill action", () => {
     const responses = await doNTimes(iterations, () => doAction("envenom axe", axe))
 
     // then
-    expect(responses.filter(response => response.isFailure())).toHaveLength(iterations)
+    expect(responses.filter(response => response.isFailure()).length).toBeGreaterThanOrEqual(iterations * 0.9)
   })
 
   it("should succeed sometimes with sufficient practice", async () => {
@@ -47,7 +47,7 @@ describe("envenom skill action", () => {
     })
 
     // then
-    expect(responses.filter(response => response.isSuccessful()).length).toBe(1)
+    expect(responses.filter(response => response.isSuccessful()).length).toBeGreaterThan(1)
   })
 
   it("should not be able to envenom a non weapon", async () => {
@@ -61,7 +61,7 @@ describe("envenom skill action", () => {
     const response = await doAction("envenom cap", eq)
 
     // then
-    expect(response.isError()).toBeTruthy()
+    expect(response.isSuccessful()).toBeFalsy()
     expect(response.message.getMessageToRequestCreator()).toBe(Messages.Envenom.Error.NotAWeapon)
   })
 
@@ -76,7 +76,7 @@ describe("envenom skill action", () => {
     const response = await doAction("envenom mace", weapon)
 
     // then
-    expect(response.isError()).toBeTruthy()
+    expect(response.isSuccessful()).toBeFalsy()
     expect(response.message.getMessageToRequestCreator()).toBe(Messages.Envenom.Error.WrongWeaponType)
   })
 })

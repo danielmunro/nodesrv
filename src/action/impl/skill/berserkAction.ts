@@ -18,7 +18,7 @@ import Skill from "../../skill"
 export default class BerserkAction extends Skill {
   public roll(checkedRequest: CheckedRequest): boolean {
     const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-    return roll(1, checkedRequest.mob.level) + roll(2, skill.level) < Thresholds.Berserk
+    return roll(1, checkedRequest.mob.level) + roll(2, skill.level) > Thresholds.Berserk
   }
 
   public applySkill(checkedRequest: CheckedRequest): void {
