@@ -14,20 +14,13 @@ import {SpecializationType} from "../../../mob/specialization/specializationType
 import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
-import {ActionMessages} from "../../../skill/constants"
-import {Costs, Thresholds} from "../../../skill/constants"
-import {ConditionMessages as PreconditionMessages} from "../../../skill/constants"
-import {Skill as SkillModel} from "../../../skill/model/skill"
+import ResponseMessage from "../../../request/responseMessage"
+import {ActionMessages, ConditionMessages as PreconditionMessages, Costs, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import collectionSearch from "../../../support/matcher/collectionSearch"
 import {ActionType} from "../../enum/actionType"
 
 export default class SharpenAction extends Skill {
-  private static calculateSharpenSaves(skill: SkillModel) {
-    return roll(1, skill.level / 10)
-  }
-
   public check(request: Request): Promise<Check> {
     const item = collectionSearch(request.mob.inventory.items, request.getSubject())
 
@@ -48,24 +41,32 @@ export default class SharpenAction extends Skill {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
+  public roll(checkedRequest: CheckedRequest): boolean {
     const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-    const responseBuilder = checkedRequest.respondWith()
+    return roll(1, skill.level / 10) > Thresholds.Sharpen
+  }
 
-    if (SharpenAction.calculateSharpenSaves(skill) < Thresholds.Sharpen) {
-      return responseBuilder.fail(
-        ActionMessages.Sharpen.Failure,
-        { verb: "fail", target },
-        { verb: "fail", target },
-        { verb: "fails", target })
-    }
-
+  public applySkill(checkedRequest: CheckedRequest): void {
+    const [ skill, target ] = checkedRequest.results(CheckType.HasSkill, CheckType.HasTarget)
     target.affects.push(newPermanentAffect(
       AffectType.Sharpened,
       newAttributesWithHitroll(newHitroll(1, roll(1, skill.level / 10) + 1))))
+  }
 
-    return responseBuilder.success(
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      checkedRequest.mob,
+      ActionMessages.Sharpen.Failure,
+      { verb: "fail", target },
+      { verb: "fail", target },
+      { verb: "fails", target })
+  }
+
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      checkedRequest.mob,
       ActionMessages.Sharpen.Success,
       { verb: "sharpen", target },
       { verb: "sharpen", target },

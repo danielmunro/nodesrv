@@ -5,36 +5,42 @@ import {CheckType} from "../../../check/checkType"
 import {Messages as CheckMessages} from "../../../check/constants"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
-import {Mob} from "../../../mob/model/mob"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import roll from "../../../random/dice"
 import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
+import ResponseMessage from "../../../request/responseMessage"
 import {Costs} from "../../../skill/constants"
-import {Skill as SkillModel} from "../../../skill/model/skill"
 import {SkillType} from "../../../skill/skillType"
 import {ConditionMessages} from "../../constants"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
 export default class HamstringAction extends Skill {
-  private static hamstringIsSuccessful(mob: Mob, skill: SkillModel, target: Mob) {
-    return roll(1, skill.level) - target.level > mob.level
+  public roll(checkedRequest: CheckedRequest): boolean {
+    const [ skill, target ] = checkedRequest.results(CheckType.HasSkill, CheckType.HasTarget)
+    return roll(1, skill.level) - target.level > checkedRequest.mob.level
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const [skill, target ] = checkedRequest.results(CheckType.HasSkill, CheckType.HasTarget)
-    if (!HamstringAction.hamstringIsSuccessful(checkedRequest.mob, skill, target)) {
-      return checkedRequest.respondWith().fail(
-        ConditionMessages.Hamstring.Fail,
-        {verb: "attempt", target, verb2: "fail"},
-        {verb: "attempts", target: "you", verb2: "fails"},
-        {verb: "attempts", target, verb2: "fails"})
-    }
-
+  public applySkill(checkedRequest: CheckedRequest): void {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     target.affects.push(newAffect(AffectType.Immobilize, checkedRequest.mob.level / 15))
-    return checkedRequest.respondWith().success(
+  }
+
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      checkedRequest.mob,
+      ConditionMessages.Hamstring.Fail,
+      {verb: "attempt", target, verb2: "fail"},
+      {verb: "attempts", target: "you", verb2: "fails"},
+      {verb: "attempts", target, verb2: "fails"})
+  }
+
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      checkedRequest.mob,
       ConditionMessages.Hamstring.Success,
       {verb: "slice", target: `${target}'s`, target2: "They"},
       {verb: "slices", target: "your", target2: "You"},
