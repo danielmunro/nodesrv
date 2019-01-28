@@ -13,20 +13,14 @@ import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import {Thresholds} from "../../../skill/constants"
-import {Messages} from "../../../skill/constants"
-import {Costs} from "../../../skill/constants"
-import {ConditionMessages as PreconditionMessages} from "../../../skill/constants"
+import {ConditionMessages as PreconditionMessages, Costs, Messages, Thresholds} from "../../../skill/constants"
 import {Skill as SkillModel} from "../../../skill/model/skill"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
+import ResponseMessage from "../../../request/responseMessage"
 
 export default class SneakAction extends Skill {
-  private static calculateSneakRoll(mob: Mob, skill: SkillModel): number {
-    return roll(1, mob.level) + roll(2, skill.level) - getSizeModifier(mob.race, 10, -10)
-  }
-
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckTemplate(request)
       .perform(this)
@@ -34,18 +28,27 @@ export default class SneakAction extends Skill {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+  public roll(checkedRequest: CheckedRequest): boolean {
     const mob = checkedRequest.mob
-    const responseBuilder = checkedRequest.respondWith()
+    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+    return roll(1, mob.level) + roll(2, skill.level) - getSizeModifier(mob.race, 10, -10) > Thresholds.Sneak
+  }
 
-    if (SneakAction.calculateSneakRoll(mob, skill) < Thresholds.Sneak) {
-      return responseBuilder.fail(Messages.Sneak.Fail)
-    }
-
+  public applySkill(checkedRequest: CheckedRequest): void {
+    const mob = checkedRequest.mob
     mob.addAffect(newAffect(AffectType.Sneak, mob.level))
+  }
 
-    return responseBuilder.success(Messages.Sneak.Success)
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    return new ResponseMessage(
+      checkedRequest.mob,
+      Messages.Sneak.Fail)
+  }
+
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    return new ResponseMessage(
+      checkedRequest.mob,
+      Messages.Sneak.Success)
   }
 
   public getActionType(): ActionType {

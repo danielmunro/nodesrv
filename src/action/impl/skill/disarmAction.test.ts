@@ -55,7 +55,7 @@ describe("disarm skill action", () => {
     })
 
     // then
-    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations * 0.3)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations * 0.2)
   })
 
   it("should not work if not in a fight", async () => {
