@@ -7,6 +7,7 @@ import MobBuilder from "../../../test/mobBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
+const COMMAND = "envenom axe"
 const iterations = 100
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
@@ -29,7 +30,7 @@ describe("envenom skill action", () => {
     mobBuilder.withSkill(SkillType.Envenom)
 
     // when
-    const responses = await doNTimes(iterations, () => doAction("envenom axe", axe))
+    const responses = await doNTimes(iterations, () => doAction(COMMAND, axe))
 
     // then
     expect(responses.filter(response => response.isFailure()).length).toBeGreaterThanOrEqual(iterations * 0.9)
@@ -43,7 +44,7 @@ describe("envenom skill action", () => {
     // when
     const responses = await doNTimes(iterations, async () => {
       axe.affects = []
-      return doAction("envenom axe", axe)
+      return doAction(COMMAND, axe)
     })
 
     // then
@@ -86,7 +87,7 @@ describe("envenom skill action", () => {
     mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
 
     // when
-    const responses = await doNTimes(iterations, () => doAction("envenom axe", axe))
+    const responses = await doNTimes(iterations, () => doAction(COMMAND, axe))
 
     // then
     const successResponse = responses.find(response => response.isSuccessful()).message

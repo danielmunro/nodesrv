@@ -19,6 +19,7 @@ export default class WeaponAction extends Skill {
   }
 
   public applySkill(checkedRequest: CheckedRequest): void {
+    //
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
