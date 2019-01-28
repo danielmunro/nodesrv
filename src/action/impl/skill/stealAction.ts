@@ -2,6 +2,7 @@ import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
+import {Messages} from "../../../check/constants"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import EventService from "../../../event/eventService"
@@ -30,6 +31,7 @@ export default class StealAction extends Skill {
 
     return this.checkBuilderFactory.createCheckTemplate(request)
       .perform(this)
+      .require(target, Messages.NoMob, CheckType.HasTarget)
       .not().requireFight(PreconditionMessages.All.Fighting)
       .require(
         target ? target.inventory.findItemByName(subject) : false,
@@ -55,21 +57,23 @@ export default class StealAction extends Skill {
   }
 
   public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const [ item, target ] = checkedRequest.results(CheckType.HasItem, CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
       ActionMessages.Steal.Failure,
-      { verb: "fail" },
-      { verb: "fails", target: "you" },
-      { verb: "fails" })
+      { verb: "fail", item, target },
+      { verb: "fails", item, target: "you" },
+      { verb: "fails", item, target })
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+    const [ item, target ] = checkedRequest.results(CheckType.HasItem, CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
       ActionMessages.Steal.Success,
-      { verb: "steal" },
-      { verb: "steals", item, target: "you" })
+      { verb: "steal", item, target },
+      { verb: "steals", item, target: "you" },
+      { verb: "steals", item, target })
   }
 
   public getActionType(): ActionType {
