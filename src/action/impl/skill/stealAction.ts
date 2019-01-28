@@ -13,22 +13,13 @@ import {SpecializationType} from "../../../mob/specialization/specializationType
 import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
-import {ActionMessages} from "../../../skill/constants"
-import {Costs} from "../../../skill/constants"
-import {ConditionMessages as PreconditionMessages} from "../../../skill/constants"
-import {Skill as SkillModel} from "../../../skill/model/skill"
+import {ActionMessages, ConditionMessages as PreconditionMessages, Costs} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
+import ResponseMessage from "../../../request/responseMessage"
 
 export default class StealAction extends Skill {
-  private static calculateStealSaves(mob: Mob, skill: SkillModel) {
-    const combined = mob.getCombinedAttributes()
-
-    return roll(4, (combined.stats.dex / 5) + ((skill ? skill.level : 10) / 10) + (mob.level / 5))
-  }
-
   constructor(private readonly eventService: EventService, checkBuilderFactory: CheckBuilderFactory) {
     super(checkBuilderFactory)
   }
@@ -47,43 +38,38 @@ export default class StealAction extends Skill {
       .create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+  public roll(checkedRequest: CheckedRequest): boolean {
     const mob = checkedRequest.mob
-    const target = checkedRequest.request.getTarget() as Mob
+    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+    const combined = mob.getCombinedAttributes()
+
+    return roll(4, (combined.stats.dex / 5) + ((skill ? skill.level : 10) / 10) + (mob.level / 5)) > 50
+  }
+
+  public async applySkill(checkedRequest: CheckedRequest): Promise<void> {
     const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-    const replacements = { item, target }
-    let success = true
-
-    if (StealAction.calculateStealSaves(mob, skill) <
-      StealAction.calculateStealSaves(target, target.findSkill(SkillType.Steal))) {
-      if (roll(1, 3) === 1) {
-        await this.startFight(checkedRequest)
-        success = false
-      }
-
-      return checkedRequest
-        .respondWith()
-        .fail(
-          ActionMessages.Steal.Failure,
-          { verb: "fail", ...replacements },
-          success ? { verb: "fails", target: "you", ...replacements } : null,
-          success ? { verb: "fails", ...replacements } : null)
-    }
-
-    mob.inventory.addItem(item)
-
+    checkedRequest.mob.inventory.addItem(item)
     if (roll(1, 5) === 1) {
       await this.startFight(checkedRequest)
-      success = false
     }
+  }
 
-    return checkedRequest
-      .respondWith()
-      .success(
-        ActionMessages.Steal.Success,
-        success ? { verb: "steal", ...replacements } : null,
-        success ? { verb: "steals", item, target: "you" } : null)
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    return new ResponseMessage(
+      checkedRequest.mob,
+      ActionMessages.Steal.Failure,
+      { verb: "fail" },
+      { verb: "fails", target: "you" },
+      { verb: "fails" })
+  }
+
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+    return new ResponseMessage(
+      checkedRequest.mob,
+      ActionMessages.Steal.Success,
+      { verb: "steal" },
+      { verb: "steals", item, target: "you" })
   }
 
   public getActionType(): ActionType {
@@ -91,15 +77,10 @@ export default class StealAction extends Skill {
   }
 
   public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Warrior) {
-      return new SpecializationLevel(SpecializationType.Warrior, 0)
-    } else if (specializationType === SpecializationType.Ranger) {
+    if (specializationType === SpecializationType.Ranger) {
       return new SpecializationLevel(SpecializationType.Ranger, 5)
-    } else if (specializationType === SpecializationType.Mage) {
-      return new SpecializationLevel(SpecializationType.Mage, 0)
     }
-
-    return new SpecializationLevel(SpecializationType.Cleric, 0)
+    return new SpecializationLevel(SpecializationType.Noop, 0)
   }
 
   public getCosts(): Cost[] {
