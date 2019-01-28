@@ -13,11 +13,11 @@ import {SpecializationType} from "../../../mob/specialization/specializationType
 import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
+import ResponseMessage from "../../../request/responseMessage"
 import {ActionMessages, ConditionMessages as PreconditionMessages, Costs} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
-import ResponseMessage from "../../../request/responseMessage"
 
 export default class StealAction extends Skill {
   constructor(private readonly eventService: EventService, checkBuilderFactory: CheckBuilderFactory) {

@@ -4,7 +4,7 @@ import Cost from "../../../check/cost/cost"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
+import ResponseMessage from "../../../request/responseMessage"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
@@ -14,8 +14,19 @@ export default class WeaponAction extends Skill {
     super(checkBuilderFactory)
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    return checkedRequest.respondWith().success()
+  public roll(checkedRequest: CheckedRequest): boolean {
+    return true
+  }
+
+  public applySkill(checkedRequest: CheckedRequest): void {
+  }
+
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    return undefined
+  }
+
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    return undefined
   }
 
   public getActionType(): ActionType {

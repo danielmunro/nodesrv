@@ -11,9 +11,8 @@ import SpecializationLevel from "../../../mob/specialization/specializationLevel
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import roll from "../../../random/dice"
 import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
-import {ActionMessages} from "../../../skill/constants"
-import {Costs} from "../../../skill/constants"
+import ResponseMessage from "../../../request/responseMessage"
+import {ActionMessages, Costs} from "../../../skill/constants"
 import {Skill as SkillModel} from "../../../skill/model/skill"
 import {SkillType} from "../../../skill/skillType"
 import {ActionType} from "../../enum/actionType"
@@ -29,25 +28,31 @@ export default class TripAction extends Skill {
       getSizeModifier(mob.race, -10, 10)
   }
 
-  private static succeedsTripRoll(mob: Mob, skill: SkillModel, target: Mob) {
-    return TripAction.calculateTripRoll(mob, skill) > TripAction.calculateDefenseRoll(target)
+  public roll(checkedRequest: CheckedRequest): boolean {
+    const [ target, skill ] = checkedRequest.results(CheckType.HasTarget, CheckType.HasSkill)
+    return TripAction.calculateTripRoll(checkedRequest.mob, skill) > TripAction.calculateDefenseRoll(target)
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
+  public applySkill(checkedRequest: CheckedRequest): void {
     const [ target, skill ] = checkedRequest.results(CheckType.HasTarget, CheckType.HasSkill)
-
-    if (!TripAction.succeedsTripRoll(checkedRequest.mob, skill, target)) {
-      return checkedRequest.respondWith().fail(
-        ActionMessages.Trip.Failure,
-        { verb: "trip", target },
-        { verb: "trips", target })
-    }
-
     const amount = skill.level / 10
     target.addAffect(newAffect(AffectType.Stunned, amount))
     target.vitals.hp -= amount
+  }
 
-    return checkedRequest.respondWith().success(
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      checkedRequest.mob,
+      ActionMessages.Trip.Failure,
+      { verb: "trip", target },
+      { verb: "trips", target })
+  }
+
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    return new ResponseMessage(
+      checkedRequest.mob,
       ActionMessages.Trip.Success,
       { verb: "trip", target },
       { verb: "trip", target })
