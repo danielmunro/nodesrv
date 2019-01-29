@@ -26,7 +26,7 @@ export default abstract class Skill extends Action {
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
     if (!this.roll(checkedRequest)) {
       await this.eventService.publish(
-        new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSkill), false))
+        new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSkill), checkedRequest.mob, false))
       return checkedRequest.responseWithMessage(
         ResponseStatus.ActionFailed,
         this.getFailureMessage(checkedRequest))
@@ -34,7 +34,7 @@ export default abstract class Skill extends Action {
 
     this.applySkill(checkedRequest)
     await this.eventService.publish(
-      new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSkill), true))
+      new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSkill), checkedRequest.mob, true))
 
     return checkedRequest.responseWithMessage(
       ResponseStatus.Success,
