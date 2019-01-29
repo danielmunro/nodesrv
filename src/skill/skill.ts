@@ -36,8 +36,4 @@ export default class Skill {
 
     return request.respondWith().error(check.result)
   }
-
-  public getLevelFor(specializationType: SpecializationType): SpecializationLevel {
-    return this.skillLevels.find(sp => sp.specialization === specializationType)
-  }
 }

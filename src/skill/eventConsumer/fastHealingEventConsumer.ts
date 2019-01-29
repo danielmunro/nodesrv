@@ -5,8 +5,7 @@ import MobEvent from "../../mob/event/mobEvent"
 import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
-import Skill from "../skill"
-import {SkillType} from "../skillType"
+import Skill from "../../action/skill"
 
 export default class FastHealingEventConsumer implements EventConsumer {
   constructor(private readonly fastHealing: Skill) {}
@@ -17,10 +16,7 @@ export default class FastHealingEventConsumer implements EventConsumer {
 
   public async consume(event: MobEvent): Promise<EventResponse> {
     const request = new Request(event.mob, event.context, new EventContext(RequestType.Noop))
-    const result = await this.fastHealing.doAction(request)
-    if (result.isSuccessful()) {
-      return EventResponse.satisfied(event, SkillType.FastHealing)
-    }
+    await this.fastHealing.handle(request)
     return EventResponse.none(event)
   }
 }

@@ -51,7 +51,7 @@ describe("ticks", () => {
     client.getSessionMob().skills.push(newSkill(SkillType.FastHealing, MAX_PRACTICE_LEVEL))
     const clients = [client]
     const mockSkill = jest.fn(() => ({
-      doAction: jest.fn(() => ({
+      handle: jest.fn(() => ({
         isSuccessful: jest.fn(),
       })),
     }))()
@@ -65,6 +65,6 @@ describe("ticks", () => {
       getLocationService(clients)).notify(clients)
 
     // then
-    expect(mockSkill.doAction.mock.calls.length).toBe(1)
+    expect(mockSkill.handle.mock.calls.length).toBe(1)
   })
 })
