@@ -20,11 +20,11 @@ import MobLeaves from "../player/eventConsumer/mobLeaves"
 import {RequestType} from "../request/requestType"
 import {GameServer} from "../server/server"
 import DodgeEventConsumer from "../skill/eventConsumer/dodgeEventConsumer"
+import FastHealingEventConsumer from "../skill/eventConsumer/fastHealingEventConsumer"
 import SecondAttackEventConsumer from "../skill/eventConsumer/secondAttackEventConsumer"
 import SkillInvokedEventConsumer from "../skill/eventConsumer/skillInvokedEventConsumer"
 import {SkillType} from "../skill/skillType"
 import EventConsumer from "./eventConsumer"
-import FastHealingEventConsumer from "../skill/eventConsumer/fastHealingEventConsumer"
 
 export default async function createEventConsumerTable(
   gameService: GameService,

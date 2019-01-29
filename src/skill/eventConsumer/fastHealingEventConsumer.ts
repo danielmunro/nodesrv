@@ -1,3 +1,4 @@
+import Skill from "../../action/skill"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
@@ -5,7 +6,6 @@ import MobEvent from "../../mob/event/mobEvent"
 import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
-import Skill from "../../action/skill"
 
 export default class FastHealingEventConsumer implements EventConsumer {
   constructor(private readonly fastHealing: Skill) {}

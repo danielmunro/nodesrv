@@ -1,10 +1,10 @@
+import {Race} from "../../mob/race/race"
 import doNTimes from "../../support/functional/times"
+import {getTestMob} from "../../test/mob"
 import {newSkill} from "../factory"
 import SkillEvent from "../skillEvent"
 import {SkillType} from "../skillType"
 import SkillInvokedEventConsumer from "./skillInvokedEventConsumer"
-import {getTestMob} from "../../test/mob"
-import {Race} from "../../mob/race/race"
 
 const iterations = 1000
 
