@@ -21,6 +21,7 @@ import {RequestType} from "../request/requestType"
 import {GameServer} from "../server/server"
 import DodgeEventConsumer from "../skill/eventConsumer/dodgeEventConsumer"
 import SecondAttackEventConsumer from "../skill/eventConsumer/secondAttackEventConsumer"
+import SkillInvokedEventConsumer from "../skill/eventConsumer/skillInvokedEventConsumer"
 import {SkillType} from "../skill/skillType"
 import EventConsumer from "./eventConsumer"
 
@@ -55,6 +56,7 @@ export default async function createEventConsumerTable(
     new DodgeEventConsumer(gameService.getSkillDefinition(SkillType.Dodge)),
     // new FastHealingEventConsumer(gameService.getSkillDefinition(SkillType.FastHealing)),
     new SecondAttackEventConsumer(gameService.getSkillDefinition(SkillType.SecondAttack)),
+    new SkillInvokedEventConsumer(),
 
     // app
     new MobCreated(mobService, gameServer.startRoom),

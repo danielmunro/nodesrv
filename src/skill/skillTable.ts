@@ -9,20 +9,21 @@ import {SkillType} from "./skillType"
 
 export function getSkillTable(service: GameService) {
   const checkBuilderFactory = new CheckBuilderFactory(service.mobService)
+  const eventService = service.eventService
   return [
-    new DodgeAction(checkBuilderFactory),
-    new SecondAttackAction(checkBuilderFactory),
-    new EnhancedDamageAction(checkBuilderFactory),
-    new FastHealingAction(checkBuilderFactory),
-    new WeaponAction(checkBuilderFactory, SkillType.Sword),
-    new WeaponAction(checkBuilderFactory, SkillType.Mace),
-    new WeaponAction(checkBuilderFactory, SkillType.Wand),
-    new WeaponAction(checkBuilderFactory, SkillType.Dagger),
-    new WeaponAction(checkBuilderFactory, SkillType.Stave),
-    new WeaponAction(checkBuilderFactory, SkillType.Whip),
-    new WeaponAction(checkBuilderFactory, SkillType.Spear),
-    new WeaponAction(checkBuilderFactory, SkillType.Axe),
-    new WeaponAction(checkBuilderFactory, SkillType.Flail),
-    new WeaponAction(checkBuilderFactory, SkillType.Polearm),
+    new DodgeAction(checkBuilderFactory, eventService),
+    new SecondAttackAction(checkBuilderFactory, eventService),
+    new EnhancedDamageAction(checkBuilderFactory, eventService),
+    new FastHealingAction(checkBuilderFactory, eventService),
+    new WeaponAction(checkBuilderFactory, eventService, SkillType.Sword),
+    new WeaponAction(checkBuilderFactory, eventService, SkillType.Mace),
+    new WeaponAction(checkBuilderFactory, eventService, SkillType.Wand),
+    new WeaponAction(checkBuilderFactory, eventService, SkillType.Dagger),
+    new WeaponAction(checkBuilderFactory, eventService, SkillType.Stave),
+    new WeaponAction(checkBuilderFactory, eventService, SkillType.Whip),
+    new WeaponAction(checkBuilderFactory, eventService, SkillType.Spear),
+    new WeaponAction(checkBuilderFactory, eventService, SkillType.Axe),
+    new WeaponAction(checkBuilderFactory, eventService, SkillType.Flail),
+    new WeaponAction(checkBuilderFactory, eventService, SkillType.Polearm),
   ]
 }

@@ -5,7 +5,7 @@ import doNTimes from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
-const iterations = 100
+const iterations = 1000
 let testBuilder: TestBuilder
 let action: Action
 

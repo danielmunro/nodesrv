@@ -21,8 +21,8 @@ import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
 export default class StealAction extends Skill {
-  constructor(private readonly eventService: EventService, checkBuilderFactory: CheckBuilderFactory) {
-    super(checkBuilderFactory)
+  constructor(checkBuilderFactory: CheckBuilderFactory, eventService: EventService) {
+    super(checkBuilderFactory, eventService)
   }
 
   public check(request: Request): Promise<Check> {
@@ -45,7 +45,7 @@ export default class StealAction extends Skill {
     const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
     const combined = mob.getCombinedAttributes()
 
-    return roll(4, (combined.stats.dex / 5) + ((skill ? skill.level : 10) / 10) + (mob.level / 5)) > 50
+    return roll(5, (combined.stats.dex / 5) + ((skill ? skill.level : 10) / 10) + (mob.level / 5)) > 50
   }
 
   public async applySkill(checkedRequest: CheckedRequest): Promise<void> {

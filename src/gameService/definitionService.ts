@@ -2,7 +2,6 @@ import { ActionType } from "../action/enum/actionType"
 import {AffectType} from "../affect/affectType"
 import Cost from "../check/cost/cost"
 import { DamageType } from "../damage/damageType"
-import { improveSpell } from "../improve/improve"
 import SpecializationLevel from "../mob/specialization/specializationLevel"
 import Skill from "../skill/skill"
 import { SkillType } from "../skill/skillType"
@@ -46,7 +45,7 @@ export default class DefinitionService {
       spellType,
       actionType,
       precondition,
-      improveSpell(action),
+      action,
       minimumManaCost,
       spellLevels,
       affectType,

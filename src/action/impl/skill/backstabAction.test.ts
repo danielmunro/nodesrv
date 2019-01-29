@@ -46,7 +46,7 @@ describe("backstab skill action", () => {
       action.handle(testBuilder.createRequest(RequestType.Backstab)))
 
     // then
-    expect(responses.filter(r => r.isFailure()).length).toBeGreaterThan(iterations * 0.92)
+    expect(responses.filter(r => r.isFailure()).length).toBeGreaterThan(iterations * 0.5)
     expect(all(responses, r => r.message.toRequestCreator === format(ActionMessages.Backstab.Failure, opponent)))
   })
 
