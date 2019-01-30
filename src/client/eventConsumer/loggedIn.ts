@@ -24,6 +24,6 @@ export default class LoggedIn implements EventConsumer {
         this.startRoom,
         new EventContext(RequestType.Look)))
     event.client.sendMessage(response.message.getMessageToRequestCreator())
-    return Promise.resolve(new EventResponse(event, EventResponseStatus.None))
+    return new EventResponse(event, EventResponseStatus.None, response)
   }
 }

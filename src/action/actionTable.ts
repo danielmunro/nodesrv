@@ -4,7 +4,6 @@ import getHealerSpellTable from "../mob/healer/healerSpellTable"
 import SocialService from "../social/socialService"
 import getSpellTable from "../spell/spellTable"
 import Action from "./action"
-import AnyAction from "./impl/anyAction"
 import CastAction from "./impl/castAction"
 import SleepAction from "./impl/disposition/sleepAction"
 import WakeAction from "./impl/disposition/wakeAction"
@@ -146,6 +145,5 @@ export default function getActionTable(service: GameService): Action[] {
 
     // catch-all
     new NoopAction(),
-    new AnyAction(),
-    ]
+  ]
 }

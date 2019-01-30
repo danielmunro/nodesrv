@@ -7,7 +7,7 @@ import MobBuilder from "../../../test/mobBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
-const iterations = 100
+const iterations = 1000
 let testBuilder: TestBuilder
 let action: Action
 let mob1: MobBuilder
@@ -55,7 +55,7 @@ describe("disarm skill action", () => {
     })
 
     // then
-    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations * 0.2)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations * 0.1)
   })
 
   it("should not work if not in a fight", async () => {

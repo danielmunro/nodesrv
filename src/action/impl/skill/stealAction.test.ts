@@ -46,7 +46,7 @@ describe("steal skill action", () => {
 
   it("should improve levels when used", async () => {
     // when
-    await doNTimes(iterations * 2, () =>
+    await doNTimes(iterations * 10, () =>
       action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT, mob2)))
 
     // then
