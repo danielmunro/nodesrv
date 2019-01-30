@@ -4,14 +4,14 @@ import {getTestMob} from "../../test/mob"
 import {newSkill} from "../factory"
 import SkillEvent from "../skillEvent"
 import {SkillType} from "../skillType"
-import SkillInvokedEventConsumer from "./skillInvokedEventConsumer"
+import ImproveInvokedSkillsEventConsumer from "./improveInvokedSkillsEventConsumer"
 
 const iterations = 1000
 
 describe("skill invoked event consumer", () => {
   it("should improve a skill", async () => {
     // setup
-    const skillInvokedEventConsumer = new SkillInvokedEventConsumer()
+    const skillInvokedEventConsumer = new ImproveInvokedSkillsEventConsumer()
 
     // given
     const skill = newSkill(SkillType.Sneak)
@@ -26,7 +26,7 @@ describe("skill invoked event consumer", () => {
 
   it("high intelligence mobs should improve faster", async () => {
     // setup
-    const skillInvokedEventConsumer = new SkillInvokedEventConsumer()
+    const skillInvokedEventConsumer = new ImproveInvokedSkillsEventConsumer()
 
     // given
     const skill1 = newSkill(SkillType.Sneak)
