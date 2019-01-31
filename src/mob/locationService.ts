@@ -19,7 +19,6 @@ export default class LocationService {
     const location = this.getLocationForMob(mob)
     const exits = this.exitTable.exitsForRoom(location.room)
     const exit = exits.find(e => e.direction === direction)
-    console.log("moveMob", mob.name, direction, exit, exits.length)
 
     if (!exit) {
       throw new Error("cannot move in that direction")
