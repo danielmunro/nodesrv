@@ -1,4 +1,3 @@
-import LocationService from "../mob/locationService"
 import roll from "../random/dice"
 import { allDirections, Direction } from "./constants"
 import { getFreeReciprocalDirection, isReciprocalFree, reverse } from "./direction"
@@ -72,8 +71,8 @@ export async function newRoomTable(): Promise<RoomTable> {
   return RoomTable.new(models)
 }
 
-export async function newExitTable(service: LocationService): Promise<ExitTable> {
+export async function newExitTable(): Promise<ExitTable> {
   const exitRepository = await getExitRepository()
   const models = await exitRepository.findAll()
-  return new ExitTable(service, models)
+  return new ExitTable(models)
 }

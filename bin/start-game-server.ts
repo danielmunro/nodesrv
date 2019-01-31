@@ -1,18 +1,25 @@
 import * as assert from "assert"
 import createEventConsumerTable from "../src/event/eventConsumerTable"
 import EventService from "../src/event/eventService"
-import { createResetService } from "../src/gameService/factory"
 import GameService from "../src/gameService/gameService"
+import ResetService from "../src/gameService/resetService"
 import ItemService from "../src/item/itemService"
 import ItemTable from "../src/item/itemTable"
 import { getItemRepository } from "../src/item/repository/item"
+import {getItemContainerResetRepository} from "../src/item/repository/itemContainerReset"
+import {getItemMobResetRepository} from "../src/item/repository/itemMobReset"
+import {getItemRoomResetRepository} from "../src/item/repository/itemRoomReset"
+import {getMobEquipResetRepository} from "../src/item/repository/mobEquipReset"
 import { createMobService } from "../src/mob/factory"
 import FightBuilder from "../src/mob/fight/fightBuilder"
 import LocationService from "../src/mob/locationService"
+import MobService from "../src/mob/mobService"
 import MobTable from "../src/mob/mobTable"
 import { getMobRepository } from "../src/mob/repository/mob"
+import {getMobResetRepository} from "../src/mob/repository/mobReset"
 import {getPlayerRepository} from "../src/player/repository/player"
 import { newExitTable, newRoomTable } from "../src/room/factory"
+import {default as RoomTable} from "../src/room/roomTable"
 import ClientService from "../src/server/clientService"
 import newServer from "../src/server/factory"
 import AuthService from "../src/session/auth/authService"
@@ -91,10 +98,37 @@ async function getAllRoomsAndMobs() {
   return Promise.all([
     newRoomTable(),
     new MobTable(await (await getMobRepository()).findAll()),
-    newExitTable(locationService),
+    newExitTable(),
   ])
 }
 
 async function getAllItems(): Promise<ItemTable> {
   return new ItemTable(await (await getItemRepository()).findAll())
+}
+
+async function createResetService(
+  mobService: MobService, roomTable: RoomTable, itemService: ItemService): Promise<ResetService> {
+  const mobResetRepository = await getMobResetRepository()
+  const itemMobResetRepository = await getItemMobResetRepository()
+  const itemRoomResetRepository = await getItemRoomResetRepository()
+  const mobEquipResetRepository = await getMobEquipResetRepository()
+  const itemContainerResetRepository = await getItemContainerResetRepository()
+
+  const [ mobResets, itemMobResets, itemRoomResets, mobEquipResets, itemContainerResets ] = await Promise.all([
+    mobResetRepository.findAll(),
+    itemMobResetRepository.findAll(),
+    itemRoomResetRepository.findAll(),
+    mobEquipResetRepository.findAll(),
+    itemContainerResetRepository.findAll(),
+  ])
+
+  return new ResetService(
+    mobResets,
+    itemMobResets,
+    itemRoomResets,
+    mobEquipResets,
+    itemContainerResets,
+    mobService,
+    roomTable,
+    itemService)
 }
