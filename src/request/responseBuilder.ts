@@ -8,23 +8,33 @@ export default class ResponseBuilder {
   constructor(private readonly request: Request | CheckedRequest) {}
 
   public success(
-    templateString: string = null,
-    toRequestCreator = null,
-    toTarget = null,
+    templateString?: string,
+    toRequestCreator?: object,
+    toTarget = toRequestCreator,
     toObservers = toTarget): Promise<Response> {
     return this.response(
       ResponseStatus.Success,
-      new ResponseMessage(this.request.mob, templateString, toRequestCreator, toTarget, toObservers))
+      new ResponseMessage(
+        this.request.mob,
+        templateString || "",
+        toRequestCreator,
+        toTarget,
+        toObservers))
   }
 
   public fail(
-    templateString: string = null,
-    toRequestCreator = null,
-    toTarget = null,
+    templateString?: string,
+    toRequestCreator?: object,
+    toTarget = toRequestCreator,
     toObservers = toTarget): Promise<Response> {
     return this.response(
       ResponseStatus.ActionFailed,
-      new ResponseMessage(this.request.mob, templateString, toRequestCreator, toTarget, toObservers))
+      new ResponseMessage(
+        this.request.mob,
+        templateString || "",
+        toRequestCreator,
+        toTarget,
+        toObservers))
   }
 
   public info(messageToRequestCreator: string): Promise<Response> {

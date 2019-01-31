@@ -5,7 +5,7 @@ export default class ResponseMessage {
   constructor(
     public readonly requestCreator: Mob,
     public readonly templateString: string,
-    public readonly toRequestCreator = null,
+    public readonly toRequestCreator?: object,
     public readonly toTarget = toRequestCreator,
     public readonly toObservers = toTarget,
   ) {}

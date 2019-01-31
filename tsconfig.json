@@ -5,6 +5,18 @@
     "lib": ["es2017", "dom"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es6"
+    "target": "es6",
+    "alwaysStrict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "strictNullChecks": true,
+    "declaration": true
   }
 }

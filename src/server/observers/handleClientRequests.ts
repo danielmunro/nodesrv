@@ -2,11 +2,9 @@ import { Client } from "../../client/client"
 import { Observer } from "./observer"
 
 export class HandleClientRequests implements Observer {
-  public notify(clients: Client[]): void {
-    clients.forEach((client) => {
-      if (client.canHandleRequests()) {
-        client.handleNextRequest()
-      }
-    })
+  public async notify(clients: Client[]): Promise<void> {
+    clients
+      .filter(client => client.canHandleRequests())
+      .forEach(client => client.handleNextRequest())
   }
 }

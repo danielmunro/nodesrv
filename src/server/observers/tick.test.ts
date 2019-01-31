@@ -1,39 +1,34 @@
 import EventService from "../../event/eventService"
 import TimeService from "../../gameService/timeService"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
-import {newMobLocation} from "../../mob/factory"
-import LocationService from "../../mob/locationService"
 import FastHealingEventConsumer from "../../skill/eventConsumer/fastHealingEventConsumer"
 import {newSkill} from "../../skill/factory"
 import {SkillType} from "../../skill/skillType"
 import {getConnection, initializeConnection} from "../../support/db/connection"
-import {getTestClient} from "../../test/client"
-import {getTestRoom} from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
 import {Tick} from "./tick"
 
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
-function getLocationService(clients) {
-  return new LocationService(null, null, null, clients.map(c => newMobLocation(c.getSessionMob(), getTestRoom())))
-}
-
 describe("ticks", () => {
   it("should call tick on all clients", async () => {
+    const testBuilder = new TestBuilder()
+    const service = await testBuilder.getService()
+
     // given
     const clients = [
-      await getTestClient(),
-      await getTestClient(),
-      await getTestClient(),
-      await getTestClient(),
-      await getTestClient(),
+      await testBuilder.withClient(),
+      await testBuilder.withClient(),
+      await testBuilder.withClient(),
+      await testBuilder.withClient(),
+      await testBuilder.withClient(),
     ]
 
     const tick = new Tick(
       new TimeService(),
       new EventService(),
-      getLocationService(clients))
+      service.mobService.locationService)
 
     // when
     await tick.notify(clients)
@@ -45,6 +40,7 @@ describe("ticks", () => {
   it("should invoke fast healing on tick", async () => {
     // setup
     const testBuilder = new TestBuilder()
+    const service = await testBuilder.getService()
 
     // given
     const client = await testBuilder.withClient()
@@ -62,7 +58,7 @@ describe("ticks", () => {
       new EventService([
         new FastHealingEventConsumer(mockSkill),
       ]),
-      getLocationService(clients)).notify(clients)
+      service.mobService.locationService).notify(clients)
 
     // then
     expect(mockSkill.handle.mock.calls.length).toBe(1)

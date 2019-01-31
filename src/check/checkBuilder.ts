@@ -1,5 +1,7 @@
 import {AffectType} from "../affect/affectType"
+import {Affect} from "../affect/model/affect"
 import {Disposition} from "../mob/enum/disposition"
+import {Fight} from "../mob/fight/fight"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import {AuthorizationLevel, isSpecialAuthorizationLevel} from "../player/authorizationLevel"
@@ -20,7 +22,7 @@ import {CostType} from "./cost/costType"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []
-  private checkResults = []
+  private checkResults: CheckResult[] = []
   private costs: Cost[] = []
   private confirm: boolean = true
   private mob: Mob
@@ -42,7 +44,7 @@ export default class CheckBuilder {
   public requireMerchant() {
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
-      this.mobService.findMobInRoomWithMob(this.request.mob, m => m.isMerchant()),
+      this.mobService.findMobInRoomWithMob(this.request.mob, (m: Mob) => m.isMerchant()),
       Messages.NoMerchant,
     ))
 
@@ -58,7 +60,7 @@ export default class CheckBuilder {
   public requirePlayer(mob: Mob, failMessage = Messages.NotAPlayer): CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.IsPlayer,
-      new Maybe(mob).do(m => !m.traits.isNpc).or(() => false).get(),
+      new Maybe(mob).do((m: Mob) => !m.traits.isNpc).or(() => false).get(),
       failMessage))
 
     return this
@@ -84,7 +86,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public requireSubject(failMessage: string = null) {
+  public requireSubject(failMessage?: string) {
     this.checks.push(this.newCheckComponent(
       CheckType.HasArguments,
       this.request.getSubject(),
@@ -93,15 +95,15 @@ export default class CheckBuilder {
     return this
   }
 
-  public require(thing, failMessage, checkType: CheckType = CheckType.Unspecified) {
+  public require(thing: any, failMessage: string, checkType: CheckType = CheckType.Unspecified) {
     this.checks.push(this.newCheckComponent(checkType, thing, failMessage))
 
     return this
   }
 
-  public capture(toCapture = null) {
-    this.checks.push(this.newCheckComponent(CheckType.Unspecified, thing =>
-      this.captured = toCapture ? toCapture : thing))
+  public capture(toCapture: any) {
+    this.checks.push(this.newCheckComponent(CheckType.Unspecified, (thing: any) =>
+      this.captured = toCapture || thing))
 
     return this
   }
@@ -150,10 +152,10 @@ export default class CheckBuilder {
     return this
   }
 
-  public requireAffect(affectType: AffectType, failMessage) {
+  public requireAffect(affectType: AffectType, failMessage: string) {
     this.checks.push(this.newCheckComponent(
       CheckType.HasAffect,
-      captured => captured.affects.find(a => a.affectType === affectType),
+      (captured: any) => captured.affects.find((a: Affect) => a.affectType === affectType),
       failMessage))
     return this
   }
@@ -171,8 +173,8 @@ export default class CheckBuilder {
   public requireFight(failMessage: string = SkillMessages.All.NoTarget) {
     this.checks.push(this.newCheckComponent(
       CheckType.IsFighting,
-      new Maybe(this.mobService.findFight(f => f.isParticipant(this.mob)))
-        .do(f => f.getOpponentFor(this.mob))
+      new Maybe(this.mobService.findFight((f: Fight) => f.isParticipant(this.mob)))
+        .do((f: Fight) => f.getOpponentFor(this.mob))
         .or(() => false)
         .get(),
       failMessage))
@@ -195,15 +197,15 @@ export default class CheckBuilder {
     return Check.ok(this.captured, this.checkResults, this.costs)
   }
 
-  private async findCostFail() {
+  private async findCostFail(): Promise<Check | void> {
     const costFail = this.costs.find(cost => !cost.canApplyTo(this.mob))
     if (costFail) {
       return Check.fail(costFail.failMessage, this.checkResults, this.costs)
     }
   }
 
-  private async findCheckFailure() {
-    let lastThing
+  private async findCheckFailure(): Promise<Check | void> {
+    let lastThing: any
 
     const checkFail = this.checks.find(checkComponent => {
       const checkResult = checkComponent.getThing(this.captured ? this.captured : lastThing, lastThing)
@@ -216,11 +218,11 @@ export default class CheckBuilder {
     }
   }
 
-  private getFailMessage(failMessage) {
+  private getFailMessage(failMessage: any) {
     return typeof(failMessage) === "function" ? format(failMessage(), this.captured) : failMessage
   }
 
-  private newCheckComponent(checkType: CheckType, thing, failMessage = null): CheckComponent {
+  private newCheckComponent(checkType: CheckType, thing: any, failMessage?: string): CheckComponent {
     const component = new CheckComponent(checkType, this.confirm, thing, failMessage)
     this.confirm = true
     return component
