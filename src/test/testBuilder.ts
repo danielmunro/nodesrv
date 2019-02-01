@@ -22,9 +22,12 @@ import RequestBuilder from "../request/requestBuilder"
 import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import {newReciprocalExit, newRoom} from "../room/factory"
+import {Exit} from "../room/model/exit"
 import {Room} from "../room/model/room"
 import ClientService from "../server/clientService"
 import {GameServer} from "../server/server"
+import AuthService from "../session/auth/authService"
+import Email from "../session/auth/login/email"
 import Session from "../session/session"
 import {getSkillTable} from "../skill/skillTable"
 import {SkillType} from "../skill/skillType"
@@ -58,7 +61,7 @@ export default class TestBuilder {
     }
     const service = await this.getService()
     const client = new Client(
-      new Session(null),
+      new Session(new Email(jest.fn()())),
       ws(),
       "127.0.0.1",
       service.getActions(),
@@ -71,7 +74,7 @@ export default class TestBuilder {
     return client
   }
 
-  public withRoom(direction: Direction = null) {
+  public withRoom(direction?: Direction) {
     const room = newRoom("a test room", "description of a test room")
     room.region = newRegion("a test region", Terrain.Plains)
 
@@ -96,7 +99,7 @@ export default class TestBuilder {
     return this.player
   }
 
-  public async withPlayer(fn = null): Promise<PlayerBuilder> {
+  public async withPlayer(fn: (player: Player) => void = () => { /**/ }): Promise<PlayerBuilder> {
     const player = getTestPlayer()
 
     if (!this.player) {
@@ -124,7 +127,7 @@ export default class TestBuilder {
     return playerBuilder
   }
 
-  public withMob(name: string = null, specialization: SpecializationType = SpecializationType.Warrior): MobBuilder {
+  public withMob(name?: string, specialization: SpecializationType = SpecializationType.Warrior): MobBuilder {
     const mob = getTestMob(name)
     mob.specialization = specialization
     if (!this.room) {
@@ -140,7 +143,7 @@ export default class TestBuilder {
     return new MobBuilder(mob, this.serviceBuilder)
   }
 
-  public withTrainer(name: string = null): MobBuilder {
+  public withTrainer(name?: string): MobBuilder {
     const mobBuilder = this.withMob(name)
     mobBuilder.mob.traits.trainer = true
 
@@ -154,7 +157,7 @@ export default class TestBuilder {
     return mobBuilder
   }
 
-  public with(fn) {
+  public with(fn: (player: Player) => {}) {
     fn(this.player)
   }
 
@@ -172,7 +175,7 @@ export default class TestBuilder {
   public createRequest(
     requestType: RequestType,
     input: string = requestType.toString(),
-    target: Mob | Item = null): Request {
+    target?: Mob | Item): Request {
     if (!this.mobForRequest) {
       this.withMob()
     }
@@ -187,8 +190,8 @@ export default class TestBuilder {
     return (await this.getService()).getActionDefinition(requestType)
   }
 
-  public async getSkillDefinition(skillType: SkillType): Promise<Skill> {
-    return getSkillTable(await this.getService()).find(skill => skill.getSkillType() === skillType)
+  public async getSkillDefinition(skillType: SkillType): Promise<Skill | undefined> {
+    return getSkillTable(await this.getService()).find((skill: Skill) => skill.getSkillType() === skillType)
   }
 
   public async getSpellDefinition(spellType: SpellType): Promise<Spell> {
@@ -218,17 +221,17 @@ export default class TestBuilder {
     return this.eventService
   }
 
-  public addExit(exit) {
+  public addExit(exit: Exit) {
     this.serviceBuilder.addExit(exit)
   }
 
   private async attachEventConsumers() {
     const gameServer = new GameServer(
       null,
-      null,
+      this.room,
       new ClientService(
         this.eventService,
-        null,
+        new AuthService(jest.fn()(), this.service.mobService),
         this.service.mobService.locationService,
         this.service.getActions(),
       ),

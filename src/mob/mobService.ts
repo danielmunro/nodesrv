@@ -48,7 +48,7 @@ export default class MobService {
     this.fightTable.addFight(fight)
   }
 
-  public findFight(search) {
+  public findFight(search: (fight: Fight) => boolean) {
     return this.fightTable.getFights().find(search)
   }
 
@@ -67,13 +67,13 @@ export default class MobService {
     return deadMobs
   }
 
-  public findMobInRoomWithMob(mob: Mob, searchCriteria) {
+  public findMobInRoomWithMob(mob: Mob, searchCriteria: (mob: Mob) => boolean) {
     const mobs = this.locationService.getMobsInRoomWithMob(mob)
     return mobs.find(searchCriteria)
   }
 
   public async generateNewMobInstance(mobReset: MobReset): Promise<Mob> {
-    const mob = this.mobTemplateTable.find(m => m.id === mobReset.mob.id)
+    const mob = this.mobTemplateTable.find((m: Mob) => m.id === mobReset.mob.id)
     const clone = cloneDeep(mob)
     clone.mobReset = mobReset
 
