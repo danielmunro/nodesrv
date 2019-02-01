@@ -11,7 +11,7 @@ import {Trigger} from "../enum/trigger"
 import {Mob} from "../model/mob"
 import modifierNormalizer from "../multiplierNormalizer"
 import {BodyPart} from "../race/bodyParts"
-import {Attack, AttackResult, getAttackResultFromSkillType} from "./attack"
+import {Attack, AttackResult, getSuppressionAttackResultFromSkillType} from "./attack"
 import Death from "./death"
 import FightEvent from "./event/fightEvent"
 import {FightStatus} from "./fightStatus"
@@ -39,7 +39,7 @@ export class Fight {
     return damage
   }
 
-  private static attackDefeated(attacker, defender, result) {
+  private static attackDefeated(attacker: Mob, defender: Mob, result: AttackResult) {
     return new Attack(attacker, defender, result, 0)
   }
 
@@ -70,15 +70,15 @@ export class Fight {
     return mob.uuid === this.aggressor.uuid || mob.uuid === this.target.uuid
   }
 
-  public getOpponentFor(mob: Mob): Mob {
+  public getOpponentFor(mob: Mob): Mob | undefined {
     if (!this.isParticipant(mob)) {
-      return null
+      return
     }
 
     return mob === this.aggressor ? this.target : this.aggressor
   }
 
-  public async round(): Promise<Round> {
+  public async round(): Promise<Round | void> {
     if (this.isInProgress()) {
       return new Round(
         this,
@@ -108,7 +108,7 @@ export class Fight {
     const eventResponse = await this.eventService.publish(
       new FightEvent(EventType.AttackRoundStart, attacker, this))
     if (eventResponse.status === EventResponseStatus.Satisfied) {
-      return Fight.attackDefeated(attacker, defender, getAttackResultFromSkillType(eventResponse.context))
+      return Fight.attackDefeated(attacker, defender, getSuppressionAttackResultFromSkillType(eventResponse.context))
     }
 
     const xAttributes = attacker.getCombinedAttributes()
