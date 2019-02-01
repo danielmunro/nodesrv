@@ -187,7 +187,7 @@ export default class TestBuilder {
   }
 
   public async getActionDefinition(requestType: RequestType): Promise<Action> {
-    return (await this.getService()).getActionDefinition(requestType)
+    return (await this.getService()).getAction(requestType)
   }
 
   public async getSkillDefinition(skillType: SkillType): Promise<Skill | undefined> {

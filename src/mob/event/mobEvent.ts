@@ -6,7 +6,7 @@ export default class MobEvent implements Event {
   constructor(
     private readonly eventType: EventType,
     public readonly mob: Mob,
-    public readonly context = null) {}
+    public readonly context: any = null) {}
 
   public getEventType(): EventType {
     return this.eventType

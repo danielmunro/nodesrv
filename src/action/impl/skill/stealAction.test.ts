@@ -44,15 +44,6 @@ describe("steal skill action", () => {
     expect(mob2.inventory.items).toHaveLength(0)
   })
 
-  it("should improve levels when used", async () => {
-    // when
-    await doNTimes(iterations * 10, () =>
-      action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT, mob2)))
-
-    // then
-    expect(skill.level).toBeGreaterThan(initialLevel)
-  })
-
   it("should generate accurate messages", async () => {
     // when
     const responses = await doNTimes(iterations, () =>

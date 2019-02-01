@@ -41,7 +41,7 @@ export default async function createEventConsumerTable(
     new MobArrives(clientService),
     new MobLeaves(clientService),
     new Scavenge(clientService, itemService, locationService),
-    new Wimpy(locationService, await gameService.getActionDefinition(RequestType.Flee)),
+    new Wimpy(locationService, gameService.getAction(RequestType.Flee)),
     new FightStarter(mobService, fightBuilder),
     new MobClientDisconnected(locationService),
     new MobCreated(mobService, gameServer.startRoom),
@@ -54,9 +54,9 @@ export default async function createEventConsumerTable(
     new Social(clientService),
 
     // skills
-    new DodgeEventConsumer(gameService.getSkillDefinition(SkillType.Dodge)),
-    new FastHealingEventConsumer(gameService.getSkillDefinition(SkillType.FastHealing)),
-    new SecondAttackEventConsumer(gameService.getSkillDefinition(SkillType.SecondAttack)),
+    new DodgeEventConsumer(gameService.getSkill(SkillType.Dodge)),
+    new FastHealingEventConsumer(gameService.getSkill(SkillType.FastHealing)),
+    new SecondAttackEventConsumer(gameService.getSkill(SkillType.SecondAttack)),
     new ImproveInvokedSkillsEventConsumer(),
 
     // app
@@ -65,6 +65,6 @@ export default async function createEventConsumerTable(
     // client
     new Disconnected(clientService),
     new ClientCreated(locationService, gameServer.startRoom),
-    new LoggedIn(gameServer.startRoom, await gameService.getActionDefinition(RequestType.Look)),
+    new LoggedIn(gameServer.startRoom, gameService.getAction(RequestType.Look)),
   ])
 }

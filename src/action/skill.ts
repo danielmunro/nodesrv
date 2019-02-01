@@ -47,7 +47,7 @@ export default abstract class Skill extends Action {
       .create()
   }
 
-  public getAffectType(): AffectType {
+  public getAffectType(): AffectType | undefined {
     return undefined
   }
 

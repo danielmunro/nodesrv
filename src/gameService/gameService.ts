@@ -34,6 +34,7 @@ export default class GameService {
     this.timeService = new TimeService(time)
     this.skillTable = getSkillTable(this)
     this.spellTable = getSpellTable(this)
+    this.actions = getActionTable(this)
   }
 
   public async moveMob(mob: Mob, direction: Direction) {
@@ -57,21 +58,30 @@ export default class GameService {
   }
 
   public getActions(): Action[] {
-    if (!this.actions) {
-      this.actions = getActionTable(this)
-    }
     return this.actions
   }
 
-  public async getActionDefinition(requestType: RequestType): Promise<Action> {
-    return this.getActions().find(action => action.isAbleToHandleRequestType(requestType))
+  public getAction(requestType: RequestType): Action {
+    const found = this.actions.find(action => action.isAbleToHandleRequestType(requestType))
+    if (!found) {
+      throw new Error(`unknown action for ${requestType}`)
+    }
+    return found
   }
 
-  public getSkillDefinition(skillType: SkillType): Skill {
-    return this.skillTable.find(skill => skill.getSkillType() === skillType)
+  public getSkill(skillType: SkillType): Skill {
+    const found = this.skillTable.find(skill => skill.getSkillType() === skillType)
+    if (!found) {
+      throw new Error(`unknown skill for ${skillType}`)
+    }
+    return found
   }
 
-  public getSpellDefinition(spellType: SpellType): Spell {
-    return this.spellTable.find(spell => spell.spellType === spellType)
+  public getSpell(spellType: SpellType): Spell {
+    const found = this.spellTable.find(spell => spell.spellType === spellType)
+    if (!found) {
+      throw new Error(`unknown spell for ${spellType}`)
+    }
+    return found
   }
 }

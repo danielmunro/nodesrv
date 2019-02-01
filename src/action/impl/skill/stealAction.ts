@@ -102,7 +102,7 @@ export default class StealAction extends Skill {
     return RequestType.Steal
   }
 
-  private async startFight(checkedRequest) {
+  private async startFight(checkedRequest: CheckedRequest) {
     await this.eventService.publish(
       new MobEvent(EventType.Attack, checkedRequest.mob, checkedRequest.request.getTarget()))
   }
