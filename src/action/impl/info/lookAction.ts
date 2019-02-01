@@ -15,6 +15,8 @@ import ResponseBuilder from "../../../request/responseBuilder"
 import match from "../../../support/matcher/match"
 import Action from "../../action"
 import {Messages} from "../../constants"
+import {Item} from "../../../item/model/item"
+import Maybe from "../../../support/functional/maybe"
 
 export default class LookAction extends Action {
   constructor(
@@ -71,14 +73,13 @@ export default class LookAction extends Action {
   }
 
   protected lookAtSubject(request: Request, builder: ResponseBuilder) {
+    const subject = request.getSubject()
     const mob = this.locationService
       .getMobsByRoom(request.room)
-      .find(m => match(m.name, request.getSubject()))
+      .find(m => match(m.name, subject))
     if (mob) {
       return builder.info(mob.describe())
     }
-
-    const subject = request.getContextAsInput().subject
 
     let item = this.itemService.findItem(request.getRoom().inventory, subject)
     if (item) {
@@ -98,15 +99,15 @@ export default class LookAction extends Action {
       || request.room.inventory.find(this.isGlowingAffect)
   }
 
-  protected isGlowingAffect(item) {
+  protected isGlowingAffect(item: Item) {
     return item.affects.find(affect => affect.affectType === AffectType.Glow)
   }
 
-  protected isAbleToSee(mob: Mob, region: Region = null) {
-    if (!region) {
-      return true
-    }
-    return getSight(mob.race)
-      .isAbleToSee(this.timeService.getCurrentTime(), region.terrain, region.weather)
+  protected isAbleToSee(mob: Mob, region?: Region) {
+    return new Maybe(region)
+      .do((r: Region) =>
+        getSight(mob.race).isAbleToSee(this.timeService.getCurrentTime(), r.terrain, r.weather))
+      .or(() => true)
+      .get()
   }
 }
