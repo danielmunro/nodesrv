@@ -1,7 +1,8 @@
 import { Room } from "../../room/model/room"
 import { Mob } from "../model/mob"
-import { BodyPart } from "../race/bodyParts"
+import {BodyPart, getRandomBodyPartForRace} from "../race/bodyParts"
 import { Attack } from "./attack"
+import Death from "./death"
 import { Fight } from "./fight"
 
 export class Round {
@@ -9,24 +10,30 @@ export class Round {
   public readonly isFatality: boolean
   public readonly victor?: Mob
   public readonly vanquished?: Mob
+  public readonly death?: Death
+  public readonly bodyParts?: BodyPart[]
 
   constructor(
     public readonly fight: Fight,
     public readonly attacks: Attack[] = [],
-    public readonly counters: Attack[] = [],
-    public readonly bodyPart: BodyPart = null) {
+    public readonly counters: Attack[] = []) {
     const lastAttack = this.getLastAttack()
     const lastCounter = this.getLastCounter()
     this.room = fight.room
-    this.isFatality = this.attacks && !lastAttack.isDefenderAlive || this.counters && !lastCounter.isDefenderAlive
-    if (!lastAttack.isDefenderAlive) {
+    this.isFatality = lastAttack && !lastAttack.isDefenderAlive || lastCounter && !lastCounter.isDefenderAlive
+    if (lastAttack && !lastAttack.isDefenderAlive) {
       this.isFatality = true
       this.victor = lastAttack.attacker
       this.vanquished = lastAttack.defender
-    } else if (!lastCounter.isDefenderAlive) {
+      this.death = lastAttack.death
+    } else if (lastCounter && !lastCounter.isDefenderAlive) {
       this.isFatality = true
       this.victor = lastCounter.attacker
       this.vanquished = lastCounter.defender
+      this.death = lastCounter.death
+    }
+    if (this.death) {
+      this.bodyParts = [getRandomBodyPartForRace(this.death.mobKilled.race)]
     }
   }
 
@@ -41,5 +48,9 @@ export class Round {
   public isParticipant(mob: Mob) {
     const lastAttack = this.getLastAttack()
     return mob === lastAttack.attacker || mob === lastAttack.defender
+  }
+
+  public getWinner(): Mob | undefined {
+    return this.death ? this.death.killer : undefined
   }
 }

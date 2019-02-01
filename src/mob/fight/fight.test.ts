@@ -6,6 +6,7 @@ import { newMob } from "../factory"
 import { Mob } from "../model/mob"
 import { Race } from "../race/race"
 import { Fight } from "./fight"
+import {Round} from "./round"
 
 function newFightingMob(name: string, hitroll: Hitroll): Mob {
   return newMob(
@@ -20,7 +21,7 @@ describe("fight", () => {
   it("getOpponentFor should return null for mobs not in the fight", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const mobFactory = name => newFightingMob(name, newHitroll(1, 1))
+    const mobFactory = (name: string) => newFightingMob(name, newHitroll(1, 1))
     const aggressor = mobFactory("aggressor")
     const target = mobFactory("target")
     const bystander = mobFactory("collateral")
@@ -34,7 +35,7 @@ describe("fight", () => {
       getTestRoom())
 
     // then
-    expect(fight.getOpponentFor(bystander)).toBeNull()
+    expect(fight.getOpponentFor(bystander)).toBeUndefined()
   })
 
   it("should stop when hit points reach zero", async () => {
@@ -46,13 +47,14 @@ describe("fight", () => {
     // WHEN - a fight is allowed to complete
     const fight = await testBuilder.fight(target)
     expect(fight.isInProgress()).toBe(true)
+    let round: Round = await fight.round()
 
     while (fight.isInProgress()) {
-      await fight.round()
+      round = await fight.round()
     }
 
     // THEN - a winner will have > 1 hp and the other mob is dead
-    if (fight.getWinner() === aggressor) {
+    if (round.getWinner() === aggressor) {
       expect(aggressor.vitals.hp).toBeGreaterThanOrEqual(0)
       expect(target.vitals.hp).toBeLessThanOrEqual(0)
       return

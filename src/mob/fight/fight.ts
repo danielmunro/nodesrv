@@ -5,12 +5,9 @@ import EventService from "../../event/eventService"
 import {EventType} from "../../event/eventType"
 import roll, {simpleD4} from "../../random/dice"
 import {Room} from "../../room/model/room"
-import {BASE_KILL_EXPERIENCE} from "../constants"
 import {Disposition} from "../enum/disposition"
 import {Trigger} from "../enum/trigger"
 import {Mob} from "../model/mob"
-import modifierNormalizer from "../multiplierNormalizer"
-import {BodyPart} from "../race/bodyParts"
 import {Attack, AttackResult, getSuppressionAttackResultFromSkillType} from "./attack"
 import Death from "./death"
 import FightEvent from "./event/fightEvent"
@@ -50,15 +47,7 @@ export class Fight {
     return roll(1, str) + hit > defense
   }
 
-  private static getExperienceFromKilling(attacker: Mob, defender: Mob) {
-    const levelDelta = defender.level - attacker.level
-    return BASE_KILL_EXPERIENCE * modifierNormalizer(levelDelta)
-  }
-
   private status: FightStatus = FightStatus.InProgress
-  private winner: Mob
-  private bodyPart: BodyPart
-  private death: Death
 
   constructor(
     public readonly eventService: EventService,
@@ -78,22 +67,15 @@ export class Fight {
     return mob === this.aggressor ? this.target : this.aggressor
   }
 
-  public async round(): Promise<Round | void> {
-    if (this.isInProgress()) {
-      return new Round(
-        this,
-        this.status === FightStatus.InProgress ? await this.turnFor(this.aggressor, this.target) : [],
-        this.status === FightStatus.InProgress ? await this.turnFor(this.target, this.aggressor) : [],
-        this.bodyPart)
-    }
+  public async round(): Promise<Round> {
+    return new Round(
+      this,
+      this.status === FightStatus.InProgress ? await this.turnFor(this.aggressor, this.target) : [],
+      this.status === FightStatus.InProgress ? await this.turnFor(this.target, this.aggressor) : [])
   }
 
   public isInProgress(): boolean {
     return this.status === FightStatus.InProgress
-  }
-
-  public getWinner() {
-    return this.winner
   }
 
   public participantFled(mob: Mob) {
@@ -122,41 +104,42 @@ export class Fight {
 
     await this.eventService.publish(new FightEvent(EventType.AttackRound, attacker, this))
 
+    const death = defender.vitals.hp < 0 ? this.deathOccurred(attacker, defender) : undefined
+
     return new Attack(
       attacker,
       defender,
       AttackResult.Hit,
       damage,
-      defender.vitals.hp < 0 ? Fight.getExperienceFromKilling(attacker, defender) : 0)
+      death)
   }
 
   private async turnFor(x: Mob, y: Mob): Promise<Attack[]> {
     const attacks = [await this.attack(x, y)]
     if (y.vitals.hp < 0) {
-      this.deathOccurred(x, y)
-
       return attacks
     }
     await this.eventService.publish(new FightEvent(EventType.AttackRound, x, this, attacks))
     return attacks
   }
 
-  private deathOccurred(winner: Mob, vanquished: Mob) {
+  private deathOccurred(winner: Mob, vanquished: Mob): Death {
     console.debug(`${vanquished.name} is killed by ${winner.name}`)
 
     this.status = FightStatus.Done
-    this.winner = winner
-    this.death = new Death(vanquished, this.room, winner)
+    const death = new Death(vanquished, this.room, winner)
 
     if (!winner.traits.isNpc) {
-      winner.playerMob.experience += this.death.calculateKillerExperience()
+      winner.playerMob.experience += death.calculateKillerExperience()
     }
 
     if (vanquished.traits.isNpc) {
       vanquished.disposition = Disposition.Dead
     }
 
-    this.room.inventory.addItem(this.death.createCorpse())
-    simpleD4(() => this.death.createBodyPart())
+    this.room.inventory.addItem(death.createCorpse())
+    simpleD4(() => death.createBodyPart())
+
+    return death
   }
 }

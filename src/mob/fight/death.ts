@@ -12,7 +12,7 @@ export default class Death {
   constructor(
     public readonly mobKilled: Mob,
     public readonly room: Room,
-    public readonly killer: Mob = null,
+    public readonly killer?: Mob,
   ) {}
 
   public calculateKillerExperience(): number {
