@@ -4,7 +4,7 @@ import ItemReset from "./itemReset"
 
 @Entity()
 export class MobEquipReset extends ItemReset {
-  @OneToOne(type => Mob, { eager: true })
+  @OneToOne(() => Mob, { eager: true })
   @JoinColumn()
   public mob: Mob
 }

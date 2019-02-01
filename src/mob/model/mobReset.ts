@@ -17,7 +17,7 @@ export default class MobReset {
   @JoinColumn()
   public mob: Mob
 
-  @ManyToOne(type => Room, room => room.mobResets, { eager: true })
+  @ManyToOne(() => Room, room => room.mobResets, { eager: true })
   @JoinColumn()
   public room: Room
 
@@ -25,8 +25,8 @@ export default class MobReset {
   public disposition: Disposition
 
   @Column("integer")
-  public maxQuantity
+  public maxQuantity: number
 
   @Column("integer", { nullable: true })
-  public maxPerRoom
+  public maxPerRoom: number
 }

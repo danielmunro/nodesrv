@@ -5,6 +5,8 @@ import {Messages as CheckMessages} from "../../../check/constants"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import {Equipment} from "../../../item/equipment"
+import {Item} from "../../../item/model/item"
+import {Mob} from "../../../mob/model/mob"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import roll from "../../../random/dice"
@@ -17,11 +19,12 @@ import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
 export default class DisarmAction extends Skill {
+  /* tslint:disable */
   public async check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckTemplate(request)
       .perform(this)
       .require(
-        (mob, target) => target.equipped.find(i => i.equipment === Equipment.Weapon),
+        (mob: Mob, target: Mob) => target.equipped.find((i: Item) => i.equipment === Equipment.Weapon),
         PreconditionMessages.Disarm.FailNothingToDisarm,
         CheckType.ItemPresent)
       .create()

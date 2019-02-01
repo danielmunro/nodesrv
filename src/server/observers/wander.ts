@@ -1,4 +1,3 @@
-import { Client } from "../../client/client"
 import LocationService from "../../mob/locationService"
 import { Mob } from "../../mob/model/mob"
 import { pickOne } from "../../random/helpers"
@@ -9,7 +8,7 @@ export class Wander implements Observer {
     private readonly mobs: Mob[],
     private readonly locationService: LocationService) {}
 
-  public async notify(clients: Client[]): Promise<any> {
+  public async notify(): Promise<any> {
     for (const mob of this.mobs) {
       const location = this.locationService.getLocationForMob(mob)
       const destination = pickOne(location.room.exits).destination

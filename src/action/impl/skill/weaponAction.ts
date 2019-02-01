@@ -18,20 +18,20 @@ export default class WeaponAction extends Skill {
     super(checkBuilderFactory, eventService)
   }
 
-  public roll(checkedRequest: CheckedRequest): boolean {
+  public roll(): boolean {
     return true
   }
 
-  public applySkill(checkedRequest: CheckedRequest): void {
+  public applySkill(): void {
     //
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    return undefined
+    return new ResponseMessage(checkedRequest.mob, "")
   }
 
   public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    return undefined
+    return new ResponseMessage(checkedRequest.mob, "")
   }
 
   public getActionType(): ActionType {

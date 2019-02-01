@@ -1,4 +1,3 @@
-import { Client } from "../../client/client"
 import ResetService from "../../gameService/resetService"
 import { Mob } from "../../mob/model/mob"
 import { Observer } from "./observer"
@@ -6,7 +5,7 @@ import { Observer } from "./observer"
 export default class Respawner implements Observer {
   constructor(private readonly resetService: ResetService) {}
 
-  public async notify(clients: Client[]): Promise<void> {
+  public async notify(): Promise<void> {
     const deadMobs = await this.resetService.pruneDeadMobs()
     const deadMobsLength = deadMobs.length
     for (let i = 0; i < deadMobsLength; i++) {

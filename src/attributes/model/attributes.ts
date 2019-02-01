@@ -11,25 +11,25 @@ export default class Attributes {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @ManyToOne((type) => Mob, (mob) => mob.attributes)
+  @ManyToOne(() => Mob, (mob) => mob.attributes)
   public mob: Mob
 
-  @OneToOne((type) => Item, (item) => item.attributes)
+  @OneToOne(() => Item, (item) => item.attributes)
   public item: Item
 
-  @OneToOne((type) => Hitroll, { eager: true, cascadeAll: true })
+  @OneToOne(() => Hitroll, { eager: true, cascadeAll: true })
   @JoinColumn()
   public hitroll = new Hitroll()
 
-  @OneToOne((type) => Vitals, { eager: true, cascadeAll: true })
+  @OneToOne(() => Vitals, { eager: true, cascadeAll: true })
   @JoinColumn()
   public vitals = new Vitals()
 
-  @OneToOne((type) => Stats, { eager: true, cascadeAll: true })
+  @OneToOne(() => Stats, { eager: true, cascadeAll: true })
   @JoinColumn()
   public stats = new Stats()
 
-  @OneToOne((type) => Ac, { eager: true, cascadeAll: true })
+  @OneToOne(() => Ac, { eager: true, cascadeAll: true })
   @JoinColumn()
   public ac = new Ac()
 

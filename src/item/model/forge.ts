@@ -11,7 +11,7 @@ export default class Forge {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @OneToMany(type => Recipe, recipe => recipe.forge)
+  @OneToMany(() => Recipe, recipe => recipe.forge)
   @JoinColumn()
   public recipes: Recipe[] = []
 }

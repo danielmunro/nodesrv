@@ -12,7 +12,7 @@ export default abstract class ItemReset {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @OneToOne(type => Item, { eager: true })
+  @OneToOne(() => Item, { eager: true })
   @JoinColumn()
   public item: Item
 

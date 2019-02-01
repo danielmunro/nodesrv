@@ -12,9 +12,9 @@ export default class MobLocation {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @OneToOne(type => Mob)
+  @OneToOne(() => Mob)
   public mob: Mob
 
-  @ManyToOne(type => Room)
-  public room
+  @ManyToOne(() => Room)
+  public room: Room
 }

@@ -3,19 +3,19 @@ enum MaybeStatus {
   NotThing,
 }
 
-export default class Maybe<T> {
-  public static if(thing, doIt) {
+export default class Maybe {
+  public static if(thing: any, doIt: (thing: any) => {}): any | void {
     if (thing) {
       return doIt(thing)
     }
   }
 
-  private result
-  private status: MaybeStatus
+  private result: any
+  private status?: MaybeStatus
 
-  constructor(private readonly thing) {}
+  constructor(private readonly thing: any) {}
 
-  public do(fn) {
+  public do(fn: (thing: any) => {}) {
     if (this.thing) {
       this.result = fn(this.thing)
       this.status = MaybeStatus.Thing
@@ -26,7 +26,7 @@ export default class Maybe<T> {
     return this
   }
 
-  public or(fn) {
+  public or(fn: () => {}) {
     if (this.status === MaybeStatus.NotThing) {
       this.result = fn()
       return this

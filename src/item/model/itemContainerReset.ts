@@ -4,7 +4,7 @@ import ItemReset from "./itemReset"
 
 @Entity()
 export class ItemContainerReset extends ItemReset {
-  @OneToOne(type => Item, { eager: true })
+  @OneToOne(() => Item, { eager: true })
   @JoinColumn()
   public itemDestination: Item
 }

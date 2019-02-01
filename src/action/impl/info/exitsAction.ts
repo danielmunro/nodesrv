@@ -1,12 +1,11 @@
 import Check from "../../../check/check"
 import CheckedRequest from "../../../check/checkedRequest"
-import { Request } from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
 
 export default class ExitsAction extends Action {
-  public check(request: Request): Promise<Check> {
+  public check(): Promise<Check> {
     return Check.ok()
   }
 

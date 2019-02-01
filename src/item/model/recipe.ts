@@ -22,9 +22,9 @@ export default class Recipe {
   @Column("integer")
   public difficulty: number
 
-  @OneToOne(type => Item)
+  @OneToOne(() => Item)
   public createsItem: Item
 
-  @ManyToOne(type => Forge, forge => forge.recipes)
+  @ManyToOne(() => Forge, forge => forge.recipes)
   public forge: Forge
 }

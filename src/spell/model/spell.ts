@@ -13,6 +13,6 @@ export class Spell {
   @Column("integer")
   public level: number = 1
 
-  @ManyToOne((type) => Mob, (mob) => mob.spells)
+  @ManyToOne(() => Mob, (mob) => mob.spells)
   public mob: Mob
 }

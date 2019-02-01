@@ -22,13 +22,6 @@ export class Region {
   @Column("integer")
   public terrain: Terrain = Terrain.Plains
 
-  @OneToMany((type) => Room, (room) => room.region)
+  @OneToMany(() => Room, (room) => room.region)
   public rooms: Room[] = []
-
-  public outsideConnectionCandidates: Room[] = []
-
-  public addRooms(rooms: Room[]) {
-    this.rooms.push(...rooms)
-    rooms.forEach((room) => room.region = this)
-  }
 }

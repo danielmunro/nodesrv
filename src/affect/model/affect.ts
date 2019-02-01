@@ -9,10 +9,10 @@ export class Affect {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @ManyToOne((type) => Mob, (mob) => mob.affects)
+  @ManyToOne(() => Mob, (mob) => mob.affects)
   public mob: Mob
 
-  @ManyToOne((type) => Item, (item) => item.affects)
+  @ManyToOne(() => Item, (item) => item.affects)
   public item: Item
 
   @Column("text")
@@ -21,7 +21,7 @@ export class Affect {
   @Column("integer")
   public timeout: number
 
-  @OneToOne((type) => Attributes)
+  @OneToOne(() => Attributes)
   @JoinColumn()
   public attributes: Attributes = new Attributes()
 }

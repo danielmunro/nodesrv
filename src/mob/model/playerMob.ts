@@ -27,11 +27,11 @@ export class PlayerMob {
   @Column("integer")
   public appetite: number = 0
 
-  @OneToOne((type) => Mob, (mob) => mob.playerMob)
+  @OneToOne(() => Mob, (mob) => mob.playerMob)
   @JoinColumn()
   public mob: Mob
 
-  @OneToOne((type) => Attributes)
+  @OneToOne(() => Attributes)
   @JoinColumn()
   public trainedAttributes: Attributes = new Attributes()
 

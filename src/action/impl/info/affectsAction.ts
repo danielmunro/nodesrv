@@ -1,18 +1,17 @@
 import {Affect} from "../../../affect/model/affect"
 import Check from "../../../check/check"
 import CheckedRequest from "../../../check/checkedRequest"
-import { Request } from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
 
-function reduceAffects(affects) {
-  return affects.reduce((previous, current: Affect) =>
+function reduceAffects(affects: Affect[]) {
+  return affects.reduce((previous: string, current: Affect) =>
     previous + "\n" + current.affectType + ": " + current.timeout + " hour" + (current.timeout === 1 ? "" : "s"), "")
 }
 
 export default class AffectsAction extends Action {
-  public check(request: Request): Promise<Check> {
+  public check(): Promise<Check> {
     return Check.ok()
   }
 

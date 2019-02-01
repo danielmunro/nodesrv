@@ -24,6 +24,6 @@ export default class Drink {
   @Column("integer")
   public foodAmount: number = 0
 
-  @OneToOne(type => Item, item => item.food)
-  public item
+  @OneToOne(() => Item, item => item.food)
+  public item: Item
 }

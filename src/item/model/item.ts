@@ -73,28 +73,28 @@ export class Item {
   @Column("integer", { nullable: true })
   public wearTimer: number
 
-  @ManyToOne(type => Inventory, inventory => inventory.items, { eager: true })
+  @ManyToOne(() => Inventory, inventory => inventory.items, { eager: true })
   public inventory: Inventory
 
-  @OneToOne(type => Attributes, attributes => attributes.item)
+  @OneToOne(() => Attributes, attributes => attributes.item)
   public attributes: Attributes = newEmptyAttributes()
 
-  @OneToMany(type => Affect, affect => affect.item, { cascadeInsert: true, cascadeUpdate: true, eager: true })
+  @OneToMany(() => Affect, affect => affect.item, { cascadeInsert: true, cascadeUpdate: true, eager: true })
   public affects: Affect[] = []
 
-  @OneToOne(type => Container, { cascadeAll: true, eager: true })
+  @OneToOne(() => Container, { cascadeAll: true, eager: true })
   @JoinColumn()
   public container
 
-  @OneToOne(type => Food, food => food.item)
+  @OneToOne(() => Food, food => food.item)
   @JoinColumn()
   public food: Food
 
-  @OneToOne(type => Drink, drink => drink.item)
+  @OneToOne(() => Drink, drink => drink.item)
   @JoinColumn()
   public drink: Drink
 
-  @OneToOne(type => Forge)
+  @OneToOne(() => Forge)
   @JoinColumn()
   public forge: Forge
 
