@@ -117,7 +117,7 @@ describe("look", () => {
 
     // then
     expect(response1.message.getMessageToRequestCreator()).toBe(Messages.Look.Fail)
-    expect(response1.status).toBe(ResponseStatus.ActionFailed)
+    expect(response1.status).toBe(ResponseStatus.PreconditionsFailed)
 
     // and
     const item = getTestItem()

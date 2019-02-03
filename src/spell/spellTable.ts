@@ -6,7 +6,6 @@ import CheckBuilderFactory from "../check/checkBuilderFactory"
 import { DamageType } from "../damage/damageType"
 import GameService from "../gameService/gameService"
 import SpecializationLevel from "../mob/specialization/specializationLevel"
-import curePoison from "./action/curePoison"
 import cureSerious from "./action/cureSerious"
 import curse from "./action/curse"
 import giantStrength from "./action/giantStrength"
@@ -20,6 +19,7 @@ import cursePrecondition from "./precondition/curse"
 import defaultSpellPrecondition from "./precondition/defaultSpellPrecondition"
 import poisonPrecondition from "./precondition/poison"
 import { SpellType } from "./spellType"
+import CurePoisonAction from "../action/impl/spell/curePoisonAction"
 
 export default function getSpellTable(service: GameService) {
   const definition = service.definition()
@@ -31,6 +31,9 @@ export default function getSpellTable(service: GameService) {
 
     // healing
     new CureLightAction(checkBuilderFactory, eventService),
+
+    // curative
+    new CurePoisonAction(checkBuilderFactory, eventService),
 
     // attack
     definition.spell(
@@ -114,14 +117,5 @@ export default function getSpellTable(service: GameService) {
       20,
       SpecializationLevel.create(18, 18, 22, 26),
       AffectType.Curse),
-
-    // curative
-    definition.spell(
-      SpellType.CurePoison,
-      ActionType.Defensive,
-      curePoison,
-      defaultSpellPrecondition,
-      5,
-      SpecializationLevel.create(13, 0, 0, 18)),
   ]
 }

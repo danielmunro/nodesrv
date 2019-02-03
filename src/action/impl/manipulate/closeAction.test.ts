@@ -65,7 +65,7 @@ describe("close action", () => {
       const response = await definition.handle(testBuilder.createRequest(RequestType.Close, "close door"))
 
       // then
-      expect(response.status).toBe(ResponseStatus.ActionFailed)
+      expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
       expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Close.Fail.CannotClose)
       expect(door.isClosed).toBeFalsy()
     })
@@ -91,7 +91,7 @@ describe("close action", () => {
       const response = await definition.handle(testBuilder.createRequest(RequestType.Close, closeCommand))
 
       // then
-      expect(response.status).toBe(ResponseStatus.ActionFailed)
+      expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
       expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Close.Fail.CannotClose)
       expect(item.container.isClosed).toBeFalsy()
     })
@@ -104,7 +104,7 @@ describe("close action", () => {
       const response = await definition.handle(testBuilder.createRequest(RequestType.Close, closeCommand))
 
       // then
-      expect(response.status).toBe(ResponseStatus.ActionFailed)
+      expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
       expect(response.message.getMessageToRequestCreator()).toBe("That is already closed.")
     })
   })

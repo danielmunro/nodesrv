@@ -18,7 +18,7 @@ export default abstract class Action {
 
     const checkResponse = await this.check(request)
     if (checkResponse.status === CheckStatus.Failed) {
-      return request.respondWith().fail(checkResponse.result)
+      return request.respondWith().error(checkResponse.result)
     }
 
     return this.invoke(new CheckedRequest(request, checkResponse))

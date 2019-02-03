@@ -47,7 +47,7 @@ describe("move", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.East))
 
     // then
-    expect(response.isFailure()).toBeTruthy()
+    expect(response.isError()).toBeTruthy()
     expect(service.getMobLocation(mob).room).toEqual(source)
   })
 
@@ -61,7 +61,7 @@ describe("move", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.East))
 
     // then
-    expect(response.status).toBe(ResponseStatus.ActionFailed)
+    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
     expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Move.Fail.DoorIsClosed)
     expect(service.getMobLocation(mob).room).toEqual(source)
   })

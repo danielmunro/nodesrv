@@ -32,7 +32,7 @@ describe("backstab skill action", () => {
     const response = await action.handle(testBuilder.createRequest(RequestType.Backstab))
 
     // then
-    expect(response.isFailure()).toBeTruthy()
+    expect(response.isError()).toBeTruthy()
     expect(response.message.getMessageToRequestCreator()).toBe(AllMessages.All.NoSkill)
   })
 
@@ -95,7 +95,7 @@ describe("backstab skill action", () => {
       .toBe(`${mobBuilder.mob.name} backstabs ${opponent.name}!`)
 
     // and -- failure
-    const unsuccessfulResponse: Response = responses.find(r => !r.isSuccessful())
+    const unsuccessfulResponse: Response = responses.find(r => r.isFailure())
     expect(unsuccessfulResponse.message.getMessageToRequestCreator())
       .toBe(`${opponent.name} dodges your backstab!`)
     expect(unsuccessfulResponse.message.getMessageToTarget())

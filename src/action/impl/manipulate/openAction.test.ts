@@ -62,7 +62,7 @@ describe("open action", () => {
       const response = await definition.handle(testBuilder.createRequest(RequestType.Open, "open door"))
 
       // then
-      expect(response.status).toBe(ResponseStatus.ActionFailed)
+      expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
       expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Open.Fail.Locked)
       expect(door.isClosed).toBeTruthy()
     })
@@ -88,7 +88,7 @@ describe("open action", () => {
       const response = await definition.handle(testBuilder.createRequest(RequestType.Open, "open satchel"))
 
       // then
-      expect(response.status).toBe(ResponseStatus.ActionFailed)
+      expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
       expect(response.message.getMessageToRequestCreator()).toBe("That is already open.")
     })
   })

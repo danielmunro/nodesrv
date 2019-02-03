@@ -46,7 +46,7 @@ describe("lock action", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.Lock, lockCommand))
 
     // then
-    expect(response.status).toBe(ResponseStatus.ActionFailed)
+    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
     expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Lock.Fail.NoKey)
     expect(door.isLocked).toBeFalsy()
   })
@@ -78,7 +78,7 @@ describe("lock action", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.Lock, lockCommand))
 
     // then
-    expect(response.status).toBe(ResponseStatus.ActionFailed)
+    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
     expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Lock.Fail.AlreadyLocked)
   })
 })

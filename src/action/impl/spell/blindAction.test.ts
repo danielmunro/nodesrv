@@ -13,7 +13,7 @@ let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
 let mob: Mob
 let spell: Spell
-const iterations = 100
+const iterations = 1000
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
@@ -78,14 +78,27 @@ describe("blind spell action", () => {
 
   it("should error out if applied twice", async () => {
     // when
-    const responses = await getResponses()
-    responses.forEach(response => console.log(response.message.getMessageToRequestCreator()))
+    const response = await doNTimesOrUntilTruthy(iterations, async () => {
+      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob))
+      return handled.isError() ? handled : null
+    })
 
     // then
-    const errorResponse = responses.find(r => !r.isSuccessful())
-    if (!errorResponse) {
-      return fail("expected unsuccessful response")
-    }
-    expect(errorResponse.message.getMessageToRequestCreator()).toBe("They are already blind.")
+    expect(response.message.getMessageToRequestCreator()).toBe("They are already blind.")
+  })
+
+  it("generates accurate fail messages", async () => {
+    // given
+    mobBuilder.mob.spells = []
+    mobBuilder.withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL / 2)
+
+    // when
+    const response = await doNTimesOrUntilTruthy(iterations * 2, async () => {
+      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob))
+      return handled.isFailure() ? handled : null
+    })
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).toBe("you fail to blind bob.")
   })
 })

@@ -46,7 +46,7 @@ describe("unlock action", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.Unlock, unlockCommand))
 
     // then
-    expect(response.status).toBe(ResponseStatus.ActionFailed)
+    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
     expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Unlock.Fail.NoKey)
     expect(door.isLocked).toBeTruthy()
   })
@@ -78,7 +78,7 @@ describe("unlock action", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.Unlock, unlockCommand))
 
     // then
-    expect(response.status).toBe(ResponseStatus.ActionFailed)
+    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
     expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Unlock.Fail.AlreadyUnlocked)
     expect(door.isClosed).toBeTruthy()
   })

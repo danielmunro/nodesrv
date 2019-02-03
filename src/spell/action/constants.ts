@@ -7,4 +7,7 @@ export const Messages = {
   CureLight: {
     Success: "{target} {verb} better!",
   },
+  CurePoison: {
+    Success: "{target} {verb} less sick.",
+  },
 }

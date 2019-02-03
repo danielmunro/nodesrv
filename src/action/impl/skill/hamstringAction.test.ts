@@ -28,7 +28,7 @@ describe("hamstring skill action", () => {
       testBuilder.createRequest(RequestType.Hamstring, `hamstring ${target.name}`, target))
 
     // then
-    expect(response.isFailure()).toBeTruthy()
+    expect(response.isError()).toBeTruthy()
     expect(response.message.getMessageToRequestCreator()).toBe("You are already fighting!")
   })
 
@@ -54,7 +54,7 @@ describe("hamstring skill action", () => {
       .toBe(`${mob.name} slices ${target.name}'s hamstring! They can barely move!`)
 
     // and
-    const failResponse = responses.find(response => !response.isSuccessful())
+    const failResponse = responses.find(response => response.isFailure())
     expect(failResponse).toBeDefined()
     expect(failResponse.message.getMessageToRequestCreator())
       .toBe(`you attempt to hamstring ${target.name} but fail.`)
