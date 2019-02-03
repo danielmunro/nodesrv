@@ -1,40 +1,35 @@
-import {AffectType} from "../../../affect/affectType"
-import {newAffect} from "../../../affect/factory"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
+import roll from "../../../random/dice"
 import ResponseMessage from "../../../request/responseMessage"
 import {Messages} from "../../../spell/action/constants"
 import {SpellType} from "../../../spell/spellType"
 import {ActionType} from "../../enum/actionType"
 import Spell from "../../spell"
 
-export default class BlindAction extends Spell {
+export default class CureLightAction extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    target.addAffect(newAffect(AffectType.Blind, checkedRequest.mob.level / 10))
-  }
-
-  public getAffectType(): AffectType {
-    return AffectType.Blind
+    target.vitals.hp += roll(1, 4)
   }
 
   public getSpellType(): SpellType {
-    return SpellType.Blind
+    return SpellType.CureLight
   }
 
   public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Mage) {
-      return new SpecializationLevel(SpecializationType.Mage, 12)
+    if (specializationType === SpecializationType.Cleric) {
+      return new SpecializationLevel(SpecializationType.Cleric, 1)
     }
     return new SpecializationLevel(SpecializationType.Noop, 1)
   }
 
   public getActionType(): ActionType {
-    return ActionType.Offensive
+    return ActionType.Defensive
   }
 
   public getCosts(): Cost[] {
@@ -47,19 +42,9 @@ export default class BlindAction extends Spell {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.Blind.Success,
+      Messages.CureLight.Success,
       { target, verb: "is" },
       { verb: "are" },
       { target, verb: "is" })
-  }
-
-  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    return new ResponseMessage(
-      checkedRequest.mob,
-      Messages.Blind.Failure,
-      { verb: "fail", target },
-      { verb: "failed", target: "you" },
-      { verb: "failed", target })
   }
 }

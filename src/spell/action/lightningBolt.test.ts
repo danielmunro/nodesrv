@@ -3,7 +3,7 @@ import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { SpellType } from "../spellType"
 
-describe("lightning bolt", () => {
+describe.skip("lightning bolt", () => {
   it("should do damage when casted", async () => {
     // setup
     const testBuilder = new TestBuilder()

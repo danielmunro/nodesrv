@@ -5,7 +5,7 @@ import {RequestType} from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import {SpellType} from "../spellType"
 
-describe("giant strength", () => {
+describe.skip("giant strength", () => {
   it("should cast giant strength", async () => {
     // setup
     const testBuilder = new TestBuilder()

@@ -46,7 +46,7 @@ export default abstract class Spell extends Action {
 
   public roll(checkedRequest: CheckedRequest): boolean {
     const spell = checkedRequest.getCheckTypeResult(CheckType.HasSpell)
-    return roll(4, spell.level) > 25
+    return roll(4, spell.level) > spell.level * 2
   }
 
   public check(request: Request): Promise<Check> {
@@ -59,15 +59,15 @@ export default abstract class Spell extends Action {
     return undefined
   }
 
-  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    const spell = checkedRequest.getCheckTypeResult(CheckType.HasSpell)
-    return new ResponseMessage(
-      checkedRequest.mob,
-      Messages.Cast.Success,
-      { verb: "utter", spell: spell.spellType },
-      { verb: "utters", spell: spell.spellType },
-      { verb: "utters", spell: spell.spellType })
-  }
+  // public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+  //   const spell = checkedRequest.getCheckTypeResult(CheckType.HasSpell)
+  //   return new ResponseMessage(
+  //     checkedRequest.mob,
+  //     Messages.Cast.Success,
+  //     { verb: "utter", spell: spell.spellType },
+  //     { verb: "utters", spell: spell.spellType },
+  //     { verb: "utters", spell: spell.spellType })
+  // }
 
   public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
     return new ResponseMessage(
@@ -80,6 +80,7 @@ export default abstract class Spell extends Action {
   public abstract getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel
   public abstract getCosts(): Cost[]
   public abstract getActionType(): ActionType
+  public abstract getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage
 
   protected getRequestType(): RequestType {
     return RequestType.Cast

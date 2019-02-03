@@ -6,7 +6,7 @@ import TestBuilder from "../../test/testBuilder"
 import getSpellTable from "../spellTable"
 import {SpellType} from "../spellType"
 
-describe("shield", () => {
+describe.skip("shield", () => {
   it("should shield when casted", async () => {
     // setup
     const testBuilder = new TestBuilder()

@@ -5,7 +5,7 @@ import { RequestType } from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import { SpellType } from "../spellType"
 
-describe("cure poison", () => {
+describe.skip("cure poison", () => {
   it("should cure poison when casted", async () => {
     // setup
     const testBuilder = new TestBuilder()

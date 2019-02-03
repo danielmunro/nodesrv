@@ -1,10 +1,10 @@
 import Spell from "../../../action/spell"
-import { AffectType } from "../../../affect/affectType"
-import { MAX_PRACTICE_LEVEL } from "../../../mob/constants"
-import { Mob } from "../../../mob/model/mob"
-import { RequestType } from "../../../request/requestType"
+import {AffectType} from "../../../affect/affectType"
+import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
+import {Mob} from "../../../mob/model/mob"
+import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import { SpellType } from "../../../spell/spellType"
+import {SpellType} from "../../../spell/spellType"
 import doNTimes from "../../../support/functional/times"
 import MobBuilder from "../../../test/mobBuilder"
 import TestBuilder from "../../../test/testBuilder"
@@ -13,7 +13,7 @@ let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
 let mob: Mob
 let spell: Spell
-const iterations = 10
+const iterations = 100
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
@@ -36,11 +36,47 @@ describe("blind spell action", () => {
 
     // then
     const response = responses.find(r => r.isSuccessful())
-    const message = response.message
-    expect(message.getMessageToRequestCreator()).toBe("you utter the words, 'blind'.")
-    expect(message.getMessageToTarget()).toBe("alice utters the words, 'blind'.")
-    expect(message.getMessageToObservers()).toBe("alice utters the words, 'blind'.")
+    if (!response) {
+      return fail("expected successful response")
+    }
     expect(mob.getAffect(AffectType.Blind)).toBeTruthy()
+  })
+
+  it("generates accurate success messages", async () => {
+    // when
+    const responses = await getResponses()
+
+    // then
+    const response = responses.find(r => r.isSuccessful())
+    if (!response) {
+      return fail("expected successful response")
+    }
+    const message = response.message
+    expect(message.getMessageToRequestCreator()).toBe("bob is suddenly blind!")
+    expect(message.getMessageToTarget()).toBe("you are suddenly blind!")
+    expect(message.getMessageToObservers()).toBe("bob is suddenly blind!")
+  })
+
+  it("generates accurate fail messages", async () => {
+    let failResponse: Response
+    await doNTimes(iterations, async () => {
+      testBuilder = new TestBuilder()
+      testBuilder
+        .withMob("alice")
+        .withLevel(20)
+        .withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL / 2)
+
+      const mob2 = testBuilder.withMob("bob").mob
+      const response = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob2))
+
+      if (!response.isSuccessful()) {
+        failResponse = response
+      }
+    })
+    const message = failResponse.message
+    expect(message.getMessageToRequestCreator()).toBe("you fail to blind bob.")
+    expect(message.getMessageToTarget()).toBe("alice failed to blind you.")
+    expect(message.getMessageToObservers()).toBe("alice failed to blind bob.")
   })
 
   it("should error out if applied twice", async () => {
@@ -50,6 +86,9 @@ describe("blind spell action", () => {
 
     // then
     const errorResponse = responses.find(r => !r.isSuccessful())
+    if (!errorResponse) {
+      return fail("expected unsuccessful response")
+    }
     expect(errorResponse.message.getMessageToRequestCreator()).toBe("They are already blind.")
   })
 })

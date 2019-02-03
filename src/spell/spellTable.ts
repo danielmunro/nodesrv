@@ -1,11 +1,11 @@
 import { ActionType } from "../action/enum/actionType"
 import BlindAction from "../action/impl/spell/blindAction"
+import CureLightAction from "../action/impl/spell/cureLightAction"
 import {AffectType} from "../affect/affectType"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import { DamageType } from "../damage/damageType"
 import GameService from "../gameService/gameService"
 import SpecializationLevel from "../mob/specialization/specializationLevel"
-import cureLight from "./action/cureLight"
 import curePoison from "./action/curePoison"
 import cureSerious from "./action/cureSerious"
 import curse from "./action/curse"
@@ -29,6 +29,9 @@ export default function getSpellTable(service: GameService) {
     // maladictions
     new BlindAction(checkBuilderFactory, eventService),
 
+    // healing
+    new CureLightAction(checkBuilderFactory, eventService),
+
     // attack
     definition.spell(
       SpellType.MagicMissile,
@@ -49,15 +52,6 @@ export default function getSpellTable(service: GameService) {
       SpecializationLevel.create(23, 13, 18, 16),
       null,
       DamageType.Electric),
-
-    // healing
-    definition.spell(
-      SpellType.CureLight,
-      ActionType.Defensive,
-      cureLight,
-      defaultSpellPrecondition,
-      10,
-      SpecializationLevel.create(1, 0, 0, 3)),
 
     definition.spell(
       SpellType.CureSerious,

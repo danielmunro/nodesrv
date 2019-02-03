@@ -14,16 +14,11 @@ import Response from "../request/response"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
 import Session from "../session/session"
-import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
 import ClientEvent from "./event/clientEvent"
-
-export function getDefaultUnhandledMessage(request: Request) {
-  return request.respondWith().error(MESSAGE_NOT_UNDERSTOOD)
-}
 
 export class Client {
   public player: Player
-  private requests = []
+  private requests: any = []
 
   constructor(
     public readonly session: Session,
@@ -80,11 +75,12 @@ export class Client {
       this.applyCosts(response.request.check.costs)
     }
     this.send(response.getPayload())
+    // if (response.)
     this.sendMessage(this.player.prompt())
     return response
   }
 
-  public send(data): void {
+  public send(data: any): void {
     this.ws.send(stringify(data))
   }
 
@@ -96,12 +92,12 @@ export class Client {
     this.send({ tick: { id, timestamp }})
   }
 
-  private onMessage(data) {
+  private onMessage(data: any) {
     const mobLocation = this.locationService.getLocationForMob(this.getSessionMob())
-    this.addRequest(this.getNewRequestFromMessageEvent(mobLocation ? mobLocation.room : null, data))
+    this.addRequest(this.getNewRequestFromMessageEvent(mobLocation ? mobLocation.room : undefined, data))
   }
 
-  private getNewRequestFromMessageEvent(room: Room, messageEvent: MessageEvent): Request | AuthRequest {
+  private getNewRequestFromMessageEvent(room: Room | undefined, messageEvent: MessageEvent): Request | AuthRequest {
     const data = JSON.parse(messageEvent.data)
     if (!this.player) {
       return new AuthRequest(this, data.request)

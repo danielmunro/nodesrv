@@ -7,9 +7,9 @@ import { RequestType } from "./requestType"
 export default class RequestBuilder {
   constructor(
     private readonly mob: Mob,
-    private readonly room: Room) {}
+    private readonly room?: Room) {}
 
-  public create(requestType: RequestType, input: string = null): Request {
+  public create(requestType: RequestType, input?: string): Request {
     if (!input) {
       input = requestType.toString()
     }
