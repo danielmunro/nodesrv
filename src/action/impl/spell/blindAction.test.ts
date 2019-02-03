@@ -14,6 +14,7 @@ let mobBuilder: MobBuilder
 let mob: Mob
 let spell: Spell
 const iterations = 1000
+const CAST_BLIND_BOB = "cast blind bob"
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
@@ -26,7 +27,7 @@ beforeEach(async () => {
 
 function getResponses(): Promise<Response[]> {
   return doNTimes(iterations, () =>
-    spell.handle(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob)))
+    spell.handle(testBuilder.createRequest(RequestType.Cast, CAST_BLIND_BOB, mob)))
 }
 
 describe("blind spell action", () => {
@@ -66,7 +67,7 @@ describe("blind spell action", () => {
         .withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL / 2)
 
       const response = await spell.handle(
-        testBuilder.createRequest(RequestType.Cast, "cast blind bob", testBuilder.withMob("bob").mob))
+        testBuilder.createRequest(RequestType.Cast, CAST_BLIND_BOB, testBuilder.withMob("bob").mob))
 
       return !response.isSuccessful() ? response : null
     })
@@ -79,7 +80,7 @@ describe("blind spell action", () => {
   it("should error out if applied twice", async () => {
     // when
     const response = await doNTimesOrUntilTruthy(iterations, async () => {
-      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob))
+      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, CAST_BLIND_BOB, mob))
       return handled.isError() ? handled : null
     })
 
@@ -94,7 +95,7 @@ describe("blind spell action", () => {
 
     // when
     const response = await doNTimesOrUntilTruthy(iterations * 2, async () => {
-      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob))
+      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, CAST_BLIND_BOB, mob))
       return handled.isFailure() ? handled : null
     })
 

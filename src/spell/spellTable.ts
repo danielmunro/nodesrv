@@ -1,6 +1,7 @@
 import { ActionType } from "../action/enum/actionType"
 import BlindAction from "../action/impl/spell/blindAction"
 import CureLightAction from "../action/impl/spell/cureLightAction"
+import CurePoisonAction from "../action/impl/spell/curePoisonAction"
 import {AffectType} from "../affect/affectType"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import { DamageType } from "../damage/damageType"
@@ -19,7 +20,6 @@ import cursePrecondition from "./precondition/curse"
 import defaultSpellPrecondition from "./precondition/defaultSpellPrecondition"
 import poisonPrecondition from "./precondition/poison"
 import { SpellType } from "./spellType"
-import CurePoisonAction from "../action/impl/spell/curePoisonAction"
 
 export default function getSpellTable(service: GameService) {
   const definition = service.definition()

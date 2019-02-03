@@ -1,16 +1,16 @@
+import {AffectType} from "../../../affect/affectType"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
+import {Mob} from "../../../mob/model/mob"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import ResponseMessage from "../../../request/responseMessage"
+import {Messages} from "../../../spell/action/constants"
 import {SpellType} from "../../../spell/spellType"
 import {ActionType} from "../../enum/actionType"
 import Spell from "../../spell"
-import {Mob} from "../../../mob/model/mob"
-import {AffectType} from "../../../affect/affectType"
-import {Messages} from "../../../spell/action/constants"
 
 export default class CurePoisonAction extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
