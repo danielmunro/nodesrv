@@ -5,6 +5,7 @@ export const Messages = {
     Success: "{requestCreator} {verb} {item} for {value} gold",
   },
   Cast: {
+    Fail: "You lose your concentration.",
     Success: "{requestCreator} {verb} the words, '{spell}'.",
   },
   CloseContainer: {

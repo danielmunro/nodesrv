@@ -1,0 +1,43 @@
+import {AffectType} from "../../../affect/affectType"
+import {newAffect} from "../../../affect/factory"
+import CheckedRequest from "../../../check/checkedRequest"
+import {CheckType} from "../../../check/checkType"
+import Cost from "../../../check/cost/cost"
+import {CostType} from "../../../check/cost/costType"
+import SpecializationLevel from "../../../mob/specialization/specializationLevel"
+import {SpecializationType} from "../../../mob/specialization/specializationType"
+import {SpellType} from "../../../spell/spellType"
+import {ActionType} from "../../enum/actionType"
+import Spell from "../../spell"
+
+export default class BlindAction extends Spell {
+  public applySpell(checkedRequest: CheckedRequest): void {
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    target.addAffect(newAffect(AffectType.Blind, checkedRequest.mob.level / 10))
+  }
+
+  public getAffectType(): AffectType {
+    return AffectType.Blind
+  }
+
+  public getSpellType(): SpellType {
+    return SpellType.Blind
+  }
+
+  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
+    if (specializationType === SpecializationType.Mage) {
+      return new SpecializationLevel(SpecializationType.Mage, 12)
+    }
+    return new SpecializationLevel(SpecializationType.Noop, 1)
+  }
+
+  public getActionType(): ActionType {
+    return ActionType.Offensive
+  }
+
+  public getCosts(): Cost[] {
+    return [
+      new Cost(CostType.Mana, 20),
+    ]
+  }
+}

@@ -5,7 +5,7 @@ import { CostType } from "./costType"
 export default class Cost {
   constructor(
     public readonly costType: CostType,
-    public readonly amount,
+    public readonly amount: ((mob: Mob) => number) | number,
     public readonly failMessage: string = "") {}
 
   public applyTo(player: Player): void {
@@ -48,6 +48,8 @@ export default class Cost {
     if (this.costType === CostType.Train) {
       return mob.playerMob.trains >= calculatedAmount
     }
+
+    return false
   }
 
   private getAmount(mob: Mob): number {

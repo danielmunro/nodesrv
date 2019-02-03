@@ -1,12 +1,12 @@
 import {ActionType} from "../action/enum/actionType"
 import Skill from "../action/skill"
+import Spell from "../action/spell"
 import affectTable from "../affect/affectTable"
 import {AffectType} from "../affect/affectType"
 import {StackBehavior} from "../affect/stackBehavior"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import {Request} from "../request/request"
-import Spell from "../spell/spell"
 import CheckBuilder from "./checkBuilder"
 import {CheckType} from "./checkType"
 import {Messages} from "./constants"
@@ -14,17 +14,17 @@ import {Messages} from "./constants"
 export default class CheckTemplate {
   constructor(private readonly mobService: MobService, private readonly request: Request) {}
 
-  public cast(spellDefinition: Spell): CheckBuilder {
+  public cast(spell: Spell): CheckBuilder {
     const mob = this.request.mob
     const checkBuilder = new CheckBuilder(this.mobService, this.request)
       .forMob(mob)
-      .requireSpell(spellDefinition.spellType)
-      .atLevelOrGreater(spellDefinition.getLevelFor(mob.specialization).minimumLevel)
-      .addManaCost(spellDefinition.getCastCost(mob))
+      .requireSpell(spell.getSpellType())
+      .atLevelOrGreater(spell.getSpecializationLevel(mob.specialization).minimumLevel)
 
-    this.checkActionType(checkBuilder, spellDefinition.actionType)
-    if (spellDefinition.affectType) {
-      this.checkAffectStackingBehavior(checkBuilder, spellDefinition.affectType)
+    spell.getCosts().forEach(cost => checkBuilder.addCost(cost))
+    this.checkActionType(checkBuilder, spell.getActionType())
+    if (spell.getAffectType()) {
+      this.checkAffectStackingBehavior(checkBuilder, spell.getAffectType())
     }
 
     return checkBuilder
@@ -44,7 +44,7 @@ export default class CheckTemplate {
     return checkBuilder
   }
 
-  private checkAffectStackingBehavior(checkBuilder: CheckBuilder, affectType: AffectType) {
+  private checkAffectStackingBehavior(checkBuilder: CheckBuilder, affectType?: AffectType) {
     if (!affectType) {
       return
     }

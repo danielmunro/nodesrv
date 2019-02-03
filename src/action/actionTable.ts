@@ -108,7 +108,7 @@ export default function getActionTable(service: GameService): Action[] {
     new StealAction(checkBuilderFactory, eventService),
 
     // casting
-    new CastAction(checkBuilderFactory, service, getSpellTable(service)),
+    new CastAction(checkBuilderFactory, getSpellTable(service)),
 
     // info
     new AffectsAction(),

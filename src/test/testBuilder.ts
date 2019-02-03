@@ -1,5 +1,6 @@
 import Action from "../action/action"
 import Skill from "../action/skill"
+import Spell from "../action/spell"
 import {Client} from "../client/client"
 import eventConsumerTable from "../event/eventConsumerTable"
 import EventService from "../event/eventService"
@@ -31,7 +32,6 @@ import Email from "../session/auth/login/email"
 import Session from "../session/session"
 import {getSkillTable} from "../skill/skillTable"
 import {SkillType} from "../skill/skillType"
-import Spell from "../spell/spell"
 import getSpellTable from "../spell/spellTable"
 import {SpellType} from "../spell/spellType"
 import {getTestMob} from "./mob"
@@ -195,7 +195,7 @@ export default class TestBuilder {
   }
 
   public async getSpellDefinition(spellType: SpellType): Promise<Spell> {
-    return getSpellTable(await this.getService()).find(spell => spell.spellType === spellType)
+    return getSpellTable(await this.getService()).find(spell => spell.getSpellType() === spellType)
   }
 
   public setTime(time: number) {
