@@ -40,7 +40,7 @@ export default function getSpellTable(service: GameService) {
       defaultSpellPrecondition,
       15,
       SpecializationLevel.create(0, 1, 2, 2),
-      null,
+      undefined,
       DamageType.Magic),
 
     definition.spell(
@@ -50,7 +50,7 @@ export default function getSpellTable(service: GameService) {
       defaultSpellPrecondition,
       15,
       SpecializationLevel.create(23, 13, 18, 16),
-      null,
+      undefined,
       DamageType.Electric),
 
     definition.spell(

@@ -5,7 +5,7 @@ import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {SpellType} from "../../../spell/spellType"
-import doNTimes from "../../../support/functional/times"
+import doNTimes, {doNTimesOrUntilTruthy} from "../../../support/functional/times"
 import MobBuilder from "../../../test/mobBuilder"
 import TestBuilder from "../../../test/testBuilder"
 
@@ -58,20 +58,17 @@ describe("blind spell action", () => {
   })
 
   it("generates accurate fail messages", async () => {
-    let failResponse: Response
-    await doNTimes(iterations, async () => {
+    const failResponse = await doNTimesOrUntilTruthy(iterations, async () => {
       testBuilder = new TestBuilder()
       testBuilder
         .withMob("alice")
         .withLevel(20)
         .withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL / 2)
 
-      const mob2 = testBuilder.withMob("bob").mob
-      const response = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast blind bob", mob2))
+      const response = await spell.handle(
+        testBuilder.createRequest(RequestType.Cast, "cast blind bob", testBuilder.withMob("bob").mob))
 
-      if (!response.isSuccessful()) {
-        failResponse = response
-      }
+      return !response.isSuccessful() ? response : null
     })
     const message = failResponse.message
     expect(message.getMessageToRequestCreator()).toBe("you fail to blind bob.")
