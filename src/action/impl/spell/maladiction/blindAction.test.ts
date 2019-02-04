@@ -1,13 +1,13 @@
-import Spell from "../../../action/spell"
-import {AffectType} from "../../../affect/affectType"
-import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
-import {Mob} from "../../../mob/model/mob"
-import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
-import {SpellType} from "../../../spell/spellType"
-import doNTimes, {doNTimesOrUntilTruthy} from "../../../support/functional/times"
-import MobBuilder from "../../../test/mobBuilder"
-import TestBuilder from "../../../test/testBuilder"
+import {AffectType} from "../../../../affect/affectType"
+import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
+import {Mob} from "../../../../mob/model/mob"
+import {RequestType} from "../../../../request/requestType"
+import Response from "../../../../request/response"
+import {SpellType} from "../../../../spell/spellType"
+import doNTimes, {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
+import MobBuilder from "../../../../test/mobBuilder"
+import TestBuilder from "../../../../test/testBuilder"
+import Spell from "../../../spell"
 
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder
@@ -86,20 +86,5 @@ describe("blind spell action", () => {
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe("They are already blind.")
-  })
-
-  it("generates accurate fail messages", async () => {
-    // given
-    mobBuilder.mob.spells = []
-    mobBuilder.withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL / 2)
-
-    // when
-    const response = await doNTimesOrUntilTruthy(iterations * 2, async () => {
-      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, CAST_BLIND_BOB, mob))
-      return handled.isFailure() ? handled : null
-    })
-
-    // then
-    expect(response.message.getMessageToRequestCreator()).toBe("you fail to blind bob.")
   })
 })
