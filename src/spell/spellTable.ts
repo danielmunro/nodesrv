@@ -4,6 +4,7 @@ import CureLightAction from "../action/impl/spell/cureLightAction"
 import CurePoisonAction from "../action/impl/spell/curePoisonAction"
 import CurseAction from "../action/impl/spell/curseAction"
 import GiantStrengthAction from "../action/impl/spell/giantStrengthAction"
+import PoisonAction from "../action/impl/spell/poisonAction"
 import {AffectType} from "../affect/affectType"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import { DamageType } from "../damage/damageType"
@@ -13,11 +14,9 @@ import cureSerious from "./action/cureSerious"
 import heal from "./action/heal"
 import lightningBolt from "./action/lightningBolt"
 import magicMissile from "./action/magicMissile"
-import poison from "./action/poison"
 import shield from "./action/shield"
 import wrath from "./action/wrath"
 import defaultSpellPrecondition from "./precondition/defaultSpellPrecondition"
-import poisonPrecondition from "./precondition/poison"
 import { SpellType } from "./spellType"
 
 export default function getSpellTable(service: GameService) {
@@ -28,6 +27,7 @@ export default function getSpellTable(service: GameService) {
     // maladictions
     new BlindAction(checkBuilderFactory, eventService),
     new CurseAction(checkBuilderFactory, eventService),
+    new PoisonAction(checkBuilderFactory, eventService),
 
     // healing
     new CureLightAction(checkBuilderFactory, eventService),
@@ -92,15 +92,5 @@ export default function getSpellTable(service: GameService) {
       defaultSpellPrecondition,
       25,
       SpecializationLevel.create(10, 10, 10, 10)),
-
-    // maladictions
-    definition.spell(
-      SpellType.Poison,
-      ActionType.Offensive,
-      poison,
-      poisonPrecondition,
-      10,
-      SpecializationLevel.create(17, 12, 15, 21),
-      AffectType.Poison),
   ]
 }

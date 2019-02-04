@@ -16,4 +16,7 @@ export const Messages = {
   GiantStrength: {
     Success: "{target} muscles surge with heightened power.",
   },
+  Poison: {
+    Success: "{target} suddenly {verb} sick!",
+  },
 }
