@@ -2,21 +2,20 @@ import { ActionType } from "../action/enum/actionType"
 import BlindAction from "../action/impl/spell/blindAction"
 import CureLightAction from "../action/impl/spell/cureLightAction"
 import CurePoisonAction from "../action/impl/spell/curePoisonAction"
+import CurseAction from "../action/impl/spell/curseAction"
+import GiantStrengthAction from "../action/impl/spell/giantStrengthAction"
 import {AffectType} from "../affect/affectType"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import { DamageType } from "../damage/damageType"
 import GameService from "../gameService/gameService"
 import SpecializationLevel from "../mob/specialization/specializationLevel"
 import cureSerious from "./action/cureSerious"
-import curse from "./action/curse"
-import giantStrength from "./action/giantStrength"
 import heal from "./action/heal"
 import lightningBolt from "./action/lightningBolt"
 import magicMissile from "./action/magicMissile"
 import poison from "./action/poison"
 import shield from "./action/shield"
 import wrath from "./action/wrath"
-import cursePrecondition from "./precondition/curse"
 import defaultSpellPrecondition from "./precondition/defaultSpellPrecondition"
 import poisonPrecondition from "./precondition/poison"
 import { SpellType } from "./spellType"
@@ -28,12 +27,16 @@ export default function getSpellTable(service: GameService) {
   return [
     // maladictions
     new BlindAction(checkBuilderFactory, eventService),
+    new CurseAction(checkBuilderFactory, eventService),
 
     // healing
     new CureLightAction(checkBuilderFactory, eventService),
 
     // curative
     new CurePoisonAction(checkBuilderFactory, eventService),
+
+    // enhancements
+    new GiantStrengthAction(checkBuilderFactory, eventService),
 
     // attack
     definition.spell(
@@ -83,15 +86,6 @@ export default function getSpellTable(service: GameService) {
       AffectType.Shield),
 
     definition.spell(
-      SpellType.GiantStrength,
-      ActionType.Defensive,
-      giantStrength,
-      defaultSpellPrecondition,
-      20,
-      SpecializationLevel.create(11, 0, 22, 20),
-      AffectType.GiantStrength),
-
-    definition.spell(
       SpellType.Wrath,
       ActionType.Defensive,
       wrath,
@@ -108,14 +102,5 @@ export default function getSpellTable(service: GameService) {
       10,
       SpecializationLevel.create(17, 12, 15, 21),
       AffectType.Poison),
-
-    definition.spell(
-      SpellType.Curse,
-      ActionType.Offensive,
-      curse,
-      cursePrecondition,
-      20,
-      SpecializationLevel.create(18, 18, 22, 26),
-      AffectType.Curse),
   ]
 }

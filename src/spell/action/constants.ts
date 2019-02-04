@@ -10,4 +10,10 @@ export const Messages = {
   CurePoison: {
     Success: "{target} {verb} less sick.",
   },
+  Curse: {
+    Success: "{target} {verb} cursed!",
+  },
+  GiantStrength: {
+    Success: "{target} muscles surge with heightened power.",
+  },
 }
