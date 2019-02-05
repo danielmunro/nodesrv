@@ -1,9 +1,9 @@
-import { MAX_PRACTICE_LEVEL } from "../../mob/constants"
-import { RequestType } from "../../request/requestType"
-import TestBuilder from "../../test/testBuilder"
-import { SpellType } from "../spellType"
+import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
+import { RequestType } from "../../../../request/requestType"
+import { SpellType } from "../../../../spell/spellType"
+import TestBuilder from "../../../../test/testBuilder"
 
-describe.skip("lightning bolt", () => {
+describe("lightning bolt", () => {
   it("should do damage when casted", async () => {
     // setup
     const testBuilder = new TestBuilder()
@@ -12,10 +12,10 @@ describe.skip("lightning bolt", () => {
     mobBuilder1.withSpell(SpellType.LightningBolt, MAX_PRACTICE_LEVEL)
     const mobBuilder2 = testBuilder.withMob("bob")
     const mob = mobBuilder2.mob
-    const definition = await testBuilder.getSpellDefinition(SpellType.LightningBolt)
+    const spell = await testBuilder.getSpellDefinition(SpellType.LightningBolt)
 
     // when
-    const response = await definition.doAction(testBuilder.createRequest(RequestType.Cast, "cast lightning bob", mob))
+    const response = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast lightning bob", mob))
 
     // then
     expect(response.isSuccessful()).toBeTruthy()

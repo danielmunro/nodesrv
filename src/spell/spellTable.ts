@@ -1,4 +1,5 @@
 import { ActionType } from "../action/enum/actionType"
+import LightningBoltAction from "../action/impl/spell/attack/lightningBoltAction"
 import MagicMissileAction from "../action/impl/spell/attack/magicMissileAction"
 import CurePoisonAction from "../action/impl/spell/curative/curePoisonAction"
 import GiantStrengthAction from "../action/impl/spell/enhancement/giantStrengthAction"
@@ -10,10 +11,8 @@ import CurseAction from "../action/impl/spell/maladiction/curseAction"
 import PoisonAction from "../action/impl/spell/maladiction/poisonAction"
 import {AffectType} from "../affect/affectType"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
-import { DamageType } from "../damage/damageType"
 import GameService from "../gameService/gameService"
 import SpecializationLevel from "../mob/specialization/specializationLevel"
-import lightningBolt from "./action/lightningBolt"
 import shield from "./action/shield"
 import wrath from "./action/wrath"
 import defaultSpellPrecondition from "./precondition/defaultSpellPrecondition"
@@ -42,17 +41,7 @@ export default function getSpellTable(service: GameService) {
 
     // attack
     new MagicMissileAction(checkBuilderFactory, eventService),
-
-    // attack
-    definition.spell(
-      SpellType.LightningBolt,
-      ActionType.Offensive,
-      lightningBolt,
-      defaultSpellPrecondition,
-      15,
-      SpecializationLevel.create(23, 13, 18, 16),
-      undefined,
-      DamageType.Electric),
+    new LightningBoltAction(checkBuilderFactory, eventService),
 
     // benedictions
     definition.spell(
