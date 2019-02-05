@@ -1,7 +1,10 @@
 import { ActionType } from "../action/enum/actionType"
+import MagicMissileAction from "../action/impl/spell/attack/magicMissileAction"
 import CurePoisonAction from "../action/impl/spell/curative/curePoisonAction"
 import GiantStrengthAction from "../action/impl/spell/enhancement/giantStrengthAction"
 import CureLightAction from "../action/impl/spell/healing/cureLightAction"
+import CureSeriousAction from "../action/impl/spell/healing/cureSeriousAction"
+import HealAction from "../action/impl/spell/healing/healAction"
 import BlindAction from "../action/impl/spell/maladiction/blindAction"
 import CurseAction from "../action/impl/spell/maladiction/curseAction"
 import PoisonAction from "../action/impl/spell/maladiction/poisonAction"
@@ -10,10 +13,7 @@ import CheckBuilderFactory from "../check/checkBuilderFactory"
 import { DamageType } from "../damage/damageType"
 import GameService from "../gameService/gameService"
 import SpecializationLevel from "../mob/specialization/specializationLevel"
-import cureSerious from "./action/cureSerious"
-import heal from "./action/heal"
 import lightningBolt from "./action/lightningBolt"
-import magicMissile from "./action/magicMissile"
 import shield from "./action/shield"
 import wrath from "./action/wrath"
 import defaultSpellPrecondition from "./precondition/defaultSpellPrecondition"
@@ -31,6 +31,8 @@ export default function getSpellTable(service: GameService) {
 
     // healing
     new CureLightAction(checkBuilderFactory, eventService),
+    new CureSeriousAction(checkBuilderFactory, eventService),
+    new HealAction(checkBuilderFactory, eventService),
 
     // curative
     new CurePoisonAction(checkBuilderFactory, eventService),
@@ -39,16 +41,9 @@ export default function getSpellTable(service: GameService) {
     new GiantStrengthAction(checkBuilderFactory, eventService),
 
     // attack
-    definition.spell(
-      SpellType.MagicMissile,
-      ActionType.Offensive,
-      magicMissile,
-      defaultSpellPrecondition,
-      15,
-      SpecializationLevel.create(0, 1, 2, 2),
-      undefined,
-      DamageType.Magic),
+    new MagicMissileAction(checkBuilderFactory, eventService),
 
+    // attack
     definition.spell(
       SpellType.LightningBolt,
       ActionType.Offensive,
@@ -58,22 +53,6 @@ export default function getSpellTable(service: GameService) {
       SpecializationLevel.create(23, 13, 18, 16),
       undefined,
       DamageType.Electric),
-
-    definition.spell(
-      SpellType.CureSerious,
-      ActionType.Defensive,
-      cureSerious,
-      defaultSpellPrecondition,
-      15,
-      SpecializationLevel.create(7, 0, 0, 9)),
-
-    definition.spell(
-      SpellType.Heal,
-      ActionType.Defensive,
-      heal,
-      defaultSpellPrecondition,
-      50,
-      SpecializationLevel.create(20, 0, 33, 31)),
 
     // benedictions
     definition.spell(

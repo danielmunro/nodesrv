@@ -11,30 +11,30 @@ import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../../spell"
 
-export default class CureLightAction extends Spell {
+export default class MagicMissileAction extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    target.vitals.hp += roll(1, 4)
+    target.vitals.hp -= roll(1, 4)
   }
 
   public getSpellType(): SpellType {
-    return SpellType.CureLight
+    return SpellType.MagicMissile
   }
 
   public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Cleric) {
-      return new SpecializationLevel(SpecializationType.Cleric, 1)
+    if (specializationType === SpecializationType.Mage) {
+      return new SpecializationLevel(SpecializationType.Mage, 1)
     }
     return new SpecializationLevel(SpecializationType.Noop, 1)
   }
 
   public getActionType(): ActionType {
-    return ActionType.Defensive
+    return ActionType.Offensive
   }
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 10),
+      new Cost(CostType.Mana, 15),
     ]
   }
 
@@ -42,7 +42,7 @@ export default class CureLightAction extends Spell {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.CureLight.Success,
+      Messages.MagicMissile.Success,
       { target, verb: "is" },
       { verb: "are" },
       { target, verb: "is" })

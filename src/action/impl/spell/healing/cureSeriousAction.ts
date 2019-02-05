@@ -11,19 +11,19 @@ import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../../spell"
 
-export default class CureLightAction extends Spell {
+export default class CureSeriousAction extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    target.vitals.hp += roll(1, 4)
+    target.vitals.hp += roll(2, 8)
   }
 
   public getSpellType(): SpellType {
-    return SpellType.CureLight
+    return SpellType.CureSerious
   }
 
   public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
     if (specializationType === SpecializationType.Cleric) {
-      return new SpecializationLevel(SpecializationType.Cleric, 1)
+      return new SpecializationLevel(SpecializationType.Cleric, 7)
     }
     return new SpecializationLevel(SpecializationType.Noop, 1)
   }
@@ -34,7 +34,7 @@ export default class CureLightAction extends Spell {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 10),
+      new Cost(CostType.Mana, 15),
     ]
   }
 
@@ -42,9 +42,9 @@ export default class CureLightAction extends Spell {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.CureLight.Success,
-      { target, verb: "is" },
-      { verb: "are" },
+      Messages.CureSerious.Success,
+      { target: target === checkedRequest.mob ? "you" : target, verb: "is" },
+      { target: "you", verb: "are" },
       { target, verb: "is" })
   }
 }
