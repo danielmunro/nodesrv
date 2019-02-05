@@ -28,4 +28,10 @@ export const Messages = {
   Poison: {
     Success: "{target} suddenly {verb} sick!",
   },
+  Shield: {
+    Success: "{target} {verb} surrounded by a force shield.",
+  },
+  Wrath: {
+    Success: "{target} {verb} surrounded by wrathful energy.",
+  },
 }

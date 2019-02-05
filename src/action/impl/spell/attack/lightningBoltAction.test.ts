@@ -1,6 +1,7 @@
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
 import { RequestType } from "../../../../request/requestType"
 import { SpellType } from "../../../../spell/spellType"
+import {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
 import TestBuilder from "../../../../test/testBuilder"
 
 describe("lightning bolt", () => {
@@ -15,7 +16,10 @@ describe("lightning bolt", () => {
     const spell = await testBuilder.getSpellDefinition(SpellType.LightningBolt)
 
     // when
-    const response = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast lightning bob", mob))
+    const response = await doNTimesOrUntilTruthy(100, async () => {
+      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast lightning bob", mob))
+      return handled.isSuccessful() ? handled : null
+    })
 
     // then
     expect(response.isSuccessful()).toBeTruthy()

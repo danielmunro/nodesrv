@@ -11,7 +11,7 @@ import TestBuilder from "../../test/testBuilder"
 import Action from "../action"
 import {ConditionMessages} from "../constants"
 
-const TEST_INPUT_GIANT = "cast giant"
+const TEST_INPUT_SHIELD = "cast shield"
 const TEST_INPUT_CAST = "cast"
 const TEST_INPUT_POISON = "cast poison"
 const TEST_INPUT_INVALID = "cast floodle"
@@ -35,12 +35,13 @@ describe.skip("cast action action", () => {
   it("should be able to cast a known spell", async () => {
     // given
     const mobBuilder = testBuilder.withMob()
-    mobBuilder.withSpell(SpellType.GiantStrength, MAX_PRACTICE_LEVEL)
+    mobBuilder.withSpell(SpellType.Shield, MAX_PRACTICE_LEVEL)
     mobBuilder.withLevel(20)
-    const definition = await testBuilder.getSpellDefinition(SpellType.GiantStrength)
+    const definition = await testBuilder.getSpellDefinition(SpellType.Shield)
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT))
+    const response = await definition.handle(
+      testBuilder.createRequest(RequestType.Cast, TEST_INPUT_SHIELD, mobBuilder.mob))
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
@@ -49,7 +50,7 @@ describe.skip("cast action action", () => {
   it("should not be able to cast if not standing", async () => {
     // setup
     const mobBuilder = testBuilder.withMob()
-    mobBuilder.withSpell(SpellType.GiantStrength, MAX_PRACTICE_LEVEL)
+    mobBuilder.withSpell(SpellType.Shield, MAX_PRACTICE_LEVEL)
     mobBuilder.withLevel(20)
 
     for (const disposition of allDispositions) {
@@ -57,7 +58,8 @@ describe.skip("cast action action", () => {
       mobBuilder.withDisposition(disposition)
 
       // when
-      const check = await action.check(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT))
+      const check = await action.check(
+        testBuilder.createRequest(RequestType.Cast, TEST_INPUT_SHIELD, mobBuilder.mob))
 
       // then
       expect(check.status).toBe(
@@ -94,12 +96,12 @@ describe.skip("cast action action", () => {
   it("should be able to cast a known spell", async () => {
     // given
     await testBuilder.withPlayer(p => {
-      p.sessionMob.spells.push(newSpell(SpellType.GiantStrength))
+      p.sessionMob.spells.push(newSpell(SpellType.Shield))
       p.sessionMob.level = 20
     })
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT))
+    const check = await action.check(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_SHIELD))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
@@ -109,13 +111,13 @@ describe.skip("cast action action", () => {
     // given
     await testBuilder.withPlayer(p => {
       p.sessionMob.specialization = SpecializationType.Cleric
-      p.sessionMob.spells.push(newSpell(SpellType.GiantStrength))
+      p.sessionMob.spells.push(newSpell(SpellType.Shield))
       p.sessionMob.vitals.mana = 0
       p.sessionMob.level = 30
     })
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_GIANT))
+    const check = await action.check(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_SHIELD))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
