@@ -78,6 +78,7 @@ export const Messages = {
     Success: "You wake and stand up.",
   },
 }
+
 export const MESSAGE_FAIL_CONTAINER_NOT_FOUND = "That container isn't here."
 export const MESSAGE_FAIL_NOT_FIGHTING = "You're not fighting anyone."
 export const MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE = "You don't see any directions to flee."

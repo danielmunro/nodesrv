@@ -59,16 +59,6 @@ export default abstract class Spell extends Action {
     return undefined
   }
 
-  // public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-  //   const spell = checkedRequest.getCheckTypeResult(CheckType.HasSpell)
-  //   return new ResponseMessage(
-  //     checkedRequest.mob,
-  //     Messages.Cast.Success,
-  //     { verb: "utter", spell: spell.spellType },
-  //     { verb: "utters", spell: spell.spellType },
-  //     { verb: "utters", spell: spell.spellType })
-  // }
-
   public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
     return new ResponseMessage(
       checkedRequest.mob,

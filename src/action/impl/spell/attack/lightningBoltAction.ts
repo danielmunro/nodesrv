@@ -2,6 +2,7 @@ import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
 import Cost from "../../../../check/cost/cost"
 import {CostType} from "../../../../check/cost/costType"
+import {DamageType} from "../../../../damage/damageType"
 import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll from "../../../../random/dice"
@@ -9,12 +10,17 @@ import ResponseMessage from "../../../../request/responseMessage"
 import {Messages} from "../../../../spell/action/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
+import OffensiveSpell from "../../../offensiveSpell"
 import Spell from "../../../spell"
 
-export default class LightningBoltAction extends Spell {
+export default class LightningBoltAction extends Spell implements OffensiveSpell {
   public applySpell(checkedRequest: CheckedRequest): void {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    target.vitals.hp -= roll(2, 6)
+    target.vitals.hp -= this.calculateBaseDamage()
+  }
+
+  public calculateBaseDamage(): number {
+    return roll(2, 6)
   }
 
   public getSpellType(): SpellType {
@@ -36,6 +42,10 @@ export default class LightningBoltAction extends Spell {
     return [
       new Cost(CostType.Mana, 15),
     ]
+  }
+
+  public getDamageType(): DamageType {
+    return DamageType.Electric
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {

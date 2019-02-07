@@ -7,4 +7,5 @@ export enum DamageType {
   Fire,
   Frost,
   Electric,
+  Poison,
 }

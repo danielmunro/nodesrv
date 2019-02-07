@@ -5,5 +5,5 @@ export default class AffectModifier {
   constructor(
     public readonly affectType: AffectType,
     public readonly trigger: Trigger,
-    public readonly modifier) {}
+    public readonly modifier: (value: number) => number) {}
 }

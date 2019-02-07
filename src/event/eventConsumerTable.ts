@@ -8,6 +8,7 @@ import ItemService from "../item/itemService"
 import AggressiveMob from "../mob/eventConsumer/aggressiveMob"
 import ClientCreated from "../mob/eventConsumer/clientCreated"
 import {default as MobClientDisconnected} from "../mob/eventConsumer/clientDisconnected"
+import DamageModifierEventConsumer from "../mob/eventConsumer/damageModifierEventConsumer"
 import FightStarter from "../mob/eventConsumer/fightStarter"
 import MobCreated from "../mob/eventConsumer/mobCreated"
 import PetFollowsOwner from "../mob/eventConsumer/petFollowsOwner"
@@ -15,6 +16,7 @@ import Scavenge from "../mob/eventConsumer/scavenge"
 import Wimpy from "../mob/eventConsumer/wimpy"
 import FightBuilder from "../mob/fight/fightBuilder"
 import MobService from "../mob/mobService"
+import damageModifierTable from "../mob/race/damageModifierTable"
 import MobArrives from "../player/eventConsumer/mobArrives"
 import MobLeaves from "../player/eventConsumer/mobLeaves"
 import {RequestType} from "../request/requestType"
@@ -45,6 +47,7 @@ export default async function createEventConsumerTable(
     new FightStarter(mobService, fightBuilder),
     new MobClientDisconnected(locationService),
     new MobCreated(mobService, gameServer.startRoom),
+    new DamageModifierEventConsumer(damageModifierTable),
 
     // item
     new ItemCreated(itemService),

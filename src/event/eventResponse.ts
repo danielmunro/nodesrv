@@ -10,6 +10,10 @@ export default class EventResponse {
     return Promise.resolve(new EventResponse(event, EventResponseStatus.None))
   }
 
+  public static modified(event: Event): Promise<EventResponse> {
+    return Promise.resolve(new EventResponse(event, EventResponseStatus.Modified))
+  }
+
   constructor(
     public readonly event: Event,
     public readonly status: EventResponseStatus,
@@ -17,5 +21,9 @@ export default class EventResponse {
 
   public isSatisifed(): boolean {
     return this.status === EventResponseStatus.Satisfied
+  }
+
+  public isModified(): boolean {
+    return this.status === EventResponseStatus.Modified
   }
 }

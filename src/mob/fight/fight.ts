@@ -1,5 +1,6 @@
 import {applyAffectModifier} from "../../affect/applyAffect"
 import Attributes from "../../attributes/model/attributes"
+import {DamageType} from "../../damage/damageType"
 import {EventResponseStatus} from "../../event/eventResponseStatus"
 import EventService from "../../event/eventService"
 import {EventType} from "../../event/eventType"
@@ -7,6 +8,7 @@ import roll, {simpleD4} from "../../random/dice"
 import {Room} from "../../room/model/room"
 import {Disposition} from "../enum/disposition"
 import {Trigger} from "../enum/trigger"
+import DamageEvent from "../event/damageEvent"
 import {Mob} from "../model/mob"
 import {Attack, AttackResult, getSuppressionAttackResultFromSkillType} from "./attack"
 import Death from "./death"
@@ -100,18 +102,19 @@ export class Fight {
       return Fight.attackDefeated(attacker, defender, AttackResult.Miss)
     }
 
-    const damage = Fight.oneHit(attacker, defender)
+    const initialDamageCalculation = Fight.oneHit(attacker, defender)
 
     await this.eventService.publish(new FightEvent(EventType.AttackRound, attacker, this))
-
-    const death = defender.vitals.hp < 0 ? this.deathOccurred(attacker, defender) : undefined
+    const response = await this.eventService.publish(
+      new DamageEvent(defender, initialDamageCalculation, DamageType.Slash))
+    const event = response.event as DamageEvent
 
     return new Attack(
       attacker,
       defender,
       AttackResult.Hit,
-      damage,
-      death)
+      event.amount,
+      defender.vitals.hp < 0 ? this.createDeath(attacker, defender) : undefined)
   }
 
   private async turnFor(x: Mob, y: Mob): Promise<Attack[]> {
@@ -123,7 +126,7 @@ export class Fight {
     return attacks
   }
 
-  private deathOccurred(winner: Mob, vanquished: Mob): Death {
+  private createDeath(winner: Mob, vanquished: Mob): Death {
     console.debug(`${vanquished.name} is killed by ${winner.name}`)
 
     this.status = FightStatus.Done

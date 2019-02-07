@@ -19,6 +19,9 @@ export default class EventService {
         if (eventResponse.isSatisifed()) {
           return eventResponse
         }
+        if (eventResponse.isModified()) {
+          event = eventResponse.event
+        }
       }
     }
     return new EventResponse(event, status)

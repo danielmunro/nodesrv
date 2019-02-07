@@ -43,8 +43,9 @@ export default class CureLightAction extends Spell {
     return new ResponseMessage(
       checkedRequest.mob,
       Messages.CureLight.Success,
-      { target, verb: "is" },
-      { verb: "are" },
-      { target, verb: "is" })
+      { target: target === checkedRequest.mob ? "you" : target,
+        verb: target === checkedRequest.mob ? "feel" : "feels" },
+      { target: "you", verb: "feel" },
+      { target, verb: "feels" })
   }
 }

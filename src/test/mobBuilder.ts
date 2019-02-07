@@ -3,6 +3,7 @@ import { newContainer } from "../item/factory"
 import { Item } from "../item/model/item"
 import {Disposition} from "../mob/enum/disposition"
 import { Mob } from "../mob/model/mob"
+import {Race} from "../mob/race/race"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
@@ -19,6 +20,12 @@ export default class MobBuilder extends AbstractBuilder {
 
   public equip(): MobBuilder {
     this.equipNextEquipment = true
+
+    return this
+  }
+
+  public withRace(race: Race) {
+    this.mob.race = race
 
     return this
   }
