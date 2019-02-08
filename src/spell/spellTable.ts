@@ -10,10 +10,11 @@ import CurseAction from "../action/impl/spell/maladiction/curseAction"
 import PoisonAction from "../action/impl/spell/maladiction/poisonAction"
 import WrathAction from "../action/impl/spell/maladiction/wrathAction"
 import ShieldAction from "../action/impl/spell/protective/shieldAction"
+import Spell from "../action/spell"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import GameService from "../gameService/gameService"
 
-export default function getSpellTable(service: GameService) {
+export default function getSpellTable(service: GameService): Spell[] {
   const checkBuilderFactory = new CheckBuilderFactory(service.mobService)
   const eventService = service.eventService
   return [

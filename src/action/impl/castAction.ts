@@ -18,12 +18,14 @@ export default class CastAction extends Action {
   }
 
   public async check(request: Request): Promise<Check> {
+    const definition = this.spells.find(s => s.getSpellType().startsWith(request.getSubject()))
     const actionCheck = await this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .requireSubject(ConditionMessages.All.Arguments.Cast)
       .require(
-        this.spells.find(s => s.getSpellType().startsWith(request.getSubject())),
+        definition,
         ConditionMessages.Cast.NotASpell,
         CheckType.HasSpell)
+      .capture(definition)
       .create()
     if (!actionCheck.isOk()) {
       return actionCheck

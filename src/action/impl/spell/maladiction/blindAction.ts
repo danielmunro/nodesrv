@@ -7,6 +7,7 @@ import {CostType} from "../../../../check/cost/costType"
 import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import ResponseMessage from "../../../../request/responseMessage"
+import {ConditionMessages} from "../../../../skill/constants"
 import {Messages} from "../../../../spell/action/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
@@ -39,7 +40,7 @@ export default class BlindAction extends Spell {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 20),
+      new Cost(CostType.Mana, 20, ConditionMessages.All.NotEnoughMana),
     ]
   }
 

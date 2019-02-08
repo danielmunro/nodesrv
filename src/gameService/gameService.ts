@@ -1,6 +1,7 @@
 import Action from "../action/action"
 import getActionTable from "../action/actionTable"
 import Skill from "../action/skill"
+import Spell from "../action/spell"
 import Event from "../event/event"
 import EventResponse from "../event/eventResponse"
 import EventService from "../event/eventService"
@@ -13,7 +14,6 @@ import {Room} from "../room/model/room"
 import {default as RoomTable} from "../room/roomTable"
 import {getSkillTable} from "../skill/skillTable"
 import {SkillType} from "../skill/skillType"
-import Spell from "../spell/spell"
 import getSpellTable from "../spell/spellTable"
 import {SpellType} from "../spell/spellType"
 import DefinitionService from "./definitionService"
@@ -21,7 +21,7 @@ import TimeService from "./timeService"
 
 export default class GameService {
   public readonly timeService: TimeService
-  private actions: Action[]
+  private readonly actions: Action[]
   private readonly skillTable: Skill[]
   private readonly spellTable: Spell[]
 
@@ -78,7 +78,7 @@ export default class GameService {
   }
 
   public getSpell(spellType: SpellType): Spell {
-    const found = this.spellTable.find(spell => spell.spellType === spellType)
+    const found = this.spellTable.find(spell => spell.getSpellType() === spellType)
     if (!found) {
       throw new Error(`unknown spell for ${spellType}`)
     }

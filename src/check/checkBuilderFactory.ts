@@ -12,7 +12,7 @@ export default class CheckBuilderFactory {
       .requireDisposition(disposition, `You must be ${disposition} to do that.`)
   }
 
-  public createCheckTemplate(request): CheckTemplate {
+  public createCheckTemplate(request: Request): CheckTemplate {
     return new CheckTemplate(this.mobService, request)
   }
 }

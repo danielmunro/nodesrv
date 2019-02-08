@@ -1,6 +1,5 @@
 import {CheckStatus} from "../../check/checkStatus"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
-import {allDispositions, Disposition} from "../../mob/enum/disposition"
 import {SpecializationType} from "../../mob/specialization/specializationType"
 import {RequestType} from "../../request/requestType"
 import {ResponseStatus} from "../../request/responseStatus"
@@ -31,41 +30,20 @@ beforeEach(async () => {
   action = await testBuilder.getActionDefinition(RequestType.Cast)
 })
 
-describe.skip("cast action action", () => {
+describe("cast action action", () => {
   it("should be able to cast a known spell", async () => {
     // given
     const mobBuilder = testBuilder.withMob()
-    mobBuilder.withSpell(SpellType.Shield, MAX_PRACTICE_LEVEL)
+    mobBuilder.withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
     mobBuilder.withLevel(20)
-    const definition = await testBuilder.getSpellDefinition(SpellType.Shield)
+    const definition = await testBuilder.getSpellDefinition(SpellType.Blind)
 
     // when
     const response = await definition.handle(
-      testBuilder.createRequest(RequestType.Cast, TEST_INPUT_SHIELD, mobBuilder.mob))
+      testBuilder.createRequest(RequestType.Cast, "cast blind", mobBuilder.mob))
 
     // then
-    expect(response.status).toBe(ResponseStatus.Success)
-  })
-
-  it("should not be able to cast if not standing", async () => {
-    // setup
-    const mobBuilder = testBuilder.withMob()
-    mobBuilder.withSpell(SpellType.Shield, MAX_PRACTICE_LEVEL)
-    mobBuilder.withLevel(20)
-
-    for (const disposition of allDispositions) {
-      // given
-      mobBuilder.withDisposition(disposition)
-
-      // when
-      const check = await action.check(
-        testBuilder.createRequest(RequestType.Cast, TEST_INPUT_SHIELD, mobBuilder.mob))
-
-      // then
-      expect(check.status).toBe(
-        disposition === Disposition.Standing ?
-          CheckStatus.Ok : CheckStatus.Failed)
-    }
+    expect(response.status).not.toBe(ResponseStatus.PreconditionsFailed)
   })
 
   it("should require at least one argument", async () => {

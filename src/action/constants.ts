@@ -105,6 +105,7 @@ export const ConditionMessages = {
       Open: "What do you want to open?",
       Unlock: "What do you want to unlock?",
     },
+    Disposition: "You must be standing to do that",
     Item: {
       CannotRemoveCursedItem: "{0} is cursed and binds to your flesh.",
       CannotSacrifice: "You cannot sacrifice that.",

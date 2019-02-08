@@ -60,7 +60,7 @@ export default class CheckTemplate {
     if (fight && target) {
       checkBuilder.require(target === fight.getOpponentFor(this.request.mob), Messages.TooManyTargets)
     } else if (!target && fight) {
-      target = fight.getOpponentFor(this.request.mob)
+      target = fight.getOpponentFor(this.request.mob) as Mob
     }
     if (actionType === ActionType.Offensive) {
       checkBuilder.require(target, Messages.NoTarget, CheckType.HasTarget)
