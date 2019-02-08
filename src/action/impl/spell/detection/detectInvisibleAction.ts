@@ -12,22 +12,24 @@ import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../../spell"
 
-export default class StoneSkinAction extends Spell {
+export default class DetectInvisibleAction extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
     this.applyAffectType(checkedRequest)
   }
 
   public getAffectType(): AffectType {
-    return AffectType.StoneSkin
+    return AffectType.DetectInvisible
   }
 
   public getSpellType(): SpellType {
-    return SpellType.StoneSkin
+    return SpellType.DetectInvisible
   }
 
   public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Cleric) {
-      return new SpecializationLevel(SpecializationType.Cleric, 25)
+    if (specializationType === SpecializationType.Mage) {
+      return new SpecializationLevel(specializationType, 20)
+    } else if (specializationType === SpecializationType.Cleric) {
+      return new SpecializationLevel(specializationType, 32)
     }
     return new SpecializationLevel(SpecializationType.Noop, 1)
   }
@@ -38,7 +40,7 @@ export default class StoneSkinAction extends Spell {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 12, ConditionMessages.All.NotEnoughMana),
+      new Cost(CostType.Mana, 20, ConditionMessages.All.NotEnoughMana),
     ]
   }
 
@@ -46,9 +48,9 @@ export default class StoneSkinAction extends Spell {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.StoneSkin.Success,
-      { target: target === checkedRequest.mob ? "your" : `${target.name}'s` },
+      Messages.DetectInvisible.Success,
+      { target: target === checkedRequest.mob ? "your" : `${target}'s` },
       { target: "your" },
-      { target: `${target.name}'s` })
+      { target: `${target}'s` })
   }
 }

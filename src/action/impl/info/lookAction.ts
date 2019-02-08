@@ -68,8 +68,10 @@ export default class LookAction extends Action {
   }
 
   protected reduceMobs(mob: Mob, mobs: Mob[]): string {
-    return mobs.filter(onlyLiving).reduce((previous: string, current: Mob) =>
-      previous + (current !== mob ? "\n" + current.brief : ""), "")
+    return mobs.filter(onlyLiving)
+      .filter((aMob: Mob) => !aMob.getAffect(AffectType.Invisible) || mob.getAffect(AffectType.DetectInvisible))
+      .reduce((previous: string, current: Mob) =>
+        previous + (current !== mob ? "\n" + current.brief : ""), "")
   }
 
   protected lookAtSubject(request: Request, builder: ResponseBuilder) {

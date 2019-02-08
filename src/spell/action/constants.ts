@@ -16,6 +16,9 @@ export const Messages = {
   Curse: {
     Success: "{target} {verb} cursed!",
   },
+  DetectInvisible: {
+    Success: "{target} eyes tingle.",
+  },
   GiantStrength: {
     Success: "{target} muscles surge with heightened power.",
   },

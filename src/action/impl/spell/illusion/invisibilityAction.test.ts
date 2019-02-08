@@ -1,11 +1,11 @@
 import {AffectType} from "../../../../affect/affectType"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
+import {Mob} from "../../../../mob/model/mob"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
 import TestBuilder from "../../../../test/testBuilder"
 import Spell from "../../../spell"
-import {Mob} from "../../../../mob/model/mob"
 
 let testBuilder: TestBuilder
 let spell: Spell

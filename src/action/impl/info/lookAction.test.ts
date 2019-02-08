@@ -1,14 +1,15 @@
-import { AffectType } from "../../../affect/affectType"
-import { newAffect } from "../../../affect/factory"
-import { Item } from "../../../item/model/item"
-import { Race } from "../../../mob/race/race"
-import { Player } from "../../../player/model/player"
+import {AffectType} from "../../../affect/affectType"
+import {newAffect} from "../../../affect/factory"
+import {Item} from "../../../item/model/item"
+import {Mob} from "../../../mob/model/mob"
+import {Race} from "../../../mob/race/race"
+import {Player} from "../../../player/model/player"
 import newRegion from "../../../region/factory"
-import { Terrain } from "../../../region/terrain"
-import { Weather } from "../../../region/weather"
-import { RequestType } from "../../../request/requestType"
-import { ResponseStatus } from "../../../request/responseStatus"
-import { Room } from "../../../room/model/room"
+import {Terrain} from "../../../region/terrain"
+import {Weather} from "../../../region/weather"
+import {RequestType} from "../../../request/requestType"
+import {ResponseStatus} from "../../../request/responseStatus"
+import {Room} from "../../../room/model/room"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 import {Messages} from "../../constants"
@@ -17,6 +18,7 @@ let testBuilder: TestBuilder
 let room: Room
 let player: Player
 let definition: Action
+let mob: Mob
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
@@ -25,6 +27,8 @@ beforeEach(async () => {
   const playerBuilder = await testBuilder.withPlayer()
   player = playerBuilder.player
   definition = await testBuilder.getActionDefinition(RequestType.Look)
+  mob = testBuilder.withMob("alice").mob
+  mob.brief = "alice is here"
 })
 
 function getTestItem(): Item {
@@ -34,7 +38,7 @@ function getTestItem(): Item {
   return item
 }
 
-describe("look", () => {
+describe("look action", () => {
   it("should describe a room when no arguments are provided", async () => {
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Look))
@@ -55,15 +59,37 @@ describe("look", () => {
   })
 
   it("should describe a mob when a mob is present", async () => {
-    // given
-    const mob = testBuilder.withMob("alice").mob
-
     // when
     const response = await definition.handle(
       testBuilder.createRequest(RequestType.Look, "look alice"))
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe(mob.describe())
+  })
+
+  it("should not describe a mob when a mob is invisible", async () => {
+    // given
+    mob.addAffect(newAffect(AffectType.Invisible))
+
+    // when
+    const response = await definition.handle(
+      testBuilder.createRequest(RequestType.Look))
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).not.toContain("alice")
+  })
+
+  it("should describe a mob when a mob is invisible and the request creator can detect invisible", async () => {
+    // given
+    player.sessionMob.addAffect(newAffect(AffectType.DetectInvisible))
+    mob.addAffect(newAffect(AffectType.Invisible))
+
+    // when
+    const response = await definition.handle(
+      testBuilder.createRequest(RequestType.Look))
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).toContain("alice")
   })
 
   it("should be able to describe an item in the room", async () => {

@@ -1,4 +1,5 @@
 import {AffectType} from "../affect/affectType"
+import {newAffect} from "../affect/factory"
 import Check from "../check/check"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import CheckedRequest from "../check/checkedRequest"
@@ -18,7 +19,6 @@ import {SpellType} from "../spell/spellType"
 import Action from "./action"
 import {Messages} from "./constants"
 import {ActionType} from "./enum/actionType"
-import {newAffect} from "../affect/factory"
 
 export default abstract class Spell extends Action {
   constructor(
