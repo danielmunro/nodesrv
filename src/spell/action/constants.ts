@@ -22,6 +22,9 @@ export const Messages = {
   Heal: {
     Success: "{target} {verb} a warm feeling flow through {target2}!",
   },
+  Invisibility: {
+    Success: "{target} {verb} out of existence.",
+  },
   MagicMissile: {
     Success: "",
   },
@@ -30,6 +33,9 @@ export const Messages = {
   },
   Shield: {
     Success: "{target} {verb} surrounded by a force shield.",
+  },
+  StoneSkin: {
+    Success: "{target} skin turns to stone.",
   },
   Wrath: {
     Success: "{target} {verb} surrounded by wrathful energy.",

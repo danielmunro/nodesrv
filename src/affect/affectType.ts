@@ -36,6 +36,7 @@ export enum AffectType {
   Stunned = "stunned",
   Sharpened = "sharpened",
   Shield = "shield",
+  StoneSkin = "stone skin",
   Sneak = "sneak",
   Teleport = "teleport",
   Warped = "warped",

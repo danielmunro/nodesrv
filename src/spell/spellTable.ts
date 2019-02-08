@@ -13,6 +13,8 @@ import ShieldAction from "../action/impl/spell/protective/shieldAction"
 import Spell from "../action/spell"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import GameService from "../gameService/gameService"
+import StoneSkinAction from "../action/impl/spell/protective/stoneSkinAction"
+import InvisibilityAction from "../action/impl/spell/illusion/invisibilityAction"
 
 export default function getSpellTable(service: GameService): Spell[] {
   const checkBuilderFactory = new CheckBuilderFactory(service.mobService)
@@ -41,5 +43,9 @@ export default function getSpellTable(service: GameService): Spell[] {
 
     // protective
     new ShieldAction(checkBuilderFactory, eventService),
+    new StoneSkinAction(checkBuilderFactory, eventService),
+
+    // illusion
+    new InvisibilityAction(checkBuilderFactory, eventService),
   ]
 }

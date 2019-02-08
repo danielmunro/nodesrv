@@ -9,9 +9,12 @@ export enum SpellType {
   Invisibility = "invisibility",
   DetectInvisible = "detect invisibility",
 
-  // Benedictions
+  // protective
   Armor = "armor",
   Shield = "shield",
+  StoneSkin = "stone skin",
+
+  // Benedictions
   Bless = "bless",
   GiantStrength = "giant strength",
   Haste = "haste",
