@@ -16,7 +16,6 @@ import {getSkillTable} from "../skill/skillTable"
 import {SkillType} from "../skill/skillType"
 import getSpellTable from "../spell/spellTable"
 import {SpellType} from "../spell/spellType"
-import DefinitionService from "./definitionService"
 import TimeService from "./timeService"
 
 export default class GameService {
@@ -47,10 +46,6 @@ export default class GameService {
 
   public getMobsByRoom(room: Room): Mob[] {
     return this.mobService.locationService.getMobsByRoom(room)
-  }
-
-  public definition(): DefinitionService {
-    return new DefinitionService(this)
   }
 
   public publishEvent(event: Event): Promise<EventResponse> {
