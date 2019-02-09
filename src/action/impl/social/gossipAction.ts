@@ -1,9 +1,9 @@
 import Check from "../../../check/check"
 import CheckedRequest from "../../../check/checkedRequest"
+import SocialService from "../../../gameService/socialService"
 import { Request } from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import SocialService from "../../../gameService/socialService"
 import Action from "../../action"
 
 export default class GossipAction extends Action {
