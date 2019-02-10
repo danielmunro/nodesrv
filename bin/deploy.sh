@@ -3,7 +3,7 @@ pip install --user awscli
 export PATH=$PATH:$HOME/.local/bin
 
 # install necessary dependency for ecs-deploy
-sudo apt-get install jq -y
+apt-get install jq -y
 
 # install ecs-deploy
 curl https://raw.githubusercontent.com/silinternational/ecs-deploy/master/ecs-deploy | \

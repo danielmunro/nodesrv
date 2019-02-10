@@ -1,9 +1,9 @@
+services:
+  - postgresql
+  - docker
 matrix:
   include:
     - language: node_js
-      services:
-        - postgresql
-        - docker
       cache:
         directories:
           - "node_modules"
