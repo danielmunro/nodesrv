@@ -1,8 +1,8 @@
-import MobCreated from "./mobCreated"
-import TestBuilder from "../../test/testBuilder"
-import MobEvent from "../event/mobEvent"
 import {EventType} from "../../event/eventType"
 import {getTestMob} from "../../test/mob"
+import TestBuilder from "../../test/testBuilder"
+import MobEvent from "../event/mobEvent"
+import MobCreated from "./mobCreated"
 
 describe("mob created event consumer", () => {
   it("adds a created mob to the mob service", async () => {

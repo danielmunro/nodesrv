@@ -1,7 +1,7 @@
-import TestBuilder from "../../test/testBuilder"
-import ClientDisconnected from "./clientDisconnected"
 import ClientEvent from "../../client/event/clientEvent"
 import {EventType} from "../../event/eventType"
+import TestBuilder from "../../test/testBuilder"
+import ClientDisconnected from "./clientDisconnected"
 
 describe("client disconnected event consumer", () => {
   it("removes a client's session mob from the mob service upon disconnect", async () => {

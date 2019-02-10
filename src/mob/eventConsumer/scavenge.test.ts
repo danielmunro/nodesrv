@@ -16,7 +16,7 @@ describe("scavenge", () => {
       mockService(), service.itemService, service.mobService.locationService)
 
     // when
-    await scavenge.scavenge(mob)
+    scavenge.scavenge(mob)
 
     // then
     expect(service.itemService.findAllByInventory(mob.inventory)).toHaveLength(1)
