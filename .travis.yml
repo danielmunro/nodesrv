@@ -8,7 +8,7 @@ cache:
 node_js:
   - "8"
 before_script:
-  - pip install --upgrade pip
+  - sudo pip install --upgrade pip
   - pip install --user requests[security] awscli
   - psql -c 'create database nodesrvtest;' -U postgres
   - cp ormconfig-travis.json ormconfig.json
