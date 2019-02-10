@@ -1,8 +1,11 @@
 import * as assert from "assert"
+import getActionTable from "../src/action/actionTable"
 import createEventConsumerTable from "../src/event/eventConsumerTable"
 import EventService from "../src/event/eventService"
+import ActionService from "../src/gameService/actionService"
 import GameService from "../src/gameService/gameService"
 import ResetService from "../src/gameService/resetService"
+import TimeService from "../src/gameService/timeService"
 import ItemService from "../src/item/itemService"
 import ItemTable from "../src/item/itemTable"
 import { getItemRepository } from "../src/item/repository/item"
@@ -19,10 +22,13 @@ import { getMobRepository } from "../src/mob/repository/mob"
 import {getMobResetRepository} from "../src/mob/repository/mobReset"
 import {getPlayerRepository} from "../src/player/repository/player"
 import { newExitTable, newRoomTable } from "../src/room/factory"
+import {Room} from "../src/room/model/room"
 import {default as RoomTable} from "../src/room/roomTable"
 import ClientService from "../src/server/clientService"
 import newServer from "../src/server/factory"
 import AuthService from "../src/session/auth/authService"
+import {getSkillTable} from "../src/skill/skillTable"
+import getSpellTable from "../src/spell/spellTable"
 import { initializeConnection } from "../src/support/db/connection"
 
 const Timings = {
@@ -66,8 +72,19 @@ initializeConnection().then(async () => {
   console.timeEnd(Timings.seedItems)
 
   console.time(Timings.openPort)
-  const gameService = new GameService(mobService, roomTable, itemService, eventService)
-  const startRoom = roomTable.getRooms().find(room => room.canonicalId === startRoomID)
+  const timeService = new TimeService()
+  const gameService = new GameService(
+    mobService,
+    roomTable,
+    itemService,
+    eventService,
+    new ActionService(
+      getActionTable(mobService, itemService, timeService, eventService),
+      getSkillTable(mobService, eventService),
+      getSpellTable(mobService, eventService),
+    ),
+    timeService)
+  const startRoom = roomTable.getRooms().find(room => room.canonicalId === startRoomID) as Room
   const clientService = new ClientService(
     eventService,
     new AuthService(await getPlayerRepository(), mobService),

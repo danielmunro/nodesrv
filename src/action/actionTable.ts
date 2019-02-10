@@ -1,7 +1,10 @@
 import CheckBuilderFactory from "../check/checkBuilderFactory"
-import GameService from "../gameService/gameService"
+import EventService from "../event/eventService"
 import SocialService from "../gameService/socialService"
+import TimeService from "../gameService/timeService"
+import ItemService from "../item/itemService"
 import getHealerSpellTable from "../mob/healer/healerSpellTable"
+import MobService from "../mob/mobService"
 import getSpellTable from "../spell/spellTable"
 import Action from "./action"
 import CastAction from "./impl/castAction"
@@ -59,9 +62,12 @@ import SayAction from "./impl/social/sayAction"
 import TellAction from "./impl/social/tellAction"
 import TrainAction from "./impl/trainAction"
 
-export default function getActionTable(service: GameService): Action[] {
-  const locationService = service.mobService.locationService
-  const { mobService, itemService, timeService, eventService } = service
+export default function getActionTable(
+  mobService: MobService,
+  itemService: ItemService,
+  timeService: TimeService,
+  eventService: EventService): Action[] {
+  const locationService = mobService.locationService
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const lookAction = new LookAction(locationService, itemService, timeService)
   const socialService = new SocialService(checkBuilderFactory, eventService)
@@ -108,7 +114,7 @@ export default function getActionTable(service: GameService): Action[] {
     new StealAction(checkBuilderFactory, eventService),
 
     // casting
-    new CastAction(checkBuilderFactory, getSpellTable(service)),
+    new CastAction(checkBuilderFactory, getSpellTable(mobService, eventService)),
 
     // info
     new AffectsAction(),
@@ -123,7 +129,7 @@ export default function getActionTable(service: GameService): Action[] {
     new BuyAction(checkBuilderFactory, eventService),
     new SellAction(checkBuilderFactory, eventService),
     new ListAction(checkBuilderFactory),
-    new HealAction(checkBuilderFactory, locationService, getHealerSpellTable(service)),
+    new HealAction(checkBuilderFactory, locationService, getHealerSpellTable()),
 
     // social
     new GossipAction(socialService),

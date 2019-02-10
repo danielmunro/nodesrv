@@ -4,12 +4,12 @@ import FastHealingAction from "../action/impl/skill/event/fastHealingAction"
 import SecondAttackAction from "../action/impl/skill/event/secondAttackAction"
 import WeaponAction from "../action/impl/skill/weaponAction"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
-import GameService from "../gameService/gameService"
+import EventService from "../event/eventService"
+import MobService from "../mob/mobService"
 import {SkillType} from "./skillType"
 
-export function getSkillTable(service: GameService) {
-  const checkBuilderFactory = new CheckBuilderFactory(service.mobService)
-  const eventService = service.eventService
+export function getSkillTable(mobService: MobService, eventService: EventService) {
+  const checkBuilderFactory = new CheckBuilderFactory(mobService)
   return [
     new DodgeAction(checkBuilderFactory, eventService),
     new SecondAttackAction(checkBuilderFactory, eventService),

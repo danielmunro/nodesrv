@@ -12,12 +12,12 @@ export default class ItemService {
 
   public async generateNewItemInstance(itemReset: ItemReset): Promise<Item> {
     const item = this.itemTemplateTable.items.find(i => i.id === itemReset.item.id)
-    const copy = cloneDeep(item)
+    const copy = cloneDeep(item) as Item
     copy.canonicalId = itemReset.item.canonicalId
     return copy
   }
 
-  public getByCanonicalId(canonicalId) {
+  public getByCanonicalId(canonicalId: string) {
     return this.itemTable.items.filter(item => item.canonicalId === canonicalId)
   }
 

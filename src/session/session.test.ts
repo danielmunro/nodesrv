@@ -1,8 +1,6 @@
 import { getPlayerRepository } from "../player/repository/player"
 import {getConnection, initializeConnection} from "../support/db/connection"
-import { getTestClient } from "../test/client"
-import { getTestMob } from "../test/mob"
-import { getTestPlayer } from "../test/player"
+import TestBuilder from "../test/testBuilder"
 import AuthService from "./auth/authService"
 import Complete from "./auth/complete"
 import Email from "./auth/login/email"
@@ -17,10 +15,10 @@ const mockAuthService = jest.fn()
 describe("session", () => {
   it("isLoggedIn sanity createDefaultCheckFor", async () => {
     // given
-    const mob = getTestMob()
-    const player = getTestPlayer()
-    player.sessionMob = mob
-    const client = await getTestClient()
+    const testBuilder = new TestBuilder()
+    const playerBuilder = await testBuilder.withPlayer()
+    const player = playerBuilder.player
+    const client = await testBuilder.withClient()
     const session = new Session(
       new Email(new AuthService(await getPlayerRepository(), null)),
     )
@@ -34,12 +32,13 @@ describe("session", () => {
     // then
     expect(session.isLoggedIn()).toBeTruthy()
     expect(session.getPlayer()).toBe(player)
-    expect(session.getMob()).toBe(mob)
+    expect(session.getMob()).toBe(player.sessionMob)
   })
 
   it("should login when complete", async () => {
     // given
-    const client = await getTestClient()
+    const testBuilder = new TestBuilder()
+    const client = await testBuilder.withClient()
     const session = new Session(
       new Complete(mockAuthService(), client.player),
     )

@@ -101,7 +101,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public capture(toCapture: any) {
+  public capture(toCapture?: any) {
     this.checks.push(this.newCheckComponent(CheckType.Unspecified, (thing: any) =>
       this.captured = toCapture || thing))
 

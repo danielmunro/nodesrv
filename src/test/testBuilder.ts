@@ -2,14 +2,11 @@ import Action from "../action/action"
 import Skill from "../action/skill"
 import Spell from "../action/spell"
 import {Client} from "../client/client"
-import eventConsumerTable from "../event/eventConsumerTable"
-import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
 import ServiceBuilder from "../gameService/serviceBuilder"
 import {Item} from "../item/model/item"
 import {newMobLocation} from "../mob/factory"
 import {Fight} from "../mob/fight/fight"
-import FightBuilder from "../mob/fight/fightBuilder"
 import {Mob} from "../mob/model/mob"
 import Shop from "../mob/model/shop"
 import {SpecializationType} from "../mob/specialization/specializationType"
@@ -25,14 +22,9 @@ import {Direction} from "../room/constants"
 import {newReciprocalExit, newRoom} from "../room/factory"
 import {Exit} from "../room/model/exit"
 import {Room} from "../room/model/room"
-import ClientService from "../server/clientService"
-import {GameServer} from "../server/server"
-import AuthService from "../session/auth/authService"
 import Email from "../session/auth/login/email"
 import Session from "../session/session"
-import {getSkillTable} from "../skill/skillTable"
 import {SkillType} from "../skill/skillType"
-import getSpellTable from "../spell/spellTable"
 import {SpellType} from "../spell/spellType"
 import {getTestMob} from "./mob"
 import MobBuilder from "./mobBuilder"
@@ -48,8 +40,6 @@ export default class TestBuilder {
   public player: Player
   public room: Room
   private mobForRequest: Mob
-  private service: GameService
-  private eventService: EventService
   private serviceBuilder: ServiceBuilder = new ServiceBuilder()
 
   public async withClient() {
@@ -66,7 +56,7 @@ export default class TestBuilder {
       "127.0.0.1",
       service.getActions(),
       service.mobService.locationService,
-      await this.getEventService())
+      service.eventService)
     await client.session.login(client, this.player)
     this.mobForRequest = client.getSessionMob()
     this.serviceBuilder.addMob(this.mobForRequest)
@@ -162,12 +152,12 @@ export default class TestBuilder {
   }
 
   public async fight(target = this.withMob().mob): Promise<Fight> {
-    await this.getService()
+    const service = await this.getService()
     const fight = new Fight(
-      await this.getEventService(),
+      service.eventService,
       this.mobForRequest, target,
       this.room)
-    this.service.mobService.addFight(fight)
+    service.mobService.addFight(fight)
 
     return fight
   }
@@ -191,11 +181,11 @@ export default class TestBuilder {
   }
 
   public async getSkillDefinition(skillType: SkillType): Promise<Skill | undefined> {
-    return getSkillTable(await this.getService()).find((skill: Skill) => skill.getSkillType() === skillType)
+    return (await this.getService()).getSkill(skillType)
   }
 
   public async getSpellDefinition(spellType: SpellType): Promise<Spell> {
-    return getSpellTable(await this.getService()).find(spell => spell.getSpellType() === spellType)
+    return (await this.getService()).getSpell(spellType)
   }
 
   public setTime(time: number) {
@@ -205,43 +195,10 @@ export default class TestBuilder {
   }
 
   public async getService(): Promise<GameService> {
-    if (!this.service) {
-      this.eventService = new EventService()
-      this.service = await this.serviceBuilder.createService(this.eventService)
-      await this.attachEventConsumers()
-    }
-    return this.service
-  }
-
-  public async getEventService() {
-    if (!this.eventService) {
-      this.eventService = new EventService()
-      await this.attachEventConsumers()
-    }
-    return this.eventService
+    return this.serviceBuilder.createService(this.room)
   }
 
   public addExit(exit: Exit) {
     this.serviceBuilder.addExit(exit)
-  }
-
-  private async attachEventConsumers() {
-    const gameServer = new GameServer(
-      null,
-      this.room,
-      new ClientService(
-        this.eventService,
-        new AuthService(jest.fn()(), this.service.mobService),
-        this.service.mobService.locationService,
-        this.service.getActions(),
-      ),
-      this.eventService)
-    const eventConsumers = await eventConsumerTable(
-      this.service,
-      gameServer,
-      this.service.mobService,
-      this.service.itemService,
-      new FightBuilder(this.eventService, this.service.mobService.locationService))
-    eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
   }
 }

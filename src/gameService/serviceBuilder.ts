@@ -1,8 +1,11 @@
+import getActionTable from "../action/actionTable"
+import eventConsumerTable from "../event/eventConsumerTable"
 import EventService from "../event/eventService"
 import ItemService from "../item/itemService"
 import ItemTable from "../item/itemTable"
 import { Item } from "../item/model/item"
 import { Fight } from "../mob/fight/fight"
+import FightBuilder from "../mob/fight/fightBuilder"
 import FightTable from "../mob/fight/fightTable"
 import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
@@ -13,12 +16,20 @@ import ExitTable from "../room/exitTable"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
 import { default as RoomTable } from "../room/roomTable"
+import ClientService from "../server/clientService"
+import {GameServer} from "../server/server"
+import AuthService from "../session/auth/authService"
+import {getSkillTable} from "../skill/skillTable"
+import getSpellTable from "../spell/spellTable"
+import ActionService from "./actionService"
 import GameService from "./gameService"
+import TimeService from "./timeService"
 
 export default class ServiceBuilder {
   private time: number = 0
   private fights: Fight[] = []
   private locations: MobLocation[] = []
+  private builtService: GameService
 
   constructor(
     private rooms: Room[] = [],
@@ -36,14 +47,23 @@ export default class ServiceBuilder {
 
   public addRoom(room: Room): void {
     this.rooms.push(room)
+    if (this.builtService) {
+      this.builtService.roomTable.add(room)
+    }
   }
 
   public addMob(mob: Mob): void {
     this.mobs.push(mob)
+    if (this.builtService) {
+      this.builtService.mobService.mobTemplateTable.add(mob)
+    }
   }
 
   public addItem(item: Item): void {
     this.items.push(item)
+    if (this.builtService) {
+      this.builtService.itemService.add(item)
+    }
   }
 
   public addExit(exit: Exit): void {
@@ -54,18 +74,52 @@ export default class ServiceBuilder {
     this.locations.push(mobLocation)
   }
 
-  public async createService(eventService: EventService = new EventService()): Promise<GameService> {
+  public async createService(startRoom: Room): Promise<GameService> {
+    if (this.builtService) {
+      return this.builtService
+    }
+    const eventService = new EventService()
     const roomTable = RoomTable.new(this.rooms)
     const locationService = new LocationService(roomTable, new ExitTable(this.exits), eventService, this.locations)
-    return new GameService(
-      new MobService(
-        new MobTable(this.mobs),
-        new MobTable(this.mobs),
-        new FightTable(this.fights),
-        locationService),
+    const itemService = new ItemService(new ItemTable(this.items), new ItemTable(this.items))
+    const mobService = new MobService(
+      new MobTable(this.mobs),
+      new MobTable(this.mobs),
+      new FightTable(this.fights),
+      locationService)
+    const timeService = new TimeService(this.time)
+    this.builtService = new GameService(
+      mobService,
       roomTable,
-      new ItemService(new ItemTable(this.items), new ItemTable(this.items)),
+      itemService,
       eventService,
-      this.time)
+      new ActionService(
+        getActionTable(mobService, itemService, timeService, eventService),
+        getSkillTable(mobService, eventService),
+        getSpellTable(mobService, eventService),
+      ),
+      timeService)
+    await this.attachEventConsumers(startRoom)
+    return this.builtService
+  }
+
+  private async attachEventConsumers(room: Room) {
+    const gameServer = new GameServer(
+      null,
+      room,
+      new ClientService(
+        this.builtService.eventService,
+        new AuthService(jest.fn()(), this.builtService.mobService),
+        this.builtService.mobService.locationService,
+        this.builtService.getActions(),
+      ),
+      this.builtService.eventService)
+    const eventConsumers = await eventConsumerTable(
+      this.builtService,
+      gameServer,
+      this.builtService.mobService,
+      this.builtService.itemService,
+      new FightBuilder(this.builtService.eventService, this.builtService.mobService.locationService))
+    eventConsumers.forEach(eventConsumer => this.builtService.eventService.addConsumer(eventConsumer))
   }
 }

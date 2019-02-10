@@ -55,7 +55,7 @@ describe("new player confirm auth step", () => {
     const email = TEST_EMAIL
     const inputs = [
       "abc",
-      null,
+      "",
       "123",
       "yn",
     ]

@@ -7,7 +7,7 @@ afterAll(async () => (await getConnection()).close())
 
 describe("decrement player delay", () => {
   it("should decrement delay for players if needed", async () => {
-    // SETUP
+    // setup
     const clients = [
       await getTestClient(),
       await getTestClient(),

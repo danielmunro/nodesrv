@@ -2,7 +2,7 @@ import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import MobTable from "../../mob/mobTable"
 import {getConnection, initializeConnection} from "../../support/db/connection"
-import { getTestClient } from "../../test/client"
+import TestBuilder from "../../test/testBuilder"
 import { decrementAffects } from "./decrementAffects"
 
 const TEST_TIMEOUT_1 = 50
@@ -14,7 +14,8 @@ afterAll(async () => (await getConnection()).close())
 describe("decrementAffects", () => {
   it("should decrement all affects for a mob", async () => {
     // setup
-    const client = await getTestClient()
+    const testBuilder = new TestBuilder()
+    const client = await testBuilder.withClient()
 
     // given
     const mob = client.player.sessionMob
@@ -32,7 +33,8 @@ describe("decrementAffects", () => {
 
   it("should remove an affect once it decrements to zero", async () => {
     // setup
-    const client = await getTestClient()
+    const testBuilder = new TestBuilder()
+    const client = await testBuilder.withClient()
 
     // given
     const mob = client.player.sessionMob

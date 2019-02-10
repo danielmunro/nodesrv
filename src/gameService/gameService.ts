@@ -1,5 +1,4 @@
 import Action from "../action/action"
-import getActionTable from "../action/actionTable"
 import Skill from "../action/skill"
 import Spell from "../action/spell"
 import Event from "../event/event"
@@ -12,29 +11,19 @@ import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import {Room} from "../room/model/room"
 import {default as RoomTable} from "../room/roomTable"
-import {getSkillTable} from "../skill/skillTable"
 import {SkillType} from "../skill/skillType"
-import getSpellTable from "../spell/spellTable"
 import {SpellType} from "../spell/spellType"
+import ActionService from "./actionService"
 import TimeService from "./timeService"
 
 export default class GameService {
-  public readonly timeService: TimeService
-  private readonly actions: Action[]
-  private readonly skillTable: Skill[]
-  private readonly spellTable: Spell[]
-
   constructor(
     public readonly mobService: MobService,
     public readonly roomTable: RoomTable,
     public readonly itemService: ItemService,
     public readonly eventService: EventService,
-    time = 0) {
-    this.timeService = new TimeService(time)
-    this.skillTable = getSkillTable(this)
-    this.spellTable = getSpellTable(this)
-    this.actions = getActionTable(this)
-  }
+    public readonly actionService: ActionService,
+    public readonly timeService: TimeService) {}
 
   public async moveMob(mob: Mob, direction: Direction) {
     await this.mobService.locationService.moveMob(mob, direction)
@@ -53,11 +42,11 @@ export default class GameService {
   }
 
   public getActions(): Action[] {
-    return this.actions
+    return this.actionService.actions
   }
 
   public getAction(requestType: RequestType): Action {
-    const found = this.actions.find(action => action.isAbleToHandleRequestType(requestType))
+    const found = this.actionService.actions.find(action => action.isAbleToHandleRequestType(requestType))
     if (!found) {
       throw new Error(`unknown action for ${requestType}`)
     }
@@ -65,7 +54,7 @@ export default class GameService {
   }
 
   public getSkill(skillType: SkillType): Skill {
-    const found = this.skillTable.find(skill => skill.getSkillType() === skillType)
+    const found = this.actionService.skills.find(skill => skill.getSkillType() === skillType)
     if (!found) {
       throw new Error(`unknown skill for ${skillType}`)
     }
@@ -73,7 +62,7 @@ export default class GameService {
   }
 
   public getSpell(spellType: SpellType): Spell {
-    const found = this.spellTable.find(spell => spell.getSpellType() === spellType)
+    const found = this.actionService.spells.find(spell => spell.getSpellType() === spellType)
     if (!found) {
       throw new Error(`unknown spell for ${spellType}`)
     }

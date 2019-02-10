@@ -1,5 +1,6 @@
 import { Server } from "mock-socket"
 import EventService from "../event/eventService"
+import ActionService from "../gameService/actionService"
 import GameService from "../gameService/gameService"
 import FightTable from "../mob/fight/fightTable"
 import LocationService from "../mob/locationService"
@@ -29,7 +30,7 @@ async function getGameServer(): Promise<GameServer> {
     new MobTable(),
     new FightTable(),
     locationService)
-  const gameService = new GameService(mobService, null, null, null)
+  const gameService = new GameService(mobService, null, null, null, new ActionService([], [], []), null)
   return new GameServer(
     ws,
     room,

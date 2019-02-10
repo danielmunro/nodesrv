@@ -21,7 +21,7 @@ export default class PutAction extends Action {
   public check(request: Request): Promise<Check> {
     const containerName = request.getContextAsInput().component
     const mobInventory = request.mob.inventory
-    const item = this.itemService.findItem(mobInventory, request.getContextAsInput().subject)
+    const item = this.itemService.findItem(mobInventory, request.getSubject())
     const container = new Maybe(this.itemService.findItem(mobInventory, containerName))
       .do((i) => i)
       .or(() => this.itemService.findItem(request.getRoom().inventory, containerName))

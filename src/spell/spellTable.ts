@@ -15,11 +15,11 @@ import ShieldAction from "../action/impl/spell/protective/shieldAction"
 import StoneSkinAction from "../action/impl/spell/protective/stoneSkinAction"
 import Spell from "../action/spell"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
-import GameService from "../gameService/gameService"
+import EventService from "../event/eventService"
+import MobService from "../mob/mobService"
 
-export default function getSpellTable(service: GameService): Spell[] {
-  const checkBuilderFactory = new CheckBuilderFactory(service.mobService)
-  const eventService = service.eventService
+export default function getSpellTable(mobService: MobService, eventService: EventService): Spell[] {
+  const checkBuilderFactory = new CheckBuilderFactory(mobService)
   return [
     // maladictions
     new BlindAction(checkBuilderFactory, eventService),

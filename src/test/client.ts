@@ -1,6 +1,7 @@
 import Action from "../action/action"
 import { Client } from "../client/client"
 import EventService from "../event/eventService"
+import ActionService from "../gameService/actionService"
 import GameService from "../gameService/gameService"
 import ItemService from "../item/itemService"
 import LocationService from "../mob/locationService"
@@ -36,7 +37,7 @@ async function createClient(
 
 export async function getTestClient(player = getTestPlayer()): Promise<Client> {
   const mobService = new MobService(mock(), mock(), mock(), mock())
-  const service = new GameService(mobService, mock(), mock(), mock())
+  const service = new GameService(mobService, mock(), mock(), mock(), new ActionService([], [], []), mock())
   const actions = service.getActions()
   const authService = new AuthService(await getPlayerRepository(), mobService)
   const client = await createClient(player, actions, service.mobService.locationService, authService)
@@ -47,7 +48,8 @@ export async function getTestClient(player = getTestPlayer()): Promise<Client> {
 
 export async function getTestClientLoggedOut(player = getTestPlayer(), room = getTestRoom()): Promise<Client> {
   const mobService = new MobService(mock(), mock(), mock(), mock())
-  const service = new GameService(mobService, RoomTable.new([room]), new ItemService(), new EventService())
+  const service = new GameService(
+    mobService, RoomTable.new([room]), new ItemService(), new EventService(), new ActionService([], [], []), mock())
   const authService = new AuthService(await getPlayerRepository(), mobService)
   return createClient(player, service.getActions(), service.mobService.locationService, authService)
 }

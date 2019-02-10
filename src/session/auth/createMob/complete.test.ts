@@ -1,7 +1,7 @@
 import { Mob } from "../../../mob/model/mob"
 import { getMobRepository } from "../../../mob/repository/mob"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
-import { getTestClient } from "../../../test/client"
+import TestBuilder from "../../../test/testBuilder"
 import { default as FinalComplete } from "../complete"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
@@ -14,8 +14,11 @@ const mockAuthService = jest.fn()
 
 describe("create mob auth step: complete", () => {
   it("should proceed to the final step unconditionally", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const client = await getTestClient()
+    const client = await testBuilder.withClient()
 
     // when
     const response = await new Complete(mockAuthService(), client.player).processRequest(new Request(client, ""))
@@ -26,8 +29,11 @@ describe("create mob auth step: complete", () => {
   })
 
   it("should persist the mob", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
-    const client = await getTestClient()
+    const client = await testBuilder.withClient()
 
     // expect
     expect(client.player.sessionMob.id).toBeUndefined()

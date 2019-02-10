@@ -71,7 +71,7 @@ export default class PlayerBuilder extends AbstractBuilder {
     this.player.sessionMob.disposition = disposition
   }
 
-  private doEquip(equipment) {
+  private doEquip(equipment: Item) {
     if (this.equipNextEquipment) {
       this.equipNextEquipment = false
       this.player.sessionMob.equipped.addItem(equipment)

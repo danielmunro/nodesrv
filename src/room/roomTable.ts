@@ -17,6 +17,10 @@ export default class RoomTable {
     return this.roomsById[uuid]
   }
 
+  public add(room: Room) {
+    this.roomsById[room.uuid] = room
+  }
+
   public count() {
     return Object.keys(this.roomsById).length
   }

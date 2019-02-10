@@ -1,6 +1,6 @@
 import { allSpecializations } from "../../../mob/specialization/constants"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
-import { getTestClient } from "../../../test/client"
+import TestBuilder from "../../../test/testBuilder"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Complete from "./complete"
@@ -13,6 +13,9 @@ const mockAuthService = jest.fn()
 
 describe("specialization create mob auth step", () => {
   it("should not allow invalid specialization options", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+
     // given
     const badInputs = [
       "foo",
@@ -21,7 +24,7 @@ describe("specialization create mob auth step", () => {
     ]
 
     // setup
-    const client = await getTestClient()
+    const client = await testBuilder.withClient()
     const specialization = new Specialization(mockAuthService(), client.player)
 
     // when
@@ -35,7 +38,8 @@ describe("specialization create mob auth step", () => {
   it("should allow valid specializations", async () => {
     // when
     return Promise.all(allSpecializations.map(async (input) => {
-      const client = await getTestClient()
+      const testBuilder = new TestBuilder()
+      const client = await testBuilder.withClient()
       const specialization = new Specialization(mockAuthService(), client.player)
       const response = await specialization.processRequest(new Request(client, input))
       expect(response.status).toBe(ResponseStatus.OK)
