@@ -12,4 +12,4 @@ docker tag nodesrv-app:latest $IMAGE_REPO
 docker push $IMAGE_REPO
 
 # update an AWS ECS service with the new image
-ecs-deploy -c nodesrv-app -n app-2 -i $IMAGE_REPO
+ecs-deploy -c nodesrv-app -n app-2 -i $IMAGE_REPO -t 300
