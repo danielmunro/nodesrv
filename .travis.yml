@@ -1,3 +1,4 @@
+dist: xenial
 language: node_js
 services:
   - postgresql
@@ -8,9 +9,6 @@ cache:
 node_js:
   - "8"
 before_script:
-  - sudo apt-get update
-  - sudo apt-get upgrade python
-  - sudo pip install --upgrade pip
   - pip install --user awscli
   - psql -c 'create database nodesrvtest;' -U postgres
   - cp ormconfig-travis.json ormconfig.json
