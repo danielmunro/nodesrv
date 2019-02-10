@@ -6,7 +6,7 @@ import SkillEvent from "../skillEvent"
 import {SkillType} from "../skillType"
 import ImproveInvokedSkillsEventConsumer from "./improveInvokedSkillsEventConsumer"
 
-const iterations = 1000
+const iterations = 500
 
 describe("skill invoked event consumer", () => {
   it("should improve a skill", async () => {
