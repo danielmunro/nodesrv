@@ -22,21 +22,19 @@ export default class Scavenge implements EventConsumer {
 
   public async consume(event: MobEvent): Promise<EventResponse> {
     if (event.mob.traits.scavenger) {
-      this.scavenge(event.mob)
+      setTimeout(() => this.scavenge(event.mob), this.scavengeTimeoutMS)
     }
     return EventResponse.none(event)
   }
 
-  private scavenge(mob: Mob) {
-    setTimeout(() => {
-      const location = this.locationService.getLocationForMob(mob)
-      const items = this.itemService.findAllByInventory(location.room.inventory)
-      let message = ""
-      items.forEach(item => {
-        mob.inventory.addItem(item)
-        message += `${mob.name} picks up ${item.name}.\n`
-      })
-      this.clientService.sendMessageInRoom(mob, message)
-    }, this.scavengeTimeoutMS)
+  public scavenge(mob: Mob) {
+    const location = this.locationService.getLocationForMob(mob)
+    const items = this.itemService.findAllByInventory(location.room.inventory)
+    let message = ""
+    items.forEach(item => {
+      mob.inventory.addItem(item)
+      message += `${mob.name} picks up ${item.name}.\n`
+    })
+    this.clientService.sendMessageInRoom(mob, message)
   }
 }
