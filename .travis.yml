@@ -1,6 +1,7 @@
 language: node_js
 services:
   - postgresql
+  - docker
 cache:
   directories:
     - "node_modules"
@@ -19,3 +20,8 @@ addons:
     organization: danielmunro-github
     token:
       secure: befa09151a77d699e6e168d61eec0aafe1aadc6e
+deploy:
+  provider: script
+  script: bash bin/deploy.sh
+  on:
+    branch: master
