@@ -23,7 +23,7 @@ matrix:
             secure: befa09151a77d699e6e168d61eec0aafe1aadc6e
     - language: python
       before_script:
-        - pip install --user awscli
+        - pip install awscli
       deploy:
         provider: script
         script: bash bin/deploy.sh
