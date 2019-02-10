@@ -1,10 +1,9 @@
-# install AWS SDK
-pip install --user awscli
-export PATH=$PATH:$HOME/.local/bin
-
 # install necessary dependency for ecs-deploy
-apt-get install jq -y
-apt-get upgrade python
+apt-get install jq python3 pip3 -y
+
+# install AWS SDK
+pip3 install --user awscli
+export PATH=$PATH:$HOME/.local/bin
 
 # install ecs-deploy
 curl https://raw.githubusercontent.com/silinternational/ecs-deploy/master/ecs-deploy | \
