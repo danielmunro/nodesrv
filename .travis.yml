@@ -1,33 +1,27 @@
-matrix:
-  include:
-  - language: node_js
-    services:
-      - postgresql
-    cache:
-      directories:
-        - "node_modules"
-      yarn: true
-    node_js:
-      - "8"
-    before_script:
-      - psql -c 'create database nodesrvtest;' -U postgres
-      - cp ormconfig-travis.json ormconfig.json
-      - yarn lint
-    script:
-      - yarn test-coverage
-      - sonar-scanner
-    addons:
-      sonarcloud:
-        organization: danielmunro-github
-        token:
-        secure: befa09151a77d699e6e168d61eec0aafe1aadc6e
-  - language: python
-    services:
-      - docker
-    python:
-      - "3.6"
-    deploy:
-      provider: script
-      script: bash bin/deploy.sh
-      on:
-        branch: master
+language: node_js
+services:
+  - postgresql
+  - docker
+cache:
+  directories:
+    - "node_modules"
+  yarn: true
+node_js:
+  - "8"
+before_script:
+  - psql -c 'create database nodesrvtest;' -U postgres
+  - cp ormconfig-travis.json ormconfig.json
+  - yarn lint
+script:
+  - yarn test-coverage
+  - sonar-scanner
+addons:
+  sonarcloud:
+    organization: danielmunro-github
+    token:
+      secure: befa09151a77d699e6e168d61eec0aafe1aadc6e
+deploy:
+  provider: script
+  script: bash bin/deploy.sh
+  on:
+    branch: master
