@@ -23,4 +23,8 @@ export default class InputContext implements RequestContext {
   public getSource(): any {
     return this.input
   }
+
+  public getLastArg(): string {
+    return this.words[this.words.length - 1]
+  }
 }

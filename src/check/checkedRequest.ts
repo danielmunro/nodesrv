@@ -10,7 +10,7 @@ import Check from "./check"
 import { CheckType } from "./checkType"
 
 export default class CheckedRequest {
-  private static getResult(thing) {
+  private static getResult(thing: any) {
     if (typeof thing === "function") {
       return thing()
     }
@@ -44,7 +44,12 @@ export default class CheckedRequest {
     return Promise.resolve(new Response(this, responseStatus, responseMessage))
   }
 
-  public response(responseStatus: ResponseStatus, message: string, toRequestCreator, toTarget, toObservers): Response {
+  public response(
+    responseStatus: ResponseStatus,
+    message: string,
+    toRequestCreator: object,
+    toTarget: object,
+    toObservers: object): Response {
     return new Response(this, responseStatus, new ResponseMessage(
       this.mob, message, toRequestCreator, toTarget, toObservers))
   }

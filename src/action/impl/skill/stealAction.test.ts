@@ -1,7 +1,6 @@
 import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
 import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
-import {Skill} from "../../../skill/model/skill"
 import {SkillType} from "../../../skill/skillType"
 import doNTimes from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
@@ -14,20 +13,18 @@ let testBuilder: TestBuilder
 let action: Action
 let mob1: Mob
 let mob2: Mob
-let skill: Skill
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   action = await testBuilder.getActionDefinition(RequestType.Steal)
   const mobBuilder1 = testBuilder.withMob()
   mobBuilder1.withLevel(5)
-  skill = mobBuilder1.withSkill(SkillType.Steal, initialLevel)
+  mobBuilder1.withSkill(SkillType.Steal, initialLevel)
   mob1 = mobBuilder1.mob
 
   // and
-  const mobBuilder2 = testBuilder.withMob()
+  const mobBuilder2 = testBuilder.withMob("bob")
   mobBuilder2.withAxeEq()
-  mobBuilder2.mob.name = "bob"
   mob2 = mobBuilder2.mob
 })
 
@@ -35,8 +32,7 @@ describe("steal skill action", () => {
   it("should transfer an item when successful", async () => {
     // when
     const responses = await doNTimes(iterations, () =>
-      action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT,
-        mob2)))
+      action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT)))
 
     // then
     expect(responses.find(response => response.isSuccessful())).toBeDefined()

@@ -26,11 +26,10 @@ export default class KillAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const target = request.getTarget() as Mob
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .requireMob(MESSAGE_FAIL_KILL_NO_TARGET)
       .capture()
-      .require(request.mob !== target, MESSAGE_FAIL_CANNOT_ATTACK_SELF)
+      .require((target: Mob) => request.mob !== target, MESSAGE_FAIL_CANNOT_ATTACK_SELF)
       .not().requireFight(MESSAGE_FAIL_KILL_ALREADY_FIGHTING)
       .create()
   }

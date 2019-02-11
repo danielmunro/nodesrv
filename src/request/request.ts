@@ -42,6 +42,10 @@ export class Request {
     return this.getContextAsInput().subject
   }
 
+  public getLastArg(): string {
+    return this.getContextAsInput().getLastArg()
+  }
+
   public getAuthorizationLevel(): AuthorizationLevel {
     if (this.mob && this.mob.playerMob) {
       return this.mob.playerMob.authorizationLevel

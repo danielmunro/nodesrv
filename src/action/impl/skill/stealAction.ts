@@ -26,15 +26,13 @@ export default class StealAction extends Skill {
   }
 
   public check(request: Request): Promise<Check> {
-    const target = request.getTarget() as Mob
-    const subject = request.getSubject()
-
     return this.checkBuilderFactory.createCheckTemplate(request)
       .perform(this)
-      .require(target, Messages.NoMob, CheckType.HasTarget)
       .not().requireFight(PreconditionMessages.All.Fighting)
+      .requireMobInRoom(Messages.NoMob)
+      .capture()
       .require(
-        target ? target.inventory.findItemByName(subject) : false,
+        (target: Mob) => target.inventory.findItemByName(request.getSubject()),
         PreconditionMessages.Steal.ErrorNoItem,
         CheckType.HasItem)
       .create()
@@ -104,6 +102,6 @@ export default class StealAction extends Skill {
 
   private async startFight(checkedRequest: CheckedRequest) {
     await this.eventService.publish(
-      new MobEvent(EventType.Attack, checkedRequest.mob, checkedRequest.request.getTarget()))
+      new MobEvent(EventType.Attack, checkedRequest.mob, checkedRequest.getCheckTypeResult(CheckType.HasTarget)))
   }
 }

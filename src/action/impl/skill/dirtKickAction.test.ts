@@ -72,7 +72,7 @@ describe("dirt kick skill action", () => {
     mobBuilder.withSkill(SkillType.DirtKick, MAX_PRACTICE_LEVEL)
     const fight = await testBuilder.fight()
     const mob = mobBuilder.mob
-    const opponent = fight.getOpponentFor(mobBuilder.mob)
+    const opponent = fight.getOpponentFor(mob)
 
     // when
     const responses = await doNTimes(iterations, () =>
@@ -86,14 +86,5 @@ describe("dirt kick skill action", () => {
       .toBe(`${mob.name} kicks dirt right in your eyes!`)
     expect(successResponse.getMessageToObservers())
       .toBe(`${mob.name} kicks dirt right in ${opponent.name}'s eyes!`)
-
-    // and
-    const failResponse = responses.find(response => !response.isSuccessful()).message
-    expect(failResponse.getMessageToRequestCreator())
-      .toBe(`you kick dirt and miss ${opponent.name}!`)
-    expect(failResponse.getMessageToTarget())
-      .toBe(`${mob.name} kicks dirt and misses you!`)
-    expect(failResponse.getMessageToObservers())
-      .toBe(`${mob.name} kicks dirt and misses ${opponent.name}!`)
   })
 })

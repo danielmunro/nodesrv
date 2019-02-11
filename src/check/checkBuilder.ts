@@ -41,10 +41,20 @@ export default class CheckBuilder {
     return this
   }
 
+  public requireMobInRoom(failMessage = Messages.NoMob): CheckBuilder {
+    const lastArg = this.request.getLastArg()
+    this.checks.push(this.newCheckComponent(
+      CheckType.HasTarget,
+      this.mobService.findMobInRoomWithMob(this.mob, mob => mob.name.startsWith(lastArg)),
+      failMessage))
+
+    return this
+  }
+
   public requireMerchant() {
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
-      this.mobService.findMobInRoomWithMob(this.request.mob, (m: Mob) => m.isMerchant()),
+      this.mobService.findMobInRoomWithMob(this.mob, (m: Mob) => m.isMerchant()),
       Messages.NoMerchant,
     ))
 

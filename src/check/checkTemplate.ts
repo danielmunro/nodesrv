@@ -35,11 +35,10 @@ export default class CheckTemplate {
       .forMob(this.request.mob)
       .requireSkill(skill.getSkillType())
       .atLevelOrGreater(skill.getSpecializationLevel(this.request.mob.specialization).minimumLevel)
-      .capture(this.request.mob)
 
     skill.getCosts().forEach(cost => checkBuilder.addCost(cost))
-    this.checkAffectStackingBehavior(checkBuilder, skill.getAffectType())
     this.checkActionType(checkBuilder, skill.getActionType())
+    this.checkAffectStackingBehavior(checkBuilder, skill.getAffectType())
 
     return checkBuilder
   }

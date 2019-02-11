@@ -6,7 +6,7 @@ import { ResponseStatus } from "../../../request/responseStatus"
 import {getTestMob} from "../../../test/mob"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
-import {MESSAGE_FAIL_KILL_NO_TARGET} from "../../constants"
+import {MESSAGE_FAIL_CANNOT_ATTACK_SELF, MESSAGE_FAIL_KILL_NO_TARGET} from "../../constants"
 import {MESSAGE_FAIL_KILL_ALREADY_FIGHTING} from "../../constants"
 
 let testBuilder: TestBuilder
@@ -20,6 +20,15 @@ beforeEach(async () => {
 })
 
 describe("kill", () => {
+  it("cannot kill self", async () => {
+    // when
+    const response = await action.handle(testBuilder.createRequest(RequestType.Kill, `kill ${mob.name}`))
+
+    // then
+    expect(response.isSuccessful()).toBeFalsy()
+    expect(response.message.getMessageToRequestCreator()).toBe(MESSAGE_FAIL_CANNOT_ATTACK_SELF)
+  })
+
   it("should be able to kill a mob in the same room", async () => {
     // given
     mob.name = "alice"
