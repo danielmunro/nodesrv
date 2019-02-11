@@ -1,6 +1,7 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
+import {CheckType} from "../../../check/checkType"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
 import {Disposition} from "../../../mob/enum/disposition"
@@ -36,13 +37,14 @@ export default class KillAction extends Action {
 
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const request = checkedRequest.request
-    await this.eventService.publish(new MobEvent(EventType.Attack, request.mob, request.getTarget()))
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    await this.eventService.publish(new MobEvent(EventType.Attack, request.mob, target))
 
     return checkedRequest.respondWith().success(
       Messages.Kill.Success,
-      { screamVerb: "scream", attackVerb: "attack", target: request.getTarget() },
+      { screamVerb: "scream", attackVerb: "attack", target },
       { screamVerb: "screams", attackVerb: "attacks", target: "you" },
-      { screamVerb: "screams", attackVerb: "attacks", target: request.getTarget() })
+      { screamVerb: "screams", attackVerb: "attacks", target })
   }
 
   protected getRequestType(): RequestType {
