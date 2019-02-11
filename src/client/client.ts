@@ -69,7 +69,7 @@ export class Client {
 
   public async handleRequest(request: Request): Promise<Response> {
     const matchingHandlerDefinition = this.actions.find(action =>
-      action.isAbleToHandleRequestType(request.getType()))
+      action.isAbleToHandleRequestType(request.getType())) as Action
     const response = await matchingHandlerDefinition.handle(request)
     if (response.request instanceof CheckedRequest) {
       this.applyCosts(response.request.check.costs)

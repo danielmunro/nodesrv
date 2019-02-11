@@ -14,6 +14,6 @@ export default class RequestBuilder {
       input = requestType.toString()
     }
 
-    return new Request(this.mob, this.room, new InputContext(requestType, input))
+    return new Request(this.mob, this.room as Room, new InputContext(requestType, input))
   }
 }
