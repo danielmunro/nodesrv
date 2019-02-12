@@ -25,7 +25,7 @@ export default class AffectsAction extends Action {
     return [ ActionPart.Action ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Affects
   }
 }

@@ -73,7 +73,7 @@ export default abstract class Spell extends Action {
   public abstract getActionType(): ActionType
   public abstract getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Cast
   }
 

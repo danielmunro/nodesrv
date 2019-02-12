@@ -64,7 +64,7 @@ export default class DodgeAction extends Skill {
     return []
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Noop
   }
 }

@@ -87,7 +87,7 @@ export default class DirtKickAction extends Skill {
     return [ActionPart.Action, ActionPart.Target]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.DirtKick
   }
 }

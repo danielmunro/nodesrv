@@ -62,7 +62,7 @@ export default class EnhancedDamageAction extends Skill {
     return []
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Noop
   }
 }

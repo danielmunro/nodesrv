@@ -20,7 +20,7 @@ export default class EquippedAction extends Action {
     return [ ActionPart.Action ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Equipped
   }
 }

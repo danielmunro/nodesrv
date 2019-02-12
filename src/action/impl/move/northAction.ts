@@ -10,7 +10,7 @@ export default class NorthAction extends Move {
     super(checkBuilderFactory, locationService, look, Direction.North)
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.North
   }
 }

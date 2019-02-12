@@ -41,7 +41,7 @@ export default class RemoveAction extends Action {
     return [ ActionPart.Action, ActionPart.ItemInEquipment ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Remove
   }
 }

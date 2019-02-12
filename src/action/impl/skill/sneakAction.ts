@@ -84,7 +84,7 @@ export default class SneakAction extends Skill {
     return [ActionPart.Action]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Sneak
   }
 }

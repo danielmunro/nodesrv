@@ -37,7 +37,7 @@ export default class InventoryAction extends Action {
     return [ ActionPart.Action ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Inventory
   }
 }

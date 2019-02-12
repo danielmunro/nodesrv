@@ -44,7 +44,7 @@ export default class CastAction extends Action {
     return [ ActionPart.Action, ActionPart.Spell, ActionPart.Target ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Cast
   }
 }

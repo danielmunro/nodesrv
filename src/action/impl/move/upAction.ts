@@ -10,7 +10,7 @@ export default class UpAction extends Move {
     super(checkBuilderFactory, locationService, look, Direction.Up)
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Up
   }
 }

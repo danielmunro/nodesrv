@@ -80,7 +80,7 @@ export default class HamstringAction extends Skill {
     return [ActionPart.Action, ActionPart.Target]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Hamstring
   }
 }

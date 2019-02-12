@@ -62,7 +62,7 @@ export default class UnlockAction extends Action {
     return [ ActionPart.Action, ActionPart.Thing ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Unlock
   }
 }

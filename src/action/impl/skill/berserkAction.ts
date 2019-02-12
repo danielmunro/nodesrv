@@ -76,7 +76,7 @@ export default class BerserkAction extends Skill {
     return [ActionPart.Action]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Berserk
   }
 }

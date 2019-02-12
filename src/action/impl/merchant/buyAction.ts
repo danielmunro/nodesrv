@@ -56,7 +56,7 @@ export default class BuyAction extends Action {
     return [ ActionPart.Action, ActionPart.ItemWithRoomMob ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Buy
   }
 }

@@ -54,7 +54,7 @@ export default class HealAction extends Action {
     return [ ActionPart.Action, ActionPart.Thing ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Heal
   }
 

@@ -48,7 +48,7 @@ export default class SacrificeAction extends Action {
     return [ ActionPart.Action, ActionPart.ItemInRoom ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Sacrifice
   }
 }

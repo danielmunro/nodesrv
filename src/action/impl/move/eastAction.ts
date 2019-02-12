@@ -10,7 +10,7 @@ export default class EastAction extends Move {
     super(checkBuilderFactory, locationService, look, Direction.East)
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.East
   }
 }

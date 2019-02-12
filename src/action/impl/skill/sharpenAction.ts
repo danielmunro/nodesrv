@@ -110,7 +110,7 @@ export default class SharpenAction extends Skill {
     return [ActionPart.Action, ActionPart.ItemInInventory]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Sharpen
   }
 }

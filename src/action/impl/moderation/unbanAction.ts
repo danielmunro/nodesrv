@@ -46,7 +46,7 @@ export default class UnbanAction extends Action {
     return [ ActionPart.Action, ActionPart.Target ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Unban
   }
 }

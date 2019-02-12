@@ -35,7 +35,7 @@ export default class HelpAction extends Action {
     return [ ActionPart.Action, ActionPart.Thing ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Help
   }
 }

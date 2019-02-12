@@ -48,7 +48,7 @@ export default class PutAction extends Action {
     return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Put
   }
 }

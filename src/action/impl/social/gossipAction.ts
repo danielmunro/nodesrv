@@ -27,7 +27,7 @@ export default class GossipAction extends Action {
     return [ActionPart.Action, ActionPart.FreeForm]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Gossip
   }
 }

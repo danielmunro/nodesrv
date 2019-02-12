@@ -28,5 +28,5 @@ export default abstract class Action {
   public abstract check(request: Request): Promise<Check>
   public abstract invoke(checkedRequest: CheckedRequest): Promise<Response>
   public abstract getActionParts(): ActionPart[]
-  protected abstract getRequestType(): RequestType
+  public abstract getRequestType(): RequestType
 }

@@ -97,7 +97,7 @@ export default class EnvenomAction extends Skill {
     return [ActionPart.Action, ActionPart.ItemInInventory]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Envenom
   }
 }

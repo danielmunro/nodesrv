@@ -127,7 +127,7 @@ export default class CloseAction extends Action {
     return [ ActionPart.Action, ActionPart.Thing ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Close
   }
 }

@@ -55,7 +55,7 @@ export default class WeaponAction extends Skill {
     return []
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Noop
   }
 }

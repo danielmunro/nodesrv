@@ -10,7 +10,7 @@ export default class DownAction extends Move {
     super(checkBuilderFactory, locationService, look, Direction.Down)
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Down
   }
 }

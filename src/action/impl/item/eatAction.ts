@@ -55,7 +55,7 @@ export default class EatAction extends Action {
     return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Eat
   }
 }

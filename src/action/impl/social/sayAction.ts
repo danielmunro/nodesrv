@@ -27,7 +27,7 @@ export default class SayAction extends Action {
     return [ActionPart.Action, ActionPart.Target, ActionPart.FreeForm]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Say
   }
 }

@@ -69,7 +69,7 @@ export default class GetAction extends Action {
     return [ ActionPart.Action, ActionPart.ItemInRoom ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Get
   }
 

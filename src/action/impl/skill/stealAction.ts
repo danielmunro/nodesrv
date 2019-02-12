@@ -101,7 +101,7 @@ export default class StealAction extends Skill {
     return [ActionPart.Action, ActionPart.ItemWithRoomMob, ActionPart.Target]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Steal
   }
 

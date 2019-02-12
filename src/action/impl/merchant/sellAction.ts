@@ -54,7 +54,7 @@ export default class SellAction extends Action {
     return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Sell
   }
 }

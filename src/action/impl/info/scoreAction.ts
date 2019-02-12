@@ -26,7 +26,7 @@ You have ${mob.gold} gold.
     return [ ActionPart.Action, ActionPart.Thing ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Score
   }
 }

@@ -19,7 +19,7 @@ export default class NoopAction extends Action {
     return []
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Noop
   }
 }

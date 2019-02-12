@@ -69,7 +69,7 @@ export default class PromoteAction extends Action {
     return [ ActionPart.Action, ActionPart.Target ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Promote
   }
 }

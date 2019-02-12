@@ -38,7 +38,7 @@ export default class LoreAction extends Action {
     return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }
 
-  protected getRequestType(): RequestType {
+  public getRequestType(): RequestType {
     return RequestType.Lore
   }
 }
