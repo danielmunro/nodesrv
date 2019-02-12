@@ -9,8 +9,9 @@ import {Mob} from "../../../../mob/model/mob"
 import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import ResponseMessage from "../../../../request/responseMessage"
-import {Messages} from "../../../../spell/action/constants"
+import {SpellMessages} from "../../../../spell/action/constants"
 import {SpellType} from "../../../../spell/spellType"
+import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../../spell"
 
@@ -49,9 +50,13 @@ export default class PoisonAction extends Spell {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) as Mob
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.Poison.Success,
+      SpellMessages.Poison.Success,
       { target, verb: "feels" },
       { target: "you", verb: "feel" },
       { target, verb: "feels" })
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

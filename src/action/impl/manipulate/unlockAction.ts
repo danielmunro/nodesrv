@@ -65,4 +65,8 @@ export default class UnlockAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Unlock
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

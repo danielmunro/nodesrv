@@ -1,7 +1,7 @@
 import Check from "../../../check/check"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
-import {Messages as CheckMessages} from "../../../check/constants"
+import {CheckMessages as CheckMessages} from "../../../check/constants"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import {Equipment} from "../../../item/equipment"
@@ -15,6 +15,7 @@ import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
 import {ActionMessages, ConditionMessages as PreconditionMessages, Costs, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
+import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
@@ -92,5 +93,9 @@ export default class DisarmAction extends Skill {
 
   public getRequestType(): RequestType {
     return RequestType.Disarm
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

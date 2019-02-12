@@ -58,4 +58,8 @@ export default class EatAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Eat
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

@@ -2,7 +2,7 @@ import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
-import {Messages} from "../../../check/constants"
+import {CheckMessages} from "../../../check/constants"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import EventService from "../../../event/eventService"
@@ -15,8 +15,9 @@ import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
-import {ActionMessages, ConditionMessages as PreconditionMessages, Costs} from "../../../skill/constants"
+import {ActionMessages, ConditionMessages, Costs} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
+import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
@@ -29,12 +30,12 @@ export default class StealAction extends Skill {
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckTemplate(request)
       .perform(this)
-      .not().requireFight(PreconditionMessages.All.Fighting)
-      .requireMobInRoom(Messages.NoMob)
+      .not().requireFight(ConditionMessages.All.Fighting)
+      .requireMobInRoom(CheckMessages.NoMob)
       .capture()
       .require(
         (target: Mob) => target.inventory.findItemByName(request.getSubject()),
-        PreconditionMessages.Steal.ErrorNoItem,
+        ConditionMessages.Steal.ErrorNoItem,
         CheckType.HasItem)
       .create()
   }
@@ -103,6 +104,10 @@ export default class StealAction extends Skill {
 
   public getRequestType(): RequestType {
     return RequestType.Steal
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 
   private async startFight(checkedRequest: CheckedRequest) {

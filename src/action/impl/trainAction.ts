@@ -101,4 +101,8 @@ export default class TrainAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Train
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

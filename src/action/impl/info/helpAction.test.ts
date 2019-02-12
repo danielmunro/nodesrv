@@ -14,7 +14,7 @@ describe("help action", () => {
 
     // then
     expect(response.message.getMessageToRequestCreator())
-      .toBe("syntax: cast {spell} {target}")
+      .toBe("syntax: cast {spell} {target}\n\nMore information coming soon.")
   })
 
   it("describes buy action", async () => {
@@ -29,6 +29,6 @@ describe("help action", () => {
 
     // then
     expect(response.message.getMessageToRequestCreator())
-      .toBe("syntax: buy {item with room mob}")
+      .toBe("syntax: buy {item with room mob}\n\nMore information coming soon.")
   })
 })

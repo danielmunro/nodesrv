@@ -8,7 +8,7 @@ import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
 import Action from "../../action"
-import {ConditionMessages} from "../../constants"
+import {ConditionMessages, Messages} from "../../constants"
 import {MESSAGE_REMOVE_FAIL} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
@@ -43,5 +43,9 @@ export default class RemoveAction extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Remove
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

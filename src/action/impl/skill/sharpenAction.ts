@@ -18,6 +18,7 @@ import ResponseMessage from "../../../request/responseMessage"
 import {ActionMessages, ConditionMessages as PreconditionMessages, Costs, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import collectionSearch from "../../../support/matcher/collectionSearch"
+import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 
@@ -112,5 +113,9 @@ export default class SharpenAction extends Skill {
 
   public getRequestType(): RequestType {
     return RequestType.Sharpen
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

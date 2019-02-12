@@ -7,8 +7,9 @@ import {Mob} from "../../../../mob/model/mob"
 import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import ResponseMessage from "../../../../request/responseMessage"
-import {Messages} from "../../../../spell/action/constants"
+import {SpellMessages} from "../../../../spell/action/constants"
 import {SpellType} from "../../../../spell/spellType"
+import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../../spell"
 
@@ -44,9 +45,13 @@ export default class CurePoisonAction extends Spell {
     const mob = checkedRequest.mob
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.CurePoison.Success,
+      SpellMessages.CurePoison.Success,
       { target: target === mob ? "you" : target, verb: target === mob ? "feel" : "feels" },
       { verb: "feel" },
       { target, verb: "feels" })
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

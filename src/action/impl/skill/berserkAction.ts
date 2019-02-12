@@ -2,7 +2,7 @@ import {AffectType} from "../../../affect/affectType"
 import {newAffect} from "../../../affect/factory"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
-import {Messages as CheckMessages} from "../../../check/constants"
+import {CheckMessages as CheckMessages} from "../../../check/constants"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
@@ -10,7 +10,7 @@ import {SpecializationType} from "../../../mob/specialization/specializationType
 import roll from "../../../random/dice"
 import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
-import {Costs, Messages, Thresholds} from "../../../skill/constants"
+import {Costs, SkillMessages, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
@@ -29,14 +29,14 @@ export default class BerserkAction extends Skill {
   public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.Berserk.Fail)
+      SkillMessages.Berserk.Fail)
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
     const mob = checkedRequest.mob
     return new ResponseMessage(
       mob,
-      Messages.Berserk.Success,
+      SkillMessages.Berserk.Success,
       { requestCreator: "your", requestCreator2: "you" },
       { requestCreator2: "they" },
       { requestCreator: `${mob.name}'s`, requestCreator2: "they" })

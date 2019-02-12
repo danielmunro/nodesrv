@@ -127,4 +127,8 @@ export default class OpenAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Open
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

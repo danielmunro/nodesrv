@@ -30,6 +30,7 @@ export const Messages = {
   },
   Help: {
     Fail: "No help topic exists for that.",
+    NoActionHelpTextProvided: "More information coming soon.",
   },
   Kill: {
     Success: "{requestCreator} {screamVerb} and {attackVerb} {target}!",

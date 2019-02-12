@@ -12,7 +12,7 @@ import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
-import {ConditionMessages as PreconditionMessages, Costs, Messages, Thresholds} from "../../../skill/constants"
+import {ConditionMessages as PreconditionMessages, Costs, SkillMessages, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
@@ -40,13 +40,13 @@ export default class SneakAction extends Skill {
   public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.Sneak.Fail)
+      SkillMessages.Sneak.Fail)
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.Sneak.Success)
+      SkillMessages.Sneak.Success)
   }
 
   public getActionType(): ActionType {

@@ -1,5 +1,5 @@
 import { CheckStatus } from "../../../check/checkStatus"
-import {Messages} from "../../../check/constants"
+import {CheckMessages} from "../../../check/constants"
 import GameService from "../../../gameService/gameService"
 import { AuthorizationLevel } from "../../../player/authorizationLevel"
 import { Player } from "../../../player/model/player"
@@ -46,7 +46,7 @@ describe("ban moderation preconditions", () => {
 
     // then
     expect(response.status).toBe(CheckStatus.Failed)
-    expect(response.result).toBe(Messages.NoMob)
+    expect(response.result).toBe(CheckMessages.NoMob)
   })
 
   it("should not apply a ban if the requester is not an admin", async () => {
@@ -56,7 +56,7 @@ describe("ban moderation preconditions", () => {
 
     // then
     expect(response.status).toBe(CheckStatus.Failed)
-    expect(response.result).toBe(Messages.NotAuthorized)
+    expect(response.result).toBe(CheckMessages.NotAuthorized)
   })
 
   it("should apply a ban (sanity)", async () => {
@@ -101,6 +101,6 @@ describe("ban moderation preconditions", () => {
 
     // then
     expect(response.status).toBe(CheckStatus.Failed)
-    expect(response.result).toBe(Messages.NotAPlayer)
+    expect(response.result).toBe(CheckMessages.NotAPlayer)
   })
 })

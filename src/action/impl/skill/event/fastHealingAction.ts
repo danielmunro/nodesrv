@@ -10,6 +10,7 @@ import Response from "../../../../request/response"
 import {Thresholds} from "../../../../skill/constants"
 import {Skill as SkillModel} from "../../../../skill/model/skill"
 import {SkillType} from "../../../../skill/skillType"
+import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
 import Skill from "../../../skill"
@@ -64,5 +65,9 @@ export default class FastHealingAction extends Skill {
 
   public getRequestType(): RequestType {
     return RequestType.Noop
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

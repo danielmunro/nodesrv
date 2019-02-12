@@ -73,6 +73,10 @@ export default class GetAction extends Action {
     return RequestType.Get
   }
 
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
+
   private getFromInventory(request: Request) {
     const container = this.itemService.findItem(request.mob.inventory, request.getContextAsInput().component)
 

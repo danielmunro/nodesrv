@@ -33,4 +33,8 @@ export default class WakeAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Wake
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

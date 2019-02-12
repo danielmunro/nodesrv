@@ -29,4 +29,5 @@ export default abstract class Action {
   public abstract invoke(checkedRequest: CheckedRequest): Promise<Response>
   public abstract getActionParts(): ActionPart[]
   public abstract getRequestType(): RequestType
+  public abstract getHelpText(): string
 }

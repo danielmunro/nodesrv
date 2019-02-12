@@ -11,7 +11,7 @@ import Response from "../../../request/response"
 import collectionSearch from "../../../support/matcher/collectionSearch"
 import {format} from "../../../support/string"
 import Action from "../../action"
-import {ConditionMessages} from "../../constants"
+import {ConditionMessages, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 export default class HealAction extends Action {
@@ -56,6 +56,10 @@ export default class HealAction extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Heal
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 
   private listSpells(healer: Mob) {

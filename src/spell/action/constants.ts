@@ -1,4 +1,4 @@
-export const Messages = {
+export const SpellMessages = {
   Blind: {
     Cast: "blind",
     Failure: "{requestCreator} {verb} to blind {target}.",

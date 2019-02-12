@@ -51,4 +51,8 @@ export default class PutAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Put
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

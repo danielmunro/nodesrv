@@ -6,8 +6,9 @@ import SpecializationLevel from "../../../../mob/specialization/specializationLe
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll from "../../../../random/dice"
 import ResponseMessage from "../../../../request/responseMessage"
-import {Messages} from "../../../../spell/action/constants"
+import {SpellMessages} from "../../../../spell/action/constants"
 import {SpellType} from "../../../../spell/spellType"
+import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../../spell"
 
@@ -42,9 +43,13 @@ export default class CureSeriousAction extends Spell {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.CureSerious.Success,
+      SpellMessages.CureSerious.Success,
       { target: target === checkedRequest.mob ? "you" : target, verb: "is" },
       { target: "you", verb: "are" },
       { target, verb: "is" })
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

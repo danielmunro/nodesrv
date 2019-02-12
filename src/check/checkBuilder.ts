@@ -16,7 +16,7 @@ import Check from "./check"
 import CheckComponent from "./checkComponent"
 import CheckResult from "./checkResult"
 import {CheckType} from "./checkType"
-import {Messages} from "./constants"
+import {CheckMessages} from "./constants"
 import Cost from "./cost/cost"
 import {CostType} from "./cost/costType"
 
@@ -32,7 +32,7 @@ export default class CheckBuilder {
     this.mob = request.mob
   }
 
-  public requireMob(failMessage = Messages.NoMob): CheckBuilder {
+  public requireMob(failMessage = CheckMessages.NoMob): CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
       collectionSearch(this.mobService.mobTable.getMobs(), this.request.getSubject()),
@@ -41,7 +41,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public requireMobInRoom(failMessage = Messages.NoMob): CheckBuilder {
+  public requireMobInRoom(failMessage = CheckMessages.NoMob): CheckBuilder {
     const lastArg = this.request.getLastArg()
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
@@ -55,7 +55,7 @@ export default class CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
       this.mobService.findMobInRoomWithMob(this.mob, (m: Mob) => m.isMerchant()),
-      Messages.NoMerchant,
+      CheckMessages.NoMerchant,
     ))
 
     return this
@@ -67,7 +67,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public requirePlayer(mob: Mob, failMessage = Messages.NotAPlayer): CheckBuilder {
+  public requirePlayer(mob: Mob, failMessage = CheckMessages.NotAPlayer): CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.IsPlayer,
       new Maybe(mob).do((m: Mob) => !m.traits.isNpc).or(() => false).get(),
@@ -77,7 +77,7 @@ export default class CheckBuilder {
   }
 
   public requireSpecialAuthorization(
-    authorizationLevel: AuthorizationLevel, failMessage = Messages.NotAuthorized) {
+    authorizationLevel: AuthorizationLevel, failMessage = CheckMessages.NotAuthorized) {
     this.checks.push(this.newCheckComponent(
       CheckType.AuthorizationLevel,
       isSpecialAuthorizationLevel(authorizationLevel),
@@ -87,7 +87,7 @@ export default class CheckBuilder {
   }
 
   public requireImmortal(
-    authorizationLevel: AuthorizationLevel, failMessage = Messages.NotAuthorized) {
+    authorizationLevel: AuthorizationLevel, failMessage = CheckMessages.NotAuthorized) {
     this.checks.push(this.newCheckComponent(
       CheckType.AuthorizationLevel,
       authorizationLevel === AuthorizationLevel.Immortal,

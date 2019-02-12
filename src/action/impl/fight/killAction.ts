@@ -54,4 +54,8 @@ export default class KillAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Kill
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

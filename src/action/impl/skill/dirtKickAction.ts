@@ -3,7 +3,7 @@ import {newAffect} from "../../../affect/factory"
 import Check from "../../../check/check"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
-import {Messages as CheckMessages} from "../../../check/constants"
+import {CheckMessages as CheckMessages} from "../../../check/constants"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
@@ -12,7 +12,7 @@ import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
-import {Costs, Messages, Thresholds} from "../../../skill/constants"
+import {Costs, SkillMessages, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
@@ -39,7 +39,7 @@ export default class DirtKickAction extends Skill {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.DirtKick.Success,
+      SkillMessages.DirtKick.Success,
       { verb: "kick", target: `${target.name}'s` },
       { verb: "kicks", target: "your" },
       { verb: "kicks", target: `${target.name}'s` })
@@ -50,7 +50,7 @@ export default class DirtKickAction extends Skill {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       mob,
-      Messages.DirtKick.Fail,
+      SkillMessages.DirtKick.Fail,
       { requestCreator: "you", verb: "kick", verb2: "miss", target },
       { requestCreator: mob, verb: "kicks", verb2: "misses", target: "you" },
       { requestCreator: mob, verb: "kicks", verb2: "misses", target })

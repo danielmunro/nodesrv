@@ -57,4 +57,8 @@ export default class DropAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Drop
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

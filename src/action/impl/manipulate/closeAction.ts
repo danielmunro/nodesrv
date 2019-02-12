@@ -130,4 +130,8 @@ export default class CloseAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Close
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

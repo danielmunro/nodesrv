@@ -7,8 +7,9 @@ import SpecializationLevel from "../../../../mob/specialization/specializationLe
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {ConditionMessages} from "../../../../skill/constants"
-import {Messages} from "../../../../spell/action/constants"
+import {SpellMessages} from "../../../../spell/action/constants"
 import {SpellType} from "../../../../spell/spellType"
+import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../../spell"
 
@@ -46,10 +47,14 @@ export default class InvisibilityAction extends Spell {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.Invisibility.Success,
+      SpellMessages.Invisibility.Success,
       { target: target === checkedRequest.mob ? "you" : target,
         verb: target === checkedRequest.mob ? "fade" : "fades" },
       { target: "you", verb: "fade" },
       { target, verb: "fades" })
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

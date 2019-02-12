@@ -7,8 +7,9 @@ import SpecializationLevel from "../../../../mob/specialization/specializationLe
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {ConditionMessages} from "../../../../skill/constants"
-import {Messages} from "../../../../spell/action/constants"
+import {SpellMessages} from "../../../../spell/action/constants"
 import {SpellType} from "../../../../spell/spellType"
+import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../../spell"
 
@@ -46,9 +47,13 @@ export default class StoneSkinAction extends Spell {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.StoneSkin.Success,
+      SpellMessages.StoneSkin.Success,
       { target: target === checkedRequest.mob ? "your" : `${target.name}'s` },
       { target: "your" },
       { target: `${target.name}'s` })
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

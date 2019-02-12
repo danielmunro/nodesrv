@@ -2,7 +2,7 @@ import { AffectType } from "../../../affect/affectType"
 import { MAX_PRACTICE_LEVEL } from "../../../mob/constants"
 import { RequestType } from "../../../request/requestType"
 import Response from "../../../request/response"
-import { Messages } from "../../../skill/constants"
+import { SkillMessages } from "../../../skill/constants"
 import { SkillType } from "../../../skill/skillType"
 import { all } from "../../../support/functional/collection"
 import doNTimes from "../../../support/functional/times"
@@ -29,7 +29,7 @@ describe("bash", () => {
 
     // then
     expect(responses.some(r => !r.isSuccessful())).toBeTruthy()
-    expect(all(responses, r => r.result === Messages.Bash.Fail))
+    expect(all(responses, r => r.result === SkillMessages.Bash.Fail))
   })
 
   it("should be able to trigger a successful bash", async () => {

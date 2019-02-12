@@ -73,4 +73,8 @@ export default class FleeAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Flee
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

@@ -1,4 +1,4 @@
-export const Messages = {
+export const CheckMessages = {
   AlreadyAffected: "You are already affected by {0}.",
   AlreadyFighting: "You are already fighting!",
   NoMerchant: "You don't see a merchant anywhere.",

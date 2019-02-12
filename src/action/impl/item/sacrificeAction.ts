@@ -51,4 +51,8 @@ export default class SacrificeAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Sacrifice
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

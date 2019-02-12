@@ -7,8 +7,9 @@ import SpecializationLevel from "../../../../mob/specialization/specializationLe
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll from "../../../../random/dice"
 import ResponseMessage from "../../../../request/responseMessage"
-import {Messages} from "../../../../spell/action/constants"
+import {SpellMessages} from "../../../../spell/action/constants"
 import {SpellType} from "../../../../spell/spellType"
+import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
 import OffensiveSpell from "../../../offensiveSpell"
 import Spell from "../../../spell"
@@ -52,9 +53,13 @@ export default class MagicMissileAction extends Spell implements OffensiveSpell 
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.MagicMissile.Success,
+      SpellMessages.MagicMissile.Success,
       { target, verb: "is" },
       { verb: "are" },
       { target, verb: "is" })
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

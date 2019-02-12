@@ -33,4 +33,8 @@ export default class SleepAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Sleep
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

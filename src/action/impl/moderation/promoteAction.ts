@@ -10,7 +10,7 @@ import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
 import Action from "../../action"
-import {MESSAGE_FAIL_NO_MORE_PROMOTIONS} from "../../constants"
+import {MESSAGE_FAIL_NO_MORE_PROMOTIONS, Messages} from "../../constants"
 import {MESSAGE_FAIL_BANNED, MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
@@ -71,5 +71,9 @@ export default class PromoteAction extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Promote
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

@@ -1,4 +1,4 @@
-export const Messages = {
+export const SkillMessages = {
   Bash: {
     Fail: "{requestCreator} {verb} flat on {requestCreator2} face!",
     NoSkill: "You bash around helplessly.",

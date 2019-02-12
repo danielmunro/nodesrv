@@ -1,7 +1,7 @@
 import { AffectType } from "../../../affect/affectType"
 import { MAX_PRACTICE_LEVEL } from "../../../mob/constants"
 import { RequestType } from "../../../request/requestType"
-import { Messages } from "../../../skill/constants"
+import { SkillMessages } from "../../../skill/constants"
 import { SkillType } from "../../../skill/skillType"
 import { all } from "../../../support/functional/collection"
 import doNTimes from "../../../support/functional/times"
@@ -34,7 +34,7 @@ describe("dirt kick skill action", () => {
 
     // then
     expect(all(responses, r => !r.isSuccessful())).toBeTruthy()
-    expect(all(responses, r => r.message = format(Messages.DirtKick.Fail, opponent))).toBeTruthy()
+    expect(all(responses, r => r.message = format(SkillMessages.DirtKick.Fail, opponent))).toBeTruthy()
   })
 
   it("should succeed when practiced", async () => {

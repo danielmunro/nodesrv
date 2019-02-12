@@ -18,6 +18,7 @@ import SkillEvent from "../skill/skillEvent"
 import {SpellType} from "../spell/spellType"
 import Action from "./action"
 import {Messages} from "./constants"
+import {ActionPart} from "./enum/actionPart"
 import {ActionType} from "./enum/actionType"
 
 export default abstract class Spell extends Action {
@@ -75,6 +76,10 @@ export default abstract class Spell extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Cast
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ActionPart.Action, ActionPart.Spell, ActionPart.Target]
   }
 
   protected applyAffectType(checkedRequest: CheckedRequest) {

@@ -4,6 +4,7 @@ import {MESSAGE_NOT_UNDERSTOOD} from "../../client/constants"
 import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
 import Action from "../action"
+import {Messages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
 
 export default class NoopAction extends Action {
@@ -21,5 +22,9 @@ export default class NoopAction extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Noop
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

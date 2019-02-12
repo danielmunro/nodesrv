@@ -13,7 +13,7 @@ import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
 import Action from "../../action"
-import {ConditionMessages, Messages as ActionMessages} from "../../constants"
+import {ConditionMessages, Messages, Messages as ActionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 function sell(mob: Mob, item: Item) {
@@ -56,5 +56,9 @@ export default class SellAction extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Sell
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

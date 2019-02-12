@@ -1,6 +1,6 @@
 import { MAX_PRACTICE_LEVEL } from "../../../mob/constants"
 import { RequestType } from "../../../request/requestType"
-import { Messages } from "../../../skill/constants"
+import { SkillMessages } from "../../../skill/constants"
 import { SkillType } from "../../../skill/skillType"
 import doNTimes from "../../../support/functional/times"
 import MobBuilder from "../../../test/mobBuilder"
@@ -63,7 +63,7 @@ describe("envenom skill action", () => {
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
-    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Envenom.Error.NotAWeapon)
+    expect(response.message.getMessageToRequestCreator()).toBe(SkillMessages.Envenom.Error.NotAWeapon)
   })
 
   it("should only be able to envenom bladed weapons", async () => {
@@ -78,7 +78,7 @@ describe("envenom skill action", () => {
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
-    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Envenom.Error.WrongWeaponType)
+    expect(response.message.getMessageToRequestCreator()).toBe(SkillMessages.Envenom.Error.WrongWeaponType)
   })
 
   it("generates accurate messages", async () => {

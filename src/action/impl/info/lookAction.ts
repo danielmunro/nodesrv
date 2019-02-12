@@ -72,6 +72,10 @@ export default class LookAction extends Action {
     return RequestType.Look
   }
 
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
+
   protected reduceMobs(mob: Mob, mobs: Mob[]): string {
     return mobs.filter(onlyLiving)
       .filter((aMob: Mob) => !aMob.getAffect(AffectType.Invisible) || mob.getAffect(AffectType.DetectInvisible))

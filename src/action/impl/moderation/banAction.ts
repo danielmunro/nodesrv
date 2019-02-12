@@ -9,8 +9,8 @@ import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
 import Action from "../../action"
 import {
-  MESSAGE_FAIL_ALREADY_BANNED,
-  } from "../../constants"
+  MESSAGE_FAIL_ALREADY_BANNED, Messages,
+} from "../../constants"
 import {MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import {BanCommand} from "../../enum/banCommand"
@@ -72,5 +72,9 @@ export default class BanAction extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Ban
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

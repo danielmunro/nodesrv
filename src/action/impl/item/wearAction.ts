@@ -8,7 +8,7 @@ import { Request } from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
-import {ConditionMessages} from "../../constants"
+import {ConditionMessages, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 export default class WearAction extends Action {
@@ -58,5 +58,9 @@ export default class WearAction extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Wear
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

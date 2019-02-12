@@ -9,7 +9,7 @@ import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
 import Action from "../../action"
-import {MESSAGE_FAIL_NO_MORE_DEMOTIONS} from "../../constants"
+import {MESSAGE_FAIL_NO_MORE_DEMOTIONS, Messages} from "../../constants"
 import {MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
@@ -66,5 +66,9 @@ export default class DemoteAction extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Demote
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

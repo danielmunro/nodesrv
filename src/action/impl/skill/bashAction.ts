@@ -9,8 +9,9 @@ import {SpecializationType} from "../../../mob/specialization/specializationType
 import roll from "../../../random/dice"
 import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
-import {ConditionMessages as ConditionMessages, Costs, Messages} from "../../../skill/constants"
+import {ConditionMessages, Costs, SkillMessages} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
+import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
@@ -30,7 +31,7 @@ export default class BashAction extends Skill {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.Bash.Success,
+      SkillMessages.Bash.Success,
       { target, verb: "slam", verb2: "send", target2: "them" },
       { target: "you", verb: "slams", verb2: "sends", target2: "you" },
       {target, verb: "slams", verb2: "sends", target2: "them"})
@@ -40,7 +41,7 @@ export default class BashAction extends Skill {
     const mob = checkedRequest.mob
     return new ResponseMessage(
       mob,
-      Messages.Bash.Fail,
+      SkillMessages.Bash.Fail,
       { requestCreator: "you", verb: "fall", requestCreator2: "your"},
       { requestCreator: mob, verb: "falls", requestCreator2: "their"})
   }
@@ -73,5 +74,9 @@ export default class BashAction extends Skill {
 
   public getRequestType(): RequestType {
     return RequestType.Bash
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

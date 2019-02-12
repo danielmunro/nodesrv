@@ -65,4 +65,8 @@ export default class LockAction extends Action {
   public getRequestType(): RequestType {
     return RequestType.Lock
   }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
+  }
 }

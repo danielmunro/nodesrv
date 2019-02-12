@@ -27,8 +27,10 @@ export default class HelpAction extends Action {
     const actionParts = action.getActionParts()
     actionParts.shift()
     return checkedRequest.respondWith().success(
-      `syntax: ${action.getRequestType()} ${actionParts.map(
-        (actionPart: ActionPart) => "{" + actionPart + "}").join(" ")}`)
+`syntax: ${action.getRequestType()} ${actionParts.map(
+        (actionPart: ActionPart) => "{" + actionPart + "}").join(" ")}
+
+${action.getHelpText()}`)
   }
 
   public getActionParts(): ActionPart[] {
@@ -37,5 +39,9 @@ export default class HelpAction extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Help
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

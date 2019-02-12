@@ -7,7 +7,7 @@ import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
-import {Messages as ActionMessages} from "../../constants"
+import {Messages, Messages as ActionMessages} from "../../constants"
 import {ConditionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
@@ -40,5 +40,9 @@ export default class LoreAction extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Lore
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

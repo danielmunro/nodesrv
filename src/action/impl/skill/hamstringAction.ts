@@ -2,7 +2,7 @@ import {AffectType} from "../../../affect/affectType"
 import {newAffect} from "../../../affect/factory"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
-import {Messages as CheckMessages} from "../../../check/constants"
+import {CheckMessages as CheckMessages} from "../../../check/constants"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
@@ -12,7 +12,7 @@ import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
 import {Costs} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
-import {ConditionMessages} from "../../constants"
+import {ConditionMessages, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
@@ -82,5 +82,9 @@ export default class HamstringAction extends Skill {
 
   public getRequestType(): RequestType {
     return RequestType.Hamstring
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

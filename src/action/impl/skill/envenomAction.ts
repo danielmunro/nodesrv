@@ -13,7 +13,7 @@ import roll from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
-import {ConditionMessages as PreconditionMessages, Costs, Messages} from "../../../skill/constants"
+import {ConditionMessages as PreconditionMessages, Costs, SkillMessages} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
@@ -29,9 +29,9 @@ export default class EnvenomAction extends Skill {
         PreconditionMessages.All.NoItem,
         CheckType.HasItem)
       .capture(item)
-      .require(captured => captured.equipment === Equipment.Weapon, Messages.Envenom.Error.NotAWeapon)
+      .require(captured => captured.equipment === Equipment.Weapon, SkillMessages.Envenom.Error.NotAWeapon)
       .require(captured => captured.damageType === DamageType.Slash || captured.damageType === DamageType.Pierce,
-        Messages.Envenom.Error.WrongWeaponType)
+        SkillMessages.Envenom.Error.WrongWeaponType)
       .create()
   }
 
@@ -49,7 +49,7 @@ export default class EnvenomAction extends Skill {
     const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.Envenom.Success,
+      SkillMessages.Envenom.Success,
       { item, verb: "envenom" },
     { item, verb: "envenoms" })
   }
@@ -58,7 +58,7 @@ export default class EnvenomAction extends Skill {
     const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
     return new ResponseMessage(
       checkedRequest.mob,
-      Messages.Envenom.Fail,
+      SkillMessages.Envenom.Fail,
       { item, verb: "fail" },
       { item, verb: "fails" },
       { item, verb: "fails" })

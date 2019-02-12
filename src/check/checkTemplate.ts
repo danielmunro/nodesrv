@@ -9,7 +9,7 @@ import {Mob} from "../mob/model/mob"
 import {Request} from "../request/request"
 import CheckBuilder from "./checkBuilder"
 import {CheckType} from "./checkType"
-import {Messages} from "./constants"
+import {CheckMessages} from "./constants"
 
 export default class CheckTemplate {
   constructor(private readonly mobService: MobService, private readonly request: Request) {}
@@ -57,17 +57,17 @@ export default class CheckTemplate {
     let target = this.request.getTargetMobInRoom()
     const fight = this.mobService.findFight(f => f.isParticipant(this.request.mob))
     if (fight && target) {
-      checkBuilder.require(target === fight.getOpponentFor(this.request.mob), Messages.TooManyTargets)
+      checkBuilder.require(target === fight.getOpponentFor(this.request.mob), CheckMessages.TooManyTargets)
     } else if (!target && fight) {
       target = fight.getOpponentFor(this.request.mob) as Mob
     }
     if (actionType === ActionType.Offensive) {
-      checkBuilder.require(target, Messages.NoTarget, CheckType.HasTarget)
+      checkBuilder.require(target, CheckMessages.NoTarget, CheckType.HasTarget)
     } else if (actionType === ActionType.Defensive) {
       checkBuilder.optionalMob(target)
     } else if (actionType === ActionType.SneakAttack) {
-      checkBuilder.require(target, Messages.NoTarget, CheckType.HasTarget)
-        .not().requireFight(Messages.AlreadyFighting)
+      checkBuilder.require(target, CheckMessages.NoTarget, CheckType.HasTarget)
+        .not().requireFight(CheckMessages.AlreadyFighting)
     }
   }
 }

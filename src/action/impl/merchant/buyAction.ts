@@ -13,7 +13,7 @@ import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
-import {ConditionMessages, Messages as ActionMessages} from "../../constants"
+import {ConditionMessages, Messages, Messages as ActionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 export default class BuyAction extends Action {
@@ -58,5 +58,9 @@ export default class BuyAction extends Action {
 
   public getRequestType(): RequestType {
     return RequestType.Buy
+  }
+
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }
