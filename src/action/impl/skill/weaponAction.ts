@@ -7,6 +7,7 @@ import {SpecializationType} from "../../../mob/specialization/specializationType
 import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
 import {SkillType} from "../../../skill/skillType"
+import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
@@ -48,6 +49,10 @@ export default class WeaponAction extends Skill {
 
   public getSkillType(): SkillType {
     return this.skillType
+  }
+
+  public getActionParts(): ActionPart[] {
+    return []
   }
 
   protected getRequestType(): RequestType {

@@ -33,8 +33,7 @@ describe("remove", () => {
     const response = await actionDefinition.handle(
       testBuilder.createRequest(
         RequestType.Remove,
-        `remove ${item.name}`,
-        item))
+        `remove ${item.name}`))
 
     // then
     expect(response.status).toBe(ResponseStatus.Info)

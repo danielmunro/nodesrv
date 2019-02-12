@@ -9,6 +9,7 @@ import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
 import Action from "../action"
 import {ConditionMessages} from "../constants"
+import {ActionPart} from "../enum/actionPart"
 
 export default class CastAction extends Action {
   constructor(
@@ -37,6 +38,10 @@ export default class CastAction extends Action {
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const spell = checkedRequest.getCheckTypeResult(CheckType.HasSpell) as Spell
     return spell.invoke(checkedRequest)
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.Thing, ActionPart.Target ]
   }
 
   protected getRequestType(): RequestType {

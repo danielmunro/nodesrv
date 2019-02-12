@@ -11,6 +11,7 @@ import ResponseMessage from "../../../request/responseMessage"
 import {ActionMessages, Costs, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
@@ -69,6 +70,10 @@ export default class BackstabAction extends Skill {
 
   public getSkillType(): SkillType {
     return SkillType.Backstab
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ActionPart.Action, ActionPart.Target]
   }
 
   protected getRequestType(): RequestType {

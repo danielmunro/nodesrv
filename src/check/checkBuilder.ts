@@ -61,7 +61,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public optionalMob(mob: Mob) {
+  public optionalMob(mob?: Mob) {
     this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob))
 
     return this

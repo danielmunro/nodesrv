@@ -12,7 +12,7 @@ export class Request {
     public readonly mob: Mob,
     public readonly room: Room,
     public readonly context: RequestContext,
-    private readonly target?: Mob | Item) {}
+    private readonly targetMobInRoom?: Mob) {}
 
   public getContextAsInput(): InputContext {
     return this.context as InputContext
@@ -34,8 +34,8 @@ export class Request {
     return this.room.inventory.findItemByName(item)
   }
 
-  public getTarget(): Mob | Item | undefined {
-    return this.target
+  public getTargetMobInRoom(): Mob | undefined {
+    return this.targetMobInRoom
   }
 
   public getSubject(): string {

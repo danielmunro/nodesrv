@@ -12,6 +12,7 @@ import {
   MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS,
   MESSAGE_FAIL_NOT_BANNED,
 } from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class UnbanAction extends Action {
   constructor(
@@ -39,6 +40,10 @@ export default class UnbanAction extends Action {
     const target = checkedRequest.check.result
     target.playerMob.standing = Standing.Good
     return request.respondWith().success(`You have lifted the ban on ${target.name}.`)
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.Target ]
   }
 
   protected getRequestType(): RequestType {

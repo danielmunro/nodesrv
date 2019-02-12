@@ -18,6 +18,7 @@ import ResponseMessage from "../../../request/responseMessage"
 import {ActionMessages, ConditionMessages as PreconditionMessages, Costs, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import collectionSearch from "../../../support/matcher/collectionSearch"
+import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 
 export default class SharpenAction extends Skill {
@@ -103,6 +104,10 @@ export default class SharpenAction extends Skill {
 
   public getAffectType(): AffectType {
     return AffectType.Sharpened
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ActionPart.Action, ActionPart.ItemInInventory]
   }
 
   protected getRequestType(): RequestType {

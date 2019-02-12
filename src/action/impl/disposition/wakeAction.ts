@@ -8,6 +8,7 @@ import Response from "../../../request/response"
 import Action from "../../action"
 import {Messages} from "../../constants"
 import {MESSAGE_FAIL_ALREADY_AWAKE} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class WakeAction extends Action {
   constructor(private readonly checkBuilderFactory: CheckBuilderFactory) {
@@ -23,6 +24,10 @@ export default class WakeAction extends Action {
   public invoke(checkedRequest: CheckedRequest): Promise<Response> {
     checkedRequest.request.mob.disposition = Disposition.Standing
     return checkedRequest.respondWith().success(Messages.Wake.Success)
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action ]
   }
 
   protected getRequestType(): RequestType {

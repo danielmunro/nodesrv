@@ -21,6 +21,7 @@ import {
   MESSAGE_FAIL_TOO_TIRED,
   Messages,
 } from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class FleeAction extends Action {
   constructor(
@@ -63,6 +64,10 @@ export default class FleeAction extends Action {
       Messages.Flee.Success,
       { direction: exit.direction, verb: "flee" },
       { direction: exit.direction, verb: "flees" })
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action ]
   }
 
   protected getRequestType(): RequestType {

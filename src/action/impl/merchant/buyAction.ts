@@ -6,12 +6,15 @@ import {CheckType} from "../../../check/checkType"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
 import ItemEvent from "../../../item/event/itemEvent"
+import {Item} from "../../../item/model/item"
 import {Disposition} from "../../../mob/enum/disposition"
+import {Mob} from "../../../mob/model/mob"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
 import {ConditionMessages, Messages as ActionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class BuyAction extends Action {
   constructor(
@@ -25,9 +28,10 @@ export default class BuyAction extends Action {
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .require(subject, ConditionMessages.All.Arguments.Buy)
       .requireMerchant()
-      .require(mob => mob.inventory.findItemByName(subject), ConditionMessages.Buy.MerchantNoItem, CheckType.HasItem)
+      .require((mob: Mob) =>
+        mob.inventory.findItemByName(subject), ConditionMessages.Buy.MerchantNoItem, CheckType.HasItem)
       .capture()
-      .require(item => request.mob.gold > item.value, ConditionMessages.Buy.CannotAfford)
+      .require((item: Item) => request.mob.gold > item.value, ConditionMessages.Buy.CannotAfford)
       .create()
   }
 
@@ -46,6 +50,10 @@ export default class BuyAction extends Action {
       .success(ActionMessages.Buy.Success,
         { verb: "buy", ...replacements },
         { verb: "buys", ...replacements })
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.ItemWithRoomMob ]
   }
 
   protected getRequestType(): RequestType {

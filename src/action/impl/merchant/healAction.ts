@@ -12,6 +12,7 @@ import collectionSearch from "../../../support/matcher/collectionSearch"
 import {format} from "../../../support/string"
 import Action from "../../action"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class HealAction extends Action {
   constructor(
@@ -47,6 +48,10 @@ export default class HealAction extends Action {
     const healerSpell: HealerSpell = checkedRequest.getCheckTypeResult(CheckType.HasSpell)
     request.mob.gold -= healerSpell.goldValue
     return healerSpell.spellDefinition.doAction(request)
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.Thing ]
   }
 
   protected getRequestType(): RequestType {

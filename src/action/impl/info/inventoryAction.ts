@@ -6,6 +6,7 @@ import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
+import {ActionPart} from "../../enum/actionPart"
 
 function getItemName(mob: Mob, item: Item): string {
   if (!item.isVisible() && !mob.canDetectInvisible()) {
@@ -30,6 +31,10 @@ export default class InventoryAction extends Action {
     return checkedRequest.respondWith()
       .info("Your inventory:\n" +
         items.reduce((previous, current) => previous + getItemName(mob, current) + "\n", ""))
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action ]
   }
 
   protected getRequestType(): RequestType {

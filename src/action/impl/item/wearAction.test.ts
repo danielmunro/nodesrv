@@ -82,8 +82,7 @@ describe("wear", () => {
     const check = await action.check(
       testBuilder.createRequest(
         RequestType.Wear,
-        "wear muffin",
-        playerBuilder.player.sessionMob))
+        "wear muffin"))
 
     expect(check.status).toBe(CheckStatus.Failed)
     expect(check.result).toBe(ConditionMessages.All.Item.NotEquipment)

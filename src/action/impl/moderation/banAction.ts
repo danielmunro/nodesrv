@@ -12,6 +12,7 @@ import {
   MESSAGE_FAIL_ALREADY_BANNED,
   } from "../../constants"
 import {MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 import {BanCommand} from "../../enum/banCommand"
 
 export default class BanAction extends Action {
@@ -63,6 +64,10 @@ export default class BanAction extends Action {
 
     return request.respondWith().success(
       `You have banned ${target.name} with a ban level: ${newStanding}.`)
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.Target ]
   }
 
   protected getRequestType(): RequestType {

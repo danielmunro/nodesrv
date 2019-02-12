@@ -5,6 +5,7 @@ import { Request } from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class GossipAction extends Action {
   constructor(
@@ -20,6 +21,10 @@ export default class GossipAction extends Action {
     await this.socialService.gossip(checkedRequest)
     return checkedRequest.respondWith()
       .info(`You gossip, "${checkedRequest.request.getContextAsInput().message}"`)
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ActionPart.Action, ActionPart.Freeform]
   }
 
   protected getRequestType(): RequestType {

@@ -75,7 +75,6 @@ export class Client {
       this.applyCosts(response.request.check.costs)
     }
     this.send(response.getPayload())
-    // if (response.)
     this.sendMessage(this.player.prompt())
     return response
   }
@@ -94,17 +93,17 @@ export class Client {
 
   private onMessage(data: any) {
     const mobLocation = this.locationService.getLocationForMob(this.getSessionMob())
-    this.addRequest(this.getNewRequestFromMessageEvent(mobLocation ? mobLocation.room : undefined, data))
+    this.addRequest(this.getNewRequestFromMessageEvent(data, mobLocation ? mobLocation.room : undefined))
   }
 
-  private getNewRequestFromMessageEvent(room: Room | undefined, messageEvent: MessageEvent): Request | AuthRequest {
+  private getNewRequestFromMessageEvent(messageEvent: MessageEvent, room?: Room): Request | AuthRequest {
     const data = JSON.parse(messageEvent.data)
     if (!this.player) {
       return new AuthRequest(this, data.request)
     }
     const requestArgs = data.request.split(" ")
     const mob = this.player.sessionMob
-    return new RequestBuilder(mob, room).create(requestArgs[0], data.request)
+    return new RequestBuilder(this.actions, this.locationService, mob, room).create(requestArgs[0], data.request)
   }
 
   private applyCosts(costs: Cost[]): void {

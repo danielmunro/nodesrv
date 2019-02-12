@@ -23,7 +23,7 @@ describe("sacrifice action", () => {
     const definition = await testBuilder.getActionDefinition(RequestType.Sacrifice)
 
     await definition.handle(
-      testBuilder.createRequest(RequestType.Sacrifice, `sacrifice ${itemName}`, item))
+      testBuilder.createRequest(RequestType.Sacrifice, `sacrifice ${itemName}`))
 
     expect(testBuilder.room.inventory.items).toHaveLength(0)
     expect(mobBuilder.mob.gold).toBeGreaterThan(0)
@@ -39,7 +39,7 @@ describe("sacrifice action", () => {
     const definition = await testBuilder.getActionDefinition(RequestType.Sacrifice)
 
     const response = await definition.handle(
-      testBuilder.createRequest(RequestType.Sacrifice, `sacrifice ${itemName}`, item))
+      testBuilder.createRequest(RequestType.Sacrifice, `sacrifice ${itemName}`))
 
     expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.All.Item.CannotSacrifice)
     expect(testBuilder.room.inventory.items).toHaveLength(1)

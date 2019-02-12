@@ -9,6 +9,7 @@ import {RequestType} from "../../../../request/requestType"
 import Response from "../../../../request/response"
 import {Skill as SkillModel} from "../../../../skill/model/skill"
 import {SkillType} from "../../../../skill/skillType"
+import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
 import Skill from "../../../skill"
 
@@ -57,6 +58,10 @@ export default class DodgeAction extends Skill {
 
   public getSkillType(): SkillType {
     return SkillType.Dodge
+  }
+
+  public getActionParts(): ActionPart[] {
+    return []
   }
 
   protected getRequestType(): RequestType {

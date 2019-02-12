@@ -15,6 +15,7 @@ import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
 import {ConditionMessages as PreconditionMessages, Costs, Messages} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
+import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
@@ -90,6 +91,10 @@ export default class EnvenomAction extends Skill {
 
   public getAffectType(): AffectType {
     return AffectType.Poison
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ActionPart.Action, ActionPart.ItemInInventory]
   }
 
   protected getRequestType(): RequestType {

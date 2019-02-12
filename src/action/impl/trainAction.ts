@@ -9,18 +9,14 @@ import Cost from "../../check/cost/cost"
 import {CostType} from "../../check/cost/costType"
 import LocationService from "../../mob/locationService"
 import {Mob} from "../../mob/model/mob"
-import { Request } from "../../request/request"
+import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
 import ResponseBuilder from "../../request/responseBuilder"
 import {format} from "../../support/string"
 import Action from "../action"
-import {ConditionMessages as PreconditionMessages} from "../constants"
-import {
-  ConditionMessages,
-  MAX_TRAINABLE_STATS,
-  Messages,
-} from "../constants"
+import {ConditionMessages, ConditionMessages as PreconditionMessages, MAX_TRAINABLE_STATS, Messages} from "../constants"
+import {ActionPart} from "../enum/actionPart"
 
 export const VITAL_INCREMENT = 10
 
@@ -96,6 +92,10 @@ export default class TrainAction extends Action {
     }
 
     return subject.method(mob, responseBuilder, subject.message, subject.train)
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.Thing ]
   }
 
   protected getRequestType(): RequestType {

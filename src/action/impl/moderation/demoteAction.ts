@@ -11,6 +11,7 @@ import Maybe from "../../../support/functional/maybe"
 import Action from "../../action"
 import {MESSAGE_FAIL_NO_MORE_DEMOTIONS} from "../../constants"
 import {MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 function getNextDemotion(mob: Mob) {
   switch (mob.getAuthorizationLevel()) {
@@ -57,6 +58,10 @@ export default class DemoteAction extends Action {
       })
       .or(() => responseBuilder.error(MESSAGE_FAIL_NO_MORE_DEMOTIONS))
       .get()
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.Target ]
   }
 
   protected getRequestType(): RequestType {

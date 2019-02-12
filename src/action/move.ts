@@ -16,6 +16,7 @@ import {Direction} from "../room/constants"
 import {Exit} from "../room/model/exit"
 import Action from "./action"
 import {ConditionMessages} from "./constants"
+import {ActionPart} from "./enum/actionPart"
 import LookAction from "./impl/info/lookAction"
 
 export default abstract class Move extends Action {
@@ -54,6 +55,10 @@ export default abstract class Move extends Action {
     await this.locationService.moveMob(request.mob, this.direction)
     const response = await this.look.handle(new Request(request.mob, request.room, new EventContext(RequestType.Look)))
     return checkedRequest.respondWith().info(response.message.getMessageToRequestCreator())
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action ]
   }
 
   private aValidExit(exits: Exit[]) {

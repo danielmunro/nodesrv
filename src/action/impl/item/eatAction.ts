@@ -12,6 +12,7 @@ import Response from "../../../request/response"
 import Action from "../../action"
 import {Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class EatAction extends Action {
   constructor(
@@ -48,6 +49,10 @@ export default class EatAction extends Action {
         Messages.Eat.Success,
         { verb: "eat", full, ...replacements },
         { verb: "eats", full: "", ...replacements })
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }
 
   protected getRequestType(): RequestType {

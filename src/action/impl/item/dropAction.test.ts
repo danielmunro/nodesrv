@@ -26,7 +26,7 @@ describe("drop", () => {
   it("should be able to drop an item", async () => {
     // when
     const response = await actionDefinition.handle(
-      testBuilder.createRequest(RequestType.Drop, "drop cap", equipment))
+      testBuilder.createRequest(RequestType.Drop, "drop cap"))
 
     // then
     const message = response.message.getMessageToRequestCreator()
@@ -42,7 +42,7 @@ describe("drop", () => {
 
     // when
     const response = await actionDefinition.handle(
-      testBuilder.createRequest(RequestType.Drop, "drop cap", equipment))
+      testBuilder.createRequest(RequestType.Drop, "drop cap"))
 
     // then
     const message = response.message.getMessageToRequestCreator()

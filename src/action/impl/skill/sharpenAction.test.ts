@@ -1,4 +1,5 @@
 import { AffectType } from "../../../affect/affectType"
+import {Item} from "../../../item/model/item"
 import { MAX_PRACTICE_LEVEL } from "../../../mob/constants"
 import { RequestType } from "../../../request/requestType"
 import { SkillType } from "../../../skill/skillType"
@@ -8,14 +9,13 @@ import Action from "../../action"
 
 let testBuilder: TestBuilder
 let action: Action
-let mace
-let axe
+let axe: Item
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   const mobBuilder = testBuilder.withMob()
   mobBuilder.withSkill(SkillType.Sharpen, MAX_PRACTICE_LEVEL)
-  mace = mobBuilder.withMaceEq()
+  mobBuilder.withMaceEq()
   axe = mobBuilder.withAxeEq()
   mobBuilder.withLevel(10)
   action = await testBuilder.getActionDefinition(RequestType.Sharpen)
@@ -29,14 +29,15 @@ describe("sharpen skill action", () => {
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
-    expect(response.message.getMessageToRequestCreator()).toBe("That weapon needs a blade to sharpen.")
+    expect(response.message.getMessageToRequestCreator())
+      .toBe("That weapon needs a blade to sharpen.")
   })
 
   it("should succeed and fail", async () => {
     await doNTimes(100, async () => {
       // when
       const response = await action.handle(
-        testBuilder.createRequest(RequestType.Sharpen, "sharpen axe", axe))
+        testBuilder.createRequest(RequestType.Sharpen, "sharpen axe"))
 
       if (response.isSuccessful()) {
         expect(axe.affects.find(a => a.affectType === AffectType.Sharpened)).toBeTruthy()

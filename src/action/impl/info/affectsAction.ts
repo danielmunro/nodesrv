@@ -4,6 +4,7 @@ import CheckedRequest from "../../../check/checkedRequest"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
+import {ActionPart} from "../../enum/actionPart"
 
 function reduceAffects(affects: Affect[]) {
   return affects.reduce((previous: string, current: Affect) =>
@@ -18,6 +19,10 @@ export default class AffectsAction extends Action {
   public invoke(checkedRequest: CheckedRequest): Promise<Response> {
     return checkedRequest.respondWith()
       .info("Your affects:\n" + reduceAffects(checkedRequest.mob.affects))
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action ]
   }
 
   protected getRequestType(): RequestType {

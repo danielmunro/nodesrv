@@ -28,11 +28,11 @@ describe("eat action", () => {
 
   it("should notify if the player is full", async () => {
     const playerBuilder = await testBuilder.withPlayer()
-    const food = playerBuilder.withFood()
+    playerBuilder.withFood()
     const player = playerBuilder.player
     player.sessionMob.playerMob.hunger = appetite(player.sessionMob.race) - 1
 
-    const response = await action.handle(testBuilder.createRequest(RequestType.Eat, `eat muffin`, food))
+    const response = await action.handle(testBuilder.createRequest(RequestType.Eat, `eat muffin`))
 
     expect(response.message.getMessageToRequestCreator()).toContain("You feel full")
   })

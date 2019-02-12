@@ -9,6 +9,7 @@ import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class WearAction extends Action {
   private static wear(inventory: Inventory, equipped: Inventory, item: Item, currentlyEquipped?: Item): string {
@@ -35,7 +36,7 @@ export default class WearAction extends Action {
         ConditionMessages.All.Item.NotOwned,
         CheckType.HasItem)
       .capture()
-      .require(item => !!item.equipment, ConditionMessages.All.Item.NotEquipment)
+      .require((item: Item) => !!item.equipment, ConditionMessages.All.Item.NotEquipment)
       .create()
   }
 
@@ -48,7 +49,11 @@ export default class WearAction extends Action {
         mob.inventory,
         mob.equipped,
         checkedRequest.getCheckTypeResult(CheckType.HasItem),
-        mob.equipped.find(i => i.equipment === item.equipment)))
+        mob.equipped.find((i: Item) => i.equipment === item.equipment)))
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }
 
   protected getRequestType(): RequestType {

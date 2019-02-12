@@ -13,6 +13,7 @@ import Response from "../../../request/response"
 import Action from "../../action"
 import {Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class DropAction extends Action {
   constructor(
@@ -47,6 +48,10 @@ export default class DropAction extends Action {
       Messages.Drop.Success,
       { item, verb: "drop" },
       { item, verb: "drops" })
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }
 
   protected getRequestType(): RequestType {

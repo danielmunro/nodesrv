@@ -13,6 +13,7 @@ import match from "../../../support/matcher/match"
 import Action from "../../action"
 import {Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class OpenAction extends Action {
   private static getItem(request: Request) {
@@ -117,6 +118,10 @@ export default class OpenAction extends Action {
     }
 
     return checkedRequest.respondWith().error("Unknown problem")
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.Thing ]
   }
 
   protected getRequestType(): RequestType {

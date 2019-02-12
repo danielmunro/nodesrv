@@ -29,7 +29,7 @@ describe("buy action", () => {
     const player = playerBuilder.player
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Buy, "buy axe", axe))
+    const response = await action.handle(testBuilder.createRequest(RequestType.Buy, "buy axe"))
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)

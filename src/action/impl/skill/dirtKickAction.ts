@@ -14,6 +14,7 @@ import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
 import {Costs, Messages, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
+import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
@@ -80,6 +81,10 @@ export default class DirtKickAction extends Skill {
 
   public getAffectType(): AffectType {
     return AffectType.Blind
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ActionPart.Action, ActionPart.Target]
   }
 
   protected getRequestType(): RequestType {

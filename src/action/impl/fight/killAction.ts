@@ -17,6 +17,7 @@ import {
   MESSAGE_FAIL_KILL_NO_TARGET,
   Messages,
 } from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class KillAction extends Action {
   constructor(
@@ -44,6 +45,10 @@ export default class KillAction extends Action {
       { screamVerb: "scream", attackVerb: "attack", target },
       { screamVerb: "screams", attackVerb: "attacks", target: "you" },
       { screamVerb: "screams", attackVerb: "attacks", target })
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.Target ]
   }
 
   protected getRequestType(): RequestType {

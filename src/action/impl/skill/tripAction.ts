@@ -15,6 +15,7 @@ import ResponseMessage from "../../../request/responseMessage"
 import {ActionMessages, Costs} from "../../../skill/constants"
 import {Skill as SkillModel} from "../../../skill/model/skill"
 import {SkillType} from "../../../skill/skillType"
+import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
@@ -87,6 +88,10 @@ export default class TripAction extends Skill {
 
   public getAffectType(): AffectType {
     return AffectType.Stunned
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ActionPart.Action, ActionPart.Target]
   }
 
   protected getRequestType(): RequestType {

@@ -11,6 +11,7 @@ import Response from "../../../request/response"
 import Action from "../../action"
 import {MESSAGE_FAIL_CONTAINER_NOT_EMPTY, Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class SacrificeAction extends Action {
   constructor(
@@ -41,6 +42,10 @@ export default class SacrificeAction extends Action {
     return checkedRequest
       .respondWith()
       .success(Messages.Sacrifice.Success, item.name, value)
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.ItemInRoom ]
   }
 
   protected getRequestType(): RequestType {

@@ -8,6 +8,7 @@ import Response from "../../../request/response"
 import Action from "../../action"
 import {Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class SleepAction extends Action {
   constructor(private readonly checkBuilderFactory: CheckBuilderFactory) {
@@ -23,6 +24,10 @@ export default class SleepAction extends Action {
   public invoke(checkedRequest: CheckedRequest): Promise<Response> {
     checkedRequest.request.mob.disposition = Disposition.Sleeping
     return checkedRequest.respondWith().success(Messages.Sleep.Success)
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action ]
   }
 
   protected getRequestType(): RequestType {

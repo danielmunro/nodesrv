@@ -10,6 +10,7 @@ import Maybe from "../../../support/functional/maybe"
 import Action from "../../action"
 import {MESSAGE_FAIL_CONTAINER_NOT_FOUND, Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class PutAction extends Action {
   constructor(
@@ -41,6 +42,10 @@ export default class PutAction extends Action {
     container.container.addItem(item)
 
     return checkedRequest.respondWith().success(Messages.Put.Success, { item, container })
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }
 
   protected getRequestType(): RequestType {

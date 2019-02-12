@@ -4,7 +4,6 @@ import Spell from "../action/spell"
 import {Client} from "../client/client"
 import GameService from "../gameService/gameService"
 import ServiceBuilder from "../gameService/serviceBuilder"
-import {Item} from "../item/model/item"
 import {newMobLocation} from "../mob/factory"
 import {Fight} from "../mob/fight/fight"
 import {Mob} from "../mob/model/mob"
@@ -165,15 +164,20 @@ export default class TestBuilder {
   public createRequest(
     requestType: RequestType,
     input: string = requestType.toString(),
-    target?: Mob | Item): Request {
+    targetMobInRoom?: Mob): Request {
     if (!this.mobForRequest) {
       this.withMob()
     }
-    return new Request(this.mobForRequest, this.room, new InputContext(requestType, input), target)
+    return new Request(
+      this.mobForRequest,
+      this.room,
+      new InputContext(requestType, input),
+      targetMobInRoom)
   }
 
   public async createRequestBuilder() {
-    return new RequestBuilder(this.mobForRequest, this.room)
+    const service = await this.getService()
+    return new RequestBuilder(service.getActions(), service.mobService.locationService, this.mobForRequest, this.room)
   }
 
   public async getActionDefinition(requestType: RequestType): Promise<Action> {

@@ -14,6 +14,7 @@ import Response from "../../../request/response"
 import {format} from "../../../support/string"
 import Action from "../../action"
 import {ConditionMessages, Messages as ActionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 function sell(mob: Mob, item: Item) {
   mob.inventory.removeItem(item)
@@ -47,6 +48,10 @@ export default class SellAction extends Action {
     return checkedRequest
       .respondWith()
       .success(sell(checkedRequest.mob, item))
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }
 
   protected getRequestType(): RequestType {

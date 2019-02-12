@@ -10,6 +10,7 @@ import Maybe from "../../../support/functional/maybe"
 import Action from "../../action"
 import {MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class GetAction extends Action {
   private static getMessage(isFromContainer: boolean) {
@@ -62,6 +63,10 @@ export default class GetAction extends Action {
       GetAction.getMessage(isContainer),
       { verb: GetAction.getVerb(isContainer, true), ...replacements },
       { verb: GetAction.getVerb(isContainer, false), ...replacements })
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.ItemInRoom ]
   }
 
   protected getRequestType(): RequestType {

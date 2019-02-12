@@ -4,6 +4,7 @@ import { CheckStatus } from "../check/checkStatus"
 import { Request } from "../request/request"
 import { RequestType } from "../request/requestType"
 import Response from "../request/response"
+import {ActionPart} from "./enum/actionPart"
 
 export default abstract class Action {
   public isAbleToHandleRequestType(requestType: RequestType): boolean {
@@ -26,5 +27,6 @@ export default abstract class Action {
 
   public abstract check(request: Request): Promise<Check>
   public abstract invoke(checkedRequest: CheckedRequest): Promise<Response>
+  public abstract getActionParts(): ActionPart[]
   protected abstract getRequestType(): RequestType
 }

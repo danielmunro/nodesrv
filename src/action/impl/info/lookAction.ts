@@ -17,6 +17,7 @@ import Maybe from "../../../support/functional/maybe"
 import match from "../../../support/matcher/match"
 import Action from "../../action"
 import {Messages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class LookAction extends Action {
   constructor(
@@ -61,6 +62,10 @@ export default class LookAction extends Action {
       room.toString()
       + this.reduceMobs(request.mob, this.locationService.getMobsByRoom(room))
       + room.inventory.toString("is here."))
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.Thing ]
   }
 
   protected getRequestType(): RequestType {

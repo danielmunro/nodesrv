@@ -3,6 +3,7 @@ import CheckedRequest from "../../../check/checkedRequest"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class ScoreAction extends Action {
   public check(): Promise<Check> {
@@ -19,6 +20,10 @@ A ${mob.race} ${mob.specialization}.
 Attributes: ${stats.str} str, ${stats.int} int, ${stats.wis} wis, ${stats.dex} dex, ${stats.con} con, ${stats.sta} sta
 You have ${mob.gold} gold.
 `)
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.Thing ]
   }
 
   protected getRequestType(): RequestType {

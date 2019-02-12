@@ -10,6 +10,7 @@ import {format} from "../../../support/string"
 import Action from "../../action"
 import {ConditionMessages} from "../../constants"
 import {MESSAGE_REMOVE_FAIL} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class RemoveAction extends Action {
   constructor(private readonly checkBuilderFactory: CheckBuilderFactory) {
@@ -34,6 +35,10 @@ export default class RemoveAction extends Action {
     checkedRequest.request.mob.inventory.addItem(item)
 
     return checkedRequest.respondWith().info(format(ConditionMessages.Remove.Success, item.name))
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.ItemInEquipment ]
   }
 
   protected getRequestType(): RequestType {

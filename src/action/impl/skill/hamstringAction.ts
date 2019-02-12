@@ -13,6 +13,7 @@ import ResponseMessage from "../../../request/responseMessage"
 import {Costs} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
 
@@ -73,6 +74,10 @@ export default class HamstringAction extends Skill {
 
   public getAffectType(): AffectType {
     return AffectType.Immobilize
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ActionPart.Action, ActionPart.Target]
   }
 
   protected getRequestType(): RequestType {

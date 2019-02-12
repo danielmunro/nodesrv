@@ -10,6 +10,7 @@ import Response from "../../../../request/response"
 import {SuccessThreshold} from "../../../../skill/constants"
 import {Skill as SkillModel} from "../../../../skill/model/skill"
 import {SkillType} from "../../../../skill/skillType"
+import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
 import Skill from "../../../skill"
 
@@ -55,6 +56,10 @@ export default class EnhancedDamageAction extends Skill {
 
   public getSkillType(): SkillType {
     return SkillType.EnhancedDamage
+  }
+
+  public getActionParts(): ActionPart[] {
+    return []
   }
 
   protected getRequestType(): RequestType {

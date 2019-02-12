@@ -54,7 +54,7 @@ export default class CheckTemplate {
   }
 
   private checkActionType(checkBuilder: CheckBuilder, actionType: ActionType) {
-    let target = this.request.getTarget() as Mob
+    let target = this.request.getTargetMobInRoom()
     const fight = this.mobService.findFight(f => f.isParticipant(this.request.mob))
     if (fight && target) {
       checkBuilder.require(target === fight.getOpponentFor(this.request.mob), Messages.TooManyTargets)

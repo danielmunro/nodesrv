@@ -3,6 +3,7 @@ import CheckedRequest from "../../../check/checkedRequest"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class EquippedAction extends Action {
   public check(): Promise<Check> {
@@ -13,6 +14,10 @@ export default class EquippedAction extends Action {
     return checkedRequest.respondWith().info("You are wearing:\n" +
       checkedRequest.mob.equipped.getItems().map(
         item => item.name).join("\n"))
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action ]
   }
 
   protected getRequestType(): RequestType {

@@ -9,6 +9,7 @@ import Response from "../../../request/response"
 import Action from "../../action"
 import {Messages as ActionMessages} from "../../constants"
 import {ConditionMessages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export default class LoreAction extends Action {
   constructor(
@@ -31,6 +32,10 @@ export default class LoreAction extends Action {
     const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
 
     return checkedRequest.respondWith().success(ActionMessages.Lore.Success, { item })
+  }
+
+  public getActionParts(): ActionPart[] {
+    return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }
 
   protected getRequestType(): RequestType {

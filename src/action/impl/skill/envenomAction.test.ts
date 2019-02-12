@@ -19,18 +19,18 @@ beforeEach(async () => {
   action = await testBuilder.getActionDefinition(RequestType.Envenom)
 })
 
-async function doAction(input: string, target: any) {
-  return action.handle(testBuilder.createRequest(RequestType.Envenom, input, target))
+async function doAction(input: string) {
+  return action.handle(testBuilder.createRequest(RequestType.Envenom, input))
 }
 
 describe("envenom skill action", () => {
   it("should fail at low levels", async () => {
     // given
-    const axe = mobBuilder.withAxeEq()
+    mobBuilder.withAxeEq()
     mobBuilder.withSkill(SkillType.Envenom)
 
     // when
-    const responses = await doNTimes(iterations, () => doAction(COMMAND, axe))
+    const responses = await doNTimes(iterations, () => doAction(COMMAND))
 
     // then
     expect(responses.filter(response => response.isFailure()).length).toBeGreaterThanOrEqual(iterations * 0.9)
@@ -44,7 +44,7 @@ describe("envenom skill action", () => {
     // when
     const responses = await doNTimes(iterations, async () => {
       axe.affects = []
-      return doAction(COMMAND, axe)
+      return doAction(COMMAND)
     })
 
     // then
@@ -56,10 +56,10 @@ describe("envenom skill action", () => {
     mobBuilder.withSkill(SkillType.Envenom)
 
     // given
-    const eq = mobBuilder.withHelmetEq()
+    mobBuilder.withHelmetEq()
 
     // when
-    const response = await doAction("envenom cap", eq)
+    const response = await doAction("envenom cap")
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
@@ -71,10 +71,10 @@ describe("envenom skill action", () => {
     mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
 
     // given
-    const weapon = mobBuilder.withMaceEq()
+    mobBuilder.withMaceEq()
 
     // when
-    const response = await doAction("envenom mace", weapon)
+    const response = await doAction("envenom mace")
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
@@ -83,11 +83,11 @@ describe("envenom skill action", () => {
 
   it("generates accurate messages", async () => {
     // setup
-    const axe = mobBuilder.withAxeEq()
+    mobBuilder.withAxeEq()
     mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
 
     // when
-    const responses = await doNTimes(iterations, () => doAction(COMMAND, axe))
+    const responses = await doNTimes(iterations, () => doAction(COMMAND))
 
     // then
     const successResponse = responses.find(response => response.isSuccessful()).message
