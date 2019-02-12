@@ -49,6 +49,7 @@ export enum RequestType {
   Close = "close",
   Unlock = "unlock",
   Lock = "lock",
+  Help = "help",
   Noop = "noop",
   Any = "any",
   Event = "event",

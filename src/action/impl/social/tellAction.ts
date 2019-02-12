@@ -24,7 +24,7 @@ export default class TellAction extends Action {
   }
 
   public getActionParts(): ActionPart[] {
-    return [ActionPart.Action, ActionPart.Target, ActionPart.Freeform]
+    return [ActionPart.Action, ActionPart.Target, ActionPart.FreeForm]
   }
 
   protected getRequestType(): RequestType {

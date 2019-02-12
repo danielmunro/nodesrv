@@ -24,7 +24,7 @@ export default class GossipAction extends Action {
   }
 
   public getActionParts(): ActionPart[] {
-    return [ActionPart.Action, ActionPart.Freeform]
+    return [ActionPart.Action, ActionPart.FreeForm]
   }
 
   protected getRequestType(): RequestType {

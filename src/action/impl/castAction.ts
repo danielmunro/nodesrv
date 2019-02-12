@@ -41,7 +41,7 @@ export default class CastAction extends Action {
   }
 
   public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action, ActionPart.Thing, ActionPart.Target ]
+    return [ ActionPart.Action, ActionPart.Spell, ActionPart.Target ]
   }
 
   protected getRequestType(): RequestType {

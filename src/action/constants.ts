@@ -28,6 +28,9 @@ export const Messages = {
     SuccessFromContainer: "{requestCreator} {verb} {item} from {container}.",
     SuccessFromRoom: "{requestCreator} {verb} {item}.",
   },
+  Help: {
+    Fail: "No help topic exists for that.",
+  },
   Kill: {
     Success: "{requestCreator} {screamVerb} and {attackVerb} {target}!",
   },

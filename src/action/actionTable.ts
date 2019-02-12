@@ -16,6 +16,7 @@ import KillAction from "./impl/fight/killAction"
 import AffectsAction from "./impl/info/affectsAction"
 import EquippedAction from "./impl/info/equippedAction"
 import ExitsAction from "./impl/info/exitsAction"
+import HelpAction from "./impl/info/helpAction"
 import InventoryAction from "./impl/info/inventoryAction"
 import LookAction from "./impl/info/lookAction"
 import LoreAction from "./impl/info/loreAction"
@@ -124,6 +125,7 @@ export default function getActionTable(
     new InventoryAction(itemService),
     new EquippedAction(),
     new ExitsAction(),
+    new HelpAction(),
 
     // merchants/healers
     new BuyAction(checkBuilderFactory, eventService),
