@@ -2,7 +2,7 @@ import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
 import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
 import {SkillType} from "../../../skill/skillType"
-import doNTimes, {doNTimesOrUntilTruthy} from "../../../support/functional/times"
+import {doNTimesOrUntilTruthy} from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
