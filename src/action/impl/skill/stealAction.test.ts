@@ -2,7 +2,7 @@ import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
 import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
 import {SkillType} from "../../../skill/skillType"
-import doNTimes from "../../../support/functional/times"
+import doNTimes, {doNTimesOrUntilTruthy} from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
@@ -31,36 +31,46 @@ beforeEach(async () => {
 describe("steal skill action", () => {
   it("should transfer an item when successful", async () => {
     // when
-    const responses = await doNTimes(iterations, () =>
-      action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT)))
+    const response = await doNTimesOrUntilTruthy(iterations, async () => {
+      const handled = await action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT))
+      return handled.isSuccessful() ? handled : null
+    })
 
     // then
-    expect(responses.find(response => response.isSuccessful())).toBeDefined()
+    expect(response).toBeDefined()
     expect(mob1.inventory.items).toHaveLength(1)
     expect(mob2.inventory.items).toHaveLength(0)
   })
 
-  it("should generate accurate messages", async () => {
+  it("should generate accurate success messages", async () => {
     // when
-    const responses = await doNTimes(iterations, () =>
-      action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT, mob2)))
+    const response = await doNTimesOrUntilTruthy(iterations, async () => {
+      const handled = await action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT))
+      return handled.isSuccessful() ? handled : null
+    })
 
     // then
-    const successMessage = responses.find(response => response.isSuccessful()).message
-    expect(successMessage.getMessageToRequestCreator())
+    expect(response.message.getMessageToRequestCreator())
       .toBe(`you steal a toy axe from ${mob2.name}!`)
-    expect(successMessage.getMessageToTarget())
+    expect(response.message.getMessageToTarget())
       .toBe(`${mob1.name} steals a toy axe from you!`)
-    expect(successMessage.getMessageToObservers())
+    expect(response.message.getMessageToObservers())
       .toBe(`${mob1.name} steals a toy axe from ${mob2.name}!`)
+  })
 
-    // and
-    const failMessage = responses.find(response => !response.isSuccessful()).message
-    expect(failMessage.getMessageToRequestCreator())
+  it("should generate accurate success messages", async () => {
+    // when
+    const response = await doNTimesOrUntilTruthy(iterations, async () => {
+      const handled = await action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT))
+      return handled.isFailure() ? handled : null
+    })
+
+    // then
+    expect(response.message.getMessageToRequestCreator())
       .toBe(`you fail to steal a toy axe from ${mob2.name}.`)
-    expect(failMessage.getMessageToTarget())
+    expect(response.message.getMessageToTarget())
       .toBe(`${mob1.name} fails to steal a toy axe from you.`)
-    expect(failMessage.getMessageToObservers())
+    expect(response.message.getMessageToObservers())
       .toBe(`${mob1.name} fails to steal a toy axe from ${mob2.name}.`)
   })
 })

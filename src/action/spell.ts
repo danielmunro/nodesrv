@@ -54,6 +54,7 @@ export default abstract class Spell extends Action {
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckTemplate(request)
       .cast(this)
+      .capture(this)
       .create()
   }
 

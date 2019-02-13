@@ -9,11 +9,14 @@ import {SpellType} from "../../spell/spellType"
 import TestBuilder from "../../test/testBuilder"
 import Action from "../action"
 import {ConditionMessages} from "../constants"
+import {doNTimesOrUntilTruthy} from "../../support/functional/times"
+import {AffectType} from "../../affect/affectType"
 
 const TEST_INPUT_SHIELD = "cast shield"
 const TEST_INPUT_CAST = "cast"
 const TEST_INPUT_POISON = "cast poison"
 const TEST_INPUT_INVALID = "cast floodle"
+const iterations = 100
 
 let testBuilder: TestBuilder
 let action: Action
@@ -30,20 +33,25 @@ beforeEach(async () => {
   action = await testBuilder.getActionDefinition(RequestType.Cast)
 })
 
-describe("cast action action", () => {
+describe("cast spell action", () => {
   it("should be able to cast a known spell", async () => {
     // given
     const mobBuilder = testBuilder.withMob()
     mobBuilder.withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
     mobBuilder.withLevel(20)
-    const definition = await testBuilder.getSpellDefinition(SpellType.Blind)
+
+    const target = testBuilder.withMob().mob
 
     // when
-    const response = await definition.handle(
-      testBuilder.createRequest(RequestType.Cast, "cast blind", mobBuilder.mob))
+    const response = await doNTimesOrUntilTruthy(iterations, async () => {
+      const handled = await action.handle(
+        testBuilder.createRequest(RequestType.Cast, "cast blind", target))
+      return handled.isSuccessful() ? handled : null
+    })
 
     // then
-    expect(response.status).not.toBe(ResponseStatus.PreconditionsFailed)
+    expect(response).toBeDefined()
+    expect(target.getAffect(AffectType.Blind)).toBeDefined()
   })
 
   it("should require at least one argument", async () => {
@@ -69,20 +77,6 @@ describe("cast action action", () => {
     // then
     expect(floodleCheck.result).toBe(ConditionMessages.Cast.NotASpell)
     expect(floodleCheck.status).toBe(CheckStatus.Failed)
-  })
-
-  it("should be able to cast a known spell", async () => {
-    // given
-    await testBuilder.withPlayer(p => {
-      p.sessionMob.spells.push(newSpell(SpellType.Shield))
-      p.sessionMob.level = 20
-    })
-
-    // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_SHIELD))
-
-    // then
-    expect(check.status).toBe(CheckStatus.Ok)
   })
 
   it("should display an appropriate result if the caster lacks mana", async () => {

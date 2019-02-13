@@ -8,7 +8,7 @@ import { Request } from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
 import Action from "../action"
-import {ConditionMessages, Messages} from "../constants"
+import {ConditionMessages, HelpMessages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
 
 export default class CastAction extends Action {
@@ -36,7 +36,7 @@ export default class CastAction extends Action {
   }
 
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const spell = checkedRequest.getCheckTypeResult(CheckType.HasSpell) as Spell
+    const spell = checkedRequest.check.result as Spell
     return spell.invoke(checkedRequest)
   }
 
@@ -49,6 +49,6 @@ export default class CastAction extends Action {
   }
 
   public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
+    return HelpMessages.Cast
   }
 }
