@@ -38,6 +38,9 @@ export default class RequestBuilder {
       const latest = actionParts.pop()
       return latest === ActionPart.Target
     }) as string
+    if (!word) {
+      return
+    }
     return this.locationService
       .getMobsByRoom(this.room as Room)
       .find((mob: Mob) => match(mob.name, word))
