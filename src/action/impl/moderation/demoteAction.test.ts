@@ -26,19 +26,19 @@ describe("demote moderation action", () => {
     expect(response.message.getMessageToRequestCreator()).toBe("Immortals cannot be demoted.")
   })
 
-  it("demotes judges", async () => {
+  it("demotes judges sanity check", async () => {
     mob2.playerMob.authorizationLevel = AuthorizationLevel.Judge
     const response = await action.handle(testBuilder.createRequest(RequestType.Demote, `demote ${mobToDemote}`))
     expect(response.message.getMessageToRequestCreator()).toBe("You demoted bob to admin.")
   })
 
-  it("demotes admins", async () => {
+  it("demotes admins sanity check", async () => {
     mob2.playerMob.authorizationLevel = AuthorizationLevel.Admin
     const response = await action.handle(testBuilder.createRequest(RequestType.Demote, `demote ${mobToDemote}`))
     expect(response.message.getMessageToRequestCreator()).toBe("You demoted bob to mortal.")
   })
 
-  it("demotes mortals", async () => {
+  it("demotes mortals sanity check", async () => {
     mob2.playerMob.authorizationLevel = AuthorizationLevel.Mortal
     const response = await action.handle(testBuilder.createRequest(RequestType.Demote, `demote ${mobToDemote}`))
     expect(response.message.getMessageToRequestCreator()).toBe("bob has no more demotions.")
