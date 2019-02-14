@@ -42,6 +42,10 @@ export class Request {
     return this.getContextAsInput().subject
   }
 
+  public getComponent(): string {
+    return this.getContextAsInput().component
+  }
+
   public getLastArg(): string {
     return this.getContextAsInput().getLastArg()
   }

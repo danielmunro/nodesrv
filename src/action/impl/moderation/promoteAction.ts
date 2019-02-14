@@ -1,35 +1,26 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
+import {CheckType} from "../../../check/checkType"
 import {isBanned} from "../../../mob/enum/standing"
 import MobService from "../../../mob/mobService"
 import {Mob} from "../../../mob/model/mob"
-import {AuthorizationLevel, getAuthorizationLevelName} from "../../../player/authorizationLevel"
-import { Request } from "../../../request/request"
+import {getAuthorizationLevelName} from "../../../player/authorizationLevel"
+import {getNextPromotion} from "../../../player/authorizationLevels"
+import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
+import {format} from "../../../support/string"
 import Action from "../../action"
-import {MESSAGE_FAIL_NO_MORE_PROMOTIONS, Messages} from "../../constants"
-import {MESSAGE_FAIL_BANNED, MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS} from "../../constants"
+import {
+  MESSAGE_FAIL_BANNED,
+  MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS,
+  Messages,
+} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 export default class PromoteAction extends Action {
-  public static getNextPromotion(mob: Mob) {
-    switch (mob.getAuthorizationLevel()) {
-      case AuthorizationLevel.None:
-        return AuthorizationLevel.Mortal
-      case AuthorizationLevel.Mortal:
-        return AuthorizationLevel.Admin
-      case AuthorizationLevel.Admin:
-        return AuthorizationLevel.Judge
-      case AuthorizationLevel.Judge:
-        return AuthorizationLevel.Immortal
-      default:
-        return undefined
-    }
-  }
-
   constructor(
     private readonly checkBuilderFactory: CheckBuilderFactory,
     private readonly mobService: MobService) {
@@ -37,13 +28,17 @@ export default class PromoteAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const mob = this.mobService.mobTable.find(m => m.name === request.getSubject())
+    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject())
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireMob()
       .capture()
       .requirePlayer(mob)
+      .require(
+        () => getNextPromotion(mob),
+        format(Messages.Promote.Fail.NoMorePromotions, mob.name),
+        CheckType.AuthorizationLevel)
       .requireImmortal(request.getAuthorizationLevel())
-      .require(m => !isBanned(m.getStanding()), MESSAGE_FAIL_BANNED)
+      .require((m: Mob) => !isBanned(m.getStanding()), MESSAGE_FAIL_BANNED)
       .not().requireImmortal(
         Maybe.if(mob, () => mob.getAuthorizationLevel()),
         MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS)
@@ -52,17 +47,12 @@ export default class PromoteAction extends Action {
 
   public invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const target = checkedRequest.check.result
-    const newAuthorizationLevel = PromoteAction.getNextPromotion(target)
+    const authorizationLevel = checkedRequest.getCheckTypeResult(CheckType.AuthorizationLevel)
     const responseBuilder = checkedRequest.request.respondWith()
 
-    return new Maybe(newAuthorizationLevel)
-      .do(() => {
-        target.playerMob.authorizationLevel = newAuthorizationLevel
-        return responseBuilder.success(
-            `You promoted ${target.name} to ${getAuthorizationLevelName(newAuthorizationLevel)}.`)
-      })
-      .or(() => responseBuilder.error(MESSAGE_FAIL_NO_MORE_PROMOTIONS))
-      .get()
+    target.playerMob.authorizationLevel = authorizationLevel
+    return responseBuilder.success(
+        `You promoted ${target.name} to ${getAuthorizationLevelName(authorizationLevel)}.`)
   }
 
   public getActionParts(): ActionPart[] {

@@ -1,19 +1,16 @@
-import { CheckStatus } from "../../../check/checkStatus"
+import {CheckStatus} from "../../../check/checkStatus"
 import {CheckMessages} from "../../../check/constants"
 import GameService from "../../../gameService/gameService"
-import { Standing } from "../../../mob/enum/standing"
-import { AuthorizationLevel } from "../../../player/authorizationLevel"
-import { allAuthorizationLevels } from "../../../player/constants"
-import { Player } from "../../../player/model/player"
+import {Standing} from "../../../mob/enum/standing"
+import {AuthorizationLevel} from "../../../player/authorizationLevel"
+import {allAuthorizationLevels} from "../../../player/constants"
+import {Player} from "../../../player/model/player"
 import RequestBuilder from "../../../request/requestBuilder"
-import { RequestType } from "../../../request/requestType"
-import { getTestMob } from "../../../test/mob"
+import {RequestType} from "../../../request/requestType"
+import {getTestMob} from "../../../test/mob"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
-import {
-  MESSAGE_FAIL_BANNED,
-  MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS,
-} from "../../constants"
+import {MESSAGE_FAIL_BANNED} from "../../constants"
 
 const MOB_TO_PROMOTE = "bob"
 const MOB_SELF = "alice"
@@ -22,21 +19,61 @@ let service: GameService
 let player: Player
 let playerToPromote: Player
 
-describe("promote moderation preconditions", () => {
+let action: Action
 
-  let action: Action
+beforeEach(async () => {
+  const testBuilder = new TestBuilder()
+  const adminPlayerBuilder = await testBuilder.withAdminPlayer(AuthorizationLevel.Immortal)
+  player = adminPlayerBuilder.player
+  player.sessionMob.name = MOB_SELF
+  const playerBuilder = await testBuilder.withPlayer()
+  playerToPromote = playerBuilder.player
+  playerToPromote.sessionMob.name = MOB_TO_PROMOTE
+  requestBuilder = await testBuilder.createRequestBuilder()
+  service = await testBuilder.getService()
+  action = await testBuilder.getActionDefinition(RequestType.Promote)
+})
 
-  beforeEach(async () => {
-    const testBuilder = new TestBuilder()
-    const adminPlayerBuilder = await testBuilder.withAdminPlayer(AuthorizationLevel.Immortal)
-    player = adminPlayerBuilder.player
-    player.sessionMob.name = MOB_SELF
-    const playerBuilder = await testBuilder.withPlayer()
-    playerToPromote = playerBuilder.player
-    playerToPromote.sessionMob.name = MOB_TO_PROMOTE
-    requestBuilder = await testBuilder.createRequestBuilder()
-    service = await testBuilder.getService()
-    action = await testBuilder.getActionDefinition(RequestType.Promote)
+describe("promote moderation action", () => {
+  it("promotes to admin sanity check", async () => {
+    // when
+    const response = await action.handle(requestBuilder.create(RequestType.Promote, `promote ${MOB_TO_PROMOTE}`))
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).toBe("You promoted bob to admin.")
+  })
+
+  it("promotes to judge sanity check", async () => {
+    // given
+    playerToPromote.sessionMob.playerMob.authorizationLevel = AuthorizationLevel.Admin
+
+    // when
+    const response = await action.handle(requestBuilder.create(RequestType.Promote, `promote ${MOB_TO_PROMOTE}`))
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).toBe("You promoted bob to judge.")
+  })
+
+  it("promotes to immortal sanity check", async () => {
+    // given
+    playerToPromote.sessionMob.playerMob.authorizationLevel = AuthorizationLevel.Judge
+
+    // when
+    const response = await action.handle(requestBuilder.create(RequestType.Promote, `promote ${MOB_TO_PROMOTE}`))
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).toBe("You promoted bob to immortal.")
+  })
+
+  it("cannot promote past immortal sanity check", async () => {
+    // given
+    playerToPromote.sessionMob.playerMob.authorizationLevel = AuthorizationLevel.Immortal
+
+    // when
+    const response = await action.handle(requestBuilder.create(RequestType.Promote, `promote ${MOB_TO_PROMOTE}`))
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).toBe("bob has no more promotions.")
   })
 
   it("should not be able to promote if not an immortal", async () => {
@@ -71,7 +108,7 @@ describe("promote moderation preconditions", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS)
+    expect(check.result).toBe("bob has no more promotions.")
   })
 
   it("should not be able to promote banned mobs", async () => {

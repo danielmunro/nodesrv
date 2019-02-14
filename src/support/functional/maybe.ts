@@ -15,7 +15,7 @@ export default class Maybe {
 
   constructor(private readonly thing: any) {}
 
-  public do(fn: (thing: any) => {}) {
+  public do(fn: (thing: any) => any) {
     if (this.thing) {
       this.result = fn(this.thing)
       this.status = MaybeStatus.Thing
@@ -26,7 +26,7 @@ export default class Maybe {
     return this
   }
 
-  public or(fn: () => {}) {
+  public or(fn: () => any) {
     if (this.status === MaybeStatus.NotThing) {
       this.result = fn()
       return this

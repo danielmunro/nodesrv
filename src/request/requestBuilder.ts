@@ -3,6 +3,7 @@ import {ActionPart} from "../action/enum/actionPart"
 import LocationService from "../mob/locationService"
 import {Mob} from "../mob/model/mob"
 import {Room} from "../room/model/room"
+import Maybe from "../support/functional/maybe"
 import match from "../support/matcher/match"
 import InputContext from "./context/inputContext"
 import {Request} from "./request"
@@ -16,10 +17,6 @@ export default class RequestBuilder {
     private readonly room?: Room) {}
 
   public create(requestType: RequestType, input: string = requestType.toString()): Request {
-    if (!input) {
-      input = requestType.toString()
-    }
-
     return new Request(
       this.mob,
       this.room as Room,
@@ -28,16 +25,18 @@ export default class RequestBuilder {
   }
 
   private getTargetFromRequest(requestType: RequestType, input: string): Mob | undefined {
-    const action = this.actions.find((a: Action) => a.isAbleToHandleRequestType(requestType))
-    if (!action) {
+    const actionParts = new Maybe(this.actions.find((a: Action) => a.isAbleToHandleRequestType(requestType)))
+      .do(action => action.getActionParts())
+      .or(() => [])
+      .get() as ActionPart[]
+    if (!actionParts.some(actionPart => actionPart === ActionPart.Target)) {
       return
     }
     const words = input.split(" ")
-    const actionParts = action.getActionParts()
     const word = words.find(() => {
-      const latest = actionParts.pop()
+      const latest = actionParts.shift()
       return latest === ActionPart.Target
-    }) as string
+    })
     if (!word) {
       return
     }

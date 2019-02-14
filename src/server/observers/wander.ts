@@ -9,6 +9,7 @@ export class Wander implements Observer {
     private readonly locationService: LocationService) {}
 
   public async notify(): Promise<any> {
+    return
     for (const mob of this.mobs) {
       const location = this.locationService.getLocationForMob(mob)
       const destination = pickOne(location.room.exits).destination

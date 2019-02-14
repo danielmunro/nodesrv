@@ -1,30 +1,19 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
+import {CheckType} from "../../../check/checkType"
 import MobService from "../../../mob/mobService"
 import {Mob} from "../../../mob/model/mob"
-import {AuthorizationLevel, getAuthorizationLevelName} from "../../../player/authorizationLevel"
-import { Request } from "../../../request/request"
+import {getAuthorizationLevelName} from "../../../player/authorizationLevel"
+import {getNextDemotion} from "../../../player/authorizationLevels"
+import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
+import {format} from "../../../support/string"
 import Action from "../../action"
-import {MESSAGE_FAIL_NO_MORE_DEMOTIONS, Messages} from "../../constants"
-import {MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS} from "../../constants"
+import {MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
-
-function getNextDemotion(mob: Mob) {
-  switch (mob.getAuthorizationLevel()) {
-    case AuthorizationLevel.Judge:
-      return AuthorizationLevel.Admin
-    case AuthorizationLevel.Admin:
-      return AuthorizationLevel.Mortal
-    case AuthorizationLevel.Mortal:
-      return AuthorizationLevel.None
-    default:
-      return undefined
-  }
-}
 
 export default class DemoteAction extends Action {
   constructor(
@@ -34,11 +23,15 @@ export default class DemoteAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const mob = this.mobService.mobTable.find(m => m.name === request.getSubject())
+    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject())
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireMob()
       .capture()
       .requirePlayer(mob)
+      .require(
+        () => getNextDemotion(mob),
+        format(Messages.Demote.Fail.NoMoreDemotions, mob.name),
+        CheckType.AuthorizationLevel)
       .requireImmortal(request.getAuthorizationLevel())
       .not().requireImmortal(
         Maybe.if(mob, () => mob.getAuthorizationLevel()),
@@ -48,20 +41,16 @@ export default class DemoteAction extends Action {
 
   public invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const target = checkedRequest.check.result
+    const authorizationLevel = checkedRequest.getCheckTypeResult(CheckType.AuthorizationLevel)
     const responseBuilder = checkedRequest.request.respondWith()
 
-    return new Maybe(getNextDemotion(target))
-      .do((newAuthorizationLevel) => {
-        target.playerMob.authorizationLevel = newAuthorizationLevel
-        return responseBuilder.success(
-          `You demoted ${target.name} to ${getAuthorizationLevelName(newAuthorizationLevel)}.`)
-      })
-      .or(() => responseBuilder.error(MESSAGE_FAIL_NO_MORE_DEMOTIONS))
-      .get()
+    target.playerMob.authorizationLevel = authorizationLevel
+    return responseBuilder.success(
+    `You demoted ${target.name} to ${getAuthorizationLevelName(authorizationLevel)}.`)
   }
 
   public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action, ActionPart.Target ]
+    return [ ActionPart.Action, ActionPart.PlayerMob ]
   }
 
   public getRequestType(): RequestType {

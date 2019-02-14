@@ -14,6 +14,11 @@ export const Messages = {
   CloseDoor: {
     Success: "{requestCreator} {closeVerb} a {door} {direction}.",
   },
+  Demote: {
+    Fail: {
+      NoMoreDemotions: "{0} has no more demotions.",
+    },
+  },
   Drop: {
     Success: "{requestCreator} {verb} {item}.",
   },
@@ -50,6 +55,11 @@ export const Messages = {
   },
   OpenDoor: {
     Success: "{requestCreator} {openVerb} a {door} {direction}.",
+  },
+  Promote: {
+    Fail: {
+      NoMorePromotions: "{0} has no more promotions.",
+    },
   },
   Put: {
     Success: "You put {item} in {container}.",

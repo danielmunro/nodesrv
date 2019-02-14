@@ -3,6 +3,7 @@ import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
 import {isBanned, Standing} from "../../../mob/enum/standing"
 import MobService from "../../../mob/mobService"
+import {Mob} from "../../../mob/model/mob"
 import { Request } from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
@@ -16,7 +17,7 @@ import {ActionPart} from "../../enum/actionPart"
 import {BanCommand} from "../../enum/banCommand"
 
 export default class BanAction extends Action {
-  private static getNewStanding(arg): Standing {
+  private static getNewStanding(arg: BanCommand): Standing | undefined {
     switch (arg) {
       case BanCommand.Lift:
         return Standing.Good
@@ -27,12 +28,12 @@ export default class BanAction extends Action {
       case BanCommand.Cooloff:
         return Standing.Cooloff
       default:
-        return null
+        return undefined
     }
   }
 
-  private static getBanCommand(subject) {
-    return subject ? subject : BanCommand.Cooloff
+  private static getBanCommand(subject: string): BanCommand {
+    return subject ? subject as BanCommand : BanCommand.Cooloff
   }
 
   constructor(
@@ -42,13 +43,13 @@ export default class BanAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const mob = this.mobService.mobTable.find(m => m.name === request.getSubject())
+    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject())
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireMob()
       .capture()
       .requirePlayer(mob)
       .requireSpecialAuthorization(request.getAuthorizationLevel())
-      .require(m => !isBanned(m.getStanding()), MESSAGE_FAIL_ALREADY_BANNED)
+      .require((m: Mob) => !isBanned(m.getStanding()), MESSAGE_FAIL_ALREADY_BANNED)
       .not().requireSpecialAuthorization(
         Maybe.if(mob, () => mob.getAuthorizationLevel()),
         MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS)
@@ -58,8 +59,7 @@ export default class BanAction extends Action {
   public invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const request = checkedRequest.request
     const target = checkedRequest.check.result
-    const command = BanAction.getBanCommand(request.getContextAsInput().component)
-    const newStanding = BanAction.getNewStanding(command)
+    const newStanding = BanAction.getNewStanding(BanAction.getBanCommand(request.getComponent()))
     target.playerMob.standing = newStanding
 
     return request.respondWith().success(
