@@ -1,4 +1,4 @@
-import {Messages} from "../spell/precondition/constants"
+import {ConditionMessages} from "../spell/constants"
 import AffectDefinition from "./affectDefinition"
 import {AffectType} from "./affectType"
 import {StackBehavior} from "./stackBehavior"
@@ -9,6 +9,6 @@ export default [
   new AffectDefinition(AffectType.GiantStrength, StackBehavior.Replace),
   new AffectDefinition(AffectType.Poison, StackBehavior.Replace),
   new AffectDefinition(AffectType.Curse, StackBehavior.NoReplace),
-  new AffectDefinition(AffectType.Blind, StackBehavior.NoReplace, Messages.Blind.AlreadyBlind),
+  new AffectDefinition(AffectType.Blind, StackBehavior.NoReplace, ConditionMessages.Blind.AlreadyBlind),
   new AffectDefinition(AffectType.Stunned, StackBehavior.Replace),
 ]

@@ -7,7 +7,7 @@ import SpecializationLevel from "../../../../mob/specialization/specializationLe
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll from "../../../../random/dice"
 import ResponseMessage from "../../../../request/responseMessage"
-import {SpellMessages} from "../../../../spell/action/constants"
+import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"

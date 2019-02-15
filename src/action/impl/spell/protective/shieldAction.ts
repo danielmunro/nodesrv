@@ -8,7 +8,7 @@ import SpecializationLevel from "../../../../mob/specialization/specializationLe
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {ConditionMessages} from "../../../../skill/constants"
-import {SpellMessages} from "../../../../spell/action/constants"
+import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
