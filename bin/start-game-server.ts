@@ -73,15 +73,17 @@ initializeConnection().then(async () => {
 
   console.time(Timings.openPort)
   const timeService = new TimeService()
+  const skillTable = getSkillTable(mobService, eventService)
+  const spellTable = getSpellTable(mobService, eventService)
   const gameService = new GameService(
     mobService,
     roomTable,
     itemService,
     eventService,
     new ActionService(
-      getActionTable(mobService, itemService, timeService, eventService),
-      getSkillTable(mobService, eventService),
-      getSpellTable(mobService, eventService),
+      getActionTable(mobService, itemService, timeService, eventService, spellTable),
+      skillTable,
+      spellTable,
     ),
     timeService)
   const startRoom = roomTable.getRooms().find(room => room.canonicalId === startRoomID) as Room

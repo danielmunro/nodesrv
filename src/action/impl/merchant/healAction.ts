@@ -5,10 +5,10 @@ import {CheckType} from "../../../check/checkType"
 import HealerSpell from "../../../mob/healer/healerSpell"
 import LocationService from "../../../mob/locationService"
 import {Mob} from "../../../mob/model/mob"
-import { Request } from "../../../request/request"
+import EventContext from "../../../request/context/eventContext"
+import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import collectionSearch from "../../../support/matcher/collectionSearch"
 import {format} from "../../../support/string"
 import Action from "../../action"
 import {ConditionMessages, Messages} from "../../constants"
@@ -26,12 +26,14 @@ export default class HealAction extends Action {
     const subject = request.getSubject()
     const healer = this.locationService.getMobsByRoom(request.room).find(mob => mob.isHealer())
     const checkBuilder = this.checkBuilderFactory.createCheckBuilder(request)
-      .require(healer, ConditionMessages.Heal.Fail.HealerNotFound)
+      .require(healer, ConditionMessages.Heal.Fail.HealerNotFound, CheckType.HasTarget)
 
     if (subject) {
-      const healerSpell: HealerSpell = collectionSearch(this.spells, subject)
+      const healerSpell: HealerSpell =
+        this.spells.find(spell => spell.spellDefinition.getSpellType().startsWith(subject)) as HealerSpell
       checkBuilder.require(healerSpell, ConditionMessages.Heal.Fail.NotASpell, CheckType.HasSpell)
-      checkBuilder.require(request.mob.gold >= healerSpell.goldValue, ConditionMessages.Heal.Fail.CannotAffordSpell)
+      checkBuilder.require(
+        () => request.mob.gold >= healerSpell.goldValue, ConditionMessages.Heal.Fail.CannotAffordSpell)
     }
 
     return checkBuilder.create()
@@ -41,13 +43,13 @@ export default class HealAction extends Action {
     const request = checkedRequest.request
     const healer = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     const subject = request.getSubject()
-    console.log("subject received", subject)
     if (!subject) {
       return checkedRequest.respondWith().info(this.listSpells(healer))
     }
     const healerSpell: HealerSpell = checkedRequest.getCheckTypeResult(CheckType.HasSpell)
     request.mob.gold -= healerSpell.goldValue
-    return healerSpell.spellDefinition.doAction(request)
+    return healerSpell.spellDefinition.handle(
+      new Request(healer, request.room, new EventContext(RequestType.Cast), request.mob))
   }
 
   public getActionParts(): ActionPart[] {
@@ -63,15 +65,10 @@ export default class HealAction extends Action {
   }
 
   private listSpells(healer: Mob) {
-    console.log("sanity")
     return format(
       "{0} offers the following spells:\n{1}Type heal [spell] to be healed",
       healer.name,
-      this.spells.reduce((previous, current: HealerSpell) => {
-        console.log(current instanceof HealerSpell)
-        console.log(current.goldValue)
-        console.log(current.spellDefinition.spellType)
-        return previous + current.spellDefinition.spellType + " - " + current.goldValue + " gold\n"
-      }, ""))
+      this.spells.reduce((previous, current: HealerSpell) =>
+        previous + current.spellDefinition.getSpellType() + " - " + current.goldValue + " gold\n", ""))
   }
 }

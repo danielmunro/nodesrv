@@ -18,7 +18,6 @@ import CheckResult from "./checkResult"
 import {CheckType} from "./checkType"
 import {CheckMessages} from "./constants"
 import Cost from "./cost/cost"
-import {CostType} from "./cost/costType"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []
@@ -125,11 +124,6 @@ export default class CheckBuilder {
 
   public addCost(cost: Cost) {
     this.costs.push(cost)
-    return this
-  }
-
-  public addManaCost(amount: number) {
-    this.costs.push(new Cost(CostType.Mana, amount, SkillMessages.All.NotEnoughMana))
     return this
   }
 

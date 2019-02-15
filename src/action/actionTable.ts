@@ -5,7 +5,6 @@ import TimeService from "../gameService/timeService"
 import ItemService from "../item/itemService"
 import getHealerSpellTable from "../mob/healer/healerSpellTable"
 import MobService from "../mob/mobService"
-import getSpellTable from "../spell/spellTable"
 import Action from "./action"
 import CastAction from "./impl/castAction"
 import SleepAction from "./impl/disposition/sleepAction"
@@ -62,12 +61,14 @@ import GossipAction from "./impl/social/gossipAction"
 import SayAction from "./impl/social/sayAction"
 import TellAction from "./impl/social/tellAction"
 import TrainAction from "./impl/trainAction"
+import Spell from "./spell"
 
 export default function getActionTable(
   mobService: MobService,
   itemService: ItemService,
   timeService: TimeService,
-  eventService: EventService): Action[] {
+  eventService: EventService,
+  spellTable: Spell[]): Action[] {
   const locationService = mobService.locationService
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const lookAction = new LookAction(locationService, itemService, timeService)
@@ -115,7 +116,7 @@ export default function getActionTable(
     new StealAction(checkBuilderFactory, eventService),
 
     // casting
-    new CastAction(checkBuilderFactory, getSpellTable(mobService, eventService)),
+    new CastAction(checkBuilderFactory, spellTable),
 
     // info
     new AffectsAction(),
@@ -131,7 +132,7 @@ export default function getActionTable(
     new BuyAction(checkBuilderFactory, eventService),
     new SellAction(checkBuilderFactory, eventService),
     new ListAction(checkBuilderFactory),
-    new HealAction(checkBuilderFactory, locationService, getHealerSpellTable()),
+    new HealAction(checkBuilderFactory, locationService, getHealerSpellTable(spellTable)),
 
     // social
     new GossipAction(socialService),

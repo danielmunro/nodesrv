@@ -1,3 +1,8 @@
+import Action from "../../action/action"
+import {Request} from "../../request/request"
+
+const defaultIterations = 100
+
 export default async function doNTimes(count: number, fn: () => any) {
   const results = []
   for (let i = 0; i < count; i++) {
@@ -14,4 +19,11 @@ export async function doNTimesOrUntilTruthy(count: number, fn: () => any): Promi
       return result
     }
   }
+}
+
+export async function getSuccessfulAction(action: Action, request: Request) {
+  return doNTimesOrUntilTruthy(defaultIterations, async () => {
+    const handled = await action.handle(request)
+    return handled.isSuccessful() ? handled : null
+  })
 }

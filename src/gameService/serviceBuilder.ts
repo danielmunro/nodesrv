@@ -88,16 +88,17 @@ export default class ServiceBuilder {
       new FightTable(this.fights),
       locationService)
     const timeService = new TimeService(this.time)
+    const skillTable = getSkillTable(mobService, eventService)
+    const spellTable = getSpellTable(mobService, eventService)
     this.builtService = new GameService(
       mobService,
       roomTable,
       itemService,
       eventService,
       new ActionService(
-        getActionTable(mobService, itemService, timeService, eventService),
-        getSkillTable(mobService, eventService),
-        getSpellTable(mobService, eventService),
-      ),
+        getActionTable(mobService, itemService, timeService, eventService, spellTable),
+        skillTable,
+        spellTable),
       timeService)
     await this.attachEventConsumers(startRoom)
     return this.builtService
