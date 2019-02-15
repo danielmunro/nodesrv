@@ -6,7 +6,7 @@ import {RequestType} from "../../request/requestType"
 import {ConditionMessages as SkillMessages} from "../../skill/constants"
 import {Spell} from "../../spell/model/spell"
 import {SpellType} from "../../spell/spellType"
-import {doNTimesOrUntilTruthy} from "../../support/functional/times"
+import {getSuccessfulAction} from "../../support/functional/times"
 import TestBuilder from "../../test/testBuilder"
 import Action from "../action"
 import {ConditionMessages} from "../constants"
@@ -15,7 +15,6 @@ const TEST_INPUT_SHIELD = "cast shield"
 const TEST_INPUT_CAST = "cast"
 const TEST_INPUT_POISON = "cast poison"
 const TEST_INPUT_INVALID = "cast floodle"
-const iterations = 100
 
 let testBuilder: TestBuilder
 let action: Action
@@ -42,14 +41,11 @@ describe("cast spell action", () => {
     const target = testBuilder.withMob().mob
 
     // when
-    const response = await doNTimesOrUntilTruthy(iterations, async () => {
-      const handled = await action.handle(
-        testBuilder.createRequest(RequestType.Cast, "cast blind", target))
-      return handled.isSuccessful() ? handled : null
-    })
+    const response = await getSuccessfulAction(
+      action, testBuilder.createRequest(RequestType.Cast, "cast blind", target))
 
     // then
-    expect(response).toBeDefined()
+    await expect(response).toBeDefined()
     expect(target.getAffect(AffectType.Blind)).toBeDefined()
   })
 

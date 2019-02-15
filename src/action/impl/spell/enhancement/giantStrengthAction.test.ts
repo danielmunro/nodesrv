@@ -4,7 +4,7 @@ import {Mob} from "../../../../mob/model/mob"
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
+import {getSuccessfulAction} from "../../../../support/functional/times"
 import TestBuilder from "../../../../test/testBuilder"
 import Spell from "../../../spell"
 
@@ -29,12 +29,7 @@ beforeEach(async () => {
 describe("giant strength spell action", () => {
   it("imparts the giant strength affect", async () => {
     // when
-    await doNTimesOrUntilTruthy(
-      100,
-      async () => {
-        const response = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast giant bob", mob))
-        return response.isSuccessful()
-      })
+    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast giant bob", mob))
 
     // then
     expect(mob.getAffect(AffectType.GiantStrength)).toBeTruthy()
@@ -42,12 +37,8 @@ describe("giant strength spell action", () => {
 
   it("generates accurate success messages when casting against a target", async () => {
     // when
-    const response = await doNTimesOrUntilTruthy(
-      100,
-      async () => {
-        const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast giant bob", mob))
-        return handled.isSuccessful() ? handled : null
-      })
+    const response = await getSuccessfulAction(
+      spell, testBuilder.createRequest(RequestType.Cast, "cast giant bob", mob))
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe("bob's muscles surge with heightened power.")
@@ -57,12 +48,7 @@ describe("giant strength spell action", () => {
 
   it("generates accurate success messages when casting on self", async () => {
     // when
-    const response = await doNTimesOrUntilTruthy(
-      100,
-      async () => {
-        const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast giant", caster))
-        return handled.isSuccessful() ? handled : null
-      })
+    const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast giant", caster))
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe(RESPONSE1)

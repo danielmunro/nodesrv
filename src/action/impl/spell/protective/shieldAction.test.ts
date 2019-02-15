@@ -3,7 +3,7 @@ import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
+import {getSuccessfulAction} from "../../../../support/functional/times"
 import TestBuilder from "../../../../test/testBuilder"
 
 describe("shield", () => {
@@ -18,10 +18,7 @@ describe("shield", () => {
     const definition = await testBuilder.getSpellDefinition(SpellType.Shield)
 
     // when
-    await doNTimesOrUntilTruthy(100, async () => {
-      const handled = await definition.handle(testBuilder.createRequest(RequestType.Cast, "cast shield bob", mob))
-      return handled.isSuccessful() ? handled : null
-    })
+    await getSuccessfulAction(definition, testBuilder.createRequest(RequestType.Cast, "cast shield bob", mob))
 
     // then
     expect(mob.getAffect(AffectType.Shield)).toBeTruthy()

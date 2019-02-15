@@ -4,7 +4,7 @@ import {Mob} from "../../../../mob/model/mob"
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
+import {getSuccessfulAction} from "../../../../support/functional/times"
 import TestBuilder from "../../../../test/testBuilder"
 import Spell from "../../../spell"
 
@@ -29,10 +29,7 @@ beforeEach(async () => {
 describe("stone skin spell action", () => {
   it("gives stone skin affect type when casted", async () => {
     // when
-    await doNTimesOrUntilTruthy(100, async () => {
-      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, castCommand, target))
-      return handled.isSuccessful() ? handled : null
-    })
+    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, target))
 
     // then
     expect(target.getAffect(AffectType.StoneSkin)).toBeTruthy()
@@ -40,10 +37,7 @@ describe("stone skin spell action", () => {
 
   it("generates accurate success messages when casting on a target", async () => {
     // when
-    const response = await doNTimesOrUntilTruthy(100, async () => {
-      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, castCommand, target))
-      return handled.isSuccessful() ? handled : null
-    })
+    const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, target))
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe("bob's skin turns to stone.")
@@ -53,10 +47,7 @@ describe("stone skin spell action", () => {
 
   it("generates accurate success messages when casting on self", async () => {
     // when
-    const response = await doNTimesOrUntilTruthy(100, async () => {
-      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, castCommand, caster))
-      return handled.isSuccessful() ? handled : null
-    })
+    const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, caster))
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe(responseMessage)

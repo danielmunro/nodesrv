@@ -2,7 +2,7 @@ import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {Mob} from "../../../../mob/model/mob"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import doNTimes, {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
+import doNTimes, {getSuccessfulAction} from "../../../../support/functional/times"
 import MobBuilder from "../../../../test/mobBuilder"
 import TestBuilder from "../../../../test/testBuilder"
 import Spell from "../../../spell"
@@ -59,12 +59,7 @@ describe("cure light", () => {
 
   it("generates accurate success messages when casting on target", async () => {
     // when
-    const response = await doNTimesOrUntilTruthy(
-      iterations,
-      async () => {
-        const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast cure bob", mob))
-        return handled.isSuccessful() ? handled : null
-      })
+    const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast cure bob", mob))
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe("bob feels better!")
@@ -74,12 +69,7 @@ describe("cure light", () => {
 
   it("generates accurate success messages when casting on self", async () => {
     // when
-    const response = await doNTimesOrUntilTruthy(
-      iterations,
-      async () => {
-        const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, "cast cure", caster))
-        return handled.isSuccessful() ? handled : null
-      })
+    const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast cure", caster))
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe(defaultMessage)

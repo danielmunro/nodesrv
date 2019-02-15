@@ -3,15 +3,13 @@ import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {Mob} from "../../../../mob/model/mob"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
+import {getSuccessfulAction} from "../../../../support/functional/times"
 import TestBuilder from "../../../../test/testBuilder"
 import Spell from "../../../spell"
 
 let testBuilder: TestBuilder
 let spell: Spell
 let mob2: Mob
-
-const iterations = 100
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
@@ -24,10 +22,7 @@ beforeEach(async () => {
 describe("curse spell action", () => {
   it("imparts a curse on a target", async () => {
     // when
-    await doNTimesOrUntilTruthy(iterations, async () => {
-      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, `cast curse ${mob2.name}`, mob2))
-      return handled.isSuccessful() ? handled : null
-    })
+    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, `cast curse ${mob2.name}`, mob2))
 
     // then
     expect(mob2.affects.find(affect => affect.affectType === AffectType.Curse))
@@ -35,10 +30,8 @@ describe("curse spell action", () => {
 
   it("generates accurate success messages", async () => {
     // when
-    const response = await doNTimesOrUntilTruthy(iterations, async () => {
-      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, `cast curse ${mob2.name}`, mob2))
-      return handled.isSuccessful() ? handled : null
-    })
+    const response = await getSuccessfulAction(
+      spell, testBuilder.createRequest(RequestType.Cast, `cast curse ${mob2.name}`, mob2))
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe(`${mob2.name} is cursed!`)

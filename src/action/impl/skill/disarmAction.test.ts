@@ -2,7 +2,7 @@ import { MAX_PRACTICE_LEVEL } from "../../../mob/constants"
 import { RequestType } from "../../../request/requestType"
 import {ConditionMessages} from "../../../skill/constants"
 import { SkillType } from "../../../skill/skillType"
-import doNTimes from "../../../support/functional/times"
+import doNTimes, {doNTimesOrUntilTruthy, getSuccessfulAction} from "../../../support/functional/times"
 import MobBuilder from "../../../test/mobBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
@@ -125,24 +125,27 @@ describe("disarm skill action", () => {
     await testBuilder.fight(targetBuilder.mob)
 
     // when
-    const responses = await doNTimes(iterations, () => action.handle(testBuilder.createRequest(RequestType.Disarm)))
+    const response1 = await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Disarm))
 
     // then
-    const successMessage = responses.find(response => response.isSuccessful()).message
-    expect(successMessage.getMessageToRequestCreator())
+    expect(response1.message.getMessageToRequestCreator())
       .toBe(`you disarm ${targetBuilder.mob.name} and send its weapon flying!`)
-    expect(successMessage.getMessageToTarget())
+    expect(response1.message.getMessageToTarget())
       .toBe(`${mob1.mob.name} disarms you and sends your weapon flying!`)
-    expect(successMessage.getMessageToObservers())
+    expect(response1.message.getMessageToObservers())
       .toBe(`${mob1.mob.name} disarms ${targetBuilder.mob.name} and sends its weapon flying!`)
 
     // and
-    const failMessage = responses.find(response => !response.isSuccessful()).message
-    expect(failMessage.getMessageToRequestCreator())
+    targetBuilder.equip().withAxeEq()
+    const response2 = await doNTimesOrUntilTruthy(iterations, async () => {
+      const handled = await action.handle(testBuilder.createRequest(RequestType.Disarm))
+      return handled.isFailure() ? handled : null
+    })
+    expect(response2.message.getMessageToRequestCreator())
       .toBe(`you fail to disarm ${targetBuilder.mob.name}.`)
-    expect(failMessage.getMessageToTarget())
+    expect(response2.message.getMessageToTarget())
       .toBe(`${mob1.mob.name} fails to disarm you.`)
-    expect(failMessage.getMessageToObservers())
+    expect(response2.message.getMessageToObservers())
       .toBe(`${mob1.mob.name} fails to disarm ${targetBuilder.mob.name}.`)
   })
 })
