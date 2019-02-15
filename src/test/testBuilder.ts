@@ -146,10 +146,6 @@ export default class TestBuilder {
     return mobBuilder
   }
 
-  public with(fn: (player: Player) => {}) {
-    fn(this.player)
-  }
-
   public async fight(target = this.withMob().mob): Promise<Fight> {
     const service = await this.getService()
     const fight = new Fight(

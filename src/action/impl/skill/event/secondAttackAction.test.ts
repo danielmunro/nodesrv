@@ -3,7 +3,7 @@ import doNTimes from "../../../../support/functional/times"
 import TestBuilder from "../../../../test/testBuilder"
 
 const SKILL_LEVEL = 50
-const ITERATIONS = 1000
+const ITERATIONS = 10000
 
 describe("second attacks skill action", () => {
   it("should invoke a second attack", async () => {

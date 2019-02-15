@@ -9,7 +9,7 @@ export default class MobResetRepositoryImpl implements MobResetRepository {
       return this.mobResetRepository.find()
   }
 
-  public save(mobReset) {
+  public save(mobReset: MobReset) {
     return this.mobResetRepository.save(mobReset)
   }
 }

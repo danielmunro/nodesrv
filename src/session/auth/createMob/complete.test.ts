@@ -1,5 +1,3 @@
-import { Mob } from "../../../mob/model/mob"
-import { getMobRepository } from "../../../mob/repository/mob"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
 import TestBuilder from "../../../test/testBuilder"
 import { default as FinalComplete } from "../complete"
@@ -26,26 +24,5 @@ describe("create mob auth step: complete", () => {
     // then
     expect(response.status).toBe(ResponseStatus.OK)
     expect(response.authStep).toBeInstanceOf(FinalComplete)
-  })
-
-  it("should persist the mob", async () => {
-    // setup
-    const testBuilder = new TestBuilder()
-
-    // given
-    const client = await testBuilder.withClient()
-
-    // expect
-    expect(client.player.sessionMob.id).toBeUndefined()
-
-    // when
-    await new Complete(mockAuthService(), client.player).processRequest(new Request(client, ""))
-
-    // then
-    expect(client.player.sessionMob.id).not.toBeUndefined()
-
-    // and
-    const repository = await getMobRepository()
-    expect(await repository.findOne(client.player.sessionMob.uuid)).toBeInstanceOf(Mob)
   })
 })
