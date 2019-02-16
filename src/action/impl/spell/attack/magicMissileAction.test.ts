@@ -14,17 +14,17 @@ beforeEach(async () => {
   testBuilder = new TestBuilder()
   const mobBuilder1 = testBuilder.withMob()
   mobBuilder1.withLevel(30)
-  mobBuilder1.withSpell(SpellType.LightningBolt, MAX_PRACTICE_LEVEL)
+  mobBuilder1.withSpell(SpellType.MagicMissile, MAX_PRACTICE_LEVEL)
   const mobBuilder2 = testBuilder.withMob()
   target = mobBuilder2.mob
-  spell = await testBuilder.getSpellDefinition(SpellType.LightningBolt)
+  spell = await testBuilder.getSpellDefinition(SpellType.MagicMissile)
 })
 
-describe("lightning bolt", () => {
+describe("magic missile", () => {
   it("does damage when casted", async () => {
     // when
     await getSuccessfulAction(
-      spell, testBuilder.createRequest(RequestType.Cast, `cast lightning ${target.name}`, target))
+      spell, testBuilder.createRequest(RequestType.Cast, `cast magic ${target.name}`, target))
 
     // then
     expect(target.vitals.hp).toBeLessThan(target.getCombinedAttributes().vitals.hp)
