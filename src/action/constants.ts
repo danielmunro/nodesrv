@@ -130,6 +130,7 @@ export const ConditionMessages = {
       NotOwned: "You don't have that.",
       NotTransferrable: "{0} is not transferrable.",
     },
+    MalformedInput: "What was that?",
     Mob: {
       NotFound: "They aren't here.",
     },
@@ -221,8 +222,6 @@ export const MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS = "You cannot un-ban admin
 export const MESSAGE_FAIL_BANNED = "They are banned and cannot be promoted."
 export const MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS = "There is nothing beyond immortals."
 export const MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS = "Immortals cannot be demoted."
-export const MESSAGE_FAIL_NO_MORE_DEMOTIONS = "No more demotions available"
-export const MESSAGE_FAIL_NO_MORE_PROMOTIONS = "No more promotions available"
 
 export const HelpMessages = {
   Cast: `Before you can cast a spell, you have to practice it.  The more you practice,

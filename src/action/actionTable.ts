@@ -5,7 +5,10 @@ import TimeService from "../gameService/timeService"
 import ItemService from "../item/itemService"
 import getHealerSpellTable from "../mob/healer/healerSpellTable"
 import MobService from "../mob/mobService"
+import {RequestType} from "../request/requestType"
 import Action from "./action"
+import {ConditionMessages} from "./constants"
+import {ActionPart} from "./enum/actionPart"
 import CastAction from "./impl/castAction"
 import SleepAction from "./impl/disposition/sleepAction"
 import WakeAction from "./impl/disposition/wakeAction"
@@ -20,6 +23,7 @@ import InventoryAction from "./impl/info/inventoryAction"
 import LookAction from "./impl/info/lookAction"
 import LoreAction from "./impl/info/loreAction"
 import ScoreAction from "./impl/info/scoreAction"
+import CloseItemAction from "./impl/item/closeItemAction"
 import DropAction from "./impl/item/dropAction"
 import EatAction from "./impl/item/eatAction"
 import GetAction from "./impl/item/getAction"
@@ -27,7 +31,7 @@ import PutAction from "./impl/item/putAction"
 import RemoveAction from "./impl/item/removeAction"
 import SacrificeAction from "./impl/item/sacrificeAction"
 import WearAction from "./impl/item/wearAction"
-import CloseAction from "./impl/manipulate/closeAction"
+import CloseDoorAction from "./impl/manipulate/closeDoorAction"
 import LockAction from "./impl/manipulate/lockAction"
 import OpenAction from "./impl/manipulate/openAction"
 import UnlockAction from "./impl/manipulate/unlockAction"
@@ -45,6 +49,7 @@ import NorthAction from "./impl/move/northAction"
 import SouthAction from "./impl/move/southAction"
 import UpAction from "./impl/move/upAction"
 import WestAction from "./impl/move/westAction"
+import MultiAction from "./impl/multiAction"
 import NoopAction from "./impl/noopAction"
 import BackstabAction from "./impl/skill/backstabAction"
 import BashAction from "./impl/skill/bashAction"
@@ -91,8 +96,17 @@ export default function getActionTable(
     new EatAction(checkBuilderFactory, eventService),
     new SacrificeAction(checkBuilderFactory, eventService),
 
+    // multi-actions
+    new MultiAction(
+      RequestType.Close,
+      ConditionMessages.All.Arguments.Close,
+      [ ActionPart.Action, ActionPart.Target ],
+      [
+        new CloseItemAction(checkBuilderFactory),
+        new CloseDoorAction(checkBuilderFactory),
+      ]),
+
     // manipulate
-    new CloseAction(checkBuilderFactory),
     new OpenAction(checkBuilderFactory),
     new UnlockAction(checkBuilderFactory, itemService),
     new LockAction(checkBuilderFactory, itemService),

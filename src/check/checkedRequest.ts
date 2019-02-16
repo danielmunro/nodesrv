@@ -5,18 +5,10 @@ import ResponseBuilder from "../request/responseBuilder"
 import ResponseMessage from "../request/responseMessage"
 import {ResponseStatus} from "../request/responseStatus"
 import { Room } from "../room/model/room"
-import Maybe from "../support/functional/maybe"
 import Check from "./check"
 import { CheckType } from "./checkType"
 
 export default class CheckedRequest {
-  private static getResult(thing: any) {
-    if (typeof thing === "function") {
-      return thing()
-    }
-
-    return thing
-  }
 
   public readonly mob: Mob
   public readonly room: Room
@@ -27,9 +19,7 @@ export default class CheckedRequest {
   }
 
   public getCheckTypeResult(checkType: CheckType) {
-    return new Maybe(this.check.checkResults.find(r => r.checkType === checkType))
-      .do(result => CheckedRequest.getResult(result.thing))
-      .get()
+    return this.check.getCheckTypeResult(checkType)
   }
 
   public results(...checkTypes: CheckType[]) {

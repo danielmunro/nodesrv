@@ -1,5 +1,7 @@
+import Maybe from "../support/functional/maybe"
 import CheckResult from "./checkResult"
 import { CheckStatus } from "./checkStatus"
+import {CheckType} from "./checkType"
 import Cost from "./cost/cost"
 
 export default class Check {
@@ -19,6 +21,14 @@ export default class Check {
     return Promise.resolve(new Check(status, message, checkResults, costs))
   }
 
+  private static getResult(thing: any) {
+    if (typeof thing === "function") {
+      return thing()
+    }
+
+    return thing
+  }
+
   constructor(
     public readonly status: CheckStatus,
     public readonly result: any,
@@ -28,5 +38,11 @@ export default class Check {
 
   public isOk(): boolean {
     return this.status === CheckStatus.Ok
+  }
+
+  public getCheckTypeResult(checkType: CheckType) {
+    return new Maybe(this.checkResults.find(r => r.checkType === checkType))
+      .do(result => Check.getResult(result.thing))
+      .get()
   }
 }

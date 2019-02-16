@@ -132,7 +132,7 @@ export const Thresholds = {
   Backstab: 60,
   Berserk: 60,
   DirtKick: 60,
-  Disarm: 70,
+  Disarm: 80,
   FastHealing: 50,
   Sharpen: 10,
   Sneak: 50,

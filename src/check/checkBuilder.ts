@@ -104,6 +104,12 @@ export default class CheckBuilder {
     return this
   }
 
+  public requireTarget(thing: any, failMessage: string) {
+    this.checks.push(this.newCheckComponent(CheckType.HasTarget, thing, failMessage))
+
+    return this
+  }
+
   public require(thing: any, failMessage: string, checkType: CheckType = CheckType.Unspecified) {
     this.checks.push(this.newCheckComponent(checkType, thing, failMessage))
 
