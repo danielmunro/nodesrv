@@ -27,13 +27,14 @@ import CloseItemAction from "./impl/item/closeItemAction"
 import DropAction from "./impl/item/dropAction"
 import EatAction from "./impl/item/eatAction"
 import GetAction from "./impl/item/getAction"
+import OpenItemAction from "./impl/item/openItemAction"
 import PutAction from "./impl/item/putAction"
 import RemoveAction from "./impl/item/removeAction"
 import SacrificeAction from "./impl/item/sacrificeAction"
 import WearAction from "./impl/item/wearAction"
 import CloseDoorAction from "./impl/manipulate/closeDoorAction"
 import LockAction from "./impl/manipulate/lockAction"
-import OpenAction from "./impl/manipulate/openAction"
+import OpenDoorAction from "./impl/manipulate/openDoorAction"
 import UnlockAction from "./impl/manipulate/unlockAction"
 import BuyAction from "./impl/merchant/buyAction"
 import HealAction from "./impl/merchant/healAction"
@@ -105,9 +106,17 @@ export default function getActionTable(
         new CloseItemAction(checkBuilderFactory),
         new CloseDoorAction(checkBuilderFactory),
       ]),
+    new MultiAction(
+      RequestType.Open,
+      ConditionMessages.All.Arguments.Open,
+      [ ActionPart.Action, ActionPart.Target ],
+      [
+        new OpenItemAction(checkBuilderFactory),
+        new OpenDoorAction(checkBuilderFactory),
+      ]),
 
     // manipulate
-    new OpenAction(checkBuilderFactory),
+    new OpenDoorAction(checkBuilderFactory),
     new UnlockAction(checkBuilderFactory, itemService),
     new LockAction(checkBuilderFactory, itemService),
 

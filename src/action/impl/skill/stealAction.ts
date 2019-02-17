@@ -45,7 +45,7 @@ export default class StealAction extends Skill {
     const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
     const combined = mob.getCombinedAttributes()
 
-    return roll(5, (combined.stats.dex / 5) + ((skill ? skill.level : 10) / 10) + (mob.level / 5)) > 50
+    return roll(5, (combined.stats.dex / 5) + ((skill ? skill.level : 10) / 10) + (mob.level / 5)) > 40
   }
 
   public async applySkill(checkedRequest: CheckedRequest): Promise<void> {

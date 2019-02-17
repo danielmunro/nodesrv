@@ -12,7 +12,7 @@ export default class ImproveInvokedSkillsEventConsumer implements EventConsumer 
 
   public async consume(event: SkillEvent): Promise<EventResponse> {
     const skill = event.skill
-    if (skill.level < MAX_PRACTICE_LEVEL && roll(1, 100) <= event.mob.getCombinedAttributes().stats.int / 1.5) {
+    if (skill.level < MAX_PRACTICE_LEVEL && roll(1, 100) <= event.mob.getCombinedAttributes().stats.int / 1.1) {
       skill.level += 1
     }
     return EventResponse.none(event)
