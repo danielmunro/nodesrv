@@ -47,6 +47,9 @@ export class PlayerMob {
   @Column("integer")
   public authorizationLevel: AuthorizationLevel = AuthorizationLevel.Mortal
 
+  @Column("integer")
+  public bounty: number = 0
+
   public regen(): void {
     this.hunger--
     this.normalizeVitals()

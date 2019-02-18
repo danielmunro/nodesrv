@@ -69,7 +69,7 @@ export default class CheckBuilder {
   public requirePlayer(mob: Mob, failMessage = CheckMessages.NotAPlayer): CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.IsPlayer,
-      new Maybe(mob).do((m: Mob) => !m.traits.isNpc).or(() => false).get(),
+      new Maybe(mob).do((m: Mob) => !m.traits.isNpc ? m : null).or(() => false).get(),
       failMessage))
 
     return this

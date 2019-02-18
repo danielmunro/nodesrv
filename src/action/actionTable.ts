@@ -12,6 +12,7 @@ import {ActionPart} from "./enum/actionPart"
 import CastAction from "./impl/castAction"
 import SleepAction from "./impl/disposition/sleepAction"
 import WakeAction from "./impl/disposition/wakeAction"
+import BountyAction from "./impl/fight/bountyAction"
 import FleeAction from "./impl/fight/fleeAction"
 import HitAction from "./impl/fight/hitAction"
 import KillAction from "./impl/fight/killAction"
@@ -125,6 +126,7 @@ export default function getActionTable(
     new HitAction(checkBuilderFactory, eventService),
     new FleeAction(checkBuilderFactory, mobService, locationService),
     new HamstringAction(checkBuilderFactory, eventService),
+    new BountyAction(checkBuilderFactory, mobService),
 
     // skills
     new BackstabAction(checkBuilderFactory, eventService),

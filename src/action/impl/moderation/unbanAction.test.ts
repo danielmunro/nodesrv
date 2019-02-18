@@ -7,6 +7,7 @@ import InputContext from "../../../request/context/inputContext"
 import { Request } from "../../../request/request"
 import RequestBuilder from "../../../request/requestBuilder"
 import { RequestType } from "../../../request/requestType"
+import {ResponseStatus} from "../../../request/responseStatus"
 import { getTestMob } from "../../../test/mob"
 import { getTestRoom } from "../../../test/room"
 import TestBuilder from "../../../test/testBuilder"
@@ -61,10 +62,10 @@ describe("unban moderation action", () => {
 
   it("should unban if conditions met", async () => {
     // when
-    const response = await action.check(requestBuilder.create(RequestType.Unban, `unban ${MOB_TO_UNBAN}`))
+    const response = await action.handle(requestBuilder.create(RequestType.Unban, `unban ${MOB_TO_UNBAN}`))
 
     // then
-    expect(response.status).toBe(CheckStatus.Ok)
+    expect(response.status).toBe(ResponseStatus.Success)
   })
 
   it("should not be able to unban a mob who's not banned", async () => {

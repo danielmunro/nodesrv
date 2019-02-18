@@ -1,6 +1,11 @@
 export const MAX_TRAINABLE_STATS = 4
 export const FLEE_MOVEMENT_COST_MULTIPLIER = 3
 export const Messages = {
+  Bounty: {
+    NeedAmount: "How much gold do you want to set on that bounty?",
+    NeedMoreGold: "You need more gold.",
+    Success: "You set a bounty of {value} on {target}.",
+  },
   Buy: {
     Success: "{requestCreator} {verb} {item} for {value} gold",
   },

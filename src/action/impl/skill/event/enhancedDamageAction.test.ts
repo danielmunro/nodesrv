@@ -40,7 +40,7 @@ describe("enhanced damage", () => {
       definition.handle(testBuilder.createRequest(RequestType.Noop)))
 
     // then
-    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.2)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.1)
     expect(responses.filter(r => r.isSuccessful()).length).toBeLessThanOrEqual(iterations * 0.6)
   })
 

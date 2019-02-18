@@ -31,5 +31,7 @@ export default abstract class EventSkill extends Skill {
     return RequestType.Noop
   }
 
-  public abstract applySkill(checkedRequest: CheckedRequest): void
+  /* tslint:disable */
+  public applySkill(checkedRequest: CheckedRequest): void {
+  }
 }

@@ -11,7 +11,7 @@ import MobEvent from "../../../mob/event/mobEvent"
 import {Mob} from "../../../mob/model/mob"
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
-import roll from "../../../random/dice"
+import roll, {percentRoll} from "../../../random/dice"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
@@ -41,11 +41,9 @@ export default class StealAction extends Skill {
   }
 
   public roll(checkedRequest: CheckedRequest): boolean {
-    const mob = checkedRequest.mob
     const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-    const combined = mob.getCombinedAttributes()
 
-    return roll(5, (combined.stats.dex / 5) + ((skill ? skill.level : 10) / 10) + (mob.level / 5)) > 40
+    return percentRoll() <= skill.level / 3
   }
 
   public async applySkill(checkedRequest: CheckedRequest): Promise<void> {

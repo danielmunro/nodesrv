@@ -1,7 +1,7 @@
 import Action from "../../action/action"
 import {Request} from "../../request/request"
 
-const defaultIterations = 100
+const defaultIterations = 1000
 
 export default async function doNTimes(count: number, fn: () => any) {
   const results = []
