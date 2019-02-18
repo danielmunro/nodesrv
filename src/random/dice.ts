@@ -8,6 +8,10 @@ export default function roll(dice: number, sides: number): number {
   return value
 }
 
+export function d4() {
+  return roll(1, 4) === 1
+}
+
 export function simpleD4(callback) {
   if (roll(1, 4) === 1) {
     callback()
@@ -26,6 +30,10 @@ export function onCoinFlipSuccess(callback): Promise<any> {
 
 export function getRandomInt(max: number): number {
   return 1 + Math.floor(Math.random() * Math.floor(max))
+}
+
+export function percentRoll(): number {
+  return getRandomInt(100)
 }
 
 export class DiceRoller {

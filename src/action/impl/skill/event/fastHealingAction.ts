@@ -1,38 +1,18 @@
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
-import Cost from "../../../../check/cost/cost"
-import {Mob} from "../../../../mob/model/mob"
 import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
 import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll from "../../../../random/dice"
-import {RequestType} from "../../../../request/requestType"
-import Response from "../../../../request/response"
-import {Thresholds} from "../../../../skill/constants"
-import {Skill as SkillModel} from "../../../../skill/model/skill"
 import {SkillType} from "../../../../skill/skillType"
 import {Messages} from "../../../constants"
-import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
-import Skill from "../../../skill"
+import EventSkill from "../../../eventSkill"
 
-export default class FastHealingAction extends Skill {
-  private static fastHealingRoll(mob: Mob, skill: SkillModel) {
-    return roll(2, mob.level + (skill.level / 2))
-  }
-
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
+export default class FastHealingAction extends EventSkill {
+  public applySkill(checkedRequest: CheckedRequest): void {
     const mob = checkedRequest.mob
-    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-    const responseBuilder = checkedRequest.respondWith()
-
-    if (FastHealingAction.fastHealingRoll(mob, skill) <= Thresholds.FastHealing) {
-      return responseBuilder.fail()
-    }
-
     mob.vitals.hp += roll( 10, mob.getCombinedAttributes().vitals.hp / 80)
     mob.normalizeVitals()
-
-    return responseBuilder.success()
   }
 
   public getActionType(): ActionType {
@@ -51,23 +31,17 @@ export default class FastHealingAction extends Skill {
     return new SpecializationLevel(SpecializationType.Cleric, 9)
   }
 
-  public getCosts(): Cost[] {
-    return []
-  }
-
   public getSkillType(): SkillType {
     return SkillType.FastHealing
   }
 
-  public getActionParts(): ActionPart[] {
-    return []
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Noop
-  }
-
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
+  }
+
+  public roll(checkedRequest: CheckedRequest): boolean {
+    const mob = checkedRequest.mob
+    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
+    return roll(2, mob.level + (skill.level / 2)) > mob.level
   }
 }

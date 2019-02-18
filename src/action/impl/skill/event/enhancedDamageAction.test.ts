@@ -5,13 +5,13 @@ import { SkillType } from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
 import TestBuilder from "../../../../test/testBuilder"
 
-const iterations = 1000
+const iterations = 10
 let testBuilder: TestBuilder
 let definition: Skill
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  definition = await testBuilder.getSkillDefinition(SkillType.EnhancedDamage)
+  definition = await testBuilder.getSkillDefinition(SkillType.EnhancedDamage) as Skill
 })
 
 describe("enhanced damage", () => {
@@ -26,7 +26,7 @@ describe("enhanced damage", () => {
       definition.handle(testBuilder.createRequest(RequestType.Noop)))
 
     // then
-    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations / 2)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.4)
   })
 
   it("should succeed somewhat when practiced some", async () => {
@@ -40,7 +40,8 @@ describe("enhanced damage", () => {
       definition.handle(testBuilder.createRequest(RequestType.Noop)))
 
     // then
-    expect(responses.filter(r => r.isSuccessful()).length).toBeLessThan(iterations / 2)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.2)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeLessThanOrEqual(iterations * 0.6)
   })
 
   it("should succeed infrequently when not practiced", async () => {
@@ -54,6 +55,6 @@ describe("enhanced damage", () => {
       definition.handle(testBuilder.createRequest(RequestType.Noop)))
 
     // then
-    expect(responses.filter(r => r.isSuccessful()).length).toBeLessThan(iterations / 10)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeLessThanOrEqual(iterations * 0.2)
   })
 })

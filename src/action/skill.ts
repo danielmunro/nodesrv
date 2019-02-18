@@ -5,12 +5,15 @@ import CheckedRequest from "../check/checkedRequest"
 import {CheckType} from "../check/checkType"
 import Cost from "../check/cost/cost"
 import EventService from "../event/eventService"
+import {Mob} from "../mob/model/mob"
 import SpecializationLevel from "../mob/specialization/specializationLevel"
 import {SpecializationType} from "../mob/specialization/specializationType"
+import roll from "../random/dice"
 import {Request} from "../request/request"
 import Response from "../request/response"
 import ResponseMessage from "../request/responseMessage"
 import {ResponseStatus} from "../request/responseStatus"
+import {Skill as SkillModel} from "../skill/model/skill"
 import SkillEvent from "../skill/skillEvent"
 import {SkillType} from "../skill/skillType"
 import Action from "./action"
@@ -59,4 +62,12 @@ export default abstract class Skill extends Action {
   public abstract roll(checkedRequest: CheckedRequest): boolean
   public abstract getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage
   public abstract getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage
+
+  protected getSkillRoll(mob: Mob, skill: SkillModel): number {
+    let amount = (skill.level * 2) / 3
+    if (mob.getAffect(AffectType.Forget)) {
+      amount -= roll(1, skill.level / 3)
+    }
+    return Math.min(100, Math.max(1, amount))
+  }
 }

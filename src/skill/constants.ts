@@ -76,9 +76,8 @@ export const Costs = {
 }
 
 export const SuccessThreshold = {
-  EnhancedDamage: 60,
+  EnhancedDamage: 10,
 }
-export const BASE_IMPROVE_CHANCE = 50
 export const ConditionMessages = {
   All: {
     Fighting: "You are fighting!",
