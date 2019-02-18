@@ -3,4 +3,5 @@ export enum Channel {
   Say,
   Tell,
   OOC,
+  GlobalUpdate,
 }

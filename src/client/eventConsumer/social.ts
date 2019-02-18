@@ -23,6 +23,8 @@ export default class Social implements EventConsumer {
       case Channel.Tell:
         this.clientService.sendMessageToMob(event.toMob, event.message)
         break
+      case Channel.GlobalUpdate:
+        this.clientService.sendMessage(event.mob, event.message)
     }
     return EventResponse.satisfied(event)
   }

@@ -130,7 +130,15 @@ export class Fight {
     console.debug(`${vanquished.name} is killed by ${winner.name}`)
 
     this.status = FightStatus.Done
-    const death = new Death(vanquished, this.room, winner)
+    let bounty = 0
+
+    if (!winner.traits.isNpc && !vanquished.traits.isNpc && vanquished.playerMob.bounty) {
+      bounty = vanquished.playerMob.bounty
+      winner.gold += bounty
+      vanquished.playerMob.bounty = 0
+    }
+
+    const death = new Death(vanquished, this.room, winner, bounty)
 
     if (!winner.traits.isNpc) {
       winner.playerMob.experience += death.calculateKillerExperience()

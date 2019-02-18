@@ -13,6 +13,7 @@ export default class Death {
     public readonly mobKilled: Mob,
     public readonly room: Room,
     public readonly killer?: Mob,
+    public readonly bounty?: number,
   ) {}
 
   public calculateKillerExperience(): number {
