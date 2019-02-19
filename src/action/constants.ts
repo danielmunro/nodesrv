@@ -61,6 +61,13 @@ export const Messages = {
   OpenDoor: {
     Success: "{requestCreator} {openVerb} a {door} {direction}.",
   },
+  Practice: {
+    CannotImproveAnymore: "You cannot improve anymore.",
+    CannotPractice: "You can't practice that.",
+    MobNotHere: "You don't see anyone who can help you practice.",
+    NotEnoughPractices: "You don't have any practices.",
+    Success: "You get better at {toPractice}!",
+  },
   Promote: {
     Fail: {
       NoMorePromotions: "{0} has no more promotions.",

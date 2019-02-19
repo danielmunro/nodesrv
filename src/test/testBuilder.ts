@@ -139,6 +139,13 @@ export default class TestBuilder {
     return mobBuilder
   }
 
+  public withPracticeMob(): MobBuilder {
+    const mobBuilder = this.withMob()
+    mobBuilder.mob.traits.practice = true
+
+    return mobBuilder
+  }
+
   public withMerchant() {
     const mobBuilder = this.withMob(name)
     mobBuilder.mob.shop = new Shop()

@@ -16,6 +16,8 @@ import BountyAction from "./impl/fight/bountyAction"
 import FleeAction from "./impl/fight/fleeAction"
 import HitAction from "./impl/fight/hitAction"
 import KillAction from "./impl/fight/killAction"
+import PracticeAction from "./impl/improve/practiceAction"
+import TrainAction from "./impl/improve/trainAction"
 import AffectsAction from "./impl/info/affectsAction"
 import EquippedAction from "./impl/info/equippedAction"
 import ExitsAction from "./impl/info/exitsAction"
@@ -67,7 +69,6 @@ import TripAction from "./impl/skill/tripAction"
 import GossipAction from "./impl/social/gossipAction"
 import SayAction from "./impl/social/sayAction"
 import TellAction from "./impl/social/tellAction"
-import TrainAction from "./impl/trainAction"
 import Spell from "./spell"
 
 export default function getActionTable(
@@ -164,8 +165,9 @@ export default function getActionTable(
     new SayAction(socialService),
     new TellAction(socialService),
 
-    // training
+    // improve
     new TrainAction(checkBuilderFactory, locationService),
+    new PracticeAction(checkBuilderFactory, mobService),
 
     // // moderation
     new BanAction(checkBuilderFactory, mobService),

@@ -1,22 +1,22 @@
-import {allStats} from "../../attributes/constants"
-import {Stat} from "../../attributes/stat"
-import {Vital} from "../../attributes/vital"
-import Check from "../../check/check"
-import CheckBuilderFactory from "../../check/checkBuilderFactory"
-import CheckedRequest from "../../check/checkedRequest"
-import {CheckType} from "../../check/checkType"
-import Cost from "../../check/cost/cost"
-import {CostType} from "../../check/cost/costType"
-import LocationService from "../../mob/locationService"
-import {Mob} from "../../mob/model/mob"
-import {Request} from "../../request/request"
-import {RequestType} from "../../request/requestType"
-import Response from "../../request/response"
-import ResponseBuilder from "../../request/responseBuilder"
-import {format} from "../../support/string"
-import Action from "../action"
-import {ConditionMessages, ConditionMessages as PreconditionMessages, MAX_TRAINABLE_STATS, Messages} from "../constants"
-import {ActionPart} from "../enum/actionPart"
+import {allStats} from "../../../attributes/constants"
+import {Stat} from "../../../attributes/stat"
+import {Vital} from "../../../attributes/vital"
+import Check from "../../../check/check"
+import CheckBuilderFactory from "../../../check/checkBuilderFactory"
+import CheckedRequest from "../../../check/checkedRequest"
+import {CheckType} from "../../../check/checkType"
+import Cost from "../../../check/cost/cost"
+import {CostType} from "../../../check/cost/costType"
+import LocationService from "../../../mob/locationService"
+import {Mob} from "../../../mob/model/mob"
+import {Request} from "../../../request/request"
+import {RequestType} from "../../../request/requestType"
+import Response from "../../../request/response"
+import ResponseBuilder from "../../../request/responseBuilder"
+import {format} from "../../../support/string"
+import Action from "../../action"
+import {ConditionMessages, MAX_TRAINABLE_STATS, Messages} from "../../constants"
+import {ActionPart} from "../../enum/actionPart"
 
 export const VITAL_INCREMENT = 10
 
@@ -27,7 +27,7 @@ function canTrain(stat: number): boolean {
 function trainStat(mob: Mob, responseBuilder: ResponseBuilder, message: string, stat: Stat): Promise<Response> {
   const stats = mob.playerMob.trainedAttributes.stats
   if (!canTrain(stats[stat])) {
-    return responseBuilder.fail(PreconditionMessages.Train.CannotTrainMore)
+    return responseBuilder.fail(ConditionMessages.Train.CannotTrainMore)
   }
   stats[stat] += 1
   return responseBuilder.success(message)

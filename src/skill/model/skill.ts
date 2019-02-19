@@ -15,4 +15,8 @@ export class Skill {
 
   @ManyToOne(() => Mob, mob => mob.skills)
   public mob: Mob
+
+  public toString(): string {
+    return this.skillType
+  }
 }

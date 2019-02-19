@@ -4,6 +4,7 @@ export enum CheckType {
   HasItem,
   ItemPresent,
   ContainerPresent,
+  MobPresent,
   IsPlayer,
   Level,
   AuthorizationLevel,
