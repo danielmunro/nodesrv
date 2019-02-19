@@ -36,8 +36,8 @@ export function newExit(direction: Direction, source: Room, destination: Room): 
   return exit
 }
 
-export function newReciprocalExit(source: Room, destination: Room, direction: Direction = null): Exit[] {
-  if (direction === null) {
+export function newReciprocalExit(source: Room, destination: Room, direction?: Direction): Exit[] {
+  if (direction === undefined) {
     direction = getFreeReciprocalDirection(source, destination)
   }
 
