@@ -23,6 +23,16 @@ beforeEach(async () => {
 })
 
 describe("healer action", () => {
+  it("can describe spells for sale", async () => {
+    // when
+    const response = await action.handle(testBuilder.createRequest(RequestType.Heal))
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).toBe(`${healer.name} offers the following spells:
+cure light - 10 gold
+Type heal [spell] to be healed`)
+  })
+
   it("can cure light", async () => {
     // when
     const response = await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Heal, "heal cure"))
@@ -31,5 +41,29 @@ describe("healer action", () => {
     expect(response.message.getMessageToRequestCreator()).toBe(`${mob.name} feels better!`)
     expect(response.message.getMessageToTarget()).toBe(`you feel better!`)
     expect(response.message.getMessageToObservers()).toBe(`${mob.name} feels better!`)
+
+    // and
+    expect(mob.gold).toBe(90)
+  })
+
+  it("fails if cannot be afforded", async () => {
+    // given
+    mob.gold = 0
+
+    // when
+    const response = await action.handle(testBuilder.createRequest(RequestType.Heal, "heal cure"))
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).toBe("You can't afford that.")
+    expect(response.isError()).toBeTruthy()
+  })
+
+  it("fails if requesting not a spell", async () => {
+    // when
+    const response = await action.handle(testBuilder.createRequest(RequestType.Heal, "heal foo"))
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).toBe("They don't know that spell.")
+    expect(response.isError()).toBeTruthy()
   })
 })
