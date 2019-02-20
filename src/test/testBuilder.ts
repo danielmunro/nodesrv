@@ -4,6 +4,11 @@ import Spell from "../action/spell"
 import {Client} from "../client/client"
 import GameService from "../gameService/gameService"
 import ServiceBuilder from "../gameService/serviceBuilder"
+import {newItem} from "../item/factory"
+import {ItemType} from "../item/itemType"
+import Container from "../item/model/container"
+import {Inventory} from "../item/model/inventory"
+import {Item} from "../item/model/item"
 import {newMobLocation} from "../mob/factory"
 import {Fight} from "../mob/fight/fight"
 import {Mob} from "../mob/model/mob"
@@ -25,6 +30,7 @@ import Email from "../session/auth/login/email"
 import Session from "../session/session"
 import {SkillType} from "../skill/skillType"
 import {SpellType} from "../spell/spellType"
+import ItemBuilder from "./itemBuilder"
 import {getTestMob} from "./mob"
 import MobBuilder from "./mobBuilder"
 import {getTestPlayer} from "./player"
@@ -151,6 +157,32 @@ export default class TestBuilder {
     mobBuilder.mob.shop = new Shop()
 
     return mobBuilder
+  }
+
+  public withRandomItem(): ItemBuilder {
+    const item = newItem(ItemType.Fixture, "a small wooden chair", "a small wooden chair is here.")
+    this.serviceBuilder.addItem(item)
+    return new ItemBuilder(item)
+  }
+
+  public withItem(itemType: ItemType, name: string, description: string): ItemBuilder {
+    const item = newItem(itemType, name, description)
+    if (itemType === ItemType.Corpse || itemType === ItemType.Container) {
+      item.container = new Container()
+      item.container.inventory = new Inventory()
+    }
+    this.serviceBuilder.addItem(item)
+    if (!this.room) {
+      this.withRoom()
+    }
+    this.room.inventory.addItem(item)
+
+    return new ItemBuilder(item)
+  }
+
+  public withARandomCorpse(): ItemBuilder {
+    return this
+      .withItem(ItemType.Corpse, "a corpse of a mob", "a corpse of a mob is here")
   }
 
   public async fight(target = this.withMob().mob): Promise<Fight> {

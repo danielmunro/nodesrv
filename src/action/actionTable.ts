@@ -30,6 +30,7 @@ import CloseItemAction from "./impl/item/closeItemAction"
 import DropAction from "./impl/item/dropAction"
 import EatAction from "./impl/item/eatAction"
 import GetAction from "./impl/item/getAction"
+import LootAction from "./impl/item/lootAction"
 import OpenItemAction from "./impl/item/openItemAction"
 import PutAction from "./impl/item/putAction"
 import RemoveAction from "./impl/item/removeAction"
@@ -98,6 +99,7 @@ export default function getActionTable(
     new RemoveAction(checkBuilderFactory),
     new EatAction(checkBuilderFactory, eventService),
     new SacrificeAction(checkBuilderFactory, eventService),
+    new LootAction(checkBuilderFactory, itemService),
 
     // multi-actions
     new MultiAction(

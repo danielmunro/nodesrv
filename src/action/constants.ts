@@ -52,6 +52,11 @@ export const Messages = {
     Fail: "You can't see anything!",
     NotFound: "You don't see that anywhere.",
   },
+  Loot: {
+    CorpseDoesNotHaveItem: "The corpse has nothing like that.",
+    NoCorpse: "That isn't here.",
+    NotACorpse: "That is not a corpse.",
+  },
   Lore: {
     Success: "{item} details:\nlevel: {level}  weight: {weight}  value: {value}",
   },

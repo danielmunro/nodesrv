@@ -11,12 +11,13 @@ let testBuilder: TestBuilder
 let action: Action
 let healer: Mob
 let mob: Mob
+const initialGold = 100
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   action = await testBuilder.getActionDefinition(RequestType.Heal)
   mob = testBuilder.withMob().mob
-  mob.gold = 100
+  mob.gold = initialGold
   healer = testBuilder.withMob().mob
   healer.traits.healer = true
   healer.spells.push(newSpell(SpellType.CureLight, MAX_PRACTICE_LEVEL))
@@ -43,7 +44,7 @@ Type heal [spell] to be healed`)
     expect(response.message.getMessageToObservers()).toBe(`${mob.name} feels better!`)
 
     // and
-    expect(mob.gold).toBe(90)
+    expect(mob.gold).toBeLessThan(initialGold)
   })
 
   it("fails if cannot be afforded", async () => {

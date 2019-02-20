@@ -56,6 +56,9 @@ describe("steal skill action", () => {
     // when
     const response = await doNTimesOrUntilTruthy(iterations, async () => {
       const handled = await action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT))
+      if (handled.isSuccessful()) {
+        mob2.inventory.addItem(mob1.inventory.items[0])
+      }
       return handled.isFailure() ? handled : null
     })
 
