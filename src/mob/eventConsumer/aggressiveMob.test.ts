@@ -1,6 +1,7 @@
 import TestBuilder from "../../test/testBuilder"
 import MobMoveEvent from "../event/mobMoveEvent"
 import {Fight} from "../fight/fight"
+import {Direction} from "../../room/constants"
 
 describe("aggressive mob event consumer", () => {
   it("arriving in a room with an aggressive mob should trigger a fight", async () => {
@@ -13,7 +14,7 @@ describe("aggressive mob event consumer", () => {
     testBuilder.withMob().mob.traits.aggressive = true
 
     // when
-    await gameService.publishEvent(new MobMoveEvent(mob1, testBuilder.room, testBuilder.room))
+    await gameService.publishEvent(new MobMoveEvent(mob1, testBuilder.room, testBuilder.room, Direction.Noop))
 
     // then
     const fight = gameService.mobService.findFight(f => f.isParticipant(mob1))
@@ -33,7 +34,7 @@ describe("aggressive mob event consumer", () => {
     mob1.level = mob2.level + 1
 
     // when
-    await gameService.publishEvent(new MobMoveEvent(mob1, testBuilder.room, testBuilder.room))
+    await gameService.publishEvent(new MobMoveEvent(mob1, testBuilder.room, testBuilder.room, Direction.Noop))
 
     // then
     const fight = gameService.mobService.findFight(f => f.isParticipant(mob1))

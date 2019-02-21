@@ -26,7 +26,7 @@ export default class LocationService {
     const source = this.roomTable.get(exit.source.uuid)
     const destination = this.roomTable.get(exit.destination.uuid)
     this.updateMobLocation(mob, destination)
-    await this.eventService.publish(new MobMoveEvent(mob, source, destination))
+    await this.eventService.publish(new MobMoveEvent(mob, source, destination, direction))
   }
 
   public getMobLocationCount(): number {

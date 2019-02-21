@@ -66,6 +66,10 @@ export default abstract class Move extends Action {
     return Messages.Help.NoActionHelpTextProvided
   }
 
+  public getDirection(): Direction {
+    return this.direction
+  }
+
   private aValidExit(exits: Exit[]) {
     return exits.find(e => e.direction === this.direction)
   }

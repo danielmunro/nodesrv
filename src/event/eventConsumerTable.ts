@@ -27,6 +27,9 @@ import ImproveInvokedSkillsEventConsumer from "../skill/eventConsumer/improveInv
 import SecondAttackEventConsumer from "../skill/eventConsumer/secondAttackEventConsumer"
 import {SkillType} from "../skill/skillType"
 import EventConsumer from "./eventConsumer"
+import FollowMob from "../mob/eventConsumer/followMob"
+import Action from "../action/action"
+import Move from "../action/move"
 
 export default async function createEventConsumerTable(
   gameService: GameService,
@@ -48,6 +51,8 @@ export default async function createEventConsumerTable(
     new MobClientDisconnected(locationService),
     new MobCreated(mobService, gameServer.startRoom),
     new DamageModifierEventConsumer(damageModifierTable),
+    new FollowMob(locationService,
+      gameService.getActions().filter((action: Action) => action instanceof Move) as Move[]),
 
     // item
     new ItemCreated(itemService),

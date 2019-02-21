@@ -5,6 +5,7 @@ export enum Direction {
   South = "south",
   East = "east",
   West = "west",
+  Noop = "noop",
 }
 
 export const allDirections = [
