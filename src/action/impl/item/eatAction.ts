@@ -26,7 +26,7 @@ export default class EatAction extends Action {
       .requireSubject(ConditionMessages.All.Arguments.Eat)
       .require(request.findItemInSessionMobInventory(), ConditionMessages.All.Item.NotOwned)
       .capture()
-      .require(captured => captured.isFood(), ConditionMessages.Eat.NotFood)
+      .require((item: Item) => item.isFood(), ConditionMessages.Eat.NotFood)
       .require(request.mob.playerMob.hunger < appetite(request.mob.race), ConditionMessages.Eat.AlreadyFull)
       .create()
   }

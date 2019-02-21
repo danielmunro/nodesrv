@@ -5,9 +5,11 @@ import CheckedRequest from "../../../check/checkedRequest"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
 import ItemEvent from "../../../item/event/itemEvent"
+import {Item} from "../../../item/model/item"
 import { Request } from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
+import {format} from "../../../support/string"
 import Action from "../../action"
 import {MESSAGE_FAIL_CONTAINER_NOT_EMPTY, Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
@@ -26,7 +28,7 @@ export default class SacrificeAction extends Action {
       .capture()
       .not()
       .requireAffect(AffectType.NoSacrifice, ConditionMessages.All.Item.CannotSacrifice)
-      .require(item => item.isContainer()
+      .require((item: Item) => item.isContainer()
         ? item.container.items.length === 0 : true, MESSAGE_FAIL_CONTAINER_NOT_EMPTY)
       .create()
   }
@@ -41,7 +43,7 @@ export default class SacrificeAction extends Action {
 
     return checkedRequest
       .respondWith()
-      .success(Messages.Sacrifice.Success, item.name, value)
+      .success(format(Messages.Sacrifice.Success, item.name, value))
   }
 
   public getActionParts(): ActionPart[] {

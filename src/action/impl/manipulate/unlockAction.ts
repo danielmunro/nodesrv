@@ -3,6 +3,7 @@ import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import ItemService from "../../../item/itemService"
+import {Item} from "../../../item/model/item"
 import { Request } from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
@@ -32,12 +33,12 @@ export default class UnlockAction extends Action {
         CheckType.HasTarget)
       .capture()
       .require(
-        exit => exit.door.isLocked,
+        (exit: Exit) => exit.door.isLocked,
         ConditionMessages.Unlock.Fail.AlreadyUnlocked)
       .require(
-        exit =>
+        (exit: Exit) =>
           this.itemService.getByCanonicalId(exit.door.unlockedByCanonicalId)
-            .find(item => item.inventory === request.mob.inventory),
+            .find((item: Item) => item.inventory === request.mob.inventory),
         ConditionMessages.Unlock.Fail.NoKey)
       .create()
   }

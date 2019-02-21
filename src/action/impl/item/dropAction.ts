@@ -27,8 +27,10 @@ export default class DropAction extends Action {
       .requireSubject(ConditionMessages.All.Arguments.Drop)
       .require(request.findItemInSessionMobInventory(request.getSubject()), ConditionMessages.All.Item.NotOwned)
       .capture()
-      .not().requireAffect(AffectType.Curse, () => ConditionMessages.All.Item.CannotRemoveCursedItem)
-      .require(captured => captured.isTransferable, () => ConditionMessages.All.Item.NotTransferrable)
+      .not().requireAffect(AffectType.Curse, ConditionMessages.All.Item.CannotRemoveCursedItem)
+      .require(
+        (item: Item) => item.isTransferable,
+        ConditionMessages.All.Item.NotTransferrable)
       .create()
   }
 

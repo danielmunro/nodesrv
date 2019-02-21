@@ -1,6 +1,7 @@
 import Skill from "../../../action/skill"
 import {AffectType} from "../../../affect/affectType"
 import {newPermanentAffect} from "../../../affect/factory"
+import {Affect} from "../../../affect/model/affect"
 import {newAttributesWithHitroll, newHitroll} from "../../../attributes/factory"
 import Check from "../../../check/check"
 import CheckedRequest from "../../../check/checkedRequest"
@@ -32,7 +33,7 @@ export default class SharpenAction extends Skill {
       .require(item, PreconditionMessages.All.NoItem, CheckType.HasItem)
       .capture()
       .require(
-        item.affects.find(affect => affect.affectType === AffectType.Sharpened) === undefined,
+        item.affects.find((affect: Affect) => affect.affectType === AffectType.Sharpened) === undefined,
         PreconditionMessages.Sharpen.AlreadySharpened)
       .require(
         item instanceof Weapon,
