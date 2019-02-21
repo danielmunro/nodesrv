@@ -14,7 +14,7 @@ export default class AggressiveMob implements EventConsumer {
     private readonly fightBuilder: FightBuilder) {}
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.MobArrived]
+    return [EventType.MobMoved]
   }
 
   public async consume(event: MobEvent): Promise<EventResponse> {

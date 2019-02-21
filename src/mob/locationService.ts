@@ -1,10 +1,9 @@
 import EventService from "../event/eventService"
-import {EventType} from "../event/eventType"
 import {Direction} from "../room/constants"
 import ExitTable from "../room/exitTable"
 import { Room } from "../room/model/room"
 import RoomTable from "../room/roomTable"
-import MobEvent from "./event/mobEvent"
+import MobMoveEvent from "./event/mobMoveEvent"
 import { Mob } from "./model/mob"
 import MobLocation from "./model/mobLocation"
 
@@ -27,8 +26,7 @@ export default class LocationService {
     const source = this.roomTable.get(exit.source.uuid)
     const destination = this.roomTable.get(exit.destination.uuid)
     this.updateMobLocation(mob, destination)
-    await this.eventService.publish(new MobEvent(EventType.MobLeft, mob, source))
-    await this.eventService.publish(new MobEvent(EventType.MobArrived, mob, destination))
+    await this.eventService.publish(new MobMoveEvent(mob, source, destination))
   }
 
   public getMobLocationCount(): number {

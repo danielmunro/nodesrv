@@ -1,7 +1,7 @@
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
-import MobEvent from "../../mob/event/mobEvent"
+import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import {Mob} from "../../mob/model/mob"
 import ClientService from "../../server/clientService"
 
@@ -9,10 +9,10 @@ export default class MobLeaves implements EventConsumer {
   constructor(private readonly clientService: ClientService) {}
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.MobLeft]
+    return [EventType.MobMoved]
   }
 
-  public async consume(event: MobEvent): Promise<EventResponse> {
+  public async consume(event: MobMoveEvent): Promise<EventResponse> {
     this.announceLeaving(event.mob)
     return EventResponse.none(event)
   }

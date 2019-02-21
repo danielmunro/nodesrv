@@ -138,6 +138,8 @@ export class Mob {
   @JoinColumn()
   public pet: Mob
 
+  public follows: Mob
+
   public findPractice(input: string): Skill | Spell | undefined {
     return new Maybe(this.skills.find((skill: Skill) => match(skill.skillType, input)))
       .or(() => this.spells.find((spell: Spell) => match(spell.spellType, input)))

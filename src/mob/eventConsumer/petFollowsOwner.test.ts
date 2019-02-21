@@ -1,7 +1,6 @@
-import {EventType} from "../../event/eventType"
 import {Direction} from "../../room/constants"
 import TestBuilder from "../../test/testBuilder"
-import MobEvent from "../event/mobEvent"
+import MobMoveEvent from "../event/mobMoveEvent"
 
 describe("pet follows owner event consumer", () => {
   it("a pet should follow its owner", async () => {
@@ -19,7 +18,7 @@ describe("pet follows owner event consumer", () => {
     // when
     const gameService = await testBuilder.getService()
     gameService.mobService.locationService.updateMobLocation(mob1, room2)
-    await gameService.publishEvent(new MobEvent(EventType.MobLeft, mob1, room1))
+    await gameService.publishEvent(new MobMoveEvent(mob1, room1, room2))
 
     // then
     const mob2Location = gameService.getMobLocation(mob2)

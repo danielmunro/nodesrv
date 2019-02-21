@@ -17,7 +17,7 @@ export default class Scavenge implements EventConsumer {
     private readonly scavengeTimeoutMS: number = SCAVENGE_TIMEOUT_MS) {}
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.MobArrived, EventType.ItemDropped]
+    return [EventType.MobMoved, EventType.ItemDropped]
   }
 
   public async consume(event: MobEvent): Promise<EventResponse> {

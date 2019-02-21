@@ -44,6 +44,7 @@ import BuyAction from "./impl/merchant/buyAction"
 import HealAction from "./impl/merchant/healAction"
 import ListAction from "./impl/merchant/listAction"
 import SellAction from "./impl/merchant/sellAction"
+import FollowAction from "./impl/mob/followAction"
 import BanAction from "./impl/moderation/banAction"
 import DemoteAction from "./impl/moderation/demoteAction"
 import PromoteAction from "./impl/moderation/promoteAction"
@@ -161,6 +162,9 @@ export default function getActionTable(
     new SellAction(checkBuilderFactory, eventService),
     new ListAction(checkBuilderFactory),
     new HealAction(checkBuilderFactory, locationService, getHealerSpellTable(spellTable)),
+
+    // mob
+    new FollowAction(checkBuilderFactory),
 
     // social
     new GossipAction(socialService),

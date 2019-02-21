@@ -52,6 +52,8 @@ export enum RequestType {
   Lock = "lock",
   Help = "help",
   Bounty = "bounty",
+  Follow = "follow",
+  NoFollow = "nofollow",
   Noop = "noop",
   Any = "any",
   Event = "event",

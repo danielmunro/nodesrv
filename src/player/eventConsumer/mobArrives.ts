@@ -9,7 +9,7 @@ export default class MobArrives implements EventConsumer {
   constructor(private readonly clientService: ClientService) {}
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.MobArrived]
+    return [EventType.MobMoved]
   }
 
   public async consume(event: MobEvent): Promise<EventResponse> {

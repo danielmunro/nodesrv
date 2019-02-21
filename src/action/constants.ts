@@ -34,6 +34,9 @@ export const Messages = {
     Fail: "You fail to flee!",
     Success: "{requestCreator} {verb} to the {direction}!",
   },
+  Follow: {
+    Success: "{requestCreator} {verb} following {target}.",
+  },
   Get: {
     SuccessFromContainer: "{requestCreator} {verb} {item} from {container}.",
     SuccessFromRoom: "{requestCreator} {verb} {item}.",
