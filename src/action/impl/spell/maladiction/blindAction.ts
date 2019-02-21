@@ -65,6 +65,7 @@ export default class BlindAction extends Spell {
       { verb: "failed", target })
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

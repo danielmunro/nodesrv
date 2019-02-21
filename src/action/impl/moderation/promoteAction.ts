@@ -63,6 +63,7 @@ export default class PromoteAction extends Action {
     return RequestType.Promote
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

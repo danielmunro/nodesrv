@@ -32,6 +32,7 @@ export default class TellAction extends Action {
     return RequestType.Tell
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

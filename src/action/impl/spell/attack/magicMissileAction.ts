@@ -59,6 +59,7 @@ export default class MagicMissileAction extends Spell implements OffensiveSpell 
       { target, verb: "is" })
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

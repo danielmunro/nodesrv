@@ -6,7 +6,7 @@ import { Request } from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
-import {Messages} from "../../constants"
+import {HelpMessages, Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
@@ -35,6 +35,6 @@ export default class SleepAction extends Action {
   }
 
   public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
+    return HelpMessages.ChangeDisposition
   }
 }

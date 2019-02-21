@@ -4,7 +4,7 @@ import { RequestType } from "../../../request/requestType"
 import { ResponseStatus } from "../../../request/responseStatus"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
-import { Messages } from "../../constants"
+import {HelpMessages, Messages} from "../../constants"
 import {MESSAGE_FAIL_ALREADY_AWAKE} from "../../constants"
 
 let testBuilder: TestBuilder
@@ -39,5 +39,9 @@ describe("sleep action action", () => {
     // then
     expect(check.status).toBe(CheckStatus.Failed)
     expect(check.result).toBe(MESSAGE_FAIL_ALREADY_AWAKE)
+  })
+
+  it("provides accurate help text", () => {
+    expect(action.getHelpText()).toBe(HelpMessages.ChangeDisposition)
   })
 })

@@ -60,6 +60,7 @@ export default class WeaponAction extends Skill {
     return RequestType.Noop
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

@@ -37,6 +37,7 @@ export default class BountyAction extends Action {
     return [ActionPart.Action, ActionPart.PlayerMob, ActionPart.Number]
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

@@ -80,6 +80,7 @@ export default class BackstabAction extends Skill {
     return RequestType.Backstab
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

@@ -53,6 +53,7 @@ export default class StoneSkinAction extends Spell {
       { target: `${target.name}'s` })
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

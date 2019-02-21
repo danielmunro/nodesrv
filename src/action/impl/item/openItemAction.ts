@@ -59,6 +59,7 @@ export default class OpenItemAction extends Action {
     return RequestType.Open
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

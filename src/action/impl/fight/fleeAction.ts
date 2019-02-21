@@ -15,7 +15,7 @@ import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
 import {
-  FLEE_MOVEMENT_COST_MULTIPLIER,
+  FLEE_MOVEMENT_COST_MULTIPLIER, HelpMessages,
   MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE,
   MESSAGE_FAIL_NOT_FIGHTING,
   MESSAGE_FAIL_TOO_TIRED,
@@ -75,6 +75,6 @@ export default class FleeAction extends Action {
   }
 
   public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
+    return HelpMessages.Flee
   }
 }

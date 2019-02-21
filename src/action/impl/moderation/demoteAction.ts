@@ -57,6 +57,7 @@ export default class DemoteAction extends Action {
     return RequestType.Demote
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

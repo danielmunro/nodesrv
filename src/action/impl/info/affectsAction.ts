@@ -30,6 +30,7 @@ export default class AffectsAction extends Action {
     return RequestType.Affects
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

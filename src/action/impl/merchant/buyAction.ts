@@ -60,6 +60,7 @@ export default class BuyAction extends Action {
     return RequestType.Buy
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

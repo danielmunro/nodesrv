@@ -46,6 +46,7 @@ export default class PracticeAction extends Action {
     return [ActionPart.Action, ActionPart.Thing]
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

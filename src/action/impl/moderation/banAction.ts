@@ -74,6 +74,7 @@ export default class BanAction extends Action {
     return RequestType.Ban
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

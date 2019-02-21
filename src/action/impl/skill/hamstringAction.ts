@@ -84,6 +84,7 @@ export default class HamstringAction extends Skill {
     return RequestType.Hamstring
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

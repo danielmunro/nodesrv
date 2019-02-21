@@ -60,6 +60,7 @@ export default class WearAction extends Action {
     return RequestType.Wear
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

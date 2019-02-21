@@ -15,7 +15,7 @@ import Response from "../request/response"
 import {Direction} from "../room/constants"
 import {Exit} from "../room/model/exit"
 import Action from "./action"
-import {ConditionMessages} from "./constants"
+import {ConditionMessages, Messages} from "./constants"
 import {ActionPart} from "./enum/actionPart"
 import LookAction from "./impl/info/lookAction"
 
@@ -59,6 +59,11 @@ export default abstract class Move extends Action {
 
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action ]
+  }
+
+  /* istanbul ignore next */
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 
   private aValidExit(exits: Exit[]) {

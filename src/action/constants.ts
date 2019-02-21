@@ -257,4 +257,19 @@ The effect of the spell is reduced or eliminated if the victim makes the
 saving throw successfully.
 
 See also the help sections for individual spells.`,
+  ChangeDisposition: `These commands change your position.  When you REST or SLEEP, you
+regenerate hit points, mana points, and movement points faster.
+However, you are more vulnerable to attack, and if you SLEEP,
+you won't hear many things happen.
+
+Use STAND or WAKE to come back to a standing position.  You can
+also WAKE other sleeping characters.`,
+  Flee: `Once you start a fight, you can't just walk away from it.  If the fight
+is not going well, you can attempt to FLEE, or another character can
+RESCUE you.  (You can also RECALL, but this is less likely to work,
+and costs more experience points, then fleeing).
+
+If you lose your link during a fight, then your character will keep
+fighting, and will attempt to RECALL from time to time.  Your chances
+of making the recall are reduced, and you will lose much more experience.`,
 }

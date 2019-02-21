@@ -52,6 +52,7 @@ export default class PutAction extends Action {
     return RequestType.Put
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

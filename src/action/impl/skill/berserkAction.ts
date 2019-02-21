@@ -12,6 +12,7 @@ import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
 import {Costs, SkillMessages, Thresholds} from "../../../skill/constants"
 import {SkillType} from "../../../skill/skillType"
+import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import {ActionType} from "../../enum/actionType"
 import Skill from "../../skill"
@@ -78,5 +79,10 @@ export default class BerserkAction extends Skill {
 
   public getRequestType(): RequestType {
     return RequestType.Berserk
+  }
+
+  /* istanbul ignore next */
+  public getHelpText(): string {
+    return Messages.Help.NoActionHelpTextProvided
   }
 }

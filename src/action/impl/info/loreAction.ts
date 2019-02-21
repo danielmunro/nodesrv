@@ -42,6 +42,7 @@ export default class LoreAction extends Action {
     return RequestType.Lore
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

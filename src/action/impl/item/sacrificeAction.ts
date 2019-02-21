@@ -52,6 +52,7 @@ export default class SacrificeAction extends Action {
     return RequestType.Sacrifice
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

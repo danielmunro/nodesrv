@@ -115,6 +115,7 @@ export default class SharpenAction extends Skill {
     return RequestType.Sharpen
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

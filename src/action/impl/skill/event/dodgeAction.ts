@@ -40,6 +40,7 @@ export default class DodgeAction extends EventSkill {
     return SkillType.Dodge
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

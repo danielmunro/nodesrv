@@ -41,6 +41,7 @@ ${action.getHelpText()}`)
     return RequestType.Help
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

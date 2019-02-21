@@ -95,6 +95,7 @@ export default class DisarmAction extends Skill {
     return RequestType.Disarm
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

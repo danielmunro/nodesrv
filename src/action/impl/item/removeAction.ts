@@ -45,6 +45,7 @@ export default class RemoveAction extends Action {
     return RequestType.Remove
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

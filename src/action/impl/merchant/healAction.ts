@@ -60,6 +60,7 @@ export default class HealAction extends Action {
     return RequestType.Heal
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

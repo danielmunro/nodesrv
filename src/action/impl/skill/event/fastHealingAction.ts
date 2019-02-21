@@ -35,6 +35,7 @@ export default class FastHealingAction extends EventSkill {
     return SkillType.FastHealing
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

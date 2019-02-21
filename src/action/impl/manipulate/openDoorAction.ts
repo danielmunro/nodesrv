@@ -66,6 +66,7 @@ export default class OpenDoorAction extends Action {
     return RequestType.Open
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

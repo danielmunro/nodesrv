@@ -104,6 +104,7 @@ export default class StealAction extends Skill {
     return RequestType.Steal
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

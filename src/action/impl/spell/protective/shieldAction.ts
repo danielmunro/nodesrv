@@ -55,6 +55,7 @@ export default class ShieldAction extends Spell {
       { target, verb: "is" })
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

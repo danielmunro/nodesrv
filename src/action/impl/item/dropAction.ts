@@ -58,6 +58,7 @@ export default class DropAction extends Action {
     return RequestType.Drop
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

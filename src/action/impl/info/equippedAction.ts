@@ -25,6 +25,7 @@ export default class EquippedAction extends Action {
     return RequestType.Equipped
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

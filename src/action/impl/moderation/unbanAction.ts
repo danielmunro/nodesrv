@@ -51,6 +51,7 @@ export default class UnbanAction extends Action {
     return RequestType.Unban
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

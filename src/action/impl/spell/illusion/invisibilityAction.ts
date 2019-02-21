@@ -54,6 +54,7 @@ export default class InvisibilityAction extends Spell {
       { target, verb: "fades" })
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

@@ -51,6 +51,7 @@ export default class CurePoisonAction extends Spell {
       { target, verb: "feels" })
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

@@ -29,6 +29,7 @@ export default class SecondAttackAction extends EventSkill {
     return SkillType.SecondAttack
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

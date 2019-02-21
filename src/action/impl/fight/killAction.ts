@@ -55,6 +55,7 @@ export default class KillAction extends Action {
     return RequestType.Kill
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

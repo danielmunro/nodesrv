@@ -66,6 +66,7 @@ export default class LockAction extends Action {
     return RequestType.Lock
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

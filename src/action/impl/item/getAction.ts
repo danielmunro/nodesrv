@@ -73,6 +73,7 @@ export default class GetAction extends Action {
     return RequestType.Get
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

@@ -31,6 +31,7 @@ You have ${mob.gold} gold.
     return RequestType.Score
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

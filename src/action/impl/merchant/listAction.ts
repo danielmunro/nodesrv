@@ -40,6 +40,7 @@ export default class ListAction extends Action {
     return [ ActionPart.Action ]
   }
 
+  /* istanbul ignore next */
   public getRequestType(): RequestType {
     return RequestType.List
   }

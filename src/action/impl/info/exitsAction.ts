@@ -24,6 +24,7 @@ export default class ExitsAction extends Action {
     return RequestType.Exits
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

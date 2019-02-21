@@ -58,6 +58,7 @@ export default class SellAction extends Action {
     return RequestType.Sell
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

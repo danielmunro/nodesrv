@@ -32,6 +32,7 @@ export default class SayAction extends Action {
     return RequestType.Say
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

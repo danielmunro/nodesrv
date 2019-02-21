@@ -32,6 +32,7 @@ export default class GossipAction extends Action {
     return RequestType.Gossip
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

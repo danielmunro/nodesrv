@@ -29,6 +29,7 @@ export default class EnhancedDamageAction extends EventSkill {
     return SkillType.EnhancedDamage
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

@@ -66,6 +66,7 @@ export default class CloseItemAction extends Action {
     return RequestType.Close
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

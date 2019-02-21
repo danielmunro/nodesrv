@@ -76,6 +76,7 @@ export default class BashAction extends Skill {
     return RequestType.Bash
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

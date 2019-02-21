@@ -67,6 +67,7 @@ export default class LootAction extends Action {
     return RequestType.Loot
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

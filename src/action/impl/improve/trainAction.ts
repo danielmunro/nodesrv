@@ -102,6 +102,7 @@ export default class TrainAction extends Action {
     return RequestType.Train
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }
