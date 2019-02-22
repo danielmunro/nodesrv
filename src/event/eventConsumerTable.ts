@@ -1,3 +1,5 @@
+import Action from "../action/action"
+import Move from "../action/move"
 import Disconnected from "../client/eventConsumer/disconnected"
 import LoggedIn from "../client/eventConsumer/loggedIn"
 import Social from "../client/eventConsumer/social"
@@ -10,6 +12,7 @@ import ClientCreated from "../mob/eventConsumer/clientCreated"
 import {default as MobClientDisconnected} from "../mob/eventConsumer/clientDisconnected"
 import DamageModifierEventConsumer from "../mob/eventConsumer/damageModifierEventConsumer"
 import FightStarter from "../mob/eventConsumer/fightStarter"
+import FollowMob from "../mob/eventConsumer/followMob"
 import MobCreated from "../mob/eventConsumer/mobCreated"
 import PetFollowsOwner from "../mob/eventConsumer/petFollowsOwner"
 import Scavenge from "../mob/eventConsumer/scavenge"
@@ -27,9 +30,6 @@ import ImproveInvokedSkillsEventConsumer from "../skill/eventConsumer/improveInv
 import SecondAttackEventConsumer from "../skill/eventConsumer/secondAttackEventConsumer"
 import {SkillType} from "../skill/skillType"
 import EventConsumer from "./eventConsumer"
-import FollowMob from "../mob/eventConsumer/followMob"
-import Action from "../action/action"
-import Move from "../action/move"
 
 export default async function createEventConsumerTable(
   gameService: GameService,

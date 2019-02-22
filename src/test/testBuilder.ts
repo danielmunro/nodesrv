@@ -44,6 +44,7 @@ const ws = jest.fn(() => ({
 export default class TestBuilder {
   public player: Player
   public room: Room
+  private lastRoom: Room
   private mobForRequest: Mob
   private serviceBuilder: ServiceBuilder = new ServiceBuilder()
 
@@ -70,21 +71,11 @@ export default class TestBuilder {
   }
 
   public withRoom(direction?: Direction) {
-    const room = newRoom("a test room", "description of a test room")
-    room.region = newRegion("a test region", Terrain.Plains)
+    return this.buildRoomOnto(this.room, direction)
+  }
 
-    if (!this.room) {
-      this.room = room
-      if (this.player) {
-        this.serviceBuilder.addMobLocation(newMobLocation(this.player.sessionMob, room))
-      }
-    } else {
-      newReciprocalExit(this.room, room, direction).forEach(exit => this.addExit(exit))
-    }
-
-    this.serviceBuilder.addRoom(room)
-
-    return new RoomBuilder(room, this.serviceBuilder)
+  public addRoomToPreviousRoom(direction?: Direction) {
+    return this.buildRoomOnto(this.lastRoom, direction)
   }
 
   public async withPlayerAndSkill(skillType: SkillType, level: number = 1): Promise<Player> {
@@ -239,5 +230,24 @@ export default class TestBuilder {
 
   public addExit(exit: Exit) {
     this.serviceBuilder.addExit(exit)
+  }
+
+  private buildRoomOnto(source: Room, direction?: Direction) {
+    const room = newRoom("a test room", "description of a test room")
+    room.region = newRegion("a test region", Terrain.Plains)
+
+    if (!this.room) {
+      this.room = room
+      if (this.player) {
+        this.serviceBuilder.addMobLocation(newMobLocation(this.player.sessionMob, room))
+      }
+    } else {
+      newReciprocalExit(source, room, direction).forEach(exit => this.addExit(exit))
+    }
+
+    this.lastRoom = room
+    this.serviceBuilder.addRoom(room)
+
+    return new RoomBuilder(room, this.serviceBuilder)
   }
 }

@@ -1,6 +1,5 @@
 import EventService from "../event/eventService"
 import {Direction} from "../room/constants"
-import ExitTable from "../room/exitTable"
 import { Room } from "../room/model/room"
 import RoomTable from "../room/roomTable"
 import MobMoveEvent from "./event/mobMoveEvent"
@@ -10,14 +9,12 @@ import MobLocation from "./model/mobLocation"
 export default class LocationService {
   constructor(
     private readonly roomTable: RoomTable,
-    private readonly exitTable: ExitTable,
     private readonly eventService: EventService,
     private mobLocations: MobLocation[] = []) {}
 
   public async moveMob(mob: Mob, direction: Direction) {
     const location = this.getLocationForMob(mob)
-    const exits = this.exitTable.exitsForRoom(location.room)
-    const exit = exits.find(e => e.direction === direction)
+    const exit = location.room.exits.find(e => e.direction === direction)
 
     if (!exit) {
       throw new Error("cannot move in that direction")
@@ -46,7 +43,7 @@ export default class LocationService {
     }
   }
 
-  public getLocationForMob(mob: Mob): MobLocation {
+  public getLocationForMob(mob: Mob): MobLocation | undefined {
     return this.mobLocations.find(mobLocation => mobLocation.mob === mob)
   }
 

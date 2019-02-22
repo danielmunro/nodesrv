@@ -21,7 +21,7 @@ import MobTable from "../src/mob/mobTable"
 import { getMobRepository } from "../src/mob/repository/mob"
 import {getMobResetRepository} from "../src/mob/repository/mobReset"
 import {getPlayerRepository} from "../src/player/repository/player"
-import { newExitTable, newRoomTable } from "../src/room/factory"
+import { newRoomTable } from "../src/room/factory"
 import {Room} from "../src/room/model/room"
 import {default as RoomTable} from "../src/room/roomTable"
 import ClientService from "../src/server/clientService"
@@ -53,8 +53,8 @@ console.log(`startup parameters:  port: ${port}, room: ${startRoomID}`)
 initializeConnection().then(async () => {
   const eventService = new EventService()
   console.time(Timings.roomAndMobTables)
-  const [ roomTable, mobTable, exitTable ] = await getAllRoomsAndMobs()
-  locationService = new LocationService(roomTable, exitTable, eventService)
+  const [ roomTable, mobTable ] = await getAllRoomsAndMobs()
+  locationService = new LocationService(roomTable, eventService)
   const mobService = await createMobService(mobTable, locationService)
   console.timeEnd(Timings.roomAndMobTables)
 
@@ -117,7 +117,6 @@ async function getAllRoomsAndMobs() {
   return Promise.all([
     newRoomTable(),
     new MobTable(await (await getMobRepository()).findAll()),
-    newExitTable(),
   ])
 }
 

@@ -1,7 +1,7 @@
 import {CheckStatus} from "../../../check/checkStatus"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import { RequestType } from "../../../request/requestType"
-import doNTimes from "../../../support/functional/times"
+import {getSuccessfulAction} from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 import {
@@ -37,24 +37,17 @@ describe("flee action handler", () => {
     expect(service.mobService.findFight(f => f.isInProgress())).toBeTruthy()
 
     // when
-    const responses = await doNTimes(10, async () =>
-      definition.handle(testBuilder.createRequest(RequestType.Flee)))
-    const successfulResponse = responses.find(response => response.isSuccessful())
+    await getSuccessfulAction(definition, testBuilder.createRequest(RequestType.Flee))
 
     // then
-    expect(successfulResponse).toBeTruthy()
     expect(service.mobService.findFight(f => f.isInProgress())).toBeUndefined()
   })
 
   it("flee should cause the fleeing mob to change rooms", async () => {
     // when
-    const responses = await doNTimes(10, async () =>
-      definition.handle(testBuilder.createRequest(RequestType.Flee)))
-    const successResponse = responses.find(response => response.isSuccessful())
+    await getSuccessfulAction(definition, testBuilder.createRequest(RequestType.Flee))
 
     // then
-    expect(successResponse).toBeTruthy()
-
     const service = await testBuilder.getService()
     expect(service.getMobLocation(mob).room).toBe(room2)
   })
@@ -64,10 +57,7 @@ describe("flee action handler", () => {
     mob.name = "bob"
 
     // when
-    const responses = await doNTimes(10, async () =>
-      definition.handle(testBuilder.createRequest(RequestType.Flee)))
-
-    const response = responses.find(r => r.isSuccessful())
+    const response = await getSuccessfulAction(definition, testBuilder.createRequest(RequestType.Flee))
 
     // then
     expect(response.message.getMessageToRequestCreator()).toContain("you flee to the")
