@@ -13,7 +13,7 @@ export default class LocationService {
     private mobLocations: MobLocation[] = []) {}
 
   public async moveMob(mob: Mob, direction: Direction) {
-    const location = this.getLocationForMob(mob)
+    const location = this.getLocationForMob(mob) as MobLocation
     const exit = location.room.exits.find(e => e.direction === direction)
 
     if (!exit) {
@@ -57,11 +57,11 @@ export default class LocationService {
   }
 
   public getMobsInRoomWithMob(mob: Mob): Mob[] {
-    const location = this.getLocationForMob(mob)
+    const location = this.getLocationForMob(mob) as MobLocation
     return this.getMobsByRoom(location.room)
   }
 
-  public getMobsByImportId(importId) {
+  public getMobsByImportId(importId: string) {
     return this.mobLocations.filter(mobLocation => mobLocation.mob.importId === importId)
       .map(mobLocation => mobLocation.mob)
   }

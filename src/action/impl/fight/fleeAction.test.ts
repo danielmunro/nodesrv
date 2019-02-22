@@ -1,6 +1,9 @@
 import {CheckStatus} from "../../../check/checkStatus"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
+import {Mob} from "../../../mob/model/mob"
+import MobLocation from "../../../mob/model/mobLocation"
 import { RequestType } from "../../../request/requestType"
+import {Room} from "../../../room/model/room"
 import {getSuccessfulAction} from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
@@ -10,10 +13,9 @@ import {
 import {MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_TOO_TIRED} from "../../constants"
 
 let definition: Action
-let mob
+let mob: Mob
 let player
-let room1
-let room2
+let room2: Room
 let testBuilder: TestBuilder
 
 beforeEach(async () => {
@@ -22,7 +24,7 @@ beforeEach(async () => {
   player = playerBuilder.player
   mob = player.sessionMob
   // room with a fight
-  room1 = testBuilder.withRoom().room
+  testBuilder.withRoom()
   // room to flee to
   room2 = testBuilder.withRoom().room
   await testBuilder.fight()
@@ -49,7 +51,7 @@ describe("flee action handler", () => {
 
     // then
     const service = await testBuilder.getService()
-    expect(service.getMobLocation(mob).room).toBe(room2)
+    expect((service.getMobLocation(mob) as MobLocation).room).toBe(room2)
   })
 
   it("flee should accurately build its response message", async () => {

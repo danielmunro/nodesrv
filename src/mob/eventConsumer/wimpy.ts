@@ -8,6 +8,7 @@ import {RequestType} from "../../request/requestType"
 import FightEvent from "../fight/event/fightEvent"
 import LocationService from "../locationService"
 import {Mob} from "../model/mob"
+import MobLocation from "../model/mobLocation"
 
 export default class Wimpy implements EventConsumer {
   private static isWimpy(mob: Mob, target: Mob) {
@@ -24,7 +25,7 @@ export default class Wimpy implements EventConsumer {
 
   public async consume(event: FightEvent): Promise<EventResponse> {
     const target = event.fight.getOpponentFor(event.mob)
-    if (target.traits.wimpy && Wimpy.isWimpy(event.mob, target)) {
+    if (target && target.traits.wimpy && Wimpy.isWimpy(event.mob, target)) {
       const response = await this.tryWimpy(target)
       if (response.isSuccessful()) {
         return EventResponse.satisfied(event)
@@ -37,7 +38,7 @@ export default class Wimpy implements EventConsumer {
     return this.fleeDefinition.handle(
       new Request(
         mob,
-        this.locationService.getLocationForMob(mob).room,
+        (this.locationService.getLocationForMob(mob) as MobLocation).room,
         new EventContext(RequestType.Flee)))
   }
 }

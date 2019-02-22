@@ -7,6 +7,7 @@ import EventService from "../event/eventService"
 import ItemService from "../item/itemService"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
+import MobLocation from "../mob/model/mobLocation"
 import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import {Room} from "../room/model/room"
@@ -29,7 +30,7 @@ export default class GameService {
     await this.mobService.locationService.moveMob(mob, direction)
   }
 
-  public getMobLocation(mob: Mob) {
+  public getMobLocation(mob: Mob): MobLocation | undefined {
     return this.mobService.locationService.getLocationForMob(mob)
   }
 
