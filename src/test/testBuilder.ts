@@ -4,6 +4,8 @@ import Spell from "../action/spell"
 import {Client} from "../client/client"
 import GameService from "../gameService/gameService"
 import ServiceBuilder from "../gameService/serviceBuilder"
+import ItemBuilder from "../item/itemBuilder"
+import WeaponBuilder from "../item/weaponBuilder"
 import {newMobLocation} from "../mob/factory"
 import {Fight} from "../mob/fight/fight"
 import {Mob} from "../mob/model/mob"
@@ -25,7 +27,6 @@ import Email from "../session/auth/login/email"
 import Session from "../session/session"
 import {SkillType} from "../skill/skillType"
 import {SpellType} from "../spell/spellType"
-import ItemBuilder from "./itemBuilder"
 import {getTestMob} from "./mob"
 import MobBuilder from "./mobBuilder"
 import {getTestPlayer} from "./player"
@@ -147,6 +148,10 @@ export default class TestBuilder {
 
   public withItem(): ItemBuilder {
     return new ItemBuilder(this.serviceBuilder)
+  }
+
+  public withWeapon(): WeaponBuilder {
+    return new WeaponBuilder(this.serviceBuilder)
   }
 
   public async fight(target = this.withMob().mob): Promise<Fight> {

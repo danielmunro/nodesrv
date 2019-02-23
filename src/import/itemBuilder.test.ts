@@ -1,14 +1,14 @@
 import {AffectType} from "../affect/affectType"
 import {DamageType} from "../damage/damageType"
-import { ItemType as ImportItemType } from "../import/enum/itemType"
+import {Equipment} from "../item/equipment"
+import {ItemType} from "../item/itemType"
+import {Liquid} from "../item/liquid"
+import Forge from "../item/model/forge"
+import Weapon from "../item/model/weapon"
+import {WeaponType} from "../item/weaponType"
 import {SpellType} from "../spell/spellType"
-import {Equipment} from "./equipment"
+import { ItemType as ImportItemType } from "./enum/itemType"
 import ItemBuilder from "./itemBuilder"
-import {ItemType} from "./itemType"
-import {Liquid} from "./liquid"
-import Forge from "./model/forge"
-import Weapon from "./model/weapon"
-import {WeaponType} from "./weaponType"
 
 const itemBuilder = ItemBuilder.new()
 

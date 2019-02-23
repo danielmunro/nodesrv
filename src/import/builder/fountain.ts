@@ -1,10 +1,10 @@
-import {liquidMap} from "../../import/map/liquidMap"
-import {newItem} from "../factory"
+import {newItem} from "../../item/factory"
+import ItemPrototype from "../../item/itemPrototype"
+import {ItemType} from "../../item/itemType"
+import Drink from "../../item/model/drink"
+import {Item} from "../../item/model/item"
 import ItemBuilder from "../itemBuilder"
-import ItemPrototype from "../itemPrototype"
-import {ItemType} from "../itemType"
-import Drink from "../model/drink"
-import {Item} from "../model/item"
+import {liquidMap} from "../map/liquidMap"
 
 export default function(itemPrototype: ItemPrototype): Item {
   const { name, description, args } = itemPrototype

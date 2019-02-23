@@ -1,7 +1,8 @@
 import ServiceBuilder from "../gameService/serviceBuilder"
 import {newFood} from "../item/factory"
+import ItemBuilder from "../item/itemBuilder"
 import { Item } from "../item/model/item"
-import ItemBuilder from "./itemBuilder"
+import WeaponBuilder from "../item/weaponBuilder"
 
 export default class AbstractBuilder {
   constructor(protected readonly serviceBuilder: ServiceBuilder) {}
@@ -19,13 +20,13 @@ export default class AbstractBuilder {
   }
 
   public withAxeEq(): Item {
-    return new ItemBuilder(this.serviceBuilder)
+    return new WeaponBuilder(this.serviceBuilder)
       .asAxe()
       .build()
   }
 
   public withMaceEq(): Item {
-    return new ItemBuilder(this.serviceBuilder)
+    return new WeaponBuilder(this.serviceBuilder)
       .asMace()
       .build()
   }

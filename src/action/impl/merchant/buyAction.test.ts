@@ -24,7 +24,7 @@ describe("buy action", () => {
     testBuilder.withItem()
       .asHelmet()
       .addToInventory(mob.inventory)
-    const axe = testBuilder.withItem()
+    const axe = testBuilder.withWeapon()
       .asAxe()
       .addToInventory(mob.inventory)
       .build()
@@ -82,7 +82,7 @@ describe("buy action", () => {
   it("should fail if the item is too expensive", async () => {
     // given
     testBuilder.withMob()
-    const item = testBuilder.withItem()
+    const item = testBuilder.withWeapon()
       .asAxe()
       .addToInventory(testBuilder.withMerchant().mob.inventory)
       .build()
@@ -123,7 +123,7 @@ describe("buy action", () => {
   it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
     // given
     testBuilder.withMob().withDisposition(disposition).withGold(100)
-    testBuilder.withItem()
+    testBuilder.withWeapon()
       .asAxe()
       .addToInventory(testBuilder.withMerchant().mob.inventory)
 
