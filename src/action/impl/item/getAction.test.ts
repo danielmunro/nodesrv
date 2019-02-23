@@ -1,5 +1,4 @@
 import {CheckStatus} from "../../../check/checkStatus"
-import {newFood} from "../../../item/factory"
 import { RequestType } from "../../../request/requestType"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
@@ -36,27 +35,27 @@ describe("get action", () => {
     // setup
     testBuilder.withRoom()
     const playerBuilder = await testBuilder.withPlayer()
-    const satchel = playerBuilder.withSatchelEq()
-    const item = newFood("a pretzel", "a pretzel")
-    satchel.container.addItem(item)
-    const service = await testBuilder.getService()
-    service.itemService.add(item)
-
+    const food = testBuilder.withItem()
+      .asFood()
+      .build()
+    const satchel = testBuilder.withItem()
+      .asSatchel()
+      .addToPlayerBuilder(playerBuilder)
+      .addItemToContainerInventory(food)
+      .build()
     const definition = await testBuilder.getActionDefinition(RequestType.Get)
-
     const player = playerBuilder.player
     const itemCount = player.sessionMob.inventory.items.length
-    player.sessionMob.name = "alice"
 
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Get, "get pretzel satchel"))
 
     // then
-    expect(player.sessionMob.inventory.items.length).toBe(itemCount + 1)
     expect(response.message.getMessageToRequestCreator())
-      .toContain("you get a pretzel from a small leather satchel")
+      .toContain(`you get ${food.name} from ${satchel.name}`)
     expect(response.message.getMessageToObservers())
-      .toContain("alice gets a pretzel from a small leather satchel")
+      .toContain(`${player.sessionMob.name} gets ${food.name} from ${satchel.name}`)
+    expect(player.sessionMob.inventory.items.length).toBe(itemCount + 1)
   })
 
   it("should not work if the item specified does not exist", async () => {
@@ -75,7 +74,11 @@ describe("get action", () => {
   it("should be ok if the item is in the room's inventory", async () => {
     // given
     await testBuilder.withPlayer()
-    const equipment = testBuilder.withRoom().withHelmetEq()
+    const roomBuilder = testBuilder.withRoom()
+    const equipment = testBuilder.withItem()
+      .asHelmet()
+      .addToRoomBuilder(roomBuilder)
+      .build()
 
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Get, "get cap"))
@@ -103,10 +106,11 @@ describe("get action", () => {
   it("should not be able to get an item that is not transferable", async () => {
     // setup
     await testBuilder.withPlayer()
-    const item = testBuilder.withRoom().withHelmetEq()
-    const service = await testBuilder.getService()
-    item.isTransferable = false
-    service.itemService.add(item)
+    testBuilder.withItem()
+      .asHelmet()
+      .addToRoomBuilder(testBuilder.withRoom())
+      .notTransferrable()
+      .build()
 
     // when
     const check = await action.check(

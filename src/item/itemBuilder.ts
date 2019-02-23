@@ -1,9 +1,13 @@
+import {AffectType} from "../affect/affectType"
+import {newAffect} from "../affect/factory"
 import ServiceBuilder from "../gameService/serviceBuilder"
+import MobBuilder from "../test/mobBuilder"
 import PlayerBuilder from "../test/playerBuilder"
 import RoomBuilder from "../test/roomBuilder"
 import {Equipment} from "./equipment"
 import {ItemType} from "./itemType"
 import Container from "./model/container"
+import Food from "./model/food"
 import {Inventory} from "./model/inventory"
 import {Item} from "./model/item"
 
@@ -12,6 +16,16 @@ export default class ItemBuilder {
 
   public addItemToContainerInventory(item: Item): ItemBuilder {
     this.item.container.inventory.addItem(item)
+    return this
+  }
+
+  public addToMobBuilder(mobBuilder: MobBuilder): ItemBuilder {
+    mobBuilder.mob.inventory.addItem(this.item)
+    return this
+  }
+
+  public equipToMobBuilder(mobBuilder: MobBuilder): ItemBuilder {
+    mobBuilder.mob.equipped.addItem(this.item)
     return this
   }
 
@@ -32,6 +46,19 @@ export default class ItemBuilder {
 
   public addToInventory(inventory: Inventory): ItemBuilder {
     inventory.addItem(this.item)
+    return this
+  }
+
+  public addAffect(affectType: AffectType): ItemBuilder {
+    this.item.affects.push(newAffect(affectType))
+    return this
+  }
+
+  public asFood(): ItemBuilder {
+    this.item.itemType = ItemType.Food
+    this.item.name = "a pretzel"
+    this.item.food = new Food()
+    this.item.food.foodAmount = 1
     return this
   }
 
@@ -56,6 +83,11 @@ export default class ItemBuilder {
     this.item.name = "a baseball cap"
     this.item.equipment = Equipment.Head
     this.item.value = 10
+    return this
+  }
+
+  public notTransferrable(): ItemBuilder {
+    this.item.isTransferable = false
     return this
   }
 

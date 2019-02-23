@@ -71,7 +71,10 @@ describe("envenom skill action", () => {
     mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
 
     // given
-    mobBuilder.withMaceEq()
+    testBuilder.withWeapon()
+      .asMace()
+      .addToMobBuilder(mobBuilder)
+      .build()
 
     // when
     const response = await doAction("envenom mace")

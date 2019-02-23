@@ -7,12 +7,6 @@ import WeaponBuilder from "../item/weaponBuilder"
 export default class AbstractBuilder {
   constructor(protected readonly serviceBuilder: ServiceBuilder) {}
 
-  public withSatchelEq(): Item {
-    return new ItemBuilder(this.serviceBuilder)
-      .asSatchel()
-      .build()
-  }
-
   public withHelmetEq(): Item {
     return new ItemBuilder(this.serviceBuilder)
       .asHelmet()
@@ -22,12 +16,6 @@ export default class AbstractBuilder {
   public withAxeEq(): Item {
     return new WeaponBuilder(this.serviceBuilder)
       .asAxe()
-      .build()
-  }
-
-  public withMaceEq(): Item {
-    return new WeaponBuilder(this.serviceBuilder)
-      .asMace()
       .build()
   }
 

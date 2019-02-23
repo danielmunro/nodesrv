@@ -18,7 +18,10 @@ beforeEach(async () => {
   room = testBuilder.withRoom().room
   const playerBuilder = await testBuilder.withPlayer()
   mob = playerBuilder.player.sessionMob
-  equipment = playerBuilder.withHelmetEq()
+  equipment = testBuilder.withItem()
+    .asHelmet()
+    .addToInventory(mob.inventory)
+    .build()
   actionDefinition = await testBuilder.getActionDefinition(RequestType.Drop)
 })
 

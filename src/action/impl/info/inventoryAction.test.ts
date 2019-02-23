@@ -1,28 +1,33 @@
-import { AffectType } from "../../../affect/affectType"
-import { newAffect } from "../../../affect/factory"
-import { RequestType } from "../../../request/requestType"
+import {AffectType} from "../../../affect/affectType"
+import {RequestType} from "../../../request/requestType"
 import PlayerBuilder from "../../../test/playerBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
 let testBuilder: TestBuilder
 let playerBuilder: PlayerBuilder
-let actionDefinition: Action
+let action: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   playerBuilder = await testBuilder.withPlayer()
-  actionDefinition = await testBuilder.getActionDefinition(RequestType.Inventory)
+  action = await testBuilder.getActionDefinition(RequestType.Inventory)
 })
 
 describe("inventory action action", () => {
   it("should return a mob's inventory", async () => {
     // given
-    const item1 = playerBuilder.withAxeEq()
-    const item2 = playerBuilder.withHelmetEq()
+    const item1 = testBuilder.withWeapon()
+      .asAxe()
+      .addToPlayerBuilder(playerBuilder)
+      .build()
+    const item2 = testBuilder.withItem()
+      .asHelmet()
+      .addToPlayerBuilder(playerBuilder)
+      .build()
 
     // when
-    const response = await actionDefinition.handle(testBuilder.createRequest(RequestType.Inventory))
+    const response = await action.handle(testBuilder.createRequest(RequestType.Inventory))
     const message = response.message.getMessageToRequestCreator()
 
     // then
@@ -32,14 +37,16 @@ describe("inventory action action", () => {
 
   it("should not show an invisible item", async () => {
     // given
-    const item = playerBuilder.withAxeEq()
-    item.affects.push(newAffect(AffectType.Invisible))
+    const item = testBuilder.withWeapon()
+      .asAxe()
+      .addToPlayerBuilder(playerBuilder)
+      .addAffect(AffectType.Invisible)
+      .build()
 
     // when
-    const response = await actionDefinition.handle(testBuilder.createRequest(RequestType.Inventory))
-    const message1 = response.message.getMessageToRequestCreator()
+    const response = await action.handle(testBuilder.createRequest(RequestType.Inventory))
 
     // then
-    expect(message1).not.toContain(item.name)
+    expect(response.message.getMessageToRequestCreator()).not.toContain(item.name)
   })
 })

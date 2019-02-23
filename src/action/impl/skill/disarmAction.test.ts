@@ -4,6 +4,7 @@ import {ConditionMessages} from "../../../skill/constants"
 import { SkillType } from "../../../skill/skillType"
 import doNTimes, {doNTimesOrUntilTruthy, getSuccessfulAction} from "../../../support/functional/times"
 import MobBuilder from "../../../test/mobBuilder"
+import mobBuilder from "../../../test/mobBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
@@ -28,7 +29,10 @@ describe("disarm skill action", () => {
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
 
     // and
-    mob2.equip().withMaceEq()
+    testBuilder.withWeapon()
+      .asMace()
+      .equipToMobBuilder(mob2)
+      .build()
 
     // and
     await testBuilder.fight(mob2.mob)
@@ -50,7 +54,10 @@ describe("disarm skill action", () => {
 
     // when
     const responses = await doNTimes(iterations, () => {
-      mob2.equip().withMaceEq()
+      testBuilder.withWeapon()
+        .asMace()
+        .equipToMobBuilder(mob2)
+        .build()
       return action.handle(testBuilder.createRequest(RequestType.Disarm))
     })
 
@@ -89,7 +96,10 @@ describe("disarm skill action", () => {
     // setup
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
     const targetBuilder = testBuilder.withMob()
-    targetBuilder.equip().withAxeEq()
+    testBuilder.withWeapon()
+      .asAxe()
+      .equipToMobBuilder(targetBuilder)
+      .build()
     await testBuilder.fight(targetBuilder.mob)
 
     // given
@@ -107,7 +117,10 @@ describe("disarm skill action", () => {
     // setup
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
     const targetBuilder = testBuilder.withMob()
-    targetBuilder.equip().withAxeEq()
+    testBuilder.withWeapon()
+      .asAxe()
+      .equipToMobBuilder(targetBuilder)
+      .build()
     await testBuilder.fight(targetBuilder.mob)
 
     // when
@@ -121,7 +134,10 @@ describe("disarm skill action", () => {
     // setup
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
     const targetBuilder = testBuilder.withMob()
-    targetBuilder.equip().withAxeEq()
+    testBuilder.withWeapon()
+      .asAxe()
+      .equipToMobBuilder(targetBuilder)
+      .build()
     await testBuilder.fight(targetBuilder.mob)
 
     // when
@@ -136,7 +152,10 @@ describe("disarm skill action", () => {
       .toBe(`${mob1.mob.name} disarms ${targetBuilder.mob.name} and sends its weapon flying!`)
 
     // and
-    targetBuilder.equip().withAxeEq()
+    testBuilder.withWeapon()
+      .asAxe()
+      .equipToMobBuilder(targetBuilder)
+      .build()
     const response2 = await doNTimesOrUntilTruthy(iterations, async () => {
       const handled = await action.handle(testBuilder.createRequest(RequestType.Disarm))
       return handled.isFailure() ? handled : null

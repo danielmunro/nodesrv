@@ -38,10 +38,6 @@ export default class MobBuilder extends AbstractBuilder {
     return this.doEquip(super.withAxeEq())
   }
 
-  public withMaceEq(): Item {
-    return this.doEquip(super.withMaceEq())
-  }
-
   public withLevel(level: number) {
     this.mob.level = level
 
