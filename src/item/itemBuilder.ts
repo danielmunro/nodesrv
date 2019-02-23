@@ -1,4 +1,6 @@
 import ServiceBuilder from "../gameService/serviceBuilder"
+import PlayerBuilder from "../test/playerBuilder"
+import RoomBuilder from "../test/roomBuilder"
 import {Equipment} from "./equipment"
 import {ItemType} from "./itemType"
 import Container from "./model/container"
@@ -10,6 +12,21 @@ export default class ItemBuilder {
 
   public addItemToContainerInventory(item: Item): ItemBuilder {
     this.item.container.inventory.addItem(item)
+    return this
+  }
+
+  public addToPlayerBuilder(playerBuilder: PlayerBuilder): ItemBuilder {
+    playerBuilder.player.sessionMob.inventory.addItem(this.item)
+    return this
+  }
+
+  public equipToPlayerBuilder(playerBuilder: PlayerBuilder): ItemBuilder {
+    playerBuilder.player.sessionMob.equipped.addItem(this.item)
+    return this
+  }
+
+  public addToRoomBuilder(roomBuilder: RoomBuilder): ItemBuilder {
+    roomBuilder.room.inventory.addItem(this.item)
     return this
   }
 

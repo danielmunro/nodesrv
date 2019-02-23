@@ -7,10 +7,13 @@ describe("equipped", () => {
     const  testBuilder = new TestBuilder()
     const action = await testBuilder.getActionDefinition(RequestType.Equipped)
     const playerBuilder = await testBuilder.withPlayer()
-    const helmet = playerBuilder.equip().withHelmetEq()
+    const helmet = testBuilder.withItem()
+      .asHelmet()
+      .equipToPlayerBuilder(playerBuilder)
+      .build()
     const axe = testBuilder.withWeapon()
       .asAxe()
-      .addToInventory(playerBuilder.player.sessionMob.inventory)
+      .addToPlayerBuilder(playerBuilder)
       .build()
 
     // when

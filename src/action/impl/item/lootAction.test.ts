@@ -24,7 +24,7 @@ describe("loot action", () => {
     // given
     testBuilder.withItem()
       .asCorpse()
-      .addToInventory(testBuilder.withRoom().room.inventory)
+      .addToRoomBuilder(testBuilder.withRoom())
       .build()
 
     // when
@@ -42,7 +42,7 @@ describe("loot action", () => {
     testBuilder.withItem()
       .asCorpse()
       .addItemToContainerInventory(item)
-      .addToInventory(testBuilder.withRoom().room.inventory)
+      .addToRoomBuilder(testBuilder.withRoom())
       .build()
 
     // when
