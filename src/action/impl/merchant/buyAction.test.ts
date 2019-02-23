@@ -20,9 +20,14 @@ describe("buy action", () => {
   it("purchaser should receive an item", async () => {
     // given
     const initialGold = 100
-    const merchantBuilder = testBuilder.withMerchant()
-    const axe = merchantBuilder.withAxeEq()
-    merchantBuilder.withHelmetEq()
+    const mob = testBuilder.withMerchant().mob
+    testBuilder.withItem()
+      .asHelmet()
+      .addToInventory(mob.inventory)
+    const axe = testBuilder.withItem()
+      .asAxe()
+      .addToInventory(mob.inventory)
+      .build()
 
     // and
     const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.gold = initialGold)
@@ -77,10 +82,10 @@ describe("buy action", () => {
   it("should fail if the item is too expensive", async () => {
     // given
     testBuilder.withMob()
-
-    // and
-    const merchBuilder = testBuilder.withMerchant()
-    const item = merchBuilder.withAxeEq()
+    const item = testBuilder.withItem()
+      .asAxe()
+      .addToInventory(testBuilder.withMerchant().mob.inventory)
+      .build()
 
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Buy, `buy ${item.name}`))
@@ -118,7 +123,9 @@ describe("buy action", () => {
   it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
     // given
     testBuilder.withMob().withDisposition(disposition).withGold(100)
-    testBuilder.withMerchant().withAxeEq()
+    testBuilder.withItem()
+      .asAxe()
+      .addToInventory(testBuilder.withMerchant().mob.inventory)
 
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Buy, `buy axe`))

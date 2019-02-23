@@ -83,7 +83,7 @@ describe("envenom skill action", () => {
 
   it("generates accurate messages", async () => {
     // setup
-    mobBuilder.withAxeEq()
+    const item = mobBuilder.withAxeEq()
     mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
 
     // when
@@ -92,18 +92,18 @@ describe("envenom skill action", () => {
     // then
     const successResponse = responses.find(response => response.isSuccessful()).message
     expect(successResponse.getMessageToRequestCreator())
-      .toBe("you successfully envenom a toy axe.")
+      .toBe(`you successfully envenom ${item.name}.`)
     expect(successResponse.getMessageToTarget())
-      .toBe(`${mobBuilder.mob.name} successfully envenoms a toy axe.`)
+      .toBe(`${mobBuilder.mob.name} successfully envenoms ${item.name}.`)
     expect(successResponse.getMessageToObservers())
-      .toBe(`${mobBuilder.mob.name} successfully envenoms a toy axe.`)
+      .toBe(`${mobBuilder.mob.name} successfully envenoms ${item.name}.`)
 
     const failResponse = responses.find(response => !response.isSuccessful()).message
     expect(failResponse.getMessageToRequestCreator())
-      .toBe("you fail to envenom a toy axe.")
+      .toBe(`you fail to envenom ${item.name}.`)
     expect(failResponse.getMessageToTarget())
-      .toBe(`${mobBuilder.mob.name} fails to envenom a toy axe.`)
+      .toBe(`${mobBuilder.mob.name} fails to envenom ${item.name}.`)
     expect(failResponse.getMessageToObservers())
-      .toBe(`${mobBuilder.mob.name} fails to envenom a toy axe.`)
+      .toBe(`${mobBuilder.mob.name} fails to envenom ${item.name}.`)
   })
 })

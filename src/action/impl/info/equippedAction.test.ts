@@ -8,7 +8,10 @@ describe("equipped", () => {
     const action = await testBuilder.getActionDefinition(RequestType.Equipped)
     const playerBuilder = await testBuilder.withPlayer()
     const helmet = playerBuilder.equip().withHelmetEq()
-    const axe = playerBuilder.withAxeEq()
+    const axe = testBuilder.withItem()
+      .asAxe()
+      .addToInventory(playerBuilder.player.sessionMob.inventory)
+      .build()
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Equipped))

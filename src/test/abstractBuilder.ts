@@ -1,42 +1,33 @@
-import { DamageType } from "../damage/damageType"
 import ServiceBuilder from "../gameService/serviceBuilder"
-import { Equipment } from "../item/equipment"
-import {newContainer, newEquipment, newFood, newWeapon} from "../item/factory"
+import {newFood} from "../item/factory"
 import { Item } from "../item/model/item"
-import { WeaponType } from "../item/weaponType"
+import ItemBuilder from "./itemBuilder"
 
 export default class AbstractBuilder {
   constructor(protected readonly serviceBuilder: ServiceBuilder) {}
 
   public withSatchelEq(): Item {
-    const item = newContainer("a small leather satchel", "a small leather satchel is here")
-    this.serviceBuilder.addItem(item)
-
-    return item
+    return new ItemBuilder(this.serviceBuilder)
+      .asSatchel()
+      .build()
   }
 
   public withHelmetEq(): Item {
-    const equipment = newEquipment("a baseball cap", "a baseball cap is here", Equipment.Head)
-    equipment.value = 10
-    this.serviceBuilder.addItem(equipment)
-
-    return equipment
+    return new ItemBuilder(this.serviceBuilder)
+      .asHelmet()
+      .build()
   }
 
   public withAxeEq(): Item {
-    const equipment = newWeapon("a toy axe", "a toy axe", WeaponType.Axe, DamageType.Slash)
-    equipment.value = 10
-    this.serviceBuilder.addItem(equipment)
-
-    return equipment
+    return new ItemBuilder(this.serviceBuilder)
+      .asAxe()
+      .build()
   }
 
   public withMaceEq(): Item {
-    const equipment = newWeapon("a toy mace", "a toy mace", WeaponType.Mace, DamageType.Bash)
-    equipment.value = 10
-    this.serviceBuilder.addItem(equipment)
-
-    return equipment
+    return new ItemBuilder(this.serviceBuilder)
+      .asMace()
+      .build()
   }
 
   public withFood(): Item {

@@ -4,8 +4,6 @@ import Spell from "../action/spell"
 import {Client} from "../client/client"
 import GameService from "../gameService/gameService"
 import ServiceBuilder from "../gameService/serviceBuilder"
-import {newItem} from "../item/factory"
-import {ItemType} from "../item/itemType"
 import {newMobLocation} from "../mob/factory"
 import {Fight} from "../mob/fight/fight"
 import {Mob} from "../mob/model/mob"
@@ -67,11 +65,11 @@ export default class TestBuilder {
     return client
   }
 
-  public withRoom(direction?: Direction) {
+  public withRoom(direction?: Direction): RoomBuilder {
     return this.buildRoomOnto(this.room, direction)
   }
 
-  public addRoomToPreviousRoom(direction?: Direction) {
+  public addRoomToPreviousRoom(direction?: Direction): RoomBuilder {
     return this.buildRoomOnto(this.lastRoom, direction)
   }
 
@@ -147,21 +145,8 @@ export default class TestBuilder {
     return mobBuilder
   }
 
-  public withRandomItem(): ItemBuilder {
-    return new ItemBuilder(this.serviceBuilder).asFurniture()
-  }
-
-  public withItem(itemType: ItemType, name: string, description: string): ItemBuilder {
-    if (!this.room) {
-      this.withRoom()
-    }
-    return new ItemBuilder(this.serviceBuilder, newItem(itemType, name, description))
-      .addToInventory(this.room.inventory)
-  }
-
-  public withARandomCorpse(): ItemBuilder {
-    return this
-      .withItem(ItemType.Corpse, "a corpse of a mob", "a corpse of a mob is here")
+  public withItem(): ItemBuilder {
+    return new ItemBuilder(this.serviceBuilder)
   }
 
   public async fight(target = this.withMob().mob): Promise<Fight> {
@@ -220,7 +205,7 @@ export default class TestBuilder {
     this.serviceBuilder.addExit(exit)
   }
 
-  private buildRoomOnto(source: Room, direction?: Direction) {
+  private buildRoomOnto(source: Room, direction?: Direction): RoomBuilder {
     const room = newRoom("a test room", "description of a test room")
     room.region = newRegion("a test region", Terrain.Plains)
 

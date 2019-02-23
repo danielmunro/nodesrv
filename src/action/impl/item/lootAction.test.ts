@@ -22,7 +22,10 @@ describe("loot action", () => {
 
   it("a corpse must have an item to loot", async () => {
     // given
-    testBuilder.withARandomCorpse()
+    testBuilder.withItem()
+      .asCorpse()
+      .addToInventory(testBuilder.withRoom().room.inventory)
+      .build()
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Loot, "loot foo corpse"))
@@ -33,14 +36,20 @@ describe("loot action", () => {
 
   it("can loot a corpse", async () => {
     // given
-    const item = testBuilder.withRandomItem().build()
-    testBuilder.withARandomCorpse().addItemToContainerInventory(item)
+    const item = testBuilder.withItem()
+      .asHelmet()
+      .build()
+    testBuilder.withItem()
+      .asCorpse()
+      .addItemToContainerInventory(item)
+      .addToInventory(testBuilder.withRoom().room.inventory)
+      .build()
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Loot, `loot '${item.name}' corpse`))
 
     // then
     expect(response.message.getMessageToRequestCreator())
-      .toBe(`you get ${item.name} from a corpse of a mob.`)
+      .toBe(`you get ${item.name} from a corpse of an unnamed mob.`)
   })
 })

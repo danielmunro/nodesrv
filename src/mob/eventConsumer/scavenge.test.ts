@@ -7,10 +7,13 @@ describe("scavenge", () => {
   it("scavengers should scavenge items on the ground", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const roomBuilder = testBuilder.withRoom()
+    const room = testBuilder.withRoom().room
     const mob = testBuilder.withMob().mob
     mob.traits.scavenger = true
-    roomBuilder.withHelmetEq()
+    testBuilder.withItem()
+      .asHelmet()
+      .addToInventory(room.inventory)
+      .build()
     const service = await testBuilder.getService()
     const scavenge = new Scavenge(
       mockService(), service.itemService, service.mobService.locationService)
@@ -20,6 +23,6 @@ describe("scavenge", () => {
 
     // then
     expect(service.itemService.findAllByInventory(mob.inventory)).toHaveLength(1)
-    expect(service.itemService.findAllByInventory(roomBuilder.room.inventory)).toHaveLength(0)
+    expect(service.itemService.findAllByInventory(room.inventory)).toHaveLength(0)
   })
 })

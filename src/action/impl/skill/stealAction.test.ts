@@ -1,3 +1,4 @@
+import {Item} from "../../../item/model/item"
 import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
 import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
@@ -13,6 +14,7 @@ let testBuilder: TestBuilder
 let action: Action
 let mob1: Mob
 let mob2: Mob
+let item: Item
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
@@ -24,7 +26,7 @@ beforeEach(async () => {
 
   // and
   const mobBuilder2 = testBuilder.withMob("bob")
-  mobBuilder2.withAxeEq()
+  item = mobBuilder2.withAxeEq()
   mob2 = mobBuilder2.mob
 })
 
@@ -45,11 +47,11 @@ describe("steal skill action", () => {
 
     // then
     expect(response.message.getMessageToRequestCreator())
-      .toBe(`you steal a toy axe from ${mob2.name}!`)
+      .toBe(`you steal ${item.name} from ${mob2.name}!`)
     expect(response.message.getMessageToTarget())
-      .toBe(`${mob1.name} steals a toy axe from you!`)
+      .toBe(`${mob1.name} steals ${item.name} from you!`)
     expect(response.message.getMessageToObservers())
-      .toBe(`${mob1.name} steals a toy axe from ${mob2.name}!`)
+      .toBe(`${mob1.name} steals ${item.name} from ${mob2.name}!`)
   })
 
   it("should generate accurate fail messages", async () => {
@@ -64,10 +66,10 @@ describe("steal skill action", () => {
 
     // then
     expect(response.message.getMessageToRequestCreator())
-      .toBe(`you fail to steal a toy axe from ${mob2.name}.`)
+      .toBe(`you fail to steal ${item.name} from ${mob2.name}.`)
     expect(response.message.getMessageToTarget())
-      .toBe(`${mob1.name} fails to steal a toy axe from you.`)
+      .toBe(`${mob1.name} fails to steal ${item.name} from you.`)
     expect(response.message.getMessageToObservers())
-      .toBe(`${mob1.name} fails to steal a toy axe from ${mob2.name}.`)
+      .toBe(`${mob1.name} fails to steal ${item.name} from ${mob2.name}.`)
   })
 })
