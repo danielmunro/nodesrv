@@ -72,7 +72,7 @@ describe("mob model", () => {
 
     // given
     const mob = testBuilder.withMob().mob
-    const merchant = testBuilder.withMerchant().mob
+    const merchant = testBuilder.withMob().asMerchant().mob
     const player = (await testBuilder.withPlayer()).player
 
     // expect

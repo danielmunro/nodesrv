@@ -9,7 +9,6 @@ import WeaponBuilder from "../item/weaponBuilder"
 import {newMobLocation} from "../mob/factory"
 import {Fight} from "../mob/fight/fight"
 import {Mob} from "../mob/model/mob"
-import Shop from "../mob/model/shop"
 import {SpecializationType} from "../mob/specialization/specializationType"
 import {AuthorizationLevel} from "../player/authorizationLevel"
 import {Player} from "../player/model/player"
@@ -123,27 +122,6 @@ export default class TestBuilder {
     }
 
     return new MobBuilder(mob)
-  }
-
-  public withTrainer(name?: string): MobBuilder {
-    const mobBuilder = this.withMob(name)
-    mobBuilder.mob.traits.trainer = true
-
-    return mobBuilder
-  }
-
-  public withPracticeMob(): MobBuilder {
-    const mobBuilder = this.withMob()
-    mobBuilder.mob.traits.practice = true
-
-    return mobBuilder
-  }
-
-  public withMerchant() {
-    const mobBuilder = this.withMob(name)
-    mobBuilder.mob.shop = new Shop()
-
-    return mobBuilder
   }
 
   public withItem(): ItemBuilder {

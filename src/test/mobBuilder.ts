@@ -1,5 +1,6 @@
 import {Disposition} from "../mob/enum/disposition"
 import { Mob } from "../mob/model/mob"
+import Shop from "../mob/model/shop"
 import {Race} from "../mob/race/race"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
@@ -9,6 +10,21 @@ import { SpellType } from "../spell/spellType"
 
 export default class MobBuilder {
   constructor(public readonly mob: Mob) {}
+
+  public asTrainer(): MobBuilder {
+    this.mob.traits.trainer = true
+    return this
+  }
+
+  public asPractice(): MobBuilder {
+    this.mob.traits.practice = true
+    return this
+  }
+
+  public asMerchant(): MobBuilder {
+    this.mob.shop = new Shop()
+    return this
+  }
 
   public withRace(race: Race) {
     this.mob.race = race

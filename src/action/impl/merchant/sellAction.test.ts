@@ -22,7 +22,7 @@ describe("sell action", () => {
       .asHelmet()
       .addToPlayerBuilder(playerBuilder)
       .build()
-    testBuilder.withMerchant()
+    testBuilder.withMob().asMerchant()
 
     // and
     const mob = testBuilder.player.sessionMob
@@ -64,7 +64,7 @@ describe("sell action", () => {
   it("should fail if the seller does not have the item",  async () => {
     // given
     await testBuilder.withPlayer()
-    testBuilder.withMerchant()
+    testBuilder.withMob().asMerchant()
 
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Sell, "sell foo"))
@@ -82,7 +82,7 @@ describe("sell action", () => {
       .asAxe()
       .addToPlayerBuilder(playerBuilder)
       .build()
-    testBuilder.withMerchant()
+    testBuilder.withMob().asMerchant()
 
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Sell, `sell ${item.name}`))
@@ -98,7 +98,7 @@ describe("sell action", () => {
       .asAxe()
       .addToMobBuilder(testBuilder.withMob().withDisposition(disposition))
       .build()
-    testBuilder.withMerchant()
+    testBuilder.withMob().asMerchant()
 
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Sell, "sell axe"))

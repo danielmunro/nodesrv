@@ -16,7 +16,7 @@ const command = "practice sneak"
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  testBuilder.withTrainer()
+  testBuilder.withMob().asTrainer()
   playerBuilder = await testBuilder.withPlayer()
   player = playerBuilder.player
   player.sessionMob.playerMob.practices = 1
@@ -34,7 +34,7 @@ describe("practice action", () => {
   })
 
   it("requires available practice sessions", async () => {
-    testBuilder.withPracticeMob()
+    testBuilder.withMob().asPractice()
     player.sessionMob.playerMob.practices = 0
 
     // when
@@ -45,7 +45,7 @@ describe("practice action", () => {
   })
 
   it("can succeed", async () => {
-    testBuilder.withPracticeMob()
+    testBuilder.withMob().asPractice()
     const skill = player.sessionMob.skills[0]
     const initialValue = skill.level
 
@@ -58,7 +58,7 @@ describe("practice action", () => {
   })
 
   it("will not exceed max practice level", async () => {
-    testBuilder.withPracticeMob()
+    testBuilder.withMob().asPractice()
     const skill = player.sessionMob.skills[0]
     skill.level = MAX_PRACTICE_LEVEL
 
@@ -71,7 +71,7 @@ describe("practice action", () => {
   })
 
   it("will not exceed max practice level if near limit", async () => {
-    testBuilder.withPracticeMob()
+    testBuilder.withMob().asPractice()
     const skill = player.sessionMob.skills[0]
     skill.level = MAX_PRACTICE_LEVEL - 1
 

@@ -2,11 +2,11 @@ import {newItem} from "../item/factory"
 import {ItemType} from "../item/itemType"
 import Container from "../item/model/container"
 import {Item} from "../item/model/item"
+import {Mob} from "../mob/model/mob"
 import {Player} from "../player/model/player"
 import {newSkill} from "../skill/factory"
 import {Skill} from "../skill/model/skill"
 import {SkillType} from "../skill/skillType"
-import {Mob} from "../mob/model/mob"
 
 export default class PlayerBuilder {
   constructor(public readonly player: Player) {}

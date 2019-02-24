@@ -30,7 +30,7 @@ describe("list action", () => {
     // setup
     const testBuilder = new TestBuilder()
     await testBuilder.withPlayer()
-    const merchant = testBuilder.withMerchant().mob
+    const merchant = testBuilder.withMob().asMerchant().mob
     const definition = await testBuilder.getActionDefinition(RequestType.List)
     const count1 = 3
     const count2 = 1
@@ -56,7 +56,7 @@ describe("list action", () => {
     testBuilder.withMob().withDisposition(disposition)
     testBuilder.withWeapon()
       .asAxe()
-      .addToMobBuilder(testBuilder.withMerchant())
+      .addToMobBuilder(testBuilder.withMob().asMerchant())
       .build()
     const definition = await testBuilder.getActionDefinition(RequestType.List)
 

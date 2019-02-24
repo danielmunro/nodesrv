@@ -160,7 +160,7 @@ describe("clients", () => {
     testBuilder = new TestBuilder()
     const testClient = await testBuilder.withClient()
     testBuilder.withRoom()
-    testBuilder.withTrainer()
+    testBuilder.withMob().asTrainer()
     testClient.player.sessionMob.playerMob.trains = 1
     testClient.addRequest(testBuilder.createRequest(RequestType.Train, "train str"))
 

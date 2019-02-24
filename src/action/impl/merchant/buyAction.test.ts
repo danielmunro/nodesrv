@@ -1,6 +1,4 @@
 import {CheckStatus} from "../../../check/checkStatus"
-import {Equipment} from "../../../item/equipment"
-import {newEquipment} from "../../../item/factory"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import { RequestType } from "../../../request/requestType"
 import { ResponseStatus } from "../../../request/responseStatus"
@@ -20,13 +18,13 @@ describe("buy action", () => {
   it("purchaser should receive an item", async () => {
     // given
     const initialGold = 100
-    const mob = testBuilder.withMerchant().mob
+    const mobBuilder = testBuilder.withMob().asMerchant()
     testBuilder.withItem()
       .asHelmet()
-      .addToInventory(mob.inventory)
+      .addToMobBuilder(mobBuilder)
     const axe = testBuilder.withWeapon()
       .asAxe()
-      .addToInventory(mob.inventory)
+      .addToMobBuilder(mobBuilder)
       .build()
 
     // and
@@ -69,7 +67,7 @@ describe("buy action", () => {
     testBuilder.withMob()
 
     // and
-    testBuilder.withMerchant()
+    testBuilder.withMob().asMerchant()
 
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Buy, "buy foo"))
@@ -84,7 +82,7 @@ describe("buy action", () => {
     testBuilder.withMob()
     const item = testBuilder.withWeapon()
       .asAxe()
-      .addToInventory(testBuilder.withMerchant().mob.inventory)
+      .addToMobBuilder(testBuilder.withMob().asMerchant())
       .build()
 
     // when
@@ -106,15 +104,14 @@ describe("buy action", () => {
     testBuilder.withRoom()
 
     // and
-    const merch = testBuilder.withMerchant()
-
-    // and
-    const eq = newEquipment("a sombrero", "a robust and eye-catching sombrero", Equipment.Head)
-    eq.value = itemValue
-    merch.mob.inventory.addItem(eq)
+    const item = testBuilder.withItem()
+      .asHelmet()
+      .addToMobBuilder(testBuilder.withMob().asMerchant())
+      .withValue(itemValue)
+      .build()
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Buy, "buy sombrero"))
+    const check = await action.check(testBuilder.createRequest(RequestType.Buy, `buy '${item.name}'`))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
@@ -125,7 +122,7 @@ describe("buy action", () => {
     testBuilder.withMob().withDisposition(disposition).withGold(100)
     testBuilder.withWeapon()
       .asAxe()
-      .addToInventory(testBuilder.withMerchant().mob.inventory)
+      .addToMobBuilder(testBuilder.withMob().asMerchant())
 
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Buy, `buy axe`))

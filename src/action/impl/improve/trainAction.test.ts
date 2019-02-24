@@ -18,7 +18,7 @@ let trainedAttributes: Attributes
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  testBuilder.withTrainer()
+  testBuilder.withMob().asTrainer()
   playerBuilder = await testBuilder.withPlayer()
   player = playerBuilder.player
   trainedAttributes = player.sessionMob.playerMob.trainedAttributes
