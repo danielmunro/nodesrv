@@ -16,7 +16,7 @@ const responseMessage = "your eyes tingle."
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  spell = await testBuilder.getSpellDefinition(SpellType.DetectInvisible)
+  spell = await testBuilder.getSpell(SpellType.DetectInvisible)
   const mobBuilder1 = testBuilder.withMob("alice")
   mobBuilder1.withSpell(SpellType.DetectInvisible, MAX_PRACTICE_LEVEL)
   mobBuilder1.withLevel(30)

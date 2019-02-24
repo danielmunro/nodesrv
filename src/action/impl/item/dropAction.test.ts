@@ -22,7 +22,7 @@ beforeEach(async () => {
     .asHelmet()
     .addToInventory(mob.inventory)
     .build()
-  actionDefinition = await testBuilder.getActionDefinition(RequestType.Drop)
+  actionDefinition = await testBuilder.getAction(RequestType.Drop)
 })
 
 describe("drop", () => {

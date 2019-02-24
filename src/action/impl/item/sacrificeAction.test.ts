@@ -20,7 +20,7 @@ describe("sacrifice action", () => {
     const mobBuilder = testBuilder.withMob()
     testBuilder.room.inventory.addItem(item)
 
-    const definition = await testBuilder.getActionDefinition(RequestType.Sacrifice)
+    const definition = await testBuilder.getAction(RequestType.Sacrifice)
 
     await definition.handle(
       testBuilder.createRequest(RequestType.Sacrifice, `sacrifice ${itemName}`))
@@ -36,7 +36,7 @@ describe("sacrifice action", () => {
     testBuilder.withMob()
     testBuilder.room.inventory.addItem(item)
 
-    const definition = await testBuilder.getActionDefinition(RequestType.Sacrifice)
+    const definition = await testBuilder.getAction(RequestType.Sacrifice)
 
     const response = await definition.handle(
       testBuilder.createRequest(RequestType.Sacrifice, `sacrifice ${itemName}`))

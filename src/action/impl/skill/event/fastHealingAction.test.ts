@@ -15,7 +15,7 @@ async function doAction() {
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  skill = await testBuilder.getSkillDefinition(SkillType.FastHealing)
+  skill = await testBuilder.getSkill(SkillType.FastHealing)
 })
 
 describe("fast healing skill action", () => {

@@ -25,7 +25,7 @@ beforeEach(async () => {
   item.container.isClosed = false
   item.container.isCloseable = true
   mob.inventory.addItem(item)
-  definition = await testBuilder.getActionDefinition(RequestType.Close)
+  definition = await testBuilder.getAction(RequestType.Close)
 })
 
 describe("close door action", () => {

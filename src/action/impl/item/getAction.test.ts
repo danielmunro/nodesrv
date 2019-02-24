@@ -10,7 +10,7 @@ let action: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Get)
+  action = await testBuilder.getAction(RequestType.Get)
 })
 
 describe("get action", () => {
@@ -47,7 +47,7 @@ describe("get action", () => {
       .addToPlayerBuilder(playerBuilder)
       .addItemToContainerInventory(food)
       .build()
-    const definition = await testBuilder.getActionDefinition(RequestType.Get)
+    const definition = await testBuilder.getAction(RequestType.Get)
     const player = playerBuilder.player
     const itemCount = player.sessionMob.inventory.items.length
 

@@ -12,7 +12,7 @@ describe("lore", () => {
       .build()
     item.identified = false
 
-    const definition = await testBuilder.getActionDefinition(RequestType.Lore)
+    const definition = await testBuilder.getAction(RequestType.Lore)
     const response = await definition.handle(testBuilder.createRequest(RequestType.Lore, "lore axe"))
 
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)

@@ -5,7 +5,7 @@ describe("score information action", () => {
   it("outputs score information", async () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()
-    const action = await testBuilder.getActionDefinition(RequestType.Score)
+    const action = await testBuilder.getAction(RequestType.Score)
     const response = await action.handle(testBuilder.createRequest(RequestType.Score))
     expect(response.message.getMessageToRequestCreator())
       .toBe(`

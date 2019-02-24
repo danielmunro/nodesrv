@@ -17,7 +17,7 @@ const MESSAGE_FEELS_LESS_SICK = "you feel less sick."
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  spell = await testBuilder.getSpellDefinition(SpellType.CurePoison)
+  spell = await testBuilder.getSpell(SpellType.CurePoison)
   const mobBuilder1 = testBuilder.withMob()
   mobBuilder1.withSpell(SpellType.CurePoison, MAX_PRACTICE_LEVEL)
   mobBuilder1.withLevel(20)

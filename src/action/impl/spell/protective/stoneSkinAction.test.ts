@@ -17,7 +17,7 @@ const responseMessage = "your skin turns to stone."
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  spell = await testBuilder.getSpellDefinition(SpellType.StoneSkin)
+  spell = await testBuilder.getSpell(SpellType.StoneSkin)
   const mobBuilder1 = testBuilder.withMob("alice", SpecializationType.Cleric)
   mobBuilder1.withSpell(SpellType.StoneSkin, MAX_PRACTICE_LEVEL)
   mobBuilder1.withLevel(30)

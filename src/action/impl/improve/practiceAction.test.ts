@@ -21,7 +21,7 @@ beforeEach(async () => {
   player = playerBuilder.player
   player.sessionMob.playerMob.practices = 1
   player.sessionMob.skills.push(newSkill(SkillType.Sneak))
-  action = await testBuilder.getActionDefinition(RequestType.Practice)
+  action = await testBuilder.getAction(RequestType.Practice)
 })
 
 describe("practice action", () => {

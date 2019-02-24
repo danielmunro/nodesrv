@@ -15,7 +15,7 @@ const initialGold = 100
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Heal)
+  action = await testBuilder.getAction(RequestType.Heal)
   mob = testBuilder.withMob().mob
   mob.gold = initialGold
   healer = testBuilder.withMob().mob

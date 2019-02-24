@@ -16,7 +16,7 @@ describe("put action", () => {
       .asSatchel()
       .addToMobBuilder(mobBuilder)
       .build()
-    const definition = await testBuilder.getActionDefinition(RequestType.Put)
+    const definition = await testBuilder.getAction(RequestType.Put)
 
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Put, `put '${item}' satchel`))

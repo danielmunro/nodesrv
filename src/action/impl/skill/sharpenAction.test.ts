@@ -24,7 +24,7 @@ beforeEach(async () => {
     .addToMobBuilder(mobBuilder)
     .build()
   mobBuilder.withLevel(10)
-  action = await testBuilder.getActionDefinition(RequestType.Sharpen)
+  action = await testBuilder.getAction(RequestType.Sharpen)
 })
 
 describe("sharpen skill action", () => {

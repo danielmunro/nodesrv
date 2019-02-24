@@ -13,7 +13,7 @@ let target: Mob
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  spell = await testBuilder.getSpellDefinition(SpellType.Wrath)
+  spell = await testBuilder.getSpell(SpellType.Wrath)
   const mobBuilder1 = testBuilder.withMob()
   mobBuilder1.withSpell(SpellType.Wrath, MAX_PRACTICE_LEVEL)
   mobBuilder1.withLevel(30)

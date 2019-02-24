@@ -17,7 +17,7 @@ const RESPONSE1 = "your muscles surge with heightened power."
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  spell = await testBuilder.getSpellDefinition(SpellType.GiantStrength)
+  spell = await testBuilder.getSpell(SpellType.GiantStrength)
   const mobBuilder1 = testBuilder.withMob("alice", SpecializationType.Cleric)
   mobBuilder1.withSpell(SpellType.GiantStrength, MAX_PRACTICE_LEVEL)
   mobBuilder1.withLevel(30)

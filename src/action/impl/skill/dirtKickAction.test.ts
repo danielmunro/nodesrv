@@ -18,7 +18,7 @@ let action: Action
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   mobBuilder = testBuilder.withMob().withLevel(20)
-  action = await testBuilder.getActionDefinition(RequestType.DirtKick)
+  action = await testBuilder.getAction(RequestType.DirtKick)
 })
 
 describe("dirt kick skill action", () => {

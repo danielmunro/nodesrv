@@ -7,7 +7,7 @@ describe("help action", () => {
     const testBuilder = new TestBuilder()
 
     // given
-    const action = await testBuilder.getActionDefinition(RequestType.Help)
+    const action = await testBuilder.getAction(RequestType.Help)
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Help, "help cast"))
@@ -39,7 +39,7 @@ See also the help sections for individual spells.`)
     const testBuilder = new TestBuilder()
 
     // given
-    const action = await testBuilder.getActionDefinition(RequestType.Help)
+    const action = await testBuilder.getAction(RequestType.Help)
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Help, "help buy"))

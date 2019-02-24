@@ -7,7 +7,7 @@ let noopDefinition: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  noopDefinition = await testBuilder.getActionDefinition(RequestType.Noop)
+  noopDefinition = await testBuilder.getAction(RequestType.Noop)
 })
 
 describe("Action", () => {
@@ -17,7 +17,7 @@ describe("Action", () => {
   })
 
   it("applyCallback should fail on different request types", async () => {
-    const def = await testBuilder.getActionDefinition(RequestType.Noop)
+    const def = await testBuilder.getAction(RequestType.Noop)
     await expect(def.handle(testBuilder.createRequest(RequestType.Gossip)))
       .rejects.toThrowError()
   })

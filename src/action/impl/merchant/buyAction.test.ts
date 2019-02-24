@@ -11,7 +11,7 @@ let action: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Buy)
+  action = await testBuilder.getAction(RequestType.Buy)
 })
 
 describe("buy action", () => {

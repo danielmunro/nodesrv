@@ -15,7 +15,7 @@ describe("shield", () => {
     mobBuilder1.withLevel(30)
     const mobBuilder2 = testBuilder.withMob("bob")
     const mob = mobBuilder2.mob
-    const definition = await testBuilder.getSpellDefinition(SpellType.Shield)
+    const definition = await testBuilder.getSpell(SpellType.Shield)
 
     // when
     await getSuccessfulAction(definition, testBuilder.createRequest(RequestType.Cast, "cast shield bob", mob))

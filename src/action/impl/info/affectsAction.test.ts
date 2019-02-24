@@ -8,7 +8,7 @@ describe("affects", () => {
   it("should report when an affect is added", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const affectsAction: Action = await testBuilder.getActionDefinition(RequestType.Affects)
+    const affectsAction: Action = await testBuilder.getAction(RequestType.Affects)
 
     // given
     const mob = testBuilder.withMob().mob

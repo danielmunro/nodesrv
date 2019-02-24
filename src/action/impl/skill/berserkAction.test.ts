@@ -13,7 +13,7 @@ let skillDefinition: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  skillDefinition = await testBuilder.getActionDefinition(RequestType.Berserk)
+  skillDefinition = await testBuilder.getAction(RequestType.Berserk)
 })
 
 async function action() {

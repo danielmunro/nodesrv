@@ -7,7 +7,7 @@ let gossipAction: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  gossipAction = await testBuilder.getActionDefinition(RequestType.Gossip)
+  gossipAction = await testBuilder.getAction(RequestType.Gossip)
 })
 
 describe("gossip social action", () => {

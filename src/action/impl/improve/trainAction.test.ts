@@ -23,7 +23,7 @@ beforeEach(async () => {
   player = playerBuilder.player
   trainedAttributes = player.sessionMob.playerMob.trainedAttributes
   player.sessionMob.playerMob.trains = 1
-  definition = await testBuilder.getActionDefinition(RequestType.Train)
+  definition = await testBuilder.getAction(RequestType.Train)
 })
 
 describe("train action", () => {

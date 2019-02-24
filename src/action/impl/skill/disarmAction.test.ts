@@ -20,7 +20,7 @@ beforeEach(async () => {
   mob1.withLevel(50)
   mob2 = testBuilder.withMob()
   mob2.withLevel(50)
-  action = await testBuilder.getActionDefinition(RequestType.Disarm)
+  action = await testBuilder.getAction(RequestType.Disarm)
 })
 
 describe("disarm skill action", () => {

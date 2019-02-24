@@ -37,7 +37,7 @@ beforeEach(async () => {
   service.mobService.mobTable.add(player.sessionMob)
   service.mobService.mobTable.add(playerToUnban.sessionMob)
   requestBuilder = await testBuilder.createRequestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Unban)
+  action = await testBuilder.getAction(RequestType.Unban)
 })
 
 describe("unban moderation action", () => {

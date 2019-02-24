@@ -11,7 +11,7 @@ let action: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Hamstring)
+  action = await testBuilder.getAction(RequestType.Hamstring)
 })
 
 describe("hamstring skill action", () => {

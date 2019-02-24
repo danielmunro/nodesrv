@@ -16,7 +16,7 @@ const responseMessage = "you fade out of existence."
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  spell = await testBuilder.getSpellDefinition(SpellType.Invisibility)
+  spell = await testBuilder.getSpell(SpellType.Invisibility)
   const mobBuilder1 = testBuilder.withMob("alice")
   mobBuilder1.withSpell(SpellType.Invisibility, MAX_PRACTICE_LEVEL)
   mobBuilder1.withLevel(30)

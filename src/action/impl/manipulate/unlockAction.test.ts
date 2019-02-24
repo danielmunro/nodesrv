@@ -26,7 +26,7 @@ describe("unlock action", () => {
     mob = playerBuilder.player.sessionMob
     const service = await testBuilder.getService()
     service.itemService.add(key)
-    definition = await testBuilder.getActionDefinition(RequestType.Unlock)
+    definition = await testBuilder.getAction(RequestType.Unlock)
   })
 
   it("should require arguments", async () => {

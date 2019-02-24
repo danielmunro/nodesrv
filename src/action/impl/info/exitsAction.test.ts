@@ -6,7 +6,7 @@ describe("exits action", () => {
   it("should describe room exits", async () => {
     // setup
     const  testBuilder = new TestBuilder()
-    const action = await testBuilder.getActionDefinition(RequestType.Exits)
+    const action = await testBuilder.getAction(RequestType.Exits)
     testBuilder.withRoom()
     testBuilder.withRoom(Direction.South)
     testBuilder.withRoom(Direction.Up)

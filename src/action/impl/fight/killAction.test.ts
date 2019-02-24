@@ -15,7 +15,7 @@ let mob: Mob
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Kill)
+  action = await testBuilder.getAction(RequestType.Kill)
   mob = (await testBuilder.withPlayer()).player.sessionMob
 })
 

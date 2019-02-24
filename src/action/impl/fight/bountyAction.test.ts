@@ -13,7 +13,7 @@ let player2: Player
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   testBuilder.withRoom()
-  action = await testBuilder.getActionDefinition(RequestType.Bounty)
+  action = await testBuilder.getAction(RequestType.Bounty)
   player1 = (await testBuilder.withPlayer()).player
   player2 = (await testBuilder.withPlayer()).player
 })

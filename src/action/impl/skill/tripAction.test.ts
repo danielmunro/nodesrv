@@ -12,7 +12,7 @@ let action: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Trip)
+  action = await testBuilder.getAction(RequestType.Trip)
 })
 
 describe("trip skill action", () => {

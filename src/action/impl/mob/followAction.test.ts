@@ -11,7 +11,7 @@ let target: Mob
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Follow)
+  action = await testBuilder.getAction(RequestType.Follow)
   player = (await testBuilder.withPlayer()).player
   target = testBuilder.withMob().mob
 })

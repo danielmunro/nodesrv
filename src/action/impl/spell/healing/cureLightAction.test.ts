@@ -21,7 +21,7 @@ beforeEach(async () => {
   mobBuilder.withLevel(20)
   mobBuilder.withSpell(SpellType.CureLight, MAX_PRACTICE_LEVEL)
   mob = testBuilder.withMob("bob").mob
-  spell = await testBuilder.getSpellDefinition(SpellType.CureLight)
+  spell = await testBuilder.getSpell(SpellType.CureLight)
 })
 
 describe("cure light", () => {

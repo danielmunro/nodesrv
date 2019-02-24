@@ -26,7 +26,7 @@ beforeEach(async () => {
   room3.name = "test room 3"
   mob1 = testBuilder.withMob().mob
   mob2 = testBuilder.withMob().mob
-  action = await testBuilder.getActionDefinition(RequestType.South)
+  action = await testBuilder.getAction(RequestType.South)
   locationService = service.mobService.locationService
 })
 

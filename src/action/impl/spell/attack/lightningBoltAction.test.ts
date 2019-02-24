@@ -17,7 +17,7 @@ beforeEach(async () => {
   mobBuilder1.withSpell(SpellType.LightningBolt, MAX_PRACTICE_LEVEL)
   const mobBuilder2 = testBuilder.withMob()
   target = mobBuilder2.mob
-  spell = await testBuilder.getSpellDefinition(SpellType.LightningBolt)
+  spell = await testBuilder.getSpell(SpellType.LightningBolt)
 })
 
 describe("lightning bolt", () => {

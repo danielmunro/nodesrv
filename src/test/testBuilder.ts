@@ -162,15 +162,15 @@ export default class TestBuilder {
     return new RequestBuilder(service.getActions(), service.mobService.locationService, this.mobForRequest, this.room)
   }
 
-  public async getActionDefinition(requestType: RequestType): Promise<Action> {
+  public async getAction(requestType: RequestType): Promise<Action> {
     return (await this.getService()).getAction(requestType)
   }
 
-  public async getSkillDefinition(skillType: SkillType): Promise<Skill | undefined> {
+  public async getSkill(skillType: SkillType): Promise<Skill | undefined> {
     return (await this.getService()).getSkill(skillType)
   }
 
-  public async getSpellDefinition(spellType: SpellType): Promise<Spell> {
+  public async getSpell(spellType: SpellType): Promise<Spell> {
     return (await this.getService()).getSpell(spellType)
   }
 
@@ -184,7 +184,7 @@ export default class TestBuilder {
     return this.serviceBuilder.createService(this.room)
   }
 
-  public addExit(exit: Exit) {
+  private addExit(exit: Exit) {
     this.serviceBuilder.addExit(exit)
   }
 

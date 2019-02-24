@@ -22,7 +22,7 @@ beforeEach(async () => {
   mobBuilder.withLevel(20)
   mobBuilder.withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
   mob = testBuilder.withMob("bob").mob
-  spell = await testBuilder.getSpellDefinition(SpellType.Blind)
+  spell = await testBuilder.getSpell(SpellType.Blind)
 })
 
 function getResponses(): Promise<Response[]> {

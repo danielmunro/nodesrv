@@ -28,7 +28,7 @@ function newSpell(spellType: SpellType) {
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Cast)
+  action = await testBuilder.getAction(RequestType.Cast)
 })
 
 describe("cast spell action", () => {

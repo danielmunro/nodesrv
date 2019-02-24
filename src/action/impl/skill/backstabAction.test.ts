@@ -23,7 +23,7 @@ beforeEach(async () => {
   mobBuilder = testBuilder.withMob()
   const fight = await testBuilder.fight()
   opponent = fight.getOpponentFor(mobBuilder.mob)
-  action = await testBuilder.getActionDefinition(RequestType.Backstab)
+  action = await testBuilder.getAction(RequestType.Backstab)
 })
 
 describe("backstab skill action", () => {

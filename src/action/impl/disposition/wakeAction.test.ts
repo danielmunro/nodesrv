@@ -12,7 +12,7 @@ let action: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Wake)
+  action = await testBuilder.getAction(RequestType.Wake)
 })
 
 describe("sleep action action", () => {

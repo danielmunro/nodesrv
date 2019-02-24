@@ -26,7 +26,7 @@ beforeEach(async () => {
   room = testBuilder.withRoom().room
   const playerBuilder = await testBuilder.withPlayer()
   player = playerBuilder.player
-  definition = await testBuilder.getActionDefinition(RequestType.Look)
+  definition = await testBuilder.getAction(RequestType.Look)
   mob = testBuilder.withMob("alice").mob
   mob.brief = "alice is here"
 })

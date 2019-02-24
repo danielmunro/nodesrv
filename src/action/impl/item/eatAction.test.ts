@@ -12,7 +12,7 @@ let action: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Eat)
+  action = await testBuilder.getAction(RequestType.Eat)
   playerBuilder = await testBuilder.withPlayer()
 })
 

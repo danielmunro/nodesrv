@@ -16,7 +16,7 @@ beforeEach(async () => {
   mob1.playerMob.authorizationLevel = AuthorizationLevel.Immortal
   mob2 = (await testBuilder.withPlayer()).player.sessionMob
   mob2.name = mobToDemote
-  action = await testBuilder.getActionDefinition(RequestType.Demote)
+  action = await testBuilder.getAction(RequestType.Demote)
 })
 
 describe("demote moderation action", () => {

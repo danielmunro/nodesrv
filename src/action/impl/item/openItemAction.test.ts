@@ -20,7 +20,7 @@ beforeEach(async () => {
   item = playerBuilder.withContainer()
   item.container.isClosed = true
   mob.inventory.addItem(item)
-  definition = await testBuilder.getActionDefinition(RequestType.Open)
+  definition = await testBuilder.getAction(RequestType.Open)
 })
 
 describe("open action", () => {

@@ -24,7 +24,7 @@ let action: Action
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   playerBuilder = await testBuilder.withPlayer()
-  action = await testBuilder.getActionDefinition(RequestType.Wear)
+  action = await testBuilder.getAction(RequestType.Wear)
 })
 
 describe("wear", () => {

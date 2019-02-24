@@ -11,7 +11,7 @@ let definition: Skill
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  definition = await testBuilder.getSkillDefinition(SkillType.EnhancedDamage) as Skill
+  definition = await testBuilder.getSkill(SkillType.EnhancedDamage) as Skill
 })
 
 describe("enhanced damage", () => {

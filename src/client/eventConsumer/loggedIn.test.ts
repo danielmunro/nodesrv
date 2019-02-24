@@ -12,7 +12,7 @@ afterAll(async () => (await getConnection()).close())
 describe("logged in client event consumer", () => {
   it("should invoke 'look' action on login", async () => {
     const testBuilder = new TestBuilder()
-    const lookAction = await testBuilder.getActionDefinition(RequestType.Look)
+    const lookAction = await testBuilder.getAction(RequestType.Look)
     const loggedIn = new LoggedIn(getTestRoom(), lookAction)
     const client = await testBuilder.withClient()
 

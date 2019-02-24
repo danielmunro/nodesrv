@@ -11,7 +11,7 @@ let action: Action
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   playerBuilder = await testBuilder.withPlayer()
-  action = await testBuilder.getActionDefinition(RequestType.Inventory)
+  action = await testBuilder.getAction(RequestType.Inventory)
 })
 
 describe("inventory action action", () => {

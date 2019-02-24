@@ -19,7 +19,7 @@ let mob: Mob
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  actionDefinition = await testBuilder.getActionDefinition(RequestType.Remove)
+  actionDefinition = await testBuilder.getAction(RequestType.Remove)
   playerBuilder = await testBuilder.withPlayer()
   mob = playerBuilder.player.sessionMob
 })

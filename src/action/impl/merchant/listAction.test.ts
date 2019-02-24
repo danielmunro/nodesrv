@@ -31,7 +31,7 @@ describe("list action", () => {
     const testBuilder = new TestBuilder()
     await testBuilder.withPlayer()
     const merchant = testBuilder.withMob().asMerchant().mob
-    const definition = await testBuilder.getActionDefinition(RequestType.List)
+    const definition = await testBuilder.getAction(RequestType.List)
     const count1 = 3
     const count2 = 1
 
@@ -58,7 +58,7 @@ describe("list action", () => {
       .asAxe()
       .addToMobBuilder(testBuilder.withMob().asMerchant())
       .build()
-    const definition = await testBuilder.getActionDefinition(RequestType.List)
+    const definition = await testBuilder.getAction(RequestType.List)
 
     // when
     const check = await definition.check(testBuilder.createRequest(RequestType.List))

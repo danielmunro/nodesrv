@@ -9,7 +9,7 @@ describe("skill table", () => {
     testBuilder.withMob().withSkill(SkillType.Axe)
 
     // given
-    const skill = await testBuilder.getSkillDefinition(SkillType.Axe)
+    const skill = await testBuilder.getSkill(SkillType.Axe)
 
     // when
     const response = await skill.handle(testBuilder.createRequest(RequestType.Noop))

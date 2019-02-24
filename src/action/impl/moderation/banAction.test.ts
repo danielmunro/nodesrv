@@ -36,7 +36,7 @@ beforeEach(async () => {
   service.mobService.mobTable.add(player.sessionMob)
   service.mobService.mobTable.add(playerToBan.sessionMob)
   requestBuilder = await testBuilder.createRequestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Ban)
+  action = await testBuilder.getAction(RequestType.Ban)
 })
 
 describe("ban moderation action", () => {

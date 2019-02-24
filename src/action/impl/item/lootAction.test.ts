@@ -8,7 +8,7 @@ let action: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  action = await testBuilder.getActionDefinition(RequestType.Loot)
+  action = await testBuilder.getAction(RequestType.Loot)
 })
 
 describe("loot action", () => {

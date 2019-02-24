@@ -5,7 +5,7 @@ describe("equipped", () => {
   it("should describe the items worn by a mob", async () => {
     // setup
     const  testBuilder = new TestBuilder()
-    const action = await testBuilder.getActionDefinition(RequestType.Equipped)
+    const action = await testBuilder.getAction(RequestType.Equipped)
     const playerBuilder = await testBuilder.withPlayer()
     const helmet = testBuilder.withItem()
       .asHelmet()

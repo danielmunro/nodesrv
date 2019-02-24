@@ -7,7 +7,7 @@ describe("tell social action", () => {
     const testBuilder = new TestBuilder()
     await testBuilder.withPlayer()
     const mob = testBuilder.withMob("foo").mob
-    const action = await testBuilder.getActionDefinition(RequestType.Tell)
+    const action = await testBuilder.getAction(RequestType.Tell)
     const request = testBuilder.createRequest(RequestType.Tell, "tell foo hello world")
 
     // when

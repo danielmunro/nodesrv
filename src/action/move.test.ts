@@ -26,7 +26,7 @@ beforeEach(async () => {
   destination = testBuilder.withRoom(Direction.East).room
   mob = (await testBuilder.withPlayer()).player.sessionMob
   service = await testBuilder.getService()
-  definition = await testBuilder.getActionDefinition(RequestType.East)
+  definition = await testBuilder.getAction(RequestType.East)
 })
 
 describe("move", () => {
@@ -69,7 +69,7 @@ describe("move", () => {
   it("should not allow movement where an exit does not exist", async () => {
     // when
     await testBuilder.withPlayer()
-    definition = await testBuilder.getActionDefinition(RequestType.North)
+    definition = await testBuilder.getAction(RequestType.North)
     const check = await definition.check(testBuilder.createRequest(RequestType.North))
 
     // then

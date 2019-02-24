@@ -28,7 +28,7 @@ beforeEach(async () => {
   // room to flee to
   room2 = testBuilder.withRoom().room
   await testBuilder.fight()
-  definition = await testBuilder.getActionDefinition(RequestType.Flee)
+  definition = await testBuilder.getAction(RequestType.Flee)
 })
 
 describe("flee action handler", () => {
@@ -84,7 +84,7 @@ describe("flee action handler", () => {
     testBuilder.withRoom()
     await testBuilder.withPlayer()
     await testBuilder.fight()
-    definition = await testBuilder.getActionDefinition(RequestType.Flee)
+    definition = await testBuilder.getAction(RequestType.Flee)
 
     // when
     const check = await definition.check(testBuilder.createRequest(RequestType.Flee))

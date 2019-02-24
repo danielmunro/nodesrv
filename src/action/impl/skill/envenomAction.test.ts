@@ -16,7 +16,7 @@ let action: Action
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   mobBuilder = testBuilder.withMob().withLevel(20)
-  action = await testBuilder.getActionDefinition(RequestType.Envenom)
+  action = await testBuilder.getAction(RequestType.Envenom)
 })
 
 async function doAction(input: string) {

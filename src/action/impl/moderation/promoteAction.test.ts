@@ -31,7 +31,7 @@ beforeEach(async () => {
   playerToPromote.sessionMob.name = MOB_TO_PROMOTE
   requestBuilder = await testBuilder.createRequestBuilder()
   service = await testBuilder.getService()
-  action = await testBuilder.getActionDefinition(RequestType.Promote)
+  action = await testBuilder.getAction(RequestType.Promote)
 })
 
 describe("promote moderation action", () => {
