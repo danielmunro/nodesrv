@@ -23,12 +23,12 @@ describe("eat action", () => {
       .asFood()
       .addToPlayerBuilder(playerBuilder)
       .build()
-    const mob = playerBuilder.player.sessionMob
 
     // when
     await action.handle(testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
 
     // then
+    const mob = playerBuilder.getMob()
     expect(mob.inventory.items.length).toBe(0)
     expect(mob.playerMob.hunger).toBe(food.hunger)
   })
@@ -39,7 +39,7 @@ describe("eat action", () => {
       .asFood()
       .addToPlayerBuilder(playerBuilder)
       .build()
-    const mob = playerBuilder.player.sessionMob
+    const mob = playerBuilder.getMob()
     mob.playerMob.hunger = appetite(mob.race) - 1
 
     // when
@@ -98,8 +98,7 @@ describe("eat action", () => {
 
   it("should not allow eating when already full", async () => {
     // given
-    const mob = playerBuilder.player.sessionMob
-    mob.playerMob.hunger = appetite(mob.race)
+    playerBuilder.withHunger(appetite(playerBuilder.player.sessionMob.race))
     const food = testBuilder.withItem()
       .asFood()
       .addToPlayerBuilder(playerBuilder)

@@ -6,11 +6,12 @@ import {Player} from "../player/model/player"
 import {newSkill} from "../skill/factory"
 import {Skill} from "../skill/model/skill"
 import {SkillType} from "../skill/skillType"
+import {Mob} from "../mob/model/mob"
 
 export default class PlayerBuilder {
   constructor(public readonly player: Player) {}
 
-  public withKey(canonicalId): Item {
+  public withKey(canonicalId: string): Item {
     const item = newItem(ItemType.Key, "a key", "a key")
     item.canonicalId = canonicalId
     this.player.sessionMob.inventory.addItem(item)
@@ -29,5 +30,13 @@ export default class PlayerBuilder {
     this.player.sessionMob.skills.push(skill)
 
     return skill
+  }
+
+  public withHunger(hunger: number) {
+    this.player.sessionMob.playerMob.hunger = hunger
+  }
+
+  public getMob(): Mob {
+    return this.player.sessionMob
   }
 }
