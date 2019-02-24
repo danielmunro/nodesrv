@@ -32,13 +32,18 @@ export default class MobBuilder {
     return this
   }
 
-  public withLevel(level: number) {
+  public withMv(amount: number): MobBuilder {
+    this.mob.vitals.mv = amount
+    return this
+  }
+
+  public withLevel(level: number): MobBuilder {
     this.mob.level = level
 
     return this
   }
 
-  public withDisposition(disposition: Disposition) {
+  public withDisposition(disposition: Disposition): MobBuilder {
     this.mob.disposition = disposition
 
     return this
@@ -60,7 +65,7 @@ export default class MobBuilder {
     return spell
   }
 
-  public withGold(gold: number) {
+  public withGold(gold: number): MobBuilder {
     this.mob.gold = gold
     return this
   }

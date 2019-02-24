@@ -22,7 +22,7 @@ beforeEach(async () => {
   testBuilder = new TestBuilder()
   mobBuilder = testBuilder.withMob()
   const fight = await testBuilder.fight()
-  opponent = fight.getOpponentFor(mobBuilder.mob)
+  opponent = fight.getOpponentFor(mobBuilder.mob) as Mob
   action = await testBuilder.getAction(RequestType.Backstab)
 })
 
@@ -38,8 +38,8 @@ describe("backstab skill action", () => {
 
   it("fails when not practiced", async () => {
     // given
-    mobBuilder.withSkill(SkillType.Backstab)
-    mobBuilder.mob.level = 20
+    mobBuilder.withLevel(20)
+      .withSkill(SkillType.Backstab)
 
     // when
     const responses = await doNTimes(iterations, () =>
@@ -47,13 +47,14 @@ describe("backstab skill action", () => {
 
     // then
     expect(responses.filter(r => r.isFailure()).length).toBeGreaterThan(iterations * 0.5)
-    expect(all(responses, r => r.message.toRequestCreator === format(ActionMessages.Backstab.Failure, opponent)))
+    expect(all(responses, (r: Response) =>
+      r.message.getMessageToRequestCreator() === format(ActionMessages.Backstab.Failure, opponent)))
   })
 
   it("succeeds sometimes when partially practiced", async () => {
     // given
-    mobBuilder.mob.level = 30
-    mobBuilder.withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL / 2)
+    mobBuilder.withLevel(30)
+      .withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL / 2)
 
     // when
     const responses = await doNTimes(iterations, () =>
@@ -65,8 +66,8 @@ describe("backstab skill action", () => {
 
   it("succeeds sometimes when fully practiced", async () => {
     // given
-    mobBuilder.mob.level = 50
-    mobBuilder.withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL)
+    mobBuilder.withLevel(50)
+      .withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL)
 
     // when
     const responses = await doNTimes(iterations, () =>
@@ -78,8 +79,8 @@ describe("backstab skill action", () => {
 
   it("generates the right messages", async () => {
     // given
-    mobBuilder.mob.level = 50
-    mobBuilder.withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL)
+    mobBuilder.withLevel(50)
+      .withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL)
 
     // when
     const responses = await doNTimes(iterations, () =>

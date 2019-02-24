@@ -4,7 +4,6 @@ import {ConditionMessages} from "../../../skill/constants"
 import { SkillType } from "../../../skill/skillType"
 import doNTimes, {doNTimesOrUntilTruthy, getSuccessfulAction} from "../../../support/functional/times"
 import MobBuilder from "../../../test/mobBuilder"
-import mobBuilder from "../../../test/mobBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
@@ -94,7 +93,6 @@ describe("disarm skill action", () => {
 
   it("should not work if the mob is too tired", async () => {
     // setup
-    mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
     const targetBuilder = testBuilder.withMob()
     testBuilder.withWeapon()
       .asAxe()
@@ -103,7 +101,8 @@ describe("disarm skill action", () => {
     await testBuilder.fight(targetBuilder.mob)
 
     // given
-    mob1.mob.vitals.mv = 0
+    mob1.withMv(0)
+      .withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Disarm))
