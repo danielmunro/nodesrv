@@ -3,7 +3,6 @@ import {newItem} from "../item/factory"
 import {ItemType} from "../item/itemType"
 import Container from "../item/model/container"
 import {Item} from "../item/model/item"
-import {Disposition} from "../mob/enum/disposition"
 import {Player} from "../player/model/player"
 import {newSkill} from "../skill/factory"
 import {Skill} from "../skill/model/skill"
@@ -45,22 +44,11 @@ export default class PlayerBuilder extends AbstractBuilder {
     return item
   }
 
-  public withFood(): Item {
-    const food = super.withFood()
-    this.player.sessionMob.inventory.addItem(food)
-
-    return food
-  }
-
   public withSkill(skillType: SkillType, level: number = 1): Skill {
     const skill = newSkill(skillType, level)
     this.player.sessionMob.skills.push(skill)
 
     return skill
-  }
-
-  public withDisposition(disposition: Disposition) {
-    this.player.sessionMob.disposition = disposition
   }
 
   private doEquip(equipment: Item) {

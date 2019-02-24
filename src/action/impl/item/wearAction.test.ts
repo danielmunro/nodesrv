@@ -4,6 +4,7 @@ import { newEquipment } from "../../../item/factory"
 import { Item } from "../../../item/model/item"
 import { RequestType } from "../../../request/requestType"
 import { ResponseStatus } from "../../../request/responseStatus"
+import PlayerBuilder from "../../../test/playerBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 import {ConditionMessages} from "../../constants"
@@ -17,32 +18,35 @@ function getPirateHat(): Item {
 }
 
 let testBuilder: TestBuilder
+let playerBuilder: PlayerBuilder
 let action: Action
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
+  playerBuilder = await testBuilder.withPlayer()
   action = await testBuilder.getActionDefinition(RequestType.Wear)
 })
 
 describe("wear", () => {
   it("can equip an item", async () => {
     // given
-    await testBuilder.withPlayer(p => p.sessionMob.inventory.addItem(getHatOfMight()))
+    const item = testBuilder.withItem()
+      .asHelmet()
+      .addToPlayerBuilder(playerBuilder)
+      .build()
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Wear, "wear hat"))
+    const response = await action.handle(testBuilder.createRequest(RequestType.Wear, `wear ${item.name}`))
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message.getMessageToRequestCreator()).toBe("You wear the hat of might.")
+    expect(response.message.getMessageToRequestCreator()).toBe(`You wear ${item.name}.`)
   })
 
   it("will remove an equipped item and wear a new item", async () => {
     // given
-    await testBuilder.withPlayer(p => {
-      p.sessionMob.inventory.addItem(getHatOfMight())
-      p.sessionMob.equipped.addItem(getPirateHat())
-    })
+    playerBuilder.player.sessionMob.inventory.addItem(getHatOfMight())
+    playerBuilder.player.sessionMob.equipped.addItem(getPirateHat())
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Wear, "wear hat"))
@@ -54,7 +58,6 @@ describe("wear", () => {
 
   it("should not work if an item is not found", async () => {
     // when
-    await testBuilder.withPlayer()
     const check = await action.check(testBuilder.createRequest(RequestType.Wear, "wear foo"))
 
     // then
@@ -62,9 +65,8 @@ describe("wear", () => {
     expect(check.result).toBe(ConditionMessages.All.Item.NotOwned)
   })
 
-  it("can equip an item", async () => {
+  it("can equip an item check", async () => {
     // given
-    const playerBuilder = await testBuilder.withPlayer()
     playerBuilder.withAxeEq()
 
     // when
@@ -76,13 +78,16 @@ describe("wear", () => {
   })
 
   it("can't equip things that aren't equipment", async () => {
-    const playerBuilder = await testBuilder.withPlayer()
-    playerBuilder.withFood()
+    // setup
+    const item = testBuilder.withItem()
+      .asFood()
+      .addToPlayerBuilder(playerBuilder)
+      .build()
 
     const check = await action.check(
       testBuilder.createRequest(
         RequestType.Wear,
-        "wear muffin"))
+        `wear ${item.name}`))
 
     expect(check.status).toBe(CheckStatus.Failed)
     expect(check.result).toBe(ConditionMessages.All.Item.NotEquipment)

@@ -7,7 +7,10 @@ describe("mob model", () => {
     // given
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()
-    const food = playerBuilder.withFood()
+    const food = testBuilder.withItem()
+      .asFood()
+      .addToPlayerBuilder(playerBuilder)
+      .build()
     food.hunger = 10
     const mob = playerBuilder.player.sessionMob
     const maxAppetite = appetite(mob.race)

@@ -6,7 +6,10 @@ describe("lore", () => {
   it("should not work on unidentified items", async () => {
     const testBuilder = new TestBuilder()
     const mobBuilder = testBuilder.withMob()
-    const item = mobBuilder.withAxeEq()
+    const item = testBuilder.withWeapon()
+      .asAxe()
+      .addToMobBuilder(mobBuilder)
+      .build()
     item.identified = false
 
     const definition = await testBuilder.getActionDefinition(RequestType.Lore)

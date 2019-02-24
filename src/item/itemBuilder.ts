@@ -7,7 +7,6 @@ import RoomBuilder from "../test/roomBuilder"
 import {Equipment} from "./equipment"
 import {ItemType} from "./itemType"
 import Container from "./model/container"
-import Food from "./model/food"
 import {Inventory} from "./model/inventory"
 import {Item} from "./model/item"
 
@@ -57,8 +56,7 @@ export default class ItemBuilder {
   public asFood(): ItemBuilder {
     this.item.itemType = ItemType.Food
     this.item.name = "a pretzel"
-    this.item.food = new Food()
-    this.item.food.foodAmount = 1
+    this.item.hunger = 1
     return this
   }
 

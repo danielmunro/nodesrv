@@ -11,9 +11,18 @@ describe("death", () => {
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()
     const mob = playerBuilder.player.sessionMob
-    playerBuilder.equip().withHelmetEq()
-    playerBuilder.withAxeEq()
-    playerBuilder.withFood()
+    testBuilder.withItem()
+      .asHelmet()
+      .equipToPlayerBuilder(playerBuilder)
+      .build()
+    testBuilder.withWeapon()
+      .asAxe()
+      .addToPlayerBuilder(playerBuilder)
+      .build()
+    testBuilder.withItem()
+      .asFood()
+      .addToPlayerBuilder(playerBuilder)
+      .build()
 
     // given
     const death = new Death(mob, testBuilder.room)

@@ -90,10 +90,14 @@ describe("get action", () => {
 
   it("should be ok if the item is in a mob's container", async () => {
     // given
-    const mobBuilder = testBuilder.withMob()
-    const container = mobBuilder.withSatchelContainer()
-    const item = mobBuilder.withAxeEq()
-    container.container.addItem(item)
+    const item = testBuilder.withWeapon()
+      .asAxe()
+      .build()
+    testBuilder.withItem()
+      .asSatchel()
+      .addItemToContainerInventory(item)
+      .addToMobBuilder(testBuilder.withMob())
+      .build()
 
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Get, "get axe sat"))
