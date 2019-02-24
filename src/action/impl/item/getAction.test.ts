@@ -16,7 +16,11 @@ beforeEach(async () => {
 describe("get action", () => {
   it("should be able to get an item from a room inventory", async () => {
     // setup
-    testBuilder.withRoom().withHelmetEq()
+    const roomBuilder = testBuilder.withRoom()
+    testBuilder.withItem()
+      .asHelmet()
+      .addToRoomBuilder(roomBuilder)
+      .build()
     const playerBuilder = await testBuilder.withPlayer()
     const player = playerBuilder.player
     const itemCount = player.sessionMob.inventory.items.length

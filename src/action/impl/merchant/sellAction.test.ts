@@ -18,7 +18,10 @@ describe("sell action", () => {
   it("should be able to work successfully", async () => {
     // given
     const playerBuilder = await testBuilder.withPlayer()
-    const item = playerBuilder.withHelmetEq()
+    const item = testBuilder.withItem()
+      .asHelmet()
+      .addToPlayerBuilder(playerBuilder)
+      .build()
     testBuilder.withMerchant()
 
     // and
@@ -75,7 +78,10 @@ describe("sell action", () => {
     // setup
     testBuilder.withRoom()
     const playerBuilder = await testBuilder.withPlayer()
-    const item = playerBuilder.withAxeEq()
+    const item = testBuilder.withWeapon()
+      .asAxe()
+      .addToPlayerBuilder(playerBuilder)
+      .build()
     testBuilder.withMerchant()
 
     // when
@@ -88,7 +94,10 @@ describe("sell action", () => {
 
   it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
     // given
-    testBuilder.withMob().withDisposition(disposition).withAxeEq()
+    testBuilder.withWeapon()
+      .asAxe()
+      .addToMobBuilder(testBuilder.withMob().withDisposition(disposition))
+      .build()
     testBuilder.withMerchant()
 
     // when

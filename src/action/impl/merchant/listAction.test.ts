@@ -54,7 +54,10 @@ describe("list action", () => {
     // given
     const testBuilder = new TestBuilder()
     testBuilder.withMob().withDisposition(disposition)
-    testBuilder.withMerchant().withAxeEq()
+    testBuilder.withWeapon()
+      .asAxe()
+      .addToMobBuilder(testBuilder.withMerchant())
+      .build()
     const definition = await testBuilder.getActionDefinition(RequestType.List)
 
     // when

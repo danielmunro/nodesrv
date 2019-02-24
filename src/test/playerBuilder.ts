@@ -1,4 +1,3 @@
-import ServiceBuilder from "../gameService/serviceBuilder"
 import {newItem} from "../item/factory"
 import {ItemType} from "../item/itemType"
 import Container from "../item/model/container"
@@ -7,28 +6,9 @@ import {Player} from "../player/model/player"
 import {newSkill} from "../skill/factory"
 import {Skill} from "../skill/model/skill"
 import {SkillType} from "../skill/skillType"
-import AbstractBuilder from "./abstractBuilder"
 
-export default class PlayerBuilder extends AbstractBuilder {
-  private equipNextEquipment = false
-
-  constructor(public readonly player: Player, serviceBuilder: ServiceBuilder) {
-    super(serviceBuilder)
-  }
-
-  public equip(): PlayerBuilder {
-    this.equipNextEquipment = true
-
-    return this
-  }
-
-  public withHelmetEq(): Item {
-    return this.doEquip(super.withHelmetEq())
-  }
-
-  public withAxeEq(): Item {
-    return this.doEquip(super.withAxeEq())
-  }
+export default class PlayerBuilder {
+  constructor(public readonly player: Player) {}
 
   public withKey(canonicalId): Item {
     const item = newItem(ItemType.Key, "a key", "a key")
@@ -49,17 +29,5 @@ export default class PlayerBuilder extends AbstractBuilder {
     this.player.sessionMob.skills.push(skill)
 
     return skill
-  }
-
-  private doEquip(equipment: Item) {
-    if (this.equipNextEquipment) {
-      this.equipNextEquipment = false
-      this.player.sessionMob.equipped.addItem(equipment)
-      return equipment
-    }
-
-    this.player.sessionMob.inventory.addItem(equipment)
-
-    return equipment
   }
 }

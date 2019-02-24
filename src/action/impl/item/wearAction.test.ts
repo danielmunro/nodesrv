@@ -67,7 +67,10 @@ describe("wear", () => {
 
   it("can equip an item check", async () => {
     // given
-    playerBuilder.withAxeEq()
+    testBuilder.withWeapon()
+      .asAxe()
+      .addToPlayerBuilder(playerBuilder)
+      .build()
 
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Wear, "wear axe"))

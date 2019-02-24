@@ -27,7 +27,10 @@ beforeEach(async () => {
 describe("remove", () => {
   it("can remove an equipped item", async () => {
     // given
-    const item = playerBuilder.equip().withHelmetEq()
+    const item = testBuilder.withItem()
+      .asHelmet()
+      .equipToPlayerBuilder(playerBuilder)
+      .build()
 
     // when
     const response = await actionDefinition.handle(

@@ -98,7 +98,7 @@ export default class TestBuilder {
       fn(player)
     }
 
-    return new PlayerBuilder(player, this.serviceBuilder)
+    return new PlayerBuilder(player)
   }
 
   public async withAdminPlayer(
@@ -122,7 +122,7 @@ export default class TestBuilder {
       this.mobForRequest = mob
     }
 
-    return new MobBuilder(mob, this.serviceBuilder)
+    return new MobBuilder(mob)
   }
 
   public withTrainer(name?: string): MobBuilder {
@@ -226,6 +226,6 @@ export default class TestBuilder {
     this.lastRoom = room
     this.serviceBuilder.addRoom(room)
 
-    return new RoomBuilder(room, this.serviceBuilder)
+    return new RoomBuilder(room)
   }
 }

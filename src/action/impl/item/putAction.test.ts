@@ -8,12 +8,18 @@ describe("put action", () => {
     const mobBuilder = testBuilder.withMob()
 
     // given
-    mobBuilder.withAxeEq()
-    const container = mobBuilder.withSatchelContainer()
+    const item = testBuilder.withWeapon()
+      .asAxe()
+      .addToMobBuilder(mobBuilder)
+      .build()
+    const container = testBuilder.withItem()
+      .asSatchel()
+      .addToMobBuilder(mobBuilder)
+      .build()
     const definition = await testBuilder.getActionDefinition(RequestType.Put)
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Put, "put axe satchel"))
+    const response = await definition.handle(testBuilder.createRequest(RequestType.Put, `put '${item}' satchel`))
 
     // then
     expect(response.isSuccessful()).toBeTruthy()

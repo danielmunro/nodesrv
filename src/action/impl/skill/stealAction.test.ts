@@ -26,7 +26,10 @@ beforeEach(async () => {
 
   // and
   const mobBuilder2 = testBuilder.withMob("bob")
-  item = mobBuilder2.withAxeEq()
+  item = testBuilder.withWeapon()
+    .asAxe()
+    .addToMobBuilder(mobBuilder2)
+    .build()
   mob2 = mobBuilder2.mob
 })
 

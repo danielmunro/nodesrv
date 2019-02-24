@@ -26,7 +26,10 @@ async function doAction(input: string) {
 describe("envenom skill action", () => {
   it("should fail at low levels", async () => {
     // given
-    mobBuilder.withAxeEq()
+    testBuilder.withWeapon()
+      .asAxe()
+      .addToMobBuilder(mobBuilder)
+      .build()
     mobBuilder.withSkill(SkillType.Envenom)
 
     // when
@@ -38,7 +41,10 @@ describe("envenom skill action", () => {
 
   it("should succeed sometimes with sufficient practice", async () => {
     // setup
-    const axe = mobBuilder.withAxeEq()
+    const axe = testBuilder.withWeapon()
+      .asAxe()
+      .addToMobBuilder(mobBuilder)
+      .build()
     mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
 
     // when
@@ -56,7 +62,10 @@ describe("envenom skill action", () => {
     mobBuilder.withSkill(SkillType.Envenom)
 
     // given
-    mobBuilder.withHelmetEq()
+    testBuilder.withItem()
+      .asHelmet()
+      .addToMobBuilder(mobBuilder)
+      .build()
 
     // when
     const response = await doAction("envenom cap")
@@ -86,7 +95,10 @@ describe("envenom skill action", () => {
 
   it("generates accurate messages", async () => {
     // setup
-    const item = mobBuilder.withAxeEq()
+    const item = testBuilder.withWeapon()
+      .asAxe()
+      .addToMobBuilder(mobBuilder)
+      .build()
     mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
 
     // when

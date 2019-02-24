@@ -82,7 +82,10 @@ describe("eat action", () => {
 
   it("should not allow eating items that are not food", async () => {
     // given
-    const eq = playerBuilder.withHelmetEq()
+    const eq = testBuilder.withItem()
+      .asHelmet()
+      .addToPlayerBuilder(playerBuilder)
+      .build()
 
     // when
     const response = await action.handle(
