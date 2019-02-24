@@ -9,13 +9,12 @@ import Session from "../session/session"
 import {Observer} from "./observers/observer"
 
 export default class ClientService {
-  private clients: Client[] = []
-
   constructor(
     private readonly eventService: EventService,
     private readonly authService: AuthService,
     private readonly locationService: LocationService,
-    private readonly actions: Action[]) {}
+    private readonly actions: Action[],
+    private clients: Client[] = []) {}
 
   public createNewClient(ws: WebSocket, req: any) {
     const client = new Client(
@@ -35,6 +34,10 @@ export default class ClientService {
 
   public remove(client: Client) {
     this.clients = this.clients.filter(c => c !== client)
+  }
+
+  public getClientByMob(mob: Mob): Client | undefined {
+    return this.clients.find((client: Client) => client.getSessionMob() === mob)
   }
 
   public getClientCount(): number {

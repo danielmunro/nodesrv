@@ -10,6 +10,7 @@ import Action from "./action"
 import {ConditionMessages} from "./constants"
 import {ActionPart} from "./enum/actionPart"
 import CastAction from "./impl/castAction"
+import QuitAction from "./impl/client/quitAction"
 import SleepAction from "./impl/disposition/sleepAction"
 import WakeAction from "./impl/disposition/wakeAction"
 import BountyAction from "./impl/fight/bountyAction"
@@ -184,6 +185,9 @@ export default function getActionTable(
     // disposition
     new WakeAction(checkBuilderFactory),
     new SleepAction(checkBuilderFactory),
+
+    // client
+    new QuitAction(checkBuilderFactory, eventService),
 
     // catch-all
     new NoopAction(),

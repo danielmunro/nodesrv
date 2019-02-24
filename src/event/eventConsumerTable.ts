@@ -2,6 +2,7 @@ import Action from "../action/action"
 import Move from "../action/move"
 import Disconnected from "../client/eventConsumer/disconnected"
 import LoggedIn from "../client/eventConsumer/loggedIn"
+import Quit from "../client/eventConsumer/quit"
 import Social from "../client/eventConsumer/social"
 import GameService from "../gameService/gameService"
 import ItemCreated from "../item/eventConsumer/itemCreated"
@@ -74,5 +75,6 @@ export default async function createEventConsumerTable(
     new Disconnected(clientService),
     new ClientCreated(locationService, gameServer.startRoom),
     new LoggedIn(gameServer.startRoom, gameService.getAction(RequestType.Look)),
+    new Quit(clientService),
   ])
 }

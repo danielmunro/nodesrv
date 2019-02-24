@@ -61,6 +61,7 @@ export default class TestBuilder {
     await client.session.login(client, this.player)
     this.mobForRequest = client.getSessionMob()
     this.serviceBuilder.addMob(this.mobForRequest)
+    this.serviceBuilder.addClient(client)
 
     return client
   }

@@ -1,4 +1,5 @@
 import getActionTable from "../action/actionTable"
+import {Client} from "../client/client"
 import eventConsumerTable from "../event/eventConsumerTable"
 import EventService from "../event/eventService"
 import ItemService from "../item/itemService"
@@ -28,6 +29,7 @@ export default class ServiceBuilder {
   private time: number = 0
   private fights: Fight[] = []
   private locations: MobLocation[] = []
+  private clients: Client[] = []
   private builtService: GameService
 
   constructor(
@@ -49,6 +51,10 @@ export default class ServiceBuilder {
     if (this.builtService) {
       this.builtService.roomTable.add(room)
     }
+  }
+
+  public addClient(client: Client) {
+    this.clients.push(client)
   }
 
   public addMob(mob: Mob): void {
@@ -112,7 +118,7 @@ export default class ServiceBuilder {
         new AuthService(jest.fn()(), this.builtService.mobService),
         this.builtService.mobService.locationService,
         this.builtService.getActions(),
-      ),
+        this.clients),
       this.builtService.eventService)
     const eventConsumers = await eventConsumerTable(
       this.builtService,
