@@ -7,6 +7,7 @@ import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
 import {getPlayerRepository} from "../player/repository/player"
+import ExitTable from "../room/exitTable"
 import RoomTable from "../room/roomTable"
 import AuthService from "../session/auth/authService"
 import {getConnection, initializeConnection} from "../support/db/connection"
@@ -23,7 +24,7 @@ let ws
 async function getGameServer(): Promise<GameServer> {
   const eventService = new EventService()
   const room = getTestRoom()
-  const locationService = new LocationService(RoomTable.new([room]), eventService, [])
+  const locationService = new LocationService(RoomTable.new([room]), eventService, new ExitTable())
   const mobService = new MobService(
     new MobTable(),
     new MobTable(),

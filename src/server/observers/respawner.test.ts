@@ -1,3 +1,4 @@
+import EventService from "../../event/eventService"
 import ResetService from "../../gameService/resetService"
 import { Disposition } from "../../mob/enum/disposition"
 import { newMobReset } from "../../mob/factory"
@@ -6,6 +7,7 @@ import LocationService from "../../mob/locationService"
 import MobService from "../../mob/mobService"
 import { default as MobTable } from "../../mob/mobTable"
 import { getMobRepository } from "../../mob/repository/mob"
+import ExitTable from "../../room/exitTable"
 import RoomTable from "../../room/roomTable"
 import {getConnection, initializeConnection} from "../../support/db/connection"
 import { getTestMob } from "../../test/mob"
@@ -34,14 +36,15 @@ describe("respawner", () => {
     await mobRepository.save([mob1, mob2, mob3])
 
     // given
-    const locationService = new LocationService()
+    const roomTable = RoomTable.new([currentRoom, startRoom])
+    const eventService = new EventService()
+    const locationService = new LocationService(roomTable, eventService, new ExitTable())
     const mobTable = new MobTable()
     const mobService = new MobService(
       mobTable,
       new MobTable([mob1, mob2, mob3]),
       new FightTable(),
       locationService)
-    const roomTable = RoomTable.new([currentRoom, startRoom])
     const respawner = new Respawner(
       new ResetService([
         newMobReset(mob1, startRoom, 1, 1),

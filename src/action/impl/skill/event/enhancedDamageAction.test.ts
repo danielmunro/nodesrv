@@ -15,7 +15,7 @@ beforeEach(async () => {
 })
 
 describe("enhanced damage", () => {
-  it("should succeed more than half the time when practiced", async () => {
+  it("should succeed sometimes when practiced", async () => {
     // given
     const player = await testBuilder.withPlayerAndSkill(SkillType.EnhancedDamage, MAX_PRACTICE_LEVEL)
     player.sessionMob.level = 40
@@ -26,7 +26,7 @@ describe("enhanced damage", () => {
       definition.handle(testBuilder.createRequest(RequestType.Noop)))
 
     // then
-    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.4)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.3)
   })
 
   it("should succeed somewhat when practiced some", async () => {

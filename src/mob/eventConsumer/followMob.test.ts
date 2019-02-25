@@ -17,7 +17,6 @@ let room3: Room
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  const service = await testBuilder.getService()
   room1 = testBuilder.withRoom().room
   room1.name = "test room 1"
   room2 = testBuilder.addRoomToPreviousRoom(Direction.South).room
@@ -27,6 +26,7 @@ beforeEach(async () => {
   mob1 = testBuilder.withMob().mob
   mob2 = testBuilder.withMob().mob
   action = await testBuilder.getAction(RequestType.South)
+  const service = await testBuilder.getService()
   locationService = service.mobService.locationService
 })
 
@@ -61,7 +61,7 @@ describe("follow mob event consumer", () => {
     await locationService.moveMob(mob1, Direction.South)
 
     // then
-    expect(locationService.getLocationForMob(mob1).room).toBe(room3)
     expect(locationService.getLocationForMob(mob2).room).toBe(room1)
+    expect(locationService.getLocationForMob(mob1).room).toBe(room3)
   })
 })

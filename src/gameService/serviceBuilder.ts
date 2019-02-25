@@ -13,6 +13,7 @@ import MobService from "../mob/mobService"
 import { default as MobTable } from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
+import ExitTable from "../room/exitTable"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
 import { default as RoomTable } from "../room/roomTable"
@@ -73,6 +74,9 @@ export default class ServiceBuilder {
 
   public addExit(exit: Exit): void {
     this.exits.push(exit)
+    if (this.builtService) {
+      this.builtService.mobService.locationService.exitTable.exits.push(exit)
+    }
   }
 
   public addMobLocation(mobLocation: MobLocation) {
@@ -85,7 +89,7 @@ export default class ServiceBuilder {
     }
     const eventService = new EventService()
     const roomTable = RoomTable.new(this.rooms)
-    const locationService = new LocationService(roomTable, eventService, this.locations)
+    const locationService = new LocationService(roomTable, eventService, new ExitTable(this.exits), this.locations)
     const itemService = new ItemService(new ItemTable(this.items), new ItemTable(this.items))
     const mobService = new MobService(
       new MobTable(this.mobs),

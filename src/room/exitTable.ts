@@ -6,6 +6,6 @@ export default class ExitTable {
     private readonly exits: Exit[] = []) {}
 
   public exitsForRoom(room: Room): Exit[] {
-    return this.exits.filter(exit => exit.source.id === room.id)
+    return this.exits.filter(exit => exit.source.uuid === room.uuid)
   }
 }
