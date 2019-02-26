@@ -1,4 +1,6 @@
+import ServiceBuilder from "../gameService/serviceBuilder"
 import {Disposition} from "../mob/enum/disposition"
+import {newMobLocation} from "../mob/factory"
 import { Mob } from "../mob/model/mob"
 import Shop from "../mob/model/shop"
 import {Race} from "../mob/race/race"
@@ -7,9 +9,10 @@ import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
 import { Spell } from "../spell/model/spell"
 import { SpellType } from "../spell/spellType"
+import RoomBuilder from "./roomBuilder"
 
 export default class MobBuilder {
-  constructor(public readonly mob: Mob) {}
+  constructor(public readonly mob: Mob, private readonly serviceBuilder: ServiceBuilder) {}
 
   public asTrainer(): MobBuilder {
     this.mob.traits.trainer = true
@@ -68,5 +71,15 @@ export default class MobBuilder {
   public withGold(gold: number): MobBuilder {
     this.mob.gold = gold
     return this
+  }
+
+  public addToRoom(roomBuilder: RoomBuilder): MobBuilder {
+    this.serviceBuilder.addMobLocation(newMobLocation(this.mob, roomBuilder.room))
+    return this
+  }
+
+  public build(): Mob {
+    this.serviceBuilder.addMob(this.mob)
+    return this.mob
   }
 }

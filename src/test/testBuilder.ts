@@ -122,7 +122,12 @@ export default class TestBuilder {
       this.mobForRequest = mob
     }
 
-    return new MobBuilder(mob)
+    return new MobBuilder(mob, this.serviceBuilder)
+  }
+
+  public withMobBuilder(name?: string): MobBuilder {
+    const mob = getTestMob(name)
+    return new MobBuilder(mob, this.serviceBuilder)
   }
 
   public withItem(): ItemBuilder {
