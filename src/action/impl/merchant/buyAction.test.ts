@@ -28,16 +28,16 @@ describe("buy action", () => {
       .build()
 
     // and
-    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.gold = initialGold)
-    const player = playerBuilder.player
+    const player = await testBuilder.withPlayer()
+    player.setGold(initialGold)
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Buy, "buy axe"))
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(player.sessionMob.inventory.findItemByName("axe")).not.toBeUndefined()
-    expect(player.sessionMob.gold).toBe(initialGold - axe.value)
+    expect(player.getMob().inventory.findItemByName("axe")).not.toBeUndefined()
+    expect(player.getMob().gold).toBe(initialGold - axe.value)
   })
 
   it("should fail if an argument is not provided", async () => {
@@ -119,7 +119,9 @@ describe("buy action", () => {
 
   it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
     // given
-    testBuilder.withMob().withDisposition(disposition).withGold(100)
+    testBuilder.withMob()
+      .withDisposition(disposition)
+      .withGold(100)
     testBuilder.withWeapon()
       .asAxe()
       .addToMobBuilder(testBuilder.withMob().asMerchant())

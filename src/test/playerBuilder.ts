@@ -36,6 +36,11 @@ export default class PlayerBuilder {
     this.player.sessionMob.playerMob.hunger = hunger
   }
 
+  public setLevel(level: number): PlayerBuilder {
+    this.player.sessionMob.level = level
+    return this
+  }
+
   public setGold(amount: number): PlayerBuilder {
     this.player.sessionMob.gold = amount
     return this

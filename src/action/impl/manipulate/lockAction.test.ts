@@ -1,40 +1,35 @@
-import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
 import {Direction} from "../../../room/constants"
 import {newDoor} from "../../../room/factory"
 import {Room} from "../../../room/model/room"
+import PlayerBuilder from "../../../test/playerBuilder"
 import TestBuilder from "../../../test/testBuilder"
-import Action from "../../action"
 import {ConditionMessages} from "../../constants"
 
+let testBuilder: TestBuilder
+let player: PlayerBuilder
+let source: Room
+const lockCanonicalId = 123
+const lockCommand = "lock door"
+
+beforeEach(async () => {
+  testBuilder = new TestBuilder()
+  source = testBuilder.withRoom().room
+  testBuilder.withRoom(Direction.East)
+  player = await testBuilder.withPlayer()
+  const key = player.withKey(lockCanonicalId as any)
+  const service = await testBuilder.getService()
+  service.itemService.add(key)
+})
+
 describe("lock action", () => {
-
-  let testBuilder: TestBuilder
-  let definition: Action
-  let source: Room
-  let mob: Mob
-  const lockCanonicalId = 123
-  const lockCommand = "lock door"
-
-  beforeEach(async () => {
-    testBuilder = new TestBuilder()
-    source = testBuilder.withRoom().room
-    testBuilder.withRoom(Direction.East)
-    const playerBuilder = await testBuilder.withPlayer()
-    const key = playerBuilder.withKey(lockCanonicalId)
-    mob = playerBuilder.player.sessionMob
-    const service = await testBuilder.getService()
-    service.itemService.add(key)
-    definition = await testBuilder.getAction(RequestType.Lock)
-  })
-
   it("should require arguments", async () => {
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Lock, "lock"))
+    const response = await testBuilder.handleAction(RequestType.Lock, "lock")
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.All.Arguments.Lock)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Arguments.Lock)
   })
 
   it("should require a key to be able to lock a locked door", async () => {
@@ -43,11 +38,11 @@ describe("lock action", () => {
     source.exits[0].door = door
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Lock, lockCommand))
+    const response = await testBuilder.handleAction(RequestType.Lock, lockCommand)
 
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Lock.Fail.NoKey)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Lock.Fail.NoKey)
     expect(door.isLocked).toBeFalsy()
   })
 
@@ -58,12 +53,12 @@ describe("lock action", () => {
     source.exits[0].door = door
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Lock, lockCommand))
+    const response = await testBuilder.handleAction(RequestType.Lock, lockCommand)
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message.getMessageToRequestCreator()).toBe("you lock a door east.")
-    expect(response.message.getMessageToObservers()).toBe(mob.name + " locks a door east.")
+    expect(response.getMessageToRequestCreator()).toBe("you lock a door east.")
+    expect(response.message.getMessageToObservers()).toBe(`${player.getMob().name} locks a door east.`)
     expect(door.isClosed).toBeTruthy()
     expect(door.isLocked).toBeTruthy()
   })
@@ -75,10 +70,10 @@ describe("lock action", () => {
     source.exits[0].door = door
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Lock, lockCommand))
+    const response = await testBuilder.handleAction(RequestType.Lock, lockCommand)
 
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Lock.Fail.AlreadyLocked)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Lock.Fail.AlreadyLocked)
   })
 })
