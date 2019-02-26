@@ -19,14 +19,14 @@ beforeEach(async () => {
   mob = (await testBuilder.withPlayer()).player.sessionMob
 })
 
-describe("kill", () => {
+describe("kill action", () => {
   it("cannot kill self", async () => {
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Kill, `kill ${mob.name}`))
+    const response = await testBuilder.handleAction(RequestType.Kill, `kill ${mob.name}`)
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
-    expect(response.message.getMessageToRequestCreator()).toBe(MESSAGE_FAIL_CANNOT_ATTACK_SELF)
+    expect(response.getMessageToRequestCreator()).toBe(MESSAGE_FAIL_CANNOT_ATTACK_SELF)
   })
 
   it("should be able to kill a mob in the same room", async () => {
@@ -35,7 +35,7 @@ describe("kill", () => {
     const target = testBuilder.withMob("bob").mob
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Kill, `kill ${target.name}`, target))
+    const response = await testBuilder.handleAction(RequestType.Kill, `kill ${target.name}`)
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)

@@ -1,28 +1,27 @@
 import {RequestType} from "../../../request/requestType"
-import RoomBuilder from "../../../test/roomBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
 let testBuilder: TestBuilder
 let action: Action
-let room1: RoomBuilder
-let room2: RoomBuilder
-let room3: RoomBuilder
-let room4: RoomBuilder
 const testAreaName = "test area"
 const differentTestArea = "different test area"
 const names = ["bob", "alice", "al", "jane"]
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  room1 = testBuilder.withRoom().setArea(testAreaName)
-  room2 = testBuilder.addRoomToPreviousRoom().setArea(testAreaName)
-  room3 = testBuilder.addRoomToPreviousRoom().setArea(testAreaName)
-  room4 = testBuilder.addRoomToPreviousRoom().setArea(differentTestArea)
-  testBuilder.withMobBuilder(names[0]).addToRoom(room1).build()
-  testBuilder.withMobBuilder(names[1]).addToRoom(room2).build()
-  testBuilder.withMobBuilder(names[2]).addToRoom(room3).build()
-  testBuilder.withMobBuilder(names[3]).addToRoom(room4).build()
+  testBuilder.withMobBuilder(names[0])
+    .addToRoom(testBuilder.withRoom().setArea(testAreaName))
+    .build()
+  testBuilder.withMobBuilder(names[1])
+    .addToRoom(testBuilder.addRoomToPreviousRoom().setArea(testAreaName))
+    .build()
+  testBuilder.withMobBuilder(names[2])
+    .addToRoom(testBuilder.addRoomToPreviousRoom().setArea(testAreaName))
+    .build()
+  testBuilder.withMobBuilder(names[3])
+    .addToRoom(testBuilder.addRoomToPreviousRoom().setArea(differentTestArea))
+    .build()
   await testBuilder.withPlayer()
   action = await testBuilder.getAction(RequestType.Scan)
 })

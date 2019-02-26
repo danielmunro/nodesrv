@@ -36,6 +36,21 @@ export default class PlayerBuilder {
     this.player.sessionMob.playerMob.hunger = hunger
   }
 
+  public setGold(amount: number): PlayerBuilder {
+    this.player.sessionMob.gold = amount
+    return this
+  }
+
+  public setBounty(amount: number): PlayerBuilder {
+    this.player.sessionMob.playerMob.bounty = amount
+    return this
+  }
+
+  public setHp(amount: number): PlayerBuilder {
+    this.player.sessionMob.vitals.hp = amount
+    return this
+  }
+
   public getMob(): Mob {
     return this.player.sessionMob
   }

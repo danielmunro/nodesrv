@@ -18,6 +18,7 @@ import InputContext from "../request/context/inputContext"
 import {Request} from "../request/request"
 import RequestBuilder from "../request/requestBuilder"
 import {RequestType} from "../request/requestType"
+import Response from "../request/response"
 import {Direction} from "../room/constants"
 import {newReciprocalExit, newRoom} from "../room/factory"
 import {Exit} from "../room/model/exit"
@@ -166,6 +167,11 @@ export default class TestBuilder {
   public async createRequestBuilder() {
     const service = await this.getService()
     return new RequestBuilder(service.getActions(), service.mobService.locationService, this.mobForRequest, this.room)
+  }
+
+  public async handleAction(requestType: RequestType, input?: string): Promise<Response> {
+    const action = await this.getAction(requestType)
+    return action.handle(this.createRequest(requestType, input))
   }
 
   public async getAction(requestType: RequestType): Promise<Action> {

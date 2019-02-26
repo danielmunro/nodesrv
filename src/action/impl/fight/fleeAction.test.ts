@@ -3,8 +3,8 @@ import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {Mob} from "../../../mob/model/mob"
 import MobLocation from "../../../mob/model/mobLocation"
 import { RequestType } from "../../../request/requestType"
-import {Room} from "../../../room/model/room"
 import {getSuccessfulAction} from "../../../support/functional/times"
+import RoomBuilder from "../../../test/roomBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 import {
@@ -12,10 +12,10 @@ import {
   } from "../../constants"
 import {MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_TOO_TIRED} from "../../constants"
 
-let definition: Action
+let action: Action
 let mob: Mob
 let player
-let room2: Room
+let room2: RoomBuilder
 let testBuilder: TestBuilder
 
 beforeEach(async () => {
@@ -26,9 +26,9 @@ beforeEach(async () => {
   // room with a fight
   testBuilder.withRoom()
   // room to flee to
-  room2 = testBuilder.withRoom().room
+  room2 = testBuilder.withRoom()
   await testBuilder.fight()
-  definition = await testBuilder.getAction(RequestType.Flee)
+  action = await testBuilder.getAction(RequestType.Flee)
 })
 
 describe("flee action handler", () => {
@@ -39,7 +39,7 @@ describe("flee action handler", () => {
     expect(service.mobService.findFight(f => f.isInProgress())).toBeTruthy()
 
     // when
-    await getSuccessfulAction(definition, testBuilder.createRequest(RequestType.Flee))
+    await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Flee))
 
     // then
     expect(service.mobService.findFight(f => f.isInProgress())).toBeUndefined()
@@ -47,11 +47,11 @@ describe("flee action handler", () => {
 
   it("flee should cause the fleeing mob to change rooms", async () => {
     // when
-    await getSuccessfulAction(definition, testBuilder.createRequest(RequestType.Flee))
+    await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Flee))
 
     // then
     const service = await testBuilder.getService()
-    expect((service.getMobLocation(mob) as MobLocation).room).toBe(room2)
+    expect((service.getMobLocation(mob) as MobLocation).room).toBe(room2.room)
   })
 
   it("flee should accurately build its response message", async () => {
@@ -59,10 +59,10 @@ describe("flee action handler", () => {
     mob.name = "bob"
 
     // when
-    const response = await getSuccessfulAction(definition, testBuilder.createRequest(RequestType.Flee))
+    const response = await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Flee))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toContain("you flee to the")
+    expect(response.getMessageToRequestCreator()).toContain("you flee to the")
     expect(response.message.getMessageToTarget()).toContain("bob flees to the")
   })
 
@@ -71,7 +71,7 @@ describe("flee action handler", () => {
     testBuilder = new TestBuilder()
     testBuilder.withRoom()
     await testBuilder.withPlayer()
-    const check = await definition.check(testBuilder.createRequest(RequestType.Flee))
+    const check = await action.check(testBuilder.createRequest(RequestType.Flee))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -84,10 +84,10 @@ describe("flee action handler", () => {
     testBuilder.withRoom()
     await testBuilder.withPlayer()
     await testBuilder.fight()
-    definition = await testBuilder.getAction(RequestType.Flee)
+    action = await testBuilder.getAction(RequestType.Flee)
 
     // when
-    const check = await definition.check(testBuilder.createRequest(RequestType.Flee))
+    const check = await action.check(testBuilder.createRequest(RequestType.Flee))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -99,7 +99,7 @@ describe("flee action handler", () => {
     mob.vitals.mv = 0
 
     // when
-    const check = await definition.check(testBuilder.createRequest(RequestType.Flee))
+    const check = await action.check(testBuilder.createRequest(RequestType.Flee))
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
@@ -108,7 +108,7 @@ describe("flee action handler", () => {
 
   it("should work if all preconditions met", async () => {
     // when
-    const check = await definition.check(testBuilder.createRequest(RequestType.Flee))
+    const check = await action.check(testBuilder.createRequest(RequestType.Flee))
 
     // then
     expect(check.status).toBe(CheckStatus.Ok)
@@ -119,7 +119,7 @@ describe("flee action handler", () => {
     mob.disposition = disposition
 
     // when
-    const check = await definition.check(testBuilder.createRequest(RequestType.Flee))
+    const check = await action.check(testBuilder.createRequest(RequestType.Flee))
 
     // then
     expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)

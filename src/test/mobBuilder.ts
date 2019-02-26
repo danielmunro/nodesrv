@@ -1,3 +1,5 @@
+import {AffectType} from "../affect/affectType"
+import {newAffect} from "../affect/factory"
 import ServiceBuilder from "../gameService/serviceBuilder"
 import {Disposition} from "../mob/enum/disposition"
 import {newMobLocation} from "../mob/factory"
@@ -70,6 +72,11 @@ export default class MobBuilder {
 
   public withGold(gold: number): MobBuilder {
     this.mob.gold = gold
+    return this
+  }
+
+  public addAffect(affectType: AffectType, timeout: number = 1): MobBuilder {
+    this.mob.addAffect(newAffect(affectType, timeout))
     return this
   }
 

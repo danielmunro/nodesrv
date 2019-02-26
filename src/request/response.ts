@@ -21,8 +21,8 @@ export default class Response {
     return this.status === ResponseStatus.PreconditionsFailed
   }
 
-  public getCheckedRequest(): CheckedRequest {
-    return this.request as CheckedRequest
+  public getMessageToRequestCreator(): string {
+    return this.message.getMessageToRequestCreator()
   }
 
   public getPayload(): object {
