@@ -192,8 +192,9 @@ export default class ImportService {
     file.items.push(item)
   }
 
-  private async addRoom(file, roomData): Promise<Room> {
+  private async addRoom(file: File, roomData: any): Promise<Room> {
     const room = newRoom(roomData.title, roomData.description)
+    room.area = file.filename
     room.canonicalId = roomData.id
     if (this.writeNewData) {
       await this.roomRepository.save(room)

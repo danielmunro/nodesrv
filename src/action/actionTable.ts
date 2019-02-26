@@ -26,6 +26,7 @@ import HelpAction from "./impl/info/helpAction"
 import InventoryAction from "./impl/info/inventoryAction"
 import LookAction from "./impl/info/lookAction"
 import LoreAction from "./impl/info/loreAction"
+import ScanAction from "./impl/info/scanAction"
 import ScoreAction from "./impl/info/scoreAction"
 import CloseItemAction from "./impl/item/closeItemAction"
 import DropAction from "./impl/item/dropAction"
@@ -149,6 +150,7 @@ export default function getActionTable(
     new CastAction(checkBuilderFactory, spellTable),
 
     // info
+    new ScanAction(checkBuilderFactory, mobService),
     new AffectsAction(),
     lookAction,
     new LoreAction(checkBuilderFactory, itemService),

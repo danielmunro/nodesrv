@@ -55,6 +55,7 @@ export enum RequestType {
   Bounty = "bounty",
   Follow = "follow",
   NoFollow = "nofollow",
+  Scan = "scan",
   Noop = "noop",
   Any = "any",
   Event = "event",

@@ -11,6 +11,7 @@ import FightTable from "./fight/fightTable"
 import LocationService from "./locationService"
 import MobTable from "./mobTable"
 import { Mob } from "./model/mob"
+import MobLocation from "./model/mobLocation"
 import MobReset from "./model/mobReset"
 import { Specialization } from "./specialization/specialization"
 
@@ -65,6 +66,10 @@ export default class MobService {
     deadMobs.forEach(mob => this.locationService.removeMob(mob))
 
     return deadMobs
+  }
+
+  public findMobsByArea(area: string): MobLocation[] {
+    return this.locationService.findMobsByArea(area)
   }
 
   public findMobInRoomWithMob(mob: Mob, searchCriteria: (mob: Mob) => boolean) {

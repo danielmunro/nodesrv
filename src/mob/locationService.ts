@@ -69,4 +69,8 @@ export default class LocationService {
     return this.mobLocations.filter(mobLocation => mobLocation.mob.importId === importId)
       .map(mobLocation => mobLocation.mob)
   }
+
+  public findMobsByArea(area: string): MobLocation[] {
+    return this.mobLocations.filter(mobLocation => mobLocation.room.area === area)
+  }
 }

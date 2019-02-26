@@ -26,6 +26,9 @@ export class Room {
   @Column("text")
   public description: string
 
+  @Column("text")
+  public area: string
+
   @OneToMany(() => Exit, (exit) => exit.source, { eager: true })
   public exits: Exit[] = []
 
