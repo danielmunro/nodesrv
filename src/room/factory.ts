@@ -9,11 +9,12 @@ import { getExitRepository } from "./repository/exit"
 import { getRoomRepository } from "./repository/room"
 import { default as RoomTable } from "./roomTable"
 
-export function newDoor(name: string, isClosed: boolean, isLocked: boolean): Door {
+export function newDoor(name: string, isClosed: boolean, isLocked: boolean, unlockedById?: number): Door {
   const door = new Door()
   door.name = name
   door.isClosed = isClosed
   door.isLocked = isLocked
+  door.unlockedByCanonicalId = unlockedById as number
   return door
 }
 

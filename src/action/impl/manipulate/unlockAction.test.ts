@@ -1,25 +1,24 @@
-import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
 import {Direction} from "../../../room/constants"
 import {newDoor} from "../../../room/factory"
-import {Room} from "../../../room/model/room"
+import PlayerBuilder from "../../../test/playerBuilder"
+import RoomBuilder from "../../../test/roomBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import {ConditionMessages} from "../../constants"
 
 let testBuilder: TestBuilder
-let source: Room
-let mob: Mob
+let player: PlayerBuilder
+let source: RoomBuilder
 const unlockCanonicalId = 123
 const unlockCommand = "unlock door"
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  source = testBuilder.withRoom().room
+  source = testBuilder.withRoom()
   testBuilder.withRoom(Direction.East)
-  const playerBuilder = await testBuilder.withPlayer()
-  const key = playerBuilder.withKey(unlockCanonicalId as any)
-  mob = playerBuilder.player.sessionMob
+  player = await testBuilder.withPlayer()
+  const key = player.withKey(unlockCanonicalId as any)
   const service = await testBuilder.getService()
   service.itemService.add(key)
 })
@@ -36,7 +35,7 @@ describe("unlock action", () => {
   it("should require a key to be able to unlock a locked door", async () => {
     // given
     const door = newDoor("door", true, true)
-    source.exits[0].door = door
+    source.addDoor(door, Direction.East)
 
     // when
     const response = await testBuilder.handleAction(RequestType.Unlock, unlockCommand)
@@ -49,9 +48,8 @@ describe("unlock action", () => {
 
   it("should be able to unlock a locked door", async () => {
     // given
-    const door = newDoor("door", true, true)
-    door.unlockedByCanonicalId = unlockCanonicalId
-    source.exits[0].door = door
+    const door = newDoor("door", true, true, unlockCanonicalId)
+    source.addDoor(door, Direction.East)
 
     // when
     const response = await testBuilder.handleAction(RequestType.Unlock, unlockCommand)
@@ -59,16 +57,15 @@ describe("unlock action", () => {
     // then
     expect(response.status).toBe(ResponseStatus.Success)
     expect(response.getMessageToRequestCreator()).toBe("you unlock a door east.")
-    expect(response.message.getMessageToObservers()).toBe(mob.name + " unlocks a door east.")
+    expect(response.message.getMessageToObservers()).toBe(`${player.getMob().name} unlocks a door east.`)
     expect(door.isClosed).toBeTruthy()
     expect(door.isLocked).toBeFalsy()
   })
 
   it("should not be able to unlock an already unlocked door", async () => {
     // given
-    const door = newDoor("door", true, false)
-    door.unlockedByCanonicalId = unlockCanonicalId
-    source.exits[0].door = door
+    const door = newDoor("door", true, false, unlockCanonicalId)
+    source.addDoor(door, Direction.East)
 
     // when
     const response = await testBuilder.handleAction(RequestType.Unlock, unlockCommand)

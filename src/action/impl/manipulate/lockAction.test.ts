@@ -2,20 +2,20 @@ import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
 import {Direction} from "../../../room/constants"
 import {newDoor} from "../../../room/factory"
-import {Room} from "../../../room/model/room"
 import PlayerBuilder from "../../../test/playerBuilder"
+import RoomBuilder from "../../../test/roomBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import {ConditionMessages} from "../../constants"
 
 let testBuilder: TestBuilder
 let player: PlayerBuilder
-let source: Room
+let source: RoomBuilder
 const lockCanonicalId = 123
 const lockCommand = "lock door"
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  source = testBuilder.withRoom().room
+  source = testBuilder.withRoom()
   testBuilder.withRoom(Direction.East)
   player = await testBuilder.withPlayer()
   const key = player.withKey(lockCanonicalId as any)
@@ -35,7 +35,7 @@ describe("lock action", () => {
   it("should require a key to be able to lock a locked door", async () => {
     // given
     const door = newDoor("door", true, false)
-    source.exits[0].door = door
+    source.addDoor(door, Direction.East)
 
     // when
     const response = await testBuilder.handleAction(RequestType.Lock, lockCommand)
@@ -50,7 +50,7 @@ describe("lock action", () => {
     // given
     const door = newDoor("door", true, false)
     door.unlockedByCanonicalId = lockCanonicalId
-    source.exits[0].door = door
+    source.addDoor(door, Direction.East)
 
     // when
     const response = await testBuilder.handleAction(RequestType.Lock, lockCommand)
@@ -67,7 +67,7 @@ describe("lock action", () => {
     // given
     const door = newDoor("door", true, true)
     door.unlockedByCanonicalId = lockCanonicalId
-    source.exits[0].door = door
+    source.addDoor(door, Direction.East)
 
     // when
     const response = await testBuilder.handleAction(RequestType.Lock, lockCommand)
