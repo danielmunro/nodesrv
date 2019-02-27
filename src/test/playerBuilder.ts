@@ -6,7 +6,6 @@ import {Mob} from "../mob/model/mob"
 import {AuthorizationLevel} from "../player/authorizationLevel"
 import {Player} from "../player/model/player"
 import {newSkill} from "../skill/factory"
-import {Skill} from "../skill/model/skill"
 import {SkillType} from "../skill/skillType"
 
 export default class PlayerBuilder {
@@ -26,11 +25,9 @@ export default class PlayerBuilder {
     return item
   }
 
-  public addSkill(skillType: SkillType, level: number = 1): Skill {
-    const skill = newSkill(skillType, level)
-    this.player.sessionMob.skills.push(skill)
-
-    return skill
+  public addSkill(skillType: SkillType, level: number = 1): PlayerBuilder {
+    this.player.sessionMob.skills.push(newSkill(skillType, level))
+    return this
   }
 
   public setHunger(hunger: number) {
