@@ -8,9 +8,11 @@ export enum ActionPart {
   ItemWithRoomMob = "item with room mob",
   ItemInRoom = "item in room",
   Target = "target",
+  Hostile = "hostile",
   PlayerMob = "player mob",
   LoggedInMob = "logged in mob",
   MobInArea = "mob in area",
   FreeForm = "free form",
   Number = "number",
+  GoldOnHand = "gold on hand",
 }

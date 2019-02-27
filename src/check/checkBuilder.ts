@@ -1,3 +1,5 @@
+import {ConditionMessages, Messages} from "../action/constants"
+import {ActionPart} from "../action/enum/actionPart"
 import {AffectType} from "../affect/affectType"
 import {Affect} from "../affect/model/affect"
 import {Disposition} from "../mob/enum/disposition"
@@ -29,6 +31,26 @@ export default class CheckBuilder {
 
   constructor(private readonly mobService: MobService, private readonly request: Request) {
     this.mob = request.mob
+  }
+
+  public requireFromActionParts(request: Request, actionParts: ActionPart[]): CheckBuilder {
+    actionParts.forEach((actionPart: ActionPart, index: number) => {
+      if (actionPart === ActionPart.Hostile) {
+        this.requireMob(ConditionMessages.All.Mob.NotFound)
+      } else if (actionPart === ActionPart.PlayerMob) {
+        const lookup = index === 1 ? request.getSubject() : request.getComponent()
+        this.requirePlayer(this.mobService.mobTable.getMobs().find(mob => mob.name === lookup) as Mob)
+      } else if (actionPart === ActionPart.GoldOnHand) {
+        this.require(
+          request.getComponent(),
+          Messages.Bounty.NeedAmount,
+          CheckType.HasArguments)
+        .require(
+          (amount: number) => request.mob.gold >= amount,
+          Messages.Bounty.NeedMoreGold)
+      }
+    })
+    return this
   }
 
   public requireMob(failMessage = CheckMessages.NoMob): CheckBuilder {

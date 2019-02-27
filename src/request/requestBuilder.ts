@@ -29,13 +29,13 @@ export default class RequestBuilder {
       .do(action => action.getActionParts())
       .or(() => [])
       .get() as ActionPart[]
-    if (!actionParts.some(actionPart => actionPart === ActionPart.Target)) {
+    if (!actionParts.some(actionPart => actionPart === ActionPart.Hostile)) {
       return
     }
     const words = input.split(" ")
     const word = words.find(() => {
       const latest = actionParts.shift()
-      return latest === ActionPart.Target
+      return latest === ActionPart.Hostile
     })
     if (!word) {
       return

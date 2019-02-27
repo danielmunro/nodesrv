@@ -14,7 +14,6 @@ import Action from "../../action"
 import {
   MESSAGE_FAIL_CANNOT_ATTACK_SELF,
   MESSAGE_FAIL_KILL_ALREADY_FIGHTING,
-  MESSAGE_FAIL_KILL_NO_TARGET,
   Messages,
 } from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
@@ -28,7 +27,7 @@ export default class KillAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
-      .requireMob(MESSAGE_FAIL_KILL_NO_TARGET)
+      .requireFromActionParts(request, this.getActionParts())
       .capture()
       .require((target: Mob) => request.mob !== target, MESSAGE_FAIL_CANNOT_ATTACK_SELF)
       .not().requireFight(MESSAGE_FAIL_KILL_ALREADY_FIGHTING)
@@ -48,7 +47,7 @@ export default class KillAction extends Action {
   }
 
   public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action, ActionPart.Target ]
+    return [ ActionPart.Action, ActionPart.Hostile ]
   }
 
   public getRequestType(): RequestType {

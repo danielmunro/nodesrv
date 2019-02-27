@@ -66,6 +66,7 @@ export default class FleeAction extends Action {
       { direction: exit.direction, verb: "flees" })
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action ]
   }

@@ -132,7 +132,7 @@ export default function getActionTable(
     new HitAction(checkBuilderFactory, eventService),
     new FleeAction(checkBuilderFactory, mobService, locationService),
     new HamstringAction(checkBuilderFactory, eventService),
-    new BountyAction(checkBuilderFactory, mobService),
+    new BountyAction(checkBuilderFactory),
 
     // skills
     new BackstabAction(checkBuilderFactory, eventService),

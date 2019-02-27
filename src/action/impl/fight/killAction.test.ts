@@ -6,7 +6,7 @@ import { ResponseStatus } from "../../../request/responseStatus"
 import {getTestMob} from "../../../test/mob"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
-import {MESSAGE_FAIL_CANNOT_ATTACK_SELF, MESSAGE_FAIL_KILL_NO_TARGET} from "../../constants"
+import {ConditionMessages, MESSAGE_FAIL_CANNOT_ATTACK_SELF} from "../../constants"
 import {MESSAGE_FAIL_KILL_ALREADY_FIGHTING} from "../../constants"
 
 let testBuilder: TestBuilder
@@ -53,7 +53,7 @@ describe("kill action", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_KILL_NO_TARGET)
+    expect(check.result).toBe(ConditionMessages.All.Mob.NotFound)
   })
 
   it("shouldn't be able to target a mob when already fighting", async () => {
