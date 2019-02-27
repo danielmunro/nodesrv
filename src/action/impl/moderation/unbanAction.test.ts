@@ -1,20 +1,19 @@
-import { CheckStatus } from "../../../check/checkStatus"
+import {CheckStatus} from "../../../check/checkStatus"
 import {CheckMessages} from "../../../check/constants"
 import GameService from "../../../gameService/gameService"
 import {Standing} from "../../../mob/enum/standing"
-import { Player } from "../../../player/model/player"
+import {AuthorizationLevel} from "../../../player/authorizationLevel"
+import {Player} from "../../../player/model/player"
 import InputContext from "../../../request/context/inputContext"
-import { Request } from "../../../request/request"
+import {Request} from "../../../request/request"
 import RequestBuilder from "../../../request/requestBuilder"
-import { RequestType } from "../../../request/requestType"
+import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
-import { getTestMob } from "../../../test/mob"
-import { getTestRoom } from "../../../test/room"
+import {getTestMob} from "../../../test/mob"
+import {getTestRoom} from "../../../test/room"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
-import {
-  MESSAGE_FAIL_NOT_BANNED,
-} from "../../constants"
+import {MESSAGE_FAIL_NOT_BANNED} from "../../constants"
 
 const MOB_TO_UNBAN = "bob"
 const MOB_SELF = "alice"
@@ -26,7 +25,8 @@ let action: Action
 
 beforeEach(async () => {
   const testBuilder = new TestBuilder()
-  const adminPlayerBuilder = await testBuilder.withAdminPlayer()
+  const adminPlayerBuilder = await testBuilder.withPlayer()
+  adminPlayerBuilder.setAuthorizationLevel(AuthorizationLevel.Admin)
   const player = adminPlayerBuilder.player
   player.sessionMob.name = MOB_SELF
   const playerBuilder = await testBuilder.withPlayer()

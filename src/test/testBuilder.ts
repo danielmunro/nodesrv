@@ -10,7 +10,6 @@ import {newMobLocation} from "../mob/factory"
 import {Fight} from "../mob/fight/fight"
 import {Mob} from "../mob/model/mob"
 import {SpecializationType} from "../mob/specialization/specializationType"
-import {AuthorizationLevel} from "../player/authorizationLevel"
 import {Player} from "../player/model/player"
 import newRegion from "../region/factory"
 import {Terrain} from "../region/terrain"
@@ -75,13 +74,6 @@ export default class TestBuilder {
     return this.buildRoomOnto(this.lastRoom, direction)
   }
 
-  public async withPlayerAndSkill(skillType: SkillType, level: number = 1): Promise<Player> {
-    const playerBuilder = await this.withPlayer()
-    playerBuilder.withSkill(skillType, level)
-
-    return this.player
-  }
-
   public async withPlayer(fn: (player: Player) => void = () => { /**/ }): Promise<PlayerBuilder> {
     const player = getTestPlayer()
 
@@ -100,14 +92,6 @@ export default class TestBuilder {
     }
 
     return new PlayerBuilder(player)
-  }
-
-  public async withAdminPlayer(
-    authorizationLevel: AuthorizationLevel = AuthorizationLevel.Admin): Promise<PlayerBuilder> {
-    const playerBuilder = await this.withPlayer()
-    playerBuilder.player.sessionMob.playerMob.authorizationLevel = authorizationLevel
-
-    return playerBuilder
   }
 
   public withMob(name?: string, specialization: SpecializationType = SpecializationType.Warrior): MobBuilder {

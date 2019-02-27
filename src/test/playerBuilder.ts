@@ -3,6 +3,7 @@ import {ItemType} from "../item/itemType"
 import Container from "../item/model/container"
 import {Item} from "../item/model/item"
 import {Mob} from "../mob/model/mob"
+import {AuthorizationLevel} from "../player/authorizationLevel"
 import {Player} from "../player/model/player"
 import {newSkill} from "../skill/factory"
 import {Skill} from "../skill/model/skill"
@@ -25,15 +26,20 @@ export default class PlayerBuilder {
     return item
   }
 
-  public withSkill(skillType: SkillType, level: number = 1): Skill {
+  public addSkill(skillType: SkillType, level: number = 1): Skill {
     const skill = newSkill(skillType, level)
     this.player.sessionMob.skills.push(skill)
 
     return skill
   }
 
-  public withHunger(hunger: number) {
+  public setHunger(hunger: number) {
     this.player.sessionMob.playerMob.hunger = hunger
+  }
+
+  public setAuthorizationLevel(authorizationLevel: AuthorizationLevel): PlayerBuilder {
+    this.player.sessionMob.playerMob.authorizationLevel = authorizationLevel
+    return this
   }
 
   public setLevel(level: number): PlayerBuilder {

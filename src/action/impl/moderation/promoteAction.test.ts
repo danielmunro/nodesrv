@@ -23,7 +23,8 @@ let action: Action
 
 beforeEach(async () => {
   const testBuilder = new TestBuilder()
-  const adminPlayerBuilder = await testBuilder.withAdminPlayer(AuthorizationLevel.Immortal)
+  const adminPlayerBuilder = await testBuilder.withPlayer()
+  adminPlayerBuilder.setAuthorizationLevel(AuthorizationLevel.Immortal)
   player = adminPlayerBuilder.player
   player.sessionMob.name = MOB_SELF
   const playerBuilder = await testBuilder.withPlayer()

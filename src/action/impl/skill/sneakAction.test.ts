@@ -16,7 +16,7 @@ beforeEach(async () => {
 describe("sneak skill action", () => {
   it("should be able to fail sneaking", async () => {
     // given
-    player.withSkill(SkillType.Sneak)
+    player.addSkill(SkillType.Sneak)
 
     // when
     const responses = await doNTimes(10,
@@ -29,7 +29,7 @@ describe("sneak skill action", () => {
   it("should be able to succeed sneaking", async () => {
     // given
     player.setLevel(40)
-      .withSkill(SkillType.Sneak, MAX_PRACTICE_LEVEL)
+      .addSkill(SkillType.Sneak, MAX_PRACTICE_LEVEL)
 
     // when
     const responses = await doNTimes(10,

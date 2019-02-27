@@ -21,7 +21,7 @@ describe("trip skill action", () => {
     const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 40)
 
     // given
-    playerBuilder.withSkill(SkillType.Trip)
+    playerBuilder.addSkill(SkillType.Trip)
 
     // and
     await testBuilder.fight()
@@ -39,7 +39,7 @@ describe("trip skill action", () => {
     const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 40)
 
     // given
-    playerBuilder.withSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)
+    playerBuilder.addSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)
 
     // and
     await testBuilder.fight()
@@ -61,7 +61,7 @@ describe("trip skill action", () => {
     await testBuilder.fight()
 
     // given
-    playerBuilder.withSkill(SkillType.Trip)
+    playerBuilder.addSkill(SkillType.Trip)
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Trip))
@@ -77,7 +77,7 @@ describe("trip skill action", () => {
     await testBuilder.fight()
 
     // given
-    playerBuilder.withSkill(SkillType.Trip)
+    playerBuilder.addSkill(SkillType.Trip)
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Trip))
@@ -93,7 +93,7 @@ describe("trip skill action", () => {
     await testBuilder.fight(target)
 
     // given
-    playerBuilder.withSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)
+    playerBuilder.addSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)
 
     // when
     const responses = await doNTimes(ITERATIONS, () => action.handle(testBuilder.createRequest(RequestType.Trip)))

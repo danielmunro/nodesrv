@@ -1,24 +1,27 @@
 import Skill from "../../../../action/skill"
-import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
-import { RequestType } from "../../../../request/requestType"
-import { SkillType } from "../../../../skill/skillType"
+import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
+import {RequestType} from "../../../../request/requestType"
+import {SkillType} from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
+import PlayerBuilder from "../../../../test/playerBuilder"
 import TestBuilder from "../../../../test/testBuilder"
 
 const iterations = 10
 let testBuilder: TestBuilder
+let player: PlayerBuilder
 let definition: Skill
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   definition = await testBuilder.getSkill(SkillType.EnhancedDamage) as Skill
+  player = await testBuilder.withPlayer()
+  player.setLevel(40)
 })
 
 describe("enhanced damage", () => {
   it("should succeed sometimes when practiced", async () => {
     // given
-    const player = await testBuilder.withPlayerAndSkill(SkillType.EnhancedDamage, MAX_PRACTICE_LEVEL)
-    player.sessionMob.level = 40
+    player.addSkill(SkillType.EnhancedDamage, MAX_PRACTICE_LEVEL)
     await testBuilder.fight()
 
     // when
@@ -31,8 +34,7 @@ describe("enhanced damage", () => {
 
   it("should succeed somewhat when practiced some", async () => {
     // given
-    const player = await testBuilder.withPlayerAndSkill(SkillType.EnhancedDamage, MAX_PRACTICE_LEVEL / 2)
-    player.sessionMob.level = 40
+    player.addSkill(SkillType.EnhancedDamage, MAX_PRACTICE_LEVEL / 2)
     await testBuilder.fight()
 
     // when
@@ -46,8 +48,7 @@ describe("enhanced damage", () => {
 
   it("should succeed infrequently when not practiced", async () => {
     // given
-    const player = await testBuilder.withPlayerAndSkill(SkillType.EnhancedDamage)
-    player.sessionMob.level = 40
+    player.addSkill(SkillType.EnhancedDamage)
     await testBuilder.fight()
 
     // when

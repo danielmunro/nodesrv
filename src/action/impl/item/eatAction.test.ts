@@ -98,7 +98,7 @@ describe("eat action", () => {
 
   it("should not allow eating when already full", async () => {
     // given
-    playerBuilder.withHunger(appetite(playerBuilder.player.sessionMob.race))
+    playerBuilder.setHunger(appetite(playerBuilder.player.sessionMob.race))
     const food = testBuilder.withItem()
       .asFood()
       .addToPlayerBuilder(playerBuilder)
