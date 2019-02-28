@@ -47,6 +47,7 @@ export default abstract class Skill extends Action {
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckTemplate(request)
       .perform(this)
+      .requireFromActionParts(request, this.getActionParts())
       .create()
   }
 

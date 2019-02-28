@@ -31,11 +31,7 @@ export default class WearAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .require(
-        request.mob.inventory.findItemByName(request.getSubject()),
-        ConditionMessages.All.Item.NotOwned,
-        CheckType.HasItem)
-      .capture()
+      .requireFromActionParts(request, this.getActionParts())
       .require((item: Item) => !!item.equipment, ConditionMessages.All.Item.NotEquipment)
       .create()
   }

@@ -13,7 +13,7 @@ import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
 import Action from "../../action"
-import {ConditionMessages, Messages, Messages as ActionMessages} from "../../constants"
+import {Messages, Messages as ActionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 function sell(mob: Mob, item: Item) {
@@ -33,11 +33,7 @@ export default class SellAction extends Action {
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .requireMerchant()
-      .require(
-        request.mob.inventory.findItemByName(request.getSubject()),
-        ConditionMessages.All.Item.NotOwned,
-        CheckType.HasItem)
-      .capture()
+      .requireFromActionParts(request, this.getActionParts())
       .create()
   }
 

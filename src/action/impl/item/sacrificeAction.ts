@@ -24,8 +24,7 @@ export default class SacrificeAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .require(request.findItemInRoomInventory(), ConditionMessages.All.Item.NotFound)
-      .capture()
+      .requireFromActionParts(request, this.getActionParts())
       .not()
       .requireAffect(AffectType.NoSacrifice, ConditionMessages.All.Item.CannotSacrifice)
       .require((item: Item) => item.isContainer()

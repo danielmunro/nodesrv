@@ -12,6 +12,7 @@ export enum ActionPart {
   PlayerMob = "player mob",
   LoggedInMob = "logged in mob",
   MobInArea = "mob in area",
+  MobInRoom = "mob in room",
   FreeForm = "free form",
   Number = "number",
   GoldOnHand = "gold on hand",

@@ -13,7 +13,7 @@ beforeEach(async () => {
   target = testBuilder.withMob().mob
 })
 
-describe("sell action", () => {
+describe("follow action", () => {
   it("should be able to work successfully", async () => {
     // when
     const response = await testBuilder.handleAction(RequestType.Follow, `follow '${target.name}'`)

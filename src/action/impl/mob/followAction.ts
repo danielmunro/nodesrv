@@ -17,12 +17,12 @@ export default class FollowAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireMob()
+      .requireFromActionParts(request, this.getActionParts())
       .create()
   }
 
   public getActionParts(): ActionPart[] {
-    return [ActionPart.Action, ActionPart.Target]
+    return [ActionPart.Action, ActionPart.MobInRoom]
   }
 
   /* istanbul ignore next */
