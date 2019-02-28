@@ -7,6 +7,7 @@ import {StackBehavior} from "../affect/stackBehavior"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import {Request} from "../request/request"
+import getActionPartTable from "./actionPartCheckTable"
 import CheckBuilder from "./checkBuilder"
 import {CheckType} from "./checkType"
 import {CheckMessages} from "./constants"
@@ -16,7 +17,7 @@ export default class CheckTemplate {
 
   public cast(spell: Spell): CheckBuilder {
     const mob = this.request.mob
-    const checkBuilder = new CheckBuilder(this.mobService, this.request)
+    const checkBuilder = new CheckBuilder(this.mobService, this.request, getActionPartTable(this.mobService))
       .forMob(mob)
       .requireSpell(spell.getSpellType())
       .atLevelOrGreater(spell.getSpecializationLevel(mob.specialization).minimumLevel)
@@ -31,7 +32,7 @@ export default class CheckTemplate {
   }
 
   public perform(skill: Skill): CheckBuilder {
-    const checkBuilder = new CheckBuilder(this.mobService, this.request)
+    const checkBuilder = new CheckBuilder(this.mobService, this.request, getActionPartTable(this.mobService))
       .forMob(this.request.mob)
       .requireSkill(skill.getSkillType())
       .atLevelOrGreater(skill.getSpecializationLevel(this.request.mob.specialization).minimumLevel)

@@ -1,4 +1,3 @@
-import {ConditionMessages, Messages} from "../action/constants"
 import {ActionPart} from "../action/enum/actionPart"
 import {AffectType} from "../affect/affectType"
 import {Affect} from "../affect/model/affect"
@@ -14,6 +13,7 @@ import {SpellType} from "../spell/spellType"
 import Maybe from "../support/functional/maybe"
 import collectionSearch from "../support/matcher/collectionSearch"
 import {format} from "../support/string"
+import ActionPartCheck from "./actionPartCheck"
 import Check from "./check"
 import CheckComponent from "./checkComponent"
 import CheckResult from "./checkResult"
@@ -29,27 +29,17 @@ export default class CheckBuilder {
   private mob: Mob
   private captured: any
 
-  constructor(private readonly mobService: MobService, private readonly request: Request) {
+  constructor(
+    private readonly mobService: MobService,
+    private readonly request: Request,
+    private readonly actionPartChecks: ActionPartCheck[]) {
     this.mob = request.mob
   }
 
   public requireFromActionParts(request: Request, actionParts: ActionPart[]): CheckBuilder {
-    actionParts.forEach((actionPart: ActionPart, index: number) => {
-      if (actionPart === ActionPart.Hostile) {
-        this.requireMob(ConditionMessages.All.Mob.NotFound)
-      } else if (actionPart === ActionPart.PlayerMob) {
-        const lookup = index === 1 ? request.getSubject() : request.getComponent()
-        this.requirePlayer(this.mobService.mobTable.getMobs().find(mob => mob.name === lookup) as Mob)
-      } else if (actionPart === ActionPart.GoldOnHand) {
-        this.require(
-          request.getComponent(),
-          Messages.Bounty.NeedAmount,
-          CheckType.HasArguments)
-        .require(
-          (amount: number) => request.mob.gold >= amount,
-          Messages.Bounty.NeedMoreGold)
-      }
-    })
+    actionParts.map(actionPart => this.actionPartChecks.find(a => a.getActionPart() === actionPart))
+      .filter(Boolean)
+      .forEach(actionPartCheck => actionPartCheck.addToCheckBuilder(this, request, actionParts))
     return this
   }
 

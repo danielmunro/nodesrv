@@ -4,6 +4,7 @@ import {Disposition} from "../mob/enum/disposition"
 import {Mob} from "../mob/model/mob"
 import {RequestType} from "../request/requestType"
 import TestBuilder from "../test/testBuilder"
+import getActionPartTable from "./actionPartCheckTable"
 import CheckBuilder from "./checkBuilder"
 
 const FAIL_MESSAGE = "this is a fail"
@@ -16,7 +17,10 @@ beforeEach(async () => {
   testBuilder = new TestBuilder()
   const gameService = await testBuilder.getService()
   mob = testBuilder.withMob().mob
-  checkBuilder = new CheckBuilder(gameService.mobService, testBuilder.createRequest(RequestType.Noop))
+  checkBuilder = new CheckBuilder(
+    gameService.mobService,
+    testBuilder.createRequest(RequestType.Noop),
+    getActionPartTable(gameService.mobService))
   checkBuilder.capture(mob)
 })
 
