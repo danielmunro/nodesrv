@@ -12,6 +12,7 @@ import { SkillType } from "../skill/skillType"
 import { Spell } from "../spell/model/spell"
 import { SpellType } from "../spell/spellType"
 import RoomBuilder from "./roomBuilder"
+import {newSpell} from "../spell/factory"
 
 export default class MobBuilder {
   constructor(public readonly mob: Mob, private readonly serviceBuilder: ServiceBuilder) {}
@@ -54,20 +55,14 @@ export default class MobBuilder {
     return this
   }
 
-  public withSkill(skillType: SkillType, level: number = 1): Skill {
-    const skill = newSkill(skillType, level)
-    this.mob.skills.push(skill)
-
-    return skill
+  public withSkill(skillType: SkillType, level: number = 1): MobBuilder {
+    this.mob.skills.push(newSkill(skillType, level))
+    return this
   }
 
-  public withSpell(spellType: SpellType, level: number = 1): Spell {
-    const spell = new Spell()
-    spell.spellType = spellType
-    spell.level = level
-    this.mob.spells.push(spell)
-
-    return spell
+  public withSpell(spellType: SpellType, level: number = 1): MobBuilder {
+    this.mob.spells.push(newSpell(spellType, level))
+    return this
   }
 
   public withGold(gold: number): MobBuilder {
