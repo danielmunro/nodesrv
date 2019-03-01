@@ -153,9 +153,9 @@ export default class TestBuilder {
     return new RequestBuilder(service.getActions(), service.mobService.locationService, this.mobForRequest, this.room)
   }
 
-  public async handleAction(requestType: RequestType, input?: string): Promise<Response> {
+  public async handleAction(requestType: RequestType, input?: string, target?: Mob): Promise<Response> {
     const action = await this.getAction(requestType)
-    return action.handle(this.createRequest(requestType, input))
+    return action.handle(this.createRequest(requestType, input, target))
   }
 
   public async getAction(requestType: RequestType): Promise<Action> {

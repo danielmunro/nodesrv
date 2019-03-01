@@ -26,6 +26,7 @@ export default class WakeAction extends Action {
     return checkedRequest.respondWith().success(Messages.Wake.Success)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action ]
   }

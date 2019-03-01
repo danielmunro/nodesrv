@@ -40,6 +40,7 @@ export default class CastAction extends Action {
     return spell.invoke(checkedRequest)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.Spell, ActionPart.Target ]
   }

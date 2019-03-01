@@ -7,6 +7,7 @@ import doNTimes from "../../../support/functional/times"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 
+const iterations = 100
 let testBuilder: TestBuilder
 let action: Action
 let axe: Item
@@ -40,7 +41,7 @@ describe("sharpen skill action", () => {
   })
 
   it("should succeed and fail", async () => {
-    await doNTimes(100, async () => {
+    await doNTimes(iterations, async () => {
       // when
       const response = await action.handle(
         testBuilder.createRequest(RequestType.Sharpen, "sharpen axe"))

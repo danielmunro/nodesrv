@@ -5,6 +5,7 @@ import doNTimes from "../../../support/functional/times"
 import PlayerBuilder from "../../../test/playerBuilder"
 import TestBuilder from "../../../test/testBuilder"
 
+const iterations = 10
 let testBuilder: TestBuilder
 let player: PlayerBuilder
 
@@ -19,7 +20,7 @@ describe("sneak skill action", () => {
     player.addSkill(SkillType.Sneak)
 
     // when
-    const responses = await doNTimes(10,
+    const responses = await doNTimes(iterations,
       async () => testBuilder.handleAction(RequestType.Sneak))
 
     // then
@@ -32,7 +33,7 @@ describe("sneak skill action", () => {
       .addSkill(SkillType.Sneak, MAX_PRACTICE_LEVEL)
 
     // when
-    const responses = await doNTimes(10,
+    const responses = await doNTimes(iterations,
       async () => testBuilder.handleAction(RequestType.Sneak))
 
     // then

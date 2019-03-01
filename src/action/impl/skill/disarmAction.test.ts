@@ -5,21 +5,23 @@ import { SkillType } from "../../../skill/skillType"
 import doNTimes, {doNTimesOrUntilTruthy, getSuccessfulAction} from "../../../support/functional/times"
 import MobBuilder from "../../../test/mobBuilder"
 import TestBuilder from "../../../test/testBuilder"
-import Action from "../../action"
 
 const iterations = 1000
 let testBuilder: TestBuilder
-let action: Action
 let mob1: MobBuilder
 let mob2: MobBuilder
 
+function equipMaceToMob(mobBuilder: MobBuilder) {
+  testBuilder.withWeapon()
+    .asMace()
+    .equipToMobBuilder(mobBuilder)
+    .build()
+}
+
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  mob1 = testBuilder.withMob()
-  mob1.withLevel(50)
-  mob2 = testBuilder.withMob()
-  mob2.withLevel(50)
-  action = await testBuilder.getAction(RequestType.Disarm)
+  mob1 = testBuilder.withMob().withLevel(50)
+  mob2 = testBuilder.withMob().withLevel(50)
 })
 
 describe("disarm skill action", () => {
@@ -28,17 +30,14 @@ describe("disarm skill action", () => {
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
 
     // and
-    testBuilder.withWeapon()
-      .asMace()
-      .equipToMobBuilder(mob2)
-      .build()
+    equipMaceToMob(mob2)
 
     // and
     await testBuilder.fight(mob2.mob)
 
     // when
     const responses = await doNTimes(iterations, () =>
-      action.handle(testBuilder.createRequest(RequestType.Disarm, "disarm", mob2.mob)))
+      testBuilder.handleAction(RequestType.Disarm, "disarm"))
 
     // then
     expect(responses.filter(r => r.isSuccessful())).toHaveLength(1)
@@ -53,15 +52,13 @@ describe("disarm skill action", () => {
 
     // when
     const responses = await doNTimes(iterations, () => {
-      testBuilder.withWeapon()
-        .asMace()
-        .equipToMobBuilder(mob2)
-        .build()
-      return action.handle(testBuilder.createRequest(RequestType.Disarm))
+      equipMaceToMob(mob2)
+      return testBuilder.handleAction(RequestType.Disarm)
     })
 
     // then
-    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations * 0.1)
+    expect(responses.filter(r => r.isSuccessful()).length)
+      .toBeGreaterThan(iterations * 0.1)
   })
 
   it("should not work if not in a fight", async () => {
@@ -69,7 +66,7 @@ describe("disarm skill action", () => {
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
 
     // when
-    const result = await action.handle(testBuilder.createRequest(RequestType.Disarm))
+    const result = await testBuilder.handleAction(RequestType.Disarm)
 
     // then
     expect(result.isSuccessful()).toBeFalsy()
@@ -84,7 +81,7 @@ describe("disarm skill action", () => {
     await testBuilder.fight()
 
     // when
-    const result = await action.handle(testBuilder.createRequest(RequestType.Disarm))
+    const result = await testBuilder.handleAction(RequestType.Disarm)
 
     // then
     expect(result.isSuccessful()).toBeFalsy()
@@ -94,10 +91,7 @@ describe("disarm skill action", () => {
   it("should not work if the mob is too tired", async () => {
     // setup
     const targetBuilder = testBuilder.withMob()
-    testBuilder.withWeapon()
-      .asAxe()
-      .equipToMobBuilder(targetBuilder)
-      .build()
+    equipMaceToMob(targetBuilder)
     await testBuilder.fight(targetBuilder.mob)
 
     // given
@@ -105,7 +99,7 @@ describe("disarm skill action", () => {
       .withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Disarm))
+    const response = await testBuilder.handleAction(RequestType.Disarm)
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
@@ -116,14 +110,11 @@ describe("disarm skill action", () => {
     // setup
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
     const targetBuilder = testBuilder.withMob()
-    testBuilder.withWeapon()
-      .asAxe()
-      .equipToMobBuilder(targetBuilder)
-      .build()
+    equipMaceToMob(targetBuilder)
     await testBuilder.fight(targetBuilder.mob)
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Disarm))
+    const response = await testBuilder.handleAction(RequestType.Disarm)
 
     // then
     expect(response.isError()).toBeFalsy()
@@ -133,11 +124,9 @@ describe("disarm skill action", () => {
     // setup
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
     const targetBuilder = testBuilder.withMob()
-    testBuilder.withWeapon()
-      .asAxe()
-      .equipToMobBuilder(targetBuilder)
-      .build()
+    equipMaceToMob(targetBuilder)
     await testBuilder.fight(targetBuilder.mob)
+    const action = await testBuilder.getAction(RequestType.Disarm)
 
     // when
     const response1 = await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Disarm))
@@ -151,12 +140,9 @@ describe("disarm skill action", () => {
       .toBe(`${mob1.mob.name} disarms ${targetBuilder.mob.name} and sends its weapon flying!`)
 
     // and
-    testBuilder.withWeapon()
-      .asAxe()
-      .equipToMobBuilder(targetBuilder)
-      .build()
+    equipMaceToMob(targetBuilder)
     const response2 = await doNTimesOrUntilTruthy(iterations, async () => {
-      const handled = await action.handle(testBuilder.createRequest(RequestType.Disarm))
+      const handled = await testBuilder.handleAction(RequestType.Disarm)
       return handled.isFailure() ? handled : null
     })
     expect(response2.message.getMessageToRequestCreator())

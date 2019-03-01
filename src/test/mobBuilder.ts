@@ -85,6 +85,10 @@ export default class MobBuilder {
     return this
   }
 
+  public getMobName(): string {
+    return this.mob.name
+  }
+
   public build(): Mob {
     this.serviceBuilder.addMob(this.mob)
     return this.mob

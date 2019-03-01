@@ -81,6 +81,7 @@ export default class SneakAction extends Skill {
     return AffectType.Sneak
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ActionPart.Action]
   }

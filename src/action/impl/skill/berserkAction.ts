@@ -73,6 +73,7 @@ export default class BerserkAction extends Skill {
     return AffectType.Berserk
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ActionPart.Action]
   }

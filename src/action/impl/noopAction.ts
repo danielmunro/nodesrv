@@ -16,6 +16,7 @@ export default class NoopAction extends Action {
     return checkedRequest.respondWith().error(MESSAGE_NOT_UNDERSTOOD)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return []
   }

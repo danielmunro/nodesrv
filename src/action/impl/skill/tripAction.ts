@@ -92,7 +92,7 @@ export default class TripAction extends Skill {
   }
 
   public getActionParts(): ActionPart[] {
-    return [ActionPart.Action, ActionPart.Target]
+    return [ActionPart.Action, ActionPart.Hostile]
   }
 
   public getRequestType(): RequestType {

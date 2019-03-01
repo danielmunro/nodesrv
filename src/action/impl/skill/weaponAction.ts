@@ -52,6 +52,7 @@ export default class WeaponAction extends Skill {
     return this.skillType
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return []
   }

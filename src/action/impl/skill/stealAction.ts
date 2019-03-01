@@ -43,7 +43,7 @@ export default class StealAction extends Skill {
   public roll(checkedRequest: CheckedRequest): boolean {
     const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
 
-    return percentRoll() <= skill.level / 3
+    return percentRoll() <= skill.level / 4
   }
 
   public async applySkill(checkedRequest: CheckedRequest): Promise<void> {

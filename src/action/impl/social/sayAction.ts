@@ -24,6 +24,7 @@ export default class SayAction extends Action {
     return request.respondWith().success(`You said, "${request.getContextAsInput().message}"`)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ActionPart.Action, ActionPart.Target, ActionPart.FreeForm]
   }

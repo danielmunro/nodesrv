@@ -21,7 +21,7 @@ async function action() {
 }
 
 describe("berserk skill action", () => {
-  it("should be able to fail berserking", async () => {
+  it("fails often when not practiced", async () => {
     // given
     const mobBuilder = testBuilder.withMob()
     mobBuilder.withSkill(SkillType.Berserk)

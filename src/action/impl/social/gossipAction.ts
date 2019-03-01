@@ -24,6 +24,7 @@ export default class GossipAction extends Action {
       .info(`You gossip, "${checkedRequest.request.getContextAsInput().message}"`)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ActionPart.Action, ActionPart.FreeForm]
   }

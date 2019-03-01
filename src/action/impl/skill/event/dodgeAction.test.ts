@@ -16,7 +16,7 @@ describe("dodge skill", () => {
     attacker.withLevel(20).withSkill(SkillType.Dodge, MAX_PRACTICE_LEVEL / 50)
 
     // and
-    const fight = await testBuilder.fight(testBuilder.withMob().mob)
+    const fight = await testBuilder.fight()
 
     // when
     const results = await doNTimes(iterations, () => fight.round())

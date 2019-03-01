@@ -24,6 +24,7 @@ export default class TellAction extends Action {
     return this.socialService.tell(checkedRequest)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ActionPart.Action, ActionPart.Target, ActionPart.FreeForm]
   }

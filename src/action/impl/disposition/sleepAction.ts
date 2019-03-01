@@ -26,6 +26,7 @@ export default class SleepAction extends Action {
     return checkedRequest.respondWith().success(Messages.Sleep.Success)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action ]
   }
