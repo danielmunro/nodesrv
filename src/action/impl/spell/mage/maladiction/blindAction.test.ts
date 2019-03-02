@@ -1,13 +1,13 @@
-import {AffectType} from "../../../../affect/affectType"
-import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {Mob} from "../../../../mob/model/mob"
-import {RequestType} from "../../../../request/requestType"
-import Response from "../../../../request/response"
-import {SpellType} from "../../../../spell/spellType"
-import doNTimes, {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
-import MobBuilder from "../../../../test/mobBuilder"
-import TestBuilder from "../../../../test/testBuilder"
-import Spell from "../../../spell"
+import {AffectType} from "../../../../../affect/affectType"
+import {MAX_PRACTICE_LEVEL} from "../../../../../mob/constants"
+import {Mob} from "../../../../../mob/model/mob"
+import {RequestType} from "../../../../../request/requestType"
+import Response from "../../../../../request/response"
+import {SpellType} from "../../../../../spell/spellType"
+import doNTimes, {doNTimesOrUntilTruthy} from "../../../../../support/functional/times"
+import MobBuilder from "../../../../../test/mobBuilder"
+import TestBuilder from "../../../../../test/testBuilder"
+import Spell from "../../../../spell"
 
 let testBuilder: TestBuilder
 let mobBuilder: MobBuilder

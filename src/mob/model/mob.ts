@@ -178,6 +178,10 @@ export class Mob {
     return this.affects.find((a) => a.affectType === affectType)
   }
 
+  public removeAffect(affectType: AffectType) {
+    this.affects = this.affects.filter(affect => affect.affectType !== affectType)
+  }
+
   public isMerchant(): boolean {
     return !!this.shop
   }

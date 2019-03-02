@@ -59,17 +59,18 @@ import UpAction from "./impl/move/upAction"
 import WestAction from "./impl/move/westAction"
 import MultiAction from "./impl/multiAction"
 import NoopAction from "./impl/noopAction"
-import BackstabAction from "./impl/skill/backstabAction"
-import BashAction from "./impl/skill/bashAction"
-import BerserkAction from "./impl/skill/berserkAction"
-import DirtKickAction from "./impl/skill/dirtKickAction"
-import DisarmAction from "./impl/skill/disarmAction"
-import EnvenomAction from "./impl/skill/envenomAction"
-import HamstringAction from "./impl/skill/hamstringAction"
-import SharpenAction from "./impl/skill/sharpenAction"
-import SneakAction from "./impl/skill/sneakAction"
-import StealAction from "./impl/skill/stealAction"
-import TripAction from "./impl/skill/tripAction"
+import BackstabAction from "./impl/skill/ranger/backstabAction"
+import DirtKickAction from "./impl/skill/ranger/dirtKickAction"
+import EnvenomAction from "./impl/skill/ranger/envenomAction"
+import HamstringAction from "./impl/skill/ranger/hamstringAction"
+import SharpenAction from "./impl/skill/ranger/sharpenAction"
+import SneakAction from "./impl/skill/ranger/sneakAction"
+import StealAction from "./impl/skill/ranger/stealAction"
+import BashAction from "./impl/skill/warrior/bashAction"
+import BerserkAction from "./impl/skill/warrior/berserkAction"
+import DisarmAction from "./impl/skill/warrior/disarmAction"
+import ShieldBashAction from "./impl/skill/warrior/shieldBashAction"
+import TripAction from "./impl/skill/warrior/tripAction"
 import GossipAction from "./impl/social/gossipAction"
 import SayAction from "./impl/social/sayAction"
 import TellAction from "./impl/social/tellAction"
@@ -145,6 +146,7 @@ export default function getActionTable(
     new SharpenAction(checkBuilderFactory, eventService),
     new SneakAction(checkBuilderFactory, eventService),
     new StealAction(checkBuilderFactory, eventService),
+    new ShieldBashAction(checkBuilderFactory, eventService),
 
     // casting
     new CastAction(checkBuilderFactory, spellTable),

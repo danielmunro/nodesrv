@@ -1,10 +1,10 @@
-import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
-import {RequestType} from "../../../request/requestType"
-import {ConditionMessages} from "../../../skill/constants"
-import {SkillType} from "../../../skill/skillType"
-import doNTimes from "../../../support/functional/times"
-import TestBuilder from "../../../test/testBuilder"
-import Action from "../../action"
+import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
+import {RequestType} from "../../../../request/requestType"
+import {ConditionMessages} from "../../../../skill/constants"
+import {SkillType} from "../../../../skill/skillType"
+import doNTimes from "../../../../support/functional/times"
+import TestBuilder from "../../../../test/testBuilder"
+import Action from "../../../action"
 
 const ITERATIONS = 1000
 let testBuilder: TestBuilder

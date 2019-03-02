@@ -18,6 +18,7 @@ export enum AffectType {
   Lock = "lock",
   Evil = "evil",
   HasTimer = "has timer",
+  Haste = "haste",
   Immobilize = "immobilize",
   Invisible = "invisible",
   Magic = "magic",

@@ -1,12 +1,12 @@
-import {AffectType} from "../../../affect/affectType"
-import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
-import {RequestType} from "../../../request/requestType"
-import Response from "../../../request/response"
-import {SkillType} from "../../../skill/skillType"
-import doNTimes, {doNTimesOrUntilTruthy, getSuccessfulAction} from "../../../support/functional/times"
-import PlayerBuilder from "../../../test/playerBuilder"
-import TestBuilder from "../../../test/testBuilder"
-import Action from "../../action"
+import {AffectType} from "../../../../affect/affectType"
+import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
+import {RequestType} from "../../../../request/requestType"
+import Response from "../../../../request/response"
+import {SkillType} from "../../../../skill/skillType"
+import doNTimes, {doNTimesOrUntilTruthy, getSuccessfulAction} from "../../../../support/functional/times"
+import PlayerBuilder from "../../../../test/playerBuilder"
+import TestBuilder from "../../../../test/testBuilder"
+import Action from "../../../action"
 
 const iterations = 100
 let testBuilder: TestBuilder

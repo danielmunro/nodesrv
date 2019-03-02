@@ -13,6 +13,7 @@ export enum SkillType {
   Envenom = "envenom",
   EnhancedDamage = "enhanced damage",
   Steal = "steal",
+  ShieldBash = "shield bash",
 
   // implementation not needed?
   Infravision = "infravision",
@@ -30,7 +31,6 @@ export enum SkillType {
   Garotte = "garotte",
   HandToHand = "hand to hand",
   Kick = "kick",
-  ShieldBash = "shield bash",
   ShieldBlock = "shield block",
   Scan = "scan",
   Hide = "hide",

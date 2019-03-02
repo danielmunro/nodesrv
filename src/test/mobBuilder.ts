@@ -7,12 +7,10 @@ import { Mob } from "../mob/model/mob"
 import Shop from "../mob/model/shop"
 import {Race} from "../mob/race/race"
 import { newSkill } from "../skill/factory"
-import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
-import { Spell } from "../spell/model/spell"
+import {newSpell} from "../spell/factory"
 import { SpellType } from "../spell/spellType"
 import RoomBuilder from "./roomBuilder"
-import {newSpell} from "../spell/factory"
 
 export default class MobBuilder {
   constructor(public readonly mob: Mob, private readonly serviceBuilder: ServiceBuilder) {}

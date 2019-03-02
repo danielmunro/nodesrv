@@ -90,6 +90,10 @@ export const Messages = {
   Sell: {
     Success: "You sell {0} for {1} gold",
   },
+  ShieldBash: {
+    Fail: "{requestCreator} {verb} to shield bash {target} but {verb2}.",
+    Success: "{requestCreator} {verb} {target} in the face with {requestCreator2} shield.",
+  },
   Sleep: {
     Success: "You lay down and go to sleep.",
   },
