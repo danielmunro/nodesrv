@@ -27,3 +27,10 @@ export async function getSuccessfulAction(action: Action, request: Request) {
     return handled.isSuccessful() ? handled : null
   })
 }
+
+export async function getFailureAction(action: Action, request: Request) {
+  return doNTimesOrUntilTruthy(defaultIterations, async () => {
+    const handled = await action.handle(request)
+    return !handled.isSuccessful() ? handled : null
+  })
+}
