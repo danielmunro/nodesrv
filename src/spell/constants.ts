@@ -11,6 +11,10 @@ export const ConditionMessages = {
 }
 
 export const SpellMessages = {
+  Bless: {
+    Failure: "{requestCreator} {verb} to bless {target}.",
+    Success: "{target} {verb} blessed.",
+  },
   Blind: {
     Cast: "blind",
     Failure: "{requestCreator} {verb} to blind {target}.",

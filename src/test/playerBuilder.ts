@@ -7,6 +7,8 @@ import {AuthorizationLevel} from "../player/authorizationLevel"
 import {Player} from "../player/model/player"
 import {newSkill} from "../skill/factory"
 import {SkillType} from "../skill/skillType"
+import {newSpell} from "../spell/factory"
+import {SpellType} from "../spell/spellType"
 
 export default class PlayerBuilder {
   constructor(public readonly player: Player) {}
@@ -27,6 +29,11 @@ export default class PlayerBuilder {
 
   public addSkill(skillType: SkillType, level: number = 1): PlayerBuilder {
     this.player.sessionMob.skills.push(newSkill(skillType, level))
+    return this
+  }
+
+  public addSpell(spellType: SpellType, level: number = 1): PlayerBuilder {
+    this.player.sessionMob.spells.push(newSpell(spellType, level))
     return this
   }
 

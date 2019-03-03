@@ -27,6 +27,7 @@ const specializationLevels = [
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Hamstring, 31),
 
   new SpecializationLevel(SpecializationType.Cleric, SpellType.CureLight, 1),
+  new SpecializationLevel(SpecializationType.Cleric, SpellType.Bless, 5),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.CureSerious, 7),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.CurePoison, 13),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.Heal, 20),
