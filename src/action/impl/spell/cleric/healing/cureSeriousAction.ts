@@ -2,8 +2,6 @@ import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
 import {CostType} from "../../../../../check/cost/costType"
-import SpecializationLevel from "../../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../../mob/specialization/specializationType"
 import roll from "../../../../../random/dice"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
@@ -20,13 +18,6 @@ export default class CureSeriousAction extends Spell {
 
   public getSpellType(): SpellType {
     return SpellType.CureSerious
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Cleric) {
-      return new SpecializationLevel(SpecializationType.Cleric, 7)
-    }
-    return new SpecializationLevel(SpecializationType.Noop, 1)
   }
 
   public getActionType(): ActionType {

@@ -9,8 +9,6 @@ import Cost from "../../../../check/cost/cost"
 import {CostType} from "../../../../check/cost/costType"
 import {DamageType} from "../../../../damage/damageType"
 import Weapon from "../../../../item/model/weapon"
-import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll from "../../../../random/dice"
 import {Request} from "../../../../request/request"
 import {RequestType} from "../../../../request/requestType"
@@ -78,18 +76,6 @@ export default class SharpenAction extends Skill {
 
   public getActionType(): ActionType {
     return ActionType.Neutral
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Warrior) {
-      return new SpecializationLevel(SpecializationType.Warrior, 10)
-    } else if (specializationType === SpecializationType.Ranger) {
-      return new SpecializationLevel(SpecializationType.Ranger, 1)
-    } else if (specializationType === SpecializationType.Cleric) {
-      return new SpecializationLevel(SpecializationType.Cleric, 40)
-    }
-
-    return new SpecializationLevel(SpecializationType.Mage, 30)
   }
 
   public getCosts(): Cost[] {

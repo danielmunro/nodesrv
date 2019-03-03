@@ -3,8 +3,6 @@ import {CheckType} from "../../../../check/checkType"
 import Cost from "../../../../check/cost/cost"
 import {CostType} from "../../../../check/cost/costType"
 import {Fight} from "../../../../mob/fight/fight"
-import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll from "../../../../random/dice"
 import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
@@ -51,14 +49,6 @@ export default class BackstabAction extends Skill {
 
   public getActionType(): ActionType {
     return ActionType.Offensive
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Ranger) {
-      return new SpecializationLevel(SpecializationType.Ranger, 1)
-    }
-
-    return new SpecializationLevel(SpecializationType.Noop, 1)
   }
 
   public getCosts(): Cost[] {

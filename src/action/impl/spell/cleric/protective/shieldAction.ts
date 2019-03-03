@@ -4,8 +4,6 @@ import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
 import {CostType} from "../../../../../check/cost/costType"
-import SpecializationLevel from "../../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../../mob/specialization/specializationType"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {ConditionMessages} from "../../../../../skill/constants"
 import {SpellMessages} from "../../../../../spell/constants"
@@ -26,13 +24,6 @@ export default class ShieldAction extends Spell {
 
   public getSpellType(): SpellType {
     return SpellType.Shield
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Cleric) {
-      return new SpecializationLevel(SpecializationType.Cleric, 20)
-    }
-    return new SpecializationLevel(SpecializationType.Noop, 1)
   }
 
   public getActionType(): ActionType {

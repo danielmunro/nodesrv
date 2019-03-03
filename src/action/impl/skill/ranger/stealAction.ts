@@ -9,8 +9,6 @@ import EventService from "../../../../event/eventService"
 import {EventType} from "../../../../event/eventType"
 import MobEvent from "../../../../mob/event/mobEvent"
 import {Mob} from "../../../../mob/model/mob"
-import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll, {percentRoll} from "../../../../random/dice"
 import {Request} from "../../../../request/request"
 import {RequestType} from "../../../../request/requestType"
@@ -76,13 +74,6 @@ export default class StealAction extends Skill {
 
   public getActionType(): ActionType {
     return ActionType.Neutral
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Ranger) {
-      return new SpecializationLevel(SpecializationType.Ranger, 5)
-    }
-    return new SpecializationLevel(SpecializationType.Noop, 0)
   }
 
   public getCosts(): Cost[] {

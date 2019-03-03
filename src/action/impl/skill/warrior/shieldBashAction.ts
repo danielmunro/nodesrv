@@ -5,8 +5,6 @@ import {CheckType} from "../../../../check/checkType"
 import Cost from "../../../../check/cost/cost"
 import {CostType} from "../../../../check/cost/costType"
 import {Mob} from "../../../../mob/model/mob"
-import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import {percentRoll} from "../../../../random/dice"
 import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
@@ -97,13 +95,6 @@ export default class ShieldBashAction extends Skill {
 
   public getSkillType(): SkillType {
     return SkillType.ShieldBash
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Warrior) {
-      return new SpecializationLevel(specializationType, 18)
-    }
-    return new SpecializationLevel(SpecializationType.Noop, 1)
   }
 
   public roll(checkedRequest: CheckedRequest): boolean {

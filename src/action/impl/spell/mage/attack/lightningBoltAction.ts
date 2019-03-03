@@ -3,8 +3,6 @@ import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
 import {CostType} from "../../../../../check/cost/costType"
 import {DamageType} from "../../../../../damage/damageType"
-import SpecializationLevel from "../../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../../mob/specialization/specializationType"
 import roll from "../../../../../random/dice"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
@@ -26,13 +24,6 @@ export default class LightningBoltAction extends Spell implements OffensiveSpell
 
   public getSpellType(): SpellType {
     return SpellType.LightningBolt
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Mage) {
-      return new SpecializationLevel(SpecializationType.Mage, 13)
-    }
-    return new SpecializationLevel(SpecializationType.Noop, 1)
   }
 
   public getActionType(): ActionType {

@@ -6,8 +6,6 @@ import CheckedRequest from "../check/checkedRequest"
 import {CheckType} from "../check/checkType"
 import Cost from "../check/cost/cost"
 import EventService from "../event/eventService"
-import SpecializationLevel from "../mob/specialization/specializationLevel"
-import {SpecializationType} from "../mob/specialization/specializationType"
 import roll from "../random/dice"
 import {Request} from "../request/request"
 import {RequestType} from "../request/requestType"
@@ -70,7 +68,6 @@ export default abstract class Spell extends Action {
 
   public abstract applySpell(checkedRequest: CheckedRequest): void
   public abstract getSpellType(): SpellType
-  public abstract getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel
   public abstract getCosts(): Cost[]
   public abstract getActionType(): ActionType
   public abstract getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage

@@ -7,8 +7,6 @@ import {CostType} from "../../../../check/cost/costType"
 import {Equipment} from "../../../../item/equipment"
 import {Item} from "../../../../item/model/item"
 import {Mob} from "../../../../mob/model/mob"
-import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll from "../../../../random/dice"
 import {Request} from "../../../../request/request"
 import {RequestType} from "../../../../request/requestType"
@@ -64,16 +62,6 @@ export default class DisarmAction extends Skill {
 
   public getActionType(): ActionType {
     return ActionType.Offensive
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Warrior) {
-      return new SpecializationLevel(SpecializationType.Warrior, 11)
-    } else if (specializationType === SpecializationType.Ranger) {
-      return new SpecializationLevel(SpecializationType.Ranger, 12)
-    }
-
-    return new SpecializationLevel(SpecializationType.Noop, 1)
   }
 
   public getCosts(): Cost[] {

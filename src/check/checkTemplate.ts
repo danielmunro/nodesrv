@@ -6,6 +6,8 @@ import {AffectType} from "../affect/affectType"
 import {StackBehavior} from "../affect/stackBehavior"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
+import SpecializationLevel from "../mob/specialization/specializationLevel"
+import {getSpecializationLevel} from "../mob/specialization/specializationLevels"
 import {Request} from "../request/request"
 import getActionPartTable from "./actionPartCheckTable"
 import CheckBuilder from "./checkBuilder"
@@ -17,10 +19,13 @@ export default class CheckTemplate {
 
   public cast(spell: Spell): CheckBuilder {
     const mob = this.request.mob
+    const specializationLevel = getSpecializationLevel(
+      this.request.mob.specialization,
+      spell.getSpellType())
     const checkBuilder = new CheckBuilder(this.mobService, this.request, getActionPartTable(this.mobService))
       .forMob(mob)
       .requireSpell(spell.getSpellType())
-      .atLevelOrGreater(spell.getSpecializationLevel(mob.specialization).minimumLevel)
+      .atLevelOrGreater(specializationLevel.minimumLevel)
 
     spell.getCosts().forEach(cost => checkBuilder.addCost(cost))
     this.checkActionType(checkBuilder, spell.getActionType())
@@ -32,10 +37,13 @@ export default class CheckTemplate {
   }
 
   public perform(skill: Skill): CheckBuilder {
+    const specializationLevel = getSpecializationLevel(
+      this.request.mob.specialization,
+      skill.getSkillType())
     const checkBuilder = new CheckBuilder(this.mobService, this.request, getActionPartTable(this.mobService))
       .forMob(this.request.mob)
       .requireSkill(skill.getSkillType())
-      .atLevelOrGreater(skill.getSpecializationLevel(this.request.mob.specialization).minimumLevel)
+      .atLevelOrGreater(specializationLevel.minimumLevel)
 
     skill.getCosts().forEach(cost => checkBuilder.addCost(cost))
     this.checkActionType(checkBuilder, skill.getActionType())

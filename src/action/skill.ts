@@ -6,8 +6,6 @@ import {CheckType} from "../check/checkType"
 import Cost from "../check/cost/cost"
 import EventService from "../event/eventService"
 import {Mob} from "../mob/model/mob"
-import SpecializationLevel from "../mob/specialization/specializationLevel"
-import {SpecializationType} from "../mob/specialization/specializationType"
 import roll from "../random/dice"
 import {Request} from "../request/request"
 import Response from "../request/response"
@@ -58,7 +56,6 @@ export default abstract class Skill extends Action {
   public abstract getSkillType(): SkillType
   public abstract getCosts(): Cost[]
   public abstract getActionType(): ActionType
-  public abstract getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel
   public abstract applySkill(checkedRequest: CheckedRequest): void
   public abstract roll(checkedRequest: CheckedRequest): boolean
   public abstract getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage

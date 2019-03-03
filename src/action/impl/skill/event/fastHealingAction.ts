@@ -1,7 +1,5 @@
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
-import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll from "../../../../random/dice"
 import {SkillType} from "../../../../skill/skillType"
 import {Messages} from "../../../constants"
@@ -17,18 +15,6 @@ export default class FastHealingAction extends EventSkill {
 
   public getActionType(): ActionType {
     return ActionType.Defensive
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Warrior) {
-      return new SpecializationLevel(SpecializationType.Warrior, 6)
-    } else if (specializationType === SpecializationType.Ranger) {
-      return new SpecializationLevel(SpecializationType.Ranger, 16)
-    } else if (specializationType === SpecializationType.Mage) {
-      return new SpecializationLevel(SpecializationType.Mage, 15)
-    }
-
-    return new SpecializationLevel(SpecializationType.Cleric, 9)
   }
 
   public getSkillType(): SkillType {

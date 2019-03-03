@@ -7,8 +7,6 @@ import Cost from "../../../../check/cost/cost"
 import {CostType} from "../../../../check/cost/costType"
 import {DamageType} from "../../../../damage/damageType"
 import {Equipment} from "../../../../item/equipment"
-import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll from "../../../../random/dice"
 import {Request} from "../../../../request/request"
 import {RequestType} from "../../../../request/requestType"
@@ -67,16 +65,6 @@ export default class EnvenomAction extends Skill {
 
   public getActionType(): ActionType {
     return ActionType.Defensive
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Warrior) {
-      return new SpecializationLevel(SpecializationType.Warrior, 1)
-    } else if (specializationType === SpecializationType.Ranger) {
-      return new SpecializationLevel(SpecializationType.Ranger, 15)
-    }
-
-    return new SpecializationLevel(SpecializationType.Noop, 1)
   }
 
   public getCosts(): Cost[] {

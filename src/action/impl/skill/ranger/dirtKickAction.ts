@@ -6,8 +6,6 @@ import {CheckType} from "../../../../check/checkType"
 import {CheckMessages as CheckMessages} from "../../../../check/constants"
 import Cost from "../../../../check/cost/cost"
 import {CostType} from "../../../../check/cost/costType"
-import SpecializationLevel from "../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import roll from "../../../../random/dice"
 import {Request} from "../../../../request/request"
 import {RequestType} from "../../../../request/requestType"
@@ -59,14 +57,6 @@ export default class DirtKickAction extends Skill {
 
   public getActionType(): ActionType {
     return ActionType.Offensive
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Warrior || specializationType === SpecializationType.Ranger) {
-      return new SpecializationLevel(SpecializationType.Warrior, 3)
-    }
-
-    return new SpecializationLevel(SpecializationType.Noop, 1)
   }
 
   public getCosts(): Cost[] {

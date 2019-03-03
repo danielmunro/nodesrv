@@ -6,8 +6,6 @@ import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
 import {CostType} from "../../../../../check/cost/costType"
 import {Mob} from "../../../../../mob/model/mob"
-import SpecializationLevel from "../../../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../../../mob/specialization/specializationType"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
@@ -29,13 +27,6 @@ export default class CurseAction extends Spell {
 
   public getSpellType(): SpellType {
     return SpellType.Curse
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    if (specializationType === SpecializationType.Mage) {
-      return new SpecializationLevel(SpecializationType.Mage, 18)
-    }
-    return new SpecializationLevel(SpecializationType.Noop, 1)
   }
 
   public getActionType(): ActionType {
