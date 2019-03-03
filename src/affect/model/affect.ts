@@ -21,6 +21,9 @@ export class Affect {
   @Column("integer")
   public timeout: number
 
+  @Column("integer")
+  public level: number
+
   @OneToOne(() => Attributes)
   @JoinColumn()
   public attributes: Attributes = new Attributes()

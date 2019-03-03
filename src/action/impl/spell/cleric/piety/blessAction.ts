@@ -1,5 +1,7 @@
+import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
-import {newAffect} from "../../../../../affect/factory"
+import AttributeBuilder from "../../../../../attributes/attributeBuilder"
+import {newHitroll} from "../../../../../attributes/factory"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
@@ -15,7 +17,14 @@ import Spell from "../../../../spell"
 export default class BlessAction extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    target.addAffect(newAffect(AffectType.Bless, checkedRequest.mob.level))
+    target.addAffect(
+      new AffectBuilder(AffectType.Bless)
+        .setTimeout(checkedRequest.mob.level)
+        .setLevel(checkedRequest.mob.level)
+        .setAttributes(new AttributeBuilder()
+          .setHitRoll(newHitroll(1, checkedRequest.mob.level / 8))
+          .build())
+        .build())
   }
 
   public getAffectType(): AffectType {

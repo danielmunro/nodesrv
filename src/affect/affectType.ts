@@ -6,6 +6,7 @@ export enum AffectType {
   Berserk = "berserk",
   Blind = "blind",
   BurnProof = "burn proof",
+  Cancellation = "cancellation",
   ClanCorpse = "clan corpse",
   Curse = "curse",
   DetectInvisible = "detect invisible",
