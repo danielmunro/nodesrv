@@ -22,7 +22,7 @@ export class Affect {
   public timeout: number
 
   @Column("integer")
-  public level: number
+  public level: number = 1
 
   @OneToOne(() => Attributes)
   @JoinColumn()

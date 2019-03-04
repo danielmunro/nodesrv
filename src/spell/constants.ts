@@ -20,6 +20,9 @@ export const SpellMessages = {
     Failure: "{requestCreator} {verb} to blind {target}.",
     Success: "{target} {verb} suddenly blind!",
   },
+  Cancel: {
+    Success: "{target} suddenly {verb} more normal.",
+  },
   CureLight: {
     Success: "{target} {verb} better!",
   },

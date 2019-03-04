@@ -1,3 +1,5 @@
+import {AffectType} from "../affect/affectType"
+import {newAffect} from "../affect/factory"
 import {newItem} from "../item/factory"
 import {ItemType} from "../item/itemType"
 import Container from "../item/model/container"
@@ -34,6 +36,11 @@ export default class PlayerBuilder {
 
   public addSpell(spellType: SpellType, level: number = 1): PlayerBuilder {
     this.player.sessionMob.spells.push(newSpell(spellType, level))
+    return this
+  }
+
+  public addAffect(affectType: AffectType): PlayerBuilder {
+    this.player.sessionMob.addAffect(newAffect(affectType))
     return this
   }
 
