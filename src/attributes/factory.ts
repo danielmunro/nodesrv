@@ -62,29 +62,6 @@ export function newAttributes(vitals: Vitals, stats: Stats, hitroll: Hitroll): A
   return attributes
 }
 
-export function newAttributesWithStats(stats: Stats): Attributes {
-  return newAttributes(
-    newVitals(0, 0, 0),
-    stats,
-    newHitroll(0, 0),
-  )
-}
-
-export function newAttributesWithHitrollStats(hitroll: Hitroll, stats: Stats): Attributes {
-  return newAttributes(
-    newVitals(0, 0, 0),
-    stats,
-    hitroll,
-  )
-}
-
-export function newAttributesWithHitroll(hitroll: Hitroll) {
-  return newAttributes(
-    newVitals(0, 0, 0),
-    newStats(0, 0, 0, 0, 0, 0),
-    hitroll)
-}
-
 export function newEmptyAttributes(): Attributes {
   return newAttributes(
     newVitals(0, 0, 0),

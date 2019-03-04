@@ -1,6 +1,6 @@
+import AttributeBuilder from "../attributes/attributeBuilder"
 import {
   newAttributes,
-  newAttributesWithStats,
   newHitroll,
   newStartingStats,
   newStartingVitals,
@@ -33,11 +33,6 @@ describe("mob factory", () => {
     expect(mob.getCombinedAttributes()).toEqual(expectedAttributes)
   })
 
-  it("should be able to make a wandering mob", () => {
-    const mob = newMob("", "", Race.Critter, newStartingVitals(), newAttributesWithStats(newStartingStats()), true)
-    expect(mob.traits.wanders).toBe(true)
-  })
-
   it("should be able to newTable with items", () => {
     const testItem1 = new Item()
     const testItem2 = new Item()
@@ -46,7 +41,7 @@ describe("mob factory", () => {
       "",
       Race.Critter,
       newStartingVitals(),
-      newAttributesWithStats(newStartingStats()),
+      new AttributeBuilder().setStats(newStartingStats()).build(),
       false,
       [testItem1, testItem2])
 

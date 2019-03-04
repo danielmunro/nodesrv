@@ -1,4 +1,5 @@
-import { newAttributes, newHitroll, newStartingStats, newStartingVitals } from "../../../attributes/factory"
+import AttributeBuilder from "../../../attributes/attributeBuilder"
+import { newHitroll, newStartingStats, newStartingVitals } from "../../../attributes/factory"
 import { Mob } from "../../../mob/model/mob"
 import { PlayerMob } from "../../../mob/model/playerMob"
 import { Player } from "../../../player/model/player"
@@ -41,11 +42,12 @@ export default class NewMobConfirm extends PlayerAuthStep implements AuthStep {
     mob.traits.isNpc = false
     mob.player = this.player
     mob.gold = 1000
-    mob.attributes.push(newAttributes(
-      newStartingVitals(),
-      newStartingStats(),
-      newHitroll(0, 0),
-    ))
+    mob.attributes.push(
+      new AttributeBuilder()
+        .setVitals(newStartingVitals())
+        .setStats(newStartingStats())
+        .setHitRoll(newHitroll(0, 0))
+        .build())
     mob.playerMob = new PlayerMob()
 
     return mob

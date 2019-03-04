@@ -1,6 +1,7 @@
 import {AffectType} from "../../../../../affect/affectType"
 import {newAffect} from "../../../../../affect/factory"
-import {newAttributesWithHitrollStats, newHitroll, newStats} from "../../../../../attributes/factory"
+import AttributeBuilder from "../../../../../attributes/attributeBuilder"
+import {newHitroll, newStats} from "../../../../../attributes/factory"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
@@ -20,7 +21,10 @@ export default class PoisonAction extends Spell {
       newAffect(
         AffectType.Poison,
         spell.level / 2,
-        newAttributesWithHitrollStats(newHitroll(0, -1), newStats(-1, 0, 0, 0, -1, -1))))
+        new AttributeBuilder()
+          .setHitRoll(newHitroll(0, -1))
+          .setStats(newStats(-1, 0, 0, 0, -1, -1))
+          .build()))
   }
 
   public getSpellType(): SpellType {

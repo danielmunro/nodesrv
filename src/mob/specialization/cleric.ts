@@ -1,4 +1,5 @@
-import { newAttributesWithStats, newStats } from "../../attributes/factory"
+import AttributeBuilder from "../../attributes/attributeBuilder"
+import { newStats } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
 import { SkillType } from "../../skill/skillType"
 import { SpellType } from "../../spell/spellType"
@@ -11,7 +12,9 @@ export default class Cleric implements Specialization {
   }
 
   public getAttributes(): Attributes {
-    return newAttributesWithStats(newStats(-1, 2, 2, -1, 0, 0))
+    return new AttributeBuilder()
+      .setStats(newStats(-1, 2, 2, -1, 0, 0))
+      .build()
   }
 
   public getSkills(): SkillType[] {

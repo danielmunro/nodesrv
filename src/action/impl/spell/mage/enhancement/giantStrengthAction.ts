@@ -1,6 +1,7 @@
 import {AffectType} from "../../../../../affect/affectType"
 import {newAffect} from "../../../../../affect/factory"
-import {newAttributesWithStats, newStats} from "../../../../../attributes/factory"
+import AttributeBuilder from "../../../../../attributes/attributeBuilder"
+import {newStats} from "../../../../../attributes/factory"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
@@ -21,7 +22,9 @@ export default class GiantStrengthAction extends Spell {
       newAffect(
         AffectType.GiantStrength,
         spell.level,
-        newAttributesWithStats(newStats(bonus, 0, 0, 0, 0, 0))))
+        new AttributeBuilder()
+          .setStats(newStats(bonus, 0, 0, 0, 0, 0))
+          .build()))
   }
 
   public getSpellType(): SpellType {
