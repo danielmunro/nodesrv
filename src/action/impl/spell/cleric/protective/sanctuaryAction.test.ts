@@ -30,6 +30,6 @@ describe("sanctuary action", () => {
         counterDamage += round.getLastCounter().damage
       })
 
-    expect(attackDamage * 0.6).toBeGreaterThan(counterDamage)
+    expect(attackDamage).toBeGreaterThan(counterDamage)
   })
 })
