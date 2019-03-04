@@ -1,6 +1,5 @@
 import AttributeBuilder from "../attributes/attributeBuilder"
 import {
-  newAttributes,
   newHitroll,
   newStartingStats,
   newStartingVitals,
@@ -15,10 +14,11 @@ describe("mob factory", () => {
     const description = "this is a description"
     const race = Race.Critter
     const vitals = newStartingVitals()
-    const expectedAttributes = newAttributes(
-      newStartingVitals(),
-      newStartingStats(),
-      newHitroll(0, 0))
+    const expectedAttributes = new AttributeBuilder()
+        .setVitals(newStartingVitals())
+        .setStats(newStartingStats())
+      .setHitRoll(newHitroll(0, 0))
+      .build()
     const mob = newMob(
       name,
       description,

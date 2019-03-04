@@ -1,6 +1,7 @@
 import {AffectType} from "../../../../../affect/affectType"
 import {newAffect} from "../../../../../affect/factory"
-import {newAttributes, newHitroll, newStats, newVitals} from "../../../../../attributes/factory"
+import AttributeBuilder from "../../../../../attributes/attributeBuilder"
+import {newHitroll, newStats} from "../../../../../attributes/factory"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
@@ -19,10 +20,10 @@ export default class CurseAction extends Spell {
     target.addAffect(newAffect(
       AffectType.Curse,
       checkedRequest.mob.level / 10,
-      newAttributes(
-        newVitals(0, 0, 0),
-        newStats(-1, -1, -1, -1, -1, -1),
-        newHitroll(1, -4))))
+      new AttributeBuilder()
+        .setStats(newStats(-1, -1, -1, -1, -1, -1))
+        .setHitRoll(newHitroll(1, -4))
+        .build()))
   }
 
   public getSpellType(): SpellType {

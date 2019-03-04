@@ -1,27 +1,13 @@
-import { newAttributes, newHitroll, newStartingVitals, newStats } from "../../attributes/factory"
-import Hitroll from "../../attributes/model/hitroll"
 import { getTestRoom } from "../../test/room"
 import TestBuilder from "../../test/testBuilder"
-import { newMob } from "../factory"
-import { Mob } from "../model/mob"
-import { Race } from "../race/race"
 import { Fight } from "./fight"
 import {Round} from "./round"
-
-function newFightingMob(name: string, hitroll: Hitroll): Mob {
-  return newMob(
-    name,
-    "a test fixture",
-    Race.Human,
-    newStartingVitals(),
-    newAttributes(newStartingVitals(), newStats(0, 0, 0, 0, 0, 0), hitroll))
-}
 
 describe("fight", () => {
   it("getOpponentFor should return null for mobs not in the fight", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const mobFactory = (name: string) => newFightingMob(name, newHitroll(1, 1))
+    const mobFactory = (name: string) => testBuilder.withMob(name).mob
     const aggressor = mobFactory("aggressor")
     const target = mobFactory("target")
     const bystander = mobFactory("collateral")

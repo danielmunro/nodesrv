@@ -1,6 +1,7 @@
 import {AffectType} from "../../../../../affect/affectType"
 import {newAffect} from "../../../../../affect/factory"
-import {newAttributes, newHitroll, newStats, newVitals} from "../../../../../attributes/factory"
+import AttributeBuilder from "../../../../../attributes/attributeBuilder"
+import {newHitroll, newStats, newVitals} from "../../../../../attributes/factory"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
@@ -18,10 +19,11 @@ export default class WrathAction extends Spell {
     target.addAffect(newAffect(
       AffectType.Wrath,
       checkedRequest.mob.level,
-      newAttributes(
-        newVitals(20 * (checkedRequest.mob.level / 10), 0, 0),
-        newStats(1, -2, -2, 1, 1, 0),
-        newHitroll(1, 2))))
+      new AttributeBuilder()
+        .setVitals(newVitals(20 * (checkedRequest.mob.level / 10), 0, 0))
+        .setStats(newStats(1, -2, -2, 1, 1, 0))
+        .setHitRoll(newHitroll(1, 2))
+        .build()))
   }
 
   public getSpellType(): SpellType {

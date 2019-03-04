@@ -1,4 +1,5 @@
 import roll from "../random/dice"
+import AttributeBuilder from "./attributeBuilder"
 import Attributes from "./model/attributes"
 import Hitroll from "./model/hitroll"
 import Stats from "./model/stats"
@@ -47,24 +48,17 @@ export function newHitroll(hit: number, dam: number): Hitroll {
 }
 
 export function newStartingAttributes(vitals: Vitals, level: number = 1): Attributes {
-  return newAttributes(
-    vitals,
-    newStartingStats(),
-    newHitroll(1 + Math.floor(level / 3), 1 + Math.ceil(level / 2)))
-}
-
-export function newAttributes(vitals: Vitals, stats: Stats, hitroll: Hitroll): Attributes {
-  const attributes = new Attributes()
-  attributes.vitals = vitals
-  attributes.stats = stats
-  attributes.hitroll = hitroll
-
-  return attributes
+  return new AttributeBuilder()
+    .setVitals(vitals)
+    .setStats(newStartingStats())
+    .setHitRoll(newHitroll(1 + Math.floor(level / 3), 1 + Math.ceil(level / 2)))
+    .build()
 }
 
 export function newEmptyAttributes(): Attributes {
-  return newAttributes(
-    newVitals(0, 0, 0),
-    newStats(0, 0, 0, 0, 0, 0),
-    newHitroll(0, 0))
+  return new AttributeBuilder()
+    .setVitals(newVitals(0, 0, 0))
+    .setStats(newStats(0, 0, 0, 0, 0, 0))
+    .setHitRoll(newHitroll(0, 0))
+    .build()
 }
