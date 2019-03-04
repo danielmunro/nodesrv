@@ -21,8 +21,8 @@ addons:
     organization: danielmunro-github
     token:
       secure: befa09151a77d699e6e168d61eec0aafe1aadc6e
-deploy:
-  provider: script
-  script: bash bin/deploy.sh
-  on:
-    branch: master
+#deploy:
+#  provider: script
+#  script: bash bin/deploy.sh
+#  on:
+#    branch: master
