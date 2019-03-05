@@ -16,7 +16,6 @@ export enum SpellType {
   StoneSkin = "stone skin",
 
   // Benedictions
-  Bless = "bless",
   GiantStrength = "giant strength",
   Haste = "haste",
   Blur = "blur",
@@ -42,4 +41,8 @@ export enum SpellType {
   Heal = "heal",
   RestoreMana = "restore mana",
   RefreshMovement = "refresh movement",
+
+  // piety
+  Bless = "bless",
+  Crusade = "crusade",
 }

@@ -1,5 +1,7 @@
+import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
-import {newAffect} from "../../../../../affect/factory"
+import AttributeBuilder from "../../../../../attributes/attributeBuilder"
+import {newHitroll} from "../../../../../attributes/factory"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
@@ -12,18 +14,25 @@ import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
 import Spell from "../../../../spell"
 
-export default class SanctuaryAction extends Spell {
+export default class CrusadeAction extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    target.addAffect(newAffect(AffectType.Sanctuary, checkedRequest.mob.level / 8))
+    target.addAffect(
+      new AffectBuilder(AffectType.Crusade)
+        .setTimeout(checkedRequest.mob.level / 8)
+        .setLevel(checkedRequest.mob.level)
+        .setAttributes(new AttributeBuilder()
+          .setHitRoll(newHitroll(1, checkedRequest.mob.level / 8))
+          .build())
+        .build())
   }
 
   public getAffectType(): AffectType {
-    return AffectType.Sanctuary
+    return AffectType.Crusade
   }
 
   public getSpellType(): SpellType {
-    return SpellType.Sanctuary
+    return SpellType.Crusade
   }
 
   public getActionType(): ActionType {
@@ -32,8 +41,7 @@ export default class SanctuaryAction extends Spell {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 80, ConditionMessages.All.NotEnoughMana),
-      new Cost(CostType.Delay, 2),
+      new Cost(CostType.Mana, 20, ConditionMessages.All.NotEnoughMana),
     ]
   }
 
@@ -41,13 +49,13 @@ export default class SanctuaryAction extends Spell {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      SpellMessages.Sanctuary.Success,
+      SpellMessages.Crusade.Success,
       {
         target: target === checkedRequest.mob ? "you" : target,
-        verb: target === checkedRequest.mob ? "are" : "is",
+        verb: target === checkedRequest.mob ? "feel" : "feels",
       },
-      { target: "you", verb: "are" },
-      { target, verb: "is" })
+      { target: "you", verb: "feel" },
+      { target, verb: "feels" })
   }
 
   /* istanbul ignore next */

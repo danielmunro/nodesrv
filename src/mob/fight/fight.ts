@@ -103,8 +103,6 @@ export class Fight {
     }
 
     const initialDamageCalculation = Fight.oneHit(attacker, defender)
-
-    await this.eventService.publish(new FightEvent(EventType.AttackRound, attacker, this))
     const response = await this.eventService.publish(
       new DamageEvent(defender, initialDamageCalculation, DamageType.Slash))
     const event = response.event as DamageEvent

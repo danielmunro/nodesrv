@@ -1,6 +1,6 @@
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
-import roll from "../../../../random/dice"
+import {percentRoll} from "../../../../random/dice"
 import {SkillType} from "../../../../skill/skillType"
 import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
@@ -21,8 +21,7 @@ export default class SecondAttackAction extends EventSkill {
   }
 
   public roll(checkedRequest: CheckedRequest): boolean {
-    const mob = checkedRequest.mob
     const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-    return roll(1, skill.level) > mob.level
+    return percentRoll() < skill.level
   }
 }

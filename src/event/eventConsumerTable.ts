@@ -1,5 +1,7 @@
 import Action from "../action/action"
 import Move from "../action/move"
+import CrusadeEventConsumer from "../affect/eventConsumer/crusadeEventConsumer"
+import SanctuaryEventConsumer from "../affect/eventConsumer/sanctuaryEventConsumer"
 import Disconnected from "../client/eventConsumer/disconnected"
 import LoggedIn from "../client/eventConsumer/loggedIn"
 import Quit from "../client/eventConsumer/quit"
@@ -41,6 +43,10 @@ export default async function createEventConsumerTable(
   const clientService = gameServer.clientService
   const locationService = mobService.locationService
   return Promise.resolve([
+    // affects
+    new SanctuaryEventConsumer(),
+    new CrusadeEventConsumer(),
+
     // mob
     new AggressiveMob(mobService, locationService, fightBuilder),
     new PetFollowsOwner(locationService),

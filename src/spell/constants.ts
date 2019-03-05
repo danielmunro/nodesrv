@@ -23,6 +23,9 @@ export const SpellMessages = {
   Cancel: {
     Success: "{target} suddenly {verb} more normal.",
   },
+  Crusade: {
+    Success: "{target} {verb} ready for holy battle!",
+  },
   CureLight: {
     Success: "{target} {verb} better!",
   },
@@ -52,6 +55,9 @@ export const SpellMessages = {
   },
   Poison: {
     Success: "{target} suddenly {verb} sick!",
+  },
+  Sanctuary: {
+    Success: "{target} {verb} surrounded by a faint glow.",
   },
   Shield: {
     Success: "{target} {verb} surrounded by a force shield.",

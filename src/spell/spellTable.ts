@@ -3,7 +3,9 @@ import CureLightAction from "../action/impl/spell/cleric/healing/cureLightAction
 import CureSeriousAction from "../action/impl/spell/cleric/healing/cureSeriousAction"
 import HealAction from "../action/impl/spell/cleric/healing/healAction"
 import BlessAction from "../action/impl/spell/cleric/piety/blessAction"
+import CrusadeAction from "../action/impl/spell/cleric/piety/crusadeAction"
 import CancellationAction from "../action/impl/spell/cleric/protective/cancellationAction"
+import SanctuaryAction from "../action/impl/spell/cleric/protective/sanctuaryAction"
 import ShieldAction from "../action/impl/spell/cleric/protective/shieldAction"
 import StoneSkinAction from "../action/impl/spell/cleric/protective/stoneSkinAction"
 import LightningBoltAction from "../action/impl/spell/mage/attack/lightningBoltAction"
@@ -48,6 +50,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     new ShieldAction(checkBuilderFactory, eventService),
     new StoneSkinAction(checkBuilderFactory, eventService),
     new CancellationAction(checkBuilderFactory, eventService),
+    new SanctuaryAction(checkBuilderFactory, eventService),
 
     // illusion
     new InvisibilityAction(checkBuilderFactory, eventService),
@@ -55,7 +58,8 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     // detection
     new DetectInvisibleAction(checkBuilderFactory, eventService),
 
-    // bless
+    // piety
     new BlessAction(checkBuilderFactory, eventService),
+    new CrusadeAction(checkBuilderFactory, eventService),
   ]
 }
