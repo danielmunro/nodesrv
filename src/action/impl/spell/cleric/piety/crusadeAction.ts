@@ -52,10 +52,10 @@ export default class CrusadeAction extends Spell {
       SpellMessages.Crusade.Success,
       {
         target: target === checkedRequest.mob ? "you" : target,
-        verb: target === checkedRequest.mob ? "feel" : "feels",
+        verb: target === checkedRequest.mob ? "are" : "is",
       },
-      { target: "you", verb: "feel" },
-      { target, verb: "feels" })
+      { target: "you", verb: "are" },
+      { target, verb: "is" })
   }
 
   /* istanbul ignore next */
