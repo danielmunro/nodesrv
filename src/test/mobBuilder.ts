@@ -36,7 +36,12 @@ export default class MobBuilder {
     return this
   }
 
-  public withMv(amount: number): MobBuilder {
+  public setHp(amount: number): MobBuilder {
+    this.mob.vitals.hp = amount
+    return this
+  }
+
+  public setMv(amount: number): MobBuilder {
     this.mob.vitals.mv = amount
     return this
   }

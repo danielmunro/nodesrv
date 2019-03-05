@@ -95,7 +95,7 @@ describe("disarm skill action", () => {
     await testBuilder.fight(targetBuilder.mob)
 
     // given
-    mob1.withMv(0)
+    mob1.setMv(0)
       .withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
 
     // when
