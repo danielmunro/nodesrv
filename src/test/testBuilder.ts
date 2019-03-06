@@ -33,6 +33,7 @@ import PlayerBuilder from "./playerBuilder"
 import RoomBuilder from "./roomBuilder"
 
 const ws = jest.fn(() => ({
+  close: jest.fn(),
   send: jest.fn(),
 }))
 
