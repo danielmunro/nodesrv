@@ -1,4 +1,5 @@
 import CurePoisonAction from "../action/impl/spell/cleric/curative/curePoisonAction"
+import RemoveCurseAction from "../action/impl/spell/cleric/curative/removeCurseAction"
 import CureLightAction from "../action/impl/spell/cleric/healing/cureLightAction"
 import CureSeriousAction from "../action/impl/spell/cleric/healing/cureSeriousAction"
 import HealAction from "../action/impl/spell/cleric/healing/healAction"
@@ -38,6 +39,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
 
     // curative
     new CurePoisonAction(checkBuilderFactory, eventService),
+    new RemoveCurseAction(checkBuilderFactory, eventService),
 
     // enhancements
     new GiantStrengthAction(checkBuilderFactory, eventService),

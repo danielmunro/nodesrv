@@ -1,7 +1,9 @@
 import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
+import {RequestType} from "../../request/requestType"
 import TestBuilder from "../../test/testBuilder"
 import FightEvent from "../fight/event/fightEvent"
+import Wimpy from "./wimpy"
 
 describe("wimpy", () => {
   it("should cause a weak mob to flee", async () => {
@@ -13,6 +15,7 @@ describe("wimpy", () => {
     const target = testBuilder.withMob().mob
     const fight = await testBuilder.fight(target)
     const service = await testBuilder.getService()
+    const wimpy = new Wimpy(service.mobService.locationService, service.getAction(RequestType.Flee))
 
     // given
     target.traits.wimpy = true
@@ -21,8 +24,7 @@ describe("wimpy", () => {
     // when
     let eventResponse: EventResponseStatus = EventResponseStatus.None
     while (eventResponse !== EventResponseStatus.Satisfied) {
-      eventResponse = (await service.publishEvent(
-        new FightEvent(EventType.AttackRound, mob, fight))).status
+      eventResponse = (await wimpy.consume(new FightEvent(EventType.AttackRound, mob, fight))).status
     }
 
     // then

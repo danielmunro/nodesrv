@@ -56,6 +56,10 @@ export const SpellMessages = {
   Poison: {
     Success: "{target} suddenly {verb} sick!",
   },
+  RemoveCurse: {
+    RequiresAffect: "There is no curse to lift.",
+    Success: "{target} curse is lifted.",
+  },
   Sanctuary: {
     Success: "{target} {verb} surrounded by a faint glow.",
   },

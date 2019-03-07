@@ -143,6 +143,9 @@ describe("disarm skill action", () => {
     equipMaceToMob(targetBuilder)
     const response2 = await doNTimesOrUntilTruthy(iterations, async () => {
       const handled = await testBuilder.handleAction(RequestType.Disarm)
+      if (handled.isSuccessful()) {
+        equipMaceToMob(targetBuilder)
+      }
       return handled.isFailure() ? handled : null
     })
     expect(response2.message.getMessageToRequestCreator())

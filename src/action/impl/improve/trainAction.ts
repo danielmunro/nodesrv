@@ -94,6 +94,7 @@ export default class TrainAction extends Action {
     return subject.method(mob, responseBuilder, subject.message, subject.train)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.Thing ]
   }

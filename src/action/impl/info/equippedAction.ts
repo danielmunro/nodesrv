@@ -17,6 +17,7 @@ export default class EquippedAction extends Action {
         item => item.name).join("\n"))
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action ]
   }

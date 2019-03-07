@@ -22,6 +22,7 @@ export default class AffectsAction extends Action {
       .info("Your affects:\n" + AffectsAction.reduceAffects(checkedRequest.mob.affects))
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action ]
   }

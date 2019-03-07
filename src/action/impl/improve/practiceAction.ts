@@ -42,6 +42,7 @@ export default class PracticeAction extends Action {
       .create()
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ActionPart.Action, ActionPart.Thing]
   }

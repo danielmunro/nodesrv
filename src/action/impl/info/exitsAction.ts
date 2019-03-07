@@ -16,6 +16,7 @@ export default class ExitsAction extends Action {
       "Your exits: " + checkedRequest.request.room.exits.map(exit => exit.direction).join(", "))
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action ]
   }

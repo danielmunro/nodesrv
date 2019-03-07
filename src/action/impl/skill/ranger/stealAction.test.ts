@@ -8,7 +8,7 @@ import TestBuilder from "../../../../test/testBuilder"
 import Action from "../../../action"
 
 const STEAL_INPUT = "steal axe bob"
-const iterations = 1000
+const iterations = 10000
 const initialLevel = MAX_PRACTICE_LEVEL * 0.9
 let testBuilder: TestBuilder
 let action: Action
