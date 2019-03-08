@@ -34,6 +34,7 @@ export default class InventoryAction extends Action {
         items.reduce((previous, current) => previous + InventoryAction.getItemName(mob, current) + "\n", ""))
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action ]
   }
