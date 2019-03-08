@@ -64,8 +64,9 @@ export default abstract class Skill extends Action {
   protected getSkillRoll(mob: Mob, skill: SkillModel): number {
     let amount = (skill.level * 2) / 3
     if (mob.getAffect(AffectType.Forget)) {
-      amount -= roll(1, skill.level / 3)
+      amount -= roll(1, skill.level / 10)
     }
-    return Math.min(100, Math.max(1, amount))
+    const max = Math.min(100, Math.max(1, amount))
+    return roll(1, max)
   }
 }

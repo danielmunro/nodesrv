@@ -1,4 +1,3 @@
-import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import {RequestType} from "../request/requestType"
 import ResponseMessage from "../request/responseMessage"
@@ -31,7 +30,8 @@ export default abstract class EventSkill extends Skill {
     return RequestType.Noop
   }
 
-  /* tslint:disable */
-  public applySkill(checkedRequest: CheckedRequest): void {
+  /* istanbul ignore next */
+  public applySkill(): void {
+    // nothing to do
   }
 }

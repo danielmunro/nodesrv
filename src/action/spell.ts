@@ -76,6 +76,7 @@ export default abstract class Spell extends Action {
     return RequestType.Cast
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ActionPart.Action, ActionPart.Spell, ActionPart.Target]
   }

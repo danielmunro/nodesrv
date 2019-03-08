@@ -129,7 +129,7 @@ export const ActionMessages = {
 }
 export const Thresholds = {
   Backstab: 60,
-  Berserk: 60,
+  Berserk: 20,
   DirtKick: 60,
   Disarm: 80,
   FastHealing: 50,

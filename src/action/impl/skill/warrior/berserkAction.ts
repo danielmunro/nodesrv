@@ -5,7 +5,6 @@ import {CheckType} from "../../../../check/checkType"
 import {CheckMessages as CheckMessages} from "../../../../check/constants"
 import Cost from "../../../../check/cost/cost"
 import {CostType} from "../../../../check/cost/costType"
-import roll from "../../../../random/dice"
 import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {Costs, SkillMessages, Thresholds} from "../../../../skill/constants"
@@ -17,8 +16,9 @@ import Skill from "../../../skill"
 
 export default class BerserkAction extends Skill {
   public roll(checkedRequest: CheckedRequest): boolean {
-    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-    return roll(1, checkedRequest.mob.level) + roll(2, skill.level) > Thresholds.Berserk
+    return this.getSkillRoll(
+      checkedRequest.mob,
+      checkedRequest.getCheckTypeResult(CheckType.HasSkill)) > Thresholds.Berserk
   }
 
   public applySkill(checkedRequest: CheckedRequest): void {

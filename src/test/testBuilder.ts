@@ -135,6 +135,11 @@ export default class TestBuilder {
     return fight
   }
 
+  public useMob(mobBuilder: MobBuilder): TestBuilder {
+    this.mobForRequest = mobBuilder.mob
+    return this
+  }
+
   public createRequest(
     requestType: RequestType,
     input: string = requestType.toString(),

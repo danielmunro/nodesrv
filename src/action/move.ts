@@ -57,6 +57,7 @@ export default abstract class Move extends Action {
     return checkedRequest.respondWith().info(response.message.getMessageToRequestCreator())
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action ]
   }
