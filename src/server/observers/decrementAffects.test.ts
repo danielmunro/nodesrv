@@ -1,15 +1,11 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import MobTable from "../../mob/mobTable"
-import {getConnection, initializeConnection} from "../../support/db/connection"
 import TestBuilder from "../../test/testBuilder"
-import { decrementAffects } from "./decrementAffects"
+import {DecrementAffects} from "./decrementAffects"
 
 const TEST_TIMEOUT_1 = 50
 const TEST_TIMEOUT_2 = 122
-
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
 
 describe("decrementAffects", () => {
   it("should decrement all affects for a mob", async () => {
@@ -22,9 +18,10 @@ describe("decrementAffects", () => {
     mob.addAffect(newAffect(AffectType.Stunned, TEST_TIMEOUT_1))
     mob.addAffect(newAffect(AffectType.Shield, TEST_TIMEOUT_2))
     const table = new MobTable([mob])
+    const decrementAffects = new DecrementAffects(table)
 
     // when
-    table.apply(decrementAffects)
+    await decrementAffects.notify()
 
     // then
     expect(mob.getAffect(AffectType.Stunned).timeout).toBe(TEST_TIMEOUT_1 - 1)
@@ -40,9 +37,10 @@ describe("decrementAffects", () => {
     const mob = client.player.sessionMob
     mob.addAffect(newAffect(AffectType.Stunned, 0))
     const table = new MobTable([mob])
+    const decrementAffects = new DecrementAffects(table)
 
     // when
-    table.apply(decrementAffects)
+    await decrementAffects.notify()
 
     // then
     expect(mob.affects.length).toBe(0)
