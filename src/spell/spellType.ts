@@ -14,6 +14,7 @@ export enum SpellType {
   Cancellation = "cancellation",
   Shield = "shield",
   StoneSkin = "stone skin",
+  Fireproof = "fireproof",
 
   // Benedictions
   GiantStrength = "giant strength",

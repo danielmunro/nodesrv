@@ -1,36 +1,45 @@
 import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
+import {SpecializationType} from "../../../mob/specialization/specializationType"
 import {Player} from "../../../player/model/player"
 import {RequestType} from "../../../request/requestType"
-import {newSkill} from "../../../skill/factory"
 import {SkillType} from "../../../skill/skillType"
 import PlayerBuilder from "../../../test/playerBuilder"
 import TestBuilder from "../../../test/testBuilder"
-import Action from "../../action"
 import {Messages} from "../../constants"
 
 let testBuilder: TestBuilder
 let playerBuilder: PlayerBuilder
 let player: Player
-let action: Action
 const command = "practice sneak"
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  testBuilder.withMob().asTrainer()
   playerBuilder = await testBuilder.withPlayer()
+  playerBuilder.addSkill(SkillType.Sneak)
+    .setSpecializationType(SpecializationType.Ranger)
+    .setPractices(1)
   player = playerBuilder.player
-  player.sessionMob.playerMob.practices = 1
-  player.sessionMob.skills.push(newSkill(SkillType.Sneak))
-  action = await testBuilder.getAction(RequestType.Practice)
 })
 
 describe("practice action", () => {
-  it("requires a mob that can help you practice", async () => {
+  it("cannot practice if not at minimum level", async () => {
+    // given
+    testBuilder.withMob().asPractice()
+
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Practice))
+    const response = await testBuilder.handleAction(RequestType.Practice, command)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Practice.MobNotHere)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(Messages.Practice.CannotPractice)
+  })
+
+  it("requires a mob that can help you practice", async () => {
+    // when
+    const response = await testBuilder.handleAction(RequestType.Practice)
+
+    // then
+    expect(response.getMessageToRequestCreator()).toBe(Messages.Practice.MobNotHere)
   })
 
   it("requires available practice sessions", async () => {
@@ -38,48 +47,51 @@ describe("practice action", () => {
     player.sessionMob.playerMob.practices = 0
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Practice, command))
+    const response = await testBuilder.handleAction(RequestType.Practice, command)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Practice.NotEnoughPractices)
+    expect(response.getMessageToRequestCreator()).toBe(Messages.Practice.NotEnoughPractices)
   })
 
   it("can succeed", async () => {
     testBuilder.withMob().asPractice()
+    playerBuilder.setLevel(4)
     const skill = player.sessionMob.skills[0]
     const initialValue = skill.level
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Practice, command))
+    const response = await testBuilder.handleAction(RequestType.Practice, command)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(`You get better at ${skill.skillType}!`)
+    expect(response.getMessageToRequestCreator()).toBe(`You get better at ${skill.skillType}!`)
     expect(skill.level).toBeGreaterThan(initialValue)
   })
 
   it("will not exceed max practice level", async () => {
     testBuilder.withMob().asPractice()
+    playerBuilder.setLevel(4)
     const skill = player.sessionMob.skills[0]
     skill.level = MAX_PRACTICE_LEVEL
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Practice, command))
+    const response = await testBuilder.handleAction(RequestType.Practice, command)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("You cannot improve anymore.")
+    expect(response.getMessageToRequestCreator()).toBe("You cannot improve anymore.")
     expect(skill.level).toBe(MAX_PRACTICE_LEVEL)
   })
 
   it("will not exceed max practice level if near limit", async () => {
     testBuilder.withMob().asPractice()
+    playerBuilder.setLevel(4)
     const skill = player.sessionMob.skills[0]
     skill.level = MAX_PRACTICE_LEVEL - 1
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Practice, command))
+    const response = await testBuilder.handleAction(RequestType.Practice, command)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(`You get better at ${skill.skillType}!`)
+    expect(response.getMessageToRequestCreator()).toBe(`You get better at ${skill.skillType}!`)
     expect(skill.level).toBe(MAX_PRACTICE_LEVEL)
   })
 })

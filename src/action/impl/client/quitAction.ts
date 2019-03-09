@@ -29,6 +29,7 @@ export default class QuitAction extends Action {
     return checkedRequest.respondWith().success()
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action ]
   }
@@ -37,6 +38,7 @@ export default class QuitAction extends Action {
     return RequestType.Quit
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

@@ -5,6 +5,7 @@ import {ItemType} from "../item/itemType"
 import Container from "../item/model/container"
 import {Item} from "../item/model/item"
 import {Mob} from "../mob/model/mob"
+import {SpecializationType} from "../mob/specialization/specializationType"
 import {AuthorizationLevel} from "../player/authorizationLevel"
 import {Player} from "../player/model/player"
 import {newSkill} from "../skill/factory"
@@ -27,6 +28,16 @@ export default class PlayerBuilder {
     item.container = new Container()
     this.player.sessionMob.inventory.addItem(item)
     return item
+  }
+
+  public setSpecializationType(specializationType: SpecializationType): PlayerBuilder {
+    this.player.sessionMob.specialization = specializationType
+    return this
+  }
+
+  public setPractices(amount: number): PlayerBuilder {
+    this.player.sessionMob.playerMob.practices = amount
+    return this
   }
 
   public addSkill(skillType: SkillType, level: number = 1): PlayerBuilder {

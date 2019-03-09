@@ -83,9 +83,11 @@ export default class TestBuilder {
       this.mobForRequest = player.sessionMob
     }
 
-    if (this.room) {
-      this.serviceBuilder.addMobLocation(newMobLocation(player.sessionMob, this.room))
+    if (!this.room) {
+      this.withRoom()
     }
+
+    this.serviceBuilder.addMobLocation(newMobLocation(player.sessionMob, this.room))
     this.serviceBuilder.addMob(player.sessionMob)
 
     if (fn) {

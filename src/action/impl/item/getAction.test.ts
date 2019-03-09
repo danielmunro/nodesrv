@@ -77,8 +77,8 @@ describe("get action", () => {
 
   it("should be ok if the item is in the room's inventory", async () => {
     // given
-    await testBuilder.withPlayer()
     const roomBuilder = testBuilder.withRoom()
+    await testBuilder.withPlayer()
     const equipment = testBuilder.withItem()
       .asHelmet()
       .addToRoomBuilder(roomBuilder)
@@ -113,10 +113,11 @@ describe("get action", () => {
 
   it("should not be able to get an item that is not transferable", async () => {
     // setup
+    const room = testBuilder.withRoom()
     await testBuilder.withPlayer()
     testBuilder.withItem()
       .asHelmet()
-      .addToRoomBuilder(testBuilder.withRoom())
+      .addToRoomBuilder(room)
       .notTransferrable()
       .build()
 

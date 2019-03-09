@@ -41,6 +41,9 @@ export const SpellMessages = {
   DetectInvisible: {
     Success: "{target} eyes tingle.",
   },
+  Fireproof: {
+    Success: "{target} glows with a blue aura.",
+  },
   GiantStrength: {
     Success: "{target} muscles surge with heightened power.",
   },

@@ -20,11 +20,11 @@ let testBuilder: TestBuilder
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
+  // room with a fight
+  testBuilder.withRoom()
   const playerBuilder = await testBuilder.withPlayer()
   player = playerBuilder.player
   mob = player.sessionMob
-  // room with a fight
-  testBuilder.withRoom()
   // room to flee to
   room2 = testBuilder.withRoom()
   await testBuilder.fight()

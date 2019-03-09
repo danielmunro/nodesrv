@@ -1,10 +1,8 @@
 import {AffectType} from "../../../../../affect/affectType"
-import {Affect} from "../../../../../affect/model/affect"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
 import {CostType} from "../../../../../check/cost/costType"
-import {percentRoll} from "../../../../../random/dice"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {ConditionMessages} from "../../../../../skill/constants"
 import {SpellMessages} from "../../../../../spell/constants"
@@ -13,24 +11,19 @@ import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
 import Spell from "../../../../spell"
 
-const CHANCE_THRESHOLD = 80
-
-export default class CancellationAction extends Spell {
+// todo finish implementing
+export default class FireproofAction extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    target.affects.forEach((affect: Affect) => {
-      if (percentRoll() < CHANCE_THRESHOLD) {
-        target.removeAffect(affect.affectType)
-      }
-    })
+    target.addAffect(AffectType.Fireproof)
   }
 
   public getAffectType(): AffectType {
-    return AffectType.Cancellation
+    return AffectType.Fireproof
   }
 
   public getSpellType(): SpellType {
-    return SpellType.Cancellation
+    return SpellType.Fireproof
   }
 
   public getActionType(): ActionType {
@@ -47,13 +40,8 @@ export default class CancellationAction extends Spell {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
       checkedRequest.mob,
-      SpellMessages.Cancel.Success,
-      {
-        target: target === checkedRequest.mob ? "you" : target,
-        verb: target === checkedRequest.mob ? "feel" : "feels",
-      },
-      { target: "you", verb: "feel" },
-      { target, verb: "feels" })
+      SpellMessages.Fireproof.Success,
+      { target })
   }
 
   /* istanbul ignore next */

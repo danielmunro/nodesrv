@@ -5,6 +5,8 @@ import {CheckType} from "../../../check/checkType"
 import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
 import MobService from "../../../mob/mobService"
 import {Mob} from "../../../mob/model/mob"
+import {getSpecializationLevel} from "../../../mob/specialization/specializationLevels"
+import {SpecializationType} from "../../../mob/specialization/specializationType"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
@@ -17,6 +19,12 @@ import {ActionPart} from "../../enum/actionPart"
 export default class PracticeAction extends Action {
   private static getImproveAmount(mob: Mob): number {
     return mob.getCombinedAttributes().stats.int / 2
+  }
+
+  private static minimumLevel(specialization: SpecializationType, practice: Skill | Spell): number {
+    return getSpecializationLevel(
+      specialization,
+      practice instanceof Skill ? practice.skillType : practice.spellType).minimumLevel
   }
 
   constructor(
@@ -36,9 +44,15 @@ export default class PracticeAction extends Action {
         () => request.mob.findPractice(request.getSubject()),
         Messages.Practice.CannotPractice,
         CheckType.ValidSubject)
+      .capture()
       .require(
         (practice: Skill | Spell) => practice.level < MAX_PRACTICE_LEVEL,
         Messages.Practice.CannotImproveAnymore)
+      .require((practice: Skill | Spell) => {
+          const minimum = PracticeAction.minimumLevel(request.mob.specialization, practice)
+          return request.mob.level >= minimum
+        },
+        Messages.Practice.CannotPractice)
       .create()
   }
 
