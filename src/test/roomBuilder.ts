@@ -1,6 +1,7 @@
 import {Direction} from "../room/constants"
 import Door from "../room/model/door"
 import { Room } from "../room/model/room"
+import {Exit} from "../room/model/exit"
 
 export default class RoomBuilder {
   constructor(public readonly room: Room) {}
@@ -11,10 +12,7 @@ export default class RoomBuilder {
   }
 
   public addDoor(door: Door, direction: Direction): RoomBuilder {
-    const exit = this.room.exits.find(e => e.direction === direction)
-    if (!exit) {
-      throw new Error("cannot attach door to nonexistent exit")
-    }
+    const exit = this.room.exits.find(e => e.direction === direction) as Exit
     exit.door = door
     return this
   }

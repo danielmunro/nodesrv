@@ -48,9 +48,6 @@ export default class TestBuilder {
     if (!this.player) {
       await this.withPlayer()
     }
-    if (!this.room) {
-      this.withRoom()
-    }
     const service = await this.getService()
     const client = new Client(
       new Session(new Email(jest.fn()())),

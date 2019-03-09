@@ -15,8 +15,4 @@ export class Spell {
 
   @ManyToOne(() => Mob, (mob) => mob.spells)
   public mob: Mob
-
-  public toString(): string {
-    return this.spellType
-  }
 }
