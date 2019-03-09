@@ -1,7 +1,7 @@
 import {Direction} from "../room/constants"
 import Door from "../room/model/door"
-import { Room } from "../room/model/room"
 import {Exit} from "../room/model/exit"
+import { Room } from "../room/model/room"
 
 export default class RoomBuilder {
   constructor(public readonly room: Room) {}
