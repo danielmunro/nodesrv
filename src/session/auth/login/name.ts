@@ -1,3 +1,4 @@
+import {Mob} from "../../../mob/model/mob"
 import AuthStep from "../authStep"
 import Complete from "../complete"
 import { MESSAGE_NAME, MESSAGE_UNAVAILABLE } from "../constants"
@@ -27,13 +28,8 @@ export default class Name extends PlayerAuthStep implements AuthStep {
     return request.ok(new NewMobConfirm(this.authService, this.player, name))
   }
 
-  private async existingMobFound(request, mob): Promise<Response> {
-    if (!this.player.ownsMob(mob)) {
-      return request.fail(this, MESSAGE_UNAVAILABLE)
-    }
-
+  private async existingMobFound(request: Request, mob: Mob): Promise<Response> {
     this.player.sessionMob = mob
-
     return request.ok(new Complete(this.authService, this.player))
   }
 }

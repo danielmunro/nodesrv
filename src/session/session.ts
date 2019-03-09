@@ -54,7 +54,6 @@ export default class Session {
       await this.login(client, (this.authStep as Complete).player)
       return
     }
-    client.send({ message: this.authStep.getStepMessage() })
   }
 
   private isEndStep() {
