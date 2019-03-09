@@ -4,6 +4,8 @@ import ResponseMessage from "../request/responseMessage"
 import {ActionPart} from "./enum/actionPart"
 import {ActionType} from "./enum/actionType"
 import Skill from "./skill"
+import CheckedRequest from "../check/checkedRequest"
+import {Messages} from "./constants"
 
 export default abstract class EventSkill extends Skill {
   public getCosts(): Cost[] {
@@ -18,12 +20,16 @@ export default abstract class EventSkill extends Skill {
     return []
   }
 
-  public getFailureMessage(): ResponseMessage {
-    return undefined
+  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    return new ResponseMessage(
+      checkedRequest.mob,
+      Messages.Event.Failed)
   }
 
-  public getSuccessMessage(): ResponseMessage {
-    return undefined
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    return new ResponseMessage(
+      checkedRequest.mob,
+      Messages.Event.Success)
   }
 
   public getRequestType(): RequestType {

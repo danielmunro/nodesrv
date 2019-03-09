@@ -30,6 +30,10 @@ export const Messages = {
   Eat: {
     Success: "{requestCreator} {verb} {item}{affects}{full}.",
   },
+  Event: {
+    Failed: "event failed",
+    Success: "event succeeded",
+  },
   Flee: {
     Fail: "You fail to flee!",
     Success: "{requestCreator} {verb} to the {direction}!",
