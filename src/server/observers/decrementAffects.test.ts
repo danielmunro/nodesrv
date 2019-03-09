@@ -21,7 +21,7 @@ describe("decrementAffects", () => {
     const decrementAffects = new DecrementAffects(table)
 
     // when
-    await decrementAffects.notify()
+    decrementAffects.notify()
 
     // then
     expect(mob.getAffect(AffectType.Stunned).timeout).toBe(TEST_TIMEOUT_1 - 1)
@@ -40,7 +40,7 @@ describe("decrementAffects", () => {
     const decrementAffects = new DecrementAffects(table)
 
     // when
-    await decrementAffects.notify()
+    decrementAffects.notify()
 
     // then
     expect(mob.affects.length).toBe(0)

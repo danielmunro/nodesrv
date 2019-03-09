@@ -9,7 +9,6 @@ export default class InputContext implements RequestContext {
   public readonly message: string
 
   constructor(public readonly requestType: RequestType, public readonly input: string = requestType.toString()) {
-    // this.words = this.input.split(" ")
     this.words = this.splitWords()
     this.command = this.words[0]
     this.subject = this.words[1]
@@ -19,10 +18,6 @@ export default class InputContext implements RequestContext {
 
   public getRequestType(): RequestType {
     return this.requestType
-  }
-
-  public getSource(): any {
-    return this.input
   }
 
   public getLastArg(): string {

@@ -58,6 +58,7 @@ describe("steal skill action", () => {
   })
 
   it("should generate accurate fail messages", async () => {
+    mob1.skills[0].level = 1
     // when
     const response = await doNTimesOrUntilTruthy(iterations, async () => {
       const handled = await action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT))

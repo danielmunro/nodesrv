@@ -1,11 +1,11 @@
+import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import {RequestType} from "../request/requestType"
 import ResponseMessage from "../request/responseMessage"
+import {Messages} from "./constants"
 import {ActionPart} from "./enum/actionPart"
 import {ActionType} from "./enum/actionType"
 import Skill from "./skill"
-import CheckedRequest from "../check/checkedRequest"
-import {Messages} from "./constants"
 
 export default abstract class EventSkill extends Skill {
   public getCosts(): Cost[] {

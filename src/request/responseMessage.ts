@@ -10,10 +10,6 @@ export default class ResponseMessage {
     public readonly toObservers = toTarget,
   ) {}
 
-  public toString() {
-    return this.getMessageToRequestCreator()
-  }
-
   public getMessageToRequestCreator(): string {
     return this.toRequestCreator ?
     format(this.templateString, { requestCreator: "you", ...this.toRequestCreator })

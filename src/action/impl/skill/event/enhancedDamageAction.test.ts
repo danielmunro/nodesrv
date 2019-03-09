@@ -6,7 +6,7 @@ import doNTimes from "../../../../support/functional/times"
 import PlayerBuilder from "../../../../test/playerBuilder"
 import TestBuilder from "../../../../test/testBuilder"
 
-const iterations = 10
+const iterations = 100
 let testBuilder: TestBuilder
 let player: PlayerBuilder
 let definition: Skill
@@ -29,7 +29,7 @@ describe("enhanced damage", () => {
       definition.handle(testBuilder.createRequest(RequestType.Noop)))
 
     // then
-    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.3)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.1)
   })
 
   it("should succeed somewhat when practiced some", async () => {
@@ -42,7 +42,7 @@ describe("enhanced damage", () => {
       definition.handle(testBuilder.createRequest(RequestType.Noop)))
 
     // then
-    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.1)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.05)
     expect(responses.filter(r => r.isSuccessful()).length).toBeLessThanOrEqual(iterations * 0.6)
   })
 
