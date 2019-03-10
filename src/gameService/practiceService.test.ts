@@ -1,7 +1,7 @@
 import {SpecializationType} from "../mob/specialization/specializationType"
 import TestBuilder from "../test/testBuilder"
-import PracticeService from "./practiceService"
 import {PracticeMessages} from "./constants"
+import PracticeService from "./practiceService"
 
 let testBuilder: TestBuilder
 const practiceService = new PracticeService()
