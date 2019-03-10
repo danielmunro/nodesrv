@@ -19,7 +19,7 @@ beforeEach(async () => {
   spell = await testBuilder.getSpell(SpellType.DetectInvisible)
   const mobBuilder1 = testBuilder.withMob("alice")
   mobBuilder1.withSpell(SpellType.DetectInvisible, MAX_PRACTICE_LEVEL)
-  mobBuilder1.withLevel(30)
+  mobBuilder1.setLevel(30)
   const mobBuilder2 = testBuilder.withMob("bob")
   caster = mobBuilder1.mob
   target = mobBuilder2.mob

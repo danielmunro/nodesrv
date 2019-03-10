@@ -36,7 +36,7 @@ describe("berserk skill action", () => {
   it("should be able to succeed berserking", async () => {
     // given
     const mobBuilder = testBuilder.withMob()
-    mobBuilder.withLevel(20)
+    mobBuilder.setLevel(20)
     mobBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when
@@ -50,7 +50,7 @@ describe("berserk skill action", () => {
   it("should generate accurate messages", async () => {
     // given
     const mobBuilder = testBuilder.withMob()
-    mobBuilder.withLevel(40)
+    mobBuilder.setLevel(40)
     mobBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when

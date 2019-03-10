@@ -21,7 +21,7 @@ beforeEach(async () => {
   spell = await testBuilder.getSpell(SpellType.RemoveCurse)
   const mobBuilder1 = testBuilder.withMob()
   mobBuilder1.withSpell(SpellType.RemoveCurse, MAX_PRACTICE_LEVEL)
-  mobBuilder1.withLevel(20)
+  mobBuilder1.setLevel(20)
   mob = mobBuilder1.mob
   const mobBuilder2 = testBuilder.withMob()
   target = mobBuilder2.mob

@@ -6,6 +6,8 @@ import {newMobLocation} from "../mob/factory"
 import { Mob } from "../mob/model/mob"
 import Shop from "../mob/model/shop"
 import {Race} from "../mob/race/race"
+import {specializationLevels} from "../mob/specialization/specializationLevels"
+import {SpecializationType} from "../mob/specialization/specializationType"
 import { newSkill } from "../skill/factory"
 import { SkillType } from "../skill/skillType"
 import {newSpell} from "../spell/factory"
@@ -46,15 +48,37 @@ export default class MobBuilder {
     return this
   }
 
-  public withLevel(level: number): MobBuilder {
+  public setLevel(level: number): MobBuilder {
     this.mob.level = level
+    return this
+  }
 
+  public setRace(race: Race): MobBuilder {
+    this.mob.race = race
+    return this
+  }
+
+  public setSpecialization(specialization: SpecializationType) {
+    this.mob.specialization = specialization
+    specializationLevels.filter(specializationLevel => specializationLevel.specialization === specialization)
+      .forEach(specializationLevel => {
+        if (Object.values(SkillType).includes(specializationLevel.abilityType)) {
+          this.mob.skills.push(newSkill(
+            specializationLevel.abilityType as SkillType,
+            1,
+            specializationLevel.minimumLevel))
+        } else if (Object.values(SpellType).includes(specializationLevel.abilityType)) {
+          this.mob.spells.push(newSpell(
+            specializationLevel.abilityType as SpellType,
+            1,
+            specializationLevel.minimumLevel))
+        }
+      })
     return this
   }
 
   public withDisposition(disposition: Disposition): MobBuilder {
     this.mob.disposition = disposition
-
     return this
   }
 

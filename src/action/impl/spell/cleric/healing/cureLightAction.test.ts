@@ -18,7 +18,7 @@ beforeEach(async () => {
   testBuilder = new TestBuilder()
   mobBuilder = testBuilder.withMob("alice")
   caster = mobBuilder.mob
-  mobBuilder.withLevel(20)
+  mobBuilder.setLevel(20)
   mobBuilder.withSpell(SpellType.CureLight, MAX_PRACTICE_LEVEL)
   mob = testBuilder.withMob("bob").mob
   spell = await testBuilder.getSpell(SpellType.CureLight)

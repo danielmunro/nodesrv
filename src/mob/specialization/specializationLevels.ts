@@ -3,7 +3,7 @@ import {SpellType} from "../../spell/spellType"
 import SpecializationLevel from "./specializationLevel"
 import {SpecializationType} from "./specializationType"
 
-const specializationLevels = [
+export const specializationLevels = [
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Bash, 1),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Berserk, 1),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Trip, 3),

@@ -12,7 +12,7 @@ describe("shield", () => {
     const testBuilder = new TestBuilder()
     const mobBuilder1 = testBuilder.withMob("alice", SpecializationType.Cleric)
     mobBuilder1.withSpell(SpellType.Shield, MAX_PRACTICE_LEVEL)
-    mobBuilder1.withLevel(30)
+    mobBuilder1.setLevel(30)
     const mobBuilder2 = testBuilder.withMob("bob")
     const mob = mobBuilder2.mob
     const definition = await testBuilder.getSpell(SpellType.Shield)

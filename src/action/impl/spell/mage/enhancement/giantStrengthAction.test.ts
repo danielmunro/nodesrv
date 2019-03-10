@@ -20,7 +20,7 @@ beforeEach(async () => {
   spell = await testBuilder.getSpell(SpellType.GiantStrength)
   const mobBuilder1 = testBuilder.withMob("alice", SpecializationType.Cleric)
   mobBuilder1.withSpell(SpellType.GiantStrength, MAX_PRACTICE_LEVEL)
-  mobBuilder1.withLevel(30)
+  mobBuilder1.setLevel(30)
   caster = mobBuilder1.mob
   const mobBuilder2 = testBuilder.withMob("bob")
   mob = mobBuilder2.mob

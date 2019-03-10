@@ -35,7 +35,7 @@ describe("cast spell action", () => {
   it("should be able to cast a known spell", async () => {
     // given
     testBuilder.withMob()
-      .withLevel(20)
+      .setLevel(20)
       .withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
 
     const target = testBuilder.withMob().mob

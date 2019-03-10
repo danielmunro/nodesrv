@@ -16,7 +16,7 @@ beforeEach(async () => {
   spell = await testBuilder.getSpell(SpellType.Poison)
   const mobBuilder1 = testBuilder.withMob()
   mobBuilder1.withSpell(SpellType.Poison, MAX_PRACTICE_LEVEL)
-  mobBuilder1.withLevel(30)
+  mobBuilder1.setLevel(30)
   const mobBuilder2 = testBuilder.withMob("bob")
   target = mobBuilder2.mob
 })

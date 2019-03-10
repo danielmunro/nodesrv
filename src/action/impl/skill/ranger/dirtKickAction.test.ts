@@ -14,7 +14,7 @@ let mobBuilder: MobBuilder
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  mobBuilder = testBuilder.withMob().withLevel(20)
+  mobBuilder = testBuilder.withMob().setLevel(20)
 })
 
 describe("dirt kick skill action", () => {

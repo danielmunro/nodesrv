@@ -13,7 +13,7 @@ let target: Mob
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   const mobBuilder1 = testBuilder.withMob()
-  mobBuilder1.withLevel(30)
+  mobBuilder1.setLevel(30)
   mobBuilder1.withSpell(SpellType.MagicMissile, MAX_PRACTICE_LEVEL)
   const mobBuilder2 = testBuilder.withMob()
   target = mobBuilder2.mob

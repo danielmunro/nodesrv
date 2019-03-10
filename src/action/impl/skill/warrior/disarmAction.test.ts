@@ -20,8 +20,8 @@ function equipMaceToMob(mobBuilder: MobBuilder) {
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  mob1 = testBuilder.withMob().withLevel(50)
-  mob2 = testBuilder.withMob().withLevel(50)
+  mob1 = testBuilder.withMob().setLevel(50)
+  mob2 = testBuilder.withMob().setLevel(50)
 })
 
 describe("disarm skill action", () => {

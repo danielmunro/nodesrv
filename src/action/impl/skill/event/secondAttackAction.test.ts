@@ -11,9 +11,9 @@ describe("second attacks skill action", () => {
     // setup
     const testBuilder = new TestBuilder()
     const aggressor = testBuilder.withMob()
-      .withLevel(30)
+      .setLevel(30)
       .withSkill(SkillType.SecondAttack, MAX_PRACTICE_LEVEL)
-    const target = testBuilder.withMob().withLevel(30)
+    const target = testBuilder.withMob().setLevel(30)
 
     // given
     const fight = await testBuilder.fight(target.mob)

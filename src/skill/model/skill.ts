@@ -13,6 +13,9 @@ export class Skill {
   @Column("integer")
   public level: number = 1
 
+  @Column("integer")
+  public levelObtained: number
+
   @ManyToOne(() => Mob, mob => mob.skills)
   public mob: Mob
 

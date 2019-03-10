@@ -13,7 +13,7 @@ describe("dodge skill", () => {
 
     // given
     const attacker = testBuilder.withMob()
-    attacker.withLevel(20).withSkill(SkillType.Dodge, MAX_PRACTICE_LEVEL / 50)
+    attacker.setLevel(20).withSkill(SkillType.Dodge, MAX_PRACTICE_LEVEL / 50)
 
     // and
     const fight = await testBuilder.fight()

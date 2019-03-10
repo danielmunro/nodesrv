@@ -20,7 +20,7 @@ function equipWeaponToMob() {
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  mobBuilder = testBuilder.withMob().withLevel(20)
+  mobBuilder = testBuilder.withMob().setLevel(20)
 })
 
 describe("envenom skill action", () => {

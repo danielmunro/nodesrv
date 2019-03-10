@@ -31,7 +31,7 @@ describe("backstab skill action", () => {
 
   it("fails when not practiced", async () => {
     // given
-    mobBuilder.withLevel(20)
+    mobBuilder.setLevel(20)
       .withSkill(SkillType.Backstab)
 
     // when
@@ -44,7 +44,7 @@ describe("backstab skill action", () => {
 
   it("succeeds sometimes when partially practiced", async () => {
     // given
-    mobBuilder.withLevel(30)
+    mobBuilder.setLevel(30)
       .withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL / 2)
 
     // when
@@ -57,7 +57,7 @@ describe("backstab skill action", () => {
 
   it("succeeds sometimes when fully practiced", async () => {
     // given
-    mobBuilder.withLevel(50)
+    mobBuilder.setLevel(50)
       .withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL)
 
     // when
@@ -70,7 +70,7 @@ describe("backstab skill action", () => {
 
   it("generates the right messages", async () => {
     // given
-    mobBuilder.withLevel(50)
+    mobBuilder.setLevel(50)
       .withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL)
 
     // when

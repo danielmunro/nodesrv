@@ -21,7 +21,7 @@ beforeEach(async () => {
 describe("crusade spell action", () => {
   it("periodically invokes an additional attack", async () => {
     // setup
-    const target = testBuilder.withMob().withLevel(30)
+    const target = testBuilder.withMob().setLevel(30)
 
     // given
     const fight = await testBuilder.fight(target.mob)

@@ -19,7 +19,7 @@ const CAST_BLIND_BOB = "cast blind bob"
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   mobBuilder = testBuilder.withMob("alice")
-  mobBuilder.withLevel(20)
+  mobBuilder.setLevel(20)
   mobBuilder.withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
   mob = testBuilder.withMob("bob").mob
   spell = await testBuilder.getSpell(SpellType.Blind)
@@ -63,7 +63,7 @@ describe("blind spell action", () => {
       testBuilder = new TestBuilder()
       testBuilder
         .withMob("alice")
-        .withLevel(20)
+        .setLevel(20)
         .withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL / 2)
 
       const response = await spell.handle(

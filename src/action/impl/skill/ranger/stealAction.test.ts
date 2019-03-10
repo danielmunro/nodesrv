@@ -20,7 +20,7 @@ beforeEach(async () => {
   testBuilder = new TestBuilder()
   action = await testBuilder.getAction(RequestType.Steal)
   const mobBuilder1 = testBuilder.withMob()
-  mobBuilder1.withLevel(5)
+  mobBuilder1.setLevel(5)
   mobBuilder1.withSkill(SkillType.Steal, initialLevel)
   mob1 = mobBuilder1.mob
 
