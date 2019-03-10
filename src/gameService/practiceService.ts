@@ -1,6 +1,7 @@
 import {MAX_MOB_LEVEL} from "../mob/constants"
 import {Mob} from "../mob/model/mob"
 import {Skill} from "../skill/model/skill"
+import {SkillType} from "../skill/skillType"
 import {Spell} from "../spell/model/spell"
 
 const LENGTH = 24
@@ -16,22 +17,23 @@ export default class PracticeService {
     return mob.level >= ability.levelObtained ? ability.level : "NA"
   }
 
+  private static getType(ability: Skill | Spell) {
+    return Object.values(SkillType).includes(ability) ?
+      (ability as Skill).skillType : (ability as Spell).spellType
+  }
+
   public generateOutputStatus(mob: Mob) {
     return PracticeService.createSpace("skill") + "current practiced level\n" + this.iterateLevel(mob, 1)
   }
 
   private iterateLevel(mob: Mob, level: number, buf: string = ""): string {
-    const skills = mob.skills.filter(skill => skill.levelObtained === level)
-    const spells = mob.spells.filter(spell => spell.levelObtained === level)
+    const levelAbilities = [
+      ...mob.skills.filter(skill => skill.levelObtained === level),
+      ...mob.spells.filter(spell => spell.levelObtained === level),
+    ]
 
-    if (skills.length || spells.length) {
-      buf += `\nlevel ${level}\n`
-        + skills.reduce((previous, current) =>
-        previous + PracticeService.createSpace(current.skillType) +
-          PracticeService.getPracticedLevel(mob, current) + "\n", "")
-        + spells.reduce((previous, current) =>
-        previous + PracticeService.createSpace(current.spellType) +
-          PracticeService.getPracticedLevel(mob, current) + "\n", "")
+    if (levelAbilities.length) {
+      buf += `\nlevel ${level}\n${this.reduce(mob, levelAbilities)}`
     }
 
     if (level < MAX_MOB_LEVEL) {
@@ -39,5 +41,11 @@ export default class PracticeService {
     }
 
     return buf
+  }
+
+  private reduce(mob: Mob, abilities: any) {
+    return abilities.reduce((previous: string, current: Skill | Spell) =>
+      previous + PracticeService.createSpace(PracticeService.getType(current)) +
+      PracticeService.getPracticedLevel(mob, current) + "\n", "")
   }
 }
