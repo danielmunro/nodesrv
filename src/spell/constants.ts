@@ -41,6 +41,9 @@ export const SpellMessages = {
   DetectInvisible: {
     Success: "{target} eyes tingle.",
   },
+  Feast: {
+    Success: "{target} {verb} satiated.",
+  },
   Fireproof: {
     Success: "{target} glows with a blue aura.",
   },

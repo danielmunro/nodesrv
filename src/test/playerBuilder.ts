@@ -87,4 +87,8 @@ export default class PlayerBuilder {
   public getMob(): Mob {
     return this.player.sessionMob
   }
+
+  public getMobName(): string {
+    return this.player.sessionMob.name
+  }
 }
