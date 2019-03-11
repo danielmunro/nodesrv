@@ -1,7 +1,6 @@
 import {MAX_MOB_LEVEL} from "../mob/constants"
 import {Mob} from "../mob/model/mob"
 import {Skill} from "../skill/model/skill"
-import {SkillType} from "../skill/skillType"
 import {Spell} from "../spell/model/spell"
 
 const LENGTH = 24
@@ -18,8 +17,11 @@ export default class PracticeService {
   }
 
   private static getType(ability: Skill | Spell) {
-    return Object.values(SkillType).includes(ability) ?
-      (ability as Skill).skillType : (ability as Spell).spellType
+    if (ability instanceof Skill) {
+      return ability.skillType
+    }
+
+    return ability.spellType
   }
 
   public generateOutputStatus(mob: Mob) {

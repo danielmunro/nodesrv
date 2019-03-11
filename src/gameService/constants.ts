@@ -2,7 +2,11 @@ export const PracticeMessages = {
   Cleric: `skill                   current practiced level
 
 level 1
+mace                    1
 cure light              1
+
+level 3
+feast                   NA
 
 level 5
 bless                   NA
@@ -12,6 +16,10 @@ cure serious            NA
 
 level 13
 cure poison             NA
+remove curse            NA
+
+level 18
+cancellation            NA
 
 level 20
 heal                    NA
@@ -19,10 +27,15 @@ shield                  NA
 
 level 25
 stone skin              NA
+crusade                 NA
+
+level 30
+sanctuary               NA
 `,
   Mage: `skill                   current practiced level
 
 level 1
+stave                   1
 magic missile           1
 
 level 11
@@ -54,6 +67,7 @@ wrath                   NA
 level 1
 dodge                   1
 backstab                1
+dagger                  1
 
 level 3
 dirt kick               NA
@@ -85,6 +99,7 @@ hamstring               NA
 level 1
 bash                    1
 berserk                 1
+sword                   1
 
 level 3
 trip                    NA

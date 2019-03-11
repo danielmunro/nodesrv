@@ -3,7 +3,8 @@ import {SpellType} from "../../spell/spellType"
 import SpecializationLevel from "./specializationLevel"
 import {SpecializationType} from "./specializationType"
 
-export const specializationLevels = [
+export const defaultSpecializationLevels = [
+  // warrior
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Bash, 1),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Berserk, 1),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Trip, 3),
@@ -14,6 +15,7 @@ export const specializationLevels = [
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Dodge, 13),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.ShieldBash, 18),
 
+  // ranger
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Dodge, 1),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Backstab, 1),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.DirtKick, 3),
@@ -26,14 +28,21 @@ export const specializationLevels = [
   new SpecializationLevel(SpecializationType.Ranger, SkillType.EnhancedDamage, 25),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Hamstring, 31),
 
+  // cleric
   new SpecializationLevel(SpecializationType.Cleric, SpellType.CureLight, 1),
+  new SpecializationLevel(SpecializationType.Cleric, SpellType.Feast, 3),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.Bless, 5),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.CureSerious, 7),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.CurePoison, 13),
+  new SpecializationLevel(SpecializationType.Cleric, SpellType.RemoveCurse, 13),
+  new SpecializationLevel(SpecializationType.Cleric, SpellType.Cancellation, 18),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.Heal, 20),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.Shield, 20),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.StoneSkin, 25),
+  new SpecializationLevel(SpecializationType.Cleric, SpellType.Crusade, 25),
+  new SpecializationLevel(SpecializationType.Cleric, SpellType.Sanctuary, 30),
 
+  // mage
   new SpecializationLevel(SpecializationType.Mage, SpellType.MagicMissile, 1),
   new SpecializationLevel(SpecializationType.Mage, SpellType.GiantStrength, 11),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Blind, 12),
@@ -43,10 +52,29 @@ export const specializationLevels = [
   new SpecializationLevel(SpecializationType.Mage, SpellType.DetectInvisible, 20),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Invisibility, 25),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Wrath, 30),
+
+  // weapon grants
+  new SpecializationLevel(SpecializationType.Cleric, SkillType.Mace, 1),
+  new SpecializationLevel(SpecializationType.Mage, SkillType.Stave, 1),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.Dagger, 1),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.Sword, 1),
+]
+
+export const gainSpecializationLevels = [
+  new SpecializationLevel(SpecializationType.Any, SkillType.Sword, 1),
+  new SpecializationLevel(SpecializationType.Any, SkillType.Mace, 1),
+  new SpecializationLevel(SpecializationType.Any, SkillType.Wand, 1),
+  new SpecializationLevel(SpecializationType.Any, SkillType.Dagger, 1),
+  new SpecializationLevel(SpecializationType.Any, SkillType.Stave, 1),
+  new SpecializationLevel(SpecializationType.Any, SkillType.Whip, 1),
+  new SpecializationLevel(SpecializationType.Any, SkillType.Spear, 1),
+  new SpecializationLevel(SpecializationType.Any, SkillType.Axe, 1),
+  new SpecializationLevel(SpecializationType.Any, SkillType.Flail, 1),
+  new SpecializationLevel(SpecializationType.Any, SkillType.Polearm, 1),
 ]
 
 export function getSpecializationLevel(specializationType: SpecializationType, abilityType: SkillType | SpellType) {
-  return specializationLevels.find(specializationLevel =>
+  return defaultSpecializationLevels.find(specializationLevel =>
     specializationLevel.specialization === specializationType &&
     specializationLevel.abilityType === abilityType)
   || new SpecializationLevel(SpecializationType.Noop, abilityType, -1)

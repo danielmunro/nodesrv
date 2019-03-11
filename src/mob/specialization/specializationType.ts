@@ -3,5 +3,6 @@ export enum SpecializationType {
   Mage = "mage",
   Ranger = "ranger",
   Warrior = "warrior",
+  Any = "any",
   Noop = "noop",
 }

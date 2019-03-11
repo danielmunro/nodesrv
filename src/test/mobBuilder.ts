@@ -6,7 +6,7 @@ import {newMobLocation} from "../mob/factory"
 import { Mob } from "../mob/model/mob"
 import Shop from "../mob/model/shop"
 import {Race} from "../mob/race/race"
-import {specializationLevels} from "../mob/specialization/specializationLevels"
+import {defaultSpecializationLevels} from "../mob/specialization/specializationLevels"
 import {SpecializationType} from "../mob/specialization/specializationType"
 import { newSkill } from "../skill/factory"
 import { SkillType } from "../skill/skillType"
@@ -60,7 +60,7 @@ export default class MobBuilder {
 
   public setSpecialization(specialization: SpecializationType) {
     this.mob.specialization = specialization
-    specializationLevels.filter(specializationLevel => specializationLevel.specialization === specialization)
+    defaultSpecializationLevels.filter(specializationLevel => specializationLevel.specialization === specialization)
       .forEach(specializationLevel => {
         if (Object.values(SkillType).includes(specializationLevel.abilityType)) {
           this.mob.skills.push(newSkill(
