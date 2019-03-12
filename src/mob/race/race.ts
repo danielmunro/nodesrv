@@ -33,6 +33,7 @@ export enum Race {
   Wolf = "wolf",
   Wvyern = "wvyern",
   Critter = "critter",
+  Undead = "undead",
 }
 
 export function isWarrior(race: Race) {

@@ -6,26 +6,30 @@ import {SpecializationType} from "./specializationType"
 export const defaultSpecializationLevels = [
   // warrior
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Bash, 1),
-  new SpecializationLevel(SpecializationType.Warrior, SkillType.Berserk, 1),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Trip, 3),
-  new SpecializationLevel(SpecializationType.Warrior, SkillType.EnhancedDamage, 5),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.DirtKick, 3),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.Berserk, 5),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.FastHealing, 6),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.SecondAttack, 7),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.Dodge, 8),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Disarm, 11),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.EnhancedDamage, 12),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Dodge, 13),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.Sharpen, 15),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.ShieldBash, 18),
 
   // ranger
-  new SpecializationLevel(SpecializationType.Ranger, SkillType.Dodge, 1),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Backstab, 1),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.DirtKick, 3),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.Trip, 3),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Sneak, 4),
-  new SpecializationLevel(SpecializationType.Ranger, SkillType.Sharpen, 5),
-  new SpecializationLevel(SpecializationType.Ranger, SkillType.Steal, 5),
-  new SpecializationLevel(SpecializationType.Ranger, SkillType.SecondAttack, 12),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.Dodge, 5),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.Sharpen, 8),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.Steal, 11),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Envenom, 15),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.FastHealing, 16),
-  new SpecializationLevel(SpecializationType.Ranger, SkillType.EnhancedDamage, 25),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.SecondAttack, 25),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.EnhancedDamage, 32),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Hamstring, 31),
 
   // cleric
@@ -50,17 +54,12 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Mage, SpellType.Poison, 17),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Curse, 18),
   new SpecializationLevel(SpecializationType.Mage, SpellType.DetectInvisible, 20),
+  new SpecializationLevel(SpecializationType.Mage, SpellType.Cancellation, 22),
+  new SpecializationLevel(SpecializationType.Mage, SpellType.TurnUndead, 24),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Invisibility, 25),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Wrath, 30),
 
   // weapon grants
-  new SpecializationLevel(SpecializationType.Cleric, SkillType.Mace, 1),
-  new SpecializationLevel(SpecializationType.Mage, SkillType.Stave, 1),
-  new SpecializationLevel(SpecializationType.Ranger, SkillType.Dagger, 1),
-  new SpecializationLevel(SpecializationType.Warrior, SkillType.Sword, 1),
-]
-
-export const gainSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Any, SkillType.Sword, 1),
   new SpecializationLevel(SpecializationType.Any, SkillType.Mace, 1),
   new SpecializationLevel(SpecializationType.Any, SkillType.Wand, 1),

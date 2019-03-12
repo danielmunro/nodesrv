@@ -75,6 +75,9 @@ export const SpellMessages = {
   StoneSkin: {
     Success: "{target} skin turns to stone.",
   },
+  TurnUndead: {
+    Success: "a flash of light pulses through the room.",
+  },
   Wrath: {
     Success: "{target} {verb} surrounded by wrathful energy.",
   },

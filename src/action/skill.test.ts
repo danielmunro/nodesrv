@@ -14,9 +14,11 @@ describe("skill action", () => {
 
     // given
     const mob1 = testBuilder.withMob()
+      .setLevel(30)
       .addAffect(AffectType.Forget)
       .withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
     const mob2 = testBuilder.withMob()
+      .setLevel(30)
       .withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when

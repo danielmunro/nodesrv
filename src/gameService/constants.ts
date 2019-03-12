@@ -2,7 +2,6 @@ export const PracticeMessages = {
   Cleric: `skill                   current practiced level
 
 level 1
-mace                    1
 cure light              1
 
 level 3
@@ -35,7 +34,6 @@ sanctuary               NA
   Mage: `skill                   current practiced level
 
 level 1
-stave                   1
 magic missile           1
 
 level 11
@@ -56,6 +54,12 @@ curse                   NA
 level 20
 detect invisibility     NA
 
+level 22
+cancellation            NA
+
+level 24
+turn undead             NA
+
 level 25
 invisibility            NA
 
@@ -65,47 +69,51 @@ wrath                   NA
   Ranger: `skill                   current practiced level
 
 level 1
-dodge                   1
 backstab                1
-dagger                  1
 
 level 3
 dirt kick               NA
+trip                    NA
 
 level 4
 sneak                   NA
 
 level 5
+dodge                   NA
+
+level 8
 sharpen                 NA
+
+level 11
 steal                   NA
 
-level 12
-second attack           NA
-
 level 15
+sharpen                 NA
 envenom                 NA
 
 level 16
 fast healing            NA
 
 level 25
-enhanced damage         NA
+second attack           NA
 
 level 31
 hamstring               NA
+
+level 32
+enhanced damage         NA
 `,
   Warrior: `skill                   current practiced level
 
 level 1
 bash                    1
-berserk                 1
-sword                   1
 
 level 3
 trip                    NA
+dirt kick               NA
 
 level 5
-enhanced damage         NA
+berserk                 NA
 
 level 6
 fast healing            NA
@@ -113,8 +121,14 @@ fast healing            NA
 level 7
 second attack           NA
 
+level 8
+dodge                   NA
+
 level 11
 disarm                  NA
+
+level 12
+enhanced damage         NA
 
 level 13
 dodge                   NA
