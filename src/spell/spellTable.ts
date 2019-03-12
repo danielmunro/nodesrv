@@ -19,6 +19,7 @@ import BlindAction from "../action/impl/spell/mage/maladiction/blindAction"
 import CurseAction from "../action/impl/spell/mage/maladiction/curseAction"
 import PoisonAction from "../action/impl/spell/mage/maladiction/poisonAction"
 import WrathAction from "../action/impl/spell/mage/maladiction/wrathAction"
+import DrawLifeAction from "../action/impl/spell/mage/necromancy/drawLifeAction"
 import TurnUndeadAction from "../action/impl/spell/mage/necromancy/turnUndeadAction"
 import Spell from "../action/spell"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
@@ -69,5 +70,6 @@ export default function getSpellTable(mobService: MobService, eventService: Even
 
     // necromancy
     new TurnUndeadAction(checkBuilderFactory, eventService, mobService),
+    new DrawLifeAction(checkBuilderFactory, eventService),
   ]
 }

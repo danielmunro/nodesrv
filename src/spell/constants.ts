@@ -41,6 +41,9 @@ export const SpellMessages = {
   DetectInvisible: {
     Success: "{target} eyes tingle.",
   },
+  DrawLife: {
+    Success: "{requestCreator} {verb} life force from {target}.",
+  },
   Feast: {
     Success: "{target} {verb} satiated.",
   },

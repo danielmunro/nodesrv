@@ -1,6 +1,6 @@
+import {ConditionMessages} from "../../skill/constants"
 import Cost from "./cost"
 import {CostType} from "./costType"
-import {ConditionMessages} from "../../skill/constants"
 
 export default class ManaCost extends Cost {
   constructor(amount: number) {
