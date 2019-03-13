@@ -21,6 +21,7 @@ beforeEach(async () => {
 describe("crusade spell action", () => {
   it("periodically invokes an additional attack", async () => {
     // setup
+    playerBuilder.addAffect(AffectType.Crusade)
     const target = testBuilder.withMob().setLevel(30)
 
     // given

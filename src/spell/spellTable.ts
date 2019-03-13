@@ -14,6 +14,7 @@ import LightningBoltAction from "../action/impl/spell/mage/attack/lightningBoltA
 import MagicMissileAction from "../action/impl/spell/mage/attack/magicMissileAction"
 import DetectInvisibleAction from "../action/impl/spell/mage/detection/detectInvisibleAction"
 import GiantStrengthAction from "../action/impl/spell/mage/enhancement/giantStrengthAction"
+import HasteAction from "../action/impl/spell/mage/enhancement/hasteAction"
 import InvisibilityAction from "../action/impl/spell/mage/illusion/invisibilityAction"
 import BlindAction from "../action/impl/spell/mage/maladiction/blindAction"
 import CurseAction from "../action/impl/spell/mage/maladiction/curseAction"
@@ -47,6 +48,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
 
     // enhancements
     new GiantStrengthAction(checkBuilderFactory, eventService),
+    new HasteAction(checkBuilderFactory, eventService),
 
     // attack
     new MagicMissileAction(checkBuilderFactory, eventService),

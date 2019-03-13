@@ -53,6 +53,9 @@ export const SpellMessages = {
   GiantStrength: {
     Success: "{target} muscles surge with heightened power.",
   },
+  Haste: {
+    Success: "{target} {verb} moving quickly.",
+  },
   Heal: {
     Success: "{target} {verb} a warm feeling flow through {target2}!",
   },
