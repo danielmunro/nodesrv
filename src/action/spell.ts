@@ -22,7 +22,7 @@ import {ActionType} from "./enum/actionType"
 export default abstract class Spell extends Action {
   constructor(
     protected readonly checkBuilderFactory: CheckBuilderFactory,
-    private readonly eventService: EventService) {
+    protected readonly eventService: EventService) {
     super()
   }
 

@@ -23,8 +23,9 @@ You have ${mob.gold} gold.
 `)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action, ActionPart.Thing ]
+    return [ ActionPart.Action ]
   }
 
   public getRequestType(): RequestType {

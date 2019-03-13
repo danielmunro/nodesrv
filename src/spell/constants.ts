@@ -79,6 +79,7 @@ export const SpellMessages = {
     Success: "{target} skin turns to stone.",
   },
   TurnUndead: {
+    MobTurned: "{target} crumples into dust.",
     Success: "a flash of light pulses through the room.",
   },
   Wrath: {

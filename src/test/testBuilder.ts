@@ -139,6 +139,11 @@ export default class TestBuilder {
     return this
   }
 
+  public useRoom(room: Room): TestBuilder {
+    this.room = room
+    return this
+  }
+
   public createRequest(
     requestType: RequestType,
     input: string = requestType.toString(),

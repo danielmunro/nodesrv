@@ -13,6 +13,7 @@ export enum EventType {
   Social,
   SkillInvoked,
   DamageCalculation,
+  RoomMessage,
   Tick,
   TestA,
   TestB,

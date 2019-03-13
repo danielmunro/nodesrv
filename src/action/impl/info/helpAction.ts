@@ -33,6 +33,7 @@ export default class HelpAction extends Action {
 ${action.getHelpText()}`)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.Thing ]
   }

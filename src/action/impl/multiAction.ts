@@ -36,6 +36,7 @@ export default class MultiAction extends Action {
     return this.actionParts
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

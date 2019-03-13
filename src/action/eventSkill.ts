@@ -12,6 +12,7 @@ export default abstract class EventSkill extends Skill {
     return []
   }
 
+  /* istanbul ignore next */
   public getActionType(): ActionType {
     return ActionType.Neutral
   }

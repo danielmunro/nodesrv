@@ -26,6 +26,7 @@ import damageModifierTable from "../mob/race/damageModifierTable"
 import MobArrives from "../player/eventConsumer/mobArrives"
 import MobLeaves from "../player/eventConsumer/mobLeaves"
 import {RequestType} from "../request/requestType"
+import RoomMessageEventConsumer from "../room/eventConsumer/roomMessageEventConsumer"
 import {GameServer} from "../server/server"
 import DodgeEventConsumer from "../skill/eventConsumer/dodgeEventConsumer"
 import FastHealingEventConsumer from "../skill/eventConsumer/fastHealingEventConsumer"
@@ -60,6 +61,9 @@ export default async function createEventConsumerTable(
     new DamageModifierEventConsumer(damageModifierTable),
     new FollowMob(locationService,
       gameService.getActions().filter((action: Action) => action instanceof Move) as Move[]),
+
+    // room
+    new RoomMessageEventConsumer(clientService, locationService),
 
     // item
     new ItemCreated(itemService),
