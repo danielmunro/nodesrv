@@ -15,6 +15,7 @@ import AggressiveMob from "../mob/eventConsumer/aggressiveMob"
 import ClientCreated from "../mob/eventConsumer/clientCreated"
 import {default as MobClientDisconnected} from "../mob/eventConsumer/clientDisconnected"
 import DamageModifierEventConsumer from "../mob/eventConsumer/damageModifierEventConsumer"
+import DeathTimerEventConsumer from "../mob/eventConsumer/deathTimerEventConsumer"
 import FightStarter from "../mob/eventConsumer/fightStarter"
 import FollowMob from "../mob/eventConsumer/followMob"
 import MobCreated from "../mob/eventConsumer/mobCreated"
@@ -63,6 +64,7 @@ export default async function createEventConsumerTable(
     new DamageModifierEventConsumer(damageModifierTable),
     new FollowMob(locationService,
       gameService.getActions().filter((action: Action) => action instanceof Move) as Move[]),
+    new DeathTimerEventConsumer(),
 
     // room
     new RoomMessageEventConsumer(clientService, locationService),
