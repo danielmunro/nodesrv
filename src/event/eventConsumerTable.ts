@@ -64,7 +64,7 @@ export default async function createEventConsumerTable(
     new DamageModifierEventConsumer(damageModifierTable),
     new FollowMob(locationService,
       gameService.getActions().filter((action: Action) => action instanceof Move) as Move[]),
-    new DeathTimerEventConsumer(),
+    new DeathTimerEventConsumer(gameService.eventService, locationService),
 
     // room
     new RoomMessageEventConsumer(clientService, locationService),

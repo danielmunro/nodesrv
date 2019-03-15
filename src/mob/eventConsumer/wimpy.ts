@@ -1,4 +1,4 @@
-import {Action} from "../../action/action"
+import Action from "../../action/action"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
