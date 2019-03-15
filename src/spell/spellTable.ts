@@ -10,6 +10,7 @@ import CancellationAction from "../action/impl/spell/cleric/protective/cancellat
 import SanctuaryAction from "../action/impl/spell/cleric/protective/sanctuaryAction"
 import ShieldAction from "../action/impl/spell/cleric/protective/shieldAction"
 import StoneSkinAction from "../action/impl/spell/cleric/protective/stoneSkinAction"
+import TowerOfIronWillAction from "../action/impl/spell/cleric/psionics/towerOfIronWillAction"
 import LightningBoltAction from "../action/impl/spell/mage/attack/lightningBoltAction"
 import MagicMissileAction from "../action/impl/spell/mage/attack/magicMissileAction"
 import DetectInvisibleAction from "../action/impl/spell/mage/detection/detectInvisibleAction"
@@ -75,5 +76,8 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     new SummonUndeadAction(checkBuilderFactory, eventService, mobService),
     new TurnUndeadAction(checkBuilderFactory, eventService, mobService),
     new DrawLifeAction(checkBuilderFactory, eventService),
+
+    // psionics
+    new TowerOfIronWillAction(checkBuilderFactory, eventService),
   ]
 }

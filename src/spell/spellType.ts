@@ -1,11 +1,11 @@
 export enum SpellType {
-  // Attack
+  // attack
   MagicMissile = "magic missile",
   LightningBolt = "lightning bolt",
   IceBlast = "ice blast",
   AcidBlast = "acid blast",
 
-  // Detection
+  // detection
   Invisibility = "invisibility",
   DetectInvisible = "detect invisibility",
 
@@ -16,7 +16,7 @@ export enum SpellType {
   StoneSkin = "stone skin",
   Fireproof = "fireproof",
 
-  // Benedictions
+  // benedictions
   GiantStrength = "giant strength",
   Haste = "haste",
   Blur = "blur",
@@ -24,20 +24,20 @@ export enum SpellType {
   Sanctuary = "sanctuary",
   Wrath = "wrath",
 
-  // Maladictions
+  // maladictions
   Poison = "poison",
   Blind = "blind",
   Weaken = "weaken",
   Curse = "curse",
 
-  // Curative
+  // curative
   CurePoison = "cure poison",
   CureDisease = "cure disease",
   CureBlindness = "cure blindness",
   RemoveCurse = "remove curse",
   Feast = "feast",
 
-  // Healing
+  // healing
   CureLight = "cure light",
   CureSerious = "cure serious",
   Heal = "heal",
@@ -52,4 +52,7 @@ export enum SpellType {
   TurnUndead = "turn undead",
   SummonUndead = "summon undead",
   DrawLife = "draw life",
+
+  // psionics
+  TowerOfIronWill = "tower of iron will",
 }

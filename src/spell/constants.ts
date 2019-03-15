@@ -84,6 +84,9 @@ export const SpellMessages = {
   SummonUndead: {
     Success: "a dark void opens to reveal a skeletal warrior.",
   },
+  TowerOfIronWill: {
+    Success: "{target} will cannot be broken.",
+  },
   TurnUndead: {
     MobTurned: "{target} crumples into dust.",
     Success: "a flash of light pulses through the room.",

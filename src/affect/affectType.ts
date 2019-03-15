@@ -45,6 +45,7 @@ export enum AffectType {
   StoneSkin = "stone skin",
   Sneak = "sneak",
   Teleport = "teleport",
+  TowerOfIronWill = "tower of iron will",
   Warped = "warped",
   WearTimer = "wear timer",
   Wrath = "wrath",

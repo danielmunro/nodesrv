@@ -102,6 +102,10 @@ export default class MobBuilder {
     return this
   }
 
+  public hasAffect(affectType: AffectType): boolean {
+    return !!this.mob.getAffect(affectType)
+  }
+
   public addToRoom(roomBuilder: RoomBuilder): MobBuilder {
     this.serviceBuilder.addMobLocation(newMobLocation(this.mob, roomBuilder.room))
     return this
