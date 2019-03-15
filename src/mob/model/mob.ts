@@ -12,7 +12,6 @@ import { Player } from "../../player/model/player"
 import roll from "../../random/dice"
 import { BaseRegenModifier } from "../../server/observers/constants"
 import { Skill } from "../../skill/model/skill"
-import { SkillType } from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
 import Maybe from "../../support/functional/maybe"
 import match from "../../support/matcher/match"
@@ -76,6 +75,8 @@ export class Mob {
 
   @Column("integer", { default: 0 })
   public alignment: number = 0
+
+  public deathTimer: number = 0
 
   @OneToOne(() => DamageSource, { cascadeAll: true, eager: true })
   @JoinColumn()
@@ -220,10 +221,6 @@ export class Mob {
     if (this.vitals.mv > combined.vitals.mv) {
       this.vitals.mv = combined.vitals.mv
     }
-  }
-
-  public findSkill(skillType: SkillType) {
-    return this.skills.find(s => s.skillType === skillType)
   }
 
   public toString(): string {

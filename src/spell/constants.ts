@@ -81,6 +81,9 @@ export const SpellMessages = {
   StoneSkin: {
     Success: "{target} skin turns to stone.",
   },
+  SummonUndead: {
+    Success: "a dark void opens to reveal a skeletal warrior.",
+  },
   TurnUndead: {
     MobTurned: "{target} crumples into dust.",
     Success: "a flash of light pulses through the room.",

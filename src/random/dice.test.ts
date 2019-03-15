@@ -1,4 +1,5 @@
-import roll, { coinFlip,  DiceRoller, onCoinFlipSuccess } from "./dice"
+import roll, { DiceRoller} from "./dice"
+import {coinFlip, onCoinFlipSuccess} from "./helpers"
 
 const rollDataSet = [
   [1, 4],

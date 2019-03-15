@@ -1,6 +1,6 @@
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
-import {percentRoll} from "../../../../random/dice"
+import {percentRoll} from "../../../../random/helpers"
 import {SkillType} from "../../../../skill/skillType"
 import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"

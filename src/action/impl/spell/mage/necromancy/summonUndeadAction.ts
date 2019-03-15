@@ -1,24 +1,44 @@
+import AttributeBuilder from "../../../../../attributes/attributeBuilder"
+import {newHitroll, newVitals} from "../../../../../attributes/factory"
 import CheckBuilderFactory from "../../../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import Cost from "../../../../../check/cost/cost"
 import ManaCost from "../../../../../check/cost/manaCost"
 import EventService from "../../../../../event/eventService"
-import {Disposition} from "../../../../../mob/enum/disposition"
 import MobService from "../../../../../mob/mobService"
 import {Mob} from "../../../../../mob/model/mob"
 import {Race} from "../../../../../mob/race/race"
-import {percentRoll} from "../../../../../random/helpers"
+import {getRandomIntFromRange} from "../../../../../random/helpers"
 import ResponseMessage from "../../../../../request/responseMessage"
-import RoomMessageEvent from "../../../../../room/event/roomMessageEvent"
-import {Room} from "../../../../../room/model/room"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
 import Spell from "../../../../spell"
 
-// todo: trigger fight with undead owner?
-export default class TurnUndeadAction extends Spell {
+export const SKELETAL_WARRIOR_ID = 3
+const DEFAULT_MANA = 100
+const DEFAULT_MV = 100
+
+export default class SummonUndeadAction extends Spell {
+  private static createSkeletalWarrior(caster: Mob, warrior: Mob): Mob {
+    const level = caster.level * 0.8
+    const maxHp = level * 8 + getRandomIntFromRange(level * level / 8, level * level)
+    warrior.level = level
+    warrior.vitals.hp = maxHp
+    warrior.vitals.mana = DEFAULT_MANA
+    warrior.vitals.mv = DEFAULT_MV
+    warrior.attributes.push(
+      new AttributeBuilder()
+        .setHitRoll(newHitroll(1, level / 2))
+        .setVitals(newVitals(maxHp, DEFAULT_MANA, DEFAULT_MV))
+        .build())
+    warrior.deathTimer = (level / 5) + 10
+    warrior.follows = caster
+    warrior.race = Race.Undead
+    return warrior
+  }
+
   constructor(
     checkBuilderFactory: CheckBuilderFactory,
     eventService: EventService,
@@ -26,19 +46,20 @@ export default class TurnUndeadAction extends Spell {
     super(checkBuilderFactory, eventService)
   }
 
-  public applySpell(checkedRequest: CheckedRequest): void {
-    this.mobService.locationService.getMobsInRoomWithMob(checkedRequest.mob)
-      .filter(mob => mob.race === Race.Undead)
-      .filter(mob => percentRoll() < 100 - mob.level)
-      .forEach(mob => this.turn(checkedRequest.room, mob))
+  public async applySpell(checkedRequest: CheckedRequest): Promise<void> {
+    this.mobService.add(
+      SummonUndeadAction.createSkeletalWarrior(
+        checkedRequest.mob,
+        await this.mobService.createMobFromId(SKELETAL_WARRIOR_ID)),
+      checkedRequest.room)
   }
 
   public getSpellType(): SpellType {
-    return SpellType.TurnUndead
+    return SpellType.SummonUndead
   }
 
   public getActionType(): ActionType {
-    return ActionType.Offensive
+    return ActionType.Defensive
   }
 
   public getCosts(): Cost[] {
@@ -48,21 +69,11 @@ export default class TurnUndeadAction extends Spell {
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
     return new ResponseMessage(
       checkedRequest.mob,
-      SpellMessages.TurnUndead.Success)
+      SpellMessages.SummonUndead.Success)
   }
 
   /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
-  }
-
-  private async turn(room: Room, target: Mob) {
-    target.disposition = Disposition.Dead
-    await this.eventService.publish(new RoomMessageEvent(
-      room,
-      new ResponseMessage(
-        target,
-        SpellMessages.TurnUndead.MobTurned,
-        { target })))
   }
 }

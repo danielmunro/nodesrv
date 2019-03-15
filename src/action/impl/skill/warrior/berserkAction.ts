@@ -28,7 +28,7 @@ export default class BerserkAction extends Skill {
   public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
     return new ResponseMessage(
       checkedRequest.mob,
-      SkillMessages.Berserk.Fail)
+      SkillMessages.Berserk.Fail).onlySendToRequestCreator()
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {

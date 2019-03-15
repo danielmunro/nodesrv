@@ -50,5 +50,6 @@ export enum SpellType {
 
   // necromancy
   TurnUndead = "turn undead",
+  SummonUndead = "summon undead",
   DrawLife = "draw life",
 }

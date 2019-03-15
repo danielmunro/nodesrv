@@ -1,3 +1,5 @@
+import {getRandomInt} from "./helpers"
+
 export default function roll(dice: number, sides: number): number {
   let value = 0
   while (dice > 0) {
@@ -16,24 +18,6 @@ export function simpleD4(callback) {
   if (roll(1, 4) === 1) {
     callback()
   }
-}
-
-export function coinFlip(): boolean {
-  return roll(1, 2) === 1
-}
-
-export function onCoinFlipSuccess(callback): Promise<any> {
-  if (coinFlip()) {
-    return callback()
-  }
-}
-
-export function getRandomInt(max: number): number {
-  return 1 + Math.floor(Math.random() * Math.floor(max))
-}
-
-export function percentRoll(): number {
-  return getRandomInt(100)
 }
 
 export class DiceRoller {

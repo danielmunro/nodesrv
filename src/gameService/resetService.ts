@@ -34,7 +34,7 @@ export default class ResetService {
   }
 
   public async respawnFromMobReset(mobReset: MobReset) {
-    const mob = await this.mobService.generateNewMobInstance(mobReset)
+    const mob = await this.mobService.createMobFromReset(mobReset)
     const room = this.roomTable.get(mobReset.room.uuid)
     const mobsInRoom = this.mobService.locationService
       .getMobsByRoom(room).filter(m => m.importId === mob.importId)
