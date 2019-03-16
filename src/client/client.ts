@@ -93,7 +93,7 @@ export class Client {
 
   private onMessage(data: any) {
     const mobLocation = this.locationService.getLocationForMob(this.getSessionMob())
-    this.addRequest(this.getNewRequestFromMessageEvent(data, mobLocation ? mobLocation.room : undefined))
+    this.addRequest(this.getNewRequestFromMessageEvent(data, mobLocation.room))
   }
 
   private getNewRequestFromMessageEvent(messageEvent: MessageEvent, room?: Room): Request | AuthRequest {

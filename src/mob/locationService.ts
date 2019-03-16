@@ -16,7 +16,7 @@ export default class LocationService {
     private mobLocations: MobLocation[] = []) {}
 
   public async moveMob(mob: Mob, direction: Direction) {
-    const location = this.getLocationForMob(mob) as MobLocation
+    const location = this.getLocationForMob(mob)
     const exitsForRoom = this.exitTable.exitsForRoom(location.room)
     const exit = exitsForRoom.find(e => e.direction === direction)
 
@@ -47,8 +47,12 @@ export default class LocationService {
     }
   }
 
-  public getLocationForMob(mob: Mob): MobLocation | undefined {
-    return this.mobLocations.find(mobLocation => mobLocation.mob === mob)
+  public getLocationForMob(mob: Mob): MobLocation {
+    const mobLocation = this.mobLocations.find(it => it.mob === mob)
+    if (!mobLocation) {
+      throw new Error("mob not found")
+    }
+    return mobLocation
   }
 
   public removeMob(mob: Mob): void {
@@ -61,7 +65,7 @@ export default class LocationService {
   }
 
   public getMobsInRoomWithMob(mob: Mob): Mob[] {
-    const location = this.getLocationForMob(mob) as MobLocation
+    const location = this.getLocationForMob(mob)
     return this.getMobsByRoom(location.room)
   }
 

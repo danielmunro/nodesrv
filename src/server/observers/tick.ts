@@ -5,6 +5,7 @@ import {EventType} from "../../event/eventType"
 import TimeService from "../../gameService/timeService"
 import MobEvent from "../../mob/event/mobEvent"
 import LocationService from "../../mob/locationService"
+import MobLocation from "../../mob/model/mobLocation"
 import {Observer} from "./observer"
 
 const MESSAGE_HUNGRY = "You are hungry."

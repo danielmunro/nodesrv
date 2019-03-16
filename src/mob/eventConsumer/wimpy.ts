@@ -8,7 +8,6 @@ import {RequestType} from "../../request/requestType"
 import FightEvent from "../fight/event/fightEvent"
 import LocationService from "../locationService"
 import {Mob} from "../model/mob"
-import MobLocation from "../model/mobLocation"
 
 export default class Wimpy implements EventConsumer {
   private static isWimpy(mob: Mob, target: Mob) {
@@ -38,7 +37,7 @@ export default class Wimpy implements EventConsumer {
     return this.fleeDefinition.handle(
       new Request(
         mob,
-        (this.locationService.getLocationForMob(mob) as MobLocation).room,
+        this.locationService.getLocationForMob(mob).room,
         new EventContext(RequestType.Flee)))
   }
 }

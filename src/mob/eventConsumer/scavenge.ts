@@ -29,7 +29,7 @@ export default class Scavenge implements EventConsumer {
   }
 
   public scavenge(mob: Mob) {
-    const location = this.locationService.getLocationForMob(mob) as MobLocation
+    const location = this.locationService.getLocationForMob(mob)
     const items = this.itemService.findAllByInventory(location.room.inventory)
     let message = ""
     items.forEach(item => {

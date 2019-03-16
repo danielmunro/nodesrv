@@ -1,7 +1,6 @@
 import {CheckStatus} from "../../../check/checkStatus"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {Mob} from "../../../mob/model/mob"
-import MobLocation from "../../../mob/model/mobLocation"
 import { RequestType } from "../../../request/requestType"
 import {getSuccessfulAction} from "../../../support/functional/times"
 import RoomBuilder from "../../../test/roomBuilder"
@@ -51,7 +50,7 @@ describe("flee action handler", () => {
 
     // then
     const service = await testBuilder.getService()
-    expect((service.getMobLocation(mob) as MobLocation).room).toBe(room2.room)
+    expect(service.getMobLocation(mob).room).toBe(room2.room)
   })
 
   it("flee should accurately build its response message", async () => {

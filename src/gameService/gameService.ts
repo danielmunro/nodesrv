@@ -30,7 +30,7 @@ export default class GameService {
     await this.mobService.locationService.moveMob(mob, direction)
   }
 
-  public getMobLocation(mob: Mob): MobLocation | undefined {
+  public getMobLocation(mob: Mob): MobLocation {
     return this.mobService.locationService.getLocationForMob(mob)
   }
 
