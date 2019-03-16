@@ -1,5 +1,5 @@
+import AffectBuilder from "../affect/affectBuilder"
 import {AffectType} from "../affect/affectType"
-import {newAffect} from "../affect/factory"
 import Check from "../check/check"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import CheckedRequest from "../check/checkedRequest"
@@ -82,7 +82,9 @@ export default abstract class Spell extends Action {
   }
 
   protected applyAffectType(checkedRequest: CheckedRequest) {
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    target.addAffect(newAffect(this.getAffectType() as AffectType, checkedRequest.mob.level))
+    checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+      .addAffect(new AffectBuilder(this.getAffectType() as AffectType)
+        .setLevel(checkedRequest.mob.level)
+        .build())
   }
 }
