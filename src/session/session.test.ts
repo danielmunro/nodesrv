@@ -20,7 +20,7 @@ describe("session", () => {
     const player = playerBuilder.player
     const client = await testBuilder.withClient()
     const session = new Session(
-      new Email(new AuthService(await getPlayerRepository(), null)),
+      new Email(new AuthService(await getPlayerRepository(), jest.fn()())),
     )
 
     // expect

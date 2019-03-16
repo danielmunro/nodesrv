@@ -1,5 +1,5 @@
+import AffectBuilder from "../affect/affectBuilder"
 import { AffectType } from "../affect/affectType"
-import { newPermanentAffect } from "../affect/factory"
 import BuilderDefinition from "../item/builderDefinition"
 import ItemPrototype from "../item/itemPrototype"
 import { Item } from "../item/model/item"
@@ -45,7 +45,7 @@ export default class ItemBuilder {
 
   public static applyPoisonIfFlagged(item: Item, flag: string) {
     if (flag !== "0") {
-      item.affects.push(newPermanentAffect(AffectType.Poison))
+      item.affects.push(new AffectBuilder(AffectType.Poison).build())
     }
 
     return item
@@ -54,7 +54,7 @@ export default class ItemBuilder {
   private static setItemAffects(item: Item, flags: string[]) {
     for (const flag of flags) {
       if (itemAffectMap[flag]) {
-        item.affects.push(newPermanentAffect(itemAffectMap[flag]))
+        item.affects.push(new AffectBuilder(itemAffectMap[flag]).build())
       }
     }
 

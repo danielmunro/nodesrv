@@ -8,6 +8,7 @@ export default class AffectBuilder {
 
   constructor(affectType: AffectType) {
     this.affect.affectType = affectType
+    this.affect.timeout = -1
   }
 
   public setTimeout(timeout: number): AffectBuilder {

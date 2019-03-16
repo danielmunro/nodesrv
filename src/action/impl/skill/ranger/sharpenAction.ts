@@ -1,5 +1,5 @@
+import AffectBuilder from "../../../../affect/affectBuilder"
 import {AffectType} from "../../../../affect/affectType"
-import {newPermanentAffect} from "../../../../affect/factory"
 import {Affect} from "../../../../affect/model/affect"
 import AttributeBuilder from "../../../../attributes/attributeBuilder"
 import {newHitroll} from "../../../../attributes/factory"
@@ -50,11 +50,11 @@ export default class SharpenAction extends Skill {
 
   public applySkill(checkedRequest: CheckedRequest): void {
     const [ skill, target ] = checkedRequest.results(CheckType.HasSkill, CheckType.HasTarget)
-    target.affects.push(newPermanentAffect(
-      AffectType.Sharpened,
-      new AttributeBuilder()
+    target.affects.push(new AffectBuilder(AffectType.Sharpened)
+      .setAttributes(new AttributeBuilder()
         .setHitRoll(newHitroll(1, roll(1, skill.level / 10) + 1))
-        .build()))
+        .build())
+      .build())
   }
 
   public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
