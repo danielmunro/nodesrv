@@ -41,5 +41,5 @@ describe("reset import service", () => {
 
     // then
     expect(resets).toHaveLength(408)
-  }, 10000)
+  }, 15000)
 })
