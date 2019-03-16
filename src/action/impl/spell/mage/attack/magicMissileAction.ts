@@ -1,7 +1,8 @@
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
-import {CostType} from "../../../../../check/cost/costType"
+import DelayCost from "../../../../../check/cost/delayCost"
+import ManaCost from "../../../../../check/cost/manaCost"
 import {DamageType} from "../../../../../damage/damageType"
 import roll from "../../../../../random/dice"
 import ResponseMessage from "../../../../../request/responseMessage"
@@ -32,7 +33,8 @@ export default class MagicMissileAction extends Spell implements OffensiveSpell 
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 15),
+      new ManaCost(15),
+      new DelayCost(1),
     ]
   }
 

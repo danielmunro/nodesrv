@@ -1,6 +1,7 @@
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
+import DelayCost from "../../../../../check/cost/delayCost"
 import ManaCost from "../../../../../check/cost/manaCost"
 import roll from "../../../../../random/dice"
 import ResponseMessage from "../../../../../request/responseMessage"
@@ -27,7 +28,10 @@ export default class DrawLifeAction extends Spell {
   }
 
   public getCosts(): Cost[] {
-    return [ new ManaCost(20) ]
+    return [
+      new ManaCost(20),
+      new DelayCost(1),
+    ]
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {

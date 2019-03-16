@@ -2,7 +2,8 @@ import {AffectType} from "../../../../../affect/affectType"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
-import {CostType} from "../../../../../check/cost/costType"
+import DelayCost from "../../../../../check/cost/delayCost"
+import ManaCost from "../../../../../check/cost/manaCost"
 import {Mob} from "../../../../../mob/model/mob"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
@@ -27,7 +28,8 @@ export default class CurePoisonAction extends Spell {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 20),
+      new ManaCost(20),
+      new DelayCost(1),
     ]
   }
 

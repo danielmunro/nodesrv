@@ -3,6 +3,7 @@ import {AffectType} from "../../../../../affect/affectType"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
+import DelayCost from "../../../../../check/cost/delayCost"
 import ManaCost from "../../../../../check/cost/manaCost"
 import DamageSourceBuilder from "../../../../../mob/damageSourceBuilder"
 import {Mob} from "../../../../../mob/model/mob"
@@ -36,7 +37,10 @@ export default class TowerOfIronWillAction extends Spell {
   }
 
   public getCosts(): Cost[] {
-    return [ new ManaCost(20) ]
+    return [
+      new ManaCost(20),
+      new DelayCost(1),
+    ]
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {

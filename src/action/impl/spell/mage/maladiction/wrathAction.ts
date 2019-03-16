@@ -5,7 +5,8 @@ import {newHitroll, newStats, newVitals} from "../../../../../attributes/factory
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
-import {CostType} from "../../../../../check/cost/costType"
+import DelayCost from "../../../../../check/cost/delayCost"
+import ManaCost from "../../../../../check/cost/manaCost"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
@@ -36,7 +37,8 @@ export default class WrathAction extends Spell {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 35),
+      new ManaCost(35),
+      new DelayCost(1),
     ]
   }
 

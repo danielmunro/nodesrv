@@ -1,7 +1,8 @@
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
-import {CostType} from "../../../../../check/cost/costType"
+import DelayCost from "../../../../../check/cost/delayCost"
+import ManaCost from "../../../../../check/cost/manaCost"
 import roll from "../../../../../random/dice"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
@@ -26,7 +27,8 @@ export default class CureLightAction extends Spell {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 10),
+      new ManaCost(10),
+      new DelayCost(1),
     ]
   }
 

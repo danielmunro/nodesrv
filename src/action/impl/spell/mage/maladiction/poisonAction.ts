@@ -1,11 +1,12 @@
+import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
-import {newAffect} from "../../../../../affect/factory"
 import AttributeBuilder from "../../../../../attributes/attributeBuilder"
 import {newHitroll, newStats} from "../../../../../attributes/factory"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
-import {CostType} from "../../../../../check/cost/costType"
+import DelayCost from "../../../../../check/cost/delayCost"
+import ManaCost from "../../../../../check/cost/manaCost"
 import {Mob} from "../../../../../mob/model/mob"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
@@ -18,13 +19,13 @@ export default class PoisonAction extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
     const [ target, spell ] = checkedRequest.results(CheckType.HasTarget, CheckType.HasSpell)
     target.addAffect(
-      newAffect(
-        AffectType.Poison,
-        spell.level / 2,
-        new AttributeBuilder()
+      new AffectBuilder(AffectType.Poison)
+        .setLevel(spell.level / 2)
+        .setAttributes(new AttributeBuilder()
           .setHitRoll(newHitroll(0, -1))
           .setStats(newStats(-1, 0, 0, 0, -1, -1))
-          .build()))
+          .build())
+        .build())
   }
 
   public getSpellType(): SpellType {
@@ -37,7 +38,8 @@ export default class PoisonAction extends Spell {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 20),
+      new ManaCost(20),
+      new DelayCost(1),
     ]
   }
 

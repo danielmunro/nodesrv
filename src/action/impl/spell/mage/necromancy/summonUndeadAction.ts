@@ -3,6 +3,7 @@ import {newHitroll, newVitals} from "../../../../../attributes/factory"
 import CheckBuilderFactory from "../../../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import Cost from "../../../../../check/cost/cost"
+import DelayCost from "../../../../../check/cost/delayCost"
 import ManaCost from "../../../../../check/cost/manaCost"
 import EventService from "../../../../../event/eventService"
 import MobService from "../../../../../mob/mobService"
@@ -63,7 +64,10 @@ export default class SummonUndeadAction extends Spell {
   }
 
   public getCosts(): Cost[] {
-    return [ new ManaCost(50) ]
+    return [
+      new ManaCost(50),
+      new DelayCost(1),
+    ]
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
