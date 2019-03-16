@@ -51,11 +51,11 @@ describe("cancellation action", () => {
 
   it("generates correct success message", async () => {
     const mob = testBuilder.withMob()
-    mob.addAffect(AffectType.Bless)
-      .addAffect(AffectType.Curse)
-      .addAffect(AffectType.Poison)
-      .addAffect(AffectType.Haste)
-      .addAffect(AffectType.Stunned)
+    mob.addAffectType(AffectType.Bless)
+      .addAffectType(AffectType.Curse)
+      .addAffectType(AffectType.Poison)
+      .addAffectType(AffectType.Haste)
+      .addAffectType(AffectType.Stunned)
 
     const response = await getSuccessfulAction(
       await testBuilder.getAction(RequestType.Cast),

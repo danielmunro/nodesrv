@@ -13,6 +13,9 @@ bless                   NA
 level 7
 cure serious            NA
 
+level 10
+tower of iron will      NA
+
 level 13
 cure poison             NA
 remove curse            NA
@@ -44,6 +47,10 @@ blind                   NA
 
 level 13
 lightning bolt          NA
+haste                   NA
+
+level 14
+summon undead           NA
 
 level 17
 poison                  NA
@@ -53,15 +60,16 @@ curse                   NA
 
 level 20
 detect invisibility     NA
+turn undead             NA
 
 level 22
 cancellation            NA
 
-level 24
-turn undead             NA
-
 level 25
 invisibility            NA
+
+level 27
+draw life               NA
 
 level 30
 wrath                   NA

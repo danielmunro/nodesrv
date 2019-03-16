@@ -1,5 +1,6 @@
 import {Column, Entity, Generated, PrimaryGeneratedColumn} from "typeorm"
 import * as v4 from "uuid"
+import {DamageType} from "../../damage/damageType"
 
 @Entity()
 export default class DamageSource {
@@ -81,4 +82,15 @@ export default class DamageSource {
 
   @Column("boolean")
   public distraction: boolean = false
+
+  public isDamageTypeActive(damageType: DamageType): boolean {
+    switch (damageType) {
+      case DamageType.Mental:
+        return this.mental
+      case DamageType.Bash:
+        return this.bash
+      default:
+        return false
+    }
+  }
 }

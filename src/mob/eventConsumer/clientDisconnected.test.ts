@@ -15,6 +15,6 @@ describe("client disconnected event consumer", () => {
     await clientDisconnected.consume(new ClientEvent(EventType.ClientDisconnected, client))
 
     // then
-    expect(service.mobService.locationService.getLocationForMob(client.getSessionMob())).toBeUndefined()
+    expect(() => service.mobService.locationService.getLocationForMob(client.getSessionMob())).toThrowError()
   })
 })

@@ -1,4 +1,5 @@
 import Attributes from "../attributes/model/attributes"
+import DamageSource from "../mob/model/damageSource"
 import {AffectType} from "./affectType"
 import {Affect} from "./model/affect"
 
@@ -21,6 +22,21 @@ export default class AffectBuilder {
 
   public setAttributes(attributes: Attributes): AffectBuilder {
     this.affect.attributes = attributes
+    return this
+  }
+
+  public setResist(damageSource: DamageSource): AffectBuilder {
+    this.affect.resist = damageSource
+    return this
+  }
+
+  public setImmune(damageSource: DamageSource): AffectBuilder {
+    this.affect.immune = damageSource
+    return this
+  }
+
+  public setVulnerable(damageSource: DamageSource): AffectBuilder {
+    this.affect.vulnerable = damageSource
     return this
   }
 

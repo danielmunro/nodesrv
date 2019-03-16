@@ -32,7 +32,7 @@ describe("haste event consumer", () => {
 
   it("generates extra attacks", async () => {
     // setup
-    mob.addAffect(AffectType.Haste)
+    mob.addAffectType(AffectType.Haste)
 
     // given
     const fightEvent = new FightEvent(EventType.AttackRound, mob.mob, fight, [])

@@ -1,9 +1,10 @@
+import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
-import {newAffect} from "../../../../../affect/factory"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
 import ManaCost from "../../../../../check/cost/manaCost"
+import DamageSourceBuilder from "../../../../../mob/damageSourceBuilder"
 import {Mob} from "../../../../../mob/model/mob"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
@@ -15,9 +16,11 @@ import Spell from "../../../../spell"
 export default class TowerOfIronWillAction extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) as Mob
-    target.affects.push(newAffect(
-      AffectType.TowerOfIronWill,
-      checkedRequest.mob.level / 7))
+    target.affects.push(
+      new AffectBuilder(AffectType.TowerOfIronWill)
+        .setLevel(checkedRequest.mob.level / 7)
+        .setResist(new DamageSourceBuilder().enableMental().get())
+        .build())
   }
 
   public getAffectType(): AffectType {

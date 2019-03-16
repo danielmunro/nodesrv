@@ -9,8 +9,8 @@ describe("affects", () => {
 
     // given
     testBuilder.withMob()
-      .addAffect(AffectType.Noop, 1)
-      .addAffect(AffectType.Stunned, 2)
+      .addAffectType(AffectType.Noop, 1)
+      .addAffectType(AffectType.Stunned, 2)
 
     // when
     const response = await testBuilder.handleAction(RequestType.Affects)
