@@ -13,7 +13,8 @@
     "test-coverage": "yarn test --coverage",
     "complexity": "ts-complexity --max-complexity 14 src/**/*",
     "practice-debug": "ts-node bin/practice-debug.ts",
-    "specialization-level-audit": "ts-node bin/specialization-level-audit.ts"
+    "specialization-level-audit": "ts-node bin/specialization-level-audit.ts",
+    "spell-delay-cost-audit": "ts-node bin/spell-delay-cost-audit.ts"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],
