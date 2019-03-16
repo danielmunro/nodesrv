@@ -1,5 +1,6 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
+import {Affect} from "../../affect/model/affect"
 import MobTable from "../../mob/mobTable"
 import TestBuilder from "../../test/testBuilder"
 import {DecrementAffects} from "./decrementAffects"
@@ -24,8 +25,10 @@ describe("decrementAffects", () => {
     decrementAffects.notify()
 
     // then
-    expect(mob.getAffect(AffectType.Stunned).timeout).toBe(TEST_TIMEOUT_1 - 1)
-    expect(mob.getAffect(AffectType.Shield).timeout).toBe(TEST_TIMEOUT_2 - 1)
+    const affect1 = mob.getAffect(AffectType.Stunned) as Affect
+    expect(affect1.timeout).toBe(TEST_TIMEOUT_1 - 1)
+    const affect2 = mob.getAffect(AffectType.Shield) as Affect
+    expect(affect2.timeout).toBe(TEST_TIMEOUT_2 - 1)
   })
 
   it("should remove an affect once it decrements to zero", async () => {

@@ -7,11 +7,11 @@ export default class MobTable {
     return this.mobs.filter((mob: Mob) => mob.traits.wanders)
   }
 
-  public find(criteria): Mob {
+  public find(criteria: (mob: Mob) => boolean): Mob | undefined {
     return this.mobs.find(criteria)
   }
 
-  public apply(fn) {
+  public apply(fn: () => {}) {
     return this.mobs.forEach(fn)
   }
 

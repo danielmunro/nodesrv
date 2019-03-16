@@ -1,20 +1,20 @@
-import { Client } from "../../client/client"
-import { Equipment } from "../../item/equipment"
-import { Item } from "../../item/model/item"
-import { AttackVerb } from "../../mob/enum/attackVerb"
-import { Attack } from "../../mob/fight/attack"
+import {Client} from "../../client/client"
+import {Equipment} from "../../item/equipment"
+import {Item} from "../../item/model/item"
+import {AttackVerb} from "../../mob/enum/attackVerb"
+import {Attack} from "../../mob/fight/attack"
 import damageDescriptor from "../../mob/fight/damageDescriptor"
 import healthIndicator from "../../mob/fight/healthIndicator"
-import { Round } from "../../mob/fight/round"
+import {Round} from "../../mob/fight/round"
 import MobService from "../../mob/mobService"
-import { Mob } from "../../mob/model/mob"
-import { getBodyPartMessage } from "../../mob/race/bodyParts"
-import { simpleD4 } from "../../random/dice"
+import {Mob} from "../../mob/model/mob"
+import {getBodyPartMessage} from "../../mob/race/bodyParts"
+import {simpleD4} from "../../random/dice"
 import Maybe from "../../support/functional/maybe"
 import withValue from "../../support/functional/withValue"
-import { format } from "../../support/string"
-import { Messages } from "./constants"
-import { Observer } from "./observer"
+import {format} from "../../support/string"
+import {Messages} from "./constants"
+import {Observer} from "./observer"
 
 enum AttackLabel {
   Regular = "(reg)",
@@ -28,7 +28,7 @@ const allAttacks = [
   AttackLabel.Third,
 ]
 
-export function getHealthIndicator(percent): string {
+export function getHealthIndicator(percent: number): string {
   return new Maybe(healthIndicator.find((i) => percent > i.amount))
     .do((indicator) => indicator.message)
     .or(() => "is bleeding to death")
@@ -48,7 +48,8 @@ function getAttackVerb(weapon: Item): AttackVerb {
 
 export function attackMessage(attack: Attack, mob: Mob): string {
   const d = getDamageDescriptor(attack.damage)
-  const attackVerb = getAttackVerb(mob.equipped.items.find(i => i.equipment === Equipment.Weapon))
+  const equipped = mob.equipped.items.find(i => i.equipment === Equipment.Weapon)
+  const attackVerb = equipped ? getAttackVerb(equipped) : AttackVerb.Punch
   if (attack.attacker === mob) {
     let attackerMessage = format(
       "Your {0} {1} {2} {3}{4}",
@@ -84,10 +85,11 @@ export function attackMessage(attack: Attack, mob: Mob): string {
 
 function getFatalityMessages(round: Round): string[] {
   const messages = []
-  messages.push(format(Messages.Fight.DeathCry, round.vanquished.name))
-  simpleD4(() => messages.push(format(Messages.Fight.BloodSplatter, round.vanquished.name)))
-  if (round.bodyPart) {
-    messages.push(getBodyPartMessage(round.vanquished, round.bodyPart))
+  const vanquished = round.vanquished as Mob
+  messages.push(format(Messages.Fight.DeathCry, vanquished.name))
+  simpleD4(() => messages.push(format(Messages.Fight.BloodSplatter, vanquished.name)))
+  if (round.bodyParts) {
+    messages.push(...round.bodyParts.map(bodyPart => getBodyPartMessage(vanquished, bodyPart)))
   }
 
   return messages
@@ -99,7 +101,7 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
   const attacker = lastAttack.attacker
   const defender = lastAttack.defender
 
-  const mapper = (r, i) =>
+  const mapper = (r: Attack, i: number) =>
     (r.attacker === sessionMob ? allAttacks[i] + " " : "") + attackMessage(r, sessionMob)
   messages.push(...round.attacks.map(mapper))
   messages.push(...round.counters.map(mapper))
@@ -115,7 +117,7 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
 }
 
 export function createClientMobMap(clients: Client[]): object {
-  const clientMobMap = {}
+  const clientMobMap = {} as any
   clients
     .filter((c) => c.isLoggedIn())
     .forEach((client) => clientMobMap[client.player.sessionMob.name] = client)
@@ -124,7 +126,7 @@ export function createClientMobMap(clients: Client[]): object {
 }
 
 export class FightRounds implements Observer {
-  private static updateClient(client, mob, round) {
+  private static updateClient(client: Client, mob: Mob, round: Round) {
     const message = createMessageFromFightRound(round, mob)
     client.send({ message })
     client.sendMessage(client.player.prompt())
@@ -138,7 +140,7 @@ export class FightRounds implements Observer {
     rounds.forEach(round => this.updateRound(round, clientMobMap))
   }
 
-  private updateRound(round: Round, clientMobMap) {
+  private updateRound(round: Round, clientMobMap: any) {
     this.mobService.locationService.getMobsByRoom(round.room).forEach(mob =>
       new Maybe(clientMobMap[mob.name])
         .do(() => this.updateClientIfMobIsOwned(clientMobMap, mob, round)))
@@ -148,7 +150,7 @@ export class FightRounds implements Observer {
     return this.mobService.doFightRounds()
   }
 
-  private updateClientIfMobIsOwned(clientMobMap, mob, round): void {
+  private updateClientIfMobIsOwned(clientMobMap: any, mob: Mob, round: Round): void {
     new Maybe(clientMobMap[mob.name]).do((client) =>
       FightRounds.updateClient(client, mob, round))
   }
