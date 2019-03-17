@@ -1,9 +1,11 @@
+import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
 import DelayCost from "../../../../../check/cost/delayCost"
 import ManaCost from "../../../../../check/cost/manaCost"
+import {Mob} from "../../../../../mob/model/mob"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
@@ -11,11 +13,13 @@ import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
 import Spell from "../../../../spell"
 
-// todo finish implementing
 export default class FireproofAction extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    target.addAffect(AffectType.Fireproof)
+    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) as Mob
+    target.addAffect(new AffectBuilder(AffectType.Fireproof)
+      .setLevel(checkedRequest.mob.level)
+      .setTimeout(checkedRequest.mob.level / 8)
+      .build())
   }
 
   public getAffectType(): AffectType {
