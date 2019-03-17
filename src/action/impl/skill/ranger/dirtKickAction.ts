@@ -1,13 +1,11 @@
 import {AffectType} from "../../../../affect/affectType"
 import {newAffect} from "../../../../affect/factory"
-import Check from "../../../../check/check"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
 import Cost from "../../../../check/cost/cost"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import roll from "../../../../random/dice"
-import {Request} from "../../../../request/request"
 import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {Costs, SkillMessages, Thresholds} from "../../../../skill/constants"
@@ -18,12 +16,6 @@ import {ActionType} from "../../../enum/actionType"
 import Skill from "../../../skill"
 
 export default class DirtKickAction extends Skill {
-  public check(request: Request): Promise<Check> {
-    return this.checkBuilderFactory.createCheckTemplate(request)
-      .perform(this)
-      .create()
-  }
-
   public roll(checkedRequest: CheckedRequest): boolean {
     const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
     return roll(1, checkedRequest.mob.level) + roll(2, skill.level) > Thresholds.DirtKick

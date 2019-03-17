@@ -49,6 +49,7 @@ export default class DemoteAction extends Action {
     `You demoted ${target.name} to ${getAuthorizationLevelName(authorizationLevel)}.`)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.PlayerMob ]
   }

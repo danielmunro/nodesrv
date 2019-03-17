@@ -58,6 +58,7 @@ export default class OpenDoorAction extends Action {
       })
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.Thing ]
   }

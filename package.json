@@ -14,7 +14,7 @@
     "complexity": "ts-complexity --max-complexity 14 src/**/*",
     "practice-debug": "ts-node bin/practice-debug.ts",
     "specialization-level-audit": "ts-node bin/specialization-level-audit.ts",
-    "delay-cost-audit": "ts-node bin/delay-cost-audit.ts"
+    "cost-audit": "ts-node bin/cost-audit.ts"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],
