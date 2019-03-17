@@ -6,6 +6,7 @@ import MobService from "../src/mob/mobService"
 import MobTable from "../src/mob/mobTable"
 import ExitTable from "../src/room/exitTable"
 import RoomTable from "../src/room/roomTable"
+import {getSkillTable} from "../src/skill/skillTable"
 import getSpellTable from "../src/spell/spellTable"
 
 const eventService = new EventService()
@@ -15,8 +16,16 @@ const mobService = new MobService(
   new FightTable(),
   new LocationService(new RoomTable(), eventService, new ExitTable()))
 
+console.log("spells:")
 getSpellTable(mobService, eventService).forEach(spell => {
   if (!spell.getCosts().filter(cost => cost.costType === CostType.Delay).length) {
     console.log(`missing delay: ${spell.getSpellType()}`)
+  }
+})
+
+console.log("skills:")
+getSkillTable(mobService, eventService).forEach(skill => {
+  if (!skill.getCosts().filter(cost => cost.costType === CostType.Delay).length) {
+    console.log(`missing delay: ${skill.getSkillType()}`)
   }
 })

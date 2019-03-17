@@ -2,9 +2,10 @@ import {AffectType} from "../../../../affect/affectType"
 import {newAffect} from "../../../../affect/factory"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
-import {CheckMessages as CheckMessages} from "../../../../check/constants"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import ManaCost from "../../../../check/cost/manaCost"
+import MvCost from "../../../../check/cost/mvCost"
 import roll from "../../../../random/dice"
 import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
@@ -52,9 +53,9 @@ export default class HamstringAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mv, Costs.Hamstring.Mv, CheckMessages.TooTired),
-      new Cost(CostType.Mana, Costs.Hamstring.Mana, CheckMessages.NotEnoughMana),
-      new Cost(CostType.Delay, Costs.Hamstring.Delay),
+      new MvCost(Costs.Hamstring.Mv),
+      new ManaCost(Costs.Hamstring.Mana),
+      new DelayCost(Costs.Hamstring.Delay),
     ]
   }
 

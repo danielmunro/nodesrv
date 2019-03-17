@@ -3,9 +3,9 @@ import {newAffect} from "../../../../affect/factory"
 import Check from "../../../../check/check"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
-import {CheckMessages as CheckMessages} from "../../../../check/constants"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import MvCost from "../../../../check/cost/mvCost"
 import roll from "../../../../random/dice"
 import {Request} from "../../../../request/request"
 import {RequestType} from "../../../../request/requestType"
@@ -61,8 +61,8 @@ export default class DirtKickAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mv, Costs.DirtKick.Mv, CheckMessages.TooTired),
-      new Cost(CostType.Delay, Costs.DirtKick.Delay),
+      new MvCost(Costs.DirtKick.Mv),
+      new DelayCost(Costs.DirtKick.Delay),
     ]
   }
 

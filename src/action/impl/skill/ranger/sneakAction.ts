@@ -4,7 +4,8 @@ import Check from "../../../../check/check"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import MvCost from "../../../../check/cost/mvCost"
 import {getSizeModifier} from "../../../../mob/race/sizeModifier"
 import roll from "../../../../random/dice"
 import {Request} from "../../../../request/request"
@@ -54,8 +55,8 @@ export default class SneakAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mv, Costs.Sneak.Mv),
-      new Cost(CostType.Delay, Costs.Sneak.Delay),
+      new MvCost(Costs.Sneak.Mv),
+      new DelayCost(Costs.Sneak.Delay),
     ]
   }
 

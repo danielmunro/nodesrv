@@ -3,9 +3,9 @@ import {newAffect} from "../../../../../affect/factory"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
-import {CostType} from "../../../../../check/cost/costType"
+import DelayCost from "../../../../../check/cost/delayCost"
+import ManaCost from "../../../../../check/cost/manaCost"
 import ResponseMessage from "../../../../../request/responseMessage"
-import {ConditionMessages} from "../../../../../skill/constants"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {Messages} from "../../../../constants"
@@ -32,8 +32,8 @@ export default class SanctuaryAction extends Spell {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 80, ConditionMessages.All.NotEnoughMana),
-      new Cost(CostType.Delay, 2),
+      new ManaCost(80),
+      new DelayCost(2),
     ]
   }
 

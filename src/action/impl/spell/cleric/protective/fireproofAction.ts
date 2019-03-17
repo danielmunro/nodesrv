@@ -2,9 +2,9 @@ import {AffectType} from "../../../../../affect/affectType"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import {CheckType} from "../../../../../check/checkType"
 import Cost from "../../../../../check/cost/cost"
-import {CostType} from "../../../../../check/cost/costType"
+import DelayCost from "../../../../../check/cost/delayCost"
+import ManaCost from "../../../../../check/cost/manaCost"
 import ResponseMessage from "../../../../../request/responseMessage"
-import {ConditionMessages} from "../../../../../skill/constants"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {Messages} from "../../../../constants"
@@ -32,7 +32,8 @@ export default class FireproofAction extends Spell {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, 10, ConditionMessages.All.NotEnoughMana),
+      new ManaCost(10),
+      new DelayCost(1),
     ]
   }
 

@@ -1,14 +1,15 @@
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import MvCost from "../../../../check/cost/mvCost"
 import {Fight} from "../../../../mob/fight/fight"
 import roll from "../../../../random/dice"
 import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {ActionMessages, Costs, Thresholds} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
-import {ConditionMessages, Messages} from "../../../constants"
+import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
 import Skill from "../../../skill"
@@ -53,8 +54,8 @@ export default class BackstabAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mv, Costs.Backstab.Mv, ConditionMessages.Move.Fail.OutOfMovement),
-      new Cost(CostType.Delay, Costs.Backstab.Delay),
+      new MvCost(Costs.Backstab.Mv),
+      new DelayCost(Costs.Backstab.Delay),
     ]
   }
 

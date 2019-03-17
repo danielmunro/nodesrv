@@ -7,7 +7,9 @@ import Check from "../../../../check/check"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import ManaCost from "../../../../check/cost/manaCost"
+import MvCost from "../../../../check/cost/mvCost"
 import {DamageType} from "../../../../damage/damageType"
 import Weapon from "../../../../item/model/weapon"
 import roll from "../../../../random/dice"
@@ -83,9 +85,9 @@ export default class SharpenAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, Costs.Sharpen.Mana),
-      new Cost(CostType.Mv, Costs.Sharpen.Mv),
-      new Cost(CostType.Delay, Costs.Sharpen.Delay),
+      new ManaCost(Costs.Sharpen.Mana),
+      new MvCost(Costs.Sharpen.Mv),
+      new DelayCost(Costs.Sharpen.Delay),
     ]
   }
 

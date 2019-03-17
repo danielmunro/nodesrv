@@ -1,9 +1,9 @@
 import Check from "../../../../check/check"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
-import {CheckMessages as CheckMessages} from "../../../../check/constants"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import MvCost from "../../../../check/cost/mvCost"
 import {Equipment} from "../../../../item/equipment"
 import {Item} from "../../../../item/model/item"
 import {Mob} from "../../../../mob/model/mob"
@@ -66,8 +66,8 @@ export default class DisarmAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mv, Costs.Disarm.Mv, CheckMessages.TooTired),
-      new Cost(CostType.Delay, Costs.Disarm.Delay),
+      new MvCost(Costs.Disarm.Mv),
+      new DelayCost(Costs.Disarm.Delay),
     ]
   }
 

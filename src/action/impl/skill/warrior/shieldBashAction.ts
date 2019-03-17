@@ -3,7 +3,8 @@ import {newAffect} from "../../../../affect/factory"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import MvCost from "../../../../check/cost/mvCost"
 import {Mob} from "../../../../mob/model/mob"
 import {percentRoll} from "../../../../random/helpers"
 import {RequestType} from "../../../../request/requestType"
@@ -32,8 +33,8 @@ export default class ShieldBashAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mv, (mob: Mob) => Math.max(80, mob.vitals.mv / 2)),
-      new Cost(CostType.Delay, 2),
+      new MvCost((mob: Mob) => Math.max(80, mob.vitals.mv / 2)),
+      new DelayCost(2),
     ]
   }
 

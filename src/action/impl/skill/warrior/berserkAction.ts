@@ -2,9 +2,9 @@ import {AffectType} from "../../../../affect/affectType"
 import {newAffect} from "../../../../affect/factory"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
-import {CheckMessages as CheckMessages} from "../../../../check/constants"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import MvCost from "../../../../check/cost/mvCost"
 import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {Costs, SkillMessages, Thresholds} from "../../../../skill/constants"
@@ -47,9 +47,9 @@ export default class BerserkAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Delay, Costs.Berserk.Delay),
-      new Cost(CostType.Mv, mob =>
-        Math.max(mob.getCombinedAttributes().vitals.mv / 2, Costs.Berserk.Mv), CheckMessages.TooTired),
+      new DelayCost(Costs.Berserk.Delay),
+      new MvCost(mob =>
+        Math.max(mob.getCombinedAttributes().vitals.mv / 2, Costs.Berserk.Mv)),
     ]
   }
 

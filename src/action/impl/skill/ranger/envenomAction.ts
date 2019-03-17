@@ -4,7 +4,8 @@ import Check from "../../../../check/check"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import ManaCost from "../../../../check/cost/manaCost"
 import {DamageType} from "../../../../damage/damageType"
 import {Equipment} from "../../../../item/equipment"
 import roll from "../../../../random/dice"
@@ -69,8 +70,8 @@ export default class EnvenomAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mana, Costs.Envenom.Mana),
-      new Cost(CostType.Delay, Costs.Envenom.Delay),
+      new ManaCost(Costs.Envenom.Mana),
+      new DelayCost(Costs.Envenom.Delay),
     ]
   }
 

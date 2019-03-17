@@ -2,9 +2,9 @@ import {AffectType} from "../../../../affect/affectType"
 import {newAffect} from "../../../../affect/factory"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
-import {CheckMessages as CheckMessages} from "../../../../check/constants"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import MvCost from "../../../../check/cost/mvCost"
 import {Mob} from "../../../../mob/model/mob"
 import {getSizeModifier} from "../../../../mob/race/sizeModifier"
 import roll from "../../../../random/dice"
@@ -66,8 +66,8 @@ export default class TripAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mv, Costs.Trip.Mv, CheckMessages.TooTired),
-      new Cost(CostType.Delay, Costs.Trip.Delay),
+      new MvCost(Costs.Trip.Mv),
+      new DelayCost(Costs.Trip.Delay),
     ]
   }
 

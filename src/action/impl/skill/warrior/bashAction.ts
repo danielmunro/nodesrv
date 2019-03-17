@@ -3,11 +3,12 @@ import {newAffect} from "../../../../affect/factory"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import MvCost from "../../../../check/cost/mvCost"
 import roll from "../../../../random/dice"
 import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
-import {ConditionMessages, Costs, SkillMessages} from "../../../../skill/constants"
+import {Costs, SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
@@ -50,7 +51,8 @@ export default class BashAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mv, Costs.Bash.Mv, ConditionMessages.All.NotEnoughMv),
+      new MvCost(Costs.Bash.Mv),
+      new DelayCost(1),
     ]
   }
 

@@ -3,8 +3,7 @@ import {applyAffectModifier} from "../affect/applyAffect"
 import Check from "../check/check"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import CheckedRequest from "../check/checkedRequest"
-import Cost from "../check/cost/cost"
-import {CostType} from "../check/cost/costType"
+import MvCost from "../check/cost/mvCost"
 import {Disposition} from "../mob/enum/disposition"
 import {Trigger} from "../mob/enum/trigger"
 import LocationService from "../mob/locationService"
@@ -45,7 +44,7 @@ export default abstract class Move extends Action {
       .require(Move.eitherNoDoorOrDoorIsOpen, ConditionMessages.Move.Fail.DoorIsClosed)
       .capture(request.mob)
       .not().requireAffect(AffectType.Immobilize, ConditionMessages.Move.Fail.Immobilized)
-      .addCost(new Cost(CostType.Mv, Move.calculateMvCost(request), ConditionMessages.Move.Fail.OutOfMovement))
+      .addCost(new MvCost(Move.calculateMvCost(request)))
       .create()
   }
 

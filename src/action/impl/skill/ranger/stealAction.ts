@@ -4,7 +4,8 @@ import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
 import {CheckMessages} from "../../../../check/constants"
 import Cost from "../../../../check/cost/cost"
-import {CostType} from "../../../../check/cost/costType"
+import DelayCost from "../../../../check/cost/delayCost"
+import MvCost from "../../../../check/cost/mvCost"
 import EventService from "../../../../event/eventService"
 import {EventType} from "../../../../event/eventType"
 import MobEvent from "../../../../mob/event/mobEvent"
@@ -79,8 +80,8 @@ export default class StealAction extends Skill {
 
   public getCosts(): Cost[] {
     return [
-      new Cost(CostType.Mv, Costs.Steal.Mv),
-      new Cost(CostType.Delay, Costs.Steal.Delay),
+      new MvCost(Costs.Steal.Mv),
+      new DelayCost(Costs.Steal.Delay),
     ]
   }
 

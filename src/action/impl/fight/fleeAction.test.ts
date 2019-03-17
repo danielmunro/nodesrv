@@ -7,9 +7,10 @@ import RoomBuilder from "../../../test/roomBuilder"
 import TestBuilder from "../../../test/testBuilder"
 import Action from "../../action"
 import {
+  ConditionMessages,
   MESSAGE_FAIL_NOT_FIGHTING,
-  } from "../../constants"
-import {MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE, MESSAGE_FAIL_TOO_TIRED} from "../../constants"
+} from "../../constants"
+import {MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE} from "../../constants"
 
 let action: Action
 let mob: Mob
@@ -102,7 +103,7 @@ describe("flee action handler", () => {
 
     // then
     expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_TOO_TIRED)
+    expect(check.result).toBe(ConditionMessages.Move.Fail.OutOfMovement)
   })
 
   it("should work if all preconditions met", async () => {

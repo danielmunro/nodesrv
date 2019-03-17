@@ -2,8 +2,8 @@ import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
-import Cost from "../../../check/cost/cost"
-import {CostType} from "../../../check/cost/costType"
+import DelayCost from "../../../check/cost/delayCost"
+import MvCost from "../../../check/cost/mvCost"
 import {Disposition} from "../../../mob/enum/disposition"
 import {Fight} from "../../../mob/fight/fight"
 import LocationService from "../../../mob/locationService"
@@ -18,7 +18,6 @@ import {
   FLEE_MOVEMENT_COST_MULTIPLIER, HelpMessages,
   MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE,
   MESSAGE_FAIL_NOT_FIGHTING,
-  MESSAGE_FAIL_TOO_TIRED,
   Messages,
 } from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
@@ -40,8 +39,8 @@ export default class FleeAction extends Action {
         CheckType.IsFighting)
       .capture()
       .require(request.getRoom().exits.length > 0, MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE)
-      .addCost(new Cost(CostType.Delay, 1))
-      .addCost(new Cost(CostType.Mv, mvCost, MESSAGE_FAIL_TOO_TIRED))
+      .addCost(new DelayCost(1))
+      .addCost(new MvCost(mvCost))
       .create()
   }
 
