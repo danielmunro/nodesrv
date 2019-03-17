@@ -48,7 +48,7 @@ export const SpellMessages = {
     Success: "{target} {verb} satiated.",
   },
   Fireproof: {
-    Success: "{target} glows with a blue aura.",
+    Success: "{target} {verb} with a blue aura.",
   },
   GiantStrength: {
     Success: "{target} muscles surge with heightened power.",

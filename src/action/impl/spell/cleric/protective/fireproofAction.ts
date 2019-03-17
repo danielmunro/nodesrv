@@ -42,11 +42,17 @@ export default class FireproofAction extends Spell {
   }
 
   public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    const caster = checkedRequest.mob
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     return new ResponseMessage(
-      checkedRequest.mob,
+      caster,
       SpellMessages.Fireproof.Success,
-      { target })
+      {
+        target: target === caster ? "you" : target,
+        verb: target === caster ? "glow" : "glows",
+      },
+      { target: "you", verb: "glow" },
+      { target, verb: "glows" })
   }
 
   /* istanbul ignore next */
