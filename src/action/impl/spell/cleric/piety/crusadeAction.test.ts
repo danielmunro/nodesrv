@@ -2,7 +2,7 @@ import {AffectType} from "../../../../../affect/affectType"
 import {Round} from "../../../../../mob/fight/round"
 import {RequestType} from "../../../../../request/requestType"
 import {SpellType} from "../../../../../spell/spellType"
-import doNTimes, {getSuccessfulAction} from "../../../../../support/functional/times"
+import doNTimes from "../../../../../support/functional/times"
 import PlayerBuilder from "../../../../../test/playerBuilder"
 import TestBuilder from "../../../../../test/testBuilder"
 
@@ -40,8 +40,7 @@ describe("crusade spell action", () => {
 
   it("when successful, imparts the crusade affect type", async () => {
     // when
-    await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
+    await testBuilder.successfulAction(
       testBuilder.createRequest(RequestType.Cast, "cast crusade", playerBuilder.getMob()))
 
     // then
@@ -50,8 +49,7 @@ describe("crusade spell action", () => {
 
   it("generates accurate success message casting on self", async () => {
     // when
-    const response = await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
+    const response = await testBuilder.successfulAction(
       testBuilder.createRequest(RequestType.Cast, "cast crusade", playerBuilder.getMob()))
 
     // then
@@ -65,8 +63,7 @@ describe("crusade spell action", () => {
     const target = testBuilder.withMob()
 
     // when
-    const response = await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
+    const response = await testBuilder.successfulAction(
       testBuilder.createRequest(RequestType.Cast, `cast crusade ${target.mob}`, target.mob))
 
     // then

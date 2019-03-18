@@ -13,12 +13,20 @@ bless                   NA
 level 7
 cure serious            NA
 
+level 8
+fireproof               NA
+
 level 10
 tower of iron will      NA
 
 level 13
 cure poison             NA
 remove curse            NA
+
+level 15
+protection good         NA
+protection evil         NA
+protection neutral      NA
 
 level 18
 cancellation            NA

@@ -26,6 +26,7 @@ import Email from "../session/auth/login/email"
 import Session from "../session/session"
 import {SkillType} from "../skill/skillType"
 import {SpellType} from "../spell/spellType"
+import {getSuccessfulAction} from "../support/functional/times"
 import {getTestMob} from "./mob"
 import MobBuilder from "./mobBuilder"
 import {getTestPlayer} from "./player"
@@ -161,6 +162,12 @@ export default class TestBuilder {
   public async createRequestBuilder() {
     const service = await this.getService()
     return new RequestBuilder(service.getActions(), service.mobService.locationService, this.mobForRequest, this.room)
+  }
+
+  public async successfulAction(request: Request) {
+    return getSuccessfulAction(
+      await this.getAction(request.getType()),
+      request)
   }
 
   public async handleAction(requestType: RequestType, input?: string, target?: Mob): Promise<Response> {
