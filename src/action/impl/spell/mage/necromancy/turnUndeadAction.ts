@@ -18,7 +18,6 @@ import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
 import Spell from "../../../../spell"
 
-// todo: trigger fight with undead owner?
 export default class TurnUndeadAction extends Spell {
   constructor(
     checkBuilderFactory: CheckBuilderFactory,

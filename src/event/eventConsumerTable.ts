@@ -3,6 +3,7 @@ import Move from "../action/move"
 import CrusadeEventConsumer from "../affect/eventConsumer/crusadeEventConsumer"
 import DamageSourceEventConsumer from "../affect/eventConsumer/damageSourceEventConsumer"
 import HasteEventConsumer from "../affect/eventConsumer/hasteEventConsumer"
+import ProtectionEventConsumer from "../affect/eventConsumer/protectionEventConsumer"
 import SanctuaryEventConsumer from "../affect/eventConsumer/sanctuaryEventConsumer"
 import Disconnected from "../client/eventConsumer/disconnected"
 import LoggedIn from "../client/eventConsumer/loggedIn"
@@ -52,6 +53,7 @@ export default async function createEventConsumerTable(
     new CrusadeEventConsumer(),
     new HasteEventConsumer(),
     new DamageSourceEventConsumer(),
+    new ProtectionEventConsumer(),
 
     // mob
     new AggressiveMob(mobService, locationService, fightBuilder),

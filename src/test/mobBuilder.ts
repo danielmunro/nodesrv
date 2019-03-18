@@ -35,7 +35,11 @@ export default class MobBuilder {
 
   public withRace(race: Race) {
     this.mob.race = race
+    return this
+  }
 
+  public setAlignment(amount: number): MobBuilder {
+    this.mob.alignment = amount
     return this
   }
 
