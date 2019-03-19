@@ -1,62 +1,43 @@
 import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
-import CheckedRequest from "../../../../../check/checkedRequest"
+import CheckBuilderFactory from "../../../../../check/checkBuilderFactory"
 import {CheckType} from "../../../../../check/checkType"
-import Cost from "../../../../../check/cost/cost"
 import DelayCost from "../../../../../check/cost/delayCost"
 import ManaCost from "../../../../../check/cost/manaCost"
-import {Mob} from "../../../../../mob/model/mob"
+import EventService from "../../../../../event/eventService"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
-import Spell from "../../../../spell"
+import AffectSpell from "../../affectSpell"
 
-export default class FireproofAction extends Spell {
-  public applySpell(checkedRequest: CheckedRequest): void {
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) as Mob
-    target.addAffect(new AffectBuilder(AffectType.Fireproof)
-      .setLevel(checkedRequest.mob.level)
-      .setTimeout(checkedRequest.mob.level / 8)
-      .build())
-  }
-
-  public getAffectType(): AffectType {
-    return AffectType.Fireproof
-  }
-
-  public getSpellType(): SpellType {
-    return SpellType.Fireproof
-  }
-
-  public getActionType(): ActionType {
-    return ActionType.Defensive
-  }
-
-  public getCosts(): Cost[] {
-    return [
+export default function(checkBuilderFactory: CheckBuilderFactory, eventService: EventService) {
+  return new AffectSpell(
+    checkBuilderFactory,
+    eventService,
+    SpellType.Fireproof,
+    ActionType.Defensive,
+    [
       new ManaCost(10),
       new DelayCost(1),
-    ]
-  }
-
-  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    const caster = checkedRequest.mob
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    return new ResponseMessage(
-      caster,
-      SpellMessages.Fireproof.Success,
-      {
-        target: target === caster ? "you" : target,
-        verb: target === caster ? "glow" : "glows",
-      },
-      { target: "you", verb: "glow" },
-      { target, verb: "glows" })
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
-  }
+    ],
+    checkedRequest => {
+      const caster = checkedRequest.mob
+      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+      return new ResponseMessage(
+        caster,
+        SpellMessages.Fireproof.Success,
+        {
+          target: target === caster ? "you" : target,
+          verb: target === caster ? "glow" : "glows",
+        },
+        { target: "you", verb: "glow" },
+        { target, verb: "glows" })
+    },
+    checkedRequest => new AffectBuilder(AffectType.Fireproof)
+      .setLevel(checkedRequest.mob.level)
+      .setTimeout(checkedRequest.mob.level / 8)
+      .build(),
+    Messages.Help.NoActionHelpTextProvided)
 }

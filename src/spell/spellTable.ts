@@ -7,7 +7,7 @@ import HealAction from "../action/impl/spell/cleric/healing/healAction"
 import blessAction from "../action/impl/spell/cleric/piety/blessAction"
 import crusadeAction from "../action/impl/spell/cleric/piety/crusadeAction"
 import CancellationAction from "../action/impl/spell/cleric/protective/cancellationAction"
-import FireproofAction from "../action/impl/spell/cleric/protective/fireproofAction"
+import fireproofAction from "../action/impl/spell/cleric/protective/fireproofAction"
 import ProtectionEvilAction from "../action/impl/spell/cleric/protective/protectionEvilAction"
 import ProtectionGoodAction from "../action/impl/spell/cleric/protective/protectionGoodAction"
 import ProtectionNeutralAction from "../action/impl/spell/cleric/protective/protectionNeutralAction"
@@ -68,7 +68,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     new ProtectionGoodAction(checkBuilderFactory, eventService),
     new ProtectionEvilAction(checkBuilderFactory, eventService),
     new ProtectionNeutralAction(checkBuilderFactory, eventService),
-    new FireproofAction(checkBuilderFactory, eventService),
+    fireproofAction(checkBuilderFactory, eventService),
 
     // illusion
     new InvisibilityAction(checkBuilderFactory, eventService),
