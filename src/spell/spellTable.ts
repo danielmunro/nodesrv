@@ -4,7 +4,7 @@ import RemoveCurseAction from "../action/impl/spell/cleric/curative/removeCurseA
 import CureLightAction from "../action/impl/spell/cleric/healing/cureLightAction"
 import CureSeriousAction from "../action/impl/spell/cleric/healing/cureSeriousAction"
 import HealAction from "../action/impl/spell/cleric/healing/healAction"
-import BlessAction from "../action/impl/spell/cleric/piety/blessAction"
+import blessAction from "../action/impl/spell/cleric/piety/blessAction"
 import CrusadeAction from "../action/impl/spell/cleric/piety/crusadeAction"
 import CancellationAction from "../action/impl/spell/cleric/protective/cancellationAction"
 import FireproofAction from "../action/impl/spell/cleric/protective/fireproofAction"
@@ -77,7 +77,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     new DetectInvisibleAction(checkBuilderFactory, eventService),
 
     // piety
-    new BlessAction(checkBuilderFactory, eventService),
+    blessAction(checkBuilderFactory, eventService),
     new CrusadeAction(checkBuilderFactory, eventService),
 
     // necromancy
