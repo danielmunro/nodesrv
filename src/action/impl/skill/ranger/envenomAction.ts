@@ -8,6 +8,8 @@ import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import {DamageType} from "../../../../damage/damageType"
 import {Equipment} from "../../../../item/equipment"
+import {Item} from "../../../../item/model/item"
+import Weapon from "../../../../item/model/weapon"
 import roll from "../../../../random/dice"
 import {Request} from "../../../../request/request"
 import {RequestType} from "../../../../request/requestType"
@@ -22,15 +24,17 @@ import Skill from "../../../skill"
 export default class EnvenomAction extends Skill {
   public check(request: Request): Promise<Check> {
     const item = request.findItemInSessionMobInventory()
-    return this.checkBuilderFactory.createCheckTemplate(request)
+    return this.abilityService.createCheckTemplate(request)
       .perform(this)
       .require(
         item,
         PreconditionMessages.All.NoItem,
         CheckType.HasItem)
       .capture(item)
-      .require(captured => captured.equipment === Equipment.Weapon, SkillMessages.Envenom.Error.NotAWeapon)
-      .require(captured => captured.damageType === DamageType.Slash || captured.damageType === DamageType.Pierce,
+      .require((captured: Item) =>
+        captured.equipment === Equipment.Weapon, SkillMessages.Envenom.Error.NotAWeapon)
+      .require((captured: Weapon) =>
+        captured.damageType === DamageType.Slash || captured.damageType === DamageType.Pierce,
         SkillMessages.Envenom.Error.WrongWeaponType)
       .create()
   }

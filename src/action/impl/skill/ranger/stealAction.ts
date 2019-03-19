@@ -1,12 +1,10 @@
 import Check from "../../../../check/check"
-import CheckBuilderFactory from "../../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../../check/checkedRequest"
 import {CheckType} from "../../../../check/checkType"
 import {CheckMessages} from "../../../../check/constants"
 import Cost from "../../../../check/cost/cost"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
-import EventService from "../../../../event/eventService"
 import {EventType} from "../../../../event/eventType"
 import MobEvent from "../../../../mob/event/mobEvent"
 import {Mob} from "../../../../mob/model/mob"
@@ -23,12 +21,8 @@ import {ActionType} from "../../../enum/actionType"
 import Skill from "../../../skill"
 
 export default class StealAction extends Skill {
-  constructor(checkBuilderFactory: CheckBuilderFactory, eventService: EventService) {
-    super(checkBuilderFactory, eventService)
-  }
-
   public check(request: Request): Promise<Check> {
-    return this.checkBuilderFactory.createCheckTemplate(request)
+    return this.abilityService.createCheckTemplate(request)
       .perform(this)
       .not().requireFight(ConditionMessages.All.Fighting)
       .requireMobInRoom(CheckMessages.NoMob)
@@ -103,7 +97,7 @@ export default class StealAction extends Skill {
   }
 
   private async startFight(checkedRequest: CheckedRequest) {
-    await this.eventService.publish(
+    await this.abilityService.publishEvent(
       new MobEvent(EventType.Attack, checkedRequest.mob, checkedRequest.getCheckTypeResult(CheckType.HasTarget)))
   }
 }

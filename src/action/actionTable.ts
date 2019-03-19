@@ -1,3 +1,4 @@
+import AbilityService from "../check/abilityService"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
 import SocialService from "../gameService/socialService"
@@ -86,6 +87,7 @@ export default function getActionTable(
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const lookAction = new LookAction(locationService, itemService, timeService)
   const socialService = new SocialService(checkBuilderFactory, eventService)
+  const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
     // moving
     new NorthAction(checkBuilderFactory, locationService, lookAction),
@@ -132,21 +134,21 @@ export default function getActionTable(
     new KillAction(checkBuilderFactory, eventService),
     new HitAction(checkBuilderFactory, eventService),
     new FleeAction(checkBuilderFactory, mobService, locationService),
-    new HamstringAction(checkBuilderFactory, eventService),
+    new HamstringAction(abilityService),
     new BountyAction(checkBuilderFactory),
 
     // skills
-    new BackstabAction(checkBuilderFactory, eventService),
-    new BashAction(checkBuilderFactory, eventService),
-    new BerserkAction(checkBuilderFactory, eventService),
-    new DirtKickAction(checkBuilderFactory, eventService),
-    new DisarmAction(checkBuilderFactory, eventService),
-    new TripAction(checkBuilderFactory, eventService),
-    new EnvenomAction(checkBuilderFactory, eventService),
-    new SharpenAction(checkBuilderFactory, eventService),
-    new SneakAction(checkBuilderFactory, eventService),
-    new StealAction(checkBuilderFactory, eventService),
-    new ShieldBashAction(checkBuilderFactory, eventService),
+    new BackstabAction(abilityService),
+    new BashAction(abilityService),
+    new BerserkAction(abilityService),
+    new DirtKickAction(abilityService),
+    new DisarmAction(abilityService),
+    new TripAction(abilityService),
+    new EnvenomAction(abilityService),
+    new SharpenAction(abilityService),
+    new SneakAction(abilityService),
+    new StealAction(abilityService),
+    new ShieldBashAction(abilityService),
 
     // casting
     new CastAction(checkBuilderFactory, spellTable),

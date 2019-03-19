@@ -1,9 +1,6 @@
-import CheckBuilderFactory from "../../../check/checkBuilderFactory"
+import AbilityService from "../../../check/abilityService"
 import CheckedRequest from "../../../check/checkedRequest"
 import Cost from "../../../check/cost/cost"
-import EventService from "../../../event/eventService"
-import SpecializationLevel from "../../../mob/specialization/specializationLevel"
-import {SpecializationType} from "../../../mob/specialization/specializationType"
 import {RequestType} from "../../../request/requestType"
 import ResponseMessage from "../../../request/responseMessage"
 import {SkillType} from "../../../skill/skillType"
@@ -14,10 +11,9 @@ import Skill from "../../skill"
 
 export default class WeaponAction extends Skill {
   constructor(
-    checkBuilderFactory: CheckBuilderFactory,
-    eventService: EventService,
+    abilityService: AbilityService,
     private readonly skillType: SkillType) {
-    super(checkBuilderFactory, eventService)
+    super(abilityService)
   }
 
   public roll(): boolean {
@@ -38,10 +34,6 @@ export default class WeaponAction extends Skill {
 
   public getActionType(): ActionType {
     return ActionType.Neutral
-  }
-
-  public getSpecializationLevel(specializationType: SpecializationType): SpecializationLevel {
-    return new SpecializationLevel(specializationType, 1)
   }
 
   public getCosts(): Cost[] {

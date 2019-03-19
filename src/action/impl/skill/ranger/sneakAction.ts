@@ -20,7 +20,7 @@ import Skill from "../../../skill"
 
 export default class SneakAction extends Skill {
   public check(request: Request): Promise<Check> {
-    return this.checkBuilderFactory.createCheckTemplate(request)
+    return this.abilityService.createCheckTemplate(request)
       .perform(this)
       .not().requireFight(PreconditionMessages.All.Fighting)
       .create()

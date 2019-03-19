@@ -28,7 +28,7 @@ export default class SharpenAction extends Skill {
   public check(request: Request): Promise<Check> {
     const item = collectionSearch(request.mob.inventory.items, request.getSubject())
 
-    return this.checkBuilderFactory.createCheckTemplate(request)
+    return this.abilityService.createCheckTemplate(request)
       .perform(this)
       .not().requireFight(PreconditionMessages.All.Fighting)
       .require(item, PreconditionMessages.All.NoItem, CheckType.HasItem)

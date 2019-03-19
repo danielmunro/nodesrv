@@ -21,7 +21,7 @@ import Skill from "../../../skill"
 export default class DisarmAction extends Skill {
   /* tslint:disable */
   public async check(request: Request): Promise<Check> {
-    return this.checkBuilderFactory.createCheckTemplate(request)
+    return this.abilityService.createCheckTemplate(request)
       .perform(this)
       .require(
         (mob: Mob, target: Mob) => target.equipped.find((i: Item) => i.equipment === Equipment.Weapon),
