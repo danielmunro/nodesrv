@@ -2,11 +2,10 @@ import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
 import AttributeBuilder from "../../../../../attributes/attributeBuilder"
 import {newHitroll} from "../../../../../attributes/factory"
-import CheckBuilderFactory from "../../../../../check/checkBuilderFactory"
+import AbilityService from "../../../../../check/abilityService"
 import {CheckType} from "../../../../../check/checkType"
 import DelayCost from "../../../../../check/cost/delayCost"
 import ManaCost from "../../../../../check/cost/manaCost"
-import EventService from "../../../../../event/eventService"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
@@ -14,10 +13,9 @@ import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
 import AffectSpell from "../../affectSpell"
 
-export default function(checkBuilderFactory: CheckBuilderFactory, eventService: EventService) {
+export default function(abilityService: AbilityService) {
   return new AffectSpell(
-    checkBuilderFactory,
-    eventService,
+    abilityService,
     SpellType.Crusade,
     ActionType.Defensive,
     [

@@ -1,11 +1,10 @@
 import AttributeBuilder from "../../../../../attributes/attributeBuilder"
 import {newHitroll, newVitals} from "../../../../../attributes/factory"
-import CheckBuilderFactory from "../../../../../check/checkBuilderFactory"
+import AbilityService from "../../../../../check/abilityService"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import Cost from "../../../../../check/cost/cost"
 import DelayCost from "../../../../../check/cost/delayCost"
 import ManaCost from "../../../../../check/cost/manaCost"
-import EventService from "../../../../../event/eventService"
 import MobService from "../../../../../mob/mobService"
 import {Mob} from "../../../../../mob/model/mob"
 import {Race} from "../../../../../mob/race/race"
@@ -41,17 +40,16 @@ export default class SummonUndeadAction extends Spell {
   }
 
   constructor(
-    checkBuilderFactory: CheckBuilderFactory,
-    eventService: EventService,
+    abilityService: AbilityService,
     private readonly mobService: MobService) {
-    super(checkBuilderFactory, eventService)
+    super(abilityService)
   }
 
   public async applySpell(checkedRequest: CheckedRequest): Promise<void> {
     this.mobService.add(
       SummonUndeadAction.createSkeletalWarrior(
         checkedRequest.mob,
-        await this.mobService.createMobFromId(SKELETAL_WARRIOR_ID)),
+        await this.mobService.createMobFromId(SKELETAL_WARRIOR_ID) as Mob),
       checkedRequest.room)
   }
 

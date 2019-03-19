@@ -1,11 +1,10 @@
 import AffectBuilder from "../affect/affectBuilder"
 import {AffectType} from "../affect/affectType"
+import AbilityService from "../check/abilityService"
 import Check from "../check/check"
-import CheckBuilderFactory from "../check/checkBuilderFactory"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckType} from "../check/checkType"
 import Cost from "../check/cost/cost"
-import EventService from "../event/eventService"
 import roll from "../random/dice"
 import {Request} from "../request/request"
 import {RequestType} from "../request/requestType"
@@ -20,15 +19,13 @@ import {ActionPart} from "./enum/actionPart"
 import {ActionType} from "./enum/actionType"
 
 export default abstract class Spell extends Action {
-  constructor(
-    protected readonly checkBuilderFactory: CheckBuilderFactory,
-    protected readonly eventService: EventService) {
+  constructor(protected readonly abilityService: AbilityService) {
     super()
   }
 
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
     if (!this.roll(checkedRequest)) {
-      await this.eventService.publish(
+      await this.abilityService.publishEvent(
         new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSpell), checkedRequest.mob, false))
       return checkedRequest.responseWithMessage(
         ResponseStatus.ActionFailed,
@@ -36,7 +33,7 @@ export default abstract class Spell extends Action {
     }
 
     this.applySpell(checkedRequest)
-    await this.eventService.publish(
+    await this.abilityService.publishEvent(
       new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSpell), checkedRequest.mob, true))
 
     return checkedRequest.responseWithMessage(
@@ -50,7 +47,7 @@ export default abstract class Spell extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    return this.checkBuilderFactory.createCheckTemplate(request)
+    return this.abilityService.createCheckTemplate(request)
       .cast(this)
       .capture(this)
       .create()

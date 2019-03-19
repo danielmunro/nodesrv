@@ -29,63 +29,65 @@ import DrawLifeAction from "../action/impl/spell/mage/necromancy/drawLifeAction"
 import SummonUndeadAction from "../action/impl/spell/mage/necromancy/summonUndeadAction"
 import TurnUndeadAction from "../action/impl/spell/mage/necromancy/turnUndeadAction"
 import Spell from "../action/spell"
+import AbilityService from "../check/abilityService"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
 import MobService from "../mob/mobService"
 
 export default function getSpellTable(mobService: MobService, eventService: EventService): Spell[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
+  const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
     // maladictions
-    new BlindAction(checkBuilderFactory, eventService),
-    new CurseAction(checkBuilderFactory, eventService),
-    new PoisonAction(checkBuilderFactory, eventService),
-    new WrathAction(checkBuilderFactory, eventService),
+    new BlindAction(abilityService),
+    new CurseAction(abilityService),
+    new PoisonAction(abilityService),
+    new WrathAction(abilityService),
 
     // healing
-    new CureLightAction(checkBuilderFactory, eventService),
-    new CureSeriousAction(checkBuilderFactory, eventService),
-    new HealAction(checkBuilderFactory, eventService),
+    new CureLightAction(abilityService),
+    new CureSeriousAction(abilityService),
+    new HealAction(abilityService),
 
     // curative
-    new CurePoisonAction(checkBuilderFactory, eventService),
-    new RemoveCurseAction(checkBuilderFactory, eventService),
-    new FeastAction(checkBuilderFactory, eventService),
+    new CurePoisonAction(abilityService),
+    new RemoveCurseAction(abilityService),
+    new FeastAction(abilityService),
 
     // enhancements
-    new GiantStrengthAction(checkBuilderFactory, eventService),
-    new HasteAction(checkBuilderFactory, eventService),
+    new GiantStrengthAction(abilityService),
+    new HasteAction(abilityService),
 
     // attack
-    new MagicMissileAction(checkBuilderFactory, eventService),
-    new LightningBoltAction(checkBuilderFactory, eventService),
+    new MagicMissileAction(abilityService),
+    new LightningBoltAction(abilityService),
 
     // protective
-    new ShieldAction(checkBuilderFactory, eventService),
-    new StoneSkinAction(checkBuilderFactory, eventService),
-    new CancellationAction(checkBuilderFactory, eventService),
-    new SanctuaryAction(checkBuilderFactory, eventService),
-    new ProtectionGoodAction(checkBuilderFactory, eventService),
-    new ProtectionEvilAction(checkBuilderFactory, eventService),
-    new ProtectionNeutralAction(checkBuilderFactory, eventService),
-    fireproofAction(checkBuilderFactory, eventService),
+    new ShieldAction(abilityService),
+    new StoneSkinAction(abilityService),
+    new CancellationAction(abilityService),
+    new SanctuaryAction(abilityService),
+    new ProtectionGoodAction(abilityService),
+    new ProtectionEvilAction(abilityService),
+    new ProtectionNeutralAction(abilityService),
+    fireproofAction(abilityService),
 
     // illusion
-    new InvisibilityAction(checkBuilderFactory, eventService),
+    new InvisibilityAction(abilityService),
 
     // detection
-    new DetectInvisibleAction(checkBuilderFactory, eventService),
+    new DetectInvisibleAction(abilityService),
 
     // piety
-    blessAction(checkBuilderFactory, eventService),
-    crusadeAction(checkBuilderFactory, eventService),
+    blessAction(abilityService),
+    crusadeAction(abilityService),
 
     // necromancy
-    new SummonUndeadAction(checkBuilderFactory, eventService, mobService),
-    new TurnUndeadAction(checkBuilderFactory, eventService, mobService),
-    new DrawLifeAction(checkBuilderFactory, eventService),
+    new SummonUndeadAction(abilityService, mobService),
+    new TurnUndeadAction(abilityService, mobService),
+    new DrawLifeAction(abilityService),
 
     // psionics
-    new TowerOfIronWillAction(checkBuilderFactory, eventService),
+    new TowerOfIronWillAction(abilityService),
   ]
 }

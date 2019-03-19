@@ -16,7 +16,7 @@ import Spell from "../../../../spell"
 
 export default class RemoveCurseAction extends Spell {
   public check(request: Request): Promise<Check> {
-    return this.checkBuilderFactory.createCheckTemplate(request)
+    return this.abilityService.createCheckTemplate(request)
       .cast(this)
       .requireAffect(AffectType.Curse, SpellMessages.RemoveCurse.RequiresAffect)
       .create()

@@ -1,9 +1,8 @@
-import CheckBuilderFactory from "../../../../../check/checkBuilderFactory"
+import AbilityService from "../../../../../check/abilityService"
 import CheckedRequest from "../../../../../check/checkedRequest"
 import Cost from "../../../../../check/cost/cost"
 import DelayCost from "../../../../../check/cost/delayCost"
 import ManaCost from "../../../../../check/cost/manaCost"
-import EventService from "../../../../../event/eventService"
 import {Disposition} from "../../../../../mob/enum/disposition"
 import MobService from "../../../../../mob/mobService"
 import {Mob} from "../../../../../mob/model/mob"
@@ -20,10 +19,9 @@ import Spell from "../../../../spell"
 
 export default class TurnUndeadAction extends Spell {
   constructor(
-    checkBuilderFactory: CheckBuilderFactory,
-    eventService: EventService,
+    abilityService: AbilityService,
     private readonly mobService: MobService) {
-    super(checkBuilderFactory, eventService)
+    super(abilityService)
   }
 
   public applySpell(checkedRequest: CheckedRequest): void {
@@ -61,7 +59,7 @@ export default class TurnUndeadAction extends Spell {
 
   private async turn(room: Room, target: Mob) {
     target.disposition = Disposition.Dead
-    await this.eventService.publish(new RoomMessageEvent(
+    await this.abilityService.publishEvent(new RoomMessageEvent(
       room,
       new ResponseMessage(
         target,
