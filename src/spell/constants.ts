@@ -100,6 +100,9 @@ export const SpellMessages = {
     MobTurned: "{target} crumples into dust.",
     Success: "a flash of light pulses through the room.",
   },
+  WithstandDeath: {
+    Success: "{target} {verb} more powerful than death.",
+  },
   Wrath: {
     Success: "{target} {verb} surrounded by wrathful energy.",
   },

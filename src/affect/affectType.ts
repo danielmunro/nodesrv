@@ -51,6 +51,7 @@ export enum AffectType {
   TowerOfIronWill = "tower of iron will",
   Warped = "warped",
   WearTimer = "wear timer",
+  WithstandDeath = "withstand death",
   Wrath = "wrath",
 
   // testing

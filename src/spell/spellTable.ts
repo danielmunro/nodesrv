@@ -28,6 +28,7 @@ import WrathAction from "../action/impl/spell/mage/maladiction/wrathAction"
 import DrawLifeAction from "../action/impl/spell/mage/necromancy/drawLifeAction"
 import SummonUndeadAction from "../action/impl/spell/mage/necromancy/summonUndeadAction"
 import TurnUndeadAction from "../action/impl/spell/mage/necromancy/turnUndeadAction"
+import withstandDeathAction from "../action/impl/spell/mage/necromancy/withstandDeathAction"
 import Spell from "../action/spell"
 import AbilityService from "../check/abilityService"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
@@ -86,6 +87,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     new SummonUndeadAction(abilityService, mobService),
     new TurnUndeadAction(abilityService, mobService),
     new DrawLifeAction(abilityService),
+    withstandDeathAction(abilityService),
 
     // psionics
     new TowerOfIronWillAction(abilityService),
