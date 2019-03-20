@@ -38,6 +38,7 @@ import ImproveInvokedSkillsEventConsumer from "../skill/eventConsumer/improveInv
 import SecondAttackEventConsumer from "../skill/eventConsumer/secondAttackEventConsumer"
 import {SkillType} from "../skill/skillType"
 import EventConsumer from "./eventConsumer"
+import WithstandDeathEventConsumer from "../affect/eventConsumer/withstandDeathEventConsumer"
 
 export default async function createEventConsumerTable(
   gameService: GameService,
@@ -54,6 +55,7 @@ export default async function createEventConsumerTable(
     new HasteEventConsumer(),
     new DamageSourceEventConsumer(),
     new ProtectionEventConsumer(),
+    new WithstandDeathEventConsumer(),
 
     // mob
     new AggressiveMob(mobService, locationService, fightBuilder),

@@ -27,14 +27,10 @@ export class Fight {
       attacker.affects.map(a => a.affectType),
       Trigger.DamageModifier,
       damage)
-
     damage = applyAffectModifier(
       defender.affects.map(a => a.affectType),
       Trigger.DamageAbsorption,
       damage)
-
-    defender.vitals.hp -= damage
-
     return damage
   }
 
@@ -106,6 +102,7 @@ export class Fight {
     const response = await this.eventService.publish(
       new DamageEvent(defender, initialDamageCalculation, DamageType.Slash, attacker))
     const event = response.event as DamageEvent
+    defender.vitals.hp -= event.amount
 
     return new Attack(
       attacker,

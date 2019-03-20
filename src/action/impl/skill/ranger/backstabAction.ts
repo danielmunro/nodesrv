@@ -18,7 +18,7 @@ export default class BackstabAction extends Skill {
   public applySkill(checkedRequest: CheckedRequest): void {
     const mob = checkedRequest.mob
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    Fight.oneHit(mob, target)
+    target.vitals.hp -= Fight.oneHit(mob, target)
   }
 
   public roll(checkedRequest: CheckedRequest): boolean {
