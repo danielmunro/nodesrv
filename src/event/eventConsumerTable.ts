@@ -5,6 +5,7 @@ import DamageSourceEventConsumer from "../affect/eventConsumer/damageSourceEvent
 import HasteEventConsumer from "../affect/eventConsumer/hasteEventConsumer"
 import ProtectionEventConsumer from "../affect/eventConsumer/protectionEventConsumer"
 import SanctuaryEventConsumer from "../affect/eventConsumer/sanctuaryEventConsumer"
+import WithstandDeathEventConsumer from "../affect/eventConsumer/withstandDeathEventConsumer"
 import Disconnected from "../client/eventConsumer/disconnected"
 import LoggedIn from "../client/eventConsumer/loggedIn"
 import Quit from "../client/eventConsumer/quit"
@@ -38,7 +39,6 @@ import ImproveInvokedSkillsEventConsumer from "../skill/eventConsumer/improveInv
 import SecondAttackEventConsumer from "../skill/eventConsumer/secondAttackEventConsumer"
 import {SkillType} from "../skill/skillType"
 import EventConsumer from "./eventConsumer"
-import WithstandDeathEventConsumer from "../affect/eventConsumer/withstandDeathEventConsumer"
 
 export default async function createEventConsumerTable(
   gameService: GameService,

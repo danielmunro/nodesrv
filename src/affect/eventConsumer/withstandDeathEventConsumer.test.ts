@@ -1,9 +1,9 @@
-import WithstandDeathEventConsumer from "./withstandDeathEventConsumer"
-import TestBuilder from "../../test/testBuilder"
-import {newAffect} from "../factory"
-import {AffectType} from "../affectType"
-import DamageEvent from "../../mob/event/damageEvent"
 import {DamageType} from "../../damage/damageType"
+import DamageEvent from "../../mob/event/damageEvent"
+import TestBuilder from "../../test/testBuilder"
+import {AffectType} from "../affectType"
+import {newAffect} from "../factory"
+import WithstandDeathEventConsumer from "./withstandDeathEventConsumer"
 
 const AMOUNT = 10
 

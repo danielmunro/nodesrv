@@ -1,7 +1,7 @@
 import EventConsumer from "../../event/eventConsumer"
+import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import DamageEvent from "../../mob/event/damageEvent"
-import EventResponse from "../../event/eventResponse"
 import {AffectType} from "../affectType"
 
 export default class WithstandDeathEventConsumer implements EventConsumer {
