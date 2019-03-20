@@ -9,20 +9,19 @@ import ManaCost from "../../../../../check/cost/manaCost"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
-import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
-import AffectSpell from "../../affectSpell"
+import Spell from "../../../../spell"
+import AffectSpellBuilder from "../../affectSpellBuilder"
 
-export default function(abilityService: AbilityService) {
-  return new AffectSpell(
-    abilityService,
-    SpellType.Bless,
-    ActionType.Defensive,
-    [
+export default function(abilityService: AbilityService): Spell {
+  return new AffectSpellBuilder(abilityService)
+    .setSpellType(SpellType.Bless)
+    .setActionType(ActionType.Defensive)
+    .setCosts([
       new ManaCost(10),
       new DelayCost(1),
-    ],
-    checkedRequest => {
+    ])
+    .setSuccessMessage(checkedRequest => {
       const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
       return new ResponseMessage(
         checkedRequest.mob,
@@ -33,13 +32,13 @@ export default function(abilityService: AbilityService) {
         },
         { target: "you", verb: "feel" },
         { target, verb: "feels" })
-    },
-    checkedRequest => new AffectBuilder(AffectType.Bless)
+    })
+    .setCreateAffect(checkedRequest => new AffectBuilder(AffectType.Bless)
       .setTimeout(checkedRequest.mob.level)
       .setLevel(checkedRequest.mob.level)
       .setAttributes(new AttributeBuilder()
         .setHitRoll(newHitroll(1, checkedRequest.mob.level / 8))
         .build())
-      .build(),
-    Messages.Help.NoActionHelpTextProvided)
+      .build())
+    .create()
 }

@@ -8,13 +8,13 @@ import blessAction from "../action/impl/spell/cleric/piety/blessAction"
 import crusadeAction from "../action/impl/spell/cleric/piety/crusadeAction"
 import CancellationAction from "../action/impl/spell/cleric/protective/cancellationAction"
 import fireproofAction from "../action/impl/spell/cleric/protective/fireproofAction"
-import ProtectionEvilAction from "../action/impl/spell/cleric/protective/protectionEvilAction"
-import ProtectionGoodAction from "../action/impl/spell/cleric/protective/protectionGoodAction"
-import ProtectionNeutralAction from "../action/impl/spell/cleric/protective/protectionNeutralAction"
-import SanctuaryAction from "../action/impl/spell/cleric/protective/sanctuaryAction"
-import ShieldAction from "../action/impl/spell/cleric/protective/shieldAction"
-import StoneSkinAction from "../action/impl/spell/cleric/protective/stoneSkinAction"
-import TowerOfIronWillAction from "../action/impl/spell/cleric/psionics/towerOfIronWillAction"
+import protectionEvilAction from "../action/impl/spell/cleric/protective/protectionEvilAction"
+import protectionGoodAction from "../action/impl/spell/cleric/protective/protectionGoodAction"
+import protectionNeutralAction from "../action/impl/spell/cleric/protective/protectionNeutralAction"
+import sanctuaryAction from "../action/impl/spell/cleric/protective/sanctuaryAction"
+import shieldAction from "../action/impl/spell/cleric/protective/shieldAction"
+import stoneSkinAction from "../action/impl/spell/cleric/protective/stoneSkinAction"
+import towerOfIronWillAction from "../action/impl/spell/cleric/psionics/towerOfIronWillAction"
 import LightningBoltAction from "../action/impl/spell/mage/attack/lightningBoltAction"
 import MagicMissileAction from "../action/impl/spell/mage/attack/magicMissileAction"
 import DetectInvisibleAction from "../action/impl/spell/mage/detection/detectInvisibleAction"
@@ -64,13 +64,13 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     new LightningBoltAction(abilityService),
 
     // protective
-    new ShieldAction(abilityService),
-    new StoneSkinAction(abilityService),
+    shieldAction(abilityService),
+    stoneSkinAction(abilityService),
     new CancellationAction(abilityService),
-    new SanctuaryAction(abilityService),
-    new ProtectionGoodAction(abilityService),
-    new ProtectionEvilAction(abilityService),
-    new ProtectionNeutralAction(abilityService),
+    sanctuaryAction(abilityService),
+    protectionGoodAction(abilityService),
+    protectionEvilAction(abilityService),
+    protectionNeutralAction(abilityService),
     fireproofAction(abilityService),
 
     // illusion
@@ -90,6 +90,6 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     withstandDeathAction(abilityService),
 
     // psionics
-    new TowerOfIronWillAction(abilityService),
+    towerOfIronWillAction(abilityService),
   ]
 }

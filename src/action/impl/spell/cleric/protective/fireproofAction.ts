@@ -7,20 +7,19 @@ import ManaCost from "../../../../../check/cost/manaCost"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
-import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
-import AffectSpell from "../../affectSpell"
+import Spell from "../../../../spell"
+import AffectSpellBuilder from "../../affectSpellBuilder"
 
-export default function(abilityService: AbilityService) {
-  return new AffectSpell(
-    abilityService,
-    SpellType.Fireproof,
-    ActionType.Defensive,
-    [
+export default function(abilityService: AbilityService): Spell {
+  return new AffectSpellBuilder(abilityService)
+    .setSpellType(SpellType.Fireproof)
+    .setActionType(ActionType.Defensive)
+    .setCosts([
       new ManaCost(10),
       new DelayCost(1),
-    ],
-    checkedRequest => {
+    ])
+    .setSuccessMessage(checkedRequest => {
       const caster = checkedRequest.mob
       const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
       return new ResponseMessage(
@@ -32,10 +31,10 @@ export default function(abilityService: AbilityService) {
         },
         { target: "you", verb: "glow" },
         { target, verb: "glows" })
-    },
-    checkedRequest => new AffectBuilder(AffectType.Fireproof)
+    })
+    .setCreateAffect(checkedRequest => new AffectBuilder(AffectType.Fireproof)
       .setLevel(checkedRequest.mob.level)
       .setTimeout(checkedRequest.mob.level / 8)
-      .build(),
-    Messages.Help.NoActionHelpTextProvided)
+      .build())
+    .create()
 }
