@@ -22,9 +22,9 @@ import GiantStrengthAction from "../action/impl/spell/mage/enhancement/giantStre
 import HasteAction from "../action/impl/spell/mage/enhancement/hasteAction"
 import InvisibilityAction from "../action/impl/spell/mage/illusion/invisibilityAction"
 import BlindAction from "../action/impl/spell/mage/maladiction/blindAction"
-import CurseAction from "../action/impl/spell/mage/maladiction/curseAction"
-import PoisonAction from "../action/impl/spell/mage/maladiction/poisonAction"
-import WrathAction from "../action/impl/spell/mage/maladiction/wrathAction"
+import curseAction from "../action/impl/spell/mage/maladiction/curseAction"
+import poisonAction from "../action/impl/spell/mage/maladiction/poisonAction"
+import wrathAction from "../action/impl/spell/mage/maladiction/wrathAction"
 import DrawLifeAction from "../action/impl/spell/mage/necromancy/drawLifeAction"
 import SummonUndeadAction from "../action/impl/spell/mage/necromancy/summonUndeadAction"
 import TurnUndeadAction from "../action/impl/spell/mage/necromancy/turnUndeadAction"
@@ -41,9 +41,9 @@ export default function getSpellTable(mobService: MobService, eventService: Even
   return [
     // maladictions
     new BlindAction(abilityService),
-    new CurseAction(abilityService),
-    new PoisonAction(abilityService),
-    new WrathAction(abilityService),
+    curseAction(abilityService),
+    poisonAction(abilityService),
+    wrathAction(abilityService),
 
     // healing
     new CureLightAction(abilityService),
