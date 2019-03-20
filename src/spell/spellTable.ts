@@ -17,10 +17,10 @@ import stoneSkinAction from "../action/impl/spell/cleric/protective/stoneSkinAct
 import towerOfIronWillAction from "../action/impl/spell/cleric/psionics/towerOfIronWillAction"
 import LightningBoltAction from "../action/impl/spell/mage/attack/lightningBoltAction"
 import MagicMissileAction from "../action/impl/spell/mage/attack/magicMissileAction"
-import DetectInvisibleAction from "../action/impl/spell/mage/detection/detectInvisibleAction"
+import detectInvisibleAction from "../action/impl/spell/mage/detection/detectInvisibleAction"
 import GiantStrengthAction from "../action/impl/spell/mage/enhancement/giantStrengthAction"
 import HasteAction from "../action/impl/spell/mage/enhancement/hasteAction"
-import InvisibilityAction from "../action/impl/spell/mage/illusion/invisibilityAction"
+import invisibilityAction from "../action/impl/spell/mage/illusion/invisibilityAction"
 import BlindAction from "../action/impl/spell/mage/maladiction/blindAction"
 import curseAction from "../action/impl/spell/mage/maladiction/curseAction"
 import poisonAction from "../action/impl/spell/mage/maladiction/poisonAction"
@@ -74,10 +74,10 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     fireproofAction(abilityService),
 
     // illusion
-    new InvisibilityAction(abilityService),
+    invisibilityAction(abilityService),
 
     // detection
-    new DetectInvisibleAction(abilityService),
+    detectInvisibleAction(abilityService),
 
     // piety
     blessAction(abilityService),

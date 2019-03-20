@@ -1,53 +1,37 @@
+import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
-import CheckedRequest from "../../../../../check/checkedRequest"
+import AbilityService from "../../../../../check/abilityService"
 import {CheckType} from "../../../../../check/checkType"
-import Cost from "../../../../../check/cost/cost"
 import DelayCost from "../../../../../check/cost/delayCost"
 import ManaCost from "../../../../../check/cost/manaCost"
 import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
-import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
 import Spell from "../../../../spell"
+import AffectSpellBuilder from "../../affectSpellBuilder"
 
-export default class InvisibilityAction extends Spell {
-  public applySpell(checkedRequest: CheckedRequest): void {
-    this.applyAffectType(checkedRequest)
-  }
-
-  public getAffectType(): AffectType {
-    return AffectType.Invisible
-  }
-
-  public getSpellType(): SpellType {
-    return SpellType.Invisibility
-  }
-
-  public getActionType(): ActionType {
-    return ActionType.Defensive
-  }
-
-  public getCosts(): Cost[] {
-    return [
-      new ManaCost(5),
+export default function(abilityService: AbilityService): Spell {
+  return new AffectSpellBuilder(abilityService)
+    .setSpellType(SpellType.Invisibility)
+    .setActionType(ActionType.Defensive)
+    .setCosts([
+      new ManaCost(10),
       new DelayCost(1),
-    ]
-  }
-
-  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    return new ResponseMessage(
-      checkedRequest.mob,
-      SpellMessages.Invisibility.Success,
-      { target: target === checkedRequest.mob ? "you" : target,
-        verb: target === checkedRequest.mob ? "fade" : "fades" },
-      { target: "you", verb: "fade" },
-      { target, verb: "fades" })
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
-  }
+    ])
+    .setSuccessMessage(checkedRequest => {
+      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+      return new ResponseMessage(
+        checkedRequest.mob,
+        SpellMessages.Invisibility.Success,
+        { target: target === checkedRequest.mob ? "you" : target,
+          verb: target === checkedRequest.mob ? "fade" : "fades" },
+        { target: "you", verb: "fade" },
+        { target, verb: "fades" })
+    })
+    .setCreateAffect(checkedRequest => new AffectBuilder(AffectType.Invisible)
+      .setLevel(checkedRequest.mob.level)
+      .setTimeout(checkedRequest.mob.level / 2)
+      .build())
+    .create()
 }
