@@ -1,4 +1,3 @@
-import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
 import AttributeBuilder from "../../../../../attributes/attributeBuilder"
 import {newStats} from "../../../../../attributes/factory"
@@ -17,6 +16,7 @@ import AffectSpellBuilder from "../../affectSpellBuilder"
 export default function(abilityService: AbilityService): Spell {
   return new AffectSpellBuilder(abilityService)
     .setSpellType(SpellType.GiantStrength)
+    .setAffectType(AffectType.GiantStrength)
     .setActionType(ActionType.Defensive)
     .setCosts([
       new ManaCost(20),
@@ -31,13 +31,10 @@ export default function(abilityService: AbilityService): Spell {
         { target: "your" },
         { target: `${target.name}'s` })
     })
-    .setCreateAffect(checkedRequest => {
-      return new AffectBuilder(AffectType.GiantStrength)
-        .setLevel(checkedRequest.mob.level)
+    .setCreateAffect((checkedRequest, affectBuilder) => affectBuilder
         .setAttributes(new AttributeBuilder()
           .setStats(newStats(checkedRequest.mob.level / 10, 0, 0, 0, 0, 0))
           .build())
-        .build()
-    })
+        .build())
     .create()
 }

@@ -1,4 +1,3 @@
-import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
 import AbilityService from "../../../../../check/abilityService"
 import {CheckType} from "../../../../../check/checkType"
@@ -14,6 +13,7 @@ import AffectSpellBuilder from "../../affectSpellBuilder"
 export default function(abilityService: AbilityService): Spell {
   return new AffectSpellBuilder(abilityService)
     .setSpellType(SpellType.Sanctuary)
+    .setAffectType(AffectType.Sanctuary)
     .setActionType(ActionType.Defensive)
     .setCosts([
       new ManaCost(80),
@@ -31,8 +31,7 @@ export default function(abilityService: AbilityService): Spell {
         { target: "you", verb: "are" },
         { target, verb: "is" })
     })
-    .setCreateAffect(checkedRequest => new AffectBuilder(AffectType.Sanctuary)
-      .setLevel(checkedRequest.mob.level)
+    .setCreateAffect((checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level / 8)
       .build())
     .create()

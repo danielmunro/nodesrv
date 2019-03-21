@@ -1,4 +1,3 @@
-import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
 import AttributeBuilder from "../../../../../attributes/attributeBuilder"
 import {newHitroll} from "../../../../../attributes/factory"
@@ -15,6 +14,7 @@ import AffectSpellBuilder from "../../affectSpellBuilder"
 export default function(abilityService: AbilityService) {
   return new AffectSpellBuilder(abilityService)
     .setSpellType(SpellType.Crusade)
+    .setAffectType(AffectType.Crusade)
     .setActionType(ActionType.Defensive)
     .setCosts([
       new ManaCost(20),
@@ -32,9 +32,8 @@ export default function(abilityService: AbilityService) {
         { target: "you", verb: "are" },
         { target, verb: "is" })
     })
-    .setCreateAffect(checkedRequest => new AffectBuilder(AffectType.Crusade)
+    .setCreateAffect((checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level / 8)
-      .setLevel(checkedRequest.mob.level)
       .setAttributes(new AttributeBuilder()
         .setHitRoll(newHitroll(1, checkedRequest.mob.level / 8))
         .build())

@@ -1,3 +1,5 @@
+import AffectBuilder from "../../../affect/affectBuilder"
+import {AffectType} from "../../../affect/affectType"
 import {Affect} from "../../../affect/model/affect"
 import AbilityService from "../../../check/abilityService"
 import CheckedRequest from "../../../check/checkedRequest"
@@ -12,10 +14,11 @@ export default class AffectSpell extends Spell {
   constructor(
     abilityService: AbilityService,
     private readonly spellType: SpellType,
+    private readonly affectType: AffectType,
     private readonly actionType: ActionType,
     private readonly costs: Cost[],
     private readonly successMessage: (checkedRequest: CheckedRequest) => ResponseMessage,
-    private readonly createAffect: (checkedRequest: CheckedRequest) => Affect,
+    private readonly createAffect: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) => Affect,
     private readonly helpText: string) {
     super(abilityService)
   }
@@ -23,7 +26,10 @@ export default class AffectSpell extends Spell {
   public applySpell(checkedRequest: CheckedRequest): void {
     checkedRequest
       .getCheckTypeResult(CheckType.HasTarget)
-      .addAffect(this.createAffect(checkedRequest))
+      .addAffect(
+        this.createAffect(
+          checkedRequest,
+          new AffectBuilder(this.affectType).setLevel(checkedRequest.mob.level)))
   }
 
   public getActionType(): ActionType {

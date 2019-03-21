@@ -1,4 +1,3 @@
-import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
 import AbilityService from "../../../../../check/abilityService"
 import {CheckType} from "../../../../../check/checkType"
@@ -15,6 +14,7 @@ import AffectSpellBuilder from "../../affectSpellBuilder"
 export default function(abilityService: AbilityService): Spell {
   return new AffectSpellBuilder(abilityService)
     .setSpellType(SpellType.TowerOfIronWill)
+    .setAffectType(AffectType.TowerOfIronWill)
     .setActionType(ActionType.Defensive)
     .setCosts([
       new ManaCost(20),
@@ -29,8 +29,7 @@ export default function(abilityService: AbilityService): Spell {
         { target: "your" },
         { target: `${target}'s` })
     })
-    .setCreateAffect(checkedRequest => new AffectBuilder(AffectType.TowerOfIronWill)
-      .setLevel(checkedRequest.mob.level)
+    .setCreateAffect((checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level / 7)
       .setResist(new DamageSourceBuilder().enableMental().get())
       .build())

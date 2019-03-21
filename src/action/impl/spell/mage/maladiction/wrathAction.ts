@@ -1,4 +1,3 @@
-import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
 import AttributeBuilder from "../../../../../attributes/attributeBuilder"
 import {newHitroll, newStats, newVitals} from "../../../../../attributes/factory"
@@ -16,10 +15,10 @@ import AffectSpellBuilder from "../../affectSpellBuilder"
 export default function(abilityService: AbilityService): AffectSpell {
   return new AffectSpellBuilder(abilityService)
     .setSpellType(SpellType.Wrath)
+    .setAffectType(AffectType.Wrath)
     .setActionType(ActionType.Offensive)
     .setCosts([ new ManaCost(35), new DelayCost(1) ])
-    .setCreateAffect(checkedRequest => new AffectBuilder(AffectType.Wrath)
-      .setLevel(checkedRequest.mob.level)
+    .setCreateAffect((checkedRequest, affectBuilder) => affectBuilder
       .setAttributes(new AttributeBuilder()
         .setVitals(newVitals(-checkedRequest.mob.level / 10, 0, 0))
         .setStats(newStats(0, -2, -2, 0, 0, 0))

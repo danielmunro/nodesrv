@@ -1,4 +1,3 @@
-import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
 import AbilityService from "../../../../../check/abilityService"
 import {CheckType} from "../../../../../check/checkType"
@@ -14,10 +13,10 @@ import AffectSpellBuilder from "../../affectSpellBuilder"
 export default function(abilityService: AbilityService): AffectSpell {
   return new AffectSpellBuilder(abilityService)
     .setSpellType(SpellType.WithstandDeath)
+    .setAffectType(AffectType.WithstandDeath)
     .setActionType(ActionType.Defensive)
     .setCosts([ new ManaCost(80), new DelayCost(2) ])
-    .setCreateAffect(checkedRequest => new AffectBuilder(AffectType.WithstandDeath)
-      .setLevel(checkedRequest.mob.level)
+    .setCreateAffect((checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level / 8)
       .build())
     .setSuccessMessage(checkedRequest => {

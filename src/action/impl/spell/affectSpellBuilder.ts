@@ -1,3 +1,5 @@
+import AffectBuilder from "../../../affect/affectBuilder"
+import {AffectType} from "../../../affect/affectType"
 import {Affect} from "../../../affect/model/affect"
 import AbilityService from "../../../check/abilityService"
 import CheckedRequest from "../../../check/checkedRequest"
@@ -11,13 +13,20 @@ import AffectSpell from "./affectSpell"
 export default class AffectSpellBuilder {
   private helpText: string
   private actionType: ActionType
+  private affectType: AffectType
   private spellType: SpellType
   private costs: Cost[]
   private successMessage: (checkedRequest: CheckedRequest) => ResponseMessage
-  private createAffect: (checkedRequest: CheckedRequest) => Affect
+  private createAffect: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) => Affect
 
   constructor(private readonly abilityService: AbilityService) {
     this.helpText = Messages.Help.NoActionHelpTextProvided
+    this.createAffect = (_, affectBuilder) => affectBuilder.build()
+  }
+
+  public setAffectType(affectType: AffectType): AffectSpellBuilder {
+    this.affectType = affectType
+    return this
   }
 
   public setActionType(actionType: ActionType): AffectSpellBuilder {
@@ -40,7 +49,8 @@ export default class AffectSpellBuilder {
     return this
   }
 
-  public setCreateAffect(createAffect: (checkedRequest: CheckedRequest) => Affect): AffectSpellBuilder {
+  public setCreateAffect(
+    createAffect: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) => Affect): AffectSpellBuilder {
     this.createAffect = createAffect
     return this
   }
@@ -49,6 +59,7 @@ export default class AffectSpellBuilder {
     return new AffectSpell(
       this.abilityService,
       this.spellType,
+      this.affectType,
       this.actionType,
       this.costs,
       this.successMessage,

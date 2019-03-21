@@ -1,4 +1,3 @@
-import AffectBuilder from "../../../../../affect/affectBuilder"
 import {AffectType} from "../../../../../affect/affectType"
 import AttributeBuilder from "../../../../../attributes/attributeBuilder"
 import {newHitroll} from "../../../../../attributes/factory"
@@ -16,6 +15,7 @@ import AffectSpellBuilder from "../../affectSpellBuilder"
 export default function(abilityService: AbilityService): Spell {
   return new AffectSpellBuilder(abilityService)
     .setSpellType(SpellType.Bless)
+    .setAffectType(AffectType.Bless)
     .setActionType(ActionType.Defensive)
     .setCosts([
       new ManaCost(10),
@@ -33,9 +33,8 @@ export default function(abilityService: AbilityService): Spell {
         { target: "you", verb: "feel" },
         { target, verb: "feels" })
     })
-    .setCreateAffect(checkedRequest => new AffectBuilder(AffectType.Bless)
+    .setCreateAffect((checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level)
-      .setLevel(checkedRequest.mob.level)
       .setAttributes(new AttributeBuilder()
         .setHitRoll(newHitroll(1, checkedRequest.mob.level / 8))
         .build())
