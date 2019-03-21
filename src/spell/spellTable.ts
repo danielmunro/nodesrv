@@ -18,8 +18,8 @@ import towerOfIronWillAction from "../action/impl/spell/cleric/psionics/towerOfI
 import LightningBoltAction from "../action/impl/spell/mage/attack/lightningBoltAction"
 import MagicMissileAction from "../action/impl/spell/mage/attack/magicMissileAction"
 import detectInvisibleAction from "../action/impl/spell/mage/detection/detectInvisibleAction"
-import GiantStrengthAction from "../action/impl/spell/mage/enhancement/giantStrengthAction"
-import HasteAction from "../action/impl/spell/mage/enhancement/hasteAction"
+import giantStrengthAction from "../action/impl/spell/mage/enhancement/giantStrengthAction"
+import hasteAction from "../action/impl/spell/mage/enhancement/hasteAction"
 import invisibilityAction from "../action/impl/spell/mage/illusion/invisibilityAction"
 import BlindAction from "../action/impl/spell/mage/maladiction/blindAction"
 import curseAction from "../action/impl/spell/mage/maladiction/curseAction"
@@ -56,8 +56,8 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     new FeastAction(abilityService),
 
     // enhancements
-    new GiantStrengthAction(abilityService),
-    new HasteAction(abilityService),
+    giantStrengthAction(abilityService),
+    hasteAction(abilityService),
 
     // attack
     new MagicMissileAction(abilityService),
