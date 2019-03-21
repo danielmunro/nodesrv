@@ -36,6 +36,10 @@ export default class AffectSpell extends Spell {
     return this.actionType
   }
 
+  public getAffectType(): AffectType | undefined {
+    return this.affectType
+  }
+
   public getCosts(): Cost[] {
     return this.costs
   }

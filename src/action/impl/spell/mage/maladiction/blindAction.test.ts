@@ -58,25 +58,6 @@ describe("blind spell action", () => {
     expect(message.getMessageToObservers()).toBe("bob is suddenly blind!")
   })
 
-  it("generates accurate fail messages", async () => {
-    const failResponse = await doNTimesOrUntilTruthy(iterations, async () => {
-      testBuilder = new TestBuilder()
-      testBuilder
-        .withMob("alice")
-        .setLevel(20)
-        .withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL / 2)
-
-      const response = await spell.handle(
-        testBuilder.createRequest(RequestType.Cast, CAST_BLIND_BOB, testBuilder.withMob("bob").mob))
-
-      return !response.isSuccessful() ? response : null
-    })
-    const message = failResponse.message
-    expect(message.getMessageToRequestCreator()).toBe("you fail to blind bob.")
-    expect(message.getMessageToTarget()).toBe("alice failed to blind you.")
-    expect(message.getMessageToObservers()).toBe("alice failed to blind bob.")
-  })
-
   it("should error out if applied twice", async () => {
     // when
     const response = await doNTimesOrUntilTruthy(iterations, async () => {

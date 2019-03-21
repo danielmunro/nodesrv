@@ -21,7 +21,7 @@ import detectInvisibleAction from "../action/impl/spell/mage/detection/detectInv
 import giantStrengthAction from "../action/impl/spell/mage/enhancement/giantStrengthAction"
 import hasteAction from "../action/impl/spell/mage/enhancement/hasteAction"
 import invisibilityAction from "../action/impl/spell/mage/illusion/invisibilityAction"
-import BlindAction from "../action/impl/spell/mage/maladiction/blindAction"
+import blindAction from "../action/impl/spell/mage/maladiction/blindAction"
 import curseAction from "../action/impl/spell/mage/maladiction/curseAction"
 import poisonAction from "../action/impl/spell/mage/maladiction/poisonAction"
 import wrathAction from "../action/impl/spell/mage/maladiction/wrathAction"
@@ -40,7 +40,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
     // maladictions
-    new BlindAction(abilityService),
+    blindAction(abilityService),
     curseAction(abilityService),
     poisonAction(abilityService),
     wrathAction(abilityService),

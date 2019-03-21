@@ -1,4 +1,3 @@
-import AffectBuilder from "../affect/affectBuilder"
 import {AffectType} from "../affect/affectType"
 import AbilityService from "../check/abilityService"
 import Check from "../check/check"
@@ -76,12 +75,5 @@ export default abstract class Spell extends Action {
   /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ActionPart.Action, ActionPart.Spell, ActionPart.Target]
-  }
-
-  protected applyAffectType(checkedRequest: CheckedRequest) {
-    checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      .addAffect(new AffectBuilder(this.getAffectType() as AffectType)
-        .setLevel(checkedRequest.mob.level)
-        .build())
   }
 }
