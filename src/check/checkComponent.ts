@@ -1,14 +1,14 @@
 import { CheckType } from "./checkType"
 
 export default class CheckComponent {
-  public readonly isRequired
+  public readonly isRequired: boolean
 
   constructor(
     public readonly checkType: CheckType,
-    public readonly confirm,
-    private readonly thing,
-    public readonly failMessage: string = null) {
-    this.isRequired = this.failMessage !== null
+    public readonly confirm: boolean,
+    private readonly thing: any,
+    public readonly failMessage?: string) {
+    this.isRequired = this.failMessage !== undefined
   }
 
   public getThing(captured = null, lastThing = null): any {

@@ -7,16 +7,16 @@ import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {ActionType} from "../../../../enum/actionType"
-import AffectSpell from "../../affectSpell"
-import AffectSpellBuilder from "../../affectSpellBuilder"
+import Spell from "../../../../spell"
+import SpellBuilder from "../../spellBuilder"
 
-export default function(abilityService: AbilityService): AffectSpell {
-  return new AffectSpellBuilder(abilityService)
+export default function(abilityService: AbilityService): Spell {
+  return new SpellBuilder(abilityService)
     .setSpellType(SpellType.Blind)
     .setAffectType(AffectType.Blind)
     .setActionType(ActionType.Offensive)
     .setCosts([ new ManaCost(20), new DelayCost(1) ])
-    .setCreateAffect((checkedRequest, affectBuilder) => affectBuilder
+    .setApplySpell((checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level / 10)
       .build())
     .setSuccessMessage(checkedRequest => {

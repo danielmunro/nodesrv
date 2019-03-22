@@ -9,10 +9,10 @@ import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {ActionType} from "../../../../enum/actionType"
-import AffectSpellBuilder from "../../affectSpellBuilder"
+import SpellBuilder from "../../spellBuilder"
 
 export default function(abilityService: AbilityService) {
-  return new AffectSpellBuilder(abilityService)
+  return new SpellBuilder(abilityService)
     .setSpellType(SpellType.Crusade)
     .setAffectType(AffectType.Crusade)
     .setActionType(ActionType.Defensive)
@@ -32,7 +32,7 @@ export default function(abilityService: AbilityService) {
         { target: "you", verb: "are" },
         { target, verb: "is" })
     })
-    .setCreateAffect((checkedRequest, affectBuilder) => affectBuilder
+    .setApplySpell((checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level / 8)
       .setAttributes(new AttributeBuilder()
         .setHitRoll(newHitroll(1, checkedRequest.mob.level / 8))

@@ -1,7 +1,7 @@
 import CurePoisonAction from "../action/impl/spell/cleric/curative/curePoisonAction"
-import FeastAction from "../action/impl/spell/cleric/curative/feastAction"
+import feastAction from "../action/impl/spell/cleric/curative/feastAction"
 import RemoveCurseAction from "../action/impl/spell/cleric/curative/removeCurseAction"
-import CureLightAction from "../action/impl/spell/cleric/healing/cureLightAction"
+import cureLightAction from "../action/impl/spell/cleric/healing/cureLightAction"
 import CureSeriousAction from "../action/impl/spell/cleric/healing/cureSeriousAction"
 import HealAction from "../action/impl/spell/cleric/healing/healAction"
 import blessAction from "../action/impl/spell/cleric/piety/blessAction"
@@ -15,8 +15,8 @@ import sanctuaryAction from "../action/impl/spell/cleric/protective/sanctuaryAct
 import shieldAction from "../action/impl/spell/cleric/protective/shieldAction"
 import stoneSkinAction from "../action/impl/spell/cleric/protective/stoneSkinAction"
 import towerOfIronWillAction from "../action/impl/spell/cleric/psionics/towerOfIronWillAction"
-import LightningBoltAction from "../action/impl/spell/mage/attack/lightningBoltAction"
-import MagicMissileAction from "../action/impl/spell/mage/attack/magicMissileAction"
+import lightningBoltAction from "../action/impl/spell/mage/attack/lightningBoltAction"
+import magicMissileAction from "../action/impl/spell/mage/attack/magicMissileAction"
 import detectInvisibleAction from "../action/impl/spell/mage/detection/detectInvisibleAction"
 import giantStrengthAction from "../action/impl/spell/mage/enhancement/giantStrengthAction"
 import hasteAction from "../action/impl/spell/mage/enhancement/hasteAction"
@@ -25,8 +25,8 @@ import blindAction from "../action/impl/spell/mage/maladiction/blindAction"
 import curseAction from "../action/impl/spell/mage/maladiction/curseAction"
 import poisonAction from "../action/impl/spell/mage/maladiction/poisonAction"
 import wrathAction from "../action/impl/spell/mage/maladiction/wrathAction"
-import DrawLifeAction from "../action/impl/spell/mage/necromancy/drawLifeAction"
-import SummonUndeadAction from "../action/impl/spell/mage/necromancy/summonUndeadAction"
+import drawLifeAction from "../action/impl/spell/mage/necromancy/drawLifeAction"
+import summonUndeadAction from "../action/impl/spell/mage/necromancy/summonUndeadAction"
 import TurnUndeadAction from "../action/impl/spell/mage/necromancy/turnUndeadAction"
 import withstandDeathAction from "../action/impl/spell/mage/necromancy/withstandDeathAction"
 import Spell from "../action/spell"
@@ -46,22 +46,22 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     wrathAction(abilityService),
 
     // healing
-    new CureLightAction(abilityService),
+    cureLightAction(abilityService),
     new CureSeriousAction(abilityService),
     new HealAction(abilityService),
 
     // curative
     new CurePoisonAction(abilityService),
     new RemoveCurseAction(abilityService),
-    new FeastAction(abilityService),
+    feastAction(abilityService),
 
     // enhancements
     giantStrengthAction(abilityService),
     hasteAction(abilityService),
 
     // attack
-    new MagicMissileAction(abilityService),
-    new LightningBoltAction(abilityService),
+    magicMissileAction(abilityService),
+    lightningBoltAction(abilityService),
 
     // protective
     shieldAction(abilityService),
@@ -84,9 +84,9 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     crusadeAction(abilityService),
 
     // necromancy
-    new SummonUndeadAction(abilityService, mobService),
+    summonUndeadAction(abilityService, mobService),
     new TurnUndeadAction(abilityService, mobService),
-    new DrawLifeAction(abilityService),
+    drawLifeAction(abilityService),
     withstandDeathAction(abilityService),
 
     // psionics

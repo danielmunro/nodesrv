@@ -8,10 +8,10 @@ import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {ActionType} from "../../../../enum/actionType"
 import Spell from "../../../../spell"
-import AffectSpellBuilder from "../../affectSpellBuilder"
+import SpellBuilder from "../../spellBuilder"
 
 export default function(abilityService: AbilityService): Spell {
-  return new AffectSpellBuilder(abilityService)
+  return new SpellBuilder(abilityService)
     .setSpellType(SpellType.StoneSkin)
     .setAffectType(AffectType.StoneSkin)
     .setActionType(ActionType.Defensive)
@@ -28,7 +28,7 @@ export default function(abilityService: AbilityService): Spell {
         { target: "your" },
         { target: `${target.name}'s` })
     })
-    .setCreateAffect((checkedRequest, affectBuilder) => affectBuilder
+    .setApplySpell((checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level)
       .build())
     .create()

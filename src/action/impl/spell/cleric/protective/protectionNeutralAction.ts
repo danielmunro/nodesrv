@@ -8,10 +8,10 @@ import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {ActionType} from "../../../../enum/actionType"
 import Spell from "../../../../spell"
-import AffectSpellBuilder from "../../affectSpellBuilder"
+import SpellBuilder from "../../spellBuilder"
 
 export default function(abilityService: AbilityService): Spell {
-  return new AffectSpellBuilder(abilityService)
+  return new SpellBuilder(abilityService)
     .setSpellType(SpellType.ProtectionNeutral)
     .setAffectType(AffectType.ProtectionNeutral)
     .setActionType(ActionType.Defensive)
@@ -31,7 +31,7 @@ export default function(abilityService: AbilityService): Spell {
         { target: "you", verb: "are" },
         { target, verb: "is" })
     })
-    .setCreateAffect((checkedRequest, affectBuilder) => affectBuilder
+    .setApplySpell((checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level / 8)
       .build())
     .create()

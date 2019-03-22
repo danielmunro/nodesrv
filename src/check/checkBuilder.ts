@@ -203,6 +203,10 @@ export default class CheckBuilder {
     return this
   }
 
+  public addCheck(checkComponent: CheckComponent): void {
+    this.checks.push(checkComponent)
+  }
+
   public async create(): Promise<Check> {
     this.checkResults = []
 

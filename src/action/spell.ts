@@ -1,6 +1,9 @@
+import AffectBuilder from "../affect/affectBuilder"
 import {AffectType} from "../affect/affectType"
+import {Affect} from "../affect/model/affect"
 import AbilityService from "../check/abilityService"
 import Check from "../check/check"
+import CheckBuilder from "../check/checkBuilder"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckType} from "../check/checkType"
 import Cost from "../check/cost/cost"
@@ -17,8 +20,19 @@ import {Messages} from "./constants"
 import {ActionPart} from "./enum/actionPart"
 import {ActionType} from "./enum/actionType"
 
-export default abstract class Spell extends Action {
-  constructor(protected readonly abilityService: AbilityService) {
+// add checks
+export default class Spell extends Action {
+  constructor(
+    protected readonly abilityService: AbilityService,
+    protected readonly spellType: SpellType,
+    protected readonly affectType: AffectType,
+    protected readonly actionType: ActionType,
+    protected readonly costs: Cost[],
+    protected readonly successMessage: (checkedRequest: CheckedRequest) => ResponseMessage,
+    protected readonly applySpell: (checkedRequest: CheckedRequest, affectBuilder?: AffectBuilder) =>
+      Promise<Affect | void>,
+    protected readonly checkComponents: (request: Request, checkBuilder: CheckBuilder) => void,
+    protected readonly helpText: string) {
     super()
   }
 
@@ -31,7 +45,11 @@ export default abstract class Spell extends Action {
         this.getFailureMessage(checkedRequest))
     }
 
-    this.applySpell(checkedRequest)
+    const affectType = this.getAffectType()
+    const affect = await this.applySpell(checkedRequest, affectType ? new AffectBuilder(affectType) : undefined)
+    if (affect) {
+      checkedRequest.getCheckTypeResult(CheckType.HasTarget).addAffect(affect)
+    }
     await this.abilityService.publishEvent(
       new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSpell), checkedRequest.mob, true))
 
@@ -46,14 +64,13 @@ export default abstract class Spell extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    return this.abilityService.createCheckTemplate(request)
+    const checkBuilder = this.abilityService.createCheckTemplate(request)
       .cast(this)
       .capture(this)
-      .create()
-  }
-
-  public getAffectType(): AffectType | undefined {
-    return undefined
+    if (this.checkComponents) {
+      this.checkComponents(request, checkBuilder)
+    }
+    return checkBuilder.create()
   }
 
   public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
@@ -62,14 +79,32 @@ export default abstract class Spell extends Action {
       Messages.Cast.Fail)
   }
 
-  public abstract applySpell(checkedRequest: CheckedRequest): void
-  public abstract getSpellType(): SpellType
-  public abstract getCosts(): Cost[]
-  public abstract getActionType(): ActionType
-  public abstract getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage
+  public getActionType(): ActionType {
+    return this.actionType
+  }
+
+  public getAffectType(): AffectType | undefined {
+    return this.affectType
+  }
+
+  public getCosts(): Cost[] {
+    return this.costs
+  }
+
+  public getHelpText(): string {
+    return this.helpText
+  }
+
+  public getSpellType(): SpellType {
+    return this.spellType
+  }
 
   public getRequestType(): RequestType {
     return RequestType.Cast
+  }
+
+  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
+    return this.successMessage(checkedRequest)
   }
 
   /* istanbul ignore next */
