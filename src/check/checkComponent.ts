@@ -11,7 +11,7 @@ export default class CheckComponent {
     this.isRequired = this.failMessage !== undefined
   }
 
-  public getThing(captured = null, lastThing = null): any {
+  public getThing(captured: any, lastThing: any): any {
     if (this.confirm) {
       return this.calculateThing(captured, lastThing)
     }
@@ -19,9 +19,9 @@ export default class CheckComponent {
     return !this.calculateThing(captured, lastThing)
   }
 
-  private calculateThing(captured = null, lastThing = null) {
+  private calculateThing(captured: any, lastThing: any) {
     if (typeof this.thing === "function") {
-      return this.thing(captured, lastThing)
+      return this.thing(captured ? captured : lastThing, lastThing)
     }
 
     return this.thing

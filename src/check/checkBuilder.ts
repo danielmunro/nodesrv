@@ -28,6 +28,7 @@ export default class CheckBuilder {
   private confirm: boolean = true
   private mob: Mob
   private captured: any
+  private lastCheckResult: CheckResult
 
   constructor(
     private readonly mobService: MobService,
@@ -224,24 +225,22 @@ export default class CheckBuilder {
   }
 
   private async findCostFail(): Promise<Check | void> {
-    const costFail = this.costs.find(cost => !cost.canApplyTo(this.mob))
-    if (costFail) {
-      return Check.fail(costFail.failMessage, this.checkResults, this.costs)
-    }
+    return new Maybe(this.costs.find(cost => !cost.canApplyTo(this.mob)))
+      .do(costFail => Check.fail(costFail.failMessage, this.checkResults, this.costs))
+      .get()
   }
 
   private async findCheckFailure(): Promise<Check | void> {
-    let lastThing: any
+    return new Maybe(this.checks.find(checkComponent => this.testCheckComponent(checkComponent)))
+      .do(checkFail => Check.fail(this.getFailMessage(checkFail.failMessage), this.checkResults, this.costs))
+      .get()
+  }
 
-    const checkFail = this.checks.find(checkComponent => {
-      const checkResult = checkComponent.getThing(this.captured ? this.captured : lastThing, lastThing)
-      this.checkResults.push(new CheckResult(checkComponent.checkType, checkResult))
-      lastThing = checkResult
-      return !checkResult && checkComponent.isRequired
-    })
-    if (checkFail) {
-      return Check.fail(this.getFailMessage(checkFail.failMessage), this.checkResults, this.costs)
-    }
+  private testCheckComponent(checkComponent: CheckComponent) {
+    const checkResult = checkComponent.getThing(this.captured, this.lastCheckResult)
+    this.checkResults.push(new CheckResult(checkComponent.checkType, checkResult))
+    this.lastCheckResult = checkResult
+    return !checkResult && checkComponent.isRequired
   }
 
   private getFailMessage(failMessage: any) {
