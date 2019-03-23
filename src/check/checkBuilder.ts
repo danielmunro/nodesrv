@@ -38,9 +38,11 @@ export default class CheckBuilder {
   }
 
   public requireFromActionParts(request: Request, actionParts: ActionPart[]): CheckBuilder {
-    actionParts.map(actionPart => this.actionPartChecks.find(a => a.getActionPart() === actionPart))
-      .filter(Boolean)
-      .forEach(actionPartCheck => actionPartCheck.addToCheckBuilder(this, request, actionParts))
+    const parts = actionParts.map(actionPart =>
+      this.actionPartChecks.find(a => a.getActionPart() === actionPart))
+        .filter(Boolean) as ActionPartCheck[]
+    parts.forEach(actionPartCheck =>
+      actionPartCheck.addToCheckBuilder(this, request, actionParts))
     return this
   }
 
@@ -196,9 +198,9 @@ export default class CheckBuilder {
   public requireFight(failMessage: string = SkillMessages.All.NoTarget) {
     this.checks.push(this.newCheckComponent(
       CheckType.IsFighting,
-      new Maybe(this.mobService.findFight((f: Fight) => f.isParticipant(this.mob)))
-        .do((f: Fight) => f.getOpponentFor(this.mob) as Mob)
-        .or(() => false)
+      Maybe.if(
+        this.mobService.findFight((f: Fight) => f.isParticipant(this.mob)),
+        (f: Fight) => f.getOpponentFor(this.mob) as Mob)
         .get(),
       failMessage))
     return this
@@ -218,14 +220,16 @@ export default class CheckBuilder {
   }
 
   private findCostFail(): Check | void {
-    return new Maybe(this.costs.find(cost => !cost.canApplyTo(this.mob)))
-      .do(costFail => Check.fail(costFail.failMessage, this.checkResults, this.costs))
+    return Maybe.if(
+      this.costs.find(cost => !cost.canApplyTo(this.mob)),
+      costFail => Check.fail(costFail.failMessage, this.checkResults, this.costs))
       .get()
   }
 
   private findCheckFailure(): Check | void {
-    return new Maybe(this.checks.find(checkComponent => this.testCheckComponent(checkComponent)))
-      .do(checkFail => Check.fail(this.getFailMessage(checkFail.failMessage), this.checkResults, this.costs))
+    return Maybe.if(
+      this.checks.find(checkComponent => this.testCheckComponent(checkComponent)),
+      checkFail => Check.fail(this.getFailMessage(checkFail.failMessage), this.checkResults, this.costs))
       .get()
   }
 
