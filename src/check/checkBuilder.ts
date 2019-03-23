@@ -211,12 +211,12 @@ export default class CheckBuilder {
   public async create(): Promise<Check> {
     this.checkResults = []
 
-    const checkFail = await this.findCheckFailure()
+    const checkFail = this.findCheckFailure()
     if (checkFail) {
       return checkFail
     }
 
-    const costFail = await this.findCostFail()
+    const costFail = this.findCostFail()
     if (costFail) {
       return costFail
     }
@@ -224,13 +224,13 @@ export default class CheckBuilder {
     return Check.ok(this.captured, this.checkResults, this.costs)
   }
 
-  private async findCostFail(): Promise<Check | void> {
+  private findCostFail(): Check | void {
     return new Maybe(this.costs.find(cost => !cost.canApplyTo(this.mob)))
       .do(costFail => Check.fail(costFail.failMessage, this.checkResults, this.costs))
       .get()
   }
 
-  private async findCheckFailure(): Promise<Check | void> {
+  private findCheckFailure(): Check | void {
     return new Maybe(this.checks.find(checkComponent => this.testCheckComponent(checkComponent)))
       .do(checkFail => Check.fail(this.getFailMessage(checkFail.failMessage), this.checkResults, this.costs))
       .get()
