@@ -20,7 +20,6 @@ import {Messages} from "./constants"
 import {ActionPart} from "./enum/actionPart"
 import {ActionType} from "./enum/actionType"
 
-// add checks
 export default class Spell extends Action {
   constructor(
     protected readonly abilityService: AbilityService,
