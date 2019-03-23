@@ -23,7 +23,7 @@ export default class DemoteAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject())
+    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject()) as Mob
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireMob()
       .capture()
@@ -34,7 +34,7 @@ export default class DemoteAction extends Action {
         CheckType.AuthorizationLevel)
       .requireImmortal(request.getAuthorizationLevel())
       .not().requireImmortal(
-        Maybe.if(mob, () => mob.getAuthorizationLevel()),
+        Maybe.if(mob, () => mob.getAuthorizationLevel()).get(),
         MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS)
       .create()
   }

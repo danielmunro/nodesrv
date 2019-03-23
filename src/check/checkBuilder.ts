@@ -211,17 +211,10 @@ export default class CheckBuilder {
   public async create(): Promise<Check> {
     this.checkResults = []
 
-    const checkFail = this.findCheckFailure()
-    if (checkFail) {
-      return checkFail
-    }
-
-    const costFail = this.findCostFail()
-    if (costFail) {
-      return costFail
-    }
-
-    return Check.ok(this.captured, this.checkResults, this.costs)
+    return Maybe.if(this.findCheckFailure())
+      .or(() => this.findCostFail())
+      .or(() => Check.ok(this.captured, this.checkResults, this.costs))
+      .get()
   }
 
   private findCostFail(): Check | void {

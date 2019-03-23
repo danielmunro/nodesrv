@@ -28,7 +28,7 @@ export default class PromoteAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject())
+    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject()) as Mob
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireMob()
       .capture()
@@ -40,7 +40,7 @@ export default class PromoteAction extends Action {
       .requireImmortal(request.getAuthorizationLevel())
       .require((m: Mob) => !isBanned(m.getStanding()), MESSAGE_FAIL_BANNED)
       .not().requireImmortal(
-        Maybe.if(mob, () => mob.getAuthorizationLevel()),
+        Maybe.if(mob, () => mob.getAuthorizationLevel()).get(),
         MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS)
       .create()
   }

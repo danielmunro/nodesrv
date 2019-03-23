@@ -4,10 +4,8 @@ enum MaybeStatus {
 }
 
 export default class Maybe {
-  public static if(thing: any, doIt: (thing: any) => {}): any | void {
-    if (thing) {
-      return doIt(thing)
-    }
+  public static if(thing: any, doIt: (thing: any) => {} = it => it): Maybe {
+    return new Maybe(thing).do(doIt)
   }
 
   private result: any
@@ -29,6 +27,9 @@ export default class Maybe {
   public or(fn: () => any) {
     if (this.status === MaybeStatus.NotThing) {
       this.result = fn()
+      if (this.result) {
+        this.status = MaybeStatus.Thing
+      }
       return this
     }
 
