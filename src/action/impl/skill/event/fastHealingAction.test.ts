@@ -1,4 +1,4 @@
-import Skill from "../../../../action/skill"
+import Skill from "../../skill"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
 import { RequestType } from "../../../../request/requestType"
 import { SkillType } from "../../../../skill/skillType"

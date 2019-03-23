@@ -5,7 +5,7 @@ import ResponseMessage from "../request/responseMessage"
 import {Messages} from "./constants"
 import {ActionPart} from "./enum/actionPart"
 import {ActionType} from "./enum/actionType"
-import Skill from "./skill"
+import Skill from "./impl/skill"
 
 export default abstract class EventSkill extends Skill {
   public getCosts(): Cost[] {

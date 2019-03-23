@@ -1,4 +1,4 @@
-import Skill from "../../action/skill"
+import Skill from "../../action/impl/skill"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"

@@ -8,7 +8,7 @@ import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {ActionType} from "../../../../enum/actionType"
 import Spell from "../../../spell"
-import SpellBuilder from "../../spellBuilder"
+import SpellBuilder from "../../../../spellBuilder"
 
 function calculateBaseDamage(): number {
   return roll(1, 4)

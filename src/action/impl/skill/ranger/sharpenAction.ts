@@ -22,7 +22,7 @@ import collectionSearch from "../../../../support/matcher/collectionSearch"
 import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
-import Skill from "../../../skill"
+import Skill from "../../skill"
 
 export default class SharpenAction extends Skill {
   public check(request: Request): Promise<Check> {

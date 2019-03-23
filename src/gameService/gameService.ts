@@ -1,5 +1,5 @@
 import Action from "../action/action"
-import Skill from "../action/skill"
+import Skill from "../action/impl/skill"
 import Spell from "../action/impl/spell"
 import Event from "../event/event"
 import EventResponse from "../event/eventResponse"

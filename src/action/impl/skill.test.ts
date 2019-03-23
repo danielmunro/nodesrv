@@ -1,9 +1,9 @@
-import {AffectType} from "../affect/affectType"
-import {MAX_PRACTICE_LEVEL} from "../mob/constants"
-import {RequestType} from "../request/requestType"
-import {SkillType} from "../skill/skillType"
-import doNTimes from "../support/functional/times"
-import TestBuilder from "../test/testBuilder"
+import {AffectType} from "../../affect/affectType"
+import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
+import {RequestType} from "../../request/requestType"
+import {SkillType} from "../../skill/skillType"
+import doNTimes from "../../support/functional/times"
+import TestBuilder from "../../test/testBuilder"
 
 const iterations = 1000
 

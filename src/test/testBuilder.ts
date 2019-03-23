@@ -1,5 +1,5 @@
 import Action from "../action/action"
-import Skill from "../action/skill"
+import Skill from "../action/impl/skill"
 import Spell from "../action/impl/spell"
 import {Client} from "../client/client"
 import GameService from "../gameService/gameService"

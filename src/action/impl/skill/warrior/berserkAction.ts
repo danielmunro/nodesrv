@@ -12,7 +12,7 @@ import {SkillType} from "../../../../skill/skillType"
 import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
-import Skill from "../../../skill"
+import Skill from "../../skill"
 
 export default class BerserkAction extends Skill {
   public roll(checkedRequest: CheckedRequest): boolean {
