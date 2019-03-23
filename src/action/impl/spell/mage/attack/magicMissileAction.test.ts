@@ -4,7 +4,7 @@ import { RequestType } from "../../../../../request/requestType"
 import { SpellType } from "../../../../../spell/spellType"
 import {getSuccessfulAction} from "../../../../../support/functional/times"
 import TestBuilder from "../../../../../test/testBuilder"
-import Spell from "../../../../spell"
+import Spell from "../../../spell"
 
 let testBuilder: TestBuilder
 let spell: Spell

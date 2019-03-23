@@ -75,7 +75,7 @@ import TripAction from "./impl/skill/warrior/tripAction"
 import GossipAction from "./impl/social/gossipAction"
 import SayAction from "./impl/social/sayAction"
 import TellAction from "./impl/social/tellAction"
-import Spell from "./spell"
+import Spell from "./impl/spell"
 
 export default function getActionTable(
   mobService: MobService,

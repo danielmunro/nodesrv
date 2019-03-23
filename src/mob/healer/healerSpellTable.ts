@@ -1,4 +1,4 @@
-import Spell from "../../action/spell"
+import Spell from "../../action/impl/spell"
 import {SpellType} from "../../spell/spellType"
 import HealerSpell from "./healerSpell"
 

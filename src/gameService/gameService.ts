@@ -1,6 +1,6 @@
 import Action from "../action/action"
 import Skill from "../action/skill"
-import Spell from "../action/spell"
+import Spell from "../action/impl/spell"
 import Event from "../event/event"
 import EventResponse from "../event/eventResponse"
 import EventService from "../event/eventService"

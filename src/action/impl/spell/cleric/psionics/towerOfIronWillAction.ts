@@ -8,7 +8,7 @@ import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {ActionType} from "../../../../enum/actionType"
-import Spell from "../../../../spell"
+import Spell from "../../../spell"
 import SpellBuilder from "../../spellBuilder"
 
 export default function(abilityService: AbilityService): Spell {

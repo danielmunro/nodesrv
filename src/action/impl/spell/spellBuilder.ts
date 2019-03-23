@@ -10,7 +10,7 @@ import ResponseMessage from "../../../request/responseMessage"
 import {SpellType} from "../../../spell/spellType"
 import {Messages} from "../../constants"
 import {ActionType} from "../../enum/actionType"
-import Spell from "../../spell"
+import Spell from "../spell"
 
 export default class SpellBuilder {
   private helpText: string

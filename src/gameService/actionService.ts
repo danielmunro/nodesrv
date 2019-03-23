@@ -1,7 +1,7 @@
 import Action from "../action/action"
 import HelpAction from "../action/impl/info/helpAction"
 import Skill from "../action/skill"
-import Spell from "../action/spell"
+import Spell from "../action/impl/spell"
 
 export default class ActionService {
   constructor(

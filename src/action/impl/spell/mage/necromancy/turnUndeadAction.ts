@@ -15,7 +15,7 @@ import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
-import Spell from "../../../../spell"
+import Spell from "../../../spell"
 
 export default class TurnUndeadAction extends Spell {
   constructor(

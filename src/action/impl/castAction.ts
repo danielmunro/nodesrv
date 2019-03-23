@@ -1,4 +1,4 @@
-import Spell from "../../action/spell"
+import Spell from "./spell"
 import Check from "../../check/check"
 import CheckBuilderFactory from "../../check/checkBuilderFactory"
 import CheckedRequest from "../../check/checkedRequest"

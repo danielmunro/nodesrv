@@ -1,6 +1,6 @@
 import {ActionType} from "../action/enum/actionType"
 import Skill from "../action/skill"
-import Spell from "../action/spell"
+import Spell from "../action/impl/spell"
 import affectTable from "../affect/affectTable"
 import {AffectType} from "../affect/affectType"
 import {StackBehavior} from "../affect/stackBehavior"
