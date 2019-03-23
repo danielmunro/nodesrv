@@ -23,18 +23,14 @@ export default abstract class Skill extends Action {
   }
 
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    if (!this.roll(checkedRequest)) {
-      await this.abilityService.publishEvent(
-        new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSkill), checkedRequest.mob, false))
+    const rollResult = this.roll(checkedRequest)
+    await this.publishSkillEventFromCheckedRequest(checkedRequest, rollResult)
+    if (!rollResult) {
       return checkedRequest.responseWithMessage(
         ResponseStatus.ActionFailed,
         this.getFailureMessage(checkedRequest))
     }
-
     this.applySkill(checkedRequest)
-    await this.abilityService.publishEvent(
-      new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSkill), checkedRequest.mob, true))
-
     return checkedRequest.responseWithMessage(
       ResponseStatus.Success,
       this.getSuccessMessage(checkedRequest))
@@ -66,5 +62,10 @@ export default abstract class Skill extends Action {
     }
     const max = Math.min(100, Math.max(1, amount))
     return roll(1, max)
+  }
+
+  private publishSkillEventFromCheckedRequest(checkedRequest: CheckedRequest, rollResult: boolean) {
+    return this.abilityService.publishEvent(
+      new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSkill), checkedRequest.mob, rollResult))
   }
 }

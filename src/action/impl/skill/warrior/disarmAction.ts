@@ -24,7 +24,7 @@ export default class DisarmAction extends Skill {
     return this.abilityService.createCheckTemplate(request)
       .perform(this)
       .require(
-        (mob: Mob, target: Mob) => target.equipped.find((i: Item) => i.equipment === Equipment.Weapon),
+        (_: any, target: Mob) => target.equipped.find((i: Item) => i.equipment === Equipment.Weapon),
         PreconditionMessages.Disarm.FailNothingToDisarm,
         CheckType.ItemPresent)
       .create()
