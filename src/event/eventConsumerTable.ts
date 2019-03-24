@@ -2,6 +2,7 @@ import Action from "../action/action"
 import Move from "../action/move"
 import CrusadeEventConsumer from "../affect/eventConsumer/crusadeEventConsumer"
 import DamageSourceEventConsumer from "../affect/eventConsumer/damageSourceEventConsumer"
+import ForgetEventConsumer from "../affect/eventConsumer/forgetEventConsumer"
 import HasteEventConsumer from "../affect/eventConsumer/hasteEventConsumer"
 import ProtectionEventConsumer from "../affect/eventConsumer/protectionEventConsumer"
 import SanctuaryEventConsumer from "../affect/eventConsumer/sanctuaryEventConsumer"
@@ -52,6 +53,7 @@ export default async function createEventConsumerTable(
     // affects
     new SanctuaryEventConsumer(),
     new CrusadeEventConsumer(),
+    new ForgetEventConsumer(),
     new HasteEventConsumer(),
     new DamageSourceEventConsumer(),
     new ProtectionEventConsumer(),

@@ -1,4 +1,3 @@
-import Spell from "./spell"
 import Check from "../../check/check"
 import CheckBuilderFactory from "../../check/checkBuilderFactory"
 import CheckedRequest from "../../check/checkedRequest"
@@ -10,6 +9,7 @@ import Response from "../../request/response"
 import Action from "../action"
 import {ConditionMessages, HelpMessages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
+import Spell from "./spell"
 
 export default class CastAction extends Action {
   constructor(

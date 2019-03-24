@@ -1,94 +1,51 @@
 import {AffectType} from "../../../../affect/affectType"
-import {newAffect} from "../../../../affect/factory"
-import CheckedRequest from "../../../../check/checkedRequest"
+import AbilityService from "../../../../check/abilityService"
 import {CheckType} from "../../../../check/checkType"
-import Cost from "../../../../check/cost/cost"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
-import {Mob} from "../../../../mob/model/mob"
-import {getSizeModifier} from "../../../../mob/race/sizeModifier"
-import roll from "../../../../random/dice"
-import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {ActionMessages, Costs} from "../../../../skill/constants"
-import {Skill as SkillModel} from "../../../../skill/model/skill"
 import {SkillType} from "../../../../skill/skillType"
-import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
+import SkillBuilder from "../../../skillBuilder"
 import Skill from "../../skill"
 
-export default class TripAction extends Skill {
-  private static calculateDefenseRoll(mob: Mob): number {
-    return roll(1, mob.getCombinedAttributes().stats.dex)
-  }
-
-  private static calculateTripRoll(mob: Mob, skill: SkillModel): number {
-    return roll(1, mob.getCombinedAttributes().stats.dex) + roll(1, skill.level) +
-      getSizeModifier(mob.race, -10, 10)
-  }
-
-  public roll(checkedRequest: CheckedRequest): boolean {
-    const [ target, skill ] = checkedRequest.results(CheckType.HasTarget, CheckType.HasSkill)
-    return TripAction.calculateTripRoll(checkedRequest.mob, skill) > TripAction.calculateDefenseRoll(target)
-  }
-
-  public applySkill(checkedRequest: CheckedRequest): void {
-    const [ target, skill ] = checkedRequest.results(CheckType.HasTarget, CheckType.HasSkill)
-    const amount = skill.level / 10
-    target.addAffect(newAffect(AffectType.Stunned, amount))
-    target.vitals.hp -= amount
-  }
-
-  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    return new ResponseMessage(
-      checkedRequest.mob,
-      ActionMessages.Trip.Failure,
-      { verb: "fail", target },
-      { verb: "fails", target: "you" },
-      { requestCreator: checkedRequest.mob, verb: "fails", target })
-  }
-
-  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    return new ResponseMessage(
-      checkedRequest.mob,
-      ActionMessages.Trip.Success,
-      { verb: "trip", target },
-      { verb: "trips", target: "you" },
-      { verb: "trips", target })
-  }
-
-  public getActionType(): ActionType {
-    return ActionType.Offensive
-  }
-
-  public getCosts(): Cost[] {
-    return [
+export default function(abilityService: AbilityService): Skill {
+  return new SkillBuilder(abilityService, SkillType.Trip)
+    .setActionType(ActionType.Offensive)
+    .setAffectType(AffectType.Stunned)
+    .setActionParts([ ActionPart.Action, ActionPart.Target ])
+    .setAffectType(AffectType.Stunned)
+    .setCosts([
       new MvCost(Costs.Trip.Mv),
       new DelayCost(Costs.Trip.Delay),
-    ]
-  }
-
-  public getSkillType(): SkillType {
-    return SkillType.Trip
-  }
-
-  public getAffectType(): AffectType {
-    return AffectType.Stunned
-  }
-
-  public getActionParts(): ActionPart[] {
-    return [ActionPart.Action, ActionPart.Hostile]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Trip
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
-  }
+    ])
+    .setApplySkill((checkedRequest, affectBuilder) => {
+      const [ target, skill ] = checkedRequest.results(CheckType.HasTarget, CheckType.HasSkill)
+      const amount = skill.level / 10
+      target.vitals.hp -= amount
+      return Promise.resolve(affectBuilder
+        .setTimeout(amount)
+        .build())
+    })
+    .setSuccessMessage(checkedRequest => {
+      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+      return new ResponseMessage(
+        checkedRequest.mob,
+        ActionMessages.Trip.Success,
+        { verb: "trip", target },
+        { verb: "trips", target: "you" },
+        { verb: "trips", target })
+    })
+    .setFailMessage(checkedRequest => {
+      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+      return new ResponseMessage(
+        checkedRequest.mob,
+        ActionMessages.Trip.Failure,
+        { verb: "fail", target },
+        { verb: "fails", target: "you" },
+        { requestCreator: checkedRequest.mob, verb: "fails", target })
+    })
+    .create()
 }

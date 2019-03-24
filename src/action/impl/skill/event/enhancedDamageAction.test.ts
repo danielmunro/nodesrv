@@ -1,10 +1,10 @@
-import Skill from "../../skill"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
 import PlayerBuilder from "../../../../test/playerBuilder"
 import TestBuilder from "../../../../test/testBuilder"
+import Skill from "../../skill"
 
 const iterations = 100
 let testBuilder: TestBuilder
@@ -43,7 +43,7 @@ describe("enhanced damage", () => {
 
     // then
     expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.05)
-    expect(responses.filter(r => r.isSuccessful()).length).toBeLessThanOrEqual(iterations * 0.6)
+    expect(responses.filter(r => r.isSuccessful()).length).toBeLessThanOrEqual(iterations * 0.8)
   })
 
   it("should succeed infrequently when not practiced", async () => {

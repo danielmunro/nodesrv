@@ -8,8 +8,8 @@ import ResponseMessage from "../../../../../request/responseMessage"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
 import {ActionType} from "../../../../enum/actionType"
-import Spell from "../../../spell"
 import SpellBuilder from "../../../../spellBuilder"
+import Spell from "../../../spell"
 
 const CHANCE_THRESHOLD = 80
 

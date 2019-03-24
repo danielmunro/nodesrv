@@ -41,8 +41,9 @@ export default class Check {
   }
 
   public getCheckTypeResult(checkType: CheckType) {
-    return new Maybe(this.checkResults.find(r => r.checkType === checkType))
-      .do(result => Check.getResult(result.thing))
+    return Maybe.if(
+      this.checkResults.find(r => r.checkType === checkType),
+      result => Check.getResult(result.thing))
       .get()
   }
 }

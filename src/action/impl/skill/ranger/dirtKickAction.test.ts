@@ -3,7 +3,6 @@ import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
 import { RequestType } from "../../../../request/requestType"
 import Response from "../../../../request/response"
 import { SkillType } from "../../../../skill/skillType"
-import { all } from "../../../../support/functional/collection"
 import doNTimes from "../../../../support/functional/times"
 import MobBuilder from "../../../../test/mobBuilder"
 import TestBuilder from "../../../../test/testBuilder"
@@ -28,7 +27,7 @@ describe("dirt kick skill action", () => {
       testBuilder.handleAction(RequestType.DirtKick))
 
     // then
-    expect(all(responses, (r: Response) => !r.isSuccessful())).toBeTruthy()
+    expect(responses.filter((r: Response) => !r.isSuccessful()).length).toBeGreaterThan(iterations * 0.9)
   })
 
   it("should succeed when practiced", async () => {

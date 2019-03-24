@@ -1,102 +1,64 @@
 import {AffectType} from "../../../../affect/affectType"
-import {newAffect} from "../../../../affect/factory"
-import Check from "../../../../check/check"
-import CheckedRequest from "../../../../check/checkedRequest"
+import AbilityService from "../../../../check/abilityService"
 import {CheckType} from "../../../../check/checkType"
-import Cost from "../../../../check/cost/cost"
 import DelayCost from "../../../../check/cost/delayCost"
-import ManaCost from "../../../../check/cost/manaCost"
+import MvCost from "../../../../check/cost/mvCost"
 import {DamageType} from "../../../../damage/damageType"
 import {Equipment} from "../../../../item/equipment"
 import {Item} from "../../../../item/model/item"
 import Weapon from "../../../../item/model/weapon"
-import roll from "../../../../random/dice"
-import {Request} from "../../../../request/request"
-import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {ConditionMessages as PreconditionMessages, Costs, SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
-import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
+import SkillBuilder from "../../../skillBuilder"
 import Skill from "../../skill"
 
-export default class EnvenomAction extends Skill {
-  public check(request: Request): Promise<Check> {
-    const item = request.findItemInSessionMobInventory()
-    return this.abilityService.createCheckTemplate(request)
-      .perform(this)
-      .require(
-        item,
-        PreconditionMessages.All.NoItem,
-        CheckType.HasItem)
-      .capture(item)
-      .require((captured: Item) =>
-        captured.equipment === Equipment.Weapon, SkillMessages.Envenom.Error.NotAWeapon)
-      .require((captured: Weapon) =>
-        captured.damageType === DamageType.Slash || captured.damageType === DamageType.Pierce,
-        SkillMessages.Envenom.Error.WrongWeaponType)
-      .create()
-  }
-
-  public roll(checkedRequest: CheckedRequest): boolean {
-    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-    return roll(1, skill.level / 3) > 30
-  }
-
-  public applySkill(checkedRequest: CheckedRequest): void {
-    const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-    item.affects.push(newAffect(AffectType.Poison, checkedRequest.mob.level))
-  }
-
-  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-    return new ResponseMessage(
-      checkedRequest.mob,
-      SkillMessages.Envenom.Success,
-      { item, verb: "envenom" },
-    { item, verb: "envenoms" })
-  }
-
-  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-    return new ResponseMessage(
-      checkedRequest.mob,
-      SkillMessages.Envenom.Fail,
-      { item, verb: "fail" },
-      { item, verb: "fails" },
-      { item, verb: "fails" })
-  }
-
-  public getActionType(): ActionType {
-    return ActionType.Defensive
-  }
-
-  public getCosts(): Cost[] {
-    return [
-      new ManaCost(Costs.Envenom.Mana),
+export default function(abilityService: AbilityService): Skill {
+  return new SkillBuilder(abilityService, SkillType.Envenom)
+    .setActionType(ActionType.Defensive)
+    .setAffectType(AffectType.Poison)
+    .setActionParts([ ActionPart.Action, ActionPart.ItemInInventory ])
+    .setCheckBuilder((request, checkBuilder) => {
+      const item = request.findItemInSessionMobInventory()
+      return checkBuilder
+        .require(
+          item,
+          PreconditionMessages.All.NoItem,
+          CheckType.HasItem)
+        .capture(item)
+        .require((captured: Item) =>
+          captured.equipment === Equipment.Weapon, SkillMessages.Envenom.Error.NotAWeapon)
+        .require((captured: Weapon) =>
+          captured.damageType === DamageType.Slash || captured.damageType === DamageType.Pierce,
+          SkillMessages.Envenom.Error.WrongWeaponType)
+        .create()
+    })
+    .setCosts([
+      new MvCost(Costs.Envenom.Mana),
       new DelayCost(Costs.Envenom.Delay),
-    ]
-  }
-
-  public getSkillType(): SkillType {
-    return SkillType.Envenom
-  }
-
-  public getAffectType(): AffectType {
-    return AffectType.Poison
-  }
-
-  public getActionParts(): ActionPart[] {
-    return [ActionPart.Action, ActionPart.ItemInInventory]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Envenom
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
-  }
+    ])
+    .setApplySkill(async (checkedRequest, affectBuilder) => {
+      const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+      item.affects.push(affectBuilder.build())
+    })
+    .setSuccessMessage(checkedRequest => {
+      const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+      return new ResponseMessage(
+        checkedRequest.mob,
+        SkillMessages.Envenom.Success,
+        { item, verb: "envenom" },
+        { item, verb: "envenoms" })
+    })
+    .setFailMessage(checkedRequest => {
+      const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+      return new ResponseMessage(
+        checkedRequest.mob,
+        SkillMessages.Envenom.Fail,
+        { item, verb: "fail" },
+        { item, verb: "fails" },
+        { item, verb: "fails" })
+    })
+    .create()
 }

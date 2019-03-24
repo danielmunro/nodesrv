@@ -1,77 +1,40 @@
+import AffectBuilder from "../../../../affect/affectBuilder"
 import {AffectType} from "../../../../affect/affectType"
-import {newAffect} from "../../../../affect/factory"
-import CheckedRequest from "../../../../check/checkedRequest"
-import {CheckType} from "../../../../check/checkType"
-import Cost from "../../../../check/cost/cost"
+import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
-import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
-import {Costs, SkillMessages, Thresholds} from "../../../../skill/constants"
+import {Costs, SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
-import {Messages} from "../../../constants"
-import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
+import SkillBuilder from "../../../skillBuilder"
 import Skill from "../../skill"
 
-export default class BerserkAction extends Skill {
-  public roll(checkedRequest: CheckedRequest): boolean {
-    return this.getSkillRoll(
-      checkedRequest.mob,
-      checkedRequest.getCheckTypeResult(CheckType.HasSkill)) > Thresholds.Berserk
-  }
-
-  public applySkill(checkedRequest: CheckedRequest): void {
-    checkedRequest.mob.addAffect(newAffect(AffectType.Berserk, checkedRequest.mob.level / 10))
-  }
-
-  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    return new ResponseMessage(
-      checkedRequest.mob,
-      SkillMessages.Berserk.Fail).onlySendToRequestCreator()
-  }
-
-  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    const mob = checkedRequest.mob
-    return new ResponseMessage(
-      mob,
-      SkillMessages.Berserk.Success,
-      { requestCreator: "your", requestCreator2: "you" },
-      { requestCreator2: "they" },
-      { requestCreator: `${mob.name}'s`, requestCreator2: "they" })
-  }
-
-  public getActionType(): ActionType {
-    return ActionType.Defensive
-  }
-
-  public getCosts(): Cost[] {
-    return [
+export default function(abilityService: AbilityService): Skill {
+  return new SkillBuilder(abilityService, SkillType.Berserk)
+    .setActionType(ActionType.Defensive)
+    .setAffectType(AffectType.Berserk)
+    .setCosts([
+      new MvCost(Costs.Berserk.Mv),
       new DelayCost(Costs.Berserk.Delay),
-      new MvCost(mob =>
-        Math.max(mob.getCombinedAttributes().vitals.mv / 2, Costs.Berserk.Mv)),
-    ]
-  }
-
-  public getSkillType(): SkillType {
-    return SkillType.Berserk
-  }
-
-  public getAffectType(): AffectType {
-    return AffectType.Berserk
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ActionPart.Action]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Berserk
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
-  }
+    ])
+    .setApplySkill(checkedRequest =>
+      Promise.resolve(new AffectBuilder(AffectType.Berserk)
+        .setLevel(checkedRequest.mob.level)
+        .setTimeout(Math.min(1, checkedRequest.mob.level / 10))
+        .build()))
+    .setSuccessMessage(checkedRequest => {
+      const mob = checkedRequest.mob
+      return new ResponseMessage(
+        mob,
+        SkillMessages.Berserk.Success,
+        { requestCreator: "your", requestCreator2: "you" },
+        { requestCreator2: "they" },
+        { requestCreator: `${mob.name}'s`, requestCreator2: "they" })
+    })
+    .setFailMessage(checkedRequest =>
+      new ResponseMessage(
+        checkedRequest.mob,
+        SkillMessages.Berserk.Fail).onlySendToRequestCreator())
+    .create()
 }

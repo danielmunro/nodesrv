@@ -85,7 +85,7 @@ describe("envenom skill action", () => {
   it("generates accurate messages", async () => {
     // setup
     const item = equipWeaponToMob()
-    mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
+    mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL / 2)
 
     // when
     const responses = await doNTimes(

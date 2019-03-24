@@ -51,7 +51,7 @@ describe("berserk skill action", () => {
     // given
     const mobBuilder = testBuilder.withMob()
     mobBuilder.setLevel(40)
-    mobBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
+    mobBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL / 2)
 
     // when
     const responses: Response[] = await doNTimes(iterations, () => action())

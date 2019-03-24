@@ -4,7 +4,7 @@ enum MaybeStatus {
 }
 
 export default class Maybe {
-  public static if(thing: any, doIt: (thing: any) => {} = it => it): Maybe {
+  public static if(thing: any, doIt: (thing: any) => any = it => it): Maybe {
     return new Maybe(thing).do(doIt)
   }
 
@@ -37,10 +37,6 @@ export default class Maybe {
   }
 
   public get() {
-    if (this.result === undefined) {
-      this.do(() => this.thing)
-    }
-
     return this.result
   }
 }

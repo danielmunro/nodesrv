@@ -1,26 +1,22 @@
+import AffectBuilder from "../../affect/affectBuilder"
 import {AffectType} from "../../affect/affectType"
+import {Affect} from "../../affect/model/affect"
 import AbilityService from "../../check/abilityService"
 import Check from "../../check/check"
+import CheckBuilder from "../../check/checkBuilder"
 import CheckedRequest from "../../check/checkedRequest"
 import {CheckType} from "../../check/checkType"
 import Cost from "../../check/cost/cost"
-import {Mob} from "../../mob/model/mob"
-import roll from "../../random/dice"
 import {Request} from "../../request/request"
+import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
 import {ResponseStatus} from "../../request/responseStatus"
-import {Skill as SkillModel} from "../../skill/model/skill"
 import SkillEvent from "../../skill/skillEvent"
 import {SkillType} from "../../skill/skillType"
 import Action from "../action"
-import {ActionType} from "../enum/actionType"
-import AffectBuilder from "../../affect/affectBuilder"
-import {Affect} from "../../affect/model/affect"
-import CheckBuilder from "../../check/checkBuilder"
-import {percentRoll} from "../../random/helpers"
-import {RequestType} from "../../request/requestType"
 import {ActionPart} from "../enum/actionPart"
+import {ActionType} from "../enum/actionType"
 
 export default class Skill extends Action {
   constructor(
@@ -31,9 +27,10 @@ export default class Skill extends Action {
     protected readonly actionType: ActionType,
     protected readonly actionParts: ActionPart[],
     protected readonly costs: Cost[],
+    protected readonly roll: (checkedRequest: CheckedRequest) => boolean,
     protected readonly successMessage: (checkedRequest: CheckedRequest) => ResponseMessage,
     protected readonly failureMessage: (checkedRequest: CheckedRequest) => ResponseMessage,
-    protected readonly applySkill: (checkedRequest: CheckedRequest, affectBuilder?: AffectBuilder) =>
+    protected readonly applySkill: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) =>
       Promise<Affect | void>,
     protected readonly checkComponents: (request: Request, checkBuilder: CheckBuilder) => void,
     protected readonly helpText: string) {
@@ -41,14 +38,22 @@ export default class Skill extends Action {
   }
 
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const rollResult = this.roll(checkedRequest)
-    await this.publishSkillEventFromCheckedRequest(checkedRequest, rollResult)
+    const rollResultInitial = this.roll(checkedRequest)
+    const eventResponse = await this.publishSkillEventFromCheckedRequest(checkedRequest, rollResultInitial)
+    const rollResult = eventResponse.event.rollResult
     if (!rollResult) {
       return checkedRequest.responseWithMessage(
         ResponseStatus.ActionFailed,
         this.getFailureMessage(checkedRequest))
     }
-    await this.applySkill(checkedRequest)
+    const affect = await this.applySkill(
+      checkedRequest,
+      new AffectBuilder(this.affectType)
+        .setLevel(checkedRequest.mob.level))
+    if (affect) {
+      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) || checkedRequest.mob
+      target.addAffect(affect)
+    }
     return checkedRequest.responseWithMessage(
       ResponseStatus.Success,
       this.successMessage(checkedRequest))
@@ -58,7 +63,6 @@ export default class Skill extends Action {
     const checkBuilder = this.abilityService.createCheckTemplate(request)
       .perform(this)
       .requireFromActionParts(request, this.getActionParts())
-      .capture(this)
     if (this.checkComponents) {
       this.checkComponents(request, checkBuilder)
     }
@@ -81,10 +85,6 @@ export default class Skill extends Action {
     return this.actionType
   }
 
-  public roll(checkedRequest: CheckedRequest): boolean {
-    return checkedRequest.getCheckTypeResult(CheckType.HasSpell).level > percentRoll()
-  }
-
   public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
     return this.failureMessage(checkedRequest)
   }
@@ -103,15 +103,6 @@ export default class Skill extends Action {
 
   public getActionParts(): ActionPart[] {
     return this.actionParts
-  }
-
-  protected getSkillRoll(mob: Mob, skill: SkillModel): number {
-    let amount = (skill.level * 2) / 3
-    if (mob.getAffect(AffectType.Forget)) {
-      amount -= roll(4, 6)
-    }
-    const max = Math.min(100, Math.max(1, amount))
-    return roll(1, max)
   }
 
   private publishSkillEventFromCheckedRequest(checkedRequest: CheckedRequest, rollResult: boolean) {

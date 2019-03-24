@@ -39,7 +39,7 @@ describe("backstab skill action", () => {
       testBuilder.handleAction(RequestType.Backstab))
 
     // then
-    expect(responses.filter(r => r.isFailure()).length).toBeGreaterThan(iterations * 0.5)
+    expect(responses.filter(r => r.isFailure()).length).toBeGreaterThan(iterations * 0.4)
   })
 
   it("succeeds sometimes when partially practiced", async () => {

@@ -1,34 +1,16 @@
-import CheckedRequest from "../../../../check/checkedRequest"
+import AbilityService from "../../../../check/abilityService"
 import {CheckType} from "../../../../check/checkType"
-import roll from "../../../../random/dice"
+import {percentRoll} from "../../../../random/helpers"
+import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
-import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
-import EventSkill from "../../../eventSkill"
+import SkillBuilder from "../../../skillBuilder"
+import Skill from "../../skill"
 
-export default class FastHealingAction extends EventSkill {
-  public applySkill(checkedRequest: CheckedRequest): void {
-    const mob = checkedRequest.mob
-    mob.vitals.hp += roll( 10, mob.getCombinedAttributes().vitals.hp / 80)
-    mob.normalizeVitals()
-  }
-
-  public getActionType(): ActionType {
-    return ActionType.Defensive
-  }
-
-  public getSkillType(): SkillType {
-    return SkillType.FastHealing
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
-  }
-
-  public roll(checkedRequest: CheckedRequest): boolean {
-    const mob = checkedRequest.mob
-    const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-    return roll(2, mob.level + (skill.level / 2)) > mob.level
-  }
+export default function(abilityService: AbilityService): Skill {
+  return new SkillBuilder(abilityService, SkillType.FastHealing)
+    .setRoll(checkedRequest => checkedRequest.getCheckTypeResult(CheckType.HasSkill).level / 2 > percentRoll())
+    .setRequestType(RequestType.Noop)
+    .setActionType(ActionType.Defensive)
+    .create()
 }
