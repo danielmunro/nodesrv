@@ -9,6 +9,7 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Trip, 3),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.DirtKick, 3),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Berserk, 5),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.ShieldBlock, 5),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.FastHealing, 6),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.SecondAttack, 7),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Dodge, 8),
@@ -66,6 +67,7 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Mage, SpellType.Invisibility, 25),
   new SpecializationLevel(SpecializationType.Mage, SpellType.DrawLife, 27),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Wrath, 30),
+  new SpecializationLevel(SpecializationType.Mage, SpellType.WithstandDeath, 30),
 
   // weapon grants
   new SpecializationLevel(SpecializationType.Any, SkillType.Sword, 1),

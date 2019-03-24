@@ -81,6 +81,7 @@ draw life               NA
 
 level 30
 wrath                   NA
+withstand death         NA
 `,
   Ranger: `skill                   current practiced level
 
@@ -130,6 +131,7 @@ dirt kick               NA
 
 level 5
 berserk                 NA
+shield block            NA
 
 level 6
 fast healing            NA

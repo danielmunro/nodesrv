@@ -17,6 +17,7 @@ beforeEach(async () => {
   testBuilder = new TestBuilder()
   attacker = testBuilder.withMob()
     .withSkill(SkillType.ShieldBlock, MAX_PRACTICE_LEVEL)
+    .setLevel(20)
   testBuilder.withItem()
     .asShield()
     .equipToMobBuilder(attacker)
