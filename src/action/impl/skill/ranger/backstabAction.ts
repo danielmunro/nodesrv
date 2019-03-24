@@ -19,11 +19,9 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.Backstab.Mv),
       new DelayCost(Costs.Backstab.Delay),
     ])
-    .setApplySkill(checkedRequest => {
-      const mob = checkedRequest.mob
+    .setApplySkill(async checkedRequest => {
       const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      target.vitals.hp -= Fight.oneHit(mob, target)
-      return Promise.resolve()
+      target.vitals.hp -= Fight.calculateDamageForOneHit(checkedRequest.mob, target)
     })
     .setSuccessMessage(checkedRequest => {
       const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)

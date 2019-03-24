@@ -17,7 +17,7 @@ import {FightStatus} from "./fightStatus"
 import {Round} from "./round"
 
 export class Fight {
-  public static oneHit(
+  public static calculateDamageForOneHit(
     attacker: Mob,
     defender: Mob): number {
     const attackerAttributes = attacker.getCombinedAttributes()
@@ -98,7 +98,7 @@ export class Fight {
       return Fight.attackDefeated(attacker, defender, AttackResult.Miss)
     }
 
-    const initialDamageCalculation = Fight.oneHit(attacker, defender)
+    const initialDamageCalculation = Fight.calculateDamageForOneHit(attacker, defender)
     const response = await this.eventService.publish(
       new DamageEvent(defender, initialDamageCalculation, DamageType.Slash, attacker))
     const event = response.event as DamageEvent
