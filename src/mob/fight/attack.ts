@@ -9,6 +9,7 @@ export enum AttackResult {
   Miss,
   Dodge,
   Parry,
+  ShieldBlock,
 }
 
 export function getSuppressionAttackResultFromSkillType(skill: SkillType): AttackResult {
@@ -18,6 +19,10 @@ export function getSuppressionAttackResultFromSkillType(skill: SkillType): Attac
 
   if (skill === SkillType.Parry) {
     return AttackResult.Parry
+  }
+
+  if (skill === SkillType.ShieldBlock) {
+    return AttackResult.ShieldBlock
   }
 
   return AttackResult.Miss

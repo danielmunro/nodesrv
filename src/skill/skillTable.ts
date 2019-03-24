@@ -2,6 +2,7 @@ import dodgeAction from "../action/impl/skill/event/dodgeAction"
 import enhancedDamageAction from "../action/impl/skill/event/enhancedDamageAction"
 import fastHealingAction from "../action/impl/skill/event/fastHealingAction"
 import secondAttackAction from "../action/impl/skill/event/secondAttackAction"
+import shieldBlockAction from "../action/impl/skill/event/shieldBlockAction"
 import backstabAction from "../action/impl/skill/ranger/backstabAction"
 import dirtKickAction from "../action/impl/skill/ranger/dirtKickAction"
 import envenomAction from "../action/impl/skill/ranger/envenomAction"
@@ -29,6 +30,7 @@ export function getSkillTable(mobService: MobService, eventService: EventService
     secondAttackAction(abilityService),
     enhancedDamageAction(abilityService),
     fastHealingAction(abilityService),
+    shieldBlockAction(abilityService),
 
     backstabAction(abilityService),
     dirtKickAction(abilityService),

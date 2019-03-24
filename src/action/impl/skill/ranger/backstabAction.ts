@@ -25,17 +25,17 @@ export default function(abilityService: AbilityService): Skill {
     })
     .setSuccessMessage(checkedRequest => new ResponseMessageBuilder(
       checkedRequest.mob,
-      ActionMessages.Backstab.Success)
-      .setTarget(checkedRequest.getCheckTypeResult(CheckType.HasTarget))
-      .setPluralizeRequestCreator(false)
+      ActionMessages.Backstab.Success,
+      checkedRequest.getCheckTypeResult(CheckType.HasTarget))
       .setVerbToRequestCreator("backstab")
       .setVerbToTarget("backstabs")
       .setVerbToObservers("backstabs")
       .create())
     .setFailMessage(checkedRequest => new ResponseMessageBuilder(
       checkedRequest.mob,
-      ActionMessages.Backstab.Failure)
-      .setTarget(checkedRequest.getCheckTypeResult(CheckType.HasTarget))
+      ActionMessages.Backstab.Failure,
+      checkedRequest.getCheckTypeResult(CheckType.HasTarget))
+      .setPluralizeRequestCreator()
       .setVerbToRequestCreator("dodges")
       .setVerbToTarget("dodge")
       .setSelfIdentifier("your")

@@ -3,24 +3,19 @@ import {Mob} from "../mob/model/mob"
 import ResponseMessage from "./responseMessage"
 
 export default class ResponseMessageBuilder {
-  private target: Mob | Item
   private selfIdentifier: string = "you"
-  private pluralizeRequestCreator: boolean = true
+  private pluralizeRequestCreator: boolean = false
   private verbToRequestCreator: string
   private verbToTarget: string
   private verbToObservers: string
 
   constructor(
     private readonly requestCreator: Mob,
-    private readonly templateString: string) {}
+    private readonly templateString: string,
+    private readonly target?: Mob | Item) {}
 
-  public setPluralizeRequestCreator(toggle: boolean): ResponseMessageBuilder {
-    this.pluralizeRequestCreator = toggle
-    return this
-  }
-
-  public setTarget(target: Mob | Item): ResponseMessageBuilder {
-    this.target = target
+  public setPluralizeRequestCreator(): ResponseMessageBuilder {
+    this.pluralizeRequestCreator = true
     return this
   }
 
