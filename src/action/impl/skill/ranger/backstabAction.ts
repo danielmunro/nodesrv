@@ -3,7 +3,7 @@ import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {Fight} from "../../../../mob/fight/fight"
-import ResponseMessage from "../../../../request/responseMessage"
+import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {ActionMessages, Costs} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import {ActionPart} from "../../../enum/actionPart"
@@ -23,24 +23,22 @@ export default function(abilityService: AbilityService): Skill {
       const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
       target.vitals.hp -= Fight.calculateDamageForOneHit(checkedRequest.mob, target)
     })
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        ActionMessages.Backstab.Success,
-        { target, verb: "backstab" },
-        { verb: "backstabs" },
-        { target, verb: "backstabs" })
-    })
-    .setFailMessage(checkedRequest => {
-      const mob = checkedRequest.mob
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        mob,
-        ActionMessages.Backstab.Failure,
-        { target, verb: "dodges", requestCreator: "your" },
-        { verb: "dodge", requestCreator: `${mob.name}'s`},
-        { target, verb: "dodges", requestCreator: `${mob.name}'s`})
-    })
+    .setSuccessMessage(checkedRequest => new ResponseMessageBuilder(
+      checkedRequest.mob,
+      ActionMessages.Backstab.Success)
+      .setTarget(checkedRequest.getCheckTypeResult(CheckType.HasTarget))
+      .setPluralizeRequestCreator(false)
+      .setVerbToRequestCreator("backstab")
+      .setVerbToTarget("backstabs")
+      .setVerbToObservers("backstabs")
+      .create())
+    .setFailMessage(checkedRequest => new ResponseMessageBuilder(
+      checkedRequest.mob,
+      ActionMessages.Backstab.Failure)
+      .setTarget(checkedRequest.getCheckTypeResult(CheckType.HasTarget))
+      .setVerbToRequestCreator("dodges")
+      .setVerbToTarget("dodge")
+      .setSelfIdentifier("your")
+      .create())
     .create()
 }
