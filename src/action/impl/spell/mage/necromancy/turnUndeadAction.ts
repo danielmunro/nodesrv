@@ -16,54 +16,39 @@ import {SpellType} from "../../../../../spell/spellType"
 import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
 import Spell from "../../../spell"
+import SpellBuilder from "../../../../spellBuilder"
+import ResponseMessageBuilder from "../../../../../request/responseMessageBuilder"
+import {CheckType} from "../../../../../check/checkType"
+import DamageEvent from "../../../../../mob/event/damageEvent"
+import roll from "../../../../../random/dice"
+import {DamageType} from "../../../../../damage/damageType"
 
-export default class TurnUndeadAction extends Spell {
-  constructor(
-    abilityService: AbilityService,
-    private readonly mobService: MobService) {
-    super(abilityService)
-  }
+async function turn(room: Room, target: Mob, abilityService: AbilityService) {
+  target.disposition = Disposition.Dead
+  await abilityService.publishEvent(new RoomMessageEvent(
+    room,
+    new ResponseMessage(
+      target,
+      SpellMessages.TurnUndead.MobTurned,
+      { target })))
+}
 
-  public applySpell(checkedRequest: CheckedRequest): void {
-    this.mobService.locationService.getMobsInRoomWithMob(checkedRequest.mob)
-      .filter(mob => mob.race === Race.Undead)
-      .filter(mob => percentRoll() < 100 - mob.level)
-      .forEach(mob => this.turn(checkedRequest.room, mob))
-  }
-
-  public getSpellType(): SpellType {
-    return SpellType.TurnUndead
-  }
-
-  public getActionType(): ActionType {
-    return ActionType.Offensive
-  }
-
-  public getCosts(): Cost[] {
-    return [
+export default function(abilityService: AbilityService, mobService: MobService): Spell {
+  return new SpellBuilder(abilityService)
+    .setSpellType(SpellType.TurnUndead)
+    .setActionType(ActionType.Defensive)
+    .setCosts([
       new ManaCost(50),
       new DelayCost(1),
-    ]
-  }
-
-  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    return new ResponseMessage(
+    ])
+    .setSuccessMessage(checkedRequest => new ResponseMessage(
       checkedRequest.mob,
-      SpellMessages.TurnUndead.Success)
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
-  }
-
-  private async turn(room: Room, target: Mob) {
-    target.disposition = Disposition.Dead
-    await this.abilityService.publishEvent(new RoomMessageEvent(
-      room,
-      new ResponseMessage(
-        target,
-        SpellMessages.TurnUndead.MobTurned,
-        { target })))
-  }
+      SpellMessages.TurnUndead.Success))
+    .setApplySpell(async checkedRequest => {
+      mobService.locationService.getMobsInRoomWithMob(checkedRequest.mob)
+        .filter(mob => mob.race === Race.Undead)
+        .filter(mob => percentRoll() < 100 - mob.level)
+        .forEach(mob => turn(checkedRequest.room, mob, abilityService))
+    })
+    .create()
 }

@@ -29,12 +29,12 @@ import poisonAction from "../action/impl/spell/mage/maladiction/poisonAction"
 import wrathAction from "../action/impl/spell/mage/maladiction/wrathAction"
 import drawLifeAction from "../action/impl/spell/mage/necromancy/drawLifeAction"
 import summonUndeadAction from "../action/impl/spell/mage/necromancy/summonUndeadAction"
-import TurnUndeadAction from "../action/impl/spell/mage/necromancy/turnUndeadAction"
 import withstandDeathAction from "../action/impl/spell/mage/necromancy/withstandDeathAction"
 import AbilityService from "../check/abilityService"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
 import MobService from "../mob/mobService"
+import turnUndeadAction from "../action/impl/spell/mage/necromancy/turnUndeadAction"
 
 export default function getSpellTable(mobService: MobService, eventService: EventService): Spell[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
@@ -86,7 +86,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
 
     // necromancy
     summonUndeadAction(abilityService, mobService),
-    new TurnUndeadAction(abilityService, mobService),
+    turnUndeadAction(abilityService, mobService),
     drawLifeAction(abilityService),
     withstandDeathAction(abilityService),
 

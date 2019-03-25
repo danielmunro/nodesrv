@@ -3,12 +3,17 @@ import {Race} from "../../../../../mob/race/race"
 import {RequestType} from "../../../../../request/requestType"
 import doNTimes from "../../../../../support/functional/times"
 import TestBuilder from "../../../../../test/testBuilder"
+import {SpellType} from "../../../../../spell/spellType"
+import {MAX_PRACTICE_LEVEL} from "../../../../../mob/constants"
 
 let testBuilder: TestBuilder
 const undeadCount = 5
 
 beforeEach(() => {
   testBuilder = new TestBuilder()
+  testBuilder.withMob()
+    .withSpell(SpellType.TurnUndead, MAX_PRACTICE_LEVEL)
+    .setLevel(30)
 })
 
 describe("turn undead action", () => {
@@ -17,11 +22,11 @@ describe("turn undead action", () => {
     const mobs = await doNTimes(undeadCount, () => testBuilder.withMob().setRace(Race.Undead))
 
     // when
-    await doNTimes(10, () =>
-      testBuilder.handleAction(RequestType.Cast, "cast turn"))
+    await testBuilder.successfulAction(
+      testBuilder.createRequest(RequestType.Cast, "cast turn"))
 
     // then
-    expect(mobs.filter(mob => mob.disposition === Disposition.Dead)).toHaveLength(0)
+    expect(mobs.filter(mob => mob.disposition === Disposition.Dead)).toHaveLength(undeadCount)
   })
 
   it("does not kill mobs who are not undead", async () => {
@@ -29,8 +34,8 @@ describe("turn undead action", () => {
     const mobs = await doNTimes(undeadCount, () => testBuilder.withMob())
 
     // when
-    await doNTimes(10, () =>
-      testBuilder.handleAction(RequestType.Cast, "cast turn"))
+    await testBuilder.successfulAction(
+      testBuilder.createRequest(RequestType.Cast, "cast turn"))
 
     // then
     expect(mobs.filter(mob => mob.disposition === Disposition.Dead)).toHaveLength(0)
