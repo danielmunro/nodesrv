@@ -52,6 +52,7 @@ export default class HealAction extends Action {
       new Request(healer, request.room, new EventContext(RequestType.Cast), request.mob))
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.Thing ]
   }

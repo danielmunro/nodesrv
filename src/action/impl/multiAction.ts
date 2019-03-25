@@ -32,6 +32,7 @@ export default class MultiAction extends Action {
     return action.handle(checkedRequest.request)
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return this.actionParts
   }

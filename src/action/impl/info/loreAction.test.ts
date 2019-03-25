@@ -18,4 +18,20 @@ describe("lore", () => {
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
     expect(response.message.getMessageToRequestCreator()).toContain("is not identified")
   })
+
+  it("should work on identified items", async () => {
+    const testBuilder = new TestBuilder()
+    const mobBuilder = testBuilder.withMob()
+    testBuilder.withWeapon()
+      .asAxe()
+      .addToMobBuilder(mobBuilder)
+      .build()
+
+    const definition = await testBuilder.getAction(RequestType.Lore)
+    const response = await definition.handle(testBuilder.createRequest(RequestType.Lore, "lore axe"))
+
+    expect(response.isSuccessful()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(`a wood chopping axe details:
+level: 1  weight: 5  value: 10`)
+  })
 })

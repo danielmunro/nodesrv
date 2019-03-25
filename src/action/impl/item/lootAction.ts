@@ -59,6 +59,7 @@ export default class LootAction extends Action {
       { verb: LootAction.getVerb(false), ...replacements })
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.ItemInInventory, ActionPart.ItemInRoom ]
   }

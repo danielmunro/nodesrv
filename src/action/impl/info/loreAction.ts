@@ -31,7 +31,14 @@ export default class LoreAction extends Action {
   public invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
 
-    return checkedRequest.respondWith().success(ActionMessages.Lore.Success, { item })
+    return checkedRequest.respondWith().success(
+      ActionMessages.Lore.Success,
+      {
+        item,
+        level: item.level,
+        value: item.value,
+        weight: item.weight,
+      })
   }
 
   public getActionParts(): ActionPart[] {
