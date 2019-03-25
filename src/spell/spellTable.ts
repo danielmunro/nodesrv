@@ -3,8 +3,7 @@ import curePoisonAction from "../action/impl/spell/cleric/curative/curePoisonAct
 import feastAction from "../action/impl/spell/cleric/curative/feastAction"
 import removeCurseAction from "../action/impl/spell/cleric/curative/removeCurseAction"
 import cureLightAction from "../action/impl/spell/cleric/healing/cureLightAction"
-import CureSeriousAction from "../action/impl/spell/cleric/healing/cureSeriousAction"
-import HealAction from "../action/impl/spell/cleric/healing/healAction"
+import cureSeriousAction from "../action/impl/spell/cleric/healing/cureSeriousAction"
 import blessAction from "../action/impl/spell/cleric/piety/blessAction"
 import crusadeAction from "../action/impl/spell/cleric/piety/crusadeAction"
 import cancellationAction from "../action/impl/spell/cleric/protective/cancellationAction"
@@ -29,12 +28,13 @@ import poisonAction from "../action/impl/spell/mage/maladiction/poisonAction"
 import wrathAction from "../action/impl/spell/mage/maladiction/wrathAction"
 import drawLifeAction from "../action/impl/spell/mage/necromancy/drawLifeAction"
 import summonUndeadAction from "../action/impl/spell/mage/necromancy/summonUndeadAction"
+import turnUndeadAction from "../action/impl/spell/mage/necromancy/turnUndeadAction"
 import withstandDeathAction from "../action/impl/spell/mage/necromancy/withstandDeathAction"
 import AbilityService from "../check/abilityService"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
 import MobService from "../mob/mobService"
-import turnUndeadAction from "../action/impl/spell/mage/necromancy/turnUndeadAction"
+import healAction from "../action/impl/spell/cleric/healing/healAction"
 
 export default function getSpellTable(mobService: MobService, eventService: EventService): Spell[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
@@ -48,8 +48,8 @@ export default function getSpellTable(mobService: MobService, eventService: Even
 
     // healing
     cureLightAction(abilityService),
-    new CureSeriousAction(abilityService),
-    new HealAction(abilityService),
+    cureSeriousAction(abilityService),
+    healAction(abilityService),
 
     // curative
     curePoisonAction(abilityService),

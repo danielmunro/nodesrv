@@ -1,10 +1,10 @@
+import {MAX_PRACTICE_LEVEL} from "../../../../../mob/constants"
 import {Disposition} from "../../../../../mob/enum/disposition"
 import {Race} from "../../../../../mob/race/race"
 import {RequestType} from "../../../../../request/requestType"
+import {SpellType} from "../../../../../spell/spellType"
 import doNTimes from "../../../../../support/functional/times"
 import TestBuilder from "../../../../../test/testBuilder"
-import {SpellType} from "../../../../../spell/spellType"
-import {MAX_PRACTICE_LEVEL} from "../../../../../mob/constants"
 
 let testBuilder: TestBuilder
 const undeadCount = 5

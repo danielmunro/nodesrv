@@ -1,49 +1,34 @@
-import CheckedRequest from "../../../../../check/checkedRequest"
+import AbilityService from "../../../../../check/abilityService"
 import {CheckType} from "../../../../../check/checkType"
-import Cost from "../../../../../check/cost/cost"
 import DelayCost from "../../../../../check/cost/delayCost"
 import ManaCost from "../../../../../check/cost/manaCost"
 import roll from "../../../../../random/dice"
-import ResponseMessage from "../../../../../request/responseMessage"
+import ResponseMessageBuilder from "../../../../../request/responseMessageBuilder"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
-import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
+import SpellBuilder from "../../../../spellBuilder"
 import Spell from "../../../spell"
 
-export default class HealAction extends Spell {
-  public applySpell(checkedRequest: CheckedRequest): void {
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    target.vitals.hp += roll(20, 4)
-  }
-
-  public getSpellType(): SpellType {
-    return SpellType.Heal
-  }
-
-  public getActionType(): ActionType {
-    return ActionType.Defensive
-  }
-
-  public getCosts(): Cost[] {
-    return [
+export default function(abilityService: AbilityService): Spell {
+  return new SpellBuilder(abilityService)
+    .setSpellType(SpellType.Heal)
+    .setActionType(ActionType.Defensive)
+    .setCosts([
       new ManaCost(50),
       new DelayCost(1),
-    ]
-  }
-
-  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    return new ResponseMessage(
+    ])
+    .setSuccessMessage(checkedRequest => new ResponseMessageBuilder(
       checkedRequest.mob,
-      SpellMessages.Heal.Success,
-      { target: target === checkedRequest.mob ? "you" : target, verb: "is" },
-      { target: "you", verb: "are" },
-      { target, verb: "is" })
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
-  }
+      SpellMessages.CureSerious.Success,
+      checkedRequest.getCheckTypeResult(CheckType.HasTarget))
+      .setVerbToRequestCreator("is")
+      .setVerbToTarget("are")
+      .setVerbToObservers("is")
+      .create())
+    .setApplySpell(async checkedRequest => {
+      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+      target.vitals.hp += roll(20, 4)
+    })
+    .create()
 }

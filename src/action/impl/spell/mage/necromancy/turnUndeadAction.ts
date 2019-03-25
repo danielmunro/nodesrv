@@ -1,6 +1,4 @@
 import AbilityService from "../../../../../check/abilityService"
-import CheckedRequest from "../../../../../check/checkedRequest"
-import Cost from "../../../../../check/cost/cost"
 import DelayCost from "../../../../../check/cost/delayCost"
 import ManaCost from "../../../../../check/cost/manaCost"
 import {Disposition} from "../../../../../mob/enum/disposition"
@@ -13,15 +11,9 @@ import RoomMessageEvent from "../../../../../room/event/roomMessageEvent"
 import {Room} from "../../../../../room/model/room"
 import {SpellMessages} from "../../../../../spell/constants"
 import {SpellType} from "../../../../../spell/spellType"
-import {Messages} from "../../../../constants"
 import {ActionType} from "../../../../enum/actionType"
-import Spell from "../../../spell"
 import SpellBuilder from "../../../../spellBuilder"
-import ResponseMessageBuilder from "../../../../../request/responseMessageBuilder"
-import {CheckType} from "../../../../../check/checkType"
-import DamageEvent from "../../../../../mob/event/damageEvent"
-import roll from "../../../../../random/dice"
-import {DamageType} from "../../../../../damage/damageType"
+import Spell from "../../../spell"
 
 async function turn(room: Room, target: Mob, abilityService: AbilityService) {
   target.disposition = Disposition.Dead
