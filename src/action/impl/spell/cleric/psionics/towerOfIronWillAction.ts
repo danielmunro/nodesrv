@@ -29,7 +29,7 @@ export default function(abilityService: AbilityService): Spell {
         { target: "your" },
         { target: `${target}'s` })
     })
-    .setApplySpell((checkedRequest, affectBuilder) => affectBuilder
+    .setApplySpell(async (checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level / 7)
       .setResist(new DamageSourceBuilder().enableMental().get())
       .build())

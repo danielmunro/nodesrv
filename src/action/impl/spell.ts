@@ -28,7 +28,7 @@ export default class Spell extends Action {
     protected readonly actionType: ActionType,
     protected readonly costs: Cost[],
     protected readonly successMessage: (checkedRequest: CheckedRequest) => ResponseMessage,
-    protected readonly applySpell: (checkedRequest: CheckedRequest, affectBuilder?: AffectBuilder) =>
+    protected readonly applySpell: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) =>
       Promise<Affect | void>,
     protected readonly checkComponents: (request: Request, checkBuilder: CheckBuilder) => void,
     protected readonly helpText: string) {
@@ -45,7 +45,7 @@ export default class Spell extends Action {
     }
 
     const affectType = this.getAffectType()
-    const affect = await this.applySpell(checkedRequest, affectType ? new AffectBuilder(affectType) : undefined)
+    const affect = await this.applySpell(checkedRequest, new AffectBuilder(affectType ? affectType : AffectType.Noop))
     if (affect) {
       checkedRequest.getCheckTypeResult(CheckType.HasTarget).addAffect(affect)
     }

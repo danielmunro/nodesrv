@@ -1,13 +1,13 @@
 import Spell from "../action/impl/spell"
-import CurePoisonAction from "../action/impl/spell/cleric/curative/curePoisonAction"
+import curePoisonAction from "../action/impl/spell/cleric/curative/curePoisonAction"
 import feastAction from "../action/impl/spell/cleric/curative/feastAction"
-import RemoveCurseAction from "../action/impl/spell/cleric/curative/removeCurseAction"
+import removeCurseAction from "../action/impl/spell/cleric/curative/removeCurseAction"
 import cureLightAction from "../action/impl/spell/cleric/healing/cureLightAction"
 import CureSeriousAction from "../action/impl/spell/cleric/healing/cureSeriousAction"
 import HealAction from "../action/impl/spell/cleric/healing/healAction"
 import blessAction from "../action/impl/spell/cleric/piety/blessAction"
 import crusadeAction from "../action/impl/spell/cleric/piety/crusadeAction"
-import CancellationAction from "../action/impl/spell/cleric/protective/cancellationAction"
+import cancellationAction from "../action/impl/spell/cleric/protective/cancellationAction"
 import fireproofAction from "../action/impl/spell/cleric/protective/fireproofAction"
 import protectionEvilAction from "../action/impl/spell/cleric/protective/protectionEvilAction"
 import protectionGoodAction from "../action/impl/spell/cleric/protective/protectionGoodAction"
@@ -15,6 +15,7 @@ import protectionNeutralAction from "../action/impl/spell/cleric/protective/prot
 import sanctuaryAction from "../action/impl/spell/cleric/protective/sanctuaryAction"
 import shieldAction from "../action/impl/spell/cleric/protective/shieldAction"
 import stoneSkinAction from "../action/impl/spell/cleric/protective/stoneSkinAction"
+import psionicBlastAction from "../action/impl/spell/cleric/psionics/psionicBlastAction"
 import towerOfIronWillAction from "../action/impl/spell/cleric/psionics/towerOfIronWillAction"
 import lightningBoltAction from "../action/impl/spell/mage/attack/lightningBoltAction"
 import magicMissileAction from "../action/impl/spell/mage/attack/magicMissileAction"
@@ -51,8 +52,8 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     new HealAction(abilityService),
 
     // curative
-    new CurePoisonAction(abilityService),
-    new RemoveCurseAction(abilityService),
+    curePoisonAction(abilityService),
+    removeCurseAction(abilityService),
     feastAction(abilityService),
 
     // enhancements
@@ -66,7 +67,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     // protective
     shieldAction(abilityService),
     stoneSkinAction(abilityService),
-    new CancellationAction(abilityService),
+    cancellationAction(abilityService),
     sanctuaryAction(abilityService),
     protectionGoodAction(abilityService),
     protectionEvilAction(abilityService),
@@ -91,5 +92,6 @@ export default function getSpellTable(mobService: MobService, eventService: Even
 
     // psionics
     towerOfIronWillAction(abilityService),
+    psionicBlastAction(abilityService),
   ]
 }

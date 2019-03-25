@@ -57,5 +57,6 @@ export enum SpellType {
   DrawLife = "draw life",
 
   // psionics
+  PsionicBlast = "psionic blast",
   TowerOfIronWill = "tower of iron will",
 }

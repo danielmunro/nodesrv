@@ -77,6 +77,9 @@ export const SpellMessages = {
   ProtectionNeutral: {
     Success: "{target} {verb} engulfed in a gray aura.",
   },
+  PsionicBlast: {
+    Success: "{target} {verb} shattered by a psionic blast.",
+  },
   RemoveCurse: {
     RequiresAffect: "There is no curse to lift.",
     Success: "{target} curse is lifted.",

@@ -20,7 +20,7 @@ export default class SpellBuilder {
   private costs: Cost[]
   private checkBuilder: (request: Request, checkBuilder: CheckBuilder) => void
   private successMessage: (checkedRequest: CheckedRequest) => ResponseMessage
-  private applySpell: (checkedRequest: CheckedRequest, affectBuilder?: AffectBuilder) => Promise<Affect | void>
+  private applySpell: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) => Promise<Affect | void>
 
   constructor(private readonly abilityService: AbilityService) {
     this.helpText = Messages.Help.NoActionHelpTextProvided
@@ -58,7 +58,7 @@ export default class SpellBuilder {
   }
 
   public setApplySpell(
-    applySpell: (checkedRequest: CheckedRequest, affectBuilder?: AffectBuilder) =>
+    applySpell: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) =>
       Promise<Affect | void>): SpellBuilder {
     this.applySpell = applySpell
     return this
