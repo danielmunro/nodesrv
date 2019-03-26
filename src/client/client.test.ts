@@ -1,15 +1,18 @@
-import { Player } from "../player/model/player"
+import {AffectType} from "../affect/affectType"
+import {newAffect} from "../affect/factory"
+import {Player} from "../player/model/player"
 import InputContext from "../request/context/inputContext"
-import { Request } from "../request/request"
-import { RequestType } from "../request/requestType"
-import { default as AuthRequest } from "../session/auth/request"
+import {Request} from "../request/request"
+import {RequestType} from "../request/requestType"
+import {default as AuthRequest} from "../session/auth/request"
 import Session from "../session/session"
+import {SpellMessages} from "../spell/constants"
 import {getConnection, initializeConnection} from "../support/db/connection"
-import { getTestClientLoggedOut } from "../test/client"
-import { getTestRoom } from "../test/room"
+import {getTestClientLoggedOut} from "../test/client"
+import {getTestRoom} from "../test/room"
 import TestBuilder from "../test/testBuilder"
-import { Client } from "./client"
-import { MESSAGE_NOT_UNDERSTOOD } from "./constants"
+import {Client} from "./client"
+import {MESSAGE_NOT_UNDERSTOOD} from "./constants"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
@@ -169,5 +172,17 @@ describe("clients", () => {
 
     // then
     expect(testClient.getSessionMob().playerMob.trains).toBe(0)
+  })
+
+  it("satisfies event with holy silence", async () => {
+    // setup
+    client.getSessionMob().addAffect(newAffect(AffectType.HolySilence))
+    const request = testBuilder.createRequest(RequestType.Cast)
+
+    // when
+    const response = await client.handleRequest(request)
+
+    // then
+    expect(response.message.getMessageToRequestCreator()).toBe(SpellMessages.HolySilence.CastPrevented)
   })
 })

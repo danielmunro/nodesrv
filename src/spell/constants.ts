@@ -60,6 +60,7 @@ export const SpellMessages = {
     Success: "a warm wave flows through {target}.",
   },
   HolySilence: {
+    CastPrevented: "you are affected by holy silence.",
     Success: "{target} {verb} silent.",
   },
   Invisibility: {

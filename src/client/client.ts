@@ -15,6 +15,7 @@ import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
 import Session from "../session/session"
 import ClientEvent from "./event/clientEvent"
+import InputEvent from "./event/inputEvent"
 
 export class Client {
   public player: Player
@@ -70,6 +71,18 @@ export class Client {
   public async handleRequest(request: Request): Promise<Response> {
     const matchingHandlerDefinition = this.actions.find(action =>
       action.isAbleToHandleRequestType(request.getType())) as Action
+    const eventResponse = await this.eventService.publish(
+      new InputEvent(
+        this.getSessionMob(),
+        request,
+        matchingHandlerDefinition))
+    if (eventResponse.isSatisifed()) {
+      const inputEvent = eventResponse.event as InputEvent
+      const res = inputEvent.response as Response
+      this.send(res.getPayload())
+      this.sendMessage(this.player.prompt())
+      return res
+    }
     const response = await matchingHandlerDefinition.handle(request)
     if (response.request instanceof CheckedRequest) {
       this.applyCosts(response.request.check.costs)

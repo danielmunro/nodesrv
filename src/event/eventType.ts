@@ -2,6 +2,7 @@ export enum EventType {
   ClientDisconnected,
   ClientLogin,
   ClientLogout,
+  ClientRequest,
   MobCreated,
   MobMoved,
   ItemDropped,

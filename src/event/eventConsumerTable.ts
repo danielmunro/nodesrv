@@ -4,6 +4,7 @@ import CrusadeEventConsumer from "../affect/eventConsumer/crusadeEventConsumer"
 import DamageSourceEventConsumer from "../affect/eventConsumer/damageSourceEventConsumer"
 import ForgetEventConsumer from "../affect/eventConsumer/forgetEventConsumer"
 import HasteEventConsumer from "../affect/eventConsumer/hasteEventConsumer"
+import HolySilenceEventConsumer from "../affect/eventConsumer/holySilenceEventConsumer"
 import ProtectionEventConsumer from "../affect/eventConsumer/protectionEventConsumer"
 import SanctuaryEventConsumer from "../affect/eventConsumer/sanctuaryEventConsumer"
 import WithstandDeathEventConsumer from "../affect/eventConsumer/withstandDeathEventConsumer"
@@ -59,6 +60,7 @@ export default async function createEventConsumerTable(
     new DamageSourceEventConsumer(),
     new ProtectionEventConsumer(),
     new WithstandDeathEventConsumer(),
+    new HolySilenceEventConsumer(),
 
     // mob
     new AggressiveMob(mobService, locationService, fightBuilder),
