@@ -28,6 +28,9 @@ protection good         NA
 protection evil         NA
 protection neutral      NA
 
+level 16
+holy silence            NA
+
 level 18
 cancellation            NA
 

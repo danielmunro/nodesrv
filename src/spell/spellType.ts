@@ -50,6 +50,7 @@ export enum SpellType {
   // piety
   Bless = "bless",
   Crusade = "crusade",
+  HolySilence = "holy silence",
 
   // necromancy
   TurnUndead = "turn undead",

@@ -1,7 +1,7 @@
 import {Spell} from "./model/spell"
 import {SpellType} from "./spellType"
 
-export function newSpell(spellType: SpellType, level: number = 1, levelObtained: number = 1) {
+export function newSpell(spellType: SpellType, level: number = 1, levelObtained: number = 1): Spell {
   const spell = new Spell()
   spell.spellType = spellType
   spell.level = level

@@ -12,20 +12,20 @@ import SpellBuilder from "../../../../spellBuilder"
 
 export default function(abilityService: AbilityService) {
   return new SpellBuilder(abilityService)
-    .setSpellType(SpellType.Crusade)
-    .setAffectType(AffectType.Crusade)
-    .setActionType(ActionType.Defensive)
+    .setSpellType(SpellType.HolySilence)
+    .setAffectType(AffectType.HolySilence)
+    .setActionType(ActionType.Offensive)
     .setCosts([
-      new ManaCost(20),
+      new ManaCost(30),
       new DelayCost(1),
     ])
     .setSuccessMessage(checkedRequest => new ResponseMessageBuilder(
       checkedRequest.mob,
-      SpellMessages.Crusade.Success,
+      SpellMessages.HolySilence.Success,
       checkedRequest.getTarget())
-      .setVerbToRequestCreator("is")
-      .setVerbToTarget("are")
-      .setVerbToObservers("is")
+      .setVerbToRequestCreator("falls")
+      .setVerbToTarget("fall")
+      .setVerbToObservers("falls")
       .create())
     .setApplySpell(async (checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level / 8)

@@ -7,6 +7,7 @@ import cureSeriousAction from "../action/impl/spell/cleric/healing/cureSeriousAc
 import healAction from "../action/impl/spell/cleric/healing/healAction"
 import blessAction from "../action/impl/spell/cleric/piety/blessAction"
 import crusadeAction from "../action/impl/spell/cleric/piety/crusadeAction"
+import holySilenceAction from "../action/impl/spell/cleric/piety/holySilenceAction"
 import cancellationAction from "../action/impl/spell/cleric/protective/cancellationAction"
 import fireproofAction from "../action/impl/spell/cleric/protective/fireproofAction"
 import protectionEvilAction from "../action/impl/spell/cleric/protective/protectionEvilAction"
@@ -83,6 +84,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     // piety
     blessAction(abilityService),
     crusadeAction(abilityService),
+    holySilenceAction(abilityService),
 
     // necromancy
     summonUndeadAction(abilityService, mobService),

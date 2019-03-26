@@ -1,12 +1,12 @@
-import { Mob } from "../mob/model/mob"
-import { Request } from "../request/request"
+import {Mob} from "../mob/model/mob"
+import {Request} from "../request/request"
 import Response from "../request/response"
 import ResponseBuilder from "../request/responseBuilder"
 import ResponseMessage from "../request/responseMessage"
 import {ResponseStatus} from "../request/responseStatus"
-import { Room } from "../room/model/room"
+import {Room} from "../room/model/room"
 import Check from "./check"
-import { CheckType } from "./checkType"
+import {CheckType} from "./checkType"
 
 export default class CheckedRequest {
 
@@ -16,6 +16,10 @@ export default class CheckedRequest {
   constructor(public readonly request: Request, public readonly check: Check) {
     this.mob = request.mob
     this.room = request.getRoom()
+  }
+
+  public getTarget() {
+    return this.getCheckTypeResult(CheckType.HasTarget)
   }
 
   public getCheckTypeResult(checkType: CheckType) {

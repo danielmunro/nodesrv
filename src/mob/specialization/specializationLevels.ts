@@ -45,6 +45,7 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Cleric, SpellType.ProtectionGood, 15),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.ProtectionEvil, 15),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.ProtectionNeutral, 15),
+  new SpecializationLevel(SpecializationType.Cleric, SpellType.HolySilence, 16),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.Cancellation, 18),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.Heal, 20),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.Shield, 20),

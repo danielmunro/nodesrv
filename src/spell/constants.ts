@@ -59,6 +59,9 @@ export const SpellMessages = {
   Heal: {
     Success: "a warm wave flows through {target}.",
   },
+  HolySilence: {
+    Success: "{target} {verb} silent.",
+  },
   Invisibility: {
     Success: "{target} {verb} out of existence.",
   },
