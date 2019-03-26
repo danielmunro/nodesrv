@@ -31,7 +31,7 @@ describe("cure light", () => {
 
     // when
     await getSuccessfulAction(
-      spell, testBuilder.createRequest(RequestType.Cast, "cast cure bob", mob))
+      spell, testBuilder.createRequest(RequestType.Cast, "cast 'cure light' bob", mob))
 
     // then
     expect(mob.vitals.hp).toBeGreaterThan(1)
@@ -43,7 +43,7 @@ describe("cure light", () => {
     mob.vitals.hp = 1
 
     // when
-    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast cure", mob))
+    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast 'cure light'", mob))
 
     // then
     expect(mob.vitals.hp).toBeGreaterThan(1)
@@ -51,7 +51,9 @@ describe("cure light", () => {
 
   it("generates accurate success messages when casting on target", async () => {
     // when
-    const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast cure bob", mob))
+    const response = await getSuccessfulAction(
+      spell,
+      testBuilder.createRequest(RequestType.Cast, "cast 'cure light' bob", mob))
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe("bob feels better!")
@@ -61,7 +63,9 @@ describe("cure light", () => {
 
   it("generates accurate success messages when casting on self", async () => {
     // when
-    const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast cure", caster))
+    const response = await getSuccessfulAction(
+      spell,
+      testBuilder.createRequest(RequestType.Cast, "cast 'cure light'", caster))
 
     // then
     expect(response.message.getMessageToRequestCreator()).toBe(defaultMessage)

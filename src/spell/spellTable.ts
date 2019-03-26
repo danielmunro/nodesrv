@@ -4,6 +4,7 @@ import feastAction from "../action/impl/spell/cleric/curative/feastAction"
 import removeCurseAction from "../action/impl/spell/cleric/curative/removeCurseAction"
 import cureLightAction from "../action/impl/spell/cleric/healing/cureLightAction"
 import cureSeriousAction from "../action/impl/spell/cleric/healing/cureSeriousAction"
+import healAction from "../action/impl/spell/cleric/healing/healAction"
 import blessAction from "../action/impl/spell/cleric/piety/blessAction"
 import crusadeAction from "../action/impl/spell/cleric/piety/crusadeAction"
 import cancellationAction from "../action/impl/spell/cleric/protective/cancellationAction"
@@ -34,7 +35,6 @@ import AbilityService from "../check/abilityService"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
 import MobService from "../mob/mobService"
-import healAction from "../action/impl/spell/cleric/healing/healAction"
 
 export default function getSpellTable(mobService: MobService, eventService: EventService): Spell[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)

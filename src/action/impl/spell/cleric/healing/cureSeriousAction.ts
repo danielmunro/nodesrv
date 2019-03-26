@@ -22,9 +22,9 @@ export default function(abilityService: AbilityService): Spell {
       checkedRequest.mob,
       SpellMessages.CureSerious.Success,
       checkedRequest.getCheckTypeResult(CheckType.HasTarget))
-      .setVerbToRequestCreator("is")
-      .setVerbToTarget("are")
-      .setVerbToObservers("is")
+      .setVerbToRequestCreator("feels")
+      .setVerbToTarget("feel")
+      .setVerbToObservers("feels")
       .create())
     .setApplySpell(async checkedRequest => {
       const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)

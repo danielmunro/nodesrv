@@ -48,8 +48,8 @@ export default class ResponseMessageBuilder {
       this.templateString,
       {
         requestCreator: this.selfIdentifier,
-        target: this.target,
-        verb: this.verbToRequestCreator,
+        target: this.target === this.requestCreator ? "you" : this.target,
+        verb: this.target === this.requestCreator ? this.verbToTarget : this.verbToRequestCreator,
       },
       {
         requestCreator: this.requestCreator + (this.pluralizeRequestCreator ? "'s" : ""),

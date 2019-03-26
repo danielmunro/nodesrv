@@ -57,7 +57,7 @@ export const SpellMessages = {
     Success: "{target} {verb} moving quickly.",
   },
   Heal: {
-    Success: "{target} {verb} a warm feeling flow through {target2}!",
+    Success: "a warm wave flows through {target}.",
   },
   Invisibility: {
     Success: "{target} {verb} out of existence.",

@@ -20,7 +20,7 @@ export default function(abilityService: AbilityService): Spell {
     ])
     .setSuccessMessage(checkedRequest => new ResponseMessageBuilder(
       checkedRequest.mob,
-      SpellMessages.CureSerious.Success,
+      SpellMessages.Heal.Success,
       checkedRequest.getCheckTypeResult(CheckType.HasTarget))
       .setVerbToRequestCreator("is")
       .setVerbToTarget("are")
