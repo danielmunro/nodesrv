@@ -18,6 +18,7 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Dodge, 13),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Sharpen, 15),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.ShieldBash, 18),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.Parry, 20),
 
   // ranger
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Backstab, 1),
@@ -28,6 +29,7 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Peek, 5),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Sharpen, 8),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Steal, 11),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.Parry, 14),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Envenom, 15),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.FastHealing, 16),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Disarm, 21),
@@ -42,6 +44,7 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Cleric, SpellType.CureSerious, 7),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.Fireproof, 8),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.TowerOfIronWill, 10),
+  new SpecializationLevel(SpecializationType.Cleric, SpellType.PsionicBlast, 12),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.CurePoison, 13),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.RemoveCurse, 13),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.ProtectionGood, 15),

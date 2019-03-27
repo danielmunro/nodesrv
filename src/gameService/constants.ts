@@ -19,6 +19,9 @@ fireproof               NA
 level 10
 tower of iron will      NA
 
+level 12
+psionic blast           NA
+
 level 13
 cure poison             NA
 remove curse            NA
@@ -108,12 +111,18 @@ sharpen                 NA
 level 11
 steal                   NA
 
+level 14
+parry                   NA
+
 level 15
 sharpen                 NA
 envenom                 NA
 
 level 16
 fast healing            NA
+
+level 20
+parry                   NA
 
 level 21
 disarm                  NA
