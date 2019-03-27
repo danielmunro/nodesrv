@@ -18,16 +18,17 @@ beforeEach(async () => {
   attacker = testBuilder.withMob()
     .withSkill(SkillType.ShieldBlock, MAX_PRACTICE_LEVEL)
     .setLevel(20)
-  testBuilder.withItem()
-    .asShield()
-    .equipToMobBuilder(attacker)
-    .build()
   defender = testBuilder.withMob()
   fight = await testBuilder.fight(defender.mob)
 })
 
 describe("shield block event consumer", () => {
   it("should block attacks sometimes if a shield is equipped", async () => {
+    testBuilder.withItem()
+      .asShield()
+      .equipToMobBuilder(attacker)
+      .build()
+
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)
       defender.setHp(20)
@@ -40,5 +41,20 @@ describe("shield block event consumer", () => {
     })
 
     expect(blocked.length).toBeGreaterThan(1)
+  })
+
+  it("should not change the outcome if no shield is equipped", async () => {
+    const rounds = await doNTimes(iterations, async () => {
+      attacker.setHp(20)
+      defender.setHp(20)
+      return await fight.round()
+    })
+
+    const blocked = rounds.filter((round: Round) => {
+      const counter = round.getLastCounter()
+      return counter.result === AttackResult.ShieldBlock
+    })
+
+    expect(blocked).toHaveLength(0)
   })
 })

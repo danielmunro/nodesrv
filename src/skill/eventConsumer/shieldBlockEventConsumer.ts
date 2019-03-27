@@ -8,6 +8,7 @@ import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import {SkillType} from "../skillType"
+import {Equipment} from "../../item/equipment"
 
 export default class ShieldBlockEventConsumer implements EventConsumer {
   constructor(private readonly shieldBlock: Action) {}
@@ -18,7 +19,8 @@ export default class ShieldBlockEventConsumer implements EventConsumer {
 
   public async consume(event: FightEvent): Promise<EventResponse> {
     const target = event.fight.getOpponentFor(event.mob) as Mob
-    if (!target.skills.find(skill => skill.skillType === SkillType.ShieldBlock)) {
+    if (!target.skills.find(skill => skill.skillType === SkillType.ShieldBlock)
+    || !target.equipped.items.find(item => item.equipment === Equipment.Shield)) {
       return EventResponse.none(event)
     }
     const request = new Request(target, event.fight.room, new EventContext(RequestType.Noop))

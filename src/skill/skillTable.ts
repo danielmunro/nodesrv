@@ -22,6 +22,7 @@ import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
 import MobService from "../mob/mobService"
 import {SkillType} from "./skillType"
+import parryAction from "../action/impl/skill/event/parryAction"
 
 export function getSkillTable(mobService: MobService, eventService: EventService) {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
@@ -32,6 +33,7 @@ export function getSkillTable(mobService: MobService, eventService: EventService
     enhancedDamageAction(abilityService),
     fastHealingAction(abilityService),
     shieldBlockAction(abilityService),
+    parryAction(abilityService),
 
     backstabAction(abilityService),
     dirtKickAction(abilityService),
