@@ -40,8 +40,7 @@ export default class Skill extends Action {
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const rollResultInitial = this.roll(checkedRequest)
     const eventResponse = await this.publishSkillEventFromCheckedRequest(checkedRequest, rollResultInitial)
-    const rollResult = eventResponse.event.rollResult
-    if (!rollResult) {
+    if (!(eventResponse.event as SkillEvent).rollResult) {
       return checkedRequest.responseWithMessage(
         ResponseStatus.ActionFailed,
         this.getFailureMessage(checkedRequest))
