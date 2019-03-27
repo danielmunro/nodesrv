@@ -16,50 +16,45 @@ const iterations = 1000
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   attacker = testBuilder.withMob()
-    .withSkill(SkillType.ShieldBlock, MAX_PRACTICE_LEVEL)
+    .withSkill(SkillType.Parry, MAX_PRACTICE_LEVEL)
     .setLevel(20)
   defender = testBuilder.withMob()
   fight = await testBuilder.fight(defender.mob)
 })
 
-describe("shield block event consumer", () => {
-  it("should block attacks sometimes if a shield is equipped", async () => {
-    // given
-    testBuilder.withItem()
-      .asShield()
+describe("parry event consumer", () => {
+  it("parries attacks sometimes if a weapon is equipped", async () => {
+    testBuilder.withWeapon()
+      .asAxe()
       .equipToMobBuilder(attacker)
       .build()
 
-    // when
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)
       defender.setHp(20)
       return await fight.round()
     })
 
-    // then
-    const blocked = rounds.filter((round: Round) => {
+    const parried = rounds.filter((round: Round) => {
       const counter = round.getLastCounter()
-      return counter.result === AttackResult.ShieldBlock
+      return counter.result === AttackResult.Parry
     })
-    expect(blocked.length).toBeGreaterThan(1)
+
+    expect(parried.length).toBeGreaterThan(1)
   })
 
-  it("should not change the outcome if no shield is equipped", async () => {
-    // given
+  it("should not change the outcome if no weapon is equipped", async () => {
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)
       defender.setHp(20)
       return await fight.round()
     })
 
-    // when
     const blocked = rounds.filter((round: Round) => {
       const counter = round.getLastCounter()
-      return counter.result === AttackResult.ShieldBlock
+      return counter.result === AttackResult.Parry
     })
 
-    // then
     expect(blocked).toHaveLength(0)
   })
 })

@@ -38,6 +38,7 @@ import {GameServer} from "../server/server"
 import DodgeEventConsumer from "../skill/eventConsumer/dodgeEventConsumer"
 import FastHealingEventConsumer from "../skill/eventConsumer/fastHealingEventConsumer"
 import ImproveInvokedSkillsEventConsumer from "../skill/eventConsumer/improveInvokedSkillsEventConsumer"
+import ParryEventConsumer from "../skill/eventConsumer/parryEventConsumer"
 import SecondAttackEventConsumer from "../skill/eventConsumer/secondAttackEventConsumer"
 import ShieldBlockEventConsumer from "../skill/eventConsumer/shieldBlockEventConsumer"
 import {SkillType} from "../skill/skillType"
@@ -92,6 +93,7 @@ export default async function createEventConsumerTable(
     new FastHealingEventConsumer(gameService.getSkill(SkillType.FastHealing)),
     new SecondAttackEventConsumer(gameService.getSkill(SkillType.SecondAttack)),
     new ShieldBlockEventConsumer(gameService.getSkill(SkillType.ShieldBlock)),
+    new ParryEventConsumer(gameService.getSkill(SkillType.Parry)),
     new ImproveInvokedSkillsEventConsumer(),
 
     // app
