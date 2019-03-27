@@ -10,6 +10,7 @@ import {percentRoll} from "../random/helpers"
 import {Request} from "../request/request"
 import {RequestType} from "../request/requestType"
 import ResponseMessage from "../request/responseMessage"
+import {SkillMessages} from "../skill/constants"
 import {SkillType} from "../skill/skillType"
 import {Messages} from "./constants"
 import {ActionPart} from "./enum/actionPart"
@@ -20,6 +21,11 @@ export default class SkillBuilder {
   private static createDefaultResponseMessage() {
     return (checkedRequest: CheckedRequest) =>
       new ResponseMessage(checkedRequest.mob, "", {})
+  }
+
+  private static createFailResponseMessage() {
+    return (checkedRequest: CheckedRequest) =>
+      new ResponseMessage(checkedRequest.mob, SkillMessages.Fail)
   }
 
   private helpText: string
@@ -41,7 +47,7 @@ export default class SkillBuilder {
     this.roll = (checkedRequest: CheckedRequest) =>
       checkedRequest.getCheckTypeResult(CheckType.HasSkill).level > percentRoll()
     this.failMessage = SkillBuilder.createDefaultResponseMessage()
-    this.successMessage = SkillBuilder.createDefaultResponseMessage()
+    this.successMessage = SkillBuilder.createFailResponseMessage()
   }
 
   public setRequestType(requestType: RequestType): SkillBuilder {

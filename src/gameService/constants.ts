@@ -100,6 +100,7 @@ sneak                   NA
 
 level 5
 dodge                   NA
+peek                    NA
 
 level 8
 sharpen                 NA
@@ -113,6 +114,9 @@ envenom                 NA
 
 level 16
 fast healing            NA
+
+level 21
+disarm                  NA
 
 level 25
 second attack           NA

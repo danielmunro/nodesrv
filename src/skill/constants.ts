@@ -20,6 +20,10 @@ export const SkillMessages = {
     Fail: "{requestCreator} {verb} to envenom {item}.",
     Success: "{requestCreator} successfully {verb} {item}.",
   },
+  Fail: "You failed.",
+  Peek: {
+    Success: "{target}'s inventory:\n{inventory}",
+  },
   Sneak: {
     Fail: "You fail to move silently.",
     Success: "You begin to move silently.",

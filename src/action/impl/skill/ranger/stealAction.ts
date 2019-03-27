@@ -8,6 +8,7 @@ import MobEvent from "../../../../mob/event/mobEvent"
 import {Mob} from "../../../../mob/model/mob"
 import roll from "../../../../random/dice"
 import ResponseMessage from "../../../../request/responseMessage"
+import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {ActionMessages, ConditionMessages, Costs} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import {ActionPart} from "../../../enum/actionPart"
@@ -42,12 +43,15 @@ export default function(abilityService: AbilityService): Skill {
     })
     .setSuccessMessage(checkedRequest => {
       const [ item, target ] = checkedRequest.results(CheckType.HasItem, CheckType.HasTarget)
-      return new ResponseMessage(
+      return new ResponseMessageBuilder(
         checkedRequest.mob,
         ActionMessages.Steal.Success,
-        { verb: "steal", item, target },
-        { verb: "steals", item, target: "you" },
-        { verb: "steals", item, target })
+        target)
+        .setVerbToRequestCreator("steal")
+        .setVerbToTarget("steals")
+        .setVerbToObservers("steals")
+        .addReplacement("item", item.name)
+        .create()
     })
     .setFailMessage(checkedRequest => {
       const [ item, target ] = checkedRequest.results(CheckType.HasItem, CheckType.HasTarget)

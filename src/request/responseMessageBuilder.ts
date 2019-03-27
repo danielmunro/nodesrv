@@ -8,6 +8,7 @@ export default class ResponseMessageBuilder {
   private verbToRequestCreator: string
   private verbToTarget: string
   private verbToObservers: string
+  private replacements: any = {}
 
   constructor(
     private readonly requestCreator: Mob,
@@ -39,6 +40,11 @@ export default class ResponseMessageBuilder {
     return this
   }
 
+  public addReplacement(key: string, value: string): ResponseMessageBuilder {
+    this.replacements[key] = value
+    return this
+  }
+
   public create(): ResponseMessage {
     if (!this.verbToObservers) {
       this.verbToObservers = this.verbToRequestCreator
@@ -47,16 +53,19 @@ export default class ResponseMessageBuilder {
       this.requestCreator,
       this.templateString,
       {
+        ...this.replacements,
         requestCreator: this.selfIdentifier,
         target: this.target === this.requestCreator ? "you" : this.target,
         verb: this.target === this.requestCreator ? this.verbToTarget : this.verbToRequestCreator,
       },
       {
+        ...this.replacements,
         requestCreator: this.requestCreator + (this.pluralizeRequestCreator ? "'s" : ""),
         target: "you",
         verb: this.verbToTarget,
       },
       {
+        ...this.replacements,
         requestCreator: this.requestCreator + (this.pluralizeRequestCreator ? "'s" : ""),
         target: this.target,
         verb: this.verbToObservers,

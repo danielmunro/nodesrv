@@ -60,18 +60,19 @@ import UpAction from "./impl/move/upAction"
 import WestAction from "./impl/move/westAction"
 import MultiAction from "./impl/multiAction"
 import NoopAction from "./impl/noopAction"
-import BackstabAction from "./impl/skill/ranger/backstabAction"
-import DirtKickAction from "./impl/skill/ranger/dirtKickAction"
-import EnvenomAction from "./impl/skill/ranger/envenomAction"
-import HamstringAction from "./impl/skill/ranger/hamstringAction"
-import SharpenAction from "./impl/skill/ranger/sharpenAction"
-import SneakAction from "./impl/skill/ranger/sneakAction"
-import StealAction from "./impl/skill/ranger/stealAction"
-import BashAction from "./impl/skill/warrior/bashAction"
-import BerserkAction from "./impl/skill/warrior/berserkAction"
-import DisarmAction from "./impl/skill/warrior/disarmAction"
-import ShieldBashAction from "./impl/skill/warrior/shieldBashAction"
-import TripAction from "./impl/skill/warrior/tripAction"
+import backstabAction from "./impl/skill/ranger/backstabAction"
+import dirtKickAction from "./impl/skill/ranger/dirtKickAction"
+import envenomAction from "./impl/skill/ranger/envenomAction"
+import hamstringAction from "./impl/skill/ranger/hamstringAction"
+import peekAction from "./impl/skill/ranger/peekAction"
+import sharpenAction from "./impl/skill/ranger/sharpenAction"
+import sneakAction from "./impl/skill/ranger/sneakAction"
+import stealAction from "./impl/skill/ranger/stealAction"
+import bashAction from "./impl/skill/warrior/bashAction"
+import berserkAction from "./impl/skill/warrior/berserkAction"
+import disarmAction from "./impl/skill/warrior/disarmAction"
+import shieldBashAction from "./impl/skill/warrior/shieldBashAction"
+import tripAction from "./impl/skill/warrior/tripAction"
 import GossipAction from "./impl/social/gossipAction"
 import SayAction from "./impl/social/sayAction"
 import TellAction from "./impl/social/tellAction"
@@ -134,21 +135,22 @@ export default function getActionTable(
     new KillAction(checkBuilderFactory, eventService),
     new HitAction(checkBuilderFactory, eventService),
     new FleeAction(checkBuilderFactory, mobService, locationService),
-    new HamstringAction(abilityService),
+    hamstringAction(abilityService),
     new BountyAction(checkBuilderFactory),
 
     // skills
-    new BackstabAction(abilityService),
-    new BashAction(abilityService),
-    new BerserkAction(abilityService),
-    new DirtKickAction(abilityService),
-    new DisarmAction(abilityService),
-    new TripAction(abilityService),
-    new EnvenomAction(abilityService),
-    new SharpenAction(abilityService),
-    new SneakAction(abilityService),
-    new StealAction(abilityService),
-    new ShieldBashAction(abilityService),
+    backstabAction(abilityService),
+    bashAction(abilityService),
+    berserkAction(abilityService),
+    dirtKickAction(abilityService),
+    disarmAction(abilityService),
+    tripAction(abilityService),
+    envenomAction(abilityService),
+    sharpenAction(abilityService),
+    sneakAction(abilityService),
+    stealAction(abilityService),
+    shieldBashAction(abilityService),
+    peekAction(abilityService),
 
     // casting
     new CastAction(checkBuilderFactory, spellTable),

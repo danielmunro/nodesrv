@@ -57,6 +57,7 @@ export enum RequestType {
   NoFollow = "nofollow",
   Scan = "scan",
   ShieldBash = "shield bash",
+  Peek = "peek",
   Noop = "noop",
   Any = "any",
   Event = "event",

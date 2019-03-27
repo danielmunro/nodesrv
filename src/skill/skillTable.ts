@@ -7,6 +7,7 @@ import backstabAction from "../action/impl/skill/ranger/backstabAction"
 import dirtKickAction from "../action/impl/skill/ranger/dirtKickAction"
 import envenomAction from "../action/impl/skill/ranger/envenomAction"
 import hamstringAction from "../action/impl/skill/ranger/hamstringAction"
+import peekAction from "../action/impl/skill/ranger/peekAction"
 import sharpenAction from "../action/impl/skill/ranger/sharpenAction"
 import sneakAction from "../action/impl/skill/ranger/sneakAction"
 import stealAction from "../action/impl/skill/ranger/stealAction"
@@ -39,6 +40,7 @@ export function getSkillTable(mobService: MobService, eventService: EventService
     sharpenAction(abilityService),
     sneakAction(abilityService),
     stealAction(abilityService),
+    peekAction(abilityService),
 
     bashAction(abilityService),
     berserkAction(abilityService),
