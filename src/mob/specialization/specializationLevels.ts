@@ -16,9 +16,10 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Disarm, 11),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.EnhancedDamage, 12),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Dodge, 13),
-  new SpecializationLevel(SpecializationType.Ranger, SkillType.Sharpen, 15),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.Sharpen, 15),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.ShieldBash, 18),
-  new SpecializationLevel(SpecializationType.Ranger, SkillType.Parry, 20),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.Parry, 20),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.ThirdAttack, 28),
 
   // ranger
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Backstab, 1),

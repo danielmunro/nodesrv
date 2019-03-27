@@ -23,6 +23,7 @@ import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
 import MobService from "../mob/mobService"
 import {SkillType} from "./skillType"
+import thirdAttackAction from "../action/impl/skill/event/thirdAttackAction"
 
 export function getSkillTable(mobService: MobService, eventService: EventService) {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
@@ -30,6 +31,7 @@ export function getSkillTable(mobService: MobService, eventService: EventService
   return [
     dodgeAction(abilityService),
     secondAttackAction(abilityService),
+    thirdAttackAction(abilityService),
     enhancedDamageAction(abilityService),
     fastHealingAction(abilityService),
     shieldBlockAction(abilityService),

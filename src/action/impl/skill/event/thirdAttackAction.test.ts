@@ -20,10 +20,10 @@ beforeEach(async () => {
   fight = await testBuilder.fight(target.mob)
 })
 
-describe("second attacks skill action", () => {
-  it("should invoke a second attack", async () => {
+describe("third attack skill action", () => {
+  it("invokes an extra attack", async () => {
     // given
-    aggressor.withSkill(SkillType.SecondAttack, MAX_PRACTICE_LEVEL)
+    aggressor.withSkill(SkillType.ThirdAttack, MAX_PRACTICE_LEVEL)
 
     // when
     const rounds = await doNTimes(ITERATIONS, () => {

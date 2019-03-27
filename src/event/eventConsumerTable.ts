@@ -43,6 +43,7 @@ import SecondAttackEventConsumer from "../skill/eventConsumer/secondAttackEventC
 import ShieldBlockEventConsumer from "../skill/eventConsumer/shieldBlockEventConsumer"
 import {SkillType} from "../skill/skillType"
 import EventConsumer from "./eventConsumer"
+import ThirdAttackEventConsumer from "../skill/eventConsumer/thirdAttackEventConsumer"
 
 export default async function createEventConsumerTable(
   gameService: GameService,
@@ -92,6 +93,7 @@ export default async function createEventConsumerTable(
     new DodgeEventConsumer(gameService.getSkill(SkillType.Dodge)),
     new FastHealingEventConsumer(gameService.getSkill(SkillType.FastHealing)),
     new SecondAttackEventConsumer(gameService.getSkill(SkillType.SecondAttack)),
+    new ThirdAttackEventConsumer(gameService.getSkill(SkillType.ThirdAttack)),
     new ShieldBlockEventConsumer(gameService.getSkill(SkillType.ShieldBlock)),
     new ParryEventConsumer(gameService.getSkill(SkillType.Parry)),
     new ImproveInvokedSkillsEventConsumer(),

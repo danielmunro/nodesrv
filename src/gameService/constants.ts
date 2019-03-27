@@ -115,14 +115,10 @@ level 14
 parry                   NA
 
 level 15
-sharpen                 NA
 envenom                 NA
 
 level 16
 fast healing            NA
-
-level 20
-parry                   NA
 
 level 21
 disarm                  NA
@@ -167,7 +163,16 @@ enhanced damage         NA
 level 13
 dodge                   NA
 
+level 15
+sharpen                 NA
+
 level 18
 shield bash             NA
+
+level 20
+parry                   NA
+
+level 28
+third attack            NA
 `,
 }
