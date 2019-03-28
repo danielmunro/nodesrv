@@ -39,6 +39,16 @@ describe("move", () => {
     expect(service.getMobLocation(mob).room).toEqual(destination)
   })
 
+  it("should not cost movement if flying", async () => {
+    mob.addAffect(newAffect(AffectType.Fly))
+
+    // when
+    await definition.handle(testBuilder.createRequest(RequestType.East))
+
+    // then
+    expect(mob.vitals.mv).toBe(mob.getCombinedAttributes().vitals.mv)
+  })
+
   it("should not be able to move if immobilized", async () => {
     // given
     mob.affects.push(newAffect(AffectType.Immobilize))
