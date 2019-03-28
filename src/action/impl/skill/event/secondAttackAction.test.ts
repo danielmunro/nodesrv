@@ -1,9 +1,9 @@
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
+import {Fight} from "../../../../mob/fight/fight"
 import { SkillType } from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
-import TestBuilder from "../../../../test/testBuilder"
 import MobBuilder from "../../../../test/mobBuilder"
-import {Fight} from "../../../../mob/fight/fight"
+import TestBuilder from "../../../../test/testBuilder"
 
 const ITERATIONS = 1000
 const maxHp = 20

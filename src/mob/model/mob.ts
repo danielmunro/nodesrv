@@ -6,12 +6,15 @@ import { Affect } from "../../affect/model/affect"
 import { newEmptyAttributes } from "../../attributes/factory"
 import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
+import {Equipment} from "../../item/equipment"
 import { Inventory } from "../../item/model/inventory"
+import {Item} from "../../item/model/item"
 import { AuthorizationLevel } from "../../player/authorizationLevel"
 import { Player } from "../../player/model/player"
 import roll from "../../random/dice"
 import { BaseRegenModifier } from "../../server/observers/constants"
 import { Skill } from "../../skill/model/skill"
+import {SkillType} from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
 import Maybe from "../../support/functional/maybe"
 import match from "../../support/matcher/match"
@@ -181,6 +184,14 @@ export class Mob {
 
   public removeAffect(affectType: AffectType) {
     this.affects = this.affects.filter(affect => affect.affectType !== affectType)
+  }
+
+  public getSkill(skillType: SkillType): Skill | undefined {
+    return this.skills.find(skill => skill.skillType === skillType)
+  }
+
+  public getFirstEquippedItemAtPosition(equipment: Equipment): Item | undefined {
+    return this.equipped.items.find(item => item.equipment === equipment)
   }
 
   public isMerchant(): boolean {

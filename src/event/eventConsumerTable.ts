@@ -41,9 +41,9 @@ import ImproveInvokedSkillsEventConsumer from "../skill/eventConsumer/improveInv
 import ParryEventConsumer from "../skill/eventConsumer/parryEventConsumer"
 import SecondAttackEventConsumer from "../skill/eventConsumer/secondAttackEventConsumer"
 import ShieldBlockEventConsumer from "../skill/eventConsumer/shieldBlockEventConsumer"
+import ThirdAttackEventConsumer from "../skill/eventConsumer/thirdAttackEventConsumer"
 import {SkillType} from "../skill/skillType"
 import EventConsumer from "./eventConsumer"
-import ThirdAttackEventConsumer from "../skill/eventConsumer/thirdAttackEventConsumer"
 
 export default async function createEventConsumerTable(
   gameService: GameService,

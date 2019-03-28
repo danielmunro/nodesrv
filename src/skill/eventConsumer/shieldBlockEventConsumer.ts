@@ -8,9 +8,14 @@ import {Mob} from "../../mob/model/mob"
 import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
+import {Room} from "../../room/model/room"
 import {SkillType} from "../skillType"
 
 export default class ShieldBlockEventConsumer implements EventConsumer {
+  private static createRequest(mob: Mob, room: Room): Request {
+    return new Request(mob, room, new EventContext(RequestType.Noop))
+  }
+
   constructor(private readonly shieldBlock: Action) {}
 
   public getConsumingEventTypes(): EventType[] {
@@ -19,12 +24,11 @@ export default class ShieldBlockEventConsumer implements EventConsumer {
 
   public async consume(event: FightEvent): Promise<EventResponse> {
     const target = event.fight.getOpponentFor(event.mob) as Mob
-    if (!target.skills.find(skill => skill.skillType === SkillType.ShieldBlock)
-    || !target.equipped.items.find(item => item.equipment === Equipment.Shield)) {
+    if (!target.getSkill(SkillType.ShieldBlock) || !target.getFirstEquippedItemAtPosition(Equipment.Shield)) {
       return EventResponse.none(event)
     }
-    const request = new Request(target, event.fight.room, new EventContext(RequestType.Noop))
-    const result = await this.shieldBlock.handle(request)
+    const result = await this.shieldBlock.handle(
+      ShieldBlockEventConsumer.createRequest(target, event.fight.room))
     if (result.isSuccessful()) {
       return EventResponse.satisfied(event, SkillType.ShieldBlock)
     }

@@ -4,6 +4,7 @@ import fastHealingAction from "../action/impl/skill/event/fastHealingAction"
 import parryAction from "../action/impl/skill/event/parryAction"
 import secondAttackAction from "../action/impl/skill/event/secondAttackAction"
 import shieldBlockAction from "../action/impl/skill/event/shieldBlockAction"
+import thirdAttackAction from "../action/impl/skill/event/thirdAttackAction"
 import backstabAction from "../action/impl/skill/ranger/backstabAction"
 import dirtKickAction from "../action/impl/skill/ranger/dirtKickAction"
 import envenomAction from "../action/impl/skill/ranger/envenomAction"
@@ -23,7 +24,6 @@ import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
 import MobService from "../mob/mobService"
 import {SkillType} from "./skillType"
-import thirdAttackAction from "../action/impl/skill/event/thirdAttackAction"
 
 export function getSkillTable(mobService: MobService, eventService: EventService) {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)

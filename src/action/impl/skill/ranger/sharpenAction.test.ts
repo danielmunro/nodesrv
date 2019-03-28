@@ -24,7 +24,7 @@ beforeEach(async () => {
     .asAxe()
     .addToMobBuilder(mobBuilder)
     .build()
-  mobBuilder.setLevel(10)
+  mobBuilder.setLevel(30)
   action = await testBuilder.getAction(RequestType.Sharpen)
 })
 
