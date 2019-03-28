@@ -32,7 +32,7 @@ export default function(abilityService: AbilityService): Spell {
         { target: "you", verb: "glow" },
         { target, verb: "glows" })
     })
-    .setApplySpell((checkedRequest, affectBuilder) => affectBuilder
+    .setApplySpell(async (checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level / 8)
       .build())
     .create()
