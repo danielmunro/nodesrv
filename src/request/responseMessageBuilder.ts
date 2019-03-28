@@ -4,7 +4,9 @@ import ResponseMessage from "./responseMessage"
 
 export default class ResponseMessageBuilder {
   private selfIdentifier: string = "you"
+  private targetPossessive: boolean = false
   private pluralizeRequestCreator: boolean = false
+  private pluralizeTarget: boolean = false
   private verbToRequestCreator: string
   private verbToTarget: string
   private verbToObservers: string
@@ -17,6 +19,11 @@ export default class ResponseMessageBuilder {
 
   public setPluralizeRequestCreator(): ResponseMessageBuilder {
     this.pluralizeRequestCreator = true
+    return this
+  }
+
+  public setPluralizeTarget(): ResponseMessageBuilder {
+    this.pluralizeTarget = true
     return this
   }
 
@@ -40,6 +47,11 @@ export default class ResponseMessageBuilder {
     return this
   }
 
+  public setTargetPossessive(): ResponseMessageBuilder {
+    this.targetPossessive = true
+    return this
+  }
+
   public addReplacement(key: string, value: string): ResponseMessageBuilder {
     this.replacements[key] = value
     return this
@@ -55,19 +67,21 @@ export default class ResponseMessageBuilder {
       {
         ...this.replacements,
         requestCreator: this.selfIdentifier,
-        target: this.target === this.requestCreator ? "you" : this.target,
+        target: this.target === this.requestCreator ?
+          "you" + (this.targetPossessive ? "r" : "") :
+          this.target + (this.pluralizeTarget ? "'s" : ""),
         verb: this.target === this.requestCreator ? this.verbToTarget : this.verbToRequestCreator,
       },
       {
         ...this.replacements,
         requestCreator: this.requestCreator + (this.pluralizeRequestCreator ? "'s" : ""),
-        target: "you",
+        target: "you" + (this.targetPossessive ? "r" : ""),
         verb: this.verbToTarget,
       },
       {
         ...this.replacements,
         requestCreator: this.requestCreator + (this.pluralizeRequestCreator ? "'s" : ""),
-        target: this.target,
+        target: this.target + (this.pluralizeTarget ? "'s" : ""),
         verb: this.verbToObservers,
       })
   }

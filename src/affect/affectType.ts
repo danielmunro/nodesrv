@@ -13,6 +13,7 @@ export enum AffectType {
   DetectInvisible = "detect invisible",
   DetectHidden = "detect hidden",
   Fireproof = "fireproof",
+  Fly = "fly",
   Forget = "forget",
   GiantStrength = "giant strength",
   Glow = "glow",

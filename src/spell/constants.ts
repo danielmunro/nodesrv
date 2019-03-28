@@ -50,6 +50,9 @@ export const SpellMessages = {
   Fireproof: {
     Success: "{target} {verb} with a blue aura.",
   },
+  Fly: {
+    Success: "{target} feet rise off the ground.",
+  },
   GiantStrength: {
     Success: "{target} muscles surge with heightened power.",
   },
