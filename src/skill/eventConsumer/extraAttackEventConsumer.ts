@@ -7,23 +7,21 @@ import {Mob} from "../../mob/model/mob"
 import EventContext from "../../request/context/eventContext"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
-import {SkillType} from "../skillType"
 
-export default class SecondAttackEventConsumer implements EventConsumer {
-  constructor(private readonly secondAttack: Skill) {}
+export default class ExtraAttackEventConsumer implements EventConsumer {
+  constructor(private readonly skill: Skill) {}
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.AttackRound]
+    return [ EventType.AttackRound ]
   }
 
   public async consume(event: FightEvent): Promise<EventResponse> {
-    if (!event.mob.skills.find(skill => skill.skillType === SkillType.SecondAttack)) {
+    if (!event.mob.skills.find(skill => skill.skillType === this.skill.getSkillType())) {
       return EventResponse.none(event)
     }
     const fight = event.fight
-    const request = new Request(
-      event.mob, fight.room, new EventContext(RequestType.Noop, event))
-    const result = await this.secondAttack.handle(request)
+    const result = await this.skill.handle(
+      new Request(event.mob, fight.room, new EventContext(RequestType.Noop, event)))
     if (result.isSuccessful()) {
       event.attacks.push(await fight.attack(event.mob, fight.getOpponentFor(event.mob) as Mob))
     }
