@@ -113,6 +113,9 @@ export const SpellMessages = {
   WithstandDeath: {
     Success: "{target} {verb} more powerful than death.",
   },
+  WordOfRecall: {
+    Success: "{target} {verb} in a flash.",
+  },
   Wrath: {
     Success: "{target} {verb} surrounded by wrathful energy.",
   },
