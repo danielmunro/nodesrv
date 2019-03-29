@@ -91,12 +91,12 @@ export default function getActionTable(
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
     // moving
-    new NorthAction(checkBuilderFactory, locationService, lookAction),
-    new SouthAction(checkBuilderFactory, locationService, lookAction),
-    new EastAction(checkBuilderFactory, locationService, lookAction),
-    new WestAction(checkBuilderFactory, locationService, lookAction),
-    new UpAction(checkBuilderFactory, locationService, lookAction),
-    new DownAction(checkBuilderFactory, locationService, lookAction),
+    new NorthAction(checkBuilderFactory, locationService),
+    new SouthAction(checkBuilderFactory, locationService),
+    new EastAction(checkBuilderFactory, locationService),
+    new WestAction(checkBuilderFactory, locationService),
+    new UpAction(checkBuilderFactory, locationService),
+    new DownAction(checkBuilderFactory, locationService),
 
     // items
     new GetAction(checkBuilderFactory, itemService),

@@ -43,7 +43,6 @@ export default class Spell extends Action {
         ResponseStatus.ActionFailed,
         this.getFailureMessage(checkedRequest))
     }
-
     const affectType = this.getAffectType()
     const affect = await this.applySpell(checkedRequest, new AffectBuilder(affectType ? affectType : AffectType.Noop))
     if (affect) {
@@ -51,7 +50,6 @@ export default class Spell extends Action {
     }
     await this.abilityService.publishEvent(
       new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSpell), checkedRequest.mob, true))
-
     return checkedRequest.responseWithMessage(
       ResponseStatus.Success,
       this.getSuccessMessage(checkedRequest))

@@ -35,7 +35,7 @@ describe("move", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.East))
 
     // then
-    expect(response.status).toBe(ResponseStatus.Info)
+    expect(response.status).toBe(ResponseStatus.Success)
     expect(service.getMobLocation(mob).room).toEqual(destination)
   })
 

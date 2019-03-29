@@ -3,11 +3,10 @@ import LocationService from "../../../mob/locationService"
 import {RequestType} from "../../../request/requestType"
 import {Direction} from "../../../room/constants"
 import Move from "../../move"
-import LookAction from "../info/lookAction"
 
 export default class DownAction extends Move {
-  constructor(checkBuilderFactory: CheckBuilderFactory, locationService: LocationService, look: LookAction) {
-    super(checkBuilderFactory, locationService, look, Direction.Down)
+  constructor(checkBuilderFactory: CheckBuilderFactory, locationService: LocationService) {
+    super(checkBuilderFactory, locationService, Direction.Down)
   }
 
   public getRequestType(): RequestType {

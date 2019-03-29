@@ -1,3 +1,4 @@
+import Action from "../../action/action"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
@@ -14,17 +15,16 @@ export default class PetFollowsOwner implements EventConsumer {
   }
 
   public async consume(event: MobMoveEvent): Promise<EventResponse> {
-    this.followIfPetOfMob(event.mob, event.source)
+    await this.followIfPetOfMob(event.mob, event.source, event.destination)
     return EventResponse.none(event)
   }
 
-  private followIfPetOfMob(mob: Mob, roomLeft: Room) {
-    const location = this.locationService.getLocationForMob(mob)
-    const sourceMobs = this.locationService.getMobsByRoom(roomLeft)
-    sourceMobs.forEach(sourceMob => {
+  private async followIfPetOfMob(mob: Mob, source: Room, destination: Room) {
+    const sourceMobs = this.locationService.getMobsByRoom(source)
+    for (const sourceMob of sourceMobs) {
       if (sourceMob.traits.isPet && mob.pet === sourceMob) {
-        this.locationService.updateMobLocation(sourceMob, location.room)
+        await this.locationService.updateMobLocation(sourceMob, destination)
       }
-    })
+    }
   }
 }

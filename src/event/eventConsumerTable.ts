@@ -10,6 +10,7 @@ import SanctuaryEventConsumer from "../affect/eventConsumer/sanctuaryEventConsum
 import WithstandDeathEventConsumer from "../affect/eventConsumer/withstandDeathEventConsumer"
 import Disconnected from "../client/eventConsumer/disconnected"
 import LoggedIn from "../client/eventConsumer/loggedIn"
+import LookEventConsumer from "../client/eventConsumer/lookEventConsumer"
 import Quit from "../client/eventConsumer/quit"
 import Social from "../client/eventConsumer/social"
 import GameService from "../gameService/gameService"
@@ -105,5 +106,6 @@ export default async function createEventConsumerTable(
     new ClientCreated(locationService, gameServer.startRoom),
     new LoggedIn(gameServer.startRoom, gameService.getAction(RequestType.Look)),
     new Quit(clientService),
+    new LookEventConsumer(clientService, gameService.getAction(RequestType.Look)),
   ])
 }

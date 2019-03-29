@@ -30,10 +30,8 @@ export default class LocationService {
       throw new Error("cannot move in that direction")
     }
 
-    const source = this.roomTable.get(exit.source.uuid)
     const destination = this.roomTable.get(exit.destination.uuid)
-    this.updateMobLocation(mob, destination)
-    await this.eventService.publish(new MobMoveEvent(mob, source, destination, direction))
+    await this.updateMobLocation(mob, destination, direction)
   }
 
   public getMobLocationCount(): number {
@@ -44,9 +42,18 @@ export default class LocationService {
     this.mobLocations.push(mobLocation)
   }
 
-  public updateMobLocation(mob: Mob, room: Room) {
+  public async updateMobLocation(mob: Mob, room: Room, direction?: Direction) {
     for (const mobLocation of this.mobLocations) {
       if (mobLocation.mob.uuid === mob.uuid) {
+        const from = mobLocation.room
+        const eventResponse = await this.eventService.publish(new MobMoveEvent(
+          mob,
+          from,
+          room,
+          direction))
+        if (eventResponse.isSatisifed()) {
+          return
+        }
         mobLocation.room = room
         return
       }

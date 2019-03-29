@@ -52,13 +52,13 @@ describe("respawner", () => {
         newMobReset(mob3, startRoom, 1, 1),
       ], [], [], [], [], mobService, roomTable, null))
     await respawner.seedMobTable()
-    mobTable.getMobs().forEach(mob => {
+    mobTable.getMobs().forEach(async mob => {
       mob.disposition = Disposition.Dead
-      mobService.locationService.updateMobLocation(mob, currentRoom)
+      await mobService.locationService.updateMobLocation(mob, currentRoom)
     })
 
     // when
-    await respawner.notify([])
+    await respawner.notify()
 
     const mobs = mobService.mobTable.getMobs()
     expect(mobs.every(mob =>

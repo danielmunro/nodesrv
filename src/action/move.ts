@@ -7,16 +7,13 @@ import MvCost from "../check/cost/mvCost"
 import {Disposition} from "../mob/enum/disposition"
 import {Trigger} from "../mob/enum/trigger"
 import LocationService from "../mob/locationService"
-import EventContext from "../request/context/eventContext"
 import {Request} from "../request/request"
-import {RequestType} from "../request/requestType"
 import Response from "../request/response"
 import {Direction} from "../room/constants"
 import {Exit} from "../room/model/exit"
 import Action from "./action"
 import {ConditionMessages, Messages} from "./constants"
 import {ActionPart} from "./enum/actionPart"
-import LookAction from "./impl/info/lookAction"
 
 export default abstract class Move extends Action {
   private static calculateMvCost(request: Request) {
@@ -33,7 +30,6 @@ export default abstract class Move extends Action {
   protected constructor(
     private readonly checkBuilderFactory: CheckBuilderFactory,
     private readonly locationService: LocationService,
-    private readonly look: LookAction,
     private readonly direction: Direction) {
     super()
   }
@@ -54,8 +50,7 @@ export default abstract class Move extends Action {
       request.mob.vitals.mv -= request.getRoom().getMovementCost()
     }
     await this.locationService.moveMob(request.mob, this.direction)
-    const response = await this.look.handle(new Request(request.mob, request.room, new EventContext(RequestType.Look)))
-    return checkedRequest.respondWith().info(response.message.getMessageToRequestCreator())
+    return checkedRequest.respondWith().success()
   }
 
   /* istanbul ignore next */

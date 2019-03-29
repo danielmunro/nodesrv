@@ -3,6 +3,7 @@ export enum EventType {
   ClientLogin,
   ClientLogout,
   ClientRequest,
+  ClientMessage,
   MobCreated,
   MobMoved,
   ItemDropped,

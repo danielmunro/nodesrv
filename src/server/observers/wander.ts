@@ -12,7 +12,7 @@ export class Wander implements Observer {
     for (const mob of this.mobs) {
       const location = this.locationService.getLocationForMob(mob)
       const destination = pickOne(location.room.exits).destination
-      this.locationService.updateMobLocation(mob, destination)
+      await this.locationService.updateMobLocation(mob, destination)
     }
   }
 }

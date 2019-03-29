@@ -9,7 +9,7 @@ export default class MobMoveEvent implements Event {
     public readonly mob: Mob,
     public readonly source: Room,
     public readonly destination: Room,
-    public readonly direction: Direction) {}
+    public readonly direction?: Direction) {}
 
   public getEventType(): EventType {
     return EventType.MobMoved
