@@ -14,7 +14,7 @@ export default function(abilityService: AbilityService, locationService: Locatio
   return new SpellBuilder(abilityService)
     .setSpellType(SpellType.WordOfRecall)
     .setActionType(ActionType.Defensive)
-    .setCheckBuilder((_, checkBuilder) =>
+    .addToCheckBuilder((_, checkBuilder) =>
       checkBuilder.not().requireFight())
     .setCosts([
       new ManaCost(10),

@@ -47,7 +47,7 @@ export default class SpellBuilder {
     return this
   }
 
-  public setCheckBuilder(checkBuilder: (request: Request, checkBuilder: CheckBuilder) => void): SpellBuilder {
+  public addToCheckBuilder(checkBuilder: (request: Request, checkBuilder: CheckBuilder) => void): SpellBuilder {
     this.checkBuilder = checkBuilder
     return this
   }
