@@ -23,22 +23,40 @@ describe("aggressive mob event consumer", () => {
     expect(fight).toBeInstanceOf(Fight)
   })
 
-  it("if an aggressive mob is a lower level than the target, don't initiate an attack", async () => {
+  it("don't attack non-players", async () => {
     // setup
     const testBuilder = new TestBuilder()
     const gameService = await testBuilder.getService()
     const mob1 = testBuilder.withMob().mob
 
     // given
-    const mob2 = testBuilder.withMob().mob
-    mob2.traits.aggressive = true
-    mob1.level = mob2.level + 1
+    testBuilder.withMob().mob.traits.aggressive = true
 
     // when
     await gameService.publishEvent(new MobMoveEvent(mob1, testBuilder.room, testBuilder.room, Direction.Noop))
 
     // then
     const fight = gameService.mobService.findFight(f => f.isParticipant(mob1))
+    expect(fight).not.toBeDefined()
+  })
+
+  it("if an aggressive mob is a lower level than the target, don't initiate an attack", async () => {
+    // setup
+    const testBuilder = new TestBuilder()
+    const gameService = await testBuilder.getService()
+    const player = await testBuilder.withPlayer()
+
+    // given
+    const mob2 = testBuilder.withMob().mob
+    mob2.traits.aggressive = true
+    player.setLevel(mob2.level + 1)
+
+    // when
+    await gameService.publishEvent(
+      new MobMoveEvent(player.getMob(), testBuilder.room, testBuilder.room, Direction.Noop))
+
+    // then
+    const fight = gameService.mobService.findFight(f => f.isParticipant(player.getMob()))
     expect(fight).not.toBeDefined()
   })
 })
