@@ -33,6 +33,7 @@ import { initializeConnection } from "../src/support/db/connection"
 
 const Timings = {
   init: "total game initialization",
+  itemService: "item service",
   openPort: "open server port",
   resetService: "create reset service initialization",
   roomAndMobTables: "room, mob, and exit table initialization",
@@ -58,8 +59,11 @@ initializeConnection().then(async () => {
   const mobService = await createMobService(mobTable, locationService)
   console.timeEnd(Timings.roomAndMobTables)
 
-  console.time(Timings.resetService)
+  console.time(Timings.itemService)
   const itemService = new ItemService(new ItemTable(), await getAllItems())
+  console.timeEnd(Timings.itemService)
+
+  console.time(Timings.resetService)
   const resetService = await createResetService(mobService, roomTable, itemService)
   console.timeEnd(Timings.resetService)
 
@@ -131,7 +135,6 @@ async function createResetService(
   const itemRoomResetRepository = await getItemRoomResetRepository()
   const mobEquipResetRepository = await getMobEquipResetRepository()
   const itemContainerResetRepository = await getItemContainerResetRepository()
-
   const [ mobResets, itemMobResets, itemRoomResets, mobEquipResets, itemContainerResets ] = await Promise.all([
     mobResetRepository.findAll(),
     itemMobResetRepository.findAll(),
