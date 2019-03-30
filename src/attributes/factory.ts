@@ -1,15 +1,14 @@
-import roll from "../random/dice"
 import AttributeBuilder from "./attributeBuilder"
 import Attributes from "./model/attributes"
 import Hitroll from "./model/hitroll"
 import Stats from "./model/stats"
 import Vitals from "./model/vitals"
 
-export function newStartingVitals(level: number = 1): Vitals {
+export function newStartingVitals(): Vitals {
   const vitals = new Vitals()
-  vitals.hp = 20 + roll(level / 2, 20)
-  vitals.mana = 100 + roll(level, 20)
-  vitals.mv = 100 + roll(level, 20)
+  vitals.hp = 20
+  vitals.mana = 100
+  vitals.mv = 100
 
   return vitals
 }

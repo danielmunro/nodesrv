@@ -26,7 +26,6 @@ import FightStarter from "../mob/eventConsumer/fightStarter"
 import FollowMob from "../mob/eventConsumer/followMob"
 import MobCreated from "../mob/eventConsumer/mobCreated"
 import PetFollowsOwner from "../mob/eventConsumer/petFollowsOwner"
-import Scavenge from "../mob/eventConsumer/scavenge"
 import Wimpy from "../mob/eventConsumer/wimpy"
 import FightBuilder from "../mob/fight/fightBuilder"
 import MobService from "../mob/mobService"
@@ -69,7 +68,7 @@ export default async function createEventConsumerTable(
     new PetFollowsOwner(locationService),
     new MobArrives(clientService),
     new MobLeaves(clientService),
-    new Scavenge(clientService, itemService, locationService),
+    // new Scavenge(clientService, itemService, locationService),
     new Wimpy(locationService, gameService.getAction(RequestType.Flee)),
     new FightStarter(mobService, fightBuilder),
     new MobClientDisconnected(locationService),
@@ -104,7 +103,7 @@ export default async function createEventConsumerTable(
     // client
     new Disconnected(clientService),
     new ClientCreated(locationService, gameServer.startRoom),
-    new LoggedIn(gameServer.startRoom, gameService.getAction(RequestType.Look)),
+    new LoggedIn(locationService, gameServer.startRoom, gameService.getAction(RequestType.Look)),
     new Quit(clientService),
     new LookEventConsumer(clientService, gameService.getAction(RequestType.Look)),
   ])

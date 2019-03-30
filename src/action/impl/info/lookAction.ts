@@ -55,13 +55,10 @@ export default class LookAction extends Action {
       return this.lookAtSubject(request, builder)
     }
 
-    const location = this.locationService.getLocationForMob(request.mob)
-    const room = location.room
-
     return builder.info(
-      room.toString()
-      + this.reduceMobs(request.mob, this.locationService.getMobsByRoom(room))
-      + room.inventory.toString("is here."))
+      request.room.toString()
+      + this.reduceMobs(request.mob, this.locationService.getMobsByRoom(request.room))
+      + request.room.inventory.toString("is here."))
   }
 
   public getActionParts(): ActionPart[] {

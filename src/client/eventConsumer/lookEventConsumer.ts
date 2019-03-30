@@ -1,7 +1,6 @@
 import Action from "../../action/action"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import EventContext from "../../request/context/eventContext"
@@ -19,14 +18,14 @@ export default class LookEventConsumer implements EventConsumer {
   }
 
   public async consume(event: MobMoveEvent): Promise<EventResponse> {
-    const response = await this.lookDefinition.handle(
-      new Request(event.mob,
-        event.destination,
-        new EventContext(RequestType.Look)))
     const client = this.clientService.getClientByMob(event.mob)
     if (client) {
+      const response = await this.lookDefinition.handle(
+        new Request(event.mob,
+          event.destination,
+          new EventContext(RequestType.Look)))
       client.sendMessage(response.getMessageToRequestCreator())
     }
-    return new EventResponse(event, EventResponseStatus.None, response)
+    return EventResponse.none(event)
   }
 }

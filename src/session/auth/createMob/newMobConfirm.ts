@@ -1,5 +1,5 @@
 import AttributeBuilder from "../../../attributes/attributeBuilder"
-import { newHitroll, newStartingStats, newStartingVitals } from "../../../attributes/factory"
+import {newHitroll, newStartingStats, newStartingVitals} from "../../../attributes/factory"
 import { Mob } from "../../../mob/model/mob"
 import { PlayerMob } from "../../../mob/model/playerMob"
 import { Player } from "../../../player/model/player"
@@ -49,7 +49,6 @@ export default class NewMobConfirm extends PlayerAuthStep implements AuthStep {
         .setHitRoll(newHitroll(0, 0))
         .build())
     mob.playerMob = new PlayerMob()
-
     return mob
   }
 }

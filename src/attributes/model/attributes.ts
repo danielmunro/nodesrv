@@ -1,6 +1,7 @@
 import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import { Item } from "../../item/model/item"
 import { Mob } from "../../mob/model/mob"
+import {newEmptyAttributes} from "../factory"
 import Ac from "./ac"
 import Hitroll from "./hitroll"
 import Stats from "./stats"
@@ -34,7 +35,7 @@ export default class Attributes {
   public ac = new Ac()
 
   public combine(withAttributes: Attributes): Attributes {
-    const attributes = new Attributes()
+    const attributes = newEmptyAttributes()
     attributes.hitroll.hit = this.hitroll.hit + withAttributes.hitroll.hit
     attributes.hitroll.dam = this.hitroll.dam + withAttributes.hitroll.dam
 

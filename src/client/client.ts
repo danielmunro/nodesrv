@@ -104,9 +104,15 @@ export class Client {
     this.send({ tick: { id, timestamp }})
   }
 
-  private onMessage(data: any) {
-    const mobLocation = this.locationService.getLocationForMob(this.getSessionMob())
-    this.addRequest(this.getNewRequestFromMessageEvent(data, mobLocation.room))
+  private onMessage(message: any) {
+    try {
+      const mobLocation = this.locationService.getLocationForMob(this.getSessionMob())
+      this.addRequest(this.getNewRequestFromMessageEvent(message, mobLocation.room))
+      return
+    } catch (e) {
+      // fine
+    }
+    this.addRequest(this.getNewRequestFromMessageEvent(message))
   }
 
   private getNewRequestFromMessageEvent(messageEvent: MessageEvent, room?: Room): Request | AuthRequest {

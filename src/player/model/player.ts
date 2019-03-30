@@ -37,7 +37,8 @@ export class Player {
   }
 
   public prompt(): string {
-    const combined = this.sessionMob.getCombinedAttributes().vitals
+    const combinedAttributes = this.sessionMob.getCombinedAttributes()
+    const combined = combinedAttributes.vitals
     const vitals = this.sessionMob.vitals
     return `${vitals.hp}/${combined.hp}hp ${vitals.mana}/${combined.mana}mana ${vitals.mv}/${combined.mv}mv -> `
   }
