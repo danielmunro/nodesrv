@@ -8,16 +8,17 @@ describe("aggressive mob event consumer", () => {
     // setup
     const testBuilder = new TestBuilder()
     const gameService = await testBuilder.getService()
-    const mob1 = testBuilder.withMob().mob
+    const player = await testBuilder.withPlayer()
 
     // given
     testBuilder.withMob().mob.traits.aggressive = true
 
     // when
-    await gameService.publishEvent(new MobMoveEvent(mob1, testBuilder.room, testBuilder.room, Direction.Noop))
+    await gameService.publishEvent(
+      new MobMoveEvent(player.getMob(), testBuilder.room, testBuilder.room, Direction.Noop))
 
     // then
-    const fight = gameService.mobService.findFight(f => f.isParticipant(mob1))
+    const fight = gameService.mobService.findFight(f => f.isParticipant(player.getMob()))
     expect(fight).toBeDefined()
     expect(fight).toBeInstanceOf(Fight)
   })

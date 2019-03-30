@@ -18,7 +18,9 @@ export default class AggressiveMob implements EventConsumer {
   }
 
   public async consume(event: MobEvent): Promise<EventResponse> {
-    this.checkForAggressiveMobs(event.mob)
+    if (event.mob.playerMob) {
+      this.checkForAggressiveMobs(event.mob)
+    }
     return EventResponse.none(event)
   }
 
