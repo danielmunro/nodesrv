@@ -1,11 +1,11 @@
-import Cleric from "./cleric"
 import { createSpecializationFromType } from "./factory"
-import Mage from "./mage"
-import Ranger from "./ranger"
+import Cleric from "./impl/cleric"
+import Mage from "./impl/mage"
+import Ranger from "./impl/ranger"
+import Warrior from "./impl/warrior"
 import { SpecializationType } from "./specializationType"
-import Warrior from "./warrior"
 
-describe("specialization factory", () => {
+describe("specializationType factory", () => {
   it("should be able to create a cleric", () => {
     expect(createSpecializationFromType(SpecializationType.Cleric)).toBeInstanceOf(Cleric)
   })
@@ -22,7 +22,7 @@ describe("specialization factory", () => {
     expect(createSpecializationFromType(SpecializationType.Warrior)).toBeInstanceOf(Warrior)
   })
 
-  it("should throw an error if the specialization type is unknown", () => {
+  it("should throw an error if the specializationType type is unknown", () => {
     expect(() => createSpecializationFromType(SpecializationType.Noop)).toThrowError()
   })
 })

@@ -41,6 +41,9 @@ export class PlayerMob {
   @Column("integer")
   public experienceToLevel: number = 0
 
+  @Column("integer")
+  public experiencePerLevel: number = 0
+
   @Column("varchar")
   public standing: Standing = Standing.Good
 
@@ -63,6 +66,13 @@ export class PlayerMob {
 
   public isHungry(): boolean {
     return this.hunger === 0
+  }
+
+  public addExperience(amount: number) {
+    if (this.experienceToLevel > 0) {
+      this.experience += amount
+      this.experienceToLevel -= amount
+    }
   }
 
   private normalizeVitals(): void {

@@ -97,7 +97,7 @@ export default class TestBuilder {
 
   public withMob(name?: string, specialization: SpecializationType = SpecializationType.Warrior): MobBuilder {
     const mob = getTestMob(name)
-    mob.specialization = specialization
+    mob.specializationType = specialization
     if (!this.room) {
       this.withRoom()
     }

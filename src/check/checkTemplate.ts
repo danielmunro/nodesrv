@@ -19,7 +19,7 @@ export default class CheckTemplate {
   public cast(spell: Spell): CheckBuilder {
     const mob = this.request.mob
     const specializationLevel = getSpecializationLevel(
-      this.request.mob.specialization,
+      this.request.mob.specializationType,
       spell.getSpellType())
     const checkBuilder = new CheckBuilder(this.mobService, this.request, getActionPartTable(this.mobService))
       .forMob(mob)
@@ -37,7 +37,7 @@ export default class CheckTemplate {
 
   public perform(skill: Skill): CheckBuilder {
     const specializationLevel = getSpecializationLevel(
-      this.request.mob.specialization,
+      this.request.mob.specializationType,
       skill.getSkillType())
     const checkBuilder = new CheckBuilder(this.mobService, this.request, getActionPartTable(this.mobService))
       .forMob(this.request.mob)

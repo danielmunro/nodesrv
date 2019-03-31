@@ -31,7 +31,7 @@ export default class PlayerBuilder {
   }
 
   public setSpecializationType(specializationType: SpecializationType): PlayerBuilder {
-    this.player.sessionMob.specialization = specializationType
+    this.player.sessionMob.specializationType = specializationType
     return this
   }
 

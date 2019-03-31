@@ -64,7 +64,7 @@ export default class MobBuilder {
   }
 
   public setSpecialization(specialization: SpecializationType) {
-    this.mob.specialization = specialization
+    this.mob.specializationType = specialization
     defaultSpecializationLevels.filter(specializationLevel => specializationLevel.specialization === specialization)
       .forEach(specializationLevel => {
         if (Object.values(SkillType).includes(specializationLevel.abilityType)) {

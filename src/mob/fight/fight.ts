@@ -135,8 +135,8 @@ export class Fight {
 
     const death = new Death(vanquished, this.room, winner, bounty)
 
-    if (!winner.traits.isNpc) {
-      winner.playerMob.experience += death.calculateKillerExperience()
+    if (winner.playerMob) {
+      winner.playerMob.addExperience(death.calculateKillerExperience())
     }
 
     if (vanquished.traits.isNpc) {

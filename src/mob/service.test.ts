@@ -1,9 +1,9 @@
 import { getTestMob } from "../test/mob"
 import { assignSpecializationToMob } from "./mobService"
-import Cleric from "./specialization/cleric"
+import Cleric from "./specialization/impl/cleric"
 
 describe("mob gameService", () => {
-  it("should be able to assign a specialization to a mob", () => {
+  it("should be able to assign a specializationType to a mob", () => {
     // setup
     const mob = getTestMob()
 
@@ -15,7 +15,7 @@ describe("mob gameService", () => {
     assignSpecializationToMob(mob, new Cleric())
 
     // then
-    expect(mob.specialization).not.toBeUndefined()
+    expect(mob.specializationType).not.toBeUndefined()
     expect(mob.skills.length).toBeGreaterThan(0)
     expect(mob.spells.length).toBeGreaterThan(0)
   })

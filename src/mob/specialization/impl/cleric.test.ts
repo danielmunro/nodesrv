@@ -1,8 +1,8 @@
+import { SpecializationType } from "../specializationType"
 import Cleric from "./cleric"
-import { SpecializationType } from "./specializationType"
 
 describe("clerics", () => {
-  it("should get cleric specialization", () => {
+  it("should get cleric specializationType", () => {
     expect(new Cleric().getSpecializationType()).toBe(SpecializationType.Cleric)
   })
 })

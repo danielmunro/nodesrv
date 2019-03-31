@@ -17,7 +17,7 @@ export default class ScoreAction extends Action {
     const stats = attr.stats
     return checkedRequest.respondWith().info(`
 You are ${mob.name}, level ${mob.level} with ${mob.playerMob.experience} experience points.
-A ${mob.race} ${mob.specialization}.
+A ${mob.race} ${mob.specializationType}.
 Attributes: ${stats.str} str, ${stats.int} int, ${stats.wis} wis, ${stats.dex} dex, ${stats.con} con, ${stats.sta} sta
 You have ${mob.gold} gold.
 `)

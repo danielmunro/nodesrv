@@ -1,10 +1,12 @@
-import AttributeBuilder from "../../attributes/attributeBuilder"
-import { newStats } from "../../attributes/factory"
-import Attributes from "../../attributes/model/attributes"
-import { SkillType } from "../../skill/skillType"
-import { SpellType } from "../../spell/spellType"
-import { Specialization } from "./specialization"
-import { SpecializationType } from "./specializationType"
+import AttributeBuilder from "../../../attributes/attributeBuilder"
+import { newStats } from "../../../attributes/factory"
+import Attributes from "../../../attributes/model/attributes"
+import {Stat} from "../../../attributes/stat"
+import {WeaponType} from "../../../item/weaponType"
+import { SkillType } from "../../../skill/skillType"
+import { SpellType } from "../../../spell/spellType"
+import { Specialization } from "../specialization"
+import { SpecializationType } from "../specializationType"
 
 export default class Mage implements Specialization {
   public getSpecializationType(): SpecializationType {
@@ -15,6 +17,26 @@ export default class Mage implements Specialization {
     return new AttributeBuilder()
       .setStats(newStats(-1, 2, 2, 0, -1, 0))
       .build()
+  }
+
+  public getHpGainRange(): [number, number] {
+    return [6, 8]
+  }
+
+  public getPrimaryStat(): Stat {
+    return Stat.Int
+  }
+
+  public getSecondaryStat(): Stat {
+    return Stat.Wis
+  }
+
+  public getStartingWeaponType(): WeaponType {
+    return WeaponType.Stave
+  }
+
+  public getDamageModifier(): number {
+    return 0.87
   }
 
   public getSkills(): SkillType[] {

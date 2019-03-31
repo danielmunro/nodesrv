@@ -49,7 +49,7 @@ export default class PracticeAction extends Action {
         (practice: Skill | Spell) => practice.level < MAX_PRACTICE_LEVEL,
         Messages.Practice.CannotImproveAnymore)
       .require((practice: Skill | Spell) => {
-          const minimum = PracticeAction.minimumLevel(request.mob.specialization, practice)
+          const minimum = PracticeAction.minimumLevel(request.mob.specializationType, practice)
           return request.mob.level >= minimum
         },
         Messages.Practice.CannotPractice)

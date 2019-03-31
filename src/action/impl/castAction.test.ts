@@ -77,7 +77,7 @@ describe("cast spell action", () => {
   it("should display an appropriate result if the caster lacks mana", async () => {
     // given
     await testBuilder.withPlayer(p => {
-      p.sessionMob.specialization = SpecializationType.Cleric
+      p.sessionMob.specializationType = SpecializationType.Cleric
       p.sessionMob.spells.push(newSpell(SpellType.Shield))
       p.sessionMob.vitals.mana = 0
       p.sessionMob.level = 30

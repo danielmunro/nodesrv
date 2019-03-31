@@ -27,7 +27,7 @@ function createSpellFromSpellType(spellType: SpellType): Spell {
 }
 
 export function assignSpecializationToMob(mob: Mob, specialization: Specialization) {
-  mob.specialization = specialization.getSpecializationType()
+  mob.specializationType = specialization.getSpecializationType()
   mob.attributes.push(specialization.getAttributes())
   mob.skills = [...mob.skills, ...specialization.getSkills().map(createSkillFromSkillType)]
   mob.spells = [...mob.spells, ...specialization.getSpells().map(createSpellFromSpellType)]

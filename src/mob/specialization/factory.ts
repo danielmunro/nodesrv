@@ -1,8 +1,8 @@
-import Cleric from "./cleric"
-import Mage from "./mage"
-import Ranger from "./ranger"
+import Cleric from "./impl/cleric"
+import Mage from "./impl/mage"
+import Ranger from "./impl/ranger"
+import Warrior from "./impl/warrior"
 import { SpecializationType } from "./specializationType"
-import Warrior from "./warrior"
 
 export function createSpecializationFromType(specializationType: SpecializationType) {
   if (specializationType === SpecializationType.Cleric) {
@@ -21,5 +21,5 @@ export function createSpecializationFromType(specializationType: SpecializationT
     return new Warrior()
   }
 
-  throw new Error("unknown specialization")
+  throw new Error("unknown specializationType")
 }

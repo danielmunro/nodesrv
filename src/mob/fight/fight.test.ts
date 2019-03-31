@@ -30,7 +30,7 @@ describe("fight", () => {
     const aggressor = testBuilder.withMob().mob
     const target = testBuilder.withMob().mob
 
-    // WHEN - a fight is allowed to complete
+    // when - a fight is allowed to complete
     const fight = await testBuilder.fight(target)
     expect(fight.isInProgress()).toBe(true)
     let round: Round = await fight.round()
@@ -39,7 +39,7 @@ describe("fight", () => {
       round = await fight.round()
     }
 
-    // THEN - a winner will have > 1 hp and the other mob is dead
+    // then - a winner will have > 1 hp and the other mob is dead
     if (round.getWinner() === aggressor) {
       expect(aggressor.vitals.hp).toBeGreaterThanOrEqual(0)
       expect(target.vitals.hp).toBeLessThanOrEqual(0)
@@ -48,5 +48,26 @@ describe("fight", () => {
 
     expect(target.vitals.hp).toBeGreaterThanOrEqual(0)
     expect(aggressor.vitals.hp).toBeLessThanOrEqual(0)
+  })
+
+  it("players gain experience after killing a mob", async () => {
+    // setup
+    const experienceToLevel = 1000
+    const testBuilder = new TestBuilder()
+    const aggressor = await testBuilder.withPlayer()
+
+    // given
+    aggressor.getMob().playerMob.experienceToLevel = experienceToLevel
+
+    // when
+    const fight = await testBuilder.fight()
+    while (fight.isInProgress()) {
+      aggressor.setHp(20)
+      await fight.round()
+    }
+
+    // then
+    expect(aggressor.getMob().playerMob.experience).toBeGreaterThan(0)
+    expect(aggressor.getMob().playerMob.experienceToLevel).toBeLessThan(experienceToLevel)
   })
 })

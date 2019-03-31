@@ -24,6 +24,8 @@ import { Standing } from "../enum/standing"
 import { Trigger } from "../enum/trigger"
 import { modifiers } from "../race/constants"
 import { Race } from "../race/race"
+import {createSpecializationFromType} from "../specialization/factory"
+import {Specialization} from "../specialization/specialization"
 import { SpecializationType } from "../specialization/specializationType"
 import DamageSource from "./damageSource"
 import MobReset from "./mobReset"
@@ -59,7 +61,7 @@ export class Mob {
   public race: Race
 
   @Column("text", { nullable: true })
-  public specialization: SpecializationType
+  public specializationType: SpecializationType
 
   @Column("integer")
   public level: number = 1
@@ -143,6 +145,10 @@ export class Mob {
   public pet: Mob
 
   public follows: Mob
+
+  public specialization(): Specialization {
+    return createSpecializationFromType(this.specializationType)
+  }
 
   public findPractice(input: string): Skill | Spell | undefined {
     return Maybe.if(this.skills.find((skill: Skill) => match(skill.skillType, input)))
