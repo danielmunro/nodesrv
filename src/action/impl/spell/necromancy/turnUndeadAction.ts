@@ -11,6 +11,7 @@ import RoomMessageEvent from "../../../../room/event/roomMessageEvent"
 import {Room} from "../../../../room/model/room"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
+import {asyncForEach} from "../../../../support/functional/collection"
 import {ActionType} from "../../../enum/actionType"
 import SpellBuilder from "../../../spellBuilder"
 import Spell from "../../spell"
@@ -37,10 +38,10 @@ export default function(abilityService: AbilityService, mobService: MobService):
       checkedRequest.mob,
       SpellMessages.TurnUndead.Success))
     .setApplySpell(async checkedRequest => {
-      mobService.locationService.getMobsInRoomWithMob(checkedRequest.mob)
+      await asyncForEach(mobService.locationService.getMobsInRoomWithMob(checkedRequest.mob)
         .filter(mob => mob.race === Race.Undead)
-        .filter(mob => percentRoll() < 100 - mob.level)
-        .forEach(mob => turn(checkedRequest.room, mob, abilityService))
+        .filter(mob => percentRoll() < 100 - mob.level),
+        mob => turn(checkedRequest.room, mob, abilityService))
     })
     .create()
 }

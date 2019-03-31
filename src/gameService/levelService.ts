@@ -1,4 +1,5 @@
 import Attributes from "../attributes/model/attributes"
+import {MAX_MOB_LEVEL} from "../mob/constants"
 import Gain from "../mob/gain"
 import {Mob} from "../mob/model/mob"
 import {getSizeFromRace, Race} from "../mob/race/race"
@@ -6,30 +7,7 @@ import {Specialization} from "../mob/specialization/specialization"
 import {getRandomIntFromRange, percentRoll} from "../random/helpers"
 
 export default class LevelService {
-  private static getHpGainFromStat(value: number): number {
-    switch (value) {
-      case 15:
-        return 1
-      case 16:
-        return 2
-      case 18:
-        return 3
-      case 20:
-        return 4
-      case 22:
-        return 5
-      case 23:
-        return 6
-      case 24:
-        return 7
-      case 25:
-        return 8
-      default:
-        return 0
-    }
-  }
-
-  private static getMvGainFromStat(value: number): number {
+  private static getGainFromStat(value: number): number {
     switch (value) {
       case 18:
         return 1
@@ -47,12 +25,12 @@ export default class LevelService {
   }
 
   private static calculateHpGainFromCon(attributes: Attributes, specialization: Specialization): number {
-    return ((3 * LevelService.getHpGainFromStat(attributes.stats.con)) +
+    return ((3 * LevelService.getGainFromStat(attributes.stats.con)) +
       getRandomIntFromRange(...specialization.getHpGainRange())) / 3
   }
 
   private static calculateHpGainFromStr(attributes: Attributes, specialization: Specialization): number {
-    return ((3 * LevelService.getHpGainFromStat(attributes.stats.str)) +
+    return ((3 * LevelService.getGainFromStat(attributes.stats.str)) +
       getRandomIntFromRange(...specialization.getHpGainRange())) / 4
   }
 
@@ -86,7 +64,9 @@ export default class LevelService {
   }
 
   public calculateMvGain() {
-    return 3 + LevelService.getMvGainFromStat(this.mob.getCombinedAttributes().stats.dex)
+    return 3 +
+      LevelService.getGainFromStat(this.mob.getCombinedAttributes().stats.dex) +
+      (this.mob.race === Race.Giant ? -1 : 0)
   }
 
   public calculatePracticeGain(): number {
@@ -95,6 +75,7 @@ export default class LevelService {
 
   public canMobLevel(): boolean {
     return this.mob.playerMob && this.mob.playerMob.experienceToLevel <= 0
+      && this.mob.level < MAX_MOB_LEVEL
   }
 
   public gainLevel(): Gain {
