@@ -52,6 +52,9 @@ export const Messages = {
   Kill: {
     Success: "{requestCreator} {screamVerb} and {attackVerb} {target}!",
   },
+  Level: {
+    Success: "You gain a level!",
+  },
   Lock: {
     Success: "{requestCreator} {lockVerb} a {door} {direction}.",
   },

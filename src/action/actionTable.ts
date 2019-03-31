@@ -18,6 +18,7 @@ import BountyAction from "./impl/fight/bountyAction"
 import FleeAction from "./impl/fight/fleeAction"
 import HitAction from "./impl/fight/hitAction"
 import KillAction from "./impl/fight/killAction"
+import LevelAction from "./impl/improve/levelAction"
 import PracticeAction from "./impl/improve/practiceAction"
 import TrainAction from "./impl/improve/trainAction"
 import AffectsAction from "./impl/info/affectsAction"
@@ -174,6 +175,7 @@ export default function getActionTable(
 
     // mob
     new FollowAction(checkBuilderFactory),
+    new LevelAction(checkBuilderFactory),
 
     // social
     new GossipAction(socialService),

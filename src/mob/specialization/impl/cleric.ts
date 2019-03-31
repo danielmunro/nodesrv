@@ -39,6 +39,10 @@ export default class Cleric implements Specialization {
     return 1.00
   }
 
+  public getManaGainModifier(): number {
+    return 1
+  }
+
   public getSkills(): SkillType[] {
     return [
       SkillType.Mace,

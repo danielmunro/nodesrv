@@ -39,6 +39,10 @@ export default class Ranger implements Specialization {
     return 1.12
   }
 
+  public getManaGainModifier(): number {
+    return 0.5
+  }
+
   public getSkills(): SkillType[] {
     return [
       // weapons

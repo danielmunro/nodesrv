@@ -15,4 +15,5 @@ export interface Specialization {
   getSecondaryStat(): Stat
   getStartingWeaponType(): WeaponType
   getDamageModifier(): number
+  getManaGainModifier(): number
 }

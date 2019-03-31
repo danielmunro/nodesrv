@@ -1,3 +1,5 @@
+import {Size} from "./size"
+
 export enum Race {
   Human = "human",
   Dwarf = "dwarf",
@@ -58,4 +60,24 @@ export function isLarge(race: Race) {
 
 export function isTiny(race: Race) {
   return race === Race.Faerie || race === Race.Gnome
+}
+
+export function getSizeFromRace(race: Race) {
+  if (race === Race.Faerie) {
+    return Size.XS
+  }
+
+  if (race === Race.Elf || race === Race.Dwarf || race === Race.Gnome) {
+    return Size.S
+  }
+
+  if (race === Race.HalfOrc) {
+    return Size.L
+  }
+
+  if (race === Race.Giant) {
+    return Size.XL
+  }
+
+  return Size.M
 }

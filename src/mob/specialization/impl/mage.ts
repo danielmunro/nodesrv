@@ -39,6 +39,10 @@ export default class Mage implements Specialization {
     return 0.87
   }
 
+  public getManaGainModifier(): number {
+    return 1
+  }
+
   public getSkills(): SkillType[] {
     return [
       SkillType.Dagger,

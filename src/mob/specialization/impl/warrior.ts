@@ -39,6 +39,10 @@ export default class Warrior implements Specialization {
     return 1.2
   }
 
+  public getManaGainModifier(): number {
+    return 0.5
+  }
+
   public getSkills(): SkillType[] {
     return [
       // weapons

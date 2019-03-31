@@ -5,6 +5,7 @@ export enum RequestType {
   Get = "get",
   Drop = "drop",
   Inventory = "inventory",
+  Level = "level",
   Look = "look",
   Lore = "lore",
   Exits = "exits",

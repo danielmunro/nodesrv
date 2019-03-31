@@ -6,6 +6,7 @@ export const CheckMessages = {
   NoTarget: "You need a target!",
   NotAPlayer: "They are not a player.",
   NotAuthorized: "You cannot do that.",
+  NotEnoughExperience: "You lack the experience.",
   NotEnoughMana: "You lack the mana.",
   TooManyTargets: "You already have a target!",
   TooTired: "You are too tired.",

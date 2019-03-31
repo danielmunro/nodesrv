@@ -34,7 +34,7 @@ describe("envenom skill action", () => {
       () => testBuilder.handleAction(RequestType.Envenom, COMMAND))
 
     // then
-    expect(responses.filter(response => response.isFailure()).length).toBeGreaterThanOrEqual(iterations * 0.9)
+    expect(responses.filter(response => response.isFailure()).length).toBeGreaterThanOrEqual(iterations * 0.75)
   })
 
   it("should succeed sometimes with sufficient practice", async () => {
