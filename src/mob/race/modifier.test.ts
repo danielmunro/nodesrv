@@ -1,7 +1,7 @@
 import Attributes from "./../../attributes/model/attributes"
 import { allRaces } from "./constants"
 import { clericModifier, largeModifier, thiefModifier, tinyModifier, warriorModifier, wizardModifier } from "./modifier"
-import { isCleric, isLarge, isThief, isTiny, isWarrior, isWizard } from "./race"
+import { isCleric, isLarge, isThief, isTiny, isWarrior, isWizard } from "./raceType"
 
 describe("race modifiers", () => {
   it("modifiers", () => {

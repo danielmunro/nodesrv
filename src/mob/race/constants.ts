@@ -1,17 +1,17 @@
 import { clericModifier, largeModifier, thiefModifier, tinyModifier, warriorModifier, wizardModifier } from "./modifier"
-import { Race } from "./race"
+import { RaceType } from "./raceType"
 
 export const allRaces = [
-  Race.Human,
-  Race.Dwarf,
-  Race.Elf,
-  Race.Drow,
-  Race.Kender,
-  Race.Halfling,
-  Race.Gnome,
-  Race.Faerie,
-  Race.HalfOrc,
-  Race.Giant,
+  RaceType.Human,
+  RaceType.Dwarf,
+  RaceType.Elf,
+  RaceType.Drow,
+  RaceType.Kender,
+  RaceType.Halfling,
+  RaceType.Gnome,
+  RaceType.Faerie,
+  RaceType.HalfOrc,
+  RaceType.Giant,
 ]
 export const modifiers = [
   warriorModifier,

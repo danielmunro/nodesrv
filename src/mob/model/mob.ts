@@ -23,7 +23,7 @@ import { Gender } from "../enum/gender"
 import { Standing } from "../enum/standing"
 import { Trigger } from "../enum/trigger"
 import { modifiers } from "../race/constants"
-import { Race } from "../race/race"
+import { RaceType } from "../race/raceType"
 import {createSpecializationFromType} from "../specialization/factory"
 import {Specialization} from "../specialization/specialization"
 import { SpecializationType } from "../specialization/specializationType"
@@ -58,7 +58,7 @@ export class Mob {
   public brief: string
 
   @Column("text")
-  public race: Race
+  public race: RaceType
 
   @Column("text", { nullable: true })
   public specializationType: SpecializationType

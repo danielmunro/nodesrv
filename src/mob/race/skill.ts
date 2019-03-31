@@ -1,8 +1,8 @@
 import { SkillType } from "../../skill/skillType"
-import { Race } from "./race"
+import { RaceType } from "./raceType"
 
 export default class Skill {
   constructor(
-    public readonly race: Race,
+    public readonly race: RaceType,
     public readonly skillType: SkillType) {}
 }

@@ -1,4 +1,4 @@
-import {Race} from "../../mob/race/race"
+import {RaceType} from "../../mob/race/raceType"
 import doNTimes from "../../support/functional/times"
 import {getTestMob} from "../../test/mob"
 import {newSkill} from "../factory"
@@ -31,12 +31,12 @@ describe("skill invoked event consumer", () => {
     // given
     const skill1 = newSkill(SkillType.Sneak)
     const mob1 = getTestMob()
-    mob1.race = Race.Faerie
+    mob1.race = RaceType.Faerie
 
     // and
     const skill2 = newSkill(SkillType.Sneak)
     const mob2 = getTestMob()
-    mob2.race = Race.Troll
+    mob2.race = RaceType.Troll
 
     // when
     await doNTimes(iterations, async () => {

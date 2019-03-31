@@ -1,71 +1,71 @@
 import { SkillType } from "../../skill/skillType"
-import { Race } from "./race"
+import { RaceType } from "./raceType"
 import Skill, { default as RaceSkill } from "./skill"
 
 const skillTable = [
-  new Skill(Race.Insect, SkillType.Bite),
+  new Skill(RaceType.Insect, SkillType.Bite),
 
   // half orc
-  new Skill(Race.HalfOrc, SkillType.Bite),
-  new Skill(Race.HalfOrc, SkillType.Infravision),
-  new Skill(Race.HalfOrc, SkillType.FastHealing),
-  new Skill(Race.HalfOrc, SkillType.Spear),
+  new Skill(RaceType.HalfOrc, SkillType.Bite),
+  new Skill(RaceType.HalfOrc, SkillType.Infravision),
+  new Skill(RaceType.HalfOrc, SkillType.FastHealing),
+  new Skill(RaceType.HalfOrc, SkillType.Spear),
 
   // halfling
-  new Skill(Race.Halfling, SkillType.FastHealing),
-  new Skill(Race.Halfling, SkillType.Scan),
-  new Skill(Race.Halfling, SkillType.Haggle),
-  new Skill(Race.Halfling, SkillType.Dagger),
+  new Skill(RaceType.Halfling, SkillType.FastHealing),
+  new Skill(RaceType.Halfling, SkillType.Scan),
+  new Skill(RaceType.Halfling, SkillType.Haggle),
+  new Skill(RaceType.Halfling, SkillType.Dagger),
 
   // dwarf
-  new Skill(Race.Dwarf, SkillType.Sharpen),
-  new Skill(Race.Dwarf, SkillType.Infravision),
-  new Skill(Race.Dwarf, SkillType.Berserk),
-  new Skill(Race.Dwarf, SkillType.Axe),
+  new Skill(RaceType.Dwarf, SkillType.Sharpen),
+  new Skill(RaceType.Dwarf, SkillType.Infravision),
+  new Skill(RaceType.Dwarf, SkillType.Berserk),
+  new Skill(RaceType.Dwarf, SkillType.Axe),
 
   // faerie
-  new Skill(Race.Faerie, SkillType.Infravision),
-  new Skill(Race.Faerie, SkillType.Flying),
-  new Skill(Race.Faerie, SkillType.Spellcraft),
-  new Skill(Race.Faerie, SkillType.Wand),
+  new Skill(RaceType.Faerie, SkillType.Infravision),
+  new Skill(RaceType.Faerie, SkillType.Flying),
+  new Skill(RaceType.Faerie, SkillType.Spellcraft),
+  new Skill(RaceType.Faerie, SkillType.Wand),
 
   // human
-  new Skill(Race.Human, SkillType.Haggle),
-  new Skill(Race.Human, SkillType.Lore),
-  new Skill(Race.Human, SkillType.Scan),
-  new Skill(Race.Human, SkillType.Sword),
+  new Skill(RaceType.Human, SkillType.Haggle),
+  new Skill(RaceType.Human, SkillType.Lore),
+  new Skill(RaceType.Human, SkillType.Scan),
+  new Skill(RaceType.Human, SkillType.Sword),
 
   // elf
-  new Skill(Race.Elf, SkillType.Infravision),
-  new Skill(Race.Elf, SkillType.Sneak),
-  new Skill(Race.Elf, SkillType.Lore),
-  new Skill(Race.Elf, SkillType.Dagger),
+  new Skill(RaceType.Elf, SkillType.Infravision),
+  new Skill(RaceType.Elf, SkillType.Sneak),
+  new Skill(RaceType.Elf, SkillType.Lore),
+  new Skill(RaceType.Elf, SkillType.Dagger),
 
   // giant
-  new Skill(Race.Giant, SkillType.Bash),
-  new Skill(Race.Giant, SkillType.EnhancedDamage),
-  new Skill(Race.Giant, SkillType.Lore),
-  new Skill(Race.Giant, SkillType.Mace),
+  new Skill(RaceType.Giant, SkillType.Bash),
+  new Skill(RaceType.Giant, SkillType.EnhancedDamage),
+  new Skill(RaceType.Giant, SkillType.Lore),
+  new Skill(RaceType.Giant, SkillType.Mace),
 
   // kender
-  new Skill(Race.Kender, SkillType.Sneak),
-  new Skill(Race.Kender, SkillType.Bite),
-  new Skill(Race.Kender, SkillType.Haggle),
-  new Skill(Race.Kender, SkillType.Dagger),
+  new Skill(RaceType.Kender, SkillType.Sneak),
+  new Skill(RaceType.Kender, SkillType.Bite),
+  new Skill(RaceType.Kender, SkillType.Haggle),
+  new Skill(RaceType.Kender, SkillType.Dagger),
 
   // drow
-  new Skill(Race.Drow, SkillType.Envenom),
-  new Skill(Race.Drow, SkillType.Sneak),
-  new Skill(Race.Drow, SkillType.Meditation),
-  new Skill(Race.Drow, SkillType.Stave),
+  new Skill(RaceType.Drow, SkillType.Envenom),
+  new Skill(RaceType.Drow, SkillType.Sneak),
+  new Skill(RaceType.Drow, SkillType.Meditation),
+  new Skill(RaceType.Drow, SkillType.Stave),
 
   // gnome
-  new Skill(Race.Gnome, SkillType.Sharpen),
-  new Skill(Race.Gnome, SkillType.Spellcraft),
-  new Skill(Race.Gnome, SkillType.Meditation),
-  new Skill(Race.Gnome, SkillType.Dagger),
+  new Skill(RaceType.Gnome, SkillType.Sharpen),
+  new Skill(RaceType.Gnome, SkillType.Spellcraft),
+  new Skill(RaceType.Gnome, SkillType.Meditation),
+  new Skill(RaceType.Gnome, SkillType.Dagger),
 ]
 
-export function getRaceSkills(race: Race): Skill[] {
+export function getRaceSkills(race: RaceType): Skill[] {
   return skillTable.filter((skill: RaceSkill) => skill.race === race)
 }

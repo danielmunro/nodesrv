@@ -2,7 +2,7 @@ import Attributes from "../attributes/model/attributes"
 import {MAX_MOB_LEVEL} from "../mob/constants"
 import Gain from "../mob/gain"
 import {Mob} from "../mob/model/mob"
-import {getSizeFromRace, Race} from "../mob/race/race"
+import {getSizeFromRace, RaceType} from "../mob/race/raceType"
 import {Specialization} from "../mob/specialization/specialization"
 import {getRandomIntFromRange, percentRoll} from "../random/helpers"
 
@@ -50,11 +50,11 @@ export default class LevelService {
     let amount = (attributes.stats.int * 0.2) * (1 + (percentRoll() / 100) + (percentRoll() / 100))
       + (attributes.stats.wis * 0.1) * (1 + percentRoll() / 100)
 
-    if (race === Race.Elf || race === Race.HalfElf) {
+    if (race === RaceType.Elf || race === RaceType.HalfElf) {
       amount *= 1.1
     }
 
-    if (race === Race.Faerie) {
+    if (race === RaceType.Faerie) {
       amount *= 1.25
     }
 
@@ -66,7 +66,7 @@ export default class LevelService {
   public calculateMvGain() {
     return 3 +
       LevelService.getGainFromStat(this.mob.getCombinedAttributes().stats.dex) +
-      (this.mob.race === Race.Giant ? -1 : 0)
+      (this.mob.race === RaceType.Giant ? -1 : 0)
   }
 
   public calculatePracticeGain(): number {

@@ -6,13 +6,13 @@ import {
 } from "../attributes/factory"
 import { Item } from "../item/model/item"
 import { newMob } from "./factory"
-import { Race } from "./race/race"
+import { RaceType } from "./race/raceType"
 
 describe("mob factory", () => {
   it("should be able to create a mob", () => {
     const name = "test mob name"
     const description = "this is a description"
-    const race = Race.Critter
+    const race = RaceType.Critter
     const vitals = newStartingVitals()
     const expectedAttributes = new AttributeBuilder()
         .setVitals(newStartingVitals())
@@ -39,7 +39,7 @@ describe("mob factory", () => {
     const mob = newMob(
       "",
       "",
-      Race.Critter,
+      RaceType.Critter,
       newStartingVitals(),
       new AttributeBuilder().setStats(newStartingStats()).build(),
       false,

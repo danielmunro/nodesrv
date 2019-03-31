@@ -3,7 +3,7 @@ import * as sillyname from "sillyname"
 import { newStartingAttributes, newStartingVitals } from "../attributes/factory"
 import { newMob } from "../mob/factory"
 import { Mob } from "../mob/model/mob"
-import { Race } from "../mob/race/race"
+import { RaceType } from "../mob/race/raceType"
 
 export function getTestMob(name: string = null, level: number = 1): Mob {
   if (name === null) {
@@ -13,7 +13,7 @@ export function getTestMob(name: string = null, level: number = 1): Mob {
   const mob = newMob(
     name,
     "a test fixture",
-    Race.Human,
+    RaceType.Human,
     vitals,
     newStartingAttributes(cloneDeep(vitals), level))
   mob.level = level

@@ -1,6 +1,6 @@
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {Disposition} from "../../../../mob/enum/disposition"
-import {Race} from "../../../../mob/race/race"
+import {RaceType} from "../../../../mob/race/raceType"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import doNTimes from "../../../../support/functional/times"
@@ -19,7 +19,7 @@ beforeEach(() => {
 describe("turn undead action", () => {
   it("kills undead mobs", async () => {
     // given
-    const mobs = await doNTimes(undeadCount, () => testBuilder.withMob().setRace(Race.Undead))
+    const mobs = await doNTimes(undeadCount, () => testBuilder.withMob().setRace(RaceType.Undead))
 
     // when
     await testBuilder.successfulAction(

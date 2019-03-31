@@ -1,10 +1,10 @@
-import { Race } from "./race"
+import { RaceType } from "./raceType"
 import { getSizeModifier } from "./sizeModifier"
 
 describe("size modifier", () => {
   it("should assign the expected modifier", () => {
-    expect(getSizeModifier(Race.Faerie, 1, 2)).toBe(1)
-    expect(getSizeModifier(Race.HalfOrc, 1, 2)).toBe(2)
-    expect(getSizeModifier(Race.Human, 1, 2)).toBe(0)
+    expect(getSizeModifier(RaceType.Faerie, 1, 2)).toBe(1)
+    expect(getSizeModifier(RaceType.HalfOrc, 1, 2)).toBe(2)
+    expect(getSizeModifier(RaceType.Human, 1, 2)).toBe(0)
   })
 })

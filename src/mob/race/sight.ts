@@ -1,6 +1,6 @@
 import { Terrain } from "../../region/terrain"
 import { Weather } from "../../region/weather"
-import { Race } from "./race"
+import { RaceType } from "./raceType"
 
 function getVisibilityForTimeOfDay(timeOfDay: number) {
  if (timeOfDay < 4) {
@@ -47,7 +47,7 @@ function getVisibilityForWeather(weather: Weather) {
 }
 
 class Sight {
-  constructor(public readonly race: Race, public readonly eyesight: number) {}
+  constructor(public readonly race: RaceType, public readonly eyesight: number) {}
 
   public isAbleToSee(timeOfDay: number, terrain: Terrain, weather: Weather): boolean {
     return this.eyesight +
@@ -58,18 +58,18 @@ class Sight {
 }
 
 const sightTable = [
-  new Sight(Race.Faerie, 0.7),
-  new Sight(Race.Drow, 0.7),
-  new Sight(Race.Elf, 0.65),
-  new Sight(Race.Kender, 0.6),
-  new Sight(Race.Halfling, 0.55),
-  new Sight(Race.Human, 0.5),
-  new Sight(Race.Dwarf, 0.45),
-  new Sight(Race.Gnome, 0.4),
-  new Sight(Race.HalfOrc, 0.35),
-  new Sight(Race.Giant, 0.3),
+  new Sight(RaceType.Faerie, 0.7),
+  new Sight(RaceType.Drow, 0.7),
+  new Sight(RaceType.Elf, 0.65),
+  new Sight(RaceType.Kender, 0.6),
+  new Sight(RaceType.Halfling, 0.55),
+  new Sight(RaceType.Human, 0.5),
+  new Sight(RaceType.Dwarf, 0.45),
+  new Sight(RaceType.Gnome, 0.4),
+  new Sight(RaceType.HalfOrc, 0.35),
+  new Sight(RaceType.Giant, 0.3),
 ]
 
-export default function getSight(race: Race): Sight {
+export default function getSight(race: RaceType): Sight {
   return sightTable.find((sight) => sight.race === race)
 }

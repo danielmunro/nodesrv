@@ -1,6 +1,6 @@
-import { isLarge, isTiny, Race } from "./race"
+import { isLarge, isTiny, RaceType } from "./raceType"
 
-export function getSizeModifier(race: Race, tinyModifier: number, largeModifier: number, defaultModifier: number = 0) {
+export function getSizeModifier(race: RaceType, tinyModifier: number, largeModifier: number, defaultModifier: number = 0) {
   if (isTiny(race)) {
     return tinyModifier
   }
