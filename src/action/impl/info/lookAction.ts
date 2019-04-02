@@ -7,7 +7,7 @@ import {Item} from "../../../item/model/item"
 import {onlyLiving} from "../../../mob/enum/disposition"
 import LocationService from "../../../mob/locationService"
 import {Mob} from "../../../mob/model/mob"
-import getSight from "../../../mob/race/sight"
+import {isAbleToSee} from "../../../mob/race/sight"
 import {Region} from "../../../region/model/region"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
@@ -115,7 +115,7 @@ export default class LookAction extends Action {
   protected isAbleToSee(mob: Mob, region?: Region) {
     return new Maybe(region)
       .do((r: Region) =>
-        getSight(mob.race).isAbleToSee(this.timeService.getCurrentTime(), r.terrain, r.weather))
+        isAbleToSee(mob.race().sight, this.timeService.getCurrentTime(), r.terrain, r.weather))
       .or(() => true)
       .get()
   }

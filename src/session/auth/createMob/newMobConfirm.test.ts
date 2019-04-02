@@ -27,7 +27,7 @@ describe("new mob confirm auth step", () => {
     expect(response.authStep).toBeInstanceOf(Name)
   })
 
-  it("should proceed to the next step (race selection) if 'y' selected", async () => {
+  it("should proceed to the next step (raceType selection) if 'y' selected", async () => {
     // given
     const client = await getTestClient()
 

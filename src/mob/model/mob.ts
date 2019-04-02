@@ -22,8 +22,10 @@ import { Disposition } from "../enum/disposition"
 import { Gender } from "../enum/gender"
 import { Standing } from "../enum/standing"
 import { Trigger } from "../enum/trigger"
-import { modifiers } from "../race/constants"
-import { RaceType } from "../race/raceType"
+import { RaceType } from "../race/enum/raceType"
+import createRaceFromRaceType from "../race/factory"
+import Race from "../race/race"
+import RaceService from "../race/raceService"
 import {createSpecializationFromType} from "../specialization/factory"
 import {Specialization} from "../specialization/specialization"
 import { SpecializationType } from "../specialization/specializationType"
@@ -58,7 +60,7 @@ export class Mob {
   public brief: string
 
   @Column("text")
-  public race: RaceType
+  public raceType: RaceType
 
   @Column("text", { nullable: true })
   public specializationType: SpecializationType
@@ -150,6 +152,18 @@ export class Mob {
     return createSpecializationFromType(this.specializationType)
   }
 
+  public race(): Race {
+    return createRaceFromRaceType(this.raceType)
+  }
+
+  public nourish(): void {
+    const race = this.race()
+    if (this.playerMob) {
+      this.playerMob.appetite = race.appetite
+      this.playerMob.hunger = race.appetite
+    }
+  }
+
   public findPractice(input: string): Skill | Spell | undefined {
     return Maybe.if(this.skills.find((skill: Skill) => match(skill.skillType, input)))
       .or(() => this.spells.find((spell: Spell) => match(spell.spellType, input)))
@@ -168,9 +182,9 @@ export class Mob {
     let attributes = newEmptyAttributes()
     this.attributes.forEach(a => attributes = attributes.combine(a))
     this.equipped.items.forEach(i => attributes = attributes.combine(i.attributes))
-    modifiers.forEach(modifier => attributes = modifier(this.race, attributes))
+    attributes = RaceService.combineAttributes(this, attributes)
     if (this.playerMob) {
-      attributes.combine(this.playerMob.trainedAttributes)
+      attributes = attributes.combine(this.playerMob.trainedAttributes)
     }
 
     return attributes

@@ -1,6 +1,7 @@
+import {pickOne} from "../../random/helpers"
 import { Room } from "../../room/model/room"
 import { Mob } from "../model/mob"
-import {BodyPart, getRandomBodyPartForRace} from "../race/bodyParts"
+import {BodyPart} from "../race/enum/bodyParts"
 import { Attack } from "./attack"
 import Death from "./death"
 import { Fight } from "./fight"
@@ -33,7 +34,7 @@ export class Round {
       this.death = lastCounter.death
     }
     if (this.death) {
-      this.bodyParts = [getRandomBodyPartForRace(this.death.mobKilled.race)]
+      this.bodyParts = [pickOne(this.death.mobKilled.race().bodyParts)]
     }
   }
 

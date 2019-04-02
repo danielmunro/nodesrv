@@ -84,7 +84,7 @@ export class Item {
 
   @OneToOne(() => Container, { cascadeAll: true, eager: true })
   @JoinColumn()
-  public container
+  public container: Container
 
   @OneToOne(() => Food, food => food.item)
   @JoinColumn()

@@ -6,7 +6,7 @@ import {
 } from "../attributes/factory"
 import { Item } from "../item/model/item"
 import { newMob } from "./factory"
-import { RaceType } from "./race/raceType"
+import { RaceType } from "./race/enum/raceType"
 
 describe("mob factory", () => {
   it("should be able to create a mob", () => {
@@ -28,7 +28,7 @@ describe("mob factory", () => {
 
     expect(mob.name).toBe(name)
     expect(mob.description).toBe(description)
-    expect(mob.race).toBe(race)
+    expect(mob.raceType).toBe(race)
     expect(mob.vitals).toBe(vitals)
     expect(mob.getCombinedAttributes()).toEqual(expectedAttributes)
   })

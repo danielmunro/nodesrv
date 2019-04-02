@@ -1,10 +1,11 @@
 import { newContainer } from "../../item/factory"
 import { Item } from "../../item/model/item"
+import {pickOne} from "../../random/helpers"
 import { Room } from "../../room/model/room"
 import { Messages } from "../../server/observers/constants"
 import { format } from "../../support/string"
 import { Mob } from "../model/mob"
-import { getBodyPartItem, getRandomBodyPartForRace } from "../race/bodyParts"
+import {getBodyPartItem} from "../race/bodyParts"
 
 const EXPERIENCE_GAIN = 100
 
@@ -37,6 +38,6 @@ export default class Death {
   }
 
   public createBodyPart() {
-    return getBodyPartItem(this.mobKilled, getRandomBodyPartForRace(this.mobKilled.race))
+    return getBodyPartItem(this.mobKilled, pickOne(this.mobKilled.race().bodyParts))
   }
 }

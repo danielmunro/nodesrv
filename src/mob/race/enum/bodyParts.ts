@@ -1,0 +1,25 @@
+export enum BodyPart {
+  Brains = "brains",
+  Guts = "guts",
+  Head = "head",
+  Arm = "arms",
+  Leg = "legs",
+  Heart = "heart",
+  Hands = "hands",
+  Feet = "feet",
+  Fingers = "fingers",
+  Ear = "ear",
+  Eye = "eye",
+  LongTongue = "long tongue",
+  Wings = "wings",
+  Tail = "tail",
+  Claws = "claws",
+  Fangs = "fangs",
+  Horns = "horns",
+  Scales = "scales",
+  Tusks = "tusks",
+  Fur = "fur",
+}
+
+export const standardPackage = [BodyPart.Head, BodyPart.Brains, BodyPart.Ear, BodyPart.Guts, BodyPart.Feet,
+  BodyPart.Arm, BodyPart.Leg, BodyPart.Heart, BodyPart.Hands, BodyPart.Fingers, BodyPart.Eye]

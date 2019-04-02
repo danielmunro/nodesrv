@@ -1,7 +1,5 @@
-import appetite from "../../../mob/race/appetite"
-import { allRaces } from "../../../mob/race/constants"
-import { getRaceSkills } from "../../../mob/race/skillTable"
-import { newSkill } from "../../../skill/factory"
+import RaceService from "../../../mob/race/raceService"
+import raceTable from "../../../mob/race/raceTable"
 import AuthStep from "../authStep"
 import { MESSAGE_CHOOSE_RACE, MESSAGE_FAIL_RACE_UNAVAILABLE } from "../constants"
 import PlayerAuthStep from "../playerAuthStep"
@@ -16,17 +14,13 @@ export default class Race extends PlayerAuthStep implements AuthStep {
   }
 
   public async processRequest(request: Request): Promise<Response> {
-    const race = allRaces.find((r) => r.startsWith(request.input))
+    const race = raceTable.find((r) => r.raceType.startsWith(request.input))
 
     if (!race) {
       return request.fail(this, MESSAGE_FAIL_RACE_UNAVAILABLE)
     }
 
-    const mob = this.player.sessionMob
-    mob.race = race
-    mob.playerMob.appetite = appetite(race)
-    mob.playerMob.hunger = appetite(race)
-    mob.skills.push(...getRaceSkills(race).map((skill) => newSkill(skill.skillType)))
+    RaceService.assignRaceToMob(this.player.sessionMob, race.raceType)
     return request.ok(new Specialization(this.authService, this.player))
   }
 }

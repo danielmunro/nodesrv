@@ -2,7 +2,7 @@ import {AffectType} from "../../../affect/affectType"
 import {newAffect} from "../../../affect/factory"
 import {Item} from "../../../item/model/item"
 import {Mob} from "../../../mob/model/mob"
-import {RaceType} from "../../../mob/race/raceType"
+import {RaceType} from "../../../mob/race/enum/raceType"
 import {Player} from "../../../player/model/player"
 import newRegion from "../../../region/factory"
 import {Terrain} from "../../../region/terrain"
@@ -136,7 +136,7 @@ describe("look action", () => {
     room.region = newRegion("test", Terrain.Forest, Weather.Storming)
     const service = await testBuilder.getService()
     service.timeService.time = 0
-    player.sessionMob.race = RaceType.HalfOrc
+    player.sessionMob.raceType = RaceType.HalfOrc
 
     // when
     const response1 = await definition.handle(testBuilder.createRequest(RequestType.Look))

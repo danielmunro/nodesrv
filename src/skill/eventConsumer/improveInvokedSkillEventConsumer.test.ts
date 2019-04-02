@@ -1,4 +1,3 @@
-import {RaceType} from "../../mob/race/raceType"
 import doNTimes from "../../support/functional/times"
 import {getTestMob} from "../../test/mob"
 import {newSkill} from "../factory"
@@ -6,7 +5,7 @@ import SkillEvent from "../skillEvent"
 import {SkillType} from "../skillType"
 import ImproveInvokedSkillsEventConsumer from "./improveInvokedSkillsEventConsumer"
 
-const iterations = 500
+const iterations = 1000
 
 describe("skill invoked event consumer", () => {
   it("should improve a skill", async () => {
@@ -31,12 +30,12 @@ describe("skill invoked event consumer", () => {
     // given
     const skill1 = newSkill(SkillType.Sneak)
     const mob1 = getTestMob()
-    mob1.race = RaceType.Faerie
+    mob1.attributes[0].stats.int = 25
 
     // and
     const skill2 = newSkill(SkillType.Sneak)
     const mob2 = getTestMob()
-    mob2.race = RaceType.Troll
+    mob2.attributes[0].stats.int = 0
 
     // when
     await doNTimes(iterations, async () => {

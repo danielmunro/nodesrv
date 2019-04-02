@@ -4,7 +4,7 @@ import ManaCost from "../../../../check/cost/manaCost"
 import {Disposition} from "../../../../mob/enum/disposition"
 import MobService from "../../../../mob/mobService"
 import {Mob} from "../../../../mob/model/mob"
-import {RaceType} from "../../../../mob/race/raceType"
+import {RaceType} from "../../../../mob/race/enum/raceType"
 import {percentRoll} from "../../../../random/helpers"
 import ResponseMessage from "../../../../request/responseMessage"
 import RoomMessageEvent from "../../../../room/event/roomMessageEvent"
@@ -39,7 +39,7 @@ export default function(abilityService: AbilityService, mobService: MobService):
       SpellMessages.TurnUndead.Success))
     .setApplySpell(async checkedRequest => {
       await asyncForEach(mobService.locationService.getMobsInRoomWithMob(checkedRequest.mob)
-        .filter(mob => mob.race === RaceType.Undead)
+        .filter(mob => mob.raceType === RaceType.Undead)
         .filter(mob => percentRoll() < 100 - mob.level),
         mob => turn(checkedRequest.room, mob, abilityService))
     })

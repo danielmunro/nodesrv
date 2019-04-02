@@ -1,27 +1,3 @@
-import { clericModifier, largeModifier, thiefModifier, tinyModifier, warriorModifier, wizardModifier } from "./modifier"
-import { RaceType } from "./raceType"
-
-export const allRaces = [
-  RaceType.Human,
-  RaceType.Dwarf,
-  RaceType.Elf,
-  RaceType.Drow,
-  RaceType.Kender,
-  RaceType.Halfling,
-  RaceType.Gnome,
-  RaceType.Faerie,
-  RaceType.HalfOrc,
-  RaceType.Giant,
-]
-export const modifiers = [
-  warriorModifier,
-  thiefModifier,
-  wizardModifier,
-  clericModifier,
-  tinyModifier,
-  largeModifier,
-]
-
 export const Messages = {
   Arm: {
     Description: "an arm of {0} is lying here.",

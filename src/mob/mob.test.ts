@@ -1,6 +1,5 @@
 import { getTestMob } from "../test/mob"
 import TestBuilder from "../test/testBuilder"
-import appetite from "./race/appetite"
 
 describe("mob model", () => {
   it("should not exceed its max appetite when eating", async () => {
@@ -13,7 +12,7 @@ describe("mob model", () => {
       .build()
     food.hunger = 10
     const mob = playerBuilder.player.sessionMob
-    const maxAppetite = appetite(mob.race)
+    const maxAppetite = mob.race().appetite
 
     // when
     mob.playerMob.eat(food)

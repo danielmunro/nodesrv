@@ -1,7 +1,7 @@
 import PracticeService from "../src/gameService/practiceService"
 import ServiceBuilder from "../src/gameService/serviceBuilder"
 import {Mob} from "../src/mob/model/mob"
-import {RaceType} from "../src/mob/race/raceType"
+import {RaceType} from "../src/mob/race/enum/raceType"
 import {SpecializationType} from "../src/mob/specialization/specializationType"
 import MobBuilder from "../src/test/mobBuilder"
 

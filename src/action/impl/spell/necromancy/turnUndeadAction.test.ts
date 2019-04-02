@@ -1,6 +1,6 @@
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {Disposition} from "../../../../mob/enum/disposition"
-import {RaceType} from "../../../../mob/race/raceType"
+import {RaceType} from "../../../../mob/race/enum/raceType"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import doNTimes from "../../../../support/functional/times"

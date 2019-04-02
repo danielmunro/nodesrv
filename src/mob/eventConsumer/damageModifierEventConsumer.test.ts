@@ -2,8 +2,7 @@ import {DamageType} from "../../damage/damageType"
 import TestBuilder from "../../test/testBuilder"
 import DamageEvent from "../event/damageEvent"
 import {Mob} from "../model/mob"
-import damageModifierTable from "../race/damageModifierTable"
-import {RaceType} from "../race/raceType"
+import {RaceType} from "../race/enum/raceType"
 import DamageModifierEventConsumer from "./damageModifierEventConsumer"
 
 let consumer: DamageModifierEventConsumer
@@ -12,7 +11,7 @@ let mob: Mob
 const initialDamage = 1
 
 beforeEach(() => {
-  consumer = new DamageModifierEventConsumer(damageModifierTable)
+  consumer = new DamageModifierEventConsumer()
   testBuilder = new TestBuilder()
   mob = testBuilder.withMob().withRace(RaceType.Giant).mob
 })
@@ -44,7 +43,7 @@ describe("damage modifier event consumer", () => {
 
   it("decreases the damage amount to zero if invulnerable", async () => {
     // given
-    mob.race = RaceType.Goblin
+    mob.raceType = RaceType.Goblin
     const event = new DamageEvent(mob, initialDamage, DamageType.Poison)
 
     // when

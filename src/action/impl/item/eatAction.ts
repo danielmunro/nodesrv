@@ -5,7 +5,6 @@ import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
 import ItemEvent from "../../../item/event/itemEvent"
 import {Item} from "../../../item/model/item"
-import appetite from "../../../mob/race/appetite"
 import { Request } from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
@@ -26,7 +25,7 @@ export default class EatAction extends Action {
       .requireSubject(ConditionMessages.All.Arguments.Eat)
       .requireFromActionParts(request, this.getActionParts())
       .require((item: Item) => item.isFood(), ConditionMessages.Eat.NotFood)
-      .require(request.mob.playerMob.hunger < appetite(request.mob.race), ConditionMessages.Eat.AlreadyFull)
+      .require(request.mob.playerMob.hunger < request.mob.race().appetite, ConditionMessages.Eat.AlreadyFull)
       .create()
   }
 

@@ -10,7 +10,7 @@ import MobTable from "./mobTable"
 import {Mob} from "./model/mob"
 import MobLocation from "./model/mobLocation"
 import MobReset from "./model/mobReset"
-import {RaceType} from "./race/raceType"
+import {RaceType} from "./race/enum/raceType"
 import {SpecializationType} from "./specialization/specializationType"
 
 export function newMobReset(
@@ -46,7 +46,7 @@ export function newMob(name: string, description: string, race: RaceType, vitals
   const mob = new Mob()
   mob.name = name
   mob.description = description
-  mob.race = race
+  mob.raceType = race
   mob.vitals = vitals
   mob.attributes.push(attributes)
   mob.traits.wanders = wanders

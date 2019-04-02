@@ -1,5 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
+import {newEmptyAttributes} from "../../attributes/factory"
 import { default as Attributes } from "../../attributes/model/attributes"
 import { Item } from "../../item/model/item"
 import { AuthorizationLevel } from "../../player/authorizationLevel"
@@ -33,7 +34,7 @@ export class PlayerMob {
 
   @OneToOne(() => Attributes)
   @JoinColumn()
-  public trainedAttributes: Attributes = new Attributes()
+  public trainedAttributes: Attributes = newEmptyAttributes()
 
   @Column("integer")
   public experience: number = 0

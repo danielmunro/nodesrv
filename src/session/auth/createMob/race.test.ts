@@ -1,4 +1,4 @@
-import { allRaces } from "../../../mob/race/constants"
+import raceTable from "../../../mob/race/raceTable"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../test/client"
 import Request from "../request"
@@ -11,8 +11,8 @@ afterAll(async () => (await getConnection()).close())
 
 const mockAuthService = jest.fn()
 
-describe("race create mob auth step", () => {
-  it("should not allow invalid race options", async () => {
+describe("raceType create mob auth step", () => {
+  it("should not allow invalid raceType options", async () => {
     // given
     const badInputs = [
       "foo",
@@ -38,8 +38,8 @@ describe("race create mob auth step", () => {
     const race = new Race(mockAuthService(), client.player)
 
     // when
-    return Promise.all(allRaces.map(async (input) => {
-      const response = await race.processRequest(new Request(client, input))
+    return Promise.all(raceTable.map(async (input) => {
+      const response = await race.processRequest(new Request(client, input.raceType))
       expect(response.status).toBe(ResponseStatus.OK)
       expect(response.authStep).toBeInstanceOf(Specialization)
     }))

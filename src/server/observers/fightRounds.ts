@@ -8,12 +8,12 @@ import healthIndicator from "../../mob/fight/healthIndicator"
 import {Round} from "../../mob/fight/round"
 import MobService from "../../mob/mobService"
 import {Mob} from "../../mob/model/mob"
-import {getBodyPartMessage} from "../../mob/race/bodyParts"
+import {BodyPart} from "../../mob/race/enum/bodyParts"
 import {simpleD4} from "../../random/dice"
 import Maybe from "../../support/functional/maybe"
 import withValue from "../../support/functional/withValue"
 import {format} from "../../support/string"
-import {Messages} from "./constants"
+import {Messages, Messages as ServerObserverMessages} from "./constants"
 import {Observer} from "./observer"
 
 enum AttackLabel {
@@ -93,6 +93,22 @@ function getFatalityMessages(round: Round): string[] {
   }
 
   return messages
+}
+
+function getBodyPartMessage(mob: Mob, bodyPart: BodyPart): string {
+  const m = ServerObserverMessages.Fight.BodyParts
+  switch (bodyPart) {
+    case BodyPart.Guts:
+      return format(m.Guts, mob.name, mob.gender)
+    case BodyPart.Head:
+      return format(m.Head, mob.name, mob.gender)
+    case BodyPart.Heart:
+      return format(m.Heart, mob.name, mob.gender)
+    case BodyPart.Brains:
+      return format(m.Brains, mob.name, mob.gender)
+    default:
+      return format(m.Default, mob.name, bodyPart, mob.gender)
+  }
 }
 
 function createMessageFromFightRound(round: Round, sessionMob: Mob): string {

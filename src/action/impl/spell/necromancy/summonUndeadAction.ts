@@ -6,7 +6,7 @@ import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import MobService from "../../../../mob/mobService"
 import {Mob} from "../../../../mob/model/mob"
-import {RaceType} from "../../../../mob/race/raceType"
+import {RaceType} from "../../../../mob/race/enum/raceType"
 import {getRandomIntFromRange} from "../../../../random/helpers"
 import ResponseMessage from "../../../../request/responseMessage"
 import {SpellMessages} from "../../../../spell/constants"
@@ -33,7 +33,7 @@ function createSkeletalWarrior(caster: Mob, warrior: Mob): Mob {
       .build())
   warrior.deathTimer = (level / 5) + 10
   warrior.follows = caster
-  warrior.race = RaceType.Undead
+  warrior.raceType = RaceType.Undead
   return warrior
 }
 

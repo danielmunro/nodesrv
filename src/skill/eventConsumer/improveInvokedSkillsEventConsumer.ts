@@ -8,7 +8,7 @@ import SkillEvent from "../skillEvent"
 
 export default class ImproveInvokedSkillsEventConsumer implements EventConsumer {
   private static getRollCheck(mob: Mob) {
-    return (mob.getCombinedAttributes().stats.int - 10) * 2
+    return Math.max(1, (mob.getCombinedAttributes().stats.int - 18)) * 2
   }
 
   public getConsumingEventTypes(): EventType[] {

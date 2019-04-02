@@ -1,5 +1,4 @@
 import { AffectType } from "../../../affect/affectType"
-import appetite from "../../../mob/race/appetite"
 import { RequestType } from "../../../request/requestType"
 import PlayerBuilder from "../../../test/playerBuilder"
 import TestBuilder from "../../../test/testBuilder"
@@ -40,7 +39,7 @@ describe("eat action", () => {
       .addToPlayerBuilder(playerBuilder)
       .build()
     const mob = playerBuilder.getMob()
-    mob.playerMob.hunger = appetite(mob.race) - 1
+    mob.playerMob.hunger = mob.race().appetite - 1
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
@@ -98,7 +97,7 @@ describe("eat action", () => {
 
   it("should not allow eating when already full", async () => {
     // given
-    playerBuilder.setHunger(appetite(playerBuilder.player.sessionMob.race))
+    playerBuilder.setHunger(playerBuilder.player.sessionMob.race().appetite)
     const food = testBuilder.withItem()
       .asFood()
       .addToPlayerBuilder(playerBuilder)

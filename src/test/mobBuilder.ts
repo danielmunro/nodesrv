@@ -6,7 +6,7 @@ import {Disposition} from "../mob/enum/disposition"
 import {newMobLocation} from "../mob/factory"
 import { Mob } from "../mob/model/mob"
 import Shop from "../mob/model/shop"
-import {RaceType} from "../mob/race/raceType"
+import {RaceType} from "../mob/race/enum/raceType"
 import {defaultSpecializationLevels} from "../mob/specialization/specializationLevels"
 import {SpecializationType} from "../mob/specialization/specializationType"
 import { newSkill } from "../skill/factory"
@@ -34,7 +34,7 @@ export default class MobBuilder {
   }
 
   public withRace(race: RaceType) {
-    this.mob.race = race
+    this.mob.raceType = race
     return this
   }
 
@@ -59,7 +59,7 @@ export default class MobBuilder {
   }
 
   public setRace(race: RaceType): MobBuilder {
-    this.mob.race = race
+    this.mob.raceType = race
     return this
   }
 

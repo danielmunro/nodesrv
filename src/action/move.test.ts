@@ -45,8 +45,9 @@ describe("move", () => {
     // when
     await definition.handle(testBuilder.createRequest(RequestType.East))
 
+    const combined = mob.getCombinedAttributes()
     // then
-    expect(mob.vitals.mv).toBe(mob.getCombinedAttributes().vitals.mv)
+    expect(mob.vitals.mv).toBe(combined.vitals.mv)
   })
 
   it("should not be able to move if immobilized", async () => {

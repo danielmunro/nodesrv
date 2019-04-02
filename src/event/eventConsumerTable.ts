@@ -29,7 +29,6 @@ import PetFollowsOwner from "../mob/eventConsumer/petFollowsOwner"
 import Wimpy from "../mob/eventConsumer/wimpy"
 import FightBuilder from "../mob/fight/fightBuilder"
 import MobService from "../mob/mobService"
-import damageModifierTable from "../mob/race/damageModifierTable"
 import MobArrives from "../player/eventConsumer/mobArrives"
 import MobLeaves from "../player/eventConsumer/mobLeaves"
 import {RequestType} from "../request/requestType"
@@ -73,7 +72,7 @@ export default async function createEventConsumerTable(
     new FightStarter(mobService, fightBuilder),
     new MobClientDisconnected(locationService),
     new MobCreated(mobService, gameServer.startRoom),
-    new DamageModifierEventConsumer(damageModifierTable),
+    new DamageModifierEventConsumer(),
     new FollowMob(locationService,
       gameService.getActions().filter((action: Action) => action instanceof Move) as Move[]),
     new DeathTimerEventConsumer(gameService.eventService, locationService),
