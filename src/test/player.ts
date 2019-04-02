@@ -13,6 +13,8 @@ export function getTestPlayer(): Player {
   player.sessionMob.playerMob = new PlayerMob()
   player.sessionMob.playerMob.mob = player.sessionMob
   player.sessionMob.playerMob.appetite = player.sessionMob.race().appetite
+  player.sessionMob.playerMob.experiencePerLevel = 1000
+  player.sessionMob.playerMob.experienceToLevel = 1000
   player.mobs.push(player.sessionMob)
 
   return player

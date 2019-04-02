@@ -9,7 +9,7 @@ export function getTestMob(name: string = null, level: number = 1): Mob {
   if (name === null) {
     name = sillyname()
   }
-  const vitals = newStartingVitals(level)
+  const vitals = newStartingVitals()
   const mob = newMob(
     name,
     "a test fixture",
