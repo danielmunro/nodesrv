@@ -1,3 +1,4 @@
+import AttributeService from "../../../attributes/attributeService"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
@@ -18,7 +19,7 @@ import {ActionPart} from "../../enum/actionPart"
 
 export default class PracticeAction extends Action {
   private static getImproveAmount(mob: Mob): number {
-    return mob.getCombinedAttributes().stats.int / 2
+    return AttributeService.getInt(mob) / 2
   }
 
   private static minimumLevel(specialization: SpecializationType, practice: Skill | Spell): number {

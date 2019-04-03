@@ -1,4 +1,5 @@
 import AttributeBuilder from "../attributes/attributeBuilder"
+import AttributeService from "../attributes/attributeService"
 import {
   newHitroll,
   newStartingStats,
@@ -30,7 +31,7 @@ describe("mob factory", () => {
     expect(mob.description).toBe(description)
     expect(mob.raceType).toBe(race)
     expect(mob.vitals).toBe(vitals)
-    expect(mob.getCombinedAttributes()).toEqual(expectedAttributes)
+    expect(AttributeService.combine(mob)).toEqual(expectedAttributes)
   })
 
   it("should be able to newTable with items", () => {

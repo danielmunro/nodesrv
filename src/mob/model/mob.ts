@@ -3,6 +3,7 @@ import * as v4 from "uuid"
 import { AffectType } from "../../affect/affectType"
 import { applyAffectModifier } from "../../affect/applyAffect"
 import { Affect } from "../../affect/model/affect"
+import AttributeService from "../../attributes/attributeService"
 import { newEmptyAttributes } from "../../attributes/factory"
 import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
@@ -25,7 +26,6 @@ import { Trigger } from "../enum/trigger"
 import { RaceType } from "../race/enum/raceType"
 import createRaceFromRaceType from "../race/factory"
 import Race from "../race/race"
-import RaceService from "../race/raceService"
 import {createSpecializationFromType} from "../specialization/factory"
 import {Specialization} from "../specialization/specialization"
 import { SpecializationType } from "../specialization/specializationType"
@@ -178,18 +178,6 @@ export class Mob {
     return this.playerMob ? this.playerMob.standing : Standing.Good
   }
 
-  public getCombinedAttributes(): Attributes {
-    let attributes = newEmptyAttributes()
-    this.attributes.forEach(a => attributes = attributes.combine(a))
-    this.equipped.items.forEach(i => attributes = attributes.combine(i.attributes))
-    attributes = RaceService.combineAttributes(this, attributes)
-    if (this.playerMob) {
-      attributes = attributes.combine(this.playerMob.trainedAttributes)
-    }
-
-    return attributes
-  }
-
   public addAffect(affect: Affect) {
     const current = this.getAffect(affect.affectType)
     if (!current) {
@@ -227,7 +215,7 @@ export class Mob {
   }
 
   public regen(): void {
-    const combined = this.getCombinedAttributes()
+    const combined = AttributeService.combine(this)
     const regenModifier = applyAffectModifier(
       this.affects.map(a => a.affectType),
       Trigger.Tick,
@@ -242,7 +230,7 @@ export class Mob {
   }
 
   public normalizeVitals() {
-    const combined = this.getCombinedAttributes()
+    const combined = AttributeService.combine(this)
     if (this.vitals.hp > combined.vitals.hp) {
       this.vitals.hp = combined.vitals.hp
     }

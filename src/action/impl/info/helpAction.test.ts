@@ -1,19 +1,23 @@
 import {RequestType} from "../../../request/requestType"
 import TestBuilder from "../../../test/testBuilder"
+import Action from "../../action"
+import {Messages} from "../../constants"
+
+let testBuilder: TestBuilder
+let action: Action
+
+beforeEach(async () => {
+  testBuilder = new TestBuilder()
+  action = await testBuilder.getAction(RequestType.Help)
+})
 
 describe("help action", () => {
   it("describes cast action", async () => {
-    // setup
-    const testBuilder = new TestBuilder()
-
-    // given
-    const action = await testBuilder.getAction(RequestType.Help)
-
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Help, "help cast"))
 
     // then
-    expect(response.message.getMessageToRequestCreator())
+    expect(response.getMessageToRequestCreator())
       .toBe(`syntax: cast {spell} {target}
 
 Before you can cast a spell, you have to practice it.  The more you practice,
@@ -35,17 +39,19 @@ See also the help sections for individual spells.`)
   })
 
   it("describes buy action", async () => {
-    // setup
-    const testBuilder = new TestBuilder()
-
-    // given
-    const action = await testBuilder.getAction(RequestType.Help)
-
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Help, "help buy"))
 
     // then
-    expect(response.message.getMessageToRequestCreator())
+    expect(response.getMessageToRequestCreator())
       .toBe("syntax: buy {item with room mob}\n\nMore information coming soon.")
+  })
+
+  it("can handle when no help subject is found", async () => {
+    // when
+    const response = await action.handle(testBuilder.createRequest(RequestType.Help, "help foo"))
+
+    // then
+    expect(response.getMessageToRequestCreator()).toBe(Messages.Help.Fail)
   })
 })

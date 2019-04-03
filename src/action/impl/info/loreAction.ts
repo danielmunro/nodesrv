@@ -41,6 +41,7 @@ export default class LoreAction extends Action {
       })
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }

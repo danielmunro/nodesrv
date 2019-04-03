@@ -1,4 +1,5 @@
 import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import AttributeService from "../../attributes/attributeService"
 import { Inventory } from "../../item/model/inventory"
 import { Mob } from "../../mob/model/mob"
 import hash from "../password/hash"
@@ -37,7 +38,7 @@ export class Player {
   }
 
   public prompt(): string {
-    const combinedAttributes = this.sessionMob.getCombinedAttributes()
+    const combinedAttributes = AttributeService.combine(this.sessionMob)
     const combined = combinedAttributes.vitals
     const vitals = this.sessionMob.vitals
     return `${vitals.hp}/${combined.hp}hp ${vitals.mana}/${combined.mana}mana ${vitals.mv}/${combined.mv}mv -> `

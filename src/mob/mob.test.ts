@@ -1,3 +1,4 @@
+import AttributeService from "../attributes/attributeService"
 import { getTestMob } from "../test/mob"
 import TestBuilder from "../test/testBuilder"
 
@@ -35,7 +36,7 @@ describe("mob model", () => {
   it("should be able to normalize vitals", () => {
     // setup
     const mob = getTestMob()
-    const combined = mob.getCombinedAttributes()
+    const combined = AttributeService.combine(mob)
 
     // given
     mob.vitals.hp = 1000
@@ -54,7 +55,7 @@ describe("mob model", () => {
   it("should normalize vitals after regen", () => {
     // setup
     const mob = getTestMob()
-    const combined = mob.getCombinedAttributes()
+    const combined = AttributeService.combine(mob)
 
     // given
     mob.regen()

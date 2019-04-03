@@ -1,5 +1,6 @@
 import {AffectType} from "../affect/affectType"
 import {newAffect} from "../affect/factory"
+import AttributeService from "../attributes/attributeService"
 import {CheckStatus} from "../check/checkStatus"
 import GameService from "../gameService/gameService"
 import {Mob} from "../mob/model/mob"
@@ -40,14 +41,14 @@ describe("move", () => {
   })
 
   it("should not cost movement if flying", async () => {
+    // given
     mob.addAffect(newAffect(AffectType.Fly))
 
     // when
     await definition.handle(testBuilder.createRequest(RequestType.East))
 
-    const combined = mob.getCombinedAttributes()
     // then
-    expect(mob.vitals.mv).toBe(combined.vitals.mv)
+    expect(mob.vitals.mv).toBe(AttributeService.getMv(mob))
   })
 
   it("should not be able to move if immobilized", async () => {

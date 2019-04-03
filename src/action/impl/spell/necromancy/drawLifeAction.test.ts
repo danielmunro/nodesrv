@@ -1,3 +1,4 @@
+import AttributeService from "../../../../attributes/attributeService"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import {getSuccessfulAction} from "../../../../support/functional/times"
@@ -26,7 +27,7 @@ describe("draw life action", () => {
 
     // then
     expect(caster.mob.vitals.hp).toBeGreaterThan(1)
-    expect(target.mob.vitals.hp).toBeLessThan(target.mob.getCombinedAttributes().vitals.hp)
+    expect(target.mob.vitals.hp).toBeLessThan(AttributeService.getHp(target.mob))
   })
 
   it("generates accurate success messages", async () => {

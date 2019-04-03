@@ -44,6 +44,7 @@ export default class PutAction extends Action {
     return checkedRequest.respondWith().success(Messages.Put.Success, { item, container })
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.ItemInInventory ]
   }

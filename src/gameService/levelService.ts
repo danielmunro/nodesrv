@@ -1,3 +1,4 @@
+import AttributeService from "../attributes/attributeService"
 import Attributes from "../attributes/model/attributes"
 import {MAX_MOB_LEVEL} from "../mob/constants"
 import Gain from "../mob/gain"
@@ -37,7 +38,7 @@ export default class LevelService {
   constructor(private readonly mob: Mob) {}
 
   public calculateHpGain() {
-    const attributes = this.mob.getCombinedAttributes()
+    const attributes = AttributeService.combine(this.mob)
     const specialization = this.mob.specialization()
     return LevelService.calculateHpGainFromCon(attributes, specialization) +
       LevelService.calculateHpGainFromStr(attributes, specialization) +
@@ -45,7 +46,7 @@ export default class LevelService {
   }
 
   public calculateManaGain() {
-    const attributes = this.mob.getCombinedAttributes()
+    const attributes = AttributeService.combine(this.mob)
     const race = this.mob.raceType
     let amount = (attributes.stats.int * 0.2) * (1 + (percentRoll() / 100) + (percentRoll() / 100))
       + (attributes.stats.wis * 0.1) * (1 + percentRoll() / 100)
@@ -65,12 +66,12 @@ export default class LevelService {
 
   public calculateMvGain() {
     return 3 +
-      LevelService.getGainFromStat(this.mob.getCombinedAttributes().stats.dex) +
+      LevelService.getGainFromStat(AttributeService.getDex(this.mob)) +
       (this.mob.raceType === RaceType.Giant ? -1 : 0)
   }
 
   public calculatePracticeGain(): number {
-    return this.mob.getCombinedAttributes().stats.wis / 5
+    return AttributeService.getWis(this.mob) / 5
   }
 
   public canMobLevel(): boolean {

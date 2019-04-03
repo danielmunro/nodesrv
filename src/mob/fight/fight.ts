@@ -1,4 +1,5 @@
 import {applyAffectModifier} from "../../affect/applyAffect"
+import AttributeService from "../../attributes/attributeService"
 import Attributes from "../../attributes/model/attributes"
 import {DamageType} from "../../damage/damageType"
 import {EventResponseStatus} from "../../event/eventResponseStatus"
@@ -20,7 +21,7 @@ export class Fight {
   public static calculateDamageForOneHit(
     attacker: Mob,
     defender: Mob): number {
-    const attackerAttributes = attacker.getCombinedAttributes()
+    const attackerAttributes = AttributeService.combine(attacker)
     const hit = attackerAttributes.hitroll
     let damage = roll(hit.hit, hit.dam)
     damage = applyAffectModifier(
@@ -91,8 +92,8 @@ export class Fight {
       return Fight.attackDefeated(attacker, defender, getSuppressionAttackResultFromSkillType(eventResponse.context))
     }
 
-    const xAttributes = attacker.getCombinedAttributes()
-    const yAttributes = defender.getCombinedAttributes()
+    const xAttributes = AttributeService.combine(attacker)
+    const yAttributes = AttributeService.combine(defender)
 
     if (!Fight.isTargetAcDefeated(xAttributes, yAttributes)) {
       return Fight.attackDefeated(attacker, defender, AttackResult.Miss)
