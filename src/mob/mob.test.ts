@@ -1,4 +1,5 @@
 import AttributeService from "../attributes/attributeService"
+import {Tick} from "../server/observers/tick"
 import { getTestMob } from "../test/mob"
 import TestBuilder from "../test/testBuilder"
 
@@ -44,7 +45,7 @@ describe("mob model", () => {
     mob.vitals.mv = 1000
 
     // when
-    mob.normalizeVitals()
+    AttributeService.normalize(mob)
 
     // then
     expect(mob.vitals.hp).toBe(combined.vitals.hp)
@@ -58,7 +59,7 @@ describe("mob model", () => {
     const combined = AttributeService.combine(mob)
 
     // given
-    mob.regen()
+    Tick.regen(mob)
 
     // then
     expect(mob.vitals.hp).toBe(combined.vitals.hp)

@@ -18,6 +18,19 @@ export default class AttributeService {
     return attributes
   }
 
+  public static normalize(mob: Mob): void {
+    const combined = AttributeService.combine(mob)
+    if (mob.vitals.hp > combined.vitals.hp) {
+      mob.vitals.hp = combined.vitals.hp
+    }
+    if (mob.vitals.mana > combined.vitals.mana) {
+      mob.vitals.mana = combined.vitals.mana
+    }
+    if (mob.vitals.mv > combined.vitals.mv) {
+      mob.vitals.mv = combined.vitals.mv
+    }
+  }
+
   public static getHp(mob: Mob): number {
     return AttributeService.combine(mob).vitals.hp
   }

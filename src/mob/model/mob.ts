@@ -1,9 +1,7 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import { AffectType } from "../../affect/affectType"
-import { applyAffectModifier } from "../../affect/applyAffect"
 import { Affect } from "../../affect/model/affect"
-import AttributeService from "../../attributes/attributeService"
 import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
 import {Equipment} from "../../item/equipment"
@@ -11,8 +9,6 @@ import { Inventory } from "../../item/model/inventory"
 import {Item} from "../../item/model/item"
 import { AuthorizationLevel } from "../../player/authorizationLevel"
 import { Player } from "../../player/model/player"
-import roll from "../../random/dice"
-import { BaseRegenModifier } from "../../server/observers/constants"
 import { Skill } from "../../skill/model/skill"
 import {SkillType} from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
@@ -21,7 +17,6 @@ import match from "../../support/matcher/match"
 import { Disposition } from "../enum/disposition"
 import { Gender } from "../enum/gender"
 import { Standing } from "../enum/standing"
-import { Trigger } from "../enum/trigger"
 import { RaceType } from "../race/enum/raceType"
 import createRaceFromRaceType from "../race/factory"
 import Race from "../race/race"
@@ -155,14 +150,6 @@ export class Mob {
     return createRaceFromRaceType(this.raceType)
   }
 
-  public nourish(): void {
-    const race = this.race()
-    if (this.playerMob) {
-      this.playerMob.appetite = race.appetite
-      this.playerMob.hunger = race.appetite
-    }
-  }
-
   public findPractice(input: string): Skill | Spell | undefined {
     return Maybe.if(this.skills.find((skill: Skill) => match(skill.skillType, input)))
       .or(() => this.spells.find((spell: Spell) => match(spell.spellType, input)))
@@ -211,34 +198,6 @@ export class Mob {
 
   public isTrainer(): boolean {
     return this.traits.trainer
-  }
-
-  public regen(): void {
-    const combined = AttributeService.combine(this)
-    const regenModifier = applyAffectModifier(
-      this.affects.map(a => a.affectType),
-      Trigger.Tick,
-      BaseRegenModifier)
-    this.vitals.hp += roll(8, (combined.vitals.hp * regenModifier) / 8)
-    this.vitals.mana += roll( 8, (combined.vitals.mana * regenModifier) / 8)
-    this.vitals.mv += roll(8, (combined.vitals.mv * regenModifier) / 8)
-    if (this.playerMob) {
-      this.playerMob.regen()
-    }
-    this.normalizeVitals()
-  }
-
-  public normalizeVitals() {
-    const combined = AttributeService.combine(this)
-    if (this.vitals.hp > combined.vitals.hp) {
-      this.vitals.hp = combined.vitals.hp
-    }
-    if (this.vitals.mana > combined.vitals.mana) {
-      this.vitals.mana = combined.vitals.mana
-    }
-    if (this.vitals.mv > combined.vitals.mv) {
-      this.vitals.mv = combined.vitals.mv
-    }
   }
 
   public toString(): string {
