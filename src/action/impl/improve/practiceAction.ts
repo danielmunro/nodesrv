@@ -13,6 +13,8 @@ import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {Skill} from "../../../skill/model/skill"
 import {Spell} from "../../../spell/model/spell"
+import Maybe from "../../../support/functional/maybe"
+import match from "../../../support/matcher/match"
 import Action from "../../action"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
@@ -26,6 +28,12 @@ export default class PracticeAction extends Action {
     return getSpecializationLevel(
       specialization,
       practice instanceof Skill ? practice.skillType : practice.spellType).minimumLevel
+  }
+
+  private static findPractice(mob: Mob, input: string): Skill | Spell | undefined {
+    return Maybe.if(mob.skills.find((skill: Skill) => match(skill.skillType, input)))
+      .or(() => mob.spells.find((spell: Spell) => match(spell.spellType, input)))
+      .get()
   }
 
   constructor(
@@ -42,7 +50,7 @@ export default class PracticeAction extends Action {
         CheckType.MobPresent)
       .require(request.mob.playerMob.practices > 0, Messages.Practice.NotEnoughPractices)
       .require(
-        () => request.mob.findPractice(request.getSubject()),
+        () => PracticeAction.findPractice(request.mob, request.getSubject()),
         Messages.Practice.CannotPractice,
         CheckType.ValidSubject)
       .capture()

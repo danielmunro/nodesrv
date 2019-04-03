@@ -12,8 +12,6 @@ import { Player } from "../../player/model/player"
 import { Skill } from "../../skill/model/skill"
 import {SkillType} from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
-import Maybe from "../../support/functional/maybe"
-import match from "../../support/matcher/match"
 import { Disposition } from "../enum/disposition"
 import { Gender } from "../enum/gender"
 import { Standing } from "../enum/standing"
@@ -148,12 +146,6 @@ export class Mob {
 
   public race(): Race {
     return createRaceFromRaceType(this.raceType)
-  }
-
-  public findPractice(input: string): Skill | Spell | undefined {
-    return Maybe.if(this.skills.find((skill: Skill) => match(skill.skillType, input)))
-      .or(() => this.spells.find((spell: Spell) => match(spell.spellType, input)))
-      .get()
   }
 
   public getAuthorizationLevel(): AuthorizationLevel {
