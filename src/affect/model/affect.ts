@@ -27,7 +27,7 @@ export class Affect {
 
   @OneToOne(() => Attributes)
   @JoinColumn()
-  public attributes: Attributes = new Attributes()
+  public attributes: Attributes
 
   @OneToOne(() => DamageSource, { cascadeAll: true, eager: true })
   @JoinColumn()

@@ -12,8 +12,8 @@ export default class AttributeService {
     if (mob.playerMob) {
       attributes = attributes.combine(mob.playerMob.trainedAttributes)
     }
-    // mob.affects.filter(affect => affect.attributes)
-    //   .forEach(affect => attributes = attributes.combine(affect.attributes))
+    mob.affects.filter(affect => affect.attributes)
+      .forEach(affect => attributes = attributes.combine(affect.attributes))
 
     return attributes
   }
