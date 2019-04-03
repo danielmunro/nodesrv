@@ -38,6 +38,9 @@ export const SpellMessages = {
   Curse: {
     Success: "{target} {verb} cursed!",
   },
+  DetectHidden: {
+    Success: "{target} eyes tingle.",
+  },
   DetectInvisible: {
     Success: "{target} eyes tingle.",
   },

@@ -53,6 +53,12 @@ sanctuary               NA
 level 1
 magic missile           1
 
+level 8
+fly                     NA
+
+level 10
+word of recall          NA
+
 level 11
 giant strength          NA
 
@@ -74,6 +80,7 @@ curse                   NA
 
 level 20
 detect invisibility     NA
+detect hidden           NA
 turn undead             NA
 
 level 22

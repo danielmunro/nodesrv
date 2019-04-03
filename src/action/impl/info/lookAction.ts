@@ -76,7 +76,8 @@ export default class LookAction extends Action {
 
   protected reduceMobs(mob: Mob, mobs: Mob[]): string {
     return mobs.filter(onlyLiving)
-      .filter((aMob: Mob) => !aMob.getAffect(AffectType.Invisible) || mob.getAffect(AffectType.DetectInvisible))
+      .filter(m => !m.getAffect(AffectType.Invisible) || mob.getAffect(AffectType.DetectInvisible))
+      .filter(m => !m.getAffect(AffectType.Hidden) || mob.getAffect(AffectType.DetectHidden))
       .reduce((previous: string, current: Mob) =>
         previous + (current !== mob ? "\n" + current.brief : ""), "")
   }

@@ -17,6 +17,7 @@ export enum AffectType {
   Forget = "forget",
   GiantStrength = "giant strength",
   Glow = "glow",
+  Hidden = "hidden",
   HolySilence = "holy silence",
   Hum = "hum",
   ImmortalLoad = "imm",

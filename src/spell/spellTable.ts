@@ -4,6 +4,7 @@ import magicMissileAction from "../action/impl/spell/attack/magicMissileAction"
 import curePoisonAction from "../action/impl/spell/curative/curePoisonAction"
 import feastAction from "../action/impl/spell/curative/feastAction"
 import removeCurseAction from "../action/impl/spell/curative/removeCurseAction"
+import detectHiddenAction from "../action/impl/spell/detection/detectHiddenAction"
 import detectInvisibleAction from "../action/impl/spell/detection/detectInvisibleAction"
 import giantStrengthAction from "../action/impl/spell/enhancement/giantStrengthAction"
 import hasteAction from "../action/impl/spell/enhancement/hasteAction"
@@ -82,6 +83,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
 
     // detection
     detectInvisibleAction(abilityService),
+    detectHiddenAction(abilityService),
 
     // piety
     blessAction(abilityService),

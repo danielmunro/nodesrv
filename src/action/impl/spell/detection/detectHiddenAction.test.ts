@@ -11,27 +11,27 @@ let testBuilder: TestBuilder
 let spell: Spell
 let caster: Mob
 let target: Mob
-const castCommand = "cast 'detect invisible' bob"
+const castCommand = "cast 'detect hidden'"
 const responseMessage = "your eyes tingle."
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  spell = await testBuilder.getSpell(SpellType.DetectInvisible)
-  const mobBuilder1 = testBuilder.withMob("alice")
-  mobBuilder1.withSpell(SpellType.DetectInvisible, MAX_PRACTICE_LEVEL)
-  mobBuilder1.setLevel(30)
-  const mobBuilder2 = testBuilder.withMob("bob")
+  spell = await testBuilder.getSpell(SpellType.DetectHidden)
+  const mobBuilder1 = testBuilder.withMob()
+    .withSpell(SpellType.DetectHidden, MAX_PRACTICE_LEVEL)
+    .setLevel(30)
+  const mobBuilder2 = testBuilder.withMob()
   caster = mobBuilder1.mob
   target = mobBuilder2.mob
 })
 
-describe("detect invisible spell action", () => {
-  it("gives detect invisible affect type when casted", async () => {
+describe("detect hidden spell action", () => {
+  it("gives detect hidden affect type when casted", async () => {
     // when
-    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, target))
+    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, caster))
 
     // then
-    expect(target.getAffect(AffectType.DetectInvisible)).toBeTruthy()
+    expect(caster.getAffect(AffectType.DetectHidden)).toBeTruthy()
   })
 
   it("generates accurate success messages when casting on a target", async () => {
@@ -39,9 +39,9 @@ describe("detect invisible spell action", () => {
     const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, target))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("bob's eyes tingle.")
+    expect(response.getMessageToRequestCreator()).toBe(`${target.name}'s eyes tingle.`)
     expect(response.message.getMessageToTarget()).toBe(responseMessage)
-    expect(response.message.getMessageToObservers()).toBe("bob's eyes tingle.")
+    expect(response.message.getMessageToObservers()).toBe(`${target.name}'s eyes tingle.`)
   })
 
   it("generates accurate success messages when casting on self", async () => {
@@ -49,8 +49,8 @@ describe("detect invisible spell action", () => {
     const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, caster))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(responseMessage)
+    expect(response.getMessageToRequestCreator()).toBe(responseMessage)
     expect(response.message.getMessageToTarget()).toBe(responseMessage)
-    expect(response.message.getMessageToObservers()).toBe("alice's eyes tingle.")
+    expect(response.message.getMessageToObservers()).toBe(`${caster.name}'s eyes tingle.`)
   })
 })

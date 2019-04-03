@@ -39,35 +39,35 @@ function getTestItem(): Item {
 }
 
 describe("look action", () => {
-  it("should describe a room when no arguments are provided", async () => {
+  it("describes a room when no arguments are provided", async () => {
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Look))
-    const message = response.message.getMessageToRequestCreator()
+    const message = response.getMessageToRequestCreator()
 
     // then
     expect(message).toContain(room.name)
     expect(message).toContain(room.description)
   })
 
-  it("should let the player know if the thing they want to look at does not exist", async () => {
+  it("lets the player know if the thing they want to look at does not exist", async () => {
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Look, "look foo"))
 
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Look.NotFound)
+    expect(response.getMessageToRequestCreator()).toBe(Messages.Look.NotFound)
   })
 
-  it("should describe a mob when a mob is present", async () => {
+  it("describes a mob when a mob is present", async () => {
     // when
     const response = await definition.handle(
       testBuilder.createRequest(RequestType.Look, "look alice"))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(mob.describe())
+    expect(response.getMessageToRequestCreator()).toBe(mob.describe())
   })
 
-  it("should not describe a mob when a mob is invisible", async () => {
+  it("does not describe a mob when a mob is invisible", async () => {
     // given
     mob.addAffect(newAffect(AffectType.Invisible))
 
@@ -76,10 +76,35 @@ describe("look action", () => {
       testBuilder.createRequest(RequestType.Look))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).not.toContain("alice")
+    expect(response.getMessageToRequestCreator()).not.toContain("alice")
   })
 
-  it("should describe a mob when a mob is invisible and the request creator can detect invisible", async () => {
+  it("does not describe a mob when a mob is hidden", async () => {
+    // given
+    mob.addAffect(newAffect(AffectType.Hidden))
+
+    // when
+    const response = await definition.handle(
+      testBuilder.createRequest(RequestType.Look))
+
+    // then
+    expect(response.getMessageToRequestCreator()).not.toContain("alice")
+  })
+
+  it("describes a mob when a mob is hidden and the request creator has detect hidden", async () => {
+    // given
+    mob.addAffect(newAffect(AffectType.Hidden))
+    player.sessionMob.addAffect(newAffect(AffectType.DetectHidden))
+
+    // when
+    const response = await definition.handle(
+      testBuilder.createRequest(RequestType.Look))
+
+    // then
+    expect(response.getMessageToRequestCreator()).toContain("alice")
+  })
+
+  it("describes a mob when a mob is invisible and the request creator can detect invisible", async () => {
     // given
     player.sessionMob.addAffect(newAffect(AffectType.DetectInvisible))
     mob.addAffect(newAffect(AffectType.Invisible))
@@ -89,10 +114,10 @@ describe("look action", () => {
       testBuilder.createRequest(RequestType.Look))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toContain("alice")
+    expect(response.getMessageToRequestCreator()).toContain("alice")
   })
 
-  it("should be able to describe an item in the room", async () => {
+  it("can describe an item in the room", async () => {
     // given
     const item = getTestItem()
     room.inventory.addItem(item)
@@ -103,10 +128,10 @@ describe("look action", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.Look, "look pirate"))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(item.description)
+    expect(response.getMessageToRequestCreator()).toBe(item.description)
   })
 
-  it("should be able to describe an item in the session mob's inventory", async () => {
+  it("can describe an item in the session mob's inventory", async () => {
     // given
     const item = getTestItem()
     player.sessionMob.inventory.addItem(item)
@@ -117,21 +142,21 @@ describe("look action", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.Look, "look pirate"))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(item.description)
+    expect(response.getMessageToRequestCreator()).toBe(item.description)
   })
 
-  it("should not be able to see if blind", async () => {
+  it("cannot be able to see if blind", async () => {
     // given
     player.sessionMob.addAffect(newAffect(AffectType.Blind))
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Look))
+    const response = await testBuilder.handleAction(RequestType.Look)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(Messages.Look.Fail)
+    expect(response.getMessageToRequestCreator()).toBe(Messages.Look.Fail)
   })
 
-  it("should see in a dark room if holding something glowing", async () => {
+  it("can see in a dark room if holding something glowing", async () => {
     // given
     room.region = newRegion("test", Terrain.Forest, Weather.Storming)
     const service = await testBuilder.getService()
@@ -139,10 +164,10 @@ describe("look action", () => {
     player.sessionMob.raceType = RaceType.HalfOrc
 
     // when
-    const response1 = await definition.handle(testBuilder.createRequest(RequestType.Look))
+    const response1 = await testBuilder.handleAction(RequestType.Look)
 
     // then
-    expect(response1.message.getMessageToRequestCreator()).toBe(Messages.Look.Fail)
+    expect(response1.getMessageToRequestCreator()).toBe(Messages.Look.Fail)
     expect(response1.status).toBe(ResponseStatus.PreconditionsFailed)
 
     // and
@@ -152,10 +177,10 @@ describe("look action", () => {
     player.sessionMob.equipped.addItem(item)
 
     // when
-    const response2 = await definition.handle(testBuilder.createRequest(RequestType.Look))
+    const response2 = await testBuilder.handleAction(RequestType.Look)
 
     // then
-    const message = response2.message.getMessageToRequestCreator()
+    const message = response2.getMessageToRequestCreator()
     expect(response2.status).toBe(ResponseStatus.Info)
     expect(message).toContain(room.name)
     expect(message).toContain(room.description)

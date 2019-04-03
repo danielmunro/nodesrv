@@ -61,6 +61,8 @@ export const defaultSpecializationLevels = [
 
   // mage
   new SpecializationLevel(SpecializationType.Mage, SpellType.MagicMissile, 1),
+  new SpecializationLevel(SpecializationType.Mage, SpellType.Fly, 8),
+  new SpecializationLevel(SpecializationType.Mage, SpellType.WordOfRecall, 10),
   new SpecializationLevel(SpecializationType.Mage, SpellType.GiantStrength, 11),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Blind, 12),
   new SpecializationLevel(SpecializationType.Mage, SpellType.LightningBolt, 13),
@@ -69,6 +71,7 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Mage, SpellType.Poison, 17),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Curse, 18),
   new SpecializationLevel(SpecializationType.Mage, SpellType.DetectInvisible, 20),
+  new SpecializationLevel(SpecializationType.Mage, SpellType.DetectHidden, 20),
   new SpecializationLevel(SpecializationType.Mage, SpellType.TurnUndead, 20),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Cancellation, 22),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Invisibility, 25),
