@@ -5,7 +5,6 @@ import {Mob} from "../../../mob/model/mob"
 import {RaceType} from "../../../mob/race/enum/raceType"
 import {Player} from "../../../player/model/player"
 import {Terrain} from "../../../region/enum/terrain"
-import {Weather} from "../../../region/enum/weather"
 import newRegion from "../../../region/factory"
 import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
@@ -158,7 +157,7 @@ describe("look action", () => {
 
   it("can see in a dark room if holding something glowing", async () => {
     // given
-    room.region = newRegion("test", Terrain.Forest, Weather.Storming)
+    room.region = newRegion("test", Terrain.Forest)
     const service = await testBuilder.getService()
     service.timeService.time = 0
     player.sessionMob.raceType = RaceType.HalfOrc

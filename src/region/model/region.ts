@@ -2,7 +2,6 @@ import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from "ty
 import * as v4 from "uuid"
 import { Room } from "../../room/model/room"
 import { Terrain } from "../enum/terrain"
-import { Weather } from "../enum/weather"
 
 @Entity()
 export class Region {
@@ -15,9 +14,6 @@ export class Region {
 
   @Column("text", { nullable: true })
   public name: string
-
-  @Column("integer")
-  public weather: Weather = Weather.Clear
 
   @Column("integer")
   public terrain: Terrain = Terrain.Plains

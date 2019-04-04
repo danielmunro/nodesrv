@@ -21,6 +21,7 @@ import MobTable from "../src/mob/mobTable"
 import { getMobRepository } from "../src/mob/repository/mob"
 import {getMobResetRepository} from "../src/mob/repository/mobReset"
 import {getPlayerRepository} from "../src/player/repository/player"
+import WeatherService from "../src/region/weatherService"
 import {newExitTable, newRoomTable} from "../src/room/factory"
 import {Room} from "../src/room/model/room"
 import {default as RoomTable} from "../src/room/roomTable"
@@ -79,16 +80,18 @@ initializeConnection().then(async () => {
   const timeService = new TimeService()
   const skillTable = getSkillTable(mobService, eventService)
   const spellTable = getSpellTable(mobService, eventService)
+  const weatherService = new WeatherService()
   const gameService = new GameService(
     mobService,
     roomTable,
     itemService,
     eventService,
     new ActionService(
-      getActionTable(mobService, itemService, timeService, eventService, spellTable),
+      getActionTable(mobService, itemService, timeService, eventService, weatherService, spellTable),
       skillTable,
       spellTable,
     ),
+    weatherService,
     timeService)
   const startRoom = roomTable.getRooms().find(room => room.canonicalId === startRoomID) as Room
   const clientService = new ClientService(

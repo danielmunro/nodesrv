@@ -4,6 +4,7 @@ import GameService from "../gameService/gameService"
 import TimeService from "../gameService/timeService"
 import ItemService from "../item/itemService"
 import MobService from "../mob/mobService"
+import WeatherService from "../region/weatherService"
 import RoomTable from "../room/roomTable"
 import { getTestRoom } from "../test/room"
 import newServer from "./factory"
@@ -17,6 +18,7 @@ describe("game server factory", () => {
       new ItemService(),
       new EventService(),
       new ActionService([], [], []),
+      new WeatherService(),
       new TimeService())
     await expect(newServer(
       service, 1, startRoom, null, null, new EventService(), null)).rejects.toThrowError()

@@ -8,6 +8,7 @@ import ItemService from "../item/itemService"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
+import WeatherService from "../region/weatherService"
 import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import {Room} from "../room/model/room"
@@ -24,6 +25,7 @@ export default class GameService {
     public readonly itemService: ItemService,
     public readonly eventService: EventService,
     public readonly actionService: ActionService,
+    public readonly weatherService: WeatherService,
     public readonly timeService: TimeService) {}
 
   public async moveMob(mob: Mob, direction: Direction) {

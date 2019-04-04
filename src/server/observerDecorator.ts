@@ -40,7 +40,10 @@ export default async function addObservers(
       new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
   gameServer.addObserver(new PersistPlayers(
     await getPlayerRepository(), await getMobRepository()), new MinuteTimer())
-  gameServer.addObserver(new RegionWeather(locationService), new MinuteTimer())
+  gameServer.addObserver(new RegionWeather(
+    locationService,
+    gameService.weatherService,
+    []), new MinuteTimer())
   gameServer.addObserver(new FightRounds(mobService), new SecondIntervalTimer())
   gameServer.addObserver(new Respawner(resetService), new FiveMinuteTimer())
   gameServer.addObserver(new DecrementPlayerDelay(), new SecondIntervalTimer())

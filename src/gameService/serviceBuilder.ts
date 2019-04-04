@@ -13,6 +13,7 @@ import MobService from "../mob/mobService"
 import { default as MobTable } from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
+import WeatherService from "../region/weatherService"
 import ExitTable from "../room/exitTable"
 import { Exit } from "../room/model/exit"
 import { Room } from "../room/model/room"
@@ -99,15 +100,17 @@ export default class ServiceBuilder {
     const timeService = new TimeService(this.time)
     const skillTable = getSkillTable(mobService, eventService)
     const spellTable = getSpellTable(mobService, eventService)
+    const weatherService = new WeatherService()
     this.builtService = new GameService(
       mobService,
       roomTable,
       itemService,
       eventService,
       new ActionService(
-        getActionTable(mobService, itemService, timeService, eventService, spellTable),
+        getActionTable(mobService, itemService, timeService, eventService, weatherService, spellTable),
         skillTable,
         spellTable),
+      weatherService,
       timeService)
     await this.attachEventConsumers(startRoom)
     return this.builtService

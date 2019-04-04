@@ -8,7 +8,9 @@ import {onlyLiving} from "../../../mob/enum/disposition"
 import LocationService from "../../../mob/locationService"
 import {Mob} from "../../../mob/model/mob"
 import {isAbleToSee} from "../../../mob/race/sight"
+import {Weather} from "../../../region/enum/weather"
 import {Region} from "../../../region/model/region"
+import WeatherService from "../../../region/weatherService"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
@@ -23,7 +25,8 @@ export default class LookAction extends Action {
   constructor(
     private readonly locationService: LocationService,
     private readonly itemService: ItemService,
-    private readonly timeService: TimeService) {
+    private readonly timeService: TimeService,
+    private readonly weatherService: WeatherService) {
     super()
   }
 
@@ -116,7 +119,11 @@ export default class LookAction extends Action {
   protected isAbleToSee(mob: Mob, region?: Region) {
     return new Maybe(region)
       .do((r: Region) =>
-        isAbleToSee(mob.race().sight, this.timeService.getCurrentTime(), r.terrain, r.weather))
+        isAbleToSee(
+          mob.race().sight,
+          this.timeService.getCurrentTime(),
+          r.terrain,
+          this.weatherService.getWeatherForRegion(r) as Weather))
       .or(() => true)
       .get()
   }
