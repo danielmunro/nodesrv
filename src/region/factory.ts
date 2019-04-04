@@ -1,6 +1,6 @@
+import { Terrain } from "./enum/terrain"
+import { Weather } from "./enum/weather"
 import { Region } from "./model/region"
-import { Terrain } from "./terrain"
-import { Weather } from "./weather"
 
 export default function newRegion(name: string, terrain: Terrain, weather: Weather = Weather.Clear) {
   const region = new Region()

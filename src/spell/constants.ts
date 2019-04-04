@@ -72,6 +72,10 @@ export const SpellMessages = {
   Invisibility: {
     Success: "{target} {verb} out of existence.",
   },
+  LocateItem: {
+    Fail: "that cannot be found.",
+    Success: "{target} is in {room}.",
+  },
   MagicMissile: {
     Success: "",
   },

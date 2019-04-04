@@ -1,8 +1,8 @@
 import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import { Room } from "../../room/model/room"
-import { Terrain } from "../terrain"
-import { Weather } from "../weather"
+import { Terrain } from "../enum/terrain"
+import { Weather } from "../enum/weather"
 
 @Entity()
 export class Region {

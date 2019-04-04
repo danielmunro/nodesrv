@@ -2,9 +2,9 @@ import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, 
 import * as uuid from "uuid"
 import { Inventory } from "../../item/model/inventory"
 import MobReset from "../../mob/model/mobReset"
+import { Terrain } from "../../region/enum/terrain"
 import { Region } from "../../region/model/region"
 import getMovementCost from "../../region/movementCost"
-import { Terrain } from "../../region/terrain"
 import { Direction } from "../constants"
 import { Exit } from "./exit"
 

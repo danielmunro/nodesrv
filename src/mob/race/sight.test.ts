@@ -1,5 +1,5 @@
-import { Terrain } from "../../region/terrain"
-import { Weather } from "../../region/weather"
+import { Terrain } from "../../region/enum/terrain"
+import { Weather } from "../../region/enum/weather"
 import { RaceType } from "./enum/raceType"
 import createRaceFromRaceType from "./factory"
 import {isAbleToSee} from "./sight"

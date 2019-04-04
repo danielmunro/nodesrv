@@ -1,9 +1,10 @@
 import { Client } from "../../client/client"
 import LocationService from "../../mob/locationService"
 import roll from "../../random/dice"
+import { getRandomWeather} from "../../region/constants"
+import {getWeatherTransitionMessage} from "../../region/constants"
 import { Region } from "../../region/model/region"
 import { getRegionRepository } from "../../region/repository/region"
-import { getRandomWeather, getWeatherTransitionMessage } from "../../region/weather"
 import { Observer } from "./observer"
 
 export class RegionWeather implements Observer {

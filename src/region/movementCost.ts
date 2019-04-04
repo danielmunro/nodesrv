@@ -1,4 +1,4 @@
-import { Terrain } from "./terrain"
+import { Terrain } from "./enum/terrain"
 
 export default function getMovementCost(terrain: Terrain) {
   if (terrain === Terrain.Mountains || terrain === Terrain.Water) {

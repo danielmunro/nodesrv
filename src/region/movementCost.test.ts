@@ -1,6 +1,6 @@
+import { allTerrains } from "./constants"
+import { Terrain } from "./enum/terrain"
 import getMovementCost from "./movementCost"
-import { allTerrains } from "./terrain"
-import { Terrain } from "./terrain"
 
 describe("movement cost calculator for regions", () => {
   it("settlements should have the lowest movement cost", () => {
