@@ -5,6 +5,7 @@ import EventService from "../src/event/eventService"
 import ActionService from "../src/gameService/actionService"
 import GameService from "../src/gameService/gameService"
 import ResetService from "../src/gameService/resetService"
+import StateService from "../src/gameService/stateService"
 import TimeService from "../src/gameService/timeService"
 import ItemService from "../src/item/itemService"
 import ItemTable from "../src/item/itemTable"
@@ -91,8 +92,9 @@ initializeConnection().then(async () => {
       skillTable,
       spellTable,
     ),
-    weatherService,
-    timeService)
+    new StateService(
+      weatherService,
+      timeService))
   const startRoom = roomTable.getRooms().find(room => room.canonicalId === startRoomID) as Room
   const clientService = new ClientService(
     eventService,

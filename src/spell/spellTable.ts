@@ -6,6 +6,7 @@ import feastAction from "../action/impl/spell/curative/feastAction"
 import removeCurseAction from "../action/impl/spell/curative/removeCurseAction"
 import detectHiddenAction from "../action/impl/spell/detection/detectHiddenAction"
 import detectInvisibleAction from "../action/impl/spell/detection/detectInvisibleAction"
+import locateItemAction from "../action/impl/spell/detection/locateItemAction"
 import giantStrengthAction from "../action/impl/spell/enhancement/giantStrengthAction"
 import hasteAction from "../action/impl/spell/enhancement/hasteAction"
 import cureLightAction from "../action/impl/spell/healing/cureLightAction"
@@ -38,9 +39,12 @@ import wordOfRecallAction from "../action/impl/spell/transportation/wordOfRecall
 import AbilityService from "../check/abilityService"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
+import gameService from "../gameService/gameService"
 import MobService from "../mob/mobService"
 
-export default function getSpellTable(mobService: MobService, eventService: EventService): Spell[] {
+export default function getSpellTable(
+  mobService: MobService,
+  eventService: EventService): Spell[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
@@ -84,6 +88,7 @@ export default function getSpellTable(mobService: MobService, eventService: Even
     // detection
     detectInvisibleAction(abilityService),
     detectHiddenAction(abilityService),
+    locateItemAction(abilityService, gameService),
 
     // piety
     blessAction(abilityService),

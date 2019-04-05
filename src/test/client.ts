@@ -37,7 +37,7 @@ async function createClient(
 
 export async function getTestClient(player = getTestPlayer()): Promise<Client> {
   const mobService = new MobService(mock(), mock(), mock(), mock())
-  const service = new GameService(mobService, mock(), mock(), mock(), new ActionService([], [], []), mock(), mock())
+  const service = new GameService(mobService, mock(), mock(), mock(), new ActionService([], [], []), mock())
   const actions = service.getActions()
   const authService = new AuthService(await getPlayerRepository(), mobService)
   const client = await createClient(player, actions, service.mobService.locationService, authService)
@@ -53,7 +53,7 @@ export async function getTestClientLoggedOut(player = getTestPlayer(), room = ge
     RoomTable.new([room]),
     new ItemService(),
     new EventService(),
-    new ActionService([], [], []), mock(), mock())
+    new ActionService([], [], []), mock())
   const authService = new AuthService(await getPlayerRepository(), mobService)
   return createClient(player, service.getActions(), service.mobService.locationService, authService)
 }

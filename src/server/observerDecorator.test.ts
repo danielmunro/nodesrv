@@ -8,10 +8,6 @@ afterAll(async () => (await getConnection()).close())
 describe("observer decorator", () => {
   it("should call addObserver on server", async () => {
     // setup
-    const mobTable = {
-      getMobs: [],
-      getWanderingMobs: jest.fn(),
-    }
     const mock = jest.fn(() => ({
       addObserver: jest.fn(),
       mobService: {
@@ -27,7 +23,9 @@ describe("observer decorator", () => {
         mobResets: [],
       },
       service: {
-        mobTable,
+        stateService: {
+          timeService: jest.fn(),
+        },
       },
     }))
     const mockServer = mock()

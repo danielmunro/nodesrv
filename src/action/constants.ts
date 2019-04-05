@@ -55,6 +55,9 @@ export const Messages = {
   Level: {
     Success: "You gain a level!",
   },
+  LocateItem: {
+    Fail: "You can't find anything like that on heaven or earth.",
+  },
   Lock: {
     Success: "{requestCreator} {lockVerb} a {door} {direction}.",
   },

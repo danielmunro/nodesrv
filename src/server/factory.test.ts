@@ -1,6 +1,7 @@
 import EventService from "../event/eventService"
 import ActionService from "../gameService/actionService"
 import GameService from "../gameService/gameService"
+import StateService from "../gameService/stateService"
 import TimeService from "../gameService/timeService"
 import ItemService from "../item/itemService"
 import MobService from "../mob/mobService"
@@ -18,8 +19,9 @@ describe("game server factory", () => {
       new ItemService(),
       new EventService(),
       new ActionService([], [], []),
-      new WeatherService(),
-      new TimeService())
+      new StateService(
+        new WeatherService(),
+        new TimeService()))
     await expect(newServer(
       service, 1, startRoom, null, null, new EventService(), null)).rejects.toThrowError()
     await expect(newServer(

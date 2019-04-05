@@ -25,6 +25,7 @@ import {getSkillTable} from "../skill/skillTable"
 import getSpellTable from "../spell/spellTable"
 import ActionService from "./actionService"
 import GameService from "./gameService"
+import StateService from "./stateService"
 import TimeService from "./timeService"
 
 export default class ServiceBuilder {
@@ -110,8 +111,9 @@ export default class ServiceBuilder {
         getActionTable(mobService, itemService, timeService, eventService, weatherService, spellTable),
         skillTable,
         spellTable),
-      weatherService,
-      timeService)
+      new StateService(
+        weatherService,
+        timeService))
     await this.attachEventConsumers(startRoom)
     return this.builtService
   }

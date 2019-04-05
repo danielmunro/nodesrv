@@ -159,7 +159,7 @@ describe("look action", () => {
     // given
     room.region = newRegion("test", Terrain.Forest)
     const service = await testBuilder.getService()
-    service.timeService.time = 0
+    service.stateService.timeService.time = 0
     player.sessionMob.raceType = RaceType.HalfOrc
 
     // when
