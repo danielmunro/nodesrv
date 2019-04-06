@@ -5,6 +5,7 @@ import { Mob } from "../mob/model/mob"
 import { Room } from "../room/model/room"
 import { Equipment } from "./enum/equipment"
 import { ItemType } from "./enum/itemType"
+import { WeaponType } from "./enum/weaponType"
 import Container from "./model/container"
 import { Item } from "./model/item"
 import { ItemContainerReset } from "./model/itemContainerReset"
@@ -12,7 +13,6 @@ import ItemMobReset from "./model/itemMobReset"
 import { ItemRoomReset } from "./model/itemRoomReset"
 import { MobEquipReset } from "./model/mobEquipReset"
 import Weapon from "./model/weapon"
-import { WeaponType } from "./enum/weaponType"
 
 export function newItemRoomReset(
   item: Item,

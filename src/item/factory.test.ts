@@ -1,7 +1,7 @@
 import { DamageType } from "../damage/damageType"
 import { Equipment } from "./enum/equipment"
-import { newWeapon } from "./factory"
 import { WeaponType } from "./enum/weaponType"
+import { newWeapon } from "./factory"
 
 describe("item factories", () => {
   it("should be able to create a weapon", () => {
