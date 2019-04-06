@@ -1,5 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
+import AffectService from "../../affect/affectService"
 import { AffectType } from "../../affect/affectType"
 import { Affect } from "../../affect/model/affect"
 import { default as Attributes } from "../../attributes/model/attributes"
@@ -148,6 +149,10 @@ export class Mob {
     return createRaceFromRaceType(this.raceType)
   }
 
+  public affect(): AffectService {
+    return new AffectService(this)
+  }
+
   public getAuthorizationLevel(): AuthorizationLevel {
     return this.playerMob ? this.playerMob.authorizationLevel : AuthorizationLevel.None
   }
@@ -157,15 +162,11 @@ export class Mob {
   }
 
   public addAffect(affect: Affect) {
-    const current = this.getAffect(affect.affectType)
+    const current = this.affect().has(affect.affectType)
     if (!current) {
       this.affects.push(affect)
       affect.mob = this
     }
-  }
-
-  public getAffect(affectType: AffectType) {
-    return this.affects.find((a) => a.affectType === affectType)
   }
 
   public removeAffect(affectType: AffectType) {
@@ -203,9 +204,5 @@ export class Mob {
 
   public isDead(): boolean {
     return this.disposition === Disposition.Dead
-  }
-
-  public canDetectInvisible(): boolean {
-    return this.affects.find(a => a.affectType === AffectType.DetectInvisible) !== undefined
   }
 }

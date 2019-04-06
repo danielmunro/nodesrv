@@ -32,7 +32,7 @@ describe("giant strength spell action", () => {
     await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast giant bob", mob))
 
     // then
-    expect(mob.getAffect(AffectType.GiantStrength)).toBeTruthy()
+    expect(mob.affect().has(AffectType.GiantStrength)).toBeTruthy()
   })
 
   it("generates accurate success messages when casting against a target", async () => {

@@ -44,7 +44,7 @@ describe("crusade spell action", () => {
       testBuilder.createRequest(RequestType.Cast, "cast crusade", playerBuilder.getMob()))
 
     // then
-    expect(playerBuilder.getMob().getAffect(AffectType.Crusade)).toBeDefined()
+    expect(playerBuilder.getMob().affect().has(AffectType.Crusade)).toBeDefined()
   })
 
   it("generates accurate success message casting on self", async () => {

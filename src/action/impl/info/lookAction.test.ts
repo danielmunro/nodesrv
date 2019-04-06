@@ -27,13 +27,13 @@ beforeEach(async () => {
   player = playerBuilder.player
   definition = await testBuilder.getAction(RequestType.Look)
   mob = testBuilder.withMob("alice").mob
-  mob.brief = "alice is here"
+  mob.brief = "alice has here"
 })
 
 function getTestItem(): Item {
   const item = new Item()
   item.name = "a pirate hat"
-  item.description = "this is a test item"
+  item.description = "this has a test item"
   return item
 }
 
@@ -57,7 +57,7 @@ describe("look action", () => {
     expect(response.getMessageToRequestCreator()).toBe(Messages.Look.NotFound)
   })
 
-  it("describes a mob when a mob is present", async () => {
+  it("describes a mob when a mob has present", async () => {
     // when
     const response = await definition.handle(
       testBuilder.createRequest(RequestType.Look, "look alice"))
@@ -66,7 +66,7 @@ describe("look action", () => {
     expect(response.getMessageToRequestCreator()).toBe(mob.describe())
   })
 
-  it("does not describe a mob when a mob is invisible", async () => {
+  it("does not describe a mob when a mob has invisible", async () => {
     // given
     mob.addAffect(newAffect(AffectType.Invisible))
 
@@ -78,7 +78,7 @@ describe("look action", () => {
     expect(response.getMessageToRequestCreator()).not.toContain("alice")
   })
 
-  it("does not describe a mob when a mob is hidden", async () => {
+  it("does not describe a mob when a mob has hidden", async () => {
     // given
     mob.addAffect(newAffect(AffectType.Hidden))
 
@@ -90,7 +90,7 @@ describe("look action", () => {
     expect(response.getMessageToRequestCreator()).not.toContain("alice")
   })
 
-  it("describes a mob when a mob is hidden and the request creator has detect hidden", async () => {
+  it("describes a mob when a mob has hidden and the request creator has detect hidden", async () => {
     // given
     mob.addAffect(newAffect(AffectType.Hidden))
     player.sessionMob.addAffect(newAffect(AffectType.DetectHidden))
@@ -103,7 +103,7 @@ describe("look action", () => {
     expect(response.getMessageToRequestCreator()).toContain("alice")
   })
 
-  it("describes a mob when a mob is invisible and the request creator can detect invisible", async () => {
+  it("describes a mob when a mob has invisible and the request creator can detect invisible", async () => {
     // given
     player.sessionMob.addAffect(newAffect(AffectType.DetectInvisible))
     mob.addAffect(newAffect(AffectType.Invisible))

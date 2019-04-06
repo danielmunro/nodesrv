@@ -19,7 +19,7 @@ beforeEach(async () => {
 })
 
 describe("holy silence event consumer", () => {
-  it("does nothing if a mob is not affected", async () => {
+  it("does nothing if a mob has not affected", async () => {
     // when
     const eventResponse = await consumer.consume(
       new InputEvent(caster.mob, testBuilder.createRequest(RequestType.Cast), jest.fn()()))
@@ -28,7 +28,7 @@ describe("holy silence event consumer", () => {
     expect(eventResponse.isSatisifed()).toBeFalsy()
   })
 
-  it("satisfies event if caster is affected", async () => {
+  it("satisfies event if caster has affected", async () => {
     // setup
     caster.addAffectType(AffectType.HolySilence)
 

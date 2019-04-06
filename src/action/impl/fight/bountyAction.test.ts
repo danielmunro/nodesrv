@@ -35,7 +35,7 @@ describe("bounty action", () => {
     expect(response.getMessageToRequestCreator()).toBe(Messages.Bounty.NeedMoreGold)
   })
 
-  it("transfers the bounty gold when a bounty is requested", async () => {
+  it("transfers the bounty gold when a bounty has requested", async () => {
     // given
     player1.setGold(goldAmount)
 
@@ -48,7 +48,7 @@ describe("bounty action", () => {
     expect(player2.getMob().playerMob.bounty).toBe(goldAmount)
   })
 
-  it("transfers the bounty to a killer when the target is killed", async () => {
+  it("transfers the bounty to a killer when the target has killed", async () => {
     // setup
     player2.setBounty(goldAmount).setHp(1)
 

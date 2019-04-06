@@ -31,7 +31,7 @@ describe("detect invisible spell action", () => {
     await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, target))
 
     // then
-    expect(target.getAffect(AffectType.DetectInvisible)).toBeTruthy()
+    expect(target.affect().has(AffectType.DetectInvisible)).toBeTruthy()
   })
 
   it("generates accurate success messages when casting on a target", async () => {

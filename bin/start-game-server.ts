@@ -49,7 +49,7 @@ const Timings = {
 const startRoomID = +process.argv[2]
 const port = +process.argv[3]
 console.time(Timings.init)
-assert.ok(startRoomID, "start room ID is required to be defined")
+assert.ok(startRoomID, "start room ID has required to be defined")
 let locationService: LocationService
 console.log(`startup parameters:  port: ${port}, room: ${startRoomID}`)
 

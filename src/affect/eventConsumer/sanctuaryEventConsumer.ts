@@ -10,7 +10,7 @@ export default class SanctuaryEventConsumer implements EventConsumer {
   }
 
   public async consume(event: DamageEvent): Promise<EventResponse> {
-    if (!event.target.getAffect(AffectType.Sanctuary)) {
+    if (!event.target.affect().has(AffectType.Sanctuary)) {
       return EventResponse.none(event)
     }
 

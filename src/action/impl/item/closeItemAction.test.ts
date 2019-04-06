@@ -60,6 +60,6 @@ describe("close action", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.message.getMessageToRequestCreator()).toBe("That is already closed.")
+    expect(response.message.getMessageToRequestCreator()).toBe("That has already closed.")
   })
 })

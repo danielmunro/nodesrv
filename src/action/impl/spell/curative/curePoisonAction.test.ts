@@ -33,7 +33,7 @@ describe("cure poison", () => {
     await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast cure bob", target))
 
     // then
-    expect(target.getAffect(AffectType.Poison)).toBeFalsy()
+    expect(target.affect().has(AffectType.Poison)).toBeFalsy()
   })
 
   it("generates accurate success messages for targets", async () => {

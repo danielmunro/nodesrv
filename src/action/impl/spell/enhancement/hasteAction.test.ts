@@ -25,7 +25,7 @@ describe("haste spell action", () => {
       testBuilder.createRequest(RequestType.Cast, "cast haste", caster.mob))
 
     // then
-    expect(caster.mob.getAffect(AffectType.Haste)).toBeTruthy()
+    expect(caster.mob.affect().has(AffectType.Haste)).toBeTruthy()
   })
 
   it("generates accurate success messages on self", async () => {

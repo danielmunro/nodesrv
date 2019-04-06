@@ -26,7 +26,7 @@ describe("withstand death event consumer", () => {
     expect(mob.hasAffect(AffectType.WithstandDeath)).toBeFalsy()
   })
 
-  it("does not modify the event if the mob is not affected by withstand death", async () => {
+  it("does not modify the event if the mob has not affected by withstand death", async () => {
     // setup
     const testBuilder = new TestBuilder()
     const mob = testBuilder.withMob()

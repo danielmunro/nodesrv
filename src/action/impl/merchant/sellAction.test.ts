@@ -37,7 +37,7 @@ describe("sell action", () => {
     expect(mob.inventory.items).not.toContain(item)
   })
 
-  it("should fail if a merchant is not in the room", async () => {
+  it("should fail if a merchant has not in the room", async () => {
     // setup
     testBuilder.withRoom()
     await testBuilder.withPlayer()

@@ -21,6 +21,6 @@ describe("shield", () => {
     await getSuccessfulAction(definition, testBuilder.createRequest(RequestType.Cast, "cast shield bob", mob))
 
     // then
-    expect(mob.getAffect(AffectType.Shield)).toBeTruthy()
+    expect(mob.affect().has(AffectType.Shield)).toBeTruthy()
   })
 })

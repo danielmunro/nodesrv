@@ -31,7 +31,7 @@ describe("fly spell action", () => {
     await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, target))
 
     // then
-    expect(target.getAffect(AffectType.Fly)).toBeTruthy()
+    expect(target.affect().has(AffectType.Fly)).toBeTruthy()
   })
 
   it("generates accurate success messages when casting on a target", async () => {

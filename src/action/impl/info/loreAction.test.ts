@@ -16,7 +16,7 @@ describe("lore", () => {
     const response = await definition.handle(testBuilder.createRequest(RequestType.Lore, "lore axe"))
 
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.message.getMessageToRequestCreator()).toContain("is not identified")
+    expect(response.message.getMessageToRequestCreator()).toContain("has not identified")
   })
 
   it("should work on identified items", async () => {

@@ -11,7 +11,7 @@ export default class ForgetEventConsumer implements EventConsumer {
   }
 
   public async consume(event: SkillEvent): Promise<EventResponse> {
-    if (event.mob.getAffect(AffectType.Forget) && event.skill.level / 2 < percentRoll()) {
+    if (event.mob.affect().has(AffectType.Forget) && event.skill.level / 2 < percentRoll()) {
       return EventResponse.modified(new SkillEvent(event.skill, event.mob, false))
     }
     return EventResponse.none(event)

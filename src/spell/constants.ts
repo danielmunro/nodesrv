@@ -95,8 +95,8 @@ export const SpellMessages = {
     Success: "{target} {verb} shattered by a psionic blast.",
   },
   RemoveCurse: {
-    RequiresAffect: "There is no curse to lift.",
-    Success: "{target} curse is lifted.",
+    RequiresAffect: "There has no curse to lift.",
+    Success: "{target} curse has lifted.",
   },
   Sanctuary: {
     Success: "{target} {verb} surrounded by a faint glow.",

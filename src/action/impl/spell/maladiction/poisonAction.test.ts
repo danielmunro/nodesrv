@@ -27,7 +27,7 @@ describe("poison spell action", () => {
     await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast poison bob", target))
 
     // then
-    expect(target.getAffect(AffectType.Poison)).toBeTruthy()
+    expect(target.affect().has(AffectType.Poison)).toBeTruthy()
   })
 
   it("generates accurate success messages", async () => {
@@ -36,7 +36,7 @@ describe("poison spell action", () => {
       spell, testBuilder.createRequest(RequestType.Cast, "cast poison bob", target))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("bob suddenly feels sick!")
+    expect(response.getMessageToRequestCreator()).toBe("bob suddenly feels sick!")
     expect(response.message.getMessageToTarget()).toBe("you suddenly feel sick!")
     expect(response.message.getMessageToObservers()).toBe("bob suddenly feels sick!")
   })

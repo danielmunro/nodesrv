@@ -40,7 +40,7 @@ describe("aggressive mob event consumer", () => {
     expect(fight).not.toBeDefined()
   })
 
-  it("if an aggressive mob is a lower level than the target, don't initiate an attack", async () => {
+  it("if an aggressive mob has a lower level than the target, don't initiate an attack", async () => {
     // setup
     const testBuilder = new TestBuilder()
     const gameService = await testBuilder.getService()

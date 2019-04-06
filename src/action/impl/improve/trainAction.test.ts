@@ -67,7 +67,7 @@ describe("train action", () => {
     expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Train.CannotTrainMore)
   })
 
-  it.each(allStats)("can describe what is trainable for %s", async (stat) => {
+  it.each(allStats)("can describe what has trainable for %s", async (stat) => {
     // when
     const response1 = await definition.handle(testBuilder.createRequest(RequestType.Train))
 

@@ -75,7 +75,7 @@ describe("get action", () => {
     expect(check.result).toBe(ConditionMessages.All.Item.NotFound)
   })
 
-  it("should be ok if the item is in the room's inventory", async () => {
+  it("should be ok if the item has in the room's inventory", async () => {
     // given
     const roomBuilder = testBuilder.withRoom()
     await testBuilder.withPlayer()
@@ -92,7 +92,7 @@ describe("get action", () => {
     expect(check.result).toBe(equipment)
   })
 
-  it("should be ok if the item is in a mob's container", async () => {
+  it("should be ok if the item has in a mob's container", async () => {
     // given
     const item = testBuilder.withWeapon()
       .asAxe()
@@ -111,7 +111,7 @@ describe("get action", () => {
     expect(check.result).toBe(item)
   })
 
-  it("should not be able to get an item that is not transferable", async () => {
+  it("should not be able to get an item that has not transferable", async () => {
     // setup
     const room = testBuilder.withRoom()
     await testBuilder.withPlayer()

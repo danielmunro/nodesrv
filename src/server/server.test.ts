@@ -81,7 +81,7 @@ describe("the server", () => {
     expect(server.getClientCount()).toBe(1)
   })
 
-  test("should notify an observer immediately if it is added with an immediate timer", async () => {
+  test("should notify an observer immediately if it has added with an immediate timer", async () => {
     const server = await getGameServer()
     await server.start()
     await server.addWS(mockWs(), mockRequest())
@@ -89,7 +89,7 @@ describe("the server", () => {
     server.addObserver(new ExpectTestObserver(), new ImmediateTimer())
   })
 
-  test("should not notify an observer immediately if a timeout larger than 0 is specified", async () => {
+  test("should not notify an observer immediately if a timeout larger than 0 has specified", async () => {
     const server = await getGameServer()
     await server.start()
     await server.addWS(mockWs(), mockRequest())

@@ -35,7 +35,7 @@ export default function(abilityService: AbilityService): Spell {
         { target: target + "'s" })
     })
     .addToCheckBuilder((request, checkBuilder) => {
-      const affect = request.getTargetMobInRoom().getAffect(AffectType.Curse)
+      const affect = request.getTargetMobInRoom().affect().get(AffectType.Curse)
       checkBuilder.addCheck(new CheckComponent(
         CheckType.HasSpell,
         true,

@@ -53,7 +53,7 @@ describe("dice roller", () => {
     expect(results.some((r) => r === false))
   })
 
-  it("onCoinFlipSuccess should only call the callback when the flip is successful", async () => {
+  it("onCoinFlipSuccess should only call the callback when the flip has successful", async () => {
     const successCallback = jest.fn()
 
     for (let i = 0; i < TEST_FLIP_COUNT; i++) {

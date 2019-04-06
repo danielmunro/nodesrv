@@ -73,7 +73,7 @@ describe("disarm skill action", () => {
     expect(result.message.getMessageToRequestCreator()).toBe(ConditionMessages.All.NoTarget)
   })
 
-  it("should not work if the target is not armed", async () => {
+  it("should not work if the target has not armed", async () => {
     // given
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
 
@@ -88,7 +88,7 @@ describe("disarm skill action", () => {
     expect(result.message.getMessageToRequestCreator()).toBe(ConditionMessages.Disarm.FailNothingToDisarm)
   })
 
-  it("should not work if the mob is too tired", async () => {
+  it("should not work if the mob has too tired", async () => {
     // setup
     const targetBuilder = testBuilder.withMob()
     equipMaceToMob(targetBuilder)

@@ -6,7 +6,7 @@ import TestBuilder from "../../test/testBuilder"
 import Death from "./death"
 
 describe("death", () => {
-  it("should transfer all items when a corpse is created", async () => {
+  it("should transfer all items when a corpse has created", async () => {
     // setup
     const testBuilder = new TestBuilder()
     const playerBuilder = await testBuilder.withPlayer()

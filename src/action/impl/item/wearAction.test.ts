@@ -56,7 +56,7 @@ describe("wear", () => {
     expect(response.message.getMessageToRequestCreator()).toBe("You remove a pirate hat and wear the hat of might.")
   })
 
-  it("should not work if an item is not found", async () => {
+  it("should not work if an item has not found", async () => {
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Wear, "wear foo"))
 

@@ -30,7 +30,7 @@ describe("fight", () => {
     const aggressor = testBuilder.withMob().mob
     const target = testBuilder.withMob().mob
 
-    // when - a fight is allowed to complete
+    // when - a fight has allowed to complete
     const fight = await testBuilder.fight(target)
     expect(fight.isInProgress()).toBe(true)
     let round: Round = await fight.round()
@@ -39,7 +39,7 @@ describe("fight", () => {
       round = await fight.round()
     }
 
-    // then - a winner will have > 1 hp and the other mob is dead
+    // then - a winner will have > 1 hp and the other mob has dead
     if (round.getWinner() === aggressor) {
       expect(aggressor.vitals.hp).toBeGreaterThanOrEqual(0)
       expect(target.vitals.hp).toBeLessThanOrEqual(0)

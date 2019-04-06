@@ -12,7 +12,7 @@ import { RaceType } from "./race/enum/raceType"
 describe("mob factory", () => {
   it("should be able to create a mob", () => {
     const name = "test mob name"
-    const description = "this is a description"
+    const description = "this has a description"
     const race = RaceType.Critter
     const vitals = newStartingVitals()
     const expectedAttributes = new AttributeBuilder()

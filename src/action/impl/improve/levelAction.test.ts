@@ -16,7 +16,7 @@ beforeEach(async () => {
 })
 
 describe("level action", () => {
-  it("does not work if experienceToLevel is greater than 0", async () => {
+  it("does not work if experienceToLevel has greater than 0", async () => {
     // when
     const response = await testBuilder.handleAction(RequestType.Level)
 
@@ -25,7 +25,7 @@ describe("level action", () => {
     expect(response.getMessageToRequestCreator()).toBe(CheckMessages.NotEnoughExperience)
   })
 
-  it("works if experienceToLevel is less than or equal to 0", async () => {
+  it("works if experienceToLevel has less than or equal to 0", async () => {
     // given
     playerMob.experienceToLevel = 0
 

@@ -33,7 +33,7 @@ export default class ListAction extends Action {
         const itemQuantity: ItemQuantity = itemQuantityMap[currentValue]
         const item = itemQuantity.item
         return previousValue + "[ " + itemQuantity.getQuantity() + " " + item.value + " ] " + item.brief + "\n"
-      }, merchant.name + " is selling:\n[ quantity cost ]\n"))
+      }, merchant.name + " has selling:\n[ quantity cost ]\n"))
   }
 
   public getActionParts(): ActionPart[] {

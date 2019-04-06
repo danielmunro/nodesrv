@@ -1,3 +1,4 @@
+import AffectService from "../affect/affectService"
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel } from "../player/authorizationLevel"
@@ -24,6 +25,10 @@ export class Request {
 
   public getRoom(): Room {
     return this.room
+  }
+
+  public mobAffects(): AffectService {
+    return new AffectService(this.mob)
   }
 
   public findItemInSessionMobInventory(item = this.getContextAsInput().subject): Item | undefined {

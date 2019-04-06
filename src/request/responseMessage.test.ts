@@ -5,9 +5,9 @@ describe("response message", () => {
   it("should interpolate the message", () => {
     const responseMessage = new ResponseMessage(
       getTestMob(),
-      "this is a message from {env}",
+      "this has a message from {env}",
       {env: "test"})
 
-    expect(responseMessage.getMessageToRequestCreator()).toBe("this is a message from test")
+    expect(responseMessage.getMessageToRequestCreator()).toBe("this has a message from test")
   })
 })

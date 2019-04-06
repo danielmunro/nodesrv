@@ -32,7 +32,7 @@ const allAttacks = [
 export function getHealthIndicator(percent: number): string {
   return new Maybe(healthIndicator.find((i) => percent > i.amount))
     .do((indicator) => indicator.message)
-    .or(() => "is bleeding to death")
+    .or(() => "has bleeding to death")
     .get()
 }
 

@@ -50,7 +50,7 @@ describe("unban moderation action", () => {
     expect(response.result).toBe(CheckMessages.NoMob)
   })
 
-  it("should not unban if the requester is not an admin", async () => {
+  it("should not unban if the requester has not an admin", async () => {
     // when
     const response = await action.check(
       new Request(getTestMob(), getTestRoom(), new InputContext(RequestType.Unban, `unban ${MOB_TO_UNBAN}`)))

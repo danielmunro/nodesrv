@@ -23,7 +23,7 @@ beforeEach(async () => {
 })
 
 describe("shield block event consumer", () => {
-  it("should block attacks sometimes if a shield is equipped", async () => {
+  it("should block attacks sometimes if a shield has equipped", async () => {
     // given
     testBuilder.withItem()
       .asShield()
@@ -45,7 +45,7 @@ describe("shield block event consumer", () => {
     expect(blocked.length).toBeGreaterThan(1)
   })
 
-  it("should not change the outcome if no shield is equipped", async () => {
+  it("should not change the outcome if no shield has equipped", async () => {
     // given
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)

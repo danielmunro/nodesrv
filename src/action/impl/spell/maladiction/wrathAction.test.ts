@@ -26,7 +26,7 @@ describe("wrath action", () => {
     await getSuccessfulAction(
       spell, testBuilder.createRequest(RequestType.Cast, `cast wrath ${target.name}`, target))
 
-    expect(target.getAffect(AffectType.Wrath)).toBeDefined()
+    expect(target.affect().has(AffectType.Wrath)).toBeDefined()
   })
 
   it("generates accurate success messages", async () => {

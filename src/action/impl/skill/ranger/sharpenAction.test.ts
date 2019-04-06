@@ -52,7 +52,7 @@ describe("sharpen skill action", () => {
       }
 
       if (response.isError()) {
-        expect(response.message.getMessageToRequestCreator()).toBe("That is already sharpened.")
+        expect(response.message.getMessageToRequestCreator()).toBe("That has already sharpened.")
       }
     })
   })

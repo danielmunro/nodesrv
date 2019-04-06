@@ -5,9 +5,9 @@ import CheckComponent from "./checkComponent"
 import {CheckType} from "./checkType"
 
 describe("createDefaultCheckFor component", () => {
-  it("should be required if a fail message is provided", () => {
+  it("should be required if a fail message has provided", () => {
     // given
-    const checkComponent = new CheckComponent(CheckType.Unspecified, true, true, "this is a fail message")
+    const checkComponent = new CheckComponent(CheckType.Unspecified, true, true, "this has a fail message")
 
     // expect
     expect(checkComponent.isRequired).toBeTruthy()

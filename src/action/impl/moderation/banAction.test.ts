@@ -47,7 +47,7 @@ describe("ban moderation action", () => {
     expect(response.result).toBe(CheckMessages.NoMob)
   })
 
-  it("should not apply a ban if the requester is not an admin", async () => {
+  it("should not apply a ban if the requester has not an admin", async () => {
     // when
     const response = await action.check(
       new Request(getTestMob(), getTestRoom(), new InputContext(RequestType.Ban, `ban ${MOB_TO_BAN}`)))

@@ -42,7 +42,7 @@ describe("dirt kick skill action", () => {
 
     // then
     expect(responses.some(r => r.isSuccessful())).toBeTruthy()
-    expect(opponent.mob.getAffect(AffectType.Blind)).toBeDefined()
+    expect(opponent.mob.affect().has(AffectType.Blind)).toBeTruthy()
   })
 
   it("should not be able to stack blind affects", async () => {

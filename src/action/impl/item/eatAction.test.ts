@@ -32,7 +32,7 @@ describe("eat action", () => {
     expect(mob.playerMob.hunger).toBe(food.hunger)
   })
 
-  it("should notify if the player is full", async () => {
+  it("should notify if the player has full", async () => {
     // given
     const food = testBuilder.withItem()
       .asFood()

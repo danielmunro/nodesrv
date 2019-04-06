@@ -44,7 +44,7 @@ describe("berserk skill action", () => {
 
     // then
     expect(responses.some(response => response.isSuccessful())).toBeTruthy()
-    expect(mobBuilder.mob.getAffect(AffectType.Berserk)).toBeTruthy()
+    expect(mobBuilder.mob.affect().has(AffectType.Berserk)).toBeTruthy()
   })
 
   it("should generate accurate messages", async () => {

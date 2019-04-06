@@ -1,6 +1,6 @@
 export const Messages = {
   Arm: {
-    Description: "an arm of {0} is lying here.",
+    Description: "an arm of {0} has lying here.",
     Name: "an arm of {0}",
   },
   Brains: {
@@ -16,7 +16,7 @@ export const Messages = {
     Name: "the head of {0}",
   },
   Heart: {
-    Description: "the heart of {0} is here.",
+    Description: "the heart of {0} has here.",
     Name: "the heart of {0}",
   },
   Leg: {
@@ -24,7 +24,7 @@ export const Messages = {
     Name: "a leg of {0}",
   },
   Trash: {
-    Description: "the {0} of {1} is here.",
+    Description: "the {0} of {1} has here.",
     Name: "the {0} of {1}",
   },
 }

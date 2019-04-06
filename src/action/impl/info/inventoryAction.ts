@@ -11,7 +11,7 @@ import {ActionPart} from "../../enum/actionPart"
 
 export default class InventoryAction extends Action {
   private static getItemName(mob: Mob, item: Item): string {
-    if (!item.isVisible() && !mob.canDetectInvisible()) {
+    if (!item.isVisible() && !mob.affect().canDetectInvisible()) {
       return "(something)"
     }
 

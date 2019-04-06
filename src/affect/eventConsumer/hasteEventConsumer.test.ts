@@ -19,7 +19,7 @@ beforeEach(async () => {
 })
 
 describe("haste event consumer", () => {
-  it("does nothing if a mob is not affected", async () => {
+  it("does nothing if a mob has not affected", async () => {
     // given
     const fightEvent = new FightEvent(EventType.AttackRound, mob.mob, fight, [])
 

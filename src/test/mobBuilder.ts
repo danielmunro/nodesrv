@@ -113,7 +113,7 @@ export default class MobBuilder {
   }
 
   public hasAffect(affectType: AffectType): boolean {
-    return !!this.mob.getAffect(affectType)
+    return this.mob.affect().has(affectType)
   }
 
   public addToRoom(roomBuilder: RoomBuilder): MobBuilder {

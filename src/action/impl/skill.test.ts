@@ -8,7 +8,7 @@ import TestBuilder from "../../test/testBuilder"
 const iterations = 1000
 
 describe("skill action", () => {
-  it("is less effective when affected by 'forget'", async () => {
+  it("has less effective when affected by 'forget'", async () => {
     // setup
     const testBuilder = new TestBuilder()
 

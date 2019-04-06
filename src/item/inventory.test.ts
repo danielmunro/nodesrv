@@ -25,6 +25,6 @@ describe("inventory model", () => {
     inventory.addItem(itemCreator())
 
     expect(inventory.toString()).toContain("(3) foo")
-    expect(inventory.toString("is here")).toContain("(3) foo is here")
+    expect(inventory.toString("has here")).toContain("(3) foo has here")
   })
 })

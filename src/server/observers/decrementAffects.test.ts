@@ -25,9 +25,9 @@ describe("decrementAffects", () => {
     decrementAffects.notify()
 
     // then
-    const affect1 = mob.getAffect(AffectType.Stunned) as Affect
+    const affect1 = mob.affect().get(AffectType.Stunned) as Affect
     expect(affect1.timeout).toBe(TEST_TIMEOUT_1 - 1)
-    const affect2 = mob.getAffect(AffectType.Shield) as Affect
+    const affect2 = mob.affect().get(AffectType.Shield) as Affect
     expect(affect2.timeout).toBe(TEST_TIMEOUT_2 - 1)
   })
 

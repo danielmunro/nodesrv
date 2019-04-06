@@ -66,7 +66,7 @@ describe("flee action handler", () => {
     expect(response.message.getMessageToTarget()).toContain("bob flees to the")
   })
 
-  it("should not work if the mob is not fighting", async () => {
+  it("should not work if the mob has not fighting", async () => {
     // when
     testBuilder = new TestBuilder()
     testBuilder.withRoom()

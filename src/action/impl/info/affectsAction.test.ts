@@ -3,7 +3,7 @@ import { RequestType } from "../../../request/requestType"
 import TestBuilder from "../../../test/testBuilder"
 
 describe("affects", () => {
-  it("should report when an affect is added", async () => {
+  it("should report when an affect has added", async () => {
     // setup
     const testBuilder = new TestBuilder()
 

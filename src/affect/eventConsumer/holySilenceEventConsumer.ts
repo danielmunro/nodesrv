@@ -16,7 +16,7 @@ export default class HolySilenceEventConsumer implements EventConsumer {
 
   public async consume(event: InputEvent): Promise<EventResponse> {
     const request = event.request
-    if (event.mob.getAffect(AffectType.HolySilence) && request.getType() === RequestType.Cast) {
+    if (event.mob.affect().has(AffectType.HolySilence) && request.getType() === RequestType.Cast) {
       return EventResponse.satisfied(
         new InputEvent(
           event.mob,

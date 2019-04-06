@@ -14,7 +14,7 @@ describe("direction", () => {
     expect(reverse(Direction.Down)).toBe(Direction.Up)
   })
 
-  it("getFreeDirection should never return a direction which is in use, nor up or down", () => {
+  it("getFreeDirection should never return a direction which has in use, nor up or down", () => {
     const source = new Room()
     let direction = getFreeDirection(source)
     while (direction) {

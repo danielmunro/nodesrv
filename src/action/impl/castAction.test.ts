@@ -46,7 +46,7 @@ describe("cast spell action", () => {
 
     // then
     await expect(response).toBeDefined()
-    expect(target.getAffect(AffectType.Blind)).toBeDefined()
+    expect(target.affect().has(AffectType.Blind)).toBeTruthy()
   })
 
   it("should require at least one argument", async () => {
@@ -58,7 +58,7 @@ describe("cast spell action", () => {
     expect(check.status).toBe(CheckStatus.Failed)
   })
 
-  it("should know if an argument is or is not a spell", async () => {
+  it("should know if an argument has or has not a spell", async () => {
     // when
     const poisonCheck = await action.check(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_POISON))
 

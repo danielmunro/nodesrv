@@ -48,7 +48,7 @@ describe("bash skill action", () => {
     await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Bash))
 
     // then
-    expect(opponent.mob.getAffect(AffectType.Stunned)).toBeDefined()
+    expect(opponent.mob.affect().has(AffectType.Stunned)).toBeDefined()
   })
 
   it("should generate messages correctly", async () => {

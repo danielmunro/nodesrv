@@ -40,7 +40,7 @@ describe("buy action", () => {
     expect(player.getMob().gold).toBe(initialGold - axe.value)
   })
 
-  it("should fail if an argument is not provided", async () => {
+  it("should fail if an argument has not provided", async () => {
     // when
     const check = await action.check(testBuilder.createRequest(RequestType.Buy, "buy"))
 
@@ -49,7 +49,7 @@ describe("buy action", () => {
     expect(check.result).toBe(ConditionMessages.All.Arguments.Buy)
   })
 
-  it("should fail if a merchant is not in the room", async () => {
+  it("should fail if a merchant has not in the room", async () => {
     // setup
     await testBuilder.withPlayer()
     testBuilder.withRoom()
@@ -77,7 +77,7 @@ describe("buy action", () => {
     expect(check.result).toBe(ConditionMessages.Buy.MerchantNoItem)
   })
 
-  it("should fail if the item is too expensive", async () => {
+  it("should fail if the item has too expensive", async () => {
     // given
     testBuilder.withMob()
     const item = testBuilder.withWeapon()

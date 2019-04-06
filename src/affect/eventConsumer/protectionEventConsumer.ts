@@ -25,11 +25,11 @@ export default class ProtectionEventConsumer implements EventConsumer {
   public consume(event: DamageEvent): Promise<EventResponse> {
     const target = event.target
     const source = event.source as Mob
+    const affect = target.affect()
 
-    if (
-      target.getAffect(AffectType.ProtectionNeutral) && ProtectionEventConsumer.isNeutral(source) ||
-      target.getAffect(AffectType.ProtectionEvil) && ProtectionEventConsumer.isEvil(source) ||
-      target.getAffect(AffectType.ProtectionGood) && ProtectionEventConsumer.isGood(source)) {
+    if (affect.has(AffectType.ProtectionNeutral) && ProtectionEventConsumer.isNeutral(source) ||
+      affect.has(AffectType.ProtectionEvil) && ProtectionEventConsumer.isEvil(source) ||
+      affect.has(AffectType.ProtectionGood) && ProtectionEventConsumer.isGood(source)) {
       return EventResponse.modified(
         new DamageEvent(
           target,

@@ -12,7 +12,7 @@ export default class CrusadeEventConsumer implements EventConsumer {
   }
 
   public async consume(event: FightEvent): Promise<EventResponse> {
-    if (event.mob.getAffect(AffectType.Crusade) && roll(1, 2) === 1) {
+    if (event.mob.affect().has(AffectType.Crusade) && roll(1, 2) === 1) {
       const fight = event.fight
       event.attacks.push(await fight.attack(event.mob, fight.getOpponentFor(event.mob) as Mob))
     }

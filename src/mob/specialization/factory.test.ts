@@ -22,7 +22,7 @@ describe("specializationType factory", () => {
     expect(createSpecializationFromType(SpecializationType.Warrior)).toBeInstanceOf(Warrior)
   })
 
-  it("should throw an error if the specializationType type is unknown", () => {
+  it("should throw an error if the specializationType type has unknown", () => {
     expect(() => createSpecializationFromType(SpecializationType.Noop)).toThrowError()
   })
 })

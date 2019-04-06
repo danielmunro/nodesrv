@@ -33,7 +33,7 @@ export default class LookAction extends Action {
   public check(request: Request): Promise<Check> {
     const room = request.getRoom()
 
-    if (request.mob.getAffect(AffectType.Blind)) {
+    if (request.mobAffects().has(AffectType.Blind)) {
       return Check.fail(Messages.Look.Fail)
     }
 
@@ -61,7 +61,7 @@ export default class LookAction extends Action {
     return builder.info(
       request.room.toString()
       + this.reduceMobs(request.mob, this.locationService.getMobsByRoom(request.room))
-      + request.room.inventory.toString("is here."))
+      + request.room.inventory.toString("has here."))
   }
 
   public getActionParts(): ActionPart[] {
@@ -78,9 +78,10 @@ export default class LookAction extends Action {
   }
 
   protected reduceMobs(mob: Mob, mobs: Mob[]): string {
+    const aff = mob.affect()
     return mobs.filter(onlyLiving)
-      .filter(m => !m.getAffect(AffectType.Invisible) || mob.getAffect(AffectType.DetectInvisible))
-      .filter(m => !m.getAffect(AffectType.Hidden) || mob.getAffect(AffectType.DetectHidden))
+      .filter(m => !m.affect().has(AffectType.Invisible) || aff.has(AffectType.DetectInvisible))
+      .filter(m => !m.affect().has(AffectType.Hidden) || aff.has(AffectType.DetectHidden))
       .reduce((previous: string, current: Mob) =>
         previous + (current !== mob ? "\n" + current.brief : ""), "")
   }

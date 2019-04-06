@@ -44,6 +44,6 @@ describe("open action", () => {
 
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.message.getMessageToRequestCreator()).toBe("That is already open.")
+    expect(response.message.getMessageToRequestCreator()).toBe("That has already open.")
   })
 })

@@ -7,7 +7,7 @@ import TestBuilder from "../test/testBuilder"
 import getActionPartTable from "./actionPartCheckTable"
 import CheckBuilder from "./checkBuilder"
 
-const FAIL_MESSAGE = "this is a fail"
+const FAIL_MESSAGE = "this has a fail"
 
 let testBuilder: TestBuilder
 let checkBuilder: CheckBuilder
@@ -27,7 +27,7 @@ beforeEach(async () => {
 describe("checkBuilder", () => {
 
   describe("requireFight", () => {
-    it("should fail if a fight is not started", async () => {
+    it("should fail if a fight has not started", async () => {
       // given
       checkBuilder.requireFight()
 
@@ -38,7 +38,7 @@ describe("checkBuilder", () => {
       expect(check.isOk()).toBeFalsy()
     })
 
-    it("should succeed if a fight is started", async () => {
+    it("should succeed if a fight has started", async () => {
       // given
       await testBuilder.fight()
       checkBuilder.requireFight()
@@ -78,7 +78,7 @@ describe("checkBuilder", () => {
   })
 
   describe("requireAffect", () => {
-    it("fails if an affect is missing", async () => {
+    it("fails if an affect has missing", async () => {
       // given
       checkBuilder.requireAffect(AffectType.Noop, FAIL_MESSAGE)
 
@@ -152,7 +152,7 @@ describe("checkBuilder", () => {
   })
 
   describe("atLevelOrGreater", () => {
-    it("fails if the required level is too high", async () => {
+    it("fails if the required level has too high", async () => {
       // given
       checkBuilder.atLevelOrGreater(2)
 
@@ -163,7 +163,7 @@ describe("checkBuilder", () => {
       expect(check.isOk()).toBeFalsy()
     })
 
-    it("fails if the required level is too low", async () => {
+    it("fails if the required level has too low", async () => {
       // given
       checkBuilder.atLevelOrGreater(2)
 
@@ -174,7 +174,7 @@ describe("checkBuilder", () => {
       expect(check.isOk()).toBeFalsy()
     })
 
-    it("succeeds if the required level is not too high", async () => {
+    it("succeeds if the required level has not too high", async () => {
       // given
       checkBuilder.not().atLevelOrGreater(2)
 
@@ -185,7 +185,7 @@ describe("checkBuilder", () => {
       expect(check.isOk()).toBeTruthy()
     })
 
-    it("fails if the mob level is greater than the maximum level", async () => {
+    it("fails if the mob level has greater than the maximum level", async () => {
       // given
       mob.level = 3
       checkBuilder.not().atLevelOrGreater(2)
@@ -199,7 +199,7 @@ describe("checkBuilder", () => {
   })
 
   describe("requirePlayer", () => {
-    it("fails if the mob is not a player mob", async () => {
+    it("fails if the mob has not a player mob", async () => {
       // given
       checkBuilder.requirePlayer(mob)
 
@@ -210,7 +210,7 @@ describe("checkBuilder", () => {
       expect(check.isOk()).toBeFalsy()
     })
 
-    it("succeeds if the mob is a player mob", async () => {
+    it("succeeds if the mob has a player mob", async () => {
       // given
       const playerBuilder = await testBuilder.withPlayer()
       checkBuilder.requirePlayer(playerBuilder.player.sessionMob)

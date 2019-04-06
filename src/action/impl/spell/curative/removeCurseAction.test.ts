@@ -14,7 +14,7 @@ let spell: Spell
 let mob: Mob
 let target: Mob
 
-const expectedMessage = "your curse is lifted."
+const expectedMessage = "your curse has lifted."
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
@@ -34,7 +34,7 @@ describe("remove curse spell action", () => {
     await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, `cast remove ${target.name}`, target))
 
     // then
-    expect(target.getAffect(AffectType.Curse)).toBeFalsy()
+    expect(target.affect().has(AffectType.Curse)).toBeFalsy()
   })
 
   it("requires a curse in the first place", async () => {
@@ -52,9 +52,9 @@ describe("remove curse spell action", () => {
       spell, testBuilder.createRequest(RequestType.Cast, `cast remove ${target.name}`, target))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(`${target.name}'s curse is lifted.`)
+    expect(response.message.getMessageToRequestCreator()).toBe(`${target.name}'s curse has lifted.`)
     expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${target.name}'s curse is lifted.`)
+    expect(response.message.getMessageToObservers()).toBe(`${target.name}'s curse has lifted.`)
   })
 
   it("generates accurate success messages for self", async () => {
@@ -67,6 +67,6 @@ describe("remove curse spell action", () => {
     // then
     expect(response.message.getMessageToRequestCreator()).toBe(expectedMessage)
     expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${mob.name}'s curse is lifted.`)
+    expect(response.message.getMessageToObservers()).toBe(`${mob.name}'s curse has lifted.`)
   })
 })

@@ -47,7 +47,7 @@ See also the help sections for individual spells.`)
       .toBe("syntax: buy {item with room mob}\n\nMore information coming soon.")
   })
 
-  it("can handle when no help subject is found", async () => {
+  it("can handle when no help subject has found", async () => {
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Help, "help foo"))
 

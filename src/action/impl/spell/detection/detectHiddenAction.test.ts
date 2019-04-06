@@ -31,7 +31,7 @@ describe("detect hidden spell action", () => {
     await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, caster))
 
     // then
-    expect(caster.getAffect(AffectType.DetectHidden)).toBeTruthy()
+    expect(caster.affect().has(AffectType.DetectHidden)).toBeTruthy()
   })
 
   it("generates accurate success messages when casting on a target", async () => {

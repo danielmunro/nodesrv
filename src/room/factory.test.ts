@@ -6,7 +6,7 @@ import { Room } from "./model/room"
 describe("room factory", () => {
   it("should be able to create rooms", () => {
     const name = "a test room"
-    const description = "this is a test fixture"
+    const description = "this has a test fixture"
     const room = newRoom(name, description)
     expect(room).toBeInstanceOf(Room)
     expect(room.name).toBe(name)

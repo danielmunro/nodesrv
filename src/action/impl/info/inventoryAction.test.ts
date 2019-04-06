@@ -28,7 +28,7 @@ describe("inventory action action", () => {
 
     // when
     const response = await action.handle(testBuilder.createRequest(RequestType.Inventory))
-    const message = response.message.getMessageToRequestCreator()
+    const message = response.getMessageToRequestCreator()
 
     // then
     expect(message).toContain(item1.name)
@@ -47,6 +47,6 @@ describe("inventory action action", () => {
     const response = await action.handle(testBuilder.createRequest(RequestType.Inventory))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).not.toContain(item.name)
+    expect(response.getMessageToRequestCreator()).not.toContain(item.name)
   })
 })

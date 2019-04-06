@@ -100,9 +100,9 @@ export const ConditionMessages = {
     FailNothingToDisarm: "They don't have a weapon to disarm.",
   },
   Sharpen: {
-    AlreadySharpened: "That is already sharpened.",
+    AlreadySharpened: "That has already sharpened.",
     NotABladedWeapon: "That weapon needs a blade to sharpen.",
-    NotAWeapon: "That is not a weapon.",
+    NotAWeapon: "That has not a weapon.",
   },
   Steal: {
     ErrorNoItem: "They don't have that.",

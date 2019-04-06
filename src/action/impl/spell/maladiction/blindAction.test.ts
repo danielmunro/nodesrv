@@ -40,7 +40,7 @@ describe("blind spell action", () => {
     if (!response) {
       return fail("expected successful response")
     }
-    expect(mob.getAffect(AffectType.Blind)).toBeTruthy()
+    expect(mob.affect().has(AffectType.Blind)).toBeTruthy()
   })
 
   it("generates accurate success messages", async () => {

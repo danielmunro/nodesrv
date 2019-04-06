@@ -43,7 +43,7 @@ describe("remove", () => {
     expect(response.message.getMessageToRequestCreator()).toContain("You remove")
   })
 
-  it("should not work if an item is not equipped", async () => {
+  it("should not work if an item has not equipped", async () => {
     // when
     const response = await actionDefinition.handle(testBuilder.createRequest(RequestType.Remove, "remove foo"))
 
@@ -52,7 +52,7 @@ describe("remove", () => {
     expect(response.message.getMessageToRequestCreator()).toBe(MESSAGE_REMOVE_FAIL)
   })
 
-  it("should be successful if the item is equipped", async () => {
+  it("should be successful if the item has equipped", async () => {
     // given
     const eq = newEquipment("a cowboy hat", "a sturdy cowboy hat", Equipment.Head)
     mob.equipped.addItem(eq)

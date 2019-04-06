@@ -32,7 +32,7 @@ describe("stone skin spell action", () => {
     await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, target))
 
     // then
-    expect(target.getAffect(AffectType.StoneSkin)).toBeTruthy()
+    expect(target.affect().has(AffectType.StoneSkin)).toBeTruthy()
   })
 
   it("generates accurate success messages when casting on a target", async () => {

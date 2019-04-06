@@ -23,7 +23,7 @@ beforeEach(async () => {
 })
 
 describe("parry event consumer", () => {
-  it("parries attacks sometimes if a weapon is equipped", async () => {
+  it("parries attacks sometimes if a weapon has equipped", async () => {
     testBuilder.withWeapon()
       .asAxe()
       .equipToMobBuilder(attacker)
@@ -43,7 +43,7 @@ describe("parry event consumer", () => {
     expect(parried.length).toBeGreaterThan(1)
   })
 
-  it("should not change the outcome if no weapon is equipped", async () => {
+  it("should not change the outcome if no weapon has equipped", async () => {
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)
       defender.setHp(20)

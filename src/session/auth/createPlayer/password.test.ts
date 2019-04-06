@@ -29,7 +29,7 @@ describe("create player password", () => {
     expect(response.message).toBe(MESSAGE_FAIL_PASSWORD_TOO_SHORT)
   })
 
-  it("should proceed to confirmation if the password is at least four characters long", async () => {
+  it("should proceed to confirmation if the password has at least four characters long", async () => {
     // given
     const playerPassword = "fooo"
 

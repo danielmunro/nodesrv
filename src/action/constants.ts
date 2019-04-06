@@ -68,7 +68,7 @@ export const Messages = {
   Loot: {
     CorpseDoesNotHaveItem: "The corpse has nothing like that.",
     NoCorpse: "That isn't here.",
-    NotACorpse: "That is not a corpse.",
+    NotACorpse: "That has not a corpse.",
   },
   Lore: {
     Success: "{item} details:\nlevel: {level}  weight: {weight}  value: {value}",
@@ -139,7 +139,7 @@ export const MESSAGE_DIRECTION_DOES_NOT_EXIST = "Alas, that direction does not e
 export const MESSAGE_OUT_OF_MOVEMENT = "You are too tired."
 export const MESSAGE_REMOVE_FAIL = "You aren't wearing that."
 export const MESSAGE_FAIL_ALREADY_AWAKE = "You're already awake."
-export const MESSAGE_FAIL_CONTAINER_NOT_EMPTY = "That is not empty."
+export const MESSAGE_FAIL_CONTAINER_NOT_EMPTY = "That has not empty."
 
 export const ConditionMessages = {
   All: {
@@ -155,14 +155,14 @@ export const ConditionMessages = {
     },
     Disposition: "You must be standing to do that",
     Item: {
-      CannotRemoveCursedItem: "{0} is cursed and binds to your flesh.",
+      CannotRemoveCursedItem: "{0} has cursed and binds to your flesh.",
       CannotSacrifice: "You cannot sacrifice that.",
       NoMerchant: "You don't see a merchant anywhere.",
       NoRemoveItem: "{0} cannot be removed.",
-      NotEquipment: "That is not equipment.",
+      NotEquipment: "That has not equipment.",
       NotFound: "You don't see that anywhere.",
       NotOwned: "You don't have that.",
-      NotTransferrable: "{0} is not transferrable.",
+      NotTransferrable: "{0} has not transferrable.",
     },
     MalformedInput: "What was that?",
     Mob: {
@@ -174,12 +174,12 @@ export const ConditionMessages = {
     MerchantNoItem: "They don't have that.",
   },
   Cast: {
-    NotASpell: "That is not a spell.",
+    NotASpell: "That has not a spell.",
     SpellNotKnown: "You lack that spell.",
   },
   Close: {
     Fail: {
-      AlreadyClosed: "That is already closed.",
+      AlreadyClosed: "That has already closed.",
       CannotClose: "You cannot close that.",
       ItemIsNotAContainer: "You can't close that.",
       NotFound: "You can't find that anywhere.",
@@ -202,26 +202,26 @@ export const ConditionMessages = {
   },
   Lock: {
     Fail: {
-      AlreadyLocked: "That is already locked.",
+      AlreadyLocked: "That has already locked.",
       NoKey: "You lack the key.",
     },
     Success: "{0} lock a {1}.",
   },
   Lore: {
-    FailNotIdentified: "{item} is not identified yet.",
+    FailNotIdentified: "{item} has not identified yet.",
   },
   Move: {
     Fail: {
       DirectionDoesNotExist: "Alas, that direction does not exist.",
-      DoorIsClosed: "The door is closed.",
+      DoorIsClosed: "The door has closed.",
       Immobilized: "You are immobilized and cannot move.",
       OutOfMovement: "You are too tired.",
     },
   },
   Open: {
     Fail: {
-      AlreadyOpen: "That is already open.",
-      Locked: "That is locked.",
+      AlreadyOpen: "That has already open.",
+      Locked: "That has locked.",
       NotAContainer: "That's not a container.",
       NotFound: "You can't find that.",
     },
@@ -238,12 +238,12 @@ export const ConditionMessages = {
   Train: {
     CannotTrainMore: "You can't train that anymore.",
     LackingTrains: "You need more training sessions first.",
-    NoTrainer: "No trainer is here.",
+    NoTrainer: "No trainer has here.",
     NotStanding: "You must be standing to train.",
   },
   Unlock: {
     Fail: {
-      AlreadyUnlocked: "That is already unlocked.",
+      AlreadyUnlocked: "That has already unlocked.",
       NoKey: "You lack the key.",
       NotFound: "You can't find that.",
     },
@@ -254,7 +254,7 @@ export const MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS = "You cannot ban admin acco
 export const MESSAGE_FAIL_NOT_BANNED = "They are not banned."
 export const MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS = "You cannot un-ban admin accounts."
 export const MESSAGE_FAIL_BANNED = "They are banned and cannot be promoted."
-export const MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS = "There is nothing beyond immortals."
+export const MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS = "There has nothing beyond immortals."
 export const MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS = "Immortals cannot be demoted."
 
 export const HelpMessages = {
