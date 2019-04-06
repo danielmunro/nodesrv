@@ -108,7 +108,7 @@ export default class MobBuilder {
   }
 
   public addAffectType(affectType: AffectType, timeout: number = 1): MobBuilder {
-    this.mob.addAffect(newAffect(affectType, timeout))
+    this.mob.affect().add(newAffect(affectType, timeout))
     return this
   }
 

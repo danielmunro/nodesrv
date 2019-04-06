@@ -24,4 +24,8 @@ export default class AffectService {
       affect.mob = this.mob
     }
   }
+
+  public remove(affectType: AffectType) {
+    this.mob.affects = this.mob.affects.filter(affect => affect.affectType !== affectType)
+  }
 }

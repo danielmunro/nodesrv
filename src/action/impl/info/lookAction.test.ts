@@ -68,7 +68,7 @@ describe("look action", () => {
 
   it("does not describe a mob when a mob has invisible", async () => {
     // given
-    mob.addAffect(newAffect(AffectType.Invisible))
+    mob.affect().add(newAffect(AffectType.Invisible))
 
     // when
     const response = await definition.handle(
@@ -80,7 +80,7 @@ describe("look action", () => {
 
   it("does not describe a mob when a mob has hidden", async () => {
     // given
-    mob.addAffect(newAffect(AffectType.Hidden))
+    mob.affect().add(newAffect(AffectType.Hidden))
 
     // when
     const response = await definition.handle(
@@ -92,8 +92,8 @@ describe("look action", () => {
 
   it("describes a mob when a mob has hidden and the request creator has detect hidden", async () => {
     // given
-    mob.addAffect(newAffect(AffectType.Hidden))
-    player.sessionMob.addAffect(newAffect(AffectType.DetectHidden))
+    mob.affect().add(newAffect(AffectType.Hidden))
+    player.sessionMob.affect().add(newAffect(AffectType.DetectHidden))
 
     // when
     const response = await definition.handle(
@@ -105,8 +105,8 @@ describe("look action", () => {
 
   it("describes a mob when a mob has invisible and the request creator can detect invisible", async () => {
     // given
-    player.sessionMob.addAffect(newAffect(AffectType.DetectInvisible))
-    mob.addAffect(newAffect(AffectType.Invisible))
+    player.sessionMob.affect().add(newAffect(AffectType.DetectInvisible))
+    mob.affect().add(newAffect(AffectType.Invisible))
 
     // when
     const response = await definition.handle(
@@ -146,7 +146,7 @@ describe("look action", () => {
 
   it("cannot be able to see if blind", async () => {
     // given
-    player.sessionMob.addAffect(newAffect(AffectType.Blind))
+    player.sessionMob.affect().add(newAffect(AffectType.Blind))
 
     // when
     const response = await testBuilder.handleAction(RequestType.Look)

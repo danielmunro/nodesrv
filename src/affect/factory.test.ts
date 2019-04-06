@@ -8,7 +8,7 @@ describe("affect factory", () => {
     const mob = getTestMob()
     const timeout = 10
     const affect = newAffect(type, timeout)
-    mob.addAffect(affect)
+    mob.affect().add(affect)
 
     expect(affect.affectType).toBe(type)
     expect(affect.mob).toBe(mob)

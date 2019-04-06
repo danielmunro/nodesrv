@@ -25,7 +25,7 @@ beforeEach(async () => {
   mob = mobBuilder1.mob
   const mobBuilder2 = testBuilder.withMob()
   target = mobBuilder2.mob
-  target.addAffect(newAffect(AffectType.Curse))
+  target.affect().add(newAffect(AffectType.Curse))
 })
 
 describe("remove curse spell action", () => {
@@ -59,7 +59,7 @@ describe("remove curse spell action", () => {
 
   it("generates accurate success messages for self", async () => {
     // given
-    mob.addAffect(newAffect(AffectType.Curse))
+    mob.affect().add(newAffect(AffectType.Curse))
 
     // when
     const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast remove", mob))

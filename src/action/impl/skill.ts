@@ -51,7 +51,7 @@ export default class Skill extends Action {
         .setLevel(checkedRequest.mob.level))
     if (affect) {
       const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) || checkedRequest.mob
-      target.addAffect(affect)
+      target.affect().add(affect)
     }
     return checkedRequest.responseWithMessage(
       ResponseStatus.Success,

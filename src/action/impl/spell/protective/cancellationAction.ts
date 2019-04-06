@@ -10,6 +10,7 @@ import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
 import SpellBuilder from "../../../spellBuilder"
 import Spell from "../../spell"
+import {Mob} from "../../../../mob/model/mob"
 
 const CHANCE_THRESHOLD = 80
 
@@ -22,10 +23,10 @@ export default function(abilityService: AbilityService): Spell {
       new DelayCost(1),
     ])
     .setApplySpell(async checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) as Mob
       target.affects.forEach((affect: Affect) => {
         if (percentRoll() < CHANCE_THRESHOLD) {
-          target.removeAffect(affect.affectType)
+          target.affect().remove(affect.affectType)
         }
       })
     })

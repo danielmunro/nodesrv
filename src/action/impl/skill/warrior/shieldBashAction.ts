@@ -22,8 +22,9 @@ export default function(abilityService: AbilityService): Skill {
     ])
     .setApplySkill(checkedRequest => {
       const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) as Mob
-      target.addAffect(newAffect(AffectType.Stunned, checkedRequest.mob.level / 10))
-      target.removeAffect(AffectType.Haste)
+      const affect = target.affect()
+      affect.add(newAffect(AffectType.Stunned, checkedRequest.mob.level / 10))
+      affect.remove(AffectType.Haste)
       target.vitals.mv = target.vitals.mv / 2
       return Promise.resolve()
     })

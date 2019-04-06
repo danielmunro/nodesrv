@@ -61,7 +61,7 @@ export class PlayerMob {
 
   public eat(item: Item) {
     this.hunger += item.hunger
-    item.affects.forEach((affect) => this.mob.addAffect(affect))
+    item.affects.forEach((affect) => this.mob.affect().add(affect))
     this.normalizeVitals()
   }
 

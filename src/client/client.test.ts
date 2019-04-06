@@ -176,7 +176,7 @@ describe("clients", () => {
 
   it("satisfies event with holy silence", async () => {
     // setup
-    client.getSessionMob().addAffect(newAffect(AffectType.HolySilence))
+    client.getSessionMob().affect().add(newAffect(AffectType.HolySilence))
     const request = testBuilder.createRequest(RequestType.Cast)
 
     // when

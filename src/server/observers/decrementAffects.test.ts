@@ -16,8 +16,9 @@ describe("decrementAffects", () => {
 
     // given
     const mob = client.player.sessionMob
-    mob.addAffect(newAffect(AffectType.Stunned, TEST_TIMEOUT_1))
-    mob.addAffect(newAffect(AffectType.Shield, TEST_TIMEOUT_2))
+    const affect = mob.affect()
+    affect.add(newAffect(AffectType.Stunned, TEST_TIMEOUT_1))
+    affect.add(newAffect(AffectType.Shield, TEST_TIMEOUT_2))
     const table = new MobTable([mob])
     const decrementAffects = new DecrementAffects(table)
 
@@ -38,7 +39,7 @@ describe("decrementAffects", () => {
 
     // given
     const mob = client.player.sessionMob
-    mob.addAffect(newAffect(AffectType.Stunned, 0))
+    mob.affect().add(newAffect(AffectType.Stunned, 0))
     const table = new MobTable([mob])
     const decrementAffects = new DecrementAffects(table)
 

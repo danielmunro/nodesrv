@@ -51,7 +51,7 @@ export default class PlayerBuilder {
   }
 
   public addAffect(affectType: AffectType): PlayerBuilder {
-    this.player.sessionMob.addAffect(newAffect(affectType))
+    this.player.sessionMob.affect().add(newAffect(affectType))
     return this
   }
 

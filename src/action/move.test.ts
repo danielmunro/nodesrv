@@ -42,7 +42,7 @@ describe("move", () => {
 
   it("should not cost movement if flying", async () => {
     // given
-    mob.addAffect(newAffect(AffectType.Fly))
+    mob.affect().add(newAffect(AffectType.Fly))
 
     // when
     await definition.handle(testBuilder.createRequest(RequestType.East))

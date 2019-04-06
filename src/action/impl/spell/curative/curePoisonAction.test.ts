@@ -24,7 +24,7 @@ beforeEach(async () => {
   mob = mobBuilder1.mob
   const mobBuilder2 = testBuilder.withMob("bob")
   target = mobBuilder2.mob
-  target.addAffect(newAffect(AffectType.Poison))
+  target.affect().add(newAffect(AffectType.Poison))
 })
 
 describe("cure poison", () => {
@@ -49,7 +49,7 @@ describe("cure poison", () => {
 
   it("generates accurate success messages for self", async () => {
     // given
-    mob.addAffect(newAffect(AffectType.Poison))
+    mob.affect().add(newAffect(AffectType.Poison))
 
     // when
     const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast cure", mob))

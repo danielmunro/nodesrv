@@ -1,7 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import AffectService from "../../affect/affectService"
-import { AffectType } from "../../affect/affectType"
 import { Affect } from "../../affect/model/affect"
 import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
@@ -159,18 +158,6 @@ export class Mob {
 
   public getStanding(): Standing {
     return this.playerMob ? this.playerMob.standing : Standing.Good
-  }
-
-  public addAffect(affect: Affect) {
-    const current = this.affect().has(affect.affectType)
-    if (!current) {
-      this.affects.push(affect)
-      affect.mob = this
-    }
-  }
-
-  public removeAffect(affectType: AffectType) {
-    this.affects = this.affects.filter(affect => affect.affectType !== affectType)
   }
 
   public getSkill(skillType: SkillType): Skill | undefined {
