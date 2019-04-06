@@ -1,4 +1,3 @@
-import {AffectType} from "../../../../affect/affectType"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {Mob} from "../../../../mob/model/mob"
 import {RequestType} from "../../../../request/requestType"
@@ -40,7 +39,7 @@ describe("blind spell action", () => {
     if (!response) {
       return fail("expected successful response")
     }
-    expect(mob.affect().has(AffectType.Blind)).toBeTruthy()
+    expect(mob.affect().isBlind()).toBeTruthy()
   })
 
   it("generates accurate success messages", async () => {

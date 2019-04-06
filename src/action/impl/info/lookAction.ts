@@ -33,7 +33,7 @@ export default class LookAction extends Action {
   public check(request: Request): Promise<Check> {
     const room = request.getRoom()
 
-    if (request.mobAffects().has(AffectType.Blind)) {
+    if (request.mobAffects().isBlind()) {
       return Check.fail(Messages.Look.Fail)
     }
 

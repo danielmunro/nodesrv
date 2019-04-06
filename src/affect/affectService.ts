@@ -6,7 +6,15 @@ export default class AffectService {
   constructor(private readonly mob: Mob) {}
 
   public canDetectInvisible(): boolean {
-    return this.mob.affects.find(a => a.affectType === AffectType.DetectInvisible) !== undefined
+    return this.has(AffectType.DetectInvisible)
+  }
+
+  public isPoisoned(): boolean {
+    return this.has(AffectType.Poison)
+  }
+
+  public isBlind(): boolean {
+    return this.has(AffectType.Blind)
   }
 
   public has(affectType: AffectType): boolean {

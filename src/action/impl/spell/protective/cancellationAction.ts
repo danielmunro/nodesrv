@@ -3,6 +3,7 @@ import AbilityService from "../../../../check/abilityService"
 import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
+import {Mob} from "../../../../mob/model/mob"
 import {percentRoll} from "../../../../random/helpers"
 import ResponseMessage from "../../../../request/responseMessage"
 import {SpellMessages} from "../../../../spell/constants"
@@ -10,7 +11,6 @@ import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
 import SpellBuilder from "../../../spellBuilder"
 import Spell from "../../spell"
-import {Mob} from "../../../../mob/model/mob"
 
 const CHANCE_THRESHOLD = 80
 

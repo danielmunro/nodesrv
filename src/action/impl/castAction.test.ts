@@ -1,4 +1,3 @@
-import {AffectType} from "../../affect/affectType"
 import {CheckStatus} from "../../check/checkStatus"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
 import {SpecializationType} from "../../mob/specialization/specializationType"
@@ -46,7 +45,7 @@ describe("cast spell action", () => {
 
     // then
     await expect(response).toBeDefined()
-    expect(target.affect().has(AffectType.Blind)).toBeTruthy()
+    expect(target.affect().isBlind()).toBeTruthy()
   })
 
   it("should require at least one argument", async () => {

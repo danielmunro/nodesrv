@@ -1,4 +1,3 @@
-import { AffectType } from "../../../../affect/affectType"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
 import { RequestType } from "../../../../request/requestType"
 import Response from "../../../../request/response"
@@ -42,7 +41,7 @@ describe("dirt kick skill action", () => {
 
     // then
     expect(responses.some(r => r.isSuccessful())).toBeTruthy()
-    expect(opponent.mob.affect().has(AffectType.Blind)).toBeTruthy()
+    expect(opponent.mob.affect().isBlind()).toBeTruthy()
   })
 
   it("should not be able to stack blind affects", async () => {
