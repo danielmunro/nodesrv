@@ -3,7 +3,7 @@ import {newWeapon} from "../../item/factory"
 import ItemPrototype from "../../item/itemPrototype"
 import {Item} from "../../item/model/item"
 import Weapon from "../../item/model/weapon"
-import {WeaponType} from "../../item/weaponType"
+import {WeaponType} from "../../item/enum/weaponType"
 import {SpellType} from "../../spell/spellType"
 
 export default function(itemPrototype: ItemPrototype): Item {

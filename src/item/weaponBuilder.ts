@@ -1,10 +1,10 @@
 import {DamageType} from "../damage/damageType"
 import ServiceBuilder from "../gameService/serviceBuilder"
 import AbstractItemBuilder from "./abstractItemBuilder"
-import {Equipment} from "./equipment"
-import {ItemType} from "./itemType"
+import {Equipment} from "./enum/equipment"
+import {ItemType} from "./enum/itemType"
 import Weapon from "./model/weapon"
-import {WeaponType} from "./weaponType"
+import {WeaponType} from "./enum/weaponType"
 
 export default class WeaponBuilder extends AbstractItemBuilder {
   protected readonly item: Weapon

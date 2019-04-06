@@ -1,5 +1,5 @@
 import {newItem} from "../../item/factory"
-import {ItemType} from "../../item/itemType"
+import {ItemType} from "../../item/enum/itemType"
 import collectionSearch from "./collectionSearch"
 
 describe("collectionSearch", () => {

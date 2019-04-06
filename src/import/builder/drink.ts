@@ -1,6 +1,6 @@
 import {newItem} from "../../item/factory"
 import ItemPrototype from "../../item/itemPrototype"
-import {ItemType} from "../../item/itemType"
+import {ItemType} from "../../item/enum/itemType"
 import Drink from "../../item/model/drink"
 import {Item} from "../../item/model/item"
 import ItemBuilder from "../itemBuilder"

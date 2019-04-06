@@ -1,4 +1,4 @@
-import {Equipment} from "../../item/equipment"
+import {Equipment} from "../../item/enum/equipment"
 import {newEquipment} from "../../item/factory"
 import ItemPrototype from "../../item/itemPrototype"
 import {Item} from "../../item/model/item"

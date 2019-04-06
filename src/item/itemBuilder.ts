@@ -1,6 +1,6 @@
 import AbstractItemBuilder from "./abstractItemBuilder"
-import {Equipment} from "./equipment"
-import {ItemType} from "./itemType"
+import {Equipment} from "./enum/equipment"
+import {ItemType} from "./enum/itemType"
 import Container from "./model/container"
 import {Inventory} from "./model/inventory"
 

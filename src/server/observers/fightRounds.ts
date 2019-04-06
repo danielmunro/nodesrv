@@ -1,6 +1,6 @@
 import AttributeService from "../../attributes/attributeService"
 import {Client} from "../../client/client"
-import {Equipment} from "../../item/equipment"
+import {Equipment} from "../../item/enum/equipment"
 import {Item} from "../../item/model/item"
 import {AttackVerb} from "../../mob/enum/attackVerb"
 import {Attack} from "../../mob/fight/attack"

@@ -1,6 +1,6 @@
 import {AffectType} from "../../../affect/affectType"
 import {newAffect} from "../../../affect/factory"
-import {Equipment} from "../../../item/equipment"
+import {Equipment} from "../../../item/enum/equipment"
 import {newEquipment} from "../../../item/factory"
 import {Mob} from "../../../mob/model/mob"
 import { RequestType } from "../../../request/requestType"

@@ -1,4 +1,4 @@
-import {ItemType} from "../../item/itemType"
+import {ItemType} from "../../item/enum/itemType"
 import { ItemType as ImportItemType } from "../enum/itemType"
 
 export const itemTypeMap = [

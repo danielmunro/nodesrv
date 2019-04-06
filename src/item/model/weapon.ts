@@ -2,7 +2,7 @@ import { Column, Entity } from "typeorm"
 import { DamageType } from "../../damage/damageType"
 import { AttackVerb } from "../../mob/enum/attackVerb"
 import {SpellType} from "../../spell/spellType"
-import { WeaponType } from "../weaponType"
+import { WeaponType } from "../enum/weaponType"
 import { Item } from "./item"
 
 @Entity()
