@@ -1,10 +1,14 @@
 import Cost from "../src/check/cost/cost"
 import {CostType} from "../src/check/cost/costType"
 import EventService from "../src/event/eventService"
+import StateService from "../src/gameService/stateService"
+import TimeService from "../src/gameService/timeService"
+import ItemService from "../src/item/itemService"
 import FightTable from "../src/mob/fight/fightTable"
 import LocationService from "../src/mob/locationService"
 import MobService from "../src/mob/mobService"
 import MobTable from "../src/mob/mobTable"
+import WeatherService from "../src/region/weatherService"
 import ExitTable from "../src/room/exitTable"
 import RoomTable from "../src/room/roomTable"
 import {getSkillTable} from "../src/skill/skillTable"
@@ -18,7 +22,11 @@ const mobService = new MobService(
   new LocationService(new RoomTable(), eventService, new ExitTable()))
 
 console.log("spells:")
-getSpellTable(mobService, eventService).forEach(spell => {
+getSpellTable(
+  mobService,
+  eventService,
+  new ItemService(),
+  new StateService(new WeatherService(), new TimeService())).forEach(spell => {
   console.log(spell.getCosts().reduce((previous: string, cost: Cost) =>
     previous + ", " + getCostTypeLabel(cost.costType) + ": " + cost.amount, spell.getSpellType()))
 })

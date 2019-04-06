@@ -39,12 +39,15 @@ import wordOfRecallAction from "../action/impl/spell/transportation/wordOfRecall
 import AbilityService from "../check/abilityService"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
-import gameService from "../gameService/gameService"
+import StateService from "../gameService/stateService"
+import ItemService from "../item/itemService"
 import MobService from "../mob/mobService"
 
 export default function getSpellTable(
   mobService: MobService,
-  eventService: EventService): Spell[] {
+  eventService: EventService,
+  itemService: ItemService,
+  stateService: StateService): Spell[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
@@ -88,7 +91,7 @@ export default function getSpellTable(
     // detection
     detectInvisibleAction(abilityService),
     detectHiddenAction(abilityService),
-    locateItemAction(abilityService, gameService),
+    locateItemAction(abilityService, itemService, stateService),
 
     // piety
     blessAction(abilityService),

@@ -7,8 +7,10 @@ import Weapon from "./model/weapon"
 import {WeaponType} from "./weaponType"
 
 export default class WeaponBuilder extends AbstractItemBuilder {
-  constructor(serviceBuilder: ServiceBuilder, protected readonly item: Weapon = new Weapon()) {
-    super(serviceBuilder, item)
+  protected readonly item: Weapon
+
+  constructor(serviceBuilder: ServiceBuilder, carriedBy: any) {
+    super(serviceBuilder, new Weapon(), carriedBy)
   }
 
   public asAxe(): WeaponBuilder {

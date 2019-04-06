@@ -8,7 +8,12 @@ import {Inventory} from "./model/inventory"
 import {Item} from "./model/item"
 
 export default class AbstractItemBuilder {
-  constructor(private readonly serviceBuilder: ServiceBuilder, protected item: Item = new Item()) {}
+  constructor(
+    private readonly serviceBuilder: ServiceBuilder,
+    protected item: Item = new Item(),
+    carriedBy?: any) {
+    this.item.carriedBy = carriedBy
+  }
 
   public addItemToContainerInventory(item: Item): AbstractItemBuilder {
     this.item.container.inventory.addItem(item)
@@ -16,27 +21,27 @@ export default class AbstractItemBuilder {
   }
 
   public addToMobBuilder(mobBuilder: MobBuilder): AbstractItemBuilder {
-    mobBuilder.mob.inventory.addItem(this.item)
+    mobBuilder.mob.inventory.addItem(this.item, mobBuilder.mob)
     return this
   }
 
   public equipToMobBuilder(mobBuilder: MobBuilder): AbstractItemBuilder {
-    mobBuilder.mob.equipped.addItem(this.item)
+    mobBuilder.mob.equipped.addItem(this.item, mobBuilder.mob)
     return this
   }
 
   public addToPlayerBuilder(playerBuilder: PlayerBuilder): AbstractItemBuilder {
-    playerBuilder.player.sessionMob.inventory.addItem(this.item)
+    playerBuilder.player.sessionMob.inventory.addItem(this.item, playerBuilder.getMob())
     return this
   }
 
   public equipToPlayerBuilder(playerBuilder: PlayerBuilder): AbstractItemBuilder {
-    playerBuilder.player.sessionMob.equipped.addItem(this.item)
+    playerBuilder.player.sessionMob.equipped.addItem(this.item, playerBuilder.getMob())
     return this
   }
 
   public addToRoomBuilder(roomBuilder: RoomBuilder): AbstractItemBuilder {
-    roomBuilder.room.inventory.addItem(this.item)
+    roomBuilder.room.inventory.addItem(this.item, roomBuilder.room)
     return this
   }
 

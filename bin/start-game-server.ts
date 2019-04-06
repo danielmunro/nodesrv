@@ -79,9 +79,10 @@ initializeConnection().then(async () => {
 
   console.time(Timings.openPort)
   const timeService = new TimeService()
-  const skillTable = getSkillTable(mobService, eventService)
-  const spellTable = getSpellTable(mobService, eventService)
   const weatherService = new WeatherService()
+  const skillTable = getSkillTable(mobService, eventService)
+  const spellTable = getSpellTable(
+    mobService, eventService, itemService, new StateService(weatherService, timeService))
   const gameService = new GameService(
     mobService,
     roomTable,

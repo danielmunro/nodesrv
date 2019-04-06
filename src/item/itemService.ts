@@ -29,8 +29,11 @@ export default class ItemService {
     return this.itemTable.findByInventory(inventory)
   }
 
-  public add(item: Item) {
+  public add(item: Item, carriedBy: any = null) {
     this.itemTable.add(item)
+    if (carriedBy) {
+      item.carriedBy = carriedBy
+    }
   }
 
   public remove(item: Item) {

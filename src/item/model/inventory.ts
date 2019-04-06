@@ -29,11 +29,12 @@ export class Inventory {
     this.items = this.items.filter((i) => i !== item)
   }
 
-  public addItem(item: Item): void {
+  public addItem(item: Item, carriedBy?: any): void {
     if (item.inventory) {
       item.inventory.removeItem(item)
     }
     item.inventory = this
+    item.carriedBy = carriedBy
     this.items.push(item)
   }
 

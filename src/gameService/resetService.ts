@@ -8,6 +8,7 @@ import { MobEquipReset } from "../item/model/mobEquipReset"
 import MobService from "../mob/mobService"
 import { Mob } from "../mob/model/mob"
 import { default as MobReset } from "../mob/model/mobReset"
+import {Room} from "../room/model/room"
 import RoomTable from "../room/roomTable"
 
 export default class ResetService {
@@ -56,9 +57,9 @@ export default class ResetService {
     if (itemsInRoom.length < itemRoomReset.maxPerRoom && itemsTotal.length < itemRoomReset.maxQuantity) {
       room.inventory.addItem(item)
       if (item.container) {
-        await this.addToContainer(item)
+        await this.addToContainer(item, room)
       }
-      this.itemService.add(item)
+      this.itemService.add(item, room)
     }
   }
 
@@ -66,8 +67,8 @@ export default class ResetService {
     for (const reset of this.itemMobResets) {
       if (reset.mob.importId === mob.importId) {
         const item = cloneDeep(reset.item)
-        mob.inventory.addItem(item)
-        this.itemService.add(item)
+        mob.inventory.addItem(item, mob)
+        this.itemService.add(item, mob)
       }
     }
   }
@@ -76,19 +77,19 @@ export default class ResetService {
     for (const mobEquipReset of this.mobEquipResets) {
       if (mobEquipReset.mob.importId === mob.importId) {
         const equipment = await this.itemService.generateNewItemInstance(mobEquipReset)
-        mob.equipped.addItem(equipment)
-        this.itemService.add(equipment)
+        mob.equipped.addItem(equipment, mob)
+        this.itemService.add(equipment, mob)
         return
       }
     }
   }
 
-  private async addToContainer(item: Item) {
+  private async addToContainer(item: Item, room: Room) {
     for (const itemContainerReset of this.itemContainerResets) {
       if (itemContainerReset.item.canonicalId === item.canonicalId) {
         const instance = await this.itemService.generateNewItemInstance(itemContainerReset)
-        item.container.addItem(instance)
-        this.itemService.add(instance)
+        item.container.addItem(instance, item)
+        this.itemService.add(instance, room)
         return
       }
     }

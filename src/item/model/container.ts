@@ -31,8 +31,9 @@ export default class Container {
   @JoinColumn()
   public inventory: Inventory = new Inventory()
 
-  public addItem(item: Item) {
+  public addItem(item: Item, carriedBy?: any) {
     this.inventory.addItem(item)
+    item.carriedBy = carriedBy
   }
 
   public getItemFrom(item: Item, inventory: Inventory) {

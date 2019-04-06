@@ -29,7 +29,7 @@ import StateService from "./stateService"
 import TimeService from "./timeService"
 
 export default class ServiceBuilder {
-  private time: number = 0
+  private time: number = 12
   private fights: Fight[] = []
   private locations: MobLocation[] = []
   private clients: Client[] = []
@@ -99,9 +99,10 @@ export default class ServiceBuilder {
       new FightTable(this.fights),
       locationService)
     const timeService = new TimeService(this.time)
-    const skillTable = getSkillTable(mobService, eventService)
-    const spellTable = getSpellTable(mobService, eventService)
     const weatherService = new WeatherService()
+    const skillTable = getSkillTable(mobService, eventService)
+    const spellTable = getSpellTable(
+      mobService, eventService, itemService, new StateService(weatherService, timeService))
     this.builtService = new GameService(
       mobService,
       roomTable,

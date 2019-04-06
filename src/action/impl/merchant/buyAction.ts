@@ -40,7 +40,7 @@ export default class BuyAction extends Action {
     const item = cloneDeep(checkedRequest.check.result)
     request.mob.inventory.addItem(item)
     request.mob.gold -= item.value
-    await this.eventService.publish(new ItemEvent(EventType.ItemCreated, item))
+    await this.eventService.publish(new ItemEvent(EventType.ItemCreated, item, request.mob))
     const replacements = {
       item,
       value: item.value,

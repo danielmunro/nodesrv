@@ -98,6 +98,8 @@ export class Item {
   @JoinColumn()
   public forge: Forge
 
+  public carriedBy: any
+
   public matches(subject: string): boolean {
     const words = this.name.split(" ")
     return !!words.find(word => word.startsWith(subject))

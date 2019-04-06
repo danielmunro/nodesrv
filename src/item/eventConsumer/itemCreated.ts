@@ -13,7 +13,7 @@ export default class ItemCreated implements EventConsumer {
   }
 
   public async consume(event: ItemEvent): Promise<EventResponse> {
-    this.itemService.add(event.item)
+    this.itemService.add(event.item, event.carriedBy)
     return EventResponse.none(event)
   }
 }

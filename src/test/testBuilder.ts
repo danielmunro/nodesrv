@@ -5,6 +5,7 @@ import {Client} from "../client/client"
 import GameService from "../gameService/gameService"
 import ServiceBuilder from "../gameService/serviceBuilder"
 import ItemBuilder from "../item/itemBuilder"
+import {Item} from "../item/model/item"
 import WeaponBuilder from "../item/weaponBuilder"
 import {newMobLocation} from "../mob/factory"
 import {Fight} from "../mob/fight/fight"
@@ -117,11 +118,11 @@ export default class TestBuilder {
   }
 
   public withItem(): ItemBuilder {
-    return new ItemBuilder(this.serviceBuilder)
+    return new ItemBuilder(this.serviceBuilder, new Item(), this.mobForRequest)
   }
 
   public withWeapon(): WeaponBuilder {
-    return new WeaponBuilder(this.serviceBuilder)
+    return new WeaponBuilder(this.serviceBuilder, this.mobForRequest)
   }
 
   public async fight(target = this.withMob().mob): Promise<Fight> {

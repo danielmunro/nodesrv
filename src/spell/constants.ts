@@ -74,7 +74,7 @@ export const SpellMessages = {
   },
   LocateItem: {
     Fail: "that cannot be found.",
-    Success: "{target} is in {room}.",
+    Success: "{target} was located:\n{rooms}.",
   },
   MagicMissile: {
     Success: "",
