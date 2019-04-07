@@ -2,7 +2,7 @@ import Action from "../../action/action"
 import {RequestType} from "../../request/requestType"
 import {Direction} from "../../room/constants"
 import {Room} from "../../room/model/room"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import LocationService from "../locationService"
 import {Mob} from "../model/mob"
 

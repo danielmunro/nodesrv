@@ -1,5 +1,5 @@
 import {EventType} from "../../event/eventType"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import {Disposition} from "../enum/disposition"
 import MobEvent from "../event/mobEvent"
 import DeathTimerEventConsumer from "./deathTimerEventConsumer"

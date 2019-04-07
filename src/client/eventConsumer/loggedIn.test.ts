@@ -1,7 +1,7 @@
 import {EventType} from "../../event/eventType"
 import {RequestType} from "../../request/requestType"
 import {getConnection, initializeConnection} from "../../support/db/connection"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import ClientEvent from "../event/clientEvent"
 import LoggedIn from "./loggedIn"
 

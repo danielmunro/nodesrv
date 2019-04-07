@@ -1,7 +1,7 @@
 import {Mob} from "../../../mob/model/mob"
 import {Player} from "../../../player/model/player"
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 
 let testBuilder: TestBuilder
 let player: Player

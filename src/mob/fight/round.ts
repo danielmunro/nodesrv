@@ -1,5 +1,5 @@
-import {pickOne} from "../../random/helpers"
 import { Room } from "../../room/model/room"
+import {pickOne} from "../../support/random/helpers"
 import { Mob } from "../model/mob"
 import {BodyPart} from "../race/enum/bodyParts"
 import { Attack } from "./attack"

@@ -9,7 +9,6 @@ import ManaCost from "../../../../check/cost/manaCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {DamageType} from "../../../../damage/damageType"
 import Weapon from "../../../../item/model/weapon"
-import roll from "../../../../random/dice"
 import ResponseMessage from "../../../../request/responseMessage"
 import {
   ActionMessages,
@@ -18,6 +17,7 @@ import {
 } from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import collectionSearch from "../../../../support/matcher/collectionSearch"
+import roll from "../../../../support/random/dice"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
 import SkillBuilder from "../../../skillBuilder"

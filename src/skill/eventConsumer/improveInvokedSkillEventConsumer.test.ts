@@ -1,5 +1,5 @@
 import doNTimes from "../../support/functional/times"
-import {getTestMob} from "../../test/mob"
+import {getTestMob} from "../../support/test/mob"
 import {newSkill} from "../factory"
 import SkillEvent from "../skillEvent"
 import {SkillType} from "../skillType"

@@ -1,7 +1,7 @@
 import {Round} from "../../../mob/fight/round"
 import {RequestType} from "../../../request/requestType"
-import PlayerBuilder from "../../../test/playerBuilder"
-import TestBuilder from "../../../test/testBuilder"
+import PlayerBuilder from "../../../support/test/playerBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import {Messages} from "../../constants"
 
 let testBuilder: TestBuilder

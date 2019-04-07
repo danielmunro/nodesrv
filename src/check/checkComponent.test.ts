@@ -1,6 +1,6 @@
 import {AffectType} from "../affect/affectType"
 import {newAffect} from "../affect/factory"
-import {getTestMob} from "../test/mob"
+import {getTestMob} from "../support/test/mob"
 import CheckComponent from "./checkComponent"
 import {CheckType} from "./checkType"
 

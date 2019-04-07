@@ -2,8 +2,8 @@ import InputContext from "../../request/context/inputContext"
 import { Request } from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import {getConnection, initializeConnection} from "../../support/db/connection"
-import { getTestRoom } from "../../test/room"
-import TestBuilder from "../../test/testBuilder"
+import { getTestRoom } from "../../support/test/room"
+import TestBuilder from "../../support/test/testBuilder"
 import { HandleClientRequests } from "./handleClientRequests"
 
 beforeAll(async () => initializeConnection())

@@ -1,9 +1,9 @@
 import {AffectType} from "../affect/affectType"
 import {newAffect} from "../affect/factory"
 import ServiceBuilder from "../gameService/serviceBuilder"
-import MobBuilder from "../test/mobBuilder"
-import PlayerBuilder from "../test/playerBuilder"
-import RoomBuilder from "../test/roomBuilder"
+import MobBuilder from "../support/test/mobBuilder"
+import PlayerBuilder from "../support/test/playerBuilder"
+import RoomBuilder from "../support/test/roomBuilder"
 import {Inventory} from "./model/inventory"
 import {Item} from "./model/item"
 

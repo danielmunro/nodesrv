@@ -1,4 +1,4 @@
-import {pickOne} from "../random/helpers"
+import {pickOne} from "../support/random/helpers"
 import {Terrain} from "./enum/terrain"
 import {Weather} from "./enum/weather"
 

@@ -4,7 +4,7 @@ import {RequestType} from "../../../request/requestType"
 import {newSpell} from "../../../spell/factory"
 import {SpellType} from "../../../spell/spellType"
 import {getSuccessfulAction} from "../../../support/functional/times"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
 
 let testBuilder: TestBuilder

@@ -1,4 +1,4 @@
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import { Wander } from "./wander"
 
 describe("wander", () => {

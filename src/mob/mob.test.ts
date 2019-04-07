@@ -1,7 +1,7 @@
 import AttributeService from "../attributes/attributeService"
 import {Tick} from "../server/observers/tick"
-import { getTestMob } from "../test/mob"
-import TestBuilder from "../test/testBuilder"
+import { getTestMob } from "../support/test/mob"
+import TestBuilder from "../support/test/testBuilder"
 
 describe("mob model", () => {
   it("should not exceed its max appetite when eating", async () => {

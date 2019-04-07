@@ -5,7 +5,7 @@ import Gain from "../mob/gain"
 import {Mob} from "../mob/model/mob"
 import {RaceType} from "../mob/race/enum/raceType"
 import {Specialization} from "../mob/specialization/specialization"
-import {getRandomIntFromRange, percentRoll} from "../random/helpers"
+import {getRandomIntFromRange, percentRoll} from "../support/random/helpers"
 
 export default class LevelService {
   private static getGainFromStat(value: number): number {

@@ -1,6 +1,6 @@
 import {getRandomWeather} from "../../region/constants"
 import WeatherService from "../../region/weatherService"
-import { getTestRegion } from "../../test/region"
+import { getTestRegion } from "../../support/test/region"
 import { RegionWeather } from "./regionWeather"
 
 describe("region weather server observer", () => {

@@ -4,8 +4,8 @@ import {RequestType} from "../../../../request/requestType"
 import Response from "../../../../request/response"
 import {SkillType} from "../../../../skill/skillType"
 import doNTimes, {doNTimesOrUntilTruthy, getSuccessfulAction} from "../../../../support/functional/times"
-import PlayerBuilder from "../../../../test/playerBuilder"
-import TestBuilder from "../../../../test/testBuilder"
+import PlayerBuilder from "../../../../support/test/playerBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 import Action from "../../../action"
 
 const iterations = 100

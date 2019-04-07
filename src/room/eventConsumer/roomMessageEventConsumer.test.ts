@@ -1,6 +1,6 @@
 import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/clientService"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import RoomMessageEvent from "../event/roomMessageEvent"
 import RoomMessageEventConsumer from "./roomMessageEventConsumer"
 

@@ -8,11 +8,11 @@ import {Disposition} from "../../../mob/enum/disposition"
 import {Fight} from "../../../mob/fight/fight"
 import LocationService from "../../../mob/locationService"
 import MobService from "../../../mob/mobService"
-import roll from "../../../random/dice"
-import {pickOne} from "../../../random/helpers"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
+import roll from "../../../support/random/dice"
+import {pickOne} from "../../../support/random/helpers"
 import Action from "../../action"
 import {
   FLEE_MOVEMENT_COST_MULTIPLIER, HelpMessages,

@@ -4,7 +4,7 @@ import {RaceType} from "../../../../mob/race/enum/raceType"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import doNTimes from "../../../../support/functional/times"
-import TestBuilder from "../../../../test/testBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 
 let testBuilder: TestBuilder
 const undeadCount = 5

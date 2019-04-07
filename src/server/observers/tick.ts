@@ -9,7 +9,7 @@ import {Trigger} from "../../mob/enum/trigger"
 import MobEvent from "../../mob/event/mobEvent"
 import LocationService from "../../mob/locationService"
 import {Mob} from "../../mob/model/mob"
-import roll from "../../random/dice"
+import roll from "../../support/random/dice"
 import {BaseRegenModifier} from "./constants"
 import {Observer} from "./observer"
 

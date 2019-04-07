@@ -7,7 +7,7 @@ import {Item} from "../../../item/model/item"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/requestType"
 import doNTimes from "../../../support/functional/times"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 
 function getItem1(): Item {
   const item = newItem(ItemType.Light, "name", "description")

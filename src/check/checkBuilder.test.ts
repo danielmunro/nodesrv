@@ -3,7 +3,7 @@ import {newAffect} from "../affect/factory"
 import {Disposition} from "../mob/enum/disposition"
 import {Mob} from "../mob/model/mob"
 import {RequestType} from "../request/requestType"
-import TestBuilder from "../test/testBuilder"
+import TestBuilder from "../support/test/testBuilder"
 import getActionPartTable from "./actionPartCheckTable"
 import CheckBuilder from "./checkBuilder"
 

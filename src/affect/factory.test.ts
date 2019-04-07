@@ -1,4 +1,4 @@
-import { getTestMob } from "../test/mob"
+import { getTestMob } from "../support/test/mob"
 import { AffectType } from "./affectType"
 import { newAffect } from "./factory"
 

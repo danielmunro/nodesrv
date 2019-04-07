@@ -1,5 +1,5 @@
 import {getConnection, initializeConnection} from "../../../support/db/connection"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import { default as FinalComplete } from "../complete"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"

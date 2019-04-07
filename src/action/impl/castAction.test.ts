@@ -6,7 +6,7 @@ import {ConditionMessages as SkillMessages} from "../../skill/constants"
 import {Spell} from "../../spell/model/spell"
 import {SpellType} from "../../spell/spellType"
 import {getSuccessfulAction} from "../../support/functional/times"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import Action from "../action"
 import {ConditionMessages} from "../constants"
 

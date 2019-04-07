@@ -1,9 +1,9 @@
 import { Disposition } from "../../mob/enum/disposition"
 import { Attack, AttackResult } from "../../mob/fight/attack"
 import {getConnection, initializeConnection} from "../../support/db/connection"
-import { getTestClient } from "../../test/client"
-import { getTestMob } from "../../test/mob"
-import TestBuilder from "../../test/testBuilder"
+import { getTestClient } from "../../support/test/client"
+import { getTestMob } from "../../support/test/mob"
+import TestBuilder from "../../support/test/testBuilder"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
 
 beforeAll(async () => initializeConnection())

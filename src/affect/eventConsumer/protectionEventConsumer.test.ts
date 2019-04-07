@@ -1,6 +1,6 @@
 import {Fight} from "../../mob/fight/fight"
-import MobBuilder from "../../test/mobBuilder"
-import TestBuilder from "../../test/testBuilder"
+import MobBuilder from "../../support/test/mobBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import {AffectType} from "../affectType"
 import {newAffect} from "../factory"
 import {ALIGNMENT_EVIL, ALIGNMENT_GOOD} from "./protectionEventConsumer"

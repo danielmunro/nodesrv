@@ -3,7 +3,7 @@ import { newAffect } from "../../../affect/factory"
 import { Equipment } from "../../../item/enum/equipment"
 import { newEquipment } from "../../../item/factory"
 import { RequestType } from "../../../request/requestType"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import { ConditionMessages } from "../../constants"
 
 const itemName = "token"

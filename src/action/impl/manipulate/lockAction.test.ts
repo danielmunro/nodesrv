@@ -2,9 +2,9 @@ import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
 import {Direction} from "../../../room/constants"
 import {newDoor} from "../../../room/factory"
-import PlayerBuilder from "../../../test/playerBuilder"
-import RoomBuilder from "../../../test/roomBuilder"
-import TestBuilder from "../../../test/testBuilder"
+import PlayerBuilder from "../../../support/test/playerBuilder"
+import RoomBuilder from "../../../support/test/roomBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import {ConditionMessages} from "../../constants"
 
 let testBuilder: TestBuilder

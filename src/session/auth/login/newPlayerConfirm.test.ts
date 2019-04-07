@@ -1,6 +1,6 @@
 import { getPlayerRepository } from "../../../player/repository/player"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
-import { getTestClient } from "../../../test/client"
+import { getTestClient } from "../../../support/test/client"
 import AuthService from "../authService"
 import Password from "../createPlayer/password"
 import Request from "../request"

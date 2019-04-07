@@ -5,7 +5,7 @@ import {ResponseStatus} from "../../../request/responseStatus"
 import {Direction} from "../../../room/constants"
 import {newDoor} from "../../../room/factory"
 import {Room} from "../../../room/model/room"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
 import {ConditionMessages} from "../../constants"
 

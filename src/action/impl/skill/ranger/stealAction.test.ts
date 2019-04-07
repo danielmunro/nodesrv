@@ -4,7 +4,7 @@ import {Mob} from "../../../../mob/model/mob"
 import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
 import {doNTimesOrUntilTruthy, getSuccessfulAction} from "../../../../support/functional/times"
-import TestBuilder from "../../../../test/testBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 import Action from "../../../action"
 
 const STEAL_INPUT = "steal axe bob"

@@ -4,7 +4,7 @@ import { Item } from "../../../item/model/item"
 import { Mob } from "../../../mob/model/mob"
 import { RequestType } from "../../../request/requestType"
 import { Room } from "../../../room/model/room"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
 
 let testBuilder: TestBuilder

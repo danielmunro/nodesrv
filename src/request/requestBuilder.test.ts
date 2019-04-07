@@ -1,5 +1,5 @@
 import {Mob} from "../mob/model/mob"
-import TestBuilder from "../test/testBuilder"
+import TestBuilder from "../support/test/testBuilder"
 import RequestBuilder from "./requestBuilder"
 import {RequestType} from "./requestType"
 

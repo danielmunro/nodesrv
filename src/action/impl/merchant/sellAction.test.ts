@@ -2,7 +2,7 @@ import {CheckStatus} from "../../../check/checkStatus"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import { RequestType } from "../../../request/requestType"
 import { ResponseStatus } from "../../../request/responseStatus"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
 import {ConditionMessages} from "../../constants"
 

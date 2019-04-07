@@ -1,5 +1,5 @@
-import { getTestRoom } from "../../test/room"
-import TestBuilder from "../../test/testBuilder"
+import { getTestRoom } from "../../support/test/room"
+import TestBuilder from "../../support/test/testBuilder"
 import { Fight } from "./fight"
 import {Round} from "./round"
 

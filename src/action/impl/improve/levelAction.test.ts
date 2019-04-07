@@ -1,8 +1,8 @@
 import {CheckMessages} from "../../../check/constants"
 import {PlayerMob} from "../../../mob/model/playerMob"
 import {RequestType} from "../../../request/requestType"
-import PlayerBuilder from "../../../test/playerBuilder"
-import TestBuilder from "../../../test/testBuilder"
+import PlayerBuilder from "../../../support/test/playerBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import {Messages} from "../../constants"
 
 let testBuilder: TestBuilder

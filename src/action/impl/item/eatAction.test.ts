@@ -1,7 +1,7 @@
 import { AffectType } from "../../../affect/affectType"
 import { RequestType } from "../../../request/requestType"
-import PlayerBuilder from "../../../test/playerBuilder"
-import TestBuilder from "../../../test/testBuilder"
+import PlayerBuilder from "../../../support/test/playerBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
 import {ConditionMessages} from "../../constants"
 

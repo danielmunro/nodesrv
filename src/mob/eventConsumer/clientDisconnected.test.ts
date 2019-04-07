@@ -1,6 +1,6 @@
 import ClientEvent from "../../client/event/clientEvent"
 import {EventType} from "../../event/eventType"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import ClientDisconnected from "./clientDisconnected"
 
 describe("client disconnected event consumer", () => {

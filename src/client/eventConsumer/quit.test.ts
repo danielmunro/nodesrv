@@ -2,7 +2,7 @@ import {EventType} from "../../event/eventType"
 import MobEvent from "../../mob/event/mobEvent"
 import ClientService from "../../server/clientService"
 import AuthService from "../../session/auth/authService"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import Quit from "./quit"
 
 describe("quit client event consumer", () => {

@@ -1,7 +1,7 @@
 import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import {RequestType} from "../../request/requestType"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import FightEvent from "../fight/event/fightEvent"
 import Wimpy from "./wimpy"
 

@@ -3,8 +3,8 @@ import {SpecializationType} from "../../../mob/specialization/specializationType
 import {Player} from "../../../player/model/player"
 import {RequestType} from "../../../request/requestType"
 import {SkillType} from "../../../skill/skillType"
-import PlayerBuilder from "../../../test/playerBuilder"
-import TestBuilder from "../../../test/testBuilder"
+import PlayerBuilder from "../../../support/test/playerBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import {Messages} from "../../constants"
 
 let testBuilder: TestBuilder

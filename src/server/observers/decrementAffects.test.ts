@@ -2,7 +2,7 @@ import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import {Affect} from "../../affect/model/affect"
 import MobTable from "../../mob/mobTable"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import {DecrementAffects} from "./decrementAffects"
 
 const TEST_TIMEOUT_1 = 50

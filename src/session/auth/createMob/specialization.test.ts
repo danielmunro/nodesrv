@@ -1,6 +1,6 @@
 import { allSpecializations } from "../../../mob/specialization/constants"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Complete from "./complete"

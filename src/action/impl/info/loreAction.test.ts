@@ -1,6 +1,6 @@
 import { RequestType } from "../../../request/requestType"
 import { ResponseStatus } from "../../../request/responseStatus"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 
 describe("lore", () => {
   it("should not work on unidentified items", async () => {

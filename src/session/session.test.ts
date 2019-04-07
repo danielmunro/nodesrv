@@ -1,6 +1,6 @@
 import { getPlayerRepository } from "../player/repository/player"
 import {getConnection, initializeConnection} from "../support/db/connection"
-import TestBuilder from "../test/testBuilder"
+import TestBuilder from "../support/test/testBuilder"
 import AuthService from "./auth/authService"
 import Complete from "./auth/complete"
 import Email from "./auth/login/email"

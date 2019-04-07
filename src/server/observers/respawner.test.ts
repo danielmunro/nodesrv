@@ -10,8 +10,8 @@ import { getMobRepository } from "../../mob/repository/mob"
 import ExitTable from "../../room/exitTable"
 import RoomTable from "../../room/roomTable"
 import {getConnection, initializeConnection} from "../../support/db/connection"
-import { getTestMob } from "../../test/mob"
-import { getTestRoom } from "../../test/room"
+import { getTestMob } from "../../support/test/mob"
+import { getTestRoom } from "../../support/test/room"
 import Respawner from "./respawner"
 
 beforeAll(async () => initializeConnection())

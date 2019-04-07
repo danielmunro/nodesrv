@@ -1,5 +1,5 @@
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 
 describe("equipped", () => {
   it("should describe the items worn by a mob", async () => {

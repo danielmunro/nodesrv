@@ -1,6 +1,6 @@
 import raceTable from "../../../mob/race/raceTable"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
-import { getTestClient } from "../../../test/client"
+import { getTestClient } from "../../../support/test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Race from "./race"

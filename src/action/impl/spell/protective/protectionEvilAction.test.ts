@@ -2,8 +2,8 @@ import {AffectType} from "../../../../affect/affectType"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import MobBuilder from "../../../../test/mobBuilder"
-import TestBuilder from "../../../../test/testBuilder"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 
 let testBuilder: TestBuilder
 let caster: MobBuilder

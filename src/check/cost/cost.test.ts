@@ -1,5 +1,5 @@
-import PlayerBuilder from "../../test/playerBuilder"
-import TestBuilder from "../../test/testBuilder"
+import PlayerBuilder from "../../support/test/playerBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import Cost from "./cost"
 import { CostType } from "./costType"
 

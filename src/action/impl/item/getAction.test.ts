@@ -1,6 +1,6 @@
 import {CheckStatus} from "../../../check/checkStatus"
 import { RequestType } from "../../../request/requestType"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
 import {ConditionMessages} from "../../constants"
 import {MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE} from "../../constants"

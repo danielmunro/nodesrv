@@ -1,7 +1,7 @@
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import TestBuilder from "../../../../test/testBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 
 let testBuilder: TestBuilder
 

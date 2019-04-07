@@ -5,7 +5,7 @@ import FastHealingEventConsumer from "../../skill/eventConsumer/fastHealingEvent
 import {newSkill} from "../../skill/factory"
 import {SkillType} from "../../skill/skillType"
 import {getConnection, initializeConnection} from "../../support/db/connection"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import {Tick} from "./tick"
 
 beforeAll(async () => initializeConnection())

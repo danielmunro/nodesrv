@@ -1,5 +1,5 @@
 import {getConnection, initializeConnection} from "../../support/db/connection"
-import { getTestClient } from "../../test/client"
+import { getTestClient } from "../../support/test/client"
 import { DecrementPlayerDelay } from "./decrementPlayerDelay"
 
 beforeAll(async () => initializeConnection())

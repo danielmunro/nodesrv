@@ -3,8 +3,8 @@ import { RequestType } from "../../../../request/requestType"
 import { SkillMessages } from "../../../../skill/constants"
 import { SkillType } from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
-import MobBuilder from "../../../../test/mobBuilder"
-import TestBuilder from "../../../../test/testBuilder"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 
 const COMMAND = "envenom axe"
 const iterations = 100

@@ -2,7 +2,7 @@ import {EventType} from "../../event/eventType"
 import ClientService from "../../server/clientService"
 import AuthService from "../../session/auth/authService"
 import {getConnection, initializeConnection} from "../../support/db/connection"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import ClientEvent from "../event/clientEvent"
 import Disconnected from "./disconnected"
 

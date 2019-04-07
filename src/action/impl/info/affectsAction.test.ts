@@ -1,6 +1,6 @@
 import { AffectType } from "../../../affect/affectType"
 import { RequestType } from "../../../request/requestType"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 
 describe("affects", () => {
   it("should report when an affect has added", async () => {

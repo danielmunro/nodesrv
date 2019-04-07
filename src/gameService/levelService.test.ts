@@ -1,5 +1,5 @@
 import {MAX_MOB_LEVEL} from "../mob/constants"
-import TestBuilder from "../test/testBuilder"
+import TestBuilder from "../support/test/testBuilder"
 import LevelService from "./levelService"
 
 const INITIAL_AMOUNT = 1000

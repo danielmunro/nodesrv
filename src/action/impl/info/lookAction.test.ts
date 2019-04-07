@@ -9,7 +9,7 @@ import newRegion from "../../../region/factory"
 import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
 import {Room} from "../../../room/model/room"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
 import {Messages} from "../../constants"
 

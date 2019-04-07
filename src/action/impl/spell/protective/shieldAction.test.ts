@@ -4,7 +4,7 @@ import {SpecializationType} from "../../../../mob/specialization/specializationT
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import {getSuccessfulAction} from "../../../../support/functional/times"
-import TestBuilder from "../../../../test/testBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 
 describe("shield", () => {
   it("should shield when casted", async () => {

@@ -4,9 +4,9 @@ import {RequestType} from "../../../../request/requestType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {getSuccessfulAction} from "../../../../support/functional/times"
-import {getTestMob} from "../../../../test/mob"
-import MobBuilder from "../../../../test/mobBuilder"
-import TestBuilder from "../../../../test/testBuilder"
+import {getTestMob} from "../../../../support/test/mob"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 import {SKELETAL_WARRIOR_ID} from "./summonUndeadAction"
 
 let testBuilder: TestBuilder

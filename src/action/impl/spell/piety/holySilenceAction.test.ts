@@ -1,9 +1,9 @@
 import {AffectType} from "../../../../affect/affectType"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import MobBuilder from "../../../../test/mobBuilder"
-import PlayerBuilder from "../../../../test/playerBuilder"
-import TestBuilder from "../../../../test/testBuilder"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import PlayerBuilder from "../../../../support/test/playerBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 
 const expectedMessage = "you fall silent."
 let testBuilder: TestBuilder

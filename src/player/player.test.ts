@@ -1,5 +1,5 @@
-import { getTestMob } from "../test/mob"
-import { getTestPlayer } from "../test/player"
+import { getTestMob } from "../support/test/mob"
+import { getTestPlayer } from "../support/test/player"
 
 describe("player model", () => {
   it("should not own a random mob", () => {

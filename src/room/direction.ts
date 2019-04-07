@@ -1,4 +1,4 @@
-import { pickOne } from "../random/helpers"
+import { pickOne } from "../support/random/helpers"
 import { cardinalDirections, Direction } from "./constants"
 import { Room } from "./model/room"
 

@@ -1,8 +1,8 @@
 import { Item } from "../../item/model/item"
 import doNTimes from "../../support/functional/times"
-import { getTestMob } from "../../test/mob"
-import { getTestRoom } from "../../test/room"
-import TestBuilder from "../../test/testBuilder"
+import { getTestMob } from "../../support/test/mob"
+import { getTestRoom } from "../../support/test/room"
+import TestBuilder from "../../support/test/testBuilder"
 import Death from "./death"
 
 describe("death", () => {

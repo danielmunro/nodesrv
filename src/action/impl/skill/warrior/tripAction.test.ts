@@ -3,7 +3,7 @@ import {RequestType} from "../../../../request/requestType"
 import {ConditionMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
-import TestBuilder from "../../../../test/testBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 import Action from "../../../action"
 
 const ITERATIONS = 1000

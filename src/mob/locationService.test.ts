@@ -1,5 +1,5 @@
 import {Room} from "../room/model/room"
-import TestBuilder from "../test/testBuilder"
+import TestBuilder from "../support/test/testBuilder"
 import { newMobLocation } from "./factory"
 import LocationService from "./locationService"
 import {Mob} from "./model/mob"

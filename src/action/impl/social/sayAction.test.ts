@@ -5,8 +5,8 @@ import SocialService from "../../../gameService/socialService"
 import InputContext from "../../../request/context/inputContext"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
-import {getTestMob} from "../../../test/mob"
-import {getTestRoom} from "../../../test/room"
+import {getTestMob} from "../../../support/test/mob"
+import {getTestRoom} from "../../../support/test/room"
 import SayAction from "./sayAction"
 
 describe("say social action", () => {

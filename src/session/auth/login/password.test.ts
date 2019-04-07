@@ -1,7 +1,7 @@
 import hash from "../../../player/password/hash"
 import { savePlayer } from "../../../player/service"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
-import { getTestClient } from "../../../test/client"
+import { getTestClient } from "../../../support/test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Name from "./name"

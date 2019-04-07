@@ -1,7 +1,7 @@
 import {Mob} from "../../../mob/model/mob"
 import {AuthorizationLevel} from "../../../player/authorizationLevel"
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
 
 let testBuilder: TestBuilder

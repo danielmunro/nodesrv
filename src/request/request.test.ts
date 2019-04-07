@@ -1,6 +1,6 @@
 import { Equipment } from "../item/enum/equipment"
 import {newEquipment} from "../item/factory"
-import TestBuilder from "../test/testBuilder"
+import TestBuilder from "../support/test/testBuilder"
 import { RequestType } from "./requestType"
 
 describe("request", () => {

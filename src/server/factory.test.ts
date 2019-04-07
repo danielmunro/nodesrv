@@ -7,7 +7,7 @@ import ItemService from "../item/itemService"
 import MobService from "../mob/mobService"
 import WeatherService from "../region/weatherService"
 import RoomTable from "../room/roomTable"
-import { getTestRoom } from "../test/room"
+import { getTestRoom } from "../support/test/room"
 import newServer from "./factory"
 
 describe("game server factory", () => {

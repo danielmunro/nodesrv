@@ -1,6 +1,6 @@
 import {EventType} from "../../event/eventType"
-import {getTestMob} from "../../test/mob"
-import TestBuilder from "../../test/testBuilder"
+import {getTestMob} from "../../support/test/mob"
+import TestBuilder from "../../support/test/testBuilder"
 import MobEvent from "../event/mobEvent"
 import MobCreated from "./mobCreated"
 

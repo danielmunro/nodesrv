@@ -1,6 +1,6 @@
 import {RequestType} from "../../../request/requestType"
 import {Direction} from "../../../room/constants"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 
 describe("exits action", () => {
   it("should describe room exits", async () => {

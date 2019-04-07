@@ -1,4 +1,4 @@
-import { getTestMob } from "../test/mob"
+import { getTestMob } from "../support/test/mob"
 import { assignSpecializationToMob } from "./mobService"
 import Cleric from "./specialization/impl/cleric"
 

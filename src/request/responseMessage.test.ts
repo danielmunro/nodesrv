@@ -1,4 +1,4 @@
-import {getTestMob} from "../test/mob"
+import {getTestMob} from "../support/test/mob"
 import ResponseMessage from "./responseMessage"
 
 describe("response message", () => {

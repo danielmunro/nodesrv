@@ -1,8 +1,8 @@
 import LocationService from "../../mob/locationService"
 import { Mob } from "../../mob/model/mob"
-import { pickOne } from "../../random/helpers"
 import {asyncForEach} from "../../support/functional/collection"
 import Maybe from "../../support/functional/maybe"
+import { pickOne } from "../../support/random/helpers"
 import { Observer } from "./observer"
 
 export class Wander implements Observer {

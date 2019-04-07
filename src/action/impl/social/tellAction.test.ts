@@ -1,5 +1,5 @@
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 
 describe("tell social action", () => {
   it("should be to handle telling", async () => {

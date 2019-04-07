@@ -1,5 +1,5 @@
 import {Direction} from "../../room/constants"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 
 describe("pet follows owner event consumer", () => {
   it("a pet should follow its owner", async () => {

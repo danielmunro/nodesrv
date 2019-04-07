@@ -1,8 +1,8 @@
 import {EventType} from "../../event/eventType"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Fight} from "../../mob/fight/fight"
-import MobBuilder from "../../test/mobBuilder"
-import TestBuilder from "../../test/testBuilder"
+import MobBuilder from "../../support/test/mobBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import {AffectType} from "../affectType"
 import HasteEventConsumer from "./hasteEventConsumer"
 

@@ -2,8 +2,8 @@ import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
-import PlayerBuilder from "../../../../test/playerBuilder"
-import TestBuilder from "../../../../test/testBuilder"
+import PlayerBuilder from "../../../../support/test/playerBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 
 const iterations = 10
 let testBuilder: TestBuilder

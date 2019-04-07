@@ -1,4 +1,4 @@
-import { ShortIntervalTimer } from "../../timer/shortIntervalTimer"
+import { ShortIntervalTimer } from "../timer/shortIntervalTimer"
 import { poll } from "./poll"
 
 describe("polling", () => {

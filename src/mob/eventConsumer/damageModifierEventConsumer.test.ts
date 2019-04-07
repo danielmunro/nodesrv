@@ -1,5 +1,5 @@
 import {DamageType} from "../../damage/damageType"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import DamageEvent from "../event/damageEvent"
 import {Mob} from "../model/mob"
 import {RaceType} from "../race/enum/raceType"

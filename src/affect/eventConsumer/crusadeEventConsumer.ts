@@ -3,7 +3,7 @@ import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Mob} from "../../mob/model/mob"
-import roll from "../../random/dice"
+import roll from "../../support/random/dice"
 import {AffectType} from "../affectType"
 
 export default class CrusadeEventConsumer implements EventConsumer {

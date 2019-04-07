@@ -1,6 +1,6 @@
 import Skill from "../action/impl/skill"
 import {RequestType} from "../request/requestType"
-import TestBuilder from "../test/testBuilder"
+import TestBuilder from "../support/test/testBuilder"
 import {SkillType} from "./skillType"
 
 describe("skill table", () => {

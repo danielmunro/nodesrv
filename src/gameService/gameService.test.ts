@@ -1,5 +1,5 @@
 import { Direction } from "../room/constants"
-import TestBuilder from "../test/testBuilder"
+import TestBuilder from "../support/test/testBuilder"
 
 describe("moveMob", () => {
   it("should not allow movement where an exit does not exist", async () => {

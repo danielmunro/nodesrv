@@ -1,5 +1,5 @@
 import {getConnection, initializeConnection} from "../support/db/connection"
-import { getTestPlayer } from "../test/player"
+import { getTestPlayer } from "../support/test/player"
 import { savePlayer } from "./service"
 
 beforeAll(async () => initializeConnection())

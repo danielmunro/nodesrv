@@ -1,5 +1,5 @@
 import {DamageType} from "../damage/damageType"
-import TestBuilder from "../test/testBuilder"
+import TestBuilder from "../support/test/testBuilder"
 import DamageService from "./damageService"
 
 describe("damage service", () => {

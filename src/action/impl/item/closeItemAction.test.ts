@@ -3,7 +3,7 @@ import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
 import {Direction} from "../../../room/constants"
-import TestBuilder from "../../../test/testBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
 import {ConditionMessages} from "../../constants"
 

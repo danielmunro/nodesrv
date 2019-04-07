@@ -1,5 +1,5 @@
 import {SpecializationType} from "../mob/specialization/specializationType"
-import TestBuilder from "../test/testBuilder"
+import TestBuilder from "../support/test/testBuilder"
 import {PracticeMessages} from "./constants"
 import PracticeService from "./practiceService"
 

@@ -1,8 +1,8 @@
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
-import {percentRoll} from "../../random/helpers"
 import SkillEvent from "../../skill/skillEvent"
+import {percentRoll} from "../../support/random/helpers"
 import {AffectType} from "../affectType"
 
 export default class ForgetEventConsumer implements EventConsumer {

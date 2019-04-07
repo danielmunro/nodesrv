@@ -3,8 +3,8 @@ import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {Mob} from "../../../mob/model/mob"
 import { RequestType } from "../../../request/requestType"
 import {getSuccessfulAction} from "../../../support/functional/times"
-import RoomBuilder from "../../../test/roomBuilder"
-import TestBuilder from "../../../test/testBuilder"
+import RoomBuilder from "../../../support/test/roomBuilder"
+import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
 import {
   ConditionMessages,

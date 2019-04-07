@@ -1,6 +1,6 @@
 import {DamageType} from "../../damage/damageType"
 import DamageEvent from "../../mob/event/damageEvent"
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import {AffectType} from "../affectType"
 import {newAffect} from "../factory"
 import WithstandDeathEventConsumer from "./withstandDeathEventConsumer"

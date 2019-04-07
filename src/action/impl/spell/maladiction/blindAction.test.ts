@@ -4,8 +4,8 @@ import {RequestType} from "../../../../request/requestType"
 import Response from "../../../../request/response"
 import {SpellType} from "../../../../spell/spellType"
 import doNTimes, {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
-import MobBuilder from "../../../../test/mobBuilder"
-import TestBuilder from "../../../../test/testBuilder"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 import Spell from "../../spell"
 
 let testBuilder: TestBuilder

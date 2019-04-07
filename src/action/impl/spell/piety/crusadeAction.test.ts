@@ -3,8 +3,8 @@ import {Round} from "../../../../mob/fight/round"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import doNTimes from "../../../../support/functional/times"
-import PlayerBuilder from "../../../../test/playerBuilder"
-import TestBuilder from "../../../../test/testBuilder"
+import PlayerBuilder from "../../../../support/test/playerBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 
 const ITERATIONS = 1000
 const maxHp = 20

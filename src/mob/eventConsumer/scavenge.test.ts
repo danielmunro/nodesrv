@@ -1,4 +1,4 @@
-import TestBuilder from "../../test/testBuilder"
+import TestBuilder from "../../support/test/testBuilder"
 import Scavenge from "./scavenge"
 
 const mockService = jest.fn(() => ({sendMessageInRoom: jest.fn()}))

@@ -3,8 +3,8 @@ import { RequestType } from "../../../../request/requestType"
 import Response from "../../../../request/response"
 import { SkillType } from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
-import MobBuilder from "../../../../test/mobBuilder"
-import TestBuilder from "../../../../test/testBuilder"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestBuilder from "../../../../support/test/testBuilder"
 
 const iterations = 100
 let testBuilder: TestBuilder

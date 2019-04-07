@@ -1,4 +1,4 @@
-import { getTestRoom } from "../test/room"
+import { getTestRoom } from "../support/test/room"
 import { Direction } from "./constants"
 import { newReciprocalExit, newRoom } from "./factory"
 import { Room } from "./model/room"
