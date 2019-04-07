@@ -12,9 +12,9 @@ describe("inventory model", () => {
     inventory.addItem(item1)
     inventory.addItem(item2)
 
-    expect(inventory.find((item) => item.matches("foo"))).toBe(item1)
-    expect(inventory.find((item) => item.matches("bar"))).toBe(item2)
-    expect(inventory.find((item) => item.matches("baz"))).toBeUndefined()
+    expect(inventory.find((item: Item) => item.name === "foo")).toBe(item1)
+    expect(inventory.find((item: Item) => item.name === "bar")).toBe(item2)
+    expect(inventory.find((item: Item) => item.name === "baz")).toBeUndefined()
   })
 
   it("should combine items with the same name", () => {

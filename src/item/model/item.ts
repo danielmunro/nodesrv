@@ -104,11 +104,6 @@ export class Item {
     return new AffectService(this)
   }
 
-  public matches(subject: string): boolean {
-    const words = this.name.split(" ")
-    return !!words.find(word => word.startsWith(subject))
-  }
-
   public isFood(): boolean {
     return this.itemType === ItemType.Food
   }
