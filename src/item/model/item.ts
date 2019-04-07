@@ -1,6 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import { AffectType } from "../../affect/affectType"
+import AffectService from "../../affect/affectService"
 import { Affect } from "../../affect/model/affect"
 import { newEmptyAttributes } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
@@ -100,6 +100,10 @@ export class Item {
 
   public carriedBy: any
 
+  public affect(): AffectService {
+    return new AffectService(this)
+  }
+
   public matches(subject: string): boolean {
     const words = this.name.split(" ")
     return !!words.find(word => word.startsWith(subject))
@@ -120,9 +124,5 @@ export class Item {
 
   public toString(): string {
     return this.name
-  }
-
-  public isVisible(): boolean {
-    return this.affects.find(affect => affect.affectType === AffectType.Invisible) === undefined
   }
 }

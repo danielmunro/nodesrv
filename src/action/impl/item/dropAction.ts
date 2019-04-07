@@ -37,7 +37,7 @@ export default class DropAction extends Action {
     const item = checkedRequest.check.result as Item
     const room = checkedRequest.request.getRoom()
 
-    if (item.affects.find(a => a.affectType === AffectType.MeltDrop)) {
+    if (item.affect().has(AffectType.MeltDrop)) {
       await this.eventService.publish(new ItemEvent(EventType.ItemDestroyed, item))
     } else {
       room.inventory.addItem(item)

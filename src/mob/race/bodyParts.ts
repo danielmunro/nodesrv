@@ -1,5 +1,7 @@
 /* istanbul ignore next */
-import {newFood, newTrash, poison} from "../../item/factory"
+import {AffectType} from "../../affect/affectType"
+import {newAffect} from "../../affect/factory"
+import {newFood, newTrash} from "../../item/factory"
 import {Item} from "../../item/model/item"
 import {format} from "../../support/string"
 import {Mob} from "../model/mob"
@@ -9,9 +11,11 @@ import {BodyPart} from "./enum/bodyParts"
 export function getBodyPartItem(mob: Mob, bodyPart: BodyPart): Item {
   switch (bodyPart) {
     case BodyPart.Guts:
-      return poison(newFood(
+      const item = newFood(
         format(Messages.Guts.Name, mob.name),
-        format(Messages.Guts.Description, mob.name)))
+        format(Messages.Guts.Description, mob.name))
+      item.affect().add(newAffect(AffectType.Poison))
+      return item
     case BodyPart.Head:
       return newTrash(
         format(Messages.Head.Name, mob.name),

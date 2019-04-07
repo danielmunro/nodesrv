@@ -114,7 +114,7 @@ export default class LookAction extends Action {
   }
 
   protected isGlowingAffect(item: Item) {
-    return item.affects.find(affect => affect.affectType === AffectType.Glow)
+    return item.affect().has(AffectType.Glow)
   }
 
   protected isAbleToSee(mob: Mob, region?: Region) {

@@ -1,5 +1,3 @@
-import { AffectType } from "../affect/affectType"
-import { newAffect } from "../affect/factory"
 import { DamageType } from "../damage/damageType"
 import { Mob } from "../mob/model/mob"
 import { Room } from "../room/model/room"
@@ -114,10 +112,4 @@ export function newContainer(
 
 export function newTrash(name: string, description: string) {
   return newItem(ItemType.Trash, name, description)
-}
-
-export function poison(item: Item, timeout: number = -1): Item {
-  item.affects.push(newAffect(AffectType.Poison, timeout))
-
-  return item
 }

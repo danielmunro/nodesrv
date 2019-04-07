@@ -171,7 +171,7 @@ describe("look action", () => {
 
     // and
     const item = getTestItem()
-    item.affects.push(newAffect(AffectType.Glow))
+    item.affect().add(newAffect(AffectType.Glow))
     service.itemService.add(item)
     player.sessionMob.equipped.addItem(item)
 

@@ -67,7 +67,7 @@ describe("remove", () => {
   it("cannot remove cursed items", async () => {
     // given
     const item = newEquipment("test mace", "description", Equipment.Weapon)
-    item.affects.push(newAffect(AffectType.Curse))
+    item.affect().add(newAffect(AffectType.Curse))
     mob.equipped.addItem(item)
 
     // when
@@ -82,7 +82,7 @@ describe("remove", () => {
   it("cannot remove no-remove items", async () => {
     // given
     const item = newEquipment("test mace", "description", Equipment.Weapon)
-    item.affects.push(newAffect(AffectType.NoRemove))
+    item.affect().add(newAffect(AffectType.NoRemove))
     mob.equipped.addItem(item)
 
     // when

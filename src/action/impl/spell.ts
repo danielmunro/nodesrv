@@ -46,7 +46,7 @@ export default class Spell extends Action {
     const affectType = this.getAffectType()
     const affect = await this.applySpell(checkedRequest, new AffectBuilder(affectType ? affectType : AffectType.Noop))
     if (affect && affect.affectType !== AffectType.Noop) {
-      checkedRequest.getCheckTypeResult(CheckType.HasTarget).affects.push(affect)
+      checkedRequest.getCheckTypeResult(CheckType.HasTarget).affect().add(affect)
     }
     await this.abilityService.publishEvent(
       new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSpell), checkedRequest.mob, true))

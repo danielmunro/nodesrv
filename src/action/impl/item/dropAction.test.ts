@@ -41,7 +41,7 @@ describe("drop", () => {
 
   it("an item with MeltDrop affect should destroy on drop", async () => {
     // given
-    equipment.affects.push(newAffect(AffectType.MeltDrop))
+    equipment.affect().add(newAffect(AffectType.MeltDrop))
 
     // when
     const response = await actionDefinition.handle(
