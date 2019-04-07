@@ -1,3 +1,4 @@
+import {AffectType} from "../../../affect/affectType"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
@@ -18,6 +19,8 @@ export default class WakeAction extends Action {
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
       .not().requireDisposition(Disposition.Standing, MESSAGE_FAIL_ALREADY_AWAKE)
+      .capture(request.mob)
+      .not().requireAffect(AffectType.Sleep, Messages.Wake.CannotWakeUp)
       .create()
   }
 

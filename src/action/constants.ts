@@ -123,6 +123,7 @@ export const Messages = {
     Success: "{requestCreator} {unlockVerb} a {door} {direction}.",
   },
   Wake: {
+    CannotWakeUp: "You cannot wake up.",
     Success: "You wake and stand up.",
   },
 }
@@ -188,6 +189,10 @@ export const ConditionMessages = {
   Eat: {
     AlreadyFull: "You are too full to eat more.",
     NotFood: "You can't eat that.",
+  },
+  Garotte: {
+    Fail: "{requestCreator} {verb} to sneak up on {target}.",
+    Success: "{target} {verb} out from suffocation.",
   },
   Hamstring: {
     Fail: "{requestCreator} {verb} to hamstring {target} but {verb2}.",

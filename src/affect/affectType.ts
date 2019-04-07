@@ -47,6 +47,7 @@ export enum AffectType {
   SellExtract = "sell extract",
   Stunned = "stunned",
   Sharpened = "sharpened",
+  Sleep = "sleep",
   Slow = "slow",
   Shield = "shield",
   StoneSkin = "stone skin",

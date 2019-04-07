@@ -55,6 +55,11 @@ export const Costs = {
     Delay: 2,
     Mana: 100,
   },
+  Garotte: {
+    Delay: 2,
+    Mana: 100,
+    Mv: 80,
+  },
   Hamstring: {
     Delay: 2,
     Mana: 100,

@@ -65,6 +65,7 @@ import NoopAction from "./impl/noopAction"
 import backstabAction from "./impl/skill/ranger/backstabAction"
 import dirtKickAction from "./impl/skill/ranger/dirtKickAction"
 import envenomAction from "./impl/skill/ranger/envenomAction"
+import garotteAction from "./impl/skill/ranger/garotteAction"
 import hamstringAction from "./impl/skill/ranger/hamstringAction"
 import peekAction from "./impl/skill/ranger/peekAction"
 import sharpenAction from "./impl/skill/ranger/sharpenAction"
@@ -154,6 +155,7 @@ export default function getActionTable(
     stealAction(abilityService),
     shieldBashAction(abilityService),
     peekAction(abilityService),
+    garotteAction(abilityService),
 
     // casting
     new CastAction(checkBuilderFactory, spellTable),

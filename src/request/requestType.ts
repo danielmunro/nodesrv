@@ -44,6 +44,7 @@ export enum RequestType {
   Hamstring = "hamstring",
   Disarm = "disarm",
   DirtKick = "dirt kick",
+  Garotte = "garotte",
   Backstab = "backstab",
   Steal = "steal",
   Sharpen = "sharpen",

@@ -1,3 +1,4 @@
+import {AffectType} from "../../../affect/affectType"
 import {CheckStatus} from "../../../check/checkStatus"
 import { Disposition } from "../../../mob/enum/disposition"
 import { RequestType } from "../../../request/requestType"
@@ -39,6 +40,19 @@ describe("sleep action action", () => {
     // then
     expect(check.status).toBe(CheckStatus.Failed)
     expect(check.result).toBe(MESSAGE_FAIL_ALREADY_AWAKE)
+  })
+
+  it("should not be able to wake if affected by sleep", async () => {
+    // given
+    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.disposition = Disposition.Sleeping)
+    playerBuilder.addAffect(AffectType.Sleep)
+
+    // when
+    const check = await action.check(testBuilder.createRequest(RequestType.Wake))
+
+    // then
+    expect(check.status).toBe(CheckStatus.Failed)
+    expect(check.result).toBe(Messages.Wake.CannotWakeUp)
   })
 
   it("provides accurate help text", () => {
