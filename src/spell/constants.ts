@@ -97,6 +97,9 @@ export const SpellMessages = {
   PsionicBlast: {
     Success: "{target} {verb} shattered by a psionic blast.",
   },
+  RefreshMovement: {
+    Success: "{target} {verb} refreshed.",
+  },
   RemoveCurse: {
     RequiresAffect: "There has no curse to lift.",
     Success: "{target} curse has lifted.",

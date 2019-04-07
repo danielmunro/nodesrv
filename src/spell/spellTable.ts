@@ -10,6 +10,7 @@ import knowAlignmentAction from "../action/impl/spell/detection/knowAlignmentAct
 import locateItemAction from "../action/impl/spell/detection/locateItemAction"
 import giantStrengthAction from "../action/impl/spell/enhancement/giantStrengthAction"
 import hasteAction from "../action/impl/spell/enhancement/hasteAction"
+import refreshAction from "../action/impl/spell/enhancement/refreshAction"
 import cureLightAction from "../action/impl/spell/healing/cureLightAction"
 import cureSeriousAction from "../action/impl/spell/healing/cureSeriousAction"
 import healAction from "../action/impl/spell/healing/healAction"
@@ -71,6 +72,7 @@ export default function getSpellTable(
     // enhancements
     giantStrengthAction(abilityService),
     hasteAction(abilityService),
+    refreshAction(abilityService),
 
     // attack
     magicMissileAction(abilityService),
