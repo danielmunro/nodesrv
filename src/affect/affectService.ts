@@ -43,4 +43,8 @@ export default class AffectService {
   public remove(affectType: AffectType) {
     this.mob.affects = this.mob.affects.filter(affect => affect.affectType !== affectType)
   }
+
+  public reset() {
+    this.mob.affects = []
+  }
 }

@@ -110,6 +110,10 @@ export const SpellMessages = {
   Shield: {
     Success: "{target} {verb} surrounded by a force shield.",
   },
+  Slow: {
+    HasteStripped: "{target} {verb} moving quickly.",
+    Success: "{target} {verb} moving in slow motion.",
+  },
   StoneSkin: {
     Success: "{target} skin turns to stone.",
   },

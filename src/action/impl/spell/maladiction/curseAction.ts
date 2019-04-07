@@ -19,7 +19,7 @@ export default function(abilityService: AbilityService): Spell {
     .setAffectType(AffectType.Curse)
     .setActionType(ActionType.Offensive)
     .setCosts([ new ManaCost(20), new DelayCost(1) ])
-    .setApplySpell((checkedRequest, affectBuilder) => affectBuilder
+    .setApplySpell(async (checkedRequest, affectBuilder) => affectBuilder
       .setTimeout(checkedRequest.mob.level / 10)
       .setAttributes(new AttributeBuilder()
         .setStats(newStats(-1, -1, -1, -1, -1, -1))

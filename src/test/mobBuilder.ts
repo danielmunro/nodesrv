@@ -48,6 +48,11 @@ export default class MobBuilder {
     return this
   }
 
+  public setMana(amount: number): MobBuilder {
+    this.mob.vitals.mana = amount
+    return this
+  }
+
   public setMv(amount: number): MobBuilder {
     this.mob.vitals.mv = amount
     return this

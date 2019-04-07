@@ -18,6 +18,7 @@ import invisibilityAction from "../action/impl/spell/illusion/invisibilityAction
 import blindAction from "../action/impl/spell/maladiction/blindAction"
 import curseAction from "../action/impl/spell/maladiction/curseAction"
 import poisonAction from "../action/impl/spell/maladiction/poisonAction"
+import slowAction from "../action/impl/spell/maladiction/slowAction"
 import wrathAction from "../action/impl/spell/maladiction/wrathAction"
 import drawLifeAction from "../action/impl/spell/necromancy/drawLifeAction"
 import summonUndeadAction from "../action/impl/spell/necromancy/summonUndeadAction"
@@ -58,6 +59,7 @@ export default function getSpellTable(
     curseAction(abilityService),
     poisonAction(abilityService),
     wrathAction(abilityService),
+    slowAction(abilityService),
 
     // healing
     cureLightAction(abilityService),

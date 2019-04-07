@@ -35,6 +35,7 @@ export enum SpellType {
   Blind = "blind",
   Weaken = "weaken",
   Curse = "curse",
+  Slow = "slow",
 
   // curative
   CurePoison = "cure poison",
