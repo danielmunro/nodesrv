@@ -1,12 +1,12 @@
 import {applyAffectModifier} from "../../affect/applyAffect"
 import AttributeService from "../../attributes/attributeService"
 import Attributes from "../../attributes/model/attributes"
-import {DamageType} from "../../damage/damageType"
 import {EventResponseStatus} from "../../event/eventResponseStatus"
 import EventService from "../../event/eventService"
 import {EventType} from "../../event/eventType"
 import roll, {simpleD4} from "../../random/dice"
 import {Room} from "../../room/model/room"
+import DamageService from "../damageService"
 import {Disposition} from "../enum/disposition"
 import {Trigger} from "../enum/trigger"
 import DamageEvent from "../event/damageEvent"
@@ -101,7 +101,11 @@ export class Fight {
 
     const initialDamageCalculation = Fight.calculateDamageForOneHit(attacker, defender)
     const response = await this.eventService.publish(
-      new DamageEvent(defender, initialDamageCalculation, DamageType.Slash, attacker))
+      new DamageEvent(
+        defender,
+        initialDamageCalculation,
+        new DamageService(attacker).getDamageType(),
+        attacker))
     const event = response.event as DamageEvent
     defender.vitals.hp -= event.amount
 
