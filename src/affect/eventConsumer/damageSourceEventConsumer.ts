@@ -27,7 +27,8 @@ export default class DamageSourceEventConsumer implements EventConsumer {
       return EventResponse.modified(new DamageEvent(
         event.target,
         amount,
-        event.damageType))
+        event.damageType,
+        event.source))
     }
     return EventResponse.none(event)
   }

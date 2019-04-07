@@ -18,6 +18,7 @@ export default class SanctuaryEventConsumer implements EventConsumer {
       new DamageEvent(
         event.target,
         event.amount / 2,
-        event.damageType))
+        event.damageType,
+        event.source))
   }
 }

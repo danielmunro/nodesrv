@@ -72,6 +72,9 @@ export const SpellMessages = {
   Invisibility: {
     Success: "{target} {verb} out of existence.",
   },
+  KnowAlignment: {
+    Success: "{target} is {alignment}.",
+  },
   LocateItem: {
     Fail: "that cannot be found.",
     Success: "{target} was located:\n{rooms}.",

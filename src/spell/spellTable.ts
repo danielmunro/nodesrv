@@ -6,6 +6,7 @@ import feastAction from "../action/impl/spell/curative/feastAction"
 import removeCurseAction from "../action/impl/spell/curative/removeCurseAction"
 import detectHiddenAction from "../action/impl/spell/detection/detectHiddenAction"
 import detectInvisibleAction from "../action/impl/spell/detection/detectInvisibleAction"
+import knowAlignmentAction from "../action/impl/spell/detection/knowAlignmentAction"
 import locateItemAction from "../action/impl/spell/detection/locateItemAction"
 import giantStrengthAction from "../action/impl/spell/enhancement/giantStrengthAction"
 import hasteAction from "../action/impl/spell/enhancement/hasteAction"
@@ -92,6 +93,7 @@ export default function getSpellTable(
     detectInvisibleAction(abilityService),
     detectHiddenAction(abilityService),
     locateItemAction(abilityService, itemService, stateService),
+    knowAlignmentAction(abilityService),
 
     // piety
     blessAction(abilityService),

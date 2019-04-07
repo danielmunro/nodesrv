@@ -10,26 +10,15 @@ export const ALIGNMENT_GOOD = 300
 const MODIFIER = 0.8
 
 export default class ProtectionEventConsumer implements EventConsumer {
-  private static isNeutral(mob: Mob) {
-    return mob.alignment > ALIGNMENT_EVIL && mob.alignment < ALIGNMENT_GOOD
-  }
-
-  private static isEvil(mob: Mob) {
-    return mob.alignment < ALIGNMENT_EVIL
-  }
-
-  private static isGood(mob: Mob) {
-    return mob.alignment > ALIGNMENT_GOOD
-  }
-
   public consume(event: DamageEvent): Promise<EventResponse> {
     const target = event.target
     const source = event.source as Mob
     const affect = target.affect()
+    const srcAlign = source.align()
 
-    if (affect.has(AffectType.ProtectionNeutral) && ProtectionEventConsumer.isNeutral(source) ||
-      affect.has(AffectType.ProtectionEvil) && ProtectionEventConsumer.isEvil(source) ||
-      affect.has(AffectType.ProtectionGood) && ProtectionEventConsumer.isGood(source)) {
+    if (affect.has(AffectType.ProtectionNeutral) && srcAlign.isNeutral() ||
+      affect.has(AffectType.ProtectionEvil) && srcAlign.isEvil() ||
+      affect.has(AffectType.ProtectionGood) && srcAlign.isGood()) {
       return EventResponse.modified(
         new DamageEvent(
           target,

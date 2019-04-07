@@ -10,6 +10,7 @@ export enum SpellType {
   DetectInvisible = "detect invisibility",
   DetectHidden = "detect hidden",
   LocateItem = "locate item",
+  KnowAlignment = "know alignment",
 
   // protective
   Armor = "armor",

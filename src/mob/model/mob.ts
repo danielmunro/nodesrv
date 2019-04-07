@@ -12,6 +12,7 @@ import { Player } from "../../player/model/player"
 import { Skill } from "../../skill/model/skill"
 import {SkillType} from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
+import AlignmentService from "../alignmentService"
 import { Disposition } from "../enum/disposition"
 import { Gender } from "../enum/gender"
 import { Standing } from "../enum/standing"
@@ -150,6 +151,10 @@ export class Mob {
 
   public affect(): AffectService {
     return new AffectService(this)
+  }
+
+  public align(): AlignmentService {
+    return new AlignmentService(this)
   }
 
   public getAuthorizationLevel(): AuthorizationLevel {
