@@ -14,6 +14,7 @@ level 7
 cure serious            NA
 
 level 8
+refresh movement        NA
 fireproof               NA
 
 level 10
@@ -37,6 +38,9 @@ holy silence            NA
 level 18
 cancellation            NA
 
+level 19
+know alignment          NA
+
 level 20
 heal                    NA
 shield                  NA
@@ -44,6 +48,9 @@ shield                  NA
 level 25
 stone skin              NA
 crusade                 NA
+
+level 28
+locate item             NA
 
 level 30
 sanctuary               NA
@@ -72,16 +79,25 @@ haste                   NA
 level 14
 summon undead           NA
 
+level 15
+slow                    NA
+
 level 17
 poison                  NA
 
 level 18
 curse                   NA
 
+level 19
+know alignment          NA
+
 level 20
 detect invisibility     NA
 detect hidden           NA
 turn undead             NA
+
+level 21
+locate item             NA
 
 level 22
 cancellation            NA
