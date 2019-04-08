@@ -7,7 +7,7 @@ import doNTimes from "../../../../support/functional/times"
 import TestBuilder from "../../../../support/test/testBuilder"
 
 let testBuilder: TestBuilder
-const undeadCount = 5
+const undeadCount = 10
 
 beforeEach(() => {
   testBuilder = new TestBuilder()
