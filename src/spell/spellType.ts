@@ -68,4 +68,7 @@ export enum SpellType {
   // transportation
   Fly = "fly",
   WordOfRecall = "word of recall",
+
+  // orb
+  OrbOfTouch = "orb of touch",
 }

@@ -82,6 +82,9 @@ export const SpellMessages = {
   MagicMissile: {
     Success: "",
   },
+  OrbOfTouch: {
+    Success: "{target} {verb} surrounded by an orb of touch.",
+  },
   Poison: {
     Success: "{target} suddenly {verb} sick!",
   },

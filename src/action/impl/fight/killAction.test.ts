@@ -1,13 +1,13 @@
+import {AffectType} from "../../../affect/affectType"
 import {CheckStatus} from "../../../check/checkStatus"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {Mob} from "../../../mob/model/mob"
-import { RequestType } from "../../../request/requestType"
-import { ResponseStatus } from "../../../request/responseStatus"
+import {RequestType} from "../../../request/requestType"
+import {ResponseStatus} from "../../../request/responseStatus"
 import {getTestMob} from "../../../support/test/mob"
 import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
-import {ConditionMessages, MESSAGE_FAIL_CANNOT_ATTACK_SELF} from "../../constants"
-import {MESSAGE_FAIL_KILL_ALREADY_FIGHTING} from "../../constants"
+import {ConditionMessages, MESSAGE_FAIL_CANNOT_ATTACK_SELF, MESSAGE_FAIL_KILL_ALREADY_FIGHTING} from "../../constants"
 
 let testBuilder: TestBuilder
 let action: Action
@@ -94,5 +94,24 @@ describe("kill action", () => {
 
     // then
     expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
+  })
+
+  it("fails when the target has orb of touch applied", async () => {
+    // given
+    mob.name = "alice"
+    const target = testBuilder.withMob()
+    target.addAffectType(AffectType.OrbOfTouch)
+
+    // when
+    const response = await testBuilder.handleAction(RequestType.Kill, `kill ${target.getMobName()}`)
+
+    // then
+    expect(response.status).toBe(ResponseStatus.ActionFailed)
+    expect(response.getMessageToRequestCreator())
+      .toBe(`you bounce off of ${target.getMobName()}'s orb of touch.`)
+    expect(response.message.getMessageToTarget())
+      .toBe("alice bounces off of your orb of touch.")
+    expect(response.message.getMessageToObservers())
+      .toBe(`alice bounces off of ${target.getMobName()}'s orb of touch.`)
   })
 })

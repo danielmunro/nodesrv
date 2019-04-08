@@ -37,6 +37,7 @@ export enum AffectType {
   NoSacrifice = "no sacrifice",
   NonMetal = "non-metal",
   NounCurse = "noun curse",
+  OrbOfTouch = "orb of touch",
   ProtectionEvil = "protection evil",
   ProtectionGood = "protection good",
   ProtectionNeutral = "protection neutral",

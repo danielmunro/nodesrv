@@ -24,6 +24,7 @@ import drawLifeAction from "../action/impl/spell/necromancy/drawLifeAction"
 import summonUndeadAction from "../action/impl/spell/necromancy/summonUndeadAction"
 import turnUndeadAction from "../action/impl/spell/necromancy/turnUndeadAction"
 import withstandDeathAction from "../action/impl/spell/necromancy/withstandDeathAction"
+import orbOfTouchAction from "../action/impl/spell/orb/orbOfTouchAction"
 import blessAction from "../action/impl/spell/piety/blessAction"
 import crusadeAction from "../action/impl/spell/piety/crusadeAction"
 import holySilenceAction from "../action/impl/spell/piety/holySilenceAction"
@@ -117,5 +118,8 @@ export default function getSpellTable(
     // transportation
     flyAction(abilityService),
     wordOfRecallAction(abilityService, mobService.locationService),
+
+    // orbs
+    orbOfTouchAction(abilityService),
   ]
 }

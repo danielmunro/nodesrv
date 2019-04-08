@@ -1,5 +1,5 @@
-import { Terrain } from "../region/enum/terrain"
-import { Region } from "../region/model/region"
+import { Terrain } from "../../region/enum/terrain"
+import { Region } from "../../region/model/region"
 
 export function getTestRegion(): Region {
   const region = new Region()

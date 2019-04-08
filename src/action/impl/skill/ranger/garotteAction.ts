@@ -26,7 +26,7 @@ export default function(abilityService: AbilityService): Skill {
     .setApplySkill(async (checkedRequest, affectBuilder) => {
       checkedRequest.getTarget().disposition = Disposition.Sleeping
       return affectBuilder
-        .setTimeout(Math.max(1, checkedRequest.mob.level / 10))
+        .setTimeout(Math.max(1, checkedRequest.mob.level / 12))
         .build()
       })
     .setSuccessMessage(checkedRequest =>

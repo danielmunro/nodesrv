@@ -72,7 +72,7 @@
     "coveragePathIgnorePatterns": [
       "constants.ts",
       "dontExecuteTestObserver.ts",
-      "src/timer"
+      "support/timer"
     ],
     "testResultsProcessor": "jest-sonar-reporter"
   },

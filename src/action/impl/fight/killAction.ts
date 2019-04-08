@@ -10,12 +10,9 @@ import {Mob} from "../../../mob/model/mob"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
+import {ResponseStatus} from "../../../request/responseStatus"
 import Action from "../../action"
-import {
-  MESSAGE_FAIL_CANNOT_ATTACK_SELF,
-  MESSAGE_FAIL_KILL_ALREADY_FIGHTING,
-  Messages,
-} from "../../constants"
+import {MESSAGE_FAIL_CANNOT_ATTACK_SELF, MESSAGE_FAIL_KILL_ALREADY_FIGHTING, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 export default class KillAction extends Action {
@@ -37,7 +34,13 @@ export default class KillAction extends Action {
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const request = checkedRequest.request
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    await this.eventService.publish(new MobEvent(EventType.Attack, request.mob, target))
+    const event = await this.eventService.publish(new MobEvent(EventType.Attack, request.mob, target))
+    if (event.isSatisifed()) {
+      return new Response(
+        checkedRequest,
+        ResponseStatus.ActionFailed,
+        event.context)
+    }
 
     return checkedRequest.respondWith().success(
       Messages.Kill.Success,
