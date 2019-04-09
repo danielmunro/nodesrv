@@ -5,6 +5,7 @@ import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import NewMobConfirm from "./newMobConfirm"
 import Race from "./race"
+import AttributeService from "../../../attributes/attributeService"
 
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
@@ -40,6 +41,27 @@ describe("new mob confirm auth step", () => {
     // then
     expect(response.status).toBe(ResponseStatus.OK)
     expect(response.authStep).toBeInstanceOf(Race)
+  })
+
+  it("generates with correct starting attributes", async () => {
+    // setup
+    const client = await getTestClient()
+    const newMobConfirm = new NewMobConfirm(mockAuthService(), client.player, "foo")
+
+    // when
+    await newMobConfirm.processRequest(new Request(client, "y"))
+
+    // then
+    const maxVitals = AttributeService.combine(newMobConfirm.player.sessionMob).vitals
+    expect(maxVitals.hp).toBe(20)
+    expect(maxVitals.mana).toBe(100)
+    expect(maxVitals.mv).toBe(100)
+
+    // and
+    const vitals = newMobConfirm.player.sessionMob.vitals
+    expect(vitals.hp).toBe(20)
+    expect(vitals.mana).toBe(100)
+    expect(vitals.mv).toBe(100)
   })
 
   it("should error out for any other input", async () => {
