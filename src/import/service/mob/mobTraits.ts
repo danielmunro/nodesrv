@@ -7,7 +7,7 @@ export default function(mob: Mob, trait: MobTrait) {
       mob.traits.isNpc = true
       return
     case MobTrait.Sentinel:
-      mob.traits.wanders = true
+      mob.traits.wanders = false
       return
     case MobTrait.Scavenger:
       mob.traits.scavenger = true

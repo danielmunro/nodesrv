@@ -14,7 +14,7 @@ export class MobTraits {
   public isNpc: boolean = false
 
   @Column("boolean")
-  public wanders: boolean = false
+  public wanders: boolean = true
 
   @Column("boolean")
   public scavenger: boolean = false
