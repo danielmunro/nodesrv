@@ -24,6 +24,7 @@ import drawLifeAction from "../action/impl/spell/necromancy/drawLifeAction"
 import summonUndeadAction from "../action/impl/spell/necromancy/summonUndeadAction"
 import turnUndeadAction from "../action/impl/spell/necromancy/turnUndeadAction"
 import withstandDeathAction from "../action/impl/spell/necromancy/withstandDeathAction"
+import orbOfAwakeningAction from "../action/impl/spell/orb/orbOfAwakeningAction"
 import orbOfTouchAction from "../action/impl/spell/orb/orbOfTouchAction"
 import blessAction from "../action/impl/spell/piety/blessAction"
 import crusadeAction from "../action/impl/spell/piety/crusadeAction"
@@ -121,5 +122,6 @@ export default function getSpellTable(
 
     // orbs
     orbOfTouchAction(abilityService),
+    orbOfAwakeningAction(abilityService),
   ]
 }

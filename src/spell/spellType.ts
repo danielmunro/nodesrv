@@ -71,4 +71,5 @@ export enum SpellType {
 
   // orb
   OrbOfTouch = "orb of touch",
+  OrbOfAwakening = "orb of awakening",
 }

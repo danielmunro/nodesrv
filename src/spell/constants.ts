@@ -82,6 +82,9 @@ export const SpellMessages = {
   MagicMissile: {
     Success: "",
   },
+  OrbOfAwakening: {
+    Success: "{target} {verb} surrounded by an orb of awakening.",
+  },
   OrbOfTouch: {
     Success: "{target} {verb} surrounded by an orb of touch.",
   },
