@@ -2,6 +2,7 @@ import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, 
 import * as v4 from "uuid"
 import AffectService from "../../affect/affectService"
 import { Affect } from "../../affect/model/affect"
+import AttributeService from "../../attributes/attributeService"
 import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
 import {Equipment} from "../../item/enum/equipment"
@@ -155,6 +156,10 @@ export class Mob {
 
   public align(): AlignmentService {
     return new AlignmentService(this)
+  }
+
+  public attribute(): AttributeService {
+    return new AttributeService(this)
   }
 
   public getAuthorizationLevel(): AuthorizationLevel {

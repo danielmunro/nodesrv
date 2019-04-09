@@ -1,5 +1,4 @@
 import Action from "../../action/action"
-import AttributeService from "../../attributes/attributeService"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
@@ -12,7 +11,7 @@ import {Mob} from "../model/mob"
 
 export default class Wimpy implements EventConsumer {
   private static isWimpy(mob: Mob, target: Mob) {
-    return target.vitals.hp / AttributeService.getHp(target) < 0.2 || target.level < mob.level - 8
+    return target.vitals.hp / target.attribute().getHp() < 0.2 || target.level < mob.level - 8
   }
 
   constructor(

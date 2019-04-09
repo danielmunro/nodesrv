@@ -1,4 +1,3 @@
-import AttributeService from "../../attributes/attributeService"
 import {Client} from "../../client/client"
 import {Equipment} from "../../item/enum/equipment"
 import {Item} from "../../item/model/item"
@@ -128,7 +127,7 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
   } else if (round.isParticipant(sessionMob)) {
     messages.push(withValue(attacker === sessionMob ? defender : attacker, (opponent: Mob) =>
       opponent.name + " " +
-      getHealthIndicator(opponent.vitals.hp / AttributeService.getHp(opponent)) + "."))
+      getHealthIndicator(opponent.vitals.hp / opponent.attribute().getHp()) + "."))
   }
 
   return messages.join("\n")

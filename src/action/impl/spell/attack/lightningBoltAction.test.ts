@@ -1,4 +1,3 @@
-import AttributeService from "../../../../attributes/attributeService"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
 import {Mob} from "../../../../mob/model/mob"
 import { RequestType } from "../../../../request/requestType"
@@ -28,6 +27,6 @@ describe("lightning bolt", () => {
       spell, testBuilder.createRequest(RequestType.Cast, `cast lightning ${target.name}`, target))
 
     // then
-    expect(target.vitals.hp).toBeLessThan(AttributeService.getHp(target))
+    expect(target.vitals.hp).toBeLessThan(target.attribute().getHp())
   })
 })

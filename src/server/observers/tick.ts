@@ -1,6 +1,5 @@
 import {v4} from "uuid"
 import {applyAffectModifier} from "../../affect/applyAffect"
-import AttributeService from "../../attributes/attributeService"
 import {Client} from "../../client/client"
 import EventService from "../../event/eventService"
 import {EventType} from "../../event/eventType"
@@ -18,7 +17,7 @@ const TIMING = "tick notification duration"
 
 export class Tick implements Observer {
   public static regen(mob: Mob) {
-    const combined = AttributeService.combine(mob)
+    const combined = mob.attribute().combine()
     const regenModifier = applyAffectModifier(
       mob.affects.map(a => a.affectType),
       Trigger.Tick,
@@ -29,7 +28,7 @@ export class Tick implements Observer {
     if (mob.playerMob) {
       mob.playerMob.regen()
     }
-    AttributeService.normalize(mob)
+    mob.attribute().normalize()
   }
 
   constructor(

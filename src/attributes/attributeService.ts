@@ -2,52 +2,64 @@ import {Mob} from "../mob/model/mob"
 import RaceService from "../mob/race/raceService"
 import {newEmptyAttributes} from "./factory"
 import Attributes from "./model/attributes"
+import Stats from "./model/stats"
+import Vitals from "./model/vitals"
 
 export default class AttributeService {
-  public static combine(mob: Mob): Attributes {
+  constructor(private readonly mob: Mob) {}
+
+  public getStats(): Stats {
+    return this.combine().stats
+  }
+
+  public getVitals(): Vitals {
+    return this.combine().vitals
+  }
+
+  public combine(): Attributes {
     let attributes = newEmptyAttributes()
-    mob.attributes.forEach(a => attributes = attributes.combine(a))
-    mob.equipped.items.forEach(i => attributes = attributes.combine(i.attributes))
-    attributes = RaceService.combineAttributes(mob, attributes)
-    if (mob.playerMob) {
-      attributes = attributes.combine(mob.playerMob.trainedAttributes)
+    this.mob.attributes.forEach(a => attributes = attributes.combine(a))
+    this.mob.equipped.items.forEach(i => attributes = attributes.combine(i.attributes))
+    attributes = RaceService.combineAttributes(this.mob, attributes)
+    if (this.mob.playerMob) {
+      attributes = attributes.combine(this.mob.playerMob.trainedAttributes)
     }
-    mob.affects.filter(affect => affect.attributes)
+    this.mob.affects.filter(affect => affect.attributes)
       .forEach(affect => attributes = attributes.combine(affect.attributes))
 
     return attributes
   }
 
-  public static normalize(mob: Mob): void {
-    const combined = AttributeService.combine(mob)
-    if (mob.vitals.hp > combined.vitals.hp) {
-      mob.vitals.hp = combined.vitals.hp
+  public getHp(): number {
+    return this.combine().vitals.hp
+  }
+
+  public getMv(): number {
+    return this.combine().vitals.mv
+  }
+
+  public getInt(): number {
+    return this.combine().stats.int
+  }
+
+  public getWis(): number {
+    return this.combine().stats.wis
+  }
+
+  public getDex(): number {
+    return this.combine().stats.dex
+  }
+
+  public normalize(): void {
+    const combined = this.combine()
+    if (this.mob.vitals.hp > combined.vitals.hp) {
+      this.mob.vitals.hp = combined.vitals.hp
     }
-    if (mob.vitals.mana > combined.vitals.mana) {
-      mob.vitals.mana = combined.vitals.mana
+    if (this.mob.vitals.mana > combined.vitals.mana) {
+      this.mob.vitals.mana = combined.vitals.mana
     }
-    if (mob.vitals.mv > combined.vitals.mv) {
-      mob.vitals.mv = combined.vitals.mv
+    if (this.mob.vitals.mv > combined.vitals.mv) {
+      this.mob.vitals.mv = combined.vitals.mv
     }
-  }
-
-  public static getHp(mob: Mob): number {
-    return AttributeService.combine(mob).vitals.hp
-  }
-
-  public static getMv(mob: Mob): number {
-    return AttributeService.combine(mob).vitals.mv
-  }
-
-  public static getInt(mob: Mob): number {
-    return AttributeService.combine(mob).stats.int
-  }
-
-  public static getWis(mob: Mob): number {
-    return AttributeService.combine(mob).stats.wis
-  }
-
-  public static getDex(mob: Mob): number {
-    return AttributeService.combine(mob).stats.dex
   }
 }

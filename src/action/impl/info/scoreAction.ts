@@ -1,4 +1,3 @@
-import AttributeService from "../../../attributes/attributeService"
 import Check from "../../../check/check"
 import CheckedRequest from "../../../check/checkedRequest"
 import {RequestType} from "../../../request/requestType"
@@ -14,8 +13,7 @@ export default class ScoreAction extends Action {
 
   public invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const mob = checkedRequest.mob
-    const attr = AttributeService.combine(mob)
-    const stats = attr.stats
+    const stats = mob.attribute().getStats()
     return checkedRequest.respondWith().info(`
 You are ${mob.name}, level ${mob.level} with ${mob.playerMob.experience} experience points.
 A ${mob.raceType} ${mob.specializationType}.

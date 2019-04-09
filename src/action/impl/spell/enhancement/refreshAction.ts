@@ -1,4 +1,3 @@
-import AttributeService from "../../../../attributes/attributeService"
 import AbilityService from "../../../../check/abilityService"
 import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
@@ -30,7 +29,7 @@ export default function(abilityService: AbilityService): Spell {
     .setApplySpell(async checkedRequest => {
       const target = checkedRequest.getTarget()
       target.vitals.mv += checkedRequest.getCheckTypeResult(CheckType.HasSpell).level / 3
-      AttributeService.normalize(target)
+      target.attribute().normalize()
     })
     .create()
 }

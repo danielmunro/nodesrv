@@ -1,4 +1,3 @@
-import AttributeService from "../../../attributes/attributeService"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../support/test/client"
 import Name from "../login/name"
@@ -52,7 +51,7 @@ describe("new mob confirm auth step", () => {
     await newMobConfirm.processRequest(new Request(client, "y"))
 
     // then
-    const maxVitals = AttributeService.combine(newMobConfirm.player.sessionMob).vitals
+    const maxVitals = newMobConfirm.player.sessionMob.attribute().getVitals()
     expect(maxVitals.hp).toBe(20)
     expect(maxVitals.mana).toBe(100)
     expect(maxVitals.mv).toBe(100)
