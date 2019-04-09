@@ -1,3 +1,4 @@
+import AttributeService from "../../../attributes/attributeService"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
 import { getTestClient } from "../../../support/test/client"
 import Name from "../login/name"
@@ -5,7 +6,6 @@ import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import NewMobConfirm from "./newMobConfirm"
 import Race from "./race"
-import AttributeService from "../../../attributes/attributeService"
 
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
