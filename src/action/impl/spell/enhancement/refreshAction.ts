@@ -28,8 +28,8 @@ export default function(abilityService: AbilityService): Spell {
         .create())
     .setApplySpell(async checkedRequest => {
       const target = checkedRequest.getTarget()
-      target.vitals.mv += checkedRequest.getCheckTypeResult(CheckType.HasSpell).level / 3
-      target.attribute().normalize()
+      const attr = target.attribute()
+      attr.addMv(checkedRequest.getCheckTypeResult(CheckType.HasSpell).level / 3)
     })
     .create()
 }

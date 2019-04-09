@@ -1,6 +1,5 @@
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
 import TestBuilder from "../../../../support/test/testBuilder"
 
@@ -17,22 +16,26 @@ beforeEach(() => {
 describe("draw life action", () => {
   it("transfers life points from the target to the caster", async () => {
     // given
-    caster.mob.vitals.hp = 1
+    const startingHp = 1
+    caster.mob.vitals.hp = startingHp
 
     // when
-    await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, `cast draw ${target.getMobName()}`, target.mob))
+    await testBuilder.successfulAction(
+      testBuilder.createRequest(
+        RequestType.Cast, `cast draw ${target.getMobName()}`, target.mob))
 
     // then
-    expect(caster.mob.vitals.hp).toBeGreaterThan(1)
-    expect(target.mob.vitals.hp).toBeLessThan(target.mob.attribute().getHp())
+    expect(caster.mob.attribute().getHp()).toBeGreaterThan(startingHp)
+
+    // and
+    const attr = target.mob.attribute()
+    expect(attr.getHp()).toBeLessThan(attr.getMaxHp())
   })
 
   it("generates accurate success messages", async () => {
-    const response = await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, `cast draw ${target.getMobName()}`, target.mob))
+    const response = await testBuilder.successfulAction(
+      testBuilder.createRequest(
+        RequestType.Cast, `cast draw ${target.getMobName()}`, target.mob))
 
     expect(response.getMessageToRequestCreator())
       .toBe(`you siphon life force from ${target.getMobName()}.`)

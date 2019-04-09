@@ -27,6 +27,7 @@ describe("lightning bolt", () => {
       spell, testBuilder.createRequest(RequestType.Cast, `cast lightning ${target.name}`, target))
 
     // then
-    expect(target.vitals.hp).toBeLessThan(target.attribute().getHp())
+    const attr = target.attribute()
+    expect(attr.getHp()).toBeLessThan(attr.getMaxHp())
   })
 })

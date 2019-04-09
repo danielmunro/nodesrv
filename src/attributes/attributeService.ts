@@ -31,11 +31,24 @@ export default class AttributeService {
   }
 
   public getHp(): number {
+    return this.mob.vitals.hp
+  }
+
+  public getMaxHp(): number {
     return this.combine().vitals.hp
   }
 
   public getMv(): number {
+    return this.mob.vitals.mv
+  }
+
+  public getMaxMv(): number {
     return this.combine().vitals.mv
+  }
+
+  public addMv(mv: number) {
+    this.mob.vitals.mv += mv
+    this.normalize()
   }
 
   public getInt(): number {

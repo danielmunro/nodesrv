@@ -47,7 +47,8 @@ describe("move", () => {
     await definition.handle(testBuilder.createRequest(RequestType.East))
 
     // then
-    expect(mob.vitals.mv).toBe(mob.attribute().getMv())
+    const attr = mob.attribute()
+    expect(attr.getMv()).toBe(attr.getMaxMv())
   })
 
   it("should not be able to move if immobilized", async () => {

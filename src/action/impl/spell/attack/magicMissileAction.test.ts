@@ -27,6 +27,7 @@ describe("magic missile", () => {
       spell, testBuilder.createRequest(RequestType.Cast, `cast magic ${target.name}`, target))
 
     // then
-    expect(target.vitals.hp).toBeLessThan(target.attribute().getHp())
+    const attr = target.attribute()
+    expect(attr.getHp()).toBeLessThan(attr.getMaxHp())
   })
 })
