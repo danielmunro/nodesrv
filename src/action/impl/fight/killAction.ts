@@ -3,9 +3,8 @@ import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import EventService from "../../../event/eventService"
-import {EventType} from "../../../event/eventType"
 import {Disposition} from "../../../mob/enum/disposition"
-import MobEvent from "../../../mob/event/mobEvent"
+import AttackEvent from "../../../mob/event/attackEvent"
 import {Mob} from "../../../mob/model/mob"
 import {Request} from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
@@ -34,7 +33,7 @@ export default class KillAction extends Action {
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const request = checkedRequest.request
     const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    const event = await this.eventService.publish(new MobEvent(EventType.Attack, request.mob, target))
+    const event = await this.eventService.publish(new AttackEvent(request.mob, target))
     if (event.isSatisifed()) {
       return new Response(
         checkedRequest,
