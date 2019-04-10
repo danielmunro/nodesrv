@@ -7,6 +7,7 @@ import CheckBuilder from "../../check/checkBuilder"
 import CheckedRequest from "../../check/checkedRequest"
 import {CheckType} from "../../check/checkType"
 import Cost from "../../check/cost/cost"
+import TouchEvent from "../../mob/event/touchEvent"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
@@ -33,6 +34,7 @@ export default class Skill extends Action {
     protected readonly applySkill: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) =>
       Promise<Affect | void>,
     protected readonly checkComponents: (request: Request, checkBuilder: CheckBuilder) => void,
+    protected readonly touchesTarget: boolean,
     protected readonly helpText: string) {
     super()
   }
@@ -44,6 +46,16 @@ export default class Skill extends Action {
       return checkedRequest.responseWithMessage(
         ResponseStatus.ActionFailed,
         this.getFailureMessage(checkedRequest))
+    }
+    if (this.touchesTarget) {
+      const touchEventResponse = await this.abilityService.publishEvent(
+        new TouchEvent(checkedRequest.mob, checkedRequest.getTarget()))
+      if (touchEventResponse.isSatisifed()) {
+        return new Response(
+          checkedRequest,
+          ResponseStatus.ActionFailed,
+          touchEventResponse.context)
+      }
     }
     const affect = await this.applySkill(
       checkedRequest,

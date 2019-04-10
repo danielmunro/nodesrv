@@ -51,6 +51,26 @@ describe("bash skill action", () => {
     expect(opponent.mob.affect().has(AffectType.Stunned)).toBeDefined()
   })
 
+  it("bounces off an orb of touch", async () => {
+    // given
+    player.addSkill(SkillType.Bash, MAX_PRACTICE_LEVEL)
+    const target = testBuilder.withMob().addAffectType(AffectType.OrbOfTouch)
+
+    // when
+    const response = await testBuilder.handleAction(
+      RequestType.Bash,
+      `bash ${target.getMobName()}`,
+      target.mob)
+
+    // then
+    expect(response.message.getMessageToRequestCreator())
+      .toBe(`you bounce off of ${target.getMobName()}'s orb of touch.`)
+    expect(response.message.getMessageToTarget())
+      .toBe(`${player.getMobName()} bounces off of your orb of touch.`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${player.getMobName()} bounces off of ${target.getMobName()}'s orb of touch.`)
+  })
+
   it("should generate messages correctly", async () => {
     // given
     player.setLevel(20).addSkill(SkillType.Bash, MAX_PRACTICE_LEVEL / 2)

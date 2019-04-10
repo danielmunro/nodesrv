@@ -18,6 +18,7 @@ export default function(abilityService: AbilityService): Skill {
     .setActionType(ActionType.SneakAttack)
     .setAffectType(AffectType.Immobilize)
     .setActionParts([ ActionPart.Action, ActionPart.Target ])
+    .setTouchesTarget()
     .setCosts([
       new MvCost(Costs.Hamstring.Mv),
       new ManaCost(Costs.Hamstring.Mana),

@@ -1,3 +1,4 @@
+import {AffectType} from "../../../../affect/affectType"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
@@ -26,6 +27,26 @@ describe("hamstring skill action", () => {
     // then
     expect(response.isError()).toBeTruthy()
     expect(response.getMessageToRequestCreator()).toBe("You are already fighting!")
+  })
+
+  it("bounces off an orb of touch", async () => {
+    // given
+    const attacker = testBuilder.withMob().withSkill(SkillType.Hamstring, MAX_PRACTICE_LEVEL)
+    const target = testBuilder.withMob().addAffectType(AffectType.OrbOfTouch)
+
+    // when
+    const response = await testBuilder.handleAction(
+      RequestType.Hamstring,
+      `hamstring ${target.getMobName()}`,
+      target.mob)
+
+    // then
+    expect(response.message.getMessageToRequestCreator())
+      .toBe(`you bounce off of ${target.getMobName()}'s orb of touch.`)
+    expect(response.message.getMessageToTarget())
+      .toBe(`${attacker.getMobName()} bounces off of your orb of touch.`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${attacker.getMobName()} bounces off of ${target.getMobName()}'s orb of touch.`)
   })
 
   it("should be able to succeed and fail hamstring", async () => {

@@ -27,6 +27,25 @@ describe("garotte skill action", () => {
     expect(target.hasAffect(AffectType.Sleep)).toBeTruthy()
   })
 
+  it("bounces off an orb of touch", async () => {
+    // given
+    target.addAffectType(AffectType.OrbOfTouch)
+
+    // when
+    const response = await testBuilder.handleAction(
+      RequestType.Garotte,
+      `garotte ${target.getMobName()}`,
+      target.mob)
+
+    // then
+    expect(response.message.getMessageToRequestCreator())
+      .toBe(`you bounce off of ${target.getMobName()}'s orb of touch.`)
+    expect(response.message.getMessageToTarget())
+      .toBe(`${attacker.getMobName()} bounces off of your orb of touch.`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${attacker.getMobName()} bounces off of ${target.getMobName()}'s orb of touch.`)
+  })
+
   it("generates accurate success messages", async () => {
     const response = await testBuilder.successfulAction(
       testBuilder.createRequest(

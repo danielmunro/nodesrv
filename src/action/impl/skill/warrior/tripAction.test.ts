@@ -1,3 +1,4 @@
+import {AffectType} from "../../../../affect/affectType"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {ConditionMessages} from "../../../../skill/constants"
@@ -50,6 +51,27 @@ describe("trip skill action", () => {
 
     // then
     expect(results.some(result => result.isSuccessful())).toBeTruthy()
+  })
+
+  it("bounces off an orb of touch", async () => {
+    // given
+    const playerBuilder = await testBuilder.withPlayer()
+    playerBuilder.addSkill(SkillType.Trip, MAX_PRACTICE_LEVEL).setLevel(30)
+    const target = testBuilder.withMob().addAffectType(AffectType.OrbOfTouch)
+
+    // when
+    const response = await testBuilder.handleAction(
+      RequestType.Trip,
+      `trip ${target.getMobName()}`,
+      target.mob)
+
+    // then
+    expect(response.getMessageToRequestCreator())
+      .toBe(`you bounce off of ${target.getMobName()}'s orb of touch.`)
+    expect(response.message.getMessageToTarget())
+      .toBe(`${playerBuilder.getMobName()} bounces off of your orb of touch.`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${playerBuilder.getMobName()} bounces off of ${target.getMobName()}'s orb of touch.`)
   })
 
   it("need movement to work", async () => {

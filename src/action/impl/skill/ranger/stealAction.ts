@@ -20,6 +20,7 @@ export default function(abilityService: AbilityService): Skill {
   return new SkillBuilder(abilityService, SkillType.Steal)
     .setActionType(ActionType.Neutral)
     .setActionParts([ ActionPart.Action, ActionPart.ItemWithRoomMob, ActionPart.Target ])
+    .setTouchesTarget()
     .setCheckBuilder((request, checkBuilder) =>
       checkBuilder.not().requireFight(ConditionMessages.All.Fighting)
       .requireMobInRoom(CheckMessages.NoMob)

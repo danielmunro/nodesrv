@@ -1,3 +1,4 @@
+import {AffectType} from "../../../../affect/affectType"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
@@ -20,6 +21,26 @@ describe("shield bash skill action", () => {
 
     // then
     expect(response.getMessageToRequestCreator()).toBe("You lack the skill.")
+  })
+
+  it("bounces off an orb of touch", async () => {
+    // given
+    player.addSkill(SkillType.ShieldBash, MAX_PRACTICE_LEVEL).setLevel(30)
+    const target = testBuilder.withMob().addAffectType(AffectType.OrbOfTouch)
+
+    // when
+    const response = await testBuilder.handleAction(
+      RequestType.ShieldBash,
+      `shield ${target.getMobName()}`,
+      target.mob)
+
+    // then
+    expect(response.getMessageToRequestCreator())
+      .toBe(`you bounce off of ${target.getMobName()}'s orb of touch.`)
+    expect(response.message.getMessageToTarget())
+      .toBe(`${player.getMobName()} bounces off of your orb of touch.`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${player.getMobName()} bounces off of ${target.getMobName()}'s orb of touch.`)
   })
 
   it("generates accurate success messages", async () => {

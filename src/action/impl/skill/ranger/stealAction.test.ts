@@ -1,3 +1,5 @@
+import {AffectType} from "../../../../affect/affectType"
+import {newAffect} from "../../../../affect/factory"
 import {Item} from "../../../../item/model/item"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {Mob} from "../../../../mob/model/mob"
@@ -55,6 +57,26 @@ describe("steal skill action", () => {
       .toBe(`${mob1.name} steals ${item.name} from you!`)
     expect(response.message.getMessageToObservers())
       .toBe(`${mob1.name} steals ${item.name} from ${mob2.name}!`)
+  })
+
+  it("bounces off an orb of touch", async () => {
+    // given
+    mob2.affect().add(newAffect(AffectType.OrbOfTouch))
+
+    // when
+    const response = await doNTimesOrUntilTruthy(iterations, async () => {
+      const handled = await testBuilder.handleAction(RequestType.Steal, STEAL_INPUT)
+      return handled.isFailure() &&
+        !handled.getMessageToRequestCreator().includes("you fail") ? handled : null
+    })
+
+    // then
+    expect(response.message.getMessageToRequestCreator())
+      .toBe(`you bounce off of ${mob2.name}'s orb of touch.`)
+    expect(response.message.getMessageToTarget())
+      .toBe(`${mob1.name} bounces off of your orb of touch.`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${mob1.name} bounces off of ${mob2.name}'s orb of touch.`)
   })
 
   it("should generate accurate fail messages", async () => {

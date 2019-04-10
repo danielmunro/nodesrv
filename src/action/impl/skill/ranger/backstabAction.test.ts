@@ -1,3 +1,4 @@
+import {AffectType} from "../../../../affect/affectType"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import Response from "../../../../request/response"
@@ -53,6 +54,23 @@ describe("backstab skill action", () => {
 
     // then
     expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations / 3)
+  })
+
+  it("bounces off an orb of touch", async () => {
+    // given
+    mobBuilder.withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL).setLevel(30)
+    opponent.addAffectType(AffectType.OrbOfTouch)
+
+    // when
+    const response = await testBuilder.handleAction(RequestType.Backstab)
+
+    // then
+    expect(response.message.getMessageToRequestCreator())
+      .toBe(`you bounce off of ${opponent.getMobName()}'s orb of touch.`)
+    expect(response.message.getMessageToTarget())
+      .toBe(`${mobBuilder.getMobName()} bounces off of your orb of touch.`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${mobBuilder.getMobName()} bounces off of ${opponent.getMobName()}'s orb of touch.`)
   })
 
   it("succeeds sometimes when fully practiced", async () => {

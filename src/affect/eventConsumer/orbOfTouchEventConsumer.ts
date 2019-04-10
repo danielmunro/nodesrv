@@ -28,6 +28,6 @@ export default class OrbOfTouchEventConsumer implements EventConsumer {
   }
 
   public getConsumingEventTypes(): EventType[] {
-    return [ EventType.Attack ]
+    return [ EventType.Attack, EventType.Touch ]
   }
 }

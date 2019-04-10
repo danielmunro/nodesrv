@@ -15,6 +15,7 @@ export default function(abilityService: AbilityService): Skill {
   return new SkillBuilder(abilityService, SkillType.Backstab)
     .setActionType(ActionType.Offensive)
     .setActionParts([ ActionPart.Action, ActionPart.Target ])
+    .setTouchesTarget()
     .setCosts([
       new MvCost(Costs.Backstab.Mv),
       new DelayCost(Costs.Backstab.Delay),

@@ -16,6 +16,7 @@ export default function(abilityService: AbilityService): Skill {
   return new SkillBuilder(abilityService, SkillType.ShieldBash)
     .setActionType(ActionType.Offensive)
     .setAffectType(AffectType.Stunned)
+    .setTouchesTarget()
     .setCosts([
       new MvCost((mob: Mob) => Math.max(80, mob.vitals.mv / 2)),
       new DelayCost(2),

@@ -16,6 +16,7 @@ export default function(abilityService: AbilityService): Skill {
     .setActionType(ActionType.Offensive)
     .setAffectType(AffectType.Stunned)
     .setActionParts([ ActionPart.Action, ActionPart.Target ])
+    .setTouchesTarget()
     .setCosts([
       new MvCost(Costs.Bash.Mv),
       new DelayCost(Costs.Bash.Delay),

@@ -13,6 +13,7 @@ export enum EventType {
   AttackRoundStart,
   AttackRound,
   Attack,
+  Touch,
   Social,
   SkillInvoked,
   DamageCalculation,

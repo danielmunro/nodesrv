@@ -39,6 +39,7 @@ export default class SkillBuilder {
   private successMessage: (checkedRequest: CheckedRequest) => ResponseMessage
   private failMessage: (checkedRequest: CheckedRequest) => ResponseMessage
   private applySkill: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) => Promise<Affect | void>
+  private touchesTarget: boolean = false
 
   constructor(private readonly abilityService: AbilityService, private readonly skillType: SkillType) {
     this.helpText = Messages.Help.NoActionHelpTextProvided
@@ -102,6 +103,11 @@ export default class SkillBuilder {
     return this
   }
 
+  public setTouchesTarget(): SkillBuilder {
+    this.touchesTarget = true
+    return this
+  }
+
   public create(): Skill {
     return new Skill(
       this.abilityService,
@@ -116,6 +122,7 @@ export default class SkillBuilder {
       this.failMessage,
       this.applySkill,
       this.checkBuilder,
+      this.touchesTarget,
       this.helpText)
   }
 }

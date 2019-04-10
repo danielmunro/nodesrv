@@ -21,6 +21,7 @@ export default function(abilityService: AbilityService): Skill {
   return new SkillBuilder(abilityService, SkillType.Disarm)
     .setActionType(ActionType.Offensive)
     .setActionParts([ ActionPart.Action, ActionPart.Target ])
+    .setTouchesTarget()
     .setCosts([
       new MvCost(Costs.Disarm.Mv),
       new DelayCost(Costs.Disarm.Delay),
