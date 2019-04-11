@@ -63,6 +63,7 @@ import WestAction from "./impl/move/westAction"
 import MultiAction from "./impl/multiAction"
 import NoopAction from "./impl/noopAction"
 import backstabAction from "./impl/skill/ranger/backstabAction"
+import detectTouchAction from "./impl/skill/ranger/detectTouchAction"
 import dirtKickAction from "./impl/skill/ranger/dirtKickAction"
 import envenomAction from "./impl/skill/ranger/envenomAction"
 import garotteAction from "./impl/skill/ranger/garotteAction"
@@ -156,6 +157,7 @@ export default function getActionTable(
     shieldBashAction(abilityService),
     peekAction(abilityService),
     garotteAction(abilityService),
+    detectTouchAction(abilityService),
 
     // casting
     new CastAction(checkBuilderFactory, spellTable),

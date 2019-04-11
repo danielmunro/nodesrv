@@ -165,7 +165,7 @@ export default class TestBuilder {
     return new RequestBuilder(service.getActions(), service.mobService.locationService, this.mobForRequest, this.room)
   }
 
-  public async successfulAction(request: Request) {
+  public async successfulAction(request: Request): Promise<Response> {
     return getSuccessfulAction(
       await this.getAction(request.getType()),
       request)

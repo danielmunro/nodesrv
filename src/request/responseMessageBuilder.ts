@@ -15,7 +15,11 @@ export default class ResponseMessageBuilder {
   constructor(
     private readonly requestCreator: Mob,
     private readonly templateString: string,
-    private readonly target?: Mob | Item) {}
+    private readonly target?: Mob | Item) {
+    if (!this.target) {
+      this.target = requestCreator
+    }
+  }
 
   public setPluralizeRequestCreator(): ResponseMessageBuilder {
     this.pluralizeRequestCreator = true
@@ -74,7 +78,8 @@ export default class ResponseMessageBuilder {
       },
       {
         ...this.replacements,
-        requestCreator: this.requestCreator + (this.pluralizeRequestCreator ? "'s" : ""),
+        requestCreator: this.requestCreator === this.target ?
+          "you" : this.requestCreator + (this.pluralizeRequestCreator ? "'s" : ""),
         target: "you" + (this.targetPossessive ? "r" : ""),
         verb: this.verbToTarget,
       },

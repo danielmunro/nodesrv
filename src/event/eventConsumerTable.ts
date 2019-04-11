@@ -2,6 +2,7 @@ import Action from "../action/action"
 import Move from "../action/move"
 import CrusadeEventConsumer from "../affect/eventConsumer/crusadeEventConsumer"
 import DamageSourceEventConsumer from "../affect/eventConsumer/damageSourceEventConsumer"
+import DetectTouchEventConsumer from "../affect/eventConsumer/detectTouchEventConsumer"
 import ForgetEventConsumer from "../affect/eventConsumer/forgetEventConsumer"
 import HasteEventConsumer from "../affect/eventConsumer/hasteEventConsumer"
 import HolySilenceEventConsumer from "../affect/eventConsumer/holySilenceEventConsumer"
@@ -26,6 +27,7 @@ import DeathTimerEventConsumer from "../mob/eventConsumer/deathTimerEventConsume
 import FightStarter from "../mob/eventConsumer/fightStarter"
 import FollowMob from "../mob/eventConsumer/followMob"
 import MobCreated from "../mob/eventConsumer/mobCreated"
+import MobUpdatedEventConsumer from "../mob/eventConsumer/mobUpdatedEventConsumer"
 import PetFollowsOwner from "../mob/eventConsumer/petFollowsOwner"
 import Wimpy from "../mob/eventConsumer/wimpy"
 import FightBuilder from "../mob/fight/fightBuilder"
@@ -63,6 +65,7 @@ export default async function createEventConsumerTable(
     new WithstandDeathEventConsumer(),
     new HolySilenceEventConsumer(),
     new OrbOfTouchEventConsumer(),
+    new DetectTouchEventConsumer(gameService.eventService),
 
     // mob
     new AggressiveMob(mobService, locationService, fightBuilder),
@@ -100,6 +103,7 @@ export default async function createEventConsumerTable(
 
     // app
     new MobCreated(mobService, gameServer.startRoom),
+    new MobUpdatedEventConsumer(clientService),
 
     // client
     new Disconnected(clientService),

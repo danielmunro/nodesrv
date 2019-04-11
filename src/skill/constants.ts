@@ -8,6 +8,10 @@ export const SkillMessages = {
     Fail: "You fail to summon your inner rage.",
     Success: "{requestCreator} pulse speeds up as {requestCreator2} are consumed by rage!",
   },
+  DetectTouch: {
+    Fail: "You lost your concentration.",
+    Success: "{requestCreator} {verb} adept to personal threats.",
+  },
   DirtKick: {
     Fail: "{requestCreator} {verb} dirt and {verb2} {target}!",
     Success: "{requestCreator} {verb} dirt right in {target} eyes!",
@@ -42,6 +46,11 @@ export const Costs = {
   Berserk: {
     Delay: 2,
     Mv: 80,
+  },
+  DetectTouch: {
+    Delay: 1,
+    Mana: 20,
+    Mv: 10,
   },
   DirtKick: {
     Delay: 1,

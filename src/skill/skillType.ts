@@ -14,6 +14,7 @@ export enum SkillType {
   EnhancedDamage = "enhanced damage",
   Steal = "steal",
   ShieldBash = "shield bash",
+  DetectTouch = "detectTouch",
 
   // implementation not needed?
   Infravision = "infravision",
