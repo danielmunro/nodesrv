@@ -32,7 +32,7 @@ export default async function addObservers(
   const locationService = mobService.locationService
   gameServer.addObserver(
     new ObserverChain([
-      new Tick(gameService.stateService.timeService, eventService, locationService),
+      new Tick(gameService.getTimeService(), eventService, locationService),
       new DecrementAffects(mobService.mobTable),
       new Wander(mobService.mobTable.getWanderingMobs(), locationService),
     ]),
@@ -42,7 +42,7 @@ export default async function addObservers(
     await getPlayerRepository(), await getMobRepository()), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(
     locationService,
-    gameService.stateService.weatherService,
+    gameService.getWeatherService(),
     []), new MinuteTimer())
   gameServer.addObserver(new FightRounds(mobService), new SecondIntervalTimer())
   gameServer.addObserver(new Respawner(resetService), new FiveMinuteTimer())

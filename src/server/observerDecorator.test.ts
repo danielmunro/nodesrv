@@ -23,9 +23,8 @@ describe("observer decorator", () => {
         mobResets: [],
       },
       service: {
-        stateService: {
-          timeService: jest.fn(),
-        },
+        getTimeService: jest.fn(),
+        getWeatherService: jest.fn(),
       },
     }))
     const mockServer = mock()

@@ -15,7 +15,7 @@ describe("death timer event consumer", () => {
 
     // when
     const service = await testBuilder.getService()
-    const eventConsumer = new DeathTimerEventConsumer(service.eventService, service.mobService.locationService)
+    const eventConsumer = new DeathTimerEventConsumer(testBuilder.eventService, service.mobService.locationService)
     await eventConsumer.consume(new MobEvent(EventType.Tick, mob))
 
     // then

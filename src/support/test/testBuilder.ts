@@ -2,6 +2,7 @@ import Action from "../../action/action"
 import Skill from "../../action/impl/skill"
 import Spell from "../../action/impl/spell"
 import {Client} from "../../client/client"
+import EventService from "../../event/eventService"
 import GameService from "../../gameService/gameService"
 import ServiceBuilder from "../../gameService/serviceBuilder"
 import ItemBuilder from "../../item/itemBuilder"
@@ -42,9 +43,10 @@ const ws = jest.fn(() => ({
 export default class TestBuilder {
   public player: Player
   public room: Room
+  public readonly eventService: EventService = new EventService()
   private lastRoom: Room
   private mobForRequest: Mob
-  private serviceBuilder: ServiceBuilder = new ServiceBuilder()
+  private serviceBuilder: ServiceBuilder = new ServiceBuilder(this.eventService)
 
   public async withClient() {
     if (!this.player) {
@@ -57,7 +59,7 @@ export default class TestBuilder {
       "127.0.0.1",
       service.getActions(),
       service.mobService.locationService,
-      service.eventService)
+      this.eventService)
     await client.session.login(client, this.player)
     this.mobForRequest = client.getSessionMob()
     this.serviceBuilder.addMob(this.mobForRequest)
@@ -128,7 +130,7 @@ export default class TestBuilder {
   public async fight(target = this.withMob().mob): Promise<Fight> {
     const service = await this.getService()
     const fight = new Fight(
-      service.eventService,
+      this.eventService,
       this.mobForRequest, target,
       this.room)
     service.mobService.addFight(fight)

@@ -17,7 +17,7 @@ describe("room message event consumer", () => {
     // setup -- client service
     const service = await testBuilder.getService()
     const clientService = new ClientService(
-      service.eventService,
+      testBuilder.eventService,
       jest.fn()(),
       service.mobService.locationService,
       [],

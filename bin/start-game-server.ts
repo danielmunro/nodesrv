@@ -116,7 +116,8 @@ initializeConnection().then(async () => {
     server,
     mobService,
     itemService,
-    new FightBuilder(eventService, mobService.locationService))
+    new FightBuilder(eventService, mobService.locationService),
+    eventService)
   eventConsumerTable.forEach(eventConsumer => eventService.addConsumer(eventConsumer))
   await server.start()
   console.timeEnd(Timings.openPort)

@@ -34,12 +34,16 @@ export default class ServiceBuilder {
   private locations: MobLocation[] = []
   private clients: Client[] = []
   private builtService: GameService
+  private rooms: Room[] = []
+  private mobs: Mob[] = []
+  private items: Item[] = []
+  private exits: Exit[] = []
+  private readonly itemService: ItemService
 
   constructor(
-    private rooms: Room[] = [],
-    private mobs: Mob[] = [],
-    private items: Item[] = [],
-    private exits: Exit[] = []) {}
+    private readonly eventService: EventService) {
+    this.itemService = new ItemService(new ItemTable(this.items), new ItemTable(this.items))
+  }
 
   public setTime(time: number) {
     this.time = time
@@ -70,7 +74,7 @@ export default class ServiceBuilder {
   public addItem(item: Item): void {
     this.items.push(item)
     if (this.builtService) {
-      this.builtService.itemService.add(item)
+      this.itemService.add(item)
     }
   }
 
@@ -95,10 +99,8 @@ export default class ServiceBuilder {
     if (this.builtService) {
       return this.builtService
     }
-    const eventService = new EventService()
     const roomTable = RoomTable.new(this.rooms)
-    const locationService = new LocationService(roomTable, eventService, new ExitTable(this.exits), this.locations)
-    const itemService = new ItemService(new ItemTable(this.items), new ItemTable(this.items))
+    const locationService = new LocationService(roomTable, this.eventService, new ExitTable(this.exits), this.locations)
     const mobService = new MobService(
       new MobTable(this.mobs),
       new MobTable(this.mobs),
@@ -106,16 +108,16 @@ export default class ServiceBuilder {
       locationService)
     const timeService = new TimeService(this.time)
     const weatherService = new WeatherService()
-    const skillTable = getSkillTable(mobService, eventService)
+    const skillTable = getSkillTable(mobService, this.eventService)
     const spellTable = getSpellTable(
-      mobService, eventService, itemService, new StateService(weatherService, timeService))
+      mobService, this.eventService, this.itemService, new StateService(weatherService, timeService))
     this.builtService = new GameService(
       mobService,
       roomTable,
-      itemService,
-      eventService,
+      this.itemService,
+      this.eventService,
       new ActionService(
-        getActionTable(mobService, itemService, timeService, eventService, weatherService, spellTable),
+        getActionTable(mobService, this.itemService, timeService, this.eventService, weatherService, spellTable),
         skillTable,
         spellTable),
       new StateService(
@@ -130,18 +132,19 @@ export default class ServiceBuilder {
       null,
       room,
       new ClientService(
-        this.builtService.eventService,
+        this.eventService,
         new AuthService(jest.fn()(), this.builtService.mobService),
         this.builtService.mobService.locationService,
         this.builtService.getActions(),
         this.clients),
-      this.builtService.eventService)
+      this.eventService)
     const eventConsumers = await eventConsumerTable(
       this.builtService,
       gameServer,
       this.builtService.mobService,
-      this.builtService.itemService,
-      new FightBuilder(this.builtService.eventService, this.builtService.mobService.locationService))
-    eventConsumers.forEach(eventConsumer => this.builtService.eventService.addConsumer(eventConsumer))
+      this.itemService,
+      new FightBuilder(this.eventService, this.builtService.mobService.locationService),
+      this.eventService)
+    eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
   }
 }

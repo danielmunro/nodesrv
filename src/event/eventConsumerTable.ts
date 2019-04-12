@@ -45,13 +45,15 @@ import ParryEventConsumer from "../skill/eventConsumer/parryEventConsumer"
 import ShieldBlockEventConsumer from "../skill/eventConsumer/shieldBlockEventConsumer"
 import {SkillType} from "../skill/skillType"
 import EventConsumer from "./eventConsumer"
+import EventService from "./eventService"
 
 export default async function createEventConsumerTable(
   gameService: GameService,
   gameServer: GameServer,
   mobService: MobService,
   itemService: ItemService,
-  fightBuilder: FightBuilder): Promise<EventConsumer[]> {
+  fightBuilder: FightBuilder,
+  eventService: EventService): Promise<EventConsumer[]> {
   const clientService = gameServer.clientService
   const locationService = mobService.locationService
   return Promise.resolve([
@@ -65,7 +67,7 @@ export default async function createEventConsumerTable(
     new WithstandDeathEventConsumer(),
     new HolySilenceEventConsumer(),
     new OrbOfTouchEventConsumer(),
-    new DetectTouchEventConsumer(gameService.eventService),
+    new DetectTouchEventConsumer(eventService),
 
     // mob
     new AggressiveMob(mobService, locationService, fightBuilder),
@@ -80,7 +82,7 @@ export default async function createEventConsumerTable(
     new DamageModifierEventConsumer(),
     new FollowMob(locationService,
       gameService.getActions().filter((action: Action) => action instanceof Move) as Move[]),
-    new DeathTimerEventConsumer(gameService.eventService, locationService),
+    new DeathTimerEventConsumer(eventService, locationService),
 
     // room
     new RoomMessageEventConsumer(clientService, locationService),
