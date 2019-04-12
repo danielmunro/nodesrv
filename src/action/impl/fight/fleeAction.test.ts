@@ -33,16 +33,16 @@ beforeEach(async () => {
 
 describe("flee action handler", () => {
   it("flee should stop a fight", async () => {
-    const service = await testBuilder.getService()
+    const mobService = await testBuilder.getMobService()
 
     // verify
-    expect(service.mobService.findFight(f => f.isInProgress())).toBeTruthy()
+    expect(mobService.findFight(f => f.isInProgress())).toBeTruthy()
 
     // when
     await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Flee))
 
     // then
-    expect(service.mobService.findFight(f => f.isInProgress())).toBeUndefined()
+    expect(mobService.findFight(f => f.isInProgress())).toBeUndefined()
   })
 
   it("flee should cause the fleeing mob to change rooms", async () => {

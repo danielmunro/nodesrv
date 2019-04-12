@@ -1,6 +1,6 @@
 import {CheckStatus} from "../../../check/checkStatus"
 import {CheckMessages} from "../../../check/constants"
-import GameService from "../../../gameService/gameService"
+import MobService from "../../../mob/mobService"
 import {AuthorizationLevel} from "../../../player/authorizationLevel"
 import {Player} from "../../../player/model/player"
 import InputContext from "../../../request/context/inputContext"
@@ -17,22 +17,19 @@ const MOB_TO_BAN = "bob"
 const MOB_SELF = "alice"
 const NOT_EXISTING_MOB = "foo"
 let requestBuilder: RequestBuilder
-let service: GameService
 let playerToBan: Player
 let action: Action
+let mobService: MobService
 
 beforeEach(async () => {
   const testBuilder = new TestBuilder()
   const adminPlayerBuilder = await testBuilder.withPlayer()
   adminPlayerBuilder.setAuthorizationLevel(AuthorizationLevel.Admin)
-  const player = adminPlayerBuilder.player
-  player.sessionMob.name = MOB_SELF
+  adminPlayerBuilder.player.sessionMob.name = MOB_SELF
   const playerBuilder = await testBuilder.withPlayer()
   playerToBan = playerBuilder.player
   playerToBan.sessionMob.name = MOB_TO_BAN
-  service = await testBuilder.getService()
-  service.mobService.mobTable.add(player.sessionMob)
-  service.mobService.mobTable.add(playerToBan.sessionMob)
+  mobService = await testBuilder.getMobService()
   requestBuilder = await testBuilder.createRequestBuilder()
   action = await testBuilder.getAction(RequestType.Ban)
 })
@@ -93,7 +90,7 @@ describe("ban moderation action", () => {
     // given
     const MOB_NAME = "fubar"
     const nonPlayerMob = getTestMob(MOB_NAME)
-    service.mobService.mobTable.add(nonPlayerMob)
+    mobService.mobTable.add(nonPlayerMob)
     // when
     const response = await action.check(requestBuilder.create(RequestType.Ban, `ban ${MOB_NAME}`))
 

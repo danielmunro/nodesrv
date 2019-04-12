@@ -15,17 +15,16 @@ let mob: Mob
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  const gameService = await testBuilder.getService()
   mob = testBuilder.withMob().mob
+  const mobService = await testBuilder.getMobService()
   checkBuilder = new CheckBuilder(
-    gameService.mobService,
+    mobService,
     testBuilder.createRequest(RequestType.Noop),
-    getActionPartTable(gameService.mobService))
+    getActionPartTable(mobService))
   checkBuilder.capture(mob)
 })
 
 describe("checkBuilder", () => {
-
   describe("requireFight", () => {
     it("should fail if a fight has not started", async () => {
       // given

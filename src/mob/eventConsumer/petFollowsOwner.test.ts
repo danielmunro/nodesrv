@@ -15,11 +15,12 @@ describe("pet follows owner event consumer", () => {
     mob1.pet = mob2
 
     // when
-    const gameService = await testBuilder.getService()
-    await gameService.mobService.locationService.updateMobLocation(mob1, room2, Direction.North)
+    const mobService = await testBuilder.getMobService()
+
+    await mobService.locationService.updateMobLocation(mob1, room2, Direction.North)
 
     // then
-    const mob2Location = gameService.getMobLocation(mob2)
+    const mob2Location = mobService.locationService.getLocationForMob(mob2)
     expect(mob2Location.room).toBe(room2)
   })
 })

@@ -1,7 +1,7 @@
 import {CheckStatus} from "../../../check/checkStatus"
 import {CheckMessages} from "../../../check/constants"
-import GameService from "../../../gameService/gameService"
 import {Standing} from "../../../mob/enum/standing"
+import MobService from "../../../mob/mobService"
 import {AuthorizationLevel} from "../../../player/authorizationLevel"
 import {Player} from "../../../player/model/player"
 import InputContext from "../../../request/context/inputContext"
@@ -19,7 +19,7 @@ const MOB_TO_UNBAN = "bob"
 const MOB_SELF = "alice"
 const NOT_EXISTING_MOB = "foo"
 let requestBuilder: RequestBuilder
-let service: GameService
+let mobService: MobService
 let playerToUnban: Player
 let action: Action
 
@@ -33,9 +33,9 @@ beforeEach(async () => {
   playerToUnban = playerBuilder.player
   playerToUnban.sessionMob.name = MOB_TO_UNBAN
   playerToUnban.sessionMob.playerMob.standing = Standing.IndefiniteBan
-  service = await testBuilder.getService()
-  service.mobService.mobTable.add(player.sessionMob)
-  service.mobService.mobTable.add(playerToUnban.sessionMob)
+  mobService = await testBuilder.getMobService()
+  mobService.mobTable.add(player.sessionMob)
+  mobService.mobTable.add(playerToUnban.sessionMob)
   requestBuilder = await testBuilder.createRequestBuilder()
   action = await testBuilder.getAction(RequestType.Unban)
 })
@@ -85,7 +85,8 @@ describe("unban moderation action", () => {
     // given
     const MOB_NAME = "fubar"
     const nonPlayerMob = getTestMob(MOB_NAME)
-    service.mobService.mobTable.add(nonPlayerMob)
+    mobService.mobTable.add(nonPlayerMob)
+
     // when
     const response = await action.check(requestBuilder.create(RequestType.Unban, `unban ${MOB_NAME}`))
 

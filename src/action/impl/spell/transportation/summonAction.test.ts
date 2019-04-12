@@ -1,7 +1,6 @@
 import EventConsumer from "../../../../event/eventConsumer"
 import EventResponse from "../../../../event/eventResponse"
 import {EventType} from "../../../../event/eventType"
-import GameService from "../../../../gameService/gameService"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import MobService from "../../../../mob/mobService"
 import {RequestType} from "../../../../request/requestType"
@@ -16,7 +15,6 @@ let target: MobBuilder
 let room1: RoomBuilder
 let room2: RoomBuilder
 let mobService: MobService
-let service: GameService
 const responseMessage = "you arrive in a puff of smoke!"
 
 beforeEach(async () => {
@@ -27,8 +25,7 @@ beforeEach(async () => {
     .setLevel(30)
   room2 = testBuilder.withRoom()
   target = testBuilder.withMob().addToRoom(room2)
-  service = await testBuilder.getService()
-  mobService = service.mobService
+  mobService = await testBuilder.getMobService()
 })
 
 describe("summon spell action", () => {

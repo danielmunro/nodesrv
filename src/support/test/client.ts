@@ -11,7 +11,6 @@ import { default as AuthService } from "../../session/auth/authService"
 import Email from "../../session/auth/login/email"
 import Session from "../../session/session"
 import { getTestPlayer } from "./player"
-import { getTestRoom } from "./room"
 
 const ws = jest.fn(() => ({
   send: jest.fn(),
@@ -38,7 +37,7 @@ export async function getTestClient(player = getTestPlayer()): Promise<Client> {
   const service = new GameService(mobService, new ActionService([], [], []), mock())
   const actions = service.getActions()
   const authService = new AuthService(await getPlayerRepository(), mobService)
-  const client = await createClient(player, actions, service.mobService.locationService, authService)
+  const client = await createClient(player, actions, mobService.locationService, authService)
   await client.session.login(client, player)
 
   return Promise.resolve(client)
@@ -50,5 +49,5 @@ export async function getTestClientLoggedOut(player = getTestPlayer()): Promise<
     mobService,
     new ActionService([], [], []), mock())
   const authService = new AuthService(await getPlayerRepository(), mobService)
-  return createClient(player, service.getActions(), service.mobService.locationService, authService)
+  return createClient(player, service.getActions(), mobService.locationService, authService)
 }

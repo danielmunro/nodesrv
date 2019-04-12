@@ -8,15 +8,15 @@ describe("mob created event consumer", () => {
   it("adds a created mob to the mob service", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const service = await testBuilder.getService()
+    const mobService = await testBuilder.getMobService()
 
     // given
-    const mobCreated = new MobCreated(service.mobService, testBuilder.withRoom().room)
+    const mobCreated = new MobCreated(mobService, testBuilder.withRoom().room)
 
     // when
     await mobCreated.consume(new MobEvent(EventType.MobCreated, getTestMob()))
 
     // then
-    expect(service.mobService.mobTable.getMobs()).toHaveLength(1)
+    expect(mobService.mobTable.getMobs()).toHaveLength(1)
   })
 })

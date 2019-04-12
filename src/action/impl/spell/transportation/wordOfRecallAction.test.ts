@@ -29,7 +29,7 @@ beforeEach(async () => {
     .addToRoom(room2)
   target = testBuilder.withMob()
     .addToRoom(room2)
-  mobService = (await testBuilder.getService()).mobService
+  mobService = await testBuilder.getMobService()
 })
 
 describe("word of recall spell action", () => {

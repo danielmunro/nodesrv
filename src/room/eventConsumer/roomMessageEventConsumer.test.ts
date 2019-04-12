@@ -15,18 +15,18 @@ describe("room message event consumer", () => {
     const client2 = await testBuilder.withClient()
 
     // setup -- client service
-    const service = await testBuilder.getService()
+    const mobService = await testBuilder.getMobService()
     const clientService = new ClientService(
       testBuilder.eventService,
       jest.fn()(),
-      service.mobService.locationService,
+      mobService.locationService,
       [],
       [client1, client2])
 
     // setup -- event consumer
     const roomMessageEventConsumer = new RoomMessageEventConsumer(
       clientService,
-      service.mobService.locationService)
+      mobService.locationService)
 
     // when
     await roomMessageEventConsumer.consume(

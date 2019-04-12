@@ -1,5 +1,5 @@
-import GameService from "../../../../gameService/gameService"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
+import MobService from "../../../../mob/mobService"
 import {RequestType} from "../../../../request/requestType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
@@ -10,17 +10,17 @@ import TestBuilder from "../../../../support/test/testBuilder"
 import {SKELETAL_WARRIOR_ID} from "./summonUndeadAction"
 
 let testBuilder: TestBuilder
-let service: GameService
+let mobService: MobService
 let caster: MobBuilder
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
-  service = await testBuilder.getService()
+  mobService = await testBuilder.getMobService()
   caster = testBuilder.withMob().setLevel(30).withSpell(SpellType.SummonUndead, MAX_PRACTICE_LEVEL)
 
   const skeletalWarrior = getTestMob()
   skeletalWarrior.id = SKELETAL_WARRIOR_ID
-  service.mobService.mobTemplateTable.add(skeletalWarrior)
+  mobService.mobTemplateTable.add(skeletalWarrior)
 })
 
 describe("summon undead spell action", () => {
@@ -31,7 +31,7 @@ describe("summon undead spell action", () => {
       testBuilder.createRequest(RequestType.Cast, "cast 'summon undead'"))
 
     // then
-    expect(service.mobService.locationService.getMobsInRoomWithMob(caster.mob)).toHaveLength(2)
+    expect(mobService.locationService.getMobsInRoomWithMob(caster.mob)).toHaveLength(2)
   })
 
   it("creates accurate success messages", async () => {

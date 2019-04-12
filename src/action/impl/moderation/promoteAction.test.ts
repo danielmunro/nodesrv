@@ -1,7 +1,7 @@
 import {CheckStatus} from "../../../check/checkStatus"
 import {CheckMessages} from "../../../check/constants"
-import GameService from "../../../gameService/gameService"
 import {Standing} from "../../../mob/enum/standing"
+import MobService from "../../../mob/mobService"
 import {AuthorizationLevel} from "../../../player/authorizationLevel"
 import {allAuthorizationLevels} from "../../../player/constants"
 import {Player} from "../../../player/model/player"
@@ -15,10 +15,9 @@ import {MESSAGE_FAIL_BANNED} from "../../constants"
 const MOB_TO_PROMOTE = "bob"
 const MOB_SELF = "alice"
 let requestBuilder: RequestBuilder
-let service: GameService
+let mobService: MobService
 let player: Player
 let playerToPromote: Player
-
 let action: Action
 
 beforeEach(async () => {
@@ -31,7 +30,7 @@ beforeEach(async () => {
   playerToPromote = playerBuilder.player
   playerToPromote.sessionMob.name = MOB_TO_PROMOTE
   requestBuilder = await testBuilder.createRequestBuilder()
-  service = await testBuilder.getService()
+  mobService = await testBuilder.getMobService()
   action = await testBuilder.getAction(RequestType.Promote)
 })
 
@@ -127,7 +126,7 @@ describe("promote moderation action", () => {
   it("cannot promote non-player mobs", async () => {
     const MOB_NAME = "baz"
     const mob = getTestMob(MOB_NAME)
-    service.mobService.mobTable.add(mob)
+    mobService.mobTable.add(mob)
 
     const check = await action.check(requestBuilder.create(RequestType.Promote, `promote ${mob.name}`))
 

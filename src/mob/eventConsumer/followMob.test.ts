@@ -26,8 +26,8 @@ beforeEach(async () => {
   mob1 = testBuilder.withMob().mob
   mob2 = testBuilder.withMob().mob
   action = await testBuilder.getAction(RequestType.South)
-  const service = await testBuilder.getService()
-  locationService = service.mobService.locationService
+  const mobService = await testBuilder.getMobService()
+  locationService = mobService.locationService
 })
 
 describe("follow mob event consumer", () => {

@@ -16,7 +16,7 @@ import TimeService from "./timeService"
 
 export default class GameService {
   constructor(
-    public readonly mobService: MobService,
+    private readonly mobService: MobService,
     private readonly actionService: ActionService,
     private readonly stateService: StateService) {}
 

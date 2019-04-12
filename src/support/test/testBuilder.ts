@@ -11,6 +11,8 @@ import {Item} from "../../item/model/item"
 import WeaponBuilder from "../../item/weaponBuilder"
 import {newMobLocation} from "../../mob/factory"
 import {Fight} from "../../mob/fight/fight"
+import LocationService from "../../mob/locationService"
+import MobService from "../../mob/mobService"
 import {Mob} from "../../mob/model/mob"
 import {SpecializationType} from "../../mob/specialization/specializationType"
 import {Player} from "../../player/model/player"
@@ -49,18 +51,21 @@ export default class TestBuilder {
   private lastRoom: Room
   private mobForRequest: Mob
   private serviceBuilder: ServiceBuilder = new ServiceBuilder(this.eventService, this.itemService)
+  private locationService: LocationService
+  private mobService: MobService
 
   public async withClient() {
     if (!this.player) {
       await this.withPlayer()
     }
     const service = await this.getService()
+    const mobService = await this.getMobService()
     const client = new Client(
       new Session(new Email(jest.fn()())),
       ws(),
       "127.0.0.1",
       service.getActions(),
-      service.mobService.locationService,
+      mobService.locationService,
       this.eventService)
     await client.session.login(client, this.player)
     this.mobForRequest = client.getSessionMob()
@@ -130,12 +135,12 @@ export default class TestBuilder {
   }
 
   public async fight(target = this.withMob().mob): Promise<Fight> {
-    const service = await this.getService()
+    const mobService = await this.getMobService()
     const fight = new Fight(
       this.eventService,
       this.mobForRequest, target,
       this.room)
-    service.mobService.addFight(fight)
+    mobService.addFight(fight)
 
     return fight
   }
@@ -166,7 +171,8 @@ export default class TestBuilder {
 
   public async createRequestBuilder() {
     const service = await this.getService()
-    return new RequestBuilder(service.getActions(), service.mobService.locationService, this.mobForRequest, this.room)
+    const mobService = await this.getMobService()
+    return new RequestBuilder(service.getActions(), mobService.locationService, this.mobForRequest, this.room)
   }
 
   public async successfulAction(request: Request): Promise<Response> {
@@ -198,8 +204,18 @@ export default class TestBuilder {
     return this
   }
 
+  public async getMobService() {
+    if (!this.mobService) {
+      await this.getService()
+    }
+
+    return this.mobService
+  }
+
   public async getService(): Promise<GameService> {
-    return this.serviceBuilder.createService(this.room)
+    this.locationService = this.serviceBuilder.createLocationService()
+    this.mobService = this.serviceBuilder.createMobService(this.locationService)
+    return this.serviceBuilder.createService(this.room, this.mobService)
   }
 
   private addExit(exit: Exit) {

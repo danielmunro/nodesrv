@@ -7,7 +7,7 @@ describe("aggressive mob event consumer", () => {
   it("arriving in a room with an aggressive mob should trigger a fight", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const gameService = await testBuilder.getService()
+    const mobService = await testBuilder.getMobService()
     const player = await testBuilder.withPlayer()
 
     // given
@@ -18,7 +18,7 @@ describe("aggressive mob event consumer", () => {
       new MobMoveEvent(player.getMob(), testBuilder.room, testBuilder.room, Direction.Noop))
 
     // then
-    const fight = gameService.mobService.findFight(f => f.isParticipant(player.getMob()))
+    const fight = mobService.findFight(f => f.isParticipant(player.getMob()))
     expect(fight).toBeDefined()
     expect(fight).toBeInstanceOf(Fight)
   })
@@ -26,7 +26,7 @@ describe("aggressive mob event consumer", () => {
   it("don't attack non-players", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const gameService = await testBuilder.getService()
+    const mobService = await testBuilder.getMobService()
     const mob1 = testBuilder.withMob().mob
 
     // given
@@ -36,14 +36,14 @@ describe("aggressive mob event consumer", () => {
     await testBuilder.eventService.publish(new MobMoveEvent(mob1, testBuilder.room, testBuilder.room, Direction.Noop))
 
     // then
-    const fight = gameService.mobService.findFight(f => f.isParticipant(mob1))
+    const fight = mobService.findFight(f => f.isParticipant(mob1))
     expect(fight).not.toBeDefined()
   })
 
   it("if an aggressive mob has a lower level than the target, don't initiate an attack", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const gameService = await testBuilder.getService()
+    const mobService = await testBuilder.getMobService()
     const player = await testBuilder.withPlayer()
 
     // given
@@ -56,7 +56,7 @@ describe("aggressive mob event consumer", () => {
       new MobMoveEvent(player.getMob(), testBuilder.room, testBuilder.room, Direction.Noop))
 
     // then
-    const fight = gameService.mobService.findFight(f => f.isParticipant(player.getMob()))
+    const fight = mobService.findFight(f => f.isParticipant(player.getMob()))
     expect(fight).not.toBeDefined()
   })
 })

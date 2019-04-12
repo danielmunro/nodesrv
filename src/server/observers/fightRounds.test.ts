@@ -1,5 +1,6 @@
 import { Disposition } from "../../mob/enum/disposition"
 import { Attack, AttackResult } from "../../mob/fight/attack"
+import {Fight} from "../../mob/fight/fight"
 import {getConnection, initializeConnection} from "../../support/db/connection"
 import { getTestClient } from "../../support/test/client"
 import { getTestMob } from "../../support/test/mob"
@@ -62,11 +63,10 @@ describe("fight rounds", () => {
     const mobBuilder = testBuilder.withMob()
     mobBuilder.mob.vitals.hp = 0
     await testBuilder.fight()
-    const service = await testBuilder.getService()
-    const mobService = service.mobService
+    const mobService = await testBuilder.getMobService()
 
     // when
-    const fight = mobService.findFight(f => f.isParticipant(mobBuilder.mob))
+    const fight = mobService.findFight(f => f.isParticipant(mobBuilder.mob)) as Fight
 
     // then
     expect(fight.isInProgress()).toBe(true)
@@ -85,14 +85,14 @@ describe("fight rounds", () => {
     const testBuilder = new TestBuilder()
     const client = await testBuilder.withClient()
     await testBuilder.fight()
-    const service = await testBuilder.getService()
-    const fightRounds = new FightRounds(service.mobService)
+    const mobService = await testBuilder.getMobService()
+    const fightRounds = new FightRounds(mobService)
 
     // when
     await fightRounds.notify([client])
 
     // then
-    const fight = service.mobService.findFight(f => f.isParticipant(client.player.sessionMob))
+    const fight = mobService.findFight(f => f.isParticipant(client.player.sessionMob)) as Fight
     expect(fight.isInProgress()).toBe(true)
 
     // and when
@@ -101,7 +101,7 @@ describe("fight rounds", () => {
     await fightRounds.notify([client])
 
     // then
-    const fight2 = service.mobService.findFight(f => f.isParticipant(client.player.sessionMob))
+    const fight2 = mobService.findFight(f => f.isParticipant(client.player.sessionMob))
     expect(fight2).toBeUndefined()
   })
 })

@@ -15,7 +15,8 @@ describe("wimpy", () => {
     const target = testBuilder.withMob().mob
     const fight = await testBuilder.fight(target)
     const service = await testBuilder.getService()
-    const wimpy = new Wimpy(service.mobService.locationService, service.getAction(RequestType.Flee))
+    const mobService = await testBuilder.getMobService()
+    const wimpy = new Wimpy(mobService.locationService, service.getAction(RequestType.Flee))
 
     // given
     target.traits.wimpy = true
@@ -32,7 +33,7 @@ describe("wimpy", () => {
     expect(service.getMobLocation(target).room).toBe(room2)
 
     // and
-    service.mobService.filterCompleteFights()
-    expect(service.mobService.findFight(f => f === fight)).toBeUndefined()
+    mobService.filterCompleteFights()
+    expect(mobService.findFight(f => f === fight)).toBeUndefined()
   })
 })
