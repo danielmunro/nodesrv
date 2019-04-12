@@ -14,7 +14,7 @@ describe("aggressive mob event consumer", () => {
     testBuilder.withMob().mob.traits.aggressive = true
 
     // when
-    await gameService.publishEvent(
+    await testBuilder.eventService.publish(
       new MobMoveEvent(player.getMob(), testBuilder.room, testBuilder.room, Direction.Noop))
 
     // then
@@ -33,7 +33,7 @@ describe("aggressive mob event consumer", () => {
     testBuilder.withMob().mob.traits.aggressive = true
 
     // when
-    await gameService.publishEvent(new MobMoveEvent(mob1, testBuilder.room, testBuilder.room, Direction.Noop))
+    await testBuilder.eventService.publish(new MobMoveEvent(mob1, testBuilder.room, testBuilder.room, Direction.Noop))
 
     // then
     const fight = gameService.mobService.findFight(f => f.isParticipant(mob1))
@@ -52,7 +52,7 @@ describe("aggressive mob event consumer", () => {
     player.setLevel(mob2.level + 1)
 
     // when
-    await gameService.publishEvent(
+    await testBuilder.eventService.publish(
       new MobMoveEvent(player.getMob(), testBuilder.room, testBuilder.room, Direction.Noop))
 
     // then

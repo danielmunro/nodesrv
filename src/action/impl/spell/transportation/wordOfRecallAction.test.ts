@@ -21,7 +21,6 @@ const responseMessage = "you disappear in a flash."
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   room1 = testBuilder.withRoom()
-  room1.room.uuid = "3001"
   room2 = testBuilder.withRoom()
   spell = await testBuilder.getSpell(SpellType.WordOfRecall)
   caster = testBuilder.withMob()

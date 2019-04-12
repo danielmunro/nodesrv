@@ -33,13 +33,18 @@ export default class ServiceBuilder {
   private locations: MobLocation[] = []
   private clients: Client[] = []
   private builtService: GameService
-  private rooms: Room[] = []
+  private roomTable = new RoomTable()
   private mobs: Mob[] = []
   private exits: Exit[] = []
+  private recallRoomId: string
 
   constructor(
     private readonly eventService: EventService,
     private readonly itemService: ItemService) {
+  }
+
+  public setRecallRoomId(recallRoomId: string): void {
+    this.recallRoomId = recallRoomId
   }
 
   public setTime(time: number) {
@@ -51,10 +56,7 @@ export default class ServiceBuilder {
   }
 
   public addRoom(room: Room): void {
-    this.rooms.push(room)
-    if (this.builtService) {
-      this.builtService.roomTable.add(room)
-    }
+    this.roomTable.add(room)
   }
 
   public addClient(client: Client) {
@@ -93,8 +95,8 @@ export default class ServiceBuilder {
     if (this.builtService) {
       return this.builtService
     }
-    const roomTable = RoomTable.new(this.rooms)
-    const locationService = new LocationService(roomTable, this.eventService, new ExitTable(this.exits), this.locations)
+    const locationService = new LocationService(
+      this.roomTable, this.eventService, new ExitTable(this.exits), this.locations, this.recallRoomId)
     const mobService = new MobService(
       new MobTable(this.mobs),
       new MobTable(this.mobs),
@@ -107,8 +109,6 @@ export default class ServiceBuilder {
       mobService, this.eventService, this.itemService, new StateService(weatherService, timeService))
     this.builtService = new GameService(
       mobService,
-      roomTable,
-      this.eventService,
       new ActionService(
         getActionTable(mobService, this.itemService, timeService, this.eventService, weatherService, spellTable),
         skillTable,

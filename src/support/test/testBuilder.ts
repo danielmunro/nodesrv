@@ -212,6 +212,7 @@ export default class TestBuilder {
 
     if (!this.room) {
       this.room = room
+      this.serviceBuilder.setRecallRoomId(this.room.uuid)
       if (this.player) {
         this.serviceBuilder.addMobLocation(newMobLocation(this.player.sessionMob, room))
       }

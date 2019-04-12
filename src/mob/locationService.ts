@@ -10,15 +10,15 @@ import MobLocation from "./model/mobLocation"
 const RECALL_ROOM_ID = "3001"
 
 export default class LocationService {
-
   constructor(
     private readonly roomTable: RoomTable,
     private readonly eventService: EventService,
     private readonly exitTable: ExitTable,
-    private mobLocations: MobLocation[] = []) {}
+    private mobLocations: MobLocation[] = [],
+    private readonly recallRoomId: string = RECALL_ROOM_ID) {}
 
   public getRecall(): Room | undefined {
-    return this.roomTable.get(RECALL_ROOM_ID)
+    return this.roomTable.get(this.recallRoomId)
   }
 
   public async moveMob(mob: Mob, direction: Direction) {

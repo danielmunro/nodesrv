@@ -67,7 +67,7 @@ describe("summon spell action", () => {
     }
 
     const consumer = new testConsumer()
-    service.addEventConsumer(consumer)
+    testBuilder.eventService.addConsumer(consumer)
 
     // when
     await testBuilder.successfulAction(
