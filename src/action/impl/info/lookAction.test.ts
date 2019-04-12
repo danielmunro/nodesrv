@@ -118,13 +118,12 @@ describe("look action", () => {
 
   it("can describe an item in the room", async () => {
     // given
-    const item = getTestItem()
+    const itemBuilder = testBuilder.withItem().asShield()
+    const item = itemBuilder.build()
     room.inventory.addItem(item)
-    const service = await testBuilder.getService()
-    service.itemService.add(item)
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Look, "look pirate"))
+    const response = await definition.handle(testBuilder.createRequest(RequestType.Look, "look shield"))
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(item.description)
@@ -134,8 +133,7 @@ describe("look action", () => {
     // given
     const item = getTestItem()
     player.sessionMob.inventory.addItem(item)
-    const service = await testBuilder.getService()
-    service.itemService.add(item)
+    testBuilder.itemService.add(item)
 
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Look, "look pirate"))
@@ -172,7 +170,7 @@ describe("look action", () => {
     // and
     const item = getTestItem()
     item.affect().add(newAffect(AffectType.Glow))
-    service.itemService.add(item)
+    testBuilder.itemService.add(item)
     player.sessionMob.equipped.addItem(item)
 
     // when

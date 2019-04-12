@@ -86,7 +86,6 @@ initializeConnection().then(async () => {
   const gameService = new GameService(
     mobService,
     roomTable,
-    itemService,
     eventService,
     new ActionService(
       getActionTable(mobService, itemService, timeService, eventService, weatherService, spellTable),

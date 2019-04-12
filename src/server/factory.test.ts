@@ -3,7 +3,6 @@ import ActionService from "../gameService/actionService"
 import GameService from "../gameService/gameService"
 import StateService from "../gameService/stateService"
 import TimeService from "../gameService/timeService"
-import ItemService from "../item/itemService"
 import MobService from "../mob/mobService"
 import WeatherService from "../region/weatherService"
 import RoomTable from "../room/roomTable"
@@ -16,7 +15,6 @@ describe("game server factory", () => {
     const service = new GameService(
       new MobService(),
       new RoomTable(),
-      new ItemService(),
       new EventService(),
       new ActionService([], [], []),
       new StateService(

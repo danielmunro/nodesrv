@@ -19,8 +19,7 @@ beforeEach(async () => {
   testBuilder.withRoom(Direction.East)
   player = await testBuilder.withPlayer()
   const key = player.withKey(unlockCanonicalId as any)
-  const service = await testBuilder.getService()
-  service.itemService.add(key)
+  testBuilder.itemService.add(key)
 })
 
 describe("unlock action", () => {

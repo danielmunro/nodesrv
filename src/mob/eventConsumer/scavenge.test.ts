@@ -16,13 +16,13 @@ describe("scavenge", () => {
       .build()
     const service = await testBuilder.getService()
     const scavenge = new Scavenge(
-      mockService(), service.itemService, service.mobService.locationService)
+      mockService(), testBuilder.itemService, service.mobService.locationService)
 
     // when
     scavenge.scavenge(mob)
 
     // then
-    expect(service.itemService.findAllByInventory(mob.inventory)).toHaveLength(1)
-    expect(service.itemService.findAllByInventory(room.inventory)).toHaveLength(0)
+    expect(testBuilder.itemService.findAllByInventory(mob.inventory)).toHaveLength(1)
+    expect(testBuilder.itemService.findAllByInventory(room.inventory)).toHaveLength(0)
   })
 })

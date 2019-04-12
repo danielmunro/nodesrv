@@ -3,7 +3,6 @@ import {Client} from "../client/client"
 import eventConsumerTable from "../event/eventConsumerTable"
 import EventService from "../event/eventService"
 import ItemService from "../item/itemService"
-import ItemTable from "../item/itemTable"
 import { Item } from "../item/model/item"
 import { Fight } from "../mob/fight/fight"
 import FightBuilder from "../mob/fight/fightBuilder"
@@ -36,13 +35,11 @@ export default class ServiceBuilder {
   private builtService: GameService
   private rooms: Room[] = []
   private mobs: Mob[] = []
-  private items: Item[] = []
   private exits: Exit[] = []
-  private readonly itemService: ItemService
 
   constructor(
-    private readonly eventService: EventService) {
-    this.itemService = new ItemService(new ItemTable(this.items), new ItemTable(this.items))
+    private readonly eventService: EventService,
+    private readonly itemService: ItemService) {
   }
 
   public setTime(time: number) {
@@ -72,10 +69,7 @@ export default class ServiceBuilder {
   }
 
   public addItem(item: Item): void {
-    this.items.push(item)
-    if (this.builtService) {
-      this.itemService.add(item)
-    }
+    this.itemService.add(item)
   }
 
   public addExit(exit: Exit): void {
@@ -114,7 +108,6 @@ export default class ServiceBuilder {
     this.builtService = new GameService(
       mobService,
       roomTable,
-      this.itemService,
       this.eventService,
       new ActionService(
         getActionTable(mobService, this.itemService, timeService, this.eventService, weatherService, spellTable),

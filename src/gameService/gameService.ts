@@ -5,7 +5,6 @@ import Event from "../event/event"
 import EventConsumer from "../event/eventConsumer"
 import EventResponse from "../event/eventResponse"
 import EventService from "../event/eventService"
-import ItemService from "../item/itemService"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
@@ -24,7 +23,6 @@ export default class GameService {
   constructor(
     public readonly mobService: MobService,
     public readonly roomTable: RoomTable,
-    public readonly itemService: ItemService,
     private readonly eventService: EventService,
     private readonly actionService: ActionService,
     private readonly stateService: StateService) {}

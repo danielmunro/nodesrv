@@ -6,6 +6,7 @@ import EventService from "../../event/eventService"
 import GameService from "../../gameService/gameService"
 import ServiceBuilder from "../../gameService/serviceBuilder"
 import ItemBuilder from "../../item/itemBuilder"
+import ItemService from "../../item/itemService"
 import {Item} from "../../item/model/item"
 import WeaponBuilder from "../../item/weaponBuilder"
 import {newMobLocation} from "../../mob/factory"
@@ -44,9 +45,10 @@ export default class TestBuilder {
   public player: Player
   public room: Room
   public readonly eventService: EventService = new EventService()
+  public readonly itemService: ItemService = new ItemService()
   private lastRoom: Room
   private mobForRequest: Mob
-  private serviceBuilder: ServiceBuilder = new ServiceBuilder(this.eventService)
+  private serviceBuilder: ServiceBuilder = new ServiceBuilder(this.eventService, this.itemService)
 
   public async withClient() {
     if (!this.player) {
