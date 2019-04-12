@@ -82,6 +82,12 @@ export default class ServiceBuilder {
   }
 
   public addMobLocation(mobLocation: MobLocation) {
+    const location = this.locations.find(l => l.mob === mobLocation.mob)
+    if (location) {
+      location.room = mobLocation.room
+      return
+    }
+
     this.locations.push(mobLocation)
   }
 

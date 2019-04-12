@@ -123,6 +123,13 @@ export const SpellMessages = {
   StoneSkin: {
     Success: "{target} skin turns to stone.",
   },
+  Summon: {
+    MobCannotBeSummoned: "They cannot be summoned.",
+    MobDisappeared: "{target} {verb} in a puff of smoke!",
+    MobNotFound: "They cannot be found.",
+    NotEnoughExperience: "You lack the experience to summon them.",
+    Success: "{target} {verb} in a puff of smoke!",
+  },
   SummonUndead: {
     Success: "a dark void opens to reveal a skeletal warrior.",
   },

@@ -22,7 +22,7 @@ export default function(abilityService: AbilityService, locationService: Locatio
     ])
     .setApplySpell(async checkedRequest => {
       const room = locationService.getRecall() as Room
-      locationService.updateMobLocation(checkedRequest.mob, room)
+      await locationService.updateMobLocation(checkedRequest.getTarget(), room)
     })
     .setSuccessMessage(checkedRequest =>
       new ResponseMessageBuilder(

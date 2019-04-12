@@ -68,6 +68,10 @@ export default class MobService {
     return deadMobs
   }
 
+  public findMob(search: (mob: Mob) => boolean) {
+    return this.mobTable.find(search)
+  }
+
   public findMobsByArea(area: string): MobLocation[] {
     return this.locationService.findMobsByArea(area)
   }

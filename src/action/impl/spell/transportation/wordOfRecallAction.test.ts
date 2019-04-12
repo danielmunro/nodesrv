@@ -21,24 +21,38 @@ const responseMessage = "you disappear in a flash."
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   room1 = testBuilder.withRoom()
-  room1.room.id = 3001
+  room1.room.uuid = "3001"
   room2 = testBuilder.withRoom()
   spell = await testBuilder.getSpell(SpellType.WordOfRecall)
   caster = testBuilder.withMob()
     .withSpell(SpellType.WordOfRecall, MAX_PRACTICE_LEVEL)
     .setLevel(30)
+    .addToRoom(room2)
   target = testBuilder.withMob()
     .addToRoom(room2)
   mobService = (await testBuilder.getService()).mobService
 })
 
 describe("word of recall spell action", () => {
-  it("moves mob to the room of recall when invoked", async () => {
+  it("moves a target to the room of recall when invoked", async () => {
     // when
-    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, target.mob))
+    await getSuccessfulAction(
+      spell,
+      testBuilder.createRequest(RequestType.Cast, `cast 'word' ${target.getMobName()}`,
+      target.mob))
 
     // then
     expect(mobService.locationService.getLocationForMob(target.mob).room).toBe(room1.room)
+  })
+
+  it("moves self to the room of recall when invoked", async () => {
+    // when
+    await getSuccessfulAction(
+      spell,
+      testBuilder.createRequest(RequestType.Cast, "cast 'word'", caster.mob))
+
+    // then
+    expect(mobService.locationService.getLocationForMob(caster.mob).room).toBe(room1.room)
   })
 
   it("generates accurate success messages when casting on a target", async () => {

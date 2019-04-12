@@ -40,6 +40,7 @@ import stoneSkinAction from "../action/impl/spell/protective/stoneSkinAction"
 import psionicBlastAction from "../action/impl/spell/psionics/psionicBlastAction"
 import towerOfIronWillAction from "../action/impl/spell/psionics/towerOfIronWillAction"
 import flyAction from "../action/impl/spell/transportation/flyAction"
+import summonAction from "../action/impl/spell/transportation/summonAction"
 import wordOfRecallAction from "../action/impl/spell/transportation/wordOfRecallAction"
 import AbilityService from "../check/abilityService"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
@@ -106,12 +107,6 @@ export default function getSpellTable(
     crusadeAction(abilityService),
     holySilenceAction(abilityService),
 
-    // necromancy
-    summonUndeadAction(abilityService, mobService),
-    turnUndeadAction(abilityService, mobService),
-    drawLifeAction(abilityService),
-    withstandDeathAction(abilityService),
-
     // psionics
     towerOfIronWillAction(abilityService),
     psionicBlastAction(abilityService),
@@ -119,9 +114,16 @@ export default function getSpellTable(
     // transportation
     flyAction(abilityService),
     wordOfRecallAction(abilityService, mobService.locationService),
+    summonAction(abilityService, mobService),
 
     // orbs
     orbOfTouchAction(abilityService),
     orbOfAwakeningAction(abilityService),
+
+    // necromancy
+    summonUndeadAction(abilityService, mobService),
+    turnUndeadAction(abilityService, mobService),
+    drawLifeAction(abilityService),
+    withstandDeathAction(abilityService),
   ]
 }

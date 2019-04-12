@@ -8,7 +8,12 @@ export default class MobTable {
   }
 
   public find(criteria: (mob: Mob) => boolean): Mob | undefined {
-    return this.mobs.find(criteria)
+    for (const mob of this.mobs) {
+      if (criteria(mob)) {
+        return mob
+      }
+    }
+    return undefined
   }
 
   public apply(fn: () => {}) {
