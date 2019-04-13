@@ -158,7 +158,7 @@ export class FightRounds implements Observer {
   }
 
   private updateRound(round: Round, clientMobMap: any) {
-    this.mobService.locationService.getMobsByRoom(round.room).forEach(mob =>
+    this.mobService.getMobsByRoom(round.room).forEach(mob =>
       new Maybe(clientMobMap[mob.name])
         .do(() => this.updateClientIfMobIsOwned(clientMobMap, mob, round)))
   }

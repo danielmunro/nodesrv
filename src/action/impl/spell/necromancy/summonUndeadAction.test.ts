@@ -5,18 +5,16 @@ import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {getSuccessfulAction} from "../../../../support/functional/times"
 import {getTestMob} from "../../../../support/test/mob"
-import MobBuilder from "../../../../support/test/mobBuilder"
 import TestBuilder from "../../../../support/test/testBuilder"
 import {SKELETAL_WARRIOR_ID} from "./summonUndeadAction"
 
 let testBuilder: TestBuilder
 let mobService: MobService
-let caster: MobBuilder
 
 beforeEach(async () => {
   testBuilder = new TestBuilder()
   mobService = await testBuilder.getMobService()
-  caster = testBuilder.withMob().setLevel(30).withSpell(SpellType.SummonUndead, MAX_PRACTICE_LEVEL)
+  testBuilder.withMob().setLevel(30).withSpell(SpellType.SummonUndead, MAX_PRACTICE_LEVEL)
 
   const skeletalWarrior = getTestMob()
   skeletalWarrior.id = SKELETAL_WARRIOR_ID
@@ -31,7 +29,7 @@ describe("summon undead spell action", () => {
       testBuilder.createRequest(RequestType.Cast, "cast 'summon undead'"))
 
     // then
-    expect(mobService.locationService.getMobsInRoomWithMob(caster.mob)).toHaveLength(2)
+    expect(mobService.getMobsByRoom(testBuilder.room)).toHaveLength(2)
   })
 
   it("creates accurate success messages", async () => {

@@ -39,7 +39,7 @@ export default class MobService {
     public readonly mobTable: MobTable,
     public readonly mobTemplateTable: MobTable,
     private readonly fightTable: FightTable,
-    public readonly locationService: LocationService) {}
+    private readonly locationService: LocationService) {}
 
   public add(mob: Mob, room: Room) {
     this.mobTable.add(mob)
@@ -69,8 +69,20 @@ export default class MobService {
     return deadMobs
   }
 
+  public getMobsByImportId(importId: string) {
+    return this.locationService.getMobsByImportId(importId)
+  }
+
+  public getMobsByRoom(room: Room): Mob[] {
+    return this.locationService.getMobsByRoom(room)
+  }
+
   public getLocationForMob(mob: Mob): MobLocation {
     return this.locationService.getLocationForMob(mob)
+  }
+
+  public async moveMob(mob: Mob, direction: Direction) {
+    await this.locationService.moveMob(mob, direction)
   }
 
   public async updateMobLocation(mob: Mob, room: Room, direction?: Direction) {

@@ -29,7 +29,7 @@ export default class GameService {
   }
 
   public async moveMob(mob: Mob, direction: Direction) {
-    await this.mobService.locationService.moveMob(mob, direction)
+    await this.mobService.moveMob(mob, direction)
   }
 
   public getMobLocation(mob: Mob): MobLocation {
@@ -37,7 +37,7 @@ export default class GameService {
   }
 
   public getMobsByRoom(room: Room): Mob[] {
-    return this.mobService.locationService.getMobsByRoom(room)
+    return this.mobService.getMobsByRoom(room)
   }
 
   public getActions(): Action[] {

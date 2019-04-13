@@ -98,7 +98,10 @@ export default class ServiceBuilder {
       locationService)
   }
 
-  public async createService(startRoom: Room, mobService: MobService): Promise<GameService> {
+  public async createService(
+    startRoom: Room,
+    mobService: MobService,
+    locationService: LocationService): Promise<GameService> {
     if (this.builtService) {
       return this.builtService
     }
@@ -106,28 +109,39 @@ export default class ServiceBuilder {
     const weatherService = new WeatherService()
     const skillTable = getSkillTable(mobService, this.eventService)
     const spellTable = getSpellTable(
-      mobService, this.eventService, this.itemService, new StateService(weatherService, timeService))
+      mobService,
+      this.eventService,
+      this.itemService,
+      new StateService(weatherService, timeService),
+      locationService)
     this.builtService = new GameService(
       mobService,
       new ActionService(
-        getActionTable(mobService, this.itemService, timeService, this.eventService, weatherService, spellTable),
+        getActionTable(
+          mobService,
+          this.itemService,
+          timeService,
+          this.eventService,
+          weatherService,
+          spellTable,
+          locationService),
         skillTable,
         spellTable),
       new StateService(
         weatherService,
         timeService))
-    await this.attachEventConsumers(startRoom, mobService)
+    await this.attachEventConsumers(startRoom, mobService, locationService)
     return this.builtService
   }
 
-  private async attachEventConsumers(room: Room, mobService: MobService) {
+  private async attachEventConsumers(room: Room, mobService: MobService, locationService: LocationService) {
     const gameServer = new GameServer(
       null,
       room,
       new ClientService(
         this.eventService,
         new AuthService(jest.fn()(), mobService),
-        mobService.locationService,
+        locationService,
         this.builtService.getActions(),
         this.clients),
       this.eventService)
@@ -136,8 +150,9 @@ export default class ServiceBuilder {
       gameServer,
       mobService,
       this.itemService,
-      new FightBuilder(this.eventService, mobService.locationService),
-      this.eventService)
+      new FightBuilder(this.eventService, locationService),
+      this.eventService,
+      locationService)
     eventConsumers.forEach(eventConsumer => this.eventService.addConsumer(eventConsumer))
   }
 }

@@ -5,6 +5,7 @@ import SocialService from "../gameService/socialService"
 import TimeService from "../gameService/timeService"
 import ItemService from "../item/itemService"
 import getHealerSpellTable from "../mob/healer/healerSpellTable"
+import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
 import WeatherService from "../region/weatherService"
 import {RequestType} from "../request/requestType"
@@ -88,8 +89,8 @@ export default function getActionTable(
   timeService: TimeService,
   eventService: EventService,
   weatherService: WeatherService,
-  spellTable: Spell[]): Action[] {
-  const locationService = mobService.locationService
+  spellTable: Spell[],
+  locationService: LocationService): Action[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const lookAction = new LookAction(locationService, itemService, timeService, weatherService)
   const socialService = new SocialService(checkBuilderFactory, eventService)

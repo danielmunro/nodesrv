@@ -37,10 +37,9 @@ export default class ResetService {
   public async respawnFromMobReset(mobReset: MobReset) {
     const mob = await this.mobService.createMobFromReset(mobReset)
     const room = this.roomTable.get(mobReset.room.uuid)
-    const mobsInRoom = this.mobService.locationService
+    const mobsInRoom = this.mobService
       .getMobsByRoom(room).filter(m => m.importId === mob.importId)
-    const mobsTotal = this.mobService.locationService
-      .getMobsByImportId(mob.importId)
+    const mobsTotal = this.mobService.getMobsByImportId(mob.importId)
     if (mobsInRoom.length < mobReset.maxPerRoom && mobsTotal.length < mobReset.maxQuantity) {
       await this.equipToMob(mob)
       await this.giveItemToMob(mob)

@@ -14,18 +14,20 @@ import {getSkillTable} from "../src/skill/skillTable"
 import getSpellTable from "../src/spell/spellTable"
 
 const eventService = new EventService()
+const locationService = new LocationService(new RoomTable(), eventService, new ExitTable())
 const mobService = new MobService(
   new MobTable(),
   new MobTable(),
   new FightTable(),
-  new LocationService(new RoomTable(), eventService, new ExitTable()))
+  locationService)
 
 const skills = getSkillTable(mobService, eventService)
 const spells = getSpellTable(
   mobService,
   eventService,
   new ItemService(),
-  new StateService(new WeatherService(), new TimeService()))
+  new StateService(new WeatherService(), new TimeService()),
+  locationService)
 
 const skillsWithoutLevel = skills.filter(skill =>
   !defaultSpecializationLevels.find(spec => spec.abilityType === skill.getSkillType()))

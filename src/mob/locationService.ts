@@ -82,7 +82,7 @@ export default class LocationService {
     return this.getMobsByRoom(location.room)
   }
 
-  public getMobsByImportId(importId: string) {
+  public getMobsByImportId(importId: string): Mob[] {
     return this.mobLocations.filter(mobLocation => mobLocation.mob.importId === importId)
       .map(mobLocation => mobLocation.mob)
   }

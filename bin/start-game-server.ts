@@ -82,11 +82,22 @@ initializeConnection().then(async () => {
   const weatherService = new WeatherService()
   const skillTable = getSkillTable(mobService, eventService)
   const spellTable = getSpellTable(
-    mobService, eventService, itemService, new StateService(weatherService, timeService))
+    mobService,
+    eventService,
+    itemService,
+    new StateService(weatherService, timeService),
+    locationService)
   const gameService = new GameService(
     mobService,
     new ActionService(
-      getActionTable(mobService, itemService, timeService, eventService, weatherService, spellTable),
+      getActionTable(
+        mobService,
+        itemService,
+        timeService,
+        eventService,
+        weatherService,
+        spellTable,
+        locationService),
       skillTable,
       spellTable,
     ),
@@ -107,14 +118,16 @@ initializeConnection().then(async () => {
     resetService,
     mobService,
     eventService,
-    clientService)
+    clientService,
+    locationService)
   const eventConsumerTable = await createEventConsumerTable(
     gameService,
     server,
     mobService,
     itemService,
     new FightBuilder(eventService, locationService),
-    eventService)
+    eventService,
+    locationService)
   eventConsumerTable.forEach(eventConsumer => eventService.addConsumer(eventConsumer))
   await server.start()
   console.timeEnd(Timings.openPort)

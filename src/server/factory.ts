@@ -3,6 +3,7 @@ import { Server as WebSocketServer } from "ws"
 import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
 import ResetService from "../gameService/resetService"
+import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
 import { Room } from "../room/model/room"
 import ClientService from "./clientService"
@@ -12,6 +13,7 @@ import { GameServer } from "./server"
 const PORT_MIN = 1080
 const PORT_MAX = 65535
 
+/* tslint:disable */
 export default async function newServer(
   service: GameService,
   port: number,
@@ -19,7 +21,8 @@ export default async function newServer(
   resetService: ResetService,
   mobService: MobService,
   eventService: EventService,
-  clientService: ClientService): Promise<GameServer> {
+  clientService: ClientService,
+  locationService: LocationService): Promise<GameServer> {
   assert.ok(port > PORT_MIN && port < PORT_MAX, `port must be between ${PORT_MIN} and ${PORT_MAX}`)
   return addObservers(
     service,
@@ -30,5 +33,6 @@ export default async function newServer(
       eventService),
     resetService,
     eventService,
-    mobService)
+    mobService,
+    locationService)
 }

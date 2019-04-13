@@ -47,13 +47,15 @@ import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
 import StateService from "../gameService/stateService"
 import ItemService from "../item/itemService"
+import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
 
 export default function getSpellTable(
   mobService: MobService,
   eventService: EventService,
   itemService: ItemService,
-  stateService: StateService): Spell[] {
+  stateService: StateService,
+  locationService: LocationService): Spell[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
@@ -113,7 +115,7 @@ export default function getSpellTable(
 
     // transportation
     flyAction(abilityService),
-    wordOfRecallAction(abilityService, mobService.locationService),
+    wordOfRecallAction(abilityService, locationService),
     summonAction(abilityService, mobService),
 
     // orbs

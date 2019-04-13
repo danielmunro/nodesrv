@@ -12,18 +12,18 @@ describe("game server factory", () => {
   it("should not start if passed a bad port", async () => {
     const startRoom = getTestRoom()
     const service = new GameService(
-      new MobService(),
+      new MobService(null, null, null, null),
       new ActionService([], [], []),
       new StateService(
         new WeatherService(),
         new TimeService()))
     await expect(newServer(
-      service, 1, startRoom, null, null, new EventService(), null)).rejects.toThrowError()
+      service, 1, startRoom, null, null, new EventService(), null, null)).rejects.toThrowError()
     await expect(newServer(
-      service, 999999999, startRoom, null, null, new EventService(), null)).rejects.toThrowError()
+      service, 999999999, startRoom, null, null, new EventService(), null, null)).rejects.toThrowError()
     await expect(newServer(
-      service, 22, startRoom, null, null, new EventService(), null)).rejects.toThrowError()
+      service, 22, startRoom, null, null, new EventService(), null, null)).rejects.toThrowError()
     await expect(newServer(
-      service, null, startRoom, null, null, new EventService(), null)).rejects.toThrowError()
+      service, null, startRoom, null, null, new EventService(), null, null)).rejects.toThrowError()
   })
 })

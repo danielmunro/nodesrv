@@ -15,18 +15,20 @@ import {getSkillTable} from "../src/skill/skillTable"
 import getSpellTable from "../src/spell/spellTable"
 
 const eventService = new EventService()
+const locationService = new LocationService(new RoomTable(), eventService, new ExitTable())
 const mobService = new MobService(
   new MobTable(),
   new MobTable(),
   new FightTable(),
-  new LocationService(new RoomTable(), eventService, new ExitTable()))
+  locationService)
 
 console.log("spells:")
 getSpellTable(
   mobService,
   eventService,
   new ItemService(),
-  new StateService(new WeatherService(), new TimeService())).forEach(spell => {
+  new StateService(new WeatherService(), new TimeService()),
+  locationService).forEach(spell => {
   console.log(spell.getCosts().reduce((previous: string, cost: Cost) =>
     previous + ", " + getCostTypeLabel(cost.costType) + ": " + cost.amount, spell.getSpellType()))
 })

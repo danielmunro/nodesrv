@@ -16,7 +16,7 @@ beforeEach(async () => {
   room2 = testBuilder.withRoom().room
   mob1 = testBuilder.withMob().mob
   mob2 = testBuilder.withMob().mob
-  locationService = (await testBuilder.getMobService()).locationService
+  locationService = await testBuilder.getLocationService()
 })
 
 describe("location gameService", () => {

@@ -37,7 +37,7 @@ export default function(abilityService: AbilityService, mobService: MobService):
       checkedRequest.mob,
       SpellMessages.TurnUndead.Success))
     .setApplySpell(async checkedRequest => {
-      await Promise.all(mobService.locationService.getMobsInRoomWithMob(checkedRequest.mob)
+      await Promise.all(mobService.getMobsByRoom(checkedRequest.room)
         .filter(mob => mob.raceType === RaceType.Undead)
         .filter(mob => percentRoll() < 100 - mob.level)
         .map(mob => turn(checkedRequest.room, mob, abilityService)))

@@ -53,6 +53,7 @@ export default class TestBuilder {
   private serviceBuilder: ServiceBuilder = new ServiceBuilder(this.eventService, this.itemService)
   private locationService: LocationService
   private mobService: MobService
+  private service: GameService
 
   public async withClient() {
     if (!this.player) {
@@ -215,9 +216,16 @@ export default class TestBuilder {
   }
 
   public async getService(): Promise<GameService> {
+    if (this.service) {
+      return this.service
+    }
     this.locationService = this.serviceBuilder.createLocationService()
     this.mobService = this.serviceBuilder.createMobService(this.locationService)
-    return this.serviceBuilder.createService(this.room, this.mobService)
+    this.service = await this.serviceBuilder.createService(
+      this.room,
+      this.mobService,
+      this.locationService)
+    return this.service
   }
 
   public async getLocationService(): Promise<LocationService> {

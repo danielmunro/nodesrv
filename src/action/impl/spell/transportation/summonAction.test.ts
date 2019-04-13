@@ -35,7 +35,7 @@ describe("summon spell action", () => {
       testBuilder.createRequest(RequestType.Cast, `cast 'summon' ${target.getMobName()}`))
 
     // then
-    expect(mobService.locationService.getMobsByRoom(room1.room)).toHaveLength(2)
+    expect(mobService.getMobsByRoom(room1.room)).toHaveLength(2)
   })
 
   it("generates accurate success messages when casting on a target", async () => {

@@ -14,7 +14,6 @@ afterAll(async () => (await getConnection()).close())
 describe("ticks", () => {
   it("should call tick on all clients", async () => {
     const testBuilder = new TestBuilder()
-    const mobService = await testBuilder.getMobService()
 
     // given
     const clients = [
@@ -28,7 +27,7 @@ describe("ticks", () => {
     const tick = new Tick(
       new TimeService(),
       new EventService(),
-      mobService.locationService)
+      await testBuilder.getLocationService())
 
     // when
     await tick.notify(clients)
@@ -40,7 +39,6 @@ describe("ticks", () => {
   it("should invoke fast healing on tick", async () => {
     // setup
     const testBuilder = new TestBuilder()
-    const mobService = await testBuilder.getMobService()
 
     // given
     const client = await testBuilder.withClient()
@@ -58,7 +56,7 @@ describe("ticks", () => {
       new EventService([
         new FastHealingEventConsumer(mockSkill),
       ]),
-      mobService.locationService).notify(clients)
+      await testBuilder.getLocationService()).notify(clients)
 
     // then
     expect(mockSkill.handle.mock.calls.length).toBe(1)

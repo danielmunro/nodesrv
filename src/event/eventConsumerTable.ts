@@ -31,6 +31,7 @@ import MobUpdatedEventConsumer from "../mob/eventConsumer/mobUpdatedEventConsume
 import PetFollowsOwner from "../mob/eventConsumer/petFollowsOwner"
 import Wimpy from "../mob/eventConsumer/wimpy"
 import FightBuilder from "../mob/fight/fightBuilder"
+import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
 import MobArrives from "../player/eventConsumer/mobArrives"
 import MobLeaves from "../player/eventConsumer/mobLeaves"
@@ -53,9 +54,9 @@ export default async function createEventConsumerTable(
   mobService: MobService,
   itemService: ItemService,
   fightBuilder: FightBuilder,
-  eventService: EventService): Promise<EventConsumer[]> {
+  eventService: EventService,
+  locationService: LocationService): Promise<EventConsumer[]> {
   const clientService = gameServer.clientService
-  const locationService = mobService.locationService
   return Promise.resolve([
     // affects
     new SanctuaryEventConsumer(),

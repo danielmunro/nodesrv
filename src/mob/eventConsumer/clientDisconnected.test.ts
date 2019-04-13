@@ -9,12 +9,12 @@ describe("client disconnected event consumer", () => {
     const testBuilder = new TestBuilder()
     const mobService = await testBuilder.getMobService()
     const client = await testBuilder.withClient()
-    const clientDisconnected = new ClientDisconnected(mobService.locationService)
+    const clientDisconnected = new ClientDisconnected(await testBuilder.getLocationService())
 
     // when
     await clientDisconnected.consume(new ClientEvent(EventType.ClientDisconnected, client))
 
     // then
-    expect(() => mobService.locationService.getLocationForMob(client.getSessionMob())).toThrowError()
+    expect(() => mobService.getLocationForMob(client.getSessionMob())).toThrowError()
   })
 })
