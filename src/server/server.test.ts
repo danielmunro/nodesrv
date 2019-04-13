@@ -30,7 +30,7 @@ async function getGameServer(): Promise<GameServer> {
     new MobTable(),
     new FightTable(),
     locationService)
-  const gameService = new GameService(mobService, new ActionService([], [], []), null)
+  const gameService = new GameService(mobService, new ActionService([], [], []))
   return new GameServer(
     ws,
     room,

@@ -4,29 +4,17 @@ import Spell from "../action/impl/spell"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
-import WeatherService from "../region/weatherService"
 import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import {Room} from "../room/model/room"
 import {SkillType} from "../skill/skillType"
 import {SpellType} from "../spell/spellType"
 import ActionService from "./actionService"
-import StateService from "./stateService"
-import TimeService from "./timeService"
 
 export default class GameService {
   constructor(
     private readonly mobService: MobService,
-    private readonly actionService: ActionService,
-    private readonly stateService: StateService) {}
-
-  public getTimeService(): TimeService {
-    return this.stateService.timeService
-  }
-
-  public getWeatherService(): WeatherService {
-    return this.stateService.weatherService
-  }
+    private readonly actionService: ActionService) {}
 
   public async moveMob(mob: Mob, direction: Direction) {
     await this.mobService.moveMob(mob, direction)

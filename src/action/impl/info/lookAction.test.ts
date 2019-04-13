@@ -9,6 +9,7 @@ import newRegion from "../../../region/factory"
 import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
 import {Room} from "../../../room/model/room"
+import doNTimes from "../../../support/functional/times"
 import TestBuilder from "../../../support/test/testBuilder"
 import Action from "../../action"
 import {Messages} from "../../constants"
@@ -155,9 +156,9 @@ describe("look action", () => {
 
   it("can see in a dark room if holding something glowing", async () => {
     // given
+    const stateService = await testBuilder.getStateService()
+    await doNTimes(12, () => stateService.incrementTime())
     room.region = newRegion("test", Terrain.Forest)
-    const service = await testBuilder.getService()
-    service.stateService.timeService.time = 0
     player.sessionMob.raceType = RaceType.HalfOrc
 
     // when

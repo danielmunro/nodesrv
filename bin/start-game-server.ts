@@ -101,9 +101,7 @@ initializeConnection().then(async () => {
       skillTable,
       spellTable,
     ),
-    new StateService(
-      weatherService,
-      timeService))
+  )
   const startRoom = roomTable.getRooms().find(room => room.canonicalId === startRoomID) as Room
   const clientService = new ClientService(
     eventService,
@@ -112,7 +110,6 @@ initializeConnection().then(async () => {
     gameService.getActions(),
   )
   const server = await newServer(
-    gameService,
     port,
     startRoom,
     resetService,

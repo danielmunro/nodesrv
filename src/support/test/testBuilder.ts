@@ -5,6 +5,7 @@ import {Client} from "../../client/client"
 import EventService from "../../event/eventService"
 import GameService from "../../gameService/gameService"
 import ServiceBuilder from "../../gameService/serviceBuilder"
+import StateService from "../../gameService/stateService"
 import ItemBuilder from "../../item/itemBuilder"
 import ItemService from "../../item/itemService"
 import {Item} from "../../item/model/item"
@@ -54,6 +55,7 @@ export default class TestBuilder {
   private locationService: LocationService
   private mobService: MobService
   private service: GameService
+  private stateService: StateService
 
   public async withClient() {
     if (!this.player) {
@@ -221,10 +223,12 @@ export default class TestBuilder {
     }
     this.locationService = this.serviceBuilder.createLocationService()
     this.mobService = this.serviceBuilder.createMobService(this.locationService)
+    this.stateService = this.serviceBuilder.createStateService()
     this.service = await this.serviceBuilder.createService(
       this.room,
       this.mobService,
-      this.locationService)
+      this.locationService,
+      this.stateService)
     return this.service
   }
 
@@ -234,6 +238,14 @@ export default class TestBuilder {
     }
 
     return this.locationService
+  }
+
+  public async getStateService(): Promise<StateService> {
+    if (!this.stateService) {
+      await this.getService()
+    }
+
+    return this.stateService
   }
 
   private addExit(exit: Exit) {

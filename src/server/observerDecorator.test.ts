@@ -1,4 +1,5 @@
 import EventService from "../event/eventService"
+import StateService from "../gameService/stateService"
 import {getConnection, initializeConnection} from "../support/db/connection"
 import addObservers from "./observerDecorator"
 
@@ -23,20 +24,18 @@ describe("observer decorator", () => {
         mobResets: [],
       },
       service: {
-        getTimeService: jest.fn(),
-        getWeatherService: jest.fn(),
       },
     }))
     const mockServer = mock()
 
     // when
     await addObservers(
-      mockServer.service,
       mockServer,
       null,
       new EventService(),
       mockServer.mobService,
-      mockServer.mobService.locationService)
+      mockServer.mobService.locationService,
+      new StateService())
 
     // then
     expect(mockServer.addObserver).toBeCalled()

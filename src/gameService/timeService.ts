@@ -10,8 +10,4 @@ export default class TimeService {
   public getCurrentTime() {
     return this.time % HOURS_IN_DAY
   }
-
-  public setTime(time: number): void {
-    this.time = time
-  }
 }

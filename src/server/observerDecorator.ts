@@ -1,6 +1,6 @@
 import EventService from "../event/eventService"
-import GameService from "../gameService/gameService"
 import ResetService from "../gameService/resetService"
+import StateService from "../gameService/stateService"
 import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
 import {getMobRepository} from "../mob/repository/mob"
@@ -25,15 +25,15 @@ import { Wander } from "./observers/wander"
 import { GameServer } from "./server"
 
 export default async function addObservers(
-  gameService: GameService,
   gameServer: GameServer,
   resetService: ResetService,
   eventService: EventService,
   mobService: MobService,
-  locationService: LocationService): Promise<GameServer> {
+  locationService: LocationService,
+  stateService: StateService): Promise<GameServer> {
   gameServer.addObserver(
     new ObserverChain([
-      new Tick(gameService.getTimeService(), eventService, locationService),
+      new Tick(stateService.timeService, eventService, locationService),
       new DecrementAffects(mobService.mobTable),
       new Wander(mobService.mobTable.getWanderingMobs(), locationService),
     ]),
@@ -43,7 +43,7 @@ export default async function addObservers(
     await getPlayerRepository(), await getMobRepository()), new MinuteTimer())
   gameServer.addObserver(new RegionWeather(
     locationService,
-    gameService.getWeatherService(),
+    stateService.weatherService,
     []), new MinuteTimer())
   gameServer.addObserver(new FightRounds(mobService), new SecondIntervalTimer())
   gameServer.addObserver(new Respawner(resetService), new FiveMinuteTimer())

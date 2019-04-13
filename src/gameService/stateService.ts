@@ -7,9 +7,13 @@ import TimeService from "./timeService"
 
 export default class StateService {
   constructor(
-    public readonly weatherService: WeatherService,
-    public readonly timeService: TimeService,
+    public readonly weatherService: WeatherService = new WeatherService(),
+    public readonly timeService: TimeService = new TimeService(),
   ) {}
+
+  public incrementTime() {
+    this.timeService.incrementTime()
+  }
 
   public getWeatherForRegion(region: Region): Weather | undefined {
     return this.weatherService.getWeatherForRegion(region)

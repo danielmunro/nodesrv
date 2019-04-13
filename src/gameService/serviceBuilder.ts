@@ -81,7 +81,7 @@ export default class ServiceBuilder {
     this.locations.push(mobLocation)
   }
 
-  public createLocationService() {
+  public createLocationService(): LocationService {
     return new LocationService(
       this.roomTable,
       this.eventService,
@@ -90,7 +90,7 @@ export default class ServiceBuilder {
       this.recallRoomId)
   }
 
-  public createMobService(locationService: LocationService) {
+  public createMobService(locationService: LocationService): MobService {
     return new MobService(
       new MobTable(this.mobs),
       new MobTable(this.mobs),
@@ -98,21 +98,26 @@ export default class ServiceBuilder {
       locationService)
   }
 
+  public createStateService(): StateService {
+    const timeService = new TimeService(this.time)
+    const weatherService = new WeatherService()
+    return new StateService(weatherService, timeService)
+  }
+
   public async createService(
     startRoom: Room,
     mobService: MobService,
-    locationService: LocationService): Promise<GameService> {
+    locationService: LocationService,
+    stateService: StateService): Promise<GameService> {
     if (this.builtService) {
       return this.builtService
     }
-    const timeService = new TimeService(this.time)
-    const weatherService = new WeatherService()
     const skillTable = getSkillTable(mobService, this.eventService)
     const spellTable = getSpellTable(
       mobService,
       this.eventService,
       this.itemService,
-      new StateService(weatherService, timeService),
+      stateService,
       locationService)
     this.builtService = new GameService(
       mobService,
@@ -120,16 +125,13 @@ export default class ServiceBuilder {
         getActionTable(
           mobService,
           this.itemService,
-          timeService,
+          stateService.timeService,
           this.eventService,
-          weatherService,
+          stateService.weatherService,
           spellTable,
           locationService),
         skillTable,
-        spellTable),
-      new StateService(
-        weatherService,
-        timeService))
+        spellTable))
     await this.attachEventConsumers(startRoom, mobService, locationService)
     return this.builtService
   }

@@ -20,7 +20,7 @@ export class GameServer {
   private status: Status = Status.Initialized
 
   constructor(
-    public readonly wss,
+    public readonly wss: any,
     public readonly startRoom: Room,
     public readonly clientService: ClientService,
     public readonly eventService: EventService) {}
@@ -38,7 +38,7 @@ export class GameServer {
     this.wss.close()
   }
 
-  public async addWS(ws: WebSocket, req): Promise<void> {
+  public async addWS(ws: WebSocket, req: any): Promise<void> {
     const client = this.clientService.createNewClient(ws, req)
     console.info("new client connected", { ip: client.ip })
     ws.onclose = () => this.removeClient(client)
