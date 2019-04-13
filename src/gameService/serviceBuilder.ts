@@ -102,7 +102,6 @@ export default class ServiceBuilder {
     if (this.builtService) {
       return this.builtService
     }
-    this.mobService = mobService
     const timeService = new TimeService(this.time)
     const weatherService = new WeatherService()
     const skillTable = getSkillTable(mobService, this.eventService)
