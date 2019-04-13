@@ -28,6 +28,7 @@ import {Direction} from "../../room/constants"
 import {newReciprocalExit, newRoom} from "../../room/factory"
 import {Exit} from "../../room/model/exit"
 import {Room} from "../../room/model/room"
+import AuthService from "../../session/auth/authService"
 import Email from "../../session/auth/login/email"
 import Session from "../../session/session"
 import {SkillType} from "../../skill/skillType"
@@ -56,6 +57,7 @@ export default class TestBuilder {
   private mobService: MobService
   private service: GameService
   private stateService: StateService
+  private authService: AuthService
 
   public async withClient() {
     if (!this.player) {
@@ -236,7 +238,6 @@ export default class TestBuilder {
     if (!this.locationService) {
       await this.getService()
     }
-
     return this.locationService
   }
 
@@ -244,8 +245,16 @@ export default class TestBuilder {
     if (!this.stateService) {
       await this.getService()
     }
-
     return this.stateService
+  }
+
+  public async getAuthService(): Promise<AuthService> {
+    if (!this.authService) {
+      this.authService = new AuthService(
+        jest.fn()(),
+        await this.getMobService())
+    }
+    return this.authService
   }
 
   private addExit(exit: Exit) {

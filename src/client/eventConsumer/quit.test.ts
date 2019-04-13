@@ -1,7 +1,6 @@
 import {EventType} from "../../event/eventType"
 import MobEvent from "../../mob/event/mobEvent"
 import ClientService from "../../server/clientService"
-import AuthService from "../../session/auth/authService"
 import TestBuilder from "../../support/test/testBuilder"
 import Quit from "./quit"
 
@@ -10,10 +9,9 @@ describe("quit client event consumer", () => {
     // setup
     const testBuilder = new TestBuilder()
     const service = await testBuilder.getService()
-    const mobService = await testBuilder.getMobService()
     const clientService = new ClientService(
       testBuilder.eventService,
-      new AuthService(jest.fn()(), mobService),
+      await testBuilder.getAuthService(),
       await testBuilder.getLocationService(),
       service.getActions())
     const quit = new Quit(clientService)

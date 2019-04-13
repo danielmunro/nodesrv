@@ -87,28 +87,26 @@ initializeConnection().then(async () => {
     itemService,
     new StateService(weatherService, timeService),
     locationService)
+  const actionService = new ActionService(
+    getActionTable(
+      mobService,
+      itemService,
+      timeService,
+      eventService,
+      weatherService,
+      spellTable,
+      locationService),
+    skillTable,
+    spellTable)
   const gameService = new GameService(
     mobService,
-    new ActionService(
-      getActionTable(
-        mobService,
-        itemService,
-        timeService,
-        eventService,
-        weatherService,
-        spellTable,
-        locationService),
-      skillTable,
-      spellTable,
-    ),
-  )
+    actionService)
   const startRoom = roomTable.getRooms().find(room => room.canonicalId === startRoomID) as Room
   const clientService = new ClientService(
     eventService,
     new AuthService(await getPlayerRepository(), mobService),
     locationService,
-    gameService.getActions(),
-  )
+    actionService.actions)
   const server = await newServer(
     port,
     startRoom,

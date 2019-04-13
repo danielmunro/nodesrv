@@ -1,6 +1,7 @@
 import Action from "../action/action"
 import Skill from "../action/impl/skill"
 import Spell from "../action/impl/spell"
+import Move from "../action/move"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
@@ -30,6 +31,10 @@ export default class GameService {
 
   public getActions(): Action[] {
     return this.actionService.actions
+  }
+
+  public getMovementActions(): Move[] {
+    return this.actionService.actions.filter((action: Action) => action instanceof Move) as Move[]
   }
 
   public getAction(requestType: RequestType): Action {

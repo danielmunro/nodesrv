@@ -1,5 +1,3 @@
-import Action from "../action/action"
-import Move from "../action/move"
 import CrusadeEventConsumer from "../affect/eventConsumer/crusadeEventConsumer"
 import DamageSourceEventConsumer from "../affect/eventConsumer/damageSourceEventConsumer"
 import DetectTouchEventConsumer from "../affect/eventConsumer/detectTouchEventConsumer"
@@ -81,8 +79,7 @@ export default async function createEventConsumerTable(
     new MobClientDisconnected(locationService),
     new MobCreated(mobService, gameServer.startRoom),
     new DamageModifierEventConsumer(),
-    new FollowMob(locationService,
-      gameService.getActions().filter((action: Action) => action instanceof Move) as Move[]),
+    new FollowMob(locationService, gameService.getMovementActions()),
     new DeathTimerEventConsumer(eventService, locationService),
 
     // room
