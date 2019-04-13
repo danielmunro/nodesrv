@@ -54,7 +54,7 @@ describe("respawner", () => {
     await respawner.seedMobTable()
     mobTable.getMobs().forEach(async mob => {
       mob.disposition = Disposition.Dead
-      await mobService.locationService.updateMobLocation(mob, currentRoom)
+      await mobService.updateMobLocation(mob, currentRoom)
     })
 
     // when

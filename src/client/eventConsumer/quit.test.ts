@@ -14,7 +14,7 @@ describe("quit client event consumer", () => {
     const clientService = new ClientService(
       testBuilder.eventService,
       new AuthService(jest.fn()(), mobService),
-      mobService.locationService,
+      await testBuilder.getLocationService(),
       service.getActions())
     const quit = new Quit(clientService)
     const client = await testBuilder.withClient()

@@ -8,7 +8,7 @@ describe("wander", () => {
     const room1 = testBuilder.withRoom()
     testBuilder.withRoom()
     const mob = testBuilder.withMob().mob
-    const locationService = (await testBuilder.getMobService()).locationService
+    const locationService = await testBuilder.getLocationService()
     const wander = new Wander([mob], locationService)
     const initialRoom = locationService.getLocationForMob(mob)
     expect(initialRoom.room.uuid).toBe(room1.room.uuid)

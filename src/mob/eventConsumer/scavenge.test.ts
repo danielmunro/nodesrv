@@ -14,9 +14,8 @@ describe("scavenge", () => {
       .asHelmet()
       .addToInventory(room.inventory)
       .build()
-    const mobService = await testBuilder.getMobService()
     const scavenge = new Scavenge(
-      mockService(), testBuilder.itemService, mobService.locationService)
+      mockService(), testBuilder.itemService, await testBuilder.getLocationService())
 
     // when
     scavenge.scavenge(mob)

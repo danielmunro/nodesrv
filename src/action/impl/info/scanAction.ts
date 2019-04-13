@@ -24,7 +24,7 @@ export default class ScanAction extends Action {
   }
 
   public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const mobLocation = this.mobService.locationService.getLocationForMob(checkedRequest.mob)
+    const mobLocation = this.mobService.getLocationForMob(checkedRequest.mob)
     const mobLocations = this.mobService
       .findMobsByArea(mobLocation.room.area)
       .filter(location => match(location.mob.name, checkedRequest.request.getSubject()))

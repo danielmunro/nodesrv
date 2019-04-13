@@ -33,7 +33,7 @@ export default class GameService {
   }
 
   public getMobLocation(mob: Mob): MobLocation {
-    return this.mobService.locationService.getLocationForMob(mob)
+    return this.mobService.getLocationForMob(mob)
   }
 
   public getMobsByRoom(room: Room): Mob[] {

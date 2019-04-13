@@ -20,7 +20,7 @@ describe("disconnected client event consumer", () => {
     const clientService = new ClientService(
       testBuilder.eventService,
       new AuthService(playerRepository(), mobService),
-      mobService.locationService,
+      await testBuilder.getLocationService(),
       service.getActions())
     const disconnected = new Disconnected(clientService)
     const client = await testBuilder.withClient()

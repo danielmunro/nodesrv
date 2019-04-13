@@ -37,7 +37,7 @@ async function getGameServer(): Promise<GameServer> {
     new ClientService(
       eventService,
       new AuthService(await getPlayerRepository(), mobService),
-      mobService.locationService,
+      locationService,
       gameService.getActions(),
     ),
     eventService)

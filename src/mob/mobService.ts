@@ -1,4 +1,5 @@
 import {cloneDeep} from "lodash"
+import {Direction} from "../room/constants"
 import { Room } from "../room/model/room"
 import { newSkill } from "../skill/factory"
 import { Skill } from "../skill/model/skill"
@@ -66,6 +67,14 @@ export default class MobService {
     deadMobs.forEach(mob => this.locationService.removeMob(mob))
 
     return deadMobs
+  }
+
+  public getLocationForMob(mob: Mob): MobLocation {
+    return this.locationService.getLocationForMob(mob)
+  }
+
+  public async updateMobLocation(mob: Mob, room: Room, direction?: Direction) {
+    await this.locationService.updateMobLocation(mob, room, direction)
   }
 
   public findMob(search: (mob: Mob) => boolean) {

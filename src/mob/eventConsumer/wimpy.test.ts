@@ -16,7 +16,8 @@ describe("wimpy", () => {
     const fight = await testBuilder.fight(target)
     const service = await testBuilder.getService()
     const mobService = await testBuilder.getMobService()
-    const wimpy = new Wimpy(mobService.locationService, service.getAction(RequestType.Flee))
+    const wimpy = new Wimpy(
+      await testBuilder.getLocationService(), service.getAction(RequestType.Flee))
 
     // given
     target.traits.wimpy = true

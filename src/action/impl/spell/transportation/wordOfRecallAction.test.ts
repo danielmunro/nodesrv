@@ -41,7 +41,7 @@ describe("word of recall spell action", () => {
       target.mob))
 
     // then
-    expect(mobService.locationService.getLocationForMob(target.mob).room).toBe(room1.room)
+    expect(mobService.getLocationForMob(target.mob).room).toBe(room1.room)
   })
 
   it("moves self to the room of recall when invoked", async () => {
@@ -51,7 +51,7 @@ describe("word of recall spell action", () => {
       testBuilder.createRequest(RequestType.Cast, "cast 'word'", caster.mob))
 
     // then
-    expect(mobService.locationService.getLocationForMob(caster.mob).room).toBe(room1.room)
+    expect(mobService.getLocationForMob(caster.mob).room).toBe(room1.room)
   })
 
   it("generates accurate success messages when casting on a target", async () => {

@@ -59,13 +59,12 @@ export default class TestBuilder {
       await this.withPlayer()
     }
     const service = await this.getService()
-    const mobService = await this.getMobService()
     const client = new Client(
       new Session(new Email(jest.fn()())),
       ws(),
       "127.0.0.1",
       service.getActions(),
-      mobService.locationService,
+      this.locationService,
       this.eventService)
     await client.session.login(client, this.player)
     this.mobForRequest = client.getSessionMob()
@@ -171,8 +170,11 @@ export default class TestBuilder {
 
   public async createRequestBuilder() {
     const service = await this.getService()
-    const mobService = await this.getMobService()
-    return new RequestBuilder(service.getActions(), mobService.locationService, this.mobForRequest, this.room)
+    return new RequestBuilder(
+      service.getActions(),
+      this.locationService,
+      this.mobForRequest,
+      this.room)
   }
 
   public async successfulAction(request: Request): Promise<Response> {
@@ -216,6 +218,14 @@ export default class TestBuilder {
     this.locationService = this.serviceBuilder.createLocationService()
     this.mobService = this.serviceBuilder.createMobService(this.locationService)
     return this.serviceBuilder.createService(this.room, this.mobService)
+  }
+
+  public async getLocationService(): Promise<LocationService> {
+    if (!this.locationService) {
+      await this.getService()
+    }
+
+    return this.locationService
   }
 
   private addExit(exit: Exit) {

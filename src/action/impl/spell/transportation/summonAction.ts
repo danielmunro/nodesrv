@@ -2,7 +2,6 @@ import AbilityService from "../../../../check/abilityService"
 import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
-import {newMobLocation} from "../../../../mob/factory"
 import MobService from "../../../../mob/mobService"
 import {Mob} from "../../../../mob/model/mob"
 import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
@@ -46,7 +45,7 @@ export default function(abilityService: AbilityService, mobService: MobService):
         .create())
     .setApplySpell(async checkedRequest => {
       const target = checkedRequest.getTarget()
-      const location = mobService.locationService.getLocationForMob(target)
+      const location = mobService.getLocationForMob(target)
       if (location) {
         await abilityService.publishEvent(
           new RoomMessageEvent(
@@ -59,10 +58,9 @@ export default function(abilityService: AbilityService, mobService: MobService):
               .setVerbToObservers("disappears")
               .create()))
       }
-      mobService.locationService.addMobLocation(
-        newMobLocation(
+      await mobService.updateMobLocation(
         checkedRequest.getTarget(),
-        checkedRequest.room))
+        checkedRequest.room)
     })
     .create()
 }

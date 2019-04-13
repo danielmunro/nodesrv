@@ -14,7 +14,7 @@ describe("logged in client event consumer", () => {
     const lookAction = await testBuilder.getAction(RequestType.Look)
     const roomBuilder = testBuilder.withRoom()
     const loggedIn = new LoggedIn(
-      (await testBuilder.getMobService()).locationService, roomBuilder.room, lookAction)
+      await testBuilder.getLocationService(), roomBuilder.room, lookAction)
     const client = await testBuilder.withClient()
 
     const eventResponse = await loggedIn.consume(new ClientEvent(EventType.ClientLogin, client))

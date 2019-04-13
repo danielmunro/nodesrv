@@ -97,7 +97,7 @@ initializeConnection().then(async () => {
   const clientService = new ClientService(
     eventService,
     new AuthService(await getPlayerRepository(), mobService),
-    mobService.locationService,
+    locationService,
     gameService.getActions(),
   )
   const server = await newServer(
@@ -113,7 +113,7 @@ initializeConnection().then(async () => {
     server,
     mobService,
     itemService,
-    new FightBuilder(eventService, mobService.locationService),
+    new FightBuilder(eventService, locationService),
     eventService)
   eventConsumerTable.forEach(eventConsumer => eventService.addConsumer(eventConsumer))
   await server.start()
