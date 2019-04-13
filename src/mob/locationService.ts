@@ -44,19 +44,19 @@ export default class LocationService {
 
   public async updateMobLocation(mob: Mob, room: Room, direction?: Direction) {
     for (const mobLocation of this.mobLocations) {
-      if (mobLocation.mob.uuid === mob.uuid) {
-        const from = mobLocation.room
-        const eventResponse = await this.eventService.publish(new MobMoveEvent(
-          mob,
-          from,
-          room,
-          direction))
-        if (eventResponse.isSatisifed()) {
-          return
-        }
-        mobLocation.room = room
+      if (mobLocation.mob.uuid !== mob.uuid) {
+        continue
+      }
+      const eventResponse = await this.eventService.publish(new MobMoveEvent(
+        mob,
+        mobLocation.room,
+        room,
+        direction))
+      if (eventResponse.isSatisifed()) {
         return
       }
+      mobLocation.room = room
+      return
     }
   }
 

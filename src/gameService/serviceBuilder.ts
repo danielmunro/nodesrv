@@ -37,7 +37,6 @@ export default class ServiceBuilder {
   private mobs: Mob[] = []
   private exits: Exit[] = []
   private recallRoomId: string
-  private mobService: MobService
 
   constructor(
     private readonly eventService: EventService,
@@ -52,10 +51,6 @@ export default class ServiceBuilder {
     this.time = time
   }
 
-  public addFight(fight: Fight): void {
-    this.fights.push(fight)
-  }
-
   public addRoom(room: Room): void {
     this.roomTable.add(room)
   }
@@ -66,9 +61,6 @@ export default class ServiceBuilder {
 
   public addMob(mob: Mob): void {
     this.mobs.push(mob)
-    if (this.builtService) {
-      this.mobService.mobTemplateTable.add(mob)
-    }
   }
 
   public addItem(item: Item): void {
@@ -77,9 +69,6 @@ export default class ServiceBuilder {
 
   public addExit(exit: Exit): void {
     this.exits.push(exit)
-    if (this.builtService) {
-      this.mobService.locationService.exitTable.exits.push(exit)
-    }
   }
 
   public addMobLocation(mobLocation: MobLocation) {
