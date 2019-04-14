@@ -7,6 +7,7 @@ import CheckBuilder from "../../check/checkBuilder"
 import CheckedRequest from "../../check/checkedRequest"
 import {CheckType} from "../../check/checkType"
 import Cost from "../../check/cost/cost"
+import AttackEvent from "../../mob/event/attackEvent"
 import TouchEvent from "../../mob/event/touchEvent"
 import {Request} from "../../request/request"
 import {RequestType} from "../../request/requestType"
@@ -61,9 +62,13 @@ export default class Skill extends Action {
       checkedRequest,
       new AffectBuilder(this.affectType)
         .setLevel(checkedRequest.mob.level))
+    const checkTarget = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
     if (affect) {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) || checkedRequest.mob
+      const target = checkTarget || checkedRequest.mob
       target.affect().add(affect)
+    }
+    if (this.actionType === ActionType.Offensive) {
+      await this.abilityService.publishEvent(new AttackEvent(checkedRequest.mob, checkTarget))
     }
     return checkedRequest.responseWithMessage(
       ResponseStatus.Success,

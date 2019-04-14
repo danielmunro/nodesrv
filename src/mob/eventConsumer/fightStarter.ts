@@ -11,10 +11,14 @@ export default class FightStarter implements EventConsumer {
     private readonly fightBuilder: FightBuilder) {}
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.Attack]
+    return [ EventType.Attack ]
   }
 
   public async consume(event: MobEvent): Promise<EventResponse> {
+    const fight = this.mobService.findFightForMob(event.mob)
+    if (fight && fight.isParticipant(event.context)) {
+      return EventResponse.none(event)
+    }
     this.mobService.addFight(this.fightBuilder.create(event.mob, event.context))
     return EventResponse.none(event)
   }

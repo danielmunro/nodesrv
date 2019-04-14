@@ -46,12 +46,20 @@ export default class MobService {
     this.locationService.addMobLocation(newMobLocation(mob, room))
   }
 
+  public getFightCount(): number {
+    return this.fightTable.getFights().length
+  }
+
   public addFight(fight: Fight) {
     this.fightTable.addFight(fight)
   }
 
   public findFight(search: (fight: Fight) => boolean) {
     return this.fightTable.getFights().find(search)
+  }
+
+  public findFightForMob(mob: Mob): Fight | undefined {
+    return this.fightTable.getFights().find(fight => fight.isParticipant(mob))
   }
 
   public filterCompleteFights() {

@@ -24,6 +24,10 @@ export const SkillMessages = {
     Fail: "{requestCreator} {verb} to envenom {item}.",
     Success: "{requestCreator} successfully {verb} {item}.",
   },
+  EyeGouge: {
+    Fail: "",
+    Success: "",
+  },
   Fail: "You failed.",
   Peek: {
     Success: "{target}'s inventory:\n{inventory}",
@@ -63,6 +67,10 @@ export const Costs = {
   Envenom: {
     Delay: 2,
     Mana: 100,
+  },
+  EyeGouge: {
+    Delay: 1,
+    Mv: 20,
   },
   Garotte: {
     Delay: 2,

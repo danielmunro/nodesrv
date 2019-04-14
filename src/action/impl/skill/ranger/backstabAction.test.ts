@@ -86,6 +86,27 @@ describe("backstab skill action", () => {
     expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations * 0.90)
   })
 
+  it("starts a fight", async () => {
+    testBuilder = new TestBuilder()
+    mobBuilder = testBuilder.withMob()
+    opponent = testBuilder.withMob()
+
+    // given
+    mobBuilder.setLevel(50)
+      .withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL)
+
+    // when
+    await testBuilder.successfulAction(
+      testBuilder.createRequest(
+        RequestType.Backstab,
+        `backstab ${opponent.getMobName()}`,
+        opponent.mob))
+
+    // then
+    const mobService = await testBuilder.getMobService()
+    expect(mobService.getFightCount()).toBe(1)
+  })
+
   it("generates the right messages", async () => {
     // given
     mobBuilder.setLevel(50)
