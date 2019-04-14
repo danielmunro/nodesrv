@@ -10,7 +10,9 @@ export default class ResponseMessageBuilder {
   private verbToRequestCreator: string
   private verbToTarget: string
   private verbToObservers: string
-  private replacements: any = {}
+  private replacementsForRequestCreator: any = {}
+  private replacementsForTarget: any = {}
+  private replacementsForObservers: any = {}
 
   constructor(
     private readonly requestCreator: Mob,
@@ -57,7 +59,24 @@ export default class ResponseMessageBuilder {
   }
 
   public addReplacement(key: string, value: string): ResponseMessageBuilder {
-    this.replacements[key] = value
+    this.replacementsForRequestCreator[key] = value
+    this.replacementsForTarget[key] = value
+    this.replacementsForObservers[key] = value
+    return this
+  }
+
+  public addReplacementForRequestCreator(key: string, value: string): ResponseMessageBuilder {
+    this.replacementsForRequestCreator[key] = value
+    return this
+  }
+
+  public addReplacementForTarget(key: string, value: string): ResponseMessageBuilder {
+    this.replacementsForTarget[key] = value
+    return this
+  }
+
+  public addReplacementForObservers(key: string, value: string): ResponseMessageBuilder {
+    this.replacementsForObservers[key] = value
     return this
   }
 
@@ -69,7 +88,7 @@ export default class ResponseMessageBuilder {
       this.requestCreator,
       this.templateString,
       {
-        ...this.replacements,
+        ...this.replacementsForRequestCreator,
         requestCreator: this.selfIdentifier,
         target: this.target === this.requestCreator ?
           "you" + (this.targetPossessive ? "r" : "") :
@@ -77,14 +96,14 @@ export default class ResponseMessageBuilder {
         verb: this.target === this.requestCreator ? this.verbToTarget : this.verbToRequestCreator,
       },
       {
-        ...this.replacements,
+        ...this.replacementsForTarget,
         requestCreator: this.requestCreator === this.target ?
           "you" : this.requestCreator + (this.pluralizeRequestCreator ? "'s" : ""),
         target: "you" + (this.targetPossessive ? "r" : ""),
         verb: this.verbToTarget,
       },
       {
-        ...this.replacements,
+        ...this.replacementsForObservers,
         requestCreator: this.requestCreator + (this.pluralizeRequestCreator ? "'s" : ""),
         target: this.target + (this.pluralizeTarget ? "'s" : ""),
         verb: this.verbToObservers,

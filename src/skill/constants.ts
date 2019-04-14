@@ -25,8 +25,8 @@ export const SkillMessages = {
     Success: "{requestCreator} successfully {verb} {item}.",
   },
   EyeGouge: {
-    Fail: "",
-    Success: "",
+    Fail: "{requestCreator} {verb} at {target} but misses.",
+    Success: "{requestCreator} {verb} {requestCreator2} claws across {target} face, gouging {target2} eyes!",
   },
   Fail: "You failed.",
   Peek: {

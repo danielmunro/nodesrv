@@ -61,6 +61,7 @@ export enum RequestType {
   ShieldBash = "shield bash",
   Peek = "peek",
   DetectTouch = "detect touch",
+  EyeGouge = "eye gouge",
   Noop = "noop",
   Any = "any",
   Event = "event",

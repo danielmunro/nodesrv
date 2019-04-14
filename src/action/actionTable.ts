@@ -67,6 +67,7 @@ import backstabAction from "./impl/skill/ranger/backstabAction"
 import detectTouchAction from "./impl/skill/ranger/detectTouchAction"
 import dirtKickAction from "./impl/skill/ranger/dirtKickAction"
 import envenomAction from "./impl/skill/ranger/envenomAction"
+import eyeGougeAction from "./impl/skill/ranger/eyeGougeAction"
 import garotteAction from "./impl/skill/ranger/garotteAction"
 import hamstringAction from "./impl/skill/ranger/hamstringAction"
 import peekAction from "./impl/skill/ranger/peekAction"
@@ -159,6 +160,7 @@ export default function getActionTable(
     peekAction(abilityService),
     garotteAction(abilityService),
     detectTouchAction(abilityService),
+    eyeGougeAction(abilityService),
 
     // casting
     new CastAction(checkBuilderFactory, spellTable),
