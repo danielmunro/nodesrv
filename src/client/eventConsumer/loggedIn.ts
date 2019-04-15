@@ -7,7 +7,7 @@ import {EventType} from "../../event/eventType"
 import {newMobLocation} from "../../mob/factory"
 import LocationService from "../../mob/locationService"
 import EventContext from "../../request/context/eventContext"
-import { Request } from "../../request/request"
+import Request from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import {Room} from "../../room/model/room"
 

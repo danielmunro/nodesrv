@@ -1,5 +1,5 @@
 import {Mob} from "../mob/model/mob"
-import {Request} from "../request/request"
+import Request from "../request/request"
 import Response from "../request/response"
 import ResponseBuilder from "../request/responseBuilder"
 import ResponseMessage from "../request/responseMessage"

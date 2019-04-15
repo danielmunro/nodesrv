@@ -1,6 +1,6 @@
 import {Disposition} from "../mob/enum/disposition"
 import MobService from "../mob/mobService"
-import {Request} from "../request/request"
+import Request from "../request/request"
 import getActionPartTable from "./actionPartCheckTable"
 import CheckBuilder from "./checkBuilder"
 import CheckTemplate from "./checkTemplate"

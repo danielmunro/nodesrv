@@ -1,5 +1,5 @@
 import InputContext from "../../request/context/inputContext"
-import { Request } from "../../request/request"
+import Request from "../../request/request"
 import { RequestType } from "../../request/requestType"
 import {getConnection, initializeConnection} from "../../support/db/connection"
 import { getTestRoom } from "../../support/test/room"

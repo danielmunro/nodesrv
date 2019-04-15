@@ -4,7 +4,7 @@ import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import EventContext from "../../request/context/eventContext"
-import {Request} from "../../request/request"
+import Request from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import {SkillType} from "../skillType"
 

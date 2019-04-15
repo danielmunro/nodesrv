@@ -8,7 +8,7 @@ import RequestContext from "./context/requestContext"
 import { RequestType } from "./requestType"
 import ResponseBuilder from "./responseBuilder"
 
-export class Request {
+export default class Request {
   constructor(
     public readonly mob: Mob,
     public readonly room: Room,
@@ -33,10 +33,6 @@ export class Request {
 
   public findItemInSessionMobInventory(item = this.getContextAsInput().subject): Item | undefined {
     return this.mob.inventory.findItemByName(item)
-  }
-
-  public findItemInRoomInventory(item = this.getContextAsInput().subject): Item | undefined {
-    return this.room.inventory.findItemByName(item)
   }
 
   public getTargetMobInRoom(): Mob | undefined {

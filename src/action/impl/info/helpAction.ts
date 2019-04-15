@@ -1,6 +1,6 @@
 import Check from "../../../check/check"
 import CheckedRequest from "../../../check/checkedRequest"
-import {Request} from "../../../request/request"
+import Request from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"

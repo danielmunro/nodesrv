@@ -1,6 +1,6 @@
 import {Messages} from "../../action/constants"
 import {ActionPart} from "../../action/enum/actionPart"
-import {Request} from "../../request/request"
+import Request from "../../request/request"
 import ActionPartCheck from "../actionPartCheck"
 import CheckBuilder from "../checkBuilder"
 import {CheckType} from "../checkType"

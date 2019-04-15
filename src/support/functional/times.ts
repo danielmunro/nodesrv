@@ -1,5 +1,5 @@
 import Action from "../../action/action"
-import {Request} from "../../request/request"
+import Request from "../../request/request"
 
 const defaultIterations = 1000
 

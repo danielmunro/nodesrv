@@ -1,6 +1,6 @@
 import Event from "../event/event"
 import EventService from "../event/eventService"
-import {Request} from "../request/request"
+import Request from "../request/request"
 import CheckBuilderFactory from "./checkBuilderFactory"
 
 export default class AbilityService {

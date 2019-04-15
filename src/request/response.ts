@@ -1,5 +1,5 @@
 import CheckedRequest from "../check/checkedRequest"
-import { Request } from "./request"
+import Request from "./request"
 import ResponseMessage from "./responseMessage"
 import { ResponseStatus } from "./responseStatus"
 

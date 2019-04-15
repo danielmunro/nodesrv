@@ -4,7 +4,7 @@ import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import EventContext from "../../request/context/eventContext"
-import { Request } from "../../request/request"
+import Request from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import ClientService from "../../server/clientService"
 

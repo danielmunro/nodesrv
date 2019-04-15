@@ -8,7 +8,7 @@ import {Channel} from "../client/channel"
 import SocialEvent from "../client/event/socialEvent"
 import EventService from "../event/eventService"
 import {isBanned} from "../mob/enum/standing"
-import {Request} from "../request/request"
+import Request from "../request/request"
 
 export default class SocialService {
   constructor(

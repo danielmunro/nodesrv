@@ -5,7 +5,7 @@ import {EventType} from "../../event/eventType"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Mob} from "../../mob/model/mob"
 import EventContext from "../../request/context/eventContext"
-import {Request} from "../../request/request"
+import Request from "../../request/request"
 import {RequestType} from "../../request/requestType"
 
 export default class ExtraAttackEventConsumer implements EventConsumer {
