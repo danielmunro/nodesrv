@@ -24,7 +24,7 @@ export default class CloseDoorAction extends Action {
         ConditionMessages.All.Arguments.Close,
         CheckType.HasArguments)
       .requireTarget(
-        request.room.exits.find(exit => exit.door && match(exit.door.name, request.getSubject())),
+        request.getRoomExits().find(exit => exit.door && match(exit.door.name, request.getSubject())),
         ConditionMessages.Close.Fail.NotFound)
       .capture()
       .require(

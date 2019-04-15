@@ -28,7 +28,7 @@ export default class UnlockAction extends Action {
         ConditionMessages.All.Arguments.Unlock,
         CheckType.HasArguments)
       .require(
-        request.room.exits.find(exit => exit.door && match(exit.door.name, request.getSubject())),
+        request.getRoomExits().find(exit => exit.door && match(exit.door.name, request.getSubject())),
         ConditionMessages.Unlock.Fail.NotFound,
         CheckType.HasTarget)
       .capture()
@@ -37,7 +37,7 @@ export default class UnlockAction extends Action {
         ConditionMessages.Unlock.Fail.AlreadyUnlocked)
       .require(
         (exit: Exit) =>
-          this.itemService.getByCanonicalId(exit.door.unlockedByCanonicalId)
+          this.itemService.getByCanonicalId(exit.door.unlockedByCanonicalId as any)
             .find((item: Item) => item.inventory === request.mob.inventory),
         ConditionMessages.Unlock.Fail.NoKey)
       .create()

@@ -2,6 +2,7 @@ import AffectService from "../affect/affectService"
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel } from "../player/authorizationLevel"
+import {Exit} from "../room/model/exit"
 import { Room } from "../room/model/room"
 import InputContext from "./context/inputContext"
 import RequestContext from "./context/requestContext"
@@ -37,6 +38,10 @@ export default class Request {
 
   public getTargetMobInRoom(): Mob | undefined {
     return this.targetMobInRoom
+  }
+
+  public getRoomExits(): Exit[] {
+    return this.room.exits
   }
 
   public getRoomMvCost(): number {

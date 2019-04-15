@@ -38,7 +38,7 @@ export default class FleeAction extends Action {
         MESSAGE_FAIL_NOT_FIGHTING,
         CheckType.IsFighting)
       .capture()
-      .require(request.room.exits.length > 0, MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE)
+      .require(request.getRoomExits().length > 0, MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE)
       .addCost(new DelayCost(1))
       .addCost(new MvCost(mvCost))
       .create()
@@ -51,7 +51,7 @@ export default class FleeAction extends Action {
 
     const request = checkedRequest.request
     const mob = request.mob
-    const exit = pickOne(request.room.exits)
+    const exit = pickOne(request.getRoomExits())
     const fight = checkedRequest.getCheckTypeResult(CheckType.IsFighting) as Fight
 
     fight.participantFled(mob)

@@ -28,7 +28,7 @@ export default class LockAction extends Action {
         ConditionMessages.All.Arguments.Lock,
         CheckType.HasArguments)
       .require(
-        request.room.exits.find(exit => exit.door && match(exit.door.name, request.getSubject())),
+        request.getRoomExits().find(exit => exit.door && match(exit.door.name, request.getSubject())),
         ConditionMessages.All.Item.NotFound,
         CheckType.HasTarget)
       .capture()

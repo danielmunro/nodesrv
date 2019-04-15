@@ -14,7 +14,7 @@ import {ActionPart} from "../../enum/actionPart"
 
 export default class OpenDoorAction extends Action {
   private static getDoor(request: Request) {
-    return request.room.exits.find(exit =>
+    return request.getRoomExits().find(exit =>
       exit.door && match(exit.door.name, request.getSubject()))
   }
 

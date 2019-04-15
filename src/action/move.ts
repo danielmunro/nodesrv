@@ -36,7 +36,9 @@ export default abstract class Move extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
-      .require(this.aValidExit(request.room.exits), ConditionMessages.Move.Fail.DirectionDoesNotExist)
+      .require(
+        this.aValidExit(request.getRoomExits()),
+        ConditionMessages.Move.Fail.DirectionDoesNotExist)
       .require(Move.eitherNoDoorOrDoorIsOpen, ConditionMessages.Move.Fail.DoorIsClosed)
       .capture(request.mob)
       .not().requireAffect(AffectType.Immobilize, ConditionMessages.Move.Fail.Immobilized)
