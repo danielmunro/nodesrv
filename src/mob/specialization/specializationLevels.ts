@@ -12,7 +12,6 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Warrior, SkillType.ShieldBlock, 5),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.FastHealing, 6),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.SecondAttack, 7),
-  new SpecializationLevel(SpecializationType.Warrior, SkillType.Dodge, 8),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Disarm, 11),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.EnhancedDamage, 12),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Dodge, 13),
@@ -29,14 +28,17 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Dodge, 5),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Peek, 5),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Sharpen, 8),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.EyeGouge, 9),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Steal, 11),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.DetectTouch, 12),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Parry, 14),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Envenom, 15),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.FastHealing, 16),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Disarm, 21),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.Garotte, 23),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.SecondAttack, 25),
-  new SpecializationLevel(SpecializationType.Ranger, SkillType.EnhancedDamage, 32),
   new SpecializationLevel(SpecializationType.Ranger, SkillType.Hamstring, 31),
+  new SpecializationLevel(SpecializationType.Ranger, SkillType.EnhancedDamage, 32),
 
   // cleric
   new SpecializationLevel(SpecializationType.Cleric, SpellType.CureLight, 1),
@@ -61,6 +63,8 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Cleric, SpellType.Crusade, 25),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.LocateItem, 28),
   new SpecializationLevel(SpecializationType.Cleric, SpellType.Sanctuary, 30),
+  new SpecializationLevel(SpecializationType.Cleric, SpellType.OrbOfTouch, 32),
+  new SpecializationLevel(SpecializationType.Cleric, SpellType.OrbOfAwakening, 34),
 
   // mage
   new SpecializationLevel(SpecializationType.Mage, SpellType.MagicMissile, 1),
@@ -82,6 +86,7 @@ export const defaultSpecializationLevels = [
   new SpecializationLevel(SpecializationType.Mage, SpellType.Cancellation, 22),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Invisibility, 25),
   new SpecializationLevel(SpecializationType.Mage, SpellType.DrawLife, 27),
+  new SpecializationLevel(SpecializationType.Mage, SpellType.Summon, 28),
   new SpecializationLevel(SpecializationType.Mage, SpellType.Wrath, 30),
   new SpecializationLevel(SpecializationType.Mage, SpellType.WithstandDeath, 30),
 

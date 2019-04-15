@@ -54,6 +54,12 @@ locate item             NA
 
 level 30
 sanctuary               NA
+
+level 32
+orb of touch            NA
+
+level 34
+orb of awakening        NA
 `,
   Mage: `skill                   current practiced level
 
@@ -108,6 +114,9 @@ invisibility            NA
 level 27
 draw life               NA
 
+level 28
+summon                  NA
+
 level 30
 wrath                   NA
 withstand death         NA
@@ -131,8 +140,14 @@ peek                    NA
 level 8
 sharpen                 NA
 
+level 9
+eye gouge               NA
+
 level 11
 steal                   NA
+
+level 12
+detect touch            NA
 
 level 14
 parry                   NA
@@ -145,6 +160,9 @@ fast healing            NA
 
 level 21
 disarm                  NA
+
+level 23
+garotte                 NA
 
 level 25
 second attack           NA
@@ -173,9 +191,6 @@ fast healing            NA
 
 level 7
 second attack           NA
-
-level 8
-dodge                   NA
 
 level 11
 disarm                  NA

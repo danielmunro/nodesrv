@@ -142,7 +142,6 @@ export default function getActionTable(
     new KillAction(checkBuilderFactory, eventService),
     new HitAction(checkBuilderFactory, eventService),
     new FleeAction(checkBuilderFactory, mobService, locationService),
-    hamstringAction(abilityService),
     new BountyAction(checkBuilderFactory),
 
     // skills
@@ -161,6 +160,7 @@ export default function getActionTable(
     garotteAction(abilityService),
     detectTouchAction(abilityService),
     eyeGougeAction(abilityService),
+    hamstringAction(abilityService),
 
     // casting
     new CastAction(checkBuilderFactory, spellTable),
