@@ -12,7 +12,7 @@ export default class Request {
   constructor(
     public readonly mob: Mob,
     public readonly room: Room,
-    public readonly context: RequestContext,
+    private readonly context: RequestContext,
     private readonly targetMobInRoom?: Mob) {}
 
   public getContextAsInput(): InputContext {
@@ -23,20 +23,24 @@ export default class Request {
     return this.context.getRequestType()
   }
 
-  public getRoom(): Room {
-    return this.room
-  }
-
   public mobAffects(): AffectService {
     return new AffectService(this.mob)
   }
 
-  public findItemInSessionMobInventory(item = this.getContextAsInput().subject): Item | undefined {
+  public findItemInRoomInventory(item = this.getSubject()): Item | undefined {
+    return this.room.inventory.findItemByName(item)
+  }
+
+  public findItemInSessionMobInventory(item = this.getSubject()): Item | undefined {
     return this.mob.inventory.findItemByName(item)
   }
 
   public getTargetMobInRoom(): Mob | undefined {
     return this.targetMobInRoom
+  }
+
+  public getRoomMvCost(): number {
+    return this.room.getMovementCost()
   }
 
   public getSubject(): string {

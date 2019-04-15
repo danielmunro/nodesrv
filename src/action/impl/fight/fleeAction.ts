@@ -31,14 +31,14 @@ export default class FleeAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const mvCost = request.getRoom().getMovementCost() * FLEE_MOVEMENT_COST_MULTIPLIER
+    const mvCost = request.getRoomMvCost() * FLEE_MOVEMENT_COST_MULTIPLIER
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .require(
         this.mobService.findFight(f => f.isParticipant(request.mob)),
         MESSAGE_FAIL_NOT_FIGHTING,
         CheckType.IsFighting)
       .capture()
-      .require(request.getRoom().exits.length > 0, MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE)
+      .require(request.room.exits.length > 0, MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE)
       .addCost(new DelayCost(1))
       .addCost(new MvCost(mvCost))
       .create()
@@ -51,12 +51,11 @@ export default class FleeAction extends Action {
 
     const request = checkedRequest.request
     const mob = request.mob
-    const room = request.getRoom()
-    const exit = pickOne(room.exits)
+    const exit = pickOne(request.room.exits)
     const fight = checkedRequest.getCheckTypeResult(CheckType.IsFighting) as Fight
 
     fight.participantFled(mob)
-    mob.vitals.mv -= room.getMovementCost() * FLEE_MOVEMENT_COST_MULTIPLIER
+    mob.vitals.mv -= request.getRoomMvCost() * FLEE_MOVEMENT_COST_MULTIPLIER
     await this.locationService.moveMob(mob, exit.direction)
 
     return checkedRequest.respondWith().success(

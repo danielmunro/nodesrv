@@ -13,7 +13,7 @@ export default class ExitsAction extends Action {
 
   public invoke(checkedRequest: CheckedRequest): Promise<Response> {
     return checkedRequest.respondWith().success(
-      "Your exits: " + checkedRequest.request.room.exits.map(exit => exit.direction).join(", "))
+      "Your exits: " + checkedRequest.room.exits.map(exit => exit.direction).join(", "))
   }
 
   /* istanbul ignore next */

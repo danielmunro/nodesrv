@@ -35,12 +35,11 @@ export default class DropAction extends Action {
 
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const item = checkedRequest.check.result as Item
-    const room = checkedRequest.request.getRoom()
 
     if (item.affect().has(AffectType.MeltDrop)) {
       await this.eventService.publish(new ItemEvent(EventType.ItemDestroyed, item))
     } else {
-      room.inventory.addItem(item)
+      checkedRequest.room.inventory.addItem(item)
     }
 
     await this.eventService.publish(new MobEvent(EventType.ItemDropped, checkedRequest.mob, item))

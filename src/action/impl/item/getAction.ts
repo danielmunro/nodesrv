@@ -3,6 +3,7 @@ import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import ItemService from "../../../item/itemService"
+import {Item} from "../../../item/model/item"
 import Request from "../../../request/request"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
@@ -90,7 +91,7 @@ export default class GetAction extends Action {
   }
 
   private getFromRoom(request: Request) {
-    const item = this.itemService.findItem(request.getRoom().inventory, request.getSubject())
+    const item = request.findItemInRoomInventory() as Item
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireFromActionParts(request, this.getActionParts())
       .require(() => item.isTransferable, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)

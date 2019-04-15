@@ -34,10 +34,9 @@ export default class SacrificeAction extends Action {
 
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const item = checkedRequest.check.result
-    const room = checkedRequest.request.getRoom()
-    room.inventory.removeItem(item)
+    checkedRequest.room.inventory.removeItem(item)
     const value = Math.max(1, item.value / 10)
-    checkedRequest.request.mob.gold += value
+    checkedRequest.mob.gold += value
     await this.eventService.publish(new ItemEvent(EventType.ItemDestroyed, item))
 
     return checkedRequest

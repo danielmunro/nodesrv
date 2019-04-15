@@ -15,7 +15,7 @@ export default class CheckedRequest {
 
   constructor(public readonly request: Request, public readonly check: Check) {
     this.mob = request.mob
-    this.room = request.getRoom()
+    this.room = request.room
   }
 
   public getTarget() {

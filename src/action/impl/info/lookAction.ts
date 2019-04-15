@@ -31,8 +31,6 @@ export default class LookAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const room = request.getRoom()
-
     if (request.mobAffects().isBlind()) {
       return Check.fail(Messages.Look.Fail)
     }
@@ -41,7 +39,7 @@ export default class LookAction extends Action {
       return Check.ok()
     }
 
-    const ableToSee = this.isAbleToSee(request.mob, room.region)
+    const ableToSee = this.isAbleToSee(request.mob, request.room.region)
 
     if (!ableToSee) {
       return Check.fail(Messages.Look.Fail)
@@ -95,7 +93,7 @@ export default class LookAction extends Action {
       return builder.info(mob.describe())
     }
 
-    let item = this.itemService.findItem(request.getRoom().inventory, subject)
+    let item = request.findItemInRoomInventory()
     if (item) {
       return builder.info(item.describe())
     }

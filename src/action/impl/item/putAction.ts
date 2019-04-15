@@ -20,12 +20,12 @@ export default class PutAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const containerName = request.getContextAsInput().component
+    const containerName = request.getComponent()
     const mobInventory = request.mob.inventory
     const item = this.itemService.findItem(mobInventory, request.getSubject())
     const container = new Maybe(this.itemService.findItem(mobInventory, containerName))
       .do((i) => i)
-      .or(() => this.itemService.findItem(request.getRoom().inventory, containerName))
+      .or(() => request.findItemInRoomInventory(containerName))
       .get()
 
     return this.checkBuilderFactory.createCheckBuilder(request)

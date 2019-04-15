@@ -12,7 +12,7 @@ export default class ItemInRoomActionPartCheck implements ActionPartCheck {
 
   public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): any {
     checkBuilder.require(
-      request.room.inventory.findItemByName(request.getSubject()),
+      request.findItemInRoomInventory(),
       ConditionMessages.All.Item.NotFound,
       CheckType.ItemPresent)
       .capture()

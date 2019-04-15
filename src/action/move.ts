@@ -20,7 +20,7 @@ export default abstract class Move extends Action {
     return applyAffectModifier(
       request.mob.affects.map(a => a.affectType),
       Trigger.MovementCost,
-      request.room.getMovementCost())
+      request.getRoomMvCost())
   }
 
   private static eitherNoDoorOrDoorIsOpen(exit: Exit) {
@@ -47,7 +47,7 @@ export default abstract class Move extends Action {
   public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
     const request = checkedRequest.request
     if (!request.mobAffects().has(AffectType.Fly)) {
-      request.mob.vitals.mv -= request.getRoom().getMovementCost()
+      request.mob.vitals.mv -= request.getRoomMvCost()
     }
     await this.locationService.moveMob(request.mob, this.direction)
     return checkedRequest.respondWith().success()
