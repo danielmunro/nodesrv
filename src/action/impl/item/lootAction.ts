@@ -1,11 +1,10 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import {ItemType} from "../../../item/enum/itemType"
-import ItemService from "../../../item/itemService"
 import {Item} from "../../../item/model/item"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import match from "../../../support/matcher/match"
@@ -22,9 +21,7 @@ export default class LootAction extends Action {
     return "gets"
   }
 
-  constructor(
-    private readonly checkBuilderFactory: CheckBuilderFactory,
-    private readonly itemService: ItemService) {
+  constructor(private readonly checkBuilderFactory: CheckBuilderFactory) {
     super()
   }
 
@@ -32,7 +29,7 @@ export default class LootAction extends Action {
     return this.checkBuilderFactory
       .createCheckBuilder(request)
       .require(
-        this.itemService.findItem(request.room.inventory, request.getLastArg()),
+        request.findItemInRoomInventory(request.getLastArg()),
         Messages.Loot.NoCorpse,
         CheckType.ContainerPresent)
       .capture()
@@ -42,18 +39,17 @@ export default class LootAction extends Action {
       .require(
         (corpse: Item) => corpse.container.inventory.items.find((item: Item) => match(item.name, request.getSubject())),
         Messages.Loot.CorpseDoesNotHaveItem,
-        CheckType.HasItem)
+        CheckType.ItemPresent)
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const [ container, item ] = checkedRequest.results(CheckType.ContainerPresent, CheckType.HasItem)
-
-    checkedRequest.mob.inventory.addItem(item)
-
+  public invoke(requestService: RequestService): Promise<Response> {
+    const [ container, item ] = requestService.getResults(
+      CheckType.ContainerPresent, CheckType.ItemPresent)
     const replacements = { item, container }
+    requestService.addItemToMobInventory()
 
-    return checkedRequest.respondWith().success(
+    return requestService.respondWith().success(
       Messages.Get.SuccessFromContainer,
       { verb: LootAction.getVerb(true), ...replacements },
       { verb: LootAction.getVerb(false), ...replacements })

@@ -4,10 +4,11 @@ import {Affect} from "../../affect/model/affect"
 import AbilityService from "../../check/abilityService"
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
-import CheckedRequest from "../../check/checkedRequest"
 import {CheckType} from "../../check/checkType"
 import Cost from "../../check/cost/cost"
+import {Mob} from "../../mob/model/mob"
 import Request from "../../request/request"
+import RequestService from "../../request/requestService"
 import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
@@ -27,37 +28,37 @@ export default class Spell extends Action {
     protected readonly affectType: AffectType,
     protected readonly actionType: ActionType,
     protected readonly costs: Cost[],
-    protected readonly successMessage: (checkedRequest: CheckedRequest) => ResponseMessage,
-    protected readonly applySpell: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) =>
+    protected readonly successMessage: (requestService: RequestService) => ResponseMessage,
+    protected readonly applySpell: (requestService: RequestService, affectBuilder: AffectBuilder) =>
       Promise<Affect | void>,
     protected readonly checkComponents: (request: Request, checkBuilder: CheckBuilder) => void,
     protected readonly helpText: string) {
     super()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    if (!this.roll(checkedRequest)) {
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const spell = requestService.getResult(CheckType.HasSpell)
+    if (!this.roll(spell.level)) {
       await this.abilityService.publishEvent(
-        new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSpell), checkedRequest.mob, false))
-      return checkedRequest.responseWithMessage(
+        new SkillEvent(spell, requestService.getMob(), false))
+      return requestService.respondWith().response(
         ResponseStatus.ActionFailed,
-        this.getFailureMessage(checkedRequest))
+        this.getFailureMessage(requestService.getMob()))
     }
     const affectType = this.getAffectType()
-    const affect = await this.applySpell(checkedRequest, new AffectBuilder(affectType ? affectType : AffectType.Noop))
+    const affect = await this.applySpell(requestService, new AffectBuilder(affectType ? affectType : AffectType.Noop))
     if (affect && affect.affectType !== AffectType.Noop) {
-      checkedRequest.getCheckTypeResult(CheckType.HasTarget).affect().add(affect)
+      requestService.getResult(CheckType.HasTarget).affect().add(affect)
     }
     await this.abilityService.publishEvent(
-      new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSpell), checkedRequest.mob, true))
-    return checkedRequest.responseWithMessage(
+      new SkillEvent(spell, requestService.getMob(), true))
+    return requestService.respondWith().response(
       ResponseStatus.Success,
-      this.getSuccessMessage(checkedRequest))
+      this.getSuccessMessage(requestService))
   }
 
-  public roll(checkedRequest: CheckedRequest): boolean {
-    const spell = checkedRequest.getCheckTypeResult(CheckType.HasSpell)
-    return roll(4, spell.level) > spell.level * 2
+  public roll(spellLevel: number): boolean {
+    return roll(4, spellLevel) > spellLevel * 2
   }
 
   public check(request: Request): Promise<Check> {
@@ -70,10 +71,8 @@ export default class Spell extends Action {
     return checkBuilder.create()
   }
 
-  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    return new ResponseMessage(
-      checkedRequest.mob,
-      Messages.Cast.Fail)
+  public getFailureMessage(mob: Mob): ResponseMessage {
+    return new ResponseMessage(mob, Messages.Cast.Fail)
   }
 
   public getActionType(): ActionType {
@@ -100,8 +99,8 @@ export default class Spell extends Action {
     return RequestType.Cast
   }
 
-  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    return this.successMessage(checkedRequest)
+  public getSuccessMessage(requestService: RequestService): ResponseMessage {
+    return this.successMessage(requestService)
   }
 
   /* istanbul ignore next */

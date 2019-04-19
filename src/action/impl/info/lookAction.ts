@@ -1,6 +1,5 @@
 import {AffectType} from "../../../affect/affectType"
 import Check from "../../../check/check"
-import CheckedRequest from "../../../check/checkedRequest"
 import TimeService from "../../../gameService/timeService"
 import ItemService from "../../../item/itemService"
 import {Item} from "../../../item/model/item"
@@ -12,6 +11,7 @@ import {Weather} from "../../../region/enum/weather"
 import {Region} from "../../../region/model/region"
 import WeatherService from "../../../region/weatherService"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import ResponseBuilder from "../../../request/responseBuilder"
@@ -48,17 +48,17 @@ export default class LookAction extends Action {
     return Check.ok()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const builder = checkedRequest.respondWith()
-    const request = checkedRequest.request
+  public invoke(requestService: RequestService): Promise<Response> {
+    const builder = requestService.respondWith()
+    const request = requestService.getRequest()
 
-    if (request.getContextAsInput().subject) {
+    if (requestService.getSubject()) {
       return this.lookAtSubject(request, builder)
     }
 
     return builder.info(
       request.room.toString()
-      + this.reduceMobs(request.mob, this.locationService.getMobsByRoom(request.room))
+      + this.reduceMobs(requestService.getMob(), this.locationService.getMobsByRoom(request.room))
       + request.room.inventory.toString("has here."))
   }
 

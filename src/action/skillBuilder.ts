@@ -3,10 +3,10 @@ import {AffectType} from "../affect/affectType"
 import {Affect} from "../affect/model/affect"
 import AbilityService from "../check/abilityService"
 import CheckBuilder from "../check/checkBuilder"
-import CheckedRequest from "../check/checkedRequest"
 import {CheckType} from "../check/checkType"
 import Cost from "../check/cost/cost"
 import Request from "../request/request"
+import RequestService from "../request/requestService"
 import {RequestType} from "../request/requestType"
 import ResponseMessage from "../request/responseMessage"
 import {SkillMessages} from "../skill/constants"
@@ -19,13 +19,13 @@ import Skill from "./impl/skill"
 
 export default class SkillBuilder {
   private static createDefaultResponseMessage() {
-    return (checkedRequest: CheckedRequest) =>
-      new ResponseMessage(checkedRequest.mob, "", {})
+    return (requestService: RequestService) =>
+      new ResponseMessage(requestService.getMob(), "", {})
   }
 
   private static createFailResponseMessage() {
-    return (checkedRequest: CheckedRequest) =>
-      new ResponseMessage(checkedRequest.mob, SkillMessages.Fail)
+    return (requestService: RequestService) =>
+      new ResponseMessage(requestService.getMob(), SkillMessages.Fail)
   }
 
   private helpText: string
@@ -34,19 +34,19 @@ export default class SkillBuilder {
   private affectType: AffectType
   private actionParts: ActionPart[] = [ ActionPart.Action ]
   private costs: Cost[] = []
-  private roll: (checkedRequest: CheckedRequest) => boolean
+  private roll: (requestService: RequestService) => boolean
   private checkBuilder: (request: Request, checkBuilder: CheckBuilder) => void
-  private successMessage: (checkedRequest: CheckedRequest) => ResponseMessage
-  private failMessage: (checkedRequest: CheckedRequest) => ResponseMessage
-  private applySkill: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) => Promise<Affect | void>
+  private successMessage: (requestService: RequestService) => ResponseMessage
+  private failMessage: (requestService: RequestService) => ResponseMessage
+  private applySkill: (requestService: RequestService, affectBuilder: AffectBuilder) => Promise<Affect | void>
   private touchesTarget: boolean = false
 
   constructor(private readonly abilityService: AbilityService, private readonly skillType: SkillType) {
     this.helpText = Messages.Help.NoActionHelpTextProvided
     this.requestType = (this.skillType as any) as RequestType
     this.applySkill = (_, affectBuilder) => Promise.resolve(affectBuilder ? affectBuilder.build() : undefined)
-    this.roll = (checkedRequest: CheckedRequest) =>
-      checkedRequest.getCheckTypeResult(CheckType.HasSkill).level > percentRoll()
+    this.roll = (requestService: RequestService) =>
+      requestService.getResult(CheckType.HasSkill).level > percentRoll()
     this.failMessage = SkillBuilder.createDefaultResponseMessage()
     this.successMessage = SkillBuilder.createFailResponseMessage()
   }
@@ -81,24 +81,24 @@ export default class SkillBuilder {
     return this
   }
 
-  public setSuccessMessage(successMessage: (checkedRequest: CheckedRequest) => ResponseMessage): SkillBuilder {
+  public setSuccessMessage(successMessage: (requestService: RequestService) => ResponseMessage): SkillBuilder {
     this.successMessage = successMessage
     return this
   }
 
-  public setFailMessage(failMessage: (checkedRequest: CheckedRequest) => ResponseMessage): SkillBuilder {
+  public setFailMessage(failMessage: (requestService: RequestService) => ResponseMessage): SkillBuilder {
     this.failMessage = failMessage
     return this
   }
 
   public setApplySkill(
-    applySkill: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) =>
+    applySkill: (requestService: RequestService, affectBuilder: AffectBuilder) =>
       Promise<Affect | void>): SkillBuilder {
     this.applySkill = applySkill
     return this
   }
 
-  public setRoll(roll: (checkedRequest: CheckedRequest) => boolean): SkillBuilder {
+  public setRoll(roll: (requestService: RequestService) => boolean): SkillBuilder {
     this.roll = roll
     return this
   }

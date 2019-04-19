@@ -49,7 +49,7 @@ export default class ResponseBuilder {
       new ResponseMessage(this.request.mob, messageToRequestCreator))
   }
 
-  private response(status: ResponseStatus, message: ResponseMessage): Promise<Response> {
+  public response(status: ResponseStatus, message: ResponseMessage): Promise<Response> {
     return Promise.resolve(new Response(this.request, status, message))
   }
 }

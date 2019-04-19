@@ -3,13 +3,13 @@ import {Stat} from "../../../attributes/stat"
 import {Vital} from "../../../attributes/vital"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import LocationService from "../../../mob/locationService"
 import {Mob} from "../../../mob/model/mob"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import ResponseBuilder from "../../../request/responseBuilder"
@@ -79,10 +79,10 @@ export default class TrainAction extends Action {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const mob = checkedRequest.mob
-    const responseBuilder = checkedRequest.respondWith()
-    const subject = checkedRequest.getCheckTypeResult(CheckType.ValidSubject)
+  public invoke(requestService: RequestService): Promise<Response> {
+    const mob = requestService.getMob()
+    const responseBuilder = requestService.respondWith()
+    const subject = requestService.getResult(CheckType.ValidSubject)
 
     if (subject === true) {
       const stats = mob.playerMob.trainedAttributes.stats

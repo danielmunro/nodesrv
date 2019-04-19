@@ -2,6 +2,7 @@ import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
 import { CheckStatus } from "../check/checkStatus"
 import Request from "../request/request"
+import RequestService from "../request/requestService"
 import { RequestType } from "../request/requestType"
 import Response from "../request/response"
 import {ActionPart} from "./enum/actionPart"
@@ -22,11 +23,12 @@ export default abstract class Action {
       return request.respondWith().error(checkResponse.result)
     }
 
-    return this.invoke(new CheckedRequest(request, checkResponse))
+    return this.invoke(
+      new RequestService(new CheckedRequest(request, checkResponse)))
   }
 
   public abstract check(request: Request): Promise<Check>
-  public abstract invoke(checkedRequest: CheckedRequest): Promise<Response>
+  public abstract invoke(requestService: RequestService): Promise<Response>
   public abstract getActionParts(): ActionPart[]
   public abstract getRequestType(): RequestType
   public abstract getHelpText(): string

@@ -1,4 +1,3 @@
-import AffectBuilder from "../../../../affect/affectBuilder"
 import {AffectType} from "../../../../affect/affectType"
 import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
@@ -18,23 +17,23 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.Berserk.Mv),
       new DelayCost(Costs.Berserk.Delay),
     ])
-    .setApplySkill(checkedRequest =>
-      Promise.resolve(new AffectBuilder(AffectType.Berserk)
-        .setLevel(checkedRequest.mob.level)
-        .setTimeout(Math.min(1, checkedRequest.mob.level / 10))
+    .setApplySkill(async (requestService, affectBuilder) =>
+      Promise.resolve(affectBuilder
+        .setLevel(requestService.getMobLevel())
+        .setTimeout(Math.min(1, requestService.getMobLevel() / 10))
         .build()))
-    .setSuccessMessage(checkedRequest => {
-      const mob = checkedRequest.mob
-      return new ResponseMessage(
-        mob,
-        SkillMessages.Berserk.Success,
-        { requestCreator: "your", requestCreator2: "you" },
-        { requestCreator2: "they" },
-        { requestCreator: `${mob.name}'s`, requestCreator2: "they" })
-    })
-    .setFailMessage(checkedRequest =>
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SkillMessages.Berserk.Success)
+        .addReplacementForRequestCreator("requestCreator2", "you")
+        .setSelfIdentifier("your")
+        .setPluralizeRequestCreator()
+        .addReplacementForTarget("requestCreator2", "they")
+        .addReplacementForObservers("requestCreator2", "they")
+        .create())
+    .setFailMessage(requestService =>
       new ResponseMessage(
-        checkedRequest.mob,
-        SkillMessages.Berserk.Fail).onlySendToRequestCreator())
+        requestService.getMob(),
+        SkillMessages.Berserk.Fail)
+        .onlySendToRequestCreator())
     .create()
 }

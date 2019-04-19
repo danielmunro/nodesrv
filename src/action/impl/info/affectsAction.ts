@@ -1,6 +1,6 @@
 import {Affect} from "../../../affect/model/affect"
 import Check from "../../../check/check"
-import CheckedRequest from "../../../check/checkedRequest"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -17,9 +17,9 @@ export default class AffectsAction extends Action {
     return Check.ok()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    return checkedRequest.respondWith()
-      .info("Your affects:\n" + AffectsAction.reduceAffects(checkedRequest.mob.affects))
+  public invoke(requestService: RequestService): Promise<Response> {
+    return requestService.respondWith()
+      .info("Your affects:\n" + AffectsAction.reduceAffects(requestService.getAffects()))
   }
 
   /* istanbul ignore next */

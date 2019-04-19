@@ -1,10 +1,9 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
-import {CheckType} from "../../../check/checkType"
 import {Inventory} from "../../../item/model/inventory"
 import {Item} from "../../../item/model/item"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -36,15 +35,15 @@ export default class WearAction extends Action {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-    const mob = checkedRequest.mob
+  public invoke(requestService: RequestService): Promise<Response> {
+    const item = requestService.getResult()
+    const mob = requestService.getMob()
 
-    return checkedRequest.respondWith().success(
+    return requestService.respondWith().success(
       WearAction.wear(
         mob.inventory,
         mob.equipped,
-        checkedRequest.getCheckTypeResult(CheckType.HasItem),
+        item,
         mob.equipped.find((i: Item) => i.equipment === item.equipment)))
   }
 

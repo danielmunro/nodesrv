@@ -1,15 +1,14 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import {ItemType} from "../../../item/enum/itemType"
 import {Item} from "../../../item/model/item"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
-import {Messages} from "../../constants"
-import {ConditionMessages} from "../../constants"
+import {ConditionMessages, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 export default class OpenItemAction extends Action {
@@ -37,11 +36,11 @@ export default class OpenItemAction extends Action {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const item = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+  public invoke(requestService: RequestService): Promise<Response> {
+    const item = requestService.getResult(CheckType.HasTarget)
     item.container.isClosed = false
 
-    return checkedRequest.respondWith().success(
+    return requestService.respondWith().success(
       Messages.OpenContainer.Success, {
         item: item.name,
         openVerb: "open",

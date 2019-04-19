@@ -33,14 +33,15 @@ export default function(abilityService: AbilityService, mobService: MobService):
       new ManaCost(50),
       new DelayCost(1),
     ])
-    .setSuccessMessage(checkedRequest => new ResponseMessage(
-      checkedRequest.mob,
-      SpellMessages.TurnUndead.Success))
-    .setApplySpell(async checkedRequest => {
-      await Promise.all(mobService.getMobsByRoom(checkedRequest.room)
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.TurnUndead.Success)
+        .create())
+    .setApplySpell(async requestService => {
+      const location = mobService.getLocationForMob(requestService.getMob())
+      await Promise.all(mobService.getMobsByRoom(location.room)
         .filter(mob => mob.raceType === RaceType.Undead)
         .filter(mob => percentRoll() < 100 - mob.level)
-        .map(mob => turn(checkedRequest.room, mob, abilityService)))
+        .map(mob => turn(location.room, mob, abilityService)))
     })
     .create()
 }

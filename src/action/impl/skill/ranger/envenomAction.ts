@@ -39,26 +39,27 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.Envenom.Mana),
       new DelayCost(Costs.Envenom.Delay),
     ])
-    .setApplySkill(async (checkedRequest, affectBuilder) => {
-      const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+    .setApplySkill(async (requestService, affectBuilder) => {
+      const item = requestService.getResult(CheckType.HasItem)
       item.affects.push(affectBuilder.build())
     })
-    .setSuccessMessage(checkedRequest => {
-      const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        SkillMessages.Envenom.Success,
-        { item, verb: "envenom" },
-        { item, verb: "envenoms" })
+    .setSuccessMessage(requestService => {
+      const item = requestService.getResult(CheckType.HasItem)
+      return requestService.createResponseMessage(SkillMessages.Envenom.Success)
+        .addReplacement("item", item)
+        .setVerbToRequestCreator("envenom")
+        .setVerbToTarget("envenom")
+        .setVerbToObservers("envenoms")
+        .create()
     })
-    .setFailMessage(checkedRequest => {
-      const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        SkillMessages.Envenom.Fail,
-        { item, verb: "fail" },
-        { item, verb: "fails" },
-        { item, verb: "fails" })
+    .setFailMessage(requestService => {
+      const item = requestService.getResult(CheckType.HasItem)
+      return requestService.createResponseMessage(SkillMessages.Envenom.Fail)
+        .addReplacement("item", item)
+        .setVerbToRequestCreator("fail")
+        .setVerbToTarget("fail")
+        .setVerbToObservers("fails")
+        .create()
     })
     .create()
 }

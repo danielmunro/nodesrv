@@ -1,16 +1,14 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
-import ItemEvent from "../../../item/event/itemEvent"
 import {Item} from "../../../item/model/item"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
-import {Messages} from "../../constants"
-import {ConditionMessages} from "../../constants"
+import {ConditionMessages, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 export default class EatAction extends Action {
@@ -29,19 +27,18 @@ export default class EatAction extends Action {
       .create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const mob = checkedRequest.request.mob
-    const item = checkedRequest.check.result as Item
-
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const mob = requestService.getMob()
+    const item = requestService.getResult()
     mob.playerMob.eat(item)
-    mob.inventory.removeItem(item)
-
+    requestService.removeItemFromMobInventory()
     const affects = item.affects.length > 0 ? ", and suddenly feel different" : ""
     const full = mob.playerMob.hunger === mob.playerMob.appetite ? ". You feel full" : ""
     const replacements = { item, affects }
-    await this.eventService.publish(new ItemEvent(EventType.ItemDestroyed, item))
+    await this.eventService.publish(
+      requestService.createItemEvent(EventType.ItemDestroyed, item))
 
-    return checkedRequest
+    return requestService
       .respondWith()
       .success(
         Messages.Eat.Success,

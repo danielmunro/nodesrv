@@ -1,9 +1,9 @@
 import Check from "../../check/check"
 import CheckBuilderFactory from "../../check/checkBuilderFactory"
-import CheckedRequest from "../../check/checkedRequest"
 import {CheckType} from "../../check/checkType"
 import {Disposition} from "../../mob/enum/disposition"
 import Request from "../../request/request"
+import RequestService from "../../request/requestService"
 import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
 import Action from "../action"
@@ -35,9 +35,9 @@ export default class CastAction extends Action {
     return spell.check(request)
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const spell = checkedRequest.check.result as Spell
-    return spell.invoke(checkedRequest)
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const spell = requestService.getResult()
+    return spell.invoke(requestService)
   }
 
   /* istanbul ignore next */

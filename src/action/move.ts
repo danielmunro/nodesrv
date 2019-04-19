@@ -2,12 +2,12 @@ import {AffectType} from "../affect/affectType"
 import {applyAffectModifier} from "../affect/applyAffect"
 import Check from "../check/check"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
-import CheckedRequest from "../check/checkedRequest"
 import MvCost from "../check/cost/mvCost"
 import {Disposition} from "../mob/enum/disposition"
 import {Trigger} from "../mob/enum/trigger"
 import LocationService from "../mob/locationService"
 import Request from "../request/request"
+import RequestService from "../request/requestService"
 import Response from "../request/response"
 import {Direction} from "../room/constants"
 import {Exit} from "../room/model/exit"
@@ -46,13 +46,13 @@ export default abstract class Move extends Action {
       .create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const request = checkedRequest.request
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const request = requestService.getRequest()
     if (!request.mobAffects().has(AffectType.Fly)) {
       request.mob.vitals.mv -= request.getRoomMvCost()
     }
     await this.locationService.moveMob(request.mob, this.direction)
-    return checkedRequest.respondWith().success()
+    return requestService.respondWith().success()
   }
 
   /* istanbul ignore next */

@@ -4,6 +4,7 @@ import SocialEvent from "../../../client/event/socialEvent"
 import SocialService from "../../../gameService/socialService"
 import InputContext from "../../../request/context/inputContext"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import {getTestMob} from "../../../support/test/mob"
 import {getTestRoom} from "../../../support/test/room"
@@ -18,12 +19,12 @@ describe("say social action", () => {
     const action = new SayAction(new SocialService(jest.fn()(), eventService))
 
     // when
-    await action.invoke(new CheckedRequest(
+    await action.invoke(new RequestService(new CheckedRequest(
       new Request(
         getTestMob(),
         getTestRoom(),
         new InputContext(RequestType.Say, "say hello")),
-      await Check.ok()))
+      await Check.ok())))
 
     // then
     expect(eventService.publish.mock.calls.length).toBe(1)

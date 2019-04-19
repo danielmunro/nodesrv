@@ -1,8 +1,6 @@
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import roll from "../../../../support/random/dice"
@@ -18,16 +16,14 @@ export default function(abilityService: AbilityService): Spell {
       new ManaCost(50),
       new DelayCost(1),
     ])
-    .setSuccessMessage(checkedRequest => new ResponseMessageBuilder(
-      checkedRequest.mob,
-      SpellMessages.Heal.Success,
-      checkedRequest.getCheckTypeResult(CheckType.HasTarget))
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.Heal.Success)
       .setVerbToRequestCreator("is")
       .setVerbToTarget("are")
       .setVerbToObservers("is")
       .create())
-    .setApplySpell(async checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    .setApplySpell(async requestService => {
+      const target = requestService.getTarget()
       target.vitals.hp += roll(20, 4)
     })
     .create()

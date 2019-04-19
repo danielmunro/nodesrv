@@ -1,9 +1,9 @@
 import {AffectType} from "../../../affect/affectType"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {Disposition} from "../../../mob/enum/disposition"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -24,9 +24,9 @@ export default class WakeAction extends Action {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    checkedRequest.request.mob.disposition = Disposition.Standing
-    return checkedRequest.respondWith().success(Messages.Wake.Success)
+  public invoke(requestService: RequestService): Promise<Response> {
+    requestService.setMobDisposition(Disposition.Standing)
+    return requestService.respondWith().success(Messages.Wake.Success)
   }
 
   /* istanbul ignore next */

@@ -1,6 +1,5 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import {isBanned} from "../../../mob/enum/standing"
 import MobService from "../../../mob/mobService"
@@ -8,6 +7,7 @@ import {Mob} from "../../../mob/model/mob"
 import {getAuthorizationLevelName} from "../../../player/authorizationLevel"
 import {getNextPromotion} from "../../../player/authorizationLevels"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
@@ -45,13 +45,11 @@ export default class PromoteAction extends Action {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const target = checkedRequest.check.result
-    const authorizationLevel = checkedRequest.getCheckTypeResult(CheckType.AuthorizationLevel)
-    const responseBuilder = checkedRequest.request.respondWith()
-
+  public invoke(requestService: RequestService): Promise<Response> {
+    const [ target, authorizationLevel ] = requestService.getResults(
+      CheckType.HasTarget, CheckType.AuthorizationLevel)
     target.playerMob.authorizationLevel = authorizationLevel
-    return responseBuilder.success(
+    return requestService.respondWith().success(
         `You promoted ${target.name} to ${getAuthorizationLevelName(authorizationLevel)}.`)
   }
 

@@ -3,7 +3,6 @@ import AbilityService from "../../../../check/abilityService"
 import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
-import ResponseMessage from "../../../../request/responseMessage"
 import {ActionMessages, Costs} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import {ActionPart} from "../../../enum/actionPart"
@@ -22,31 +21,25 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.Trip.Mv),
       new DelayCost(Costs.Trip.Delay),
     ])
-    .setApplySkill((checkedRequest, affectBuilder) => {
-      const [ target, skill ] = checkedRequest.results(CheckType.HasTarget, CheckType.HasSkill)
+    .setApplySkill(async (requestService, affectBuilder) => {
+      const [ target, skill ] = requestService.getResults(CheckType.HasTarget, CheckType.HasSkill)
       const amount = skill.level / 10
       target.vitals.hp -= amount
-      return Promise.resolve(affectBuilder
+      return affectBuilder
         .setTimeout(amount)
-        .build())
+        .build()
     })
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        ActionMessages.Trip.Success,
-        { verb: "trip", target },
-        { verb: "trips", target: "you" },
-        { verb: "trips", target })
-    })
-    .setFailMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        ActionMessages.Trip.Failure,
-        { verb: "fail", target },
-        { verb: "fails", target: "you" },
-        { requestCreator: checkedRequest.mob, verb: "fails", target })
-    })
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(ActionMessages.Trip.Success)
+        .setVerbToRequestCreator("trip")
+        .setVerbToTarget("trips")
+        .setVerbToObservers("trips")
+        .create())
+    .setFailMessage(requestService =>
+      requestService.createResponseMessage(ActionMessages.Trip.Failure)
+        .setVerbToRequestCreator("fail")
+        .setVerbToTarget("fails")
+        .setVerbToObservers("fails")
+        .create())
     .create()
 }

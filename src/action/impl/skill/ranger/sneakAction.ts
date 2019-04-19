@@ -22,15 +22,11 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.Sneak.Mv),
       new DelayCost(Costs.Sneak.Delay),
     ])
-    .setApplySkill(async (checkedRequest, affectBuilder) =>
-      affectBuilder.setTimeout(checkedRequest.mob.level).build())
-    .setSuccessMessage(checkedRequest =>
-      new ResponseMessage(
-        checkedRequest.mob,
-        SkillMessages.Sneak.Success))
-    .setFailMessage(checkedRequest =>
-      new ResponseMessage(
-        checkedRequest.mob,
-        SkillMessages.Sneak.Fail))
+    .setApplySkill(async (requestService, affectBuilder) =>
+      affectBuilder.setTimeout(requestService.getMobLevel()).build())
+    .setSuccessMessage(requestService =>
+      new ResponseMessage(requestService.getMob(), SkillMessages.Sneak.Success))
+    .setFailMessage(requestService =>
+      new ResponseMessage(requestService.getMob(), SkillMessages.Sneak.Fail))
     .create()
 }

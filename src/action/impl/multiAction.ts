@@ -1,7 +1,7 @@
 import Check from "../../check/check"
-import CheckedRequest from "../../check/checkedRequest"
 import {CheckType} from "../../check/checkType"
 import Request from "../../request/request"
+import RequestService from "../../request/requestService"
 import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
 import Action from "../action"
@@ -27,9 +27,9 @@ export default class MultiAction extends Action {
     return Check.fail(this.failMessage)
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const action: Action = checkedRequest.check.result
-    return action.handle(checkedRequest.request)
+  public invoke(requestService: RequestService): Promise<Response> {
+    const action: Action = requestService.getResult()
+    return action.handle(requestService.getRequest())
   }
 
   /* istanbul ignore next */

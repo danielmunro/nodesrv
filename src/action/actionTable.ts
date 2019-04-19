@@ -113,7 +113,7 @@ export default function getActionTable(
     new RemoveAction(checkBuilderFactory),
     new EatAction(checkBuilderFactory, eventService),
     new SacrificeAction(checkBuilderFactory, eventService),
-    new LootAction(checkBuilderFactory, itemService),
+    new LootAction(checkBuilderFactory),
 
     // multi-actions
     new MultiAction(
@@ -134,7 +134,6 @@ export default function getActionTable(
       ]),
 
     // manipulate
-    new OpenDoorAction(checkBuilderFactory),
     new UnlockAction(checkBuilderFactory, itemService),
     new LockAction(checkBuilderFactory, itemService),
 

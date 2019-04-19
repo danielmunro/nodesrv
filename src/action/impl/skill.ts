@@ -4,12 +4,11 @@ import {Affect} from "../../affect/model/affect"
 import AbilityService from "../../check/abilityService"
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
-import CheckedRequest from "../../check/checkedRequest"
 import {CheckType} from "../../check/checkType"
 import Cost from "../../check/cost/cost"
-import AttackEvent from "../../mob/event/attackEvent"
 import TouchEvent from "../../mob/event/touchEvent"
 import Request from "../../request/request"
+import RequestService from "../../request/requestService"
 import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
@@ -29,10 +28,10 @@ export default class Skill extends Action {
     protected readonly actionType: ActionType,
     protected readonly actionParts: ActionPart[],
     protected readonly costs: Cost[],
-    protected readonly roll: (checkedRequest: CheckedRequest) => boolean,
-    protected readonly successMessage: (checkedRequest: CheckedRequest) => ResponseMessage,
-    protected readonly failureMessage: (checkedRequest: CheckedRequest) => ResponseMessage,
-    protected readonly applySkill: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) =>
+    protected readonly roll: (requestService: RequestService) => boolean,
+    protected readonly successMessage: (requestService: RequestService) => ResponseMessage,
+    protected readonly failureMessage: (requestService: RequestService) => ResponseMessage,
+    protected readonly applySkill: (requestService: RequestService, affectBuilder: AffectBuilder) =>
       Promise<Affect | void>,
     protected readonly checkComponents: (request: Request, checkBuilder: CheckBuilder) => void,
     protected readonly touchesTarget: boolean,
@@ -40,39 +39,41 @@ export default class Skill extends Action {
     super()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const rollResultInitial = this.roll(checkedRequest)
-    const eventResponse = await this.publishSkillEventFromCheckedRequest(checkedRequest, rollResultInitial)
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const rollResultInitial = this.roll(requestService)
+    const skill = requestService.getResult(CheckType.HasSkill)
+    const eventResponse = await this.abilityService.publishEvent(
+      requestService.createSkillEvent(skill, rollResultInitial))
     if (!(eventResponse.event as SkillEvent).rollResult) {
-      return checkedRequest.responseWithMessage(
+      return requestService.respondWith().response(
         ResponseStatus.ActionFailed,
-        this.getFailureMessage(checkedRequest))
+        this.getFailureMessage(requestService))
     }
     if (this.touchesTarget) {
       const touchEventResponse = await this.abilityService.publishEvent(
-        new TouchEvent(checkedRequest.mob, checkedRequest.getTarget()))
+        new TouchEvent(requestService.getMob(), requestService.getResult(CheckType.HasTarget)))
       if (touchEventResponse.isSatisifed()) {
-        return new Response(
-          checkedRequest,
+        return requestService.respondWith().response(
           ResponseStatus.ActionFailed,
           touchEventResponse.context)
       }
     }
     const affect = await this.applySkill(
-      checkedRequest,
+      requestService,
       new AffectBuilder(this.affectType)
-        .setLevel(checkedRequest.mob.level))
-    const checkTarget = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+        .setLevel(requestService.getMobLevel()))
+    const checkTarget = requestService.getResult(CheckType.HasTarget)
     if (affect) {
-      const target = checkTarget || checkedRequest.mob
+      const target = checkTarget || requestService.getMob()
       target.affect().add(affect)
     }
     if (this.actionType === ActionType.Offensive) {
-      await this.abilityService.publishEvent(new AttackEvent(checkedRequest.mob, checkTarget))
+      await this.abilityService.publishEvent(
+        requestService.createAttackEvent(checkTarget))
     }
-    return checkedRequest.responseWithMessage(
+    return requestService.respondWith().response(
       ResponseStatus.Success,
-      this.successMessage(checkedRequest))
+      this.successMessage(requestService))
   }
 
   public check(request: Request): Promise<Check> {
@@ -101,12 +102,12 @@ export default class Skill extends Action {
     return this.actionType
   }
 
-  public getFailureMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    return this.failureMessage(checkedRequest)
+  public getFailureMessage(requestService: RequestService): ResponseMessage {
+    return this.failureMessage(requestService)
   }
 
-  public getSuccessMessage(checkedRequest: CheckedRequest): ResponseMessage {
-    return this.successMessage(checkedRequest)
+  public getSuccessMessage(requestService: RequestService): ResponseMessage {
+    return this.successMessage(requestService)
   }
 
   public getHelpText(): string {
@@ -119,10 +120,5 @@ export default class Skill extends Action {
 
   public getActionParts(): ActionPart[] {
     return this.actionParts
-  }
-
-  private publishSkillEventFromCheckedRequest(checkedRequest: CheckedRequest, rollResult: boolean) {
-    return this.abilityService.publishEvent(
-      new SkillEvent(checkedRequest.getCheckTypeResult(CheckType.HasSkill), checkedRequest.mob, rollResult))
   }
 }

@@ -5,7 +5,6 @@ import MvCost from "../../../../check/cost/mvCost"
 import {Equipment} from "../../../../item/enum/equipment"
 import {Item} from "../../../../item/model/item"
 import {Mob} from "../../../../mob/model/mob"
-import ResponseMessage from "../../../../request/responseMessage"
 import {
   ActionMessages,
   Costs,
@@ -33,28 +32,30 @@ export default function(abilityService: AbilityService): Skill {
         CheckType.ItemPresent)
       .create()
     })
-    .setApplySkill(checkedRequest => {
-      const item = checkedRequest.getCheckTypeResult(CheckType.ItemPresent)
-      checkedRequest.room.inventory.addItem(item)
+    .setApplySkill(requestService => {
+      const item = requestService.getResult(CheckType.ItemPresent)
+      requestService.addItemToRoomInventory(item)
       return Promise.resolve()
     })
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        ActionMessages.Disarm.Success,
-        { target, gender: target.gender, verb: "disarm", verb2: "send" },
-        { target: "you", gender: "your", verb: "disarms", verb2: "sends" },
-        { target, gender: target.gender, verb: "disarms", verb2: "sends" })
+    .setSuccessMessage(requestService => {
+      const target = requestService.getTarget()
+      return requestService.createResponseMessage(ActionMessages.Disarm.Success)
+        .setVerbToRequestCreator("disarm")
+        .addReplacementForRequestCreator("gender", target.gender)
+        .addReplacementForRequestCreator("verb2", "send")
+        .setVerbToTarget("disarms")
+        .addReplacementForTarget("gender", "your")
+        .addReplacementForTarget("verb2", "sends")
+        .setVerbToObservers("disarms")
+        .addReplacementForObservers("gender", target.gender)
+        .addReplacementForObservers("verb2", "sends")
+        .create()
     })
-    .setFailMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        ActionMessages.Disarm.Failure,
-        { target, verb: "fail" },
-        { target: "you", verb: "fails" },
-        { target, verb: "fails" })
-    })
+    .setFailMessage(requestService =>
+      requestService.createResponseMessage(ActionMessages.Disarm.Failure)
+        .setVerbToRequestCreator("fail")
+        .setVerbToTarget("fails")
+        .setVerbToObservers("fails")
+        .create())
     .create()
 }

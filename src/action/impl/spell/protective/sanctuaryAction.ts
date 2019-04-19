@@ -1,6 +1,5 @@
 import {AffectType} from "../../../../affect/affectType"
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import ResponseMessage from "../../../../request/responseMessage"
@@ -19,20 +18,14 @@ export default function(abilityService: AbilityService): Spell {
       new ManaCost(80),
       new DelayCost(2),
     ])
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        SpellMessages.Sanctuary.Success,
-        {
-          target: target === checkedRequest.mob ? "you" : target,
-          verb: target === checkedRequest.mob ? "are" : "is",
-        },
-        { target: "you", verb: "are" },
-        { target, verb: "is" })
-    })
-    .setApplySpell((checkedRequest, affectBuilder) => affectBuilder
-      .setTimeout(checkedRequest.mob.level / 8)
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.Sanctuary.Success)
+        .setVerbToRequestCreator("is")
+        .setVerbToTarget("are")
+        .setVerbToObservers("is")
+        .create())
+    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+      .setTimeout(requestService.getMobLevel() / 8)
       .build())
     .create()
 }

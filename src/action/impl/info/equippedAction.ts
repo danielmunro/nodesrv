@@ -1,5 +1,5 @@
 import Check from "../../../check/check"
-import CheckedRequest from "../../../check/checkedRequest"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -11,9 +11,9 @@ export default class EquippedAction extends Action {
     return Check.ok()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    return checkedRequest.respondWith().info("You are wearing:\n" +
-      checkedRequest.mob.equipped.getItems().map(
+  public invoke(requestService: RequestService): Promise<Response> {
+    return requestService.respondWith().info("You are wearing:\n" +
+      requestService.getEquipped().map(
         item => item.name).join("\n"))
   }
 

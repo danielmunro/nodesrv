@@ -4,8 +4,6 @@ import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import AttackEvent from "../../../../mob/event/attackEvent"
 import {Fight} from "../../../../mob/fight/fight"
-import ResponseMessage from "../../../../request/responseMessage"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {Costs, SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import {ActionPart} from "../../../enum/actionPart"
@@ -22,20 +20,18 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.EyeGouge.Mv),
       new DelayCost(Costs.EyeGouge.Delay),
     ])
-    .setApplySkill(async (checkedRequest, affectBuilder) => {
-      const level = checkedRequest.mob.level
-      const target = checkedRequest.getTarget()
-      target.vitals.hp -= Fight.calculateDamageForOneHit(checkedRequest.mob, target)
-      await abilityService.publishEvent(new AttackEvent(checkedRequest.mob, target))
+    .setApplySkill(async (requestService, affectBuilder) => {
+      const level = requestService.getMobLevel()
+      const target = requestService.getTarget()
+      target.vitals.hp -= Fight.calculateDamageForOneHit(requestService.getMob(), target)
+      await abilityService.publishEvent(new AttackEvent(requestService.getMob(), target))
       return affectBuilder
         .setTimeout(level / 12)
         .setLevel(level)
         .build()
     })
-    .setSuccessMessage(checkedRequest => new ResponseMessageBuilder(
-        checkedRequest.mob,
-        SkillMessages.EyeGouge.Success,
-        checkedRequest.getTarget())
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SkillMessages.EyeGouge.Success)
       .setVerbToRequestCreator("swipe")
       .setVerbToTarget("swipes")
       .setPluralizeTarget()
@@ -48,10 +44,8 @@ export default function(abilityService: AbilityService): Skill {
       .addReplacementForObservers("requestCreator2", "their")
       .addReplacementForObservers("target2", "their")
       .create())
-    .setFailMessage(checkedRequest => new ResponseMessageBuilder(
-      checkedRequest.mob,
-      SkillMessages.EyeGouge.Fail,
-      checkedRequest.getTarget())
+    .setFailMessage(requestService =>
+      requestService.createResponseMessage(SkillMessages.EyeGouge.Fail)
       .create())
     .create()
 }

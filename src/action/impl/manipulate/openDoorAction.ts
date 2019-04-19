@@ -1,8 +1,8 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {Exit} from "../../../room/model/exit"
@@ -42,11 +42,11 @@ export default class OpenDoorAction extends Action {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const exit = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+  public invoke(requestService: RequestService): Promise<Response> {
+    const exit = requestService.getResult()
     exit.door.isClosed = false
 
-    return checkedRequest.respondWith().success(
+    return requestService.respondWith().success(
       Messages.OpenDoor.Success, {
         direction: exit.direction,
         door: exit.door.name,

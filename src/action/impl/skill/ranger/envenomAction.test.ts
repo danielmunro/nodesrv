@@ -97,7 +97,7 @@ describe("envenom skill action", () => {
     expect(successResponse.getMessageToRequestCreator())
       .toBe(`you successfully envenom ${item.name}.`)
     expect(successResponse.getMessageToTarget())
-      .toBe(`${mobBuilder.mob.name} successfully envenoms ${item.name}.`)
+      .toBe(`you successfully envenom ${item.name}.`)
     expect(successResponse.getMessageToObservers())
       .toBe(`${mobBuilder.mob.name} successfully envenoms ${item.name}.`)
 
@@ -105,7 +105,7 @@ describe("envenom skill action", () => {
     expect(failResponse.getMessageToRequestCreator())
       .toBe(`you fail to envenom ${item.name}.`)
     expect(failResponse.getMessageToTarget())
-      .toBe(`${mobBuilder.mob.name} fails to envenom ${item.name}.`)
+      .toBe(`you fail to envenom ${item.name}.`)
     expect(failResponse.getMessageToObservers())
       .toBe(`${mobBuilder.mob.name} fails to envenom ${item.name}.`)
   })

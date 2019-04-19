@@ -1,5 +1,4 @@
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import ResponseMessage from "../../../../request/responseMessage"
@@ -18,20 +17,17 @@ export default function(abilityService: AbilityService): Spell {
       new ManaCost(20),
       new DelayCost(1),
     ])
-    .setApplySpell(async checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    .setApplySpell(async requestService => {
+      const target = requestService.getTarget()
       const amount = roll(2, target.level / 2)
       target.vitals.hp -= amount
-      checkedRequest.mob.vitals.hp += amount
+      requestService.getMob().vitals.hp += amount
     })
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        SpellMessages.DrawLife.Success,
-        { target, verb: "siphon" },
-        { target: "you", verb: "siphons" },
-        { target, verb: "siphons" })
-    })
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.DrawLife.Success)
+        .setVerbToRequestCreator("siphon")
+        .setVerbToTarget("siphons")
+        .setVerbToObservers("siphons")
+        .create())
     .create()
 }

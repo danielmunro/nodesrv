@@ -3,9 +3,9 @@ import {AffectType} from "../affect/affectType"
 import {Affect} from "../affect/model/affect"
 import AbilityService from "../check/abilityService"
 import CheckBuilder from "../check/checkBuilder"
-import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import Request from "../request/request"
+import RequestService from "../request/requestService"
 import ResponseMessage from "../request/responseMessage"
 import {SpellType} from "../spell/spellType"
 import {Messages} from "./constants"
@@ -19,8 +19,8 @@ export default class SpellBuilder {
   private spellType: SpellType
   private costs: Cost[]
   private checkBuilder: (request: Request, checkBuilder: CheckBuilder) => void
-  private successMessage: (checkedRequest: CheckedRequest) => ResponseMessage
-  private applySpell: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) => Promise<Affect | void>
+  private successMessage: (requestService: RequestService) => ResponseMessage
+  private applySpell: (requestService: RequestService, affectBuilder: AffectBuilder) => Promise<Affect | void>
 
   constructor(private readonly abilityService: AbilityService) {
     this.helpText = Messages.Help.NoActionHelpTextProvided
@@ -52,13 +52,13 @@ export default class SpellBuilder {
     return this
   }
 
-  public setSuccessMessage(successMessage: (checkedRequest: CheckedRequest) => ResponseMessage): SpellBuilder {
+  public setSuccessMessage(successMessage: (requestService: RequestService) => ResponseMessage): SpellBuilder {
     this.successMessage = successMessage
     return this
   }
 
   public setApplySpell(
-    applySpell: (checkedRequest: CheckedRequest, affectBuilder: AffectBuilder) =>
+    applySpell: (requestService: RequestService, affectBuilder: AffectBuilder) =>
       Promise<Affect | void>): SpellBuilder {
     this.applySpell = applySpell
     return this

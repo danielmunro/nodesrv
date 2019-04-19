@@ -1,6 +1,5 @@
 import {AffectType} from "../../../../affect/affectType"
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import MvCost from "../../../../check/cost/mvCost"
@@ -24,26 +23,28 @@ export default function(abilityService: AbilityService): Skill {
       new ManaCost(Costs.Hamstring.Mana),
       new DelayCost(Costs.Hamstring.Delay),
     ])
-    .setApplySkill(async (checkedRequest, affectBuilder) => affectBuilder
-      .setTimeout(Math.max(1, checkedRequest.mob.level / 15))
+    .setApplySkill(async (requestService, affectBuilder) => affectBuilder
+      .setTimeout(Math.max(1, requestService.getMobLevel() / 15))
       .build())
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        ConditionMessages.Hamstring.Success,
-        {verb: "slice", target: `${target}'s`, target2: "They"},
-        {verb: "slices", target: "your", target2: "You"},
-        {verb: "slices", target: `${target}'s`, target2: "They"})
-    })
-    .setFailMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        ConditionMessages.Hamstring.Fail,
-        {verb: "attempt", target, verb2: "fail"},
-        {verb: "attempts", target: "you", verb2: "fails"},
-        {verb: "attempts", target, verb2: "fails"})
-    })
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(ConditionMessages.Hamstring.Success)
+        .setVerbToRequestCreator("slice")
+        .addReplacementForRequestCreator("target2", "They")
+        .setVerbToTarget("slices")
+        .addReplacementForTarget("target2", "You")
+        .setTargetPossessive()
+        .setPluralizeTarget()
+        .setVerbToObservers("slices")
+        .addReplacementForObservers("target2", "They")
+        .create())
+    .setFailMessage(requestService =>
+      requestService.createResponseMessage(ConditionMessages.Hamstring.Fail)
+        .setVerbToRequestCreator("attempt")
+        .addReplacementForRequestCreator("verb2", "fail")
+        .setVerbToTarget("attempts")
+        .addReplacementForTarget("verb2", "fails")
+        .setVerbToObservers("attempts")
+        .addReplacementForObservers("verb2", "fails")
+        .create())
     .create()
 }

@@ -4,7 +4,6 @@ import {newHitroll} from "../../../../attributes/factory"
 import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
@@ -19,18 +18,16 @@ export default function(abilityService: AbilityService) {
       new ManaCost(20),
       new DelayCost(1),
     ])
-    .setSuccessMessage(checkedRequest => new ResponseMessageBuilder(
-      checkedRequest.mob,
-      SpellMessages.Crusade.Success,
-      checkedRequest.getTarget())
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.Crusade.Success)
       .setVerbToRequestCreator("is")
       .setVerbToTarget("are")
       .setVerbToObservers("is")
       .create())
-    .setApplySpell(async (checkedRequest, affectBuilder) => affectBuilder
-      .setTimeout(checkedRequest.mob.level / 8)
+    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+      .setTimeout(requestService.getMobLevel() / 8)
       .setAttributes(new AttributeBuilder()
-        .setHitRoll(newHitroll(1, checkedRequest.mob.level / 8))
+        .setHitRoll(newHitroll(1, requestService.getMobLevel() / 8))
         .build())
       .build())
     .create()

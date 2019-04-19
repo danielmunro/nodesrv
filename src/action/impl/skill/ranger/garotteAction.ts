@@ -4,7 +4,6 @@ import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {Disposition} from "../../../../mob/enum/disposition"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {Costs} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import {ConditionMessages} from "../../../constants"
@@ -24,26 +23,20 @@ export default function(abilityService: AbilityService): Skill {
       new ManaCost(Costs.Garotte.Mana),
       new DelayCost(Costs.Garotte.Delay),
     ])
-    .setApplySkill(async (checkedRequest, affectBuilder) => {
-      checkedRequest.getTarget().disposition = Disposition.Sleeping
+    .setApplySkill(async (requestService, affectBuilder) => {
+      requestService.setMobDisposition(Disposition.Sleeping)
       return affectBuilder
-        .setTimeout(Math.max(1, checkedRequest.mob.level / 12))
+        .setTimeout(Math.max(1, requestService.getMobLevel() / 12))
         .build()
       })
-    .setSuccessMessage(checkedRequest =>
-      new ResponseMessageBuilder(
-        checkedRequest.mob,
-        ConditionMessages.Garotte.Success,
-        checkedRequest.getTarget())
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(ConditionMessages.Garotte.Success)
         .setVerbToRequestCreator("passes")
         .setVerbToTarget("pass")
         .setVerbToObservers("passes")
         .create())
-    .setFailMessage(checkedRequest =>
-      new ResponseMessageBuilder(
-        checkedRequest.mob,
-        ConditionMessages.Garotte.Fail,
-        checkedRequest.getTarget())
+    .setFailMessage(requestService =>
+      requestService.createResponseMessage(ConditionMessages.Garotte.Fail)
         .setVerbToRequestCreator("fail")
         .setVerbToTarget("fails")
         .setVerbToObservers("fails")

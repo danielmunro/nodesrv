@@ -1,6 +1,6 @@
 import Check from "../../../check/check"
-import CheckedRequest from "../../../check/checkedRequest"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -22,11 +22,11 @@ export default class HelpAction extends Action {
     return Check.ok(action)
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const action = checkedRequest.check.result as Action
+  public invoke(requestService: RequestService): Promise<Response> {
+    const action = requestService.getResult() as Action
     const actionParts = action.getActionParts()
     actionParts.shift()
-    return checkedRequest.respondWith().success(
+    return requestService.respondWith().success(
 `syntax: ${action.getRequestType()} ${actionParts.map(
         (actionPart: ActionPart) => "{" + actionPart + "}").join(" ")}
 

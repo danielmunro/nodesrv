@@ -2,7 +2,6 @@ import {AffectType} from "../../../../affect/affectType"
 import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
@@ -15,13 +14,11 @@ export default function(abilityService: AbilityService): Spell {
     .setAffectType(AffectType.WithstandDeath)
     .setActionType(ActionType.Defensive)
     .setCosts([ new ManaCost(80), new DelayCost(2) ])
-    .setApplySpell(async (checkedRequest, affectBuilder) => affectBuilder
-      .setTimeout(checkedRequest.mob.level / 8)
+    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+      .setTimeout(requestService.getMobLevel() / 8)
       .build())
-    .setSuccessMessage(checkedRequest => new ResponseMessageBuilder(
-      checkedRequest.mob,
-      SpellMessages.WithstandDeath.Success,
-      checkedRequest.getTarget())
+    .setSuccessMessage(requestService => requestService.createResponseMessage(
+      SpellMessages.WithstandDeath.Success)
       .setVerbToRequestCreator("feels")
       .setVerbToTarget("feel")
       .setVerbToObservers("feels")

@@ -2,7 +2,6 @@ import {AffectType} from "../../../../affect/affectType"
 import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import roll from "../../../../support/random/dice"
@@ -19,8 +18,8 @@ export default function(abilityService: AbilityService): Spell {
       new ManaCost(20),
       new DelayCost(1),
     ])
-    .setApplySpell(async (checkedRequest, affectBuilder) => {
-      const aff = checkedRequest.getTarget().affect()
+    .setApplySpell(async (requestService, affectBuilder) => {
+      const aff = requestService.getTarget().affect()
       if (aff.has(AffectType.Haste)) {
         aff.remove(AffectType.Haste)
         if (roll(1, 2) === 1) {
@@ -28,23 +27,19 @@ export default function(abilityService: AbilityService): Spell {
         }
       }
       return affectBuilder
-        .setTimeout(checkedRequest.mob.level / 7)
+        .setTimeout(requestService.getMobLevel() / 7)
         .build()
     })
-    .setSuccessMessage(checkedRequest =>
-      checkedRequest.getTarget().affect().has(AffectType.Slow) ?
-        new ResponseMessageBuilder(
-          checkedRequest.mob,
-          SpellMessages.Slow.Success,
-          checkedRequest.getTarget())
+    .setSuccessMessage(requestService =>
+      requestService.getTarget().affect().has(AffectType.Slow) ?
+        requestService.createResponseMessage(
+          SpellMessages.Slow.Success)
           .setVerbToRequestCreator("starts")
           .setVerbToTarget("start")
           .setVerbToObservers("starts")
           .create()
-      : new ResponseMessageBuilder(
-          checkedRequest.mob,
-          SpellMessages.Slow.HasteStripped,
-          checkedRequest.getTarget())
+      : requestService.createResponseMessage(
+          SpellMessages.Slow.HasteStripped)
           .setVerbToRequestCreator("stops")
           .setVerbToTarget("stop")
           .setVerbToObservers("stops")

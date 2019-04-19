@@ -1,8 +1,8 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -33,11 +33,12 @@ export default class BountyAction extends Action {
     return RequestType.Bounty
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const [ mob, amount ] = checkedRequest.results(CheckType.IsPlayer, CheckType.HasArguments)
-    checkedRequest.mob.gold -= amount
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const [ mob, amount ] = requestService.getResults(
+      CheckType.IsPlayer, CheckType.HasArguments)
+    requestService.subtractGold(amount)
     mob.playerMob.bounty += parseInt(amount, 10)
 
-    return checkedRequest.respondWith().success(Messages.Bounty.Success)
+    return requestService.respondWith().success(Messages.Bounty.Success)
   }
 }

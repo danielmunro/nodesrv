@@ -1,18 +1,16 @@
 import {AffectType} from "../../../affect/affectType"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
-import ItemEvent from "../../../item/event/itemEvent"
 import {Item} from "../../../item/model/item"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
 import Action from "../../action"
-import {MESSAGE_FAIL_CONTAINER_NOT_EMPTY, Messages} from "../../constants"
-import {ConditionMessages} from "../../constants"
+import {ConditionMessages, MESSAGE_FAIL_CONTAINER_NOT_EMPTY, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 export default class SacrificeAction extends Action {
@@ -32,14 +30,14 @@ export default class SacrificeAction extends Action {
       .create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const item = checkedRequest.check.result
-    checkedRequest.room.inventory.removeItem(item)
+  public async invoke(requestService: RequestService): Promise<Response> {
+    requestService.removeItemFromRoomInventory()
+    const item = requestService.getResult()
     const value = Math.max(1, item.value / 10)
-    checkedRequest.mob.gold += value
-    await this.eventService.publish(new ItemEvent(EventType.ItemDestroyed, item))
-
-    return checkedRequest
+    requestService.addGold(value)
+    await this.eventService.publish(
+      requestService.createItemEvent(EventType.ItemDestroyed, item))
+    return requestService
       .respondWith()
       .success(format(Messages.Sacrifice.Success, item.name, value))
   }

@@ -1,10 +1,8 @@
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import {DamageType} from "../../../../damage/damageType"
 import DamageEvent from "../../../../mob/event/damageEvent"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import roll from "../../../../support/random/dice"
@@ -20,21 +18,19 @@ export default function(abilityService: AbilityService): Spell {
       new ManaCost(12),
       new DelayCost(1),
     ])
-    .setSuccessMessage(checkedRequest => new ResponseMessageBuilder(
-      checkedRequest.mob,
-      SpellMessages.PsionicBlast.Success,
-      checkedRequest.getCheckTypeResult(CheckType.HasTarget))
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.PsionicBlast.Success)
       .setVerbToRequestCreator("is")
       .setVerbToTarget("are")
       .setVerbToObservers("is")
       .create())
-    .setApplySpell(async checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    .setApplySpell(async requestService => {
+      const target = requestService.getTarget()
       const eventResponse = await abilityService.publishEvent(new DamageEvent(
         target,
         roll(2, 6),
         DamageType.Mental,
-        checkedRequest.mob))
+        requestService.getMob()))
       target.vitals.hp -= (eventResponse.event as DamageEvent).amount
     })
     .create()

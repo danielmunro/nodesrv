@@ -1,9 +1,9 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import ItemService from "../../../item/itemService"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
@@ -35,13 +35,13 @@ export default class PutAction extends Action {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-    const container = checkedRequest.getCheckTypeResult(CheckType.ContainerPresent)
-
+  public invoke(requestService: RequestService): Promise<Response> {
+    const [ item, container ] = requestService.getResults(
+      CheckType.HasItem,
+      CheckType.ContainerPresent)
     container.container.addItem(item)
-
-    return checkedRequest.respondWith().success(Messages.Put.Success, { item, container })
+    return requestService.respondWith()
+      .success(Messages.Put.Success, { item, container })
   }
 
   /* istanbul ignore next */

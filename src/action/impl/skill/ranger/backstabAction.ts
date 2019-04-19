@@ -1,9 +1,7 @@
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {Fight} from "../../../../mob/fight/fight"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {ActionMessages, Costs} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import {ActionPart} from "../../../enum/actionPart"
@@ -20,22 +18,18 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.Backstab.Mv),
       new DelayCost(Costs.Backstab.Delay),
     ])
-    .setApplySkill(async checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      target.vitals.hp -= Fight.calculateDamageForOneHit(checkedRequest.mob, target)
+    .setApplySkill(async requestService => {
+      const target = requestService.getTarget()
+      target.vitals.hp -= Fight.calculateDamageForOneHit(requestService.getMob(), target)
     })
-    .setSuccessMessage(checkedRequest => new ResponseMessageBuilder(
-      checkedRequest.mob,
-      ActionMessages.Backstab.Success,
-      checkedRequest.getCheckTypeResult(CheckType.HasTarget))
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(ActionMessages.Backstab.Success)
       .setVerbToRequestCreator("backstab")
       .setVerbToTarget("backstabs")
       .setVerbToObservers("backstabs")
       .create())
-    .setFailMessage(checkedRequest => new ResponseMessageBuilder(
-      checkedRequest.mob,
-      ActionMessages.Backstab.Failure,
-      checkedRequest.getCheckTypeResult(CheckType.HasTarget))
+    .setFailMessage(requestService =>
+      requestService.createResponseMessage(ActionMessages.Backstab.Failure)
       .setPluralizeRequestCreator()
       .setVerbToRequestCreator("dodges")
       .setVerbToTarget("dodge")

@@ -1,9 +1,7 @@
 import {AffectType} from "../../../../affect/affectType"
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
@@ -19,16 +17,13 @@ export default function(abilityService: AbilityService): Spell {
       new ManaCost(20),
       new DelayCost(1),
     ])
-    .setSuccessMessage(checkedRequest =>
-        new ResponseMessageBuilder(
-          checkedRequest.mob,
-          SpellMessages.DetectInvisible.Success,
-          checkedRequest.getCheckTypeResult(CheckType.HasTarget))
+    .setSuccessMessage(requestService =>
+        requestService.createResponseMessage(SpellMessages.DetectInvisible.Success)
           .setTargetPossessive()
           .setPluralizeTarget()
           .create())
-    .setApplySpell(async (checkedRequest, affectBuilder) => affectBuilder
-      .setTimeout(checkedRequest.mob.level / 7)
+    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+      .setTimeout(requestService.getMobLevel() / 7)
       .build())
     .create()
 }

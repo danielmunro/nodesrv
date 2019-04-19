@@ -1,6 +1,5 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import DelayCost from "../../../check/cost/delayCost"
 import MvCost from "../../../check/cost/mvCost"
@@ -9,6 +8,7 @@ import {Fight} from "../../../mob/fight/fight"
 import LocationService from "../../../mob/locationService"
 import MobService from "../../../mob/mobService"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import roll from "../../../support/random/dice"
@@ -44,21 +44,20 @@ export default class FleeAction extends Action {
       .create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
+  public async invoke(requestService: RequestService): Promise<Response> {
     if (roll(1, 2) === 1) {
-      return checkedRequest.respondWith().fail(Messages.Flee.Fail)
+      return requestService.respondWith().fail(Messages.Flee.Fail)
     }
 
-    const request = checkedRequest.request
-    const mob = request.mob
-    const exit = pickOne(request.getRoomExits())
-    const fight = checkedRequest.getCheckTypeResult(CheckType.IsFighting) as Fight
+    const mob = requestService.getMob()
+    const exit = pickOne(requestService.getRoomExits())
+    const fight = requestService.getResult(CheckType.IsFighting) as Fight
 
     fight.participantFled(mob)
-    mob.vitals.mv -= request.getRoomMvCost() * FLEE_MOVEMENT_COST_MULTIPLIER
+    mob.vitals.mv -= requestService.getRoomMvCost() * FLEE_MOVEMENT_COST_MULTIPLIER
     await this.locationService.moveMob(mob, exit.direction)
 
-    return checkedRequest.respondWith().success(
+    return requestService.respondWith().success(
       Messages.Flee.Success,
       { direction: exit.direction, verb: "flee" },
       { direction: exit.direction, verb: "flees" })

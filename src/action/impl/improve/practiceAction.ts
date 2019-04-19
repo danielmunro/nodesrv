@@ -1,6 +1,5 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
 import MobService from "../../../mob/mobService"
@@ -8,6 +7,7 @@ import {Mob} from "../../../mob/model/mob"
 import {getSpecializationLevel} from "../../../mob/specialization/specializationLevels"
 import {SpecializationType} from "../../../mob/specialization/specializationType"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {Skill} from "../../../skill/model/skill"
@@ -78,14 +78,17 @@ export default class PracticeAction extends Action {
     return RequestType.Practice
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const toPractice = checkedRequest.getCheckTypeResult(CheckType.ValidSubject)
-    toPractice.level += PracticeAction.getImproveAmount(checkedRequest.mob)
+  public invoke(requestService: RequestService): Promise<Response> {
+    const toPractice = requestService.getResult(CheckType.ValidSubject)
+    const mob = requestService.getMob()
+    toPractice.level += PracticeAction.getImproveAmount(mob)
     if (toPractice.level > MAX_PRACTICE_LEVEL) {
       toPractice.level = MAX_PRACTICE_LEVEL
     }
-    checkedRequest.mob.playerMob.practices -= 1
+    mob.playerMob.practices -= 1
 
-    return checkedRequest.respondWith().success(Messages.Practice.Success, { toPractice: toPractice.toString() })
+    return requestService
+      .respondWith()
+      .success(Messages.Practice.Success, { toPractice: toPractice.toString() })
   }
 }

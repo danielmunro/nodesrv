@@ -25,7 +25,7 @@ beforeEach(async () => {
   actionDefinition = await testBuilder.getAction(RequestType.Drop)
 })
 
-describe("drop", () => {
+describe("drop request action", () => {
   it("should be able to drop an item", async () => {
     // when
     const response = await actionDefinition.handle(

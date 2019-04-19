@@ -49,9 +49,8 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.Sharpen.Mv),
       new DelayCost(Costs.Sharpen.Delay),
     ])
-    .setApplySkill(async (checkedRequest, affectBuilder) => {
-      const skill = checkedRequest.getCheckTypeResult(CheckType.HasSkill)
-      const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+    .setApplySkill(async (requestService, affectBuilder) => {
+      const [ skill, item ] = requestService.getResults(CheckType.HasSkill, CheckType.HasItem)
       const affect = affectBuilder
         .setAttributes(new AttributeBuilder()
           .setHitRoll(newHitroll(1, roll(1, skill.level / 10) + 1))
@@ -59,23 +58,17 @@ export default function(abilityService: AbilityService): Skill {
         .build()
       item.affects.push(affect)
     })
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        ActionMessages.Sharpen.Success,
-        { verb: "sharpen", target },
-        { verb: "sharpen", target },
-        { verb: "sharpens", target })
-    })
-    .setFailMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        ActionMessages.Sharpen.Failure,
-        { verb: "fail", target },
-        { verb: "fail", target },
-        { verb: "fails", target })
-    })
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(ActionMessages.Sharpen.Success)
+        .setVerbToRequestCreator("sharpen")
+        .setVerbToTarget("sharpen")
+        .setVerbToObservers("sharpens")
+        .create())
+    .setFailMessage(requestService =>
+      requestService.createResponseMessage(ActionMessages.Sharpen.Failure)
+        .setVerbToRequestCreator("fail")
+        .setVerbToTarget("fail")
+        .setVerbToObservers("fails")
+        .create())
     .create()
 }

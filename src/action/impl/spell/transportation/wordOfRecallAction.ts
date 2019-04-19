@@ -2,7 +2,6 @@ import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import LocationService from "../../../../mob/locationService"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {Room} from "../../../../room/model/room"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
@@ -20,15 +19,12 @@ export default function(abilityService: AbilityService, locationService: Locatio
       new ManaCost(10),
       new DelayCost(1),
     ])
-    .setApplySpell(async checkedRequest => {
+    .setApplySpell(async requestService => {
       const room = locationService.getRecall() as Room
-      await locationService.updateMobLocation(checkedRequest.getTarget(), room)
+      await locationService.updateMobLocation(requestService.getTarget(), room)
     })
-    .setSuccessMessage(checkedRequest =>
-      new ResponseMessageBuilder(
-        checkedRequest.mob,
-        SpellMessages.WordOfRecall.Success,
-        checkedRequest.getTarget())
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.WordOfRecall.Success)
         .setVerbToRequestCreator("disappears")
         .setVerbToTarget("disappear")
         .setVerbToObservers("disappears")

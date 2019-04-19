@@ -18,19 +18,15 @@ export default function(abilityService: AbilityService): Spell {
       new ManaCost(10),
       new DelayCost(1),
     ])
-    .setApplySpell(async checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+    .setApplySpell(async requestService => {
+      const target = requestService.getResult(CheckType.HasTarget)
       target.vitals.hp += roll(1, 4)
     })
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        SpellMessages.CureLight.Success,
-        { target: target === checkedRequest.mob ? "you" : target,
-          verb: target === checkedRequest.mob ? "feel" : "feels" },
-        { target: "you", verb: "feel" },
-        { target, verb: "feels" })
-    })
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.CureLight.Success)
+        .setVerbToRequestCreator("feels")
+        .setVerbToTarget("feel")
+        .setVerbToObservers("feels")
+        .create())
     .create()
 }

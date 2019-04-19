@@ -2,12 +2,11 @@ import {ConditionMessages} from "../action/constants"
 import Check from "../check/check"
 import CheckBuilder from "../check/checkBuilder"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
-import CheckedRequest from "../check/checkedRequest"
-import {CheckType} from "../check/checkType"
 import {Channel} from "../client/channel"
 import SocialEvent from "../client/event/socialEvent"
 import EventService from "../event/eventService"
 import {isBanned} from "../mob/enum/standing"
+import {Mob} from "../mob/model/mob"
 import Request from "../request/request"
 
 export default class SocialService {
@@ -24,33 +23,25 @@ export default class SocialService {
       .require(!isBanned(request.mob.getStanding()), ConditionMessages.Social.LackingStanding)
   }
 
-  public async gossip(checkedRequest: CheckedRequest) {
-    const request = checkedRequest.request
-    const message = request.getContextAsInput().message
+  public async gossip(mob: Mob, message: string) {
     await this.eventService.publish(new SocialEvent(
-      request.mob,
+      mob,
       Channel.Gossip,
-      `${request.mob.name} gossips, "${message}"`))
+      `${mob.name} gossips, "${message}"`))
   }
 
-  public async say(checkedRequest: CheckedRequest) {
-    const request = checkedRequest.request
+  public async say(mob: Mob, message: string) {
     await this.eventService.publish(new SocialEvent(
-      request.mob,
+      mob,
       Channel.Say,
-      `${request.mob.name} says, "${request.getContextAsInput().message}"`))
+      `${mob.name} says, "${message}"`))
   }
 
-  public async tell(checkedRequest: CheckedRequest) {
-    const request = checkedRequest.request
-    const message = request.getContextAsInput().words.slice(2).join(" ")
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+  public async tell(mob: Mob, target: Mob, message: string) {
     await this.eventService.publish(new SocialEvent(
-      checkedRequest.mob,
+      mob,
       Channel.Tell,
-      `${checkedRequest.mob.name} tells you, "${message}"`,
+      `${mob.name} tells you, "${message}"`,
       target))
-
-    return request.respondWith().success(`You tell ${target.name}, "${message}"`)
   }
 }

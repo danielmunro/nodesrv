@@ -9,7 +9,6 @@ import Container from "../../../../item/model/container"
 import {Item} from "../../../../item/model/item"
 import {Mob} from "../../../../mob/model/mob"
 import {Region} from "../../../../region/model/region"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {Room} from "../../../../room/model/room"
 import {SpellMessages} from "../../../../spell/constants"
 import {Spell as SpellModel} from "../../../../spell/model/spell"
@@ -78,14 +77,11 @@ export default function(abilityService: AbilityService, itemService: ItemService
       new ManaCost(20),
       new DelayCost(1),
     ])
-    .setSuccessMessage(checkedRequest =>
-      new ResponseMessageBuilder(
-        checkedRequest.mob,
-        SpellMessages.LocateItem.Success,
-        checkedRequest.getTarget())
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.LocateItem.Success)
         .addReplacement(
           "rooms",
-          checkedRequest.getCheckTypeResult(CheckType.HasItem).reduce((previous: string, current: any) =>
+          requestService.getResult(CheckType.HasItem).reduce((previous: string, current: any) =>
             previous + "\n" + reduceCarriedBy(current), ""))
         .create())
     .create()

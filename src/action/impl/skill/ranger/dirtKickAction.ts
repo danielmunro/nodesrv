@@ -1,9 +1,7 @@
 import {AffectType} from "../../../../affect/affectType"
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
-import ResponseMessage from "../../../../request/responseMessage"
 import {Costs, SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import {ActionPart} from "../../../enum/actionPart"
@@ -20,28 +18,26 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.DirtKick.Mv),
       new DelayCost(Costs.DirtKick.Delay),
     ])
-    .setApplySkill((checkedRequest, affectBuilder) =>
-      Promise.resolve(affectBuilder
-        .setTimeout(Math.max(1, checkedRequest.mob.level / 12, 5))
-        .build()))
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        SkillMessages.DirtKick.Success,
-        { verb: "kick", target: `${target.name}'s` },
-        { verb: "kicks", target: "your" },
-        { verb: "kicks", target: `${target.name}'s` })
-    })
-    .setFailMessage(checkedRequest => {
-      const mob = checkedRequest.mob
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        mob,
-        SkillMessages.DirtKick.Fail,
-        { requestCreator: "you", verb: "kick", verb2: "miss", target },
-        { requestCreator: mob, verb: "kicks", verb2: "misses", target: "you" },
-        { requestCreator: mob, verb: "kicks", verb2: "misses", target })
-    })
+    .setApplySkill(async (requestService, affectBuilder) =>
+      affectBuilder
+        .setTimeout(Math.max(1, requestService.getMobLevel() / 12, 5))
+        .build())
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SkillMessages.DirtKick.Success)
+        .setVerbToRequestCreator("kick")
+        .setVerbToTarget("kicks")
+        .setPluralizeTarget()
+        .setTargetPossessive()
+        .setVerbToObservers("kicks")
+        .create())
+    .setFailMessage(requestService =>
+      requestService.createResponseMessage(SkillMessages.DirtKick.Fail)
+        .setVerbToRequestCreator("kick")
+        .addReplacementForRequestCreator("verb2", "miss")
+        .setVerbToTarget("kicks")
+        .addReplacementForRequestCreator("verb2", "misses")
+        .setVerbToObservers("kicks")
+        .addReplacementForRequestCreator("verb2", "miss")
+        .create())
     .create()
 }

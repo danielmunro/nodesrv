@@ -2,10 +2,8 @@ import {AffectType} from "../../../../affect/affectType"
 import AttributeBuilder from "../../../../attributes/attributeBuilder"
 import {newHitroll, newStats} from "../../../../attributes/factory"
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
-import {Mob} from "../../../../mob/model/mob"
 import ResponseMessage from "../../../../request/responseMessage"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
@@ -19,21 +17,18 @@ export default function(abilityService: AbilityService): Spell {
     .setAffectType(AffectType.Curse)
     .setActionType(ActionType.Offensive)
     .setCosts([ new ManaCost(20), new DelayCost(1) ])
-    .setApplySpell(async (checkedRequest, affectBuilder) => affectBuilder
-      .setTimeout(checkedRequest.mob.level / 10)
+    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+      .setTimeout(requestService.getMobLevel() / 10)
       .setAttributes(new AttributeBuilder()
         .setStats(newStats(-1, -1, -1, -1, -1, -1))
         .setHitRoll(newHitroll(1, -4))
         .build())
       .build())
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) as Mob
-      return new ResponseMessage(
-        checkedRequest.mob,
-        SpellMessages.Curse.Success,
-        { target, verb: "is" },
-        { target: "you", verb: "are" },
-        { target, verb: "is" })
-    })
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.Curse.Success)
+        .setVerbToRequestCreator("is")
+        .setVerbToTarget("are")
+        .setVerbToObservers("is")
+        .create())
     .create()
 }

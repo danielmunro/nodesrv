@@ -2,7 +2,6 @@ import {AffectType} from "../../../../affect/affectType"
 import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
@@ -18,17 +17,14 @@ export default function(abilityService: AbilityService): Spell {
       new ManaCost(100),
       new DelayCost(2),
     ])
-    .setSuccessMessage(checkedRequest =>
-      new ResponseMessageBuilder(
-        checkedRequest.mob,
-        SpellMessages.OrbOfAwakening.Success,
-        checkedRequest.getTarget())
+    .setSuccessMessage(responseService =>
+      responseService.createResponseMessage(SpellMessages.OrbOfAwakening.Success)
         .setVerbToRequestCreator("is")
         .setVerbToTarget("are")
         .setVerbToObservers("is")
         .create())
-    .setApplySpell(async (checkedRequest, affectBuilder) => affectBuilder
-      .setTimeout(checkedRequest.mob.level)
+    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+      .setTimeout(requestService.getMobLevel())
       .build())
     .create()
 }

@@ -1,13 +1,11 @@
 import {AffectType} from "../../../affect/affectType"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
-import ItemEvent from "../../../item/event/itemEvent"
 import {Item} from "../../../item/model/item"
-import MobEvent from "../../../mob/event/mobEvent"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -33,18 +31,20 @@ export default class DropAction extends Action {
       .create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const item = checkedRequest.check.result as Item
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const item = requestService.getResult() as Item
 
     if (item.affect().has(AffectType.MeltDrop)) {
-      await this.eventService.publish(new ItemEvent(EventType.ItemDestroyed, item))
+      await this.eventService.publish(
+        requestService.createItemEvent(EventType.ItemDestroyed, item))
     } else {
-      checkedRequest.room.inventory.addItem(item)
+      requestService.addItemToRoomInventory(item)
     }
 
-    await this.eventService.publish(new MobEvent(EventType.ItemDropped, checkedRequest.mob, item))
+    await this.eventService.publish(
+      requestService.createMobEvent(EventType.ItemDropped, item))
 
-    return checkedRequest.respondWith().success(
+    return requestService.respondWith().success(
       Messages.Drop.Success,
       { item, verb: "drop" },
       { item, verb: "drops" })

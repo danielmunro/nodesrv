@@ -1,9 +1,9 @@
 import {AffectType} from "../../../affect/affectType"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
@@ -30,11 +30,11 @@ export default class RemoveAction extends Action {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-    checkedRequest.request.mob.inventory.addItem(item)
-
-    return checkedRequest.respondWith().info(format(ConditionMessages.Remove.Success, item.name))
+  public invoke(requestService: RequestService): Promise<Response> {
+    const item = requestService.getResult()
+    requestService.getMob().equipped.removeItem(item)
+    return requestService.respondWith()
+      .info(format(ConditionMessages.Remove.Success, item.name))
   }
 
   public getActionParts(): ActionPart[] {

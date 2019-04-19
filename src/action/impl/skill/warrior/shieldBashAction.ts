@@ -1,7 +1,6 @@
 import {AffectType} from "../../../../affect/affectType"
 import {newAffect} from "../../../../affect/factory"
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {Mob} from "../../../../mob/model/mob"
@@ -21,58 +20,31 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost((mob: Mob) => Math.max(80, mob.vitals.mv / 2)),
       new DelayCost(2),
     ])
-    .setApplySkill(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) as Mob
+    .setApplySkill(requestService => {
+      const target = requestService.getTarget()
       const affect = target.affect()
-      affect.add(newAffect(AffectType.Stunned, checkedRequest.mob.level / 10))
+      affect.add(newAffect(AffectType.Stunned, requestService.getMobLevel() / 10))
       affect.remove(AffectType.Haste)
       target.vitals.mv = target.vitals.mv / 2
       return Promise.resolve()
     })
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        Messages.ShieldBash.Success,
-        {
-          requestCreator2: "your",
-          target,
-          verb: "smack",
-        },
-        {
-          requestCreator2: "their",
-          target: "you",
-          verb: "smacks",
-        },
-        {
-          requestCreator2: "their",
-          target,
-          verb: "smacks",
-        })
-    })
-    .setFailMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        Messages.ShieldBash.Fail,
-        {
-          requestCreator: "you",
-          target,
-          verb: "attempt",
-          verb2: "fail",
-        },
-        {
-          requestCreator: checkedRequest.mob,
-          target: "you",
-          verb: "attempts",
-          verb2: "fails",
-        },
-        {
-          requestCreator: checkedRequest.mob,
-          target,
-          verb: "attempts",
-          verb2: "fails",
-        })
-    })
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(Messages.ShieldBash.Success)
+        .setVerbToRequestCreator("smack")
+        .addReplacementForRequestCreator("requestCreator2", "your")
+        .setVerbToTarget("smacks")
+        .addReplacementForTarget("requestCreator2", "their")
+        .setVerbToObservers("smacks")
+        .addReplacementForObservers("requestCreator2", "their")
+        .create())
+    .setFailMessage(requestService =>
+      requestService.createResponseMessage(Messages.ShieldBash.Fail)
+        .setVerbToRequestCreator("attempt")
+        .addReplacementForRequestCreator("verb2", "fail")
+        .setVerbToTarget("attempts")
+        .addReplacementForTarget("verb2", "fails")
+        .setVerbToObservers("attempts")
+        .addReplacementForObservers("verb2", "fails")
+        .create())
     .create()
 }

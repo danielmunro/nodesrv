@@ -1,6 +1,5 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
@@ -9,6 +8,7 @@ import {Item} from "../../../item/model/item"
 import {Disposition} from "../../../mob/enum/disposition"
 import {Mob} from "../../../mob/model/mob"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
@@ -37,13 +37,13 @@ export default class SellAction extends Action {
       .create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const item = requestService.getResult(CheckType.HasItem)
     await this.eventService.publish(new ItemEvent(EventType.ItemDestroyed, item))
 
-    return checkedRequest
+    return requestService
       .respondWith()
-      .success(sell(checkedRequest.mob, item))
+      .success(sell(requestService.getMob(), item))
   }
 
   public getActionParts(): ActionPart[] {

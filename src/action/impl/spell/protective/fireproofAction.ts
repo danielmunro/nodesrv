@@ -1,6 +1,5 @@
 import {AffectType} from "../../../../affect/affectType"
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import ResponseMessage from "../../../../request/responseMessage"
@@ -19,21 +18,15 @@ export default function(abilityService: AbilityService): Spell {
       new ManaCost(10),
       new DelayCost(1),
     ])
-    .setSuccessMessage(checkedRequest => {
-      const caster = checkedRequest.mob
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        caster,
-        SpellMessages.Fireproof.Success,
-        {
-          target: target === caster ? "you" : target,
-          verb: target === caster ? "glow" : "glows",
-        },
-        { target: "you", verb: "glow" },
-        { target, verb: "glows" })
-    })
-    .setApplySpell(async (checkedRequest, affectBuilder) => affectBuilder
-      .setTimeout(checkedRequest.mob.level / 8)
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(
+        SpellMessages.Fireproof.Success)
+        .setVerbToRequestCreator("glows")
+        .setVerbToTarget("glow")
+        .setVerbToObservers("glows")
+        .create())
+    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+      .setTimeout(requestService.getMobLevel() / 8)
       .build())
     .create()
 }

@@ -2,7 +2,6 @@ import AbilityService from "../../../../check/abilityService"
 import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
@@ -17,19 +16,16 @@ export default function(abilityService: AbilityService): Spell {
       new ManaCost(20),
       new DelayCost(1),
     ])
-    .setSuccessMessage(checkedRequest =>
-      new ResponseMessageBuilder(
-        checkedRequest.mob,
-        SpellMessages.RefreshMovement.Success,
-        checkedRequest.getTarget())
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.RefreshMovement.Success)
         .setVerbToRequestCreator("feels")
         .setVerbToTarget("feel")
         .setVerbToObservers("feels")
         .create())
-    .setApplySpell(async checkedRequest => {
-      const target = checkedRequest.getTarget()
+    .setApplySpell(async requestService => {
+      const target = requestService.getResult(CheckType.HasTarget)
       const attr = target.attribute()
-      attr.addMv(checkedRequest.getCheckTypeResult(CheckType.HasSpell).level / 3)
+      attr.addMv(requestService.getResult(CheckType.HasSpell).level / 3)
     })
     .create()
 }

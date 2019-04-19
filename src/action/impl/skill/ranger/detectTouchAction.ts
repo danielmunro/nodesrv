@@ -5,7 +5,6 @@ import ManaCost from "../../../../check/cost/manaCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {RequestType} from "../../../../request/requestType"
 import ResponseMessage from "../../../../request/responseMessage"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {ConditionMessages as PreconditionMessages, Costs, SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import {ActionPart} from "../../../enum/actionPart"
@@ -27,19 +26,17 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(Costs.DetectTouch.Delay),
       new ManaCost(Costs.DetectTouch.Mana),
     ])
-    .setApplySkill(async (checkedRequest, affectBuilder) =>
-      affectBuilder.setTimeout(checkedRequest.mob.level / 8).build())
-    .setSuccessMessage(checkedRequest =>
-      new ResponseMessageBuilder(
-        checkedRequest.mob,
-        SkillMessages.DetectTouch.Success)
+    .setApplySkill(async (requestService, affectBuilder) =>
+      affectBuilder.setTimeout(requestService.getMobLevel() / 8).build())
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SkillMessages.DetectTouch.Success)
         .setVerbToRequestCreator("are")
         .setVerbToTarget("are")
         .setVerbToObservers("is")
         .create())
-    .setFailMessage(checkedRequest =>
+    .setFailMessage(requestService =>
       new ResponseMessage(
-        checkedRequest.mob,
+        requestService.getMob(),
         SkillMessages.DetectTouch.Fail))
     .create()
 }

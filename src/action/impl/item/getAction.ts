@@ -1,10 +1,10 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import ItemService from "../../../item/itemService"
 import {Item} from "../../../item/model/item"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
@@ -51,16 +51,15 @@ export default class GetAction extends Action {
       .get()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const item = checkedRequest.getCheckTypeResult(CheckType.ItemPresent)
-    const container = checkedRequest.getCheckTypeResult(CheckType.ContainerPresent)
-
-    checkedRequest.mob.inventory.addItem(item)
-
+  public invoke(requestService: RequestService): Promise<Response> {
+    const [ item, container ] = requestService.getResults(
+      CheckType.ItemPresent,
+      CheckType.ContainerPresent)
     const replacements = { item, container }
     const isContainer = !!container
+    requestService.addItemToMobInventory()
 
-    return checkedRequest.respondWith().success(
+    return requestService.respondWith().success(
       GetAction.getMessage(isContainer),
       { verb: GetAction.getVerb(isContainer, true), ...replacements },
       { verb: GetAction.getVerb(isContainer, false), ...replacements })

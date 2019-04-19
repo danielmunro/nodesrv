@@ -1,10 +1,10 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import ItemQuantity from "../../../item/itemQuantity"
 import {Disposition} from "../../../mob/enum/disposition"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -12,8 +12,7 @@ import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 export default class ListAction extends Action {
-  constructor(
-    private readonly checkBuilderFactory: CheckBuilderFactory) {
+  constructor(private readonly checkBuilderFactory: CheckBuilderFactory) {
     super()
   }
 
@@ -23,11 +22,10 @@ export default class ListAction extends Action {
       .create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const request = checkedRequest.request
-    const merchant = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const merchant = requestService.getResult(CheckType.HasTarget)
     const itemQuantityMap = merchant.inventory.getItemQuantityMap()
-    return request
+    return requestService
       .respondWith()
       .success(Object.keys(itemQuantityMap).reduce((previousValue, currentValue) => {
         const itemQuantity: ItemQuantity = itemQuantityMap[currentValue]

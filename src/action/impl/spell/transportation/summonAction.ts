@@ -34,17 +34,14 @@ export default function(abilityService: AbilityService, mobService: MobService):
         () => target.level <= request.mob.level,
         SpellMessages.Summon.NotEnoughExperience)
     })
-    .setSuccessMessage(checkedRequest =>
-      new ResponseMessageBuilder(
-        checkedRequest.mob,
-        SpellMessages.Summon.Success,
-        checkedRequest.getTarget())
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.Summon.Success)
         .setVerbToRequestCreator("arrives")
         .setVerbToTarget("arrive")
         .setVerbToObservers("arrives")
         .create())
-    .setApplySpell(async checkedRequest => {
-      const target = checkedRequest.getTarget()
+    .setApplySpell(async requestService => {
+      const target = requestService.getTarget()
       const location = mobService.getLocationForMob(target)
       if (location) {
         await abilityService.publishEvent(
@@ -58,9 +55,10 @@ export default function(abilityService: AbilityService, mobService: MobService):
               .setVerbToObservers("disappears")
               .create()))
       }
+      const toRoom = mobService.getLocationForMob(requestService.getMob())
       await mobService.updateMobLocation(
-        checkedRequest.getTarget(),
-        checkedRequest.room)
+        requestService.getTarget(),
+        toRoom.room)
     })
     .create()
 }

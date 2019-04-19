@@ -1,6 +1,5 @@
 import {AffectType} from "../../../../affect/affectType"
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import ResponseMessage from "../../../../request/responseMessage"
@@ -22,22 +21,26 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(Costs.Bash.Delay),
     ])
     .setApplySkill(async (_, affectBuilder) => affectBuilder.setTimeout(1).build())
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        SkillMessages.Bash.Success,
-        { target, verb: "slam", verb2: "send", target2: "them" },
-        { target: "you", verb: "slams", verb2: "sends", target2: "you" },
-        {target, verb: "slams", verb2: "sends", target2: "them"})
-    })
-    .setFailMessage(checkedRequest => {
-      const mob = checkedRequest.mob
-      return new ResponseMessage(
-        mob,
-        SkillMessages.Bash.Fail,
-        { requestCreator: "you", verb: "fall", requestCreator2: "your"},
-        { requestCreator: mob, verb: "falls", requestCreator2: "their"})
-    })
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SkillMessages.Bash.Success)
+        .setVerbToRequestCreator("slam")
+        .addReplacementForRequestCreator("verb2", "send")
+        .addReplacementForRequestCreator("target2", "them")
+        .setVerbToTarget("slams")
+        .addReplacementForTarget("verb2", "sends")
+        .addReplacementForTarget("target2", "you")
+        .setVerbToObservers("slams")
+        .addReplacementForObservers("verb2", "sends")
+        .addReplacementForObservers("target2", "them")
+        .create())
+    .setFailMessage(requestService =>
+      requestService.createResponseMessage(SkillMessages.Bash.Fail)
+        .setVerbToRequestCreator("fall")
+        .addReplacementForRequestCreator("requestCreator2", "your")
+        .setVerbToTarget("falls")
+        .addReplacementForTarget("requestCreator2", "their")
+        .setVerbToObservers("falls")
+        .addReplacementForObservers("requestCreator2", "their")
+        .create())
     .create()
 }

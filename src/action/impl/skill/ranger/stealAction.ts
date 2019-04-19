@@ -3,11 +3,8 @@ import {CheckType} from "../../../../check/checkType"
 import {CheckMessages} from "../../../../check/constants"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
-import {EventType} from "../../../../event/eventType"
-import MobEvent from "../../../../mob/event/mobEvent"
 import {Mob} from "../../../../mob/model/mob"
 import ResponseMessage from "../../../../request/responseMessage"
-import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
 import {ActionMessages, ConditionMessages, Costs} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import roll from "../../../../support/random/dice"
@@ -34,34 +31,26 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.Steal.Mv),
       new DelayCost(Costs.Steal.Delay),
     ])
-    .setApplySkill(async (checkedRequest) => {
-      const item = checkedRequest.getCheckTypeResult(CheckType.HasItem)
-      checkedRequest.mob.inventory.addItem(item)
+    .setApplySkill(async (requestService) => {
+      const item = requestService.getResult(CheckType.HasItem)
+      requestService.addItemToMobInventory(item)
       if (roll(1, 5) === 1) {
-        await abilityService.publishEvent(
-          new MobEvent(EventType.Attack, checkedRequest.mob, checkedRequest.getCheckTypeResult(CheckType.HasTarget)))
+        await abilityService.publishEvent(requestService.createAttackEvent())
       }
     })
-    .setSuccessMessage(checkedRequest => {
-      const [ item, target ] = checkedRequest.results(CheckType.HasItem, CheckType.HasTarget)
-      return new ResponseMessageBuilder(
-        checkedRequest.mob,
-        ActionMessages.Steal.Success,
-        target)
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(ActionMessages.Steal.Success)
         .setVerbToRequestCreator("steal")
         .setVerbToTarget("steals")
         .setVerbToObservers("steals")
-        .addReplacement("item", item.name)
-        .create()
-    })
-    .setFailMessage(checkedRequest => {
-      const [ item, target ] = checkedRequest.results(CheckType.HasItem, CheckType.HasTarget)
-      return new ResponseMessage(
-        checkedRequest.mob,
-        ActionMessages.Steal.Failure,
-        { verb: "fail", item, target },
-        { verb: "fails", item, target: "you" },
-        { verb: "fails", item, target })
-    })
+        .addReplacement("item", requestService.getResult(CheckType.HasItem))
+        .create())
+    .setFailMessage(requestService =>
+      requestService.createResponseMessage(ActionMessages.Steal.Failure)
+        .setVerbToRequestCreator("fail")
+        .setVerbToTarget("fails")
+        .setVerbToObservers("fails")
+        .addReplacement("item", requestService.getResult(CheckType.HasItem))
+        .create())
     .create()
 }

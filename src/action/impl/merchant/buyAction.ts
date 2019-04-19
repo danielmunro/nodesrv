@@ -1,15 +1,14 @@
 import {cloneDeep} from "lodash"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
-import ItemEvent from "../../../item/event/itemEvent"
 import {Item} from "../../../item/model/item"
 import {Disposition} from "../../../mob/enum/disposition"
 import {Mob} from "../../../mob/model/mob"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -35,17 +34,17 @@ export default class BuyAction extends Action {
       .create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const request = checkedRequest.request
-    const item = cloneDeep(checkedRequest.check.result)
-    request.mob.inventory.addItem(item)
-    request.mob.gold -= item.value
-    await this.eventService.publish(new ItemEvent(EventType.ItemCreated, item, request.mob))
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const item = cloneDeep(requestService.getResult())
+    requestService.addItemToMobInventory(item)
+    requestService.subtractGold(item.value)
+    await this.eventService.publish(
+      requestService.createItemEvent(EventType.ItemCreated, item))
     const replacements = {
       item,
       value: item.value,
     }
-    return request
+    return requestService
       .respondWith()
       .success(ActionMessages.Buy.Success,
         { verb: "buy", ...replacements },

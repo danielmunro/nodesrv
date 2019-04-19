@@ -1,8 +1,8 @@
 import Check from "../../../check/check"
-import CheckedRequest from "../../../check/checkedRequest"
 import ItemService from "../../../item/itemService"
 import {Item} from "../../../item/model/item"
 import {Mob} from "../../../mob/model/mob"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -26,10 +26,10 @@ export default class InventoryAction extends Action {
     return Check.ok()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const mob = checkedRequest.mob
+  public invoke(requestService: RequestService): Promise<Response> {
+    const mob = requestService.getMob()
     const items = this.itemService.findAllByInventory(mob.inventory)
-    return checkedRequest.respondWith()
+    return requestService.respondWith()
       .info("Your inventory:\n" +
         items.reduce((previous, current) => previous + InventoryAction.getItemName(mob, current) + "\n", ""))
   }

@@ -1,12 +1,11 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import EventService from "../../../event/eventService"
 import {Disposition} from "../../../mob/enum/disposition"
-import AttackEvent from "../../../mob/event/attackEvent"
 import {Mob} from "../../../mob/model/mob"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {ResponseStatus} from "../../../request/responseStatus"
@@ -30,18 +29,14 @@ export default class KillAction extends Action {
       .create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const request = checkedRequest.request
-    const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    const event = await this.eventService.publish(new AttackEvent(request.mob, target))
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const target = requestService.getResult(CheckType.HasTarget)
+    const event = await this.eventService.publish(requestService.createAttackEvent(target))
     if (event.isSatisifed()) {
-      return new Response(
-        checkedRequest,
-        ResponseStatus.ActionFailed,
-        event.context)
+      return requestService.respondWith().response(ResponseStatus.ActionFailed, event.context)
     }
 
-    return checkedRequest.respondWith().success(
+    return requestService.respondWith().success(
       Messages.Kill.Success,
       { screamVerb: "scream", attackVerb: "attack", target },
       { screamVerb: "screams", attackVerb: "attacks", target: "you" },

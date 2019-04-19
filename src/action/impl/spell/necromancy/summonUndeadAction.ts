@@ -1,7 +1,6 @@
 import AttributeBuilder from "../../../../attributes/attributeBuilder"
 import {newHitroll, newVitals} from "../../../../attributes/factory"
 import AbilityService from "../../../../check/abilityService"
-import CheckedRequest from "../../../../check/checkedRequest"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import MobService from "../../../../mob/mobService"
@@ -45,12 +44,12 @@ export default function(abilityService: AbilityService, mobService: MobService):
       new ManaCost(80),
       new DelayCost(1),
     ])
-    .setApplySpell(async (checkedRequest: CheckedRequest) => mobService.add(
+    .setApplySpell(async requestService => mobService.add(
         createSkeletalWarrior(
-          checkedRequest.mob,
+          requestService.getMob(),
           await mobService.createMobFromId(SKELETAL_WARRIOR_ID) as Mob),
-        checkedRequest.room))
-    .setSuccessMessage((checkedRequest: CheckedRequest) =>
-      new ResponseMessage(checkedRequest.mob, SpellMessages.SummonUndead.Success))
+          mobService.getLocationForMob(requestService.getMob()).room))
+    .setSuccessMessage(requestService =>
+      new ResponseMessage(requestService.getMob(), SpellMessages.SummonUndead.Success))
     .create()
 }

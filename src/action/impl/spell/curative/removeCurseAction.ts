@@ -20,20 +20,15 @@ export default function(abilityService: AbilityService): Spell {
       new ManaCost(20),
       new DelayCost(1),
     ])
-    .setApplySpell(async checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) as Mob
+    .setApplySpell(async requestService => {
+      const target = requestService.getResult(CheckType.HasTarget) as Mob
       target.affects = target.affects.filter(affect => affect.affectType !== AffectType.Curse)
     })
-    .setSuccessMessage(checkedRequest => {
-      const target = checkedRequest.getCheckTypeResult(CheckType.HasTarget) as Mob
-      const mob = checkedRequest.mob
-      return new ResponseMessage(
-        checkedRequest.mob,
-        SpellMessages.RemoveCurse.Success,
-        { target: target === mob ? "your" : target + "'s" },
-        { target: "your" },
-        { target: target + "'s" })
-    })
+    .setSuccessMessage(requestService =>
+      requestService.createResponseMessage(SpellMessages.RemoveCurse.Success)
+        .setPluralizeTarget()
+        .setTargetPossessive()
+        .create())
     .addToCheckBuilder((request, checkBuilder) => {
       const affect = request.getTargetMobInRoom().affect().get(AffectType.Curse)
       checkBuilder.addCheck(new CheckComponent(

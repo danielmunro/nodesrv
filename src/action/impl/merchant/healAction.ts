@@ -1,12 +1,12 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {CheckType} from "../../../check/checkType"
 import HealerSpell from "../../../mob/healer/healerSpell"
 import LocationService from "../../../mob/locationService"
 import {Mob} from "../../../mob/model/mob"
 import EventContext from "../../../request/context/eventContext"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
@@ -27,6 +27,7 @@ export default class HealAction extends Action {
     const healer = this.locationService.getMobsByRoom(request.room).find(mob => mob.isHealer())
     const checkBuilder = this.checkBuilderFactory.createCheckBuilder(request)
       .require(healer, ConditionMessages.Heal.Fail.HealerNotFound, CheckType.HasTarget)
+      .capture()
 
     if (subject) {
       const healerSpell: HealerSpell =
@@ -39,17 +40,20 @@ export default class HealAction extends Action {
     return checkBuilder.create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const request = checkedRequest.request
-    const healer = checkedRequest.getCheckTypeResult(CheckType.HasTarget)
-    const subject = request.getSubject()
+  public async invoke(requestService: RequestService): Promise<Response> {
+    const healer = requestService.getResult()
+    const subject = requestService.getSubject()
     if (!subject) {
-      return checkedRequest.respondWith().info(this.listSpells(healer))
+      return requestService.respondWith().info(this.listSpells(healer))
     }
-    const healerSpell: HealerSpell = checkedRequest.getCheckTypeResult(CheckType.HasSpell)
-    request.mob.gold -= healerSpell.goldValue
+    const healerSpell: HealerSpell = requestService.getResult(CheckType.HasSpell)
+    requestService.subtractGold(healerSpell.goldValue)
     return healerSpell.spellDefinition.handle(
-      new Request(healer, request.room, new EventContext(RequestType.Cast), request.mob))
+      new Request(
+        healer,
+        requestService.getRequest().room,
+        new EventContext(RequestType.Cast),
+        requestService.getMob()))
   }
 
   /* istanbul ignore next */

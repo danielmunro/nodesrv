@@ -1,10 +1,10 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import {isBanned, Standing} from "../../../mob/enum/standing"
 import MobService from "../../../mob/mobService"
 import {Mob} from "../../../mob/model/mob"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
@@ -56,13 +56,12 @@ export default class BanAction extends Action {
       .create()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    const request = checkedRequest.request
-    const target = checkedRequest.check.result
-    const newStanding = BanAction.getNewStanding(BanAction.getBanCommand(request.getComponent()))
+  public invoke(requestService: RequestService): Promise<Response> {
+    const target = requestService.getResult()
+    const newStanding = BanAction.getNewStanding(BanAction.getBanCommand(requestService.getComponent()))
     target.playerMob.standing = newStanding
 
-    return request.respondWith().success(
+    return requestService.respondWith().success(
       `You have banned ${target.name} with a ban level: ${newStanding}.`)
   }
 

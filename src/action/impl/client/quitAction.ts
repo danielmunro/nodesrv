@@ -1,10 +1,9 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import CheckedRequest from "../../../check/checkedRequest"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
-import MobEvent from "../../../mob/event/mobEvent"
 import Request from "../../../request/request"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -24,9 +23,10 @@ export default class QuitAction extends Action {
       .create()
   }
 
-  public async invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    await this.eventService.publish(new MobEvent(EventType.ClientLogout, checkedRequest.mob))
-    return checkedRequest.respondWith().success()
+  public async invoke(requestService: RequestService): Promise<Response> {
+    await this.eventService.publish(
+      requestService.createMobEvent(EventType.ClientLogout))
+    return requestService.respondWith().success()
   }
 
   /* istanbul ignore next */

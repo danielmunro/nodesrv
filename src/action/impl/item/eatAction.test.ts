@@ -42,10 +42,11 @@ describe("eat action", () => {
     mob.playerMob.hunger = mob.race().appetite - 1
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
+    const response = await action.handle(
+      testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toContain("You feel full")
+    expect(response.getMessageToRequestCreator()).toContain("You feel full")
   })
 
   it ("should notify if the player receives an affect from eating", async () => {

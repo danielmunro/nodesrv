@@ -1,5 +1,5 @@
 import Check from "../../../check/check"
-import CheckedRequest from "../../../check/checkedRequest"
+import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
@@ -11,9 +11,9 @@ export default class ExitsAction extends Action {
     return Check.ok()
   }
 
-  public invoke(checkedRequest: CheckedRequest): Promise<Response> {
-    return checkedRequest.respondWith().success(
-      "Your exits: " + checkedRequest.room.exits.map(exit => exit.direction).join(", "))
+  public invoke(requestService: RequestService): Promise<Response> {
+    return requestService.respondWith().success(
+      "Your exits: " + requestService.getRoomExits().map(exit => exit.direction).join(", "))
   }
 
   /* istanbul ignore next */
