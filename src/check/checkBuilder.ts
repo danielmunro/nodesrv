@@ -180,7 +180,8 @@ export default class CheckBuilder {
   public requireAffect(affectType: AffectType, failMessage: string) {
     this.checks.push(this.newCheckComponent(
       CheckType.HasAffect,
-      (captured: any) => captured.affects.find((a: Affect) => a.affectType === affectType),
+      (captured: any) =>
+        (captured.affects ? captured : this.mob).affects.find((a: Affect) => a.affectType === affectType),
       failMessage))
     return this
   }

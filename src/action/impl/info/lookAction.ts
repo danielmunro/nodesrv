@@ -2,7 +2,6 @@ import {AffectType} from "../../../affect/affectType"
 import Check from "../../../check/check"
 import TimeService from "../../../gameService/timeService"
 import ItemService from "../../../item/itemService"
-import {Item} from "../../../item/model/item"
 import {onlyLiving} from "../../../mob/enum/disposition"
 import LocationService from "../../../mob/locationService"
 import {Mob} from "../../../mob/model/mob"
@@ -35,11 +34,11 @@ export default class LookAction extends Action {
       return Check.fail(Messages.Look.Fail)
     }
 
-    if (this.somethingIsGlowing(request)) {
+    if (request.somethingIsGlowing()) {
       return Check.ok()
     }
 
-    const ableToSee = this.isAbleToSee(request.mob, request.room.region)
+    const ableToSee = this.isAbleToSee(request.mob, request.getRoomRegion())
 
     if (!ableToSee) {
       return Check.fail(Messages.Look.Fail)
@@ -57,9 +56,9 @@ export default class LookAction extends Action {
     }
 
     return builder.info(
-      request.room.toString()
-      + this.reduceMobs(requestService.getMob(), this.locationService.getMobsByRoom(request.room))
-      + request.room.inventory.toString("has here."))
+      request.getRoom().toString()
+      + this.reduceMobs(requestService.getMob(), this.locationService.getMobsByRoom(request.getRoom()))
+      + request.getRoom().inventory.toString("has here."))
   }
 
   public getActionParts(): ActionPart[] {
@@ -87,7 +86,7 @@ export default class LookAction extends Action {
   protected lookAtSubject(request: Request, builder: ResponseBuilder) {
     const subject = request.getSubject()
     const mob = this.locationService
-      .getMobsByRoom(request.room)
+      .getMobsByRoom(request.getRoom())
       .find(m => match(m.name, subject))
     if (mob) {
       return builder.info(mob.describe())
@@ -104,15 +103,6 @@ export default class LookAction extends Action {
     }
 
     return builder.error(Messages.Look.NotFound)
-  }
-
-  protected somethingIsGlowing(request: Request) {
-    return request.mob.equipped.find(this.isGlowingAffect)
-      || request.room.inventory.find(this.isGlowingAffect)
-  }
-
-  protected isGlowingAffect(item: Item) {
-    return item.affect().has(AffectType.Glow)
   }
 
   protected isAbleToSee(mob: Mob, region?: Region) {

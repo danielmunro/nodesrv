@@ -1,7 +1,9 @@
 import AffectService from "../affect/affectService"
+import {AffectType} from "../affect/affectType"
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel } from "../player/authorizationLevel"
+import {Region} from "../region/model/region"
 import {Exit} from "../room/model/exit"
 import { Room } from "../room/model/room"
 import InputContext from "./context/inputContext"
@@ -12,12 +14,16 @@ import ResponseBuilder from "./responseBuilder"
 export default class Request {
   constructor(
     public readonly mob: Mob,
-    public readonly room: Room,
+    private readonly room: Room,
     private readonly context: RequestContext,
     private readonly targetMobInRoom?: Mob) {}
 
   public getContextAsInput(): InputContext {
     return this.context as InputContext
+  }
+
+  public getRoom(): Room {
+    return this.room
   }
 
   public getType(): RequestType {
@@ -38,6 +44,10 @@ export default class Request {
 
   public getTargetMobInRoom(): Mob | undefined {
     return this.targetMobInRoom
+  }
+
+  public getRoomRegion(): Region {
+    return this.room.region
   }
 
   public getRoomExits(): Exit[] {
@@ -66,6 +76,11 @@ export default class Request {
     }
 
     return AuthorizationLevel.None
+  }
+
+  public somethingIsGlowing() {
+    return this.mob.equipped.find(item => item.affect().has(AffectType.Glow))
+      || this.room.inventory.find(item => item.affect().has(AffectType.Glow))
   }
 
   public respondWith(): ResponseBuilder {

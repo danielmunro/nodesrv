@@ -35,7 +35,7 @@ export default class CloseItemAction extends Action {
         (item: Item) => item.itemType === ItemType.Container,
         ConditionMessages.Close.Fail.ItemIsNotAContainer)
       .require(
-        (item: Item) => !item.container.isClosed,
+        (item: Item) => item.container.isOpen,
         ConditionMessages.Close.Fail.AlreadyClosed)
       .require((item: Item) => item.container.isCloseable,
         ConditionMessages.Close.Fail.CannotClose)
@@ -44,7 +44,7 @@ export default class CloseItemAction extends Action {
 
   public invoke(requestService: RequestService): Promise<Response> {
     const item = requestService.getResult()
-    item.container.isClosed = true
+    item.container.isOpen = false
 
     return requestService.respondWith().success(
       Messages.CloseContainer.Success,

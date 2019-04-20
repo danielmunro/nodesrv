@@ -20,7 +20,7 @@ beforeEach(async () => {
   const playerBuilder = await testBuilder.withPlayer()
   mob = playerBuilder.player.sessionMob
   item = playerBuilder.withContainer()
-  item.container.isClosed = false
+  item.container.isOpen = true
   item.container.isCloseable = true
   mob.inventory.addItem(item)
   definition = await testBuilder.getAction(RequestType.Close)
@@ -34,7 +34,7 @@ describe("close action", () => {
     // then
     expect(response.getMessageToRequestCreator()).toBe("you close a small leather satchel.")
     expect(response.message.getMessageToObservers()).toBe(mob.name + " closes a small leather satchel.")
-    expect(item.container.isClosed).toBeTruthy()
+    expect(item.container.isOpen).toBeFalsy()
     expect(response.status).toBe(ResponseStatus.Success)
   })
 
@@ -48,12 +48,12 @@ describe("close action", () => {
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
     expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Close.Fail.CannotClose)
-    expect(item.container.isClosed).toBeFalsy()
+    expect(item.container.isOpen).toBeTruthy()
   })
 
   it("should not be able to close a container that's already closed", async () => {
     // given
-    item.container.isClosed = true
+    item.container.isOpen = false
 
     // when
     const response = await definition.handle(testBuilder.createRequest(RequestType.Close, closeCommand))

@@ -24,7 +24,7 @@ export default class HealAction extends Action {
 
   public check(request: Request): Promise<Check> {
     const subject = request.getSubject()
-    const healer = this.locationService.getMobsByRoom(request.room).find(mob => mob.isHealer())
+    const healer = this.locationService.getMobsByRoom(request.getRoom()).find(mob => mob.isHealer())
     const checkBuilder = this.checkBuilderFactory.createCheckBuilder(request)
       .require(healer, ConditionMessages.Heal.Fail.HealerNotFound, CheckType.HasTarget)
       .capture()
@@ -51,7 +51,7 @@ export default class HealAction extends Action {
     return healerSpell.spellDefinition.handle(
       new Request(
         healer,
-        requestService.getRequest().room,
+        requestService.getRequest().getRoom(),
         new EventContext(RequestType.Cast),
         requestService.getMob()))
   }

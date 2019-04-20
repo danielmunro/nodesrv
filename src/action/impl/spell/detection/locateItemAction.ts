@@ -58,7 +58,7 @@ export default function(abilityService: AbilityService, itemService: ItemService
           return filterItem(
             stateService,
             request.mob,
-            request.room.region,
+            request.getRoomRegion(),
             i,
             request.getComponent(),
             request.mob.spells.find(spell => spell.spellType === SpellType.LocateItem) as SpellModel)

@@ -1,3 +1,4 @@
+import {AffectType} from "../affect/affectType"
 import {Affect} from "../affect/model/affect"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckType} from "../check/checkType"
@@ -35,6 +36,10 @@ export default class RequestService {
     return this.checkedRequest.mob.affects
   }
 
+  public hasAffect(affectType: AffectType): boolean {
+    return this.checkedRequest.mob.affect().has(affectType)
+  }
+
   public getEquipped(): Item[] {
     return this.checkedRequest.mob.equipped.items
   }
@@ -56,10 +61,7 @@ export default class RequestService {
   }
 
   public createResponseMessage(message: string): ResponseMessageBuilder {
-    return new ResponseMessageBuilder(
-      this.getMob(),
-      message,
-      this.getTarget())
+    return new ResponseMessageBuilder(this.getMob(), message, this.getTarget())
   }
 
   public respondWith(): ResponseBuilder {
