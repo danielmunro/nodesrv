@@ -2,7 +2,6 @@ import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import LocationService from "../../../../mob/locationService"
-import {Room} from "../../../../room/model/room"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {ActionType} from "../../../enum/actionType"
@@ -20,7 +19,7 @@ export default function(abilityService: AbilityService, locationService: Locatio
       new DelayCost(1),
     ])
     .setApplySpell(async requestService => {
-      const room = locationService.getRecall() as Room
+      const room = locationService.getRecall()
       await locationService.updateMobLocation(requestService.getTarget(), room)
     })
     .setSuccessMessage(requestService =>

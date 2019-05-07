@@ -1,41 +1,40 @@
 import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {Mob} from "../../../../mob/model/mob"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
-import TestBuilder from "../../../../support/test/testBuilder"
-import Spell from "../../spell"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
-let spell: Spell
-let mob2: Mob
+let testRunner: TestRunner
+let target: MobBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  spell = await testBuilder.getSpell(SpellType.Curse)
-  const mobBuilder = testBuilder.withMob().setLevel(20)
-  mobBuilder.withSpell(SpellType.Curse, MAX_PRACTICE_LEVEL)
-  mob2 = testBuilder.withMob().mob
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  testRunner.createMob().setLevel(20)
+    .withSpell(SpellType.Curse, MAX_PRACTICE_LEVEL)
+  target = testRunner.createMob()
 })
 
 describe("curse spell action", () => {
   it("imparts a curse on a target", async () => {
     // when
-    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, `cast curse ${mob2.name}`, mob2))
+    await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast curse ${target.getMobName()}`, target.get())
 
     // then
-    expect(mob2.affects.find(affect => affect.affectType === AffectType.Curse))
+    expect(target.hasAffect(AffectType.Curse)).toBeTruthy()
   })
 
   it("generates accurate success messages", async () => {
     // when
-    const response = await getSuccessfulAction(
-      spell, testBuilder.createRequest(RequestType.Cast, `cast curse ${mob2.name}`, mob2))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast curse ${target.getMobName()}`, target.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(`${mob2.name} is cursed!`)
-    expect(response.message.getMessageToTarget()).toBe(`you are cursed!`)
-    expect(response.message.getMessageToObservers()).toBe(`${mob2.name} is cursed!`)
+    expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} is cursed!`)
+    expect(response.getMessageToTarget()).toBe(`you are cursed!`)
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()} is cursed!`)
   })
 })

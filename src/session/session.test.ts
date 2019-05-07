@@ -1,6 +1,8 @@
+import {createTestAppContainer} from "../inversify.config"
 import { getPlayerRepository } from "../player/repository/player"
 import {getConnection, initializeConnection} from "../support/db/connection"
-import TestBuilder from "../support/test/testBuilder"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
 import AuthService from "./auth/authService"
 import Complete from "./auth/complete"
 import Email from "./auth/login/email"
@@ -11,14 +13,18 @@ beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
 const mockAuthService = jest.fn()
+let testRunner: TestRunner
+
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+})
 
 describe("session", () => {
   it("isLoggedIn sanity createDefaultCheckFor", async () => {
     // given
-    const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
+    const playerBuilder = testRunner.createPlayer()
     const player = playerBuilder.player
-    const client = await testBuilder.withClient()
+    const client = testRunner.createClient()
     const session = new Session(
       new Email(new AuthService(await getPlayerRepository(), jest.fn()())),
     )
@@ -37,10 +43,9 @@ describe("session", () => {
 
   it("should login when complete", async () => {
     // given
-    const testBuilder = new TestBuilder()
-    const client = await testBuilder.withClient()
+    const client = testRunner.createClient()
     const session = new Session(
-      new Complete(mockAuthService(), client.player),
+      new Complete(mockAuthService(), testRunner.createPlayer().get()),
     )
 
     // expect

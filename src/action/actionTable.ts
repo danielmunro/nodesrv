@@ -7,6 +7,7 @@ import ItemService from "../item/itemService"
 import getHealerSpellTable from "../mob/healer/healerSpellTable"
 import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
+import EscrowService from "../mob/trade/escrowService"
 import WeatherService from "../region/weatherService"
 import {RequestType} from "../request/requestType"
 import Action from "./action"
@@ -51,6 +52,7 @@ import HealAction from "./impl/merchant/healAction"
 import ListAction from "./impl/merchant/listAction"
 import SellAction from "./impl/merchant/sellAction"
 import FollowAction from "./impl/mob/followAction"
+import TradeRequestAction from "./impl/mob/tradeRequestAction"
 import BanAction from "./impl/moderation/banAction"
 import DemoteAction from "./impl/moderation/demoteAction"
 import PromoteAction from "./impl/moderation/promoteAction"
@@ -84,6 +86,7 @@ import SayAction from "./impl/social/sayAction"
 import TellAction from "./impl/social/tellAction"
 import Spell from "./impl/spell"
 
+/* tslint:disable */
 export default function getActionTable(
   mobService: MobService,
   itemService: ItemService,
@@ -91,7 +94,8 @@ export default function getActionTable(
   eventService: EventService,
   weatherService: WeatherService,
   spellTable: Spell[],
-  locationService: LocationService): Action[] {
+  locationService: LocationService,
+  escrowService: EscrowService): Action[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const lookAction = new LookAction(locationService, itemService, timeService, weatherService)
   const socialService = new SocialService(checkBuilderFactory, eventService)
@@ -184,6 +188,7 @@ export default function getActionTable(
     // mob
     new FollowAction(checkBuilderFactory),
     new LevelAction(checkBuilderFactory),
+    new TradeRequestAction(checkBuilderFactory, escrowService),
 
     // social
     new GossipAction(socialService),

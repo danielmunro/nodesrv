@@ -49,4 +49,5 @@ export enum SkillType {
   Trip = "trip",
   Wand = "wand",
   Whip = "whip",
+  Any = "any",
 }

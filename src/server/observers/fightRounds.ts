@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import {Client} from "../../client/client"
 import {Equipment} from "../../item/enum/equipment"
 import {Item} from "../../item/model/item"
@@ -13,6 +14,7 @@ import Maybe from "../../support/functional/maybe"
 import withValue from "../../support/functional/withValue"
 import {simpleD4} from "../../support/random/dice"
 import {format} from "../../support/string"
+import {Types} from "../../support/types"
 import {Messages, Messages as ServerObserverMessages} from "./constants"
 import {Observer} from "./observer"
 
@@ -142,13 +144,14 @@ export function createClientMobMap(clients: Client[]): object {
   return clientMobMap
 }
 
+@injectable()
 export class FightRounds implements Observer {
   private static updateClient(client: Client, mob: Mob, round: Round) {
     const message = createMessageFromFightRound(round, mob)
     client.send({ message })
     client.sendMessage(client.player.prompt())
   }
-  constructor(private readonly mobService: MobService) {}
+  constructor(@inject(Types.MobService) private readonly mobService: MobService) {}
 
   public async notify(clients: Client[]) {
     const rounds = await this.proceedAllFightRounds()

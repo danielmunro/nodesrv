@@ -1,49 +1,43 @@
 import { AffectType } from "../../../affect/affectType"
+import {newAffect} from "../../../affect/factory"
+import {createTestAppContainer} from "../../../inversify.config"
+import {Item} from "../../../item/model/item"
 import { RequestType } from "../../../request/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {ConditionMessages} from "../../constants"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let playerBuilder: PlayerBuilder
-let action: Action
+let item: Item
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  action = await testBuilder.getAction(RequestType.Eat)
-  playerBuilder = await testBuilder.withPlayer()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  playerBuilder = testRunner.createPlayer()
+  item = testRunner.createItem()
+    .asFood()
+    .build()
+  playerBuilder.addItem(item)
 })
 
 describe("eat action", () => {
   it("should remove food from inventory when consumed", async () => {
-    // given
-    const food = testBuilder.withItem()
-      .asFood()
-      .addToPlayerBuilder(playerBuilder)
-      .build()
-
     // when
-    await action.handle(testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
+    await testRunner.invokeAction(RequestType.Eat, `eat ${item.name}`)
 
     // then
-    const mob = playerBuilder.getMob()
-    expect(mob.inventory.items.length).toBe(0)
-    expect(mob.playerMob.hunger).toBe(food.hunger)
+    expect(playerBuilder.getItems()).toHaveLength(0)
+    expect(playerBuilder.getMob().playerMob.hunger).toBe(item.hunger)
   })
 
   it("should notify if the player has full", async () => {
     // given
-    const food = testBuilder.withItem()
-      .asFood()
-      .addToPlayerBuilder(playerBuilder)
-      .build()
     const mob = playerBuilder.getMob()
     mob.playerMob.hunger = mob.race().appetite - 1
 
     // when
-    const response = await action.handle(
-      testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
+    const response = await testRunner.invokeAction(RequestType.Eat, `eat ${item.name}`)
 
     // then
     expect(response.getMessageToRequestCreator()).toContain("You feel full")
@@ -51,78 +45,57 @@ describe("eat action", () => {
 
   it ("should notify if the player receives an affect from eating", async () => {
     // given
-    const food = testBuilder.withItem()
-      .asFood()
-      .addToPlayerBuilder(playerBuilder)
-      .addAffect(AffectType.Poison)
-      .build()
+    item.affect().add(newAffect(AffectType.Poison))
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
+    const response = await testRunner.invokeAction(RequestType.Eat, `eat ${item.name}`)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toContain("and suddenly feel different")
+    expect(response.getMessageToRequestCreator()).toContain("and suddenly feel different")
   })
 
   it("should not allow eating food not in inventory", async () => {
     // given
-    const food = testBuilder.withItem()
-      .asFood()
-      .addToRoomBuilder(testBuilder.withRoom())
-      .build()
+    playerBuilder.getMob().inventory.removeItem(item)
 
     // when
-    const response = await action.handle(
-      testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
+    const response = await testRunner.invokeAction(RequestType.Eat, `eat ${item.name}`)
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
-    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.All.Item.NotOwned)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Item.NotOwned)
   })
 
   it("should not allow eating items that are not food", async () => {
     // given
-    const eq = testBuilder.withItem()
+    const eq = testRunner.createItem()
       .asHelmet()
-      .addToPlayerBuilder(playerBuilder)
       .build()
+    playerBuilder.addItem(eq)
 
     // when
-    const response = await action.handle(
-      testBuilder.createRequest(RequestType.Eat, `eat ${eq.name}`))
+    const response = await testRunner.invokeAction(RequestType.Eat, "eat cap")
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
-    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Eat.NotFood)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Eat.NotFood)
   })
 
   it("should not allow eating when already full", async () => {
     // given
     playerBuilder.setHunger(playerBuilder.player.sessionMob.race().appetite)
-    const food = testBuilder.withItem()
-      .asFood()
-      .addToPlayerBuilder(playerBuilder)
-      .build()
 
     // when
-    const response = await action.handle(
-      testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
+    const response = await testRunner.invokeAction(RequestType.Eat, `eat ${item.name}`)
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
-    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Eat.AlreadyFull)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Eat.AlreadyFull)
   })
 
   it("should allow eating when all conditions are met", async () => {
-    // given
-    const food = testBuilder.withItem()
-      .asFood()
-      .addToPlayerBuilder(playerBuilder)
-      .build()
-
     // when
-    const response = await action.handle(
-      testBuilder.createRequest(RequestType.Eat, `eat ${food.name}`))
+    const response = await testRunner.invokeAction(RequestType.Eat, `eat ${item.name}`)
 
     // then
     expect(response.isSuccessful()).toBeTruthy()

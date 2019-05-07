@@ -1,20 +1,19 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {Messages} from "../../constants"
 
-let testBuilder: TestBuilder
-let action: Action
+let testRunner: TestRunner
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  action = await testBuilder.getAction(RequestType.Help)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
 describe("help action", () => {
   it("describes cast action", async () => {
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Help, "help cast"))
+    const response = await testRunner.invokeAction(RequestType.Help, "help cast")
 
     // then
     expect(response.getMessageToRequestCreator())
@@ -40,7 +39,7 @@ See also the help sections for individual spells.`)
 
   it("describes buy action", async () => {
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Help, "help buy"))
+    const response = await testRunner.invokeAction(RequestType.Help, "help buy")
 
     // then
     expect(response.getMessageToRequestCreator())
@@ -49,7 +48,7 @@ See also the help sections for individual spells.`)
 
   it("can handle when no help subject has found", async () => {
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Help, "help foo"))
+    const response = await testRunner.invokeAction(RequestType.Help, "help foo")
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(Messages.Help.Fail)

@@ -4,24 +4,15 @@ import {CheckType} from "../../../check/checkType"
 import EventService from "../../../event/eventService"
 import {EventType} from "../../../event/eventType"
 import ItemEvent from "../../../item/event/itemEvent"
-import {Item} from "../../../item/model/item"
 import {Disposition} from "../../../mob/enum/disposition"
-import {Mob} from "../../../mob/model/mob"
 import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
-import {format} from "../../../support/string"
+import {ResponseStatus} from "../../../request/responseStatus"
 import Action from "../../action"
 import {Messages, Messages as ActionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
-
-function sell(mob: Mob, item: Item) {
-  mob.inventory.removeItem(item)
-  mob.gold += item.value
-
-  return format(ActionMessages.Sell.Success, item.name, item.value)
-}
 
 export default class SellAction extends Action {
   constructor(
@@ -40,10 +31,20 @@ export default class SellAction extends Action {
   public async invoke(requestService: RequestService): Promise<Response> {
     const item = requestService.getResult(CheckType.HasItem)
     await this.eventService.publish(new ItemEvent(EventType.ItemDestroyed, item))
+    requestService.removeItemFromMobInventory(item)
+    requestService.addGold(item.value)
 
     return requestService
       .respondWith()
-      .success(sell(requestService.getMob(), item))
+      .response(
+        ResponseStatus.Success,
+        requestService.createResponseMessage(ActionMessages.Sell.Success)
+          .addReplacement("item", item)
+          .addReplacement("value", item.value)
+          .setVerbToRequestCreator("sell")
+          .setVerbToTarget("sell")
+          .setVerbToObservers("sells")
+          .create())
   }
 
   public getActionParts(): ActionPart[] {

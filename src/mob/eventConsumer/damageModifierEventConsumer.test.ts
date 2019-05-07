@@ -1,19 +1,22 @@
 import {DamageType} from "../../damage/damageType"
-import TestBuilder from "../../support/test/testBuilder"
+import {createTestAppContainer} from "../../inversify.config"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import DamageEvent from "../event/damageEvent"
 import {Mob} from "../model/mob"
 import {RaceType} from "../race/enum/raceType"
 import DamageModifierEventConsumer from "./damageModifierEventConsumer"
 
 let consumer: DamageModifierEventConsumer
-let testBuilder: TestBuilder
 let mob: Mob
 const initialDamage = 1
 
-beforeEach(() => {
+beforeEach(async () => {
   consumer = new DamageModifierEventConsumer()
-  testBuilder = new TestBuilder()
-  mob = testBuilder.withMob().withRace(RaceType.Giant).mob
+  const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  mob = testRunner.createMob()
+    .withRace(RaceType.Giant)
+    .get()
 })
 
 describe("damage modifier event consumer", () => {

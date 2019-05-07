@@ -1,13 +1,15 @@
+import {createTestAppContainer} from "../inversify.config"
 import {SpecializationType} from "../mob/specialization/specializationType"
-import TestBuilder from "../support/test/testBuilder"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
 import {PracticeMessages} from "./constants"
 import PracticeService from "./practiceService"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 const practiceService = new PracticeService()
 
-beforeEach(() => {
-  testBuilder = new TestBuilder()
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
 describe("practice service", () => {
@@ -18,9 +20,9 @@ describe("practice service", () => {
     [SpecializationType.Cleric, PracticeMessages.Cleric],
   ])("generates accurate practice messages for a %s", (specialization: SpecializationType, message: string) => {
     // when
-    const mob = testBuilder.withMob()
+    const mob = testRunner.createMob()
       .setSpecialization(specialization)
-      .build()
+      .get()
 
     // then
     expect(practiceService.generateOutputStatus(mob)).toBe(message)

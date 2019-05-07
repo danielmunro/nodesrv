@@ -1,109 +1,97 @@
-import {CheckStatus} from "../../../check/checkStatus"
+import {createTestAppContainer} from "../../../inversify.config"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import { RequestType } from "../../../request/requestType"
-import { ResponseStatus } from "../../../request/responseStatus"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import MobBuilder from "../../../support/test/mobBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {ConditionMessages} from "../../constants"
 
-let testBuilder: TestBuilder
-let action: Action
+let testRunner: TestRunner
+let seller: MobBuilder
+let merchant: MobBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  action = await testBuilder.getAction(RequestType.Sell)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  seller = testRunner.createMob()
+  merchant = testRunner.createMob().asMerchant()
 })
 
 describe("sell action", () => {
-  it("should be able to work successfully", async () => {
-    // given
-    const playerBuilder = await testBuilder.withPlayer()
-    const item = testBuilder.withItem()
+  it("sanity check", async () => {
+    // setup
+    const item = testRunner.createItem()
       .asHelmet()
-      .addToPlayerBuilder(playerBuilder)
       .build()
-    testBuilder.withMob().asMerchant()
+    seller.addItem(item)
 
-    // and
-    const mob = testBuilder.player.sessionMob
-    const initialWorth = mob.gold
-
-    // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Sell, "sell cap"))
-
-    // then
-    expect(response.status).toBe(ResponseStatus.Success)
-    expect(mob.gold).toBeGreaterThan(initialWorth)
-    expect(mob.inventory.items).not.toContain(item)
-  })
-
-  it("should fail if a merchant has not in the room", async () => {
-    // setup
-    testBuilder.withRoom()
-    await testBuilder.withPlayer()
-    const request = testBuilder.createRequest(RequestType.Sell, "sell foo")
-
-    // when
-    const check = await action.check(request)
-
-    // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(ConditionMessages.All.Item.NoMerchant)
-
-    // and
-    testBuilder.withMob()
-
-    // when
-    const check2 = await action.check(request)
-
-    // then
-    expect(check2.status).toBe(CheckStatus.Failed)
-    expect(check2.result).toBe(ConditionMessages.All.Item.NoMerchant)
-  })
-
-  it("should fail if the seller does not have the item",  async () => {
     // given
-    await testBuilder.withPlayer()
-    testBuilder.withMob().asMerchant()
+    const initialWorth = seller.mob.gold
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Sell, "sell foo"))
+    const response = await testRunner.invokeAction(RequestType.Sell, "sell cap")
 
     // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(ConditionMessages.All.Item.NotOwned)
+    expect(response.isSuccessful()).toBeTruthy()
+    expect(seller.mob.gold).toBeGreaterThan(initialWorth)
+    expect(seller.getItems()).not.toContain(item)
   })
 
-  it("should succeed if all conditions met", async () => {
+  it("fails if a merchant is not in the room", async () => {
     // setup
-    testBuilder.withRoom()
-    const playerBuilder = await testBuilder.withPlayer()
-    const item = testBuilder.withWeapon()
-      .asAxe()
-      .addToPlayerBuilder(playerBuilder)
-      .build()
-    testBuilder.withMob().asMerchant()
+    const room = testRunner.createRoom().get()
+
+    // given
+    await testRunner.updateMobLocation(merchant.mob, room)
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Sell, `sell ${item.name}`))
+    const response = await testRunner.invokeAction(RequestType.Sell, "sell foo")
 
     // then
-    expect(check.status).toBe(CheckStatus.Ok)
-    expect(check.result).toBe(item)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Item.NoMerchant)
   })
 
-  it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
-    // given
-    testBuilder.withWeapon()
-      .asAxe()
-      .addToMobBuilder(testBuilder.withMob().withDisposition(disposition))
-      .build()
-    testBuilder.withMob().asMerchant()
-
+  it("fails when the seller does not have the item",  async () => {
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Sell, "sell axe"))
+    const response = await testRunner.invokeAction(RequestType.Sell, "sell foo")
 
     // then
-    expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Item.NotOwned)
+  })
+
+  it("generates accurate messages", async () => {
+    // setup
+    const item = testRunner.createWeapon()
+      .asAxe()
+      .build()
+    seller.addItem(item)
+
+    // when
+    const response = await testRunner.invokeAction(RequestType.Sell, `sell ${item.name}`)
+
+    // then
+    expect(response.isSuccessful()).toBeTruthy()
+    expect(response.getMessageToRequestCreator())
+      .toBe(`you sell ${item.name} for ${item.value} gold`)
+    expect(response.message.getMessageToTarget())
+      .toBe(`${seller.getMobName()} sell ${item.name} for ${item.value} gold`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${seller.getMobName()} sells ${item.name} for ${item.value} gold`)
+  })
+
+  it.each(allDispositions)("requires a standing disposition, provided with %s", async disposition => {
+    // given
+    const item = testRunner.createWeapon()
+      .asAxe()
+      .build()
+    seller.addItem(item)
+    seller.withDisposition(disposition)
+
+    // when
+    const response = await testRunner.invokeAction(RequestType.Sell, "sell axe")
+
+    // then
+    expect(response.isSuccessful()).toBe(disposition === Disposition.Standing)
   })
 })

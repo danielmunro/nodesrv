@@ -1,26 +1,24 @@
 import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-describe("shield", () => {
+describe("shield spell action", () => {
   it("should shield when casted", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const mobBuilder1 = testBuilder.withMob("alice", SpecializationType.Cleric)
-    mobBuilder1.withSpell(SpellType.Shield, MAX_PRACTICE_LEVEL)
-    mobBuilder1.setLevel(30)
-    const mobBuilder2 = testBuilder.withMob("bob")
-    const mob = mobBuilder2.mob
-    const definition = await testBuilder.getSpell(SpellType.Shield)
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    testRunner.createMob()
+      .withSpell(SpellType.Shield, MAX_PRACTICE_LEVEL)
+      .setLevel(30)
+    const target = testRunner.createMob()
 
     // when
-    await getSuccessfulAction(definition, testBuilder.createRequest(RequestType.Cast, "cast shield bob", mob))
+    await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast shield bob", target.get())
 
     // then
-    expect(mob.affect().has(AffectType.Shield)).toBeTruthy()
+    expect(target.mob.affect().has(AffectType.Shield)).toBeTruthy()
   })
 })

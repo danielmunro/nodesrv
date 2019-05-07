@@ -43,7 +43,7 @@ export default class BanAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject())
+    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject()) as Mob
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireMob()
       .capture()

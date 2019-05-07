@@ -1,97 +1,85 @@
-import {CheckStatus} from "../../../check/checkStatus"
+import {createTestAppContainer} from "../../../inversify.config"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
+import {Fight} from "../../../mob/fight/fight"
 import {Mob} from "../../../mob/model/mob"
 import { RequestType } from "../../../request/requestType"
-import {getSuccessfulAction} from "../../../support/functional/times"
 import RoomBuilder from "../../../support/test/roomBuilder"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
+import {MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE} from "../../constants"
 import {
   ConditionMessages,
   MESSAGE_FAIL_NOT_FIGHTING,
 } from "../../constants"
-import {MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE} from "../../constants"
 
-let action: Action
 let mob: Mob
 let player
 let room2: RoomBuilder
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  // room with a fight
-  testBuilder.withRoom()
-  const playerBuilder = await testBuilder.withPlayer()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  room2 = testRunner.createRoom()
+  const playerBuilder = testRunner.createPlayer()
   player = playerBuilder.player
   mob = player.sessionMob
-  // room to flee to
-  room2 = testBuilder.withRoom()
-  await testBuilder.fight()
-  action = await testBuilder.getAction(RequestType.Flee)
+  testRunner.fight(testRunner.createMob().mob)
 })
 
 describe("flee action handler", () => {
   it("flee should stop a fight", async () => {
-    const mobService = await testBuilder.getMobService()
-
     // verify
-    expect(mobService.findFight(f => f.isInProgress())).toBeTruthy()
+    expect(testRunner.getFightForMob(mob)).toBeDefined()
 
     // when
-    await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Flee))
+    await testRunner.invokeActionSuccessfully(RequestType.Flee)
 
     // then
-    expect(mobService.findFight(f => f.isInProgress())).toBeUndefined()
+    expect((testRunner.getFightForMob(mob) as Fight).isInProgress()).toBeFalsy()
   })
 
   it("flee should cause the fleeing mob to change rooms", async () => {
     // when
-    await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Flee))
+    await testRunner.invokeActionSuccessfully(RequestType.Flee)
 
     // then
-    const service = await testBuilder.getService()
-    expect(service.getMobLocation(mob).room).toBe(room2.room)
+    expect(testRunner.getRoomForMob(mob)).toBe(room2.room)
   })
 
   it("flee should accurately build its response message", async () => {
-    // setup
-    mob.name = "bob"
-
     // when
-    const response = await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Flee))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Flee)
 
     // then
     expect(response.getMessageToRequestCreator()).toContain("you flee to the")
-    expect(response.message.getMessageToTarget()).toContain("bob flees to the")
+    expect(response.message.getMessageToTarget()).toContain(`${mob.name} flees to the`)
+    expect(response.message.getMessageToObservers()).toContain(`${mob.name} flees to the`)
   })
 
   it("should not work if the mob has not fighting", async () => {
+    // given
+    testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+
     // when
-    testBuilder = new TestBuilder()
-    testBuilder.withRoom()
-    await testBuilder.withPlayer()
-    const check = await action.check(testBuilder.createRequest(RequestType.Flee))
+    const response = await testRunner.invokeAction(RequestType.Flee)
 
     // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_NOT_FIGHTING)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(MESSAGE_FAIL_NOT_FIGHTING)
   })
 
   it("should not work if no exits available", async () => {
     // given
-    testBuilder = new TestBuilder()
-    testBuilder.withRoom()
-    await testBuilder.withPlayer()
-    await testBuilder.fight()
-    action = await testBuilder.getAction(RequestType.Flee)
+    testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    testRunner.createMob()
+    testRunner.fight(testRunner.createMob().mob)
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Flee))
+    const response = await testRunner.invokeAction(RequestType.Flee)
 
     // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE)
   })
 
   it("should not work if a mob has no movement", async () => {
@@ -99,19 +87,19 @@ describe("flee action handler", () => {
     mob.vitals.mv = 0
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Flee))
+    const response = await testRunner.invokeAction(RequestType.Flee)
 
     // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(ConditionMessages.Move.Fail.OutOfMovement)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Move.Fail.OutOfMovement)
   })
 
   it("should work if all preconditions met", async () => {
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Flee))
+    const response = await testRunner.invokeAction(RequestType.Flee)
 
     // then
-    expect(check.status).toBe(CheckStatus.Ok)
+    expect(response.isError()).toBeFalsy()
   })
 
   it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
@@ -119,14 +107,17 @@ describe("flee action handler", () => {
     mob.disposition = disposition
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Flee))
+    const response = await testRunner.invokeAction(RequestType.Flee)
 
     // then
-    expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
+    expect(response.isError()).toBe(disposition !== Disposition.Standing)
   })
 
   it("renders help text", async () => {
-    expect(action.getHelpText()).toBe(`Once you start a fight, you can't just walk away from it.  If the fight
+    const response = await testRunner.invokeAction(RequestType.Help, "help flee")
+    expect(response.getMessageToRequestCreator()).toBe(`syntax: flee
+
+Once you start a fight, you can't just walk away from it.  If the fight
 is not going well, you can attempt to FLEE, or another character can
 RESCUE you.  (You can also RECALL, but this is less likely to work,
 and costs more experience points, then fleeing).

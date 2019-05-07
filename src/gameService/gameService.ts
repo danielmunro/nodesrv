@@ -1,3 +1,5 @@
+import {inject, injectable} from "inversify"
+import "reflect-metadata"
 import Action from "../action/action"
 import Skill from "../action/impl/skill"
 import Spell from "../action/impl/spell"
@@ -10,12 +12,15 @@ import {Direction} from "../room/constants"
 import {Room} from "../room/model/room"
 import {SkillType} from "../skill/skillType"
 import {SpellType} from "../spell/spellType"
+import {Types} from "../support/types"
 import ActionService from "./actionService"
 
+@injectable()
 export default class GameService {
   constructor(
-    private readonly mobService: MobService,
-    private readonly actionService: ActionService) {}
+    @inject(Types.MobService) private readonly mobService: MobService,
+    @inject(Types.ActionService) private readonly actionService: ActionService,
+    ) {}
 
   public async moveMob(mob: Mob, direction: Direction) {
     await this.mobService.moveMob(mob, direction)
@@ -27,6 +32,10 @@ export default class GameService {
 
   public getMobsByRoom(room: Room): Mob[] {
     return this.mobService.getMobsByRoom(room)
+  }
+
+  public getActionService(): ActionService {
+    return this.actionService
   }
 
   public getActions(): Action[] {

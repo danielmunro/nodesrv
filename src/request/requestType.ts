@@ -62,6 +62,7 @@ export enum RequestType {
   Peek = "peek",
   DetectTouch = "detect touch",
   EyeGouge = "eye gouge",
+  TradeRequest = "trade",
   Noop = "noop",
   Any = "any",
   Event = "event",

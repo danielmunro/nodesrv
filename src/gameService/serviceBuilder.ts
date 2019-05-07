@@ -12,6 +12,7 @@ import MobService from "../mob/mobService"
 import { default as MobTable } from "../mob/mobTable"
 import { Mob } from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
+import EscrowService from "../mob/trade/escrowService"
 import WeatherService from "../region/weatherService"
 import ExitTable from "../room/exitTable"
 import { Exit } from "../room/model/exit"
@@ -36,15 +37,10 @@ export default class ServiceBuilder {
   private roomTable = new RoomTable()
   private mobs: Mob[] = []
   private exits: Exit[] = []
-  private recallRoomId: string
 
   constructor(
     private readonly eventService: EventService,
     private readonly itemService: ItemService) {
-  }
-
-  public setRecallRoomId(recallRoomId: string): void {
-    this.recallRoomId = recallRoomId
   }
 
   public setTime(time: number) {
@@ -86,16 +82,13 @@ export default class ServiceBuilder {
       this.roomTable,
       this.eventService,
       new ExitTable(this.exits),
-      this.locations,
-      this.recallRoomId)
+      this.roomTable.getRooms()[0],
+      this.locations)
   }
 
   public createMobService(locationService: LocationService): MobService {
     return new MobService(
-      new MobTable(this.mobs),
-      new MobTable(this.mobs),
-      new FightTable(this.fights),
-      locationService)
+      new MobTable(this.mobs), locationService, new MobTable(this.mobs), new FightTable(this.fights))
   }
 
   public createStateService(): StateService {
@@ -119,6 +112,7 @@ export default class ServiceBuilder {
       this.itemService,
       stateService,
       locationService)
+    const escrowService = new EscrowService()
     this.builtService = new GameService(
       mobService,
       new ActionService(
@@ -129,7 +123,8 @@ export default class ServiceBuilder {
           this.eventService,
           stateService.weatherService,
           spellTable,
-          locationService),
+          locationService,
+          escrowService),
         skillTable,
         spellTable))
     await this.attachEventConsumers(startRoom, mobService, locationService)
@@ -144,10 +139,10 @@ export default class ServiceBuilder {
         this.eventService,
         new AuthService(jest.fn()(), mobService),
         locationService,
-        this.builtService.getActions(),
+        this.builtService.getActionService().actions,
         this.clients),
       this.eventService)
-    const eventConsumers = await eventConsumerTable(
+    const eventConsumers = eventConsumerTable(
       this.builtService,
       gameServer,
       mobService,

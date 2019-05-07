@@ -1,23 +1,32 @@
-import { getTestRoom } from "../../support/test/room"
-import TestBuilder from "../../support/test/testBuilder"
+import EventService from "../../event/eventService"
+import {createTestAppContainer} from "../../inversify.config"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import { Fight } from "./fight"
 import {Round} from "./round"
+
+let testRunner: TestRunner
+let eventService: EventService
+
+beforeEach(async () => {
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  eventService = app.get<EventService>(Types.EventService)
+})
 
 describe("fight", () => {
   it("getOpponentFor should return null for mobs not in the fight", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const mobFactory = (name: string) => testBuilder.withMob(name).mob
-    const aggressor = mobFactory("aggressor")
-    const target = mobFactory("target")
-    const bystander = mobFactory("collateral")
+    const aggressor = testRunner.createMob().get()
+    const target = testRunner.createMob().get()
+    const bystander = testRunner.createMob().get()
 
     // when
     const fight = new Fight(
-      testBuilder.eventService,
+      eventService,
       aggressor,
       target,
-      getTestRoom())
+      testRunner.getStartRoom().get())
 
     // then
     expect(fight.getOpponentFor(bystander)).toBeUndefined()
@@ -25,12 +34,11 @@ describe("fight", () => {
 
   it("should stop when hit points reach zero", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const aggressor = testBuilder.withMob().mob
-    const target = testBuilder.withMob().mob
+    const aggressor = testRunner.createMob().get()
+    const target = testRunner.createMob().get()
 
     // when - a fight has allowed to complete
-    const fight = await testBuilder.fight(target)
+    const fight = testRunner.fight(target)
     expect(fight.isInProgress()).toBe(true)
     let round: Round = await fight.round()
 
@@ -52,14 +60,13 @@ describe("fight", () => {
   it("players gain experience after killing a mob", async () => {
     // setup
     const experienceToLevel = 1000
-    const testBuilder = new TestBuilder()
-    const aggressor = await testBuilder.withPlayer()
+    const aggressor = testRunner.createPlayer()
 
     // given
     aggressor.getMob().playerMob.experienceToLevel = experienceToLevel
 
     // when
-    const fight = await testBuilder.fight()
+    const fight = testRunner.fight()
     while (fight.isInProgress()) {
       aggressor.setHp(20)
       await fight.round()

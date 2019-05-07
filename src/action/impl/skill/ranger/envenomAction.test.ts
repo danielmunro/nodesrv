@@ -1,37 +1,31 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
 import { RequestType } from "../../../../request/requestType"
 import { SkillMessages } from "../../../../skill/constants"
 import { SkillType } from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
 const COMMAND = "envenom axe"
 const iterations = 100
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let mobBuilder: MobBuilder
 
-function equipWeaponToMob() {
-  return testBuilder.withWeapon()
-    .asAxe()
-    .addToMobBuilder(mobBuilder)
-    .build()
-}
-
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  mobBuilder = testBuilder.withMob().setLevel(20)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  mobBuilder = testRunner.createMob().setLevel(20)
 })
 
 describe("envenom skill action", () => {
-  it("should fail at low levels", async () => {
+  it("fails at low levels", async () => {
     // given
-    equipWeaponToMob()
-    mobBuilder.withSkill(SkillType.Envenom)
+    mobBuilder.addItem(testRunner.createWeapon().asAxe().build())
+      .withSkill(SkillType.Envenom)
 
     // when
-    const responses = await doNTimes(iterations,
-      () => testBuilder.handleAction(RequestType.Envenom, COMMAND))
+    const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.Envenom, COMMAND)
 
     // then
     expect(responses.filter(response => response.isFailure()).length).toBeGreaterThanOrEqual(iterations * 0.75)
@@ -39,13 +33,15 @@ describe("envenom skill action", () => {
 
   it("should succeed sometimes with sufficient practice", async () => {
     // setup
-    const weapon = equipWeaponToMob()
-    mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
+    const weapon = testRunner.createWeapon().asAxe()
+
+    mobBuilder.addItem(weapon.build())
+      .withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
 
     // when
     const responses = await doNTimes(iterations, async () => {
-      weapon.affects = []
-      return testBuilder.handleAction(RequestType.Envenom, COMMAND)
+      weapon.resetAffects()
+      return testRunner.invokeAction(RequestType.Envenom, COMMAND)
     })
 
     // then
@@ -53,14 +49,13 @@ describe("envenom skill action", () => {
   })
 
   it("should not be able to envenom a non weapon", async () => {
-    // setup
-    mobBuilder.withSkill(SkillType.Envenom)
-
     // given
-    testBuilder.withItem().asHelmet().addToMobBuilder(mobBuilder).build()
+    mobBuilder
+      .withSkill(SkillType.Envenom)
+      .addItem(testRunner.createItem().asHelmet().build())
 
     // when
-    const response = await testBuilder.handleAction(RequestType.Envenom, "envenom cap")
+    const response = await testRunner.invokeAction(RequestType.Envenom, "envenom cap")
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
@@ -68,14 +63,13 @@ describe("envenom skill action", () => {
   })
 
   it("should only be able to envenom bladed weapons", async () => {
-    // setup
-    mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
-
     // given
-    testBuilder.withWeapon().asMace().addToMobBuilder(mobBuilder).build()
+    mobBuilder
+      .withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL)
+      .addItem(testRunner.createWeapon().asMace().build())
 
     // when
-    const response = await testBuilder.handleAction(RequestType.Envenom, "envenom mace")
+    const response = await testRunner.invokeAction(RequestType.Envenom, "envenom mace")
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
@@ -84,13 +78,17 @@ describe("envenom skill action", () => {
 
   it("generates accurate messages", async () => {
     // setup
-    const item = equipWeaponToMob()
-    mobBuilder.withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL / 2)
+    const item = testRunner.createWeapon().asAxe().build()
+
+    // given
+    mobBuilder
+      .withSkill(SkillType.Envenom, MAX_PRACTICE_LEVEL / 2)
+      .addItem(item)
 
     // when
     const responses = await doNTimes(
       iterations,
-      () => testBuilder.handleAction(RequestType.Envenom, COMMAND))
+      () => testRunner.invokeAction(RequestType.Envenom, COMMAND))
 
     // then
     const successResponse = responses.find(response => response.isSuccessful()).message

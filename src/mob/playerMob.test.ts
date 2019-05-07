@@ -1,12 +1,15 @@
-import TestBuilder from "../support/test/testBuilder"
+
+import {createTestAppContainer} from "../inversify.config"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
 
 const INITIAL_AMOUNT = 1000
 
 describe("playerMob model", () => {
   it("does not add experience if the player qualifies for a level", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const player = await testBuilder.withPlayer()
+    const testBuilder = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    const player = testBuilder.createPlayer()
     const playerMob = player.getMob().playerMob
 
     // given

@@ -1,78 +1,71 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
+import {newMobLocation} from "../../../../mob/factory"
+import LocationService from "../../../../mob/locationService"
 import MobService from "../../../../mob/mobService"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import RoomBuilder from "../../../../support/test/roomBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
-import Spell from "../../spell"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let mobService: MobService
-let spell: Spell
 let caster: MobBuilder
 let target: MobBuilder
-let room1: RoomBuilder
-let room2: RoomBuilder
 const castCommand = "cast 'word of recall'"
 const responseMessage = "you disappear in a flash."
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  room1 = testBuilder.withRoom()
-  room2 = testBuilder.withRoom()
-  spell = await testBuilder.getSpell(SpellType.WordOfRecall)
-  caster = testBuilder.withMob()
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  const room = testRunner.createRoom()
+  caster = testRunner.createMob()
     .withSpell(SpellType.WordOfRecall, MAX_PRACTICE_LEVEL)
     .setLevel(30)
-    .addToRoom(room2)
-  target = testBuilder.withMob()
-    .addToRoom(room2)
-  mobService = await testBuilder.getMobService()
+  const locationService = app.get<LocationService>(Types.LocationService)
+  locationService.addMobLocation(newMobLocation(caster.mob, room.get()))
+  target = testRunner.createMob()
+  locationService.addMobLocation(newMobLocation(target.mob, room.get()))
+  mobService = app.get<MobService>(Types.MobService)
 })
 
 describe("word of recall spell action", () => {
   it("moves a target to the room of recall when invoked", async () => {
     // when
-    await getSuccessfulAction(
-      spell,
-      testBuilder.createRequest(RequestType.Cast, `cast 'word' ${target.getMobName()}`,
-      target.mob))
+    await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast 'word' ${target.getMobName()}`,
+      target.get())
 
     // then
-    expect(mobService.getLocationForMob(target.mob).room).toBe(room1.room)
+    expect(mobService.getLocationForMob(target.get()).room).toBe(testRunner.getStartRoom().room)
   })
 
   it("moves self to the room of recall when invoked", async () => {
     // when
-    await getSuccessfulAction(
-      spell,
-      testBuilder.createRequest(RequestType.Cast, "cast 'word'", caster.mob))
+    await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast 'word'", caster.get())
 
     // then
-    expect(mobService.getLocationForMob(caster.mob).room).toBe(room1.room)
+    expect(mobService.getLocationForMob(caster.get()).room).toBe(testRunner.getStartRoom().room)
   })
 
   it("generates accurate success messages when casting on a target", async () => {
     // when
-    const response = await getSuccessfulAction(
-      spell, testBuilder.createRequest(RequestType.Cast, castCommand, target.mob))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Cast, castCommand, target.get())
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} disappears in a flash.`)
-    expect(response.message.getMessageToTarget()).toBe(responseMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${target.getMobName()} disappears in a flash.`)
+    expect(response.getMessageToTarget()).toBe(responseMessage)
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()} disappears in a flash.`)
   })
 
   it("generates accurate success messages when casting on self", async () => {
     // when
-    const response = await getSuccessfulAction(
-      spell, testBuilder.createRequest(RequestType.Cast, castCommand, caster.mob))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Cast, castCommand, caster.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(responseMessage)
-    expect(response.message.getMessageToTarget()).toBe(responseMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${caster.getMobName()} disappears in a flash.`)
+    expect(response.getMessageToRequestCreator()).toBe(responseMessage)
+    expect(response.getMessageToTarget()).toBe(responseMessage)
+    expect(response.getMessageToObservers()).toBe(`${caster.getMobName()} disappears in a flash.`)
   })
 })

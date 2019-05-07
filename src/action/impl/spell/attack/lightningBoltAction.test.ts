@@ -1,33 +1,29 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
-import {Mob} from "../../../../mob/model/mob"
 import { RequestType } from "../../../../request/requestType"
 import { SpellType } from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
-import TestBuilder from "../../../../support/test/testBuilder"
-import Spell from "../../spell"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
-let spell: Spell
-let target: Mob
+let testRunner: TestRunner
+let target: MobBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  const mobBuilder1 = testBuilder.withMob()
-  mobBuilder1.setLevel(30)
-  mobBuilder1.withSpell(SpellType.LightningBolt, MAX_PRACTICE_LEVEL)
-  const mobBuilder2 = testBuilder.withMob()
-  target = mobBuilder2.mob
-  spell = await testBuilder.getSpell(SpellType.LightningBolt)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  testRunner.createMob()
+    .setLevel(30)
+    .withSpell(SpellType.LightningBolt, MAX_PRACTICE_LEVEL)
+  target = testRunner.createMob()
 })
 
 describe("lightning bolt", () => {
   it("does damage when casted", async () => {
     // when
-    await getSuccessfulAction(
-      spell, testBuilder.createRequest(RequestType.Cast, `cast lightning ${target.name}`, target))
+    await testRunner.invokeActionSuccessfully(RequestType.Cast, `cast lightning ${target.getMobName()}`, target.get())
 
     // then
-    const attr = target.attribute()
+    const attr = target.mob.attribute()
     expect(attr.getHp()).toBeLessThan(attr.getMaxHp())
   })
 })

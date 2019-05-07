@@ -1,108 +1,99 @@
 import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
+import Response from "../../../../request/response"
 import {ConditionMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
-import doNTimes from "../../../../support/functional/times"
-import TestBuilder from "../../../../support/test/testBuilder"
-import Action from "../../../action"
+import {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-const ITERATIONS = 1000
-let testBuilder: TestBuilder
-let action: Action
+const iterations = 1000
+let testRunner: TestRunner
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  action = await testBuilder.getAction(RequestType.Trip)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
 describe("trip skill action", () => {
   it("can fail tripping", async () => {
     // setup
-    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 40)
-
-    // given
-    playerBuilder.addSkill(SkillType.Trip)
-
-    // and
-    await testBuilder.fight()
+    testRunner.createPlayer()
+      .setLevel(40)
+      .addSkill(SkillType.Trip)
+    testRunner.fight()
 
     // when
-    const responses = await doNTimes(ITERATIONS,
-      () => action.handle(testBuilder.createRequest(RequestType.Trip)))
+    const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.Trip)
 
     // then
     expect(responses.some(result => !result.isSuccessful())).toBeTruthy()
   })
 
   it("can succeed tripping", async () => {
-    // setup
-    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 40)
-
     // given
-    playerBuilder.addSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)
-
-    // and
-    await testBuilder.fight()
+    testRunner.createPlayer()
+      .setLevel(40)
+      .addSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)
+    testRunner.fight()
 
     // when
-    const results = await doNTimes(ITERATIONS,
-      () => action.handle(testBuilder.createRequest(RequestType.Trip)))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Trip)
 
     // then
-    expect(results.some(result => result.isSuccessful())).toBeTruthy()
+    expect(response).toBeDefined()
   })
 
   it("bounces off an orb of touch", async () => {
     // given
-    const playerBuilder = await testBuilder.withPlayer()
+    const playerBuilder = testRunner.createPlayer()
     playerBuilder.addSkill(SkillType.Trip, MAX_PRACTICE_LEVEL).setLevel(30)
-    const target = testBuilder.withMob().addAffectType(AffectType.OrbOfTouch)
+    const target = testRunner.createMob().addAffectType(AffectType.OrbOfTouch)
 
     // when
-    const response = await testBuilder.handleAction(
-      RequestType.Trip,
-      `trip ${target.getMobName()}`,
-      target.mob)
+    const response = await doNTimesOrUntilTruthy(iterations, async () => {
+      const handled = await testRunner.invokeAction(
+        RequestType.Trip,
+        `trip ${target.getMobName()}`,
+        target.mob)
+      return handled.isFailure() ? handled : null
+    })
 
     // then
     expect(response.getMessageToRequestCreator())
       .toBe(`you bounce off of ${target.getMobName()}'s orb of touch.`)
-    expect(response.message.getMessageToTarget())
+    expect(response.getMessageToTarget())
       .toBe(`${playerBuilder.getMobName()} bounces off of your orb of touch.`)
-    expect(response.message.getMessageToObservers())
+    expect(response.getMessageToObservers())
       .toBe(`${playerBuilder.getMobName()} bounces off of ${target.getMobName()}'s orb of touch.`)
   })
 
   it("need movement to work", async () => {
-    // setup
-    const playerBuilder = await testBuilder.withPlayer(p => {
-      p.sessionMob.vitals.mv = 0
-      p.sessionMob.level = 10
-    })
-    await testBuilder.fight()
-
     // given
-    playerBuilder.addSkill(SkillType.Trip)
+    testRunner.createPlayer()
+      .setLevel(10)
+      .setMv(0)
+      .addSkill(SkillType.Trip)
+    testRunner.fight()
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Trip))
+    const response = await testRunner.invokeAction(RequestType.Trip)
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
-    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.All.NotEnoughMv)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.NotEnoughMv)
   })
 
   it("success sanity createDefaultCheckFor", async () => {
     // setup
-    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 10)
-    await testBuilder.fight()
-
-    // given
-    playerBuilder.addSkill(SkillType.Trip)
+    testRunner.createPlayer()
+      .setLevel(10)
+      .addSkill(SkillType.Trip)
+    testRunner.fight()
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Trip))
+    const response = await testRunner.invokeAction(RequestType.Trip)
 
     // then
     expect(response.isError()).toBeFalsy()
@@ -110,31 +101,32 @@ describe("trip skill action", () => {
 
   it("generates accurate messages", async () => {
     // setup
-    const playerBuilder = await testBuilder.withPlayer(p => p.sessionMob.level = 10)
-    const target = testBuilder.withMob().mob
-    await testBuilder.fight(target)
+    const playerBuilder = testRunner.createPlayer()
+      .setLevel(10)
+    const target = testRunner.createMob()
+    testRunner.fight(target.get())
 
     // given
     playerBuilder.addSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)
 
     // when
-    const responses = await doNTimes(ITERATIONS, () => action.handle(testBuilder.createRequest(RequestType.Trip)))
+    const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.Trip)
 
     // then
-    const successMessage = responses.find(response => response.isSuccessful()).message
-    expect(successMessage.getMessageToRequestCreator())
-      .toBe(`you trip ${target.name}!`)
-    expect(successMessage.getMessageToTarget())
+    const successResponse = responses.find(response => response.isSuccessful()) as Response
+    expect(successResponse.getMessageToRequestCreator())
+      .toBe(`you trip ${target.getMobName()}!`)
+    expect(successResponse.getMessageToTarget())
       .toBe(`${playerBuilder.player.sessionMob} trips you!`)
-    expect(successMessage.getMessageToObservers())
-      .toBe(`${playerBuilder.player.sessionMob} trips ${target.name}!`)
+    expect(successResponse.getMessageToObservers())
+      .toBe(`${playerBuilder.player.sessionMob} trips ${target.getMobName()}!`)
 
-    const failMessage = responses.find(response => !response.isSuccessful()).message
-    expect(failMessage.getMessageToRequestCreator())
-      .toBe(`you fail to trip ${target.name}!`)
-    expect(failMessage.getMessageToTarget())
+    const failResponse = responses.find(response => !response.isSuccessful()) as Response
+    expect(failResponse.getMessageToRequestCreator())
+      .toBe(`you fail to trip ${target.getMobName()}!`)
+    expect(failResponse.getMessageToTarget())
       .toBe(`${playerBuilder.player.sessionMob} fails to trip you!`)
-    expect(failMessage.getMessageToObservers())
-      .toBe(`${playerBuilder.player.sessionMob} fails to trip ${target.name}!`)
+    expect(failResponse.getMessageToObservers())
+      .toBe(`${playerBuilder.player.sessionMob} fails to trip ${target.getMobName()}!`)
   })
 })

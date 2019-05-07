@@ -30,7 +30,7 @@ export default class BuyAction extends Action {
       .require((mob: Mob) =>
         mob.inventory.findItemByName(subject), ConditionMessages.Buy.MerchantNoItem, CheckType.HasItem)
       .capture()
-      .require((item: Item) => request.mob.gold > item.value, ConditionMessages.Buy.CannotAfford)
+      .require((item: Item) => request.mob.gold >= item.value, ConditionMessages.Buy.CannotAfford)
       .create()
   }
 

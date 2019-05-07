@@ -1,39 +1,33 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {Item} from "../../../item/model/item"
-import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
-import {Direction} from "../../../room/constants"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import MobBuilder from "../../../support/test/mobBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {ConditionMessages} from "../../constants"
 
-let testBuilder: TestBuilder
-let definition: Action
-let mob: Mob
+let testRunner: TestRunner
+let mobBuilder: MobBuilder
 let item: Item
 const closeCommand = "close satchel"
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  testBuilder.withRoom()
-  testBuilder.withRoom(Direction.East)
-  const playerBuilder = await testBuilder.withPlayer()
-  mob = playerBuilder.player.sessionMob
-  item = playerBuilder.withContainer()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  item = testRunner.createItem().asSatchel().build()
   item.container.isOpen = true
   item.container.isCloseable = true
-  mob.inventory.addItem(item)
-  definition = await testBuilder.getAction(RequestType.Close)
+  mobBuilder = testRunner.createMob().addItem(item)
 })
 
 describe("close action", () => {
   it("should be able to close item containers", async () => {
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Close, closeCommand))
+    const response = await testRunner.invokeAction(RequestType.Close, closeCommand)
 
     // then
-    expect(response.getMessageToRequestCreator()).toBe("you close a small leather satchel.")
-    expect(response.message.getMessageToObservers()).toBe(mob.name + " closes a small leather satchel.")
+    expect(response.getMessageToRequestCreator()).toBe(`you close ${item.name}.`)
+    expect(response.message.getMessageToObservers()).toBe(`${mobBuilder.getMobName()} closes ${item.name}.`)
     expect(item.container.isOpen).toBeFalsy()
     expect(response.status).toBe(ResponseStatus.Success)
   })
@@ -43,7 +37,7 @@ describe("close action", () => {
     item.container.isCloseable = false
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Close, closeCommand))
+    const response = await testRunner.invokeAction(RequestType.Close, closeCommand)
 
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
@@ -56,7 +50,7 @@ describe("close action", () => {
     item.container.isOpen = false
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Close, closeCommand))
+    const response = await testRunner.invokeAction(RequestType.Close, closeCommand)
 
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)

@@ -1,8 +1,11 @@
+import {injectable} from "inversify"
+import "reflect-metadata"
 import Event from "./event"
 import EventConsumer from "./eventConsumer"
 import EventResponse from "./eventResponse"
 import {EventResponseStatus} from "./eventResponseStatus"
 
+@injectable()
 export default class EventService {
   constructor(private readonly eventConsumers: EventConsumer[] = []) {}
 

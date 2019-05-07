@@ -1,21 +1,22 @@
 import {EventType} from "../../event/eventType"
+import {createTestAppContainer} from "../../inversify.config"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Fight} from "../../mob/fight/fight"
 import MobBuilder from "../../support/test/mobBuilder"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import {AffectType} from "../affectType"
 import HasteEventConsumer from "./hasteEventConsumer"
 
-let testBuilder: TestBuilder
 let consumer: HasteEventConsumer
 let fight: Fight
 let mob: MobBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
+  const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   consumer = new HasteEventConsumer()
-  mob = testBuilder.withMob()
-  fight = await testBuilder.fight()
+  mob = testRunner.createMob()
+  fight = testRunner.fight()
 })
 
 describe("haste event consumer", () => {

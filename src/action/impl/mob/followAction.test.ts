@@ -1,26 +1,29 @@
-import {Mob} from "../../../mob/model/mob"
-import {Player} from "../../../player/model/player"
+import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../support/test/testBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
-let testBuilder: TestBuilder
-let player: Player
-let target: Mob
+let testRunner: TestRunner
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  player = (await testBuilder.withPlayer()).player
-  target = testBuilder.withMob().mob
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
 describe("follow action", () => {
-  it("should be able to work successfully", async () => {
+  it("sanity check", async () => {
+    // given
+    const follower = testRunner.createMob()
+    const target = testRunner.createMob()
+
     // when
-    const response = await testBuilder.handleAction(RequestType.Follow, `follow '${target.name}'`)
+    const response = await testRunner.invokeAction(RequestType.Follow, `follow '${target.getMobName()}'`)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(`you begin following ${target.name}.`)
-    expect(response.message.getMessageToTarget()).toBe(`${player.sessionMob.name} begins following you.`)
-    expect(response.message.getMessageToObservers()).toBe(`${player.sessionMob.name} begins following ${target.name}.`)
+    expect(response.getMessageToRequestCreator())
+      .toBe(`you begin following ${target.getMobName()}.`)
+    expect(response.message.getMessageToTarget())
+      .toBe(`${follower.getMobName()} begins following you.`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${follower.getMobName()} begins following ${target.getMobName()}.`)
   })
 })

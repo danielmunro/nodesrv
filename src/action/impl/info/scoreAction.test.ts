@@ -1,13 +1,21 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../support/test/testBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
 describe("score information action", () => {
   it("outputs score information", async () => {
-    const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
-    const action = await testBuilder.getAction(RequestType.Score)
-    const response = await action.handle(testBuilder.createRequest(RequestType.Score))
-    expect(response.message.getMessageToRequestCreator())
+    // setup
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+
+    // given
+    const playerBuilder = testRunner.createPlayer()
+
+    // when
+    const response = await testRunner.invokeAction(RequestType.Score)
+
+    // then
+    expect(response.getMessageToRequestCreator())
       .toBe(`
 You are ${playerBuilder.player.sessionMob.name}, level 1 with 0 experience points.
 A human warrior.

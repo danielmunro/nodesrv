@@ -6,10 +6,10 @@ import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
+import {ResponseStatus} from "../../../request/responseStatus"
 import {format} from "../../../support/string"
 import Action from "../../action"
-import {ConditionMessages, Messages} from "../../constants"
-import {MESSAGE_REMOVE_FAIL} from "../../constants"
+import {ConditionMessages, MESSAGE_REMOVE_FAIL, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 export default class RemoveAction extends Action {
@@ -34,7 +34,20 @@ export default class RemoveAction extends Action {
     const item = requestService.getResult()
     requestService.getMob().equipped.removeItem(item)
     return requestService.respondWith()
-      .info(format(ConditionMessages.Remove.Success, item.name))
+      .response(
+        ResponseStatus.Info,
+        requestService.createResponseMessage(ConditionMessages.Remove.Success)
+          .addReplacement("item", item.name)
+          .setVerbToRequestCreator("remove")
+          .addReplacementForRequestCreator("verb2", "put")
+          .addReplacementForRequestCreator("requestCreator2", "your")
+          .setVerbToTarget("remove")
+          .addReplacementForTarget("verb2", "put")
+          .addReplacementForTarget("requestCreator2", "your")
+          .setVerbToObservers("removes")
+          .addReplacementForObservers("verb2", "puts")
+          .addReplacementForObservers("requestCreator2", "their")
+          .create())
   }
 
   public getActionParts(): ActionPart[] {

@@ -1,57 +1,52 @@
 import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {Mob} from "../../../../mob/model/mob"
-import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
-import TestBuilder from "../../../../support/test/testBuilder"
-import Spell from "../../spell"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
-let spell: Spell
-let caster: Mob
-let target: Mob
-const castCommand = "cast stone bob"
+let testRunner: TestRunner
+let caster: MobBuilder
+let target: MobBuilder
 const responseMessage = "your skin turns to stone."
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  spell = await testBuilder.getSpell(SpellType.StoneSkin)
-  const mobBuilder1 = testBuilder.withMob("alice", SpecializationType.Cleric)
-  mobBuilder1.withSpell(SpellType.StoneSkin, MAX_PRACTICE_LEVEL)
-  mobBuilder1.setLevel(30)
-  const mobBuilder2 = testBuilder.withMob("bob")
-  caster = mobBuilder1.mob
-  target = mobBuilder2.mob
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  caster = testRunner.createMob()
+    .withSpell(SpellType.StoneSkin, MAX_PRACTICE_LEVEL)
+    .setLevel(30)
+  target = testRunner.createMob()
 })
 
 describe("stone skin spell action", () => {
   it("gives stone skin affect type when casted", async () => {
     // when
-    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, target))
+    await testRunner.invokeActionSuccessfully(RequestType.Cast, `cast stone ${target.getMobName()}`, target.get())
 
     // then
-    expect(target.affect().has(AffectType.StoneSkin)).toBeTruthy()
+    expect(target.hasAffect(AffectType.StoneSkin)).toBeTruthy()
   })
 
   it("generates accurate success messages when casting on a target", async () => {
     // when
-    const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, target))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast stone ${target.getMobName()}`, target.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("bob's skin turns to stone.")
-    expect(response.message.getMessageToTarget()).toBe(responseMessage)
-    expect(response.message.getMessageToObservers()).toBe("bob's skin turns to stone.")
+    expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()}'s skin turns to stone.`)
+    expect(response.getMessageToTarget()).toBe(responseMessage)
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()}'s skin turns to stone.`)
   })
 
   it("generates accurate success messages when casting on self", async () => {
     // when
-    const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, castCommand, caster))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast stone", caster.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(responseMessage)
-    expect(response.message.getMessageToTarget()).toBe(responseMessage)
-    expect(response.message.getMessageToObservers()).toBe("alice's skin turns to stone.")
+    expect(response.getMessageToRequestCreator()).toBe(responseMessage)
+    expect(response.getMessageToTarget()).toBe(responseMessage)
+    expect(response.getMessageToObservers()).toBe(`${caster.getMobName()}'s skin turns to stone.`)
   })
 })

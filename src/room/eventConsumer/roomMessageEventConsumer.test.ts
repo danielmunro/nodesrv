@@ -1,35 +1,45 @@
+import EventConsumer from "../../event/eventConsumer"
+import {createTestAppContainer} from "../../inversify.config"
+import LocationService from "../../mob/locationService"
 import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/clientService"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import RoomMessageEvent from "../event/roomMessageEvent"
 import RoomMessageEventConsumer from "./roomMessageEventConsumer"
 
+const mockSocket = jest.fn(() => ({
+  onMessage: jest.fn(),
+  send: jest.fn(),
+}))
+const mockRequest = jest.fn()
+
 describe("room message event consumer", () => {
   it("notifies clients in the same room", async () => {
-    // setup -- rooms & clients
-    const testBuilder = new TestBuilder()
-    const room1 = testBuilder.withRoom()
-    const client1 = await testBuilder.withClient()
-    const room2 = testBuilder.withRoom()
-    testBuilder.useRoom(room2.room)
-    const client2 = await testBuilder.withClient()
+    // setup -- rooms & players
+    const app = await createTestAppContainer()
+    const testRunner = app.get<TestRunner>(Types.TestRunner)
+    const room1 = testRunner.getStartRoom()
+    const room2 = testRunner.createRoom()
+    const player1 = testRunner.createPlayer()
+    const player2 = testRunner.createPlayer()
+    const locationService = app.get<LocationService>(Types.LocationService)
+    await locationService.updateMobLocation(player2.getMob(), room2.get())
 
-    // setup -- client service
-    const clientService = new ClientService(
-      testBuilder.eventService,
-      jest.fn()(),
-      await testBuilder.getLocationService(),
-      [],
-      [client1, client2])
+    // setup -- log in clients
+    const clientService = app.get<ClientService>(Types.ClientService)
+    const client1 = clientService.createNewClient(mockSocket() as any, mockRequest())
+    await client1.session.login(client1, player1.player)
+    const client2 = clientService.createNewClient(mockSocket() as any, mockRequest())
+    await client2.session.login(client2, player2.player)
 
-    // setup -- event consumer
-    const roomMessageEventConsumer = new RoomMessageEventConsumer(
-      clientService,
-      await testBuilder.getLocationService())
+    // setup -- event consumer instance
+    const roomMessageEventConsumer = app.get<EventConsumer[]>(Types.EventConsumerTable).find(eventConsumer =>
+      eventConsumer instanceof RoomMessageEventConsumer) as RoomMessageEventConsumer
 
     // when
     await roomMessageEventConsumer.consume(
-      new RoomMessageEvent(room1.room, new ResponseMessage(client1.getSessionMob(),  "")))
+      new RoomMessageEvent(room1.room, new ResponseMessage(player1.getMob(),  "")))
 
     // then
     expect(client1.ws.send.mock.calls).toHaveLength(1)

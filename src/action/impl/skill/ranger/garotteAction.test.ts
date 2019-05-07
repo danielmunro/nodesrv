@@ -1,28 +1,30 @@
 import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
-import {getFailureAction} from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let attacker: MobBuilder
 let target: MobBuilder
 
-beforeEach(() => {
-  testBuilder = new TestBuilder()
-  attacker = testBuilder.withMob().withSkill(SkillType.Garotte, MAX_PRACTICE_LEVEL).setLevel(30)
-  target = testBuilder.withMob()
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  attacker = testRunner.createMob()
+    .withSkill(SkillType.Garotte, MAX_PRACTICE_LEVEL)
+    .setLevel(30)
+  target = testRunner.createMob()
 })
 
 describe("garotte skill action", () => {
   it("imparts sleep affect", async () => {
-    await testBuilder.successfulAction(
-      testBuilder.createRequest(
+    await testRunner.invokeAction(
         RequestType.Garotte,
         `garotte ${target.getMobName()}`,
-        target.mob))
+        target.mob)
 
     expect(target.hasAffect(AffectType.Sleep)).toBeTruthy()
   })
@@ -32,43 +34,40 @@ describe("garotte skill action", () => {
     target.addAffectType(AffectType.OrbOfTouch)
 
     // when
-    const response = await testBuilder.handleAction(
+    const response = await testRunner.invokeAction(
       RequestType.Garotte,
       `garotte ${target.getMobName()}`,
       target.mob)
 
     // then
-    expect(response.message.getMessageToRequestCreator())
+    expect(response.getMessageToRequestCreator())
       .toBe(`you bounce off of ${target.getMobName()}'s orb of touch.`)
-    expect(response.message.getMessageToTarget())
+    expect(response.getMessageToTarget())
       .toBe(`${attacker.getMobName()} bounces off of your orb of touch.`)
-    expect(response.message.getMessageToObservers())
+    expect(response.getMessageToObservers())
       .toBe(`${attacker.getMobName()} bounces off of ${target.getMobName()}'s orb of touch.`)
   })
 
   it("generates accurate success messages", async () => {
-    const response = await testBuilder.successfulAction(
-      testBuilder.createRequest(
+    const response = await testRunner.invokeAction(
         RequestType.Garotte,
         `garotte ${target.getMobName()}`,
-        target.mob))
+        target.mob)
 
     expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} passes out from suffocation.`)
-    expect(response.message.getMessageToTarget()).toBe("you pass out from suffocation.")
-    expect(response.message.getMessageToObservers()).toBe(`${target.getMobName()} passes out from suffocation.`)
+    expect(response.getMessageToTarget()).toBe("you pass out from suffocation.")
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()} passes out from suffocation.`)
   })
 
   it("generates accurate fail messages", async () => {
-    const response = await getFailureAction(
-      await testBuilder.getAction(RequestType.Garotte),
-      testBuilder.createRequest(
+    const response = await testRunner.invokeActionFailure(
         RequestType.Garotte,
         `garotte ${target.getMobName()}`,
-        target.mob))
+        target.mob)
 
     expect(response.getMessageToRequestCreator()).toBe(`you fail to sneak up on ${target.getMobName()}.`)
-    expect(response.message.getMessageToTarget()).toBe(`${attacker.getMobName()} fails to sneak up on you.`)
-    expect(response.message.getMessageToObservers())
+    expect(response.getMessageToTarget()).toBe(`${attacker.getMobName()} fails to sneak up on you.`)
+    expect(response.getMessageToObservers())
       .toBe(`${attacker.getMobName()} fails to sneak up on ${target.getMobName()}.`)
   })
 })

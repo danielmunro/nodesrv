@@ -1,24 +1,35 @@
+import EventConsumer from "../../event/eventConsumer"
 import {EventType} from "../../event/eventType"
-import {RequestType} from "../../request/requestType"
-import {getConnection, initializeConnection} from "../../support/db/connection"
-import TestBuilder from "../../support/test/testBuilder"
+import StateService from "../../gameService/stateService"
+import {createTestAppContainer} from "../../inversify.config"
+import {Room} from "../../room/model/room"
+import {getTestMob} from "../../support/test/mob"
+import {Types} from "../../support/types"
 import ClientEvent from "../event/clientEvent"
 import LoggedIn from "./loggedIn"
 
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
-
 describe("logged in client event consumer", () => {
-  it("should invoke 'look' action on login", async () => {
-    const testBuilder = new TestBuilder()
-    const lookAction = await testBuilder.getAction(RequestType.Look)
-    const roomBuilder = testBuilder.withRoom()
-    const loggedIn = new LoggedIn(
-      await testBuilder.getLocationService(), roomBuilder.room, lookAction)
-    const client = await testBuilder.withClient()
+  it("invokes 'look' action on login", async () => {
+    // setup
+    const mob = getTestMob()
+    const mockClient = jest.fn(() => ({
+      getSessionMob: () => mob,
+      sendMessage: jest.fn(),
+    }))
+    const app = await createTestAppContainer()
+    app.get<StateService>(Types.StateService).setTime(12)
+    const room = app.get<Room>(Types.StartRoom)
+    const client = mockClient() as any
 
+    // given
+    const loggedIn = app.get<EventConsumer[]>(Types.EventConsumerTable)
+      .find(eventConsumer =>
+        eventConsumer instanceof LoggedIn) as EventConsumer
+
+    // when
     const eventResponse = await loggedIn.consume(new ClientEvent(EventType.ClientLogin, client))
 
-    expect(eventResponse.context.getMessageToRequestCreator()).toBe(roomBuilder.room.toString())
+    // then
+    expect(eventResponse.context.getMessageToRequestCreator()).toBe(room.toString())
   })
 })

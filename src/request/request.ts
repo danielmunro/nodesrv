@@ -79,8 +79,8 @@ export default class Request {
   }
 
   public somethingIsGlowing() {
-    return this.mob.equipped.find(item => item.affect().has(AffectType.Glow))
-      || this.room.inventory.find(item => item.affect().has(AffectType.Glow))
+    return this.mob.equipped.find((item: Item) => item.affect().has(AffectType.Glow))
+      || this.room.inventory.find((item: Item) => item.affect().has(AffectType.Glow))
   }
 
   public respondWith(): ResponseBuilder {

@@ -1,5 +1,7 @@
+import {createTestAppContainer} from "../inversify.config"
 import {Room} from "../room/model/room"
-import TestBuilder from "../support/test/testBuilder"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
 import { newMobLocation } from "./factory"
 import LocationService from "./locationService"
 import {Mob} from "./model/mob"
@@ -11,12 +13,13 @@ let room1: Room
 let room2: Room
 
 beforeEach(async () => {
-  const testBuilder = new TestBuilder()
-  room1 = testBuilder.withRoom().room
-  room2 = testBuilder.withRoom().room
-  mob1 = testBuilder.withMob().mob
-  mob2 = testBuilder.withMob().mob
-  locationService = await testBuilder.getLocationService()
+  const app = await createTestAppContainer()
+  const testRunner = app.get<TestRunner>(Types.TestRunner)
+  room1 = testRunner.getStartRoom().get()
+  room2 = testRunner.createRoom().get()
+  mob1 = testRunner.createMob().get()
+  mob2 = testRunner.createMob().get()
+  locationService = app.get<LocationService>(Types.LocationService)
 })
 
 describe("location gameService", () => {

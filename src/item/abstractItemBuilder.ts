@@ -1,6 +1,5 @@
 import {AffectType} from "../affect/affectType"
 import {newAffect} from "../affect/factory"
-import ServiceBuilder from "../gameService/serviceBuilder"
 import MobBuilder from "../support/test/mobBuilder"
 import PlayerBuilder from "../support/test/playerBuilder"
 import RoomBuilder from "../support/test/roomBuilder"
@@ -9,7 +8,6 @@ import {Item} from "./model/item"
 
 export default class AbstractItemBuilder {
   constructor(
-    private readonly serviceBuilder: ServiceBuilder,
     protected item: Item = new Item(),
     carriedBy?: any) {
     this.item.carriedBy = carriedBy
@@ -50,6 +48,11 @@ export default class AbstractItemBuilder {
     return this
   }
 
+  public resetAffects(): AbstractItemBuilder {
+    this.item.affects = []
+    return this
+  }
+
   public addAffect(affectType: AffectType): AbstractItemBuilder {
     this.item.affects.push(newAffect(affectType))
     return this
@@ -66,7 +69,6 @@ export default class AbstractItemBuilder {
   }
 
   public build(): Item {
-    this.serviceBuilder.addItem(this.item)
     return this.item
   }
 }

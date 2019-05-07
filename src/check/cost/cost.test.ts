@@ -1,14 +1,15 @@
+import {createTestAppContainer} from "../../inversify.config"
 import PlayerBuilder from "../../support/test/playerBuilder"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import Cost from "./cost"
 import { CostType } from "./costType"
 
-let testBuilder: TestBuilder
 let playerBuilder: PlayerBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  playerBuilder = await testBuilder.withPlayer()
+  const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  playerBuilder = testRunner.createPlayer()
 })
 
 describe("cost createDefaultCheckFor", () => {

@@ -1,23 +1,26 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../support/test/testBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
 describe("equipped", () => {
   it("should describe the items worn by a mob", async () => {
     // setup
-    const  testBuilder = new TestBuilder()
-    const action = await testBuilder.getAction(RequestType.Equipped)
-    const playerBuilder = await testBuilder.withPlayer()
-    const helmet = testBuilder.withItem()
+    const  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    const helmet = testRunner.createItem()
       .asHelmet()
-      .equipToPlayerBuilder(playerBuilder)
       .build()
-    const axe = testBuilder.withWeapon()
+    const axe = testRunner.createWeapon()
       .asAxe()
-      .addToPlayerBuilder(playerBuilder)
       .build()
 
+    // given
+    testRunner.createMob()
+      .equip(helmet)
+      .addItem(axe)
+
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Equipped))
+    const response = await testRunner.invokeAction(RequestType.Equipped)
 
     // then
     const message = response.message.getMessageToRequestCreator()

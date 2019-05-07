@@ -1,20 +1,21 @@
+import {createTestAppContainer} from "../../inversify.config"
 import {Fight} from "../../mob/fight/fight"
 import MobBuilder from "../../support/test/mobBuilder"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import {AffectType} from "../affectType"
 import {newAffect} from "../factory"
 import {ALIGNMENT_EVIL, ALIGNMENT_GOOD} from "./protectionEventConsumer"
 
-let testBuilder: TestBuilder
 let attacker: MobBuilder
 let target: MobBuilder
 let fight: Fight
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  attacker = testBuilder.withMob()
-  target = testBuilder.withMob()
-  fight = await testBuilder.fight(target.mob)
+  const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  attacker = testRunner.createMob()
+  target = testRunner.createMob()
+  fight = testRunner.fight(target.mob)
 })
 
 describe("protection event consumer", () => {

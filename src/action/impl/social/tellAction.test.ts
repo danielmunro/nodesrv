@@ -1,19 +1,19 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../support/test/testBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
 describe("tell social action", () => {
-  it("should be to handle telling", async () => {
+  it("sanity: happy path", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    await testBuilder.withPlayer()
-    const mob = testBuilder.withMob().mob
-    const action = await testBuilder.getAction(RequestType.Tell)
-    const request = testBuilder.createRequest(RequestType.Tell, `tell '${mob.name}' hello world`)
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    testRunner.createPlayer()
+    const toPlayer = testRunner.createPlayer()
 
     // when
-    const response = await action.handle(request)
+    const response = await testRunner.invokeAction(RequestType.Tell, `tell '${toPlayer.getMobName()}' hello world`)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toEqual(`You tell ${mob.name}, \"hello world\"`)
+    expect(response.getMessageToRequestCreator()).toEqual(`You tell ${toPlayer.getMobName()}, \"hello world\"`)
   })
 })

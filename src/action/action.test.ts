@@ -1,30 +1,33 @@
+import ActionService from "../gameService/actionService"
+import {createTestAppContainer} from "../inversify.config"
+import InputContext from "../request/context/inputContext"
+import Request from "../request/request"
 import { RequestType } from "../request/requestType"
-import TestBuilder from "../support/test/testBuilder"
+import {Types} from "../support/types"
 import Action from "./action"
 
-let testBuilder: TestBuilder
-let noopDefinition: Action
+let action: Action
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  noopDefinition = await testBuilder.getAction(RequestType.Noop)
+  const app = await createTestAppContainer()
+  action = app.get<ActionService>(Types.ActionService).actions.find(a =>
+    a.getRequestType() === RequestType.Noop) as Action
 })
 
 describe("Action", () => {
   it("isAbleToHandleRequestType should only handle its own request type", async () => {
-    expect(noopDefinition.isAbleToHandleRequestType(RequestType.Gossip)).toBe(false)
-    expect(noopDefinition.isAbleToHandleRequestType(RequestType.Noop)).toBe(true)
+    expect(action.isAbleToHandleRequestType(RequestType.Gossip)).toBe(false)
+    expect(action.isAbleToHandleRequestType(RequestType.Noop)).toBe(true)
   })
 
   it("applyCallback should fail on different request types", async () => {
-    const def = await testBuilder.getAction(RequestType.Noop)
-    await expect(def.handle(testBuilder.createRequest(RequestType.Gossip)))
+    await expect(action.handle(new Request(null, null, null)))
       .rejects.toThrowError()
   })
 
   it("applyCallback should succeed on matching request types", async () => {
     const callback = jest.fn()
-    noopDefinition.handle(testBuilder.createRequest(RequestType.Noop))
+    action.handle(new Request(null, null, new InputContext(RequestType.Noop)))
       .then(callback)
       .then(() => expect(callback).toBeCalled())
   })

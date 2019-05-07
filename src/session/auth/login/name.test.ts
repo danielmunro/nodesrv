@@ -31,7 +31,7 @@ beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
 async function getAuthService(mobTable: MobTable = new MobTable(), mobTemplateTable: MobTable = new MobTable()) {
-  return new AuthService(await getPlayerRepository(), new MobService(mobTable, mobTemplateTable))
+  return new AuthService(await getPlayerRepository(), new MobService(mobTemplateTable, undefined, mobTable, undefined))
 }
 
 describe("auth login name", () => {

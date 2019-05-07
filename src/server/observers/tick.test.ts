@@ -1,33 +1,46 @@
 import EventService from "../../event/eventService"
 import TimeService from "../../gameService/timeService"
+import {createTestAppContainer} from "../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
+import LocationService from "../../mob/locationService"
 import FastHealingEventConsumer from "../../skill/eventConsumer/fastHealingEventConsumer"
 import {newSkill} from "../../skill/factory"
 import {SkillType} from "../../skill/skillType"
 import {getConnection, initializeConnection} from "../../support/db/connection"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import {Tick} from "./tick"
 
 beforeAll(async () => initializeConnection())
 afterAll(async () => (await getConnection()).close())
 
+let testRunner: TestRunner
+let locationService: LocationService
+
+beforeEach(async () => {
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  locationService = app.get<LocationService>(Types.LocationService)
+})
+
 describe("ticks", () => {
   it("should call tick on all clients", async () => {
-    const testBuilder = new TestBuilder()
-
     // given
     const clients = [
-      await testBuilder.withClient(),
-      await testBuilder.withClient(),
-      await testBuilder.withClient(),
-      await testBuilder.withClient(),
-      await testBuilder.withClient(),
+      testRunner.createClient(),
+      testRunner.createClient(),
+      testRunner.createClient(),
+      testRunner.createClient(),
+      testRunner.createClient(),
     ]
+    for (const client of clients) {
+      await client.session.login(client, testRunner.createPlayer().get())
+    }
 
     const tick = new Tick(
       new TimeService(),
       new EventService(),
-      await testBuilder.getLocationService())
+      locationService)
 
     // when
     await tick.notify(clients)
@@ -37,11 +50,9 @@ describe("ticks", () => {
   })
 
   it("should invoke fast healing on tick", async () => {
-    // setup
-    const testBuilder = new TestBuilder()
-
     // given
-    const client = await testBuilder.withClient()
+    const client = testRunner.createClient()
+    await client.session.login(client, testRunner.createPlayer().get())
     client.getSessionMob().skills.push(newSkill(SkillType.FastHealing, MAX_PRACTICE_LEVEL))
     const clients = [client]
     const mockSkill = jest.fn(() => ({
@@ -54,9 +65,9 @@ describe("ticks", () => {
     await new Tick(
       new TimeService(),
       new EventService([
-        new FastHealingEventConsumer(mockSkill),
+        new FastHealingEventConsumer(mockSkill as any),
       ]),
-      await testBuilder.getLocationService()).notify(clients)
+      locationService).notify(clients)
 
     // then
     expect(mockSkill.handle.mock.calls.length).toBe(1)

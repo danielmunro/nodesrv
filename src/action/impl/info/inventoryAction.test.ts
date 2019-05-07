@@ -1,33 +1,32 @@
 import {AffectType} from "../../../affect/affectType"
+import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let playerBuilder: PlayerBuilder
-let action: Action
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  playerBuilder = await testBuilder.withPlayer()
-  action = await testBuilder.getAction(RequestType.Inventory)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  playerBuilder = testRunner.createPlayer()
 })
 
 describe("inventory action action", () => {
   it("should return a mob's inventory", async () => {
     // given
-    const item1 = testBuilder.withWeapon()
+    const item1 = testRunner.createWeapon()
       .asAxe()
-      .addToPlayerBuilder(playerBuilder)
       .build()
-    const item2 = testBuilder.withItem()
+    playerBuilder.addItem(item1)
+    const item2 = testRunner.createItem()
       .asHelmet()
-      .addToPlayerBuilder(playerBuilder)
       .build()
+    playerBuilder.addItem(item2)
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Inventory))
+    const response = await testRunner.invokeAction(RequestType.Inventory)
     const message = response.getMessageToRequestCreator()
 
     // then
@@ -37,14 +36,14 @@ describe("inventory action action", () => {
 
   it("should not show an invisible item", async () => {
     // given
-    const item = testBuilder.withWeapon()
+    const item = testRunner.createWeapon()
       .asAxe()
-      .addToPlayerBuilder(playerBuilder)
       .addAffect(AffectType.Invisible)
       .build()
+    playerBuilder.addItem(item)
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Inventory))
+    const response = await testRunner.invokeAction(RequestType.Inventory)
 
     // then
     expect(response.getMessageToRequestCreator()).not.toContain(item.name)

@@ -31,14 +31,14 @@ export default class OpenItemAction extends Action {
         (item: Item) => item.itemType === ItemType.Container,
         ConditionMessages.Open.Fail.NotAContainer)
       .require(
-        (item: Item) => item.container.isClosed,
+        (item: Item) => !item.container.isOpen,
         ConditionMessages.Open.Fail.AlreadyOpen)
       .create()
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
     const item = requestService.getResult(CheckType.HasTarget)
-    item.container.isClosed = false
+    item.container.isOpen = true
 
     return requestService.respondWith().success(
       Messages.OpenContainer.Success, {

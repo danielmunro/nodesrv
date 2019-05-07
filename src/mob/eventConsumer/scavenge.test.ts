@@ -1,27 +1,30 @@
-import TestBuilder from "../../support/test/testBuilder"
+import EventConsumer from "../../event/eventConsumer"
+import {createTestAppContainer} from "../../inversify.config"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import Scavenge from "./scavenge"
-
-const mockService = jest.fn(() => ({sendMessageInRoom: jest.fn()}))
 
 describe("scavenge", () => {
   it("scavengers should scavenge items on the ground", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const room = testBuilder.withRoom().room
-    const mob = testBuilder.withMob().mob
+    const app = await createTestAppContainer()
+    const testRunner = app.get<TestRunner>(Types.TestRunner)
+    const room = testRunner.getStartRoom()
+    const mob = testRunner.createMob().get()
+    const scavenge = app.get<EventConsumer[]>(Types.EventConsumerTable).find(eventConsumer =>
+      eventConsumer instanceof Scavenge) as Scavenge
+
+    // given
     mob.traits.scavenger = true
-    testBuilder.withItem()
+    room.addItem(testRunner.createItem()
       .asHelmet()
-      .addToInventory(room.inventory)
-      .build()
-    const scavenge = new Scavenge(
-      mockService(), testBuilder.itemService, await testBuilder.getLocationService())
+      .build())
 
     // when
     scavenge.scavenge(mob)
 
     // then
-    expect(testBuilder.itemService.findAllByInventory(mob.inventory)).toHaveLength(1)
-    expect(testBuilder.itemService.findAllByInventory(room.inventory)).toHaveLength(0)
+    expect(mob.inventory.items).toHaveLength(1)
+    expect(room.getItemCount()).toBe(0)
   })
 })

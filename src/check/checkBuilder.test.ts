@@ -1,25 +1,29 @@
 import {AffectType} from "../affect/affectType"
 import {newAffect} from "../affect/factory"
+import {createTestAppContainer} from "../inversify.config"
 import {Disposition} from "../mob/enum/disposition"
+import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"
 import {RequestType} from "../request/requestType"
-import TestBuilder from "../support/test/testBuilder"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
 import getActionPartTable from "./actionPartCheckTable"
 import CheckBuilder from "./checkBuilder"
 
 const FAIL_MESSAGE = "this has a fail"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let checkBuilder: CheckBuilder
 let mob: Mob
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  mob = testBuilder.withMob().mob
-  const mobService = await testBuilder.getMobService()
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  mob = testRunner.createMob().get()
+  const mobService = app.get<MobService>(Types.MobService)
   checkBuilder = new CheckBuilder(
     mobService,
-    testBuilder.createRequest(RequestType.Noop),
+    testRunner.createRequest(RequestType.Noop),
     getActionPartTable(mobService))
   checkBuilder.capture(mob)
 })
@@ -39,7 +43,7 @@ describe("checkBuilder", () => {
 
     it("should succeed if a fight has started", async () => {
       // given
-      await testBuilder.fight()
+      testRunner.fight()
       checkBuilder.requireFight()
 
       // when
@@ -211,8 +215,7 @@ describe("checkBuilder", () => {
 
     it("succeeds if the mob has a player mob", async () => {
       // given
-      const playerBuilder = await testBuilder.withPlayer()
-      checkBuilder.requirePlayer(playerBuilder.player.sessionMob)
+      checkBuilder.requirePlayer(testRunner.createPlayer().getMob())
 
       // when
       const check = await checkBuilder.create()

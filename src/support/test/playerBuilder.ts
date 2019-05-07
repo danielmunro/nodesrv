@@ -4,6 +4,7 @@ import {ItemType} from "../../item/enum/itemType"
 import {newItem} from "../../item/factory"
 import Container from "../../item/model/container"
 import {Item} from "../../item/model/item"
+import {Standing} from "../../mob/enum/standing"
 import {Mob} from "../../mob/model/mob"
 import {SpecializationType} from "../../mob/specialization/specializationType"
 import {AuthorizationLevel} from "../../player/authorizationLevel"
@@ -35,9 +36,33 @@ export default class PlayerBuilder {
     return this
   }
 
+  public setTrains(amount: number): PlayerBuilder {
+    this.player.sessionMob.playerMob.trains = amount
+    return this
+  }
+
   public setPractices(amount: number): PlayerBuilder {
     this.player.sessionMob.playerMob.practices = amount
     return this
+  }
+
+  public equip(item: Item): PlayerBuilder {
+    this.player.sessionMob.equipped.addItem(item)
+    return this
+  }
+
+  public addItem(item: Item): PlayerBuilder {
+    this.player.sessionMob.inventory.addItem(item)
+    return this
+  }
+
+  public removeItem(item: Item): PlayerBuilder {
+    this.player.sessionMob.inventory.removeItem(item)
+    return this
+  }
+
+  public getItems(): Item[] {
+    return this.player.sessionMob.inventory.items
   }
 
   public addSkill(skillType: SkillType, level: number = 1): PlayerBuilder {
@@ -57,6 +82,11 @@ export default class PlayerBuilder {
 
   public setHunger(hunger: number) {
     this.player.sessionMob.playerMob.hunger = hunger
+  }
+
+  public setStanding(standing: Standing): PlayerBuilder {
+    this.player.sessionMob.playerMob.standing = standing
+    return this
   }
 
   public setAuthorizationLevel(authorizationLevel: AuthorizationLevel): PlayerBuilder {
@@ -84,11 +114,33 @@ export default class PlayerBuilder {
     return this
   }
 
+  public setMv(amount: number): PlayerBuilder {
+    this.player.sessionMob.vitals.mv = amount
+    return this
+  }
+
+  public setExperienceToLevel(amount: number): PlayerBuilder {
+    this.player.sessionMob.playerMob.experienceToLevel = amount
+    return this
+  }
+
+  public getExperienceToLevel(): number {
+    return this.player.sessionMob.playerMob.experienceToLevel
+  }
+
   public getMob(): Mob {
     return this.player.sessionMob
   }
 
+  public getMobLevel(): number {
+    return this.player.sessionMob.level
+  }
+
   public getMobName(): string {
     return this.player.sessionMob.name
+  }
+
+  public get(): Player {
+    return this.player
   }
 }

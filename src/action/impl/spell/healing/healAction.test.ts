@@ -1,20 +1,22 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let caster: MobBuilder
 let target: MobBuilder
 const defaultMessage = "a warm wave flows through you."
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  caster = testBuilder.withMob()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  caster = testRunner.createMob()
     .setLevel(30)
     .withSpell(SpellType.Heal, MAX_PRACTICE_LEVEL)
-  target = testBuilder.withMob()
+  target = testRunner.createMob()
 })
 
 describe("heal spell action", () => {
@@ -23,38 +25,36 @@ describe("heal spell action", () => {
     target.setHp(1)
 
     // when
-    await testBuilder.successfulAction(
-      testBuilder.createRequest(RequestType.Cast, `cast heal '${target.getMobName()}'`, target.mob))
+    await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast heal '${target.getMobName()}'`, target.get())
 
     // then
-    expect(target.mob.vitals.hp).toBeGreaterThan(1)
+    expect(target.getHp()).toBeGreaterThan(1)
   })
 
   it("generates accurate success messages when casting on target", async () => {
     // when
-    const response = await testBuilder.successfulAction(
-      testBuilder.createRequest(
+    const response = await testRunner.invokeActionSuccessfully(
         RequestType.Cast,
         `cast heal '${target.getMobName()}`,
-        target.mob))
+        target.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(`a warm wave flows through ${target.getMobName()}.`)
-    expect(response.message.getMessageToTarget()).toBe(defaultMessage)
-    expect(response.message.getMessageToObservers()).toBe(`a warm wave flows through ${target.getMobName()}.`)
+    expect(response.getMessageToRequestCreator()).toBe(`a warm wave flows through ${target.getMobName()}.`)
+    expect(response.getMessageToTarget()).toBe(defaultMessage)
+    expect(response.getMessageToObservers()).toBe(`a warm wave flows through ${target.getMobName()}.`)
   })
 
   it("generates accurate success messages when casting on self", async () => {
     // when
-    const response = await testBuilder.successfulAction(
-      testBuilder.createRequest(
+    const response = await testRunner.invokeActionSuccessfully(
         RequestType.Cast,
         "cast 'heal'",
-        caster.mob))
+        caster.mob)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(defaultMessage)
-    expect(response.message.getMessageToTarget()).toBe(defaultMessage)
-    expect(response.message.getMessageToObservers()).toBe(`a warm wave flows through ${caster.getMobName()}.`)
+    expect(response.getMessageToRequestCreator()).toBe(defaultMessage)
+    expect(response.getMessageToTarget()).toBe(defaultMessage)
+    expect(response.getMessageToObservers()).toBe(`a warm wave flows through ${caster.getMobName()}.`)
   })
 })

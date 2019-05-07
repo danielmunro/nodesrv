@@ -1,22 +1,25 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
 import {Direction} from "../../../room/constants"
-import TestBuilder from "../../../support/test/testBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
 describe("exits action", () => {
   it("should describe room exits", async () => {
     // setup
-    const  testBuilder = new TestBuilder()
-    const action = await testBuilder.getAction(RequestType.Exits)
-    testBuilder.withRoom()
-    testBuilder.withRoom(Direction.South)
-    testBuilder.withRoom(Direction.Up)
-    testBuilder.withRoom(Direction.East)
+    const  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    testRunner.createMob()
+    const room = testRunner.getStartRoom()
+
+    // given
+    testRunner.createRoomOffOf(room, Direction.West)
+    testRunner.createRoomOffOf(room, Direction.South)
+    testRunner.createRoomOffOf(room, Direction.East)
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Exits))
+    const response = await testRunner.invokeAction(RequestType.Exits)
 
     // then
-    const message = response.message.getMessageToRequestCreator()
-    expect(message).toBe("Your exits: south, up, east")
+    expect(response.getMessageToRequestCreator()).toBe("Your exits: west, south, east")
   })
 })

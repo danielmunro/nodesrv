@@ -1,21 +1,23 @@
+import {createTestAppContainer} from "../../inversify.config"
 import AttackEvent from "../../mob/event/attackEvent"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import {AffectType} from "../affectType"
 import OrbOfTouchEventConsumer from "./orbOfTouchEventConsumer"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let eventConsumer: OrbOfTouchEventConsumer
 
-beforeEach(() => {
-  testBuilder = new TestBuilder()
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   eventConsumer = new OrbOfTouchEventConsumer()
 })
 
 describe("orb of touch event consumer", () => {
   it("removes the affect if triggered", async () => {
     // given
-    const attacker = testBuilder.withMob()
-    const defender = testBuilder.withMob().addAffectType(AffectType.OrbOfTouch)
+    const attacker = testRunner.createMob()
+    const defender = testRunner.createMob().addAffectType(AffectType.OrbOfTouch)
 
     // when
     await eventConsumer.consume(new AttackEvent(attacker.mob, defender.mob))

@@ -1,25 +1,26 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import { RequestType } from "../../../request/requestType"
-import TestBuilder from "../../../support/test/testBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
 describe("put action", () => {
   it("should transfer an item", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const mobBuilder = testBuilder.withMob()
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    const mobBuilder = testRunner.createMob()
 
     // given
-    const item = testBuilder.withWeapon()
+    const item = testRunner.createWeapon()
       .asAxe()
-      .addToMobBuilder(mobBuilder)
       .build()
-    const container = testBuilder.withItem()
+    mobBuilder.addItem(item)
+    const container = testRunner.createItem()
       .asSatchel()
-      .addToMobBuilder(mobBuilder)
       .build()
-    const definition = await testBuilder.getAction(RequestType.Put)
+    mobBuilder.addItem(container)
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Put, `put '${item}' satchel`))
+    const response = await testRunner.invokeAction(RequestType.Put, `put '${item}' satchel`)
 
     // then
     expect(response.isSuccessful()).toBeTruthy()

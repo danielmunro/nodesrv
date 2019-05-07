@@ -4,17 +4,20 @@
   "description": "A minimal server",
   "main": "bin/start-game-server.js",
   "scripts": {
-    "start": "ts-node --max_old_space_size=4096 --no-cache bin/start-game-server.ts",
+    "start": "ts-node --max_old_space_size=4096 --no-cache bin/start-game-server.ts 3001 5151",
     "create-fixtures": "ts-node --no-cache bin/create-fixtures.ts .",
     "clean": "rm -rf ./coverage",
     "lint": "yarn clean && tslint --project .",
     "test": "ENV=test jest --forceExit --detectOpenHandles -i",
+    "test-actions": "ENV=test jest --forceExit --detectOpenHandles action/impl",
+    "test-most": "ENV=test jest --forceExit --detectOpenHandles --testPathIgnorePatterns import -w 3",
     "reset-test-db": "ts-node bin/reset-test-db.ts",
     "test-coverage": "yarn test --coverage",
     "complexity": "ts-complexity --max-complexity 14 src/**/*",
     "practice-debug": "ts-node bin/practice-debug.ts",
     "specialization-level-audit": "ts-node bin/specialization-level-audit.ts",
-    "cost-audit": "ts-node bin/cost-audit.ts"
+    "cost-audit": "ts-node bin/cost-audit.ts",
+    "container": "ts-node src/test.ts"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],
@@ -22,7 +25,7 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "@types/core-js": "^0.9.35",
-    "@types/jest": "^23.3.1",
+    "@types/jest": "^24.0.11",
     "adjective-adjective-animal": "^1.3.3",
     "jest": "^23.5.0",
     "jest-sonar-reporter": "^2.0.0",
@@ -38,12 +41,15 @@
     "typescript": "^3.0"
   },
   "dependencies": {
+    "@types/inversify": "^2.0.33",
     "@types/lodash": "^4.14.119",
     "@types/node": "^10.12.15",
     "@types/password-hash": "^1.2.20",
+    "@types/reflect-metadata": "^0.1.0",
     "@types/uuid": "^3.4.3",
     "@types/ws": "^6.0.1",
     "email-validator": "^2.0.3",
+    "inversify-inject-decorators": "^3.1.0",
     "is-uuid": "^1.0.2",
     "json-stringify-safe": "^5.0.1",
     "password-hash": "^1.2.2",

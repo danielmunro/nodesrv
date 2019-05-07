@@ -1,9 +1,12 @@
+import {inject, injectable} from "inversify"
 import ResetService from "../../gameService/resetService"
 import { Mob } from "../../mob/model/mob"
+import {Types} from "../../support/types"
 import { Observer } from "./observer"
 
+@injectable()
 export default class Respawner implements Observer {
-  constructor(private readonly resetService: ResetService) {}
+  constructor(@inject(Types.ResetService) private readonly resetService: ResetService) {}
 
   public async notify(): Promise<void> {
     const deadMobs = await this.resetService.pruneDeadMobs()

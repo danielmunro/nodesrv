@@ -1,50 +1,53 @@
+import {createTestAppContainer} from "../inversify.config"
 import { Direction } from "../room/constants"
-import TestBuilder from "../support/test/testBuilder"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
+import GameService from "./gameService"
+
+let testRunner: TestRunner
+let gameService: GameService
+
+beforeEach(async () => {
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  gameService = app.get<GameService>(Types.GameService)
+})
 
 describe("moveMob", () => {
-  it("should not allow movement where an exit does not exist", async () => {
+  it("does not allow movement where an exit does not exist", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const mob = testBuilder.withMob().mob
-    const service = await testBuilder.getService()
+    const mob = testRunner.createMob()
 
     // expect
-    return expect(service.moveMob(mob, Direction.North)).rejects.toThrowError()
+    return expect(gameService.moveMob(mob.get(), Direction.North)).rejects.toThrowError()
   })
 
   it("should allow movement where a direction exists", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    testBuilder.withRoom()
-    const destination = testBuilder.withRoom(Direction.North).room
-    const mob = testBuilder.withMob().mob
-    const service = await testBuilder.getService()
+    const destination = testRunner.createRoom(Direction.North).get()
+    const mob = testRunner.createMob().get()
 
     // when
-    await service.moveMob(mob, Direction.North)
+    await gameService.moveMob(mob, Direction.North)
 
     // then
-    const location = service.getMobLocation(mob)
+    const location = gameService.getMobLocation(mob)
     expect(location.room.uuid).toBe(destination.uuid)
   })
 
   it("sanity checks with mob rooms and location", async () => {
-    // setup
-    const testBuilder = new TestBuilder()
-
     // given
-    const room1 = testBuilder.withRoom().room
-    const room2 = testBuilder.withRoom().room
-    const mob1 = testBuilder.withMob().mob
-    const mob2 = testBuilder.withMob().mob
-    const service = await testBuilder.getService()
+    const room1 = testRunner.getStartRoom().get()
+    const room2 = testRunner.createRoom().get()
+    const mob1 = testRunner.createMob().get()
+    const mob2 = testRunner.createMob().get()
 
     // expect
-    expect(service.getMobsByRoom(room1)).toHaveLength(2)
-    expect(service.getMobsByRoom(room2)).toHaveLength(0)
+    expect(gameService.getMobsByRoom(room1)).toHaveLength(2)
+    expect(gameService.getMobsByRoom(room2)).toHaveLength(0)
 
     // and
-    expect(service.getMobLocation(mob1).room).toBe(room1)
-    expect(service.getMobLocation(mob2).room).toBe(room1)
+    expect(gameService.getMobLocation(mob1).room).toBe(room1)
+    expect(gameService.getMobLocation(mob2).room).toBe(room1)
   })
 })

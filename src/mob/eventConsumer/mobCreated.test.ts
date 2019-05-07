@@ -1,17 +1,21 @@
 import {EventType} from "../../event/eventType"
+import {createTestAppContainer} from "../../inversify.config"
+import {Room} from "../../room/model/room"
 import {getTestMob} from "../../support/test/mob"
-import TestBuilder from "../../support/test/testBuilder"
+import {Types} from "../../support/types"
 import MobEvent from "../event/mobEvent"
+import MobService from "../mobService"
 import MobCreated from "./mobCreated"
 
 describe("mob created event consumer", () => {
   it("adds a created mob to the mob service", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const mobService = await testBuilder.getMobService()
+    const app = await createTestAppContainer()
+    const mobService = app.get<MobService>(Types.MobService)
+    const startRoom = app.get<Room>(Types.StartRoom)
 
     // given
-    const mobCreated = new MobCreated(mobService, testBuilder.withRoom().room)
+    const mobCreated = new MobCreated(mobService, startRoom)
 
     // when
     await mobCreated.consume(new MobEvent(EventType.MobCreated, getTestMob()))

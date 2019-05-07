@@ -1,47 +1,39 @@
 import { AffectType } from "../../../affect/affectType"
-import { newAffect } from "../../../affect/factory"
-import { Equipment } from "../../../item/enum/equipment"
-import { newEquipment } from "../../../item/factory"
+import {createTestAppContainer} from "../../../inversify.config"
 import { RequestType } from "../../../request/requestType"
-import TestBuilder from "../../../support/test/testBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import { ConditionMessages } from "../../constants"
 
-const itemName = "token"
+let testRunner: TestRunner
 
-function getItem() {
-  return newEquipment("a token", "a small, round token", Equipment.Weapon)
-}
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+})
 
 describe("sacrifice action", () => {
   it("destroys the item", async () => {
-    const item = getItem()
-    item.value = 100
-    const testBuilder = new TestBuilder()
-    const mobBuilder = testBuilder.withMob()
-    testBuilder.room.inventory.addItem(item)
+    // setup
+    const item = testRunner.createItem().asShield().build()
+    const mobBuilder = testRunner.createMob()
 
-    const definition = await testBuilder.getAction(RequestType.Sacrifice)
+    // when
+    await testRunner.invokeAction(RequestType.Sacrifice, `sacrifice '${item.name}'`)
 
-    await definition.handle(
-      testBuilder.createRequest(RequestType.Sacrifice, `sacrifice ${itemName}`))
-
-    expect(testBuilder.room.inventory.items).toHaveLength(0)
+    // then
+    expect(testRunner.getStartRoom().getItemCount()).toBe(0)
     expect(mobBuilder.mob.gold).toBeGreaterThan(0)
   })
 
   it("cannot sacrifice an item affected by NoSac", async () => {
-    const item = getItem()
-    item.affects.push(newAffect(AffectType.NoSacrifice))
-    const testBuilder = new TestBuilder()
-    testBuilder.withMob()
-    testBuilder.room.inventory.addItem(item)
+    const item = testRunner.createItem()
+      .asShield()
+      .addAffect(AffectType.NoSacrifice)
+      .build()
 
-    const definition = await testBuilder.getAction(RequestType.Sacrifice)
+    const response = await testRunner.invokeAction(RequestType.Sacrifice, `sacrifice ${item.name}`)
 
-    const response = await definition.handle(
-      testBuilder.createRequest(RequestType.Sacrifice, `sacrifice ${itemName}`))
-
-    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.All.Item.CannotSacrifice)
-    expect(testBuilder.room.inventory.items).toHaveLength(1)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Item.CannotSacrifice)
+    expect(testRunner.getStartRoom().getItemCount()).toBe(1)
   })
 })

@@ -1,21 +1,25 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
 import { AttackResult } from "../../../../mob/fight/attack"
 import { SkillType } from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
 const iterations = 100
 
 describe("dodge skill", () => {
   it("should be able to succeed and fail in a small collection of attempts", async () => {
     // setup
-    const testBuilder = new TestBuilder()
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 
     // given
-    testBuilder.withMob().setLevel(20).withSkill(SkillType.Dodge, MAX_PRACTICE_LEVEL)
+    testRunner.createMob()
+      .setLevel(20)
+      .withSkill(SkillType.Dodge, MAX_PRACTICE_LEVEL)
 
     // and
-    const fight = await testBuilder.fight()
+    const fight = testRunner.fight(testRunner.createMob().get())
 
     // when
     const results = await doNTimes(iterations, () => fight.round())

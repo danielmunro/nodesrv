@@ -1,4 +1,5 @@
 import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import Response from "../../../../request/response"
@@ -6,24 +7,25 @@ import {ConditionMessages as AllMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
 const iterations = 1000
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let mobBuilder: MobBuilder
 let opponent: MobBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  mobBuilder = testBuilder.withMob()
-  opponent = testBuilder.withMob()
-  await testBuilder.fight(opponent.mob)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  mobBuilder = testRunner.createMob()
+  opponent = testRunner.createMob()
+  testRunner.fight(opponent.mob)
 })
 
 describe("backstab skill action", () => {
   it("requires having the skill", async () => {
     // when
-    const response = await testBuilder.handleAction(RequestType.Backstab)
+    const response = await testRunner.invokeAction(RequestType.Backstab)
 
     // then
     expect(response.isError()).toBeTruthy()
@@ -37,7 +39,7 @@ describe("backstab skill action", () => {
 
     // when
     const responses = await doNTimes(iterations, () =>
-      testBuilder.handleAction(RequestType.Backstab))
+      testRunner.invokeAction(RequestType.Backstab))
 
     // then
     expect(responses.filter(r => r.isFailure()).length).toBeGreaterThan(iterations * 0.3)
@@ -50,7 +52,7 @@ describe("backstab skill action", () => {
 
     // when
     const responses = await doNTimes(iterations, () =>
-      testBuilder.handleAction(RequestType.Backstab))
+      testRunner.invokeAction(RequestType.Backstab))
 
     // then
     expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations / 3)
@@ -62,14 +64,14 @@ describe("backstab skill action", () => {
     opponent.addAffectType(AffectType.OrbOfTouch)
 
     // when
-    const response = await testBuilder.handleAction(RequestType.Backstab)
+    const response = await testRunner.invokeAction(RequestType.Backstab)
 
     // then
-    expect(response.message.getMessageToRequestCreator())
+    expect(response.getMessageToRequestCreator())
       .toBe(`you bounce off of ${opponent.getMobName()}'s orb of touch.`)
-    expect(response.message.getMessageToTarget())
+    expect(response.getMessageToTarget())
       .toBe(`${mobBuilder.getMobName()} bounces off of your orb of touch.`)
-    expect(response.message.getMessageToObservers())
+    expect(response.getMessageToObservers())
       .toBe(`${mobBuilder.getMobName()} bounces off of ${opponent.getMobName()}'s orb of touch.`)
   })
 
@@ -80,31 +82,30 @@ describe("backstab skill action", () => {
 
     // when
     const responses = await doNTimes(iterations, () =>
-      testBuilder.handleAction(RequestType.Backstab))
+      testRunner.invokeAction(RequestType.Backstab))
 
     // then
     expect(responses.filter(r => r.isSuccessful()).length).toBeGreaterThan(iterations * 0.90)
   })
 
   it("starts a fight", async () => {
-    testBuilder = new TestBuilder()
-    mobBuilder = testBuilder.withMob()
-    opponent = testBuilder.withMob()
+    testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    mobBuilder = testRunner.createMob()
+    opponent = testRunner.createMob()
 
     // given
     mobBuilder.setLevel(50)
       .withSkill(SkillType.Backstab, MAX_PRACTICE_LEVEL)
 
     // when
-    await testBuilder.successfulAction(
-      testBuilder.createRequest(
+    await testRunner.invokeAction(
         RequestType.Backstab,
         `backstab ${opponent.getMobName()}`,
-        opponent.mob))
+        opponent.mob)
 
     // then
-    const mobService = await testBuilder.getMobService()
-    expect(mobService.getFightCount()).toBe(1)
+    const fight = testRunner.getFightForMob(mobBuilder.mob)
+    expect(fight).toBeDefined()
   })
 
   it("generates the right messages", async () => {
@@ -114,24 +115,24 @@ describe("backstab skill action", () => {
 
     // when
     const responses = await doNTimes(iterations, () =>
-      testBuilder.handleAction(RequestType.Backstab))
+      testRunner.invokeAction(RequestType.Backstab))
 
     // then -- success
     const successfulResponse: Response = responses.find(r => r.isSuccessful())
-    expect(successfulResponse.message.getMessageToRequestCreator())
+    expect(successfulResponse.getMessageToRequestCreator())
       .toBe(`you backstab ${opponent.getMobName()}!`)
-    expect(successfulResponse.message.getMessageToTarget())
+    expect(successfulResponse.getMessageToTarget())
       .toBe(`${mobBuilder.mob.name} backstabs you!`)
-    expect(successfulResponse.message.getMessageToObservers())
+    expect(successfulResponse.getMessageToObservers())
       .toBe(`${mobBuilder.mob.name} backstabs ${opponent.getMobName()}!`)
 
     // and -- failure
     const unsuccessfulResponse: Response = responses.find(r => r.isFailure())
-    expect(unsuccessfulResponse.message.getMessageToRequestCreator())
+    expect(unsuccessfulResponse.getMessageToRequestCreator())
       .toBe(`${opponent.getMobName()} dodges your backstab!`)
-    expect(unsuccessfulResponse.message.getMessageToTarget())
+    expect(unsuccessfulResponse.getMessageToTarget())
       .toBe(`you dodge ${mobBuilder.mob.name}'s backstab!`)
-    expect(unsuccessfulResponse.message.getMessageToObservers())
+    expect(unsuccessfulResponse.getMessageToObservers())
       .toBe(`${opponent.getMobName()} dodges ${mobBuilder.mob.name}'s backstab!`)
   })
 })

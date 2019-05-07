@@ -1,5 +1,4 @@
 import {DamageType} from "../damage/damageType"
-import ServiceBuilder from "../gameService/serviceBuilder"
 import AbstractItemBuilder from "./abstractItemBuilder"
 import {Equipment} from "./enum/equipment"
 import {ItemType} from "./enum/itemType"
@@ -8,10 +7,6 @@ import Weapon from "./model/weapon"
 
 export default class WeaponBuilder extends AbstractItemBuilder {
   protected readonly item: Weapon
-
-  constructor(serviceBuilder: ServiceBuilder, carriedBy: any) {
-    super(serviceBuilder, new Weapon(), carriedBy)
-  }
 
   public asAxe(): WeaponBuilder {
     this.item.weaponType = WeaponType.Axe

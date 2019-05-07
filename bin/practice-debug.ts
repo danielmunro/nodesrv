@@ -16,6 +16,6 @@ const mob = new MobBuilder(new Mob(), serviceBuilder)
   .setLevel(level)
   .setRace(race)
   .setSpecialization(specialization)
-  .build()
+  .mob
 const practiceService = new PracticeService()
 console.log(practiceService.generateOutputStatus(mob))

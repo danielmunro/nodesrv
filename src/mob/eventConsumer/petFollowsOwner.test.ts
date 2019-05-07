@@ -1,26 +1,27 @@
+import {createTestAppContainer} from "../../inversify.config"
 import {Direction} from "../../room/constants"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
+import LocationService from "../locationService"
 
 describe("pet follows owner event consumer", () => {
   it("a pet should follow its owner", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    testBuilder.withRoom()
-    const room2 = testBuilder.withRoom(Direction.North).room
-    const mob1 = testBuilder.withMob().mob
+    const app = await createTestAppContainer()
+    const testRunner = app.get<TestRunner>(Types.TestRunner)
+    const room2 = testRunner.createRoom(Direction.North).get()
+    const mob1 = testRunner.createMob().get()
 
     // given
-    const mob2 = testBuilder.withMob().mob
+    const mob2 = testRunner.createMob().get()
     mob2.traits.isPet = true
     mob1.pet = mob2
 
     // when
-    const mobService = await testBuilder.getMobService()
-
-    await mobService.updateMobLocation(mob1, room2, Direction.North)
+    const locationService = app.get<LocationService>(Types.LocationService)
+    await locationService.updateMobLocation(mob1, room2, Direction.North)
 
     // then
-    const mob2Location = mobService.getLocationForMob(mob2)
-    expect(mob2Location.room).toBe(room2)
+    expect(locationService.getRoomForMob(mob2)).toBe(room2)
   })
 })

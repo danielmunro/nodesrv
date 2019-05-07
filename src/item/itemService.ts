@@ -1,13 +1,16 @@
+import {inject, injectable} from "inversify"
 import {cloneDeep} from "lodash"
+import {Types} from "../support/types"
 import ItemTable from "./itemTable"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
 import ItemReset from "./model/itemReset"
 
+@injectable()
 export default class ItemService {
   constructor(
+    @inject(Types.ItemTable) private readonly itemTemplateTable: ItemTable = new ItemTable(),
     public readonly itemTable: ItemTable = new ItemTable(),
-    private readonly itemTemplateTable: ItemTable = new ItemTable(),
   ) {}
 
   public async generateNewItemInstance(itemReset: ItemReset): Promise<Item> {

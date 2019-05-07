@@ -1,75 +1,67 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {Mob} from "../../../../mob/model/mob"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
-import Spell from "../../spell"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
-let mobBuilder: MobBuilder
-let caster: Mob
-let mob: Mob
-let spell: Spell
+let testRunner: TestRunner
+let caster: MobBuilder
+let target: MobBuilder
 const defaultMessage = "you feel better!"
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  mobBuilder = testBuilder.withMob("alice")
-  caster = mobBuilder.mob
-  mobBuilder.setLevel(20)
-  mobBuilder.withSpell(SpellType.CureLight, MAX_PRACTICE_LEVEL)
-  mob = testBuilder.withMob("bob").mob
-  spell = await testBuilder.getSpell(SpellType.CureLight)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  caster = testRunner.createMob()
+    .setLevel(20)
+    .withSpell(SpellType.CureLight, MAX_PRACTICE_LEVEL)
+  target = testRunner.createMob()
 })
 
 describe("cure light", () => {
   it("heals a target when casted", async () => {
     // setup
-    mob.vitals.hp = 1
+    target.setHp(1)
 
     // when
-    await getSuccessfulAction(
-      spell, testBuilder.createRequest(RequestType.Cast, "cast 'cure light' bob", mob))
+    await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast 'cure light' ${target.getMobName()}`, target.get())
 
     // then
-    expect(mob.vitals.hp).toBeGreaterThan(1)
+    expect(target.getHp()).toBeGreaterThan(1)
   })
 
   it("heals self when casted", async () => {
     // setup
-    mob.level = 30
-    mob.vitals.hp = 1
+    target.setHp(1)
 
     // when
-    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast 'cure light'", mob))
+    await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast 'cure light' ${target.getMobName}`, target.get())
 
     // then
-    expect(mob.vitals.hp).toBeGreaterThan(1)
+    expect(target.getHp()).toBeGreaterThan(1)
   })
 
   it("generates accurate success messages when casting on target", async () => {
     // when
-    const response = await getSuccessfulAction(
-      spell,
-      testBuilder.createRequest(RequestType.Cast, "cast 'cure light' bob", mob))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast 'cure light' ${target.getMobName()}`, target.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("bob feels better!")
-    expect(response.message.getMessageToTarget()).toBe(defaultMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${mob.name} feels better!`)
+    expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} feels better!`)
+    expect(response.getMessageToTarget()).toBe(defaultMessage)
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()} feels better!`)
   })
 
   it("generates accurate success messages when casting on self", async () => {
     // when
-    const response = await getSuccessfulAction(
-      spell,
-      testBuilder.createRequest(RequestType.Cast, "cast 'cure light'", caster))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast 'cure light'", caster.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(defaultMessage)
-    expect(response.message.getMessageToTarget()).toBe(defaultMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${caster.name} feels better!`)
+    expect(response.getMessageToRequestCreator()).toBe(defaultMessage)
+    expect(response.getMessageToTarget()).toBe(defaultMessage)
+    expect(response.getMessageToObservers()).toBe(`${caster.getMobName()} feels better!`)
   })
 })

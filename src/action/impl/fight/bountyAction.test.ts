@@ -1,26 +1,27 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {Round} from "../../../mob/fight/round"
 import {RequestType} from "../../../request/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"
-import TestBuilder from "../../../support/test/testBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {Messages} from "../../constants"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let player1: PlayerBuilder
 let player2: PlayerBuilder
 const goldAmount = 100
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  testBuilder.withRoom()
-  player1 = await testBuilder.withPlayer()
-  player2 = await testBuilder.withPlayer()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  player1 = testRunner.createPlayer()
+  player2 = testRunner.createPlayer()
 })
 
 describe("bounty action", () => {
   it("requires an argument for gold", async () => {
     // when
-    const response = await testBuilder.handleAction(
-      RequestType.Bounty, `bounty '${player2.getMob().name}'`)
+    const response = await testRunner.invokeAction(
+      RequestType.Bounty, `bounty '${player2.getMobName()}'`)
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(Messages.Bounty.NeedAmount)
@@ -28,8 +29,8 @@ describe("bounty action", () => {
 
   it("requires the player to have the gold", async () => {
     // when
-    const response = await testBuilder.handleAction(
-      RequestType.Bounty, `bounty '${player2.getMob().name}' ${goldAmount}`)
+    const response = await testRunner.invokeAction(
+      RequestType.Bounty, `bounty '${player2.getMobName()}' ${goldAmount}`)
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(Messages.Bounty.NeedMoreGold)
@@ -40,8 +41,8 @@ describe("bounty action", () => {
     player1.setGold(goldAmount)
 
     // when
-    await testBuilder.handleAction(
-      RequestType.Bounty, `bounty '${player2.getMob().name}' ${goldAmount}`)
+    await testRunner.invokeAction(
+      RequestType.Bounty, `bounty '${player2.getMobName()}' ${goldAmount}`)
 
     // then
     expect(player1.getMob().gold).toBe(0)
@@ -53,7 +54,7 @@ describe("bounty action", () => {
     player2.setBounty(goldAmount).setHp(1)
 
     // given
-    const fight = await testBuilder.fight(player2.getMob())
+    const fight = testRunner.fight(player2.getMob())
     let lastRound: Round
 
     // when

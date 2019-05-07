@@ -1,9 +1,8 @@
 import {AffectType} from "../../affect/affectType"
 import {newAffect} from "../../affect/factory"
 import {Affect} from "../../affect/model/affect"
-import ServiceBuilder from "../../gameService/serviceBuilder"
+import {Item} from "../../item/model/item"
 import {Disposition} from "../../mob/enum/disposition"
-import {newMobLocation} from "../../mob/factory"
 import { Mob } from "../../mob/model/mob"
 import Shop from "../../mob/model/shop"
 import {RaceType} from "../../mob/race/enum/raceType"
@@ -13,13 +12,17 @@ import { newSkill } from "../../skill/factory"
 import { SkillType } from "../../skill/skillType"
 import {newSpell} from "../../spell/factory"
 import { SpellType } from "../../spell/spellType"
-import RoomBuilder from "./roomBuilder"
 
 export default class MobBuilder {
-  constructor(public readonly mob: Mob, private readonly serviceBuilder: ServiceBuilder) {}
+  constructor(public readonly mob: Mob) {}
 
   public asTrainer(): MobBuilder {
     this.mob.traits.trainer = true
+    return this
+  }
+
+  public asHealer(): MobBuilder {
+    this.mob.traits.healer = true
     return this
   }
 
@@ -38,9 +41,18 @@ export default class MobBuilder {
     return this
   }
 
+  public setName(name: string): MobBuilder {
+    this.mob.name = name
+    return this
+  }
+
   public setAlignment(amount: number): MobBuilder {
     this.mob.alignment = amount
     return this
+  }
+
+  public getHp(): number {
+    return this.mob.vitals.hp
   }
 
   public setHp(amount: number): MobBuilder {
@@ -68,6 +80,11 @@ export default class MobBuilder {
     return this
   }
 
+  public setGold(gold: number): MobBuilder {
+    this.mob.gold = gold
+    return this
+  }
+
   public setSpecialization(specialization: SpecializationType) {
     this.mob.specializationType = specialization
     defaultSpecializationLevels.filter(specializationLevel => specializationLevel.specialization === specialization)
@@ -84,6 +101,11 @@ export default class MobBuilder {
             specializationLevel.minimumLevel))
         }
       })
+    return this
+  }
+
+  public setAggressive(): MobBuilder {
+    this.mob.traits.aggressive = true
     return this
   }
 
@@ -107,6 +129,11 @@ export default class MobBuilder {
     return this
   }
 
+  public addItem(item: Item): MobBuilder {
+    this.mob.inventory.addItem(item, this.mob)
+    return this
+  }
+
   public addAffect(affect: Affect): MobBuilder {
     this.mob.affects.push(affect)
     return this
@@ -121,17 +148,20 @@ export default class MobBuilder {
     return this.mob.affect().has(affectType)
   }
 
-  public addToRoom(roomBuilder: RoomBuilder): MobBuilder {
-    this.serviceBuilder.addMobLocation(newMobLocation(this.mob, roomBuilder.room))
-    return this
-  }
-
   public getMobName(): string {
     return this.mob.name
   }
 
-  public build(): Mob {
-    this.serviceBuilder.addMob(this.mob)
+  public equip(item: Item): this {
+    this.mob.equipped.addItem(item, this.mob)
+    return this
+  }
+
+  public getItems(): Item[] {
+    return this.mob.inventory.items
+  }
+
+  public get(): Mob {
     return this.mob
   }
 }

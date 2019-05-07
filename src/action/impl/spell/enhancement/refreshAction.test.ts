@@ -1,16 +1,20 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let caster: MobBuilder
 const expectedMessage = "you feel refreshed."
 
-beforeEach(() => {
-  testBuilder = new TestBuilder()
-  caster = testBuilder.withMob().setLevel(30).withSpell(SpellType.RefreshMovement, MAX_PRACTICE_LEVEL)
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  caster = testRunner.createMob()
+    .setLevel(30)
+    .withSpell(SpellType.RefreshMovement, MAX_PRACTICE_LEVEL)
 })
 
 describe("refresh spell action", () => {
@@ -19,8 +23,7 @@ describe("refresh spell action", () => {
     caster.setMv(1)
 
     // when
-    await testBuilder.successfulAction(
-      testBuilder.createRequest(RequestType.Cast, "cast refresh", caster.mob))
+    await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast refresh", caster.get())
 
     // then
     expect(caster.mob.vitals.mv).toBeGreaterThan(1)
@@ -28,26 +31,25 @@ describe("refresh spell action", () => {
 
   it("generates correct success messages on self", async () => {
     // when
-    const response = await testBuilder.successfulAction(
-      testBuilder.createRequest(RequestType.Cast, "cast refresh", caster.mob))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, "cast refresh", caster.get())
 
     expect(response.getMessageToRequestCreator()).toBe(expectedMessage)
-    expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${caster.getMobName()} feels refreshed.`)
+    expect(response.getMessageToTarget()).toBe(expectedMessage)
+    expect(response.getMessageToObservers()).toBe(`${caster.getMobName()} feels refreshed.`)
   })
 
   it("generates correct success messages on target", async () => {
-    const target = testBuilder.withMob()
+    const target = testRunner.createMob()
 
     // when
-    const response = await testBuilder.successfulAction(
-      testBuilder.createRequest(
+    const response = await testRunner.invokeActionSuccessfully(
         RequestType.Cast,
         `cast refresh '${target.getMobName()}'`,
-        target.mob))
+        target.get())
 
     expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} feels refreshed.`)
-    expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${target.getMobName()} feels refreshed.`)
+    expect(response.getMessageToTarget()).toBe(expectedMessage)
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()} feels refreshed.`)
   })
 })

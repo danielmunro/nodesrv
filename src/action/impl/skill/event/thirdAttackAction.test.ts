@@ -1,23 +1,25 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {Fight} from "../../../../mob/fight/fight"
 import { SkillType } from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
 const ITERATIONS = 1000
 const maxHp = 20
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let aggressor: MobBuilder
 let target: MobBuilder
 let fight: Fight
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  aggressor = testBuilder.withMob()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  aggressor = testRunner.createMob()
     .setLevel(30)
-  target = testBuilder.withMob().setLevel(30)
-  fight = await testBuilder.fight(target.mob)
+  target = testRunner.createMob().setLevel(30)
+  fight = testRunner.fight(target.mob)
 })
 
 describe("third attack skill action", () => {

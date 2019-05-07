@@ -1,24 +1,27 @@
+import {inject, injectable} from "inversify"
+import "reflect-metadata"
 import EventService from "../event/eventService"
 import {Direction} from "../room/constants"
 import ExitTable from "../room/exitTable"
 import { Room } from "../room/model/room"
 import RoomTable from "../room/roomTable"
+import {Types} from "../support/types"
 import MobMoveEvent from "./event/mobMoveEvent"
+import {newMobLocation} from "./factory"
 import { Mob } from "./model/mob"
 import MobLocation from "./model/mobLocation"
 
-const RECALL_ROOM_ID = "3001"
-
+@injectable()
 export default class LocationService {
   constructor(
-    private readonly roomTable: RoomTable,
-    private readonly eventService: EventService,
-    private readonly exitTable: ExitTable,
-    private mobLocations: MobLocation[] = [],
-    private readonly recallRoomId: string = RECALL_ROOM_ID) {}
+    @inject(Types.RoomTable) private readonly roomTable: RoomTable,
+    @inject(Types.EventService) private readonly eventService: EventService,
+    @inject(Types.ExitTable) private readonly exitTable: ExitTable,
+    @inject(Types.StartRoom) private readonly startRoom: Room,
+    private mobLocations: MobLocation[] = []) {}
 
-  public getRecall(): Room | undefined {
-    return this.roomTable.get(this.recallRoomId)
+  public getRecall(): Room {
+    return this.startRoom
   }
 
   public async moveMob(mob: Mob, direction: Direction) {
@@ -58,14 +61,26 @@ export default class LocationService {
       mobLocation.room = room
       return
     }
+    console.log(`update mob location called on ${mob.name}, but mob not known`)
+    const newLocation = newMobLocation(mob, room)
+    this.addMobLocation(newLocation)
+    return newLocation
   }
 
   public getLocationForMob(mob: Mob): MobLocation {
     const mobLocation = this.mobLocations.find(it => it.mob === mob)
     if (!mobLocation) {
-      throw new Error("mob not found")
+      throw Error(`${mob.name} (${mob.uuid}) not found in location service`)
     }
     return mobLocation
+  }
+
+  public getRoomForMob(mob: Mob): Room {
+    const mobLocation = this.mobLocations.find(it => it.mob === mob)
+    if (!mobLocation) {
+      throw Error(`${mob.name} (${mob.uuid}) not found in location service`)
+    }
+    return mobLocation.room
   }
 
   public removeMob(mob: Mob): void {

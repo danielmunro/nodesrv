@@ -1,7 +1,6 @@
 import EventService from "../../event/eventService"
 import ResetService from "../../gameService/resetService"
 import { Disposition } from "../../mob/enum/disposition"
-import { newMobReset } from "../../mob/factory"
 import FightTable from "../../mob/fight/fightTable"
 import LocationService from "../../mob/locationService"
 import MobService from "../../mob/mobService"
@@ -38,19 +37,11 @@ describe("respawner", () => {
     // given
     const roomTable = RoomTable.new([currentRoom, startRoom])
     const eventService = new EventService()
-    const locationService = new LocationService(roomTable, eventService, new ExitTable())
+    const locationService = new LocationService(roomTable, eventService, new ExitTable(), startRoom)
     const mobTable = new MobTable()
-    const mobService = new MobService(
-      mobTable,
-      new MobTable([mob1, mob2, mob3]),
-      new FightTable(),
-      locationService)
+    const mobService = new MobService(new MobTable([mob1, mob2, mob3]), locationService, mobTable, new FightTable())
     const respawner = new Respawner(
-      new ResetService([
-        newMobReset(mob1, startRoom, 1, 1),
-        newMobReset(mob2, startRoom, 1, 1),
-        newMobReset(mob3, startRoom, 1, 1),
-      ], [], [], [], [], mobService, roomTable, null))
+      new ResetService([], [], [], [], [], mobService, [], null))
     await respawner.seedMobTable()
     mobTable.getMobs().forEach(async mob => {
       mob.disposition = Disposition.Dead
@@ -63,5 +54,5 @@ describe("respawner", () => {
     const mobs = mobService.mobTable.getMobs()
     expect(mobs.every(mob =>
       mob.disposition === Disposition.Standing && locationService.getLocationForMob(mob).room === startRoom))
-  })
+  }, 20000)
 })

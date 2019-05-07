@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import Action from "../action/action"
 import {Client} from "../client/client"
 import EventService from "../event/eventService"
@@ -6,14 +7,16 @@ import {Mob} from "../mob/model/mob"
 import AuthService from "../session/auth/authService"
 import Email from "../session/auth/login/email"
 import Session from "../session/session"
+import {Types} from "../support/types"
 import {Observer} from "./observers/observer"
 
+@injectable()
 export default class ClientService {
   constructor(
-    private readonly eventService: EventService,
-    private readonly authService: AuthService,
-    private readonly locationService: LocationService,
-    private readonly actions: Action[],
+    @inject(Types.EventService) private readonly eventService: EventService,
+    @inject(Types.AuthService) private readonly authService: AuthService,
+    @inject(Types.LocationService) private readonly locationService: LocationService,
+    @inject(Types.Actions) private readonly actions: Action[],
     private clients: Client[] = []) {}
 
   public createNewClient(ws: WebSocket, req: any) {

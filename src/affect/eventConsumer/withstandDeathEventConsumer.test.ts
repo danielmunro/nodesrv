@@ -1,6 +1,8 @@
 import {DamageType} from "../../damage/damageType"
+import {createTestAppContainer} from "../../inversify.config"
 import DamageEvent from "../../mob/event/damageEvent"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import {AffectType} from "../affectType"
 import {newAffect} from "../factory"
 import WithstandDeathEventConsumer from "./withstandDeathEventConsumer"
@@ -10,8 +12,8 @@ const AMOUNT = 10
 describe("withstand death event consumer", () => {
   it("will allow the mob to survive, and remove withstand death affect", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const mob = testBuilder.withMob()
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    const mob = testRunner.createMob()
     const withstandDeathEventConsumer = new WithstandDeathEventConsumer()
 
     // given
@@ -28,8 +30,8 @@ describe("withstand death event consumer", () => {
 
   it("does not modify the event if the mob has not affected by withstand death", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const mob = testBuilder.withMob()
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    const mob = testRunner.createMob()
     const withstandDeathEventConsumer = new WithstandDeathEventConsumer()
 
     // given

@@ -17,6 +17,7 @@ export function reverse(direction: Direction) {
     case Direction.West:
       return Direction.East
   }
+  return Direction.Noop
 }
 
 export function isReciprocalFree(direction: Direction, room1: Room, room2: Room) {

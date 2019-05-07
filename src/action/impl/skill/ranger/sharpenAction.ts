@@ -9,7 +9,6 @@ import ManaCost from "../../../../check/cost/manaCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {DamageType} from "../../../../damage/damageType"
 import Weapon from "../../../../item/model/weapon"
-import ResponseMessage from "../../../../request/responseMessage"
 import {
   ActionMessages,
   ConditionMessages as PreconditionMessages,

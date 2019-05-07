@@ -1,31 +1,34 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let caster: MobBuilder
 let target: MobBuilder
 
-beforeEach(() => {
-  testBuilder = new TestBuilder()
-  caster = testBuilder.withMob().setLevel(40).withSpell(SpellType.DrawLife)
-  target = testBuilder.withMob().setLevel(40)
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  caster = testRunner.createMob()
+    .setLevel(40)
+    .withSpell(SpellType.DrawLife)
+  target = testRunner.createMob().setLevel(40)
 })
 
 describe("draw life action", () => {
   it("transfers life points from the target to the caster", async () => {
     // given
     const startingHp = 1
-    caster.mob.vitals.hp = startingHp
+    caster.setHp(startingHp)
 
     // when
-    await testBuilder.successfulAction(
-      testBuilder.createRequest(
-        RequestType.Cast, `cast draw ${target.getMobName()}`, target.mob))
+    await testRunner.invokeActionSuccessfully(
+        RequestType.Cast, `cast draw ${target.getMobName()}`, target.get())
 
     // then
-    expect(caster.mob.attribute().getHp()).toBeGreaterThan(startingHp)
+    expect(caster.getHp()).toBeGreaterThan(startingHp)
 
     // and
     const attr = target.mob.attribute()
@@ -33,15 +36,14 @@ describe("draw life action", () => {
   })
 
   it("generates accurate success messages", async () => {
-    const response = await testBuilder.successfulAction(
-      testBuilder.createRequest(
-        RequestType.Cast, `cast draw ${target.getMobName()}`, target.mob))
+    const response = await testRunner.invokeActionSuccessfully(
+        RequestType.Cast, `cast draw ${target.getMobName()}`, target.get())
 
     expect(response.getMessageToRequestCreator())
       .toBe(`you siphon life force from ${target.getMobName()}.`)
-    expect(response.message.getMessageToTarget())
+    expect(response.getMessageToTarget())
       .toBe(`${caster.getMobName()} siphons life force from you.`)
-    expect(response.message.getMessageToObservers())
+    expect(response.getMessageToObservers())
       .toBe(`${caster.getMobName()} siphons life force from ${target.getMobName()}.`)
   })
 })

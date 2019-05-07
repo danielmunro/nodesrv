@@ -1,58 +1,57 @@
 import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {Mob} from "../../../../mob/model/mob"
-import {SpecializationType} from "../../../../mob/specialization/specializationType"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
-import TestBuilder from "../../../../support/test/testBuilder"
-import Spell from "../../spell"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
-let spell: Spell
-let caster: Mob
-let mob: Mob
+let testRunner: TestRunner
+let caster: MobBuilder
+let target: MobBuilder
 
 const RESPONSE1 = "your muscles surge with heightened power."
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  spell = await testBuilder.getSpell(SpellType.GiantStrength)
-  const mobBuilder1 = testBuilder.withMob("alice", SpecializationType.Cleric)
-  mobBuilder1.withSpell(SpellType.GiantStrength, MAX_PRACTICE_LEVEL)
-  mobBuilder1.setLevel(30)
-  caster = mobBuilder1.mob
-  const mobBuilder2 = testBuilder.withMob("bob")
-  mob = mobBuilder2.mob
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  caster = testRunner.createMob()
+    .withSpell(SpellType.GiantStrength, MAX_PRACTICE_LEVEL)
+    .setLevel(30)
+  target = testRunner.createMob()
 })
 
 describe("giant strength spell action", () => {
   it("imparts the giant strength affect", async () => {
     // when
-    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast giant bob", mob))
+    await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast giant ${target.getMobName()}`, target.get())
 
     // then
-    expect(mob.affect().has(AffectType.GiantStrength)).toBeTruthy()
+    expect(target.hasAffect(AffectType.GiantStrength)).toBeTruthy()
   })
 
   it("generates accurate success messages when casting against a target", async () => {
     // when
-    const response = await getSuccessfulAction(
-      spell, testBuilder.createRequest(RequestType.Cast, "cast giant bob", mob))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast giant ${target.getMobName()}`, target.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("bob's muscles surge with heightened power.")
-    expect(response.message.getMessageToTarget()).toBe(RESPONSE1)
-    expect(response.message.getMessageToObservers()).toBe("bob's muscles surge with heightened power.")
+    expect(response.getMessageToRequestCreator())
+      .toBe(`${target.getMobName()}'s muscles surge with heightened power.`)
+    expect(response.getMessageToTarget()).toBe(RESPONSE1)
+    expect(response.getMessageToObservers())
+      .toBe(`${target.getMobName()}'s muscles surge with heightened power.`)
   })
 
   it("generates accurate success messages when casting on self", async () => {
     // when
-    const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast giant", caster))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, "cast giant", caster.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(RESPONSE1)
-    expect(response.message.getMessageToTarget()).toBe(RESPONSE1)
-    expect(response.message.getMessageToObservers()).toBe(`alice's muscles surge with heightened power.`)
+    expect(response.getMessageToRequestCreator()).toBe(RESPONSE1)
+    expect(response.getMessageToTarget()).toBe(RESPONSE1)
+    expect(response.getMessageToObservers()).toBe(`${caster.getMobName()}'s muscles surge with heightened power.`)
   })
 })

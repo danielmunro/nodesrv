@@ -1,33 +1,26 @@
-import { AffectType } from "../../../../affect/affectType"
-import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
-import { RequestType } from "../../../../request/requestType"
+import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
+import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import Response from "../../../../request/response"
-import { SkillType } from "../../../../skill/skillType"
-import doNTimes from "../../../../support/functional/times"
-import TestBuilder from "../../../../support/test/testBuilder"
-import Action from "../../../action"
+import {SkillType} from "../../../../skill/skillType"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
 const iterations = 100
-let testBuilder: TestBuilder
-let skillDefinition: Action
+let testRunner: TestRunner
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  skillDefinition = await testBuilder.getAction(RequestType.Berserk)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
-
-async function action() {
-  return skillDefinition.handle(testBuilder.createRequest(RequestType.Berserk))
-}
 
 describe("berserk skill action", () => {
   it("fails often when not practiced", async () => {
     // given
-    const mobBuilder = testBuilder.withMob()
-    mobBuilder.withSkill(SkillType.Berserk)
+    testRunner.createMob()
+      .withSkill(SkillType.Berserk)
 
     // when
-    const responses = await doNTimes(iterations, () => action())
+    const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.Berserk)
 
     // then
     expect(responses.filter(response => !response.isSuccessful()).length).toBeGreaterThanOrEqual(iterations * 0.9)
@@ -35,41 +28,41 @@ describe("berserk skill action", () => {
 
   it("should be able to succeed berserking", async () => {
     // given
-    const mobBuilder = testBuilder.withMob()
-    mobBuilder.setLevel(20)
-    mobBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
+    const mobBuilder = testRunner.createMob()
+      .setLevel(20)
+      .withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
     // when
-    const responses = await doNTimes(iterations, () => action())
+    const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.Berserk)
 
     // then
     expect(responses.some(response => response.isSuccessful())).toBeTruthy()
-    expect(mobBuilder.mob.affect().has(AffectType.Berserk)).toBeTruthy()
+    expect(mobBuilder.hasAffect(AffectType.Berserk)).toBeTruthy()
   })
 
   it("should generate accurate messages", async () => {
     // given
-    const mobBuilder = testBuilder.withMob()
-    mobBuilder.setLevel(40)
-    mobBuilder.withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL / 2)
+    const mobBuilder = testRunner.createMob()
+      .setLevel(40)
+      .withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL / 2)
 
     // when
-    const responses: Response[] = await doNTimes(iterations, () => action())
+    const responses: Response[] = await testRunner.invokeSkillNTimes(iterations, SkillType.Berserk)
 
     // then
-    const successMessage = responses.find(response => response.isSuccessful()).message
-    expect(successMessage.getMessageToRequestCreator())
+    const successResponse = responses.find(response => response.isSuccessful()) as Response
+    expect(successResponse.getMessageToRequestCreator())
       .toBe("your pulse speeds up as you are consumed by rage!")
-    expect(successMessage.getMessageToObservers())
+    expect(successResponse.getMessageToObservers())
       .toBe(`${mobBuilder.mob.name}'s pulse speeds up as they are consumed by rage!`)
 
     // and
-    const failMessage = responses.find(response => !response.isSuccessful()).message
-    expect(failMessage.getMessageToRequestCreator())
+    const failResponse = responses.find(response => !response.isSuccessful()) as Response
+    expect(failResponse.getMessageToRequestCreator())
       .toBe("You fail to summon your inner rage.")
-    expect(failMessage.getMessageToTarget())
+    expect(failResponse.getMessageToTarget())
       .toBe("")
-    expect(failMessage.getMessageToObservers())
+    expect(failResponse.getMessageToObservers())
       .toBe("")
   })
 })

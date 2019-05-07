@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import {cloneDeep} from "lodash"
 import {Direction} from "../room/constants"
 import { Room } from "../room/model/room"
@@ -6,6 +7,7 @@ import { Skill } from "../skill/model/skill"
 import { SkillType } from "../skill/skillType"
 import { Spell } from "../spell/model/spell"
 import { SpellType } from "../spell/spellType"
+import {Types} from "../support/types"
 import { newMobLocation } from "./factory"
 import { Fight } from "./fight/fight"
 import FightTable from "./fight/fightTable"
@@ -34,12 +36,13 @@ export function assignSpecializationToMob(mob: Mob, specialization: Specializati
   mob.spells = [...mob.spells, ...specialization.getSpells().map(createSpellFromSpellType)]
 }
 
+@injectable()
 export default class MobService {
   constructor(
-    public readonly mobTable: MobTable,
-    public readonly mobTemplateTable: MobTable,
-    private readonly fightTable: FightTable,
-    private readonly locationService: LocationService) {}
+    @inject(Types.MobTable) public readonly mobTemplateTable: MobTable,
+    @inject(Types.LocationService) private readonly locationService: LocationService,
+    public readonly mobTable: MobTable = new MobTable(),
+    private readonly fightTable: FightTable = new FightTable()) {}
 
   public add(mob: Mob, room: Room) {
     this.mobTable.add(mob)

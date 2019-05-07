@@ -1,42 +1,36 @@
 import { AffectType } from "../../../affect/affectType"
 import { newAffect } from "../../../affect/factory"
+import {createTestAppContainer} from "../../../inversify.config"
 import { Item } from "../../../item/model/item"
-import { Mob } from "../../../mob/model/mob"
 import { RequestType } from "../../../request/requestType"
-import { Room } from "../../../room/model/room"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import MobBuilder from "../../../support/test/mobBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
-let testBuilder: TestBuilder
-let actionDefinition: Action
-let room: Room
-let mob: Mob
+let testRunner: TestRunner
+let mobBuilder: MobBuilder
 let equipment: Item
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  room = testBuilder.withRoom().room
-  const playerBuilder = await testBuilder.withPlayer()
-  mob = playerBuilder.player.sessionMob
-  equipment = testBuilder.withItem()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  mobBuilder = testRunner.createMob()
+  equipment = testRunner.createItem()
     .asHelmet()
-    .addToInventory(mob.inventory)
     .build()
-  actionDefinition = await testBuilder.getAction(RequestType.Drop)
+  mobBuilder.addItem(equipment)
 })
 
 describe("drop request action", () => {
   it("should be able to drop an item", async () => {
     // when
-    const response = await actionDefinition.handle(
-      testBuilder.createRequest(RequestType.Drop, "drop cap"))
+    const response = await testRunner.invokeAction(RequestType.Drop, "drop cap")
 
     // then
-    const message = response.message.getMessageToRequestCreator()
+    const message = response.getMessageToRequestCreator()
     expect(message).toContain("you drop")
     expect(message).toContain(equipment.name)
-    expect(room.inventory.items).toHaveLength(1)
-    expect(mob.inventory.items).toHaveLength(0)
+    expect(testRunner.getStartRoom().getItemCount()).toBe(1)
+    expect(mobBuilder.getItems()).toHaveLength(0)
   })
 
   it("an item with MeltDrop affect should destroy on drop", async () => {
@@ -44,11 +38,10 @@ describe("drop request action", () => {
     equipment.affect().add(newAffect(AffectType.MeltDrop))
 
     // when
-    const response = await actionDefinition.handle(
-      testBuilder.createRequest(RequestType.Drop, "drop cap"))
+    const response = await testRunner.invokeAction(RequestType.Drop, "drop cap")
 
     // then
-    const message = response.message.getMessageToRequestCreator()
+    const message = response.getMessageToRequestCreator()
     expect(message).toContain("you drop")
     expect(message).toContain(equipment.name)
   })

@@ -1,46 +1,44 @@
 import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let caster: MobBuilder
 const expectedMessage = "you glow with a blue aura."
 
-beforeEach(() => {
-  testBuilder = new TestBuilder()
-  caster = testBuilder.withMob().setLevel(30).withSpell(SpellType.Fireproof)
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  caster = testRunner.createMob()
+    .setLevel(30)
+    .withSpell(SpellType.Fireproof)
 })
 
 describe("fireproof action", () => {
   it("adds fireproof affect to the target", async () => {
-    await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, "cast fireproof", caster.mob))
+    await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast fireproof", caster.get())
 
     expect(caster.hasAffect(AffectType.Fireproof)).toBeTruthy()
   })
 
   it("generates accurate success messages on self", async () => {
-    const response = await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, "cast fireproof", caster.mob))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast fireproof", caster.get())
 
     expect(response.getMessageToRequestCreator()).toBe(expectedMessage)
-    expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${caster.getMobName()} glows with a blue aura.`)
+    expect(response.getMessageToTarget()).toBe(expectedMessage)
+    expect(response.getMessageToObservers()).toBe(`${caster.getMobName()} glows with a blue aura.`)
   })
 
   it("generates accurate success messages on a target", async () => {
-    const target = testBuilder.withMob()
-    const response = await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, `cast fireproof '${target.getMobName()}'`, target.mob))
+    const target = testRunner.createMob()
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast fireproof '${target.getMobName()}'`, target.get())
 
     expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} glows with a blue aura.`)
-    expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${target.getMobName()} glows with a blue aura.`)
+    expect(response.getMessageToTarget()).toBe(expectedMessage)
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()} glows with a blue aura.`)
   })
 })

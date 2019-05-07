@@ -1,49 +1,44 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {Item} from "../../../item/model/item"
-import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
-import {ResponseStatus} from "../../../request/responseStatus"
-import {Direction} from "../../../room/constants"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import MobBuilder from "../../../support/test/mobBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
-let testBuilder: TestBuilder
-let definition: Action
-let mob: Mob
+let testRunner: TestRunner
+let mobBuilder: MobBuilder
 let item: Item
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  testBuilder.withRoom()
-  testBuilder.withRoom(Direction.East)
-  const playerBuilder = await testBuilder.withPlayer()
-  mob = playerBuilder.player.sessionMob
-  item = playerBuilder.withContainer()
-  item.container.isClosed = true
-  mob.inventory.addItem(item)
-  definition = await testBuilder.getAction(RequestType.Open)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  item = testRunner.createItem().asSatchel().build()
+  item.container.isOpen = false
+  mobBuilder = testRunner.createMob()
+  mobBuilder.addItem(item)
 })
 
 describe("open action", () => {
   it("should be able to open item containers", async () => {
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Open, "open satchel"))
+    const response = await testRunner.invokeAction(RequestType.Open, "open satchel")
 
     // then
-    expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message.getMessageToRequestCreator()).toBe("you open a small leather satchel.")
-    expect(response.message.getMessageToObservers()).toBe(mob.name + " opens a small leather satchel.")
-    expect(item.container.isClosed).toBeFalsy()
+    expect(response.isSuccessful()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe("you open a small leather satchel.")
+    expect(response.message.getMessageToObservers())
+      .toBe(`${mobBuilder.getMobName()} opens a small leather satchel.`)
+    expect(item.container.isOpen).toBeTruthy()
   })
 
   it("should not be able to open a container that's already open", async () => {
     // given
-    item.container.isClosed = false
+    item.container.isOpen = true
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Open, "open satchel"))
+    const response = await testRunner.invokeAction(RequestType.Open, "open satchel")
 
     // then
-    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.message.getMessageToRequestCreator()).toBe("That has already open.")
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe("That has already open.")
   })
 })

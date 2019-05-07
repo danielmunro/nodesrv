@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import {v4} from "uuid"
 import {applyAffectModifier} from "../../affect/applyAffect"
 import {Client} from "../../client/client"
@@ -9,12 +10,14 @@ import MobEvent from "../../mob/event/mobEvent"
 import LocationService from "../../mob/locationService"
 import {Mob} from "../../mob/model/mob"
 import roll from "../../support/random/dice"
+import {Types} from "../../support/types"
 import {BaseRegenModifier} from "./constants"
 import {Observer} from "./observer"
 
 const MESSAGE_HUNGRY = "You are hungry."
 const TIMING = "tick notification duration"
 
+@injectable()
 export class Tick implements Observer {
   public static regen(mob: Mob) {
     const combined = mob.attribute().combine()
@@ -32,9 +35,9 @@ export class Tick implements Observer {
   }
 
   constructor(
-    private readonly timeService: TimeService,
-    private readonly eventService: EventService,
-    private readonly locationService: LocationService) {}
+    @inject(Types.TimeService) private readonly timeService: TimeService,
+    @inject(Types.EventService) private readonly eventService: EventService,
+    @inject(Types.LocationService) private readonly locationService: LocationService) {}
 
   public async notify(clients: Client[]): Promise<void> {
     console.time(TIMING)
@@ -44,7 +47,7 @@ export class Tick implements Observer {
     await Promise.all(clients
       .filter(client => client.isLoggedIn())
       .map(client => this.notifyClient(client, id, timestamp)))
-    console.log(`tick at ${timestamp}`)
+    console.log(`tick at ${timestamp}, ${this.locationService.getMobLocationCount()} mobs in the realm`)
     console.timeEnd(TIMING)
   }
 

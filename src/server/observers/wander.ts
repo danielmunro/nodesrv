@@ -1,14 +1,22 @@
+import {inject, injectable} from "inversify"
 import LocationService from "../../mob/locationService"
+import MobTable from "../../mob/mobTable"
 import { Mob } from "../../mob/model/mob"
 import {asyncForEach} from "../../support/functional/collection"
 import Maybe from "../../support/functional/maybe"
 import { pickOne } from "../../support/random/helpers"
+import {Types} from "../../support/types"
 import { Observer } from "./observer"
 
+@injectable()
 export class Wander implements Observer {
+  private readonly mobs: Mob[]
+
   constructor(
-    private readonly mobs: Mob[],
-    private readonly locationService: LocationService) {}
+    @inject(Types.MobTable) mobTable: MobTable,
+    @inject(Types.LocationService) private readonly locationService: LocationService) {
+    this.mobs = mobTable.getWanderingMobs()
+  }
 
   public async notify(): Promise<void> {
     await asyncForEach(this.mobs, async mob =>

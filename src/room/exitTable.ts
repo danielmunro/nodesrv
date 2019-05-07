@@ -8,4 +8,8 @@ export default class ExitTable {
   public exitsForRoom(room: Room): Exit[] {
     return this.exits.filter(exit => exit.source.uuid === room.uuid)
   }
+
+  public add(exit: Exit) {
+    this.exits.push(exit)
+  }
 }

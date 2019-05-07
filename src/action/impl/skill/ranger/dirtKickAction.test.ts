@@ -1,81 +1,77 @@
-import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
-import { RequestType } from "../../../../request/requestType"
+import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
+import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
+import {RequestType} from "../../../../request/requestType"
 import Response from "../../../../request/response"
-import { SkillType } from "../../../../skill/skillType"
-import doNTimes from "../../../../support/functional/times"
+import {SkillType} from "../../../../skill/skillType"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
 const iterations = 100
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let mobBuilder: MobBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  mobBuilder = testBuilder.withMob().setLevel(20)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  mobBuilder = testRunner.createMob()
+    .setLevel(20)
 })
 
 describe("dirt kick skill action", () => {
-  it("should fail when not practiced", async () => {
+  it("fails often when not practiced", async () => {
     // given
     mobBuilder.withSkill(SkillType.DirtKick)
-    await testBuilder.fight()
 
     // when
-    const responses = await doNTimes(iterations, () =>
-      testBuilder.handleAction(RequestType.DirtKick))
+    const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.DirtKick)
 
     // then
     expect(responses.filter((r: Response) => !r.isSuccessful()).length).toBeGreaterThan(iterations * 0.9)
   })
 
-  it("should succeed when practiced", async () => {
+  it("succeeds when practiced", async () => {
     // given
     mobBuilder.withSkill(SkillType.DirtKick, MAX_PRACTICE_LEVEL)
-    const opponent = testBuilder.withMob()
-    await testBuilder.fight(opponent.mob)
+    const opponent = testRunner.createMob()
+    testRunner.fight(opponent.get())
 
     // when
-    const responses = await doNTimes(iterations, () =>
-      testBuilder.handleAction(RequestType.DirtKick))
+    await testRunner.invokeActionSuccessfully(RequestType.DirtKick)
 
     // then
-    expect(responses.some(r => r.isSuccessful())).toBeTruthy()
-    expect(opponent.mob.affect().isBlind()).toBeTruthy()
+    expect(opponent.hasAffect(AffectType.Blind)).toBeTruthy()
   })
 
-  it("should not be able to stack blind affects", async () => {
+  it("does not stack blind affects", async () => {
     // given
     mobBuilder.withSkill(SkillType.DirtKick, MAX_PRACTICE_LEVEL)
-    const opponent = testBuilder.withMob()
-    await testBuilder.fight(opponent.mob)
+    const opponent = testRunner.createMob()
+    testRunner.fight(opponent.get())
 
     // when
-    const responses = await doNTimes(iterations, () =>
-      testBuilder.handleAction(RequestType.DirtKick))
+    const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.DirtKick)
 
     // then
     expect(responses.some(r => r.isSuccessful())).toBeTruthy()
-    expect(opponent.mob.affects).toHaveLength(1)
+    expect(opponent.get().affects).toHaveLength(1)
   })
 
   it("generates accurate messages", async () => {
     // given
     mobBuilder.withSkill(SkillType.DirtKick, MAX_PRACTICE_LEVEL)
-    const opponent = testBuilder.withMob()
-    await testBuilder.fight(opponent.mob)
+    const opponent = testRunner.createMob()
+    testRunner.fight(opponent.mob)
 
     // when
-    const responses = await doNTimes(iterations, () =>
-      testBuilder.handleAction(RequestType.DirtKick))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.DirtKick)
 
     // then
-    const successResponse = responses.find(response => response.isSuccessful()).message
-    expect(successResponse.getMessageToRequestCreator())
+    expect(response.getMessageToRequestCreator())
       .toBe(`you kick dirt right in ${opponent.getMobName()}'s eyes!`)
-    expect(successResponse.getMessageToTarget())
+    expect(response.getMessageToTarget())
       .toBe(`${mobBuilder.getMobName()} kicks dirt right in your eyes!`)
-    expect(successResponse.getMessageToObservers())
+    expect(response.getMessageToObservers())
       .toBe(`${mobBuilder.getMobName()} kicks dirt right in ${opponent.getMobName()}'s eyes!`)
   })
 })

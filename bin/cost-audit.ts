@@ -10,17 +10,14 @@ import MobService from "../src/mob/mobService"
 import MobTable from "../src/mob/mobTable"
 import WeatherService from "../src/region/weatherService"
 import ExitTable from "../src/room/exitTable"
+import {Room} from "../src/room/model/room"
 import RoomTable from "../src/room/roomTable"
 import {getSkillTable} from "../src/skill/skillTable"
 import getSpellTable from "../src/spell/spellTable"
 
 const eventService = new EventService()
-const locationService = new LocationService(new RoomTable(), eventService, new ExitTable())
-const mobService = new MobService(
-  new MobTable(),
-  new MobTable(),
-  new FightTable(),
-  locationService)
+const locationService = new LocationService(new RoomTable(), eventService, new ExitTable(), new Room())
+const mobService = new MobService(new MobTable(), locationService, new MobTable(), new FightTable())
 
 console.log("spells:")
 getSpellTable(

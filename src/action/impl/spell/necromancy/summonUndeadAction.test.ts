@@ -1,46 +1,47 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import MobService from "../../../../mob/mobService"
 import {RequestType} from "../../../../request/requestType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
 import {getTestMob} from "../../../../support/test/mob"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 import {SKELETAL_WARRIOR_ID} from "./summonUndeadAction"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let mobService: MobService
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  mobService = await testBuilder.getMobService()
-  testBuilder.withMob().setLevel(30).withSpell(SpellType.SummonUndead, MAX_PRACTICE_LEVEL)
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  testRunner.createMob()
+    .setLevel(30)
+    .withSpell(SpellType.SummonUndead, MAX_PRACTICE_LEVEL)
 
   const skeletalWarrior = getTestMob()
   skeletalWarrior.id = SKELETAL_WARRIOR_ID
+
+  mobService = app.get<MobService>(Types.MobService)
   mobService.mobTemplateTable.add(skeletalWarrior)
 })
 
 describe("summon undead spell action", () => {
   it("generates a skeleton warrior", async () => {
     // when
-    await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, "cast 'summon undead'"))
+    await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast 'summon undead'")
 
     // then
-    expect(mobService.getMobsByRoom(testBuilder.room)).toHaveLength(2)
+    expect(mobService.getMobsByRoom(testRunner.getStartRoom().get())).toHaveLength(2)
   })
 
   it("creates accurate success messages", async () => {
     // when
-    const response = await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, "cast 'summon undead'"))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast 'summon undead'")
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(SpellMessages.SummonUndead.Success)
-    expect(response.message.getMessageToTarget()).toBe(SpellMessages.SummonUndead.Success)
-    expect(response.message.getMessageToObservers()).toBe(SpellMessages.SummonUndead.Success)
+    expect(response.getMessageToTarget()).toBe(SpellMessages.SummonUndead.Success)
+    expect(response.getMessageToObservers()).toBe(SpellMessages.SummonUndead.Success)
   })
 })

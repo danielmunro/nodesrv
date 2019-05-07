@@ -3,6 +3,7 @@ import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
+import Maybe from "../../../support/functional/maybe"
 import Action from "../../action"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
@@ -14,21 +15,20 @@ export default class HelpAction extends Action {
     this.actions = actions
   }
   public check(request: Request): Promise<Check> {
-    const action = this.actions.find(
-      (a: Action) => a.isAbleToHandleRequestType(request.getSubject() as RequestType))
-    if (!action) {
-      return Check.fail(Messages.Help.Fail)
-    }
-    return Check.ok(action)
+    return new Maybe(this.actions.find(
+      (a: Action) => a.isAbleToHandleRequestType(request.getSubject() as RequestType)))
+      .do(action => Check.ok(action))
+      .or(() => Check.fail(Messages.Help.Fail))
+      .get()
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
     const action = requestService.getResult() as Action
     const actionParts = action.getActionParts()
     actionParts.shift()
+    const parts = actionParts.map((actionPart: ActionPart) => "{" + actionPart + "}").join(" ")
     return requestService.respondWith().success(
-`syntax: ${action.getRequestType()} ${actionParts.map(
-        (actionPart: ActionPart) => "{" + actionPart + "}").join(" ")}
+`syntax: ${action.getRequestType()}${parts ? " " + parts : ""}
 
 ${action.getHelpText()}`)
   }

@@ -1,17 +1,17 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
-import doNTimes from "../../../../support/functional/times"
 import PlayerBuilder from "../../../../support/test/playerBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
 const iterations = 10
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let player: PlayerBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  player = await testBuilder.withPlayer()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  player = testRunner.createPlayer()
 })
 
 describe("sneak skill action", () => {
@@ -20,8 +20,7 @@ describe("sneak skill action", () => {
     player.addSkill(SkillType.Sneak)
 
     // when
-    const responses = await doNTimes(iterations,
-      async () => testBuilder.handleAction(RequestType.Sneak))
+    const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.Sneak)
 
     // then
     expect(responses.some(response => !response.isSuccessful())).toBeTruthy()
@@ -33,8 +32,7 @@ describe("sneak skill action", () => {
       .addSkill(SkillType.Sneak, MAX_PRACTICE_LEVEL)
 
     // when
-    const responses = await doNTimes(iterations,
-      async () => testBuilder.handleAction(RequestType.Sneak))
+    const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.Sneak)
 
     // then
     expect(responses.some(response => response.isSuccessful())).toBeTruthy()

@@ -1,16 +1,19 @@
+import {inject, injectable} from "inversify"
 import { Client } from "../../client/client"
 import LocationService from "../../mob/locationService"
 import { getRandomWeather} from "../../region/constants"
 import {getWeatherTransitionMessage} from "../../region/constants"
 import { Region } from "../../region/model/region"
 import WeatherService from "../../region/weatherService"
+import {Types} from "../../support/types"
 import { Observer } from "./observer"
 
+@injectable()
 export class RegionWeather implements Observer {
   constructor(
-    private readonly locationService: LocationService,
-    private readonly weatherService: WeatherService,
-    private readonly regions: Region[]) {}
+    @inject(Types.LocationService) private readonly locationService: LocationService,
+    @inject(Types.WeatherService) private readonly weatherService: WeatherService,
+    private readonly regions: Region[] = []) {}
 
   public async notify(clients: Client[]): Promise<void> {
     const clientsToUpdate = clients.filter(client => client.isLoggedIn())

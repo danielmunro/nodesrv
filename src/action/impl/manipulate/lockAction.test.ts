@@ -1,31 +1,27 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
-import {Direction} from "../../../room/constants"
 import {newDoor} from "../../../room/factory"
-import PlayerBuilder from "../../../support/test/playerBuilder"
-import RoomBuilder from "../../../support/test/roomBuilder"
-import TestBuilder from "../../../support/test/testBuilder"
+import MobBuilder from "../../../support/test/mobBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {ConditionMessages} from "../../constants"
 
-let testBuilder: TestBuilder
-let player: PlayerBuilder
-let source: RoomBuilder
+let testRunner: TestRunner
+let mobBuilder: MobBuilder
 const lockCanonicalId = 123
 const lockCommand = "lock door"
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  source = testBuilder.withRoom()
-  testBuilder.withRoom(Direction.East)
-  player = await testBuilder.withPlayer()
-  const key = player.withKey(lockCanonicalId as any)
-  testBuilder.itemService.add(key)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  testRunner.createRoom()
+  mobBuilder = testRunner.createMob()
 })
 
 describe("lock action", () => {
   it("should require arguments", async () => {
     // when
-    const response = await testBuilder.handleAction(RequestType.Lock, "lock")
+    const response = await testRunner.invokeAction(RequestType.Lock, "lock")
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Arguments.Lock)
@@ -34,10 +30,10 @@ describe("lock action", () => {
   it("should require a key to be able to lock a locked door", async () => {
     // given
     const door = newDoor("door", true, false)
-    source.addDoor(door, Direction.East)
+    testRunner.getStartRoom().addDoor(door)
 
     // when
-    const response = await testBuilder.handleAction(RequestType.Lock, lockCommand)
+    const response = await testRunner.invokeAction(RequestType.Lock, lockCommand)
 
     // then
     expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
@@ -49,15 +45,16 @@ describe("lock action", () => {
     // given
     const door = newDoor("door", true, false)
     door.unlockedByCanonicalId = lockCanonicalId
-    source.addDoor(door, Direction.East)
+    testRunner.getStartRoom().addDoor(door)
+    mobBuilder.addItem(testRunner.createItem().asKey(lockCanonicalId as any).build())
 
     // when
-    const response = await testBuilder.handleAction(RequestType.Lock, lockCommand)
+    const response = await testRunner.invokeAction(RequestType.Lock, lockCommand)
 
     // then
-    expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.getMessageToRequestCreator()).toBe("you lock a door east.")
-    expect(response.message.getMessageToObservers()).toBe(`${player.getMob().name} locks a door east.`)
+    expect(response.isSuccessful()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toContain("you lock a door")
+    expect(response.message.getMessageToObservers()).toContain(`${mobBuilder.getMobName()} locks a door`)
     expect(door.isClosed).toBeTruthy()
     expect(door.isLocked).toBeTruthy()
   })
@@ -66,13 +63,13 @@ describe("lock action", () => {
     // given
     const door = newDoor("door", true, true)
     door.unlockedByCanonicalId = lockCanonicalId
-    source.addDoor(door, Direction.East)
+    testRunner.getStartRoom().addDoor(door)
 
     // when
-    const response = await testBuilder.handleAction(RequestType.Lock, lockCommand)
+    const response = await testRunner.invokeAction(RequestType.Lock, lockCommand)
 
     // then
-    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
+    expect(response.isError()).toBeTruthy()
     expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Lock.Fail.AlreadyLocked)
   })
 })

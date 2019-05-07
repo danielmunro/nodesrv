@@ -1,20 +1,18 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import { allSpecializations } from "../../../mob/specialization/constants"
-import {getConnection, initializeConnection} from "../../../support/db/connection"
-import TestBuilder from "../../../support/test/testBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Complete from "./complete"
 import Specialization from "./specialization"
-
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
 
 const mockAuthService = jest.fn()
 
 describe("specialization create mob auth step", () => {
   it("should not allow invalid specialization options", async () => {
     // setup
-    const testBuilder = new TestBuilder()
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 
     // given
     const badInputs = [
@@ -24,7 +22,7 @@ describe("specialization create mob auth step", () => {
     ]
 
     // setup
-    const client = await testBuilder.withClient()
+    const client = testRunner.createClient()
     const specialization = new Specialization(mockAuthService(), client.player)
 
     // when
@@ -36,12 +34,19 @@ describe("specialization create mob auth step", () => {
   })
 
   it("should allow valid specializations", async () => {
-    // when
     return Promise.all(allSpecializations.map(async (input) => {
-      const testBuilder = new TestBuilder()
-      const client = await testBuilder.withClient()
+      // setup
+      const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+      const client = testRunner.createClient()
+      await client.session.login(client, testRunner.createPlayer().get())
+
+      // given
       const specialization = new Specialization(mockAuthService(), client.player)
+
+      // when
       const response = await specialization.processRequest(new Request(client, input))
+
+      // then
       expect(response.status).toBe(ResponseStatus.OK)
       expect(response.authStep).toBeInstanceOf(Complete)
     }))

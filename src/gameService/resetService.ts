@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import {cloneDeep} from "lodash"
 import ItemService from "../item/itemService"
 import { Item } from "../item/model/item"
@@ -10,17 +11,19 @@ import { Mob } from "../mob/model/mob"
 import { default as MobReset } from "../mob/model/mobReset"
 import {Room} from "../room/model/room"
 import RoomTable from "../room/roomTable"
+import {Types} from "../support/types"
 
+@injectable()
 export default class ResetService {
   constructor(
-    private readonly mobResets: MobReset[],
-    private readonly itemMobResets: ItemMobReset[],
-    private readonly itemRoomResets: ItemRoomReset[],
-    private readonly mobEquipResets: MobEquipReset[],
-    private readonly itemContainerResets: ItemContainerReset[],
-    private readonly mobService: MobService,
-    private readonly roomTable: RoomTable,
-    private readonly itemService: ItemService) {}
+    @inject(Types.MobResets) private readonly mobResets: MobReset[],
+    @inject(Types.ItemMobResets) private readonly itemMobResets: ItemMobReset[],
+    @inject(Types.ItemRoomResets) private readonly itemRoomResets: ItemRoomReset[],
+    @inject(Types.MobEquipResets) private readonly mobEquipResets: MobEquipReset[],
+    @inject(Types.ItemContainerResets) private readonly itemContainerResets: ItemContainerReset[],
+    @inject(Types.MobService) private readonly mobService: MobService,
+    @inject(Types.RoomTable) private readonly roomTable: RoomTable,
+    @inject(Types.ItemService) private readonly itemService: ItemService) {}
 
   public async pruneDeadMobs() {
     return this.mobService.pruneDeadMobs()

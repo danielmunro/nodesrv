@@ -1,47 +1,47 @@
 import {AffectType} from "../../../affect/affectType"
-import {CheckStatus} from "../../../check/checkStatus"
+import {createTestAppContainer} from "../../../inversify.config"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
-import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
 import {getTestMob} from "../../../support/test/mob"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import MobBuilder from "../../../support/test/mobBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {ConditionMessages, MESSAGE_FAIL_CANNOT_ATTACK_SELF, MESSAGE_FAIL_KILL_ALREADY_FIGHTING} from "../../constants"
 
-let testBuilder: TestBuilder
-let action: Action
-let mob: Mob
+let testRunner: TestRunner
+let mob: MobBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  action = await testBuilder.getAction(RequestType.Kill)
-  mob = (await testBuilder.withPlayer()).player.sessionMob
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  mob = testRunner.createMob()
 })
 
 describe("kill action", () => {
   it("cannot kill self", async () => {
     // when
-    const response = await testBuilder.handleAction(RequestType.Kill, `kill ${mob.name}`)
+    const response = await testRunner.invokeAction(RequestType.Kill, `kill ${mob.getMobName()}`)
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
     expect(response.getMessageToRequestCreator()).toBe(MESSAGE_FAIL_CANNOT_ATTACK_SELF)
   })
 
-  it("should be able to kill a mob in the same room", async () => {
+  it("sanity check", async () => {
     // given
-    mob.name = "alice"
-    const target = testBuilder.withMob("bob").mob
+    const target = testRunner.createMob()
 
     // when
-    const response = await testBuilder.handleAction(RequestType.Kill, `kill ${target.name}`)
+    const response = await testRunner.invokeAction(RequestType.Kill, `kill ${target.getMobName()}`)
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message.getMessageToRequestCreator()).toBe("you scream and attack bob!")
-    expect(response.message.getMessageToTarget()).toBe("alice screams and attacks you!")
-    expect(response.message.getMessageToObservers()).toBe("alice screams and attacks bob!")
+    expect(response.getMessageToRequestCreator())
+      .toBe(`you scream and attack ${target.getMobName()}!`)
+    expect(response.message.getMessageToTarget())
+      .toBe(`${mob.getMobName()} screams and attacks you!`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${mob.getMobName()} screams and attacks ${target.getMobName()}!`)
   })
 
   it("should not be able to kill a mob that isn't in the room", async () => {
@@ -49,69 +49,69 @@ describe("kill action", () => {
     const target = getTestMob()
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Kill, `kill ${target.name}`))
+    const response = await testRunner.invokeAction(RequestType.Kill, `kill ${target.name}`, target)
 
     // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(ConditionMessages.All.Mob.NotFound)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Mob.NotFound)
   })
 
   it("shouldn't be able to target a mob when already fighting", async () => {
     // given
-    const mob1 = testBuilder.withMob("bob").mob
-    const mob2 = testBuilder.withMob("alice").mob
+    const mob1 = testRunner.createMob()
+    const mob2 = testRunner.createMob()
 
     // and
-    await testBuilder.fight(mob1)
+    testRunner.fight(mob1.mob)
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Kill, `kill ${mob2.name}`, mob2))
+    const response = await testRunner.invokeAction(
+      RequestType.Kill, `kill ${mob2.getMobName()}`, mob2.mob)
 
     // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_KILL_ALREADY_FIGHTING)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(MESSAGE_FAIL_KILL_ALREADY_FIGHTING)
   })
 
   it("should be able to kill a mob in the same room", async () => {
     // given
-    const target = testBuilder.withMob("bob").mob
+    const target = testRunner.createMob()
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Kill, `kill ${target.name}`, target))
+    const response = await testRunner.invokeAction(
+      RequestType.Kill, `kill ${target.getMobName()}`, target.mob)
 
     // then
-    expect(check.status).toBe(CheckStatus.Ok)
-    expect(check.result.id).toBe(target.id)
+    expect(response.isSuccessful()).toBeTruthy()
   })
 
   it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
     // given
-    mob.disposition = disposition
-    testBuilder.withMob("bob")
+    mob.withDisposition(disposition)
+    const target = testRunner.createMob()
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Kill, "kill bob"))
+    const response = await testRunner.invokeAction(RequestType.Kill, `kill ${target.getMobName()}`)
 
     // then
-    expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
+    expect(response.isSuccessful()).toBe(disposition === Disposition.Standing)
   })
 
   it("fails when the target has orb of touch applied", async () => {
     // given
-    mob.name = "alice"
-    const target = testBuilder.withMob()
+    const target = testRunner.createMob()
     target.addAffectType(AffectType.OrbOfTouch)
 
     // when
-    const response = await testBuilder.handleAction(RequestType.Kill, `kill ${target.getMobName()}`)
+    const response = await testRunner.invokeAction(RequestType.Kill, `kill ${target.getMobName()}`)
 
     // then
     expect(response.status).toBe(ResponseStatus.ActionFailed)
     expect(response.getMessageToRequestCreator())
       .toBe(`you bounce off of ${target.getMobName()}'s orb of touch.`)
     expect(response.message.getMessageToTarget())
-      .toBe("alice bounces off of your orb of touch.")
+      .toBe(`${mob.getMobName()} bounces off of your orb of touch.`)
     expect(response.message.getMessageToObservers())
-      .toBe(`alice bounces off of ${target.getMobName()}'s orb of touch.`)
+      .toBe(`${mob.getMobName()} bounces off of ${target.getMobName()}'s orb of touch.`)
   })
 })

@@ -124,7 +124,7 @@ export const ConditionMessages = {
   Sharpen: {
     AlreadySharpened: "That has already sharpened.",
     NotABladedWeapon: "That weapon needs a blade to sharpen.",
-    NotAWeapon: "That has not a weapon.",
+    NotAWeapon: "That is not a weapon.",
   },
   Steal: {
     ErrorNoItem: "They don't have that.",

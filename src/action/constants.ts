@@ -98,7 +98,7 @@ export const Messages = {
     Success: "You sacrifice {0} to your deity, and are rewarded with {1} gold.",
   },
   Sell: {
-    Success: "You sell {0} for {1} gold",
+    Success: "{requestCreator} {verb} {item} for {value} gold",
   },
   ShieldBash: {
     Fail: "{requestCreator} {verb} to shield bash {target} but {verb2}.",
@@ -106,6 +106,10 @@ export const Messages = {
   },
   Sleep: {
     Success: "You lay down and go to sleep.",
+  },
+  Trade: {
+    AlreadyInitialized: "A trade with {target} has already been initialized.",
+    Initialized: "{requestCreator} would like to initiate a trade with {target}.",
   },
   Train: {
     Con: "Your constitution grows!",
@@ -126,14 +130,15 @@ export const Messages = {
     CannotWakeUp: "You cannot wake up.",
     Success: "You wake and stand up.",
   },
+  Wear: {
+    Success: "{requestCreator}{removeClause} {verb} {item}.",
+  },
 }
 
 export const MESSAGE_FAIL_CONTAINER_NOT_FOUND = "That container isn't here."
 export const MESSAGE_FAIL_NOT_FIGHTING = "You're not fighting anyone."
 export const MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE = "You don't see any directions to flee."
-export const MESSAGE_FAIL_TOO_TIRED = "You are too tired to flee."
 export const MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE = "You cannot get that."
-export const MESSAGE_FAIL_KILL_NO_TARGET = "Who would you like to kill?"
 export const MESSAGE_FAIL_KILL_ALREADY_FIGHTING = "No way! You are already fighting."
 export const MESSAGE_FAIL_CANNOT_ATTACK_SELF = "No way! You can't attacks yourself."
 export const MESSAGE_DIRECTION_DOES_NOT_EXIST = "Alas, that direction does not exist."
@@ -232,7 +237,7 @@ export const ConditionMessages = {
     },
   },
   Remove: {
-    Success: "You remove {0} and put it in your inventory.",
+    Success: "{requestCreator} {verb} {item} and {verb2} it in {requestCreator2} inventory.",
   },
   Sleep: {
     AlreadySleeping: "You are already asleep.",

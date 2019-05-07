@@ -12,6 +12,7 @@ import {SkillType} from "../skill/skillType"
 import {SpellType} from "../spell/spellType"
 import Maybe from "../support/functional/maybe"
 import collectionSearch from "../support/matcher/collectionSearch"
+import match from "../support/matcher/match"
 import {format} from "../support/string"
 import ActionPartCheck from "./actionPartCheck"
 import Check from "./check"
@@ -47,9 +48,10 @@ export default class CheckBuilder {
   }
 
   public requireMob(failMessage = CheckMessages.NoMob): CheckBuilder {
+    const subject = this.request.getSubject()
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
-      collectionSearch(this.mobService.mobTable.getMobs(), this.request.getSubject()),
+      collectionSearch(this.mobService.mobTable.getMobs(), subject),
       failMessage))
 
     return this
@@ -59,7 +61,7 @@ export default class CheckBuilder {
     const lastArg = this.request.getLastArg()
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
-      this.mobService.findMobInRoomWithMob(this.mob, mob => mob.name.startsWith(lastArg)),
+      this.mobService.findMobInRoomWithMob(this.mob, mob => match(mob.name, lastArg)),
       failMessage))
 
     return this

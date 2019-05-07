@@ -1,14 +1,20 @@
+import {createTestAppContainer} from "../inversify.config"
 import {MAX_MOB_LEVEL} from "../mob/constants"
-import TestBuilder from "../support/test/testBuilder"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
 import LevelService from "./levelService"
 
 const INITIAL_AMOUNT = 1000
+let testRunner: TestRunner
+
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+})
 
 describe("level service", () => {
   it("will report if a mob can level successfully", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const player = await testBuilder.withPlayer()
+    const player = testRunner.createPlayer()
     const levelService = new LevelService(player.getMob())
 
     // when
@@ -26,8 +32,7 @@ describe("level service", () => {
 
   it("won't allow leveling beyond mob max level", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const player = await testBuilder.withPlayer()
+    const player = testRunner.createPlayer()
     const levelService = new LevelService(player.getMob())
     player.getMob().level = MAX_MOB_LEVEL
 
@@ -40,8 +45,7 @@ describe("level service", () => {
 
   it("can generate a gain, sanity check", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const player = await testBuilder.withPlayer()
+    const player = testRunner.createPlayer()
     const levelService = new LevelService(player.getMob())
     const playerMob = player.getMob().playerMob
     playerMob.experiencePerLevel = INITIAL_AMOUNT

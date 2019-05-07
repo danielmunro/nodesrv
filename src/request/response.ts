@@ -25,6 +25,14 @@ export default class Response {
     return this.message.getMessageToRequestCreator()
   }
 
+  public getMessageToTarget(): string {
+    return this.message.getMessageToTarget()
+  }
+
+  public getMessageToObservers(): string {
+    return this.message.getMessageToObservers()
+  }
+
   public getPayload(): object {
     return {
       message: this.message.getMessageToRequestCreator(),

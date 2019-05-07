@@ -1,21 +1,24 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import {Affect} from "../../affect/model/affect"
+import {createTestAppContainer} from "../../inversify.config"
 import MobTable from "../../mob/mobTable"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import {DecrementAffects} from "./decrementAffects"
 
 const TEST_TIMEOUT_1 = 50
 const TEST_TIMEOUT_2 = 122
+let testRunner: TestRunner
+
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+})
 
 describe("decrementAffects", () => {
   it("should decrement all affects for a mob", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const client = await testBuilder.withClient()
-
-    // given
-    const mob = client.player.sessionMob
+    const mob = testRunner.createMob().get()
     const affect = mob.affect()
     affect.add(newAffect(AffectType.Stunned, TEST_TIMEOUT_1))
     affect.add(newAffect(AffectType.Shield, TEST_TIMEOUT_2))
@@ -34,11 +37,7 @@ describe("decrementAffects", () => {
 
   it("should remove an affect once it decrements to zero", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const client = await testBuilder.withClient()
-
-    // given
-    const mob = client.player.sessionMob
+    const mob = testRunner.createMob().get()
     mob.affect().add(newAffect(AffectType.Stunned, 0))
     const table = new MobTable([mob])
     const decrementAffects = new DecrementAffects(table)

@@ -1,23 +1,25 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {Fight} from "../../../../mob/fight/fight"
 import { SkillType } from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-const ITERATIONS = 1000
+const iterations = 1000
 const maxHp = 20
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let aggressor: MobBuilder
 let target: MobBuilder
 let fight: Fight
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  aggressor = testBuilder.withMob()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  aggressor = testRunner.createMob()
     .setLevel(30)
-  target = testBuilder.withMob().setLevel(30)
-  fight = await testBuilder.fight(target.mob)
+  target = testRunner.createMob().setLevel(30)
+  fight = testRunner.fight(target.mob)
 })
 
 describe("second attacks skill action", () => {
@@ -26,7 +28,7 @@ describe("second attacks skill action", () => {
     aggressor.withSkill(SkillType.SecondAttack, MAX_PRACTICE_LEVEL)
 
     // when
-    const rounds = await doNTimes(ITERATIONS, () => {
+    const rounds = await doNTimes(iterations, () => {
       aggressor.setHp(maxHp)
       target.setHp(maxHp)
       return fight.round()
@@ -38,7 +40,7 @@ describe("second attacks skill action", () => {
 
   it("only has one attack if no skill", async () => {
     // when
-    const rounds = await doNTimes(ITERATIONS, () => {
+    const rounds = await doNTimes(iterations, () => {
       aggressor.setHp(maxHp)
       target.setHp(maxHp)
       return fight.round()

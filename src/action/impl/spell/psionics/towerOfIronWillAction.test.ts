@@ -1,18 +1,19 @@
 import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let caster: MobBuilder
 const expectedMessage = "your will cannot be broken."
 
-beforeEach(() => {
-  testBuilder = new TestBuilder()
-  caster = testBuilder.withMob()
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  caster = testRunner.createMob()
     .withSpell(SpellType.TowerOfIronWill, MAX_PRACTICE_LEVEL)
     .setLevel(30)
 })
@@ -20,9 +21,7 @@ beforeEach(() => {
 describe("tower of iron will spell action", () => {
   it("imparts the affect", async () => {
     // when
-    await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, "cast tower", caster.mob))
+    await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast tower", caster.get())
 
     // then
     expect(caster.hasAffect(AffectType.TowerOfIronWill)).toBeTruthy()
@@ -30,28 +29,26 @@ describe("tower of iron will spell action", () => {
 
   it("generates accurate success messages against self", async () => {
     // when
-    const response = await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, "cast tower", caster.mob))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, "cast tower", caster.get())
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(expectedMessage)
-    expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${caster.getMobName()}'s will cannot be broken.`)
+    expect(response.getMessageToTarget()).toBe(expectedMessage)
+    expect(response.getMessageToObservers()).toBe(`${caster.getMobName()}'s will cannot be broken.`)
   })
 
   it("generates accurate success messages against a target", async () => {
     // given
-    const target = testBuilder.withMob()
+    const target = testRunner.createMob()
 
     // when
-    const response = await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, `cast tower ${target.getMobName()}`, target.mob))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast tower ${target.getMobName()}`, target.get())
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()}'s will cannot be broken.`)
-    expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${target.getMobName()}'s will cannot be broken.`)
+    expect(response.getMessageToTarget()).toBe(expectedMessage)
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()}'s will cannot be broken.`)
   })
 })

@@ -1,135 +1,120 @@
-import {CheckStatus} from "../../../check/checkStatus"
+import {createTestAppContainer} from "../../../inversify.config"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import { RequestType } from "../../../request/requestType"
-import { ResponseStatus } from "../../../request/responseStatus"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import {ResponseStatus} from "../../../request/responseStatus"
+import MobBuilder from "../../../support/test/mobBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {ConditionMessages} from "../../constants"
 
-let testBuilder: TestBuilder
-let action: Action
+let testRunner: TestRunner
+let buyer: MobBuilder
+const initialGold = 100
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  action = await testBuilder.getAction(RequestType.Buy)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  buyer = testRunner.createMob()
+    .setGold(initialGold)
 })
 
 describe("buy action", () => {
   it("purchaser should receive an item", async () => {
     // given
-    const initialGold = 100
-    const mobBuilder = testBuilder.withMob().asMerchant()
-    testBuilder.withItem()
+    const merchant = testRunner.createMob().asMerchant()
+    const item1 = testRunner.createItem()
       .asHelmet()
-      .addToMobBuilder(mobBuilder)
-    const axe = testBuilder.withWeapon()
+      .build()
+    const item2 = testRunner.createWeapon()
       .asAxe()
-      .addToMobBuilder(mobBuilder)
+      .build()
+    merchant.addItem(item1)
+    merchant.addItem(item2)
+
+    // when
+    const response = await testRunner.invokeAction(RequestType.Buy, "buy axe")
+
+    // then
+    expect(response.isSuccessful()).toBeTruthy()
+    expect(buyer.getItems()).toHaveLength(1)
+    expect(buyer.mob.gold).toBe(initialGold - item2.value)
+  })
+
+  it("fails when an argument is not provided", async () => {
+    // when
+    const response = await testRunner.invokeAction(RequestType.Buy, "buy")
+
+    // then
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Arguments.Buy)
+  })
+
+  it("fails when a merchant is not in the room", async () => {
+    // when
+    const response = await testRunner.invokeAction(RequestType.Buy, "buy foo")
+
+    // then
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Item.NoMerchant)
+  })
+
+  it("fails when the merchant doesn't have the item requested", async () => {
+    // given
+    testRunner.createMob().asMerchant()
+
+    // when
+    const response = await testRunner.invokeAction(RequestType.Buy, "buy foo")
+
+    // then
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Buy.MerchantNoItem)
+  })
+
+  it("fails when the item is too expensive", async () => {
+    // given
+    const item = testRunner.createWeapon()
+      .asAxe()
+      .withValue(initialGold + 1)
       .build()
 
-    // and
-    const player = await testBuilder.withPlayer()
-    player.setGold(initialGold)
+    testRunner.createMob().asMerchant().addItem(item)
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Buy, "buy axe"))
+    const response = await testRunner.invokeAction(RequestType.Buy, `buy ${item.name}`)
 
     // then
-    expect(response.status).toBe(ResponseStatus.Success)
-    expect(player.getMob().inventory.findItemByName("axe")).not.toBeUndefined()
-    expect(player.getMob().gold).toBe(initialGold - axe.value)
-  })
-
-  it("should fail if an argument has not provided", async () => {
-    // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Buy, "buy"))
-
-    // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(ConditionMessages.All.Arguments.Buy)
-  })
-
-  it("should fail if a merchant has not in the room", async () => {
-    // setup
-    await testBuilder.withPlayer()
-    testBuilder.withRoom()
-
-    // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Buy, "buy foo"))
-
-    // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(ConditionMessages.All.Item.NoMerchant)
-  })
-
-  it("should fail if the merchant doesn't have the item requested", async () => {
-    // given
-    testBuilder.withMob()
-
-    // and
-    testBuilder.withMob().asMerchant()
-
-    // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Buy, "buy foo"))
-
-    // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(ConditionMessages.Buy.MerchantNoItem)
-  })
-
-  it("should fail if the item has too expensive", async () => {
-    // given
-    testBuilder.withMob()
-    const item = testBuilder.withWeapon()
-      .asAxe()
-      .addToMobBuilder(testBuilder.withMob().asMerchant())
-      .build()
-
-    // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Buy, `buy ${item.name}`))
-
-    // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(ConditionMessages.Buy.CannotAfford)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Buy.CannotAfford)
   })
 
   it("should succeed if all conditions are met", async () => {
     // given
-    const initialGold = 100
-    const itemValue = 10
-
-    // and
-    const playerBuilder = await testBuilder.withPlayer()
-    playerBuilder.player.sessionMob.gold = initialGold
-    testBuilder.withRoom()
-
-    // and
-    const item = testBuilder.withItem()
+    const item = testRunner.createItem()
       .asHelmet()
-      .addToMobBuilder(testBuilder.withMob().asMerchant())
-      .withValue(itemValue)
+      .withValue(initialGold)
       .build()
+    testRunner.createMob().asMerchant().addItem(item)
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Buy, `buy '${item.name}'`))
+    const response = await testRunner.invokeAction(RequestType.Buy, `buy '${item.name}'`)
 
     // then
-    expect(check.status).toBe(CheckStatus.Ok)
+    expect(response.isSuccessful()).toBeTruthy()
   })
 
   it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
     // given
-    testBuilder.withMob()
-      .withDisposition(disposition)
-      .withGold(100)
-    testBuilder.withWeapon()
+    const item = testRunner.createWeapon()
       .asAxe()
-      .addToMobBuilder(testBuilder.withMob().asMerchant())
+      .build()
+    testRunner.createMob().asMerchant().addItem(item)
+    buyer.withDisposition(disposition)
+    buyer.setGold(initialGold)
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Buy, `buy axe`))
+    const response = await testRunner.invokeAction(RequestType.Buy, `buy axe`)
 
     // then
-    expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
+    expect(response.status)
+      .toBe(disposition === Disposition.Standing ? ResponseStatus.Success : ResponseStatus.PreconditionsFailed)
   })
 })

@@ -1,31 +1,30 @@
+import {createTestAppContainer} from "../../inversify.config"
 import { Item } from "../../item/model/item"
 import doNTimes from "../../support/functional/times"
 import { getTestMob } from "../../support/test/mob"
 import { getTestRoom } from "../../support/test/room"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import Death from "./death"
 
-describe("death", () => {
-  it("should transfer all items when a corpse has created", async () => {
+describe("death event consumer", () => {
+  it("transfers all items when a corpse is created", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const playerBuilder = await testBuilder.withPlayer()
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    const playerBuilder = testRunner.createPlayer()
     const mob = playerBuilder.player.sessionMob
-    testBuilder.withItem()
+    playerBuilder.equip(testRunner.createItem()
       .asHelmet()
-      .equipToPlayerBuilder(playerBuilder)
-      .build()
-    testBuilder.withWeapon()
+      .build())
+    playerBuilder.addItem(testRunner.createWeapon()
       .asAxe()
-      .addToPlayerBuilder(playerBuilder)
-      .build()
-    testBuilder.withItem()
+      .build())
+    playerBuilder.addItem(testRunner.createItem()
       .asFood()
-      .addToPlayerBuilder(playerBuilder)
-      .build()
+      .build())
 
     // given
-    const death = new Death(mob, testBuilder.room)
+    const death = new Death(mob, testRunner.getStartRoom().get())
 
     // when
     const corpse = death.createCorpse()

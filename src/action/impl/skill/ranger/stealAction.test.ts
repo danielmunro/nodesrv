@@ -1,101 +1,98 @@
 import {AffectType} from "../../../../affect/affectType"
-import {newAffect} from "../../../../affect/factory"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {Item} from "../../../../item/model/item"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {Mob} from "../../../../mob/model/mob"
 import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
-import {doNTimesOrUntilTruthy, getSuccessfulAction} from "../../../../support/functional/times"
-import TestBuilder from "../../../../support/test/testBuilder"
-import Action from "../../../action"
+import {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-const STEAL_INPUT = "steal axe bob"
 const iterations = 10000
 const initialLevel = MAX_PRACTICE_LEVEL * 0.9
-let testBuilder: TestBuilder
-let action: Action
-let mob1: Mob
-let mob2: Mob
+let testRunner: TestRunner
+let mob1: MobBuilder
+let mob2: MobBuilder
 let item: Item
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  action = await testBuilder.getAction(RequestType.Steal)
-  const mobBuilder1 = testBuilder.withMob()
-  mobBuilder1.setLevel(5)
-  mobBuilder1.withSkill(SkillType.Steal, initialLevel)
-  mob1 = mobBuilder1.mob
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  mob1 = testRunner.createMob()
+    .setLevel(5)
+    .withSkill(SkillType.Steal, initialLevel)
 
   // and
-  const mobBuilder2 = testBuilder.withMob("bob")
-  item = testBuilder.withWeapon()
+  mob2 = testRunner.createMob()
+  item = testRunner.createWeapon()
     .asAxe()
-    .addToMobBuilder(mobBuilder2)
     .build()
-  mob2 = mobBuilder2.mob
+  mob2.addItem(item)
 })
 
 describe("steal skill action", () => {
   it("should transfer an item when successful", async () => {
     // when
-    const response = await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Steal, STEAL_INPUT))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Steal, `steal axe '${mob2.getMobName()}'`)
 
     // then
-    await expect(response).toBeDefined()
-    expect(mob1.inventory.items).toHaveLength(1)
-    expect(mob2.inventory.items).toHaveLength(0)
+    expect(response).toBeDefined()
+    expect(mob1.getItems()).toHaveLength(1)
+    expect(mob2.getItems()).toHaveLength(0)
   })
 
   it("should generate accurate success messages", async () => {
     // when
-    const response = await getSuccessfulAction(action, testBuilder.createRequest(RequestType.Steal, STEAL_INPUT))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Steal, `steal axe '${mob2.getMobName()}'`)
 
     // then
-    expect(response.message.getMessageToRequestCreator())
-      .toBe(`you steal ${item.name} from ${mob2.name}!`)
-    expect(response.message.getMessageToTarget())
-      .toBe(`${mob1.name} steals ${item.name} from you!`)
-    expect(response.message.getMessageToObservers())
-      .toBe(`${mob1.name} steals ${item.name} from ${mob2.name}!`)
+    expect(response.getMessageToRequestCreator())
+      .toBe(`you steal ${item.name} from ${mob2.getMobName()}!`)
+    expect(response.getMessageToTarget())
+      .toBe(`${mob1.getMobName()} steals ${item.name} from you!`)
+    expect(response.getMessageToObservers())
+      .toBe(`${mob1.getMobName()} steals ${item.name} from ${mob2.getMobName()}!`)
   })
 
   it("bounces off an orb of touch", async () => {
     // given
-    mob2.affect().add(newAffect(AffectType.OrbOfTouch))
+    mob2.addAffectType(AffectType.OrbOfTouch)
 
     // when
     const response = await doNTimesOrUntilTruthy(iterations, async () => {
-      const handled = await testBuilder.handleAction(RequestType.Steal, STEAL_INPUT)
+      const handled = await testRunner.invokeAction(RequestType.Steal, `steal axe '${mob2.getMobName()}'`)
       return handled.isFailure() &&
         !handled.getMessageToRequestCreator().includes("you fail") ? handled : null
     })
 
     // then
-    expect(response.message.getMessageToRequestCreator())
-      .toBe(`you bounce off of ${mob2.name}'s orb of touch.`)
-    expect(response.message.getMessageToTarget())
-      .toBe(`${mob1.name} bounces off of your orb of touch.`)
-    expect(response.message.getMessageToObservers())
-      .toBe(`${mob1.name} bounces off of ${mob2.name}'s orb of touch.`)
+    expect(response.getMessageToRequestCreator())
+      .toBe(`you bounce off of ${mob2.getMobName()}'s orb of touch.`)
+    expect(response.getMessageToTarget())
+      .toBe(`${mob1.getMobName()} bounces off of your orb of touch.`)
+    expect(response.getMessageToObservers())
+      .toBe(`${mob1.getMobName()} bounces off of ${mob2.getMobName()}'s orb of touch.`)
   })
 
   it("should generate accurate fail messages", async () => {
-    mob1.skills[0].level = 1
+    // given
+    mob1.get().skills[0].level = 1
+
     // when
     const response = await doNTimesOrUntilTruthy(iterations, async () => {
-      const handled = await action.handle(testBuilder.createRequest(RequestType.Steal, STEAL_INPUT))
+      const handled = await testRunner.invokeAction(RequestType.Steal, `steal axe '${mob2.getMobName()}'`)
       if (handled.isSuccessful()) {
-        mob2.inventory.addItem(mob1.inventory.items[0])
+        mob2.addItem(mob1.getItems()[0])
       }
       return handled.isFailure() ? handled : null
     })
 
     // then
-    expect(response.message.getMessageToRequestCreator())
-      .toBe(`you fail to steal ${item.name} from ${mob2.name}.`)
-    expect(response.message.getMessageToTarget())
-      .toBe(`${mob1.name} fails to steal ${item.name} from you.`)
-    expect(response.message.getMessageToObservers())
-      .toBe(`${mob1.name} fails to steal ${item.name} from ${mob2.name}.`)
+    expect(response.getMessageToRequestCreator())
+      .toBe(`you fail to steal ${item.name} from ${mob2.getMobName()}.`)
+    expect(response.getMessageToTarget())
+      .toBe(`${mob1.getMobName()} fails to steal ${item.name} from you.`)
+    expect(response.getMessageToObservers())
+      .toBe(`${mob1.getMobName()} fails to steal ${item.name} from ${mob2.getMobName()}.`)
   })
 })

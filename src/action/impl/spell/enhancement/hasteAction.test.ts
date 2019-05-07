@@ -1,52 +1,50 @@
 import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let caster: MobBuilder
 let target: MobBuilder
 const expectedMessage = "you begin moving quickly."
 
-beforeEach(() => {
-  testBuilder = new TestBuilder()
-  caster = testBuilder.withMob().setLevel(20).withSpell(SpellType.Haste, MAX_PRACTICE_LEVEL)
-  target = testBuilder.withMob()
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  caster = testRunner.createMob()
+    .setLevel(20)
+    .withSpell(SpellType.Haste, MAX_PRACTICE_LEVEL)
+  target = testRunner.createMob()
 })
 
 describe("haste spell action", () => {
   it("imparts the haste affect", async () => {
     // when
-    await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, "cast haste", caster.mob))
+    await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast haste", caster.get())
 
     // then
-    expect(caster.mob.affect().has(AffectType.Haste)).toBeTruthy()
+    expect(caster.hasAffect(AffectType.Haste)).toBeTruthy()
   })
 
   it("generates accurate success messages on self", async () => {
     // when
-    const response = await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, "cast haste", caster.mob))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast haste", caster.get())
 
     expect(response.getMessageToRequestCreator()).toBe(expectedMessage)
-    expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${caster.getMobName()} begins moving quickly.`)
+    expect(response.getMessageToTarget()).toBe(expectedMessage)
+    expect(response.getMessageToObservers()).toBe(`${caster.getMobName()} begins moving quickly.`)
   })
 
   it("generates accurate success messages on a target", async () => {
     // when
-    const response = await getSuccessfulAction(
-      await testBuilder.getAction(RequestType.Cast),
-      testBuilder.createRequest(RequestType.Cast, `cast haste ${target.getMobName()}`, target.mob))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast haste ${target.getMobName()}`, target.get())
 
     expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} begins moving quickly.`)
-    expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${target.getMobName()} begins moving quickly.`)
+    expect(response.getMessageToTarget()).toBe(expectedMessage)
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()} begins moving quickly.`)
   })
 })

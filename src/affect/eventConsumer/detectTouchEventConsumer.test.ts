@@ -1,14 +1,16 @@
+import {createTestAppContainer} from "../../inversify.config"
 import AttackEvent from "../../mob/event/attackEvent"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import {AffectType} from "../affectType"
 import DetectTouchEventConsumer from "./detectTouchEventConsumer"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let mockEventService: any
 let eventConsumer: DetectTouchEventConsumer
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   const mock = jest.fn(() => {
     return {
       publish: jest.fn(),
@@ -21,8 +23,8 @@ beforeEach(async () => {
 describe("detect touch event consumer", () => {
   it("publishes an event when a touch happens", async () => {
     // given
-    const attacker = testBuilder.withMob()
-    const defender = testBuilder.withMob().addAffectType(AffectType.DetectTouch)
+    const attacker = testRunner.createMob()
+    const defender = testRunner.createMob().addAffectType(AffectType.DetectTouch)
 
     // when
     await eventConsumer.consume(new AttackEvent(attacker.mob, defender.mob))

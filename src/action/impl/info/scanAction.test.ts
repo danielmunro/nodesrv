@@ -1,29 +1,29 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
-let testBuilder: TestBuilder
-let action: Action
+let testRunner: TestRunner
 const testAreaName = "test area"
 const differentTestArea = "different test area"
 const names = ["bob", "alice", "al", "jane"]
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  testBuilder.withMobBuilder(names[0])
-    .addToRoom(testBuilder.withRoom().setArea(testAreaName))
-    .build()
-  testBuilder.withMobBuilder(names[1])
-    .addToRoom(testBuilder.addRoomToPreviousRoom().setArea(testAreaName))
-    .build()
-  testBuilder.withMobBuilder(names[2])
-    .addToRoom(testBuilder.addRoomToPreviousRoom().setArea(testAreaName))
-    .build()
-  testBuilder.withMobBuilder(names[3])
-    .addToRoom(testBuilder.addRoomToPreviousRoom().setArea(differentTestArea))
-    .build()
-  await testBuilder.withPlayer()
-  action = await testBuilder.getAction(RequestType.Scan)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  testRunner.getStartRoom().setArea(testAreaName)
+  testRunner.createMob()
+
+  const room1 = testRunner.createRoom().setArea(testAreaName).setName("room 1")
+  testRunner.createMob(room1.room).setName(names[0])
+
+  const room2 = testRunner.createRoom().setArea(testAreaName).setName("room 2")
+  testRunner.createMob(room2.room).setName(names[1])
+
+  const room3 = testRunner.createRoom().setArea(testAreaName).setName("room 3")
+  testRunner.createMob(room3.room).setName(names[2])
+
+  const room4 = testRunner.createRoom().setArea(differentTestArea).setName("room 4")
+  testRunner.createMob(room4.room).setName(names[3])
 })
 
 describe("scan action", () => {
@@ -36,12 +36,13 @@ describe("scan action", () => {
   ])("will find mobs using '%s'",
     async (command: string, mob1Present: boolean, mob2Present: boolean, mob3Present: boolean) => {
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Scan, command))
-    const message = response.message.getMessageToRequestCreator()
+    const response = await testRunner.invokeAction(RequestType.Scan, command)
+
     // then
-    expect(message.includes(`${names[0]} at a test room`)).toBe(mob1Present)
-    expect(message.includes(`${names[1]} at a test room`)).toBe(mob2Present)
-    expect(message.includes(`${names[2]} at a test room`)).toBe(mob3Present)
-    expect(message.includes(`${names[3]} at a test room`)).toBeFalsy()
+    const message = response.getMessageToRequestCreator()
+    expect(message.includes(`${names[0]} at room 1`)).toBe(mob1Present)
+    expect(message.includes(`${names[1]} at room 2`)).toBe(mob2Present)
+    expect(message.includes(`${names[2]} at room 3`)).toBe(mob3Present)
+    expect(message.includes(`${names[3]} at room 4`)).toBeFalsy()
   })
 })

@@ -1,35 +1,40 @@
 import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
+import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {Round} from "../../../../mob/fight/round"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import doNTimes from "../../../../support/functional/times"
-import PlayerBuilder from "../../../../support/test/playerBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
 const ITERATIONS = 1000
 const maxHp = 20
 const expectedMessage = "you are ready for holy battle!"
-let testBuilder: TestBuilder
-let playerBuilder: PlayerBuilder
+let testRunner: TestRunner
+let caster: MobBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  playerBuilder = await testBuilder.withPlayer()
-  playerBuilder.setLevel(30).addSpell(SpellType.Crusade)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  caster = testRunner.createMob()
+    .setLevel(30)
+    .withSpell(SpellType.Crusade, MAX_PRACTICE_LEVEL)
 })
 
 describe("crusade spell action", () => {
   it("periodically invokes an additional attack", async () => {
     // setup
-    playerBuilder.addAffect(AffectType.Crusade)
-    const target = testBuilder.withMob().setLevel(30)
+    caster.addAffectType(AffectType.Crusade)
+    const target = testRunner.createMob()
+      .setLevel(30)
 
     // given
-    const fight = await testBuilder.fight(target.mob)
+    const fight = testRunner.fight(target.mob)
 
     // when
     const rounds = await doNTimes(ITERATIONS, () => {
-      playerBuilder.setHp(maxHp)
+      caster.setHp(maxHp)
       target.setHp(maxHp)
       return fight.round()
     })
@@ -40,35 +45,34 @@ describe("crusade spell action", () => {
 
   it("when successful, imparts the crusade affect type", async () => {
     // when
-    await testBuilder.successfulAction(
-      testBuilder.createRequest(RequestType.Cast, "cast crusade", playerBuilder.getMob()))
+    await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast crusade", caster.get())
 
     // then
-    expect(playerBuilder.getMob().affect().has(AffectType.Crusade)).toBeDefined()
+    expect(caster.hasAffect(AffectType.Crusade)).toBeTruthy()
   })
 
   it("generates accurate success message casting on self", async () => {
     // when
-    const response = await testBuilder.successfulAction(
-      testBuilder.createRequest(RequestType.Cast, "cast crusade", playerBuilder.getMob()))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, "cast crusade", caster.get())
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(expectedMessage)
-    expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${playerBuilder.getMob()} is ready for holy battle!`)
+    expect(response.getMessageToTarget()).toBe(expectedMessage)
+    expect(response.getMessageToObservers()).toBe(`${caster.get()} is ready for holy battle!`)
   })
 
   it("generates accurate success message casting on a target", async () => {
     // given
-    const target = testBuilder.withMob()
+    const target = testRunner.createMob()
 
     // when
-    const response = await testBuilder.successfulAction(
-      testBuilder.createRequest(RequestType.Cast, `cast crusade ${target.mob}`, target.mob))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast crusade ${target.getMobName()}`, target.get())
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(`${target.mob} is ready for holy battle!`)
-    expect(response.message.getMessageToTarget()).toBe(expectedMessage)
-    expect(response.message.getMessageToObservers()).toBe(`${target.mob} is ready for holy battle!`)
+    expect(response.getMessageToTarget()).toBe(expectedMessage)
+    expect(response.getMessageToObservers()).toBe(`${target.mob} is ready for holy battle!`)
   })
 })

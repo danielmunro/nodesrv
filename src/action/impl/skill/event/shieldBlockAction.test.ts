@@ -1,3 +1,4 @@
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {AttackResult} from "../../../../mob/fight/attack"
 import {Fight} from "../../../../mob/fight/fight"
@@ -5,36 +6,36 @@ import {Round} from "../../../../mob/fight/round"
 import {SkillType} from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let attacker: MobBuilder
 let defender: MobBuilder
 let fight: Fight
 const iterations = 1000
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  attacker = testBuilder.withMob()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  attacker = testRunner.createMob()
     .withSkill(SkillType.ShieldBlock, MAX_PRACTICE_LEVEL)
     .setLevel(20)
-  defender = testBuilder.withMob()
-  fight = await testBuilder.fight(defender.mob)
+  defender = testRunner.createMob()
+  fight = testRunner.fight(defender.mob)
 })
 
 describe("shield block event consumer", () => {
   it("should block attacks sometimes if a shield has equipped", async () => {
     // given
-    testBuilder.withItem()
+    attacker.equip(testRunner.createItem()
       .asShield()
-      .equipToMobBuilder(attacker)
-      .build()
+      .build())
 
     // when
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)
       defender.setHp(20)
-      return await fight.round()
+      return fight.round()
     })
 
     // then
@@ -50,7 +51,7 @@ describe("shield block event consumer", () => {
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)
       defender.setHp(20)
-      return await fight.round()
+      return fight.round()
     })
 
     // when

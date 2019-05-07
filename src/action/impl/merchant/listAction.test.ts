@@ -1,13 +1,15 @@
 import {cloneDeep} from "lodash"
 import * as uuid from "uuid"
-import {CheckStatus} from "../../../check/checkStatus"
+import {createTestAppContainer} from "../../../inversify.config"
 import {ItemType} from "../../../item/enum/itemType"
 import {newItem} from "../../../item/factory"
 import {Item} from "../../../item/model/item"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/requestType"
 import doNTimes from "../../../support/functional/times"
-import TestBuilder from "../../../support/test/testBuilder"
+import MobBuilder from "../../../support/test/mobBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
 function getItem1(): Item {
   const item = newItem(ItemType.Light, "name", "description")
@@ -25,45 +27,51 @@ function getItem2(): Item {
   return item
 }
 
+let testRunner: TestRunner
+let buyer: MobBuilder
+let merchant: MobBuilder
+
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  buyer = testRunner.createMob()
+  merchant = testRunner.createMob().asMerchant()
+})
+
 describe("list action", () => {
   it("should list items in a merchant's inventory", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    await testBuilder.withPlayer()
-    const merchant = testBuilder.withMob().asMerchant().mob
-    const definition = await testBuilder.getAction(RequestType.List)
     const count1 = 3
     const count2 = 1
 
     // given
     const item1 = getItem1()
-    await doNTimes(count1, () => merchant.inventory.addItem(cloneDeep(item1)))
+    await doNTimes(count1, () => merchant.addItem(cloneDeep(item1)))
     const item2 = getItem2()
-    await doNTimes(count2, () => merchant.inventory.addItem(cloneDeep(item2)))
+    await doNTimes(count2, () => merchant.addItem(cloneDeep(item2)))
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.List))
+    const response = await testRunner.invokeAction(RequestType.List)
 
     // then
-    const message = response.message.getMessageToRequestCreator()
+    const message = response.getMessageToRequestCreator()
     expect(message).toContain("[ 3 100 ] a test item")
     expect(message).toContain("[ 1 20 ] a different test item")
   })
 
   it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
-    // given
-    const testBuilder = new TestBuilder()
-    testBuilder.withMob().withDisposition(disposition)
-    testBuilder.withWeapon()
+    // setup
+    const item = testRunner.createWeapon()
       .asAxe()
-      .addToMobBuilder(testBuilder.withMob().asMerchant())
       .build()
-    const definition = await testBuilder.getAction(RequestType.List)
+    merchant.addItem(item)
+
+    // given
+    buyer.withDisposition(disposition)
 
     // when
-    const check = await definition.check(testBuilder.createRequest(RequestType.List))
+    const response = await testRunner.invokeAction(RequestType.List)
 
     // then
-    expect(check.status).toBe(disposition === Disposition.Standing ? CheckStatus.Ok : CheckStatus.Failed)
+    expect(response.isSuccessful()).toBe(disposition === Disposition.Standing)
   })
 })

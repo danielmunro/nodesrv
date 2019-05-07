@@ -1,16 +1,21 @@
 import {AffectType} from "../affect/affectType"
 import {newAffect} from "../affect/factory"
+import {createTestAppContainer} from "../inversify.config"
+import MobService from "../mob/mobService"
 import {Player} from "../player/model/player"
 import InputContext from "../request/context/inputContext"
 import Request from "../request/request"
 import {RequestType} from "../request/requestType"
+import ClientService from "../server/clientService"
 import {default as AuthRequest} from "../session/auth/request"
 import Session from "../session/session"
 import {SpellMessages} from "../spell/constants"
 import {getConnection, initializeConnection} from "../support/db/connection"
 import {getTestClientLoggedOut} from "../support/test/client"
+import {getTestPlayer} from "../support/test/player"
 import {getTestRoom} from "../support/test/room"
-import TestBuilder from "../support/test/testBuilder"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
 import {Client} from "./client"
 import {MESSAGE_NOT_UNDERSTOOD} from "./constants"
 
@@ -18,12 +23,24 @@ function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
 }
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let client: Client
 
+const mockReq = jest.fn()
+const mockWebSocket = jest.fn(() => ({
+  onmessage: jest.fn(),
+  send: jest.fn(),
+}))
+
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  client = await testBuilder.withClient()
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  const clientService = app.get<ClientService>(Types.ClientService)
+  client = clientService.createNewClient(mockWebSocket(), mockReq())
+  const player = getTestPlayer()
+  await client.session.login(client, player)
+  const mobService = app.get<MobService>(Types.MobService)
+  mobService.add(player.sessionMob, testRunner.getStartRoom().get())
 })
 
 beforeAll(async () => initializeConnection())
@@ -138,7 +155,7 @@ describe("clients", () => {
 
   it("should use the default action when no actionCollection match", async () => {
     // setup
-    const request = testBuilder.createRequest(RequestType.Noop)
+    const request = testRunner.createRequest(RequestType.Noop)
 
     // when
     const response = await client.handleRequest(request)
@@ -149,7 +166,7 @@ describe("clients", () => {
 
   it("invokes the default request action when input has no action handler", async () => {
     // setup
-    const request = testBuilder.createRequest(RequestType.Noop)
+    const request = testRunner.createRequest(RequestType.Noop)
 
     // when
     const response = await client.handleRequest(request)
@@ -160,24 +177,25 @@ describe("clients", () => {
 
   it("training will apply the cost appropriately", async () => {
     // setup
-    testBuilder = new TestBuilder()
-    const testClient = await testBuilder.withClient()
-    testBuilder.withRoom()
-    testBuilder.withMob().asTrainer()
-    testClient.player.sessionMob.playerMob.trains = 1
-    testClient.addRequest(testBuilder.createRequest(RequestType.Train, "train str"))
+    testRunner.createMob().asTrainer()
+    client.player.sessionMob.playerMob.trains = 1
+    client.addRequest(
+      new Request(
+        client.player.sessionMob,
+        testRunner.getStartRoom().get(),
+        new InputContext(RequestType.Train, "train str")))
 
     // when
-    await testClient.handleNextRequest()
+    await client.handleNextRequest()
 
     // then
-    expect(testClient.getSessionMob().playerMob.trains).toBe(0)
+    expect(client.getSessionMob().playerMob.trains).toBe(0)
   })
 
   it("satisfies event with holy silence", async () => {
     // setup
     client.getSessionMob().affect().add(newAffect(AffectType.HolySilence))
-    const request = testBuilder.createRequest(RequestType.Cast)
+    const request = testRunner.createRequest(RequestType.Cast)
 
     // when
     const response = await client.handleRequest(request)

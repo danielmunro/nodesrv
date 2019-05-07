@@ -24,12 +24,8 @@ let ws
 async function getGameServer(): Promise<GameServer> {
   const eventService = new EventService()
   const room = getTestRoom()
-  const locationService = new LocationService(RoomTable.new([room]), eventService, new ExitTable())
-  const mobService = new MobService(
-    new MobTable(),
-    new MobTable(),
-    new FightTable(),
-    locationService)
+  const locationService = new LocationService(RoomTable.new([room]), eventService, new ExitTable(), room)
+  const mobService = new MobService(new MobTable(), locationService, new MobTable(), new FightTable())
   const gameService = new GameService(mobService, new ActionService([], [], []))
   return new GameServer(
     ws,
@@ -38,7 +34,7 @@ async function getGameServer(): Promise<GameServer> {
       eventService,
       new AuthService(await getPlayerRepository(), mobService),
       locationService,
-      gameService.getActions(),
+      gameService.getActionService().actions,
     ),
     eventService)
 }

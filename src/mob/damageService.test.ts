@@ -1,23 +1,32 @@
 import {DamageType} from "../damage/damageType"
-import TestBuilder from "../support/test/testBuilder"
+import {createTestAppContainer} from "../inversify.config"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
 import DamageService from "./damageService"
+
+let testRunner: TestRunner
+
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+})
 
 describe("damage service", () => {
   it("reports the damage type of a mob that is unequipped", () => {
-    const testBuilder = new TestBuilder()
-    const mobBuilder = testBuilder.withMob()
+    // when
+    const mobBuilder = testRunner.createMob()
 
+    // then
     expect(new DamageService(mobBuilder.mob).getDamageType()).toBe(DamageType.Bash)
   })
 
   it("reports the damage type of a mob that is equipped", () => {
-    const testBuilder = new TestBuilder()
-    const mobBuilder = testBuilder.withMob()
-    testBuilder.withWeapon()
+    // when
+    const mobBuilder = testRunner.createMob()
+    mobBuilder.equip(testRunner.createWeapon()
       .asAxe()
-      .equipToMobBuilder(mobBuilder)
-      .build()
+      .build())
 
+    // then
     expect(new DamageService(mobBuilder.mob).getDamageType()).toBe(DamageType.Slash)
   })
 })

@@ -44,4 +44,13 @@ export default class ItemBuilder extends AbstractItemBuilder {
     this.item.value = 10
     return this
   }
+
+  public asKey(canonicalId: string): ItemBuilder {
+    this.item.itemType = ItemType.Key
+    this.item.name = "a small brass key"
+    this.item.description = "a small brass key"
+    this.item.value = 1
+    this.item.canonicalId = canonicalId
+    return this
+  }
 }

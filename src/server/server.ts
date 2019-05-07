@@ -1,3 +1,5 @@
+import {inject, injectable} from "inversify"
+import {Server} from "ws"
 import {Client} from "../client/client"
 import ClientEvent from "../client/event/clientEvent"
 import EventService from "../event/eventService"
@@ -6,6 +8,7 @@ import {Room} from "../room/model/room"
 import {poll} from "../support/poll/poll"
 import {ImmediateTimer} from "../support/timer/immediateTimer"
 import {Timer} from "../support/timer/timer"
+import {Types} from "../support/types"
 import ClientService from "./clientService"
 import {events} from "./constants"
 import {Observer} from "./observers/observer"
@@ -16,14 +19,15 @@ enum Status {
   Terminated,
 }
 
+@injectable()
 export class GameServer {
   private status: Status = Status.Initialized
 
   constructor(
-    public readonly wss: any,
-    public readonly startRoom: Room,
-    public readonly clientService: ClientService,
-    public readonly eventService: EventService) {}
+    @inject(Types.WebSocketServer) public readonly wss: Server,
+    @inject(Types.StartRoom) public readonly startRoom: Room,
+    @inject(Types.ClientService) public readonly clientService: ClientService,
+    @inject(Types.EventService) public readonly eventService: EventService) {}
 
   public async start(): Promise<void> {
     if (!this.isInitialized()) {

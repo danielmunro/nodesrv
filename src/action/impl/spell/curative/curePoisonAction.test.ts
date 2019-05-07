@@ -1,62 +1,59 @@
 import {AffectType} from "../../../../affect/affectType"
-import {newAffect} from "../../../../affect/factory"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {Mob} from "../../../../mob/model/mob"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
-import {getSuccessfulAction} from "../../../../support/functional/times"
-import TestBuilder from "../../../../support/test/testBuilder"
-import Spell from "../../spell"
+import MobBuilder from "../../../../support/test/mobBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
-let spell: Spell
-let mob: Mob
-let target: Mob
+let testRunner: TestRunner
+let caster: MobBuilder
+let target: MobBuilder
 
 const MESSAGE_FEELS_LESS_SICK = "you feel less sick."
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  spell = await testBuilder.getSpell(SpellType.CurePoison)
-  const mobBuilder1 = testBuilder.withMob()
-  mobBuilder1.withSpell(SpellType.CurePoison, MAX_PRACTICE_LEVEL)
-  mobBuilder1.setLevel(20)
-  mob = mobBuilder1.mob
-  const mobBuilder2 = testBuilder.withMob("bob")
-  target = mobBuilder2.mob
-  target.affect().add(newAffect(AffectType.Poison))
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  caster = testRunner.createMob()
+    .withSpell(SpellType.CurePoison, MAX_PRACTICE_LEVEL)
+    .setLevel(20)
+  target = testRunner.createMob()
+  target.addAffectType(AffectType.Poison)
 })
 
 describe("cure poison", () => {
   it("cures poison when casted", async () => {
     // when
-    await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast cure bob", target))
+    await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast 'cure poison' '${target.getMobName()}'`, target.get())
 
     // then
-    expect(target.affect().isPoisoned()).toBeFalsy()
+    expect(target.mob.affect().isPoisoned()).toBeFalsy()
   })
 
   it("generates accurate success messages for targets", async () => {
     // when
-    const response = await getSuccessfulAction(
-      spell, testBuilder.createRequest(RequestType.Cast, "cast cure bob", target))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast 'cure poi' '${target.getMobName()}'`, target.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("bob feels less sick.")
-    expect(response.message.getMessageToTarget()).toBe(MESSAGE_FEELS_LESS_SICK)
-    expect(response.message.getMessageToObservers()).toBe("bob feels less sick.")
+    expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} feels less sick.`)
+    expect(response.getMessageToTarget()).toBe(MESSAGE_FEELS_LESS_SICK)
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()} feels less sick.`)
   })
 
   it("generates accurate success messages for self", async () => {
     // given
-    mob.affect().add(newAffect(AffectType.Poison))
+    caster.addAffectType(AffectType.Poison)
 
     // when
-    const response = await getSuccessfulAction(spell, testBuilder.createRequest(RequestType.Cast, "cast cure", mob))
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, "cast 'cure poison'", caster.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(MESSAGE_FEELS_LESS_SICK)
-    expect(response.message.getMessageToTarget()).toBe(MESSAGE_FEELS_LESS_SICK)
-    expect(response.message.getMessageToObservers()).toBe(`${mob.name} feels less sick.`)
+    expect(response.getMessageToRequestCreator()).toBe(MESSAGE_FEELS_LESS_SICK)
+    expect(response.getMessageToTarget()).toBe(MESSAGE_FEELS_LESS_SICK)
+    expect(response.getMessageToObservers()).toBe(`${caster.getMobName()} feels less sick.`)
   })
 })

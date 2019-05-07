@@ -16,6 +16,7 @@ export function getTestMob(name: string = null, level: number = 1): Mob {
     RaceType.Human,
     vitals,
     newStartingAttributes(cloneDeep(vitals), level))
+  mob.brief = name
   mob.level = level
   mob.traits.isNpc = true
 

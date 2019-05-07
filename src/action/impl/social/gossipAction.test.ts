@@ -1,25 +1,20 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
-let testBuilder: TestBuilder
-let gossipAction: Action
+let testRunner: TestRunner
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  gossipAction = await testBuilder.getAction(RequestType.Gossip)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
 describe("gossip social action", () => {
   it("should be to handle gossiping", async () => {
-    // setup
-    await testBuilder.withPlayer()
-    const request = testBuilder.createRequest(RequestType.Gossip, "gossip hello world")
-
     // when
-    const response = await gossipAction.handle(request)
+    const response = await testRunner.invokeAction(RequestType.Gossip, "gossip hello world")
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toEqual("You gossip, \"hello world\"")
+    expect(response.getMessageToRequestCreator()).toEqual("You gossip, \"hello world\"")
   })
 })

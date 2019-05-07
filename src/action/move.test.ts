@@ -1,114 +1,90 @@
 import {AffectType} from "../affect/affectType"
-import {newAffect} from "../affect/factory"
-import {CheckStatus} from "../check/checkStatus"
-import GameService from "../gameService/gameService"
-import {Mob} from "../mob/model/mob"
-import { RequestType } from "../request/requestType"
-import { ResponseStatus } from "../request/responseStatus"
-import { Direction } from "../room/constants"
+import {createTestAppContainer} from "../inversify.config"
+import {RequestType} from "../request/requestType"
+import {Direction} from "../room/constants"
 import Door from "../room/model/door"
-import {Room} from "../room/model/room"
-import TestBuilder from "../support/test/testBuilder"
-import Action from "./action"
-import {ConditionMessages} from "./constants"
-import {MESSAGE_DIRECTION_DOES_NOT_EXIST, MESSAGE_OUT_OF_MOVEMENT} from "./constants"
+import MobBuilder from "../support/test/mobBuilder"
+import RoomBuilder from "../support/test/roomBuilder"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
+import {ConditionMessages, MESSAGE_DIRECTION_DOES_NOT_EXIST, MESSAGE_OUT_OF_MOVEMENT} from "./constants"
 
-let testBuilder: TestBuilder
-let service: GameService
-let definition: Action
-let mob: Mob
-let source: Room
-let destination: Room
+let testRunner: TestRunner
+let mobBuilder: MobBuilder
+let destination: RoomBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  source = testBuilder.withRoom().room
-  destination = testBuilder.withRoom(Direction.East).room
-  mob = (await testBuilder.withPlayer()).player.sessionMob
-  service = await testBuilder.getService()
-  definition = await testBuilder.getAction(RequestType.East)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  mobBuilder = testRunner.createMob()
+  destination = testRunner.createRoom(Direction.East)
 })
 
 describe("move", () => {
-  it("should allow movement where rooms connect", async () => {
+  it("allows movement where rooms connect", async () => {
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.East))
+    const response = await testRunner.invokeAction(RequestType.East)
 
     // then
-    expect(response.status).toBe(ResponseStatus.Success)
-    expect(service.getMobLocation(mob).room).toEqual(destination)
+    expect(response.isSuccessful()).toBeTruthy()
+    expect(testRunner.getRoomForMob(mobBuilder.mob)).toBe(destination.room)
   })
 
-  it("should not cost movement if flying", async () => {
+  it("does not cost movement if flying", async () => {
     // given
-    mob.affect().add(newAffect(AffectType.Fly))
+    mobBuilder.addAffectType(AffectType.Fly)
 
     // when
-    await definition.handle(testBuilder.createRequest(RequestType.East))
+    await testRunner.invokeAction(RequestType.East)
 
     // then
-    const attr = mob.attribute()
+    const attr = mobBuilder.mob.attribute()
     expect(attr.getMv()).toBe(attr.getMaxMv())
   })
 
-  it("should not be able to move if immobilized", async () => {
+  it("cannot move if immobilized", async () => {
     // given
-    mob.affects.push(newAffect(AffectType.Immobilize))
+    mobBuilder.addAffectType(AffectType.Immobilize)
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.East))
+    const response = await testRunner.invokeAction(RequestType.East)
 
     // then
     expect(response.isError()).toBeTruthy()
-    expect(service.getMobLocation(mob).room).toEqual(source)
+    expect(testRunner.getRoomForMob(mobBuilder.mob)).toBe(testRunner.getStartRoom().get())
   })
 
-  it("should not allow movement when an exit has a closed door", async () => {
+  it("does not allow movement when an exit has a closed door", async () => {
     // given
     const door = new Door()
     door.isClosed = true
-    source.exits[0].door = door
+    testRunner.getStartRoom().addDoor(door)
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.East))
+    const response = await testRunner.invokeAction(RequestType.East)
 
     // then
-    expect(response.status).toBe(ResponseStatus.PreconditionsFailed)
-    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Move.Fail.DoorIsClosed)
-    expect(service.getMobLocation(mob).room).toEqual(source)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Move.Fail.DoorIsClosed)
   })
 
-  it("should not allow movement where an exit does not exist", async () => {
+  it("does not allow movement where an exit does not exist", async () => {
     // when
-    await testBuilder.withPlayer()
-    definition = await testBuilder.getAction(RequestType.North)
-    const check = await definition.check(testBuilder.createRequest(RequestType.North))
+    const response = await testRunner.invokeAction(RequestType.North)
 
     // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_DIRECTION_DOES_NOT_EXIST)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(MESSAGE_DIRECTION_DOES_NOT_EXIST)
   })
 
-  it("should not allow movement when movement points are depleted", async () => {
+  it("does not allow movement when movement points are depleted", async () => {
     // given
-    mob.vitals.mv = 0
+    mobBuilder.setMv(0)
 
     // when
-    const check = await definition.check(testBuilder.createRequest(RequestType.East))
+    const response = await testRunner.invokeAction(RequestType.East)
 
     // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_OUT_OF_MOVEMENT)
-  })
-
-  it("should allow movement when preconditions pass", async () => {
-    // given
-    await testBuilder.withPlayer()
-
-    // when
-    const check = await definition.check(testBuilder.createRequest(RequestType.East))
-
-    // then
-    expect(check.status).toBe(CheckStatus.Ok)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(MESSAGE_OUT_OF_MOVEMENT)
   })
 })

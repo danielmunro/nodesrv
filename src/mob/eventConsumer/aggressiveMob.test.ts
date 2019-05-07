@@ -1,62 +1,70 @@
+import EventService from "../../event/eventService"
+import {createTestAppContainer} from "../../inversify.config"
 import {Direction} from "../../room/constants"
-import TestBuilder from "../../support/test/testBuilder"
+import {Room} from "../../room/model/room"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import MobMoveEvent from "../event/mobMoveEvent"
 import {Fight} from "../fight/fight"
+
+let testRunner: TestRunner
+let eventService: EventService
+let room: Room
+
+beforeEach(async () => {
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  eventService = app.get<EventService>(Types.EventService)
+  room = app.get<Room>(Types.StartRoom)
+})
 
 describe("aggressive mob event consumer", () => {
   it("arriving in a room with an aggressive mob should trigger a fight", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const mobService = await testBuilder.getMobService()
-    const player = await testBuilder.withPlayer()
+    const player = testRunner.createPlayer()
 
     // given
-    testBuilder.withMob().mob.traits.aggressive = true
+    testRunner.createMob().setAggressive()
 
     // when
-    await testBuilder.eventService.publish(
-      new MobMoveEvent(player.getMob(), testBuilder.room, testBuilder.room, Direction.Noop))
+    await eventService.publish(
+      new MobMoveEvent(player.getMob(), room, room, Direction.Noop))
 
     // then
-    const fight = mobService.findFight(f => f.isParticipant(player.getMob()))
+    const fight = testRunner.getFightForMob(player.getMob())
     expect(fight).toBeDefined()
     expect(fight).toBeInstanceOf(Fight)
   })
 
   it("don't attack non-players", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const mobService = await testBuilder.getMobService()
-    const mob1 = testBuilder.withMob().mob
+    const mob1 = testRunner.createMob().get()
 
     // given
-    testBuilder.withMob().mob.traits.aggressive = true
+    testRunner.createMob().setAggressive()
 
     // when
-    await testBuilder.eventService.publish(new MobMoveEvent(mob1, testBuilder.room, testBuilder.room, Direction.Noop))
+    await eventService.publish(new MobMoveEvent(mob1, room, room, Direction.Noop))
 
     // then
-    const fight = mobService.findFight(f => f.isParticipant(mob1))
+    const fight = testRunner.getFightForMob(mob1)
     expect(fight).not.toBeDefined()
   })
 
   it("if an aggressive mob has a lower level than the target, don't initiate an attack", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const mobService = await testBuilder.getMobService()
-    const player = await testBuilder.withPlayer()
+    const player = testRunner.createPlayer()
 
     // given
-    const mob2 = testBuilder.withMob().mob
-    mob2.traits.aggressive = true
+    const mob2 = testRunner.createMob().setAggressive().get()
     player.setLevel(mob2.level + 1)
 
     // when
-    await testBuilder.eventService.publish(
-      new MobMoveEvent(player.getMob(), testBuilder.room, testBuilder.room, Direction.Noop))
+    await eventService.publish(
+      new MobMoveEvent(player.getMob(), room, room, Direction.Noop))
 
     // then
-    const fight = mobService.findFight(f => f.isParticipant(player.getMob()))
+    const fight = testRunner.getFightForMob(player.getMob())
     expect(fight).not.toBeDefined()
   })
 })

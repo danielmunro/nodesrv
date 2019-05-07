@@ -1,27 +1,28 @@
 import * as uuid from "uuid"
-import {getConnection, initializeConnection} from "../../../support/db/connection"
-import TestBuilder from "../../../support/test/testBuilder"
+import {createTestAppContainer} from "../../../inversify.config"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Complete from "./complete"
 import Password from "./password"
 import PasswordConfirm from "./passwordConfirm"
 
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
-
 const mockAuthService = jest.fn()
+let testRunner: TestRunner
+
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+})
 
 describe("create player password confirm auth step", () => {
   it("should work with matching passwords", async () => {
     // setup
-    const testBuilder = new TestBuilder()
+    const password = uuid.v4()
+    const client = testRunner.createClient()
+    await client.session.login(client, testRunner.createPlayer().get())
 
     // given
-    const password = uuid.v4()
-    const client = await testBuilder.withClient()
-
-    // setup
     const passwordConfirm = new PasswordConfirm(mockAuthService(), client.player, password)
 
     // when
@@ -33,13 +34,10 @@ describe("create player password confirm auth step", () => {
   })
 
   it("should reject mismatched passwords", async () => {
-    // setup
-    const testBuilder = new TestBuilder()
-
     // given
     const password1 = uuid.v4()
     const password2 = uuid.v4()
-    const client = await testBuilder.withClient()
+    const client = testRunner.createClient()
 
     // setup
     const passwordConfirm = new PasswordConfirm(mockAuthService(), client.player, password1)

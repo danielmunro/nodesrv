@@ -1,37 +1,28 @@
 import * as assert from "assert"
-import getActionTable from "../src/action/actionTable"
-import createEventConsumerTable from "../src/event/eventConsumerTable"
+import EventConsumer from "../src/event/eventConsumer"
 import EventService from "../src/event/eventService"
-import ActionService from "../src/gameService/actionService"
-import GameService from "../src/gameService/gameService"
 import ResetService from "../src/gameService/resetService"
-import StateService from "../src/gameService/stateService"
-import TimeService from "../src/gameService/timeService"
-import ItemService from "../src/item/itemService"
-import ItemTable from "../src/item/itemTable"
-import { getItemRepository } from "../src/item/repository/item"
-import {getItemContainerResetRepository} from "../src/item/repository/itemContainerReset"
-import {getItemMobResetRepository} from "../src/item/repository/itemMobReset"
-import {getItemRoomResetRepository} from "../src/item/repository/itemRoomReset"
-import {getMobEquipResetRepository} from "../src/item/repository/mobEquipReset"
-import { createMobService } from "../src/mob/factory"
-import FightBuilder from "../src/mob/fight/fightBuilder"
-import LocationService from "../src/mob/locationService"
-import MobService from "../src/mob/mobService"
-import MobTable from "../src/mob/mobTable"
-import { getMobRepository } from "../src/mob/repository/mob"
-import {getMobResetRepository} from "../src/mob/repository/mobReset"
-import {getPlayerRepository} from "../src/player/repository/player"
-import WeatherService from "../src/region/weatherService"
-import {newExitTable, newRoomTable} from "../src/room/factory"
-import {Room} from "../src/room/model/room"
-import {default as RoomTable} from "../src/room/roomTable"
-import ClientService from "../src/server/clientService"
-import newServer from "../src/server/factory"
-import AuthService from "../src/session/auth/authService"
-import {getSkillTable} from "../src/skill/skillTable"
-import getSpellTable from "../src/spell/spellTable"
+import createAppContainer from "../src/inversify.config"
+import {tick} from "../src/server/constants"
+import {DecrementAffects} from "../src/server/observers/decrementAffects"
+import {DecrementPlayerDelay} from "../src/server/observers/decrementPlayerDelay"
+import {FightRounds} from "../src/server/observers/fightRounds"
+import {HandleClientRequests} from "../src/server/observers/handleClientRequests"
+import {ObserverChain} from "../src/server/observers/observerChain"
+import {PersistPlayers} from "../src/server/observers/persistPlayers"
+import {RegionWeather} from "../src/server/observers/regionWeather"
+import Respawner from "../src/server/observers/respawner"
+import {Tick} from "../src/server/observers/tick"
+import {Wander} from "../src/server/observers/wander"
+import {GameServer} from "../src/server/server"
 import { initializeConnection } from "../src/support/db/connection"
+import {DiceRoller} from "../src/support/random/dice"
+import {FiveMinuteTimer} from "../src/support/timer/fiveMinuteTimer"
+import {MinuteTimer} from "../src/support/timer/minuteTimer"
+import {RandomTickTimer} from "../src/support/timer/randomTickTimer"
+import {SecondIntervalTimer} from "../src/support/timer/secondTimer"
+import {ShortIntervalTimer} from "../src/support/timer/shortIntervalTimer"
+import {Types} from "../src/support/types"
 
 const Timings = {
   init: "total game initialization",
@@ -50,118 +41,37 @@ const startRoomID = +process.argv[2]
 const port = +process.argv[3]
 console.time(Timings.init)
 assert.ok(startRoomID, "start room ID has required to be defined")
-let locationService: LocationService
 console.log(`startup parameters:  port: ${port}, room: ${startRoomID}`)
 
 initializeConnection().then(async () => {
-  const eventService = new EventService()
-  console.time(Timings.roomAndMobTables)
-  const [ roomTable, mobTable ] = await getAllRoomsAndMobs()
-  locationService = new LocationService(roomTable, eventService, await newExitTable())
-  const mobService = await createMobService(mobTable, locationService)
-  console.timeEnd(Timings.roomAndMobTables)
-
-  console.time(Timings.itemService)
-  const itemService = new ItemService(new ItemTable(), await getAllItems())
-  console.timeEnd(Timings.itemService)
-
-  console.time(Timings.resetService)
-  const resetService = await createResetService(mobService, roomTable, itemService)
-  console.timeEnd(Timings.resetService)
-
+  const app = await createAppContainer(startRoomID, port)
+  const resetService = app.get<ResetService>(Types.ResetService)
   console.time(Timings.seedMobs)
   await resetService.seedMobTable()
   console.timeEnd(Timings.seedMobs)
-
   console.time(Timings.seedItems)
   await resetService.seedItemRoomResets()
   console.timeEnd(Timings.seedItems)
 
-  console.time(Timings.openPort)
-  const timeService = new TimeService()
-  const weatherService = new WeatherService()
-  const skillTable = getSkillTable(mobService, eventService)
-  const spellTable = getSpellTable(
-    mobService,
-    eventService,
-    itemService,
-    new StateService(weatherService, timeService),
-    locationService)
-  const actionService = new ActionService(
-    getActionTable(
-      mobService,
-      itemService,
-      timeService,
-      eventService,
-      weatherService,
-      spellTable,
-      locationService),
-    skillTable,
-    spellTable)
-  const gameService = new GameService(
-    mobService,
-    actionService)
-  const startRoom = roomTable.getRooms().find(room => room.canonicalId === startRoomID) as Room
-  const clientService = new ClientService(
-    eventService,
-    new AuthService(await getPlayerRepository(), mobService),
-    locationService,
-    actionService.actions)
-  const server = await newServer(
-    port,
-    startRoom,
-    resetService,
-    mobService,
-    eventService,
-    clientService,
-    locationService)
-  const eventConsumerTable = await createEventConsumerTable(
-    gameService,
-    server,
-    mobService,
-    itemService,
-    new FightBuilder(eventService, locationService),
-    eventService,
-    locationService)
+  const server = app.get<GameServer>(Types.GameServer)
+  server.addObserver(new ObserverChain([
+    app.get<Tick>(Types.TickObserver),
+    app.get<DecrementAffects>(Types.DecrementAffectObserver),
+    app.get<Wander>(Types.WanderObserver),
+  ]), new RandomTickTimer(
+    new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
+  server.addObserver(app.get<PersistPlayers>(Types.PersistPlayersObservers), new MinuteTimer())
+  server.addObserver(app.get<RegionWeather>(Types.RegionWeatherObserver), new MinuteTimer())
+  server.addObserver(app.get<FightRounds>(Types.FightRoundsObserver), new SecondIntervalTimer())
+  server.addObserver(app.get<Respawner>(Types.RespawnerObserver), new FiveMinuteTimer())
+  server.addObserver(new DecrementPlayerDelay(), new SecondIntervalTimer())
+  server.addObserver(new HandleClientRequests(), new ShortIntervalTimer())
+
+  const eventConsumerTable = await app.get<EventConsumer[]>(Types.EventConsumerTable)() as EventConsumer[]
+  const eventService = app.get<EventService>(Types.EventService)
   eventConsumerTable.forEach(eventConsumer => eventService.addConsumer(eventConsumer))
+
   await server.start()
-  console.timeEnd(Timings.openPort)
+
   console.timeEnd(Timings.init)
 })
-
-async function getAllRoomsAndMobs() {
-  return Promise.all([
-    newRoomTable(),
-    new MobTable(await (await getMobRepository()).findAll()),
-  ])
-}
-
-async function getAllItems(): Promise<ItemTable> {
-  return new ItemTable(await (await getItemRepository()).findAll())
-}
-
-async function createResetService(
-  mobService: MobService, roomTable: RoomTable, itemService: ItemService): Promise<ResetService> {
-  const mobResetRepository = await getMobResetRepository()
-  const itemMobResetRepository = await getItemMobResetRepository()
-  const itemRoomResetRepository = await getItemRoomResetRepository()
-  const mobEquipResetRepository = await getMobEquipResetRepository()
-  const itemContainerResetRepository = await getItemContainerResetRepository()
-  const [ mobResets, itemMobResets, itemRoomResets, mobEquipResets, itemContainerResets ] = await Promise.all([
-    mobResetRepository.findAll(),
-    itemMobResetRepository.findAll(),
-    itemRoomResetRepository.findAll(),
-    mobEquipResetRepository.findAll(),
-    itemContainerResetRepository.findAll(),
-  ])
-
-  return new ResetService(
-    mobResets,
-    itemMobResets,
-    itemRoomResets,
-    mobEquipResets,
-    itemContainerResets,
-    mobService,
-    roomTable,
-    itemService)
-}

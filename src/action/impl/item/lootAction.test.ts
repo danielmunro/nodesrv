@@ -1,17 +1,19 @@
+import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
-import TestBuilder from "../../../support/test/testBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {Messages} from "../../constants"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
 describe("loot action", () => {
   it("requires a corpse", async () => {
     // when
-    const response = await testBuilder.handleAction(RequestType.Loot, "loot foo")
+    const response = await testRunner.invokeAction(RequestType.Loot, "loot foo")
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(Messages.Loot.NoCorpse)
@@ -19,13 +21,12 @@ describe("loot action", () => {
 
   it("a corpse must have an item to loot", async () => {
     // given
-    testBuilder.withItem()
+    testRunner.createItem()
       .asCorpse()
-      .addToRoomBuilder(testBuilder.withRoom())
       .build()
 
     // when
-    const response = await testBuilder.handleAction(RequestType.Loot, "loot foo corpse")
+    const response = await testRunner.invokeAction(RequestType.Loot, "loot foo corpse")
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(Messages.Loot.CorpseDoesNotHaveItem)
@@ -33,17 +34,16 @@ describe("loot action", () => {
 
   it("can loot a corpse", async () => {
     // given
-    const item = testBuilder.withItem()
+    const item = testRunner.createItem()
       .asHelmet()
       .build()
-    testBuilder.withItem()
+    testRunner.createItem()
       .asCorpse()
       .addItemToContainerInventory(item)
-      .addToRoomBuilder(testBuilder.withRoom())
       .build()
 
     // when
-    const response = await testBuilder.handleAction(RequestType.Loot, `loot '${item.name}' corpse`)
+    const response = await testRunner.invokeAction(RequestType.Loot, `loot '${item.name}' corpse`)
 
     // then
     expect(response.getMessageToRequestCreator())

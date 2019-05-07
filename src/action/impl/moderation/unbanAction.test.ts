@@ -1,97 +1,82 @@
-import {CheckStatus} from "../../../check/checkStatus"
 import {CheckMessages} from "../../../check/constants"
+import {createTestAppContainer} from "../../../inversify.config"
 import {Standing} from "../../../mob/enum/standing"
-import MobService from "../../../mob/mobService"
 import {AuthorizationLevel} from "../../../player/authorizationLevel"
-import {Player} from "../../../player/model/player"
-import InputContext from "../../../request/context/inputContext"
-import Request from "../../../request/request"
-import RequestBuilder from "../../../request/requestBuilder"
 import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"
-import {getTestMob} from "../../../support/test/mob"
-import {getTestRoom} from "../../../support/test/room"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import PlayerBuilder from "../../../support/test/playerBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {MESSAGE_FAIL_NOT_BANNED} from "../../constants"
 
-const MOB_TO_UNBAN = "bob"
-const MOB_SELF = "alice"
-const NOT_EXISTING_MOB = "foo"
-let requestBuilder: RequestBuilder
-let mobService: MobService
-let playerToUnban: Player
-let action: Action
+let testRunner: TestRunner
+let banningPlayer: PlayerBuilder
+let playerToUnban: PlayerBuilder
 
 beforeEach(async () => {
-  const testBuilder = new TestBuilder()
-  const adminPlayerBuilder = await testBuilder.withPlayer()
-  adminPlayerBuilder.setAuthorizationLevel(AuthorizationLevel.Admin)
-  const player = adminPlayerBuilder.player
-  player.sessionMob.name = MOB_SELF
-  const playerBuilder = await testBuilder.withPlayer()
-  playerToUnban = playerBuilder.player
-  playerToUnban.sessionMob.name = MOB_TO_UNBAN
-  playerToUnban.sessionMob.playerMob.standing = Standing.IndefiniteBan
-  mobService = await testBuilder.getMobService()
-  mobService.mobTable.add(player.sessionMob)
-  mobService.mobTable.add(playerToUnban.sessionMob)
-  requestBuilder = await testBuilder.createRequestBuilder()
-  action = await testBuilder.getAction(RequestType.Unban)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  banningPlayer = testRunner.createPlayer()
+    .setAuthorizationLevel(AuthorizationLevel.Admin)
+  playerToUnban = testRunner.createPlayer()
+    .setStanding(Standing.IndefiniteBan)
 })
 
 describe("unban moderation action", () => {
-  it("should not work on non-existent mobs", async () => {
+  it("sanity check: mob must exist", async () => {
     // when
-    const response = await action.check(requestBuilder.create(RequestType.Unban, `unban ${NOT_EXISTING_MOB}`))
+    const response = await testRunner.invokeAction(
+      RequestType.Unban, "unban foo")
 
     // then
-    expect(response.status).toBe(CheckStatus.Failed)
-    expect(response.result).toBe(CheckMessages.NoMob)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(CheckMessages.NoMob)
   })
 
-  it("should not unban if the requester has not an admin", async () => {
+  it("requires admin to unban", async () => {
+    // given
+    banningPlayer.setAuthorizationLevel(AuthorizationLevel.Mortal)
+
     // when
-    const response = await action.check(
-      new Request(getTestMob(), getTestRoom(), new InputContext(RequestType.Unban, `unban ${MOB_TO_UNBAN}`)))
+    const response = await testRunner.invokeAction(
+      RequestType.Unban, `unban '${playerToUnban.getMobName()}'`)
 
     // then
-    expect(response.status).toBe(CheckStatus.Failed)
-    expect(response.result).toBe(CheckMessages.NotAuthorized)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(CheckMessages.NotAuthorized)
   })
 
-  it("should unban if conditions met", async () => {
+  it("sanity check: happy path", async () => {
     // when
-    const response = await action.handle(requestBuilder.create(RequestType.Unban, `unban ${MOB_TO_UNBAN}`))
+    const response = await testRunner.invokeAction(
+      RequestType.Unban, `unban '${playerToUnban.getMobName()}'`)
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
   })
 
-  it("should not be able to unban a mob who's not banned", async () => {
-    // setup
-    playerToUnban.sessionMob.playerMob.standing = Standing.Good
-    const request = requestBuilder.create(RequestType.Unban, `unban ${MOB_TO_UNBAN}`)
-    await action.handle(request)
+  it("requires the mob to be banned in the first place", async () => {
+    // given
+    playerToUnban.setStanding(Standing.Good)
 
     // when
-    const check = await action.check(request)
+    const response = await testRunner.invokeAction(
+      RequestType.Unban, `unban '${playerToUnban.getMobName()}'`)
 
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_NOT_BANNED)
+    // then
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(MESSAGE_FAIL_NOT_BANNED)
   })
 
   it("should not be able to ban mobs who are not players", async () => {
     // given
-    const MOB_NAME = "fubar"
-    const nonPlayerMob = getTestMob(MOB_NAME)
-    mobService.mobTable.add(nonPlayerMob)
+    const mobBuilder = testRunner.createMob()
 
     // when
-    const response = await action.check(requestBuilder.create(RequestType.Unban, `unban ${MOB_NAME}`))
+    const response = await testRunner.invokeAction(
+      RequestType.Unban, `unban '${mobBuilder.getMobName()}'`)
 
     // then
-    expect(response.status).toBe(CheckStatus.Failed)
-    expect(response.result).toBe(CheckMessages.NotAPlayer)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(CheckMessages.NotAPlayer)
   })
 })

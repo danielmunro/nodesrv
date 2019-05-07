@@ -27,6 +27,7 @@ import FollowMob from "../mob/eventConsumer/followMob"
 import MobCreated from "../mob/eventConsumer/mobCreated"
 import MobUpdatedEventConsumer from "../mob/eventConsumer/mobUpdatedEventConsumer"
 import PetFollowsOwner from "../mob/eventConsumer/petFollowsOwner"
+import Scavenge from "../mob/eventConsumer/scavenge"
 import Wimpy from "../mob/eventConsumer/wimpy"
 import FightBuilder from "../mob/fight/fightBuilder"
 import LocationService from "../mob/locationService"
@@ -46,16 +47,16 @@ import {SkillType} from "../skill/skillType"
 import EventConsumer from "./eventConsumer"
 import EventService from "./eventService"
 
-export default async function createEventConsumerTable(
+export default function createEventConsumerTable(
   gameService: GameService,
   gameServer: GameServer,
   mobService: MobService,
   itemService: ItemService,
   fightBuilder: FightBuilder,
   eventService: EventService,
-  locationService: LocationService): Promise<EventConsumer[]> {
+  locationService: LocationService): EventConsumer[] {
   const clientService = gameServer.clientService
-  return Promise.resolve([
+  return [
     // affects
     new SanctuaryEventConsumer(),
     new CrusadeEventConsumer(),
@@ -73,7 +74,7 @@ export default async function createEventConsumerTable(
     new PetFollowsOwner(locationService),
     new MobArrives(clientService),
     new MobLeaves(clientService),
-    // new Scavenge(clientService, itemService, locationService),
+    new Scavenge(clientService, itemService, locationService),
     new Wimpy(locationService, gameService.getAction(RequestType.Flee)),
     new FightStarter(mobService, fightBuilder),
     new MobClientDisconnected(locationService),
@@ -111,5 +112,5 @@ export default async function createEventConsumerTable(
     new LoggedIn(locationService, gameServer.startRoom, gameService.getAction(RequestType.Look)),
     new Quit(clientService),
     new LookEventConsumer(clientService, gameService.getAction(RequestType.Look)),
-  ])
+  ]
 }

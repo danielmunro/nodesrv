@@ -1,29 +1,24 @@
 import { allStats, allVitals } from "../../../attributes/constants"
 import Attributes from "../../../attributes/model/attributes"
-import { Player } from "../../../player/model/player"
+import {createTestAppContainer} from "../../../inversify.config"
 import { RequestType } from "../../../request/requestType"
 import { ResponseStatus } from "../../../request/responseStatus"
 import PlayerBuilder from "../../../support/test/playerBuilder"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
-import { MAX_TRAINABLE_STATS } from "../../constants"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import { ConditionMessages } from "../../constants"
+import { MAX_TRAINABLE_STATS } from "../../constants"
 import {VITAL_INCREMENT} from "./trainAction"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let playerBuilder: PlayerBuilder
-let player: Player
-let definition: Action
 let trainedAttributes: Attributes
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  testBuilder.withMob().asTrainer()
-  playerBuilder = await testBuilder.withPlayer()
-  player = playerBuilder.player
-  trainedAttributes = player.sessionMob.playerMob.trainedAttributes
-  player.sessionMob.playerMob.trains = 1
-  definition = await testBuilder.getAction(RequestType.Train)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  playerBuilder = testRunner.createPlayer().setTrains(1)
+  trainedAttributes = playerBuilder.getMob().playerMob.trainedAttributes
+  testRunner.createMob().asTrainer()
 })
 
 describe("train action", () => {
@@ -32,22 +27,22 @@ describe("train action", () => {
     const initialValue = trainedAttributes.stats[stat]
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Train, `train ${stat}`))
+    const response = await testRunner.invokeAction(RequestType.Train, `train ${stat}`)
 
     // then
-    expect(response.status).toBe(ResponseStatus.Success)
+    expect(response.isSuccessful()).toBeTruthy()
     expect(trainedAttributes.stats[stat]).toBe(initialValue + 1)
   })
 
   it.each(allVitals)("should be able to train %s", async (vital) => {
     // setup
-    const playerMob = player.sessionMob.playerMob
+    const playerMob = playerBuilder.getMob().playerMob
 
     // given
     const initialVital = trainedAttributes.vitals[vital]
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Train, `train ${vital}`))
+    const response = await testRunner.invokeAction(RequestType.Train, `train ${vital}`)
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
@@ -60,16 +55,16 @@ describe("train action", () => {
     trainedAttributes.stats[stat] = MAX_TRAINABLE_STATS
 
     // when
-    const response = await definition.handle(testBuilder.createRequest(RequestType.Train, `train ${stat}`))
+    const response = await testRunner.invokeAction(RequestType.Train, `train ${stat}`)
 
     // then
     expect(response.status).toBe(ResponseStatus.ActionFailed)
-    expect(response.message.getMessageToRequestCreator()).toBe(ConditionMessages.Train.CannotTrainMore)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Train.CannotTrainMore)
   })
 
   it.each(allStats)("can describe what has trainable for %s", async (stat) => {
     // when
-    const response1 = await definition.handle(testBuilder.createRequest(RequestType.Train))
+    const response1 = await testRunner.invokeAction(RequestType.Train)
 
     // then
     expect(response1.status).toBe(ResponseStatus.Info)
@@ -77,7 +72,7 @@ describe("train action", () => {
 
     // when
     trainedAttributes.stats[stat] = MAX_TRAINABLE_STATS
-    const response2 = await definition.handle(testBuilder.createRequest(RequestType.Train))
+    const response2 = await testRunner.invokeAction(RequestType.Train)
 
     // then
     expect(response2.message.getMessageToRequestCreator()).not.toContain(stat)

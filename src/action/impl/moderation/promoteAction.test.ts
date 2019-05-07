@@ -1,136 +1,107 @@
-import {CheckStatus} from "../../../check/checkStatus"
 import {CheckMessages} from "../../../check/constants"
+import {createTestAppContainer} from "../../../inversify.config"
 import {Standing} from "../../../mob/enum/standing"
-import MobService from "../../../mob/mobService"
 import {AuthorizationLevel} from "../../../player/authorizationLevel"
 import {allAuthorizationLevels} from "../../../player/constants"
-import {Player} from "../../../player/model/player"
-import RequestBuilder from "../../../request/requestBuilder"
 import {RequestType} from "../../../request/requestType"
-import {getTestMob} from "../../../support/test/mob"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import PlayerBuilder from "../../../support/test/playerBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {MESSAGE_FAIL_BANNED} from "../../constants"
 
-const MOB_TO_PROMOTE = "bob"
-const MOB_SELF = "alice"
-let requestBuilder: RequestBuilder
-let mobService: MobService
-let player: Player
-let playerToPromote: Player
-let action: Action
+let testRunner: TestRunner
+let promotingPlayer: PlayerBuilder
+let playerToPromote: PlayerBuilder
 
 beforeEach(async () => {
-  const testBuilder = new TestBuilder()
-  const adminPlayerBuilder = await testBuilder.withPlayer()
-  adminPlayerBuilder.setAuthorizationLevel(AuthorizationLevel.Immortal)
-  player = adminPlayerBuilder.player
-  player.sessionMob.name = MOB_SELF
-  const playerBuilder = await testBuilder.withPlayer()
-  playerToPromote = playerBuilder.player
-  playerToPromote.sessionMob.name = MOB_TO_PROMOTE
-  requestBuilder = await testBuilder.createRequestBuilder()
-  mobService = await testBuilder.getMobService()
-  action = await testBuilder.getAction(RequestType.Promote)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  promotingPlayer = testRunner.createPlayer()
+    .setAuthorizationLevel(AuthorizationLevel.Immortal)
+  playerToPromote = testRunner.createPlayer()
 })
 
 describe("promote moderation action", () => {
   it("promotes to admin sanity check", async () => {
     // when
-    const response = await action.handle(requestBuilder.create(RequestType.Promote, `promote ${MOB_TO_PROMOTE}`))
+    const response = await testRunner.invokeAction(RequestType.Promote, `promote '${playerToPromote.getMobName()}'`)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("You promoted bob to admin.")
+    expect(response.getMessageToRequestCreator()).toBe(`You promoted ${playerToPromote.getMobName()} to admin.`)
   })
 
   it("promotes to judge sanity check", async () => {
     // given
-    playerToPromote.sessionMob.playerMob.authorizationLevel = AuthorizationLevel.Admin
+    playerToPromote.setAuthorizationLevel(AuthorizationLevel.Admin)
 
     // when
-    const response = await action.handle(requestBuilder.create(RequestType.Promote, `promote ${MOB_TO_PROMOTE}`))
+    const response = await testRunner.invokeAction(RequestType.Promote, `promote '${playerToPromote.getMobName()}'`)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("You promoted bob to judge.")
+    expect(response.getMessageToRequestCreator()).toBe(`You promoted ${playerToPromote.getMobName()} to judge.`)
   })
 
   it("promotes to immortal sanity check", async () => {
     // given
-    playerToPromote.sessionMob.playerMob.authorizationLevel = AuthorizationLevel.Judge
+    playerToPromote.setAuthorizationLevel(AuthorizationLevel.Judge)
 
     // when
-    const response = await action.handle(requestBuilder.create(RequestType.Promote, `promote ${MOB_TO_PROMOTE}`))
+    const response = await testRunner.invokeAction(RequestType.Promote, `promote '${playerToPromote.getMobName()}'`)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("You promoted bob to immortal.")
+    expect(response.getMessageToRequestCreator()).toBe(`You promoted ${playerToPromote.getMobName()} to immortal.`)
   })
 
   it("cannot promote past immortal sanity check", async () => {
     // given
-    playerToPromote.sessionMob.playerMob.authorizationLevel = AuthorizationLevel.Immortal
+    playerToPromote.setAuthorizationLevel(AuthorizationLevel.Immortal)
 
     // when
-    const response = await action.handle(requestBuilder.create(RequestType.Promote, `promote ${MOB_TO_PROMOTE}`))
+    const response = await testRunner.invokeAction(RequestType.Promote, `promote '${playerToPromote.getMobName()}'`)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("bob has no more promotions.")
+    expect(response.getMessageToRequestCreator()).toBe(`${playerToPromote.getMobName()} has no more promotions.`)
   })
 
-  it("should not be able to promote if not an immortal", async () => {
+  it("cannot promote if not an immortal", async () => {
     return await Promise.all(
       allAuthorizationLevels.filter((auth) => auth !== AuthorizationLevel.Immortal)
         .map(async (authorizationLevel) => {
-      player.sessionMob.playerMob.authorizationLevel = authorizationLevel
-      const check = await action.check(
-        requestBuilder.create(RequestType.Promote, `promote ${playerToPromote.sessionMob.name}`))
-      expect(check.status).toBe(CheckStatus.Failed)
-      expect(check.result).toBe(CheckMessages.NotAuthorized)
+          // given
+          promotingPlayer.setAuthorizationLevel(authorizationLevel)
+
+          // when
+          const response = await testRunner.invokeAction(
+            RequestType.Promote, `promote '${playerToPromote.getMobName()}'`)
+
+          // then
+          expect(response.isError()).toBeTruthy()
+          expect(response.getMessageToRequestCreator()).toBe(CheckMessages.NotAuthorized)
     }))
   })
 
-  it("should be able to promote a player's mob", async () => {
-    // when
-    const check = await action.check(
-      requestBuilder.create(RequestType.Promote, `promote ${playerToPromote.sessionMob.name}`))
-
-    // then
-    expect(check.status).toBe(CheckStatus.Ok)
-    expect(check.result).toBe(playerToPromote.sessionMob)
-  })
-
-  it("should not promote if already immortal", async () => {
+  it("cannot promote banned mobs", async () => {
     // given
-    playerToPromote.sessionMob.playerMob.authorizationLevel = AuthorizationLevel.Immortal
+    playerToPromote.getMob().playerMob.standing = Standing.PermaBan
 
     // when
-    const check = await action.check(
-      requestBuilder.create(RequestType.Promote, `promote ${playerToPromote.sessionMob.name}`))
+    const response = await testRunner.invokeAction(
+      RequestType.Promote, `promote '${playerToPromote.getMobName()}'`)
 
     // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe("bob has no more promotions.")
-  })
-
-  it("should not be able to promote banned mobs", async () => {
-    playerToPromote.sessionMob.playerMob.standing = Standing.PermaBan
-
-    // when
-    const check = await action.check(
-      requestBuilder.create(RequestType.Promote, `promote ${playerToPromote.sessionMob.name}`))
-
-    // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(MESSAGE_FAIL_BANNED)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(MESSAGE_FAIL_BANNED)
   })
 
   it("cannot promote non-player mobs", async () => {
-    const MOB_NAME = "baz"
-    const mob = getTestMob(MOB_NAME)
-    mobService.mobTable.add(mob)
+    // given
+    const mobBuilder = testRunner.createMob()
 
-    const check = await action.check(requestBuilder.create(RequestType.Promote, `promote ${mob.name}`))
+    // when
+    const response = await testRunner.invokeAction(
+      RequestType.Promote, `promote '${mobBuilder.getMobName()}'`)
 
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(CheckMessages.NotAPlayer)
+    // then
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(CheckMessages.NotAPlayer)
   })
 })

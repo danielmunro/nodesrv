@@ -1,29 +1,16 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import {Inventory} from "../../../item/model/inventory"
 import {Item} from "../../../item/model/item"
 import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
+import {ResponseStatus} from "../../../request/responseStatus"
 import Action from "../../action"
 import {ConditionMessages, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 
 export default class WearAction extends Action {
-  private static wear(inventory: Inventory, equipped: Inventory, item: Item, currentlyEquipped?: Item): string {
-    let removal = ""
-
-    if (currentlyEquipped) {
-      inventory.addItem(currentlyEquipped)
-      removal = ` remove ${currentlyEquipped.name} and`
-    }
-
-    equipped.addItem(item)
-
-    return `You${removal} wear ${item.name}.`
-  }
-
   constructor(private readonly checkBuilderFactory: CheckBuilderFactory) {
     super()
   }
@@ -38,13 +25,24 @@ export default class WearAction extends Action {
   public invoke(requestService: RequestService): Promise<Response> {
     const item = requestService.getResult()
     const mob = requestService.getMob()
+    const currentEq = mob.equipped.find((i: Item) => i.equipment === item.equipment)
 
-    return requestService.respondWith().success(
-      WearAction.wear(
-        mob.inventory,
-        mob.equipped,
-        item,
-        mob.equipped.find((i: Item) => i.equipment === item.equipment)))
+    if (currentEq) {
+      mob.inventory.addItem(currentEq)
+    }
+    mob.equipped.addItem(item)
+
+    return requestService.respondWith().response(
+      ResponseStatus.Success,
+      requestService.createResponseMessage(Messages.Wear.Success)
+        .addReplacement("item", item.name)
+        .setVerbToRequestCreator("wear")
+        .addReplacementForRequestCreator("removeClause", currentEq ? ` remove ${currentEq.name} and` : "")
+        .setVerbToTarget("wear")
+        .addReplacementForTarget("removeClause", currentEq ? ` remove ${currentEq.name} and` : "")
+        .setVerbToObservers("wears")
+        .addReplacementForObservers("removeClause", currentEq ? ` removes ${currentEq.name} and` : "")
+        .create())
   }
 
   public getActionParts(): ActionPart[] {

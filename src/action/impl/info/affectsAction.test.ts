@@ -1,20 +1,22 @@
 import { AffectType } from "../../../affect/affectType"
+import {createTestAppContainer} from "../../../inversify.config"
 import { RequestType } from "../../../request/requestType"
-import TestBuilder from "../../../support/test/testBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 
 describe("affects", () => {
   it("should report when an affect has added", async () => {
     // setup
-    const testBuilder = new TestBuilder()
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 
     // given
-    testBuilder.withMob()
+    testRunner.createMob()
       .addAffectType(AffectType.Noop, 1)
       .addAffectType(AffectType.Stunned, 2)
 
     // when
-    const response = await testBuilder.handleAction(RequestType.Affects)
-    const message = response.message.getMessageToRequestCreator()
+    const response = await testRunner.invokeAction(RequestType.Affects)
+    const message = response.getMessageToRequestCreator()
 
     // then
     expect(message).toContain(AffectType.Noop)

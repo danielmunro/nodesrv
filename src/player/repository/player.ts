@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import { getConnection } from "../../support/db/connection"
 import { Player } from "../model/player"
 import PlayerRepositoryImpl from "./impl"

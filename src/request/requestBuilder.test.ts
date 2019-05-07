@@ -1,5 +1,9 @@
+import Action from "../action/action"
+import {createTestAppContainer} from "../inversify.config"
+import LocationService from "../mob/locationService"
 import {Mob} from "../mob/model/mob"
-import TestBuilder from "../support/test/testBuilder"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
 import RequestBuilder from "./requestBuilder"
 import {RequestType} from "./requestType"
 
@@ -8,12 +12,17 @@ let target: Mob
 
 beforeEach(async () => {
   // setup
-  const testBuilder = new TestBuilder()
+  const app = await createTestAppContainer()
+  const testRunner = app.get<TestRunner>(Types.TestRunner)
   // action creator
-  testBuilder.withMob()
+  const mob = testRunner.createMob().get()
   // potential target
-  target = testBuilder.withMob().mob
-  requestBuilder = await testBuilder.createRequestBuilder()
+  target = testRunner.createMob().get()
+  requestBuilder = new RequestBuilder(
+    app.get<Action[]>(Types.Actions),
+    app.get<LocationService>(Types.LocationService),
+    mob,
+    testRunner.getStartRoom().get())
 })
 
 describe("request builder", () => {

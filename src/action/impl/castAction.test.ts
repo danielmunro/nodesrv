@@ -1,13 +1,10 @@
-import {CheckStatus} from "../../check/checkStatus"
+import {createTestAppContainer} from "../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
-import {SpecializationType} from "../../mob/specialization/specializationType"
 import {RequestType} from "../../request/requestType"
 import {ConditionMessages as SkillMessages} from "../../skill/constants"
-import {Spell} from "../../spell/model/spell"
 import {SpellType} from "../../spell/spellType"
-import {getSuccessfulAction} from "../../support/functional/times"
-import TestBuilder from "../../support/test/testBuilder"
-import Action from "../action"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import {ConditionMessages} from "../constants"
 
 const TEST_INPUT_SHIELD = "cast shield"
@@ -15,78 +12,66 @@ const TEST_INPUT_CAST = "cast"
 const TEST_INPUT_POISON = "cast poison"
 const TEST_INPUT_INVALID = "cast floodle"
 
-let testBuilder: TestBuilder
-let action: Action
-
-function newSpell(spellType: SpellType) {
-  const spell = new Spell()
-  spell.spellType = spellType
-
-  return spell
-}
+let testRunner: TestRunner
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  action = await testBuilder.getAction(RequestType.Cast)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
 describe("cast spell action", () => {
   it("should be able to cast a known spell", async () => {
     // given
-    testBuilder.withMob()
+    testRunner.createMob()
       .setLevel(20)
       .withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
 
-    const target = testBuilder.withMob().mob
+    const target = testRunner.createMob().mob
 
     // when
-    const response = await getSuccessfulAction(
-      action, testBuilder.createRequest(RequestType.Cast, "cast blind", target))
+    const response = await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast blind", target)
 
     // then
-    await expect(response).toBeDefined()
+    expect(response).toBeDefined()
     expect(target.affect().isBlind()).toBeTruthy()
   })
 
   it("should require at least one argument", async () => {
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_CAST))
+    const response = await testRunner.invokeAction(RequestType.Cast, TEST_INPUT_CAST)
 
     // then
-    expect(check.result).toBe(ConditionMessages.All.Arguments.Cast)
-    expect(check.status).toBe(CheckStatus.Failed)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Arguments.Cast)
+    expect(response.isError()).toBeTruthy()
   })
 
   it("should know if an argument has or has not a spell", async () => {
     // when
-    const poisonCheck = await action.check(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_POISON))
+    const response = await testRunner.invokeAction(RequestType.Cast, TEST_INPUT_POISON)
 
     // then
-    expect(poisonCheck.result).toBe(ConditionMessages.Cast.SpellNotKnown)
-    expect(poisonCheck.status).toBe(CheckStatus.Failed)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Cast.SpellNotKnown)
+    expect(response.isError()).toBeTruthy()
 
     // and when
-    const floodleCheck = await action.check(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_INVALID))
+    const response1 = await testRunner.invokeAction(RequestType.Cast, TEST_INPUT_INVALID)
 
     // then
-    expect(floodleCheck.result).toBe(ConditionMessages.Cast.NotASpell)
-    expect(floodleCheck.status).toBe(CheckStatus.Failed)
+    expect(response1.getMessageToRequestCreator()).toBe(ConditionMessages.Cast.NotASpell)
+    expect(response1.isError()).toBeTruthy()
   })
 
   it("should display an appropriate result if the caster lacks mana", async () => {
     // given
-    await testBuilder.withPlayer(p => {
-      p.sessionMob.specializationType = SpecializationType.Cleric
-      p.sessionMob.spells.push(newSpell(SpellType.Shield))
-      p.sessionMob.vitals.mana = 0
-      p.sessionMob.level = 30
-    })
+    testRunner.createMob()
+      .withSpell(SpellType.Shield, MAX_PRACTICE_LEVEL)
+      .setMana(0)
+      .setLevel(30)
 
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Cast, TEST_INPUT_SHIELD))
+    const response = await testRunner.invokeAction(RequestType.Cast, TEST_INPUT_SHIELD)
 
     // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(SkillMessages.All.NotEnoughMana)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(SkillMessages.All.NotEnoughMana)
   })
 })

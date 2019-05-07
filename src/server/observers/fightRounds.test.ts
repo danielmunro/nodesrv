@@ -1,10 +1,13 @@
+import {createTestAppContainer} from "../../inversify.config"
 import { Disposition } from "../../mob/enum/disposition"
 import { Attack, AttackResult } from "../../mob/fight/attack"
 import {Fight} from "../../mob/fight/fight"
+import MobService from "../../mob/mobService"
 import {getConnection, initializeConnection} from "../../support/db/connection"
 import { getTestClient } from "../../support/test/client"
 import { getTestMob } from "../../support/test/mob"
-import TestBuilder from "../../support/test/testBuilder"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
 
 beforeAll(async () => initializeConnection())
@@ -59,11 +62,11 @@ describe("fight rounds", () => {
 
   it("should filter complete fights", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const mobBuilder = testBuilder.withMob()
-    mobBuilder.mob.vitals.hp = 0
-    await testBuilder.fight()
-    const mobService = await testBuilder.getMobService()
+    const app = await createTestAppContainer()
+    const testRunner = app.get<TestRunner>(Types.TestRunner)
+    const mobBuilder = testRunner.createMob().setHp(0)
+    testRunner.fight()
+    const mobService = app.get<MobService>(Types.MobService)
 
     // when
     const fight = mobService.findFight(f => f.isParticipant(mobBuilder.mob)) as Fight
@@ -82,26 +85,27 @@ describe("fight rounds", () => {
 
   it("should filter out fight rounds that are complete", async () => {
     // setup
-    const testBuilder = new TestBuilder()
-    const client = await testBuilder.withClient()
-    await testBuilder.fight()
-    const mobService = await testBuilder.getMobService()
+    const app = await createTestAppContainer()
+    const testRunner = app.get<TestRunner>(Types.TestRunner)
+    const mobBuilder = testRunner.createMob()
+    testRunner.fight()
+    const mobService = app.get<MobService>(Types.MobService)
     const fightRounds = new FightRounds(mobService)
 
     // when
-    await fightRounds.notify([client])
+    await fightRounds.notify([])
 
     // then
-    const fight = mobService.findFight(f => f.isParticipant(client.player.sessionMob)) as Fight
+    const fight = mobService.findFight(f => f.isParticipant(mobBuilder.get())) as Fight
     expect(fight.isInProgress()).toBe(true)
 
     // and when
-    client.player.sessionMob.vitals.hp = -1
-    client.player.sessionMob.disposition = Disposition.Dead
-    await fightRounds.notify([client])
+    mobBuilder.setHp(-1)
+    mobBuilder.withDisposition(Disposition.Dead)
+    await fightRounds.notify([])
 
     // then
-    const fight2 = mobService.findFight(f => f.isParticipant(client.player.sessionMob))
+    const fight2 = mobService.findFight(f => f.isParticipant(mobBuilder.get()))
     expect(fight2).toBeUndefined()
   })
 })

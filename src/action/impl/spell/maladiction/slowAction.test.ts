@@ -1,29 +1,32 @@
 import {AffectType} from "../../../../affect/affectType"
 import {newAffect} from "../../../../affect/factory"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import doNTimes, {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let target: MobBuilder
 const iterations = 1000
 
-beforeEach(() => {
-  testBuilder = new TestBuilder()
-  testBuilder.withMob().withSpell(SpellType.Slow, MAX_PRACTICE_LEVEL).setLevel(30)
-  target = testBuilder.withMob()
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  testRunner.createMob()
+    .withSpell(SpellType.Slow, MAX_PRACTICE_LEVEL)
+    .setLevel(30)
+  target = testRunner.createMob()
 })
 
 describe("slow spell action", () => {
   it("applies the slow affect", async () => {
-    await testBuilder.successfulAction(
-      testBuilder.createRequest(
+    await testRunner.invokeActionSuccessfully(
         RequestType.Cast,
         `cast slow '${target.getMobName()}'`,
-        target.mob))
+        target.get())
 
     expect(target.hasAffect(AffectType.Slow)).toBeTruthy()
   })
@@ -36,11 +39,10 @@ describe("slow spell action", () => {
       aff.reset()
       aff.add(newAffect(AffectType.Haste))
 
-      await testBuilder.successfulAction(
-        testBuilder.createRequest(
+      await testRunner.invokeActionSuccessfully(
           RequestType.Cast,
           `cast slow '${target.getMobName()}'`,
-          target.mob))
+          target.get())
 
       if (aff.has(AffectType.Slow)) {
         slowApplied++
@@ -59,11 +61,10 @@ describe("slow spell action", () => {
       aff.reset()
       aff.add(newAffect(AffectType.Haste))
 
-      const handled = await testBuilder.successfulAction(
-        testBuilder.createRequest(
+      const handled = await testRunner.invokeActionSuccessfully(
           RequestType.Cast,
           `cast slow '${target.getMobName()}'`,
-          target.mob))
+          target.get())
 
       if (!aff.has(AffectType.Slow)) {
         return handled
@@ -71,19 +72,20 @@ describe("slow spell action", () => {
     })
 
     expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} stops moving quickly.`)
-    expect(response.message.getMessageToTarget()).toBe("you stop moving quickly.")
-    expect(response.message.getMessageToObservers()).toBe(`${target.getMobName()} stops moving quickly.`)
+    expect(response.getMessageToTarget()).toBe("you stop moving quickly.")
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()} stops moving quickly.`)
   })
 
   it("generates accurate messages when applying slow", async () => {
-    const response = await testBuilder.successfulAction(
-      testBuilder.createRequest(
+    const response = await testRunner.invokeActionSuccessfully(
         RequestType.Cast,
         `cast slow '${target.getMobName()}'`,
-        target.mob))
+        target.mob)
 
-    expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} starts moving in slow motion.`)
-    expect(response.message.getMessageToTarget()).toBe("you start moving in slow motion.")
-    expect(response.message.getMessageToObservers()).toBe(`${target.getMobName()} starts moving in slow motion.`)
+    expect(response.getMessageToRequestCreator())
+      .toBe(`${target.getMobName()} starts moving in slow motion.`)
+    expect(response.getMessageToTarget()).toBe("you start moving in slow motion.")
+    expect(response.getMessageToObservers())
+      .toBe(`${target.getMobName()} starts moving in slow motion.`)
   })
 })

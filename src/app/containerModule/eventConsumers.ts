@@ -1,0 +1,22 @@
+import {ContainerModule} from "inversify"
+import EventConsumer from "../../event/eventConsumer"
+import createEventConsumerTable from "../../event/eventConsumerTable"
+import EventService from "../../event/eventService"
+import GameService from "../../gameService/gameService"
+import ItemService from "../../item/itemService"
+import FightBuilder from "../../mob/fight/fightBuilder"
+import LocationService from "../../mob/locationService"
+import MobService from "../../mob/mobService"
+import {GameServer} from "../../server/server"
+import {Types} from "../../support/types"
+
+export default new ContainerModule(bind => {
+  bind<EventConsumer[]>(Types.EventConsumerTable).toDynamicValue(context => createEventConsumerTable(
+      context.container.get<GameService>(Types.GameService),
+      context.container.get<GameServer>(Types.GameServer),
+      context.container.get<MobService>(Types.MobService),
+      context.container.get<ItemService>(Types.ItemService),
+      context.container.get<FightBuilder>(Types.FightBuilder),
+      context.container.get<EventService>(Types.EventService),
+      context.container.get<LocationService>(Types.LocationService))).inSingletonScope()
+})

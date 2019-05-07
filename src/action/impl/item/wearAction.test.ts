@@ -1,98 +1,82 @@
-import {CheckStatus} from "../../../check/checkStatus"
-import { Equipment } from "../../../item/enum/equipment"
-import { newEquipment } from "../../../item/factory"
-import { Item } from "../../../item/model/item"
+import {createTestAppContainer} from "../../../inversify.config"
 import { RequestType } from "../../../request/requestType"
 import { ResponseStatus } from "../../../request/responseStatus"
-import PlayerBuilder from "../../../support/test/playerBuilder"
-import TestBuilder from "../../../support/test/testBuilder"
-import Action from "../../action"
+import MobBuilder from "../../../support/test/mobBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import {ConditionMessages} from "../../constants"
 
-function getHatOfMight(): Item {
-  return newEquipment("the hat of might", "a mighty hat", Equipment.Head)
-}
-
-function getPirateHat(): Item {
-  return newEquipment("a pirate hat", "a well-worn pirate hat", Equipment.Head)
-}
-
-let testBuilder: TestBuilder
-let playerBuilder: PlayerBuilder
-let action: Action
+let testRunner: TestRunner
+let mobBuilder: MobBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  playerBuilder = await testBuilder.withPlayer()
-  action = await testBuilder.getAction(RequestType.Wear)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  mobBuilder = testRunner.createMob()
 })
 
-describe("wear", () => {
+describe("wear action", () => {
   it("can equip an item", async () => {
     // given
-    const item = testBuilder.withItem()
+    const item = testRunner.createItem()
       .asHelmet()
-      .addToPlayerBuilder(playerBuilder)
       .build()
+    mobBuilder.addItem(item)
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Wear, `wear ${item.name}`))
+    const response = await testRunner.invokeAction(RequestType.Wear, `wear ${item.name}`)
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message.getMessageToRequestCreator()).toBe(`You wear ${item.name}.`)
+    expect(response.getMessageToRequestCreator()).toBe(`you wear ${item.name}.`)
+    expect(response.message.getMessageToTarget()).toBe(`you wear ${item.name}.`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${mobBuilder.getMobName()} wears ${item.name}.`)
   })
 
   it("will remove an equipped item and wear a new item", async () => {
     // given
-    playerBuilder.player.sessionMob.inventory.addItem(getHatOfMight())
-    playerBuilder.player.sessionMob.equipped.addItem(getPirateHat())
+    const item1 = testRunner.createItem()
+      .asHelmet()
+      .build()
+    const item2 = testRunner.createItem()
+      .asHelmet()
+      .build()
+    item2.name = "a pirate hat"
+    mobBuilder.equip(item1)
+    mobBuilder.addItem(item2)
 
     // when
-    const response = await action.handle(testBuilder.createRequest(RequestType.Wear, "wear hat"))
+    const response = await testRunner.invokeAction(RequestType.Wear, "wear hat")
 
     // then
-    expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.message.getMessageToRequestCreator()).toBe("You remove a pirate hat and wear the hat of might.")
+    expect(response.isSuccessful()).toBeTruthy()
+    expect(response.getMessageToRequestCreator())
+      .toBe(`you remove ${item1.name} and wear ${item2.name}.`)
+    expect(response.message.getMessageToTarget())
+      .toBe(`you remove ${item1.name} and wear ${item2.name}.`)
+    expect(response.message.getMessageToObservers())
+      .toBe(`${mobBuilder.getMobName()} removes ${item1.name} and wears ${item2.name}.`)
   })
 
   it("should not work if an item has not found", async () => {
     // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Wear, "wear foo"))
+    const response = await testRunner.invokeAction(RequestType.Wear, "wear foo")
 
     // then
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(ConditionMessages.All.Item.NotOwned)
-  })
-
-  it("can equip an item check", async () => {
-    // given
-    testBuilder.withWeapon()
-      .asAxe()
-      .addToPlayerBuilder(playerBuilder)
-      .build()
-
-    // when
-    const check = await action.check(testBuilder.createRequest(RequestType.Wear, "wear axe"))
-
-    // then
-    expect(check.status).toBe(CheckStatus.Ok)
-    expect(check.result).not.toBeNull()
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Item.NotOwned)
   })
 
   it("can't equip things that aren't equipment", async () => {
     // setup
-    const item = testBuilder.withItem()
+    const item = testRunner.createItem()
       .asFood()
-      .addToPlayerBuilder(playerBuilder)
       .build()
+    mobBuilder.addItem(item)
 
-    const check = await action.check(
-      testBuilder.createRequest(
-        RequestType.Wear,
-        `wear ${item.name}`))
+    const response = await testRunner.invokeAction(RequestType.Wear, `wear ${item.name}`)
 
-    expect(check.status).toBe(CheckStatus.Failed)
-    expect(check.result).toBe(ConditionMessages.All.Item.NotEquipment)
+    expect(response.isError()).toBeTruthy()
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Item.NotEquipment)
   })
 })

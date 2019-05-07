@@ -1,70 +1,54 @@
+import {AffectType} from "../../../../affect/affectType"
+import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {Mob} from "../../../../mob/model/mob"
 import {RequestType} from "../../../../request/requestType"
-import Response from "../../../../request/response"
 import {SpellType} from "../../../../spell/spellType"
-import doNTimes, {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
-import TestBuilder from "../../../../support/test/testBuilder"
-import Spell from "../../spell"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
-let testBuilder: TestBuilder
+let testRunner: TestRunner
 let mobBuilder: MobBuilder
-let mob: Mob
-let spell: Spell
-const iterations = 1000
-const CAST_BLIND_BOB = "cast blind bob"
+let target: MobBuilder
 
 beforeEach(async () => {
-  testBuilder = new TestBuilder()
-  mobBuilder = testBuilder.withMob("alice")
-  mobBuilder.setLevel(20)
-  mobBuilder.withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
-  mob = testBuilder.withMob("bob").mob
-  spell = await testBuilder.getSpell(SpellType.Blind)
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  mobBuilder = testRunner.createMob()
+    .setLevel(20)
+    .withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
+  target = testRunner.createMob()
 })
-
-function getResponses(): Promise<Response[]> {
-  return doNTimes(iterations, () =>
-    spell.handle(testBuilder.createRequest(RequestType.Cast, CAST_BLIND_BOB, mob)))
-}
 
 describe("blind spell action", () => {
   it("should impart a blinding affect on success", async () => {
     // when
-    const responses = await getResponses()
+    await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast blind ${target.getMobName()}`, target.get())
 
     // then
-    const response = responses.find(r => r.isSuccessful())
-    if (!response) {
-      return fail("expected successful response")
-    }
-    expect(mob.affect().isBlind()).toBeTruthy()
+    expect(target.hasAffect(AffectType.Blind)).toBeTruthy()
   })
 
   it("generates accurate success messages", async () => {
     // when
-    const responses = await getResponses()
+    const response = await testRunner.invokeActionSuccessfully(
+      RequestType.Cast, `cast blind ${target.getMobName()}`, target.get())
 
     // then
-    const response = responses.find(r => r.isSuccessful())
-    if (!response) {
-      return fail("expected successful response")
-    }
-    const message = response.message
-    expect(message.getMessageToRequestCreator()).toBe("bob is suddenly blind!")
-    expect(message.getMessageToTarget()).toBe("you are suddenly blind!")
-    expect(message.getMessageToObservers()).toBe("bob is suddenly blind!")
+    expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} is suddenly blind!`)
+    expect(response.getMessageToTarget()).toBe("you are suddenly blind!")
+    expect(response.getMessageToObservers()).toBe(`${target.getMobName()} is suddenly blind!`)
   })
 
   it("should error out if applied twice", async () => {
+    // given
+    target.addAffectType(AffectType.Blind)
+
     // when
-    const response = await doNTimesOrUntilTruthy(iterations, async () => {
-      const handled = await spell.handle(testBuilder.createRequest(RequestType.Cast, CAST_BLIND_BOB, mob))
-      return handled.isError() ? handled : null
-    })
+    const response = await testRunner.invokeAction(
+      RequestType.Cast, `cast blind ${target.getMobName()}`, target.get())
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe("They are already blind.")
+    expect(response.getMessageToRequestCreator()).toBe("They are already blind.")
   })
 })
