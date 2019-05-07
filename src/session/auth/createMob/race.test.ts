@@ -1,11 +1,11 @@
+import {createTestAppContainer} from "../../../app/testFactory"
 import raceTable from "../../../mob/race/raceTable"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Race from "./race"
 import Specialization from "./specialization"
-import TestRunner from "../../../support/test/testRunner"
-import {createTestAppContainer} from "../../../app/testFactory"
-import {Types} from "../../../support/types"
 
 const mockAuthService = jest.fn()
 let testRunner: TestRunner

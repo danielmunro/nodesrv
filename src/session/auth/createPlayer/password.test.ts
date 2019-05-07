@@ -1,11 +1,11 @@
+import {createTestAppContainer} from "../../../app/testFactory"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import { MESSAGE_FAIL_PASSWORD_TOO_SHORT } from "../constants"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Password from "./password"
 import PasswordConfirm from "./passwordConfirm"
-import TestRunner from "../../../support/test/testRunner"
-import {createTestAppContainer} from "../../../app/testFactory"
-import {Types} from "../../../support/types"
 
 const mockAuthService = jest.fn()
 let testRunner: TestRunner
