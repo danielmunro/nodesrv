@@ -1,5 +1,6 @@
 import {AffectType} from "../affect/affectType"
 import {createTestAppContainer} from "../inversify.config"
+import LocationService from "../mob/locationService"
 import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import Door from "../room/model/door"
@@ -12,9 +13,12 @@ import {ConditionMessages, MESSAGE_DIRECTION_DOES_NOT_EXIST, MESSAGE_OUT_OF_MOVE
 let testRunner: TestRunner
 let mobBuilder: MobBuilder
 let destination: RoomBuilder
+let locationService: LocationService
 
 beforeEach(async () => {
-  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  locationService = app.get<LocationService>(Types.LocationService)
   mobBuilder = testRunner.createMob()
   destination = testRunner.createRoom(Direction.East)
 })
@@ -26,7 +30,7 @@ describe("move", () => {
 
     // then
     expect(response.isSuccessful()).toBeTruthy()
-    expect(testRunner.getRoomForMob(mobBuilder.mob)).toBe(destination.room)
+    expect(locationService.getRoomForMob(mobBuilder.mob)).toBe(destination.room)
   })
 
   it("does not cost movement if flying", async () => {
@@ -50,7 +54,7 @@ describe("move", () => {
 
     // then
     expect(response.isError()).toBeTruthy()
-    expect(testRunner.getRoomForMob(mobBuilder.mob)).toBe(testRunner.getStartRoom().get())
+    expect(locationService.getRoomForMob(mobBuilder.mob)).toBe(testRunner.getStartRoom().get())
   })
 
   it("does not allow movement when an exit has a closed door", async () => {

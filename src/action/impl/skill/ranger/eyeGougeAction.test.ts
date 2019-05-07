@@ -1,6 +1,7 @@
 import {AffectType} from "../../../../affect/affectType"
 import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
+import MobService from "../../../../mob/mobService"
 import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
 import MobBuilder from "../../../../support/test/mobBuilder"
@@ -8,11 +9,14 @@ import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
 
 let testRunner: TestRunner
+let mobService: MobService
 let attacker: MobBuilder
 let defender: MobBuilder
 
 beforeEach(async () => {
-  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  mobService = app.get<MobService>(Types.MobService)
   attacker = testRunner.createMob()
     .withSkill(SkillType.EyeGouge, MAX_PRACTICE_LEVEL)
     .setLevel(30)
@@ -35,7 +39,7 @@ describe("eye gouge skill action", () => {
         `eye ${defender.getMobName()}`,
         defender.mob)
 
-    expect(testRunner.getFightForMob(defender.mob)).toBeDefined()
+    expect(mobService.findFightForMob(defender.mob)).toBeDefined()
   })
 
   it("generates accurate success messages", async () => {

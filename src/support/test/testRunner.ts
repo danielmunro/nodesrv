@@ -58,10 +58,6 @@ export default class TestRunner {
     @inject(Types.StateService) private readonly stateService: StateService,
   ) {}
 
-  public async updateMobLocation(mob: Mob, room: Room, direction?: Direction) {
-    await this.locationService.updateMobLocation(mob, room, direction)
-  }
-
   public createItem(): ItemBuilder {
     const item = new Item()
     this.itemService.add(item)
@@ -145,16 +141,8 @@ export default class TestRunner {
     return fight
   }
 
-  public getFightForMob(mob: Mob): Fight | undefined {
-    return this.mobService.findFightForMob(mob)
-  }
-
   public getStartRoom(): RoomBuilder {
     return new RoomBuilder(this.locationService.getRecall())
-  }
-
-  public getRoomForMob(mob: Mob): Room {
-    return this.locationService.getRoomForMob(mob)
   }
 
   public async invokeAction(requestType: RequestType, input?: string, targetMobInRoom?: Mob): Promise<Response> {

@@ -1,6 +1,8 @@
 import {createTestAppContainer} from "../../../inversify.config"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {Fight} from "../../../mob/fight/fight"
+import LocationService from "../../../mob/locationService"
+import MobService from "../../../mob/mobService"
 import {Mob} from "../../../mob/model/mob"
 import { RequestType } from "../../../request/requestType"
 import RoomBuilder from "../../../support/test/roomBuilder"
@@ -16,9 +18,14 @@ let mob: Mob
 let player
 let room2: RoomBuilder
 let testRunner: TestRunner
+let locationService: LocationService
+let mobService: MobService
 
 beforeEach(async () => {
-  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  locationService = app.get<LocationService>(Types.LocationService)
+  mobService = app.get<MobService>(Types.MobService)
   room2 = testRunner.createRoom()
   const playerBuilder = testRunner.createPlayer()
   player = playerBuilder.player
@@ -29,13 +36,13 @@ beforeEach(async () => {
 describe("flee action handler", () => {
   it("flee should stop a fight", async () => {
     // verify
-    expect(testRunner.getFightForMob(mob)).toBeDefined()
+    expect(mobService.findFightForMob(mob)).toBeDefined()
 
     // when
     await testRunner.invokeActionSuccessfully(RequestType.Flee)
 
     // then
-    expect((testRunner.getFightForMob(mob) as Fight).isInProgress()).toBeFalsy()
+    expect((mobService.findFightForMob(mob) as Fight).isInProgress()).toBeFalsy()
   })
 
   it("flee should cause the fleeing mob to change rooms", async () => {
@@ -43,7 +50,7 @@ describe("flee action handler", () => {
     await testRunner.invokeActionSuccessfully(RequestType.Flee)
 
     // then
-    expect(testRunner.getRoomForMob(mob)).toBe(room2.room)
+    expect(locationService.getRoomForMob(mob)).toBe(room2.room)
   })
 
   it("flee should accurately build its response message", async () => {
@@ -52,8 +59,8 @@ describe("flee action handler", () => {
 
     // then
     expect(response.getMessageToRequestCreator()).toContain("you flee to the")
-    expect(response.message.getMessageToTarget()).toContain(`${mob.name} flees to the`)
-    expect(response.message.getMessageToObservers()).toContain(`${mob.name} flees to the`)
+    expect(response.getMessageToTarget()).toContain(`${mob.name} flees to the`)
+    expect(response.getMessageToObservers()).toContain(`${mob.name} flees to the`)
   })
 
   it("should not work if the mob has not fighting", async () => {

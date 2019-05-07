@@ -6,14 +6,17 @@ import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import MobMoveEvent from "../event/mobMoveEvent"
 import {Fight} from "../fight/fight"
+import MobService from "../mobService"
 
 let testRunner: TestRunner
+let mobService: MobService
 let eventService: EventService
 let room: Room
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
+  mobService = app.get<MobService>(Types.MobService)
   eventService = app.get<EventService>(Types.EventService)
   room = app.get<Room>(Types.StartRoom)
 })
@@ -31,7 +34,7 @@ describe("aggressive mob event consumer", () => {
       new MobMoveEvent(player.getMob(), room, room, Direction.Noop))
 
     // then
-    const fight = testRunner.getFightForMob(player.getMob())
+    const fight = mobService.findFightForMob(player.getMob())
     expect(fight).toBeDefined()
     expect(fight).toBeInstanceOf(Fight)
   })
@@ -47,7 +50,7 @@ describe("aggressive mob event consumer", () => {
     await eventService.publish(new MobMoveEvent(mob1, room, room, Direction.Noop))
 
     // then
-    const fight = testRunner.getFightForMob(mob1)
+    const fight = mobService.findFightForMob(mob1)
     expect(fight).not.toBeDefined()
   })
 
@@ -64,7 +67,7 @@ describe("aggressive mob event consumer", () => {
       new MobMoveEvent(player.getMob(), room, room, Direction.Noop))
 
     // then
-    const fight = testRunner.getFightForMob(player.getMob())
+    const fight = mobService.findFightForMob(player.getMob())
     expect(fight).not.toBeDefined()
   })
 })

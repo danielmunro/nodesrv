@@ -1,5 +1,6 @@
 import {createTestAppContainer} from "../../../inversify.config"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
+import LocationService from "../../../mob/locationService"
 import { RequestType } from "../../../request/requestType"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
@@ -7,11 +8,14 @@ import {Types} from "../../../support/types"
 import {ConditionMessages} from "../../constants"
 
 let testRunner: TestRunner
+let locationService: LocationService
 let seller: MobBuilder
 let merchant: MobBuilder
 
 beforeEach(async () => {
-  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  locationService = app.get<LocationService>(Types.LocationService)
   seller = testRunner.createMob()
   merchant = testRunner.createMob().asMerchant()
 })
@@ -41,7 +45,7 @@ describe("sell action", () => {
     const room = testRunner.createRoom().get()
 
     // given
-    await testRunner.updateMobLocation(merchant.mob, room)
+    await locationService.updateMobLocation(merchant.mob, room)
 
     // when
     const response = await testRunner.invokeAction(RequestType.Sell, "sell foo")

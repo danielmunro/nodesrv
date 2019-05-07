@@ -1,6 +1,7 @@
 import {AffectType} from "../../../../affect/affectType"
 import {createTestAppContainer} from "../../../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
+import MobService from "../../../../mob/mobService"
 import {RequestType} from "../../../../request/requestType"
 import Response from "../../../../request/response"
 import {ConditionMessages as AllMessages} from "../../../../skill/constants"
@@ -14,9 +15,12 @@ const iterations = 1000
 let testRunner: TestRunner
 let mobBuilder: MobBuilder
 let opponent: MobBuilder
+let mobService: MobService
 
 beforeEach(async () => {
-  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  mobService = app.get<MobService>(Types.MobService)
   mobBuilder = testRunner.createMob()
   opponent = testRunner.createMob()
   testRunner.fight(opponent.mob)
@@ -90,7 +94,6 @@ describe("backstab skill action", () => {
 
   it("starts a fight", async () => {
     testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-    mobBuilder = testRunner.createMob()
     opponent = testRunner.createMob()
 
     // given
@@ -101,11 +104,10 @@ describe("backstab skill action", () => {
     await testRunner.invokeAction(
         RequestType.Backstab,
         `backstab ${opponent.getMobName()}`,
-        opponent.mob)
+        opponent.get())
 
     // then
-    const fight = testRunner.getFightForMob(mobBuilder.mob)
-    expect(fight).toBeDefined()
+    expect(mobService.findFightForMob(mobBuilder.get())).toBeDefined()
   })
 
   it("generates the right messages", async () => {
