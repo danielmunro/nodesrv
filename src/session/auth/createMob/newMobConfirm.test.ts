@@ -1,20 +1,23 @@
-import {getConnection, initializeConnection} from "../../../support/db/connection"
-import { getTestClient } from "../../../support/test/client"
+import {createTestAppContainer} from "../../../app/testFactory"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import Name from "../login/name"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import NewMobConfirm from "./newMobConfirm"
 import Race from "./race"
 
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
-
 const mockAuthService = jest.fn()
+let testRunner: TestRunner
+
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+})
 
 describe("new mob confirm auth step", () => {
   it("should bounce back to mob name if the client selects 'n'", async () => {
     // given
-    const client = await getTestClient()
+    const client = testRunner.createClient()
 
     // setup
     const newMobConfirm = new NewMobConfirm(mockAuthService(), client.player, "foo")
@@ -29,7 +32,7 @@ describe("new mob confirm auth step", () => {
 
   it("should proceed to the next step (raceType selection) if 'y' selected", async () => {
     // given
-    const client = await getTestClient()
+    const client = await testRunner.createLoggedInClient()
 
     // setup
     const newMobConfirm = new NewMobConfirm(mockAuthService(), client.player, "foo")
@@ -44,7 +47,7 @@ describe("new mob confirm auth step", () => {
 
   it("generates with correct starting attributes", async () => {
     // setup
-    const client = await getTestClient()
+    const client = await testRunner.createLoggedInClient()
     const newMobConfirm = new NewMobConfirm(mockAuthService(), client.player, "foo")
 
     // when
@@ -65,7 +68,7 @@ describe("new mob confirm auth step", () => {
 
   it("should error out for any other input", async () => {
     // given
-    const client = await getTestClient()
+    const client = await testRunner.createLoggedInClient()
 
     // setup
     const newMobConfirm = new NewMobConfirm(mockAuthService(), client.player, "foo")

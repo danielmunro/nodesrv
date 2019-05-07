@@ -1,6 +1,4 @@
 import {createTestAppContainer} from "../app/testFactory"
-import { getPlayerRepository } from "../player/repository/player"
-import {getConnection, initializeConnection} from "../support/db/connection"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
 import AuthService from "./auth/authService"
@@ -9,10 +7,9 @@ import Email from "./auth/login/email"
 import Request from "./auth/request"
 import Session from "./session"
 
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
-
 const mockAuthService = jest.fn()
+const mockPlayerRepository = jest.fn()
+const mockMobService = jest.fn()
 let testRunner: TestRunner
 
 beforeEach(async () => {
@@ -26,8 +23,7 @@ describe("session", () => {
     const player = playerBuilder.player
     const client = testRunner.createClient()
     const session = new Session(
-      new Email(new AuthService(await getPlayerRepository(), jest.fn()())),
-    )
+      new Email(new AuthService(mockPlayerRepository(), mockMobService())))
 
     // expect
     expect(session.isLoggedIn()).toBeFalsy()

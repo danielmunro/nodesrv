@@ -103,6 +103,12 @@ export default class TestRunner {
     return this.clientService.createNewClient(ws() as any, mockRequest())
   }
 
+  public async createLoggedInClient(): Promise<Client> {
+    const client = this.createClient()
+    await client.session.login(client, this.createPlayer().get())
+    return client
+  }
+
   public createRoom(direction?: Direction): RoomBuilder {
     const room = getTestRoom()
     const rooms = this.roomTable.getRooms()

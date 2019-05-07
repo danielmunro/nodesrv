@@ -10,8 +10,6 @@ import ClientService from "../server/clientService"
 import {default as AuthRequest} from "../session/auth/request"
 import Session from "../session/session"
 import {SpellMessages} from "../spell/constants"
-import {getConnection, initializeConnection} from "../support/db/connection"
-import {getTestClientLoggedOut} from "../support/test/client"
 import {getTestPlayer} from "../support/test/player"
 import {getTestRoom} from "../support/test/room"
 import TestRunner from "../support/test/testRunner"
@@ -42,9 +40,6 @@ beforeEach(async () => {
   const mobService = app.get<MobService>(Types.MobService)
   mobService.add(player.sessionMob, testRunner.getStartRoom().get())
 })
-
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
 
 describe("client sanity checks", () => {
   it("has requests sanity createDefaultCheckFor", () => {
@@ -146,7 +141,7 @@ describe("client sanity checks", () => {
 
 describe("clients", () => {
   it("should delegate handling requests to the session if not logged in", async () => {
-    const newClient = await getTestClientLoggedOut()
+    const newClient = testRunner.createClient()
     const authStep = newClient.session.getAuthStepMessage()
     newClient.addRequest(new AuthRequest(newClient, "testemail@email.com"))
     await newClient.handleNextRequest()

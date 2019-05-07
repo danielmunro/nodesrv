@@ -1,27 +1,28 @@
+import {createTestAppContainer} from "../../../app/testFactory"
 import hash from "../../../player/password/hash"
-import { savePlayer } from "../../../player/service"
-import {getConnection, initializeConnection} from "../../../support/db/connection"
-import { getTestClient } from "../../../support/test/client"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Name from "./name"
 import Password from "./password"
 
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
-
+let testRunner: TestRunner
 const mockAuthService = jest.fn()
+
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+})
 
 describe("password login auth step", () => {
   it("should be able to login in", async () => {
+    // setup
+    const client = await testRunner.createLoggedInClient()
+    const password = new Password(mockAuthService(), client.player)
+
     // given
     const playerPassword = "s3crets"
-
-    // setup
-    const client = await getTestClient()
     client.player.password = hash(playerPassword)
-    await savePlayer(client.player)
-    const password = new Password(mockAuthService(), client.player)
 
     // when
     const response = await password.processRequest(new Request(client, playerPassword))
@@ -32,15 +33,14 @@ describe("password login auth step", () => {
   })
 
   it("should fail login with the wrong password", async () => {
+    // setup
+    const client = await testRunner.createLoggedInClient()
+    const password = new Password(mockAuthService(), client.player)
+
     // given
     const playerPassword = "s3crets"
     const input = "notsecret"
-
-    // setup
-    const client = await getTestClient()
     client.player.password = hash(playerPassword)
-    await savePlayer(client.player)
-    const password = new Password(mockAuthService(), client.player)
 
     // when
     const response = await password.processRequest(new Request(client, input))

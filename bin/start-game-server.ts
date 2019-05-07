@@ -31,6 +31,10 @@ console.log(`startup parameters:  port: ${port}, room: ${startRoomID}`)
 
 initializeConnection().then(async () => {
   const app = await createAppContainer(startRoomID, port)
+
+  /**
+   * seed mob and item resets
+   */
   const resetService = app.getResetService()
   console.time(Timings.seedMobs)
   await resetService.seedMobTable()
@@ -39,6 +43,9 @@ initializeConnection().then(async () => {
   await resetService.seedItemRoomResets()
   console.timeEnd(Timings.seedItems)
 
+  /**
+   * server observers
+   */
   const server = app.getGameServer()
   const observers = app.getObservers()
   server.addObserver(new ObserverChain([
@@ -54,11 +61,16 @@ initializeConnection().then(async () => {
   server.addObserver(observers.getDecrementPlayerDelayObserver(), new SecondIntervalTimer())
   server.addObserver(observers.getHandleClientRequestsObserver(), new ShortIntervalTimer())
 
+  /**
+   * event service consumers
+   */
   const eventConsumerTable = app.getEventConsumerTable()
   const eventService = app.getEventService()
   eventConsumerTable.forEach(eventConsumer => eventService.addConsumer(eventConsumer))
 
+  /**
+   * start the game
+   */
   await server.start()
-
   console.timeEnd(Timings.init)
 })
