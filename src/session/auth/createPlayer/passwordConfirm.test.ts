@@ -1,5 +1,5 @@
 import * as uuid from "uuid"
-import {createTestAppContainer} from "../../../inversify.config"
+import {createTestAppContainer} from "../../../app/testFactory"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import Request from "../request"

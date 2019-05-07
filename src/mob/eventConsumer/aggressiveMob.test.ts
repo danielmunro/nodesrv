@@ -1,5 +1,5 @@
+import {createTestAppContainer} from "../../app/testFactory"
 import EventService from "../../event/eventService"
-import {createTestAppContainer} from "../../inversify.config"
 import {Direction} from "../../room/constants"
 import {Room} from "../../room/model/room"
 import TestRunner from "../../support/test/testRunner"

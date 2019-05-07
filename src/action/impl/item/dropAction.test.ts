@@ -1,6 +1,6 @@
 import { AffectType } from "../../../affect/affectType"
 import { newAffect } from "../../../affect/factory"
-import {createTestAppContainer} from "../../../inversify.config"
+import {createTestAppContainer} from "../../../app/testFactory"
 import { Item } from "../../../item/model/item"
 import { RequestType } from "../../../request/requestType"
 import MobBuilder from "../../../support/test/mobBuilder"

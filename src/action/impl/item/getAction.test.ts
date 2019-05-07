@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../inversify.config"
+import {createTestAppContainer} from "../../../app/testFactory"
 import { RequestType } from "../../../request/requestType"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"

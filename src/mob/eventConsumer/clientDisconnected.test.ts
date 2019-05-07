@@ -1,6 +1,6 @@
+import {createTestAppContainer} from "../../app/testFactory"
 import ClientEvent from "../../client/event/clientEvent"
 import {EventType} from "../../event/eventType"
-import {createTestAppContainer} from "../../inversify.config"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
 import LocationService from "../locationService"

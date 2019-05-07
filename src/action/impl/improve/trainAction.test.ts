@@ -1,6 +1,6 @@
+import {createTestAppContainer} from "../../../app/testFactory"
 import { allStats, allVitals } from "../../../attributes/constants"
 import Attributes from "../../../attributes/model/attributes"
-import {createTestAppContainer} from "../../../inversify.config"
 import { RequestType } from "../../../request/requestType"
 import { ResponseStatus } from "../../../request/responseStatus"
 import PlayerBuilder from "../../../support/test/playerBuilder"

@@ -1,19 +1,15 @@
-import {createTestAppContainer} from "../../inversify.config"
+import {createTestAppContainer} from "../../app/testFactory"
 import InputContext from "../../request/context/inputContext"
 import Request from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import { default as AuthRequest } from "../../session/auth/request"
 import Response from "../../session/auth/response"
 import {ResponseStatus} from "../../session/auth/responseStatus"
-import {getConnection, initializeConnection} from "../../support/db/connection"
 import {getTestPlayer} from "../../support/test/player"
 import {getTestRoom} from "../../support/test/room"
 import {Types} from "../../support/types"
 import ClientService from "../clientService"
 import {HandleClientRequests} from "./handleClientRequests"
-
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
 
 let clientService: ClientService
 

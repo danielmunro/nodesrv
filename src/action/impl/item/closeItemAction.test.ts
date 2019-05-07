@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../inversify.config"
+import {createTestAppContainer} from "../../../app/testFactory"
 import {Item} from "../../../item/model/item"
 import {RequestType} from "../../../request/requestType"
 import {ResponseStatus} from "../../../request/responseStatus"

@@ -1,5 +1,5 @@
+import {createTestAppContainer} from "../../app/testFactory"
 import EventConsumer from "../../event/eventConsumer"
-import {createTestAppContainer} from "../../inversify.config"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import AttackEvent from "../event/attackEvent"

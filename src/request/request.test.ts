@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../inversify.config"
+import {createTestAppContainer} from "../app/testFactory"
 import { Equipment } from "../item/enum/equipment"
 import {newEquipment} from "../item/factory"
 import TestRunner from "../support/test/testRunner"

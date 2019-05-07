@@ -1,6 +1,6 @@
 import {AffectType} from "../affect/affectType"
 import {newAffect} from "../affect/factory"
-import {createTestAppContainer} from "../inversify.config"
+import {createTestAppContainer} from "../app/testFactory"
 import MobService from "../mob/mobService"
 import {Player} from "../player/model/player"
 import InputContext from "../request/context/inputContext"

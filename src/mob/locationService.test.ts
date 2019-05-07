@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../inversify.config"
+import {createTestAppContainer} from "../app/testFactory"
 import {Room} from "../room/model/room"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"

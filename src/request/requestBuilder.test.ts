@@ -1,5 +1,5 @@
 import Action from "../action/action"
-import {createTestAppContainer} from "../inversify.config"
+import {createTestAppContainer} from "../app/testFactory"
 import LocationService from "../mob/locationService"
 import {Mob} from "../mob/model/mob"
 import TestRunner from "../support/test/testRunner"

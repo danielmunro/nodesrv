@@ -1,5 +1,5 @@
+import {createTestAppContainer} from "../app/testFactory"
 import ActionService from "../gameService/actionService"
-import {createTestAppContainer} from "../inversify.config"
 import InputContext from "../request/context/inputContext"
 import Request from "../request/request"
 import { RequestType } from "../request/requestType"

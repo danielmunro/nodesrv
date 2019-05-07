@@ -1,6 +1,6 @@
 import {AffectType} from "../../../../affect/affectType"
 import {newAffect} from "../../../../affect/factory"
-import {createTestAppContainer} from "../../../../inversify.config"
+import {createTestAppContainer} from "../../../../app/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"
 import {SpellType} from "../../../../spell/spellType"

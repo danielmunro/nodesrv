@@ -1,5 +1,5 @@
 import {AffectType} from "../../../../affect/affectType"
-import {createTestAppContainer} from "../../../../inversify.config"
+import {createTestAppContainer} from "../../../../app/testFactory"
 import {Item} from "../../../../item/model/item"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/requestType"

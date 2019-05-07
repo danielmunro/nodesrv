@@ -1,5 +1,5 @@
+import {createTestAppContainer} from "../../../app/testFactory"
 import {CheckMessages} from "../../../check/constants"
-import {createTestAppContainer} from "../../../inversify.config"
 import {Standing} from "../../../mob/enum/standing"
 import {AuthorizationLevel} from "../../../player/authorizationLevel"
 import {allAuthorizationLevels} from "../../../player/constants"

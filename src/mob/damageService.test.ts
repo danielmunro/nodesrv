@@ -1,5 +1,5 @@
+import {createTestAppContainer} from "../app/testFactory"
 import {DamageType} from "../damage/damageType"
-import {createTestAppContainer} from "../inversify.config"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
 import DamageService from "./damageService"

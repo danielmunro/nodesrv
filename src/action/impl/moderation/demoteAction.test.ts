@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../inversify.config"
+import {createTestAppContainer} from "../../../app/testFactory"
 import {AuthorizationLevel} from "../../../player/authorizationLevel"
 import {RequestType} from "../../../request/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"

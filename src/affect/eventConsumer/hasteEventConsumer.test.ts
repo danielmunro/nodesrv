@@ -1,5 +1,5 @@
+import {createTestAppContainer} from "../../app/testFactory"
 import {EventType} from "../../event/eventType"
-import {createTestAppContainer} from "../../inversify.config"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Fight} from "../../mob/fight/fight"
 import MobBuilder from "../../support/test/mobBuilder"

@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../inversify.config"
+import {createTestAppContainer} from "../../../app/testFactory"
 import {Round} from "../../../mob/fight/round"
 import {RequestType} from "../../../request/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"

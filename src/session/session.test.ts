@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../inversify.config"
+import {createTestAppContainer} from "../app/testFactory"
 import { getPlayerRepository } from "../player/repository/player"
 import {getConnection, initializeConnection} from "../support/db/connection"
 import TestRunner from "../support/test/testRunner"

@@ -1,5 +1,5 @@
+import {createTestAppContainer} from "../../app/testFactory"
 import {EventType} from "../../event/eventType"
-import {createTestAppContainer} from "../../inversify.config"
 import ClientService from "../../server/clientService"
 import {Types} from "../../support/types"
 import ClientEvent from "../event/clientEvent"

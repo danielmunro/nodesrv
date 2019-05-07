@@ -1,5 +1,5 @@
+import {createTestAppContainer} from "../../../app/testFactory"
 import {CheckMessages} from "../../../check/constants"
-import {createTestAppContainer} from "../../../inversify.config"
 import {RequestType} from "../../../request/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"
 import TestRunner from "../../../support/test/testRunner"

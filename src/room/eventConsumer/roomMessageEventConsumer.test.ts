@@ -1,5 +1,5 @@
+import {createTestAppContainer} from "../../app/testFactory"
 import EventConsumer from "../../event/eventConsumer"
-import {createTestAppContainer} from "../../inversify.config"
 import LocationService from "../../mob/locationService"
 import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/clientService"

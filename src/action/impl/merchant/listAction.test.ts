@@ -1,6 +1,6 @@
 import {cloneDeep} from "lodash"
 import * as uuid from "uuid"
-import {createTestAppContainer} from "../../../inversify.config"
+import {createTestAppContainer} from "../../../app/testFactory"
 import {ItemType} from "../../../item/enum/itemType"
 import {newItem} from "../../../item/factory"
 import {Item} from "../../../item/model/item"

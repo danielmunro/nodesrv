@@ -1,5 +1,5 @@
 import {AffectType} from "../../../../affect/affectType"
-import {createTestAppContainer} from "../../../../inversify.config"
+import {createTestAppContainer} from "../../../../app/testFactory"
 import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
 import MobBuilder from "../../../../support/test/mobBuilder"

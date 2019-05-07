@@ -1,6 +1,6 @@
 import {AffectType} from "../affect/affectType"
 import {newAffect} from "../affect/factory"
-import {createTestAppContainer} from "../inversify.config"
+import {createTestAppContainer} from "../app/testFactory"
 import {Disposition} from "../mob/enum/disposition"
 import MobService from "../mob/mobService"
 import {Mob} from "../mob/model/mob"

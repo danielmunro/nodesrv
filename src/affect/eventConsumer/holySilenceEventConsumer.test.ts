@@ -1,5 +1,5 @@
+import {createTestAppContainer} from "../../app/testFactory"
 import InputEvent from "../../client/event/inputEvent"
-import {createTestAppContainer} from "../../inversify.config"
 import {RequestType} from "../../request/requestType"
 import MobBuilder from "../../support/test/mobBuilder"
 import TestRunner from "../../support/test/testRunner"

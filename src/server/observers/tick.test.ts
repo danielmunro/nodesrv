@@ -1,18 +1,14 @@
+import {createTestAppContainer} from "../../app/testFactory"
 import EventService from "../../event/eventService"
 import TimeService from "../../gameService/timeService"
-import {createTestAppContainer} from "../../inversify.config"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
 import LocationService from "../../mob/locationService"
 import FastHealingEventConsumer from "../../skill/eventConsumer/fastHealingEventConsumer"
 import {newSkill} from "../../skill/factory"
 import {SkillType} from "../../skill/skillType"
-import {getConnection, initializeConnection} from "../../support/db/connection"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {Tick} from "./tick"
-
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
 
 let testRunner: TestRunner
 let locationService: LocationService

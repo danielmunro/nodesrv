@@ -1,6 +1,6 @@
+import {createTestAppContainer} from "../../app/testFactory"
 import EventService from "../../event/eventService"
 import {EventType} from "../../event/eventType"
-import {createTestAppContainer} from "../../inversify.config"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {Disposition} from "../enum/disposition"

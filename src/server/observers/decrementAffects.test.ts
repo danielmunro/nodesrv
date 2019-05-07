@@ -1,7 +1,7 @@
 import { AffectType } from "../../affect/affectType"
 import { newAffect } from "../../affect/factory"
 import {Affect} from "../../affect/model/affect"
-import {createTestAppContainer} from "../../inversify.config"
+import {createTestAppContainer} from "../../app/testFactory"
 import MobTable from "../../mob/mobTable"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"

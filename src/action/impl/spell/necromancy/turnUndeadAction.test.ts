@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../../inversify.config"
+import {createTestAppContainer} from "../../../../app/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {Disposition} from "../../../../mob/enum/disposition"
 import {RaceType} from "../../../../mob/race/enum/raceType"

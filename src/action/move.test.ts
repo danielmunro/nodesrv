@@ -1,5 +1,5 @@
 import {AffectType} from "../affect/affectType"
-import {createTestAppContainer} from "../inversify.config"
+import {createTestAppContainer} from "../app/testFactory"
 import LocationService from "../mob/locationService"
 import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"

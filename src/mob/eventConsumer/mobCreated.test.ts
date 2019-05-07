@@ -1,5 +1,5 @@
+import {createTestAppContainer} from "../../app/testFactory"
 import {EventType} from "../../event/eventType"
-import {createTestAppContainer} from "../../inversify.config"
 import {Room} from "../../room/model/room"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
