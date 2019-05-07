@@ -1,15 +1,18 @@
 import raceTable from "../../../mob/race/raceTable"
-import {getConnection, initializeConnection} from "../../../support/db/connection"
-import { getTestClient } from "../../../support/test/client"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Race from "./race"
 import Specialization from "./specialization"
-
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
+import TestRunner from "../../../support/test/testRunner"
+import {createTestAppContainer} from "../../../app/testFactory"
+import {Types} from "../../../support/types"
 
 const mockAuthService = jest.fn()
+let testRunner: TestRunner
+
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+})
 
 describe("raceType create mob auth step", () => {
   it("should not allow invalid raceType options", async () => {
@@ -21,7 +24,7 @@ describe("raceType create mob auth step", () => {
     ]
 
     // setup
-    const client = await getTestClient()
+    const client = await testRunner.createLoggedInClient()
     const race = new Race(mockAuthService(), client.player)
 
     // when
@@ -34,7 +37,7 @@ describe("raceType create mob auth step", () => {
 
   it("should allow playable races", async () => {
     // setup
-    const client = await getTestClient()
+    const client = await testRunner.createLoggedInClient()
     const race = new Race(mockAuthService(), client.player)
 
     // when

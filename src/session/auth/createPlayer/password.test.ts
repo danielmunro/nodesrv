@@ -1,15 +1,18 @@
-import {getConnection, initializeConnection} from "../../../support/db/connection"
-import { getTestClient } from "../../../support/test/client"
 import { MESSAGE_FAIL_PASSWORD_TOO_SHORT } from "../constants"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Password from "./password"
 import PasswordConfirm from "./passwordConfirm"
-
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
+import TestRunner from "../../../support/test/testRunner"
+import {createTestAppContainer} from "../../../app/testFactory"
+import {Types} from "../../../support/types"
 
 const mockAuthService = jest.fn()
+let testRunner: TestRunner
+
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+})
 
 describe("create player password", () => {
   it("should require at least three characters", async () => {
@@ -17,7 +20,7 @@ describe("create player password", () => {
     const playerPassword = "aa"
 
     // setup
-    const client = await getTestClient()
+    const client = testRunner.createClient()
     const password = new Password(mockAuthService(), client.player)
 
     // when
@@ -34,7 +37,7 @@ describe("create player password", () => {
     const playerPassword = "fooo"
 
     // setup
-    const client = await getTestClient()
+    const client = testRunner.createClient()
     const password = new Password(mockAuthService(), client.player)
 
     // when
