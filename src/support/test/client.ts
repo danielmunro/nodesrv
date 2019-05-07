@@ -36,18 +36,9 @@ export async function getTestClient(player = getTestPlayer()): Promise<Client> {
   const mobService = new MobService(mock(), mock(), mock(), mock())
   const service = new GameService(mobService, new ActionService([], [], []))
   const actions = service.getActions()
-  const authService = new AuthService(await getPlayerRepository(), mobService)
+  const authService = new AuthService(mock(), mobService)
   const client = await createClient(player, actions, mock(), authService)
   await client.session.login(client, player)
 
   return Promise.resolve(client)
-}
-
-export async function getTestClientLoggedOut(player = getTestPlayer()): Promise<Client> {
-  const mobService = new MobService(mock(), mock(), mock(), mock())
-  const service = new GameService(
-    mobService,
-    new ActionService([], [], []))
-  const authService = new AuthService(await getPlayerRepository(), mobService)
-  return createClient(player, service.getActions(), mock(), authService)
 }
