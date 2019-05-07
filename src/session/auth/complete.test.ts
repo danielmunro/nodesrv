@@ -1,19 +1,18 @@
-import {getConnection, initializeConnection} from "../../support/db/connection"
-import { getTestClient } from "../../support/test/client"
+import {createTestAppContainer} from "../../app/testFactory"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import Complete from "./complete"
 import Request from "./request"
 import { ResponseStatus } from "./responseStatus"
 
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
-
 describe("final auth step: complete", () => {
   it("should be ok unconditionally, but not have any more steps to complete", async () => {
     // given
-    const client = await getTestClient()
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+    const client = await testRunner.createLoggedInClient()
 
     // when
-    const response = await new Complete(client.player).processRequest(new Request(client, ""))
+    const response = await new Complete(jest.fn()(), client.player).processRequest(new Request(client, ""))
 
     // then
     expect(response.status).toBe(ResponseStatus.OK)

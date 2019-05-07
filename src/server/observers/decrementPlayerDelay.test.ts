@@ -1,17 +1,16 @@
-import {getConnection, initializeConnection} from "../../support/db/connection"
-import { getTestClient } from "../../support/test/client"
+import {createTestAppContainer} from "../../app/testFactory"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import { DecrementPlayerDelay } from "./decrementPlayerDelay"
-
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
 
 describe("decrement player delay", () => {
   it("should decrement delay for players if needed", async () => {
     // setup
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
     const clients = [
-      await getTestClient(),
-      await getTestClient(),
-      await getTestClient(),
+      await testRunner.createLoggedInClient(),
+      await testRunner.createLoggedInClient(),
+      await testRunner.createLoggedInClient(),
     ]
     const p1 = clients[0].player
     const p2 = clients[1].player

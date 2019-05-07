@@ -3,15 +3,10 @@ import { Disposition } from "../../mob/enum/disposition"
 import { Attack, AttackResult } from "../../mob/fight/attack"
 import {Fight} from "../../mob/fight/fight"
 import MobService from "../../mob/mobService"
-import {getConnection, initializeConnection} from "../../support/db/connection"
-import { getTestClient } from "../../support/test/client"
 import { getTestMob } from "../../support/test/mob"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
-
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
 
 describe("fight rounds", () => {
   it("should generate accurate attacks messages", () => {
@@ -49,10 +44,11 @@ describe("fight rounds", () => {
   })
 
   it("should be able to create a map between clients and session mobs", async () => {
+    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
     const clients = [
-      await getTestClient(),
-      await getTestClient(),
-      await getTestClient(),
+      await testRunner.createLoggedInClient(),
+      await testRunner.createLoggedInClient(),
+      await testRunner.createLoggedInClient(),
     ]
     const map = createClientMobMap(clients)
     const keys = Object.keys(map)

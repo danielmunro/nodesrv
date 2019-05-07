@@ -5,16 +5,11 @@ import FightTable from "../../mob/fight/fightTable"
 import LocationService from "../../mob/locationService"
 import MobService from "../../mob/mobService"
 import { default as MobTable } from "../../mob/mobTable"
-import { getMobRepository } from "../../mob/repository/mob"
 import ExitTable from "../../room/exitTable"
 import RoomTable from "../../room/roomTable"
-import {getConnection, initializeConnection} from "../../support/db/connection"
 import { getTestMob } from "../../support/test/mob"
 import { getTestRoom } from "../../support/test/room"
 import Respawner from "./respawner"
-
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
 
 describe("respawner", () => {
   it("should reset dispositions for dead mobs", async () => {
@@ -30,9 +25,6 @@ describe("respawner", () => {
 
     // not dead
     const mob3 = getTestMob()
-
-    const mobRepository = await getMobRepository()
-    await mobRepository.save([mob1, mob2, mob3])
 
     // given
     const roomTable = RoomTable.new([currentRoom, startRoom])
