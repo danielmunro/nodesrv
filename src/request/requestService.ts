@@ -2,11 +2,13 @@ import {AffectType} from "../affect/affectType"
 import {Affect} from "../affect/model/affect"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckType} from "../check/checkType"
+import {DamageType} from "../damage/damageType"
 import {EventType} from "../event/eventType"
 import ItemEvent from "../item/event/itemEvent"
 import {Item} from "../item/model/item"
 import {Disposition} from "../mob/enum/disposition"
 import AttackEvent from "../mob/event/attackEvent"
+import DamageEventBuilder from "../mob/event/damageEventBuilder"
 import MobEvent from "../mob/event/mobEvent"
 import {Mob} from "../mob/model/mob"
 import {Exit} from "../room/model/exit"
@@ -58,6 +60,11 @@ export default class RequestService {
 
   public createSkillEvent(skill: Skill, rollResult: boolean): SkillEvent {
     return new SkillEvent(skill, this.checkedRequest.mob, rollResult)
+  }
+
+  public createDamageEvent(amount: number, damageType: DamageType): DamageEventBuilder {
+    return new DamageEventBuilder(this.getTarget(), amount, damageType)
+      .setSource(this.getMob())
   }
 
   public createResponseMessage(message: string): ResponseMessageBuilder {

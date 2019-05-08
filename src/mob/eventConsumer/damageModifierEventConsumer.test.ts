@@ -3,6 +3,7 @@ import {DamageType} from "../../damage/damageType"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import DamageEvent from "../event/damageEvent"
+import DamageEventBuilder from "../event/damageEventBuilder"
 import {Mob} from "../model/mob"
 import {RaceType} from "../race/enum/raceType"
 import DamageModifierEventConsumer from "./damageModifierEventConsumer"
@@ -22,50 +23,50 @@ beforeEach(async () => {
 describe("damage modifier event consumer", () => {
   it("increases the damage amount on a matching vulnerability", async () => {
     // given
-    const event = new DamageEvent(mob, initialDamage, DamageType.Magic)
+    const event = new DamageEventBuilder(mob, initialDamage, DamageType.Magic).build()
 
     // when
     const response = await consumer.consume(event)
 
     // then
     const newEvent = response.event as DamageEvent
-    expect(newEvent.amount).toBeGreaterThan(event.amount)
+    expect(newEvent.calculateAmount()).toBeGreaterThan(event.calculateAmount())
   })
 
   it("decreases the damage amount on a matching resist", async () => {
     // given
-    const event = new DamageEvent(mob, initialDamage, DamageType.Frost)
+    const event = new DamageEventBuilder(mob, initialDamage, DamageType.Frost).build()
 
     // when
     const response = await consumer.consume(event)
 
     // then
     const newEvent = response.event as DamageEvent
-    expect(newEvent.amount).toBeLessThan(event.amount)
+    expect(newEvent.calculateAmount()).toBeLessThan(event.calculateAmount())
   })
 
   it("decreases the damage amount to zero if invulnerable", async () => {
     // given
     mob.raceType = RaceType.Goblin
-    const event = new DamageEvent(mob, initialDamage, DamageType.Poison)
+    const event = new DamageEventBuilder(mob, initialDamage, DamageType.Poison).build()
 
     // when
     const response = await consumer.consume(event)
 
     // then
     const newEvent = response.event as DamageEvent
-    expect(newEvent.amount).toBe(0)
+    expect(newEvent.calculateAmount()).toBe(0)
   })
 
   it("does not modify the damage when no vulnerability matches are found", async () => {
     // given
-    const event = new DamageEvent(mob, initialDamage, DamageType.Poison)
+    const event = new DamageEventBuilder(mob, initialDamage, DamageType.Poison).build()
 
     // when
     const response = await consumer.consume(event)
 
     // then
     const newEvent = response.event as DamageEvent
-    expect(newEvent.amount).toBe(event.amount)
+    expect(newEvent.calculateAmount()).toBe(event.calculateAmount())
   })
 })

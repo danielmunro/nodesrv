@@ -13,11 +13,7 @@ export default class WithstandDeathEventConsumer implements EventConsumer {
     const target = event.target
     if (target.vitals.hp < event.amount && target.affect().has(AffectType.WithstandDeath)) {
       target.affect().remove(AffectType.WithstandDeath)
-      return EventResponse.satisfied(new DamageEvent(
-        target,
-        0,
-        event.damageType,
-        event.source))
+      return EventResponse.satisfied(event.createNewDamageEventReplacingModifier(0))
     }
     return EventResponse.none(event)
   }

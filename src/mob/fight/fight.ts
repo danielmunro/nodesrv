@@ -100,11 +100,11 @@ export class Fight {
 
     const initialDamageCalculation = Fight.calculateDamageForOneHit(attacker, defender)
     const response = await this.eventService.publish(
-      new DamageEvent(
-        defender,
+      defender.createDamageEventBuilder(
         initialDamageCalculation,
-        new DamageService(attacker).getDamageType(),
-        attacker))
+        new DamageService(attacker).getDamageType())
+        .setSource(attacker)
+        .build())
     const event = response.event as DamageEvent
     defender.vitals.hp -= event.amount
 
@@ -112,7 +112,7 @@ export class Fight {
       attacker,
       defender,
       AttackResult.Hit,
-      event.amount,
+      event.calculateAmount(),
       defender.vitals.hp < 0 ? this.createDeath(attacker, defender) : undefined)
   }
 

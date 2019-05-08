@@ -18,9 +18,7 @@ export default class DamageModifierEventConsumer implements EventConsumer {
     }
 
     return EventResponse.modified(
-      new DamageEvent(
-        event.target,
-        vulnerabilityModifier(damageModifier.vulnerability, event.amount),
-        event.damageType))
+      event.createNewDamageEventAddingToModifier(
+        vulnerabilityModifier(damageModifier.vulnerability)))
   }
 }

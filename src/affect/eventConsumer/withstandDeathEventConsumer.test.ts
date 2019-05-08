@@ -1,6 +1,7 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import {DamageType} from "../../damage/damageType"
 import DamageEvent from "../../mob/event/damageEvent"
+import DamageEventBuilder from "../../mob/event/damageEventBuilder"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {AffectType} from "../affectType"
@@ -21,14 +22,14 @@ describe("withstand death event consumer", () => {
 
     // when
     const response = await withstandDeathEventConsumer.consume(
-      new DamageEvent(mob.mob, AMOUNT, DamageType.Bash))
+      new DamageEventBuilder(mob.get(), AMOUNT, DamageType.Bash).build())
 
     // then
-    expect(response.event.amount).toBe(0)
+    expect((response.event as DamageEvent).modifier).toBe(0)
     expect(mob.hasAffect(AffectType.WithstandDeath)).toBeFalsy()
   })
 
-  it("does not modify the event if the mob has not affected by withstand death", async () => {
+  it("does not modify the event if the mob is not affected by withstand death", async () => {
     // setup
     const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
     const mob = testRunner.createMob()
@@ -39,7 +40,7 @@ describe("withstand death event consumer", () => {
 
     // when
     const response = await withstandDeathEventConsumer.consume(
-      new DamageEvent(mob.mob, AMOUNT, DamageType.Bash))
+      new DamageEventBuilder(mob.mob, AMOUNT, DamageType.Bash).build())
 
     // then
     expect(response.event.amount).toBe(AMOUNT)

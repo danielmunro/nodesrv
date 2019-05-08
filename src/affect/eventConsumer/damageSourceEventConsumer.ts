@@ -11,24 +11,20 @@ export default class DamageSourceEventConsumer implements EventConsumer {
   }
 
   public async consume(event: DamageEvent): Promise<EventResponse> {
-    let amount = event.amount
+    let modifier = event.modifier
     const target = event.target
     const damageType = event.damageType
     target.affects.forEach(affect => {
       if (affect.resist && affect.resist.isDamageTypeActive(damageType)) {
-        amount = vulnerabilityModifier(Vulnerability.Resist, amount)
+        modifier = vulnerabilityModifier(Vulnerability.Resist)
       } else if (affect.vulnerable && affect.vulnerable.isDamageTypeActive(damageType)) {
-        amount = vulnerabilityModifier(Vulnerability.Vulnerable, amount)
+        modifier = vulnerabilityModifier(Vulnerability.Vulnerable)
       } else if (affect.immune && affect.immune.isDamageTypeActive(damageType)) {
-        amount = 0
+        modifier = vulnerabilityModifier(Vulnerability.Invulnerable)
       }
     })
-    if (amount !== event.amount) {
-      return EventResponse.modified(new DamageEvent(
-        event.target,
-        amount,
-        event.damageType,
-        event.source))
+    if (modifier !== event.modifier) {
+      return EventResponse.modified(event.createNewDamageEventAddingToModifier(modifier))
     }
     return EventResponse.none(event)
   }

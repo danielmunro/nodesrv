@@ -14,11 +14,6 @@ export default class SanctuaryEventConsumer implements EventConsumer {
       return EventResponse.none(event)
     }
 
-    return EventResponse.modified(
-      new DamageEvent(
-        event.target,
-        event.amount / 2,
-        event.damageType,
-        event.source))
+    return EventResponse.modified(event.createNewDamageEventAddingToModifier(-0.5))
   }
 }

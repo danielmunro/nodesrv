@@ -5,6 +5,7 @@ import { Affect } from "../../affect/model/affect"
 import AttributeService from "../../attributes/attributeService"
 import { default as Attributes } from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
+import {DamageType} from "../../damage/damageType"
 import {Equipment} from "../../item/enum/equipment"
 import { Inventory } from "../../item/model/inventory"
 import {Item} from "../../item/model/item"
@@ -17,6 +18,7 @@ import AlignmentService from "../alignmentService"
 import { Disposition } from "../enum/disposition"
 import { Gender } from "../enum/gender"
 import { Standing } from "../enum/standing"
+import DamageEventBuilder from "../event/damageEventBuilder"
 import { RaceType } from "../race/enum/raceType"
 import createRaceFromRaceType from "../race/factory"
 import Race from "../race/race"
@@ -201,5 +203,12 @@ export class Mob {
 
   public isDead(): boolean {
     return this.disposition === Disposition.Dead
+  }
+
+  public createDamageEventBuilder(amount: number, damageType: DamageType): DamageEventBuilder {
+    return new DamageEventBuilder(
+      this,
+      amount,
+      damageType)
   }
 }
