@@ -1,6 +1,6 @@
-import { getPlayerRepository } from "../../../player/repository/player"
-import {getConnection, initializeConnection} from "../../../support/db/connection"
-import { getTestClient } from "../../../support/test/client"
+import {createTestAppContainer} from "../../../app/testFactory"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
 import AuthService from "../authService"
 import Password from "../createPlayer/password"
 import Request from "../request"
@@ -11,11 +11,14 @@ import NewPlayerConfirm from "./newPlayerConfirm"
 const TEST_EMAIL = "foo@bar.com"
 
 async function getNewPlayerConfirm(email: string) {
-   return new NewPlayerConfirm(new AuthService(await getPlayerRepository(), null), email)
+   return new NewPlayerConfirm(new AuthService(jest.fn()(), null), email)
 }
 
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
+let testRunner: TestRunner
+
+beforeEach(async () => {
+  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+})
 
 describe("new player confirm auth step", () => {
   it("should bounce back to email if the client selects 'n'", async () => {
@@ -23,7 +26,7 @@ describe("new player confirm auth step", () => {
     const email = TEST_EMAIL
 
     // setup
-    const client = await getTestClient()
+    const client = testRunner.createClient()
     const newPlayerConfirm = await getNewPlayerConfirm(email)
 
     // when
@@ -39,7 +42,7 @@ describe("new player confirm auth step", () => {
     const email = TEST_EMAIL
 
     // setup
-    const client = await getTestClient()
+    const client = testRunner.createClient()
     const newPlayerConfirm = await getNewPlayerConfirm(email)
 
     // when
@@ -61,7 +64,7 @@ describe("new player confirm auth step", () => {
     ]
 
     // setup
-    const client = await getTestClient()
+    const client = testRunner.createClient()
     const newPlayerConfirm = await getNewPlayerConfirm(email)
 
     // when/then

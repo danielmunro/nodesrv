@@ -174,10 +174,14 @@ export default class TestRunner {
   }
 
   public async invokeActionFailure(
-    requestType: RequestType, input?: string, targetMobInRoom?: Mob): Promise<Response> {
+    requestType: RequestType,
+    input?: string,
+    targetMobInRoom?: Mob,
+    resetState: () => void = () => { /**/ }): Promise<Response> {
     const response = await this.invokeAction(requestType, input, targetMobInRoom)
     if (response.isSuccessful()) {
-      return this.invokeActionFailure(requestType, input, targetMobInRoom)
+      resetState()
+      return this.invokeActionFailure(requestType, input, targetMobInRoom, resetState)
     }
     return response
   }

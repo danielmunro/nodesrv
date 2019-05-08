@@ -144,6 +144,11 @@ export default class MobBuilder {
     return this
   }
 
+  public removeAffectType(affectType: AffectType): MobBuilder {
+    this.mob.affect().remove(affectType)
+    return this
+  }
+
   public hasAffect(affectType: AffectType): boolean {
     return this.mob.affect().has(affectType)
   }

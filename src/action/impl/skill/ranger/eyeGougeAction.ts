@@ -46,6 +46,12 @@ export default function(abilityService: AbilityService): Skill {
       .create())
     .setFailMessage(requestService =>
       requestService.createResponseMessage(SkillMessages.EyeGouge.Fail)
-      .create())
+        .setVerbToRequestCreator("swipe")
+        .setVerbToTarget("swipes")
+        .setVerbToObservers("swipes")
+        .addReplacementForRequestCreator("verb2", "miss")
+        .addReplacementForTarget("verb2", "misses")
+        .addReplacementForObservers("verb2", "misses")
+        .create())
     .create()
 }

@@ -6,11 +6,9 @@ import FightTable from "../mob/fight/fightTable"
 import LocationService from "../mob/locationService"
 import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
-import {getPlayerRepository} from "../player/repository/player"
 import ExitTable from "../room/exitTable"
 import RoomTable from "../room/roomTable"
 import AuthService from "../session/auth/authService"
-import {getConnection, initializeConnection} from "../support/db/connection"
 import { DontExecuteTestObserver } from "../support/test/dontExecuteTestObserver"
 import { ExpectTestObserver } from "../support/test/expectTestObserver"
 import { getTestRoom } from "../support/test/room"
@@ -32,7 +30,7 @@ async function getGameServer(): Promise<GameServer> {
     room,
     new ClientService(
       eventService,
-      new AuthService(await getPlayerRepository(), mobService),
+      new AuthService(jest.fn()(), mobService),
       locationService,
       gameService.getActionService().actions,
     ),
@@ -41,9 +39,6 @@ async function getGameServer(): Promise<GameServer> {
 
 const mockWs = jest.fn(() => ({ send: jest.fn() }))
 const mockRequest = jest.fn(() => ({connection: { remoteAddress: "123"}}))
-
-beforeAll(async () => initializeConnection())
-afterAll(async () => (await getConnection()).close())
 
 beforeEach(() => {
   ws = new Server("ws://localhost:1234")
