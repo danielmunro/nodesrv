@@ -8,7 +8,7 @@
     "create-fixtures": "ts-node --no-cache bin/create-fixtures.ts .",
     "clean": "rm -rf ./coverage",
     "lint": "yarn clean && tslint --project .",
-    "test": "ENV=test jest --forceExit --detectOpenHandles -i",
+    "test": "ENV=test jest --forceExit --detectOpenHandles",
     "test-actions": "ENV=test jest --forceExit --detectOpenHandles action/impl",
     "test-most": "ENV=test jest --forceExit --detectOpenHandles --testPathIgnorePatterns import",
     "reset-test-db": "ts-node bin/reset-test-db.ts",

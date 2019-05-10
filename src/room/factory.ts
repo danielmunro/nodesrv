@@ -68,12 +68,14 @@ export function newReciprocalExit(
   ]
 }
 
+/* istanbul ignore next */
 export async function newRoomTable(): Promise<RoomTable> {
   const roomRepository = await getRoomRepository()
   const models = await roomRepository.findAll()
   return RoomTable.new(models)
 }
 
+/* istanbul ignore next */
 export async function newExitTable(): Promise<ExitTable> {
   const exitRepository = await getExitRepository()
   const models = await exitRepository.findAll()

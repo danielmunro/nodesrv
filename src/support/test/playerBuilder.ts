@@ -53,11 +53,6 @@ export default class PlayerBuilder {
     return this
   }
 
-  public addAffect(affectType: AffectType): PlayerBuilder {
-    this.player.sessionMob.affect().add(newAffect(affectType))
-    return this
-  }
-
   public setHunger(hunger: number) {
     this.player.sessionMob.playerMob.hunger = hunger
   }
