@@ -1,5 +1,3 @@
-import {AffectType} from "../../affect/affectType"
-import {newAffect} from "../../affect/factory"
 import {Item} from "../../item/model/item"
 import {Standing} from "../../mob/enum/standing"
 import {Mob} from "../../mob/model/mob"
