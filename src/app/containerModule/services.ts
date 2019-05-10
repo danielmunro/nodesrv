@@ -9,6 +9,7 @@ import ItemService from "../../item/itemService"
 import FightBuilder from "../../mob/fight/fightBuilder"
 import LocationService from "../../mob/locationService"
 import MobService from "../../mob/mobService"
+import SpecializationService from "../../mob/specialization/specializationService"
 import EscrowService from "../../mob/trade/escrowService"
 import WeatherService from "../../region/weatherService"
 import ClientService from "../../server/clientService"
@@ -32,4 +33,5 @@ export default new ContainerModule(bind => {
   bind<ActionService>(Types.ActionService).to(ActionService).inSingletonScope()
   bind<GameServer>(Types.GameServer).to(GameServer).inSingletonScope()
   bind<FightBuilder>(Types.FightBuilder).to(FightBuilder).inSingletonScope()
+  bind<SpecializationService>(Types.SpecializationService).to(SpecializationService).inSingletonScope()
 })

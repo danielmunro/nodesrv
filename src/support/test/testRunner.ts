@@ -13,6 +13,7 @@ import FightBuilder from "../../mob/fight/fightBuilder"
 import LocationService from "../../mob/locationService"
 import MobService from "../../mob/mobService"
 import {Mob} from "../../mob/model/mob"
+import SpecializationService from "../../mob/specialization/specializationService"
 import InputContext from "../../request/context/inputContext"
 import Request from "../../request/request"
 import {RequestType} from "../../request/requestType"
@@ -56,6 +57,7 @@ export default class TestRunner {
     @inject(Types.Actions) private readonly actions: Action[],
     @inject(Types.Skills) private readonly skills: Skill[],
     @inject(Types.StateService) private readonly stateService: StateService,
+    @inject(Types.SpecializationService) private readonly specializationService: SpecializationService,
   ) {}
 
   public createItem(): ItemBuilder {
@@ -78,7 +80,7 @@ export default class TestRunner {
       this.firstMob = mob
     }
 
-    return new MobBuilder(mob)
+    return new MobBuilder(this.specializationService, mob)
   }
 
   public createAndSetMainMob(): MobBuilder {

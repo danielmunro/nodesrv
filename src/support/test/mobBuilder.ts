@@ -1,3 +1,4 @@
+import {inject} from "inversify"
 import {AffectType} from "../../affect/affectType"
 import {newAffect} from "../../affect/factory"
 import {Affect} from "../../affect/model/affect"
@@ -6,15 +7,18 @@ import {Disposition} from "../../mob/enum/disposition"
 import { Mob } from "../../mob/model/mob"
 import Shop from "../../mob/model/shop"
 import {RaceType} from "../../mob/race/enum/raceType"
-import {defaultSpecializationLevels} from "../../mob/specialization/specializationLevels"
+import SpecializationService from "../../mob/specialization/specializationService"
 import {SpecializationType} from "../../mob/specialization/specializationType"
 import { newSkill } from "../../skill/factory"
 import { SkillType } from "../../skill/skillType"
 import {newSpell} from "../../spell/factory"
 import { SpellType } from "../../spell/spellType"
+import {Types} from "../types"
 
 export default class MobBuilder {
-  constructor(public readonly mob: Mob) {}
+  constructor(
+    @inject(Types.SpecializationService) private readonly specializationService: SpecializationService,
+    public readonly mob: Mob) {}
 
   public asTrainer(): MobBuilder {
     this.mob.traits.trainer = true
@@ -87,20 +91,7 @@ export default class MobBuilder {
 
   public setSpecialization(specialization: SpecializationType) {
     this.mob.specializationType = specialization
-    defaultSpecializationLevels.filter(specializationLevel => specializationLevel.specialization === specialization)
-      .forEach(specializationLevel => {
-        if (Object.values(SkillType).includes(specializationLevel.abilityType)) {
-          this.mob.skills.push(newSkill(
-            specializationLevel.abilityType as SkillType,
-            1,
-            specializationLevel.minimumLevel))
-        } else if (Object.values(SpellType).includes(specializationLevel.abilityType)) {
-          this.mob.spells.push(newSpell(
-            specializationLevel.abilityType as SpellType,
-            1,
-            specializationLevel.minimumLevel))
-        }
-      })
+    this.specializationService.applyAllDefaults(this.mob)
     return this
   }
 

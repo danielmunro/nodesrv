@@ -32,6 +32,8 @@ export const Types = {
   RespawnerObserver: Symbol.for("RespawnerObserver"),
   RoomTable: Symbol.for("RoomTable"),
   Skills: Symbol.for("Skills"),
+  SpecializationLevels: Symbol.for("SpecializationLevels"),
+  SpecializationService: Symbol.for("SpecializationService"),
   Spells: Symbol.for("Spells"),
   StartRoom: Symbol.for("StartRoom"),
   StateService: Symbol.for("StateService"),

@@ -1,21 +1,28 @@
+import createAppContainer from "../src/app/factory"
 import PracticeService from "../src/gameService/practiceService"
-import ServiceBuilder from "../src/gameService/serviceBuilder"
 import {Mob} from "../src/mob/model/mob"
 import {RaceType} from "../src/mob/race/enum/raceType"
 import {SpecializationType} from "../src/mob/specialization/specializationType"
-import MobBuilder from "../src/support/test/mobBuilder"
+import {initializeConnection} from "../src/support/db/connection"
 
 // arguments
 const race = process.argv[2] as RaceType
 const specialization = process.argv[3] as SpecializationType
 const level = +process.argv[4]
 
-// service & mob
-const serviceBuilder = new ServiceBuilder()
-const mob = new MobBuilder(new Mob(), serviceBuilder)
-  .setLevel(level)
-  .setRace(race)
-  .setSpecialization(specialization)
-  .mob
-const practiceService = new PracticeService()
-console.log(practiceService.generateOutputStatus(mob))
+console.log("debug", { race, specialization, level })
+
+initializeConnection().then(async () => {
+  const app = await createAppContainer()
+  const specializationService = app.getSpecializationService()
+  // service & mob
+  const mob = new Mob()
+  mob.raceType = race
+  mob.specializationType = specialization
+  mob.level = level
+  specializationService.applyAllDefaults(mob)
+
+  const practiceService = new PracticeService()
+  console.log(practiceService.generateOutputStatus(mob))
+  process.exit()
+})

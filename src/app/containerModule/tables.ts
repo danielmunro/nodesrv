@@ -4,6 +4,8 @@ import {getItemRepository} from "../../item/repository/item"
 import FightTable from "../../mob/fight/fightTable"
 import MobTable from "../../mob/mobTable"
 import {getMobRepository} from "../../mob/repository/mob"
+import SpecializationLevel from "../../mob/specialization/specializationLevel"
+import {defaultSpecializationLevels} from "../../mob/specialization/specializationLevels"
 import ExitTable from "../../room/exitTable"
 import {newExitTable, newRoomTable} from "../../room/factory"
 import RoomTable from "../../room/roomTable"
@@ -15,4 +17,5 @@ export default new AsyncContainerModule(async bind => {
   bind<ItemTable>(Types.ItemTable).toConstantValue(new ItemTable(await (await getItemRepository()).findAll()))
   bind<ExitTable>(Types.ExitTable).toConstantValue(await newExitTable())
   bind<FightTable>(Types.FightTable).toConstantValue(new FightTable())
+  bind<SpecializationLevel[]>(Types.SpecializationLevels).toConstantValue(defaultSpecializationLevels)
 })

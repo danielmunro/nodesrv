@@ -2,6 +2,8 @@ import {AsyncContainerModule} from "inversify"
 import ItemTable from "../../item/itemTable"
 import FightTable from "../../mob/fight/fightTable"
 import MobTable from "../../mob/mobTable"
+import SpecializationLevel from "../../mob/specialization/specializationLevel"
+import {defaultSpecializationLevels} from "../../mob/specialization/specializationLevels"
 import ExitTable from "../../room/exitTable"
 import RoomTable from "../../room/roomTable"
 import {Types} from "../../support/types"
@@ -12,4 +14,5 @@ export default new AsyncContainerModule(async bind => {
   bind<ItemTable>(Types.ItemTable).toConstantValue(new ItemTable())
   bind<ExitTable>(Types.ExitTable).toConstantValue(new ExitTable())
   bind<FightTable>(Types.FightTable).toConstantValue(new FightTable())
+  bind<SpecializationLevel[]>(Types.SpecializationLevels).toConstantValue(defaultSpecializationLevels)
 })
