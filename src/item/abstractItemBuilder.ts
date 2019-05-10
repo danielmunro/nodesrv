@@ -1,9 +1,6 @@
 import {AffectType} from "../affect/affectType"
 import {newAffect} from "../affect/factory"
 import MobBuilder from "../support/test/mobBuilder"
-import PlayerBuilder from "../support/test/playerBuilder"
-import RoomBuilder from "../support/test/roomBuilder"
-import {Inventory} from "./model/inventory"
 import {Item} from "./model/item"
 
 export default class AbstractItemBuilder {
@@ -20,31 +17,6 @@ export default class AbstractItemBuilder {
 
   public addToMobBuilder(mobBuilder: MobBuilder): AbstractItemBuilder {
     mobBuilder.mob.inventory.addItem(this.item, mobBuilder.mob)
-    return this
-  }
-
-  public equipToMobBuilder(mobBuilder: MobBuilder): AbstractItemBuilder {
-    mobBuilder.mob.equipped.addItem(this.item, mobBuilder.mob)
-    return this
-  }
-
-  public addToPlayerBuilder(playerBuilder: PlayerBuilder): AbstractItemBuilder {
-    playerBuilder.player.sessionMob.inventory.addItem(this.item, playerBuilder.getMob())
-    return this
-  }
-
-  public equipToPlayerBuilder(playerBuilder: PlayerBuilder): AbstractItemBuilder {
-    playerBuilder.player.sessionMob.equipped.addItem(this.item, playerBuilder.getMob())
-    return this
-  }
-
-  public addToRoomBuilder(roomBuilder: RoomBuilder): AbstractItemBuilder {
-    roomBuilder.room.inventory.addItem(this.item, roomBuilder.room)
-    return this
-  }
-
-  public addToInventory(inventory: Inventory): AbstractItemBuilder {
-    inventory.addItem(this.item)
     return this
   }
 

@@ -1,8 +1,5 @@
 import {AffectType} from "../../affect/affectType"
 import {newAffect} from "../../affect/factory"
-import {ItemType} from "../../item/enum/itemType"
-import {newItem} from "../../item/factory"
-import Container from "../../item/model/container"
 import {Item} from "../../item/model/item"
 import {Standing} from "../../mob/enum/standing"
 import {Mob} from "../../mob/model/mob"
@@ -16,20 +13,6 @@ import {SpellType} from "../../spell/spellType"
 
 export default class PlayerBuilder {
   constructor(public readonly player: Player) {}
-
-  public withKey(canonicalId: string): Item {
-    const item = newItem(ItemType.Key, "a key", "a key")
-    item.canonicalId = canonicalId
-    this.player.sessionMob.inventory.addItem(item)
-    return item
-  }
-
-  public withContainer(): Item {
-    const item = newItem(ItemType.Container, "a small leather satchel", "description")
-    item.container = new Container()
-    this.player.sessionMob.inventory.addItem(item)
-    return item
-  }
 
   public setSpecializationType(specializationType: SpecializationType): PlayerBuilder {
     this.player.sessionMob.specializationType = specializationType
@@ -53,11 +36,6 @@ export default class PlayerBuilder {
 
   public addItem(item: Item): PlayerBuilder {
     this.player.sessionMob.inventory.addItem(item)
-    return this
-  }
-
-  public removeItem(item: Item): PlayerBuilder {
-    this.player.sessionMob.inventory.removeItem(item)
     return this
   }
 
