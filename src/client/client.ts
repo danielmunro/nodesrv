@@ -1,3 +1,4 @@
+// @ts-ignore
 import * as stringify from "json-stringify-safe"
 import Action from "../action/action"
 import CheckedRequest from "../check/checkedRequest"
