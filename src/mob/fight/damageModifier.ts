@@ -1,5 +1,5 @@
-import {DamageType} from "../damage/damageType"
-import {Vulnerability} from "./enum/vulnerability"
+import {DamageType} from "../../damage/damageType"
+import {Vulnerability} from "../enum/vulnerability"
 
 export default class DamageModifier {
   constructor(

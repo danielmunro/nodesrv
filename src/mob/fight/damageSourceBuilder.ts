@@ -1,4 +1,4 @@
-import DamageSource from "./model/damageSource"
+import DamageSource from "../model/damageSource"
 
 export default class DamageSourceBuilder {
   private readonly damageSource = new DamageSource()

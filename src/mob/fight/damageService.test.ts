@@ -1,7 +1,7 @@
-import {createTestAppContainer} from "../app/testFactory"
-import {DamageType} from "../damage/damageType"
-import TestRunner from "../support/test/testRunner"
-import {Types} from "../support/types"
+import {createTestAppContainer} from "../../app/testFactory"
+import {DamageType} from "../../damage/damageType"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import DamageService from "./damageService"
 
 let testRunner: TestRunner
