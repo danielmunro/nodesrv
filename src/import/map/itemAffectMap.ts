@@ -1,4 +1,4 @@
-import { AffectType } from "../../affect/affectType"
+import { AffectType } from "../../affect/enum/affectType"
 
 export const itemAffectMap = {
   A: AffectType.Glow,

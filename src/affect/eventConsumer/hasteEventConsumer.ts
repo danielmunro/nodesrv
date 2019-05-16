@@ -3,7 +3,7 @@ import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Mob} from "../../mob/model/mob"
-import {AffectType} from "../affectType"
+import {AffectType} from "../enum/affectType"
 
 export default class HasteEventConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {

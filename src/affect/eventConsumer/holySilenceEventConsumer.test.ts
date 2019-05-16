@@ -4,7 +4,7 @@ import {RequestType} from "../../request/requestType"
 import MobBuilder from "../../support/test/mobBuilder"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import {AffectType} from "../affectType"
+import {AffectType} from "../enum/affectType"
 import HolySilenceEventConsumer from "./holySilenceEventConsumer"
 
 let testRunner: TestRunner

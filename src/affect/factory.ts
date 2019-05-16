@@ -1,5 +1,5 @@
 import AffectBuilder from "./affectBuilder"
-import { AffectType } from "./affectType"
+import { AffectType } from "./enum/affectType"
 import { Affect } from "./model/affect"
 
 export function newAffect(

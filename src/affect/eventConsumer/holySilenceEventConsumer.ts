@@ -7,7 +7,7 @@ import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
 import {ResponseStatus} from "../../request/responseStatus"
 import {SpellMessages} from "../../spell/constants"
-import {AffectType} from "../affectType"
+import {AffectType} from "../enum/affectType"
 
 export default class HolySilenceEventConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {

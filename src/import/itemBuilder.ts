@@ -1,5 +1,5 @@
 import AffectBuilder from "../affect/affectBuilder"
-import { AffectType } from "../affect/affectType"
+import { AffectType } from "../affect/enum/affectType"
 import BuilderDefinition from "../item/builderDefinition"
 import ItemPrototype from "../item/itemPrototype"
 import { Item } from "../item/model/item"

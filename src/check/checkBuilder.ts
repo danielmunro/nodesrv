@@ -1,5 +1,5 @@
 import {ActionPart} from "../action/enum/actionPart"
-import {AffectType} from "../affect/affectType"
+import {AffectType} from "../affect/enum/affectType"
 import {Affect} from "../affect/model/affect"
 import {Disposition} from "../mob/enum/disposition"
 import {Fight} from "../mob/fight/fight"

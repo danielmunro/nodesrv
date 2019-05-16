@@ -1,4 +1,4 @@
-import {AffectType} from "../../../../affect/affectType"
+import {AffectType} from "../../../../affect/enum/affectType"
 import {Affect} from "../../../../affect/model/affect"
 import AttributeBuilder from "../../../../attributes/attributeBuilder"
 import {newHitroll} from "../../../../attributes/factory"

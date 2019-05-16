@@ -4,7 +4,7 @@ import {EventType} from "../../event/eventType"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Mob} from "../../mob/model/mob"
 import roll from "../../support/random/dice"
-import {AffectType} from "../affectType"
+import {AffectType} from "../enum/affectType"
 
 export default class CrusadeEventConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {

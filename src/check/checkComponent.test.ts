@@ -1,4 +1,4 @@
-import {AffectType} from "../affect/affectType"
+import {AffectType} from "../affect/enum/affectType"
 import {newAffect} from "../affect/factory"
 import {getTestMob} from "../support/test/mob"
 import CheckComponent from "./checkComponent"

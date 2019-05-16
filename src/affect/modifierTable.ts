@@ -1,6 +1,6 @@
 import { Trigger } from "../mob/enum/trigger"
 import AffectModifier from "./affectModifier"
-import { AffectType } from "./affectType"
+import { AffectType } from "./enum/affectType"
 
 export const modifierTable = [
   // poison

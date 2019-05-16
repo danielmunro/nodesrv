@@ -1,7 +1,7 @@
 import {ConditionMessages} from "../spell/constants"
 import AffectDefinition from "./affectDefinition"
-import {AffectType} from "./affectType"
-import {StackBehavior} from "./stackBehavior"
+import {AffectType} from "./enum/affectType"
+import {StackBehavior} from "./enum/stackBehavior"
 
 export default [
   new AffectDefinition(AffectType.Berserk, StackBehavior.Replace),

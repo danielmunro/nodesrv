@@ -7,7 +7,7 @@ import MobBuilder from "../../support/test/mobBuilder"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import AffectBuilder from "../affectBuilder"
-import {AffectType} from "../affectType"
+import {AffectType} from "../enum/affectType"
 import DamageSourceEventConsumer from "./damageSourceEventConsumer"
 
 let consumer: DamageSourceEventConsumer

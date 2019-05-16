@@ -1,4 +1,4 @@
-import {AffectType} from "../../../affect/affectType"
+import {AffectType} from "../../../affect/enum/affectType"
 import Check from "../../../check/check"
 import TimeService from "../../../gameService/timeService"
 import ItemService from "../../../item/itemService"

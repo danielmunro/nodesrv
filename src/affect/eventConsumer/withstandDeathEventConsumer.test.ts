@@ -4,7 +4,7 @@ import DamageEvent from "../../mob/event/damageEvent"
 import DamageEventBuilder from "../../mob/event/damageEventBuilder"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import {AffectType} from "../affectType"
+import {AffectType} from "../enum/affectType"
 import {newAffect} from "../factory"
 import WithstandDeathEventConsumer from "./withstandDeathEventConsumer"
 

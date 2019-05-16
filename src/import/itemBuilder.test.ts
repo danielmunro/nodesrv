@@ -1,4 +1,4 @@
-import {AffectType} from "../affect/affectType"
+import {AffectType} from "../affect/enum/affectType"
 import {DamageType} from "../damage/damageType"
 import {Equipment} from "../item/enum/equipment"
 import {ItemType} from "../item/enum/itemType"

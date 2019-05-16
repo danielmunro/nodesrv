@@ -3,7 +3,7 @@ import {Fight} from "../../mob/fight/fight"
 import MobBuilder from "../../support/test/mobBuilder"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import {AffectType} from "../affectType"
+import {AffectType} from "../enum/affectType"
 import {newAffect} from "../factory"
 import {ALIGNMENT_EVIL, ALIGNMENT_GOOD} from "./protectionEventConsumer"
 

@@ -1,5 +1,5 @@
 import { getTestMob } from "../support/test/mob"
-import { AffectType } from "./affectType"
+import { AffectType } from "./enum/affectType"
 import { newAffect } from "./factory"
 
 describe("affect factory", () => {

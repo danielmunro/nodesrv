@@ -1,4 +1,4 @@
-import {AffectType} from "../affect/affectType"
+import {AffectType} from "../affect/enum/affectType"
 import {newAffect} from "../affect/factory"
 import {createTestAppContainer} from "../app/testFactory"
 import MobService from "../mob/service/mobService"

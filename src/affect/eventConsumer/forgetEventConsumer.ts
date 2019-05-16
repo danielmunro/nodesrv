@@ -3,7 +3,7 @@ import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import SkillEvent from "../../skill/skillEvent"
 import {percentRoll} from "../../support/random/helpers"
-import {AffectType} from "../affectType"
+import {AffectType} from "../enum/affectType"
 
 export default class ForgetEventConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {

@@ -1,4 +1,4 @@
-import {AffectType} from "../affect/affectType"
+import {AffectType} from "../affect/enum/affectType"
 import {newAffect} from "../affect/factory"
 import MobBuilder from "../support/test/mobBuilder"
 import {Item} from "./model/item"

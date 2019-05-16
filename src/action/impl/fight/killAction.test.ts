@@ -1,4 +1,4 @@
-import {AffectType} from "../../../affect/affectType"
+import {AffectType} from "../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../app/testFactory"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/requestType"

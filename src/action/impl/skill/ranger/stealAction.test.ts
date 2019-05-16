@@ -1,4 +1,4 @@
-import {AffectType} from "../../../../affect/affectType"
+import {AffectType} from "../../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../../app/testFactory"
 import {Item} from "../../../../item/model/item"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"

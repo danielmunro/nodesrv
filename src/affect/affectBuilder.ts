@@ -1,6 +1,6 @@
 import Attributes from "../attributes/model/attributes"
 import DamageSource from "../mob/model/damageSource"
-import {AffectType} from "./affectType"
+import {AffectType} from "./enum/affectType"
 import {Affect} from "./model/affect"
 
 export default class AffectBuilder {

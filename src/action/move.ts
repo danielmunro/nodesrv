@@ -1,4 +1,4 @@
-import {AffectType} from "../affect/affectType"
+import {AffectType} from "../affect/enum/affectType"
 import {applyAffectModifier} from "../affect/applyAffect"
 import Check from "../check/check"
 import CheckBuilderFactory from "../check/checkBuilderFactory"

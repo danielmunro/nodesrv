@@ -1,5 +1,5 @@
 import { Trigger } from "../mob/enum/trigger"
-import { AffectType } from "./affectType"
+import { AffectType } from "./enum/affectType"
 
 export default class AffectModifier {
   constructor(

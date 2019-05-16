@@ -2,7 +2,7 @@ import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import DamageEvent from "../../mob/event/damageEvent"
-import {AffectType} from "../affectType"
+import {AffectType} from "../enum/affectType"
 
 export const ALIGNMENT_EVIL = -300
 export const ALIGNMENT_GOOD = 300

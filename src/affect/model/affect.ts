@@ -3,7 +3,7 @@ import Attributes from "../../attributes/model/attributes"
 import { Item } from "../../item/model/item"
 import DamageSource from "../../mob/model/damageSource"
 import { Mob } from "../../mob/model/mob"
-import { AffectType } from "../affectType"
+import { AffectType } from "../enum/affectType"
 
 @Entity()
 export class Affect {

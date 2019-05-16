@@ -1,4 +1,4 @@
-import { AffectType } from "../../../affect/affectType"
+import { AffectType } from "../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../app/testFactory"
 import { RequestType } from "../../../request/requestType"
 import TestRunner from "../../../support/test/testRunner"

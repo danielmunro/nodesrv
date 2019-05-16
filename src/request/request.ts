@@ -1,5 +1,5 @@
 import AffectService from "../affect/affectService"
-import {AffectType} from "../affect/affectType"
+import {AffectType} from "../affect/enum/affectType"
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel } from "../player/authorizationLevel"

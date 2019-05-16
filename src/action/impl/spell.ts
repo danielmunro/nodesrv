@@ -1,5 +1,5 @@
 import AffectBuilder from "../../affect/affectBuilder"
-import {AffectType} from "../../affect/affectType"
+import {AffectType} from "../../affect/enum/affectType"
 import {Affect} from "../../affect/model/affect"
 import AbilityService from "../../check/abilityService"
 import Check from "../../check/check"

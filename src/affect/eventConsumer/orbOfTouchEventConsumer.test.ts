@@ -2,7 +2,7 @@ import {createTestAppContainer} from "../../app/testFactory"
 import AttackEvent from "../../mob/event/attackEvent"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import {AffectType} from "../affectType"
+import {AffectType} from "../enum/affectType"
 import OrbOfTouchEventConsumer from "./orbOfTouchEventConsumer"
 
 let testRunner: TestRunner

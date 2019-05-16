@@ -1,4 +1,4 @@
-import {AffectType} from "../../../../affect/affectType"
+import {AffectType} from "../../../../affect/enum/affectType"
 import AbilityService from "../../../../check/abilityService"
 import {SkillType} from "../../../../skill/skillType"
 import {ActionType} from "../../../enum/actionType"

@@ -1,6 +1,6 @@
 import {Item} from "../item/model/item"
 import {Mob} from "../mob/model/mob"
-import {AffectType} from "./affectType"
+import {AffectType} from "./enum/affectType"
 import {Affect} from "./model/affect"
 
 export default class AffectService {

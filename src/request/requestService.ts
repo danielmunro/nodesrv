@@ -1,4 +1,4 @@
-import {AffectType} from "../affect/affectType"
+import {AffectType} from "../affect/enum/affectType"
 import {Affect} from "../affect/model/affect"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckType} from "../check/checkType"
