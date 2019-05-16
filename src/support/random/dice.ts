@@ -14,7 +14,7 @@ export function d4() {
   return roll(1, 4) === 1
 }
 
-export function simpleD4(callback) {
+export function simpleD4(callback: () => void) {
   if (roll(1, 4) === 1) {
     callback()
   }
