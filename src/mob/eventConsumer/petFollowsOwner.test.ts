@@ -2,7 +2,7 @@ import {createTestAppContainer} from "../../app/testFactory"
 import {Direction} from "../../room/constants"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import LocationService from "../locationService"
+import LocationService from "../service/locationService"
 
 describe("pet follows owner event consumer", () => {
   it("a pet should follow its owner", async () => {

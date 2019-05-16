@@ -1,7 +1,7 @@
 import {inject, injectable} from "inversify"
-import LocationService from "../../mob/locationService"
 import MobTable from "../../mob/mobTable"
 import { Mob } from "../../mob/model/mob"
+import LocationService from "../../mob/service/locationService"
 import {asyncForEach} from "../../support/functional/collection"
 import Maybe from "../../support/functional/maybe"
 import { pickOne } from "../../support/random/helpers"

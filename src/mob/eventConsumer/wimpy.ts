@@ -6,8 +6,8 @@ import EventContext from "../../request/context/eventContext"
 import Request from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import FightEvent from "../fight/event/fightEvent"
-import LocationService from "../locationService"
 import {Mob} from "../model/mob"
+import LocationService from "../service/locationService"
 
 export default class Wimpy implements EventConsumer {
   private static isWimpy(mob: Mob, target: Mob) {

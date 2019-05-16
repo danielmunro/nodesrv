@@ -5,8 +5,8 @@ import {EventType} from "../../event/eventType"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import FightEvent from "../fight/event/fightEvent"
-import LocationService from "../locationService"
-import MobService from "../mobService"
+import LocationService from "../service/locationService"
+import MobService from "../service/mobService"
 import Wimpy from "./wimpy"
 
 describe("wimpy event consumer", () => {

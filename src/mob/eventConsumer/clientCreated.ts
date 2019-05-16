@@ -5,7 +5,7 @@ import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import {Room} from "../../room/model/room"
 import {newMobLocation} from "../factory"
-import LocationService from "../locationService"
+import LocationService from "../service/locationService"
 
 export default class ClientCreated implements EventConsumer {
   constructor(

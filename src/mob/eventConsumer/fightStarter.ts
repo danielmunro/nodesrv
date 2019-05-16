@@ -3,7 +3,7 @@ import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import MobEvent from "../event/mobEvent"
 import FightBuilder from "../fight/fightBuilder"
-import MobService from "../mobService"
+import MobService from "../service/mobService"
 
 export default class FightStarter implements EventConsumer {
   constructor(

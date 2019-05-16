@@ -1,4 +1,4 @@
-import MobService from "../mob/mobService"
+import MobService from "../mob/service/mobService"
 import GoldActionPartCheck from "./actionPartCheck/goldActionPartCheck"
 import HostileActionPartCheck from "./actionPartCheck/hostileActionPartCheck"
 import ItemInInventoryActionPartCheck from "./actionPartCheck/itemInInventoryActionPartCheck"

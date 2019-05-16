@@ -6,7 +6,7 @@ import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import MobMoveEvent from "../event/mobMoveEvent"
 import {Fight} from "../fight/fight"
-import MobService from "../mobService"
+import MobService from "../service/mobService"
 
 let testRunner: TestRunner
 let mobService: MobService

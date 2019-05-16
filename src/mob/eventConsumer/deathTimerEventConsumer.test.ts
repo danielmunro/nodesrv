@@ -5,7 +5,7 @@ import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {Disposition} from "../enum/disposition"
 import MobEvent from "../event/mobEvent"
-import LocationService from "../locationService"
+import LocationService from "../service/locationService"
 import DeathTimerEventConsumer from "./deathTimerEventConsumer"
 
 describe("death timer event consumer", () => {

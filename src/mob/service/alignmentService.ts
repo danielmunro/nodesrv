@@ -1,5 +1,5 @@
-import {Alignment} from "./enum/alignment"
-import {Mob} from "./model/mob"
+import {Alignment} from "../enum/alignment"
+import {Mob} from "../model/mob"
 
 export const ALIGNMENT_EVIL = -300
 export const ALIGNMENT_GOOD = 300

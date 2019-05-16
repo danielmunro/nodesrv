@@ -1,8 +1,8 @@
 import {inject, injectable} from "inversify"
 import EventService from "../../event/eventService"
 import {Types} from "../../support/types"
-import LocationService from "../locationService"
 import {Mob} from "../model/mob"
+import LocationService from "../service/locationService"
 import {Fight} from "./fight"
 
 @injectable()

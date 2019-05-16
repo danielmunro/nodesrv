@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import EventConsumer from "../../event/eventConsumer"
-import LocationService from "../../mob/locationService"
+import LocationService from "../../mob/service/locationService"
 import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/clientService"
 import TestRunner from "../../support/test/testRunner"

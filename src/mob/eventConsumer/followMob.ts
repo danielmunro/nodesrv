@@ -6,8 +6,8 @@ import EventContext from "../../request/context/eventContext"
 import Request from "../../request/request"
 import {RequestType} from "../../request/requestType"
 import MobMoveEvent from "../event/mobMoveEvent"
-import LocationService from "../locationService"
 import {Mob} from "../model/mob"
+import LocationService from "../service/locationService"
 
 export default class FollowMob implements EventConsumer {
   constructor(

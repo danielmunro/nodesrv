@@ -1,10 +1,10 @@
-import {createTestAppContainer} from "../app/testFactory"
-import {Room} from "../room/model/room"
-import TestRunner from "../support/test/testRunner"
-import {Types} from "../support/types"
-import { newMobLocation } from "./factory"
+import {createTestAppContainer} from "../../app/testFactory"
+import {Room} from "../../room/model/room"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
+import { newMobLocation } from "../factory"
+import {Mob} from "../model/mob"
 import LocationService from "./locationService"
-import {Mob} from "./model/mob"
 
 let locationService: LocationService
 let mob1: Mob

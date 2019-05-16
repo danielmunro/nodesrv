@@ -4,7 +4,7 @@ import {EventResponseStatus} from "../../event/eventResponseStatus"
 import {EventType} from "../../event/eventType"
 import {Room} from "../../room/model/room"
 import MobEvent from "../event/mobEvent"
-import MobService from "../mobService"
+import MobService from "../service/mobService"
 
 export default class MobCreated implements EventConsumer {
   constructor(

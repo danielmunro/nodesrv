@@ -3,7 +3,7 @@ import ClientEvent from "../../client/event/clientEvent"
 import {EventType} from "../../event/eventType"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
-import LocationService from "../locationService"
+import LocationService from "../service/locationService"
 import ClientDisconnected from "./clientDisconnected"
 
 describe("client disconnected event consumer", () => {

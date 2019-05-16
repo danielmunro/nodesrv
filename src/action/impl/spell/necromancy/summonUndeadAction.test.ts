@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../../app/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import MobService from "../../../../mob/mobService"
+import MobService from "../../../../mob/service/mobService"
 import {RequestType} from "../../../../request/requestType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"

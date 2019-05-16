@@ -1,8 +1,8 @@
-import { getTestMob } from "../support/test/mob"
+import { getTestMob } from "../../support/test/mob"
+import Cleric from "../specialization/impl/cleric"
 import { assignSpecializationToMob } from "./mobService"
-import Cleric from "./specialization/impl/cleric"
 
-describe("mob gameService", () => {
+describe("mob service", () => {
   it("should be able to assign a specializationType to a mob", () => {
     // setup
     const mob = getTestMob()

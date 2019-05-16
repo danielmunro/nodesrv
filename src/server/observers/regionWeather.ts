@@ -1,6 +1,6 @@
 import {inject, injectable} from "inversify"
 import { Client } from "../../client/client"
-import LocationService from "../../mob/locationService"
+import LocationService from "../../mob/service/locationService"
 import { getRandomWeather} from "../../region/constants"
 import {getWeatherTransitionMessage} from "../../region/constants"
 import { Region } from "../../region/model/region"

@@ -3,7 +3,7 @@ import EventConsumer from "../../event/eventConsumer"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import AttackEvent from "../event/attackEvent"
-import MobService from "../mobService"
+import MobService from "../service/mobService"
 import FightStarter from "./fightStarter"
 
 let testRunner: TestRunner

@@ -25,7 +25,7 @@ import weaponAction from "../action/impl/skill/weaponAction"
 import AbilityService from "../check/abilityService"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
-import MobService from "../mob/mobService"
+import MobService from "../mob/service/mobService"
 import {SkillType} from "./skillType"
 
 export function getSkillTable(mobService: MobService, eventService: EventService) {

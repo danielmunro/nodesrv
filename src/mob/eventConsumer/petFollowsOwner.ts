@@ -3,8 +3,8 @@ import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import {Room} from "../../room/model/room"
 import MobMoveEvent from "../event/mobMoveEvent"
-import LocationService from "../locationService"
 import {Mob} from "../model/mob"
+import LocationService from "../service/locationService"
 
 export default class PetFollowsOwner implements EventConsumer {
   constructor(private readonly locationService: LocationService) {}

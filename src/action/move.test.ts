@@ -1,6 +1,6 @@
 import {AffectType} from "../affect/affectType"
 import {createTestAppContainer} from "../app/testFactory"
-import LocationService from "../mob/locationService"
+import LocationService from "../mob/service/locationService"
 import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import Door from "../room/model/door"

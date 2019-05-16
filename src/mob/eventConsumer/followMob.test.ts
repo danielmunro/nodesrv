@@ -5,8 +5,8 @@ import RoomTable from "../../room/roomTable"
 import RoomBuilder from "../../support/test/roomBuilder"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import LocationService from "../locationService"
 import {Mob} from "../model/mob"
+import LocationService from "../service/locationService"
 
 let testRunner: TestRunner
 let locationService: LocationService

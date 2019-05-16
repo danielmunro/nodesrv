@@ -6,7 +6,7 @@ import ResponseMessage from "../../request/responseMessage"
 import RoomMessageEvent from "../../room/event/roomMessageEvent"
 import {Disposition} from "../enum/disposition"
 import MobEvent from "../event/mobEvent"
-import LocationService from "../locationService"
+import LocationService from "../service/locationService"
 import {Messages} from "./constants"
 
 export default class DeathTimerEventConsumer implements EventConsumer {

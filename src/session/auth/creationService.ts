@@ -1,7 +1,7 @@
 import {inject, injectable} from "inversify"
 import "reflect-metadata"
-import MobService from "../../mob/mobService"
 import {Mob} from "../../mob/model/mob"
+import MobService from "../../mob/service/mobService"
 import Customization from "../../mob/specialization/customization"
 import SpecializationService from "../../mob/specialization/service/specializationService"
 import SpecializationGroup from "../../mob/specialization/specializationGroup"

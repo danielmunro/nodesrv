@@ -4,7 +4,7 @@ import {Room} from "../../room/model/room"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
 import MobEvent from "../event/mobEvent"
-import MobService from "../mobService"
+import MobService from "../service/mobService"
 import MobCreated from "./mobCreated"
 
 describe("mob created event consumer", () => {

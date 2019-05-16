@@ -3,10 +3,6 @@ import Vitals from "../attributes/model/vitals"
 import {Item} from "../item/model/item"
 import {Room} from "../room/model/room"
 import {Disposition} from "./enum/disposition"
-import FightTable from "./fight/fightTable"
-import LocationService from "./locationService"
-import MobService from "./mobService"
-import MobTable from "./mobTable"
 import {Mob} from "./model/mob"
 import MobLocation from "./model/mobLocation"
 import MobReset from "./model/mobReset"
@@ -54,8 +50,4 @@ export function newMob(name: string, description: string, race: RaceType, vitals
   items.forEach((item) => mob.inventory.addItem(item))
 
   return mob
-}
-
-export async function createMobService(mobTable: MobTable, aLocationService: LocationService) {
-  return new MobService(mobTable, aLocationService, new MobTable(), new FightTable())
 }

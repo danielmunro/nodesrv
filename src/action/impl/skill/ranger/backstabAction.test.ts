@@ -1,7 +1,7 @@
 import {AffectType} from "../../../../affect/affectType"
 import {createTestAppContainer} from "../../../../app/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import MobService from "../../../../mob/mobService"
+import MobService from "../../../../mob/service/mobService"
 import {RequestType} from "../../../../request/requestType"
 import Response from "../../../../request/response"
 import {ConditionMessages as AllMessages} from "../../../../skill/constants"
