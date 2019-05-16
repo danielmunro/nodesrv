@@ -9,6 +9,7 @@ export enum SkillType {
   DirtKick = "dirt kick",
   Disarm = "disarm",
   DualWield = "dual wield",
+  Endurance = "endurance",
   EnhancedDamage = "enhanced damage",
   Envenom = "envenom",
   EyeGouge = "eye gouge",

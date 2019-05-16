@@ -1,6 +1,7 @@
 import CrusadeEventConsumer from "../affect/eventConsumer/crusadeEventConsumer"
 import DamageSourceEventConsumer from "../affect/eventConsumer/damageSourceEventConsumer"
 import DetectTouchEventConsumer from "../affect/eventConsumer/detectTouchEventConsumer"
+import EnduranceEventConsumer from "../affect/eventConsumer/enduranceEventConsumer"
 import ForgetEventConsumer from "../affect/eventConsumer/forgetEventConsumer"
 import HasteEventConsumer from "../affect/eventConsumer/hasteEventConsumer"
 import HolySilenceEventConsumer from "../affect/eventConsumer/holySilenceEventConsumer"
@@ -68,6 +69,7 @@ export default function createEventConsumerTable(
     new HolySilenceEventConsumer(),
     new OrbOfTouchEventConsumer(),
     new DetectTouchEventConsumer(eventService),
+    new EnduranceEventConsumer(),
 
     // mob
     new AggressiveMob(mobService, locationService, fightBuilder),

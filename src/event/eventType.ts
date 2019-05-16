@@ -4,6 +4,7 @@ export enum EventType {
   ClientLogout,
   ClientRequest,
   ClientMessage,
+  CostApplied,
   MobCreated,
   MobMoved,
   MobAdvanceLevel,

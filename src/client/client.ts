@@ -4,6 +4,7 @@ import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import EventService from "../event/eventService"
 import {EventType} from "../event/eventType"
+import CostEvent from "../mob/event/costEvent"
 import MobEvent from "../mob/event/mobEvent"
 import LocationService from "../mob/locationService"
 import { Mob } from "../mob/model/mob"
@@ -85,7 +86,7 @@ export class Client {
     }
     const response = await matchingHandlerDefinition.handle(request)
     if (response.request instanceof CheckedRequest) {
-      this.applyCosts(response.request.check.costs)
+      await this.applyCosts(response.request.check.costs)
     }
     this.send(response.getPayload())
     this.sendMessage(this.player.prompt())
@@ -125,7 +126,11 @@ export class Client {
     return new RequestBuilder(this.actions, this.locationService, mob, room).create(requestArgs[0], data.request)
   }
 
-  private applyCosts(costs: Cost[]): void {
+  private async applyCosts(costs: Cost[]): Promise<void> {
+    const eventResponse = await this.eventService.publish(new CostEvent(this.player.sessionMob, costs))
+    if (eventResponse.isModified()) {
+      costs = (eventResponse.event as CostEvent).costs
+    }
     costs.forEach(cost => cost.applyTo(this.player))
   }
 }
