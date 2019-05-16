@@ -1,18 +1,18 @@
 import { Player } from "../../../player/model/player"
-import AuthService from "../authService"
 import AuthStep from "../authStep"
-import { MESSAGE_NEW_PLAYER_CONFIRM, MESSAGE_YN_FAILED } from "../constants"
+import {CreationMessages} from "../constants"
 import Password from "../createPlayer/password"
+import CreationService from "../creationService"
 import Request from "../request"
 import Response from "../response"
 import Email from "./email"
 
 export default class NewPlayerConfirm implements AuthStep {
-  constructor(private readonly authService: AuthService, private readonly email: string) {}
+  constructor(private readonly authService: CreationService, private readonly email: string) {}
 
   /* istanbul ignore next */
   public getStepMessage(): string {
-    return MESSAGE_NEW_PLAYER_CONFIRM
+    return CreationMessages.Player.Confirm
   }
 
   public async processRequest(request: Request): Promise<Response> {
@@ -24,6 +24,6 @@ export default class NewPlayerConfirm implements AuthStep {
       return request.ok(new Password(this.authService, player))
     }
 
-    return request.fail(this, MESSAGE_YN_FAILED)
+    return request.fail(this, CreationMessages.All.ConfirmFailed)
   }
 }

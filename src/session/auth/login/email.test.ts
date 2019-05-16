@@ -4,7 +4,7 @@ import {Client} from "../../../client/client"
 import {getTestPlayer} from "../../../support/test/player"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
-import AuthService from "../authService"
+import CreationService from "../creationService"
 import Request from "../request"
 import Response from "../response"
 import { ResponseStatus } from "../responseStatus"
@@ -21,7 +21,7 @@ const mockRepositoryWithNoResults = jest.fn(() => ({
 }))
 
 async function processInput(input: string, client: Client): Promise<Response> {
-  return new Email(new AuthService(mockRepository(), null)).processRequest(
+  return new Email(new CreationService(mockRepository(), null)).processRequest(
     new Request(client, input))
 }
 
@@ -81,7 +81,7 @@ describe("login email auth step", () => {
     const client = testRunner.createClient()
 
     // when
-    const response = await new Email(new AuthService(mockRepositoryWithNoResults(), null))
+    const response = await new Email(new CreationService(mockRepositoryWithNoResults(), null))
       .processRequest(new Request(client, email))
 
     // then

@@ -1,8 +1,8 @@
-import {createTestAppContainer} from "../../app/testFactory"
-import MobBuilder from "../../support/test/mobBuilder"
-import TestRunner from "../../support/test/testRunner"
-import {Types} from "../../support/types"
-import {SpecializationType} from "./specializationType"
+import {createTestAppContainer} from "../../../app/testFactory"
+import MobBuilder from "../../../support/test/mobBuilder"
+import TestRunner from "../../../support/test/testRunner"
+import {Types} from "../../../support/types"
+import {SpecializationType} from "../enum/specializationType"
 
 let testRunner: TestRunner
 let mobBuilder: MobBuilder

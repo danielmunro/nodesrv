@@ -1,6 +1,6 @@
 import verify from "../../../player/password/verify"
 import AuthStep from "../authStep"
-import { MESSAGE_LOGIN_FAILED, MESSAGE_LOGIN_PASSWORD, MESSAGE_NAME_OK } from "../constants"
+import {CreationMessages} from "../constants"
 import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
@@ -9,14 +9,14 @@ import Name from "./name"
 export default class Password extends PlayerAuthStep implements AuthStep {
   /* istanbul ignore next */
   public getStepMessage(): string {
-    return MESSAGE_LOGIN_PASSWORD
+    return CreationMessages.Player.PasswordPrompt
   }
 
   public async processRequest(request: Request): Promise<Response> {
     if (verify(request.input, this.player.password)) {
-      return request.ok(new Name(this.authService, this.player), MESSAGE_NAME_OK)
+      return request.ok(new Name(this.creationService, this.player), CreationMessages.All.Ok)
     }
 
-    return request.fail(this, MESSAGE_LOGIN_FAILED)
+    return request.fail(this, CreationMessages.Player.LoginFailed)
   }
 }

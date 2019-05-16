@@ -1,8 +1,8 @@
 import {createTestAppContainer} from "../../../app/testFactory"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
-import AuthService from "../authService"
 import Password from "../createPlayer/password"
+import CreationService from "../creationService"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Email from "./email"
@@ -11,7 +11,7 @@ import NewPlayerConfirm from "./newPlayerConfirm"
 const TEST_EMAIL = "foo@bar.com"
 
 async function getNewPlayerConfirm(email: string) {
-   return new NewPlayerConfirm(new AuthService(jest.fn()(), null), email)
+   return new NewPlayerConfirm(new CreationService(jest.fn()(), null), email)
 }
 
 let testRunner: TestRunner

@@ -9,12 +9,12 @@ import ItemService from "../../item/itemService"
 import FightBuilder from "../../mob/fight/fightBuilder"
 import LocationService from "../../mob/locationService"
 import MobService from "../../mob/mobService"
-import SpecializationService from "../../mob/specialization/specializationService"
+import SpecializationService from "../../mob/specialization/service/specializationService"
 import EscrowService from "../../mob/trade/escrowService"
 import WeatherService from "../../region/weatherService"
 import ClientService from "../../server/clientService"
 import {GameServer} from "../../server/server"
-import AuthService from "../../session/auth/authService"
+import CreationService from "../../session/auth/creationService"
 import {Types} from "../../support/types"
 
 export default new ContainerModule(bind => {
@@ -25,7 +25,7 @@ export default new ContainerModule(bind => {
   bind<MobService>(Types.MobService).to(MobService).inSingletonScope()
   bind<ItemService>(Types.ItemService).to(ItemService).inSingletonScope()
   bind<EscrowService>(Types.EscrowService).to(EscrowService).inSingletonScope()
-  bind<AuthService>(Types.AuthService).to(AuthService).inSingletonScope()
+  bind<CreationService>(Types.CreationService).to(CreationService).inSingletonScope()
   bind<ResetService>(Types.ResetService).to(ResetService).inSingletonScope()
   bind<StateService>(Types.StateService).to(StateService).inSingletonScope()
   bind<GameService>(Types.GameService).to(GameService).inSingletonScope()

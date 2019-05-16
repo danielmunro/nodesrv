@@ -11,7 +11,7 @@ import {Mob} from "./model/mob"
 import MobLocation from "./model/mobLocation"
 import MobReset from "./model/mobReset"
 import {RaceType} from "./race/enum/raceType"
-import {SpecializationType} from "./specialization/specializationType"
+import {SpecializationType} from "./specialization/enum/specializationType"
 
 export function newMobReset(
   mob: Mob,

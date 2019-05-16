@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../app/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
-import {SpecializationType} from "../../../mob/specialization/specializationType"
+import {SpecializationType} from "../../../mob/specialization/enum/specializationType"
 import {RequestType} from "../../../request/requestType"
 import {Skill} from "../../../skill/model/skill"
 import {SkillType} from "../../../skill/skillType"

@@ -1,9 +1,9 @@
 import { Player } from "../../player/model/player"
 import AbstractAuthStep from "./abstractAuthStep"
-import AuthService from "./authService"
+import CreationService from "./creationService"
 
 export default abstract class PlayerAuthStep extends AbstractAuthStep {
-  constructor(authService: AuthService, public readonly player: Player) {
-    super(authService)
+  constructor(creationService: CreationService, public readonly player: Player) {
+    super(creationService)
   }
 }

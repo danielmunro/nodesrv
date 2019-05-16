@@ -1,8 +1,8 @@
 import {createTestAppContainer} from "../app/testFactory"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
-import AuthService from "./auth/authService"
 import Complete from "./auth/complete"
+import CreationService from "./auth/creationService"
 import Email from "./auth/login/email"
 import Request from "./auth/request"
 import Session from "./session"
@@ -23,7 +23,7 @@ describe("session", () => {
     const player = playerBuilder.player
     const client = testRunner.createClient()
     const session = new Session(
-      new Email(new AuthService(mockPlayerRepository(), mockMobService())))
+      new Email(new CreationService(mockPlayerRepository(), mockMobService())))
 
     // expect
     expect(session.isLoggedIn()).toBeFalsy()

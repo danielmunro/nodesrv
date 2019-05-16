@@ -4,7 +4,7 @@ import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
-import Complete from "./complete"
+import CustomizeCheck from "./customizeCheck"
 import Specialization from "./specialization"
 
 const mockAuthService = jest.fn()
@@ -33,7 +33,7 @@ describe("specialization create mob auth step", () => {
     }))
   })
 
-  it("should allow valid specializations", async () => {
+  it("should allow valid customizations", async () => {
     return Promise.all(allSpecializations.map(async (input) => {
       // setup
       const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
@@ -48,7 +48,7 @@ describe("specialization create mob auth step", () => {
 
       // then
       expect(response.status).toBe(ResponseStatus.OK)
-      expect(response.authStep).toBeInstanceOf(Complete)
+      expect(response.authStep).toBeInstanceOf(CustomizeCheck)
     }))
   })
 })

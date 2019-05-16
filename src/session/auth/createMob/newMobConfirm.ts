@@ -3,9 +3,9 @@ import {newStartingStats, newStartingVitals} from "../../../attributes/factory"
 import { Mob } from "../../../mob/model/mob"
 import { PlayerMob } from "../../../mob/model/playerMob"
 import { Player } from "../../../player/model/player"
-import AuthService from "../authService"
 import AuthStep from "../authStep"
-import { MESSAGE_NEW_MOB_CONFIRM, MESSAGE_YN_FAILED } from "../constants"
+import {CreationMessages} from "../constants"
+import CreationService from "../creationService"
 import Name from "../login/name"
 import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
@@ -13,26 +13,26 @@ import Response from "../response"
 import Race from "./race"
 
 export default class NewMobConfirm extends PlayerAuthStep implements AuthStep {
-  constructor(authService: AuthService, player: Player, public readonly name: string) {
+  constructor(authService: CreationService, player: Player, public readonly name: string) {
     super(authService, player)
   }
 
   /* istanbul ignore next */
   public getStepMessage(): string {
-    return MESSAGE_NEW_MOB_CONFIRM
+    return CreationMessages.Mob.Confirm
   }
 
   public async processRequest(request: Request): Promise<Response> {
     if (request.didDeny()) {
-      return request.ok(new Name(this.authService, this.player))
+      return request.ok(new Name(this.creationService, this.player))
     } else if (request.didConfirm()) {
       const mob = await this.createMob()
       this.player.mobs.push(mob)
       this.player.sessionMob = mob
-      return request.ok(new Race(this.authService, this.player))
+      return request.ok(new Race(this.creationService, this.player))
     }
 
-    return request.fail(this, MESSAGE_YN_FAILED)
+    return request.fail(this, CreationMessages.All.ConfirmFailed)
   }
 
   private async createMob(): Promise<Mob> {

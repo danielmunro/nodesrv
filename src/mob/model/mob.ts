@@ -22,9 +22,9 @@ import DamageEventBuilder from "../event/damageEventBuilder"
 import { RaceType } from "../race/enum/raceType"
 import createRaceFromRaceType from "../race/factory"
 import Race from "../race/race"
+import { SpecializationType } from "../specialization/enum/specializationType"
 import {createSpecializationFromType} from "../specialization/factory"
 import {Specialization} from "../specialization/specialization"
-import { SpecializationType } from "../specialization/specializationType"
 import DamageSource from "./damageSource"
 import MobReset from "./mobReset"
 import {MobTraits} from "./mobTraits"
@@ -143,6 +143,10 @@ export class Mob {
   public pet: Mob
 
   public follows: Mob
+
+  public getCreationPoints(): number {
+    return this.playerMob.getCreationPoints() + this.race().creationPoints
+  }
 
   public specialization(): Specialization {
     return createSpecializationFromType(this.specializationType)

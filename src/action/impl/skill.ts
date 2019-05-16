@@ -7,6 +7,7 @@ import CheckBuilder from "../../check/checkBuilder"
 import {CheckType} from "../../check/checkType"
 import Cost from "../../check/cost/cost"
 import TouchEvent from "../../mob/event/touchEvent"
+import {Mob} from "../../mob/model/mob"
 import Request from "../../request/request"
 import RequestService from "../../request/requestService"
 import {RequestType} from "../../request/requestType"
@@ -40,37 +41,23 @@ export default class Skill extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const rollResultInitial = this.roll(requestService)
-    const skill = requestService.getResult(CheckType.HasSkill)
-    const eventResponse = await this.abilityService.publishEvent(
-      requestService.createSkillEvent(skill, rollResultInitial))
-    if (!(eventResponse.event as SkillEvent).rollResult) {
+    if (!await this.doRoll(requestService)) {
       return requestService.respondWith().response(
         ResponseStatus.ActionFailed,
         this.getFailureMessage(requestService))
     }
     if (this.touchesTarget) {
-      const touchEventResponse = await this.abilityService.publishEvent(
-        new TouchEvent(requestService.getMob(), requestService.getResult(CheckType.HasTarget)))
+      const touchEventResponse = await this.createTouchEventResponse(requestService)
       if (touchEventResponse.isSatisifed()) {
         return requestService.respondWith().response(
           ResponseStatus.ActionFailed,
           touchEventResponse.context)
       }
     }
-    const affect = await this.applySkill(
-      requestService,
-      new AffectBuilder(this.affectType)
-        .setLevel(requestService.getMobLevel()))
+    const affect = await this.getAffectFromApplySkill(requestService) as Affect
     const checkTarget = requestService.getResult(CheckType.HasTarget)
-    if (affect) {
-      const target = checkTarget || requestService.getMob()
-      target.affect().add(affect)
-    }
-    if (this.actionType === ActionType.Offensive) {
-      await this.abilityService.publishEvent(
-        requestService.createAttackEvent(checkTarget))
-    }
+    this.applyAffectIfAffectCreated(requestService, checkTarget, affect)
+    await this.checkIfSkillIsOffensive(requestService, checkTarget)
     return requestService.respondWith().response(
       ResponseStatus.Success,
       this.successMessage(requestService))
@@ -106,10 +93,6 @@ export default class Skill extends Action {
     return this.failureMessage(requestService)
   }
 
-  public getSuccessMessage(requestService: RequestService): ResponseMessage {
-    return this.successMessage(requestService)
-  }
-
   public getHelpText(): string {
     return this.helpText
   }
@@ -120,5 +103,37 @@ export default class Skill extends Action {
 
   public getActionParts(): ActionPart[] {
     return this.actionParts
+  }
+
+  private applyAffectIfAffectCreated(requestService: RequestService, checkTarget?: Mob, affect?: Affect) {
+    if (affect) {
+      const target = checkTarget || requestService.getMob()
+      target.affect().add(affect)
+    }
+  }
+
+  private async checkIfSkillIsOffensive(requestService: RequestService, checkTarget: Mob) {
+    if (this.actionType === ActionType.Offensive) {
+      await this.abilityService.publishEvent(
+        requestService.createAttackEvent(checkTarget))
+    }
+  }
+
+  private getAffectFromApplySkill(requestService: RequestService) {
+    return this.applySkill(
+      requestService, new AffectBuilder(this.affectType).setLevel(requestService.getMobLevel()))
+  }
+
+  private createTouchEventResponse(requestService: RequestService) {
+    return this.abilityService.publishEvent(
+      new TouchEvent(requestService.getMob(), requestService.getResult(CheckType.HasTarget)))
+  }
+
+  private async doRoll(requestService: RequestService): Promise<boolean> {
+    const rollResultInitial = this.roll(requestService)
+    const skill = requestService.getResult(CheckType.HasSkill)
+    const eventResponse = await this.abilityService.publishEvent(
+      requestService.createSkillEvent(skill, rollResultInitial))
+    return (eventResponse.event as SkillEvent).rollResult
   }
 }

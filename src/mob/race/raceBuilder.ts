@@ -1,7 +1,7 @@
 import Attributes from "../../attributes/model/attributes"
 import {SkillType} from "../../skill/skillType"
 import DamageModifier from "../damageModifier"
-import {SpecializationType} from "../specialization/specializationType"
+import {SpecializationType} from "../specialization/enum/specializationType"
 import {Appetite} from "./enum/appetite"
 import {BodyPart, standardPackage} from "./enum/bodyParts"
 import {Eyesight} from "./enum/eyesight"
@@ -18,6 +18,7 @@ export default class RaceBuilder {
   private attributes: Attributes
   private preferredSpecializations: SpecializationType[] = []
   private startingSkills: SkillType[] = []
+  private creationPoints: number = 0
 
   constructor(private raceType: RaceType) {}
 
@@ -61,6 +62,11 @@ export default class RaceBuilder {
     return this
   }
 
+  public setCreationPoints(points: number): RaceBuilder {
+    this.creationPoints = points
+    return this
+  }
+
   public create(): Race {
     return new Race(
       this.raceType,
@@ -71,6 +77,7 @@ export default class RaceBuilder {
       this.damageAbsorption,
       this.attributes,
       this.preferredSpecializations,
-      this.startingSkills)
+      this.startingSkills,
+      this.creationPoints)
   }
 }

@@ -4,10 +4,10 @@ import MobService from "../../../mob/mobService"
 import MobTable from "../../../mob/mobTable"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
-import AuthService from "../authService"
 import Complete from "../complete"
-import { MESSAGE_UNAVAILABLE } from "../constants"
+import {CreationMessages} from "../constants"
 import NewMobConfirm from "../createMob/newMobConfirm"
+import CreationService from "../creationService"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Name from "./name"
@@ -19,7 +19,7 @@ beforeEach(async () => {
 })
 
 async function getAuthService(mobTable: MobTable = new MobTable(), mobTemplateTable: MobTable = new MobTable()) {
-  return new AuthService(jest.fn()(), new MobService(mobTemplateTable, undefined, mobTable, undefined))
+  return new CreationService(jest.fn()(), new MobService(mobTemplateTable, undefined, mobTable, undefined))
 }
 
 describe("auth login name", () => {
@@ -62,7 +62,7 @@ describe("auth login name", () => {
     // then
     expect(response.status).toBe(ResponseStatus.FAILED)
     expect(response.authStep).toBeInstanceOf(Name)
-    expect(response.message).toBe(MESSAGE_UNAVAILABLE)
+    expect(response.message).toBe(CreationMessages.Mob.NameUnavailable)
   })
 
   it("should be able to log into a player's own mob", async () => {

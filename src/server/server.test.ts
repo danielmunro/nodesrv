@@ -8,7 +8,7 @@ import MobService from "../mob/mobService"
 import MobTable from "../mob/mobTable"
 import ExitTable from "../room/exitTable"
 import RoomTable from "../room/roomTable"
-import AuthService from "../session/auth/authService"
+import CreationService from "../session/auth/creationService"
 import { DontExecuteTestObserver } from "../support/test/dontExecuteTestObserver"
 import { ExpectTestObserver } from "../support/test/expectTestObserver"
 import { getTestRoom } from "../support/test/room"
@@ -30,7 +30,7 @@ async function getGameServer(): Promise<GameServer> {
     room,
     new ClientService(
       eventService,
-      new AuthService(jest.fn()(), mobService),
+      new CreationService(jest.fn()(), mobService),
       locationService,
       gameService.getActionService().actions,
     ),

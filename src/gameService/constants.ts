@@ -28,6 +28,7 @@ cure poison             NA
 remove curse            NA
 
 level 15
+dodge                   NA
 protection good         NA
 protection evil         NA
 protection neutral      NA
@@ -42,6 +43,7 @@ level 19
 know alignment          NA
 
 level 20
+dirt kick               NA
 heal                    NA
 shield                  NA
 
@@ -53,6 +55,7 @@ level 28
 locate item             NA
 
 level 30
+second attack           NA
 sanctuary               NA
 
 level 32
@@ -60,6 +63,9 @@ orb of touch            NA
 
 level 34
 orb of awakening        NA
+
+level 40
+sneak                   NA
 `,
   Mage: `skill                   current practiced level
 
@@ -86,6 +92,7 @@ level 14
 summon undead           NA
 
 level 15
+dodge                   NA
 slow                    NA
 
 level 17
@@ -98,6 +105,7 @@ level 19
 know alignment          NA
 
 level 20
+dirt kick               NA
 detect invisibility     NA
 detect hidden           NA
 turn undead             NA
@@ -118,8 +126,18 @@ level 28
 summon                  NA
 
 level 30
+second attack           NA
 wrath                   NA
 withstand death         NA
+
+level 34
+orb of touch            NA
+
+level 36
+orb of awakening        NA
+
+level 40
+sneak                   NA
 `,
   Ranger: `skill                   current practiced level
 

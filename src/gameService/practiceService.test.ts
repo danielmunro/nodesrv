@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../app/testFactory"
-import {SpecializationType} from "../mob/specialization/specializationType"
+import {SpecializationType} from "../mob/specialization/enum/specializationType"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
 import {PracticeMessages} from "./constants"

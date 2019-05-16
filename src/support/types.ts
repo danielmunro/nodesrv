@@ -1,8 +1,8 @@
 export const Types = {
   ActionService: Symbol.for("ActionService"),
   Actions: Symbol.for("Actions"),
-  AuthService: Symbol.for("AuthService"),
   ClientService: Symbol.for("ClientService"),
+  CreationService: Symbol.for("CreationService"),
   DecrementAffectObserver: Symbol.for("DecrementAffect"),
   EscrowService: Symbol.for("EscrowService"),
   EventConsumerTable: Symbol.for("EventConsumerTable"),
@@ -32,6 +32,7 @@ export const Types = {
   RespawnerObserver: Symbol.for("RespawnerObserver"),
   RoomTable: Symbol.for("RoomTable"),
   Skills: Symbol.for("Skills"),
+  SpecializationGroups: Symbol.for("SpecializationGroups"),
   SpecializationLevels: Symbol.for("SpecializationLevels"),
   SpecializationService: Symbol.for("SpecializationService"),
   Spells: Symbol.for("Spells"),

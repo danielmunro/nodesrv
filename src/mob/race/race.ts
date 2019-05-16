@@ -1,7 +1,7 @@
 import Attributes from "../../attributes/model/attributes"
 import {SkillType} from "../../skill/skillType"
 import DamageModifier from "../damageModifier"
-import {SpecializationType} from "../specialization/specializationType"
+import {SpecializationType} from "../specialization/enum/specializationType"
 import {Appetite} from "./enum/appetite"
 import {BodyPart} from "./enum/bodyParts"
 import {Eyesight} from "./enum/eyesight"
@@ -18,5 +18,6 @@ export default class Race {
     public readonly damageAbsorption: DamageModifier[],
     public readonly attributes: Attributes,
     public readonly preferredSpecializations: SpecializationType[],
-    public readonly startingSkills: SkillType[]) {}
+    public readonly startingSkills: SkillType[],
+    public readonly creationPoints: number) {}
 }

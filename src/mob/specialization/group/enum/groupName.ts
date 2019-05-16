@@ -1,0 +1,17 @@
+export enum GroupName {
+  Benedictions = "benedictions",
+  Combat = "combat",
+  Curative = "curative",
+  Detection = "detection",
+  Enchantment = "enchantment",
+  Enhancement = "enhancement",
+  Healing = "healing",
+  Illusion = "illusion",
+  Maladictions = "maladictions",
+  Necromancy = "necromancy",
+  Orbs = "orbs",
+  Piety = "piety",
+  Protection = "protection",
+  Psionics = "psionics",
+  Transportation = "transportation",
+}

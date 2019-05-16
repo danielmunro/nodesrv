@@ -5,6 +5,7 @@ import { default as Attributes } from "../../attributes/model/attributes"
 import { Item } from "../../item/model/item"
 import { AuthorizationLevel } from "../../player/authorizationLevel"
 import { Standing } from "../enum/standing"
+import Customization from "../specialization/customization"
 import { Mob } from "./mob"
 
 @Entity()
@@ -53,6 +54,13 @@ export class PlayerMob {
 
   @Column("integer")
   public bounty: number = 0
+
+  public customizations: Customization[] = []
+
+  public getCreationPoints(): number {
+    return this.customizations.reduce(
+      (previous: number, current: Customization) => previous + current.getCreationPoints(), 0)
+  }
 
   public regen(): void {
     this.hunger--

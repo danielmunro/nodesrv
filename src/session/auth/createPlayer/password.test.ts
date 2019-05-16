@@ -1,7 +1,7 @@
 import {createTestAppContainer} from "../../../app/testFactory"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
-import { MESSAGE_FAIL_PASSWORD_TOO_SHORT } from "../constants"
+import {CreationMessages} from "../constants"
 import Request from "../request"
 import { ResponseStatus } from "../responseStatus"
 import Password from "./password"
@@ -29,7 +29,7 @@ describe("create player password", () => {
     // then
     expect(response.status).toBe(ResponseStatus.FAILED)
     expect(response.authStep).toBeInstanceOf(Password)
-    expect(response.message).toBe(MESSAGE_FAIL_PASSWORD_TOO_SHORT)
+    expect(response.message).toBe(CreationMessages.Player.PasswordTooShort)
   })
 
   it("should proceed to confirmation if the password has at least four characters long", async () => {

@@ -2,7 +2,7 @@ import createAppContainer from "../src/app/factory"
 import PracticeService from "../src/gameService/practiceService"
 import {Mob} from "../src/mob/model/mob"
 import {RaceType} from "../src/mob/race/enum/raceType"
-import {SpecializationType} from "../src/mob/specialization/specializationType"
+import {SpecializationType} from "../src/mob/specialization/enum/specializationType"
 import {initializeConnection} from "../src/support/db/connection"
 
 // arguments

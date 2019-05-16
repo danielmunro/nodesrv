@@ -1,4 +1,4 @@
-import { SpecializationType } from "../specializationType"
+import { SpecializationType } from "../enum/specializationType"
 import Warrior from "./warrior"
 
 describe("warriors", () => {

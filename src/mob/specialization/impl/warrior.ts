@@ -5,8 +5,8 @@ import {Stat} from "../../../attributes/stat"
 import {WeaponType} from "../../../item/enum/weaponType"
 import { SkillType } from "../../../skill/skillType"
 import { SpellType } from "../../../spell/spellType"
+import { SpecializationType } from "../enum/specializationType"
 import { Specialization } from "../specialization"
-import { SpecializationType } from "../specializationType"
 
 export default class Warrior implements Specialization {
   public getSpecializationType(): SpecializationType {

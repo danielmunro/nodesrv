@@ -4,7 +4,7 @@ import {Client} from "../client/client"
 import EventService from "../event/eventService"
 import LocationService from "../mob/locationService"
 import {Mob} from "../mob/model/mob"
-import AuthService from "../session/auth/authService"
+import CreationService from "../session/auth/creationService"
 import Email from "../session/auth/login/email"
 import Session from "../session/session"
 import {Types} from "../support/types"
@@ -14,7 +14,7 @@ import {Observer} from "./observers/observer"
 export default class ClientService {
   constructor(
     @inject(Types.EventService) private readonly eventService: EventService,
-    @inject(Types.AuthService) private readonly authService: AuthService,
+    @inject(Types.CreationService) private readonly authService: CreationService,
     @inject(Types.LocationService) private readonly locationService: LocationService,
     @inject(Types.Actions) private readonly actions: Action[],
     private clients: Client[] = []) {}

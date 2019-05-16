@@ -1,5 +1,5 @@
 import AuthStep from "../authStep"
-import { MESSAGE_FAIL_PASSWORD_TOO_SHORT, MESSAGE_NEW_PASSWORD } from "../constants"
+import {CreationMessages} from "../constants"
 import PlayerAuthStep from "../playerAuthStep"
 import Request from "../request"
 import Response from "../response"
@@ -9,14 +9,14 @@ import PasswordConfirm from "./passwordConfirm"
 export default class Password extends PlayerAuthStep implements AuthStep {
   /* istanbul ignore next */
   public getStepMessage(): string {
-    return MESSAGE_NEW_PASSWORD
+    return CreationMessages.Player.PasswordPrompt
   }
 
   public async processRequest(request: Request): Promise<Response> {
     if (request.input.length < PASSWORD_MIN_LENGTH) {
-      return request.fail(this, MESSAGE_FAIL_PASSWORD_TOO_SHORT)
+      return request.fail(this, CreationMessages.Player.PasswordTooShort)
     }
 
-    return request.ok(new PasswordConfirm(this.authService, this.player, request.input))
+    return request.ok(new PasswordConfirm(this.creationService, this.player, request.input))
   }
 }
