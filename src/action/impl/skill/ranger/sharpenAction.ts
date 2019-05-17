@@ -7,8 +7,8 @@ import {CheckType} from "../../../../check/checkType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import MvCost from "../../../../check/cost/mvCost"
-import {DamageType} from "../../../../damage/damageType"
 import Weapon from "../../../../item/model/weapon"
+import {DamageType} from "../../../../mob/fight/damageType"
 import {
   ActionMessages,
   ConditionMessages as PreconditionMessages,

@@ -1,8 +1,8 @@
-import vulnerabilityModifier from "../../damage/vulnerabilityModifier"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {EventType} from "../../event/eventType"
 import DamageEvent from "../event/damageEvent"
+import vulnerabilityModifier from "../fight/vulnerabilityModifier"
 
 export default class DamageModifierEventConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {

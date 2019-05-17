@@ -1,6 +1,6 @@
 import {Column, Entity, Generated, PrimaryGeneratedColumn} from "typeorm"
 import * as v4 from "uuid"
-import {DamageType} from "../../damage/damageType"
+import {DamageType} from "../fight/damageType"
 
 @Entity()
 export default class DamageSource {
