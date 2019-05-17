@@ -1,6 +1,6 @@
 import Event from "../../event/event"
 import {EventType} from "../../event/eventType"
-import {DamageType} from "../fight/damageType"
+import {DamageType} from "../fight/enum/damageType"
 import {Mob} from "../model/mob"
 
 export default class DamageEvent implements Event {

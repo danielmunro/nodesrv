@@ -1,16 +1,9 @@
-import { SkillType } from "../../skill/skillType"
+import {SkillType} from "../../skill/skillType"
 import {BASE_KILL_EXPERIENCE} from "../constants"
-import { Mob } from "../model/mob"
+import {Mob} from "../model/mob"
 import modifierNormalizer from "../multiplierNormalizer"
 import Death from "./death"
-
-export enum AttackResult {
-  Hit,
-  Miss,
-  Dodge,
-  Parry,
-  ShieldBlock,
-}
+import {AttackResult} from "./enum/attackResult"
 
 export function getSuppressionAttackResultFromSkillType(skill: SkillType): AttackResult {
   if (skill === SkillType.Dodge) {

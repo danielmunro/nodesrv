@@ -1,4 +1,4 @@
-import {DamageType} from "../mob/fight/damageType"
+import {DamageType} from "../mob/fight/enum/damageType"
 import AbstractItemBuilder from "./abstractItemBuilder"
 import {Equipment} from "./enum/equipment"
 import {ItemType} from "./enum/itemType"

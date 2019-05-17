@@ -2,7 +2,7 @@ import {createTestAppContainer} from "../../app/testFactory"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import DamageService from "./damageService"
-import {DamageType} from "./damageType"
+import {DamageType} from "./enum/damageType"
 
 let testRunner: TestRunner
 

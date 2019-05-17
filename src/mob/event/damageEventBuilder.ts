@@ -1,4 +1,4 @@
-import {DamageType} from "../fight/damageType"
+import {DamageType} from "../fight/enum/damageType"
 import {Mob} from "../model/mob"
 import DamageEvent from "./damageEvent"
 

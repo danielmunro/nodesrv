@@ -8,7 +8,7 @@ import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import MvCost from "../../../../check/cost/mvCost"
 import Weapon from "../../../../item/model/weapon"
-import {DamageType} from "../../../../mob/fight/damageType"
+import {DamageType} from "../../../../mob/fight/enum/damageType"
 import {
   ActionMessages,
   ConditionMessages as PreconditionMessages,

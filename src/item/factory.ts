@@ -1,4 +1,4 @@
-import { DamageType } from "../mob/fight/damageType"
+import { DamageType } from "../mob/fight/enum/damageType"
 import { Mob } from "../mob/model/mob"
 import { Room } from "../room/model/room"
 import { Equipment } from "./enum/equipment"

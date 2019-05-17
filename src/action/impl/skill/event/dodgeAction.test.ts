@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../../app/testFactory"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
-import { AttackResult } from "../../../../mob/fight/attack"
+import {AttackResult} from "../../../../mob/fight/enum/attackResult"
 import { SkillType } from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"
 import TestRunner from "../../../../support/test/testRunner"

@@ -1,6 +1,7 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import { Disposition } from "../../mob/enum/disposition"
-import { Attack, AttackResult } from "../../mob/fight/attack"
+import { Attack} from "../../mob/fight/attack"
+import {AttackResult} from "../../mob/fight/enum/attackResult"
 import {Fight} from "../../mob/fight/fight"
 import MobService from "../../mob/service/mobService"
 import { getTestMob } from "../../support/test/mob"

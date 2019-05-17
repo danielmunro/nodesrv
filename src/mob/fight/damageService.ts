@@ -2,7 +2,7 @@ import {Equipment} from "../../item/enum/equipment"
 import {Item} from "../../item/model/item"
 import Weapon from "../../item/model/weapon"
 import {Mob} from "../model/mob"
-import {DamageType} from "./damageType"
+import {DamageType} from "./enum/damageType"
 
 export default class DamageService {
   constructor(private readonly mob: Mob) {}
