@@ -1,7 +1,7 @@
 import {ActionType} from "../action/enum/actionType"
 import Skill from "../action/impl/skill"
 import Spell from "../action/impl/spell"
-import affectTable from "../affect/affectTable"
+import {findAffectDefinition} from "../affect/affectTable"
 import {AffectType} from "../affect/enum/affectType"
 import {StackBehavior} from "../affect/enum/stackBehavior"
 import {Mob} from "../mob/model/mob"
@@ -55,9 +55,9 @@ export default class CheckTemplate {
     if (!affectType) {
       return
     }
-    const affectDefinition = affectTable.find(a => a.affectType === affectType)
+    const affectDefinition = findAffectDefinition(affectType)
     if (affectDefinition && affectDefinition.stackBehavior === StackBehavior.NoReplace) {
-      checkBuilder.not().requireAffect(affectType, affectDefinition.stackMessage)
+      checkBuilder.not().requireAffect(affectType, affectDefinition.stackMessage as string)
     }
   }
 
