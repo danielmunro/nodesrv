@@ -1,6 +1,6 @@
 import AuthStep from "./authStep"
+import { ResponseStatus } from "./enum/responseStatus"
 import Request from "./request"
-import { ResponseStatus } from "./responseStatus"
 
 export default class Response {
   public readonly request: Request

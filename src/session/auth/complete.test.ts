@@ -2,8 +2,8 @@ import {createTestAppContainer} from "../../app/testFactory"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import Complete from "./complete"
+import { ResponseStatus } from "./enum/responseStatus"
 import Request from "./request"
-import { ResponseStatus } from "./responseStatus"
 
 describe("final auth step: complete", () => {
   it("should be ok unconditionally, but not have any more steps to complete", async () => {

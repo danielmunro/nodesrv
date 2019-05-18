@@ -8,8 +8,8 @@ import Complete from "../complete"
 import {CreationMessages} from "../constants"
 import NewMobConfirm from "../createMob/newMobConfirm"
 import CreationService from "../creationService"
+import { ResponseStatus } from "../enum/responseStatus"
 import Request from "../request"
-import { ResponseStatus } from "../responseStatus"
 import Name from "./name"
 
 let testRunner: TestRunner

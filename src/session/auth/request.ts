@@ -2,8 +2,8 @@ import { Client } from "../../client/client"
 import InputContext from "../../request/context/inputContext"
 import {RequestType} from "../../request/requestType"
 import AuthStep from "./authStep"
+import { ResponseStatus } from "./enum/responseStatus"
 import Response from "./response"
-import { ResponseStatus } from "./responseStatus"
 
 export default class Request {
   constructor(

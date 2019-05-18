@@ -6,7 +6,7 @@ import Complete from "./auth/complete"
 import { default as MobComplete } from "./auth/createMob/complete"
 import { default as PlayerComplete } from "./auth/createPlayer/complete"
 import { default as AuthRequest } from "./auth/request"
-import { SessionStatus } from "./status"
+import { SessionStatus } from "./enum/sessionStatus"
 
 export default class Session {
   private player: Player

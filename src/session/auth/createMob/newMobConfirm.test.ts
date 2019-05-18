@@ -1,9 +1,9 @@
 import {createTestAppContainer} from "../../../app/testFactory"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
+import { ResponseStatus } from "../enum/responseStatus"
 import Name from "../login/name"
 import Request from "../request"
-import { ResponseStatus } from "../responseStatus"
 import NewMobConfirm from "./newMobConfirm"
 import Race from "./race"
 
