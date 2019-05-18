@@ -21,7 +21,7 @@ beforeEach(async () => {
 
 describe("garotte skill action", () => {
   it("imparts sleep affect", async () => {
-    await testRunner.invokeAction(
+    await testRunner.invokeActionSuccessfully(
         RequestType.Garotte,
         `garotte ${target.getMobName()}`,
         target.mob)
@@ -49,7 +49,7 @@ describe("garotte skill action", () => {
   })
 
   it("generates accurate success messages", async () => {
-    const response = await testRunner.invokeAction(
+    const response = await testRunner.invokeActionSuccessfully(
         RequestType.Garotte,
         `garotte ${target.getMobName()}`,
         target.mob)

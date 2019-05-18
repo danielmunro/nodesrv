@@ -68,16 +68,17 @@ export default class RaceBuilder {
   }
 
   public create(): Race {
-    return new Race(
-      this.raceType,
-      this.size,
-      this.sight,
-      this.appetite,
-      this.bodyParts,
-      this.damageAbsorption,
-      this.attributes,
-      this.preferredSpecializations,
-      this.startingSkills,
-      this.creationPoints)
+    return {
+      appetite: this.appetite,
+      attributes: this.attributes,
+      bodyParts: this.bodyParts,
+      creationPoints: this.creationPoints,
+      damageAbsorption: this.damageAbsorption,
+      preferredSpecializations: this.preferredSpecializations,
+      raceType: this.raceType,
+      sight: this.sight,
+      size: this.size,
+      startingSkills: this.startingSkills,
+    }
   }
 }

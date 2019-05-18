@@ -32,5 +32,6 @@ export default function(): Race {
       SkillType.Dagger,
       SkillType.Sneak,
     ])
+    .setCreationPoints(4)
     .create()
 }

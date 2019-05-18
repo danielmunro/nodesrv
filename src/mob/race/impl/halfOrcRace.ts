@@ -33,5 +33,6 @@ export default function(): Race {
     .setStartingSkills([
       SkillType.Bite,
     ])
+    .setCreationPoints(4)
     .create()
 }

@@ -10,5 +10,6 @@ export default function(): Race {
     .setSize(Size.M)
     .setAppetite(Appetite.Medium)
     .setSight(Eyesight.Ok)
+    .setCreationPoints(0)
     .create()
 }

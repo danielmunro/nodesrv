@@ -32,5 +32,6 @@ export default function(): Race {
       SkillType.Meditation,
       SkillType.Infravision,
     ])
+    .setCreationPoints(6)
     .create()
 }

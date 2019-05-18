@@ -8,16 +8,15 @@ import {Eyesight} from "./enum/eyesight"
 import {RaceType} from "./enum/raceType"
 import {Size} from "./enum/size"
 
-export default class Race {
-  constructor(
-    public readonly raceType: RaceType,
-    public readonly size: Size,
-    public readonly sight: Eyesight,
-    public readonly appetite: Appetite,
-    public readonly bodyParts: BodyPart[],
-    public readonly damageAbsorption: DamageModifier[],
-    public readonly attributes: Attributes,
-    public readonly preferredSpecializations: SpecializationType[],
-    public readonly startingSkills: SkillType[],
-    public readonly creationPoints: number) {}
+export default interface Race {
+  readonly raceType: RaceType,
+  readonly size: Size,
+  readonly sight: Eyesight,
+  readonly appetite: Appetite,
+  readonly bodyParts: BodyPart[],
+  readonly damageAbsorption: DamageModifier[],
+  readonly attributes: Attributes,
+  readonly preferredSpecializations: SpecializationType[],
+  readonly startingSkills: SkillType[],
+  readonly creationPoints: number,
 }

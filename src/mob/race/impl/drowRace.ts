@@ -26,5 +26,6 @@ export default function(): Race {
       new AttributeBuilder()
         .setStats(newStats(-1, 2, 1, 1, -2, 0))
         .build())
+    .setCreationPoints(4)
     .create()
 }

@@ -31,5 +31,6 @@ export default function(): Race {
     .setStartingSkills([
       SkillType.Dodge,
     ])
+    .setCreationPoints(7)
     .create()
 }

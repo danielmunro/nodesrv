@@ -33,5 +33,6 @@ export default function(): Race {
       SkillType.Axe,
       SkillType.Berserk,
     ])
+    .setCreationPoints(6)
     .create()
 }

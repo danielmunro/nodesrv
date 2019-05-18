@@ -36,5 +36,6 @@ export default function(): Race {
       SkillType.EnhancedDamage,
       SkillType.Shout,
     ])
+    .setCreationPoints(6)
     .create()
 }

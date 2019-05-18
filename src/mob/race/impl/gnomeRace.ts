@@ -31,5 +31,6 @@ export default function(): Race {
       SkillType.Sneak,
       SkillType.Lore,
     ])
+    .setCreationPoints(7)
     .create()
 }

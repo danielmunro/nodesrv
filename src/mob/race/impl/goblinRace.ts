@@ -34,5 +34,6 @@ export default function(): Race {
       SkillType.Bite,
       SkillType.Sneak,
     ])
+    .setCreationPoints(4)
     .create()
 }
