@@ -4,8 +4,8 @@ import {EventType} from "../../event/eventType"
 import MobEvent from "../../mob/event/mobEvent"
 import {Mob} from "../../mob/model/mob"
 import ResponseMessageBuilder from "../../request/responseMessageBuilder"
-import {AffectType} from "../enum/affectType"
 import {AffectMessages} from "../constants"
+import {AffectType} from "../enum/affectType"
 
 export default class OrbOfTouchEventConsumer implements EventConsumer {
   public async consume(event: MobEvent): Promise<EventResponse> {

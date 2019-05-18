@@ -1,5 +1,5 @@
-import {AffectType} from "../affect/enum/affectType"
 import {applyAffectModifier} from "../affect/applyAffect"
+import {AffectType} from "../affect/enum/affectType"
 import Check from "../check/check"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import MvCost from "../check/cost/mvCost"
