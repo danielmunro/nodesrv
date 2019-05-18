@@ -1,6 +1,6 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import {CheckType} from "../../../check/checkType"
+import {CheckType} from "../../../check/enum/checkType"
 import {Mob} from "../../../mob/model/mob"
 import MobService from "../../../mob/service/mobService"
 import {getAuthorizationLevelName} from "../../../player/authorizationLevel"

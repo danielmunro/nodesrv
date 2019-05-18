@@ -18,9 +18,9 @@ import ActionPartCheck from "./actionPartCheck"
 import Check from "./check"
 import CheckComponent from "./checkComponent"
 import CheckResult from "./checkResult"
-import {CheckType} from "./checkType"
 import {CheckMessages} from "./constants"
 import Cost from "./cost/cost"
+import {CheckType} from "./enum/checkType"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []

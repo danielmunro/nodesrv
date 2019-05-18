@@ -1,6 +1,6 @@
 import Check from "../check/check"
 import CheckedRequest from "../check/checkedRequest"
-import { CheckStatus } from "../check/checkStatus"
+import { CheckStatus } from "../check/enum/checkStatus"
 import Request from "../request/request"
 import RequestService from "../request/requestService"
 import { RequestType } from "../request/requestType"

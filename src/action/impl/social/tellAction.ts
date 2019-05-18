@@ -1,5 +1,5 @@
 import Check from "../../../check/check"
-import {CheckType} from "../../../check/checkType"
+import {CheckType} from "../../../check/enum/checkType"
 import SocialService from "../../../player/service/socialService"
 import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"

@@ -2,7 +2,7 @@ import {AffectType} from "../affect/enum/affectType"
 import {newAffect} from "../affect/factory"
 import {getTestMob} from "../support/test/mob"
 import CheckComponent from "./checkComponent"
-import {CheckType} from "./checkType"
+import {CheckType} from "./enum/checkType"
 
 describe("createDefaultCheckFor component", () => {
   it("should be required if a fail message has provided", () => {

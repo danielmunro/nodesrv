@@ -1,4 +1,4 @@
-import { CheckType } from "./checkType"
+import { CheckType } from "./enum/checkType"
 
 export default class CheckComponent {
   public readonly isRequired: boolean

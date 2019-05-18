@@ -1,6 +1,6 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import {CheckType} from "../../../check/checkType"
+import {CheckType} from "../../../check/enum/checkType"
 import {ItemType} from "../../../item/enum/itemType"
 import {Item} from "../../../item/model/item"
 import Request from "../../../request/request"

@@ -1,5 +1,5 @@
 import AbilityService from "../../../../check/abilityService"
-import {CheckType} from "../../../../check/checkType"
+import {CheckType} from "../../../../check/enum/checkType"
 import {RequestType} from "../../../../request/requestType"
 import {SkillType} from "../../../../skill/skillType"
 import {percentRoll} from "../../../../support/random/helpers"

@@ -10,8 +10,8 @@ import {getSpecializationLevel} from "../mob/specialization/specializationLevels
 import Request from "../request/request"
 import getActionPartTable from "./actionPartCheckTable"
 import CheckBuilder from "./checkBuilder"
-import {CheckType} from "./checkType"
 import {CheckMessages} from "./constants"
+import {CheckType} from "./enum/checkType"
 
 export default class CheckTemplate {
   constructor(private readonly mobService: MobService, private readonly request: Request) {}

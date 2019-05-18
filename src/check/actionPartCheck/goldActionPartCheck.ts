@@ -3,7 +3,7 @@ import {ActionPart} from "../../action/enum/actionPart"
 import Request from "../../request/request"
 import ActionPartCheck from "../actionPartCheck"
 import CheckBuilder from "../checkBuilder"
-import {CheckType} from "../checkType"
+import {CheckType} from "../enum/checkType"
 
 export default class GoldActionPartCheck implements ActionPartCheck {
   public getActionPart(): ActionPart {

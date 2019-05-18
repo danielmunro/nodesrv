@@ -6,7 +6,7 @@ import ResponseMessage from "../request/responseMessage"
 import {ResponseStatus} from "../request/responseStatus"
 import {Room} from "../room/model/room"
 import Check from "./check"
-import {CheckType} from "./checkType"
+import {CheckType} from "./enum/checkType"
 
 export default class CheckedRequest {
 

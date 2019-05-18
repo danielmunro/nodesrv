@@ -1,8 +1,8 @@
 import Maybe from "../support/functional/maybe"
 import CheckResult from "./checkResult"
-import { CheckStatus } from "./checkStatus"
-import {CheckType} from "./checkType"
 import Cost from "./cost/cost"
+import { CheckStatus } from "./enum/checkStatus"
+import {CheckType} from "./enum/checkType"
 
 export default class Check {
   public static ok(result: any = null, checkResults: CheckResult[] = [], costs: Cost[] = []): Promise<Check> {

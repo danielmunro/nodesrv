@@ -1,6 +1,6 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
-import {CheckType} from "../../../check/checkType"
+import {CheckType} from "../../../check/enum/checkType"
 import EventService from "../../../event/eventService"
 import {Disposition} from "../../../mob/enum/disposition"
 import {Mob} from "../../../mob/model/mob"
