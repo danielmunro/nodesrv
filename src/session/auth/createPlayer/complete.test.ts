@@ -6,8 +6,9 @@ import Name from "../login/name"
 import Request from "../request"
 import Complete from "./complete"
 
-jest.mock("../../../player/service")
-const mockAuthService = jest.fn()
+const mockAuthService = jest.fn(() => ({
+  savePlayer: jest.fn(),
+}))
 
 describe("create player auth step: complete", () => {
   it("should proceed to the final step unconditionally", async () => {
@@ -16,7 +17,8 @@ describe("create player auth step: complete", () => {
     const client = await testRunner.createLoggedInClient()
 
     // when
-    const response = await new Complete(mockAuthService(), client.player).processRequest(new Request(client, ""))
+    const response = await new Complete(mockAuthService() as any, client.player)
+      .processRequest(new Request(client, ""))
 
     // then
     expect(response.status).toBe(ResponseStatus.OK)

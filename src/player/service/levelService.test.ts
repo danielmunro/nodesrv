@@ -1,7 +1,7 @@
-import {createTestAppContainer} from "../app/testFactory"
-import {MAX_MOB_LEVEL} from "../mob/constants"
-import TestRunner from "../support/test/testRunner"
-import {Types} from "../support/types"
+import {createTestAppContainer} from "../../app/testFactory"
+import {MAX_MOB_LEVEL} from "../../mob/constants"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import LevelService from "./levelService"
 
 const INITIAL_AMOUNT = 1000

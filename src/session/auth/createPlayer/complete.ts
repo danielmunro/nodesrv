@@ -1,4 +1,3 @@
-import { savePlayer } from "../../../player/service"
 import AuthStep from "../authStep"
 import {CreationMessages} from "../constants"
 import Name from "../login/name"
@@ -13,7 +12,7 @@ export default class Complete extends PlayerAuthStep implements AuthStep {
   }
 
   public async processRequest(request: Request): Promise<Response> {
-    await savePlayer(this.player)
+    await this.creationService.savePlayer(this.player)
 
     return request.ok(new Name(this.creationService, this.player))
   }

@@ -1,6 +1,6 @@
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/checkType"
-import SocialService from "../../../gameService/socialService"
+import SocialService from "../../../player/service/socialService"
 import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"

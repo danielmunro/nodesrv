@@ -1,7 +1,7 @@
-import {MAX_MOB_LEVEL} from "../mob/constants"
-import {Mob} from "../mob/model/mob"
-import {Skill} from "../skill/model/skill"
-import {Spell} from "../spell/model/spell"
+import {MAX_MOB_LEVEL} from "../../mob/constants"
+import {Mob} from "../../mob/model/mob"
+import {Skill} from "../../skill/model/skill"
+import {Spell} from "../../spell/model/spell"
 
 const LENGTH = 24
 

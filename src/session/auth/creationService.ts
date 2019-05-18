@@ -65,4 +65,8 @@ export default class CreationService {
   public getKnownSkills(mob: Mob): SpecializationLevel[] {
     return this.specializationService.getUnavailableSkills(mob)
   }
+
+  public savePlayer(player: Player) {
+    return this.playerRepository.save(player)
+  }
 }

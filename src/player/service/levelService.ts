@@ -1,10 +1,10 @@
-import Attributes from "../attributes/model/attributes"
-import {MAX_MOB_LEVEL} from "../mob/constants"
-import Gain from "../mob/gain"
-import {Mob} from "../mob/model/mob"
-import {RaceType} from "../mob/race/enum/raceType"
-import {Specialization} from "../mob/specialization/specialization"
-import {getRandomIntFromRange, percentRoll} from "../support/random/helpers"
+import Attributes from "../../attributes/model/attributes"
+import {MAX_MOB_LEVEL} from "../../mob/constants"
+import Gain from "../../mob/gain"
+import {Mob} from "../../mob/model/mob"
+import {RaceType} from "../../mob/race/enum/raceType"
+import {Specialization} from "../../mob/specialization/specialization"
+import {getRandomIntFromRange, percentRoll} from "../../support/random/helpers"
 
 export default class LevelService {
   private static getGainFromStat(value: number): number {

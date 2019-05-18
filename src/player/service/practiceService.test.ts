@@ -1,8 +1,8 @@
-import {createTestAppContainer} from "../app/testFactory"
-import {SpecializationType} from "../mob/specialization/enum/specializationType"
-import TestRunner from "../support/test/testRunner"
-import {Types} from "../support/types"
-import {PracticeMessages} from "./constants"
+import {createTestAppContainer} from "../../app/testFactory"
+import {PracticeMessages} from "../../gameService/constants"
+import {SpecializationType} from "../../mob/specialization/enum/specializationType"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import PracticeService from "./practiceService"
 
 let testRunner: TestRunner

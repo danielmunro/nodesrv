@@ -1,13 +1,13 @@
-import {ConditionMessages} from "../action/constants"
-import Check from "../check/check"
-import CheckBuilder from "../check/checkBuilder"
-import CheckBuilderFactory from "../check/checkBuilderFactory"
-import {Channel} from "../client/channel"
-import SocialEvent from "../client/event/socialEvent"
-import EventService from "../event/eventService"
-import {isBanned} from "../mob/enum/standing"
-import {Mob} from "../mob/model/mob"
-import Request from "../request/request"
+import {ConditionMessages} from "../../action/constants"
+import Check from "../../check/check"
+import CheckBuilder from "../../check/checkBuilder"
+import CheckBuilderFactory from "../../check/checkBuilderFactory"
+import {Channel} from "../../client/channel"
+import SocialEvent from "../../client/event/socialEvent"
+import EventService from "../../event/eventService"
+import {isBanned} from "../../mob/enum/standing"
+import {Mob} from "../../mob/model/mob"
+import Request from "../../request/request"
 
 export default class SocialService {
   constructor(
