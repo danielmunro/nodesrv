@@ -1,10 +1,10 @@
-import multiplierNormalizer from "./multiplierNormalizer"
+import { modifierNormalizer } from "./attack"
 
 describe("Multiplier normalizer", () => {
   it("creates a small multiplier from negative values", () => {
     // given
-    const largeNegative = multiplierNormalizer(-10)
-    const smallNegative = multiplierNormalizer(-1)
+    const largeNegative = modifierNormalizer(-10)
+    const smallNegative = modifierNormalizer(-1)
 
     // then
     expect(largeNegative).toBeLessThan(smallNegative)
@@ -13,8 +13,8 @@ describe("Multiplier normalizer", () => {
 
   it("reduces large multipliers", () => {
     // given
-    const largePositive = multiplierNormalizer(100)
-    const smallPositive = multiplierNormalizer(20)
+    const largePositive = modifierNormalizer(100)
+    const smallPositive = modifierNormalizer(20)
 
      // then
     expect(largePositive).toBeGreaterThan(smallPositive)
