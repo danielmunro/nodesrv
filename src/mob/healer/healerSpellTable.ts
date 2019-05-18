@@ -1,10 +1,11 @@
 import Spell from "../../action/impl/spell"
 import {SpellType} from "../../spell/spellType"
-import HealerSpell from "./healerSpell"
+import HealerSpell, {createHealerSpell} from "./healerSpell"
 
 export default function getHealerSpellTable(spells: Spell[]): HealerSpell[] {
   return [
-    new HealerSpell(spells.find(spell => spell.getSpellType() === SpellType.CureLight) as Spell, 10),
+    createHealerSpell(
+      spells.find(spell => spell.getSpellType() === SpellType.CureLight) as Spell, 10),
     // new HealerSpell(gameService.getSpell(SpellType.CureSerious), 15),
     // new HealerSpell(gameService.getSpell(SpellType.Heal), 50),
     // new HealerSpell(gameService.getSpell(SpellType.CureBlindness), 20),

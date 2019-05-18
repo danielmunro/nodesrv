@@ -15,4 +15,4 @@ export default [
   createHealthMap(0.3, "has some big nasty wounds and scratches"),
   createHealthMap(0.15, "looks pretty hurt"),
   createHealthMap(0, "has in awful condition"),
-] as HealthIndicator[]
+]

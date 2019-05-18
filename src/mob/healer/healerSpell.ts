@@ -1,5 +1,10 @@
 import Spell from "../../action/impl/spell"
 
-export default class HealerSpell {
-  constructor(public readonly spellDefinition: Spell, public readonly goldValue: number) {}
+export default interface HealerSpell {
+  readonly spellDefinition: Spell,
+  readonly goldValue: number,
+}
+
+export function createHealerSpell(spellDefinition: Spell, goldValue: number): HealerSpell {
+  return { spellDefinition, goldValue }
 }

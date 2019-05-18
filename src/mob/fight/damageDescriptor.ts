@@ -1,4 +1,9 @@
-function newDamageDescriptor(damage: number, descriptors: string[]) {
+export interface DamageDescriptor {
+  readonly damage: number,
+  readonly descriptors: string[],
+}
+
+function newDamageDescriptor(damage: number, descriptors: string[]): DamageDescriptor {
   return { damage, descriptors }
 }
 
