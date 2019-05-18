@@ -1,4 +1,9 @@
-function createHealthMap(amount: number, message: string) {
+export interface HealthIndicator {
+  amount: number,
+  message: string,
+}
+
+function createHealthMap(amount: number, message: string): HealthIndicator {
   return { amount, message }
 }
 
@@ -10,4 +15,4 @@ export default [
   createHealthMap(0.3, "has some big nasty wounds and scratches"),
   createHealthMap(0.15, "looks pretty hurt"),
   createHealthMap(0, "has in awful condition"),
-]
+] as HealthIndicator[]

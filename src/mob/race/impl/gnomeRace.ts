@@ -2,7 +2,7 @@ import AttributeBuilder from "../../../attributes/attributeBuilder"
 import {newStats} from "../../../attributes/factory"
 import {SkillType} from "../../../skill/skillType"
 import {Vulnerability} from "../../enum/vulnerability"
-import DamageModifier from "../../fight/damageModifier"
+import {createDamageModifier} from "../../fight/damageModifier"
 import {DamageType} from "../../fight/enum/damageType"
 import {SpecializationType} from "../../specialization/enum/specializationType"
 import {Appetite} from "../enum/appetite"
@@ -18,8 +18,8 @@ export default function(): Race {
     .setAppetite(Appetite.Small)
     .setSight(Eyesight.SlightlyPoor)
     .setDamageAbsorption([
-      new DamageModifier(DamageType.Magic, Vulnerability.Resist),
-      new DamageModifier(DamageType.Bash, Vulnerability.Vulnerable)])
+      createDamageModifier(DamageType.Magic, Vulnerability.Resist),
+      createDamageModifier(DamageType.Bash, Vulnerability.Vulnerable)])
     .setPreferredSpecializations([
       SpecializationType.Mage,
     ])
