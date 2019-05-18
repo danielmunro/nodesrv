@@ -1,5 +1,5 @@
+import {EventType} from "../../event/enum/eventType"
 import Event from "../../event/event"
-import {EventType} from "../../event/eventType"
 import {DamageType} from "../fight/enum/damageType"
 import {Mob} from "../model/mob"
 

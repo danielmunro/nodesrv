@@ -1,4 +1,4 @@
-import {EventType} from "../../event/eventType"
+import {EventType} from "../../event/enum/eventType"
 import {Mob} from "../model/mob"
 import MobEvent from "./mobEvent"
 

@@ -1,5 +1,5 @@
+import {EventType} from "../../event/enum/eventType"
 import Event from "../../event/event"
-import {EventType} from "../../event/eventType"
 import {Direction} from "../../room/constants"
 import {Room} from "../../room/model/room"
 import {Mob} from "../model/mob"

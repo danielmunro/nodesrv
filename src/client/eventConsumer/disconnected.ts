@@ -1,8 +1,8 @@
 import ClientEvent from "../../client/event/clientEvent"
+import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
+import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {EventResponseStatus} from "../../event/eventResponseStatus"
-import {EventType} from "../../event/eventType"
 import ClientService from "../../server/clientService"
 
 export default class Disconnected implements EventConsumer {

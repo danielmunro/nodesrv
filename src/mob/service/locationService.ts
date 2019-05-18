@@ -55,7 +55,7 @@ export default class LocationService {
         mobLocation.room,
         room,
         direction))
-      if (eventResponse.isSatisifed()) {
+      if (eventResponse.isSatisfied()) {
         return
       }
       mobLocation.room = room

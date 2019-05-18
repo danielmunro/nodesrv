@@ -1,8 +1,8 @@
+import {EventResponseStatus} from "../enum/eventResponseStatus"
+import {EventType} from "../enum/eventType"
 import Event from "../event"
 import EventConsumer from "../eventConsumer"
 import EventResponse from "../eventResponse"
-import {EventResponseStatus} from "../eventResponseStatus"
-import {EventType} from "../eventType"
 
 export default class TestBConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {

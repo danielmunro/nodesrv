@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../app/testFactory"
+import {EventType} from "../../event/enum/eventType"
 import EventService from "../../event/eventService"
-import {EventType} from "../../event/eventType"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {Disposition} from "../enum/disposition"

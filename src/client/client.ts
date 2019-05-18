@@ -3,8 +3,8 @@ import * as stringify from "json-stringify-safe"
 import Action from "../action/action"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
+import {EventType} from "../event/enum/eventType"
 import EventService from "../event/eventService"
-import {EventType} from "../event/eventType"
 import CostEvent from "../mob/event/costEvent"
 import MobEvent from "../mob/event/mobEvent"
 import { Mob } from "../mob/model/mob"
@@ -78,7 +78,7 @@ export class Client {
         this.getSessionMob(),
         request,
         matchingHandlerDefinition))
-    if (eventResponse.isSatisifed()) {
+    if (eventResponse.isSatisfied()) {
       const inputEvent = eventResponse.event as InputEvent
       const res = inputEvent.response as Response
       this.send(res.getPayload())

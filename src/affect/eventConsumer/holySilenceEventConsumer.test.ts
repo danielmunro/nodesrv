@@ -28,7 +28,7 @@ describe("holy silence event consumer", () => {
         jest.fn()()))
 
     // then
-    expect(eventResponse.isSatisifed()).toBeFalsy()
+    expect(eventResponse.isSatisfied()).toBeFalsy()
   })
 
   it("satisfies event if caster is affected", async () => {
@@ -40,6 +40,6 @@ describe("holy silence event consumer", () => {
       new InputEvent(caster.mob, testRunner.createRequest(RequestType.Cast), jest.fn()()))
 
     // then
-    expect(eventResponse.isSatisifed()).toBeTruthy()
+    expect(eventResponse.isSatisfied()).toBeTruthy()
   })
 })

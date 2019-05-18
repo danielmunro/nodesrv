@@ -1,6 +1,6 @@
+import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {EventType} from "../../event/eventType"
 import {Mob} from "../../mob/model/mob"
 import LocationService from "../../mob/service/locationService"
 import ResponseMessage from "../../request/responseMessage"

@@ -1,6 +1,6 @@
+import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {EventType} from "../../event/eventType"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
 import {Mob} from "../../mob/model/mob"
 import {percentRoll} from "../../support/random/helpers"

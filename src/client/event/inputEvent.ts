@@ -1,6 +1,6 @@
 import Action from "../../action/action"
+import {EventType} from "../../event/enum/eventType"
 import Event from "../../event/event"
-import {EventType} from "../../event/eventType"
 import {Mob} from "../../mob/model/mob"
 import Request from "../../request/request"
 import Response from "../../request/response"

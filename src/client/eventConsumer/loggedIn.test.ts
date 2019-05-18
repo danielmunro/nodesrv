@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../app/testFactory"
+import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
-import {EventType} from "../../event/eventType"
 import StateService from "../../gameService/stateService"
 import {Room} from "../../room/model/room"
 import {getTestMob} from "../../support/test/mob"

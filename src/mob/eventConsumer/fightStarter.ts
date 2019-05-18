@@ -1,6 +1,6 @@
+import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {EventType} from "../../event/eventType"
 import MobEvent from "../event/mobEvent"
 import FightBuilder from "../fight/fightBuilder"
 import MobService from "../service/mobService"

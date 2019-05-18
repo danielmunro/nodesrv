@@ -1,6 +1,6 @@
+import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {EventType} from "../../event/eventType"
 import {Room} from "../../room/model/room"
 import MobMoveEvent from "../event/mobMoveEvent"
 import {Mob} from "../model/mob"

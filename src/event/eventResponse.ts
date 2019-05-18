@@ -1,5 +1,5 @@
+import {EventResponseStatus} from "./enum/eventResponseStatus"
 import Event from "./event"
-import {EventResponseStatus} from "./eventResponseStatus"
 
 export default class EventResponse {
   public static async satisfied(event: Event, context: any = null): Promise<EventResponse> {
@@ -19,7 +19,7 @@ export default class EventResponse {
     public readonly status: EventResponseStatus,
     public readonly context: any = null) {}
 
-  public isSatisifed(): boolean {
+  public isSatisfied(): boolean {
     return this.status === EventResponseStatus.Satisfied
   }
 

@@ -48,7 +48,7 @@ export default class Skill extends Action {
     }
     if (this.touchesTarget) {
       const touchEventResponse = await this.createTouchEventResponse(requestService)
-      if (touchEventResponse.isSatisifed()) {
+      if (touchEventResponse.isSatisfied()) {
         return requestService.respondWith().response(
           ResponseStatus.ActionFailed,
           touchEventResponse.context)
