@@ -1,3 +1,5 @@
+import AttributeBuilder from "../../attributes/attributeBuilder"
+import {newVitals} from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
 import {MAX_MOB_LEVEL} from "../../mob/constants"
 import Gain from "../../mob/gain"
@@ -7,6 +9,11 @@ import {Specialization} from "../../mob/specialization/specialization"
 import {getRandomIntFromRange, percentRoll} from "../../support/random/helpers"
 
 export default class LevelService {
+  private static createAttributesFromGain(gain: Gain): Attributes {
+    return new AttributeBuilder()
+      .setVitals(newVitals(gain.hp, gain.mana, gain.mv)).build()
+  }
+
   private static getGainFromStat(value: number): number {
     switch (value) {
       case 18:
@@ -79,13 +86,8 @@ export default class LevelService {
   }
 
   public gainLevel(): Gain {
-    const gain = new Gain(
-      this.mob.level + 1,
-      this.calculateHpGain(),
-      this.calculateManaGain(),
-      this.calculateMvGain(),
-      this.calculatePracticeGain())
-    this.mob.attributes.push(gain.createAttributes())
+    const gain = this.createGain()
+    this.mob.attributes.push(LevelService.createAttributesFromGain(gain))
     this.mob.playerMob.experienceToLevel =
       this.mob.playerMob.experiencePerLevel + this.mob.playerMob.experienceToLevel
     this.mob.level = gain.newLevel
@@ -93,5 +95,15 @@ export default class LevelService {
     this.mob.playerMob.trains++
 
     return gain
+  }
+
+  private createGain(): Gain {
+    return {
+      hp: this.calculateHpGain(),
+      mana: this.calculateManaGain(),
+      mv: this.calculateMvGain(),
+      newLevel: this.mob.level + 1,
+      practices: this.calculatePracticeGain(),
+    }
   }
 }

@@ -34,10 +34,6 @@ export default class CheckedRequest {
     return new ResponseBuilder(this)
   }
 
-  public responseWithMessage(responseStatus: ResponseStatus, responseMessage: ResponseMessage): Promise<Response> {
-    return Promise.resolve(new Response(this, responseStatus, responseMessage))
-  }
-
   public response(
     responseStatus: ResponseStatus,
     message: string,

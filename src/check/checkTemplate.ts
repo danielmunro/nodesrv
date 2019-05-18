@@ -14,6 +14,16 @@ import {CheckMessages} from "./constants"
 import {CheckType} from "./enum/checkType"
 
 export default class CheckTemplate {
+  private static checkAffectStackingBehavior(checkBuilder: CheckBuilder, affectType?: AffectType) {
+    if (!affectType) {
+      return
+    }
+    const affectDefinition = findAffectDefinition(affectType)
+    if (affectDefinition && affectDefinition.stackBehavior === StackBehavior.NoReplace) {
+      checkBuilder.not().requireAffect(affectType, affectDefinition.stackMessage as string)
+    }
+  }
+
   constructor(private readonly mobService: MobService, private readonly request: Request) {}
 
   public cast(spell: Spell): CheckBuilder {
@@ -29,7 +39,7 @@ export default class CheckTemplate {
     spell.getCosts().forEach(cost => checkBuilder.addCost(cost))
     this.checkActionType(checkBuilder, spell.getActionType())
     if (spell.getAffectType()) {
-      this.checkAffectStackingBehavior(checkBuilder, spell.getAffectType())
+      CheckTemplate.checkAffectStackingBehavior(checkBuilder, spell.getAffectType())
     }
 
     return checkBuilder
@@ -46,19 +56,9 @@ export default class CheckTemplate {
 
     skill.getCosts().forEach(cost => checkBuilder.addCost(cost))
     this.checkActionType(checkBuilder, skill.getActionType())
-    this.checkAffectStackingBehavior(checkBuilder, skill.getAffectType())
+    CheckTemplate.checkAffectStackingBehavior(checkBuilder, skill.getAffectType())
 
     return checkBuilder
-  }
-
-  private checkAffectStackingBehavior(checkBuilder: CheckBuilder, affectType?: AffectType) {
-    if (!affectType) {
-      return
-    }
-    const affectDefinition = findAffectDefinition(affectType)
-    if (affectDefinition && affectDefinition.stackBehavior === StackBehavior.NoReplace) {
-      checkBuilder.not().requireAffect(affectType, affectDefinition.stackMessage as string)
-    }
   }
 
   private checkActionType(checkBuilder: CheckBuilder, actionType: ActionType) {
