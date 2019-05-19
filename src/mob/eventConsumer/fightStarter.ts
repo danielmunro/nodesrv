@@ -1,12 +1,9 @@
 import {EventType} from "../../event/enum/eventType"
+import {MobInteractionEvent} from "../../event/event"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import AttackEvent from "../event/attackEvent"
-import MobEvent from "../event/mobEvent"
 import FightBuilder from "../fight/fightBuilder"
-import {Mob} from "../model/mob"
 import MobService from "../service/mobService"
-import {MobInteractionEvent} from "../../event/event"
 
 export default class FightStarter implements EventConsumer {
   constructor(
