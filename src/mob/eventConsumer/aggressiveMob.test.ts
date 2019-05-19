@@ -1,10 +1,10 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import EventService from "../../event/eventService"
+import {createMobMoveEvent} from "../../event/factory"
 import {Direction} from "../../room/constants"
 import {Room} from "../../room/model/room"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import MobMoveEvent from "../event/mobMoveEvent"
 import {Fight} from "../fight/fight"
 import MobService from "../service/mobService"
 
@@ -31,7 +31,7 @@ describe("aggressive mob event consumer", () => {
 
     // when
     await eventService.publish(
-      new MobMoveEvent(player.getMob(), room, room, Direction.Noop))
+      createMobMoveEvent(player.getMob(), room, room, Direction.Noop))
 
     // then
     const fight = mobService.findFightForMob(player.getMob())
@@ -47,7 +47,7 @@ describe("aggressive mob event consumer", () => {
     testRunner.createMob().setAggressive()
 
     // when
-    await eventService.publish(new MobMoveEvent(mob1, room, room, Direction.Noop))
+    await eventService.publish(createMobMoveEvent(mob1, room, room, Direction.Noop))
 
     // then
     const fight = mobService.findFightForMob(mob1)
@@ -64,7 +64,7 @@ describe("aggressive mob event consumer", () => {
 
     // when
     await eventService.publish(
-      new MobMoveEvent(player.getMob(), room, room, Direction.Noop))
+      createMobMoveEvent(player.getMob(), room, room, Direction.Noop))
 
     // then
     const fight = mobService.findFightForMob(player.getMob())

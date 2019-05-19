@@ -1,6 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
+import {createDamageEvent} from "../../event/factory"
 import DamageEvent from "../../mob/event/damageEvent"
 import {AffectType} from "../enum/affectType"
 
@@ -14,6 +15,7 @@ export default class SanctuaryEventConsumer implements EventConsumer {
       return EventResponse.none(event)
     }
 
-    return EventResponse.modified(event.createNewDamageEventAddingToModifier(-0.5))
+    return EventResponse.modified(createDamageEvent(
+      event.target, event.amount, event.damageType, event.modifier - 0.5, event.source))
   }
 }

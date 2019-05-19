@@ -1,6 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
+import {createDamageEvent} from "../../event/factory"
 import DamageEvent from "../../mob/event/damageEvent"
 import {AffectType} from "../enum/affectType"
 
@@ -18,7 +19,8 @@ export default class ProtectionEventConsumer implements EventConsumer {
     if (affect.has(AffectType.ProtectionNeutral) && srcAlign.isNeutral() ||
       affect.has(AffectType.ProtectionEvil) && srcAlign.isEvil() ||
       affect.has(AffectType.ProtectionGood) && srcAlign.isGood()) {
-      return EventResponse.modified(event.createNewDamageEventAddingToModifier(MODIFIER))
+      return EventResponse.modified(createDamageEvent(
+        event.target, event.amount, event.damageType, event.modifier + MODIFIER, event.source))
     }
 
     return EventResponse.none(event)

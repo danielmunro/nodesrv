@@ -1,5 +1,6 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import {EventType} from "../../event/enum/eventType"
+import {createFightEvent} from "../../event/factory"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Fight} from "../../mob/fight/fight"
 import MobBuilder from "../../support/test/mobBuilder"
@@ -22,7 +23,7 @@ beforeEach(async () => {
 describe("haste event consumer", () => {
   it("does nothing if a mob has not affected", async () => {
     // given
-    const fightEvent = new FightEvent(EventType.AttackRound, mob.mob, fight, [])
+    const fightEvent = createFightEvent(EventType.AttackRound, mob.mob, fight, [])
 
     // when
     await consumer.consume(fightEvent)
@@ -36,7 +37,7 @@ describe("haste event consumer", () => {
     mob.addAffectType(AffectType.Haste)
 
     // given
-    const fightEvent = new FightEvent(EventType.AttackRound, mob.mob, fight, [])
+    const fightEvent = createFightEvent(EventType.AttackRound, mob.mob, fight, [])
 
     // when
     await consumer.consume(fightEvent)

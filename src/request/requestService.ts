@@ -3,6 +3,7 @@ import {Affect} from "../affect/model/affect"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckType} from "../check/enum/checkType"
 import {EventType} from "../event/enum/eventType"
+import {createAttackEvent, createItemEvent, createMobEvent, createSkillEvent} from "../event/factory"
 import ItemEvent from "../item/event/itemEvent"
 import {Item} from "../item/model/item"
 import {Disposition} from "../mob/enum/disposition"
@@ -47,19 +48,19 @@ export default class RequestService {
   }
 
   public createMobEvent(eventType: EventType, context?: any): MobEvent {
-    return new MobEvent(eventType, this.checkedRequest.mob, context)
+    return createMobEvent(eventType, this.checkedRequest.mob, context)
   }
 
   public createAttackEvent(target?: Mob): AttackEvent {
-    return new AttackEvent(this.checkedRequest.mob, target ? target : this.getTarget())
+    return createAttackEvent(this.checkedRequest.mob, target ? target : this.getTarget())
   }
 
   public createItemEvent(eventType: EventType, item: Item): ItemEvent {
-    return new ItemEvent(eventType, item, this.checkedRequest.mob)
+    return createItemEvent(eventType, item, this.checkedRequest.mob)
   }
 
   public createSkillEvent(skill: Skill, rollResult: boolean): SkillEvent {
-    return new SkillEvent(skill, this.checkedRequest.mob, rollResult)
+    return createSkillEvent(skill, this.checkedRequest.mob, rollResult)
   }
 
   public createDamageEvent(amount: number, damageType: DamageType): DamageEventBuilder {

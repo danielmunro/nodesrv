@@ -1,9 +1,9 @@
 import {inject, injectable} from "inversify"
 import {Server} from "ws"
 import {Client} from "../client/client"
-import ClientEvent from "../client/event/clientEvent"
 import {EventType} from "../event/enum/eventType"
 import EventService from "../event/eventService"
+import {createClientEvent} from "../event/factory"
 import {Room} from "../room/model/room"
 import {poll} from "../support/poll/poll"
 import {ImmediateTimer} from "../support/timer/immediateTimer"
@@ -73,6 +73,6 @@ export class GameServer {
   }
 
   private async removeClient(client: Client) {
-    await this.eventService.publish(new ClientEvent(EventType.ClientDisconnected, client))
+    await this.eventService.publish(createClientEvent(EventType.ClientDisconnected, client))
   }
 }

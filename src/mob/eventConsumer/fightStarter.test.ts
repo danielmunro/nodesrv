@@ -1,8 +1,8 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import EventConsumer from "../../event/eventConsumer"
+import {createAttackEvent} from "../../event/factory"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import AttackEvent from "../event/attackEvent"
 import MobService from "../service/mobService"
 import FightStarter from "./fightStarter"
 
@@ -25,7 +25,7 @@ describe("fight starter", () => {
     const mob2 = testRunner.createMob().get()
 
     // when
-    await fightStarter.consume(new AttackEvent(mob1, mob2))
+    await fightStarter.consume(createAttackEvent(mob1, mob2))
 
     // then
     expect(mobService.findFightForMob(mob1)).toBeDefined()
@@ -37,8 +37,8 @@ describe("fight starter", () => {
     const mob2 = testRunner.createMob().get()
 
     // when
-    await fightStarter.consume(new AttackEvent(mob1, mob2))
-    await fightStarter.consume(new AttackEvent(mob1, mob2))
+    await fightStarter.consume(createAttackEvent(mob1, mob2))
+    await fightStarter.consume(createAttackEvent(mob1, mob2))
 
     // then
     expect(mobService.getFightCount()).toBe(1)

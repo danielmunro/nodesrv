@@ -2,9 +2,9 @@ import {createTestAppContainer} from "../../app/testFactory"
 import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
+import {createFightEvent} from "../../event/factory"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import FightEvent from "../fight/event/fightEvent"
 import LocationService from "../service/locationService"
 import MobService from "../service/mobService"
 import Wimpy from "./wimpy"
@@ -29,7 +29,7 @@ describe("wimpy event consumer", () => {
     // when
     let eventResponse: EventResponseStatus = EventResponseStatus.None
     while (eventResponse !== EventResponseStatus.Satisfied) {
-      eventResponse = (await wimpy.consume(new FightEvent(EventType.AttackRound, mob, fight))).status
+      eventResponse = (await wimpy.consume(createFightEvent(EventType.AttackRound, mob, fight))).status
     }
 
     // then

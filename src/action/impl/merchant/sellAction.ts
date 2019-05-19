@@ -3,7 +3,7 @@ import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import {CheckType} from "../../../check/enum/checkType"
 import {EventType} from "../../../event/enum/eventType"
 import EventService from "../../../event/eventService"
-import ItemEvent from "../../../item/event/itemEvent"
+import {createItemEvent} from "../../../event/factory"
 import {Disposition} from "../../../mob/enum/disposition"
 import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
@@ -30,7 +30,7 @@ export default class SellAction extends Action {
 
   public async invoke(requestService: RequestService): Promise<Response> {
     const item = requestService.getResult(CheckType.HasItem)
-    await this.eventService.publish(new ItemEvent(EventType.ItemDestroyed, item))
+    await this.eventService.publish(createItemEvent(EventType.ItemDestroyed, item))
     requestService.removeItemFromMobInventory(item)
     requestService.addGold(item.value)
 

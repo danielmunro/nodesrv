@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import {EventType} from "../../event/enum/eventType"
-import MobEvent from "../../mob/event/mobEvent"
+import {createMobEvent} from "../../event/factory"
 import ClientService from "../../server/clientService"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
@@ -22,7 +22,7 @@ describe("quit client event consumer", () => {
     clientService.add(client)
 
     // when
-    await quit.consume(new MobEvent(EventType.ClientDisconnected, client.getSessionMob()))
+    await quit.consume(createMobEvent(EventType.ClientDisconnected, client.getSessionMob()))
 
     // then
     expect(clientService.getClientCount()).toBe(0)

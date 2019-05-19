@@ -1,12 +1,12 @@
 import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
+import {createRoomMessageEvent} from "../../../../event/factory"
 import {Disposition} from "../../../../mob/enum/disposition"
 import {Mob} from "../../../../mob/model/mob"
 import {RaceType} from "../../../../mob/race/enum/raceType"
 import MobService from "../../../../mob/service/mobService"
 import ResponseMessage from "../../../../request/responseMessage"
-import RoomMessageEvent from "../../../../room/event/roomMessageEvent"
 import {Room} from "../../../../room/model/room"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
@@ -17,7 +17,7 @@ import Spell from "../../spell"
 
 async function turn(room: Room, target: Mob, abilityService: AbilityService) {
   target.disposition = Disposition.Dead
-  await abilityService.publishEvent(new RoomMessageEvent(
+  await abilityService.publishEvent(createRoomMessageEvent(
     room,
     new ResponseMessage(
       target,

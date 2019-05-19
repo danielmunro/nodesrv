@@ -1,6 +1,5 @@
 import Check from "../../../check/check"
 import CheckedRequest from "../../../check/checkedRequest"
-import SocialEvent from "../../../client/event/socialEvent"
 import SocialService from "../../../player/service/socialService"
 import InputContext from "../../../request/context/inputContext"
 import Request from "../../../request/request"
@@ -28,6 +27,5 @@ describe("say social action", () => {
 
     // then
     expect(eventService.publish.mock.calls.length).toBe(1)
-    expect(eventService.publish.mock.calls[0][0]).toBeInstanceOf(SocialEvent)
   })
 })

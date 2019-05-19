@@ -6,6 +6,7 @@ import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import Cost from "../../check/cost/cost"
 import {CheckType} from "../../check/enum/checkType"
+import {createSkillEvent} from "../../event/factory"
 import {Mob} from "../../mob/model/mob"
 import Request from "../../request/request"
 import RequestService from "../../request/requestService"
@@ -13,7 +14,6 @@ import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
 import {ResponseStatus} from "../../request/responseStatus"
-import SkillEvent from "../../skill/skillEvent"
 import {SpellType} from "../../spell/spellType"
 import roll from "../../support/random/dice"
 import Action from "../action"
@@ -40,7 +40,7 @@ export default class Spell extends Action {
     const spell = requestService.getResult(CheckType.HasSpell)
     if (!this.roll(spell.level)) {
       await this.abilityService.publishEvent(
-        new SkillEvent(spell, requestService.getMob(), false))
+        createSkillEvent(spell, requestService.getMob(), false))
       return requestService.respondWith().response(
         ResponseStatus.ActionFailed,
         this.getFailureMessage(requestService.getMob()))
@@ -51,7 +51,7 @@ export default class Spell extends Action {
       requestService.getResult(CheckType.HasTarget).affect().add(affect)
     }
     await this.abilityService.publishEvent(
-      new SkillEvent(spell, requestService.getMob(), true))
+      createSkillEvent(spell, requestService.getMob(), true))
     return requestService.respondWith().response(
       ResponseStatus.Success,
       this.getSuccessMessage(requestService))

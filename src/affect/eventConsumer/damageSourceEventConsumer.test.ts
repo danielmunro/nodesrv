@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/testFactory"
-import DamageEvent from "../../mob/event/damageEvent"
+import DamageEvent, {calculateDamageFromEvent} from "../../mob/event/damageEvent"
 import DamageEventBuilder from "../../mob/event/damageEventBuilder"
 import DamageSourceBuilder from "../../mob/fight/damageSourceBuilder"
 import {DamageType} from "../../mob/fight/enum/damageType"
@@ -32,7 +32,7 @@ describe("damage source event consumer", () => {
       DamageType.Mental).build())
 
     const event = eventResponse.event as DamageEvent
-    expect(event.calculateAmount()).toBeLessThan(initialAmount)
+    expect(calculateDamageFromEvent(event)).toBeLessThan(initialAmount)
   })
 
   it("immune reduces damage to 0", async () => {
@@ -46,7 +46,7 @@ describe("damage source event consumer", () => {
       DamageType.Mental).build())
 
     const event = eventResponse.event as DamageEvent
-    expect(event.calculateAmount()).toBe(0)
+    expect(calculateDamageFromEvent(event)).toBe(0)
   })
 
   it("vulnerable increases damage", async () => {
@@ -60,7 +60,7 @@ describe("damage source event consumer", () => {
       DamageType.Mental).build())
 
     const event = eventResponse.event as DamageEvent
-    expect(event.calculateAmount()).toBeGreaterThan(initialAmount)
+    expect(calculateDamageFromEvent(event)).toBeGreaterThan(initialAmount)
   })
 
   it("different damage types not affected", async () => {
@@ -74,6 +74,6 @@ describe("damage source event consumer", () => {
       DamageType.Bash).build())
 
     const event = eventResponse.event as DamageEvent
-    expect(event.calculateAmount()).toBe(initialAmount)
+    expect(calculateDamageFromEvent(event)).toBe(initialAmount)
   })
 })

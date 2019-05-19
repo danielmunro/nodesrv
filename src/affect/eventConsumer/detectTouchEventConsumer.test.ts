@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/testFactory"
-import AttackEvent from "../../mob/event/attackEvent"
+import {createAttackEvent} from "../../event/factory"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {AffectType} from "../enum/affectType"
@@ -27,7 +27,7 @@ describe("detect touch event consumer", () => {
     const defender = testRunner.createMob().addAffectType(AffectType.DetectTouch)
 
     // when
-    await eventConsumer.consume(new AttackEvent(attacker.mob, defender.mob))
+    await eventConsumer.consume(createAttackEvent(attacker.mob, defender.mob))
 
     // then
     expect(mockEventService.publish.mock.calls.length).toBe(1)

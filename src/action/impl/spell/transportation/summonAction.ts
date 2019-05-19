@@ -2,10 +2,10 @@ import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import {CheckType} from "../../../../check/enum/checkType"
+import {createRoomMessageEvent} from "../../../../event/factory"
 import {Mob} from "../../../../mob/model/mob"
 import MobService from "../../../../mob/service/mobService"
 import ResponseMessageBuilder from "../../../../request/responseMessageBuilder"
-import RoomMessageEvent from "../../../../room/event/roomMessageEvent"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import match from "../../../../support/matcher/match"
@@ -45,7 +45,7 @@ export default function(abilityService: AbilityService, mobService: MobService):
       const location = mobService.getLocationForMob(target)
       if (location) {
         await abilityService.publishEvent(
-          new RoomMessageEvent(
+          createRoomMessageEvent(
             location.room,
             new ResponseMessageBuilder(
               target,

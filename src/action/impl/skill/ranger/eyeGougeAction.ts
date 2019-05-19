@@ -2,7 +2,7 @@ import {AffectType} from "../../../../affect/enum/affectType"
 import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
-import AttackEvent from "../../../../mob/event/attackEvent"
+import {createAttackEvent} from "../../../../event/factory"
 import {Fight} from "../../../../mob/fight/fight"
 import {Costs, SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
@@ -24,7 +24,7 @@ export default function(abilityService: AbilityService): Skill {
       const level = requestService.getMobLevel()
       const target = requestService.getTarget()
       target.vitals.hp -= Fight.calculateDamageForOneHit(requestService.getMob(), target)
-      await abilityService.publishEvent(new AttackEvent(requestService.getMob(), target))
+      await abilityService.publishEvent(createAttackEvent(requestService.getMob(), target))
       return affectBuilder
         .setTimeout(level / 12)
         .setLevel(level)

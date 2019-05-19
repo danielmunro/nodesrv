@@ -4,9 +4,9 @@ import {applyAffectModifier} from "../../affect/applyAffect"
 import {Client} from "../../client/client"
 import {EventType} from "../../event/enum/eventType"
 import EventService from "../../event/eventService"
+import {createMobEvent} from "../../event/factory"
 import TimeService from "../../gameService/timeService"
 import {Trigger} from "../../mob/enum/trigger"
-import MobEvent from "../../mob/event/mobEvent"
 import {Mob} from "../../mob/model/mob"
 import LocationService from "../../mob/service/locationService"
 import roll from "../../support/random/dice"
@@ -60,7 +60,7 @@ export class Tick implements Observer {
     }
 
     const location = this.locationService.getLocationForMob(mob)
-    await this.eventService.publish(new MobEvent(EventType.Tick, mob, location.room))
+    await this.eventService.publish(createMobEvent(EventType.Tick, mob, location.room))
     client.tick(id, timestamp)
   }
 }

@@ -6,7 +6,7 @@ import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import Cost from "../../check/cost/cost"
 import {CheckType} from "../../check/enum/checkType"
-import TouchEvent from "../../mob/event/touchEvent"
+import {createTouchEvent} from "../../event/factory"
 import {Mob} from "../../mob/model/mob"
 import Request from "../../request/request"
 import RequestService from "../../request/requestService"
@@ -126,7 +126,7 @@ export default class Skill extends Action {
 
   private createTouchEventResponse(requestService: RequestService) {
     return this.abilityService.publishEvent(
-      new TouchEvent(requestService.getMob(), requestService.getResult(CheckType.HasTarget)))
+      createTouchEvent(requestService.getMob(), requestService.getResult(CheckType.HasTarget)))
   }
 
   private async doRoll(requestService: RequestService): Promise<boolean> {

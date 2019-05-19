@@ -1,6 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
+import {createDamageEvent} from "../../event/factory"
 import {Vulnerability} from "../../mob/enum/vulnerability"
 import DamageEvent from "../../mob/event/damageEvent"
 import vulnerabilityModifier from "../../mob/fight/vulnerabilityModifier"
@@ -24,7 +25,8 @@ export default class DamageSourceEventConsumer implements EventConsumer {
       }
     })
     if (modifier !== event.modifier) {
-      return EventResponse.modified(event.createNewDamageEventAddingToModifier(modifier))
+      return EventResponse.modified(createDamageEvent(
+        event.target, event.amount, event.damageType, event.modifier + modifier, event.source))
     }
     return EventResponse.none(event)
   }

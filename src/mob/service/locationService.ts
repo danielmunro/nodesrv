@@ -1,12 +1,12 @@
 import {inject, injectable} from "inversify"
 import "reflect-metadata"
 import EventService from "../../event/eventService"
+import {createMobMoveEvent} from "../../event/factory"
 import {Direction} from "../../room/constants"
 import ExitTable from "../../room/exitTable"
 import { Room } from "../../room/model/room"
 import RoomTable from "../../room/roomTable"
 import {Types} from "../../support/types"
-import MobMoveEvent from "../event/mobMoveEvent"
 import {newMobLocation} from "../factory"
 import { Mob } from "../model/mob"
 import MobLocation from "../model/mobLocation"
@@ -50,7 +50,7 @@ export default class LocationService {
       if (mobLocation.mob.uuid !== mob.uuid) {
         continue
       }
-      const eventResponse = await this.eventService.publish(new MobMoveEvent(
+      const eventResponse = await this.eventService.publish(createMobMoveEvent(
         mob,
         mobLocation.room,
         room,

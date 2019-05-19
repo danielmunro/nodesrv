@@ -1,8 +1,8 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import {EventType} from "../../event/enum/eventType"
+import {createClientEvent} from "../../event/factory"
 import ClientService from "../../server/clientService"
 import {Types} from "../../support/types"
-import ClientEvent from "../event/clientEvent"
 import Disconnected from "./disconnected"
 
 const mockClient = jest.fn(() => ({ip: 123}))
@@ -19,7 +19,7 @@ describe("disconnected client event consumer", () => {
     clientService.add(client)
 
     // when
-    await disconnected.consume(new ClientEvent(EventType.ClientDisconnected, client))
+    await disconnected.consume(createClientEvent(EventType.ClientDisconnected, client))
 
     // then
     expect(clientService.getClientCount()).toBe(0)

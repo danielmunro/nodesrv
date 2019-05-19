@@ -1,10 +1,10 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import {EventType} from "../../event/enum/eventType"
 import EventService from "../../event/eventService"
+import {createMobEvent} from "../../event/factory"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {Disposition} from "../enum/disposition"
-import MobEvent from "../event/mobEvent"
 import LocationService from "../service/locationService"
 import DeathTimerEventConsumer from "./deathTimerEventConsumer"
 
@@ -22,7 +22,7 @@ describe("death timer event consumer", () => {
 
     // when
     const eventConsumer = new DeathTimerEventConsumer(eventService, locationService)
-    await eventConsumer.consume(new MobEvent(EventType.Tick, mob))
+    await eventConsumer.consume(createMobEvent(EventType.Tick, mob))
 
     // then
     expect(mob.deathTimer).toBe(0)

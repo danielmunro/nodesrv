@@ -1,7 +1,7 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import DamageEvent from "../event/damageEvent"
+import DamageEvent, {calculateDamageFromEvent} from "../event/damageEvent"
 import DamageEventBuilder from "../event/damageEventBuilder"
 import {DamageType} from "../fight/enum/damageType"
 import {Mob} from "../model/mob"
@@ -30,7 +30,7 @@ describe("damage modifier event consumer", () => {
 
     // then
     const newEvent = response.event as DamageEvent
-    expect(newEvent.calculateAmount()).toBeGreaterThan(event.calculateAmount())
+    expect(calculateDamageFromEvent(newEvent)).toBeGreaterThan(calculateDamageFromEvent(event))
   })
 
   it("decreases the damage amount on a matching resist", async () => {
@@ -42,7 +42,7 @@ describe("damage modifier event consumer", () => {
 
     // then
     const newEvent = response.event as DamageEvent
-    expect(newEvent.calculateAmount()).toBeLessThan(event.calculateAmount())
+    expect(calculateDamageFromEvent(newEvent)).toBeLessThan(calculateDamageFromEvent(event))
   })
 
   it("decreases the damage amount to zero if invulnerable", async () => {
@@ -55,7 +55,7 @@ describe("damage modifier event consumer", () => {
 
     // then
     const newEvent = response.event as DamageEvent
-    expect(newEvent.calculateAmount()).toBe(0)
+    expect(calculateDamageFromEvent(newEvent)).toBe(0)
   })
 
   it("does not modify the damage when no vulnerability matches are found", async () => {
@@ -67,6 +67,6 @@ describe("damage modifier event consumer", () => {
 
     // then
     const newEvent = response.event as DamageEvent
-    expect(newEvent.calculateAmount()).toBe(event.calculateAmount())
+    expect(calculateDamageFromEvent(newEvent)).toBe(calculateDamageFromEvent(event))
   })
 })

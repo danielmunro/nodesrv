@@ -2,6 +2,7 @@ import InputEvent from "../../client/event/inputEvent"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
+import {createInputEvent} from "../../event/factory"
 import {RequestType} from "../../request/requestType"
 import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
@@ -18,8 +19,7 @@ export default class HolySilenceEventConsumer implements EventConsumer {
     const request = event.request
     if (event.mob.affect().has(AffectType.HolySilence) && request.getType() === RequestType.Cast) {
       return EventResponse.satisfied(
-        new InputEvent(
-          event.mob,
+        createInputEvent(
           request,
           event.action,
           new Response(

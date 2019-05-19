@@ -3,8 +3,8 @@ import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import CheckBuilderFactory from "../../check/checkBuilderFactory"
 import {Channel} from "../../client/channel"
-import SocialEvent from "../../client/event/socialEvent"
 import EventService from "../../event/eventService"
+import {createSocialEvent} from "../../event/factory"
 import {isBanned} from "../../mob/enum/standing"
 import {Mob} from "../../mob/model/mob"
 import Request from "../../request/request"
@@ -24,21 +24,21 @@ export default class SocialService {
   }
 
   public async gossip(mob: Mob, message: string) {
-    await this.eventService.publish(new SocialEvent(
+    await this.eventService.publish(createSocialEvent(
       mob,
       Channel.Gossip,
       `${mob.name} gossips, "${message}"`))
   }
 
   public async say(mob: Mob, message: string) {
-    await this.eventService.publish(new SocialEvent(
+    await this.eventService.publish(createSocialEvent(
       mob,
       Channel.Say,
       `${mob.name} says, "${message}"`))
   }
 
   public async tell(mob: Mob, target: Mob, message: string) {
-    await this.eventService.publish(new SocialEvent(
+    await this.eventService.publish(createSocialEvent(
       mob,
       Channel.Tell,
       `${mob.name} tells you, "${message}"`,

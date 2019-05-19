@@ -10,7 +10,6 @@ import ClientService from "../server/clientService"
 import {default as AuthRequest} from "../session/auth/request"
 import Session from "../session/session"
 import {SpellMessages} from "../spell/constants"
-import {getTestPlayer} from "../support/test/player"
 import {getTestRoom} from "../support/test/room"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
@@ -35,7 +34,7 @@ beforeEach(async () => {
   testRunner = app.get<TestRunner>(Types.TestRunner)
   const clientService = app.get<ClientService>(Types.ClientService)
   client = clientService.createNewClient(mockWebSocket(), mockReq())
-  const player = getTestPlayer()
+  const player = testRunner.createPlayer().get()
   await client.session.login(client, player)
   const mobService = app.get<MobService>(Types.MobService)
   mobService.add(player.sessionMob, testRunner.getStartRoom().get())
@@ -196,6 +195,6 @@ describe("clients", () => {
     const response = await client.handleRequest(request)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toBe(SpellMessages.HolySilence.CastPrevented)
+    expect(response.getMessageToRequestCreator()).toBe(SpellMessages.HolySilence.CastPrevented)
   })
 })

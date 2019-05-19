@@ -1,11 +1,11 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import EventConsumer from "../../event/eventConsumer"
+import {createRoomMessageEvent} from "../../event/factory"
 import LocationService from "../../mob/service/locationService"
 import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/clientService"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import RoomMessageEvent from "../event/roomMessageEvent"
 import RoomMessageEventConsumer from "./roomMessageEventConsumer"
 
 const mockSocket = jest.fn(() => ({
@@ -39,7 +39,7 @@ describe("room message event consumer", () => {
 
     // when
     await roomMessageEventConsumer.consume(
-      new RoomMessageEvent(room1.room, new ResponseMessage(player1.getMob(),  "")))
+      createRoomMessageEvent(room1.room, new ResponseMessage(player1.getMob(),  "")))
 
     // then
     expect(client1.ws.send.mock.calls).toHaveLength(1)

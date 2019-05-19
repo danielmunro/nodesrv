@@ -2,8 +2,8 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import EventService from "../../event/eventService"
+import {createRoomMessageEvent} from "../../event/factory"
 import ResponseMessage from "../../request/responseMessage"
-import RoomMessageEvent from "../../room/event/roomMessageEvent"
 import {Disposition} from "../enum/disposition"
 import MobEvent from "../event/mobEvent"
 import LocationService from "../service/locationService"
@@ -25,7 +25,7 @@ export default class DeathTimerEventConsumer implements EventConsumer {
       if (mob.deathTimer === 0) {
         mob.disposition = Disposition.Dead
         const location = this.locationService.getLocationForMob(mob)
-        await this.eventService.publish(new RoomMessageEvent(
+        await this.eventService.publish(createRoomMessageEvent(
           location.room,
           new ResponseMessage(
             event.mob,

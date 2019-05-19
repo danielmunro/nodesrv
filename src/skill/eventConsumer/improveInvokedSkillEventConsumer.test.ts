@@ -1,7 +1,7 @@
+import {createSkillEvent} from "../../event/factory"
 import doNTimes from "../../support/functional/times"
 import {getTestMob} from "../../support/test/mob"
 import {newSkill} from "../factory"
-import SkillEvent from "../skillEvent"
 import {SkillType} from "../skillType"
 import ImproveInvokedSkillsEventConsumer from "./improveInvokedSkillsEventConsumer"
 
@@ -17,7 +17,7 @@ describe("skill invoked event consumer", () => {
     const mob = getTestMob()
 
     // when
-    await doNTimes(iterations, () => skillInvokedEventConsumer.consume(new SkillEvent(skill, mob, true)))
+    await doNTimes(iterations, () => skillInvokedEventConsumer.consume(createSkillEvent(skill, mob, true)))
 
     // then
     expect(skill.level).toBeGreaterThan(1)
@@ -39,8 +39,8 @@ describe("skill invoked event consumer", () => {
 
     // when
     await doNTimes(iterations, async () => {
-      await skillInvokedEventConsumer.consume(new SkillEvent(skill1, mob1, true))
-      await skillInvokedEventConsumer.consume(new SkillEvent(skill2, mob2, true))
+      await skillInvokedEventConsumer.consume(createSkillEvent(skill1, mob1, true))
+      await skillInvokedEventConsumer.consume(createSkillEvent(skill2, mob2, true))
     })
 
     // then

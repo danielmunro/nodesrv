@@ -3,6 +3,7 @@ import {CostType} from "../../check/cost/costType"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
+import {createCostEvent} from "../../event/factory"
 import CostEvent from "../../mob/event/costEvent"
 import {Mob} from "../../mob/model/mob"
 import {AffectType} from "../enum/affectType"
@@ -20,7 +21,7 @@ export default class EnduranceEventConsumer implements EventConsumer {
     if (event.mob.affect().has(AffectType.Endurance)
       && event.costs.find(cost => cost.costType === CostType.Mv)) {
       return EventResponse.modified(
-        new CostEvent(
+        createCostEvent(
           event.mob,
           event.costs.map(cost =>
             cost.costType === CostType.Mv ?

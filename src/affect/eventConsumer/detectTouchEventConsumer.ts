@@ -1,20 +1,19 @@
 import {EventType} from "../../event/enum/eventType"
+import {MobInteractionEvent} from "../../event/event"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import EventService from "../../event/eventService"
-import MobEvent from "../../mob/event/mobEvent"
-import {Mob} from "../../mob/model/mob"
+import {createMobEvent} from "../../event/factory"
 import {AffectType} from "../enum/affectType"
 
 export default class DetectTouchEventConsumer implements EventConsumer {
   constructor(private readonly eventService: EventService) {}
 
-  public async consume(event: MobEvent): Promise<EventResponse> {
-    const target = event.context as Mob
-    const aff = target.affect()
+  public async consume(event: MobInteractionEvent): Promise<EventResponse> {
+    const aff = event.target.affect()
     if (aff.has(AffectType.DetectTouch)) {
       await this.eventService.publish(
-        new MobEvent(EventType.MobUpdated, target, `${event.mob} is touching you.`))
+        createMobEvent(EventType.MobUpdated, event.target, `${event.mob} is touching you.`))
     }
     return EventResponse.none(event)
   }

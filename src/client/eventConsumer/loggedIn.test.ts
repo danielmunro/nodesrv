@@ -1,11 +1,11 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
+import {createClientEvent} from "../../event/factory"
 import StateService from "../../gameService/stateService"
 import {Room} from "../../room/model/room"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
-import ClientEvent from "../event/clientEvent"
 import LoggedIn from "./loggedIn"
 
 describe("logged in client event consumer", () => {
@@ -27,7 +27,7 @@ describe("logged in client event consumer", () => {
         eventConsumer instanceof LoggedIn) as EventConsumer
 
     // when
-    const eventResponse = await loggedIn.consume(new ClientEvent(EventType.ClientLogin, client))
+    const eventResponse = await loggedIn.consume(createClientEvent(EventType.ClientLogin, client))
 
     // then
     expect(eventResponse.context.getMessageToRequestCreator()).toBe(room.toString())

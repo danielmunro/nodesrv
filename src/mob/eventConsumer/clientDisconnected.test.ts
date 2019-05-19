@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../app/testFactory"
-import ClientEvent from "../../client/event/clientEvent"
 import {EventType} from "../../event/enum/eventType"
+import {createClientEvent} from "../../event/factory"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
 import LocationService from "../service/locationService"
@@ -18,7 +18,7 @@ describe("client disconnected event consumer", () => {
     const clientDisconnected = new ClientDisconnected(locationService)
 
     // when
-    await clientDisconnected.consume(new ClientEvent(EventType.ClientDisconnected, client))
+    await clientDisconnected.consume(createClientEvent(EventType.ClientDisconnected, client))
 
     // then
     expect(() => locationService.getRoomForMob(client.getSessionMob())).toThrowError()

@@ -5,8 +5,8 @@ import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import {EventType} from "../event/enum/eventType"
 import EventService from "../event/eventService"
+import {createClientEvent, createCostEvent, createInputEvent, createMobEvent} from "../event/factory"
 import CostEvent from "../mob/event/costEvent"
-import MobEvent from "../mob/event/mobEvent"
 import { Mob } from "../mob/model/mob"
 import LocationService from "../mob/service/locationService"
 import { Player } from "../player/model/player"
@@ -16,7 +16,6 @@ import Response from "../request/response"
 import { Room } from "../room/model/room"
 import { default as AuthRequest } from "../session/auth/request"
 import Session from "../session/session"
-import ClientEvent from "./event/clientEvent"
 import InputEvent from "./event/inputEvent"
 
 export class Client {
@@ -62,8 +61,8 @@ export class Client {
       const request = this.requests.shift() as AuthRequest
       const response = await this.session.handleRequest(this, request)
       if (this.session.isLoggedIn()) {
-        await this.eventService.publish(new MobEvent(EventType.MobCreated, this.session.getMob()))
-        await this.eventService.publish(new ClientEvent(EventType.ClientLogin, this))
+        await this.eventService.publish(createMobEvent(EventType.MobCreated, this.session.getMob()))
+        await this.eventService.publish(createClientEvent(EventType.ClientLogin, this))
       }
       return response
     }
@@ -74,8 +73,7 @@ export class Client {
     const matchingHandlerDefinition = this.actions.find(action =>
       action.isAbleToHandleRequestType(request.getType())) as Action
     const eventResponse = await this.eventService.publish(
-      new InputEvent(
-        this.getSessionMob(),
+      createInputEvent(
         request,
         matchingHandlerDefinition))
     if (eventResponse.isSatisfied()) {
@@ -128,7 +126,7 @@ export class Client {
   }
 
   private async applyCosts(costs: Cost[]): Promise<void> {
-    const eventResponse = await this.eventService.publish(new CostEvent(this.player.sessionMob, costs))
+    const eventResponse = await this.eventService.publish(createCostEvent(this.player.sessionMob, costs))
     if (eventResponse.isModified()) {
       costs = (eventResponse.event as CostEvent).costs
     }

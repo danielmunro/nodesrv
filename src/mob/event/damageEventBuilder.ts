@@ -1,3 +1,4 @@
+import {createDamageEvent} from "../../event/factory"
 import {DamageType} from "../fight/enum/damageType"
 import {Mob} from "../model/mob"
 import DamageEvent from "./damageEvent"
@@ -17,7 +18,7 @@ export default class DamageEventBuilder {
   }
 
   public build(): DamageEvent {
-    return new DamageEvent(
+    return createDamageEvent(
       this.target,
       this.amount,
       this.damageType,

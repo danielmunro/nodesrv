@@ -3,18 +3,18 @@ import Attributes from "../../attributes/model/attributes"
 import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
 import EventService from "../../event/eventService"
+import {createFightEvent} from "../../event/factory"
 import {Room} from "../../room/model/room"
 import roll, {simpleD4} from "../../support/random/dice"
 import {Disposition} from "../enum/disposition"
 import {Trigger} from "../enum/trigger"
-import DamageEvent from "../event/damageEvent"
+import DamageEvent, {calculateDamageFromEvent} from "../event/damageEvent"
 import {Mob} from "../model/mob"
 import {Attack, getSuppressionAttackResultFromSkillType} from "./attack"
 import DamageService from "./damageService"
 import Death from "./death"
 import {AttackResult} from "./enum/attackResult"
 import {FightStatus} from "./enum/fightStatus"
-import FightEvent from "./event/fightEvent"
 import {Round} from "./round"
 
 export class Fight {
@@ -87,7 +87,7 @@ export class Fight {
 
   public async attack(attacker: Mob, defender: Mob): Promise<Attack> {
     const eventResponse = await this.eventService.publish(
-      new FightEvent(EventType.AttackRoundStart, attacker, this))
+      createFightEvent(EventType.AttackRoundStart, attacker, this))
     if (eventResponse.status === EventResponseStatus.Satisfied) {
       return Fight.attackDefeated(attacker, defender, getSuppressionAttackResultFromSkillType(eventResponse.context))
     }
@@ -113,7 +113,7 @@ export class Fight {
       attacker,
       defender,
       AttackResult.Hit,
-      event.calculateAmount(),
+      calculateDamageFromEvent(event),
       defender.vitals.hp < 0 ? this.createDeath(attacker, defender) : undefined)
   }
 
@@ -122,7 +122,7 @@ export class Fight {
     if (y.vitals.hp < 0) {
       return attacks
     }
-    await this.eventService.publish(new FightEvent(EventType.AttackRound, x, this, attacks))
+    await this.eventService.publish(createFightEvent(EventType.AttackRound, x, this, attacks))
     return attacks
   }
 

@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/testFactory"
-import InputEvent from "../../client/event/inputEvent"
+import {createInputEvent} from "../../event/factory"
 import {RequestType} from "../../request/requestType"
 import MobBuilder from "../../support/test/mobBuilder"
 import TestRunner from "../../support/test/testRunner"
@@ -22,8 +22,7 @@ describe("holy silence event consumer", () => {
   it("does nothing if a mob is not affected", async () => {
     // when
     const eventResponse = await consumer.consume(
-      new InputEvent(
-        caster.get(),
+      createInputEvent(
         testRunner.createRequest(RequestType.Cast, "cast holy"),
         jest.fn()()))
 
@@ -37,7 +36,7 @@ describe("holy silence event consumer", () => {
 
     // when
     const eventResponse = await consumer.consume(
-      new InputEvent(caster.mob, testRunner.createRequest(RequestType.Cast), jest.fn()()))
+      createInputEvent(testRunner.createRequest(RequestType.Cast), jest.fn()()))
 
     // then
     expect(eventResponse.isSatisfied()).toBeTruthy()

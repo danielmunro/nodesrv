@@ -1,9 +1,9 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import {EventType} from "../../event/enum/eventType"
+import {createMobEvent} from "../../event/factory"
 import {Room} from "../../room/model/room"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
-import MobEvent from "../event/mobEvent"
 import MobService from "../service/mobService"
 import MobCreated from "./mobCreated"
 
@@ -18,7 +18,7 @@ describe("mob created event consumer", () => {
     const mobCreated = new MobCreated(mobService, startRoom)
 
     // when
-    await mobCreated.consume(new MobEvent(EventType.MobCreated, getTestMob()))
+    await mobCreated.consume(createMobEvent(EventType.MobCreated, getTestMob()))
 
     // then
     expect(mobService.mobTable.getMobs()).toHaveLength(1)
