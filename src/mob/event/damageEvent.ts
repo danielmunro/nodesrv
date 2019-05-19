@@ -11,5 +11,5 @@ export default interface DamageEvent extends Event {
 }
 
 export function calculateDamageFromEvent(damageEvent: DamageEvent): number {
-  return Math.max(0, damageEvent.amount * damageEvent.modifier)
+  return Math.max(0, damageEvent.amount * Math.max(0, damageEvent.modifier))
 }

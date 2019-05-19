@@ -1,8 +1,6 @@
-import Event from "../../event/event"
 import {Item} from "../../item/model/item"
-import {Mob} from "../model/mob"
+import MobEvent from "./mobEvent"
 
-export default interface ItemDroppedEvent extends Event {
-  readonly mob: Mob
+export default interface ItemDroppedEvent extends MobEvent {
   readonly item: Item
 }
