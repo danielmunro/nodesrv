@@ -12,7 +12,7 @@ export default class MobCreated implements EventConsumer {
     private readonly startRoom: Room) {}
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.MobCreated]
+    return [ EventType.MobCreated ]
   }
 
   public consume(event: MobEvent): Promise<EventResponse> {

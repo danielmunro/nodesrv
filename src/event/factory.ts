@@ -11,6 +11,7 @@ import AttackEvent from "../mob/event/attackEvent"
 import CostEvent from "../mob/event/costEvent"
 import DamageEvent from "../mob/event/damageEvent"
 import MobEvent from "../mob/event/mobEvent"
+import MobMessageEvent from "../mob/event/mobMessageEvent"
 import MobMoveEvent from "../mob/event/mobMoveEvent"
 import TickEvent from "../mob/event/tickEvent"
 import TouchEvent from "../mob/event/touchEvent"
@@ -85,6 +86,10 @@ export function createMobEvent(eventType: EventType, mob: Mob, context?: any): M
 
 export function createMobMoveEvent(mob: Mob, source: Room, destination: Room, direction?: Direction): MobMoveEvent {
   return { eventType: EventType.MobMoved, mob, source, destination, direction }
+}
+
+export function createMobMessageEvent(mob: Mob, message: string): MobMessageEvent {
+  return { eventType: EventType.MobUpdated, mob, message }
 }
 
 export function createFightEvent(eventType: EventType, mob: Mob, fight: Fight, attacks: Attack[] = []): FightEvent {

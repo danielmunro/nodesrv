@@ -1,16 +1,16 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import MobEvent from "../../mob/event/mobEvent"
 import ClientService from "../../server/clientService"
 import Maybe from "../../support/functional/maybe"
+import MobMessageEvent from "../event/mobMessageEvent"
 
 export default class MobUpdatedEventConsumer implements EventConsumer {
   constructor(private readonly clientService: ClientService) {}
 
-  public async consume(event: MobEvent): Promise<EventResponse> {
+  public async consume(event: MobMessageEvent): Promise<EventResponse> {
     new Maybe(this.clientService.getClientByMob(event.mob))
-      .do(client => client.sendMessage(event.context))
+      .do(client => client.sendMessage(event.message))
       .get()
     return EventResponse.none(event)
   }

@@ -10,7 +10,7 @@ export default class Quit implements EventConsumer {
   constructor(private readonly clientService: ClientService) {}
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.ClientLogout]
+    return [ EventType.ClientLogout ]
   }
 
   public consume(event: MobEvent): Promise<EventResponse> {

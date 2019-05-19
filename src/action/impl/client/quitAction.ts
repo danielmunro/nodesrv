@@ -2,6 +2,7 @@ import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import {EventType} from "../../../event/enum/eventType"
 import EventService from "../../../event/eventService"
+import {createMobEvent} from "../../../event/factory"
 import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import {RequestType} from "../../../request/requestType"
@@ -24,8 +25,7 @@ export default class QuitAction extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    await this.eventService.publish(
-      requestService.createMobEvent(EventType.ClientLogout))
+    await this.eventService.publish(createMobEvent(EventType.ClientLogout, requestService.getMob()))
     return requestService.respondWith().success()
   }
 
