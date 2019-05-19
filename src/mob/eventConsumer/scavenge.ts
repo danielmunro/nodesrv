@@ -5,7 +5,6 @@ import ItemService from "../../item/itemService"
 import ClientService from "../../server/clientService"
 import MobEvent from "../event/mobEvent"
 import {Mob} from "../model/mob"
-import MobLocation from "../model/mobLocation"
 import LocationService from "../service/locationService"
 
 export const SCAVENGE_TIMEOUT_MS = 10000
