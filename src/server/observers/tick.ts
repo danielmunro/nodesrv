@@ -2,9 +2,8 @@ import {inject, injectable} from "inversify"
 import {v4} from "uuid"
 import {applyAffectModifier} from "../../affect/applyAffect"
 import {Client} from "../../client/client"
-import {EventType} from "../../event/enum/eventType"
 import EventService from "../../event/eventService"
-import {createMobEvent} from "../../event/factory"
+import {createTickEvent} from "../../event/factory"
 import TimeService from "../../gameService/timeService"
 import {Trigger} from "../../mob/enum/trigger"
 import {Mob} from "../../mob/model/mob"
@@ -60,7 +59,7 @@ export class Tick implements Observer {
     }
 
     const location = this.locationService.getLocationForMob(mob)
-    await this.eventService.publish(createMobEvent(EventType.Tick, mob, location.room))
+    await this.eventService.publish(createTickEvent(mob, location.room))
     client.tick(id, timestamp)
   }
 }

@@ -1,7 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import MobEvent from "../../mob/event/mobEvent"
+import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import {Mob} from "../../mob/model/mob"
 import ClientService from "../../server/clientService"
 
@@ -12,7 +12,7 @@ export default class MobArrives implements EventConsumer {
     return [EventType.MobMoved]
   }
 
-  public async consume(event: MobEvent): Promise<EventResponse> {
+  public async consume(event: MobMoveEvent): Promise<EventResponse> {
     this.announceArrival(event.mob)
     return EventResponse.none(event)
   }

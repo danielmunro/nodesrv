@@ -12,6 +12,7 @@ import CostEvent from "../mob/event/costEvent"
 import DamageEvent from "../mob/event/damageEvent"
 import MobEvent from "../mob/event/mobEvent"
 import MobMoveEvent from "../mob/event/mobMoveEvent"
+import TickEvent from "../mob/event/tickEvent"
 import TouchEvent from "../mob/event/touchEvent"
 import {Attack} from "../mob/fight/attack"
 import {DamageType} from "../mob/fight/enum/damageType"
@@ -104,4 +105,8 @@ export function createTouchEvent(mob: Mob, target: Mob): TouchEvent {
 
 export function createAttackEvent(mob: Mob, target: Mob): AttackEvent {
   return { eventType: EventType.Attack, mob, target }
+}
+
+export function createTickEvent(mob: Mob, room: Room): TickEvent {
+  return { eventType: EventType.Tick, mob, room }
 }

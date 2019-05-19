@@ -5,28 +5,24 @@ import EventService from "../../event/eventService"
 import {createRoomMessageEvent} from "../../event/factory"
 import ResponseMessage from "../../request/responseMessage"
 import {Disposition} from "../enum/disposition"
-import MobEvent from "../event/mobEvent"
-import LocationService from "../service/locationService"
+import TickEvent from "../event/tickEvent"
 import {Messages} from "./constants"
 
 export default class DeathTimerEventConsumer implements EventConsumer {
-  constructor(
-    private readonly eventService: EventService,
-    private readonly locationService: LocationService) {}
+  constructor(private readonly eventService: EventService) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.Tick ]
   }
 
-  public async consume(event: MobEvent): Promise<EventResponse> {
+  public async consume(event: TickEvent): Promise<EventResponse> {
     const mob = event.mob
     if (mob.deathTimer) {
       mob.deathTimer--
       if (mob.deathTimer === 0) {
         mob.disposition = Disposition.Dead
-        const location = this.locationService.getLocationForMob(mob)
         await this.eventService.publish(createRoomMessageEvent(
-          location.room,
+          event.room,
           new ResponseMessage(
             event.mob,
             Messages.Mob.Decay,

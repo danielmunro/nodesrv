@@ -1,7 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import MobEvent from "../event/mobEvent"
+import MobMoveEvent from "../event/mobMoveEvent"
 import FightBuilder from "../fight/fightBuilder"
 import {Mob} from "../model/mob"
 import LocationService from "../service/locationService"
@@ -14,10 +14,10 @@ export default class AggressiveMob implements EventConsumer {
     private readonly fightBuilder: FightBuilder) {}
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.MobMoved]
+    return [ EventType.MobMoved ]
   }
 
-  public async consume(event: MobEvent): Promise<EventResponse> {
+  public async consume(event: MobMoveEvent): Promise<EventResponse> {
     if (event.mob.playerMob) {
       this.checkForAggressiveMobs(event.mob)
     }
