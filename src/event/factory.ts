@@ -10,6 +10,7 @@ import {Item} from "../item/model/item"
 import AttackEvent from "../mob/event/attackEvent"
 import CostEvent from "../mob/event/costEvent"
 import DamageEvent from "../mob/event/damageEvent"
+import ItemDroppedEvent from "../mob/event/itemDroppedEvent"
 import MobEvent from "../mob/event/mobEvent"
 import MobMessageEvent from "../mob/event/mobMessageEvent"
 import MobMoveEvent from "../mob/event/mobMoveEvent"
@@ -80,8 +81,12 @@ export function createDamageEvent(
   }
 }
 
-export function createMobEvent(eventType: EventType, mob: Mob, context?: any): MobEvent {
-  return { eventType, mob, context }
+export function createMobEvent(eventType: EventType, mob: Mob): MobEvent {
+  return { eventType, mob }
+}
+
+export function createItemDroppedEvent(mob: Mob, item: Item): ItemDroppedEvent {
+  return { eventType: EventType.ItemDropped, mob, item }
 }
 
 export function createMobMoveEvent(mob: Mob, source: Room, destination: Room, direction?: Direction): MobMoveEvent {

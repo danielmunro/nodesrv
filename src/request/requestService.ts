@@ -3,13 +3,12 @@ import {Affect} from "../affect/model/affect"
 import CheckedRequest from "../check/checkedRequest"
 import {CheckType} from "../check/enum/checkType"
 import {EventType} from "../event/enum/eventType"
-import {createAttackEvent, createItemEvent, createMobEvent, createSkillEvent} from "../event/factory"
+import {createAttackEvent, createItemEvent, createSkillEvent} from "../event/factory"
 import ItemEvent from "../item/event/itemEvent"
 import {Item} from "../item/model/item"
 import {Disposition} from "../mob/enum/disposition"
 import AttackEvent from "../mob/event/attackEvent"
 import DamageEventBuilder from "../mob/event/damageEventBuilder"
-import MobEvent from "../mob/event/mobEvent"
 import {DamageType} from "../mob/fight/enum/damageType"
 import {Mob} from "../mob/model/mob"
 import {Exit} from "../room/model/exit"
@@ -45,10 +44,6 @@ export default class RequestService {
 
   public getEquipped(): Item[] {
     return this.checkedRequest.mob.equipped.items
-  }
-
-  public createMobEvent(eventType: EventType, context?: any): MobEvent {
-    return createMobEvent(eventType, this.checkedRequest.mob, context)
   }
 
   public createAttackEvent(target?: Mob): AttackEvent {

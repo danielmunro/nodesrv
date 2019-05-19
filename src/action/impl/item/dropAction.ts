@@ -3,6 +3,7 @@ import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import {EventType} from "../../../event/enum/eventType"
 import EventService from "../../../event/eventService"
+import {createItemDroppedEvent} from "../../../event/factory"
 import {Item} from "../../../item/model/item"
 import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
@@ -41,8 +42,7 @@ export default class DropAction extends Action {
       requestService.addItemToRoomInventory(item)
     }
 
-    await this.eventService.publish(
-      requestService.createMobEvent(EventType.ItemDropped, item))
+    await this.eventService.publish(createItemDroppedEvent(requestService.getMob(), item))
 
     return requestService.respondWith().success(
       Messages.Drop.Success,
