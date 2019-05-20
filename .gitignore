@@ -5,6 +5,9 @@ ormconfig.json
 .vscode
 .idea
 postgres-data/
+report*.json
+ormconfig.json.production
+test-report.xml
 
 # Logs
 logs
