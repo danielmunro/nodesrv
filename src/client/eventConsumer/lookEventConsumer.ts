@@ -4,8 +4,8 @@ import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import EventContext from "../../request/context/eventContext"
+import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
-import {RequestType} from "../../request/requestType"
 import ClientService from "../../server/clientService"
 
 export default class LookEventConsumer implements EventConsumer {
@@ -23,7 +23,7 @@ export default class LookEventConsumer implements EventConsumer {
       const response = await this.lookDefinition.handle(
         new Request(event.mob,
           event.destination,
-          new EventContext(RequestType.Look)))
+          { requestType: RequestType.Look } as EventContext))
       client.sendMessage(response.getMessageToRequestCreator())
     }
     return EventResponse.none(event)

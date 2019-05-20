@@ -1,6 +1,6 @@
 import { Client } from "../../client/client"
 import InputContext from "../../request/context/inputContext"
-import {RequestType} from "../../request/requestType"
+import {RequestType} from "../../request/enum/requestType"
 import AuthStep from "./authStep"
 import { ResponseStatus } from "./enum/responseStatus"
 import Response from "./response"

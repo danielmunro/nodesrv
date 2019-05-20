@@ -1,5 +1,5 @@
 import AbilityService from "../../../../check/abilityService"
-import {RequestType} from "../../../../request/requestType"
+import {RequestType} from "../../../../request/enum/requestType"
 import {SkillType} from "../../../../skill/skillType"
 import {ActionType} from "../../../enum/actionType"
 import SkillBuilder from "../../../skillBuilder"

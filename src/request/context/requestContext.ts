@@ -1,5 +1,5 @@
-import { RequestType } from "../requestType"
+import { RequestType } from "../enum/requestType"
 
 export default interface RequestContext {
-  getRequestType(): RequestType
+  readonly requestType: RequestType
 }

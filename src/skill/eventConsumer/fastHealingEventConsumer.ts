@@ -4,8 +4,8 @@ import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import TickEvent from "../../mob/event/tickEvent"
 import EventContext from "../../request/context/eventContext"
+import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
-import {RequestType} from "../../request/requestType"
 
 export default class FastHealingEventConsumer implements EventConsumer {
   constructor(private readonly fastHealing: Skill) {}
@@ -15,7 +15,7 @@ export default class FastHealingEventConsumer implements EventConsumer {
   }
 
   public async consume(event: TickEvent): Promise<EventResponse> {
-    const request = new Request(event.mob, event.room, new EventContext(RequestType.Noop))
+    const request = new Request(event.mob, event.room, {requestType: RequestType.Noop } as EventContext)
     await this.fastHealing.handle(request)
     return EventResponse.none(event)
   }

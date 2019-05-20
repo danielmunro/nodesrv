@@ -3,8 +3,8 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import EventContext from "../../request/context/eventContext"
+import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
-import {RequestType} from "../../request/requestType"
 import MobMoveEvent from "../event/mobMoveEvent"
 import {Mob} from "../model/mob"
 import LocationService from "../service/locationService"
@@ -22,7 +22,8 @@ export default class FollowMob implements EventConsumer {
     const action = this.moveActions.find((move: Move) => move.getDirection() === event.direction) as Move
     const mobs = this.locationService.getMobsByRoom(event.source)
     await Promise.all(mobs.filter((mob: Mob) => mob.follows === event.mob)
-      .map((mob: Mob) => action.handle(new Request(mob, event.source, new EventContext(RequestType.South)))))
+      .map((mob: Mob) => action.handle(
+        new Request(mob, event.source, { requestType: RequestType.South } as EventContext))))
     return EventResponse.none(event)
   }
 }

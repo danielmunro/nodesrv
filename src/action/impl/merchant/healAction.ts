@@ -5,9 +5,9 @@ import HealerSpell from "../../../mob/healer/healerSpell"
 import {Mob} from "../../../mob/model/mob"
 import LocationService from "../../../mob/service/locationService"
 import EventContext from "../../../request/context/eventContext"
+import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
-import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
 import Action from "../../action"
@@ -52,7 +52,7 @@ export default class HealAction extends Action {
       new Request(
         healer,
         requestService.getRequest().getRoom(),
-        new EventContext(RequestType.Cast),
+        { requestType: RequestType.Cast } as EventContext,
         requestService.getMob()))
   }
 

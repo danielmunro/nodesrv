@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../../app/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {RequestType} from "../../../../request/requestType"
+import {RequestType} from "../../../../request/enum/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import PlayerBuilder from "../../../../support/test/playerBuilder"
 import TestRunner from "../../../../support/test/testRunner"

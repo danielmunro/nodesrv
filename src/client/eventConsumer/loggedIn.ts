@@ -7,8 +7,8 @@ import EventResponse from "../../event/eventResponse"
 import {newMobLocation} from "../../mob/factory"
 import LocationService from "../../mob/service/locationService"
 import EventContext from "../../request/context/eventContext"
+import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
-import {RequestType} from "../../request/requestType"
 import {Room} from "../../room/model/room"
 
 export default class LoggedIn implements EventConsumer {
@@ -26,7 +26,7 @@ export default class LoggedIn implements EventConsumer {
     const response = await this.lookDefinition.handle(
       new Request(event.client.getSessionMob(),
         this.startRoom,
-        new EventContext(RequestType.Look)))
+        { requestType: RequestType.Look } as EventContext))
     event.client.sendMessage(response.message.getMessageToRequestCreator())
     return new EventResponse(event, EventResponseStatus.None, response)
   }

@@ -3,7 +3,7 @@ import { Equipment } from "../item/enum/equipment"
 import {newEquipment} from "../item/factory"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
-import { RequestType } from "./requestType"
+import { RequestType } from "./enum/requestType"
 
 describe("request", () => {
   it("should be able to find an item in a request session mob's inventory", async () => {

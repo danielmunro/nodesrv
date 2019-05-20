@@ -1,4 +1,4 @@
-import { RequestType } from "../requestType"
+import { RequestType } from "../enum/requestType"
 import RequestContext from "./requestContext"
 
 export default class InputContext implements RequestContext {

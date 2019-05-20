@@ -1,6 +1,6 @@
 import Check from "../../../check/check"
+import {RequestType} from "../../../request/enum/requestType"
 import RequestService from "../../../request/requestService"
-import {RequestType} from "../../../request/requestType"
 import Response from "../../../request/response"
 import Action from "../../action"
 import {Messages} from "../../constants"

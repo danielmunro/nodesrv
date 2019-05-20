@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/testFactory"
-import {RequestType} from "../../request/requestType"
+import {RequestType} from "../../request/enum/requestType"
 import {Direction} from "../../room/constants"
 import RoomTable from "../../room/roomTable"
 import RoomBuilder from "../../support/test/roomBuilder"

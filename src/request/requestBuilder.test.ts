@@ -4,8 +4,8 @@ import {Mob} from "../mob/model/mob"
 import LocationService from "../mob/service/locationService"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
+import {RequestType} from "./enum/requestType"
 import RequestBuilder from "./requestBuilder"
-import {RequestType} from "./requestType"
 
 let requestBuilder: RequestBuilder
 let target: Mob

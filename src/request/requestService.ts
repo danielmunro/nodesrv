@@ -19,8 +19,7 @@ import ResponseBuilder from "./responseBuilder"
 import ResponseMessageBuilder from "./responseMessageBuilder"
 
 export default class RequestService {
-  constructor(
-    private readonly checkedRequest: CheckedRequest) {}
+  constructor(private readonly checkedRequest: CheckedRequest) {}
 
   public getMob(): Mob {
     return this.checkedRequest.mob

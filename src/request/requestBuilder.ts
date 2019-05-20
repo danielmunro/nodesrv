@@ -6,8 +6,8 @@ import {Room} from "../room/model/room"
 import Maybe from "../support/functional/maybe"
 import match from "../support/matcher/match"
 import InputContext from "./context/inputContext"
+import {RequestType} from "./enum/requestType"
 import Request from "./request"
-import {RequestType} from "./requestType"
 
 export default class RequestBuilder {
   constructor(

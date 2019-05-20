@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../../app/testFactory"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
-import { RequestType } from "../../../../request/requestType"
+import { RequestType } from "../../../../request/enum/requestType"
 import { SkillMessages } from "../../../../skill/constants"
 import { SkillType } from "../../../../skill/skillType"
 import doNTimes from "../../../../support/functional/times"

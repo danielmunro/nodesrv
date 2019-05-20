@@ -9,8 +9,7 @@ export default class ResponseMessage {
     public readonly templateString: string,
     public readonly toRequestCreator?: object,
     public readonly toTarget = toRequestCreator,
-    public readonly toObservers = toTarget,
-  ) {}
+    public readonly toObservers = toTarget) {}
 
   public onlySendToRequestCreator(): ResponseMessage {
     this.toAll = false

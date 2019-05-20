@@ -3,8 +3,8 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import EventContext from "../../request/context/eventContext"
+import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
-import {RequestType} from "../../request/requestType"
 import FightEvent from "../fight/event/fightEvent"
 import {Mob} from "../model/mob"
 import LocationService from "../service/locationService"
@@ -38,6 +38,6 @@ export default class Wimpy implements EventConsumer {
       new Request(
         mob,
         this.locationService.getLocationForMob(mob).room,
-        new EventContext(RequestType.Flee)))
+        { requestType: RequestType.Flee } as EventContext))
   }
 }

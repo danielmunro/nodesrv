@@ -6,14 +6,14 @@ import {Equipment} from "../../item/enum/equipment"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Mob} from "../../mob/model/mob"
 import EventContext from "../../request/context/eventContext"
+import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
-import {RequestType} from "../../request/requestType"
 import {Room} from "../../room/model/room"
 import {SkillType} from "../skillType"
 
 export default class ShieldBlockEventConsumer implements EventConsumer {
   private static createRequest(mob: Mob, room: Room): Request {
-    return new Request(mob, room, new EventContext(RequestType.Noop))
+    return new Request(mob, room, { requestType: RequestType.Noop } as EventContext)
   }
 
   constructor(private readonly shieldBlock: Action) {}

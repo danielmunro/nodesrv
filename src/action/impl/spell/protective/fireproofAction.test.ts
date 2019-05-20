@@ -1,6 +1,6 @@
 import {AffectType} from "../../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../../app/testFactory"
-import {RequestType} from "../../../../request/requestType"
+import {RequestType} from "../../../../request/enum/requestType"
 import {SpellType} from "../../../../spell/spellType"
 import MobBuilder from "../../../../support/test/mobBuilder"
 import TestRunner from "../../../../support/test/testRunner"

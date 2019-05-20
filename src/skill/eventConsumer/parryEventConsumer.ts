@@ -6,8 +6,8 @@ import {Equipment} from "../../item/enum/equipment"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Mob} from "../../mob/model/mob"
 import EventContext from "../../request/context/eventContext"
+import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
-import {RequestType} from "../../request/requestType"
 import {SkillType} from "../skillType"
 
 export default class ParryEventConsumer implements EventConsumer {
@@ -23,7 +23,7 @@ export default class ParryEventConsumer implements EventConsumer {
       || !target.equipped.items.find(item => item.equipment === Equipment.Weapon)) {
       return EventResponse.none(event)
     }
-    const request = new Request(target, event.fight.room, new EventContext(RequestType.Noop))
+    const request = new Request(target, event.fight.room, { requestType: RequestType.Noop } as EventContext)
     const result = await this.parry.handle(request)
     if (result.isSuccessful()) {
       return EventResponse.satisfied(event, SkillType.Parry)

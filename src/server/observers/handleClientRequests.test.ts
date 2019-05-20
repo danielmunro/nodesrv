@@ -1,7 +1,7 @@
 import {createTestAppContainer} from "../../app/testFactory"
 import InputContext from "../../request/context/inputContext"
+import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
-import {RequestType} from "../../request/requestType"
 import {ResponseStatus} from "../../session/auth/enum/responseStatus"
 import { default as AuthRequest } from "../../session/auth/request"
 import Response from "../../session/auth/response"

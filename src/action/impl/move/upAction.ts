@@ -1,6 +1,6 @@
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import LocationService from "../../../mob/service/locationService"
-import {RequestType} from "../../../request/requestType"
+import {RequestType} from "../../../request/enum/requestType"
 import {Direction} from "../../../room/constants"
 import Move from "../../move"
 

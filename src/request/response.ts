@@ -1,7 +1,7 @@
 import CheckedRequest from "../check/checkedRequest"
+import { ResponseStatus } from "./enum/responseStatus"
 import Request from "./request"
 import ResponseMessage from "./responseMessage"
-import { ResponseStatus } from "./responseStatus"
 
 export default class Response {
   constructor(

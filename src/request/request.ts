@@ -8,7 +8,7 @@ import {Exit} from "../room/model/exit"
 import { Room } from "../room/model/room"
 import InputContext from "./context/inputContext"
 import RequestContext from "./context/requestContext"
-import { RequestType } from "./requestType"
+import { RequestType } from "./enum/requestType"
 import ResponseBuilder from "./responseBuilder"
 
 export default class Request {
@@ -27,7 +27,7 @@ export default class Request {
   }
 
   public getType(): RequestType {
-    return this.context.getRequestType()
+    return this.context.requestType
   }
 
   public mobAffects(): AffectService {
