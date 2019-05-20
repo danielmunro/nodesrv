@@ -1,6 +1,6 @@
-import {Item} from "../item/model/item"
-import {Mob} from "../mob/model/mob"
-import ResponseMessage from "./responseMessage"
+import {Item} from "../../item/model/item"
+import {Mob} from "../../mob/model/mob"
+import ResponseMessage from "../responseMessage"
 
 export default class ResponseMessageBuilder {
   private selfIdentifier: string = "you"

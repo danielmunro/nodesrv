@@ -2,7 +2,7 @@ import {EventType} from "../../event/enum/eventType"
 import {MobInteractionEvent} from "../../event/event"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import ResponseMessageBuilder from "../../request/responseMessageBuilder"
+import ResponseMessageBuilder from "../../request/builder/responseMessageBuilder"
 import {AffectMessages} from "../constants"
 import {AffectType} from "../enum/affectType"
 

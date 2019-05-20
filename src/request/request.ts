@@ -1,15 +1,13 @@
-import AffectService from "../affect/affectService"
-import {AffectType} from "../affect/enum/affectType"
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
 import { AuthorizationLevel } from "../player/authorizationLevel"
 import {Region} from "../region/model/region"
 import {Exit} from "../room/model/exit"
 import { Room } from "../room/model/room"
+import ResponseBuilder from "./builder/responseBuilder"
 import InputContext from "./context/inputContext"
 import RequestContext from "./context/requestContext"
 import { RequestType } from "./enum/requestType"
-import ResponseBuilder from "./responseBuilder"
 
 export default class Request {
   constructor(
@@ -28,10 +26,6 @@ export default class Request {
 
   public getType(): RequestType {
     return this.context.requestType
-  }
-
-  public mobAffects(): AffectService {
-    return new AffectService(this.mob)
   }
 
   public findItemInRoomInventory(item = this.getSubject()): Item | undefined {
@@ -76,11 +70,6 @@ export default class Request {
     }
 
     return AuthorizationLevel.None
-  }
-
-  public somethingIsGlowing() {
-    return this.mob.equipped.find((item: Item) => item.affect().has(AffectType.Glow))
-      || this.room.inventory.find((item: Item) => item.affect().has(AffectType.Glow))
   }
 
   public respondWith(): ResponseBuilder {

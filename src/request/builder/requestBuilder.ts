@@ -1,13 +1,13 @@
-import Action from "../action/action"
-import {ActionPart} from "../action/enum/actionPart"
-import {Mob} from "../mob/model/mob"
-import LocationService from "../mob/service/locationService"
-import {Room} from "../room/model/room"
-import Maybe from "../support/functional/maybe"
-import match from "../support/matcher/match"
-import InputContext from "./context/inputContext"
-import {RequestType} from "./enum/requestType"
-import Request from "./request"
+import Action from "../../action/action"
+import {ActionPart} from "../../action/enum/actionPart"
+import {Mob} from "../../mob/model/mob"
+import LocationService from "../../mob/service/locationService"
+import {Room} from "../../room/model/room"
+import Maybe from "../../support/functional/maybe"
+import match from "../../support/matcher/match"
+import InputContext from "../context/inputContext"
+import {RequestType} from "../enum/requestType"
+import Request from "../request"
 
 export default class RequestBuilder {
   constructor(

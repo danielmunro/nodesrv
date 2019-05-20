@@ -2,6 +2,7 @@ import {AffectType} from "../../../affect/enum/affectType"
 import Check from "../../../check/check"
 import TimeService from "../../../gameService/timeService"
 import ItemService from "../../../item/itemService"
+import {Item} from "../../../item/model/item"
 import {onlyLiving} from "../../../mob/enum/disposition"
 import {Mob} from "../../../mob/model/mob"
 import {isAbleToSee} from "../../../mob/race/sight"
@@ -9,11 +10,11 @@ import LocationService from "../../../mob/service/locationService"
 import {Weather} from "../../../region/enum/weather"
 import {Region} from "../../../region/model/region"
 import WeatherService from "../../../region/weatherService"
+import ResponseBuilder from "../../../request/builder/responseBuilder"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
-import ResponseBuilder from "../../../request/responseBuilder"
 import Maybe from "../../../support/functional/maybe"
 import match from "../../../support/matcher/match"
 import Action from "../../action"
@@ -30,11 +31,11 @@ export default class LookAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    if (request.mobAffects().isBlind()) {
+    if (request.mob.affect().isBlind()) {
       return Check.fail(Messages.Look.Fail)
     }
 
-    if (request.somethingIsGlowing()) {
+    if (this.somethingIsGlowing(request)) {
       return Check.ok()
     }
 
@@ -115,5 +116,10 @@ export default class LookAction extends Action {
           this.weatherService.getWeatherForRegion(r) as Weather))
       .or(() => true)
       .get()
+  }
+
+  private somethingIsGlowing(request: Request) {
+    return request.mob.equipped.find((item: Item) => item.affect().has(AffectType.Glow))
+      || request.getRoom().inventory.find((item: Item) => item.affect().has(AffectType.Glow))
   }
 }

@@ -14,9 +14,9 @@ import {Mob} from "../mob/model/mob"
 import {Exit} from "../room/model/exit"
 import {Skill} from "../skill/model/skill"
 import SkillEvent from "../skill/skillEvent"
+import ResponseBuilder from "./builder/responseBuilder"
+import ResponseMessageBuilder from "./builder/responseMessageBuilder"
 import Request from "./request"
-import ResponseBuilder from "./responseBuilder"
-import ResponseMessageBuilder from "./responseMessageBuilder"
 
 export default class RequestService {
   constructor(private readonly checkedRequest: CheckedRequest) {}
