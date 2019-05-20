@@ -1,9 +1,9 @@
 import {inject, injectable} from "inversify"
-import Action from "../action/action"
-import HelpAction from "../action/impl/info/helpAction"
-import Skill from "../action/impl/skill"
-import Spell from "../action/impl/spell"
 import {Types} from "../support/types"
+import Action from "./action"
+import HelpAction from "./impl/info/helpAction"
+import Skill from "./impl/skill"
+import Spell from "./impl/spell"
 
 @injectable()
 export default class ActionService {

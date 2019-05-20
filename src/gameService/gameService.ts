@@ -1,6 +1,7 @@
 import {inject, injectable} from "inversify"
 import "reflect-metadata"
 import Action from "../action/action"
+import ActionService from "../action/actionService"
 import Skill from "../action/impl/skill"
 import Move from "../action/move"
 import {Mob} from "../mob/model/mob"
@@ -11,7 +12,6 @@ import {Direction} from "../room/constants"
 import {Room} from "../room/model/room"
 import {SkillType} from "../skill/skillType"
 import {Types} from "../support/types"
-import ActionService from "./actionService"
 
 @injectable()
 export default class GameService {

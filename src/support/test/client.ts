@@ -1,7 +1,7 @@
 import Action from "../../action/action"
+import ActionService from "../../action/actionService"
 import { Client } from "../../client/client"
 import EventService from "../../event/eventService"
-import ActionService from "../../gameService/actionService"
 import GameService from "../../gameService/gameService"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"

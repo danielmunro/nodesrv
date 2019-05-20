@@ -1,6 +1,6 @@
 import {ContainerModule} from "inversify"
+import ActionService from "../../action/actionService"
 import EventService from "../../event/eventService"
-import ActionService from "../../gameService/actionService"
 import GameService from "../../gameService/gameService"
 import ResetService from "../../gameService/resetService"
 import StateService from "../../gameService/stateService"
