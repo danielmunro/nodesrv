@@ -2,7 +2,6 @@ import AffectBuilder from "../affect/affectBuilder"
 import { AffectType } from "../affect/enum/affectType"
 import BuilderDefinition from "../item/builderDefinition"
 import {createBuilderDefinition} from "../item/factory"
-import ItemPrototype from "../item/itemPrototype"
 import { Item } from "../item/model/item"
 import any from "./builder/any"
 import armor from "./builder/armor"
@@ -108,7 +107,7 @@ export default class ItemBuilder {
   public async createItemFromImportData(itemData: any): Promise<Item> {
     const args = itemData.pObjFlags ? ItemBuilder.splitPObjFlags(itemData.pObjFlags) : []
     const { name, description, type } = itemData
-    const prototype = new ItemPrototype(type, name, description, args)
+    const prototype = { type, name, description, args }
     const builder = this.builders.find(b => b.itemType === type)
     const flags = args[1] !== undefined ? args[1].split("") : []
     if (builder) {

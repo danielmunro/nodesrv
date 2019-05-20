@@ -1,7 +1,7 @@
-import {AffectType} from "../affect/enum/affectType"
-import {newAffect} from "../affect/factory"
-import MobBuilder from "../support/test/mobBuilder"
-import {Item} from "./model/item"
+import {AffectType} from "../../affect/enum/affectType"
+import {newAffect} from "../../affect/factory"
+import MobBuilder from "../../support/test/mobBuilder"
+import {Item} from "../model/item"
 
 export default class AbstractItemBuilder {
   constructor(

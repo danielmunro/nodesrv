@@ -10,8 +10,7 @@ import ItemReset from "./model/itemReset"
 export default class ItemService {
   constructor(
     @inject(Types.ItemTable) private readonly itemTemplateTable: ItemTable = new ItemTable(),
-    public readonly itemTable: ItemTable = new ItemTable(),
-  ) {}
+    public readonly itemTable: ItemTable = new ItemTable()) {}
 
   public async generateNewItemInstance(itemReset: ItemReset): Promise<Item> {
     const item = this.itemTemplateTable.items.find(i => i.id === itemReset.item.id)

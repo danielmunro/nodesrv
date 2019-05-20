@@ -1,8 +1,8 @@
+import {Equipment} from "../enum/equipment"
+import {ItemType} from "../enum/itemType"
+import Container from "../model/container"
+import {Inventory} from "../model/inventory"
 import AbstractItemBuilder from "./abstractItemBuilder"
-import {Equipment} from "./enum/equipment"
-import {ItemType} from "./enum/itemType"
-import Container from "./model/container"
-import {Inventory} from "./model/inventory"
 
 export default class ItemBuilder extends AbstractItemBuilder {
   public asFood(): ItemBuilder {

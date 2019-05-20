@@ -1,8 +1,6 @@
-export default class ItemPrototype {
-  constructor(
-    public readonly type: string,
-    public readonly name: string,
-    public readonly description: string,
-    public readonly args: string[],
-  ) {}
+export default interface ItemPrototype {
+  readonly type: string
+  readonly name: string
+  readonly description: string
+  readonly args: string[]
 }

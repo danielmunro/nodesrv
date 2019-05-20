@@ -30,7 +30,7 @@ export default class ListAction extends Action {
       .success(Object.keys(itemQuantityMap).reduce((previousValue, currentValue) => {
         const itemQuantity: ItemQuantity = itemQuantityMap[currentValue]
         const item = itemQuantity.item
-        return previousValue + "[ " + itemQuantity.getQuantity() + " " + item.value + " ] " + item.brief + "\n"
+        return previousValue + "[ " + itemQuantity.quantity + " " + item.value + " ] " + item.brief + "\n"
       }, merchant.name + " has selling:\n[ quantity cost ]\n"))
   }
 

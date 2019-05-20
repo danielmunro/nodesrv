@@ -5,6 +5,8 @@ import { format } from "../../support/string"
 import ItemQuantity from "../itemQuantity"
 import { Item } from "./item"
 
+interface ItemQuantityMap { [key: string]: ItemQuantity }
+
 @Entity()
 export class Inventory {
   @PrimaryGeneratedColumn()
@@ -17,7 +19,7 @@ export class Inventory {
   @OneToMany(() => Item, (item) => item.inventory, { cascadeInsert: true, cascadeUpdate: true })
   public items: Item[] = []
 
-  public find(search): Item | undefined {
+  public find(search: (value: Item) => boolean): Item | undefined {
     return this.items.find(search)
   }
 
@@ -43,17 +45,13 @@ export class Inventory {
     this.addItem(item)
   }
 
-  public getItems(): Item[] {
-    return this.items
-  }
-
   public getItemQuantityMap() {
-    const itemsMap = {}
+    const itemsMap: ItemQuantityMap = {}
     this.items.forEach(item => {
       if (!itemsMap[item.canonicalId]) {
-        itemsMap[item.canonicalId] = new ItemQuantity(item)
+        itemsMap[item.canonicalId] = { item, canonicalId: item.canonicalId, quantity: 0 } as ItemQuantity
       }
-      itemsMap[item.canonicalId].incrementQuantity()
+      itemsMap[item.canonicalId].quantity++
     })
     return itemsMap
   }
@@ -66,7 +64,7 @@ export class Inventory {
         return format(
           "{0}\n{1}{2} {3}",
           aggregate,
-          itemQuantity.getQuantity() > 1 ? "(" + itemQuantity.getQuantity() + ") " : "",
+          itemQuantity.quantity > 1 ? "(" + itemQuantity.quantity + ") " : "",
           itemQuantity.item.name,
           suffix)
       }, "")

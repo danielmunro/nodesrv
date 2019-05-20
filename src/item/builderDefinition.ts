@@ -5,6 +5,6 @@ import {Item} from "./model/item"
 export type ItemFactory = (itemPrototype: ItemPrototype) => Item
 
 export default interface BuilderDefinition {
-  readonly itemType: ItemType,
+  readonly itemType: ItemType
   readonly itemFactory: ItemFactory
 }
