@@ -1,5 +1,5 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm"
-import { Direction } from "../constants"
+import {Direction} from "../enum/direction"
 import Door from "./door"
 import { Room } from "./room"
 

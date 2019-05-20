@@ -4,7 +4,7 @@ import EventResponse from "../../event/eventResponse"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
 import {Mob} from "../../mob/model/mob"
 import {percentRoll} from "../../support/random/helpers"
-import SkillEvent from "../skillEvent"
+import SkillEvent from "../event/skillEvent"
 
 export default class ImproveInvokedSkillsEventConsumer implements EventConsumer {
   private static getRollCheck(mob: Mob) {

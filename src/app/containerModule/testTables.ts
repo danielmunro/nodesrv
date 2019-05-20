@@ -7,8 +7,8 @@ import SpecializationGroup from "../../mob/specialization/specializationGroup"
 import specializationGroups from "../../mob/specialization/specializationGroups"
 import SpecializationLevel from "../../mob/specialization/specializationLevel"
 import {defaultSpecializationLevels} from "../../mob/specialization/specializationLevels"
-import ExitTable from "../../room/exitTable"
-import RoomTable from "../../room/roomTable"
+import ExitTable from "../../room/table/exitTable"
+import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
 
 export default new AsyncContainerModule(async bind => {

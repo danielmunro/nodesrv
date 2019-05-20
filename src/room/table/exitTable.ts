@@ -1,5 +1,5 @@
-import { Exit } from "./model/exit"
-import {Room} from "./model/room"
+import { Exit } from "../model/exit"
+import {Room} from "../model/room"
 
 export default class ExitTable {
   constructor(

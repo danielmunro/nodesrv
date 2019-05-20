@@ -11,7 +11,7 @@ import {getMobEquipResetRepository} from "../../item/repository/mobEquipReset"
 import MobReset from "../../mob/model/mobReset"
 import {getMobResetRepository} from "../../mob/repository/mobReset"
 import {Room} from "../../room/model/room"
-import RoomTable from "../../room/roomTable"
+import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
 
 export default (startRoomId: number, port: number) =>

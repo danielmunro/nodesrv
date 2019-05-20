@@ -5,7 +5,7 @@ import MobReset from "../../mob/model/mobReset"
 import { Terrain } from "../../region/enum/terrain"
 import { Region } from "../../region/model/region"
 import getMovementCost from "../../region/movementCost"
-import { Direction } from "../constants"
+import {Direction} from "../enum/direction"
 import { Exit } from "./exit"
 
 @Entity()

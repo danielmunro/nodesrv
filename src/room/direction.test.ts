@@ -1,5 +1,6 @@
-import { allDirections, cardinalDirections, Direction } from "./constants"
+import { allDirections, cardinalDirections} from "./constants"
 import { getFreeDirection, getFreeReciprocalDirection, reverse } from "./direction"
+import {Direction} from "./enum/direction"
 import { newExit } from "./factory"
 import { Room } from "./model/room"
 

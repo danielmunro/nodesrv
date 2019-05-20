@@ -10,7 +10,7 @@ import { Mob } from "../mob/model/mob"
 import { default as MobReset } from "../mob/model/mobReset"
 import MobService from "../mob/service/mobService"
 import {Room} from "../room/model/room"
-import RoomTable from "../room/roomTable"
+import RoomTable from "../room/table/roomTable"
 import {Types} from "../support/types"
 
 @injectable()

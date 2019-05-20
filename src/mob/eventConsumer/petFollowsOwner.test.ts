@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/testFactory"
-import {Direction} from "../../room/constants"
+import {Direction} from "../../room/enum/direction"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import LocationService from "../service/locationService"

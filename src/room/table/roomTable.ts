@@ -1,4 +1,4 @@
-import { Room } from "./model/room"
+import { Room } from "../model/room"
 
 export default class RoomTable {
   public static new(rooms: Room[]) {

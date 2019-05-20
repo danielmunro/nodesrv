@@ -1,5 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm"
-import {LockpickDifficulty} from "../lockpickDifficulty"
+import {LockpickDifficulty} from "../enum/lockpickDifficulty"
 
 @Entity()
 export default class Door {

@@ -1,4 +1,4 @@
-import {Direction} from "../../room/constants"
+import {Direction} from "../../room/enum/direction"
 import {Room} from "../../room/model/room"
 import MobEvent from "./mobEvent"
 

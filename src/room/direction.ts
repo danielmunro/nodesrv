@@ -1,5 +1,6 @@
 import { pickOne } from "../support/random/helpers"
-import { cardinalDirections, Direction } from "./constants"
+import { cardinalDirections} from "./constants"
+import {Direction} from "./enum/direction"
 import { Room } from "./model/room"
 
 export function reverse(direction: Direction) {

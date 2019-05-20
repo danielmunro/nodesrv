@@ -1,5 +1,5 @@
 import { getTestRoom } from "../support/test/room"
-import { Direction } from "./constants"
+import {Direction} from "./enum/direction"
 import { newReciprocalExit, newRoom } from "./factory"
 import { Room } from "./model/room"
 

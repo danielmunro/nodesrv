@@ -1,6 +1,6 @@
 import {Item} from "../../item/model/item"
 import {Region} from "../../region/model/region"
-import {Direction} from "../../room/constants"
+import {Direction} from "../../room/enum/direction"
 import Door from "../../room/model/door"
 import {Exit} from "../../room/model/exit"
 import { Room } from "../../room/model/room"

@@ -1,7 +1,7 @@
 import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import LocationService from "../../../mob/service/locationService"
 import {RequestType} from "../../../request/enum/requestType"
-import {Direction} from "../../../room/constants"
+import {Direction} from "../../../room/enum/direction"
 import Move from "../../move"
 
 export default class NorthAction extends Move {

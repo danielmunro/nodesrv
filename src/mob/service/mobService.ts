@@ -1,6 +1,6 @@
 import {inject, injectable} from "inversify"
 import {cloneDeep} from "lodash"
-import {Direction} from "../../room/constants"
+import {Direction} from "../../room/enum/direction"
 import { Room } from "../../room/model/room"
 import { newSkill } from "../../skill/factory"
 import { Skill } from "../../skill/model/skill"

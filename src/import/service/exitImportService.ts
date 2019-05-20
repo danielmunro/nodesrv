@@ -1,4 +1,4 @@
-import { Direction } from "../../room/constants"
+import {Direction} from "../../room/enum/direction"
 import { newExit } from "../../room/factory"
 import {Exit} from "../../room/model/exit"
 import ExitRepository from "../../room/repository/exit"

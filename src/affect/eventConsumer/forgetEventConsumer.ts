@@ -2,7 +2,7 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {createSkillEvent} from "../../event/factory"
-import SkillEvent from "../../skill/skillEvent"
+import SkillEvent from "../../skill/event/skillEvent"
 import {percentRoll} from "../../support/random/helpers"
 import {AffectType} from "../enum/affectType"
 

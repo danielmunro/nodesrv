@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../app/testFactory"
 import {RequestType} from "../../../request/enum/requestType"
-import {Direction} from "../../../room/constants"
+import {Direction} from "../../../room/enum/direction"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 
