@@ -1,6 +1,8 @@
+import { ItemType as ImportItemType } from "../import/enum/itemType"
 import { DamageType } from "../mob/fight/enum/damageType"
 import { Mob } from "../mob/model/mob"
 import { Room } from "../room/model/room"
+import BuilderDefinition, {ItemFactory} from "./builderDefinition"
 import { Equipment } from "./enum/equipment"
 import { ItemType } from "./enum/itemType"
 import { WeaponType } from "./enum/weaponType"
@@ -15,8 +17,8 @@ import Weapon from "./model/weapon"
 export function newItemRoomReset(
   item: Item,
   room: Room,
-  maxQuantity,
-  maxPerRoom): ItemRoomReset {
+  maxQuantity: number,
+  maxPerRoom: number): ItemRoomReset {
   const itemReset = new ItemRoomReset()
   itemReset.item = item
   itemReset.room = room
@@ -29,8 +31,8 @@ export function newItemRoomReset(
 export function newItemMobReset(
   item: Item,
   mob: Mob,
-  maxQuantity,
-  maxPerRoom): ItemMobReset {
+  maxQuantity: number,
+  maxPerRoom: number): ItemMobReset {
   const itemReset = new ItemMobReset()
   itemReset.item = item
   itemReset.mob = mob
@@ -40,7 +42,7 @@ export function newItemMobReset(
   return itemReset
 }
 
-export function newMobEquipReset(item: Item, mob: Mob, maxQuantity, maxPerRoom) {
+export function newMobEquipReset(item: Item, mob: Mob, maxQuantity: number, maxPerRoom: number) {
   const equipMobReset = new MobEquipReset()
   equipMobReset.item = item
   equipMobReset.mob = mob
@@ -112,4 +114,8 @@ export function newContainer(
 
 export function newTrash(name: string, description: string) {
   return newItem(ItemType.Trash, name, description)
+}
+
+export function createBuilderDefinition(itemType: ImportItemType, itemFactory: ItemFactory): BuilderDefinition {
+  return { itemType, itemFactory }
 }

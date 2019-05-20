@@ -11,8 +11,7 @@ import TimeService from "./timeService"
 export default class StateService {
   constructor(
     @inject(Types.WeatherService) public readonly weatherService: WeatherService = new WeatherService(),
-    @inject(Types.TimeService) public readonly timeService: TimeService = new TimeService(),
-  ) {}
+    @inject(Types.TimeService) public readonly timeService: TimeService = new TimeService()) {}
 
   public setTime(time: number) {
     this.timeService.setTime(time)

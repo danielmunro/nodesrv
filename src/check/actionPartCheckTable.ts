@@ -1,4 +1,5 @@
 import MobService from "../mob/service/mobService"
+import ActionPartCheck from "./actionPartCheck"
 import GoldActionPartCheck from "./actionPartCheck/goldActionPartCheck"
 import HostileActionPartCheck from "./actionPartCheck/hostileActionPartCheck"
 import ItemInInventoryActionPartCheck from "./actionPartCheck/itemInInventoryActionPartCheck"
@@ -6,7 +7,7 @@ import ItemInRoomActionPartCheck from "./actionPartCheck/itemInRoomActionPartChe
 import MobInRoomActionPartCheck from "./actionPartCheck/mobInRoomActionPartCheck"
 import PlayerMobActionPartCheck from "./actionPartCheck/playerMobActionPartCheck"
 
-export default function getActionPartTable(mobService: MobService) {
+export default function getActionPartTable(mobService: MobService): ActionPartCheck[] {
   return [
     new PlayerMobActionPartCheck(mobService),
     new HostileActionPartCheck(mobService),

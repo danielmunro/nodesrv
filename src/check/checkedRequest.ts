@@ -9,7 +9,6 @@ import Check from "./check"
 import {CheckType} from "./enum/checkType"
 
 export default class CheckedRequest {
-
   public readonly mob: Mob
   public readonly room: Room
 

@@ -1,6 +1,7 @@
 import AffectBuilder from "../affect/affectBuilder"
 import { AffectType } from "../affect/enum/affectType"
 import BuilderDefinition from "../item/builderDefinition"
+import {createBuilderDefinition} from "../item/factory"
 import ItemPrototype from "../item/itemPrototype"
 import { Item } from "../item/model/item"
 import any from "./builder/any"
@@ -22,24 +23,24 @@ export default class ItemBuilder {
   public static new(): ItemBuilder {
     return new ItemBuilder([
       // weapons
-      new BuilderDefinition(ImportItemType.Weapon, weapon),
-      new BuilderDefinition(ImportItemType.Wand, wand),
-      new BuilderDefinition(ImportItemType.Staff, staff),
+      createBuilderDefinition(ImportItemType.Weapon, weapon),
+      createBuilderDefinition(ImportItemType.Wand, wand),
+      createBuilderDefinition(ImportItemType.Staff, staff),
 
       // equipment
-      new BuilderDefinition(ImportItemType.Armor, armor),
-      new BuilderDefinition(ImportItemType.Clothing, armor),
-      new BuilderDefinition(ImportItemType.Light, light),
-      new BuilderDefinition(ImportItemType.Container, container),
+      createBuilderDefinition(ImportItemType.Armor, armor),
+      createBuilderDefinition(ImportItemType.Clothing, armor),
+      createBuilderDefinition(ImportItemType.Light, light),
+      createBuilderDefinition(ImportItemType.Container, container),
 
       // consumables
-      new BuilderDefinition(ImportItemType.Drink, drink),
-      new BuilderDefinition(ImportItemType.Food, food),
-      new BuilderDefinition(ImportItemType.Fountain, fountain),
+      createBuilderDefinition(ImportItemType.Drink, drink),
+      createBuilderDefinition(ImportItemType.Food, food),
+      createBuilderDefinition(ImportItemType.Fountain, fountain),
 
       // fixtures
-      new BuilderDefinition(ImportItemType.Forge, forge),
-      new BuilderDefinition(ImportItemType.Furniture, furniture),
+      createBuilderDefinition(ImportItemType.Forge, forge),
+      createBuilderDefinition(ImportItemType.Furniture, furniture),
     ])
   }
 
@@ -61,7 +62,7 @@ export default class ItemBuilder {
     return item
   }
 
-  private static addPropertiesToItem(item: Item, itemData) {
+  private static addPropertiesToItem(item: Item, itemData: any) {
     item.level = itemData.level
     item.value = itemData.cost
     item.weight = itemData.weight
@@ -102,11 +103,9 @@ export default class ItemBuilder {
     return values
   }
 
-  constructor(
-    private readonly builders: BuilderDefinition[] = [],
-  ) {}
+  constructor(private readonly builders: BuilderDefinition[] = []) {}
 
-  public async createItemFromImportData(itemData): Promise<Item> {
+  public async createItemFromImportData(itemData: any): Promise<Item> {
     const args = itemData.pObjFlags ? ItemBuilder.splitPObjFlags(itemData.pObjFlags) : []
     const { name, description, type } = itemData
     const prototype = new ItemPrototype(type, name, description, args)
@@ -114,7 +113,7 @@ export default class ItemBuilder {
     const flags = args[1] !== undefined ? args[1].split("") : []
     if (builder) {
       return ItemBuilder.setItemAffects(
-        ItemBuilder.addPropertiesToItem(builder.buildItem(prototype), itemData), flags)
+        ItemBuilder.addPropertiesToItem(builder.itemFactory(prototype), itemData), flags)
     }
     return ItemBuilder.setItemAffects(ItemBuilder.addPropertiesToItem(any(prototype), itemData), flags)
   }

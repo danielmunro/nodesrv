@@ -238,7 +238,7 @@ export default class CheckBuilder {
 
   private testCheckComponent(checkComponent: CheckComponent) {
     const checkResult = checkComponent.getThing(this.captured, this.lastCheckResult)
-    this.checkResults.push(new CheckResult(checkComponent.checkType, checkResult))
+    this.checkResults.push({ checkType: checkComponent.checkType, thing: checkResult })
     this.lastCheckResult = checkResult
     return !checkResult && checkComponent.isRequired
   }

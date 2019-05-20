@@ -2,7 +2,6 @@ import {inject, injectable} from "inversify"
 import "reflect-metadata"
 import Action from "../action/action"
 import Skill from "../action/impl/skill"
-import Spell from "../action/impl/spell"
 import Move from "../action/move"
 import {Mob} from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
@@ -11,7 +10,6 @@ import {RequestType} from "../request/requestType"
 import {Direction} from "../room/constants"
 import {Room} from "../room/model/room"
 import {SkillType} from "../skill/skillType"
-import {SpellType} from "../spell/spellType"
 import {Types} from "../support/types"
 import ActionService from "./actionService"
 
@@ -19,8 +17,7 @@ import ActionService from "./actionService"
 export default class GameService {
   constructor(
     @inject(Types.MobService) private readonly mobService: MobService,
-    @inject(Types.ActionService) private readonly actionService: ActionService,
-    ) {}
+    @inject(Types.ActionService) private readonly actionService: ActionService) {}
 
   public async moveMob(mob: Mob, direction: Direction) {
     await this.mobService.moveMob(mob, direction)
@@ -58,14 +55,6 @@ export default class GameService {
     const found = this.actionService.skills.find(skill => skill.getSkillType() === skillType)
     if (!found) {
       throw new Error(`unknown skill for ${skillType}`)
-    }
-    return found
-  }
-
-  public getSpell(spellType: SpellType): Spell {
-    const found = this.actionService.spells.find(spell => spell.getSpellType() === spellType)
-    if (!found) {
-      throw new Error(`unknown spell for ${spellType}`)
     }
     return found
   }
