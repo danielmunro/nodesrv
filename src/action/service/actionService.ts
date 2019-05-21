@@ -1,5 +1,5 @@
-import "reflect-metadata"
 import {inject, injectable} from "inversify"
+import "reflect-metadata"
 import {Types} from "../../support/types"
 import Action from "../impl/action"
 import HelpAction from "../impl/info/helpAction"

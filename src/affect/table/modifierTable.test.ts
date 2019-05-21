@@ -1,6 +1,6 @@
-import { Trigger } from "../mob/enum/trigger"
-import { applyAffectModifier } from "./applyAffect"
-import { AffectType } from "./enum/affectType"
+import { Trigger } from "../../mob/enum/trigger"
+import { applyAffectModifier } from "../applyAffect"
+import { AffectType } from "../enum/affectType"
 
 describe("modifier table", () => {
   it("should apply appropriate modifiers for poison", () => {

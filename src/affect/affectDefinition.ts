@@ -6,8 +6,3 @@ export default interface AffectDefinition {
   readonly stackBehavior: StackBehavior,
   readonly stackMessage?: string
 }
-
-export function createAffectDefinition(
-  affectType: AffectType, stackBehavior: StackBehavior, stackMessage?: string): AffectDefinition {
-  return { affectType, stackBehavior, stackMessage }
-}

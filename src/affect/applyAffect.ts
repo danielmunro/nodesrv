@@ -1,6 +1,6 @@
 import { Trigger } from "../mob/enum/trigger"
 import { AffectType } from "./enum/affectType"
-import { modifierTable } from "./modifierTable"
+import { modifierTable } from "./table/modifierTable"
 
 export function applyAffectModifier(affects: AffectType[], trigger: Trigger, value: number): number {
   modifierTable

@@ -30,7 +30,7 @@ async function getGameServer(): Promise<GameServer> {
     room,
     new ClientService(
       eventService,
-      new CreationService(jest.fn()(), mobService),
+      new CreationService(jest.fn()(), mobService, [], jest.fn()()),
       locationService,
       gameService.getActionService().actions,
     ),
