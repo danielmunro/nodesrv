@@ -4,8 +4,8 @@ import ManaCost from "../../../../check/cost/manaCost"
 import LocationService from "../../../../mob/service/locationService"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
+import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
-import SpellBuilder from "../../../spellBuilder"
 import Spell from "../../spell"
 
 export default function(abilityService: AbilityService, locationService: LocationService): Spell {

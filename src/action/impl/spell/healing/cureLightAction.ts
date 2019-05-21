@@ -2,12 +2,11 @@ import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import {CheckType} from "../../../../check/enum/checkType"
-import ResponseMessage from "../../../../request/responseMessage"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import roll from "../../../../support/random/dice"
+import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
-import SpellBuilder from "../../../spellBuilder"
 import Spell from "../../spell"
 
 export default function(abilityService: AbilityService): Spell {

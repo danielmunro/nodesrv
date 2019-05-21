@@ -14,9 +14,9 @@ import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
-import Action from "../../action"
 import {ConditionMessages, MAX_TRAINABLE_STATS, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export const VITAL_INCREMENT = 10
 

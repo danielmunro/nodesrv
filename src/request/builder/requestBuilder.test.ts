@@ -1,4 +1,4 @@
-import Action from "../../action/action"
+import Action from "../../action/impl/action"
 import {createTestAppContainer} from "../../app/testFactory"
 import {Mob} from "../../mob/model/mob"
 import LocationService from "../../mob/service/locationService"

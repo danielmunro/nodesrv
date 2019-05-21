@@ -8,9 +8,9 @@ import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
-import Action from "../../action"
 import {ConditionMessages, MESSAGE_REMOVE_FAIL, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export default class RemoveAction extends Action {
   constructor(private readonly checkBuilderFactory: CheckBuilderFactory) {

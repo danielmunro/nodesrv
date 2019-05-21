@@ -9,8 +9,8 @@ import ResponseMessageBuilder from "../../../../request/builder/responseMessageB
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import match from "../../../../support/matcher/match"
+import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
-import SpellBuilder from "../../../spellBuilder"
 import Spell from "../../spell"
 
 export default function(abilityService: AbilityService, mobService: MobService): Spell {

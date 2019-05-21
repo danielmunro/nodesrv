@@ -7,9 +7,9 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
-import Action from "../../action"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export default class ListAction extends Action {
   constructor(private readonly checkBuilderFactory: CheckBuilderFactory) {

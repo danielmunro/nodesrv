@@ -9,9 +9,9 @@ import {ResponseStatus} from "../../../request/enum/responseStatus"
 import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
-import Action from "../../action"
 import {MESSAGE_FAIL_CANNOT_ATTACK_SELF, MESSAGE_FAIL_KILL_ALREADY_FIGHTING, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export default class KillAction extends Action {
   constructor(

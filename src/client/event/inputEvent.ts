@@ -1,4 +1,4 @@
-import Action from "../../action/action"
+import Action from "../../action/impl/action"
 import {EventType} from "../../event/enum/eventType"
 import Event from "../../event/event"
 import {Mob} from "../../mob/model/mob"

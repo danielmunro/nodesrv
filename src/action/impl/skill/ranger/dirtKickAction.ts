@@ -4,9 +4,9 @@ import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {Costs, SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
+import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
-import SkillBuilder from "../../../skillBuilder"
 import Skill from "../../skill"
 
 export default function(abilityService: AbilityService): Skill {

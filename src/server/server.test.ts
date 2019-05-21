@@ -1,5 +1,5 @@
 import { Server } from "mock-socket"
-import ActionService from "../action/actionService"
+import ActionService from "../action/service/actionService"
 import EventService from "../event/eventService"
 import GameService from "../gameService/gameService"
 import FightTable from "../mob/fight/fightTable"

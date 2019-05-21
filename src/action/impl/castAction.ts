@@ -6,9 +6,9 @@ import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
 import RequestService from "../../request/requestService"
 import Response from "../../request/response"
-import Action from "../action"
 import {ConditionMessages, HelpMessages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
+import Action from "./action"
 import Spell from "./spell"
 
 export default class CastAction extends Action {

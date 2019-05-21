@@ -9,10 +9,10 @@ import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
 import {Exit} from "../../../room/model/exit"
 import match from "../../../support/matcher/match"
-import Action from "../../action"
 import {Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export default class UnlockAction extends Action {
   constructor(

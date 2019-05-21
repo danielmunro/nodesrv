@@ -3,9 +3,9 @@ import {MESSAGE_NOT_UNDERSTOOD} from "../../client/constants"
 import {RequestType} from "../../request/enum/requestType"
 import RequestService from "../../request/requestService"
 import Response from "../../request/response"
-import Action from "../action"
 import {Messages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
+import Action from "./action"
 
 export default class NoopAction extends Action {
   public check(): Promise<Check> {

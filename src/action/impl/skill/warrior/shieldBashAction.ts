@@ -6,9 +6,9 @@ import MvCost from "../../../../check/cost/mvCost"
 import {Mob} from "../../../../mob/model/mob"
 import ResponseMessage from "../../../../request/responseMessage"
 import {SkillType} from "../../../../skill/skillType"
+import SkillBuilder from "../../../builder/skillBuilder"
 import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
-import SkillBuilder from "../../../skillBuilder"
 import Skill from "../../skill"
 
 export default function(abilityService: AbilityService): Skill {

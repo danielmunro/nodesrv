@@ -14,9 +14,9 @@ import {Skill} from "../../../skill/model/skill"
 import {Spell} from "../../../spell/model/spell"
 import Maybe from "../../../support/functional/maybe"
 import match from "../../../support/matcher/match"
-import Action from "../../action"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export default class PracticeAction extends Action {
   private static getImproveAmount(mob: Mob): number {

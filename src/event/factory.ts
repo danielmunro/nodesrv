@@ -1,4 +1,4 @@
-import Action from "../action/action"
+import Action from "../action/impl/action"
 import Cost from "../check/cost/cost"
 import {Channel} from "../client/channel"
 import {Client} from "../client/client"

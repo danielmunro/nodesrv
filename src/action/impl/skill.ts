@@ -16,9 +16,9 @@ import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
 import SkillEvent from "../../skill/event/skillEvent"
 import {SkillType} from "../../skill/skillType"
-import Action from "../action"
 import {ActionPart} from "../enum/actionPart"
 import {ActionType} from "../enum/actionType"
+import Action from "./action"
 
 export default class Skill extends Action {
   constructor(

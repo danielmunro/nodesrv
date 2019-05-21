@@ -6,10 +6,10 @@ import MvCost from "../../../../check/cost/mvCost"
 import {Disposition} from "../../../../mob/enum/disposition"
 import {Costs} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
+import SkillBuilder from "../../../builder/skillBuilder"
 import {ConditionMessages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
-import SkillBuilder from "../../../skillBuilder"
 import Skill from "../../skill"
 
 export default function(abilityService: AbilityService): Skill {

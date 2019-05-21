@@ -8,10 +8,10 @@ import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
-import Action from "../../action"
 import {MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE, Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export default class GetAction extends Action {
   private static getMessage(isFromContainer: boolean) {

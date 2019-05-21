@@ -11,8 +11,8 @@ import {Room} from "../../../../room/model/room"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {percentRoll} from "../../../../support/random/helpers"
+import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
-import SpellBuilder from "../../../spellBuilder"
 import Spell from "../../spell"
 
 async function turn(room: Room, target: Mob, abilityService: AbilityService) {

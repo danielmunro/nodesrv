@@ -1,8 +1,8 @@
 import AbilityService from "../../../../check/abilityService"
 import {RequestType} from "../../../../request/enum/requestType"
 import {SkillType} from "../../../../skill/skillType"
+import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionType} from "../../../enum/actionType"
-import SkillBuilder from "../../../skillBuilder"
 import Skill from "../../skill"
 
 export default function(abilityService: AbilityService): Skill {

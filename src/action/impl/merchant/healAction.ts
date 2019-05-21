@@ -10,9 +10,9 @@ import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
 import {format} from "../../../support/string"
-import Action from "../../action"
 import {ConditionMessages, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export default class HealAction extends Action {
   constructor(

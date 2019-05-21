@@ -1,5 +1,5 @@
 import {inject, injectable} from "inversify"
-import Action from "../action/action"
+import Action from "../action/impl/action"
 import {Client} from "../client/client"
 import EventService from "../event/eventService"
 import {Mob} from "../mob/model/mob"

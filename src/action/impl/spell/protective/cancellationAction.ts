@@ -2,12 +2,11 @@ import {Affect} from "../../../../affect/model/affect"
 import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
-import ResponseMessage from "../../../../request/responseMessage"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {percentRoll} from "../../../../support/random/helpers"
+import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
-import SpellBuilder from "../../../spellBuilder"
 import Spell from "../../spell"
 
 const CHANCE_THRESHOLD = 80

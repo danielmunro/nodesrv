@@ -1,5 +1,5 @@
 import {inject, injectable} from "inversify"
-import Action from "../../action/action"
+import Action from "../../action/impl/action"
 import Skill from "../../action/impl/skill"
 import {Client} from "../../client/client"
 import StateService from "../../gameService/stateService"

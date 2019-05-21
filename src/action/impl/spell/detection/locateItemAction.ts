@@ -15,9 +15,9 @@ import {Spell as SpellModel} from "../../../../spell/model/spell"
 import {SpellType} from "../../../../spell/spellType"
 import match from "../../../../support/matcher/match"
 import {percentRoll} from "../../../../support/random/helpers"
+import SpellBuilder from "../../../builder/spellBuilder"
 import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
-import SpellBuilder from "../../../spellBuilder"
 import Spell from "../../spell"
 
 function filterItem(

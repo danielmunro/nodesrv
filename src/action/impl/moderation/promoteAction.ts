@@ -12,13 +12,13 @@ import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
 import {format} from "../../../support/string"
-import Action from "../../action"
 import {
   MESSAGE_FAIL_BANNED,
   MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS,
   Messages,
 } from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export default class PromoteAction extends Action {
   constructor(

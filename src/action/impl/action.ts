@@ -1,11 +1,11 @@
-import Check from "../check/check"
-import CheckedRequest from "../check/checkedRequest"
-import { CheckStatus } from "../check/enum/checkStatus"
-import { RequestType } from "../request/enum/requestType"
-import Request from "../request/request"
-import RequestService from "../request/requestService"
-import Response from "../request/response"
-import {ActionPart} from "./enum/actionPart"
+import Check from "../../check/check"
+import CheckedRequest from "../../check/checkedRequest"
+import { CheckStatus } from "../../check/enum/checkStatus"
+import { RequestType } from "../../request/enum/requestType"
+import Request from "../../request/request"
+import RequestService from "../../request/requestService"
+import Response from "../../request/response"
+import {ActionPart} from "../enum/actionPart"
 
 export default abstract class Action {
   public isAbleToHandleRequestType(requestType: RequestType): boolean {

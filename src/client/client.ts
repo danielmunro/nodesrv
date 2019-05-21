@@ -1,6 +1,6 @@
 // @ts-ignore
 import * as stringify from "json-stringify-safe"
-import Action from "../action/action"
+import Action from "../action/impl/action"
 import CheckedRequest from "../check/checkedRequest"
 import Cost from "../check/cost/cost"
 import {EventType} from "../event/enum/eventType"

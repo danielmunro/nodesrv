@@ -4,9 +4,9 @@ import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
-import Action from "../../action"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export default class HelpAction extends Action {
   private actions: Action[]

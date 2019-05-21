@@ -1,5 +1,5 @@
-import Action from "../../action/action"
-import ActionService from "../../action/actionService"
+import Action from "../../action/impl/action"
+import ActionService from "../../action/service/actionService"
 import { Client } from "../../client/client"
 import EventService from "../../event/eventService"
 import GameService from "../../gameService/gameService"

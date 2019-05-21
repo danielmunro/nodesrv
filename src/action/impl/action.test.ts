@@ -1,10 +1,10 @@
-import {createTestAppContainer} from "../app/testFactory"
-import InputContext from "../request/context/inputContext"
-import { RequestType } from "../request/enum/requestType"
-import Request from "../request/request"
-import {Types} from "../support/types"
+import {createTestAppContainer} from "../../app/testFactory"
+import InputContext from "../../request/context/inputContext"
+import { RequestType } from "../../request/enum/requestType"
+import Request from "../../request/request"
+import {Types} from "../../support/types"
+import ActionService from "../service/actionService"
 import Action from "./action"
-import ActionService from "./actionService"
 
 let action: Action
 

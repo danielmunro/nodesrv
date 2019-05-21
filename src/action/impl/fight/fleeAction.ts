@@ -13,7 +13,6 @@ import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
 import roll from "../../../support/random/dice"
 import {pickOne} from "../../../support/random/helpers"
-import Action from "../../action"
 import {
   FLEE_MOVEMENT_COST_MULTIPLIER, HelpMessages,
   MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE,
@@ -21,6 +20,7 @@ import {
   Messages,
 } from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export default class FleeAction extends Action {
   constructor(

@@ -8,12 +8,12 @@ import Request from "../../../request/request"
 import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
 import Maybe from "../../../support/functional/maybe"
-import Action from "../../action"
 import {
   MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS,
   MESSAGE_FAIL_NOT_BANNED, Messages,
 } from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
+import Action from "../action"
 
 export default class UnbanAction extends Action {
   constructor(

@@ -1,4 +1,4 @@
-import Action from "../../action/action"
+import Action from "../../action/impl/action"
 import ClientEvent from "../../client/event/clientEvent"
 import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"

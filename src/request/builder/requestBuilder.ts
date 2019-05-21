@@ -1,5 +1,5 @@
-import Action from "../../action/action"
 import {ActionPart} from "../../action/enum/actionPart"
+import Action from "../../action/impl/action"
 import {Mob} from "../../mob/model/mob"
 import LocationService from "../../mob/service/locationService"
 import {Room} from "../../room/model/room"
