@@ -1,6 +1,6 @@
 import { AffectType } from "../../../affect/enum/affectType"
 import {newAffect} from "../../../affect/factory/affectFactory"
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {Item} from "../../../item/model/item"
 import { RequestType } from "../../../request/enum/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"

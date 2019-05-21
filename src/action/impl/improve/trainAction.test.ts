@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import { allStats, allVitals } from "../../../attributes/constants"
 import Attributes from "../../../attributes/model/attributes"
 import { RequestType } from "../../../request/enum/requestType"

@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../app/testFactory"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import {PracticeMessages} from "../../gameService/constants"
 import {SpecializationType} from "../../mob/specialization/enum/specializationType"
 import TestRunner from "../../support/test/testRunner"

@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../app/testFactory"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import {RequestType} from "../../request/enum/requestType"
 import {Direction} from "../../room/enum/direction"
 import RoomTable from "../../room/table/roomTable"

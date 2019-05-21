@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import { allSpecializations } from "../../../mob/specialization/constants"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"

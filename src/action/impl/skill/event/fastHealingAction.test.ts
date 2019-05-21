@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../../app/testFactory"
+import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
 import { SkillType } from "../../../../skill/skillType"
 import TestRunner from "../../../../support/test/testRunner"

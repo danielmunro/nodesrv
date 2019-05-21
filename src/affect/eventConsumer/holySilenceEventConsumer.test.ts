@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../app/testFactory"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import {createInputEvent} from "../../event/factory"
 import {RequestType} from "../../request/enum/requestType"
 import MobBuilder from "../../support/test/mobBuilder"

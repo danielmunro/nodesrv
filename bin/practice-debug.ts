@@ -1,4 +1,4 @@
-import createAppContainer from "../src/app/factory"
+import createAppContainer from "../src/app/factory/factory"
 import {Mob} from "../src/mob/model/mob"
 import {RaceType} from "../src/mob/race/enum/raceType"
 import {SpecializationType} from "../src/mob/specialization/enum/specializationType"

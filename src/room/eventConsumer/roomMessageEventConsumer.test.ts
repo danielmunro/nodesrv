@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../app/testFactory"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import EventConsumer from "../../event/eventConsumer"
 import {createRoomMessageEvent} from "../../event/factory"
 import LocationService from "../../mob/service/locationService"

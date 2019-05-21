@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../app/testFactory"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import EventService from "../../event/eventService"
 import {createTickEvent} from "../../event/factory"
 import TestRunner from "../../support/test/testRunner"

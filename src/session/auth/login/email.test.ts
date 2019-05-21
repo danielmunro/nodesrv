@@ -1,5 +1,5 @@
 import { v4 } from "uuid"
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {Client} from "../../../client/client"
 import {getTestPlayer} from "../../../support/test/player"
 import TestRunner from "../../../support/test/testRunner"

@@ -1,5 +1,5 @@
 import * as assert from "assert"
-import createAppContainer from "../src/app/factory"
+import createAppContainer from "../src/app/factory/factory"
 import {tick} from "../src/server/constants"
 import {ObserverChain} from "../src/server/observers/observerChain"
 import { initializeConnection } from "../src/support/db/connection"

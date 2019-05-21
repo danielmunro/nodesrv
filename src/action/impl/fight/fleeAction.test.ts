@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {Fight} from "../../../mob/fight/fight"
 import {Mob} from "../../../mob/model/mob"

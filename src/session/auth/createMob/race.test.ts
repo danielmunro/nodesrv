@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import raceTable from "../../../mob/race/raceTable"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"

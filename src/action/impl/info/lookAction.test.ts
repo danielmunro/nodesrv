@@ -1,6 +1,6 @@
 import {AffectType} from "../../../affect/enum/affectType"
 import {newAffect} from "../../../affect/factory/affectFactory"
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {RaceType} from "../../../mob/race/enum/raceType"
 import {Terrain} from "../../../region/enum/terrain"
 import newRegion from "../../../region/factory"

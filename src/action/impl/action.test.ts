@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../app/testFactory"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import InputContext from "../../request/context/inputContext"
 import { RequestType } from "../../request/enum/requestType"
 import Request from "../../request/request"

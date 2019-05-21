@@ -1,6 +1,6 @@
 import {AffectType} from "../../../../affect/enum/affectType"
 import {newAffect} from "../../../../affect/factory/affectFactory"
-import {createTestAppContainer} from "../../../../app/testFactory"
+import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/enum/requestType"
 import {SpellType} from "../../../../spell/spellType"

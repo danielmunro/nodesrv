@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../../app/testFactory"
+import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {newMobLocation} from "../../../../mob/factory"
 import LocationService from "../../../../mob/service/locationService"

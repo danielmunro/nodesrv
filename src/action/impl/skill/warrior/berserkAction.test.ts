@@ -1,5 +1,5 @@
 import {AffectType} from "../../../../affect/enum/affectType"
-import {createTestAppContainer} from "../../../../app/testFactory"
+import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import Response from "../../../../request/response"
 import {SkillType} from "../../../../skill/skillType"

@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../app/testFactory"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import EventService from "../../event/eventService"
 import {createMobMoveEvent} from "../../event/factory"
 import {Direction} from "../../room/enum/direction"

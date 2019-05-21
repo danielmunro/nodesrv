@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {AuthorizationLevel} from "../../../player/authorizationLevel"
 import {RequestType} from "../../../request/enum/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"

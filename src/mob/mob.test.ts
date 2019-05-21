@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../app/testFactory"
+import {createTestAppContainer} from "../app/factory/testFactory"
 import {Tick} from "../server/observers/tick"
 import { getTestMob } from "../support/test/mob"
 import TestRunner from "../support/test/testRunner"

@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../app/testFactory"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import {EventType} from "../../event/enum/eventType"
 import {createFightEvent} from "../../event/factory"
 import FightEvent from "../../mob/fight/event/fightEvent"

@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {Client} from "../../../client/client"
 import {SpecializationType} from "../../../mob/specialization/enum/specializationType"
 import {Player} from "../../../player/model/player"

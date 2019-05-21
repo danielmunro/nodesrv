@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {Types} from "../../../support/types"
 import {SpecializationType} from "../enum/specializationType"
 import SpecializationService from "../service/specializationService"

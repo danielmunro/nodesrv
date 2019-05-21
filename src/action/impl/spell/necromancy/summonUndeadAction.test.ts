@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../../app/testFactory"
+import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import MobService from "../../../../mob/service/mobService"
 import {RequestType} from "../../../../request/enum/requestType"

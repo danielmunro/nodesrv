@@ -1,4 +1,4 @@
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {CheckMessages} from "../../../check/constants"
 import {Standing} from "../../../mob/enum/standing"
 import {AuthorizationLevel} from "../../../player/authorizationLevel"

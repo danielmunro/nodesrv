@@ -1,5 +1,5 @@
 import * as sillyname from "sillyname"
-import {createTestAppContainer} from "../../../app/testFactory"
+import {createTestAppContainer} from "../../../app/factory/testFactory"
 import MobTable from "../../../mob/mobTable"
 import MobService from "../../../mob/service/mobService"
 import TestRunner from "../../../support/test/testRunner"

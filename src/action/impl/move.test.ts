@@ -1,5 +1,5 @@
 import {AffectType} from "../../affect/enum/affectType"
-import {createTestAppContainer} from "../../app/testFactory"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import LocationService from "../../mob/service/locationService"
 import {RequestType} from "../../request/enum/requestType"
 import {Direction} from "../../room/enum/direction"

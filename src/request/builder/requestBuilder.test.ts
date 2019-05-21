@@ -1,5 +1,5 @@
 import Action from "../../action/impl/action"
-import {createTestAppContainer} from "../../app/testFactory"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import {Mob} from "../../mob/model/mob"
 import LocationService from "../../mob/service/locationService"
 import TestRunner from "../../support/test/testRunner"
