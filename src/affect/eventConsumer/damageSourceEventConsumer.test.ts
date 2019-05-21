@@ -6,7 +6,7 @@ import {DamageType} from "../../mob/fight/enum/damageType"
 import MobBuilder from "../../support/test/mobBuilder"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import AffectBuilder from "../affectBuilder"
+import AffectBuilder from "../builder/affectBuilder"
 import {AffectType} from "../enum/affectType"
 import DamageSourceEventConsumer from "./damageSourceEventConsumer"
 

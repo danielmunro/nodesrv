@@ -1,9 +1,21 @@
-import {Item} from "../item/model/item"
-import {Mob} from "../mob/model/mob"
-import {AffectType} from "./enum/affectType"
-import {Affect} from "./model/affect"
+import {Item} from "../../item/model/item"
+import {Trigger} from "../../mob/enum/trigger"
+import {Mob} from "../../mob/model/mob"
+import {AffectType} from "../enum/affectType"
+import {Affect} from "../model/affect"
+import {modifierTable} from "../table/modifierTable"
 
 export default class AffectService {
+  public static applyAffectModifier(affects: AffectType[], trigger: Trigger, value: number): number {
+    modifierTable
+      .filter(m => m.trigger === trigger && affects.indexOf(m.affectType) > -1)
+      .forEach(m => {
+        value = m.modifier(value)
+      })
+
+    return value
+  }
+
   constructor(private readonly mob: Mob | Item) {}
 
   public canDetectInvisible(): boolean {

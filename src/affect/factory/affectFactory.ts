@@ -1,8 +1,8 @@
-import AffectBuilder from "./affectBuilder"
-import AffectDefinition from "./affectDefinition"
-import {AffectType} from "./enum/affectType"
-import {StackBehavior} from "./enum/stackBehavior"
-import {Affect} from "./model/affect"
+import AffectDefinition from "../affectDefinition"
+import AffectBuilder from "../builder/affectBuilder"
+import {AffectType} from "../enum/affectType"
+import {StackBehavior} from "../enum/stackBehavior"
+import {Affect} from "../model/affect"
 
 export function newAffect(
   affectType: AffectType, timeout: number = -1): Affect {
@@ -13,5 +13,5 @@ export function newAffect(
 
 export function createAffectDefinition(
   affectType: AffectType, stackBehavior: StackBehavior, stackMessage?: string): AffectDefinition {
-  return {affectType, stackBehavior, stackMessage}
+  return { affectType, stackBehavior, stackMessage }
 }

@@ -5,7 +5,7 @@ import {DamageType} from "../../mob/fight/enum/damageType"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {AffectType} from "../enum/affectType"
-import {newAffect} from "../factory"
+import {newAffect} from "../factory/affectFactory"
 import WithstandDeathEventConsumer from "./withstandDeathEventConsumer"
 
 const AMOUNT = 10

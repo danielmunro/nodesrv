@@ -4,7 +4,7 @@ import MobBuilder from "../../support/test/mobBuilder"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {AffectType} from "../enum/affectType"
-import {newAffect} from "../factory"
+import {newAffect} from "../factory/affectFactory"
 import {ALIGNMENT_EVIL, ALIGNMENT_GOOD} from "./protectionEventConsumer"
 
 let attacker: MobBuilder

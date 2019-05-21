@@ -1,4 +1,4 @@
-import {applyAffectModifier} from "../../affect/applyAffect"
+import AffectService from "../../affect/service/affectService"
 import Attributes from "../../attributes/model/attributes"
 import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
@@ -24,11 +24,11 @@ export class Fight {
     const attackerAttributes = attacker.attribute().combine()
     const hit = attackerAttributes.hitroll
     let damage = roll(hit.hit, hit.dam)
-    damage = applyAffectModifier(
+    damage = AffectService.applyAffectModifier(
       attacker.affects.map(a => a.affectType),
       Trigger.DamageModifier,
       damage)
-    damage = applyAffectModifier(
+    damage = AffectService.applyAffectModifier(
       defender.affects.map(a => a.affectType),
       Trigger.DamageAbsorption,
       damage)

@@ -1,4 +1,4 @@
-import AffectBuilder from "../../affect/affectBuilder"
+import AffectBuilder from "../../affect/builder/affectBuilder"
 import {AffectType} from "../../affect/enum/affectType"
 import {Affect} from "../../affect/model/affect"
 import AbilityService from "../../check/abilityService"

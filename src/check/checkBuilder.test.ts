@@ -1,5 +1,5 @@
 import {AffectType} from "../affect/enum/affectType"
-import {newAffect} from "../affect/factory"
+import {newAffect} from "../affect/factory/affectFactory"
 import {createTestAppContainer} from "../app/testFactory"
 import {Disposition} from "../mob/enum/disposition"
 import {Mob} from "../mob/model/mob"

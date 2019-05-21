@@ -1,6 +1,6 @@
 import {inject, injectable} from "inversify"
 import {v4} from "uuid"
-import {applyAffectModifier} from "../../affect/applyAffect"
+import AffectService from "../../affect/service/affectService"
 import {Client} from "../../client/client"
 import EventService from "../../event/eventService"
 import {createTickEvent} from "../../event/factory"
@@ -20,7 +20,7 @@ const TIMING = "tick notification duration"
 export class Tick implements Observer {
   public static regen(mob: Mob) {
     const combined = mob.attribute().combine()
-    const regenModifier = applyAffectModifier(
+    const regenModifier = AffectService.applyAffectModifier(
       mob.affects.map(a => a.affectType),
       Trigger.Tick,
       BaseRegenModifier)

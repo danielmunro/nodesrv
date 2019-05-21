@@ -1,5 +1,5 @@
 import { AffectType } from "../../../affect/enum/affectType"
-import {newAffect} from "../../../affect/factory"
+import {newAffect} from "../../../affect/factory/affectFactory"
 import {createTestAppContainer} from "../../../app/testFactory"
 import {Item} from "../../../item/model/item"
 import { RequestType } from "../../../request/enum/requestType"

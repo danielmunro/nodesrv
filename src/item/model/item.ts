@@ -1,7 +1,7 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import AffectService from "../../affect/affectService"
 import { Affect } from "../../affect/model/affect"
+import AffectService from "../../affect/service/affectService"
 import { newEmptyAttributes } from "../../attributes/factory"
 import Attributes from "../../attributes/model/attributes"
 import { Equipment } from "../enum/equipment"

@@ -1,6 +1,6 @@
 import {inject} from "inversify"
 import {AffectType} from "../../affect/enum/affectType"
-import {newAffect} from "../../affect/factory"
+import {newAffect} from "../../affect/factory/affectFactory"
 import {Affect} from "../../affect/model/affect"
 import {Item} from "../../item/model/item"
 import {Disposition} from "../../mob/enum/disposition"

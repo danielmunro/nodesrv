@@ -1,6 +1,6 @@
 /* istanbul ignore next */
 import {AffectType} from "../../affect/enum/affectType"
-import {newAffect} from "../../affect/factory"
+import {newAffect} from "../../affect/factory/affectFactory"
 import {newFood, newTrash} from "../../item/factory"
 import {Item} from "../../item/model/item"
 import {format} from "../../support/string"

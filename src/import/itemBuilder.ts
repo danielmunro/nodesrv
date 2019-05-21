@@ -1,4 +1,4 @@
-import AffectBuilder from "../affect/affectBuilder"
+import AffectBuilder from "../affect/builder/affectBuilder"
 import { AffectType } from "../affect/enum/affectType"
 import BuilderDefinition from "../item/builderDefinition"
 import {createBuilderDefinition} from "../item/factory"

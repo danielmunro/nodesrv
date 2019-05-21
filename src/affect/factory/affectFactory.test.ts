@@ -1,6 +1,6 @@
-import { getTestMob } from "../support/test/mob"
-import { AffectType } from "./enum/affectType"
-import { newAffect } from "./factory"
+import { getTestMob } from "../../support/test/mob"
+import { AffectType } from "../enum/affectType"
+import { newAffect } from "./affectFactory"
 
 describe("affect factory", () => {
   it("should create an affect with the parameters passed in", () => {

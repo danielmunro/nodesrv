@@ -2,7 +2,7 @@ import {ConditionMessages} from "../../spell/constants"
 import AffectDefinition from "../affectDefinition"
 import {AffectType} from "../enum/affectType"
 import {StackBehavior} from "../enum/stackBehavior"
-import {createAffectDefinition} from "../factory"
+import {createAffectDefinition} from "../factory/affectFactory"
 
 const affectTable = [
   createAffectDefinition(AffectType.Berserk, StackBehavior.Replace),

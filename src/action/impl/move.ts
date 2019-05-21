@@ -1,5 +1,5 @@
-import {applyAffectModifier} from "../../affect/applyAffect"
 import {AffectType} from "../../affect/enum/affectType"
+import AffectService from "../../affect/service/affectService"
 import Check from "../../check/check"
 import CheckBuilderFactory from "../../check/checkBuilderFactory"
 import MvCost from "../../check/cost/mvCost"
@@ -17,7 +17,7 @@ import Action from "./action"
 
 export default abstract class Move extends Action {
   private static calculateMvCost(request: Request) {
-    return applyAffectModifier(
+    return AffectService.applyAffectModifier(
       request.mob.affects.map(a => a.affectType),
       Trigger.MovementCost,
       request.getRoomMvCost())

@@ -1,5 +1,5 @@
 import {AffectType} from "../affect/enum/affectType"
-import {newAffect} from "../affect/factory"
+import {newAffect} from "../affect/factory/affectFactory"
 import {getTestMob} from "../support/test/mob"
 import CheckComponent from "./checkComponent"
 import {CheckType} from "./enum/checkType"
