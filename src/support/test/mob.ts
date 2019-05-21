@@ -1,6 +1,6 @@
 import {cloneDeep} from "lodash"
 import * as sillyname from "sillyname"
-import { newStartingAttributes, newStartingVitals } from "../../attributes/factory"
+import { newStartingAttributes, newStartingVitals } from "../../attributes/factory/attributeFactory"
 import { newMob } from "../../mob/factory"
 import { Mob } from "../../mob/model/mob"
 import { RaceType } from "../../mob/race/enum/raceType"

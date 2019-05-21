@@ -1,4 +1,4 @@
-import {newEmptyAttributes} from "../../attributes/factory"
+import {newEmptyAttributes} from "../../attributes/factory/attributeFactory"
 import {getTestMob} from "../../support/test/mob"
 import {getTestPlayer} from "../../support/test/player"
 import {RaceType} from "./enum/raceType"

@@ -1,9 +1,9 @@
-import {Mob} from "../mob/model/mob"
-import RaceService from "../mob/race/raceService"
-import {newEmptyAttributes} from "./factory"
-import Attributes from "./model/attributes"
-import Stats from "./model/stats"
-import Vitals from "./model/vitals"
+import {Mob} from "../../mob/model/mob"
+import RaceService from "../../mob/race/raceService"
+import {newEmptyAttributes} from "../factory/attributeFactory"
+import Attributes from "../model/attributes"
+import Stats from "../model/stats"
+import Vitals from "../model/vitals"
 
 export default class AttributeService {
   constructor(private readonly mob: Mob) {}

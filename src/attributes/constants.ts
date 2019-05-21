@@ -1,5 +1,5 @@
-import { Stat } from "./stat"
-import { Vital } from "./vital"
+import { Stat } from "./enum/stat"
+import { Vital } from "./enum/vital"
 
 export const allVitals = [
   Vital.Hp,

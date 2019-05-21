@@ -1,5 +1,5 @@
-import AttributeBuilder from "../../attributes/attributeBuilder"
-import {newVitals} from "../../attributes/factory"
+import AttributeBuilder from "../../attributes/builder/attributeBuilder"
+import {newVitals} from "../../attributes/factory/attributeFactory"
 import Attributes from "../../attributes/model/attributes"
 import {MAX_MOB_LEVEL} from "../../mob/constants"
 import Gain from "../../mob/gain"

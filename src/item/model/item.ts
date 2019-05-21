@@ -2,7 +2,7 @@ import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, 
 import * as v4 from "uuid"
 import { Affect } from "../../affect/model/affect"
 import AffectService from "../../affect/service/affectService"
-import { newEmptyAttributes } from "../../attributes/factory"
+import { newEmptyAttributes } from "../../attributes/factory/attributeFactory"
 import Attributes from "../../attributes/model/attributes"
 import { Equipment } from "../enum/equipment"
 import { ItemType } from "../enum/itemType"

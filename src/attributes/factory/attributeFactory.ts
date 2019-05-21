@@ -1,8 +1,8 @@
-import AttributeBuilder from "./attributeBuilder"
-import Attributes from "./model/attributes"
-import Hitroll from "./model/hitroll"
-import Stats from "./model/stats"
-import Vitals from "./model/vitals"
+import AttributeBuilder from "../builder/attributeBuilder"
+import Attributes from "../model/attributes"
+import Hitroll from "../model/hitroll"
+import Stats from "../model/stats"
+import Vitals from "../model/vitals"
 
 export function newStartingVitals(): Vitals {
   const vitals = new Vitals()

@@ -1,6 +1,6 @@
 import {AffectType} from "../../../../affect/enum/affectType"
-import AttributeBuilder from "../../../../attributes/attributeBuilder"
-import {newHitroll, newStats} from "../../../../attributes/factory"
+import AttributeBuilder from "../../../../attributes/builder/attributeBuilder"
+import {newHitroll, newStats} from "../../../../attributes/factory/attributeFactory"
 import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"

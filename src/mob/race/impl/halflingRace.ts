@@ -1,5 +1,5 @@
-import AttributeBuilder from "../../../attributes/attributeBuilder"
-import {newStats} from "../../../attributes/factory"
+import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
+import {newStats} from "../../../attributes/factory/attributeFactory"
 import {SkillType} from "../../../skill/skillType"
 import {SpecializationType} from "../../specialization/enum/specializationType"
 import {Appetite} from "../enum/appetite"

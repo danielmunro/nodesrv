@@ -1,5 +1,5 @@
-import AttributeBuilder from "../../../attributes/attributeBuilder"
-import {newStartingStats, newStartingVitals} from "../../../attributes/factory"
+import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
+import {newStartingStats, newStartingVitals} from "../../../attributes/factory/attributeFactory"
 import { Mob } from "../../../mob/model/mob"
 import { PlayerMob } from "../../../mob/model/playerMob"
 import { Player } from "../../../player/model/player"

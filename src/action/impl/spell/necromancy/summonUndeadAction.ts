@@ -1,5 +1,5 @@
-import AttributeBuilder from "../../../../attributes/attributeBuilder"
-import {newHitroll, newVitals} from "../../../../attributes/factory"
+import AttributeBuilder from "../../../../attributes/builder/attributeBuilder"
+import {newHitroll, newVitals} from "../../../../attributes/factory/attributeFactory"
 import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"

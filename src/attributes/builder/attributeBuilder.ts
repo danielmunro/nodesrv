@@ -1,8 +1,8 @@
-import {newHitroll, newStats, newVitals} from "./factory"
-import Attributes from "./model/attributes"
-import Hitroll from "./model/hitroll"
-import Stats from "./model/stats"
-import Vitals from "./model/vitals"
+import {newHitroll, newStats, newVitals} from "../factory/attributeFactory"
+import Attributes from "../model/attributes"
+import Hitroll from "../model/hitroll"
+import Stats from "../model/stats"
+import Vitals from "../model/vitals"
 
 export default class AttributeBuilder {
   private readonly attributes: Attributes

@@ -1,9 +1,9 @@
-import AttributeBuilder from "../attributes/attributeBuilder"
+import AttributeBuilder from "../attributes/builder/attributeBuilder"
 import {
   newHitroll,
   newStartingStats,
   newStartingVitals,
-} from "../attributes/factory"
+} from "../attributes/factory/attributeFactory"
 import { Item } from "../item/model/item"
 import { newMob } from "./factory"
 import { RaceType } from "./race/enum/raceType"

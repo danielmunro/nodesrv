@@ -1,6 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import {newEmptyAttributes} from "../../attributes/factory"
+import {newEmptyAttributes} from "../../attributes/factory/attributeFactory"
 import { default as Attributes } from "../../attributes/model/attributes"
 import { Item } from "../../item/model/item"
 import { AuthorizationLevel } from "../../player/authorizationLevel"

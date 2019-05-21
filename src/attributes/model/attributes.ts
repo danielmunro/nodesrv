@@ -1,7 +1,7 @@
 import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import { Item } from "../../item/model/item"
 import { Mob } from "../../mob/model/mob"
-import {newEmptyAttributes} from "../factory"
+import {newEmptyAttributes} from "../factory/attributeFactory"
 import Ac from "./ac"
 import Hitroll from "./hitroll"
 import Stats from "./stats"
