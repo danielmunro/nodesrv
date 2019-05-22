@@ -18,7 +18,7 @@ import SkillEvent from "../../skill/event/skillEvent"
 import {SkillType} from "../../skill/skillType"
 import {ActionPart} from "../enum/actionPart"
 import {ActionType} from "../enum/actionType"
-import Action from "./action"
+import Action, {ApplyAbility, CheckComponentAdder} from "./action"
 
 export default class Skill extends Action {
   constructor(
@@ -32,9 +32,8 @@ export default class Skill extends Action {
     protected readonly roll: (requestService: RequestService) => boolean,
     protected readonly successMessage: (requestService: RequestService) => ResponseMessage,
     protected readonly failureMessage: (requestService: RequestService) => ResponseMessage,
-    protected readonly applySkill: (requestService: RequestService, affectBuilder: AffectBuilder) =>
-      Promise<Affect | void>,
-    protected readonly checkComponents: (request: Request, checkBuilder: CheckBuilder) => void,
+    protected readonly applySkill: ApplyAbility,
+    protected readonly checkComponents: CheckComponentAdder,
     protected readonly touchesTarget: boolean,
     protected readonly helpText: string) {
     super()

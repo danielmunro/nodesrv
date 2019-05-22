@@ -1,6 +1,4 @@
-import AffectBuilder from "../../affect/builder/affectBuilder"
 import {AffectType} from "../../affect/enum/affectType"
-import {Affect} from "../../affect/model/affect"
 import AbilityService from "../../check/abilityService"
 import CheckBuilder from "../../check/checkBuilder"
 import Cost from "../../check/cost/cost"
@@ -15,6 +13,7 @@ import {percentRoll} from "../../support/random/helpers"
 import {Messages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
 import {ActionType} from "../enum/actionType"
+import {ApplyAbility, CheckComponentAdder} from "../impl/action"
 import Skill from "../impl/skill"
 
 export default class SkillBuilder {
@@ -38,7 +37,7 @@ export default class SkillBuilder {
   private checkBuilder: (request: Request, checkBuilder: CheckBuilder) => void
   private successMessage: (requestService: RequestService) => ResponseMessage
   private failMessage: (requestService: RequestService) => ResponseMessage
-  private applySkill: (requestService: RequestService, affectBuilder: AffectBuilder) => Promise<Affect | void>
+  private applySkill: ApplyAbility
   private touchesTarget: boolean = false
 
   constructor(private readonly abilityService: AbilityService, private readonly skillType: SkillType) {
@@ -76,7 +75,7 @@ export default class SkillBuilder {
     return this
   }
 
-  public setCheckBuilder(checkBuilder: (request: Request, checkBuilder: CheckBuilder) => void): SkillBuilder {
+  public setCheckBuilder(checkBuilder: CheckComponentAdder): SkillBuilder {
     this.checkBuilder = checkBuilder
     return this
   }
@@ -91,9 +90,7 @@ export default class SkillBuilder {
     return this
   }
 
-  public setApplySkill(
-    applySkill: (requestService: RequestService, affectBuilder: AffectBuilder) =>
-      Promise<Affect | void>): SkillBuilder {
+  public setApplySkill(applySkill: ApplyAbility): SkillBuilder {
     this.applySkill = applySkill
     return this
   }

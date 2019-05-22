@@ -1,11 +1,19 @@
+import AffectBuilder from "../../affect/builder/affectBuilder"
+import {Affect} from "../../affect/model/affect"
 import Check from "../../check/check"
+import CheckBuilder from "../../check/checkBuilder"
 import CheckedRequest from "../../check/checkedRequest"
-import { CheckStatus } from "../../check/enum/checkStatus"
-import { RequestType } from "../../request/enum/requestType"
+import {CheckStatus} from "../../check/enum/checkStatus"
+import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
 import RequestService from "../../request/requestService"
 import Response from "../../request/response"
 import {ActionPart} from "../enum/actionPart"
+
+export type ApplyAbility = (requestService: RequestService, affectBuilder: AffectBuilder) =>
+  Promise<Affect | void>
+
+export type CheckComponentAdder = (request: Request, checkBuilder: CheckBuilder) => void
 
 export default abstract class Action {
   public isAbleToHandleRequestType(requestType: RequestType): boolean {

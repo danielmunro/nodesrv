@@ -1,9 +1,7 @@
 import AffectBuilder from "../../affect/builder/affectBuilder"
 import {AffectType} from "../../affect/enum/affectType"
-import {Affect} from "../../affect/model/affect"
 import AbilityService from "../../check/abilityService"
 import Check from "../../check/check"
-import CheckBuilder from "../../check/checkBuilder"
 import Cost from "../../check/cost/cost"
 import {CheckType} from "../../check/enum/checkType"
 import {createSkillEvent} from "../../event/factory"
@@ -19,7 +17,7 @@ import roll from "../../support/random/dice"
 import {Messages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
 import {ActionType} from "../enum/actionType"
-import Action from "./action"
+import Action, {ApplyAbility, CheckComponentAdder} from "./action"
 
 export default class Spell extends Action {
   constructor(
@@ -29,9 +27,8 @@ export default class Spell extends Action {
     protected readonly actionType: ActionType,
     protected readonly costs: Cost[],
     protected readonly successMessage: (requestService: RequestService) => ResponseMessage,
-    protected readonly applySpell: (requestService: RequestService, affectBuilder: AffectBuilder) =>
-      Promise<Affect | void>,
-    protected readonly checkComponents: (request: Request, checkBuilder: CheckBuilder) => void,
+    protected readonly applySpell: ApplyAbility,
+    protected readonly checkComponents: CheckComponentAdder,
     protected readonly helpText: string) {
     super()
   }

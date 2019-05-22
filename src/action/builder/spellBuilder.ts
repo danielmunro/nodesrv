@@ -1,15 +1,12 @@
-import AffectBuilder from "../../affect/builder/affectBuilder"
 import {AffectType} from "../../affect/enum/affectType"
-import {Affect} from "../../affect/model/affect"
 import AbilityService from "../../check/abilityService"
-import CheckBuilder from "../../check/checkBuilder"
 import Cost from "../../check/cost/cost"
-import Request from "../../request/request"
 import RequestService from "../../request/requestService"
 import ResponseMessage from "../../request/responseMessage"
 import {SpellType} from "../../spell/spellType"
 import {Messages} from "../constants"
 import {ActionType} from "../enum/actionType"
+import {ApplyAbility, CheckComponentAdder} from "../impl/action"
 import Spell from "../impl/spell"
 
 export default class SpellBuilder {
@@ -18,9 +15,9 @@ export default class SpellBuilder {
   private affectType: AffectType
   private spellType: SpellType
   private costs: Cost[]
-  private checkBuilder: (request: Request, checkBuilder: CheckBuilder) => void
+  private checkBuilder: CheckComponentAdder
   private successMessage: (requestService: RequestService) => ResponseMessage
-  private applySpell: (requestService: RequestService, affectBuilder: AffectBuilder) => Promise<Affect | void>
+  private applySpell: ApplyAbility
 
   constructor(private readonly abilityService: AbilityService) {
     this.helpText = Messages.Help.NoActionHelpTextProvided
@@ -47,7 +44,7 @@ export default class SpellBuilder {
     return this
   }
 
-  public addToCheckBuilder(checkBuilder: (request: Request, checkBuilder: CheckBuilder) => void): SpellBuilder {
+  public addToCheckBuilder(checkBuilder: CheckComponentAdder): SpellBuilder {
     this.checkBuilder = checkBuilder
     return this
   }
@@ -57,9 +54,7 @@ export default class SpellBuilder {
     return this
   }
 
-  public setApplySpell(
-    applySpell: (requestService: RequestService, affectBuilder: AffectBuilder) =>
-      Promise<Affect | void>): SpellBuilder {
+  public setApplySpell(applySpell: ApplyAbility): SpellBuilder {
     this.applySpell = applySpell
     return this
   }
