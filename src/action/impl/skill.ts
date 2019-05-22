@@ -3,7 +3,6 @@ import {AffectType} from "../../affect/enum/affectType"
 import {Affect} from "../../affect/model/affect"
 import AbilityService from "../../check/abilityService"
 import Check from "../../check/check"
-import CheckBuilder from "../../check/checkBuilder"
 import Cost from "../../check/cost/cost"
 import {CheckType} from "../../check/enum/checkType"
 import {createTouchEvent} from "../../event/factory"
@@ -113,12 +112,11 @@ export default class Skill extends Action {
 
   private async checkIfSkillIsOffensive(requestService: RequestService, checkTarget: Mob) {
     if (this.actionType === ActionType.Offensive) {
-      await this.abilityService.publishEvent(
-        requestService.createAttackEvent(checkTarget))
+      await this.abilityService.publishEvent(requestService.createAttackEvent(checkTarget))
     }
   }
 
-  private getAffectFromApplySkill(requestService: RequestService) {
+  private getAffectFromApplySkill(requestService: RequestService): Promise<Affect | void> {
     return this.applySkill(
       requestService, new AffectBuilder(this.affectType).setLevel(requestService.getMobLevel()))
   }
