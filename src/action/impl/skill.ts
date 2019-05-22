@@ -17,6 +17,7 @@ import SkillEvent from "../../skill/event/skillEvent"
 import {SkillType} from "../../skill/skillType"
 import {ActionPart} from "../enum/actionPart"
 import {ActionType} from "../enum/actionType"
+import ApplyAbilityResponse from "../response/applyAbilityResponse"
 import Action, {ApplyAbility, CheckComponentAdder} from "./action"
 
 export default class Skill extends Action {
@@ -52,9 +53,11 @@ export default class Skill extends Action {
           touchEventResponse.context)
       }
     }
-    const affect = await this.getAffectFromApplySkill(requestService) as Affect
+    const applyResponse = await this.getAffectFromApplySkill(requestService)
     const checkTarget = requestService.getResult(CheckType.HasTarget)
-    this.applyAffectIfAffectCreated(requestService, checkTarget, affect)
+    if (applyResponse) {
+      this.applyAffectIfAffectCreated(requestService, checkTarget, applyResponse.affect)
+    }
     await this.checkIfSkillIsOffensive(requestService, checkTarget)
     return requestService.respondWith().response(
       ResponseStatus.Success,
@@ -116,7 +119,7 @@ export default class Skill extends Action {
     }
   }
 
-  private getAffectFromApplySkill(requestService: RequestService): Promise<Affect | void> {
+  private getAffectFromApplySkill(requestService: RequestService): Promise<ApplyAbilityResponse | void> {
     return this.applySkill(
       requestService, new AffectBuilder(this.affectType).setLevel(requestService.getMobLevel()))
   }

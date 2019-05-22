@@ -8,6 +8,7 @@ import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 import Spell from "../../spell"
 
 export default function(abilityService: AbilityService): Spell {
@@ -24,11 +25,11 @@ export default function(abilityService: AbilityService): Spell {
         .setPluralizeTarget()
         .setTargetPossessive()
         .create())
-    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+    .setApplySpell(async (requestService, affectBuilder) => createApplyAbilityResponse(affectBuilder
         .setAttributes(new AttributeBuilder()
           .setStats(
             newStats(requestService.getMobLevel() / 10, 0, 0, 0, 0, 0))
           .build())
-        .build())
+        .build()))
     .create()
 }

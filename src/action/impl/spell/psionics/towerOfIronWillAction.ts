@@ -7,6 +7,7 @@ import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 import Spell from "../../spell"
 
 export default function(abilityService: AbilityService): Spell {
@@ -23,9 +24,9 @@ export default function(abilityService: AbilityService): Spell {
         .setPluralizeTarget()
         .setTargetPossessive()
         .create())
-    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+    .setApplySpell(async (requestService, affectBuilder) => createApplyAbilityResponse(affectBuilder
       .setTimeout(requestService.getMobLevel() / 7)
       .setResist(new DamageSourceBuilder().enableMental().get())
-      .build())
+      .build()))
     .create()
 }

@@ -43,9 +43,14 @@ export default class Spell extends Action {
         this.getFailureMessage(requestService.getMob()))
     }
     const affectType = this.getAffectType()
-    const affect = await this.applySpell(requestService, new AffectBuilder(affectType ? affectType : AffectType.Noop))
-    if (affect && affect.affectType !== AffectType.Noop) {
-      requestService.getResult(CheckType.HasTarget).affect().add(affect)
+    const applyResponse = await this.applySpell(
+      requestService, new AffectBuilder(affectType ? affectType : AffectType.Noop))
+    if (applyResponse) {
+      requestService.applyAbilityResponse = applyResponse
+      const affect = applyResponse.affect
+      if (affect && affect.affectType !== AffectType.Noop) {
+        requestService.getResult(CheckType.HasTarget).affect().add(affect)
+      }
     }
     await this.abilityService.publishEvent(
       createSkillEvent(spell, requestService.getMob(), true))

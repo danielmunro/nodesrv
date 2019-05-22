@@ -10,6 +10,7 @@ import SkillBuilder from "../../../builder/skillBuilder"
 import {ConditionMessages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 import Skill from "../../skill"
 
 export default function(abilityService: AbilityService): Skill {
@@ -25,9 +26,9 @@ export default function(abilityService: AbilityService): Skill {
     ])
     .setApplySkill(async (requestService, affectBuilder) => {
       requestService.setMobDisposition(Disposition.Sleeping)
-      return affectBuilder
+      return createApplyAbilityResponse(affectBuilder
         .setTimeout(Math.max(1, requestService.getMobLevel() / 12))
-        .build()
+        .build())
       })
     .setSuccessMessage(requestService =>
       requestService.createResponseMessage(ConditionMessages.Garotte.Success)

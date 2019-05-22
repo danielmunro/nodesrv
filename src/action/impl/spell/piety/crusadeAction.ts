@@ -8,6 +8,7 @@ import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 
 export default function(abilityService: AbilityService) {
   return new SpellBuilder(abilityService)
@@ -24,11 +25,11 @@ export default function(abilityService: AbilityService) {
       .setVerbToTarget("are")
       .setVerbToObservers("is")
       .create())
-    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+    .setApplySpell(async (requestService, affectBuilder) => createApplyAbilityResponse(affectBuilder
       .setTimeout(requestService.getMobLevel() / 8)
       .setAttributes(new AttributeBuilder()
         .setHitRoll(newHitroll(1, requestService.getMobLevel() / 8))
         .build())
-      .build())
+      .build()))
     .create()
 }

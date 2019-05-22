@@ -1,3 +1,4 @@
+import ApplyAbilityResponse from "../action/response/applyAbilityResponse"
 import {AffectType} from "../affect/enum/affectType"
 import {Affect} from "../affect/model/affect"
 import CheckedRequest from "../check/checkedRequest"
@@ -19,6 +20,8 @@ import ResponseMessageBuilder from "./builder/responseMessageBuilder"
 import Request from "./request"
 
 export default class RequestService {
+  public applyAbilityResponse: ApplyAbilityResponse
+
   constructor(private readonly checkedRequest: CheckedRequest) {}
 
   public getMob(): Mob {

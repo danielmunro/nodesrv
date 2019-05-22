@@ -6,6 +6,7 @@ import ResponseMessage from "../../request/responseMessage"
 import {SpellType} from "../../spell/spellType"
 import {Messages} from "../constants"
 import {ActionType} from "../enum/actionType"
+import {createApplyAbilityResponse} from "../factory/responseFactory"
 import {ApplyAbility, CheckComponentAdder} from "../impl/action"
 import Spell from "../impl/spell"
 
@@ -21,7 +22,8 @@ export default class SpellBuilder {
 
   constructor(private readonly abilityService: AbilityService) {
     this.helpText = Messages.Help.NoActionHelpTextProvided
-    this.applySpell = (_, affectBuilder) => Promise.resolve(affectBuilder ? affectBuilder.build() : undefined)
+    this.applySpell = (_, affectBuilder) =>
+      Promise.resolve(createApplyAbilityResponse(affectBuilder ? affectBuilder.build() : undefined))
   }
 
   public setAffectType(affectType: AffectType): SpellBuilder {

@@ -7,6 +7,7 @@ import {Costs, SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionType} from "../../../enum/actionType"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 import Skill from "../../skill"
 
 export default function(abilityService: AbilityService): Skill {
@@ -18,7 +19,7 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(Costs.Berserk.Delay),
     ])
     .setApplySkill(async (requestService, affectBuilder) =>
-      Promise.resolve(affectBuilder
+      createApplyAbilityResponse(affectBuilder
         .setLevel(requestService.getMobLevel())
         .setTimeout(Math.min(1, requestService.getMobLevel() / 10))
         .build()))

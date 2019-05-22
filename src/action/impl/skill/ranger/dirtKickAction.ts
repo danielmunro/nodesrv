@@ -7,6 +7,7 @@ import {SkillType} from "../../../../skill/skillType"
 import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 import Skill from "../../skill"
 
 export default function(abilityService: AbilityService): Skill {
@@ -19,9 +20,9 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(Costs.DirtKick.Delay),
     ])
     .setApplySkill(async (requestService, affectBuilder) =>
-      affectBuilder
+      createApplyAbilityResponse(affectBuilder
         .setTimeout(Math.max(1, requestService.getMobLevel() / 12, 5))
-        .build())
+        .build()))
     .setSuccessMessage(requestService =>
       requestService.createResponseMessage(SkillMessages.DirtKick.Success)
         .setVerbToRequestCreator("kick")

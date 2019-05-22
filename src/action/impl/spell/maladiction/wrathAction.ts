@@ -8,6 +8,7 @@ import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 import Spell from "../../spell"
 
 export default function(abilityService: AbilityService): Spell {
@@ -16,13 +17,13 @@ export default function(abilityService: AbilityService): Spell {
     .setAffectType(AffectType.Wrath)
     .setActionType(ActionType.Offensive)
     .setCosts([ new ManaCost(35), new DelayCost(1) ])
-    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+    .setApplySpell(async (requestService, affectBuilder) => createApplyAbilityResponse(affectBuilder
       .setAttributes(new AttributeBuilder()
         .setVitals(newVitals(-requestService.getMobLevel() / 10, 0, 0))
         .setStats(newStats(0, -2, -2, 0, 0, 0))
         .setHitRoll(newHitroll(1, -4))
         .build())
-      .build())
+      .build()))
     .setSuccessMessage(requestService =>
       requestService.createResponseMessage(SpellMessages.Wrath.Success)
         .setVerbToRequestCreator("is")

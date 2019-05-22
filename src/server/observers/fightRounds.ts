@@ -4,7 +4,7 @@ import {Equipment} from "../../item/enum/equipment"
 import {Item} from "../../item/model/item"
 import {AttackVerb} from "../../mob/enum/attackVerb"
 import {Attack} from "../../mob/fight/attack"
-import damageDescriptor from "../../mob/fight/damageDescriptor"
+import {getDamageDescriptor} from "../../mob/fight/damageDescriptor"
 import healthIndicator from "../../mob/fight/healthIndicator"
 import {Round} from "../../mob/fight/round"
 import {Mob} from "../../mob/model/mob"
@@ -34,13 +34,6 @@ export function getHealthIndicator(percent: number): string {
   return new Maybe(healthIndicator.find((i) => percent > i.amount))
     .do((indicator) => indicator.message)
     .or(() => "has bleeding to death")
-    .get()
-}
-
-function getDamageDescriptor(damage: number): string[] {
-  return new Maybe(damageDescriptor.find(m => damage <= m.damage))
-    .do(m => m.descriptors)
-    .or(() => ["masterful", "does UNSPEAKABLE things to", "!"])
     .get()
 }
 

@@ -9,6 +9,7 @@ import {SkillType} from "../../../../skill/skillType"
 import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 import Skill from "../../skill"
 
 export default function(abilityService: AbilityService): Skill {
@@ -25,10 +26,10 @@ export default function(abilityService: AbilityService): Skill {
       const target = requestService.getTarget()
       target.vitals.hp -= Fight.calculateDamageForOneHit(requestService.getMob(), target)
       await abilityService.publishEvent(createAttackEvent(requestService.getMob(), target))
-      return affectBuilder
+      return createApplyAbilityResponse(affectBuilder
         .setTimeout(level / 12)
         .setLevel(level)
-        .build()
+        .build())
     })
     .setSuccessMessage(requestService =>
       requestService.createResponseMessage(SkillMessages.EyeGouge.Success)

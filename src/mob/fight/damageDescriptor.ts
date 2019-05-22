@@ -1,3 +1,5 @@
+import Maybe from "../../support/functional/maybe"
+
 export interface DamageDescriptor {
   readonly damage: number,
   readonly descriptors: string[],
@@ -7,7 +9,14 @@ function newDamageDescriptor(damage: number, descriptors: string[]): DamageDescr
   return { damage, descriptors }
 }
 
-export default [
+export function getDamageDescriptor(damage: number): string[] {
+  return new Maybe(damageDescriptors.find(m => damage <= m.damage))
+    .do(m => m.descriptors)
+    .or(() => ["masterful", "does UNSPEAKABLE things to", "!"])
+    .get()
+}
+
+const damageDescriptors = [
   newDamageDescriptor(0, ["clumsy", "misses", " harmlessly."]),
   newDamageDescriptor(4, ["clumsy", "gives", " a bruise."]),
   newDamageDescriptor(8, ["wobbly", "hits", " making scrapes."]),
@@ -29,3 +38,5 @@ export default [
   newDamageDescriptor(125, ["barbaric", "MASSACRES", ". Blood flies!"]),
   newDamageDescriptor(130, ["controlled", "ERADICATES", " to bits!!"]),
 ]
+
+export default damageDescriptors

@@ -6,6 +6,7 @@ import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 import Spell from "../../spell"
 
 export default function(abilityService: AbilityService): Spell {
@@ -23,8 +24,8 @@ export default function(abilityService: AbilityService): Spell {
         .setVerbToTarget("are")
         .setVerbToObservers("is")
         .create())
-    .setApplySpell(async (requestService, affectBuilder) => affectBuilder
+    .setApplySpell(async (requestService, affectBuilder) => createApplyAbilityResponse(affectBuilder
       .setTimeout(requestService.getMobLevel())
-      .build())
+      .build()))
     .create()
 }

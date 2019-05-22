@@ -1,5 +1,4 @@
 import AffectBuilder from "../../affect/builder/affectBuilder"
-import {Affect} from "../../affect/model/affect"
 import Check from "../../check/check"
 import CheckBuilder from "../../check/checkBuilder"
 import CheckedRequest from "../../check/checkedRequest"
@@ -9,9 +8,10 @@ import Request from "../../request/request"
 import RequestService from "../../request/requestService"
 import Response from "../../request/response"
 import {ActionPart} from "../enum/actionPart"
+import ApplyAbilityResponse from "../response/applyAbilityResponse"
 
 export type ApplyAbility = (requestService: RequestService, affectBuilder: AffectBuilder) =>
-  Promise<Affect | void>
+  Promise<ApplyAbilityResponse | void>
 
 export type CheckComponentAdder = (request: Request, checkBuilder: CheckBuilder) => void
 

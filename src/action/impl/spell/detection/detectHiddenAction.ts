@@ -6,6 +6,7 @@ import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 import Spell from "../../spell"
 
 export default function(abilityService: AbilityService): Spell {
@@ -23,6 +24,6 @@ export default function(abilityService: AbilityService): Spell {
         .setPluralizeTarget()
         .create())
     .setApplySpell(async (requestService, affectBuilder) =>
-      affectBuilder.setTimeout(requestService.getMobLevel() / 7).build())
+      createApplyAbilityResponse(affectBuilder.setTimeout(requestService.getMobLevel() / 7).build()))
     .create()
 }
