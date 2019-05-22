@@ -1,4 +1,5 @@
 import Spell from "../action/impl/spell"
+import acidBlastAction from "../action/impl/spell/attack/acidBlastAction"
 import lightningBoltAction from "../action/impl/spell/attack/lightningBoltAction"
 import magicMissileAction from "../action/impl/spell/attack/magicMissileAction"
 import curePoisonAction from "../action/impl/spell/curative/curePoisonAction"
@@ -84,6 +85,7 @@ export default function getSpellTable(
     // attack
     magicMissileAction(abilityService),
     lightningBoltAction(abilityService),
+    acidBlastAction(abilityService),
 
     // protective
     shieldAction(abilityService),

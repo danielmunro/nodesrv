@@ -13,7 +13,7 @@ export default class DamageSourceEventConsumer implements EventConsumer {
 
   public async consume(event: DamageEvent): Promise<EventResponse> {
     let modifier = event.modifier
-    const target = event.target
+    const target = event.mob
     const damageType = event.damageType
     target.affects.forEach(affect => {
       if (affect.resist && affect.resist.isDamageTypeActive(damageType)) {
@@ -26,7 +26,7 @@ export default class DamageSourceEventConsumer implements EventConsumer {
     })
     if (modifier !== event.modifier) {
       return EventResponse.modified(createDamageEvent(
-        event.target, event.amount, event.damageType, event.modifier + modifier, event.source))
+        event.mob, event.amount, event.damageType, event.modifier + modifier, event.source))
     }
     return EventResponse.none(event)
   }

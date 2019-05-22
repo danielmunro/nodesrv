@@ -11,7 +11,7 @@ export default class DamageModifierEventConsumer implements EventConsumer {
   }
 
   public async consume(event: DamageEvent): Promise<EventResponse> {
-    const damageModifier = event.target.race().damageAbsorption.find(modifier =>
+    const damageModifier = event.mob.race().damageAbsorption.find(modifier =>
       modifier.damageType === event.damageType)
 
     if (!damageModifier) {
@@ -19,7 +19,7 @@ export default class DamageModifierEventConsumer implements EventConsumer {
     }
 
     return EventResponse.modified(createDamageEvent(
-      event.target, event.amount, event.damageType,
+      event.mob, event.amount, event.damageType,
       event.modifier + vulnerabilityModifier(damageModifier.vulnerability), event.source))
   }
 }

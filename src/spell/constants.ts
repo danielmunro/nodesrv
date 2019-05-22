@@ -11,6 +11,9 @@ export const ConditionMessages = {
 }
 
 export const SpellMessages = {
+  AttackSpell: {
+    Success: "{requestCreator} {verb1} {spellDescriptor} {verb2} {target} {verb3}.",
+  },
   Bless: {
     Failure: "{requestCreator} {verb} to bless {target}.",
     Success: "{target} {verb} blessed.",

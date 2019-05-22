@@ -11,7 +11,7 @@ const MODIFIER = -0.3
 
 export default class ProtectionEventConsumer implements EventConsumer {
   public consume(event: DamageEvent): Promise<EventResponse> {
-    const target = event.target
+    const target = event.mob
     const source = event.source
     const affect = target.affect()
     const srcAlign = source.align()
@@ -20,7 +20,7 @@ export default class ProtectionEventConsumer implements EventConsumer {
       affect.has(AffectType.ProtectionEvil) && srcAlign.isEvil() ||
       affect.has(AffectType.ProtectionGood) && srcAlign.isGood()) {
       return EventResponse.modified(createDamageEvent(
-        event.target, event.amount, event.damageType, event.modifier + MODIFIER, event.source))
+        event.mob, event.amount, event.damageType, event.modifier + MODIFIER, event.source))
     }
 
     return EventResponse.none(event)

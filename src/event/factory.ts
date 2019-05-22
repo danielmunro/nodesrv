@@ -70,14 +70,14 @@ export function createCostEvent(mob: Mob, costs: Cost[]): CostEvent {
 }
 
 export function createDamageEvent(
-  target: Mob, amount: number, damageType: DamageType, modifier: number, source: Mob): DamageEvent {
+  mob: Mob, amount: number, damageType: DamageType, modifier: number, source: Mob): DamageEvent {
   return {
     amount,
     damageType,
     eventType: EventType.DamageCalculation,
+    mob,
     modifier,
     source,
-    target,
   }
 }
 

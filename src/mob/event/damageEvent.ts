@@ -1,9 +1,8 @@
-import Event from "../../event/event"
 import {DamageType} from "../fight/enum/damageType"
 import {Mob} from "../model/mob"
+import MobEvent from "./mobEvent"
 
-export default interface DamageEvent extends Event {
-  readonly target: Mob
+export default interface DamageEvent extends MobEvent {
   readonly amount: number
   readonly damageType: DamageType
   readonly modifier: number
