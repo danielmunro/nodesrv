@@ -46,6 +46,7 @@ export default function(
         .addReplacement("spellDescriptor", damageMessage)
         .addReplacement("verb1", descriptor[1])
         .addReplacement("verb2", descriptor[2])
+        .setPluralizeRequestCreator()
         .setSelfIdentifier("your")
         .setVerbToRequestCreator("is")
         .setVerbToTarget("are")
