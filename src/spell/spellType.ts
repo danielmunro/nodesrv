@@ -4,6 +4,8 @@ export enum SpellType {
   LightningBolt = "lightning bolt",
   IceBlast = "ice blast",
   AcidBlast = "acid blast",
+  ChillTouch = "chill touch",
+  Fireball = "fireball",
 
   // detection
   Invisibility = "invisibility",

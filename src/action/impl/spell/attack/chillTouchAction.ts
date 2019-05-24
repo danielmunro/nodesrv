@@ -10,9 +10,9 @@ import attackAction from "./attackAction"
 export default function(abilityService: AbilityService): Spell {
   return attackAction(
     abilityService,
-    SpellType.AcidBlast,
-    DamageType.Acid,
-    (spell: SpellModel, specializationType) =>
-      roll(spell.level / 10, 10 + specializationType === SpecializationType.Mage ? 4 : 0),
-    "blast of acid")
+    SpellType.ChillTouch,
+    DamageType.Frost,
+    (_: SpellModel, specializationType) =>
+      roll(4, 6 + specializationType === SpecializationType.Mage ? 2 : 0),
+    "chilling touch")
 }

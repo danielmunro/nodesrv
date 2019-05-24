@@ -72,14 +72,21 @@ sneak                   NA
 level 1
 magic missile           1
 
+level 3
+chill touch             NA
+
+level 5
+giant strength          NA
+
+level 6
+curse                   NA
+
 level 8
+fireball                NA
 fly                     NA
 
 level 10
 word of recall          NA
-
-level 11
-giant strength          NA
 
 level 12
 blind                   NA
@@ -97,9 +104,6 @@ slow                    NA
 
 level 17
 poison                  NA
-
-level 18
-curse                   NA
 
 level 19
 know alignment          NA

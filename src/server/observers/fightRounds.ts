@@ -4,7 +4,7 @@ import {Equipment} from "../../item/enum/equipment"
 import {Item} from "../../item/model/item"
 import {AttackVerb} from "../../mob/enum/attackVerb"
 import {Attack} from "../../mob/fight/attack"
-import {getDamageDescriptor} from "../../mob/fight/damageDescriptor"
+import {getPhysicalDamageDescriptor} from "../../mob/fight/damageDescriptor"
 import healthIndicator from "../../mob/fight/healthIndicator"
 import {Round} from "../../mob/fight/round"
 import {Mob} from "../../mob/model/mob"
@@ -42,7 +42,7 @@ function getAttackVerb(weapon: Item): AttackVerb {
 }
 
 export function attackMessage(attack: Attack, mob: Mob): string {
-  const d = getDamageDescriptor(attack.damage)
+  const d = getPhysicalDamageDescriptor(attack.damage)
   const equipped = mob.equipped.items.find(i => i.equipment === Equipment.Weapon)
   const attackVerb = equipped ? getAttackVerb(equipped) : AttackVerb.Punch
   if (attack.attacker === mob) {

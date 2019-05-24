@@ -3,7 +3,7 @@ import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import DamageEvent from "../../../../mob/event/damageEvent"
-import {getDamageDescriptor} from "../../../../mob/fight/damageDescriptor"
+import {getMagicDamageDescriptor} from "../../../../mob/fight/damageDescriptor"
 import {DamageType} from "../../../../mob/fight/enum/damageType"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../spell/constants"
@@ -41,11 +41,14 @@ export default function(
     })
     .setSuccessMessage(requestService => {
       const event = requestService.applyAbilityResponse.event as DamageEvent
-      const descriptor = getDamageDescriptor(event.amount)
+      const descriptor = getMagicDamageDescriptor(event.amount)
+      const punctuation = event.amount < 40 ? "." : "!"
       return requestService.createResponseMessage(SpellMessages.AttackSpell.Success)
         .addReplacement("spellDescriptor", damageMessage)
-        .addReplacement("verb1", descriptor[1])
-        .addReplacement("verb2", descriptor[2])
+        .addReplacementForRequestCreator("verb1", descriptor[1])
+        .addReplacementForTarget("verb1", descriptor[1])
+        .addReplacementForObservers("verb1", descriptor[1])
+        .addReplacement("verb2", punctuation)
         .setPluralizeRequestCreator()
         .setSelfIdentifier("your")
         .setVerbToRequestCreator("is")

@@ -36,8 +36,11 @@ describe("magic missile", () => {
       RequestType.Cast, `cast magic ${target}`, target)
 
     // then
-    expect(response.getMessageToRequestCreator()).toBe(`your magic missile gives ${target} a bruise.`)
-    expect(response.getMessageToTarget()).toBe(`${caster}'s magic missile gives you a bruise.`)
-    expect(response.getMessageToObservers()).toBe(`${caster}'s magic missile gives ${target} a bruise.`)
+    expect(response.getMessageToRequestCreator())
+      .toMatch(new RegExp(`your magic missile (gives|scratches) ${target}( a bruise|).`))
+    expect(response.getMessageToTarget())
+      .toMatch(new RegExp(`${caster}'s magic missile (gives|scratches) you( a bruise|).`))
+    expect(response.getMessageToObservers())
+      .toMatch(new RegExp(`${caster}'s magic missile (gives|scratches) ${target}( a bruise|).`))
   })
 })

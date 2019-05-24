@@ -9,14 +9,21 @@ function newDamageDescriptor(damage: number, descriptors: string[]): DamageDescr
   return { damage, descriptors }
 }
 
-export function getDamageDescriptor(damage: number): string[] {
-  return new Maybe(damageDescriptors.find(m => damage <= m.damage))
+export function getPhysicalDamageDescriptor(damage: number): string[] {
+  return new Maybe(physicalDamage.find(m => damage <= m.damage))
     .do(m => m.descriptors)
     .or(() => ["masterful", "does UNSPEAKABLE things to", "!"])
     .get()
 }
 
-const damageDescriptors = [
+export function getMagicDamageDescriptor(damage: number): string[] {
+  return new Maybe(magicDamage.find(m => damage <= m.damage))
+    .do(m => m.descriptors)
+    .or(() => ["do {RUNSPEAKABLE{x things to", "does {RUNSPEAKABLE{x things to"])
+    .get()
+}
+
+const physicalDamage = [
   newDamageDescriptor(0, ["clumsy", "misses", " harmlessly."]),
   newDamageDescriptor(4, ["clumsy", "gives", " a bruise."]),
   newDamageDescriptor(8, ["wobbly", "hits", " making scrapes."]),
@@ -39,4 +46,25 @@ const damageDescriptors = [
   newDamageDescriptor(130, ["controlled", "ERADICATES", " to bits!!"]),
 ]
 
-export default damageDescriptors
+const magicDamage = [
+  newDamageDescriptor(0, ["miss", "misses"]),
+  newDamageDescriptor(4, ["scratch", "scratches"]),
+  newDamageDescriptor(8, ["graze", "grazes"]),
+  newDamageDescriptor(12, ["hit", "hits"]),
+  newDamageDescriptor(16, ["injure", "injures"]),
+  newDamageDescriptor(20, ["wound", "wounds"]),
+  newDamageDescriptor(24, ["maul", "mauls"]),
+  newDamageDescriptor(28, ["decimate", "decimates"]),
+  newDamageDescriptor(32, ["devastate", "devastates"]),
+  newDamageDescriptor(36, ["maim", "maims"]),
+  newDamageDescriptor(40, ["MUTILATE", "MUTILATES"]),
+  newDamageDescriptor(44, ["DISEMBOWEL", "DISEMBOWELS"]),
+  newDamageDescriptor(48, ["DISMEMBER", "DISMEMBERS"]),
+  newDamageDescriptor(52, ["MASSACRE", "MASSACRES"]),
+  newDamageDescriptor(56, ["MANGLE", "MANGLES"]),
+  newDamageDescriptor(60, ["*** DEMOLISH ***", "*** DEMOLISHES ***"]),
+  newDamageDescriptor(75, ["*** DEVASTATE ***", "*** DEVASTATES ***"]),
+  newDamageDescriptor(100, ["=== OBLITERATE ===", "=== OBLITERATES ==="]),
+  newDamageDescriptor(125, [">>> ANNIHILATE <<<", ">>> ANNIHILATES <<<"]),
+  newDamageDescriptor(150, ["<<< ERADICATE >>>", "<<< ERADICATES >>>"]),
+]

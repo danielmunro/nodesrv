@@ -12,22 +12,22 @@ let target: Mob
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob().withSpell(SpellType.AcidBlast, MAX_PRACTICE_LEVEL).get()
+  caster = testRunner.createMob().withSpell(SpellType.Fireball, MAX_PRACTICE_LEVEL).get()
   target = testRunner.createMob().get()
 })
 
-describe("acid blast spell action", () => {
+describe("fireball action", () => {
   it("generates accurate success messages", async () => {
     // when
     const response = await testRunner.invokeActionSuccessfully(
-      RequestType.Cast, `cast acid ${target}`, target)
+      RequestType.Cast, `cast fireball ${target}`, target)
 
     // then
-    expect(response.getMessageToRequestCreator())
-      .toEqual(`your blast of acid hits ${target}.`)
-    expect(response.getMessageToTarget())
-      .toEqual(`${caster}'s blast of acid hits you.`)
-    expect(response.getMessageToObservers())
-      .toEqual(`${caster}'s blast of acid hits ${target}.`)
+    expect(response.getMessageToRequestCreator()).toMatch(
+      new RegExp(`your ball of fire (hits|grazes) ${target}.`))
+    expect(response.getMessageToTarget()).toMatch(
+      new RegExp(`${caster}'s ball of fire (hits|grazes) you.`))
+    expect(response.getMessageToObservers()).toMatch(
+      new RegExp(`${caster}'s ball of fire (hits|grazes) ${target}.`))
   })
 })
