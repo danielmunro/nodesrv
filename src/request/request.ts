@@ -1,6 +1,6 @@
 import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
-import { AuthorizationLevel } from "../player/authorizationLevel"
+import {AuthorizationLevel} from "../player/enum/authorizationLevel"
 import {Region} from "../region/model/region"
 import {Exit} from "../room/model/exit"
 import { Room } from "../room/model/room"

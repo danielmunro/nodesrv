@@ -36,10 +36,10 @@ describe("lightning bolt", () => {
 
     // then
     expect(response.getMessageToRequestCreator())
-      .toMatch(new RegExp(`your bolt of lightning (grazes|hits) ${target}.`))
+      .toMatch(new RegExp(`your bolt of lightning (grazes|hits|scratches) ${target}.`))
     expect(response.getMessageToTarget())
-      .toMatch(new RegExp(`${caster}'s bolt of lightning (grazes|hits) you.`))
+      .toMatch(new RegExp(`${caster}'s bolt of lightning (grazes|hits|scratches) you.`))
     expect(response.getMessageToObservers())
-      .toMatch(new RegExp(`${caster}'s bolt of lightning (grazes|hits) ${target}.`))
+      .toMatch(new RegExp(`${caster}'s bolt of lightning (grazes|hits|scratches) ${target}.`))
   })
 })

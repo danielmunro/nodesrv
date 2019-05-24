@@ -1,4 +1,5 @@
-import { AuthorizationLevel, isSpecialAuthorizationLevel } from "./authorizationLevel"
+import {isSpecialAuthorizationLevel} from "./authorizationLevels"
+import {AuthorizationLevel} from "./enum/authorizationLevel"
 
 describe("authorization level", () => {
   it("isSpecialAuthorizationLevel sanity tests", () => {

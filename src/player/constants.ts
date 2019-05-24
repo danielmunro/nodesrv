@@ -1,4 +1,4 @@
-import { AuthorizationLevel } from "./authorizationLevel"
+import {AuthorizationLevel} from "./enum/authorizationLevel"
 
 export const allAuthorizationLevels = [
   AuthorizationLevel.None,

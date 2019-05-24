@@ -1,4 +1,4 @@
-import { getTestMob } from "../support/test/mob"
+import { getTestMob } from "../../support/test/mob"
 import { newPlayer } from "./factory"
 
 describe("player factory", () => {

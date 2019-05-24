@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
-import {AuthorizationLevel} from "../../../player/authorizationLevel"
+import {AuthorizationLevel} from "../../../player/enum/authorizationLevel"
 import {RequestType} from "../../../request/enum/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"
 import TestRunner from "../../../support/test/testRunner"
