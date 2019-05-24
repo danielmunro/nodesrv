@@ -49,7 +49,7 @@ import AbilityService from "../check/abilityService"
 import CheckBuilderFactory from "../check/checkBuilderFactory"
 import EventService from "../event/eventService"
 import StateService from "../gameService/stateService"
-import ItemService from "../item/itemService"
+import ItemService from "../item/service/itemService"
 import LocationService from "../mob/service/locationService"
 import MobService from "../mob/service/mobService"
 

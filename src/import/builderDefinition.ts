@@ -1,6 +1,6 @@
-import {ItemType} from "../import/enum/itemType"
-import ItemPrototype from "./itemPrototype"
-import {Item} from "./model/item"
+import {Item} from "../item/model/item"
+import ItemPrototype from "./builder/itemPrototype"
+import {ItemType} from "./enum/itemType"
 
 export type ItemFactory = (itemPrototype: ItemPrototype) => Item
 

@@ -1,8 +1,8 @@
-import {newWeapon} from "../../item/factory"
-import ItemPrototype from "../../item/itemPrototype"
+import {newWeapon} from "../../item/factory/factory"
 import {Item} from "../../item/model/item"
 import {damageTypeMap} from "../map/damageTypeMap"
 import {weaponTypeMap} from "../map/weaponTypeMap"
+import ItemPrototype from "./itemPrototype"
 
 export default function(itemPrototype: ItemPrototype): Item {
   const { name, description, args } = itemPrototype

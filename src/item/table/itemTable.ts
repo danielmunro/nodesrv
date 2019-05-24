@@ -1,6 +1,6 @@
-import collectionSearch from "../support/matcher/collectionSearch"
-import { Inventory } from "./model/inventory"
-import { Item } from "./model/item"
+import collectionSearch from "../../support/matcher/collectionSearch"
+import { Inventory } from "../model/inventory"
+import { Item } from "../model/item"
 
 export default class ItemTable {
   constructor(public items: Item[] = []) {}
@@ -10,7 +10,8 @@ export default class ItemTable {
   }
 
   public findItemByInventory(inventory: Inventory, name: string): Item {
-    return collectionSearch(this.items, name, item => item.inventory.uuid === inventory.uuid)
+    return collectionSearch(
+      this.items, name, (item: Item) => item.inventory.uuid === inventory.uuid)
   }
 
   public add(item: Item) {

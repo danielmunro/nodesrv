@@ -1,6 +1,6 @@
 import {AsyncContainerModule} from "inversify"
-import ItemTable from "../../item/itemTable"
 import {getItemRepository} from "../../item/repository/item"
+import ItemTable from "../../item/table/itemTable"
 import FightTable from "../../mob/fight/fightTable"
 import MobTable from "../../mob/mobTable"
 import {getMobRepository} from "../../mob/repository/mob"

@@ -1,4 +1,4 @@
-import { newTrash } from "./factory"
+import { newTrash } from "./factory/factory"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
 

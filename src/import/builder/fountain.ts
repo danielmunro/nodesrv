@@ -1,10 +1,10 @@
 import {ItemType} from "../../item/enum/itemType"
-import {newItem} from "../../item/factory"
-import ItemPrototype from "../../item/itemPrototype"
+import {newItem} from "../../item/factory/factory"
 import Drink from "../../item/model/drink"
 import {Item} from "../../item/model/item"
 import ItemBuilder from "../itemBuilder"
 import {liquidMap} from "../map/liquidMap"
+import ItemPrototype from "./itemPrototype"
 
 export default function(itemPrototype: ItemPrototype): Item {
   const { name, description, args } = itemPrototype

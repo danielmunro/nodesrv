@@ -2,7 +2,7 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import ItemEvent from "../event/itemEvent"
-import ItemService from "../itemService"
+import ItemService from "../service/itemService"
 
 export default class ItemDestroyed implements EventConsumer {
   constructor(

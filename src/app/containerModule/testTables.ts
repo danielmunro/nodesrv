@@ -1,5 +1,5 @@
 import {AsyncContainerModule} from "inversify"
-import ItemTable from "../../item/itemTable"
+import ItemTable from "../../item/table/itemTable"
 import FightTable from "../../mob/fight/fightTable"
 import MobTable from "../../mob/mobTable"
 import SpecializationService from "../../mob/specialization/service/specializationService"

@@ -1,7 +1,7 @@
 import {Equipment} from "../../item/enum/equipment"
-import {newEquipment} from "../../item/factory"
-import ItemPrototype from "../../item/itemPrototype"
+import {newEquipment} from "../../item/factory/factory"
 import {Item} from "../../item/model/item"
+import ItemPrototype from "./itemPrototype"
 
 export default function(itemPrototype: ItemPrototype): Item {
   const { name, description, args } = itemPrototype

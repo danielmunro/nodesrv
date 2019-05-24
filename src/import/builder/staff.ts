@@ -1,10 +1,10 @@
 import {WeaponType} from "../../item/enum/weaponType"
-import {newWeapon} from "../../item/factory"
-import ItemPrototype from "../../item/itemPrototype"
+import {newWeapon} from "../../item/factory/factory"
 import {Item} from "../../item/model/item"
 import Weapon from "../../item/model/weapon"
 import {DamageType} from "../../mob/fight/enum/damageType"
 import {SpellType} from "../../spell/spellType"
+import ItemPrototype from "./itemPrototype"
 
 export default function(itemPrototype: ItemPrototype): Item {
   const { name, description, args } = itemPrototype
