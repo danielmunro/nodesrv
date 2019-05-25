@@ -89,6 +89,7 @@ export default class Spell extends Action {
     return this.costs
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return this.helpText
   }

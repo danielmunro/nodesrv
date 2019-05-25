@@ -10,10 +10,6 @@ export default function roll(dice: number, sides: number): number {
   return value
 }
 
-export function d4() {
-  return roll(1, 4) === 1
-}
-
 export function simpleD4(callback: () => void) {
   if (roll(1, 4) === 1) {
     callback()

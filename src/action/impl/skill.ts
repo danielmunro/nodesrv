@@ -94,6 +94,7 @@ export default class Skill extends Action {
     return this.failureMessage(requestService)
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return this.helpText
   }
