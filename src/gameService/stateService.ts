@@ -3,7 +3,7 @@ import {Mob} from "../mob/model/mob"
 import {isAbleToSee} from "../mob/race/sight"
 import {Weather} from "../region/enum/weather"
 import {Region} from "../region/model/region"
-import WeatherService from "../region/weatherService"
+import WeatherService from "../region/service/weatherService"
 import {Types} from "../support/types"
 import TimeService from "./timeService"
 

@@ -4,7 +4,7 @@ import LocationService from "../../mob/service/locationService"
 import { getRandomWeather} from "../../region/constants"
 import {getWeatherTransitionMessage} from "../../region/constants"
 import { Region } from "../../region/model/region"
-import WeatherService from "../../region/weatherService"
+import WeatherService from "../../region/service/weatherService"
 import {Types} from "../../support/types"
 import { Observer } from "./observer"
 

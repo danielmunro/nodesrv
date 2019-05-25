@@ -1,5 +1,5 @@
 import Check from "../../../check/check"
-import CheckBuilderFactory from "../../../check/checkBuilderFactory"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {Item} from "../../../item/model/item"
 import {RequestType} from "../../../request/enum/requestType"
 import {ResponseStatus} from "../../../request/enum/responseStatus"

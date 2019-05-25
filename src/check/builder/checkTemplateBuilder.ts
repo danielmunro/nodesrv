@@ -8,12 +8,12 @@ import {Mob} from "../../mob/model/mob"
 import MobService from "../../mob/service/mobService"
 import {getSpecializationLevel} from "../../mob/specialization/specializationLevels"
 import Request from "../../request/request"
-import CheckBuilder from "../builder/checkBuilder"
 import {CheckMessages} from "../constants"
 import {CheckType} from "../enum/checkType"
 import getActionPartTable from "../table/actionPartCheckTable"
+import CheckBuilder from "./checkBuilder"
 
-export default class CheckTemplateService {
+export default class CheckTemplateBuilder {
   private static checkAffectStackingBehavior(checkBuilder: CheckBuilder, affectType?: AffectType) {
     if (!affectType) {
       return
@@ -39,7 +39,7 @@ export default class CheckTemplateService {
     spell.getCosts().forEach(cost => checkBuilder.addCost(cost))
     this.checkActionType(checkBuilder, spell.getActionType())
     if (spell.getAffectType()) {
-      CheckTemplateService.checkAffectStackingBehavior(checkBuilder, spell.getAffectType())
+      CheckTemplateBuilder.checkAffectStackingBehavior(checkBuilder, spell.getAffectType())
     }
 
     return checkBuilder
@@ -56,7 +56,7 @@ export default class CheckTemplateService {
 
     skill.getCosts().forEach(cost => checkBuilder.addCost(cost))
     this.checkActionType(checkBuilder, skill.getActionType())
-    CheckTemplateService.checkAffectStackingBehavior(checkBuilder, skill.getAffectType())
+    CheckTemplateBuilder.checkAffectStackingBehavior(checkBuilder, skill.getAffectType())
 
     return checkBuilder
   }

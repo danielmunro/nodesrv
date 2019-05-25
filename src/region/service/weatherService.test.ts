@@ -1,5 +1,5 @@
-import {Weather} from "./enum/weather"
-import {Region} from "./model/region"
+import {Weather} from "../enum/weather"
+import {Region} from "../model/region"
 import WeatherService from "./weatherService"
 
 describe("weather service", () => {

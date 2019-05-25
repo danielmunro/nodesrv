@@ -2,8 +2,8 @@ import {ActionPart} from "../../action/enum/actionPart"
 import {Mob} from "../../mob/model/mob"
 import MobService from "../../mob/service/mobService"
 import Request from "../../request/request"
-import ActionPartCheck from "../actionPartCheck"
 import CheckBuilder from "../builder/checkBuilder"
+import ActionPartCheck from "./actionPartCheck"
 
 export default class PlayerMobActionPartCheck implements ActionPartCheck {
   constructor(private readonly mobService: MobService) {}

@@ -45,7 +45,7 @@ import towerOfIronWillAction from "../action/impl/spell/psionics/towerOfIronWill
 import flyAction from "../action/impl/spell/transportation/flyAction"
 import summonAction from "../action/impl/spell/transportation/summonAction"
 import wordOfRecallAction from "../action/impl/spell/transportation/wordOfRecallAction"
-import CheckBuilderFactory from "../check/checkBuilderFactory"
+import CheckBuilderFactory from "../check/factory/checkBuilderFactory"
 import AbilityService from "../check/service/abilityService"
 import EventService from "../event/service/eventService"
 import StateService from "../gameService/stateService"

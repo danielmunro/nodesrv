@@ -1,5 +1,5 @@
 import Check from "../../../check/check"
-import CheckBuilderFactory from "../../../check/checkBuilderFactory"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {EventType} from "../../../event/enum/eventType"
 import {createMobEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"

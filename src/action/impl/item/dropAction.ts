@@ -1,6 +1,6 @@
 import {AffectType} from "../../../affect/enum/affectType"
 import Check from "../../../check/check"
-import CheckBuilderFactory from "../../../check/checkBuilderFactory"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {EventType} from "../../../event/enum/eventType"
 import {createItemDroppedEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"

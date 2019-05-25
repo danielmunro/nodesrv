@@ -1,5 +1,5 @@
 import {getRandomWeather} from "../../region/constants"
-import WeatherService from "../../region/weatherService"
+import WeatherService from "../../region/service/weatherService"
 import { getTestRegion } from "../../support/test/region"
 import { RegionWeather } from "./regionWeather"
 

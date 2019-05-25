@@ -1,5 +1,5 @@
 import Check from "../../../check/check"
-import CheckBuilderFactory from "../../../check/checkBuilderFactory"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {isBanned, Standing} from "../../../mob/enum/standing"
 import {Mob} from "../../../mob/model/mob"
 import MobService from "../../../mob/service/mobService"

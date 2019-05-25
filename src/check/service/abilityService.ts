@@ -1,7 +1,7 @@
 import EventService from "../../event/service/eventService"
 import MobEvent from "../../mob/event/mobEvent"
 import Request from "../../request/request"
-import CheckBuilderFactory from "../checkBuilderFactory"
+import CheckBuilderFactory from "../factory/checkBuilderFactory"
 
 export default class AbilityService {
   constructor(

@@ -1,9 +1,9 @@
 import {ConditionMessages} from "../../action/constants"
 import {ActionPart} from "../../action/enum/actionPart"
 import Request from "../../request/request"
-import ActionPartCheck from "../actionPartCheck"
 import CheckBuilder from "../builder/checkBuilder"
 import {CheckType} from "../enum/checkType"
+import ActionPartCheck from "./actionPartCheck"
 
 export default class ItemInInventoryActionPartCheck implements ActionPartCheck {
   public getActionPart(): ActionPart {

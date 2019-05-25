@@ -53,8 +53,10 @@ export default class ItemBuilder {
 
   private static setItemAffects(item: Item, flags: string[]) {
     for (const flag of flags) {
-      if (itemAffectMap[flag]) {
-        item.affects.push(new AffectBuilder(itemAffectMap[flag]).build())
+      // @ts-ignore
+      const f = itemAffectMap[flag]
+      if (f) {
+        item.affects.push(new AffectBuilder(f).build())
       }
     }
 

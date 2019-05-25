@@ -1,5 +1,5 @@
 import {Terrain} from "../region/enum/terrain"
-import newRegion from "../region/factory"
+import newRegion from "../region/factory/regionFactory"
 import roll from "../support/random/dice"
 import {allDirections} from "./constants"
 import {getFreeReciprocalDirection, isReciprocalFree, reverse} from "./direction"

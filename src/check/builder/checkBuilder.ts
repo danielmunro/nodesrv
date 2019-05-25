@@ -15,13 +15,13 @@ import Maybe from "../../support/functional/maybe"
 import collectionSearch from "../../support/matcher/collectionSearch"
 import match from "../../support/matcher/match"
 import {format} from "../../support/string"
-import ActionPartCheck from "../actionPartCheck"
+import ActionPartCheck from "../actionPartCheck/actionPartCheck"
 import Check from "../check"
-import CheckComponent from "../checkComponent"
 import CheckResult from "../checkResult"
 import {CheckMessages} from "../constants"
 import Cost from "../cost/cost"
 import {CheckType} from "../enum/checkType"
+import CheckComponent from "./checkComponent"
 
 export default class CheckBuilder {
   private checks: CheckComponent[] = []

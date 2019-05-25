@@ -1,5 +1,5 @@
 import MobService from "../../mob/service/mobService"
-import ActionPartCheck from "../actionPartCheck"
+import ActionPartCheck from "../actionPartCheck/actionPartCheck"
 import GoldActionPartCheck from "../actionPartCheck/goldActionPartCheck"
 import HostileActionPartCheck from "../actionPartCheck/hostileActionPartCheck"
 import ItemInInventoryActionPartCheck from "../actionPartCheck/itemInInventoryActionPartCheck"

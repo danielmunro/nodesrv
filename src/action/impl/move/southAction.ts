@@ -1,4 +1,4 @@
-import CheckBuilderFactory from "../../../check/checkBuilderFactory"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import LocationService from "../../../mob/service/locationService"
 import {RequestType} from "../../../request/enum/requestType"
 import {Direction} from "../../../room/enum/direction"

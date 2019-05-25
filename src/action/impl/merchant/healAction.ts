@@ -1,6 +1,6 @@
 import Check from "../../../check/check"
-import CheckBuilderFactory from "../../../check/checkBuilderFactory"
 import {CheckType} from "../../../check/enum/checkType"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import HealerSpell from "../../../mob/healer/healerSpell"
 import {Mob} from "../../../mob/model/mob"
 import LocationService from "../../../mob/service/locationService"

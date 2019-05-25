@@ -1,5 +1,5 @@
 import {AffectType} from "../../../../affect/enum/affectType"
-import CheckComponent from "../../../../check/checkComponent"
+import CheckComponent from "../../../../check/builder/checkComponent"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import {CheckType} from "../../../../check/enum/checkType"

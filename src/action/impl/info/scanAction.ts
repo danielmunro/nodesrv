@@ -1,5 +1,5 @@
 import Check from "../../../check/check"
-import CheckBuilderFactory from "../../../check/checkBuilderFactory"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {Disposition} from "../../../mob/enum/disposition"
 import MobLocation from "../../../mob/model/mobLocation"
 import MobService from "../../../mob/service/mobService"

@@ -1,5 +1,5 @@
 import Check from "../../../check/check"
-import CheckBuilderFactory from "../../../check/checkBuilderFactory"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {Mob} from "../../../mob/model/mob"
 import Escrow from "../../../mob/trade/escrow"
 import EscrowService from "../../../mob/trade/escrowService"
