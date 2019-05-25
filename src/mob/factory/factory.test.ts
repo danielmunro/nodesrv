@@ -1,12 +1,12 @@
-import AttributeBuilder from "../attributes/builder/attributeBuilder"
+import AttributeBuilder from "../../attributes/builder/attributeBuilder"
 import {
   newHitroll,
   newStartingStats,
   newStartingVitals,
-} from "../attributes/factory/attributeFactory"
-import { Item } from "../item/model/item"
+} from "../../attributes/factory/attributeFactory"
+import { Item } from "../../item/model/item"
+import { RaceType } from "../race/enum/raceType"
 import { newMob } from "./factory"
-import { RaceType } from "./race/enum/raceType"
 
 describe("mob factory", () => {
   it("should be able to create a mob", () => {

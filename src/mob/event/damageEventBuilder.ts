@@ -1,4 +1,4 @@
-import {createDamageEvent} from "../../event/factory"
+import {createDamageEvent} from "../../event/factory/eventFactory"
 import {DamageType} from "../fight/enum/damageType"
 import {Mob} from "../model/mob"
 import DamageEvent from "./damageEvent"

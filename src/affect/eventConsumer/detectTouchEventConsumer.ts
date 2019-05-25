@@ -2,8 +2,8 @@ import {EventType} from "../../event/enum/eventType"
 import {MobInteractionEvent} from "../../event/event"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import EventService from "../../event/eventService"
-import {createMobMessageEvent} from "../../event/factory"
+import {createMobMessageEvent} from "../../event/factory/eventFactory"
+import EventService from "../../event/service/eventService"
 import {AffectType} from "../enum/affectType"
 
 export default class DetectTouchEventConsumer implements EventConsumer {

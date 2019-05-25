@@ -1,7 +1,7 @@
 import {inject, injectable} from "inversify"
 import Action from "../action/impl/action"
 import {Client} from "../client/client"
-import EventService from "../event/eventService"
+import EventService from "../event/service/eventService"
 import {Mob} from "../mob/model/mob"
 import LocationService from "../mob/service/locationService"
 import CreationService from "../session/auth/creationService"

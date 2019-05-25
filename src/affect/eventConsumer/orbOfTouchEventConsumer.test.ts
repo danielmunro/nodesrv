@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import {createAttackEvent} from "../../event/factory"
+import {createAttackEvent} from "../../event/factory/eventFactory"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {AffectType} from "../enum/affectType"

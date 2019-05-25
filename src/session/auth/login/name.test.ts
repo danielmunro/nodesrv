@@ -1,7 +1,7 @@
 import * as sillyname from "sillyname"
 import {createTestAppContainer} from "../../../app/factory/testFactory"
-import MobTable from "../../../mob/mobTable"
 import MobService from "../../../mob/service/mobService"
+import MobTable from "../../../mob/table/mobTable"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import Complete from "../complete"

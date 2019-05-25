@@ -6,7 +6,7 @@ import ItemContainerResetRepository from "../../item/repository/itemContainerRes
 import ItemMobResetRepository from "../../item/repository/itemMobReset"
 import ItemRoomResetRepository from "../../item/repository/itemRoomReset"
 import MobEquipResetRepository from "../../item/repository/mobEquipReset"
-import { newMobReset } from "../../mob/factory"
+import { newMobReset } from "../../mob/factory/factory"
 import MobReset from "../../mob/model/mobReset"
 import MobResetRepository from "../../mob/repository/mobReset"
 import { ResetFlag } from "../enum/resetFlag"

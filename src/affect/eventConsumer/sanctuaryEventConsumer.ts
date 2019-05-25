@@ -1,7 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {createDamageEvent} from "../../event/factory"
+import {createDamageEvent} from "../../event/factory/eventFactory"
 import DamageEvent from "../../mob/event/damageEvent"
 import {AffectType} from "../enum/affectType"
 

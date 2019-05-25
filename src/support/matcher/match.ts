@@ -1,4 +1,4 @@
-export default function match(thing, search: string): boolean {
+export default function match(thing: string, search: string): boolean {
   const lowerSearch = search.toLowerCase()
   if (thing.toLowerCase() === lowerSearch) {
     return true

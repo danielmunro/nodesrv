@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import MobTable from "../../mob/mobTable"
 import LocationService from "../../mob/service/locationService"
+import MobTable from "../../mob/table/mobTable"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import { Wander } from "./wander"

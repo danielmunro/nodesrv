@@ -4,7 +4,7 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {Room} from "../../room/model/room"
-import {newMobLocation} from "../factory"
+import {newMobLocation} from "../factory/factory"
 import LocationService from "../service/locationService"
 
 export default class ClientCreated implements EventConsumer {

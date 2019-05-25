@@ -1,4 +1,4 @@
-import { Mob } from "./model/mob"
+import { Mob } from "../model/mob"
 
 export default class MobTable {
   constructor(private mobs: Mob[] = []) {}

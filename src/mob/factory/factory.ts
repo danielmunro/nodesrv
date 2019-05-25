@@ -1,13 +1,13 @@
-import Attributes from "../attributes/model/attributes"
-import Vitals from "../attributes/model/vitals"
-import {Item} from "../item/model/item"
-import {Room} from "../room/model/room"
-import {Disposition} from "./enum/disposition"
-import {Mob} from "./model/mob"
-import MobLocation from "./model/mobLocation"
-import MobReset from "./model/mobReset"
-import {RaceType} from "./race/enum/raceType"
-import {SpecializationType} from "./specialization/enum/specializationType"
+import Attributes from "../../attributes/model/attributes"
+import Vitals from "../../attributes/model/vitals"
+import {Item} from "../../item/model/item"
+import {Room} from "../../room/model/room"
+import {Disposition} from "../enum/disposition"
+import {Mob} from "../model/mob"
+import MobLocation from "../model/mobLocation"
+import MobReset from "../model/mobReset"
+import {RaceType} from "../race/enum/raceType"
+import {SpecializationType} from "../specialization/enum/specializationType"
 
 export function newMobReset(
   mob: Mob,

@@ -18,7 +18,9 @@ describe("practice service", () => {
     [SpecializationType.Ranger, PracticeMessages.Ranger],
     [SpecializationType.Mage, PracticeMessages.Mage],
     [SpecializationType.Cleric, PracticeMessages.Cleric],
-  ])("generates accurate practice messages for a %s", (specialization: SpecializationType, message: string) => {
+  ])
+  // @ts-ignore
+  ("generates accurate practice messages for a %s", (specialization: SpecializationType, message: string) => {
     // when
     const mob = testRunner.createMob()
       .setSpecialization(specialization)

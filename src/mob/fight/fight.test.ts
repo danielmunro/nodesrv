@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import EventService from "../../event/eventService"
+import EventService from "../../event/service/eventService"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import { Fight } from "./fight"

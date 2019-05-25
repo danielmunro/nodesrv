@@ -1,9 +1,9 @@
-import {EventResponseStatus} from "./enum/eventResponseStatus"
-import {EventType} from "./enum/eventType"
+import {EventResponseStatus} from "../enum/eventResponseStatus"
+import {EventType} from "../enum/eventType"
+import {createTestEvent} from "../factory/eventFactory"
+import TestAConsumer from "../test/testAConsumer"
+import TestBConsumer from "../test/testBConsumer"
 import EventService from "./eventService"
-import {createTestEvent} from "./factory"
-import TestAConsumer from "./test/testAConsumer"
-import TestBConsumer from "./test/testBConsumer"
 
 describe("event service", () => {
   it("should consume events", async () => {

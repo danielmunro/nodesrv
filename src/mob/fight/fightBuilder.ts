@@ -1,5 +1,5 @@
 import {inject, injectable} from "inversify"
-import EventService from "../../event/eventService"
+import EventService from "../../event/service/eventService"
 import {Types} from "../../support/types"
 import {Mob} from "../model/mob"
 import LocationService from "../service/locationService"

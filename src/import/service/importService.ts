@@ -1,7 +1,7 @@
 import { readFileSync } from "fs"
 import { newStartingAttributes, newVitals } from "../../attributes/factory/attributeFactory"
 import ItemRepository from "../../item/repository/item"
-import { newMob } from "../../mob/factory"
+import { newMob } from "../../mob/factory/factory"
 import {Mob} from "../../mob/model/mob"
 import Shop from "../../mob/model/shop"
 import MobRepository from "../../mob/repository/mob"

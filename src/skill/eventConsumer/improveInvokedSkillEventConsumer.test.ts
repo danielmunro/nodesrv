@@ -1,4 +1,4 @@
-import {createSkillEvent} from "../../event/factory"
+import {createSkillEvent} from "../../event/factory/eventFactory"
 import doNTimes from "../../support/functional/times"
 import {getTestMob} from "../../support/test/mob"
 import {newSkill} from "../factory"

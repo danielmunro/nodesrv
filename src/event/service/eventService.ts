@@ -1,9 +1,9 @@
 import {injectable} from "inversify"
 import "reflect-metadata"
-import {EventResponseStatus} from "./enum/eventResponseStatus"
-import Event from "./event"
-import EventConsumer from "./eventConsumer"
-import EventResponse from "./eventResponse"
+import {EventResponseStatus} from "../enum/eventResponseStatus"
+import Event from "../event"
+import EventConsumer from "../eventConsumer"
+import EventResponse from "../eventResponse"
 
 @injectable()
 export default class EventService {

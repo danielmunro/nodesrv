@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import {EventType} from "../../event/enum/eventType"
-import {createClientEvent} from "../../event/factory"
+import {createClientEvent} from "../../event/factory/eventFactory"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
 import LocationService from "../service/locationService"

@@ -1,4 +1,4 @@
-import EventService from "../event/eventService"
+import EventService from "../event/service/eventService"
 import MobEvent from "../mob/event/mobEvent"
 import Request from "../request/request"
 import CheckBuilderFactory from "./checkBuilderFactory"

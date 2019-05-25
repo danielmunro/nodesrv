@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import EventService from "../../event/eventService"
+import EventService from "../../event/service/eventService"
 import TimeService from "../../gameService/timeService"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
 import LocationService from "../../mob/service/locationService"

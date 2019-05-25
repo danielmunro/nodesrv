@@ -2,7 +2,7 @@ import {createTestAppContainer} from "../../app/factory/testFactory"
 import {Room} from "../../room/model/room"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import { newMobLocation } from "../factory"
+import { newMobLocation } from "../factory/factory"
 import {Mob} from "../model/mob"
 import LocationService from "./locationService"
 

@@ -2,11 +2,11 @@ import AttributeBuilder from "../../attributes/builder/attributeBuilder"
 import {newVitals} from "../../attributes/factory/attributeFactory"
 import Attributes from "../../attributes/model/attributes"
 import {MAX_MOB_LEVEL} from "../../mob/constants"
-import Gain from "../../mob/gain"
 import {Mob} from "../../mob/model/mob"
 import {RaceType} from "../../mob/race/enum/raceType"
 import {Specialization} from "../../mob/specialization/specialization"
 import {getRandomIntFromRange, percentRoll} from "../../support/random/helpers"
+import Gain from "./levelService/gain"
 
 export default class LevelService {
   private static createAttributesFromGain(gain: Gain): Attributes {

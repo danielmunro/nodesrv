@@ -1,7 +1,7 @@
 import * as sillyname from "sillyname"
 import { getTestMob } from "../../support/test/mob"
-import MobTable from "../mobTable"
 import { Mob } from "../model/mob"
+import MobTable from "../table/mobTable"
 
 function getTestWanderingMob(): Mob {
   const mob = getTestMob()

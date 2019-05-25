@@ -1,6 +1,6 @@
 import AbilityService from "../../check/abilityService"
 import CheckBuilderFactory from "../../check/checkBuilderFactory"
-import EventService from "../../event/eventService"
+import EventService from "../../event/service/eventService"
 import TimeService from "../../gameService/timeService"
 import ItemService from "../../item/service/itemService"
 import getHealerSpellTable from "../../mob/healer/healerSpellTable"

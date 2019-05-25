@@ -1,6 +1,6 @@
 import {Container} from "inversify"
 import EventConsumer from "../event/eventConsumer"
-import EventService from "../event/eventService"
+import EventService from "../event/service/eventService"
 import ResetService from "../gameService/resetService"
 import SpecializationService from "../mob/specialization/service/specializationService"
 import {GameServer} from "../server/server"

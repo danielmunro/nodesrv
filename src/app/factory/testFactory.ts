@@ -1,6 +1,6 @@
 import {Container} from "inversify"
 import EventConsumer from "../../event/eventConsumer"
-import EventService from "../../event/eventService"
+import EventService from "../../event/service/eventService"
 import {Room} from "../../room/model/room"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"

@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import {createInputEvent} from "../../event/factory"
+import {createInputEvent} from "../../event/factory/eventFactory"
 import {RequestType} from "../../request/enum/requestType"
 import MobBuilder from "../../support/test/mobBuilder"
 import TestRunner from "../../support/test/testRunner"
