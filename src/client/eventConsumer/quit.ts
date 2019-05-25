@@ -3,7 +3,7 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import MobEvent from "../../mob/event/mobEvent"
-import ClientService from "../../server/clientService"
+import ClientService from "../../server/service/clientService"
 import {Client} from "../client"
 
 export default class Quit implements EventConsumer {

@@ -3,7 +3,7 @@ import EventConsumer from "../event/eventConsumer"
 import EventService from "../event/service/eventService"
 import ResetService from "../gameService/resetService"
 import SpecializationService from "../mob/specialization/service/specializationService"
-import {GameServer} from "../server/server"
+import {GameServerService} from "../server/service/gameServerService"
 import {Types} from "../support/types"
 import Observers from "./observers"
 
@@ -22,8 +22,8 @@ export default class App {
     return this.container.get<ResetService>(Types.ResetService)
   }
 
-  public getGameServer(): GameServer {
-    return this.container.get<GameServer>(Types.GameServer)
+  public getGameServer(): GameServerService {
+    return this.container.get<GameServerService>(Types.GameServer)
   }
 
   public getEventConsumerTable(): EventConsumer[] {

@@ -7,13 +7,13 @@ import ItemService from "../../item/service/itemService"
 import FightBuilder from "../../mob/fight/fightBuilder"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
-import {GameServer} from "../../server/server"
+import {GameServerService} from "../../server/service/gameServerService"
 import {Types} from "../../support/types"
 
 export default new ContainerModule(bind => {
   bind<EventConsumer[]>(Types.EventConsumerTable).toDynamicValue(context => createEventConsumerTable(
       context.container.get<GameService>(Types.GameService),
-      context.container.get<GameServer>(Types.GameServer),
+      context.container.get<GameServerService>(Types.GameServer),
       context.container.get<MobService>(Types.MobService),
       context.container.get<ItemService>(Types.ItemService),
       context.container.get<FightBuilder>(Types.FightBuilder),

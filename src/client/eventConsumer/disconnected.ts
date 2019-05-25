@@ -3,7 +3,7 @@ import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import ClientService from "../../server/clientService"
+import ClientService from "../../server/service/clientService"
 
 export default class Disconnected implements EventConsumer {
   constructor(private readonly clientService: ClientService) {}

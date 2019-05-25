@@ -4,7 +4,7 @@ import EventResponse from "../../event/eventResponse"
 import {Mob} from "../../mob/model/mob"
 import LocationService from "../../mob/service/locationService"
 import ResponseMessage from "../../request/responseMessage"
-import ClientService from "../../server/clientService"
+import ClientService from "../../server/service/clientService"
 import RoomMessageEvent from "../event/roomMessageEvent"
 
 export default class RoomMessageEventConsumer implements EventConsumer {

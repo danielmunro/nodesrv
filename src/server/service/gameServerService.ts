@@ -1,27 +1,22 @@
 import {inject, injectable} from "inversify"
 import {Server} from "ws"
-import {Client} from "../client/client"
-import {EventType} from "../event/enum/eventType"
-import {createClientEvent} from "../event/factory/eventFactory"
-import EventService from "../event/service/eventService"
-import {Room} from "../room/model/room"
-import {poll} from "../support/poll/poll"
-import {ImmediateTimer} from "../support/timer/immediateTimer"
-import {Timer} from "../support/timer/timer"
-import {Types} from "../support/types"
+import {Client} from "../../client/client"
+import {EventType} from "../../event/enum/eventType"
+import {createClientEvent} from "../../event/factory/eventFactory"
+import EventService from "../../event/service/eventService"
+import {Room} from "../../room/model/room"
+import {poll} from "../../support/poll/poll"
+import {ImmediateTimer} from "../../support/timer/immediateTimer"
+import {Timer} from "../../support/timer/timer"
+import {Types} from "../../support/types"
+import {events} from "../constants"
+import {GameServerStatus} from "../enum/gameServerStatus"
+import {Observer} from "../observers/observer"
 import ClientService from "./clientService"
-import {events} from "./constants"
-import {Observer} from "./observers/observer"
-
-enum Status {
-  Initialized,
-  Started,
-  Terminated,
-}
 
 @injectable()
-export class GameServer {
-  private status: Status = Status.Initialized
+export class GameServerService {
+  private status: GameServerStatus = GameServerStatus.Initialized
 
   constructor(
     @inject(Types.WebSocketServer) public readonly wss: Server,
@@ -31,14 +26,14 @@ export class GameServer {
 
   public async start(): Promise<void> {
     if (!this.isInitialized()) {
-      throw new Error("Status must be initialized to start")
+      throw new Error("GameServerStatus must be initialized to start")
     }
-    this.status = Status.Started
+    this.status = GameServerStatus.Started
     this.wss.on(events.connection, this.addWS.bind(this))
   }
 
   public terminate(): void {
-    this.status = Status.Terminated
+    this.status = GameServerStatus.Terminated
     this.wss.close()
   }
 
@@ -50,15 +45,15 @@ export class GameServer {
   }
 
   public isInitialized(): boolean {
-    return this.status === Status.Initialized
+    return this.status === GameServerStatus.Initialized
   }
 
   public isStarted(): boolean {
-    return this.status === Status.Started
+    return this.status === GameServerStatus.Started
   }
 
   public isTerminated(): boolean {
-    return this.status === Status.Terminated
+    return this.status === GameServerStatus.Terminated
   }
 
   public addObserver(observer: Observer, timer: Timer): void {

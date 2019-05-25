@@ -3,7 +3,7 @@ import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import {Mob} from "../../mob/model/mob"
-import ClientService from "../../server/clientService"
+import ClientService from "../../server/service/clientService"
 
 export default class MobLeaves implements EventConsumer {
   constructor(private readonly clientService: ClientService) {}

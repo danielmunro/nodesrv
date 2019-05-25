@@ -1,7 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import ClientService from "../../server/clientService"
+import ClientService from "../../server/service/clientService"
 import Maybe from "../../support/functional/maybe"
 import MobMessageEvent from "../event/mobMessageEvent"
 

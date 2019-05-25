@@ -37,7 +37,7 @@ import MobArrives from "../../player/eventConsumer/mobArrives"
 import MobLeaves from "../../player/eventConsumer/mobLeaves"
 import {RequestType} from "../../request/enum/requestType"
 import RoomMessageEventConsumer from "../../room/eventConsumer/roomMessageEventConsumer"
-import {GameServer} from "../../server/server"
+import {GameServerService} from "../../server/service/gameServerService"
 import DodgeEventConsumer from "../../skill/eventConsumer/dodgeEventConsumer"
 import ExtraAttackEventConsumer from "../../skill/eventConsumer/extraAttackEventConsumer"
 import FastHealingEventConsumer from "../../skill/eventConsumer/fastHealingEventConsumer"
@@ -50,7 +50,7 @@ import EventService from "../service/eventService"
 
 export default function createEventConsumerTable(
   gameService: GameService,
-  gameServer: GameServer,
+  gameServer: GameServerService,
   mobService: MobService,
   itemService: ItemService,
   fightBuilder: FightBuilder,

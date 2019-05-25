@@ -1,31 +1,31 @@
 import { Server } from "mock-socket"
-import ActionService from "../action/service/actionService"
-import EventService from "../event/service/eventService"
-import GameService from "../gameService/gameService"
-import FightTable from "../mob/fight/fightTable"
-import LocationService from "../mob/service/locationService"
-import MobService from "../mob/service/mobService"
-import MobTable from "../mob/table/mobTable"
-import ExitTable from "../room/table/exitTable"
-import RoomTable from "../room/table/roomTable"
-import CreationService from "../session/auth/creationService"
-import { DontExecuteTestObserver } from "../support/test/dontExecuteTestObserver"
-import { ExpectTestObserver } from "../support/test/expectTestObserver"
-import { getTestRoom } from "../support/test/room"
-import { ImmediateTimer } from "../support/timer/immediateTimer"
-import { ShortIntervalTimer } from "../support/timer/shortIntervalTimer"
+import ActionService from "../../action/service/actionService"
+import EventService from "../../event/service/eventService"
+import GameService from "../../gameService/gameService"
+import FightTable from "../../mob/fight/fightTable"
+import LocationService from "../../mob/service/locationService"
+import MobService from "../../mob/service/mobService"
+import MobTable from "../../mob/table/mobTable"
+import ExitTable from "../../room/table/exitTable"
+import RoomTable from "../../room/table/roomTable"
+import CreationService from "../../session/auth/creationService"
+import { DontExecuteTestObserver } from "../../support/test/dontExecuteTestObserver"
+import { ExpectTestObserver } from "../../support/test/expectTestObserver"
+import { getTestRoom } from "../../support/test/room"
+import { ImmediateTimer } from "../../support/timer/immediateTimer"
+import { ShortIntervalTimer } from "../../support/timer/shortIntervalTimer"
 import ClientService from "./clientService"
-import { GameServer } from "./server"
+import { GameServerService } from "./gameServerService"
 
 let ws
 
-async function getGameServer(): Promise<GameServer> {
+async function getGameServer(): Promise<GameServerService> {
   const eventService = new EventService()
   const room = getTestRoom()
   const locationService = new LocationService(RoomTable.new([room]), eventService, new ExitTable(), room)
   const mobService = new MobService(new MobTable(), locationService, new MobTable(), new FightTable())
   const gameService = new GameService(mobService, new ActionService([], [], []))
-  return new GameServer(
+  return new GameServerService(
     ws,
     room,
     new ClientService(

@@ -11,7 +11,7 @@ export const Types = {
   FightBuilder: Symbol.for("FightBuilder"),
   FightRoundsObserver: Symbol.for("FightRoundsObserver"),
   FightTable: Symbol.for("FightTable"),
-  GameServer: Symbol.for("GameServer"),
+  GameServer: Symbol.for("GameServerService"),
   GameService: Symbol.for("GameService"),
   ItemContainerResets: Symbol.for("ItemContainerResets"),
   ItemMobResets: Symbol.for("ItemMobResets"),

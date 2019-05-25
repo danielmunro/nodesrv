@@ -6,7 +6,7 @@ import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import EventContext from "../../request/context/eventContext"
 import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
-import ClientService from "../../server/clientService"
+import ClientService from "../../server/service/clientService"
 
 export default class LookEventConsumer implements EventConsumer {
   constructor(

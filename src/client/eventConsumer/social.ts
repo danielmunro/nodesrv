@@ -2,7 +2,7 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {Mob} from "../../mob/model/mob"
-import ClientService from "../../server/clientService"
+import ClientService from "../../server/service/clientService"
 import {Channel} from "../channel"
 import SocialEvent from "../event/socialEvent"
 

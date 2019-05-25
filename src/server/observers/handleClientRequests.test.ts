@@ -8,7 +8,7 @@ import Response from "../../session/auth/response"
 import {getTestPlayer} from "../../support/test/player"
 import {getTestRoom} from "../../support/test/room"
 import {Types} from "../../support/types"
-import ClientService from "../clientService"
+import ClientService from "../service/clientService"
 import {HandleClientRequests} from "./handleClientRequests"
 
 let clientService: ClientService

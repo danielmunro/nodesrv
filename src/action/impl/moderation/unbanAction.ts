@@ -5,8 +5,8 @@ import {Mob} from "../../../mob/model/mob"
 import MobService from "../../../mob/service/mobService"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
-import RequestService from "../../../request/requestService"
 import Response from "../../../request/response"
+import RequestService from "../../../request/service/requestService"
 import Maybe from "../../../support/functional/maybe"
 import {
   MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS,
