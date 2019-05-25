@@ -24,10 +24,10 @@ describe("fireball action", () => {
 
     // then
     expect(response.getMessageToRequestCreator()).toMatch(
-      new RegExp(`your ball of fire (hits|grazes) ${target}.`))
+      new RegExp(`your ball of fire (hits|grazes|scratches) ${target}.`))
     expect(response.getMessageToTarget()).toMatch(
-      new RegExp(`${caster}'s ball of fire (hits|grazes) you.`))
+      new RegExp(`${caster}'s ball of fire (hits|grazes|scratches) you.`))
     expect(response.getMessageToObservers()).toMatch(
-      new RegExp(`${caster}'s ball of fire (hits|grazes) ${target}.`))
+      new RegExp(`${caster}'s ball of fire (hits|grazes|scratches) ${target}.`))
   })
 })

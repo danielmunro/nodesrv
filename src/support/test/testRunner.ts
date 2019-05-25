@@ -133,9 +133,6 @@ export default class TestRunner {
     requestType: RequestType,
     input: string = requestType.toString(),
     targetMobInRoom?: Mob): Request {
-    if (!this.firstMob) {
-      this.createMob()
-    }
     return new Request(
       this.firstMob,
       this.getStartRoom().get(),

@@ -236,6 +236,9 @@ export const ConditionMessages = {
       NotFound: "You can't find that.",
     },
   },
+  Quit: {
+    CannotQuitWhileFighting: "You cannot quit while fighting.",
+  },
   Remove: {
     Success: "{requestCreator} {verb} {item} and {verb2} it in {requestCreator2} inventory.",
   },

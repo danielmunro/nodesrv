@@ -15,9 +15,11 @@ export default class Quit implements EventConsumer {
 
   public consume(event: MobEvent): Promise<EventResponse> {
     const client = this.clientService.getClientByMob(event.mob) as Client
-    this.clientService.remove(client)
-    client.ws.close()
-    console.info("user quit", { mob: event.mob.name })
+    if (client) {
+      this.clientService.remove(client)
+      client.ws.close()
+      console.info("user quit", { mob: event.mob.name })
+    }
     return Promise.resolve(new EventResponse(event, EventResponseStatus.None))
   }
 }
