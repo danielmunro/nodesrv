@@ -2,7 +2,7 @@ import {ConditionMessages} from "../../action/constants"
 import {ActionPart} from "../../action/enum/actionPart"
 import Request from "../../request/request"
 import ActionPartCheck from "../actionPartCheck"
-import CheckBuilder from "../checkBuilder"
+import CheckBuilder from "../builder/checkBuilder"
 import {CheckType} from "../enum/checkType"
 
 export default class ItemInRoomActionPartCheck implements ActionPartCheck {

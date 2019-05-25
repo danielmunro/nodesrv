@@ -1,6 +1,6 @@
-import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
+import AbilityService from "../../../../check/service/abilityService"
 import LocationService from "../../../../mob/service/locationService"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"

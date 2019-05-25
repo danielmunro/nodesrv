@@ -1,7 +1,7 @@
 import {AffectType} from "../../../../affect/enum/affectType"
-import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
+import AbilityService from "../../../../check/service/abilityService"
 import ResponseMessage from "../../../../request/responseMessage"
 import {Costs, SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"

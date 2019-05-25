@@ -1,6 +1,6 @@
 import AffectBuilder from "../../affect/builder/affectBuilder"
+import CheckBuilder from "../../check/builder/checkBuilder"
 import Check from "../../check/check"
-import CheckBuilder from "../../check/checkBuilder"
 import CheckedRequest from "../../check/checkedRequest"
 import {CheckStatus} from "../../check/enum/checkStatus"
 import {RequestType} from "../../request/enum/requestType"

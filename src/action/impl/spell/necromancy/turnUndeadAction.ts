@@ -1,6 +1,6 @@
-import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
+import AbilityService from "../../../../check/service/abilityService"
 import {createRoomMessageEvent} from "../../../../event/factory/eventFactory"
 import {Disposition} from "../../../../mob/enum/disposition"
 import {Mob} from "../../../../mob/model/mob"

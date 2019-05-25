@@ -1,7 +1,7 @@
 import {ConditionMessages} from "../../action/constants"
 import {ActionPart} from "../../action/enum/actionPart"
 import ActionPartCheck from "../actionPartCheck"
-import CheckBuilder from "../checkBuilder"
+import CheckBuilder from "../builder/checkBuilder"
 
 export default class MobInRoomActionPartCheck implements ActionPartCheck {
   public getActionPart(): ActionPart {

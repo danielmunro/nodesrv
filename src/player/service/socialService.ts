@@ -1,6 +1,6 @@
 import {ConditionMessages} from "../../action/constants"
+import CheckBuilder from "../../check/builder/checkBuilder"
 import Check from "../../check/check"
-import CheckBuilder from "../../check/checkBuilder"
 import CheckBuilderFactory from "../../check/checkBuilderFactory"
 import {Channel} from "../../client/channel"
 import {createSocialEvent} from "../../event/factory/eventFactory"

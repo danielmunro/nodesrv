@@ -1,6 +1,6 @@
-import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
+import AbilityService from "../../../../check/service/abilityService"
 import DamageEvent from "../../../../mob/event/damageEvent"
 import {DamageType} from "../../../../mob/fight/enum/damageType"
 import {SpellMessages} from "../../../../spell/constants"

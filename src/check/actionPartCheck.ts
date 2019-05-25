@@ -1,6 +1,6 @@
 import {ActionPart} from "../action/enum/actionPart"
 import Request from "../request/request"
-import CheckBuilder from "./checkBuilder"
+import CheckBuilder from "./builder/checkBuilder"
 
 export default interface ActionPartCheck {
   getActionPart(): ActionPart

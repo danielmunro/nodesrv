@@ -1,9 +1,9 @@
 import {Disposition} from "../mob/enum/disposition"
 import MobService from "../mob/service/mobService"
 import Request from "../request/request"
-import getActionPartTable from "./actionPartCheckTable"
-import CheckBuilder from "./checkBuilder"
-import CheckTemplate from "./checkTemplate"
+import CheckBuilder from "./builder/checkBuilder"
+import CheckTemplateService from "./service/checkTemplateService"
+import getActionPartTable from "./table/actionPartCheckTable"
 
 export default class CheckBuilderFactory {
   constructor(private readonly mobService: MobService) {}
@@ -13,7 +13,7 @@ export default class CheckBuilderFactory {
       .requireDisposition(disposition, `You must be ${disposition} to do that.`)
   }
 
-  public createCheckTemplate(request: Request): CheckTemplate {
-    return new CheckTemplate(this.mobService, request)
+  public createCheckTemplate(request: Request): CheckTemplateService {
+    return new CheckTemplateService(this.mobService, request)
   }
 }

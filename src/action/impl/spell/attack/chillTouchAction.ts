@@ -1,4 +1,4 @@
-import AbilityService from "../../../../check/abilityService"
+import AbilityService from "../../../../check/service/abilityService"
 import {DamageType} from "../../../../mob/fight/enum/damageType"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {Spell as SpellModel} from "../../../../spell/model/spell"

@@ -1,4 +1,4 @@
-import AbilityService from "../../../../check/abilityService"
+import AbilityService from "../../../../check/service/abilityService"
 import {RequestType} from "../../../../request/enum/requestType"
 import {SkillType} from "../../../../skill/skillType"
 import SkillBuilder from "../../../builder/skillBuilder"

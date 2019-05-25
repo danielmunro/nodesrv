@@ -1,19 +1,19 @@
-import {ActionType} from "../action/enum/actionType"
-import Skill from "../action/impl/skill"
-import Spell from "../action/impl/spell"
-import {AffectType} from "../affect/enum/affectType"
-import {StackBehavior} from "../affect/enum/stackBehavior"
-import {findAffectDefinition} from "../affect/table/affectTable"
-import {Mob} from "../mob/model/mob"
-import MobService from "../mob/service/mobService"
-import {getSpecializationLevel} from "../mob/specialization/specializationLevels"
-import Request from "../request/request"
-import getActionPartTable from "./actionPartCheckTable"
-import CheckBuilder from "./checkBuilder"
-import {CheckMessages} from "./constants"
-import {CheckType} from "./enum/checkType"
+import {ActionType} from "../../action/enum/actionType"
+import Skill from "../../action/impl/skill"
+import Spell from "../../action/impl/spell"
+import {AffectType} from "../../affect/enum/affectType"
+import {StackBehavior} from "../../affect/enum/stackBehavior"
+import {findAffectDefinition} from "../../affect/table/affectTable"
+import {Mob} from "../../mob/model/mob"
+import MobService from "../../mob/service/mobService"
+import {getSpecializationLevel} from "../../mob/specialization/specializationLevels"
+import Request from "../../request/request"
+import CheckBuilder from "../builder/checkBuilder"
+import {CheckMessages} from "../constants"
+import {CheckType} from "../enum/checkType"
+import getActionPartTable from "../table/actionPartCheckTable"
 
-export default class CheckTemplate {
+export default class CheckTemplateService {
   private static checkAffectStackingBehavior(checkBuilder: CheckBuilder, affectType?: AffectType) {
     if (!affectType) {
       return
@@ -39,7 +39,7 @@ export default class CheckTemplate {
     spell.getCosts().forEach(cost => checkBuilder.addCost(cost))
     this.checkActionType(checkBuilder, spell.getActionType())
     if (spell.getAffectType()) {
-      CheckTemplate.checkAffectStackingBehavior(checkBuilder, spell.getAffectType())
+      CheckTemplateService.checkAffectStackingBehavior(checkBuilder, spell.getAffectType())
     }
 
     return checkBuilder
@@ -56,7 +56,7 @@ export default class CheckTemplate {
 
     skill.getCosts().forEach(cost => checkBuilder.addCost(cost))
     this.checkActionType(checkBuilder, skill.getActionType())
-    CheckTemplate.checkAffectStackingBehavior(checkBuilder, skill.getAffectType())
+    CheckTemplateService.checkAffectStackingBehavior(checkBuilder, skill.getAffectType())
 
     return checkBuilder
   }

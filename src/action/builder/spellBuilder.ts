@@ -1,6 +1,6 @@
 import {AffectType} from "../../affect/enum/affectType"
-import AbilityService from "../../check/abilityService"
 import Cost from "../../check/cost/cost"
+import AbilityService from "../../check/service/abilityService"
 import RequestService from "../../request/requestService"
 import ResponseMessage from "../../request/responseMessage"
 import {SpellType} from "../../spell/spellType"

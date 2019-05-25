@@ -3,7 +3,7 @@ import {Mob} from "../../mob/model/mob"
 import MobService from "../../mob/service/mobService"
 import Request from "../../request/request"
 import ActionPartCheck from "../actionPartCheck"
-import CheckBuilder from "../checkBuilder"
+import CheckBuilder from "../builder/checkBuilder"
 
 export default class PlayerMobActionPartCheck implements ActionPartCheck {
   constructor(private readonly mobService: MobService) {}

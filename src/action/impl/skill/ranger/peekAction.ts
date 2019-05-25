@@ -1,6 +1,6 @@
-import AbilityService from "../../../../check/abilityService"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
+import AbilityService from "../../../../check/service/abilityService"
 import {Mob} from "../../../../mob/model/mob"
 import {SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
