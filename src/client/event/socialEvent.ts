@@ -1,7 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import Event from "../../event/event"
 import {Mob} from "../../mob/model/mob"
-import {Channel} from "../channel"
+import {Channel} from "../enum/channel"
 
 export default interface SocialEvent extends Event {
   readonly channel: Channel

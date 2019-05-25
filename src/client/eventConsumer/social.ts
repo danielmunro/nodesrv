@@ -3,7 +3,7 @@ import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {Mob} from "../../mob/model/mob"
 import ClientService from "../../server/service/clientService"
-import {Channel} from "../channel"
+import {Channel} from "../enum/channel"
 import SocialEvent from "../event/socialEvent"
 
 export default class Social implements EventConsumer {
