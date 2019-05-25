@@ -1,7 +1,7 @@
 import { allDirections, cardinalDirections} from "./constants"
 import { getFreeDirection, getFreeReciprocalDirection, reverse } from "./direction"
 import {Direction} from "./enum/direction"
-import { newExit } from "./factory"
+import { newExit } from "./factory/roomFactory"
 import { Room } from "./model/room"
 
 describe("direction", () => {

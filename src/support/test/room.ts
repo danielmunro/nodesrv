@@ -1,4 +1,4 @@
-import { newRoom } from "../../room/factory"
+import { newRoom } from "../../room/factory/roomFactory"
 import { Room } from "../../room/model/room"
 
 export function getTestRoom(): Room {

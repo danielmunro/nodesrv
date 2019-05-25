@@ -1,5 +1,5 @@
 import {Direction} from "../../room/enum/direction"
-import { newExit } from "../../room/factory"
+import { newExit } from "../../room/factory/roomFactory"
 import {Exit} from "../../room/model/exit"
 import ExitRepository from "../../room/repository/exit"
 import { DirectionFlag } from "../enum/directionFlag"

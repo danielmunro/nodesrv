@@ -1,7 +1,7 @@
-import { getTestRoom } from "../support/test/room"
-import {Direction} from "./enum/direction"
-import { newReciprocalExit, newRoom } from "./factory"
-import { Room } from "./model/room"
+import { getTestRoom } from "../../support/test/room"
+import {Direction} from "../enum/direction"
+import { Room } from "../model/room"
+import { newReciprocalExit, newRoom } from "./roomFactory"
 
 describe("room factory", () => {
   it("should be able to create rooms", () => {
