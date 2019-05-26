@@ -1,7 +1,7 @@
+import {createInventory} from "./factory/inventoryFactory"
 import {createItem, newTrash} from "./factory/itemFactory"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
-import {createInventory} from "./factory/inventoryFactory"
 
 describe("inventory model", () => {
   it("should be able to find an item", () => {

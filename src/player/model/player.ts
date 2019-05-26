@@ -22,7 +22,7 @@ export class Player {
   public password: string
 
   @OneToMany(() => Mob, mob => mob.player, { eager: true })
-  public mobs: Mob[] = []
+  public mobs: Mob[]
 
   public sessionMob: Mob
 

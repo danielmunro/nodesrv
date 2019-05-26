@@ -1,7 +1,7 @@
 import { getTestRoom } from "../../support/test/room"
 import {Direction} from "../enum/direction"
 import { Room } from "../model/room"
-import { newReciprocalExit, newRoom } from "./roomFactory"
+import {createRoom, newReciprocalExit, newRoom} from "./roomFactory"
 
 describe("room factory", () => {
   it("should be able to create rooms", () => {
@@ -14,8 +14,8 @@ describe("room factory", () => {
   })
 
   it("should be able to create reciprocal exits between rooms", () => {
-    const room1 = new Room()
-    const room2 = new Room()
+    const room1 = createRoom()
+    const room2 = createRoom()
     const exits = newReciprocalExit(room1, room2, Direction.East)
     expect(exits).toHaveLength(2)
     const [exit1, exit2] = exits
@@ -28,7 +28,7 @@ describe("room factory", () => {
   })
 
   it("should not be able to connect a room to itself", () => {
-    const room = new Room()
+    const room = createRoom()
     expect(() => newReciprocalExit(room, room, Direction.North)).toThrowError()
   })
 

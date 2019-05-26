@@ -4,10 +4,16 @@ import { Region } from "../model/region"
 import WeatherPattern from "../weatherPattern"
 
 export default function newRegion(name: string, terrain: Terrain) {
-  const region = new Region()
+  const region = createRegion()
   region.name = name
   region.terrain = terrain
 
+  return region
+}
+
+export function createRegion(): Region {
+  const region = new Region()
+  region.rooms = []
   return region
 }
 

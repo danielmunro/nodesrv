@@ -4,10 +4,10 @@ import {
   newStartingStats,
   newStartingVitals,
 } from "../../attributes/factory/attributeFactory"
+import {createItem} from "../../item/factory/itemFactory"
 import { Item } from "../../item/model/item"
 import { RaceType } from "../race/enum/raceType"
-import { newMob } from "./factory"
-import {createItem} from "../../item/factory/itemFactory"
+import { newMob } from "./mobFactory"
 
 describe("mob factory", () => {
   it("should be able to create a mob", () => {

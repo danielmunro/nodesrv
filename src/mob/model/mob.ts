@@ -31,7 +31,6 @@ import {MobTraits} from "./mobTraits"
 import OffensiveTraits from "./offensiveTraits"
 import { PlayerMob } from "./playerMob"
 import Shop from "./shop"
-import {createInventory} from "../../item/factory/inventoryFactory"
 
 const ownedEntityOptions = { cascadeInsert: true, cascadeUpdate: true, eager: true }
 
@@ -82,56 +81,56 @@ export class Mob {
 
   public deathTimer: number = 0
 
-  @OneToOne(() => DamageSource, { cascadeAll: true, eager: true })
+  @OneToOne(() => DamageSource, { cascade: true, eager: true })
   @JoinColumn()
-  public immune: DamageSource = new DamageSource()
+  public immune: DamageSource
 
-  @OneToOne(() => DamageSource, { cascadeAll: true, eager: true })
+  @OneToOne(() => DamageSource, { cascade: true, eager: true })
   @JoinColumn()
-  public resist: DamageSource = new DamageSource()
+  public resist: DamageSource
 
-  @OneToOne(() => DamageSource, { cascadeAll: true, eager: true })
+  @OneToOne(() => DamageSource, { cascade: true, eager: true })
   @JoinColumn()
-  public vulnerable: DamageSource = new DamageSource()
+  public vulnerable: DamageSource
 
   @OneToMany(() => Affect, affect => affect.mob, { ...ownedEntityOptions })
-  public affects: Affect[] = []
+  public affects: Affect[]
 
-  @OneToOne(() => MobTraits, { cascadeAll: true, eager: true })
+  @OneToOne(() => MobTraits, { cascade: true, eager: true })
   @JoinColumn()
-  public traits: MobTraits = new MobTraits()
+  public traits: MobTraits
 
-  @OneToOne(() => OffensiveTraits, { cascadeAll: true, eager: true })
+  @OneToOne(() => OffensiveTraits, { cascade: true, eager: true })
   @JoinColumn()
-  public offensiveTraits: OffensiveTraits = new OffensiveTraits()
+  public offensiveTraits: OffensiveTraits
 
-  @OneToOne(() => Shop, { cascadeAll: true, eager: true })
+  @OneToOne(() => Shop, { cascade: true, eager: true })
   @JoinColumn()
   public shop: Shop
 
-  @OneToOne(() => Vitals, { cascadeAll: true, eager: true })
+  @OneToOne(() => Vitals, { cascade: true, eager: true })
   @JoinColumn()
-  public vitals: Vitals = new Vitals()
+  public vitals: Vitals
 
   @OneToMany(() => Attributes, attributes => attributes.mob, { ...ownedEntityOptions })
-  public attributes: Attributes[] = []
+  public attributes: Attributes[]
 
   @ManyToOne(() => Player, player => player.mobs)
   public player: Player
 
   @OneToOne(() => Inventory, { cascade: true, eager: true })
   @JoinColumn()
-  public inventory = createInventory()
+  public inventory: Inventory
 
   @OneToOne(() => Inventory, { cascade: true, eager: true })
   @JoinColumn()
-  public equipped = createInventory()
+  public equipped: Inventory
 
   @OneToMany(() => Skill, skill => skill.mob, { ...ownedEntityOptions })
-  public skills: Skill[] = []
+  public skills: Skill[]
 
   @OneToMany(() => Spell, spell => spell.mob, { ...ownedEntityOptions })
-  public spells: Spell[] = []
+  public spells: Spell[]
 
   @OneToOne(() => PlayerMob, playerMob => playerMob.mob, { nullable: true, ...ownedEntityOptions })
   public playerMob: PlayerMob

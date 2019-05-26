@@ -5,7 +5,7 @@ import { getTestClient } from "../../support/test/client"
 import { PersistPlayers } from "./persistPlayers"
 
 beforeAll(async () => initializeConnection())
-//afterAll(async () => (await getConnection()).close())
+afterAll(async () => (await getConnection()).close())
 
 describe("persistPlayers", () => {
   it("should save any player models passed in", async () => {

@@ -1,11 +1,15 @@
 import Attributes from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
+import {createInventory} from "../../item/factory/inventoryFactory"
 import {Item} from "../../item/model/item"
 import {Room} from "../../room/model/room"
 import {Disposition} from "../enum/disposition"
+import DamageSource from "../model/damageSource"
 import {Mob} from "../model/mob"
 import MobLocation from "../model/mobLocation"
 import MobReset from "../model/mobReset"
+import {MobTraits} from "../model/mobTraits"
+import OffensiveTraits from "../model/offensiveTraits"
 import {RaceType} from "../race/enum/raceType"
 import {SpecializationType} from "../specialization/enum/specializationType"
 
@@ -39,7 +43,7 @@ export function newMob(name: string, description: string, race: RaceType, vitals
                        attributes: Attributes, wanders: boolean = false, items: Item[] = [],
                        specialization = SpecializationType.Warrior): Mob {
 
-  const mob = new Mob()
+  const mob = createMob()
   mob.name = name
   mob.description = description
   mob.raceType = race
@@ -51,3 +55,21 @@ export function newMob(name: string, description: string, race: RaceType, vitals
 
   return mob
 }
+
+export function createMob(): Mob {
+  const mob = new Mob()
+  mob.affects = []
+  mob.immune = new DamageSource()
+  mob.resist = new DamageSource()
+  mob.vulnerable = new DamageSource()
+  mob.traits = new MobTraits()
+  mob.offensiveTraits = new OffensiveTraits()
+  mob.vitals = new Vitals()
+  mob.attributes = []
+  mob.inventory = createInventory()
+  mob.equipped = createInventory()
+  mob.skills = []
+  mob.spells = []
+  return mob
+}
+

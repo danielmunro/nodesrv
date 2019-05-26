@@ -19,5 +19,5 @@ export class Region {
   public terrain: Terrain = Terrain.Plains
 
   @OneToMany(() => Room, (room) => room.region)
-  public rooms: Room[] = []
+  public rooms: Room[]
 }

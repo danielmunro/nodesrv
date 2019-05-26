@@ -1,4 +1,5 @@
 import createAppContainer from "../src/app/factory/factory"
+import {createMob} from "../src/mob/factory/mobFactory"
 import {Mob} from "../src/mob/model/mob"
 import {RaceType} from "../src/mob/race/enum/raceType"
 import {SpecializationType} from "../src/mob/specialization/enum/specializationType"
@@ -16,7 +17,7 @@ initializeConnection().then(async () => {
   const app = await createAppContainer()
   const specializationService = app.getSpecializationService()
   // service & mob
-  const mob = new Mob()
+  const mob = createMob()
   mob.raceType = race
   mob.specializationType = specialization
   mob.level = level

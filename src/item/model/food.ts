@@ -18,5 +18,5 @@ export default class Food {
   public drinkAmount: number = 0
 
   @OneToOne(() => Item, item => item.food)
-  public item
+  public item: Item
 }

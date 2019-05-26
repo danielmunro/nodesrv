@@ -7,7 +7,6 @@ import { Region } from "../../region/model/region"
 import getMovementCost from "../../region/movementCost"
 import {Direction} from "../enum/direction"
 import { Exit } from "./exit"
-import {createInventory} from "../../item/factory/inventoryFactory"
 
 @Entity()
 export class Room {
@@ -31,20 +30,20 @@ export class Room {
   public area: string
 
   @OneToMany(() => Exit, (exit) => exit.source, { eager: true })
-  public exits: Exit[] = []
+  public exits: Exit[]
 
   @OneToMany(() => Exit, (exit) => exit.destination, { eager: true })
-  public entrances: Exit[] = []
+  public entrances: Exit[]
 
   @OneToOne(() => Inventory, { eager: true, cascade: true })
   @JoinColumn()
-  public inventory: Inventory = createInventory()
+  public inventory: Inventory
 
   @ManyToOne(() => Region, (region) => region.rooms, { eager: true })
   public region: Region
 
   @OneToMany(() => MobReset, reset => reset.room)
-  public mobResets: MobReset[] = []
+  public mobResets: MobReset[]
 
   public isDirectionFree(direction: Direction): boolean {
     return !this.exits.find((e) => e.direction === direction)

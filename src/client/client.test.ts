@@ -2,6 +2,7 @@ import {AffectType} from "../affect/enum/affectType"
 import {newAffect} from "../affect/factory/affectFactory"
 import {createTestAppContainer} from "../app/factory/testFactory"
 import MobService from "../mob/service/mobService"
+import {createPlayer} from "../player/factory/factory"
 import {Player} from "../player/model/player"
 import InputContext from "../request/context/inputContext"
 import {RequestType} from "../request/enum/requestType"
@@ -112,7 +113,7 @@ describe("client sanity checks", () => {
 
     it("not logged in clients should always be able to handle requests if ones are available", () => {
       // setup
-      client.player = new Player()
+      client.player = createPlayer()
       client.addRequest(new AuthRequest(client, RequestType.Any))
 
       // expect

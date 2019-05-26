@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
-import {newMobLocation} from "../../../../mob/factory/factory"
+import {newMobLocation} from "../../../../mob/factory/mobFactory"
 import LocationService from "../../../../mob/service/locationService"
 import MobService from "../../../../mob/service/mobService"
 import {RequestType} from "../../../../request/enum/requestType"

@@ -1,8 +1,8 @@
+import {createInventory} from "../../item/factory/inventoryFactory"
 import {Inventory} from "../../item/model/inventory"
 import {Item} from "../../item/model/item"
 import {Mob} from "../model/mob"
 import {EscrowStatus} from "./escrowStatus"
-import {createInventory} from "../../item/factory/inventoryFactory"
 
 export default class Escrow {
   private requesterGold = 0

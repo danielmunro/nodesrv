@@ -1,5 +1,6 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
 import {newStartingStats, newStartingVitals} from "../../../attributes/factory/attributeFactory"
+import {createMob} from "../../../mob/factory/mobFactory"
 import { Mob } from "../../../mob/model/mob"
 import { PlayerMob } from "../../../mob/model/playerMob"
 import { Player } from "../../../player/model/player"
@@ -36,7 +37,7 @@ export default class NewMobConfirm extends PlayerAuthStep implements AuthStep {
   }
 
   private async createMob(): Promise<Mob> {
-    const mob = new Mob()
+    const mob = createMob()
     mob.vitals = newStartingVitals()
     mob.name = this.name
     mob.traits.isNpc = false

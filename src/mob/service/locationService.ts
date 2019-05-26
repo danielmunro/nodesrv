@@ -7,7 +7,7 @@ import { Room } from "../../room/model/room"
 import ExitTable from "../../room/table/exitTable"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
-import {newMobLocation} from "../factory/factory"
+import {newMobLocation} from "../factory/mobFactory"
 import { Mob } from "../model/mob"
 import MobLocation from "../model/mobLocation"
 

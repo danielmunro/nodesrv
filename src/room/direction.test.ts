@@ -1,7 +1,7 @@
 import { allDirections, cardinalDirections} from "./constants"
 import { getFreeDirection, getFreeReciprocalDirection, reverse } from "./direction"
 import {Direction} from "./enum/direction"
-import { newExit } from "./factory/roomFactory"
+import {createRoom, newExit} from "./factory/roomFactory"
 import { Room } from "./model/room"
 
 describe("direction", () => {
@@ -16,13 +16,13 @@ describe("direction", () => {
   })
 
   it("getFreeDirection should never return a direction which has in use, nor up or down", () => {
-    const source = new Room()
+    const source = createRoom()
     let direction = getFreeDirection(source)
     while (direction) {
       if (source.exits.find((e) => e.direction === direction)) {
         fail("direction already added")
       }
-      newExit(direction, source, new Room())
+      newExit(direction, source, createRoom())
       direction = getFreeDirection(source)
     }
     const NSEW_DIRECTIONS_COUNT = 4
@@ -31,12 +31,12 @@ describe("direction", () => {
 
   it("getFreeReciprocalDirection should consider the destination room when finding a random direction", () => {
     // setup
-    const source = new Room()
-    const destination = new Room()
+    const source = createRoom()
+    const destination = createRoom()
     // fill up the destination room exits
-    newExit(Direction.North, destination, new Room())
-    newExit(Direction.South, destination, new Room())
-    newExit(Direction.East, destination, new Room())
+    newExit(Direction.North, destination, createRoom())
+    newExit(Direction.South, destination, createRoom())
+    newExit(Direction.East, destination, createRoom())
 
     // expect
     expect(getFreeReciprocalDirection(source, destination)).toBe(Direction.East)
@@ -44,9 +44,9 @@ describe("direction", () => {
 
   it("getFreeReciprocalDirection should not make impossible connections", () => {
     // setup
-    const source = new Room()
-    const destination = new Room()
-    cardinalDirections.forEach((d) => newExit(d, destination, new Room()))
+    const source = createRoom()
+    const destination = createRoom()
+    cardinalDirections.forEach((d) => newExit(d, destination, createRoom()))
 
     // expect
     expect(getFreeReciprocalDirection(source, destination)).toBeUndefined()

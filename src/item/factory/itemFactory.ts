@@ -80,7 +80,7 @@ export function createItem(): Item {
 }
 
 export function newWeapon(name: string, description: string, weaponType: WeaponType, damageType: DamageType): Item {
-  const weapon = new Weapon()
+  const weapon = createWeapon()
   weapon.name = name
   weapon.description = description
   weapon.itemType = ItemType.Equipment
@@ -89,6 +89,12 @@ export function newWeapon(name: string, description: string, weaponType: WeaponT
   weapon.damageType = damageType
   weapon.level = 1
 
+  return weapon
+}
+
+export function createWeapon(): Weapon {
+  const weapon = new Weapon()
+  weapon.affects = []
   return weapon
 }
 

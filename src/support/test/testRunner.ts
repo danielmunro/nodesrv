@@ -5,6 +5,7 @@ import {Client} from "../../client/client"
 import StateService from "../../gameService/stateService"
 import ItemBuilder from "../../item/builder/itemBuilder"
 import WeaponBuilder from "../../item/builder/weaponBuilder"
+import {createItem, createWeapon} from "../../item/factory/itemFactory"
 import {Item} from "../../item/model/item"
 import Weapon from "../../item/model/weapon"
 import ItemService from "../../item/service/itemService"
@@ -33,7 +34,6 @@ import {getTestPlayer} from "./player"
 import PlayerBuilder from "./playerBuilder"
 import {getTestRoom} from "./room"
 import RoomBuilder from "./roomBuilder"
-import {createItem} from "../../item/factory/itemFactory"
 
 const ws = jest.fn(() => ({
   close: jest.fn(),
@@ -69,7 +69,7 @@ export default class TestRunner {
   }
 
   public createWeapon(): WeaponBuilder {
-    const weapon = new Weapon()
+    const weapon = createWeapon()
     this.itemService.add(weapon)
     return new WeaponBuilder(weapon)
   }

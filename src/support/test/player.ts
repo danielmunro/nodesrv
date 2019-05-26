@@ -1,10 +1,11 @@
 import * as sillyname from "sillyname"
 import { PlayerMob } from "../../mob/model/playerMob"
+import {createPlayer} from "../../player/factory/factory"
 import { Player } from "../../player/model/player"
 import { getTestMob } from "./mob"
 
 export function getTestPlayer(): Player {
-  const player = new Player()
+  const player = createPlayer()
   player.name = "test " + sillyname()
   player.email = sillyname() + "@emailaddress.com"
   player.password = ""

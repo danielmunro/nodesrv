@@ -1,3 +1,4 @@
+import {createInventory} from "../../item/factory/inventoryFactory"
 import {Terrain} from "../../region/enum/terrain"
 import newRegion from "../../region/factory/regionFactory"
 import roll from "../../support/random/dice"
@@ -22,12 +23,21 @@ export function newDoor(name: string, isClosed: boolean, isLocked: boolean, unlo
 }
 
 export function newRoom(name: string, description: string, items = []): Room {
-  const room = new Room()
+  const room = createRoom()
   room.name = name
   room.description = description
   items.forEach((item) => room.inventory.addItem(item))
   room.region = newRegion("test", Terrain.Settlement)
 
+  return room
+}
+
+export function createRoom(): Room {
+  const room = new Room()
+  room.exits = []
+  room.entrances = []
+  room.inventory = createInventory()
+  room.mobResets = []
   return room
 }
 

@@ -1,3 +1,4 @@
+import {createPlayer} from "../../../player/factory/factory"
 import { Player } from "../../../player/model/player"
 import AuthStep from "../authStep"
 import {CreationMessages} from "../constants"
@@ -19,7 +20,7 @@ export default class NewPlayerConfirm implements AuthStep {
     if (request.didDeny()) {
       return request.ok(new Email(this.authService))
     } else if (request.didConfirm()) {
-      const player = new Player()
+      const player = createPlayer()
       player.email = this.email
       return request.ok(new Password(this.authService, player))
     }

@@ -1,8 +1,8 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
+import {createInventory} from "../factory/inventoryFactory"
 import { Inventory } from "./inventory"
 import { Item } from "./item"
-import {createInventory} from "../factory/inventoryFactory"
 
 @Entity()
 export default class Container {
