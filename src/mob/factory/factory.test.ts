@@ -7,6 +7,7 @@ import {
 import { Item } from "../../item/model/item"
 import { RaceType } from "../race/enum/raceType"
 import { newMob } from "./factory"
+import {createItem} from "../../item/factory/itemFactory"
 
 describe("mob factory", () => {
   it("should be able to create a mob", () => {
@@ -34,8 +35,8 @@ describe("mob factory", () => {
   })
 
   it("should be able to newTable with items", () => {
-    const testItem1 = new Item()
-    const testItem2 = new Item()
+    const testItem1 = createItem()
+    const testItem2 = createItem()
     const mob = newMob(
       "",
       "",

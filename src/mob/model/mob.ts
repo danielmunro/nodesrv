@@ -31,6 +31,7 @@ import {MobTraits} from "./mobTraits"
 import OffensiveTraits from "./offensiveTraits"
 import { PlayerMob } from "./playerMob"
 import Shop from "./shop"
+import {createInventory} from "../../item/factory/inventoryFactory"
 
 const ownedEntityOptions = { cascadeInsert: true, cascadeUpdate: true, eager: true }
 
@@ -118,13 +119,13 @@ export class Mob {
   @ManyToOne(() => Player, player => player.mobs)
   public player: Player
 
-  @OneToOne(() => Inventory, { cascadeAll: true, eager: true })
+  @OneToOne(() => Inventory, { cascade: true, eager: true })
   @JoinColumn()
-  public inventory = new Inventory()
+  public inventory = createInventory()
 
-  @OneToOne(() => Inventory, { cascadeAll: true, eager: true })
+  @OneToOne(() => Inventory, { cascade: true, eager: true })
   @JoinColumn()
-  public equipped = new Inventory()
+  public equipped = createInventory()
 
   @OneToMany(() => Skill, skill => skill.mob, { ...ownedEntityOptions })
   public skills: Skill[] = []

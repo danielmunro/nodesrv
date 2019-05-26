@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../app/factory/testFactory"
 import { Equipment } from "../item/enum/equipment"
-import {newEquipment} from "../item/factory/factory"
+import {newEquipment} from "../item/factory/itemFactory"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
 import { RequestType } from "./enum/requestType"

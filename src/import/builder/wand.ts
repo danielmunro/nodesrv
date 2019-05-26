@@ -1,5 +1,5 @@
 import {WeaponType} from "../../item/enum/weaponType"
-import {newWeapon} from "../../item/factory/factory"
+import {newWeapon} from "../../item/factory/itemFactory"
 import {Item} from "../../item/model/item"
 import Weapon from "../../item/model/weapon"
 import {DamageType} from "../../mob/fight/enum/damageType"

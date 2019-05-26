@@ -1,4 +1,4 @@
-import {newContainer} from "../../item/factory/factory"
+import {newContainer} from "../../item/factory/itemFactory"
 import {Item} from "../../item/model/item"
 import {liquidMap} from "../map/liquidMap"
 import ItemPrototype from "./itemPrototype"

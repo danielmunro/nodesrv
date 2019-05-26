@@ -1,4 +1,4 @@
-import {newWeapon} from "../../item/factory/factory"
+import {newWeapon} from "../../item/factory/itemFactory"
 import {Item} from "../../item/model/item"
 import {damageTypeMap} from "../map/damageTypeMap"
 import {weaponTypeMap} from "../map/weaponTypeMap"

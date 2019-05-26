@@ -1,12 +1,13 @@
 import {Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm"
 import { Inventory } from "./inventory"
+import {createInventory} from "../factory/inventoryFactory"
 
 @Entity()
 export class Equipped {
     @PrimaryGeneratedColumn()
     public id: number
 
-    @OneToOne(() => Inventory, { eager: true, cascadeAll: true })
+    @OneToOne(() => Inventory, undefined, { eager: true, cascade: true })
     @JoinColumn()
-    public inventory: Inventory = new Inventory()
+    public inventory: Inventory = createInventory()
 }

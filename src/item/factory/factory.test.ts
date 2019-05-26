@@ -1,7 +1,7 @@
 import { DamageType } from "../../mob/fight/enum/damageType"
 import { Equipment } from "../enum/equipment"
 import { WeaponType } from "../enum/weaponType"
-import { newWeapon } from "./factory"
+import { newWeapon } from "./itemFactory"
 
 describe("item factories", () => {
   it("should be able to create a weapon", () => {

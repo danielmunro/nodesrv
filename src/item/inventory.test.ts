@@ -1,13 +1,14 @@
-import { newTrash } from "./factory/factory"
+import {createItem, newTrash} from "./factory/itemFactory"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
+import {createInventory} from "./factory/inventoryFactory"
 
 describe("inventory model", () => {
   it("should be able to find an item", () => {
-    const inventory = new Inventory()
-    const item1 = new Item()
+    const inventory = createInventory()
+    const item1 = createItem()
     item1.name = "foo"
-    const item2 = new Item()
+    const item2 = createItem()
     item2.name = "bar"
     inventory.addItem(item1)
     inventory.addItem(item2)
@@ -19,7 +20,7 @@ describe("inventory model", () => {
 
   it("should combine items with the same name", () => {
     const itemCreator = () => newTrash("foo", "bar")
-    const inventory = new Inventory()
+    const inventory = createInventory()
     inventory.addItem(itemCreator())
     inventory.addItem(itemCreator())
     inventory.addItem(itemCreator())

@@ -1,5 +1,5 @@
 import {ItemType} from "../../item/enum/itemType"
-import {newItem} from "../../item/factory/factory"
+import {newItem} from "../../item/factory/itemFactory"
 import Drink from "../../item/model/drink"
 import {Item} from "../../item/model/item"
 import ItemBuilder from "../itemBuilder"

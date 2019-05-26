@@ -1,4 +1,4 @@
-import { newContainer } from "../../item/factory/factory"
+import { newContainer } from "../../item/factory/itemFactory"
 import { Item } from "../../item/model/item"
 import { Room } from "../../room/model/room"
 import { Messages } from "../../server/observers/constants"

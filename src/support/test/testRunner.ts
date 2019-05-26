@@ -33,6 +33,7 @@ import {getTestPlayer} from "./player"
 import PlayerBuilder from "./playerBuilder"
 import {getTestRoom} from "./room"
 import RoomBuilder from "./roomBuilder"
+import {createItem} from "../../item/factory/itemFactory"
 
 const ws = jest.fn(() => ({
   close: jest.fn(),
@@ -61,7 +62,7 @@ export default class TestRunner {
   ) {}
 
   public createItem(): ItemBuilder {
-    const item = new Item()
+    const item = createItem()
     this.itemService.add(item)
     this.getStartRoom().addItem(item)
     return new ItemBuilder(item)

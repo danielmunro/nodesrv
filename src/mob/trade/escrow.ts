@@ -2,12 +2,13 @@ import {Inventory} from "../../item/model/inventory"
 import {Item} from "../../item/model/item"
 import {Mob} from "../model/mob"
 import {EscrowStatus} from "./escrowStatus"
+import {createInventory} from "../../item/factory/inventoryFactory"
 
 export default class Escrow {
   private requesterGold = 0
-  private readonly requesterInventory = new Inventory()
+  private readonly requesterInventory = createInventory()
   private traderGold = 0
-  private readonly traderInventory = new Inventory()
+  private readonly traderInventory = createInventory()
   private requesterAccepted = false
   private traderAccepted = false
   private escrowStatus: EscrowStatus = EscrowStatus.Live

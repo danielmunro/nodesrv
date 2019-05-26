@@ -3,6 +3,7 @@ import {ItemType} from "../enum/itemType"
 import Container from "../model/container"
 import {Inventory} from "../model/inventory"
 import AbstractItemBuilder from "./abstractItemBuilder"
+import {createInventory} from "../factory/inventoryFactory"
 
 export default class ItemBuilder extends AbstractItemBuilder {
   public asFood(): ItemBuilder {
@@ -16,7 +17,7 @@ export default class ItemBuilder extends AbstractItemBuilder {
     this.item.itemType = ItemType.Container
     this.item.name = "a small leather satchel"
     this.item.container = new Container()
-    this.item.container.inventory = new Inventory()
+    this.item.container.inventory = createInventory()
     return this
   }
 
@@ -24,7 +25,7 @@ export default class ItemBuilder extends AbstractItemBuilder {
     this.item.itemType = ItemType.Corpse
     this.item.name = "a corpse of an unnamed mob"
     this.item.container = new Container()
-    this.item.container.inventory = new Inventory()
+    this.item.container.inventory = createInventory()
     return this
   }
 

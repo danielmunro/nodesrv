@@ -79,10 +79,10 @@ export class Item {
   @OneToOne(() => Attributes, attributes => attributes.item)
   public attributes: Attributes = newEmptyAttributes()
 
-  @OneToMany(() => Affect, affect => affect.item, { cascadeInsert: true, cascadeUpdate: true, eager: true })
-  public affects: Affect[] = []
+  @OneToMany(() => Affect, affect => affect.item, { cascade: true, eager: true })
+  public affects: Affect[]
 
-  @OneToOne(() => Container, { cascadeAll: true, eager: true })
+  @OneToOne(() => Container, { cascade: true, eager: true })
   @JoinColumn()
   public container: Container
 

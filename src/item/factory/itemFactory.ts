@@ -63,12 +63,19 @@ export function newItemContainerReset(itemSource: Item, itemDestination: Item) {
 }
 
 export function newItem(itemType: ItemType, name: string, description: string, level: number = 1): Item {
-  const item = new Item()
+  const item = createItem()
   item.itemType = itemType
   item.name = name
   item.description = description
   item.level = level
+  item.affects = []
 
+  return item
+}
+
+export function createItem(): Item {
+  const item = new Item()
+  item.affects = []
   return item
 }
 

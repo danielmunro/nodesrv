@@ -2,10 +2,11 @@ import {AffectType} from "../../affect/enum/affectType"
 import {newAffect} from "../../affect/factory/affectFactory"
 import MobBuilder from "../../support/test/mobBuilder"
 import {Item} from "../model/item"
+import {createItem} from "../factory/itemFactory"
 
 export default class AbstractItemBuilder {
   constructor(
-    protected item: Item = new Item(),
+    protected item: Item = createItem(),
     carriedBy?: any) {
     this.item.carriedBy = carriedBy
   }

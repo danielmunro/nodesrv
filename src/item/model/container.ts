@@ -2,6 +2,7 @@ import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn
 import * as v4 from "uuid"
 import { Inventory } from "./inventory"
 import { Item } from "./item"
+import {createInventory} from "../factory/inventoryFactory"
 
 @Entity()
 export default class Container {
@@ -29,7 +30,7 @@ export default class Container {
 
   @OneToOne(() => Inventory, { eager: true })
   @JoinColumn()
-  public inventory: Inventory = new Inventory()
+  public inventory: Inventory = createInventory()
 
   public addItem(item: Item, carriedBy?: any) {
     this.inventory.addItem(item)

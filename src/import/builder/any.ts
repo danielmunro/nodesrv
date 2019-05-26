@@ -1,4 +1,4 @@
-import {newItem} from "../../item/factory/factory"
+import {newItem} from "../../item/factory/itemFactory"
 import {Item} from "../../item/model/item"
 import {itemTypeMap} from "../map/itemTypeMap"
 import ItemPrototype from "./itemPrototype"

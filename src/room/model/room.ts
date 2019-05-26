@@ -7,6 +7,7 @@ import { Region } from "../../region/model/region"
 import getMovementCost from "../../region/movementCost"
 import {Direction} from "../enum/direction"
 import { Exit } from "./exit"
+import {createInventory} from "../../item/factory/inventoryFactory"
 
 @Entity()
 export class Room {
@@ -35,9 +36,9 @@ export class Room {
   @OneToMany(() => Exit, (exit) => exit.destination, { eager: true })
   public entrances: Exit[] = []
 
-  @OneToOne(() => Inventory, { cascadeInsert: true, cascadeUpdate: true, eager: true })
+  @OneToOne(() => Inventory, { eager: true, cascade: true })
   @JoinColumn()
-  public inventory: Inventory = new Inventory()
+  public inventory: Inventory = createInventory()
 
   @ManyToOne(() => Region, (region) => region.rooms, { eager: true })
   public region: Region

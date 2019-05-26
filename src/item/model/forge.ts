@@ -11,7 +11,7 @@ export default class Forge {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @OneToMany(() => Recipe, recipe => recipe.forge)
+  @OneToMany(() => Recipe, recipe => recipe.forge, { cascade: true, eager: true })
   @JoinColumn()
-  public recipes: Recipe[] = []
+  public recipes: Recipe[]
 }
