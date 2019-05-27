@@ -1,8 +1,7 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
 import {newStartingStats, newStartingVitals} from "../../../attributes/factory/attributeFactory"
-import {createMob} from "../../../mob/factory/mobFactory"
+import {createMob, createPlayerMob} from "../../../mob/factory/mobFactory"
 import { Mob } from "../../../mob/model/mob"
-import { PlayerMob } from "../../../mob/model/playerMob"
 import { Player } from "../../../player/model/player"
 import AuthStep from "../authStep"
 import {CreationMessages} from "../constants"
@@ -47,7 +46,7 @@ export default class NewMobConfirm extends PlayerAuthStep implements AuthStep {
       .setVitals(newStartingVitals())
       .setStats(newStartingStats())
       .build())
-    mob.playerMob = new PlayerMob()
+    mob.playerMob = createPlayerMob()
     return mob
   }
 }

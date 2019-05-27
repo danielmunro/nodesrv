@@ -25,19 +25,19 @@ export class Affect {
   @Column("integer")
   public level: number = 1
 
-  @OneToOne(() => Attributes)
+  @OneToOne(() => Attributes, { cascade: true, eager: true })
   @JoinColumn()
   public attributes: Attributes
 
-  @OneToOne(() => DamageSource, { cascadeAll: true, eager: true })
+  @OneToOne(() => DamageSource, { cascade: true, eager: true })
   @JoinColumn()
   public immune: DamageSource = new DamageSource()
 
-  @OneToOne(() => DamageSource, { cascadeAll: true, eager: true })
+  @OneToOne(() => DamageSource, { cascade: true, eager: true })
   @JoinColumn()
   public resist: DamageSource = new DamageSource()
 
-  @OneToOne(() => DamageSource, { cascadeAll: true, eager: true })
+  @OneToOne(() => DamageSource, { cascade: true, eager: true })
   @JoinColumn()
   public vulnerable: DamageSource = new DamageSource()
 }

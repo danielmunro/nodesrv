@@ -13,16 +13,16 @@ export default class Drink {
   public uuid: string = v4()
 
   @Column("text")
-  public liquid: Liquid = Liquid.Water
+  public liquid: Liquid
+
+  @Column("integer", { nullable: true })
+  public capacity: number
 
   @Column("integer")
-  public capacity: number = 0
+  public drinkAmount: number
 
   @Column("integer")
-  public drinkAmount: number = 0
-
-  @Column("integer")
-  public foodAmount: number = 0
+  public foodAmount: number
 
   @OneToOne(() => Item, item => item.food)
   public item: Item

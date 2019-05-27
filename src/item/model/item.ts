@@ -76,7 +76,7 @@ export class Item {
   @ManyToOne(() => Inventory, inventory => inventory.items, { eager: true })
   public inventory: Inventory
 
-  @OneToOne(() => Attributes, attributes => attributes.item)
+  @OneToOne(() => Attributes, attributes => attributes.item, { cascade: true, eager: true })
   public attributes: Attributes = newEmptyAttributes()
 
   @OneToMany(() => Affect, affect => affect.item, { cascade: true, eager: true })
@@ -86,15 +86,15 @@ export class Item {
   @JoinColumn()
   public container: Container
 
-  @OneToOne(() => Food, food => food.item)
+  @OneToOne(() => Food, food => food.item, { cascade: true, eager: true})
   @JoinColumn()
   public food: Food
 
-  @OneToOne(() => Drink, drink => drink.item)
+  @OneToOne(() => Drink, drink => drink.item, { cascade: true, eager: true })
   @JoinColumn()
   public drink: Drink
 
-  @OneToOne(() => Forge)
+  @OneToOne(() => Forge, { eager: true, cascade: true })
   @JoinColumn()
   public forge: Forge
 

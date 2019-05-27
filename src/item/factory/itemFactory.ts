@@ -1,18 +1,21 @@
 import BuilderDefinition, {ItemFactory} from "../../import/builderDefinition"
-import { ItemType as ImportItemType } from "../../import/enum/itemType"
-import { DamageType } from "../../mob/fight/enum/damageType"
-import { Mob } from "../../mob/model/mob"
-import { Room } from "../../room/model/room"
-import { Equipment } from "../enum/equipment"
-import { ItemType } from "../enum/itemType"
-import { WeaponType } from "../enum/weaponType"
+import {ItemType as ImportItemType} from "../../import/enum/itemType"
+import {DamageType} from "../../mob/fight/enum/damageType"
+import {Mob} from "../../mob/model/mob"
+import {Room} from "../../room/model/room"
+import {Equipment} from "../enum/equipment"
+import {ItemType} from "../enum/itemType"
+import {Liquid} from "../enum/liquid"
+import {WeaponType} from "../enum/weaponType"
 import Container from "../model/container"
-import { Item } from "../model/item"
-import { ItemContainerReset } from "../model/itemContainerReset"
+import Drink from "../model/drink"
+import {Item} from "../model/item"
+import {ItemContainerReset} from "../model/itemContainerReset"
 import ItemMobReset from "../model/itemMobReset"
-import { ItemRoomReset } from "../model/itemRoomReset"
-import { MobEquipReset } from "../model/mobEquipReset"
+import {ItemRoomReset} from "../model/itemRoomReset"
+import {MobEquipReset} from "../model/mobEquipReset"
 import Weapon from "../model/weapon"
+import {createInventory} from "./inventoryFactory"
 
 export function newItemRoomReset(
   item: Item,
@@ -98,6 +101,12 @@ export function createWeapon(): Weapon {
   return weapon
 }
 
+export function createDrink(): Drink {
+  const drink = new Drink()
+  drink.liquid = Liquid.Water
+  return drink
+}
+
 export function newEquipment(name: string, description: string, equipment: Equipment): Item {
   const item = newItem(ItemType.Equipment, name, description)
   item.equipment = equipment
@@ -118,11 +127,17 @@ export function newContainer(
   weightCapacity: number = 0,
   itemCapacity: number = 0): Item {
   const item = newItem(ItemType.Container, name, description)
-  item.container = new Container()
+  item.container = createContainer()
   item.container.weightCapacity = weightCapacity
   item.container.itemCapacity = itemCapacity
 
   return item
+}
+
+export function createContainer(): Container {
+  const container = new Container()
+  container.inventory = createInventory()
+  return container
 }
 
 export function newTrash(name: string, description: string) {

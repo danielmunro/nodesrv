@@ -1,3 +1,4 @@
+import {newEmptyAttributes} from "../../attributes/factory/attributeFactory"
 import Attributes from "../../attributes/model/attributes"
 import Vitals from "../../attributes/model/vitals"
 import {createInventory} from "../../item/factory/inventoryFactory"
@@ -10,6 +11,7 @@ import MobLocation from "../model/mobLocation"
 import MobReset from "../model/mobReset"
 import {MobTraits} from "../model/mobTraits"
 import OffensiveTraits from "../model/offensiveTraits"
+import {PlayerMob} from "../model/playerMob"
 import {RaceType} from "../race/enum/raceType"
 import {SpecializationType} from "../specialization/enum/specializationType"
 
@@ -73,3 +75,8 @@ export function createMob(): Mob {
   return mob
 }
 
+export function createPlayerMob(): PlayerMob {
+  const playerMob = new PlayerMob()
+  playerMob.trainedAttributes = newEmptyAttributes()
+  return playerMob
+}

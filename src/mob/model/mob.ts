@@ -32,8 +32,6 @@ import OffensiveTraits from "./offensiveTraits"
 import { PlayerMob } from "./playerMob"
 import Shop from "./shop"
 
-const ownedEntityOptions = { cascadeInsert: true, cascadeUpdate: true, eager: true }
-
 @Entity()
 export class Mob {
   @PrimaryGeneratedColumn()
@@ -93,7 +91,7 @@ export class Mob {
   @JoinColumn()
   public vulnerable: DamageSource
 
-  @OneToMany(() => Affect, affect => affect.mob, { ...ownedEntityOptions })
+  @OneToMany(() => Affect, affect => affect.mob, { cascade: true, eager: true })
   public affects: Affect[]
 
   @OneToOne(() => MobTraits, { cascade: true, eager: true })
@@ -112,7 +110,7 @@ export class Mob {
   @JoinColumn()
   public vitals: Vitals
 
-  @OneToMany(() => Attributes, attributes => attributes.mob, { ...ownedEntityOptions })
+  @OneToMany(() => Attributes, attributes => attributes.mob, { cascade: true, eager: true })
   public attributes: Attributes[]
 
   @ManyToOne(() => Player, player => player.mobs)
@@ -126,16 +124,16 @@ export class Mob {
   @JoinColumn()
   public equipped: Inventory
 
-  @OneToMany(() => Skill, skill => skill.mob, { ...ownedEntityOptions })
+  @OneToMany(() => Skill, skill => skill.mob, { cascade: true, eager: true })
   public skills: Skill[]
 
-  @OneToMany(() => Spell, spell => spell.mob, { ...ownedEntityOptions })
+  @OneToMany(() => Spell, spell => spell.mob, { cascade: true, eager: true })
   public spells: Spell[]
 
-  @OneToOne(() => PlayerMob, playerMob => playerMob.mob, { nullable: true, ...ownedEntityOptions })
+  @OneToOne(() => PlayerMob, playerMob => playerMob.mob, { nullable: true, cascade: true, eager: true })
   public playerMob: PlayerMob
 
-  @OneToOne(() => MobReset, reset => reset.mob)
+  @OneToOne(() => MobReset, reset => reset.mob, { cascade: true })
   public mobReset: MobReset
 
   @OneToOne(() => Mob, { nullable: true })

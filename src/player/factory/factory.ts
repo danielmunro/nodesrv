@@ -1,3 +1,4 @@
+import {createPlayerMob} from "../../mob/factory/mobFactory"
 import { Mob } from "../../mob/model/mob"
 import { Player } from "../model/player"
 
@@ -5,6 +6,7 @@ export function newPlayer(name: string, sessionMob: Mob): Player {
   const player = createPlayer()
   player.name = name
   player.sessionMob = sessionMob
+  player.sessionMob.playerMob = createPlayerMob()
   player.mobs.push(sessionMob)
   return player
 }

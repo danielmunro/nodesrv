@@ -1,6 +1,5 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import {createInventory} from "../factory/inventoryFactory"
 import { Inventory } from "./inventory"
 import { Item } from "./item"
 
@@ -28,9 +27,9 @@ export default class Container {
   @Column("integer")
   public maxWeightForItem: number = 0
 
-  @OneToOne(() => Inventory, { eager: true })
+  @OneToOne(() => Inventory, { eager: true, cascade: true })
   @JoinColumn()
-  public inventory: Inventory = createInventory()
+  public inventory: Inventory
 
   public addItem(item: Item, carriedBy?: any) {
     this.inventory.addItem(item)

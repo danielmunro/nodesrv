@@ -29,7 +29,7 @@ export class Room {
   @Column("text")
   public area: string
 
-  @OneToMany(() => Exit, (exit) => exit.source, { eager: true })
+  @OneToMany(() => Exit, (exit) => exit.source, { cascade: true, eager: true })
   public exits: Exit[]
 
   @OneToMany(() => Exit, (exit) => exit.destination, { eager: true })
@@ -39,7 +39,7 @@ export class Room {
   @JoinColumn()
   public inventory: Inventory
 
-  @ManyToOne(() => Region, (region) => region.rooms, { eager: true })
+  @ManyToOne(() => Region, (region) => region.rooms, { cascade: true, eager: true })
   public region: Region
 
   @OneToMany(() => MobReset, reset => reset.room)

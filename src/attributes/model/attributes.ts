@@ -18,19 +18,19 @@ export default class Attributes {
   @OneToOne(() => Item, (item) => item.attributes)
   public item: Item
 
-  @OneToOne(() => Hitroll, { eager: true, cascadeAll: true })
+  @OneToOne(() => Hitroll, { eager: true, cascade: true })
   @JoinColumn()
   public hitroll = new Hitroll()
 
-  @OneToOne(() => Vitals, { eager: true, cascadeAll: true })
+  @OneToOne(() => Vitals, { eager: true, cascade: true })
   @JoinColumn()
   public vitals = new Vitals()
 
-  @OneToOne(() => Stats, { eager: true, cascadeAll: true })
+  @OneToOne(() => Stats, { eager: true, cascade: true })
   @JoinColumn()
   public stats = new Stats()
 
-  @OneToOne(() => Ac, { eager: true, cascadeAll: true })
+  @OneToOne(() => Ac, { eager: true, cascade: true })
   @JoinColumn()
   public ac = new Ac()
 

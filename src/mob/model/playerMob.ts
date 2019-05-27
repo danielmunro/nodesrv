@@ -1,6 +1,5 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import {newEmptyAttributes} from "../../attributes/factory/attributeFactory"
 import { default as Attributes } from "../../attributes/model/attributes"
 import { Item } from "../../item/model/item"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
@@ -29,13 +28,13 @@ export class PlayerMob {
   @Column("integer")
   public appetite: number = 0
 
-  @OneToOne(() => Mob, (mob) => mob.playerMob)
+  @OneToOne(() => Mob, mob => mob.playerMob)
   @JoinColumn()
   public mob: Mob
 
-  @OneToOne(() => Attributes)
+  @OneToOne(() => Attributes, { eager: true, cascade: true })
   @JoinColumn()
-  public trainedAttributes: Attributes = newEmptyAttributes()
+  public trainedAttributes: Attributes
 
   @Column("integer")
   public experience: number = 0

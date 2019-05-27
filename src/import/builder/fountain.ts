@@ -1,6 +1,5 @@
 import {ItemType} from "../../item/enum/itemType"
-import {newItem} from "../../item/factory/itemFactory"
-import Drink from "../../item/model/drink"
+import {createDrink, newItem} from "../../item/factory/itemFactory"
 import {Item} from "../../item/model/item"
 import ItemBuilder from "../itemBuilder"
 import {liquidMap} from "../map/liquidMap"
@@ -9,7 +8,7 @@ import ItemPrototype from "./itemPrototype"
 export default function(itemPrototype: ItemPrototype): Item {
   const { name, description, args } = itemPrototype
   const fountain = newItem(ItemType.Fountain, name, description)
-  fountain.drink = new Drink()
+  fountain.drink = createDrink()
   fountain.drink.foodAmount = +args[0]
   fountain.drink.drinkAmount = +args[1]
   fountain.drink.liquid = liquidMap[args[2]]

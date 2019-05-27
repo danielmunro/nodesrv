@@ -1,4 +1,9 @@
 export enum Liquid {
-  Water,
-  Milk,
+  Water = "water",
+  Milk = "milk",
+  Beer = "beer",
+  Firebreather = "firebreather",
+  LocalSpecialty = "local specialty",
+  Tea = "tea",
+  Coffee = "coffee",
 }

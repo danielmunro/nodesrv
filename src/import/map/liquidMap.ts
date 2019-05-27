@@ -1,6 +1,10 @@
 import {Liquid} from "../../item/enum/liquid"
 
 export const liquidMap = {
-  milk: Liquid.Milk,
-  water: Liquid.Water,
+  "ale": Liquid.Beer,
+  "beer": Liquid.Beer,
+  "firebreather": Liquid.Beer,
+  "local specialty": Liquid.Beer,
+  "milk": Liquid.Milk,
+  "water": Liquid.Water,
 }
