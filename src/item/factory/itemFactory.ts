@@ -1,3 +1,4 @@
+import {newEmptyAttributes} from "../../attributes/factory/attributeFactory"
 import BuilderDefinition, {ItemFactory} from "../../import/builderDefinition"
 import {ItemType as ImportItemType} from "../../import/enum/itemType"
 import {DamageType} from "../../mob/fight/enum/damageType"
@@ -79,6 +80,7 @@ export function newItem(itemType: ItemType, name: string, description: string, l
 export function createItem(): Item {
   const item = new Item()
   item.affects = []
+  item.attributes = newEmptyAttributes()
   return item
 }
 
@@ -98,6 +100,7 @@ export function newWeapon(name: string, description: string, weaponType: WeaponT
 export function createWeapon(): Weapon {
   const weapon = new Weapon()
   weapon.affects = []
+  weapon.attributes = newEmptyAttributes()
   return weapon
 }
 

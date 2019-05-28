@@ -12,7 +12,7 @@ export default class Drink {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("text")
+  @Column("text", { default: Liquid.Water })
   public liquid: Liquid
 
   @Column("integer", { nullable: true })

@@ -34,32 +34,43 @@ export default class ResetImportService {
 
   public async materializeResets(file: File) {
     const resets = []
+    console.log("file resets", file.resets.length)
     for (const reset of file.resets) {
       switch (reset.resetFlag) {
         case ResetFlag.Mob:
           try {
             resets.push(await this.createMobRoomReset(reset))
-          } catch (error) {}
+          } catch (error) {
+            console.log("error with mob", error)
+          }
           break
         case ResetFlag.Item:
           try {
             resets.push(await this.createItemRoomReset(reset))
-          } catch (error) {}
+          } catch (error) {
+            console.log("error with item", error)
+          }
           break
         case ResetFlag.GiveItemToMob:
           try {
             resets.push(await this.createItemMobReset(reset))
-          } catch (error) {}
+          } catch (error) {
+            console.log("error with give item to mob", error)
+          }
           break
         case ResetFlag.EquipItemToMob:
           try {
             resets.push(await this.createMobEquipReset(reset))
-          } catch (error) {}
+          } catch (error) {
+            console.log("error with equip item to mob", error)
+          }
           break
         case ResetFlag.PutItemInContainer:
           try {
             resets.push(await this.createItemContainerReset(reset))
-          } catch (error) {}
+          } catch (error) {
+            console.log("error with put item in container", error)
+          }
           break
         case ResetFlag.Door:
           break
@@ -76,7 +87,7 @@ export default class ResetImportService {
     const item = this.itemTable.getByImportId(reset.idOfResetSubject)
     const mob = this.mobTable.getByImportId(reset.idOfResetDestination)
     if (!item || !mob) {
-      throw new Error("bad item mob reset")
+      throw new Error("bad item mob reset: item: " + !!item + ", mob: " + !!mob)
     }
     return this.itemMobResetRepository.save(newItemMobReset(item, mob, reset.maxQuantity, reset.maxPerRoom))
   }

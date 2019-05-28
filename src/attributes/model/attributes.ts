@@ -12,10 +12,10 @@ export default class Attributes {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @ManyToOne(() => Mob, (mob) => mob.attributes)
+  @ManyToOne(() => Mob, mob => mob.attributes)
   public mob: Mob
 
-  @OneToOne(() => Item, (item) => item.attributes)
+  @OneToOne(() => Item, item => item.attributes)
   public item: Item
 
   @OneToOne(() => Hitroll, { eager: true, cascade: true })

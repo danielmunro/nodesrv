@@ -14,12 +14,13 @@ import {Room} from "../../room/model/room"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
 
-export default (startRoomId: number, port: number) =>
-  new AsyncContainerModule(async bind => {
+export default (startRoomId: number, port: number) => {
+  console.log("loading constants")
+  const constants = new AsyncContainerModule(async bind => {
     bind<Room>(Types.StartRoom).toDynamicValue(context =>
       context.container.get<RoomTable>(Types.RoomTable)
         .getRooms().find(r => r.canonicalId === startRoomId) as Room).inSingletonScope()
-    bind<Server>(Types.WebSocketServer).toConstantValue(new Server({ port }))
+    bind<Server>(Types.WebSocketServer).toConstantValue(new Server({port}))
     bind<MobReset[]>(Types.MobResets)
       .toConstantValue(await (await getMobResetRepository()).findAll())
     bind<ItemMobReset[]>(Types.ItemMobResets)
@@ -31,3 +32,6 @@ export default (startRoomId: number, port: number) =>
     bind<ItemContainerReset[]>(Types.ItemContainerResets)
       .toConstantValue(await (await getItemContainerResetRepository()).findAll())
   })
+  console.log("done loading constants")
+  return constants
+}

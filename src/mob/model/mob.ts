@@ -116,11 +116,11 @@ export class Mob {
   @ManyToOne(() => Player, player => player.mobs)
   public player: Player
 
-  @OneToOne(() => Inventory, { cascade: true, eager: true })
+  @OneToOne(() => Inventory, { cascade: true })
   @JoinColumn()
   public inventory: Inventory
 
-  @OneToOne(() => Inventory, { cascade: true, eager: true })
+  @OneToOne(() => Inventory, { cascade: true })
   @JoinColumn()
   public equipped: Inventory
 
@@ -133,8 +133,8 @@ export class Mob {
   @OneToOne(() => PlayerMob, playerMob => playerMob.mob, { nullable: true, cascade: true, eager: true })
   public playerMob: PlayerMob
 
-  @OneToOne(() => MobReset, reset => reset.mob, { cascade: true })
-  public mobReset: MobReset
+  @OneToMany(() => MobReset, reset => reset.mob, { cascade: true })
+  public mobResets: MobReset[]
 
   @OneToOne(() => Mob, { nullable: true })
   @JoinColumn()

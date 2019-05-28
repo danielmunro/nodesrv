@@ -1,4 +1,4 @@
-import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import { Room } from "../../room/model/room"
 import { Disposition } from "../enum/disposition"
@@ -13,11 +13,11 @@ export default class MobReset {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @OneToOne(() => Mob, mob => mob.mobReset, { eager: true })
+  @ManyToOne(() => Mob, mob => mob.mobResets)
   @JoinColumn()
   public mob: Mob
 
-  @ManyToOne(() => Room, room => room.mobResets, { eager: true })
+  @ManyToOne(() => Room, room => room.mobResets)
   @JoinColumn()
   public room: Room
 

@@ -2,7 +2,6 @@ import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, 
 import * as v4 from "uuid"
 import { Affect } from "../../affect/model/affect"
 import AffectService from "../../affect/service/affectService"
-import { newEmptyAttributes } from "../../attributes/factory/attributeFactory"
 import Attributes from "../../attributes/model/attributes"
 import { Equipment } from "../enum/equipment"
 import { ItemType } from "../enum/itemType"
@@ -73,16 +72,16 @@ export class Item {
   @Column("integer", { nullable: true })
   public wearTimer: number
 
-  @ManyToOne(() => Inventory, inventory => inventory.items, { eager: true })
+  @ManyToOne(() => Inventory, inventory => inventory.items)
   public inventory: Inventory
 
   @OneToOne(() => Attributes, attributes => attributes.item, { cascade: true, eager: true })
-  public attributes: Attributes = newEmptyAttributes()
+  public attributes: Attributes
 
   @OneToMany(() => Affect, affect => affect.item, { cascade: true, eager: true })
   public affects: Affect[]
 
-  @OneToOne(() => Container, { cascade: true, eager: true })
+  @OneToOne(() => Container, { cascade: true })
   @JoinColumn()
   public container: Container
 
