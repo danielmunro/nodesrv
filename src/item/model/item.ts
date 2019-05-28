@@ -76,6 +76,7 @@ export class Item {
   public inventory: Inventory
 
   @OneToOne(() => Attributes, attributes => attributes.item, { cascade: true, eager: true })
+  @JoinColumn()
   public attributes: Attributes
 
   @OneToMany(() => Affect, affect => affect.item, { cascade: true, eager: true })
