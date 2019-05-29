@@ -1,4 +1,3 @@
-import Ac from "./model/ac"
 import Attributes from "./model/attributes"
 
 const TEST_ATTRIBUTES_VALUE = 1
@@ -20,7 +19,6 @@ function getNewTestAttributes(): Attributes {
   attributes.acSlash = TEST_ATTRIBUTES_VALUE
   attributes.acPierce = TEST_ATTRIBUTES_VALUE
   attributes.acMagic = TEST_ATTRIBUTES_VALUE
-  attributes.ac = Ac.create(TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE, TEST_ATTRIBUTES_VALUE)
 
   return attributes
 }

@@ -41,7 +41,7 @@ export class Fight {
   private static isTargetAcDefeated(attackerAttributes: Attributes, defenderAttributes: Attributes): boolean {
     const str = attackerAttributes.str
     const hit = attackerAttributes.hit
-    const defense = defenderAttributes.ac.slash
+    const defense = defenderAttributes.acSlash
     return roll(1, str) + hit > defense
   }
 
@@ -94,7 +94,7 @@ export class Fight {
     const xAttributes = attacker.attribute().combine()
     const yAttributes = defender.attribute().combine()
 
-    if (!Fight.isTargetAcDefeated(xAttributes, yAttributes)) {
+    if (Fight.isTargetAcDefeated(xAttributes, yAttributes)) {
       return Fight.attackDefeated(attacker, defender, AttackResult.Miss)
     }
 

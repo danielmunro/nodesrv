@@ -1,8 +1,7 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm"
+import {Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm"
 import { Item } from "../../item/model/item"
 import { Mob } from "../../mob/model/mob"
 import {newEmptyAttributes} from "../factory/attributeFactory"
-import Ac from "./ac"
 
 @Entity()
 export default class Attributes {
@@ -60,10 +59,6 @@ export default class Attributes {
   @Column("integer", { default: 0 })
   public acMagic: number
 
-  @OneToOne(() => Ac, { eager: true, cascade: true })
-  @JoinColumn()
-  public ac = new Ac()
-
   public combine(withAttributes: Attributes): Attributes {
     const attributes = newEmptyAttributes()
     attributes.hit = this.hit + withAttributes.hit
@@ -79,11 +74,6 @@ export default class Attributes {
     attributes.hp = this.hp + withAttributes.hp
     attributes.mana = this.mana + withAttributes.mana
     attributes.mv = this.mv + withAttributes.mv
-
-    attributes.ac.bash = this.ac.bash + withAttributes.ac.bash
-    attributes.ac.slash = this.ac.slash + withAttributes.ac.slash
-    attributes.ac.pierce = this.ac.pierce + withAttributes.ac.pierce
-    attributes.ac.magic = this.ac.magic + withAttributes.ac.magic
 
     attributes.acBash = this.acBash + withAttributes.acBash
     attributes.acSlash = this.acSlash + withAttributes.acSlash
