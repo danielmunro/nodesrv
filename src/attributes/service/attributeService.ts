@@ -2,14 +2,9 @@ import {Mob} from "../../mob/model/mob"
 import RaceService from "../../mob/race/raceService"
 import {newEmptyAttributes} from "../factory/attributeFactory"
 import Attributes from "../model/attributes"
-import Stats from "../model/stats"
 
 export default class AttributeService {
   constructor(private readonly mob: Mob) {}
-
-  public getStats(): Stats {
-    return this.combine().stats
-  }
 
   public combine(): Attributes {
     let attributes = newEmptyAttributes()
@@ -47,15 +42,15 @@ export default class AttributeService {
   }
 
   public getInt(): number {
-    return this.combine().stats.int
+    return this.combine().int
   }
 
   public getWis(): number {
-    return this.combine().stats.wis
+    return this.combine().wis
   }
 
   public getDex(): number {
-    return this.combine().stats.dex
+    return this.combine().dex
   }
 
   public normalize(): void {

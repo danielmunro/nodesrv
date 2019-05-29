@@ -3,7 +3,6 @@ import { Item } from "../../item/model/item"
 import { Mob } from "../../mob/model/mob"
 import {newEmptyAttributes} from "../factory/attributeFactory"
 import Ac from "./ac"
-import Stats from "./stats"
 
 @Entity()
 export default class Attributes {
@@ -61,10 +60,6 @@ export default class Attributes {
   @Column("integer", { default: 0 })
   public acMagic: number
 
-  @OneToOne(() => Stats, { eager: true, cascade: true })
-  @JoinColumn()
-  public stats = new Stats()
-
   @OneToOne(() => Ac, { eager: true, cascade: true })
   @JoinColumn()
   public ac = new Ac()
@@ -73,13 +68,6 @@ export default class Attributes {
     const attributes = newEmptyAttributes()
     attributes.hit = this.hit + withAttributes.hit
     attributes.dam = this.dam + withAttributes.dam
-
-    attributes.stats.str = this.stats.str + withAttributes.stats.str
-    attributes.stats.int = this.stats.int + withAttributes.stats.int
-    attributes.stats.wis = this.stats.wis + withAttributes.stats.wis
-    attributes.stats.dex = this.stats.dex + withAttributes.stats.dex
-    attributes.stats.con = this.stats.con + withAttributes.stats.con
-    attributes.stats.sta = this.stats.sta + withAttributes.stats.sta
 
     attributes.str = this.str + withAttributes.str
     attributes.int = this.int + withAttributes.int

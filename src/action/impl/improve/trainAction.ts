@@ -25,11 +25,11 @@ function canTrain(stat: number): boolean {
 }
 
 function trainStat(mob: Mob, responseBuilder: ResponseBuilder, message: string, stat: Stat): Promise<Response> {
-  const stats = mob.playerMob.trainedAttributes.stats
-  if (!canTrain(stats[stat])) {
+  const attributes = mob.playerMob.trainedAttributes
+  if (!canTrain(attributes[stat])) {
     return responseBuilder.fail(ConditionMessages.Train.CannotTrainMore)
   }
-  stats[stat] += 1
+  attributes[stat] += 1
   return responseBuilder.success(message)
 }
 
@@ -90,10 +90,10 @@ export default class TrainAction extends Action {
     const subject = requestService.getResult(CheckType.ValidSubject)
 
     if (subject === true) {
-      const stats = mob.playerMob.trainedAttributes.stats
+      const attributes = mob.playerMob.trainedAttributes
       return responseBuilder.info(
         format(Messages.Train.Info, allStats.reduce((previous: string, current: Stat) =>
-          previous + (canTrain(stats[current]) ? `${current} ` : ""), "")))
+          previous + (canTrain(attributes[current]) ? `${current} ` : ""), "")))
     }
 
     return subject.method(mob, responseBuilder, subject.message, subject.train)

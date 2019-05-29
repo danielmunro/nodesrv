@@ -1,5 +1,4 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
-import {newStats} from "../../../attributes/factory/attributeFactory"
 import {SkillType} from "../../../skill/skillType"
 import {SpecializationType} from "../../specialization/enum/specializationType"
 import {Appetite} from "../enum/appetite"
@@ -16,7 +15,7 @@ export default function(): Race {
     .setSight(Eyesight.AboveAverage)
     .setAttributes(
       new AttributeBuilder()
-        .setStats(newStats(-1, 1, 0, 1, 0, 0))
+        .setStats(-1, 1, 0, 1, 0, 0)
         .build())
     .setPreferredSpecializations([ SpecializationType.Ranger ])
     .setStartingSkills([

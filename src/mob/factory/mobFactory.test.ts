@@ -1,5 +1,4 @@
 import AttributeBuilder from "../../attributes/builder/attributeBuilder"
-import {newStartingStats} from "../../attributes/factory/attributeFactory"
 import {createItem} from "../../item/factory/itemFactory"
 import { RaceType } from "../race/enum/raceType"
 import { newMob } from "./mobFactory"
@@ -11,7 +10,7 @@ describe("mob factory", () => {
     const race = RaceType.Critter
     const expectedAttributes = new AttributeBuilder()
         .setVitals(20, 100, 100)
-        .setStats(newStartingStats())
+        .setStats(15, 15, 15, 15, 15, 15)
       .setHitRoll(0, 0)
       .build()
     const mob = newMob(
@@ -38,7 +37,7 @@ describe("mob factory", () => {
       "",
       RaceType.Critter,
       20, 100, 100,
-      new AttributeBuilder().setStats(newStartingStats()).build(),
+      new AttributeBuilder().setStats(15, 15, 15, 15, 15, 15).build(),
       false,
       [testItem1, testItem2])
 

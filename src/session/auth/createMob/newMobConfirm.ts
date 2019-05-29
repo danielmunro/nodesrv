@@ -1,5 +1,4 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
-import {newStartingStats} from "../../../attributes/factory/attributeFactory"
 import {createMob, createPlayerMob} from "../../../mob/factory/mobFactory"
 import { Mob } from "../../../mob/model/mob"
 import { Player } from "../../../player/model/player"
@@ -46,7 +45,7 @@ export default class NewMobConfirm extends PlayerAuthStep implements AuthStep {
     mob.gold = 1000
     mob.attributes.push(new AttributeBuilder()
       .setVitals(20, 100, 100)
-      .setStats(newStartingStats())
+      .setStats(15, 15, 15, 15, 15, 15)
       .build())
     mob.playerMob = createPlayerMob()
     return mob

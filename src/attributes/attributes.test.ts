@@ -1,6 +1,5 @@
 import Ac from "./model/ac"
 import Attributes from "./model/attributes"
-import Stats from "./model/stats"
 
 const TEST_ATTRIBUTES_VALUE = 1
 
@@ -14,13 +13,6 @@ function getNewTestAttributes(): Attributes {
   attributes.dex = TEST_ATTRIBUTES_VALUE
   attributes.con = TEST_ATTRIBUTES_VALUE
   attributes.sta = TEST_ATTRIBUTES_VALUE
-  attributes.stats = Stats.create(
-    TEST_ATTRIBUTES_VALUE,
-    TEST_ATTRIBUTES_VALUE,
-    TEST_ATTRIBUTES_VALUE,
-    TEST_ATTRIBUTES_VALUE,
-    TEST_ATTRIBUTES_VALUE,
-    TEST_ATTRIBUTES_VALUE)
   attributes.hp = TEST_ATTRIBUTES_VALUE
   attributes.mana = TEST_ATTRIBUTES_VALUE
   attributes.mv = TEST_ATTRIBUTES_VALUE

@@ -1,5 +1,4 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
-import {newStats} from "../../../attributes/factory/attributeFactory"
 import {SkillType} from "../../../skill/skillType"
 import {Vulnerability} from "../../enum/vulnerability"
 import {createDamageModifier} from "../../fight/damageModifier"
@@ -28,7 +27,7 @@ export default function(): Race {
     ])
     .setAttributes(
       new AttributeBuilder()
-        .setStats(newStats(1, -1, -2, 0, 1, 1))
+        .setStats(1, -1, -2, 0, 1, 1)
         .build())
     .setStartingSkills([
       SkillType.Bite,

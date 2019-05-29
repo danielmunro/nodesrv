@@ -1,6 +1,5 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
 import {Stat} from "../../../attributes/enum/stat"
-import { newStats } from "../../../attributes/factory/attributeFactory"
 import Attributes from "../../../attributes/model/attributes"
 import {WeaponType} from "../../../item/enum/weaponType"
 import { SkillType } from "../../../skill/skillType"
@@ -15,7 +14,7 @@ export default class Mage implements Specialization {
 
   public getAttributes(): Attributes {
     return new AttributeBuilder()
-      .setStats(newStats(-1, 2, 2, 0, -1, 0))
+      .setStats(-1, 2, 2, 0, -1, 0)
       .build()
   }
 

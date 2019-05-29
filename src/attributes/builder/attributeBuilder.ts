@@ -1,6 +1,4 @@
-import {newStats} from "../factory/attributeFactory"
 import Attributes from "../model/attributes"
-import Stats from "../model/stats"
 
 export default class AttributeBuilder {
   private readonly attributes: Attributes
@@ -10,7 +8,12 @@ export default class AttributeBuilder {
     this.attributes.hp = 0
     this.attributes.mana = 0
     this.attributes.mv = 0
-    this.attributes.stats = newStats(0, 0, 0, 0, 0, 0)
+    this.attributes.str = 0
+    this.attributes.int = 0
+    this.attributes.wis = 0
+    this.attributes.dex = 0
+    this.attributes.con = 0
+    this.attributes.sta = 0
     this.attributes.hit = 0
     this.attributes.dam = 0
   }
@@ -21,8 +24,13 @@ export default class AttributeBuilder {
     return this
   }
 
-  public setStats(stats: Stats): AttributeBuilder {
-    this.attributes.stats = stats
+  public setStats(str: number, int: number, wis: number, dex: number, con: number, sta: number): AttributeBuilder {
+    this.attributes.str = str
+    this.attributes.int = int
+    this.attributes.wis = wis
+    this.attributes.dex = dex
+    this.attributes.con = con
+    this.attributes.sta = sta
     return this
   }
 

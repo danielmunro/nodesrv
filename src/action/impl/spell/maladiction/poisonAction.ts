@@ -1,6 +1,5 @@
 import {AffectType} from "../../../../affect/enum/affectType"
 import AttributeBuilder from "../../../../attributes/builder/attributeBuilder"
-import {newStats} from "../../../../attributes/factory/attributeFactory"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
@@ -21,7 +20,7 @@ export default function(abilityService: AbilityService): Spell {
       .setTimeout(requestService.getMobLevel() / 3)
       .setAttributes(new AttributeBuilder()
         .setHitRoll(0, -1)
-        .setStats(newStats(-1, 0, 0, 0, -1, -1))
+        .setStats(-1, 0, 0, 0, -1, -1)
         .build())
       .build()))
     .setSuccessMessage(requestService =>

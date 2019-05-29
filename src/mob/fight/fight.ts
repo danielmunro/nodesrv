@@ -39,7 +39,7 @@ export class Fight {
   }
 
   private static isTargetAcDefeated(attackerAttributes: Attributes, defenderAttributes: Attributes): boolean {
-    const str = attackerAttributes.stats.str
+    const str = attackerAttributes.str
     const hit = attackerAttributes.hit
     const defense = defenderAttributes.ac.slash
     return roll(1, str) + hit > defense

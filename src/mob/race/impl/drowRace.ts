@@ -1,5 +1,4 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
-import {newStats} from "../../../attributes/factory/attributeFactory"
 import {Vulnerability} from "../../enum/vulnerability"
 import {createDamageModifier} from "../../fight/damageModifier"
 import {DamageType} from "../../fight/enum/damageType"
@@ -24,7 +23,7 @@ export default function(): Race {
     .setPreferredSpecializations([ SpecializationType.Mage ])
     .setAttributes(
       new AttributeBuilder()
-        .setStats(newStats(-1, 2, 1, 1, -2, 0))
+        .setStats(-1, 2, 1, 1, -2, 0)
         .build())
     .setCreationPoints(4)
     .create()

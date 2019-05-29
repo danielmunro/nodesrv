@@ -11,13 +11,14 @@ export default class ScoreAction extends Action {
     return Check.ok()
   }
 
+  /*tslint:disable*/
   public invoke(requestService: RequestService): Promise<Response> {
     const mob = requestService.getMob()
-    const stats = mob.attribute().getStats()
+    const attributes = mob.attribute().combine()
     return requestService.respondWith().info(`
 You are ${mob.name}, level ${mob.level} with ${mob.playerMob.experience} experience points.
 A ${mob.raceType} ${mob.specializationType}.
-Attributes: ${stats.str} str, ${stats.int} int, ${stats.wis} wis, ${stats.dex} dex, ${stats.con} con, ${stats.sta} sta
+Attributes: ${attributes.str} str, ${attributes.int} int, ${attributes.wis} wis, ${attributes.dex} dex, ${attributes.con} con, ${attributes.sta} sta
 You have ${mob.gold} gold.
 `)
   }

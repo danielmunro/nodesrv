@@ -31,12 +31,12 @@ export default class LevelService {
   }
 
   private static calculateHpGainFromCon(attributes: Attributes, specialization: Specialization): number {
-    return ((3 * LevelService.getGainFromStat(attributes.stats.con)) +
+    return ((3 * LevelService.getGainFromStat(attributes.con)) +
       getRandomIntFromRange(...specialization.getHpGainRange())) / 3
   }
 
   private static calculateHpGainFromStr(attributes: Attributes, specialization: Specialization): number {
-    return ((3 * LevelService.getGainFromStat(attributes.stats.str)) +
+    return ((3 * LevelService.getGainFromStat(attributes.str)) +
       getRandomIntFromRange(...specialization.getHpGainRange())) / 4
   }
 
@@ -53,8 +53,8 @@ export default class LevelService {
   public calculateManaGain() {
     const attributes = this.mob.attribute().combine()
     const race = this.mob.raceType
-    let amount = (attributes.stats.int * 0.2) * (1 + (percentRoll() / 100) + (percentRoll() / 100))
-      + (attributes.stats.wis * 0.1) * (1 + percentRoll() / 100)
+    let amount = (attributes.int * 0.2) * (1 + (percentRoll() / 100) + (percentRoll() / 100))
+      + (attributes.wis * 0.1) * (1 + percentRoll() / 100)
 
     if (race === RaceType.Elf || race === RaceType.Halfling) {
       amount *= 1.1

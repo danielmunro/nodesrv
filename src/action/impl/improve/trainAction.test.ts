@@ -24,14 +24,14 @@ beforeEach(async () => {
 describe("train action", () => {
   it.each(allStats)("should be able to train %s", async (stat) => {
     // given
-    const initialValue = trainedAttributes.stats[stat]
+    const initialValue = trainedAttributes[stat]
 
     // when
     const response = await testRunner.invokeAction(RequestType.Train, `train ${stat}`)
 
     // then
     expect(response.isSuccessful()).toBeTruthy()
-    expect(trainedAttributes.stats[stat]).toBe(initialValue + 1)
+    expect(trainedAttributes[stat]).toBe(initialValue + 1)
   })
 
   it.each(allVitals)("should be able to train %s", async (vital) => {
@@ -52,7 +52,7 @@ describe("train action", () => {
 
   it.each(allStats)("should not exceed %s max training drinkAmount", async (stat) => {
     // given
-    trainedAttributes.stats[stat] = MAX_TRAINABLE_STATS
+    trainedAttributes[stat] = MAX_TRAINABLE_STATS
 
     // when
     const response = await testRunner.invokeAction(RequestType.Train, `train ${stat}`)
@@ -71,7 +71,7 @@ describe("train action", () => {
     expect(response1.message.getMessageToRequestCreator()).toContain("str int wis dex con sta hp mana mv")
 
     // when
-    trainedAttributes.stats[stat] = MAX_TRAINABLE_STATS
+    trainedAttributes[stat] = MAX_TRAINABLE_STATS
     const response2 = await testRunner.invokeAction(RequestType.Train)
 
     // then

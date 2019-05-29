@@ -49,6 +49,6 @@ describe("race service", () => {
     const attributes = RaceService.combineAttributes(mob, newEmptyAttributes())
 
     // then
-    expect(attributes.stats.str).toBe(mob.race().attributes.stats.str)
+    expect(attributes.str).toBe(mob.race().attributes.str)
   })
 })

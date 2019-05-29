@@ -30,12 +30,12 @@ describe("skill invoked event consumer", () => {
     // given
     const skill1 = newSkill(SkillType.Sneak)
     const mob1 = getTestMob()
-    mob1.attributes[0].stats.int = 25
+    mob1.attributes[0].int = 25
 
     // and
     const skill2 = newSkill(SkillType.Sneak)
     const mob2 = getTestMob()
-    mob2.attributes[0].stats.int = 0
+    mob2.attributes[0].int = 0
 
     // when
     await doNTimes(iterations, async () => {
