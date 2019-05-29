@@ -37,10 +37,9 @@ export class Player {
   }
 
   public prompt(): string {
-    const combinedAttributes = this.sessionMob.attribute().combine()
-    const combined = combinedAttributes.vitals
-    const vitals = this.sessionMob.vitals
-    return `${vitals.hp}/${combined.hp}hp ${vitals.mana}/${combined.mana}mana ${vitals.mv}/${combined.mv}mv -> `
+    const combined = this.sessionMob.attribute().combine()
+    return `${this.sessionMob.hp}/${combined.hp}hp `
+      + `${this.sessionMob.mana}/${combined.mana}mana ${this.sessionMob.mv}/${combined.mv}mv -> `
   }
 
   public ownsMob(mob: Mob): boolean {

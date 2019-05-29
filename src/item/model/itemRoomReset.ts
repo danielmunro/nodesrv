@@ -4,7 +4,7 @@ import ItemReset from "./itemReset"
 
 @Entity()
 export class ItemRoomReset extends ItemReset {
-  @ManyToOne(() => Room, { eager: true })
+  @ManyToOne(() => Room)
   @JoinColumn()
   public room: Room
 }

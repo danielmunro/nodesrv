@@ -29,7 +29,7 @@ describe("fight rounds", () => {
     const newDamageAmount = 100
 
     // when
-    mob1.vitals.hp -= newDamageAmount
+    mob1.hp -= newDamageAmount
     const attack2 = new Attack(mob2, mob1, AttackResult.Hit, newDamageAmount)
 
     // then

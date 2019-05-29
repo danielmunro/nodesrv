@@ -1,5 +1,4 @@
 import AttributeBuilder from "../../../../attributes/builder/attributeBuilder"
-import {newHitroll, newVitals} from "../../../../attributes/factory/attributeFactory"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
@@ -22,13 +21,13 @@ function createSkeletalWarrior(caster: Mob, warrior: Mob): Mob {
   const level = caster.level * 0.8
   const maxHp = level * 8 + getRandomIntFromRange(level * level / 8, level * level)
   warrior.level = level
-  warrior.vitals.hp = maxHp
-  warrior.vitals.mana = DEFAULT_MANA
-  warrior.vitals.mv = DEFAULT_MV
+  warrior.hp = maxHp
+  warrior.mana = DEFAULT_MANA
+  warrior.mv = DEFAULT_MV
   warrior.attributes.push(
     new AttributeBuilder()
-      .setHitRoll(newHitroll(1, level / 2))
-      .setVitals(newVitals(maxHp, DEFAULT_MANA, DEFAULT_MV))
+      .setHitRoll(1, level / 2)
+      .setVitals(maxHp, DEFAULT_MANA, DEFAULT_MV)
       .build())
   warrior.deathTimer = (level / 5) + 10
   warrior.follows = caster

@@ -19,8 +19,8 @@ export default function(abilityService: AbilityService): Spell {
     .setApplySpell(async requestService => {
       const target = requestService.getTarget()
       const amount = roll(2, target.level / 2)
-      target.vitals.hp -= amount
-      requestService.getMob().vitals.hp += amount
+      target.hp -= amount
+      requestService.getMob().hp += amount
     })
     .setSuccessMessage(requestService =>
       requestService.createResponseMessage(SpellMessages.DrawLife.Success)

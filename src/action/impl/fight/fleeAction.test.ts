@@ -91,7 +91,7 @@ describe("flee action handler", () => {
 
   it("should not work if a mob has no movement", async () => {
     // given
-    mob.vitals.mv = 0
+    mob.mv = 0
 
     // when
     const response = await testRunner.invokeAction(RequestType.Flee)

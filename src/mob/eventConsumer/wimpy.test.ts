@@ -24,7 +24,7 @@ describe("wimpy event consumer", () => {
 
     // given
     target.traits.wimpy = true
-    target.vitals.hp = 1
+    target.hp = 1
 
     // when
     let eventResponse: EventResponseStatus = EventResponseStatus.None

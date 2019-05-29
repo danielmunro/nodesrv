@@ -3,7 +3,6 @@ import * as v4 from "uuid"
 import { Affect } from "../../affect/model/affect"
 import AffectService from "../../affect/service/affectService"
 import { default as Attributes } from "../../attributes/model/attributes"
-import Vitals from "../../attributes/model/vitals"
 import AttributeService from "../../attributes/service/attributeService"
 import {Equipment} from "../../item/enum/equipment"
 import { Inventory } from "../../item/model/inventory"
@@ -77,6 +76,15 @@ export class Mob {
   @Column("integer", { default: 0 })
   public alignment: number = 0
 
+  @Column("integer")
+  public hp: number
+
+  @Column("integer")
+  public mana: number
+
+  @Column("integer")
+  public mv: number
+
   public deathTimer: number = 0
 
   @OneToOne(() => DamageSource, { cascade: true, eager: true })
@@ -106,10 +114,6 @@ export class Mob {
   @JoinColumn()
   public shop: Shop
 
-  @OneToOne(() => Vitals, { cascade: true, eager: true })
-  @JoinColumn()
-  public vitals: Vitals
-
   @OneToMany(() => Attributes, attributes => attributes.mob, { cascade: true, eager: true })
   public attributes: Attributes[]
 
@@ -136,7 +140,7 @@ export class Mob {
   @OneToMany(() => MobReset, reset => reset.mob, { cascade: true })
   public mobResets: MobReset[]
 
-  @OneToOne(() => Mob, { nullable: true })
+  @OneToOne(() => Mob, { nullable: true, eager: true })
   @JoinColumn()
   public pet: Mob
 

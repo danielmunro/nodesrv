@@ -49,7 +49,7 @@ export default abstract class Move extends Action {
   public async invoke(requestService: RequestService): Promise<Response> {
     const request = requestService.getRequest()
     if (!requestService.hasAffect(AffectType.Fly)) {
-      request.mob.vitals.mv -= request.getRoomMvCost()
+      request.mob.mv -= request.getRoomMvCost()
     }
     await this.locationService.moveMob(requestService.getMob(), this.direction)
     return requestService.respondWith().success()

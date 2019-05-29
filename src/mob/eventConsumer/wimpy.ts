@@ -11,7 +11,7 @@ import LocationService from "../service/locationService"
 
 export default class Wimpy implements EventConsumer {
   private static isWimpy(mob: Mob, target: Mob) {
-    return target.vitals.hp / target.attribute().getMaxHp() < 0.2 || target.level < mob.level - 8
+    return target.hp / target.attribute().getMaxHp() < 0.2 || target.level < mob.level - 8
   }
 
   constructor(

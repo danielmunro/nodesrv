@@ -36,7 +36,7 @@ export default function(
           rollDamage(spell, requestService.getMob().specializationType),
           damageType).build())
       const event = eventResponse.event as DamageEvent
-      target.vitals.hp -= event.amount
+      target.hp -= event.amount
       return createApplyAbilityResponseWithEvent(event)
     })
     .setSuccessMessage(requestService => {

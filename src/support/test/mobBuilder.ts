@@ -56,21 +56,21 @@ export default class MobBuilder {
   }
 
   public getHp(): number {
-    return this.mob.vitals.hp
+    return this.mob.hp
   }
 
   public setHp(amount: number): MobBuilder {
-    this.mob.vitals.hp = amount
+    this.mob.hp = amount
     return this
   }
 
   public setMana(amount: number): MobBuilder {
-    this.mob.vitals.mana = amount
+    this.mob.mana = amount
     return this
   }
 
   public setMv(amount: number): MobBuilder {
-    this.mob.vitals.mv = amount
+    this.mob.mv = amount
     return this
   }
 

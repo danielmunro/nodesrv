@@ -17,11 +17,11 @@ export default abstract class ItemReset {
   public item: Item
 
   @Column("text", { nullable: true })
-  public equipmentPosition: Equipment = null
+  public equipmentPosition: Equipment
 
   @Column("integer")
-  public maxQuantity
+  public maxQuantity: number
 
   @Column("integer", { nullable: true })
-  public maxPerRoom
+  public maxPerRoom: number
 }

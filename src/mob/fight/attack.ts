@@ -46,7 +46,7 @@ export class Attack {
     public readonly result: AttackResult,
     public readonly damage: number,
     public readonly death?: Death) {
-    this.isDefenderAlive = defender.vitals.hp >= 0
+    this.isDefenderAlive = defender.hp >= 0
     if (this.death) {
       this.experience = this.getExperienceFromKilling()
     }

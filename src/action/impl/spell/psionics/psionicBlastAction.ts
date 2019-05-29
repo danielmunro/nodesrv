@@ -28,7 +28,7 @@ export default function(abilityService: AbilityService): Spell {
       const target = requestService.getTarget()
       const eventResponse = await abilityService.publishEvent(
         requestService.createDamageEvent(roll(2, 6), DamageType.Mental).build())
-      target.vitals.hp -= (eventResponse.event as DamageEvent).amount
+      target.hp -= (eventResponse.event as DamageEvent).amount
     })
     .create()
 }

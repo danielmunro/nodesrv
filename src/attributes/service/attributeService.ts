@@ -3,17 +3,12 @@ import RaceService from "../../mob/race/raceService"
 import {newEmptyAttributes} from "../factory/attributeFactory"
 import Attributes from "../model/attributes"
 import Stats from "../model/stats"
-import Vitals from "../model/vitals"
 
 export default class AttributeService {
   constructor(private readonly mob: Mob) {}
 
   public getStats(): Stats {
     return this.combine().stats
-  }
-
-  public getVitals(): Vitals {
-    return this.combine().vitals
   }
 
   public combine(): Attributes {
@@ -31,23 +26,23 @@ export default class AttributeService {
   }
 
   public getHp(): number {
-    return this.mob.vitals.hp
+    return this.mob.hp
   }
 
   public getMaxHp(): number {
-    return this.combine().vitals.hp
+    return this.combine().hp
   }
 
   public getMv(): number {
-    return this.mob.vitals.mv
+    return this.mob.mv
   }
 
   public getMaxMv(): number {
-    return this.combine().vitals.mv
+    return this.combine().mv
   }
 
   public addMv(mv: number) {
-    this.mob.vitals.mv += mv
+    this.mob.mv += mv
     this.normalize()
   }
 
@@ -65,14 +60,14 @@ export default class AttributeService {
 
   public normalize(): void {
     const combined = this.combine()
-    if (this.mob.vitals.hp > combined.vitals.hp) {
-      this.mob.vitals.hp = combined.vitals.hp
+    if (this.mob.hp > combined.hp) {
+      this.mob.hp = combined.hp
     }
-    if (this.mob.vitals.mana > combined.vitals.mana) {
-      this.mob.vitals.mana = combined.vitals.mana
+    if (this.mob.mana > combined.mana) {
+      this.mob.mana = combined.mana
     }
-    if (this.mob.vitals.mv > combined.vitals.mv) {
-      this.mob.vitals.mv = combined.vitals.mv
+    if (this.mob.mv > combined.mv) {
+      this.mob.mv = combined.mv
     }
   }
 }

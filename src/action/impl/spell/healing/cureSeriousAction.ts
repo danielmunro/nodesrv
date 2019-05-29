@@ -25,7 +25,7 @@ export default function(abilityService: AbilityService): Spell {
       .create())
     .setApplySpell(async requestService => {
       const target = requestService.getResult(CheckType.HasTarget)
-      target.vitals.hp += roll(2, 8)
+      target.hp += roll(2, 8)
     })
     .create()
 }

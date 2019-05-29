@@ -1,21 +1,23 @@
-import {newHitroll, newStats, newVitals} from "../factory/attributeFactory"
+import {newStats} from "../factory/attributeFactory"
 import Attributes from "../model/attributes"
-import Hitroll from "../model/hitroll"
 import Stats from "../model/stats"
-import Vitals from "../model/vitals"
 
 export default class AttributeBuilder {
   private readonly attributes: Attributes
 
   constructor() {
     this.attributes = new Attributes()
-    this.attributes.vitals = newVitals(0, 0, 0)
+    this.attributes.hp = 0
+    this.attributes.mana = 0
+    this.attributes.mv = 0
     this.attributes.stats = newStats(0, 0, 0, 0, 0, 0)
-    this.attributes.hitroll = newHitroll(0, 0)
+    this.attributes.hit = 0
+    this.attributes.dam = 0
   }
 
-  public setHitRoll(hitRoll: Hitroll): AttributeBuilder {
-    this.attributes.hitroll = hitRoll
+  public setHitRoll(hit: number, dam: number): AttributeBuilder {
+    this.attributes.hit = hit
+    this.attributes.dam = dam
     return this
   }
 
@@ -24,8 +26,10 @@ export default class AttributeBuilder {
     return this
   }
 
-  public setVitals(vitals: Vitals): AttributeBuilder {
-    this.attributes.vitals = vitals
+  public setVitals(hp: number, mana: number, mv: number): AttributeBuilder {
+    this.attributes.hp = hp
+    this.attributes.mana = mana
+    this.attributes.mv = mv
     return this
   }
 

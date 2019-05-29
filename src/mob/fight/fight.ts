@@ -22,8 +22,7 @@ export class Fight {
     attacker: Mob,
     defender: Mob): number {
     const attackerAttributes = attacker.attribute().combine()
-    const hit = attackerAttributes.hitroll
-    let damage = roll(hit.hit, hit.dam)
+    let damage = roll(attackerAttributes.hit, attackerAttributes.dam)
     damage = AffectService.applyAffectModifier(
       attacker.affects.map(a => a.affectType),
       Trigger.DamageModifier,
@@ -41,7 +40,7 @@ export class Fight {
 
   private static isTargetAcDefeated(attackerAttributes: Attributes, defenderAttributes: Attributes): boolean {
     const str = attackerAttributes.stats.str
-    const hit = attackerAttributes.hitroll.hit
+    const hit = attackerAttributes.hit
     const defense = defenderAttributes.ac.slash
     return roll(1, str) + hit > defense
   }
@@ -107,19 +106,19 @@ export class Fight {
         .setSource(attacker)
         .build())
     const event = response.event as DamageEvent
-    defender.vitals.hp -= event.amount
+    defender.hp -= event.amount
 
     return new Attack(
       attacker,
       defender,
       AttackResult.Hit,
       calculateDamageFromEvent(event),
-      defender.vitals.hp < 0 ? this.createDeath(attacker, defender) : undefined)
+      defender.hp < 0 ? this.createDeath(attacker, defender) : undefined)
   }
 
   private async turnFor(x: Mob, y: Mob): Promise<Attack[]> {
     const attacks = [await this.attack(x, y)]
-    if (y.vitals.hp < 0) {
+    if (y.hp < 0) {
       return attacks
     }
     await this.eventService.publish(createFightEvent(EventType.AttackRound, x, this, attacks))

@@ -24,9 +24,9 @@ export class Tick implements Observer {
       mob.affects.map(a => a.affectType),
       Trigger.Tick,
       BaseRegenModifier)
-    mob.vitals.hp += roll(8, (combined.vitals.hp * regenModifier) / 8)
-    mob.vitals.mana += roll( 8, (combined.vitals.mana * regenModifier) / 8)
-    mob.vitals.mv += roll(8, (combined.vitals.mv * regenModifier) / 8)
+    mob.hp += roll(8, (combined.hp * regenModifier) / 8)
+    mob.mana += roll( 8, (combined.mana * regenModifier) / 8)
+    mob.mv += roll(8, (combined.mv * regenModifier) / 8)
     if (mob.playerMob) {
       mob.playerMob.regen()
     }

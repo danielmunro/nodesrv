@@ -34,13 +34,18 @@ function trainStat(mob: Mob, responseBuilder: ResponseBuilder, message: string, 
 }
 
 function trainVital(mob: Mob, responseBuilder: ResponseBuilder, message: string, vital: Vital): Promise<Response> {
-  const vitals = mob.playerMob.trainedAttributes.vitals
-  vitals[vital] += VITAL_INCREMENT
+  if (vital === Vital.Hp) {
+    mob.playerMob.trainedAttributes.hp += VITAL_INCREMENT
+  } else if (vital === Vital.Mana) {
+    mob.playerMob.trainedAttributes.mana += VITAL_INCREMENT
+  } else if (vital === Vital.Mv) {
+    mob.playerMob.trainedAttributes.mv += VITAL_INCREMENT
+  }
   mob.playerMob.trains--
   return responseBuilder.success(message)
 }
 
-function newTrainMapEntry(method, train: Stat | Vital, message: string) {
+function newTrainMapEntry(method: any, train: Stat | Vital, message: string) {
   return { method, train, message }
 }
 

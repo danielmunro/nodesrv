@@ -19,7 +19,7 @@ export default function(abilityService: AbilityService): Spell {
     ])
     .setApplySpell(async requestService => {
       const target = requestService.getResult(CheckType.HasTarget)
-      target.vitals.hp += roll(1, 4)
+      target.hp += roll(1, 4)
     })
     .setSuccessMessage(requestService =>
       requestService.createResponseMessage(SpellMessages.CureLight.Success)

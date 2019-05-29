@@ -81,12 +81,12 @@ export default class PlayerBuilder {
   }
 
   public setHp(amount: number): PlayerBuilder {
-    this.player.sessionMob.vitals.hp = amount
+    this.player.sessionMob.hp = amount
     return this
   }
 
   public setMv(amount: number): PlayerBuilder {
-    this.player.sessionMob.vitals.mv = amount
+    this.player.sessionMob.mv = amount
     return this
   }
 

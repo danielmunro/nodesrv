@@ -46,17 +46,17 @@ describe("mob model", () => {
     const combined = mob.attribute().combine()
 
     // given
-    mob.vitals.hp = 1000
-    mob.vitals.mana = 1000
-    mob.vitals.mv = 1000
+    mob.hp = 1000
+    mob.mana = 1000
+    mob.mv = 1000
 
     // when
     mob.attribute().normalize()
 
     // then
-    expect(mob.vitals.hp).toBe(combined.vitals.hp)
-    expect(mob.vitals.mana).toBe(combined.vitals.mana)
-    expect(mob.vitals.mv).toBe(combined.vitals.mv)
+    expect(mob.hp).toBe(combined.hp)
+    expect(mob.mana).toBe(combined.mana)
+    expect(mob.mv).toBe(combined.mv)
   })
 
   it("normalizes vitals after regen", () => {
@@ -68,9 +68,9 @@ describe("mob model", () => {
     Tick.regen(mob)
 
     // then
-    expect(mob.vitals.hp).toBe(combined.vitals.hp)
-    expect(mob.vitals.mana).toBe(combined.vitals.mana)
-    expect(mob.vitals.mv).toBe(combined.vitals.mv)
+    expect(mob.hp).toBe(combined.hp)
+    expect(mob.mana).toBe(combined.mana)
+    expect(mob.mv).toBe(combined.mv)
   })
 
   it("describes if it's a merchant", async () => {

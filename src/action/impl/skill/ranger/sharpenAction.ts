@@ -1,7 +1,6 @@
 import {AffectType} from "../../../../affect/enum/affectType"
 import {Affect} from "../../../../affect/model/affect"
 import AttributeBuilder from "../../../../attributes/builder/attributeBuilder"
-import {newHitroll} from "../../../../attributes/factory/attributeFactory"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import MvCost from "../../../../check/cost/mvCost"
@@ -52,7 +51,7 @@ export default function(abilityService: AbilityService): Skill {
       const [ skill, item ] = requestService.getResults(CheckType.HasSkill, CheckType.HasItem)
       const affect = affectBuilder
         .setAttributes(new AttributeBuilder()
-          .setHitRoll(newHitroll(1, roll(1, skill.level / 10) + 1))
+          .setHitRoll(1, roll(1, skill.level / 10) + 1)
           .build())
         .build()
       item.affects.push(affect)

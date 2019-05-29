@@ -16,7 +16,7 @@ export default function(abilityService: AbilityService): Skill {
     .setAffectType(AffectType.Stunned)
     .setTouchesTarget()
     .setCosts([
-      new MvCost((mob: Mob) => Math.max(80, mob.vitals.mv / 2)),
+      new MvCost((mob: Mob) => Math.max(80, mob.mv / 2)),
       new DelayCost(2),
     ])
     .setApplySkill(requestService => {
@@ -24,7 +24,7 @@ export default function(abilityService: AbilityService): Skill {
       const affect = target.affect()
       affect.add(newAffect(AffectType.Stunned, requestService.getMobLevel() / 10))
       affect.remove(AffectType.Haste)
-      target.vitals.mv = target.vitals.mv / 2
+      target.mv = target.mv / 2
       return Promise.resolve()
     })
     .setSuccessMessage(requestService =>

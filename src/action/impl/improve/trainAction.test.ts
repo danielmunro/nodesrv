@@ -39,7 +39,7 @@ describe("train action", () => {
     const playerMob = playerBuilder.getMob().playerMob
 
     // given
-    const initialVital = trainedAttributes.vitals[vital]
+    const initialVital = trainedAttributes[vital]
 
     // when
     const response = await testRunner.invokeAction(RequestType.Train, `train ${vital}`)
@@ -47,7 +47,7 @@ describe("train action", () => {
     // then
     expect(response.status).toBe(ResponseStatus.Success)
     expect(playerMob.trains).toBe(0)
-    expect(trainedAttributes.vitals[vital]).toBe(initialVital + VITAL_INCREMENT)
+    expect(trainedAttributes[vital]).toBe(initialVital + VITAL_INCREMENT)
   })
 
   it.each(allStats)("should not exceed %s max training drinkAmount", async (stat) => {

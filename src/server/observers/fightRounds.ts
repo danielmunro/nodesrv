@@ -122,7 +122,7 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
   } else if (round.isParticipant(sessionMob)) {
     messages.push(withValue(attacker === sessionMob ? defender : attacker, (opponent: Mob) =>
       opponent.name + " " +
-      getHealthIndicator(opponent.vitals.hp / opponent.attribute().getMaxHp()) + "."))
+      getHealthIndicator(opponent.hp / opponent.attribute().getMaxHp()) + "."))
   }
 
   return messages.join("\n")

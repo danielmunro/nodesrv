@@ -16,7 +16,7 @@ describe("cost createDefaultCheckFor", () => {
   it("should be able to apply a mv cost", async () => {
     // setup
     const mob = playerBuilder.player.sessionMob
-    const initialAmount = mob.vitals.mv
+    const initialAmount = mob.mv
 
     // given
     const amount = 10
@@ -29,14 +29,14 @@ describe("cost createDefaultCheckFor", () => {
     cost.applyTo(playerBuilder.player)
 
     // then
-    expect(mob.vitals.mv).toBe(initialAmount - amount)
+    expect(mob.mv).toBe(initialAmount - amount)
   })
 
   it("should be able to apply a mana cost", async () => {
     // setup
     const mob = playerBuilder.player.sessionMob
     const amount = 10
-    const initialAmount = mob.vitals.mana
+    const initialAmount = mob.mana
     const cost = new Cost(CostType.Mana, amount)
 
     // expect
@@ -46,7 +46,7 @@ describe("cost createDefaultCheckFor", () => {
     cost.applyTo(playerBuilder.player)
 
     // then
-    expect(mob.vitals.mana).toBe(initialAmount - amount)
+    expect(mob.mana).toBe(initialAmount - amount)
   })
 
   it("should be able to apply a delay cost", async () => {

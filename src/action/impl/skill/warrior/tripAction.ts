@@ -8,6 +8,7 @@ import {SkillType} from "../../../../skill/skillType"
 import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 import Skill from "../../skill"
 
 export default function(abilityService: AbilityService): Skill {
@@ -24,10 +25,10 @@ export default function(abilityService: AbilityService): Skill {
     .setApplySkill(async (requestService, affectBuilder) => {
       const [ target, skill ] = requestService.getResults(CheckType.HasTarget, CheckType.HasSkill)
       const amount = skill.level / 10
-      target.vitals.hp -= amount
-      return affectBuilder
+      target.hp -= amount
+      return createApplyAbilityResponse(affectBuilder
         .setTimeout(amount)
-        .build()
+        .build())
     })
     .setSuccessMessage(requestService =>
       requestService.createResponseMessage(ActionMessages.Trip.Success)

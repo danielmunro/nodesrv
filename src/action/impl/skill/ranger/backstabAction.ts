@@ -20,7 +20,7 @@ export default function(abilityService: AbilityService): Skill {
     ])
     .setApplySkill(async requestService => {
       const target = requestService.getTarget()
-      target.vitals.hp -= Fight.calculateDamageForOneHit(requestService.getMob(), target)
+      target.hp -= Fight.calculateDamageForOneHit(requestService.getMob(), target)
     })
     .setSuccessMessage(requestService =>
       requestService.createResponseMessage(ActionMessages.Backstab.Success)

@@ -48,13 +48,13 @@ describe("fight", () => {
 
     // then - a winner will have > 1 hp and the other mob has dead
     if (round.getWinner() === aggressor) {
-      expect(aggressor.vitals.hp).toBeGreaterThanOrEqual(0)
-      expect(target.vitals.hp).toBeLessThanOrEqual(0)
+      expect(aggressor.hp).toBeGreaterThanOrEqual(0)
+      expect(target.hp).toBeLessThanOrEqual(0)
       return
     }
 
-    expect(target.vitals.hp).toBeGreaterThanOrEqual(0)
-    expect(aggressor.vitals.hp).toBeLessThanOrEqual(0)
+    expect(target.hp).toBeGreaterThanOrEqual(0)
+    expect(aggressor.hp).toBeLessThanOrEqual(0)
   })
 
   it("players gain experience after killing a mob", async () => {

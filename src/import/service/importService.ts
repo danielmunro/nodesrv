@@ -1,5 +1,5 @@
 import { readFileSync } from "fs"
-import { newStartingAttributes, newVitals } from "../../attributes/factory/attributeFactory"
+import { newStartingAttributes } from "../../attributes/factory/attributeFactory"
 import ItemRepository from "../../item/repository/item"
 import { newMob } from "../../mob/factory/mobFactory"
 import {Mob} from "../../mob/model/mob"
@@ -73,14 +73,16 @@ export default class ImportService {
     file.shops.push(shop)
   }
 
-  private static async addMob(file, mobData) {
-    const vitals = newVitals(ImportService.dice(mobData.hit), ImportService.dice(mobData.mana), NPC_MOVEMENT)
+  private static async addMob(file: any, mobData: any) {
+    const hp = ImportService.dice(mobData.hit)
+    const mana = ImportService.dice(mobData.mana)
+    const mv = NPC_MOVEMENT
     const mob = newMob(
       mobData.name,
       mobData.description,
       mobData.race,
-      vitals,
-      newStartingAttributes(vitals, mobData.level))
+      hp, mana, mv,
+      newStartingAttributes(hp, mana, mv, mobData.level))
     mob.brief = mobData.brief
     mob.gold = mobData.wealth
     mob.canonicalId = mobData.id

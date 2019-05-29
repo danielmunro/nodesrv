@@ -1,5 +1,4 @@
 import AttributeBuilder from "../../attributes/builder/attributeBuilder"
-import {newVitals} from "../../attributes/factory/attributeFactory"
 import Attributes from "../../attributes/model/attributes"
 import {MAX_MOB_LEVEL} from "../../mob/constants"
 import {Mob} from "../../mob/model/mob"
@@ -11,7 +10,7 @@ import Gain from "./levelService/gain"
 export default class LevelService {
   private static createAttributesFromGain(gain: Gain): Attributes {
     return new AttributeBuilder()
-      .setVitals(newVitals(gain.hp, gain.mana, gain.mv)).build()
+      .setVitals(gain.hp, gain.mana, gain.mv).build()
   }
 
   private static getGainFromStat(value: number): number {

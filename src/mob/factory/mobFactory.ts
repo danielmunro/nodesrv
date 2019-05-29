@@ -1,6 +1,5 @@
 import {newEmptyAttributes} from "../../attributes/factory/attributeFactory"
 import Attributes from "../../attributes/model/attributes"
-import Vitals from "../../attributes/model/vitals"
 import {createInventory} from "../../item/factory/inventoryFactory"
 import {Item} from "../../item/model/item"
 import {Room} from "../../room/model/room"
@@ -41,15 +40,17 @@ export function newMobLocation(
 }
 
 /*tslint:disable*/
-export function newMob(name: string, description: string, race: RaceType, vitals: Vitals,
-                       attributes: Attributes, wanders: boolean = false, items: Item[] = [],
+export function newMob(name: string, description: string, race: RaceType, hp: number, mana: number,
+                       mv: number, attributes: Attributes, wanders: boolean = false, items: Item[] = [],
                        specialization = SpecializationType.Warrior): Mob {
 
   const mob = createMob()
   mob.name = name
   mob.description = description
   mob.raceType = race
-  mob.vitals = vitals
+  mob.hp = hp
+  mob.mana = mana
+  mob.mv = mv
   mob.attributes.push(attributes)
   mob.traits.wanders = wanders
   mob.specializationType = specialization
@@ -66,7 +67,9 @@ export function createMob(): Mob {
   mob.vulnerable = new DamageSource()
   mob.traits = new MobTraits()
   mob.offensiveTraits = new OffensiveTraits()
-  mob.vitals = new Vitals()
+  mob.hp = 0
+  mob.mana = 0
+  mob.mv = 0
   mob.attributes = []
   mob.inventory = createInventory()
   mob.equipped = createInventory()

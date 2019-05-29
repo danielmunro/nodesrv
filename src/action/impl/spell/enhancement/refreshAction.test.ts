@@ -26,7 +26,7 @@ describe("refresh spell action", () => {
     await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast refresh", caster.get())
 
     // then
-    expect(caster.mob.vitals.mv).toBeGreaterThan(1)
+    expect(caster.mob.mv).toBeGreaterThan(1)
   })
 
   it("generates correct success messages on self", async () => {

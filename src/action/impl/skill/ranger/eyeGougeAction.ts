@@ -24,7 +24,7 @@ export default function(abilityService: AbilityService): Skill {
     .setApplySkill(async (requestService, affectBuilder) => {
       const level = requestService.getMobLevel()
       const target = requestService.getTarget()
-      target.vitals.hp -= Fight.calculateDamageForOneHit(requestService.getMob(), target)
+      target.hp -= Fight.calculateDamageForOneHit(requestService.getMob(), target)
       await abilityService.publishEvent(createAttackEvent(requestService.getMob(), target))
       return createApplyAbilityResponse(affectBuilder
         .setTimeout(level / 12)

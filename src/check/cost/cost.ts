@@ -11,12 +11,12 @@ export default class Cost {
   public applyTo(player: Player): void {
     const calculatedAmount = this.getAmount(player.sessionMob)
     if (this.costType === CostType.Mv) {
-      player.sessionMob.vitals.mv -= calculatedAmount
+      player.sessionMob.mv -= calculatedAmount
       return
     }
 
     if (this.costType === CostType.Mana) {
-      player.sessionMob.vitals.mana -= calculatedAmount
+      player.sessionMob.mana -= calculatedAmount
       return
     }
 
@@ -34,11 +34,11 @@ export default class Cost {
   public canApplyTo(mob: Mob): boolean {
     const calculatedAmount = this.getAmount(mob)
     if (this.costType === CostType.Mv) {
-      return mob.vitals.mv >= calculatedAmount
+      return mob.mv >= calculatedAmount
     }
 
     if (this.costType === CostType.Mana) {
-      return mob.vitals.mana >= calculatedAmount
+      return mob.mana >= calculatedAmount
     }
 
     if (this.costType === CostType.Delay) {

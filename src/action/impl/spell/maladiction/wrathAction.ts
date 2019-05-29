@@ -1,6 +1,6 @@
 import {AffectType} from "../../../../affect/enum/affectType"
 import AttributeBuilder from "../../../../attributes/builder/attributeBuilder"
-import {newHitroll, newStats, newVitals} from "../../../../attributes/factory/attributeFactory"
+import {newStats} from "../../../../attributes/factory/attributeFactory"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
@@ -19,9 +19,9 @@ export default function(abilityService: AbilityService): Spell {
     .setCosts([ new ManaCost(35), new DelayCost(1) ])
     .setApplySpell(async (requestService, affectBuilder) => createApplyAbilityResponse(affectBuilder
       .setAttributes(new AttributeBuilder()
-        .setVitals(newVitals(-requestService.getMobLevel() / 10, 0, 0))
+        .setVitals(-requestService.getMobLevel() / 10, 0, 0)
         .setStats(newStats(0, -2, -2, 0, 0, 0))
-        .setHitRoll(newHitroll(1, -4))
+        .setHitRoll(1, -4)
         .build())
       .build()))
     .setSuccessMessage(requestService =>

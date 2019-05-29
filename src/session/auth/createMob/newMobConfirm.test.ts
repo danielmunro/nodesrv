@@ -54,16 +54,16 @@ describe("new mob confirm auth step", () => {
     await newMobConfirm.processRequest(new Request(client, "y"))
 
     // then
-    const maxVitals = newMobConfirm.player.sessionMob.attribute().getVitals()
-    expect(maxVitals.hp).toBe(20)
-    expect(maxVitals.mana).toBe(100)
-    expect(maxVitals.mv).toBe(100)
+    const attributes = newMobConfirm.player.sessionMob.attribute().combine()
+    expect(attributes.hp).toBe(20)
+    expect(attributes.mana).toBe(100)
+    expect(attributes.mv).toBe(100)
 
     // and
-    const vitals = newMobConfirm.player.sessionMob.vitals
-    expect(vitals.hp).toBe(20)
-    expect(vitals.mana).toBe(100)
-    expect(vitals.mv).toBe(100)
+    const mob = newMobConfirm.player.sessionMob
+    expect(mob.hp).toBe(20)
+    expect(mob.mana).toBe(100)
+    expect(mob.mv).toBe(100)
   })
 
   it("should error out for any other input", async () => {
@@ -83,7 +83,7 @@ describe("new mob confirm auth step", () => {
 
     // then
     return Promise.all([inputs.map(async (input) => {
-      const response = await newMobConfirm.processRequest(new Request(client, input))
+      const response = await newMobConfirm.processRequest(new Request(client, input as string))
 
       expect(response.status).toBe(ResponseStatus.FAILED)
       expect(response.authStep).toBeInstanceOf(NewMobConfirm)
