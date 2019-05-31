@@ -26,7 +26,8 @@ export default class LocationService {
 
   public async moveMob(mob: Mob, direction: Direction) {
     const location = this.getLocationForMob(mob)
-    const exitsForRoom = this.exitTable.exitsForRoom(location.room)
+    // const exitsForRoom = this.exitTable.exitsForRoom(location.room)
+    const exitsForRoom = location.room.exits
     const exit = exitsForRoom.find(e => e.direction === direction)
 
     if (!exit) {

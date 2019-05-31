@@ -13,11 +13,11 @@ export default class MobReset {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @ManyToOne(() => Mob, mob => mob.mobResets)
+  @ManyToOne(() => Mob, mob => mob.mobResets, { eager: true })
   @JoinColumn()
   public mob: Mob
 
-  @ManyToOne(() => Room, room => room.mobResets)
+  @ManyToOne(() => Room, room => room.mobResets, { eager: true })
   @JoinColumn()
   public room: Room
 

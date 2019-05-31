@@ -1,5 +1,4 @@
-import {Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm"
-import { Item } from "../../item/model/item"
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm"
 import { Mob } from "../../mob/model/mob"
 import {newEmptyAttributes} from "../factory/attributeFactory"
 
@@ -10,9 +9,6 @@ export default class Attributes {
 
   @ManyToOne(() => Mob, mob => mob.attributes)
   public mob: Mob
-
-  @OneToOne(() => Item, item => item.attributes)
-  public item: Item
 
   @Column("integer", { default: 0 })
   public hit: number

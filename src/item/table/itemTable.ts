@@ -6,7 +6,7 @@ export default class ItemTable {
   constructor(public items: Item[] = []) {}
 
   public findByInventory(inventory: Inventory): Item[] {
-    return this.items.filter(i => i.inventory.uuid === inventory.uuid)
+    return this.items.filter(i => inventory.items.includes(i))
   }
 
   public findItemByInventory(inventory: Inventory, name: string): Item {

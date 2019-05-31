@@ -14,6 +14,6 @@ export default class ExitRepositoryImpl implements ExitRepository {
   }
 
   public findAll() {
-    return this.exitRepository.find({ relations: ["source", "destination"] })
+    return this.exitRepository.find()
   }
 }

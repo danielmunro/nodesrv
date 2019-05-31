@@ -11,7 +11,7 @@ export class Exit {
   @Column("text")
   public direction: Direction
 
-  @ManyToOne(() => Room, (room) => room.exits)
+  @ManyToOne(() => Room, room => room.exits)
   public source: Room
 
   @ManyToOne(() => Room)

@@ -16,7 +16,7 @@ export class Inventory {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @OneToMany(() => Item, item => item.inventory, { cascade: true })
+  @OneToMany(() => Item, item => item.inventory, { cascade: true, eager: true })
   public items: Item[]
 
   public find(search: (value: Item) => boolean): Item | undefined {

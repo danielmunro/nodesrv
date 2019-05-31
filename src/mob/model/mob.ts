@@ -85,8 +85,6 @@ export class Mob {
   @Column("integer")
   public mv: number
 
-  public deathTimer: number = 0
-
   @OneToOne(() => DamageSource, { cascade: true, eager: true })
   @JoinColumn()
   public immune: DamageSource
@@ -110,7 +108,7 @@ export class Mob {
   @JoinColumn()
   public offensiveTraits: OffensiveTraits
 
-  @OneToOne(() => Shop, { cascade: true, eager: true })
+  @OneToOne(() => Shop, { cascade: true })
   @JoinColumn()
   public shop: Shop
 
@@ -120,11 +118,11 @@ export class Mob {
   @ManyToOne(() => Player, player => player.mobs)
   public player: Player
 
-  @OneToOne(() => Inventory, { cascade: true })
+  @OneToOne(() => Inventory, { cascade: true, eager: true })
   @JoinColumn()
   public inventory: Inventory
 
-  @OneToOne(() => Inventory, { cascade: true })
+  @OneToOne(() => Inventory, { cascade: true, eager: true })
   @JoinColumn()
   public equipped: Inventory
 
@@ -137,14 +135,14 @@ export class Mob {
   @OneToOne(() => PlayerMob, playerMob => playerMob.mob, { nullable: true, cascade: true, eager: true })
   public playerMob: PlayerMob
 
-  @OneToMany(() => MobReset, reset => reset.mob, { cascade: true })
+  @OneToMany(() => MobReset, reset => reset.mob)
   public mobResets: MobReset[]
 
-  @OneToOne(() => Mob, { nullable: true, eager: true })
-  @JoinColumn()
   public pet: Mob
 
   public follows: Mob
+
+  public deathTimer: number = 0
 
   public getCreationPoints(): number {
     return this.playerMob.getCreationPoints() + this.race().creationPoints

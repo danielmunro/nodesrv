@@ -35,7 +35,7 @@ export class Room {
   @OneToMany(() => Exit, (exit) => exit.destination, { eager: true })
   public entrances: Exit[]
 
-  @OneToOne(() => Inventory, { cascade: true })
+  @OneToOne(() => Inventory, { cascade: true, eager: true })
   @JoinColumn()
   public inventory: Inventory
 

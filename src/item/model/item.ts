@@ -75,7 +75,7 @@ export class Item {
   @ManyToOne(() => Inventory, inventory => inventory.items)
   public inventory: Inventory
 
-  @OneToOne(() => Attributes, attributes => attributes.item, { cascade: true, eager: true })
+  @OneToOne(() => Attributes, { cascade: true, eager: true })
   @JoinColumn()
   public attributes: Attributes
 
