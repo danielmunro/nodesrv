@@ -36,6 +36,7 @@ initializeConnection().then(async () => {
    * seed mob and item resets
    */
   const resetService = app.getResetService()
+  console.log("done loading reset service")
   console.time(Timings.seedMobs)
   await resetService.seedMobTable()
   console.timeEnd(Timings.seedMobs)
