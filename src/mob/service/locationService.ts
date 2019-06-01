@@ -4,7 +4,6 @@ import {createMobMoveEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import {Direction} from "../../room/enum/direction"
 import { Room } from "../../room/model/room"
-import ExitTable from "../../room/table/exitTable"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
 import {newMobLocation} from "../factory/mobFactory"
@@ -16,7 +15,6 @@ export default class LocationService {
   constructor(
     @inject(Types.RoomTable) private readonly roomTable: RoomTable,
     @inject(Types.EventService) private readonly eventService: EventService,
-    @inject(Types.ExitTable) private readonly exitTable: ExitTable,
     @inject(Types.StartRoom) private readonly startRoom: Room,
     private mobLocations: MobLocation[] = []) {}
 
@@ -26,7 +24,6 @@ export default class LocationService {
 
   public async moveMob(mob: Mob, direction: Direction) {
     const location = this.getLocationForMob(mob)
-    // const exitsForRoom = this.exitTable.exitsForRoom(location.room)
     const exitsForRoom = location.room.exits
     const exit = exitsForRoom.find(e => e.direction === direction)
 
@@ -34,7 +31,7 @@ export default class LocationService {
       throw new Error("cannot move in that direction")
     }
 
-    const destination = this.roomTable.get(exit.destination.uuid)
+    const destination = exit.destination
     await this.updateMobLocation(mob, destination, direction)
   }
 

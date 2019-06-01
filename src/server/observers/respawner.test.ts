@@ -29,7 +29,7 @@ describe("respawner", () => {
     // given
     const roomTable = RoomTable.new([currentRoom, startRoom])
     const eventService = new EventService()
-    const locationService = new LocationService(roomTable, eventService, new ExitTable(), startRoom)
+    const locationService = new LocationService(roomTable, eventService, startRoom)
     const mobTable = new MobTable()
     const mobService = new MobService(new MobTable([mob1, mob2, mob3]), locationService, mobTable, new FightTable())
     const respawner = new Respawner(

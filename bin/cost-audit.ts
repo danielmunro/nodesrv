@@ -16,7 +16,7 @@ import {getSkillTable} from "../src/skill/skillTable"
 import getSpellTable from "../src/spell/spellTable"
 
 const eventService = new EventService()
-const locationService = new LocationService(new RoomTable(), eventService, new ExitTable(), createRoom())
+const locationService = new LocationService(new RoomTable(), eventService, createRoom())
 const mobService = new MobService(new MobTable(), locationService, new MobTable(), new FightTable())
 
 console.log("spells:")

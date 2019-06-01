@@ -14,7 +14,7 @@ export class Exit {
   @ManyToOne(() => Room, room => room.exits)
   public source: Room
 
-  @ManyToOne(() => Room)
+  @ManyToOne(() => Room, room => room.entrances)
   public destination: Room
 
   @OneToOne(() => Door, { eager: true })
