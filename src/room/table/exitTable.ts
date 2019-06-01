@@ -6,7 +6,8 @@ export default class ExitTable {
     private readonly exits: Exit[] = []) {}
 
   public exitsForRoom(room: Room): Exit[] {
-    return this.exits.filter(exit => exit.source.uuid === room.uuid)
+    const roomExitIds = room.exits.map(exit => exit.id)
+    return this.exits.filter(exit => roomExitIds.includes(exit.id))
   }
 
   public add(exit: Exit) {

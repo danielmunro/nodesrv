@@ -2,7 +2,6 @@ import {AsyncContainerModule} from "inversify"
 import {getItemRepository} from "../../item/repository/item"
 import ItemTable from "../../item/table/itemTable"
 import FightTable from "../../mob/fight/fightTable"
-import {getMobRepository} from "../../mob/repository/mob"
 import SpecializationService from "../../mob/specialization/service/specializationService"
 import SpecializationGroup from "../../mob/specialization/specializationGroup"
 import specializationGroups from "../../mob/specialization/specializationGroups"
@@ -15,15 +14,10 @@ import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
 
 export default new AsyncContainerModule(async bind => {
-  console.log("loading tables")
-  bind<MobTable>(Types.MobTable).toConstantValue(new MobTable(await(await getMobRepository()).findAll()))
-  console.log("mob table")
+  bind<MobTable>(Types.MobTable).toConstantValue(new MobTable())
   bind<RoomTable>(Types.RoomTable).toConstantValue(await newRoomTable())
-  console.log("room table")
   bind<ItemTable>(Types.ItemTable).toConstantValue(new ItemTable(await (await getItemRepository()).findAll()))
-  console.log("item table")
   bind<ExitTable>(Types.ExitTable).toConstantValue(await newExitTable())
-  console.log("exit table")
   bind<FightTable>(Types.FightTable).toConstantValue(new FightTable())
   bind<SpecializationLevel[]>(Types.SpecializationLevels).toConstantValue(defaultSpecializationLevels)
   bind<SpecializationGroup[]>(Types.SpecializationGroups).toDynamicValue(context => {

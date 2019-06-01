@@ -5,7 +5,7 @@ const HOURS_IN_DAY = 24
 
 @injectable()
 export default class TimeService {
-  constructor(private time: number = 0) {}
+  constructor(private time: number = HOURS_IN_DAY / 2) {}
 
   public setTime(time: number) {
     this.time = time

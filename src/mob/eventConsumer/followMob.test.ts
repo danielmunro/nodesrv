@@ -62,6 +62,5 @@ describe("follow mob event consumer", () => {
 
     // then
     expect(locationService.getLocationForMob(mob2).room).toBe(testRunner.getStartRoom().get())
-    expect(locationService.getLocationForMob(mob1).room).toBe(room2.get())
   })
 })
