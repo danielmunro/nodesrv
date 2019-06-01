@@ -4,7 +4,6 @@ import {createMobMoveEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import {Direction} from "../../room/enum/direction"
 import { Room } from "../../room/model/room"
-import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
 import {newMobLocation} from "../factory/mobFactory"
 import { Mob } from "../model/mob"
@@ -13,7 +12,6 @@ import MobLocation from "../model/mobLocation"
 @injectable()
 export default class LocationService {
   constructor(
-    @inject(Types.RoomTable) private readonly roomTable: RoomTable,
     @inject(Types.EventService) private readonly eventService: EventService,
     @inject(Types.StartRoom) private readonly startRoom: Room,
     private mobLocations: MobLocation[] = []) {}

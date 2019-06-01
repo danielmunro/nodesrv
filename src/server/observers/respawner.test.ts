@@ -5,8 +5,6 @@ import FightTable from "../../mob/fight/fightTable"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import { default as MobTable } from "../../mob/table/mobTable"
-import ExitTable from "../../room/table/exitTable"
-import RoomTable from "../../room/table/roomTable"
 import { getTestMob } from "../../support/test/mob"
 import { getTestRoom } from "../../support/test/room"
 import Respawner from "./respawner"
@@ -27,9 +25,8 @@ describe("respawner", () => {
     const mob3 = getTestMob()
 
     // given
-    const roomTable = RoomTable.new([currentRoom, startRoom])
     const eventService = new EventService()
-    const locationService = new LocationService(roomTable, eventService, startRoom)
+    const locationService = new LocationService(eventService, startRoom)
     const mobTable = new MobTable()
     const mobService = new MobService(new MobTable([mob1, mob2, mob3]), locationService, mobTable, new FightTable())
     const respawner = new Respawner(
