@@ -5,11 +5,11 @@ import RoomRepository from "./room"
 export default class RoomRepositoryImpl implements RoomRepository {
   constructor(private readonly roomRepository: Repository<Room>) {}
 
-  public save(model) {
+  public save(model: Room): Promise<Room> {
     return this.roomRepository.save(model)
   }
 
-  public findAll() {
+  public findAll(): Promise<Room[]> {
     return this.roomRepository.find()
   }
 }

@@ -3,8 +3,8 @@ import { Room } from "../model/room"
 import RoomRepositoryImpl from "./roomImpl"
 
 export default interface RoomRepository {
-  save(model)
-  findAll()
+  save(model: Room): Promise<Room>
+  findAll(): Promise<Room[]>
 }
 
 export async function getRoomRepository(): Promise<RoomRepository> {

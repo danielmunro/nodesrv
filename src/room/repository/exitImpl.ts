@@ -5,12 +5,12 @@ import ExitRepository from "./exit"
 export default class ExitRepositoryImpl implements ExitRepository {
   constructor(private readonly exitRepository: Repository<Exit>) {}
 
-  public save(model) {
+  public save(model: Exit): Promise<Exit> {
     return this.exitRepository.save(model)
   }
 
-  public findOneById(id) {
-    return this.exitRepository.findOneById(id, { relations: ["source", "destination"] })
+  public findOneById(id: number): Promise<Exit | undefined> {
+    return this.exitRepository.findOne(id, { relations: ["source", "destination"] })
   }
 
   public findAll() {
