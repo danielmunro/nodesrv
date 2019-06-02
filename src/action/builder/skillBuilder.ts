@@ -13,6 +13,7 @@ import {percentRoll} from "../../support/random/helpers"
 import {Messages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
 import {ActionType} from "../enum/actionType"
+import {createApplyAbilityResponse} from "../factory/responseFactory"
 import {ApplyAbility, CheckComponentAdder} from "../impl/action"
 import Skill from "../impl/skill"
 
@@ -43,7 +44,8 @@ export default class SkillBuilder {
   constructor(private readonly abilityService: AbilityService, private readonly skillType: SkillType) {
     this.helpText = Messages.Help.NoActionHelpTextProvided
     this.requestType = (this.skillType as any) as RequestType
-    this.applySkill = (_, affectBuilder) => Promise.resolve(affectBuilder ? affectBuilder.build() : undefined)
+    this.applySkill = (_, affectBuilder) =>
+      Promise.resolve(affectBuilder ? createApplyAbilityResponse(affectBuilder.build()) : undefined)
     this.roll = (requestService: RequestService) =>
       requestService.getResult(CheckType.HasSkill).level > percentRoll()
     this.failMessage = SkillBuilder.createDefaultResponseMessage()
