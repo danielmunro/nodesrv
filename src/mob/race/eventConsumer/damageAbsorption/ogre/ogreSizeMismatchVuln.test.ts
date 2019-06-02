@@ -1,45 +1,38 @@
 import {createTestAppContainer} from "../../../../../app/factory/testFactory"
 import {createDamageEvent} from "../../../../../event/factory/eventFactory"
-import {MaterialType} from "../../../../../item/enum/materialType"
-import Weapon from "../../../../../item/model/weapon"
 import TestRunner from "../../../../../support/test/testRunner"
 import {Types} from "../../../../../support/types"
 import DamageEvent from "../../../../event/damageEvent"
 import {DamageType} from "../../../../fight/enum/damageType"
 import {Mob} from "../../../../model/mob"
 import {RaceType} from "../../../enum/raceType"
-import ElfIronVuln from "./elfIronVuln"
+import OgreSizeMismatchVuln from "./ogreSizeMismatchVuln"
 
 let testRunner: TestRunner
 let attacker: Mob
 let defender: Mob
-let eventConsumer: ElfIronVuln
-let weapon: Weapon
+let eventConsumer: OgreSizeMismatchVuln
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  weapon = testRunner.createWeapon()
-    .asAxe()
-    .setMaterial(MaterialType.Iron)
-    .build()
-  attacker = testRunner.createMob().equip(weapon).get()
+  attacker = testRunner.createMob().setRace(RaceType.Ogre).get()
   defender = testRunner.createMob().setRace(RaceType.Elf).get()
-  eventConsumer = new ElfIronVuln()
+  eventConsumer = new OgreSizeMismatchVuln()
 })
 
-describe("elf iron vuln", () => {
-  it("increases the modifier when using an iron weapon", async () => {
+describe("ogre size mismatch vuln", () => {
+  it("decreases the modifier when fighting a differently sized mob", async () => {
     // when
     const eventResponse = await eventConsumer.consume(
       createDamageEvent(defender, 1, DamageType.Slash, 1, attacker))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBeGreaterThan(1)
+    expect((eventResponse.event as DamageEvent).modifier).toBeLessThan(1)
   })
 
-  it("is unmodified when not using iron", async () => {
+  it("unmodified when the size matches", async () => {
     // given
-    weapon.material = MaterialType.Aluminum
+    defender.raceType = RaceType.Ogre
 
     // when
     const eventResponse = await eventConsumer.consume(

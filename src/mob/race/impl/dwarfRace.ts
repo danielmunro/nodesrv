@@ -19,7 +19,8 @@ export default function(): Race {
     .setDamageAbsorption([
       createDamageModifier(DamageType.Mental, Vulnerability.Vulnerable),
       createDamageModifier(DamageType.Poison, Vulnerability.Resist),
-      createDamageModifier(DamageType.Bash, Vulnerability.Resist)])
+      createDamageModifier(DamageType.Bash, Vulnerability.Resist),
+      createDamageModifier(DamageType.Water, Vulnerability.Vulnerable)])
     .setPreferredSpecializations([
       SpecializationType.Warrior,
       SpecializationType.Cleric,

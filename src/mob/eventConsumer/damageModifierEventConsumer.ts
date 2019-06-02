@@ -1,7 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {createDamageEvent} from "../../event/factory/eventFactory"
+import {createModifiedDamageEvent} from "../../event/factory/eventFactory"
 import DamageEvent from "../event/damageEvent"
 import vulnerabilityModifier from "../fight/vulnerabilityModifier"
 
@@ -18,8 +18,7 @@ export default class DamageModifierEventConsumer implements EventConsumer {
       return EventResponse.none(event)
     }
 
-    return EventResponse.modified(createDamageEvent(
-      event.mob, event.amount, event.damageType,
-      event.modifier + vulnerabilityModifier(damageModifier.vulnerability), event.source))
+    return EventResponse.modified(createModifiedDamageEvent(event,
+      vulnerabilityModifier(damageModifier.vulnerability)))
   }
 }
