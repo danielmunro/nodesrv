@@ -81,6 +81,15 @@ export function createDamageEvent(
   }
 }
 
+export function createModifiedDamageEvent(damageEvent: DamageEvent, modifier: number) {
+  return createDamageEvent(
+    damageEvent.mob,
+    damageEvent.amount,
+    damageEvent.damageType,
+    damageEvent.modifier + modifier,
+    damageEvent.source)
+}
+
 export function createMobEvent(eventType: EventType, mob: Mob): MobEvent {
   return { eventType, mob }
 }

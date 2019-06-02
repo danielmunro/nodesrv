@@ -1,6 +1,7 @@
 import {AffectType} from "../../affect/enum/affectType"
 import {newAffect} from "../../affect/factory/affectFactory"
 import MobBuilder from "../../support/test/mobBuilder"
+import {MaterialType} from "../enum/materialType"
 import {createItem} from "../factory/itemFactory"
 import {Item} from "../model/item"
 
@@ -38,6 +39,11 @@ export default class AbstractItemBuilder {
 
   public withValue(value: number): AbstractItemBuilder {
     this.item.value = value
+    return this
+  }
+
+  public setMaterial(material: MaterialType): AbstractItemBuilder {
+    this.item.material = material
     return this
   }
 

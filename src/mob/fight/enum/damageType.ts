@@ -10,4 +10,5 @@ export enum DamageType {
   Energy,
   Poison,
   Acid,
+  Water,
 }

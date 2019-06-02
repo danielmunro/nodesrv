@@ -29,4 +29,9 @@ export default class WeaponBuilder extends AbstractItemBuilder {
     this.item.value = 10
     return this
   }
+
+  public setDamageType(damageType: DamageType): WeaponBuilder {
+    this.item.damageType = damageType
+    return this
+  }
 }
