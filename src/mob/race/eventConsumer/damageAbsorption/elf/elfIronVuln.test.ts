@@ -21,7 +21,7 @@ beforeEach(async () => {
   weapon = testRunner.createWeapon()
     .asAxe()
     .setMaterial(MaterialType.Iron)
-    .build()
+    .build() as Weapon
   attacker = testRunner.createMob().equip(weapon).get()
   defender = testRunner.createMob().setRace(RaceType.Elf).get()
   eventConsumer = new ElfIronVuln()
