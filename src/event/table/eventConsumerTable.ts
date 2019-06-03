@@ -31,8 +31,9 @@ import PetFollowsOwner from "../../mob/eventConsumer/petFollowsOwner"
 import Scavenge from "../../mob/eventConsumer/scavenge"
 import Wimpy from "../../mob/eventConsumer/wimpy"
 import FightBuilder from "../../mob/fight/fightBuilder"
-import ElfIronVuln from "../../mob/race/eventConsumer/damageAbsorption/elf/elfIronVuln"
-import OgreSizeMismatchVuln from "../../mob/race/eventConsumer/damageAbsorption/ogre/ogreSizeMismatchVuln"
+import ElfIronVuln from "../../mob/race/eventConsumer/elf/elfIronVuln"
+import OgreBashBonus from "../../mob/race/eventConsumer/ogre/ogreBashBonus"
+import OgreSizeMismatchVuln from "../../mob/race/eventConsumer/ogre/ogreSizeMismatchVuln"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import MobArrives from "../../player/eventConsumer/mobArrives"
@@ -90,6 +91,7 @@ export default function createEventConsumerTable(
     // race
     new ElfIronVuln(),
     new OgreSizeMismatchVuln(),
+    new OgreBashBonus(),
 
     // room
     new RoomMessageEventConsumer(clientService, locationService),

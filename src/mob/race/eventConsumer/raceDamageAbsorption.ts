@@ -1,10 +1,10 @@
-import {EventType} from "../../../../event/enum/eventType"
-import EventConsumer from "../../../../event/eventConsumer"
-import EventResponse from "../../../../event/eventResponse"
-import {createModifiedDamageEvent} from "../../../../event/factory/eventFactory"
-import DamageEvent from "../../../event/damageEvent"
-import {DamageType} from "../../../fight/enum/damageType"
-import {RaceType} from "../../enum/raceType"
+import {EventType} from "../../../event/enum/eventType"
+import EventConsumer from "../../../event/eventConsumer"
+import EventResponse from "../../../event/eventResponse"
+import {createModifiedDamageEvent} from "../../../event/factory/eventFactory"
+import DamageEvent from "../../event/damageEvent"
+import {DamageType} from "../../fight/enum/damageType"
+import {RaceType} from "../enum/raceType"
 
 export default abstract class RaceDamageAbsorption implements EventConsumer {
   protected race: RaceType

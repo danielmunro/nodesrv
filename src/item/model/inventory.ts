@@ -2,6 +2,7 @@ import {Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn} from "type
 import * as v4 from "uuid"
 import collectionSearch from "../../support/matcher/collectionSearch"
 import { format } from "../../support/string"
+import {Equipment} from "../enum/equipment"
 import ItemQuantity from "../itemQuantity"
 import { Item } from "./item"
 
@@ -21,6 +22,10 @@ export class Inventory {
 
   public find(search: (value: Item) => boolean): Item | undefined {
     return this.items.find(search)
+  }
+
+  public getItemByEquipment(equipment: Equipment): Item | undefined {
+    return this.items.find(item => item.equipment === equipment)
   }
 
   public findItemByName(search: string): Item | undefined {

@@ -1,5 +1,5 @@
-import DamageEvent from "../../../../event/damageEvent"
-import {RaceType} from "../../../enum/raceType"
+import DamageEvent from "../../../event/damageEvent"
+import {RaceType} from "../../enum/raceType"
 import RaceDamageAbsorption from "../raceDamageAbsorption"
 
 export default class OgreSizeMismatchVuln extends RaceDamageAbsorption {

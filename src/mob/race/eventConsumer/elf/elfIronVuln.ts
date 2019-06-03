@@ -1,8 +1,8 @@
-import {Equipment} from "../../../../../item/enum/equipment"
-import {MaterialType} from "../../../../../item/enum/materialType"
-import DamageEvent from "../../../../event/damageEvent"
-import {DamageType} from "../../../../fight/enum/damageType"
-import {RaceType} from "../../../enum/raceType"
+import {Equipment} from "../../../../item/enum/equipment"
+import {MaterialType} from "../../../../item/enum/materialType"
+import DamageEvent from "../../../event/damageEvent"
+import {DamageType} from "../../../fight/enum/damageType"
+import {RaceType} from "../../enum/raceType"
 import RaceDamageAbsorption from "../raceDamageAbsorption"
 
 export default class ElfIronVuln extends RaceDamageAbsorption {
