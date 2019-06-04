@@ -57,12 +57,13 @@ describe("ticks", () => {
       })),
     }))()
 
+    const eventService = new EventService()
+    eventService.addConsumer(new FastHealingEventConsumer(mockSkill as any))
+
     // when
     await new Tick(
       new TimeService(),
-      new EventService([
-        new FastHealingEventConsumer(mockSkill as any),
-      ]),
+      eventService,
       locationService).notify(clients)
 
     // then
