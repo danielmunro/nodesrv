@@ -31,7 +31,7 @@ describe("aggressive mob event consumer", () => {
 
     // when
     await eventService.publish(
-      createMobMoveEvent(player.getMob(), room, room, Direction.Noop))
+      createMobMoveEvent(player.getMob(), room, room, 1, Direction.Noop))
 
     // then
     const fight = mobService.findFightForMob(player.getMob())
@@ -47,7 +47,7 @@ describe("aggressive mob event consumer", () => {
     testRunner.createMob().setAggressive()
 
     // when
-    await eventService.publish(createMobMoveEvent(mob1, room, room, Direction.Noop))
+    await eventService.publish(createMobMoveEvent(mob1, room, room, 1, Direction.Noop))
 
     // then
     const fight = mobService.findFightForMob(mob1)
@@ -64,7 +64,7 @@ describe("aggressive mob event consumer", () => {
 
     // when
     await eventService.publish(
-      createMobMoveEvent(player.getMob(), room, room, Direction.Noop))
+      createMobMoveEvent(player.getMob(), room, room, 1, Direction.Noop))
 
     // then
     const fight = mobService.findFightForMob(player.getMob())

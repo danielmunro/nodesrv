@@ -7,6 +7,7 @@ import { Room } from "../../room/model/room"
 import ExitTable from "../../room/table/exitTable"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
+import MobMoveEvent from "../event/mobMoveEvent"
 import {newMobLocation} from "../factory/mobFactory"
 import { Mob } from "../model/mob"
 import MobLocation from "../model/mobLocation"
@@ -54,10 +55,12 @@ export default class LocationService {
         mob,
         mobLocation.room,
         room,
+        mobLocation.room.getMovementCost(),
         direction))
       if (eventResponse.isSatisfied()) {
         return
       }
+      mob.mv -= (eventResponse.event as MobMoveEvent).mvCost
       mobLocation.room = room
       return
     }

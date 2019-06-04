@@ -2,6 +2,7 @@ import CrusadeEventConsumer from "../../affect/eventConsumer/crusadeEventConsume
 import DamageSourceEventConsumer from "../../affect/eventConsumer/damageSourceEventConsumer"
 import DetectTouchEventConsumer from "../../affect/eventConsumer/detectTouchEventConsumer"
 import EnduranceEventConsumer from "../../affect/eventConsumer/enduranceEventConsumer"
+import FlyEventConsumer from "../../affect/eventConsumer/flyEventConsumer"
 import ForgetEventConsumer from "../../affect/eventConsumer/forgetEventConsumer"
 import HasteEventConsumer from "../../affect/eventConsumer/hasteEventConsumer"
 import HolySilenceEventConsumer from "../../affect/eventConsumer/holySilenceEventConsumer"
@@ -32,6 +33,7 @@ import Scavenge from "../../mob/eventConsumer/scavenge"
 import Wimpy from "../../mob/eventConsumer/wimpy"
 import FightBuilder from "../../mob/fight/fightBuilder"
 import ElfIronVuln from "../../mob/race/eventConsumer/elf/elfIronVuln"
+import HalflingMvBonus from "../../mob/race/eventConsumer/halfling/halflingMvBonus"
 import OgreBashBonus from "../../mob/race/eventConsumer/ogre/ogreBashBonus"
 import OgreSizeMismatchVuln from "../../mob/race/eventConsumer/ogre/ogreSizeMismatchVuln"
 import LocationService from "../../mob/service/locationService"
@@ -73,6 +75,7 @@ export default function createEventConsumerTable(
     new OrbOfTouchEventConsumer(),
     new DetectTouchEventConsumer(eventService),
     new EnduranceEventConsumer(),
+    new FlyEventConsumer(),
 
     // mob
     new AggressiveMob(mobService, locationService, fightBuilder),
@@ -92,6 +95,7 @@ export default function createEventConsumerTable(
     new ElfIronVuln(),
     new OgreSizeMismatchVuln(),
     new OgreBashBonus(),
+    new HalflingMvBonus(),
 
     // room
     new RoomMessageEventConsumer(clientService, locationService),

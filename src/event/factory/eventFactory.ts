@@ -98,8 +98,13 @@ export function createItemDroppedEvent(mob: Mob, item: Item): ItemDroppedEvent {
   return { eventType: EventType.ItemDropped, mob, item }
 }
 
-export function createMobMoveEvent(mob: Mob, source: Room, destination: Room, direction?: Direction): MobMoveEvent {
-  return { eventType: EventType.MobMoved, mob, source, destination, direction }
+export function createMobMoveEvent(
+  mob: Mob, source: Room, destination: Room, mvCost: number, direction?: Direction): MobMoveEvent {
+  return { eventType: EventType.MobMoved, mob, source, destination, mvCost, direction }
+}
+
+export function createModifiedMobMoveEvent(event: MobMoveEvent, mvCost: number): MobMoveEvent {
+  return { ...event, mvCost }
 }
 
 export function createMobMessageEvent(mob: Mob, message: string): MobMessageEvent {
