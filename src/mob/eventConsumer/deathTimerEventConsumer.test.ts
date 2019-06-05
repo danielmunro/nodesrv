@@ -21,7 +21,7 @@ describe("death timer event consumer", () => {
 
     // when
     const eventConsumer = new DeathTimerEventConsumer(eventService)
-    await eventConsumer.consume(createTickEvent(mob, locationService.getRoomForMob(mob)))
+    await eventConsumer.consume(createTickEvent(mob, locationService.getRoomForMob(mob), 0))
 
     // then
     expect(mob.deathTimer).toBe(0)

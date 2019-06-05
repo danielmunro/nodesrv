@@ -6,6 +6,7 @@ import {createTickEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import TimeService from "../../gameService/timeService"
 import {Trigger} from "../../mob/enum/trigger"
+import TickEvent from "../../mob/event/tickEvent"
 import {Mob} from "../../mob/model/mob"
 import LocationService from "../../mob/service/locationService"
 import roll from "../../support/random/dice"
@@ -18,12 +19,15 @@ const TIMING = "tick notification duration"
 
 @injectable()
 export class Tick implements Observer {
-  public static regen(mob: Mob) {
-    const combined = mob.attribute().combine()
-    const regenModifier = AffectService.applyAffectModifier(
+  public static getRegenModifier(mob: Mob): number {
+    return AffectService.applyAffectModifier(
       mob.affects.map(a => a.affectType),
       Trigger.Tick,
       BaseRegenModifier)
+  }
+
+  public static regen(mob: Mob, regenModifier: number) {
+    const combined = mob.attribute().combine()
     mob.hp += roll(8, (combined.hp * regenModifier) / 8)
     mob.mana += roll( 8, (combined.mana * regenModifier) / 8)
     mob.mv += roll(8, (combined.mv * regenModifier) / 8)
@@ -52,14 +56,17 @@ export class Tick implements Observer {
 
   private async notifyClient(client: Client, id: string, timestamp: Date) {
     const mob = client.getSessionMob()
-    Tick.regen(mob)
+    const regenModifier = Tick.getRegenModifier(mob)
+
+    const location = this.locationService.getLocationForMob(mob)
+    const eventResponse = await this.eventService.publish(
+      createTickEvent(mob, location.room, regenModifier))
+    Tick.regen(mob, (eventResponse.event as TickEvent).regenModifier)
 
     if (mob.playerMob && mob.playerMob.isHungry()) {
       client.sendMessage(MESSAGE_HUNGRY)
     }
 
-    const location = this.locationService.getLocationForMob(mob)
-    await this.eventService.publish(createTickEvent(mob, location.room))
     client.tick(id, timestamp)
   }
 }

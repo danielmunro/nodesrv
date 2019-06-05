@@ -65,7 +65,7 @@ describe("mob model", () => {
     const combined = mob.attribute().combine()
 
     // given
-    Tick.regen(mob)
+    Tick.regen(mob, 2)
 
     // then
     expect(mob.hp).toBe(combined.hp)

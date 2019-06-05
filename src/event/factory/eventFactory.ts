@@ -131,6 +131,10 @@ export function createAttackEvent(mob: Mob, target: Mob): AttackEvent {
   return { eventType: EventType.Attack, mob, target }
 }
 
-export function createTickEvent(mob: Mob, room: Room): TickEvent {
-  return { eventType: EventType.Tick, mob, room }
+export function createTickEvent(mob: Mob, room: Room, regenModifier: number): TickEvent {
+  return { eventType: EventType.Tick, mob, room, regenModifier }
+}
+
+export function createModifiedTickEvent(event: TickEvent, regenModifier: number): TickEvent {
+  return { ...event, regenModifier }
 }

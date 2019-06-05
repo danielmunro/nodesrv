@@ -32,6 +32,7 @@ import PetFollowsOwner from "../../mob/eventConsumer/petFollowsOwner"
 import Scavenge from "../../mob/eventConsumer/scavenge"
 import Wimpy from "../../mob/eventConsumer/wimpy"
 import FightBuilder from "../../mob/fight/fightBuilder"
+import ElfForestRegenBonus from "../../mob/race/eventConsumer/elf/elfForestRegenBonus"
 import ElfIronVuln from "../../mob/race/eventConsumer/elf/elfIronVuln"
 import HalflingMvBonus from "../../mob/race/eventConsumer/halfling/halflingMvBonus"
 import OgreBashBonus from "../../mob/race/eventConsumer/ogre/ogreBashBonus"
@@ -93,6 +94,7 @@ export default function createEventConsumerTable(
 
     // race
     new ElfIronVuln(),
+    new ElfForestRegenBonus(),
     new OgreSizeMismatchVuln(),
     new OgreBashBonus(),
     new HalflingMvBonus(),
