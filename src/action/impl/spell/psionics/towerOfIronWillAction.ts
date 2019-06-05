@@ -3,6 +3,7 @@ import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
 import DamageSourceBuilder from "../../../../mob/fight/damageSourceBuilder"
+import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
@@ -28,5 +29,6 @@ export default function(abilityService: AbilityService): Spell {
       .setTimeout(requestService.getMobLevel() / 7)
       .setResist(new DamageSourceBuilder().enableMental().get())
       .build()))
+    .setSpecializationType(SpecializationType.Cleric)
     .create()
 }

@@ -6,6 +6,7 @@ import {Disposition} from "../../../../mob/enum/disposition"
 import {Mob} from "../../../../mob/model/mob"
 import {RaceType} from "../../../../mob/race/enum/raceType"
 import MobService from "../../../../mob/service/mobService"
+import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {Room} from "../../../../room/model/room"
 import {SpellMessages} from "../../../../spell/constants"
@@ -43,5 +44,6 @@ export default function(abilityService: AbilityService, mobService: MobService):
         .filter(mob => percentRoll() < 100 - mob.level)
         .map(mob => turn(location.room, mob, abilityService)))
     })
+    .setSpecializationType(SpecializationType.Mage)
     .create()
 }

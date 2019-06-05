@@ -2,6 +2,7 @@ import {AffectType} from "../../../../affect/enum/affectType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
+import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import roll from "../../../../support/random/dice"
@@ -45,5 +46,6 @@ export default function(abilityService: AbilityService): Spell {
           .setVerbToTarget("stop")
           .setVerbToObservers("stops")
           .create())
+    .setSpecializationType(SpecializationType.Mage)
     .create()
 }

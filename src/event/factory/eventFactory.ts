@@ -8,6 +8,7 @@ import SocialEvent from "../../client/event/socialEvent"
 import ItemEvent from "../../item/event/itemEvent"
 import {Item} from "../../item/model/item"
 import AttackEvent from "../../mob/event/attackEvent"
+import CastEvent from "../../mob/event/castEvent"
 import CostEvent from "../../mob/event/costEvent"
 import DamageEvent from "../../mob/event/damageEvent"
 import ItemDroppedEvent from "../../mob/event/itemDroppedEvent"
@@ -21,6 +22,7 @@ import {DamageType} from "../../mob/fight/enum/damageType"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Fight} from "../../mob/fight/fight"
 import {Mob} from "../../mob/model/mob"
+import {Target} from "../../mob/target"
 import Request from "../../request/request"
 import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
@@ -137,4 +139,12 @@ export function createTickEvent(mob: Mob, room: Room, regenModifier: number): Ti
 
 export function createModifiedTickEvent(event: TickEvent, regenModifier: number): TickEvent {
   return { ...event, regenModifier }
+}
+
+export function createCastEvent(mob: Mob, spell: Spell, target: Target, roll: number): CastEvent {
+  return { eventType: EventType.Cast, mob, spell, target, roll }
+}
+
+export function createModifiedCastEvent(event: CastEvent, roll: number): CastEvent {
+  return { ...event, roll }
 }

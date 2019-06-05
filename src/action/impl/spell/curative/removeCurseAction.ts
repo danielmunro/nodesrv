@@ -5,6 +5,7 @@ import ManaCost from "../../../../check/cost/manaCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
 import {Mob} from "../../../../mob/model/mob"
+import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
@@ -36,5 +37,6 @@ export default function(abilityService: AbilityService): Spell {
         !!affect,
         SpellMessages.RemoveCurse.RequiresAffect))
     })
+    .setSpecializationType(SpecializationType.Cleric)
     .create()
 }

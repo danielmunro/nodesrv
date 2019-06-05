@@ -4,8 +4,10 @@ import Check from "../../check/check"
 import Cost from "../../check/cost/cost"
 import {CheckType} from "../../check/enum/checkType"
 import AbilityService from "../../check/service/abilityService"
-import {createSkillEvent} from "../../event/factory/eventFactory"
+import {createCastEvent, createSkillEvent} from "../../event/factory/eventFactory"
+import CastEvent from "../../mob/event/castEvent"
 import {Mob} from "../../mob/model/mob"
+import {SpecializationType} from "../../mob/specialization/enum/specializationType"
 import {RequestType} from "../../request/enum/requestType"
 import {ResponseStatus} from "../../request/enum/responseStatus"
 import Request from "../../request/request"
@@ -29,13 +31,16 @@ export default class Spell extends Action {
     protected readonly successMessage: (requestService: RequestService) => ResponseMessage,
     protected readonly applySpell: ApplyAbility,
     protected readonly checkComponents: CheckComponentAdder,
+    protected readonly specializationType: SpecializationType,
     protected readonly helpText: string) {
     super()
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
     const spell = requestService.getResult(CheckType.HasSpell)
-    if (!this.roll(spell.level)) {
+    const eventResponse = await this.abilityService.publishEvent(createCastEvent(
+      requestService.getMob(), spell, requestService.getTarget(), this.roll(spell.level)))
+    if (!this.rollSucceeds((eventResponse.event as CastEvent).roll)) {
       await this.abilityService.publishEvent(
         createSkillEvent(spell, requestService.getMob(), false))
       return requestService.respondWith().response(
@@ -59,8 +64,12 @@ export default class Spell extends Action {
       this.getSuccessMessage(requestService))
   }
 
-  public roll(spellLevel: number): boolean {
-    return roll(4, spellLevel) > spellLevel * 2
+  public roll(spellLevel: number): number {
+    return roll(4, spellLevel) / 2
+  }
+
+  public rollSucceeds(spellRoll: number): boolean {
+    return spellRoll > 50
   }
 
   public check(request: Request): Promise<Check> {
@@ -109,5 +118,9 @@ export default class Spell extends Action {
   /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ActionPart.Action, ActionPart.Spell, ActionPart.Target]
+  }
+
+  public getSpecializationType(): SpecializationType | undefined {
+    return this.specializationType
   }
 }

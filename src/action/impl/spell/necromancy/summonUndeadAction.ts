@@ -5,6 +5,7 @@ import AbilityService from "../../../../check/service/abilityService"
 import {Mob} from "../../../../mob/model/mob"
 import {RaceType} from "../../../../mob/race/enum/raceType"
 import MobService from "../../../../mob/service/mobService"
+import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
@@ -50,5 +51,6 @@ export default function(abilityService: AbilityService, mobService: MobService):
           mobService.getLocationForMob(requestService.getMob()).room))
     .setSuccessMessage(requestService =>
       new ResponseMessage(requestService.getMob(), SpellMessages.SummonUndead.Success))
+    .setSpecializationType(SpecializationType.Mage)
     .create()
 }

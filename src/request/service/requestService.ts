@@ -12,6 +12,7 @@ import AttackEvent from "../../mob/event/attackEvent"
 import DamageEventBuilder from "../../mob/event/damageEventBuilder"
 import {DamageType} from "../../mob/fight/enum/damageType"
 import {Mob} from "../../mob/model/mob"
+import {Target} from "../../mob/target"
 import {Exit} from "../../room/model/exit"
 import SkillEvent from "../../skill/event/skillEvent"
 import {Skill} from "../../skill/model/skill"
@@ -105,7 +106,7 @@ export default class RequestService {
     return this.checkedRequest.request
   }
 
-  public getTarget() {
+  public getTarget(): Target {
     return this.getResult(CheckType.HasTarget)
   }
 

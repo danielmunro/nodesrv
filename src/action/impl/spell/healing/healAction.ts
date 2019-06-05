@@ -1,6 +1,8 @@
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
+import {Mob} from "../../../../mob/model/mob"
+import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import roll from "../../../../support/random/dice"
@@ -23,8 +25,9 @@ export default function(abilityService: AbilityService): Spell {
       .setVerbToObservers("is")
       .create())
     .setApplySpell(async requestService => {
-      const target = requestService.getTarget()
+      const target = requestService.getTarget() as Mob
       target.hp += roll(20, 4)
     })
+    .setSpecializationType(SpecializationType.Cleric)
     .create()
 }

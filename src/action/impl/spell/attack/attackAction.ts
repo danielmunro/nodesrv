@@ -56,5 +56,6 @@ export default function(
         .setVerbToObservers("is")
         .create()
     })
+    .setSpecializationType(SpecializationType.Mage)
     .create()
 }

@@ -12,6 +12,7 @@ import { Player } from "../../player/model/player"
 import { Skill } from "../../skill/model/skill"
 import {SkillType} from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
+import {SpellType} from "../../spell/spellType"
 import { Disposition } from "../enum/disposition"
 import { Gender } from "../enum/gender"
 import { Standing } from "../enum/standing"
@@ -178,6 +179,10 @@ export class Mob {
 
   public getSkill(skillType: SkillType): Skill | undefined {
     return this.skills.find(skill => skill.skillType === skillType)
+  }
+
+  public getSpell(spellType: SpellType): Spell | undefined {
+    return this.spells.find(spell => spell.spellType === spellType)
   }
 
   public getFirstEquippedItemAtPosition(equipment: Equipment): Item | undefined {

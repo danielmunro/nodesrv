@@ -3,6 +3,7 @@ import AttributeBuilder from "../../../../attributes/builder/attributeBuilder"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
+import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
@@ -29,5 +30,6 @@ export default function(abilityService: AbilityService): Spell {
           .setStats(requestService.getMobLevel() / 10, 0, 0, 0, 0, 0)
           .build())
         .build()))
+    .setSpecializationType(SpecializationType.Cleric)
     .create()
 }

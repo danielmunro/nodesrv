@@ -2,6 +2,7 @@ import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
+import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import roll from "../../../../support/random/dice"
@@ -27,5 +28,6 @@ export default function(abilityService: AbilityService): Spell {
       const target = requestService.getResult(CheckType.HasTarget)
       target.hp += roll(2, 8)
     })
+    .setSpecializationType(SpecializationType.Cleric)
     .create()
 }

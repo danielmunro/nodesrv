@@ -2,6 +2,7 @@ import {AffectType} from "../../../../affect/enum/affectType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
+import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
@@ -25,5 +26,6 @@ export default function(abilityService: AbilityService): Spell {
       .setVerbToTarget("feel")
       .setVerbToObservers("feels")
       .create())
+    .setSpecializationType(SpecializationType.Mage)
     .create()
 }

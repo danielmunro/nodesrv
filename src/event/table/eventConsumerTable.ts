@@ -1,3 +1,4 @@
+import Spell from "../../action/impl/spell"
 import CrusadeEventConsumer from "../../affect/eventConsumer/crusadeEventConsumer"
 import DamageSourceEventConsumer from "../../affect/eventConsumer/damageSourceEventConsumer"
 import DetectTouchEventConsumer from "../../affect/eventConsumer/detectTouchEventConsumer"
@@ -32,6 +33,7 @@ import PetFollowsOwner from "../../mob/eventConsumer/petFollowsOwner"
 import Scavenge from "../../mob/eventConsumer/scavenge"
 import Wimpy from "../../mob/eventConsumer/wimpy"
 import FightBuilder from "../../mob/fight/fightBuilder"
+import DrowMageBonus from "../../mob/race/eventConsumer/drow/drowMageBonus"
 import ElfForestRegenBonus from "../../mob/race/eventConsumer/elf/elfForestRegenBonus"
 import ElfIronVuln from "../../mob/race/eventConsumer/elf/elfIronVuln"
 import HalflingMvBonus from "../../mob/race/eventConsumer/halfling/halflingMvBonus"
@@ -98,6 +100,8 @@ export default function createEventConsumerTable(
     new OgreSizeMismatchVuln(),
     new OgreBashBonus(),
     new HalflingMvBonus(),
+    new DrowMageBonus(
+      gameService.getActions().filter(action => action instanceof Spell) as Spell[]),
 
     // room
     new RoomMessageEventConsumer(clientService, locationService),

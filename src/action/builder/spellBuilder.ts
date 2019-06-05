@@ -1,6 +1,7 @@
 import {AffectType} from "../../affect/enum/affectType"
 import Cost from "../../check/cost/cost"
 import AbilityService from "../../check/service/abilityService"
+import {SpecializationType} from "../../mob/specialization/enum/specializationType"
 import ResponseMessage from "../../request/responseMessage"
 import RequestService from "../../request/service/requestService"
 import {SpellType} from "../../spell/spellType"
@@ -19,6 +20,7 @@ export default class SpellBuilder {
   private checkBuilder: CheckComponentAdder
   private successMessage: (requestService: RequestService) => ResponseMessage
   private applySpell: ApplyAbility
+  private specializationType: SpecializationType
 
   constructor(private readonly abilityService: AbilityService) {
     this.helpText = Messages.Help.NoActionHelpTextProvided
@@ -61,6 +63,11 @@ export default class SpellBuilder {
     return this
   }
 
+  public setSpecializationType(specializationType: SpecializationType): SpellBuilder {
+    this.specializationType = specializationType
+    return this
+  }
+
   public create(): Spell {
     return new Spell(
       this.abilityService,
@@ -71,6 +78,7 @@ export default class SpellBuilder {
       this.successMessage,
       this.applySpell,
       this.checkBuilder,
+      this.specializationType,
       this.helpText)
   }
 }
