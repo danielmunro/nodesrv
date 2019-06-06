@@ -9,10 +9,6 @@ export default class OgreBashBonus extends RaceDamageAbsorption {
   protected modifier = 0.1
 
   protected doesConsumerApply(event: DamageEvent): boolean {
-    if (!event.source) {
-      return false
-    }
-
     const weapon = event.source.equipped.getItemByEquipment(Equipment.Weapon) as Weapon
 
     return event.source.raceType === RaceType.Ogre &&

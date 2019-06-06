@@ -11,9 +11,6 @@ export default class ElfIronVuln extends RaceDamageAbsorption {
   protected modifier = 0.2
 
   protected doesConsumerApply(event: DamageEvent): boolean {
-    if (!event.source) {
-      return false
-    }
     const weapon = event.source.getFirstEquippedItemAtPosition(Equipment.Weapon)
     return (event.mob.raceType === this.race &&
       ElfIronVuln.damageTypes.includes(event.damageType) &&
