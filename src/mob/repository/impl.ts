@@ -16,4 +16,8 @@ export default class MobRepositoryImpl implements MobRepository {
   public async save(mob: Mob | Mob[]): Promise<Mob | Mob[]> {
     return this.mobRepository.save(mob)
   }
+
+  public async findOneByName(name: string): Promise<Mob | undefined> {
+    return this.mobRepository.findOne({ name })
+  }
 }

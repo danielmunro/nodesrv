@@ -15,11 +15,13 @@ export default class Name extends PlayerAuthStep implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     const name = request.input
-    const mob = this.creationService.findOnePlayerMob(name)
+    let mob = this.player.mobs.find(m => m.name === name)
 
-    if (mob && this.player.ownsMob(mob)) {
+    if (mob) {
       return this.existingMobFound(request, mob)
     }
+
+    mob = await this.creationService.findOnePlayerMob(name)
 
     if (mob) {
       return request.fail(this, CreationMessages.Mob.NameUnavailable)

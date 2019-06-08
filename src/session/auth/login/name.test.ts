@@ -1,7 +1,8 @@
 import * as sillyname from "sillyname"
 import {createTestAppContainer} from "../../../app/factory/testFactory"
-import MobService from "../../../mob/service/mobService"
-import MobTable from "../../../mob/table/mobTable"
+import {getMobRepository} from "../../../mob/repository/mob"
+import {getPlayerRepository} from "../../../player/repository/player"
+import {getConnection, initializeConnection} from "../../../support/db/connection"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import Complete from "../complete"
@@ -14,12 +15,20 @@ import Name from "./name"
 
 let testRunner: TestRunner
 
+beforeAll(async () => {
+  await initializeConnection()
+})
+
+afterAll(async () => {
+  await (await getConnection()).close()
+})
+
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
-async function getAuthService(mobTable: MobTable = new MobTable(), mobTemplateTable: MobTable = new MobTable()) {
-  return new CreationService(jest.fn()(), new MobService(mobTemplateTable, undefined, mobTable, undefined))
+async function getAuthService() {
+  return new CreationService(await getPlayerRepository(), await getMobRepository(), [], jest.fn()())
 }
 
 describe("auth login name", () => {
@@ -29,6 +38,7 @@ describe("auth login name", () => {
 
     // setup
     const client = testRunner.createClient()
+    client.player = testRunner.createPlayer().get()
     const name = new Name(await getAuthService(), client.player)
 
     // when
@@ -49,12 +59,12 @@ describe("auth login name", () => {
     const client2 = await testRunner.createLoggedInClient()
     client1.getSessionMob().name = player1MobName
     client2.getSessionMob().name = player2MobName
-    const table = new MobTable()
-    table.add(client1.getSessionMob())
-    table.add(client2.getSessionMob())
+    const authService = await getAuthService()
+    await authService.savePlayer(client1.player)
+    await authService.savePlayer(client2.player)
 
     // setup -- create a name auth step
-    const name = new Name(await getAuthService(new MobTable(), table), client1.player)
+    const name = new Name(authService, client1.player)
 
     // when
     const response = await name.processRequest(new Request(client1, player2MobName))
@@ -72,9 +82,7 @@ describe("auth login name", () => {
     // setup
     const client = await testRunner.createLoggedInClient()
     client.getSessionMob().name = mobName
-    const table = new MobTable()
-    table.add(client.getSessionMob())
-    const name = new Name(await getAuthService(new MobTable(), table), client.player)
+    const name = new Name(await getAuthService(), client.player)
 
     // when
     const response = await name.processRequest(new Request(client, mobName))

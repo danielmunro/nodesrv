@@ -1,7 +1,7 @@
 import {inject, injectable} from "inversify"
 import "reflect-metadata"
 import {Mob} from "../../mob/model/mob"
-import MobService from "../../mob/service/mobService"
+import MobRepository from "../../mob/repository/mob"
 import Customization from "../../mob/specialization/customization"
 import SpecializationService from "../../mob/specialization/service/specializationService"
 import SpecializationGroup from "../../mob/specialization/specializationGroup"
@@ -16,7 +16,7 @@ import {Types} from "../../support/types"
 export default class CreationService {
   constructor(
     @inject(Types.PlayerRepository) private readonly playerRepository: PlayerRepository,
-    @inject(Types.MobService) private readonly mobService: MobService,
+    @inject(Types.MobRepository) private readonly mobRepository: MobRepository,
     @inject(Types.SpecializationGroups) private readonly specializationGroups: SpecializationGroup[],
     @inject(Types.SpecializationService) private readonly specializationService: SpecializationService) {}
 
@@ -25,7 +25,7 @@ export default class CreationService {
   }
 
   public findOnePlayerMob(name: string) {
-    return this.mobService.mobTemplateTable.find((m: Mob) => m.name === name && !m.traits.isNpc)
+    return this.mobRepository.findOneByName(name)
   }
 
   public getUnknownCustomization(mob: Mob, subject: string): Customization | undefined {
@@ -66,7 +66,7 @@ export default class CreationService {
     return this.specializationService.getUnavailableSkills(mob)
   }
 
-  public savePlayer(player: Player) {
+  public async savePlayer(player: Player) {
     return this.playerRepository.save(player)
   }
 }

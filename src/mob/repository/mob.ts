@@ -5,6 +5,7 @@ import MobRepositoryImpl from "./impl"
 export default interface MobRepository {
   findAll(): Promise<Mob[]>
   findOne(uuid: string): Promise<Mob | undefined>
+  findOneByName(name: string): Promise<Mob | undefined>
   save(mob: Mob | Mob[]): Promise<Mob | Mob[]>
 }
 
