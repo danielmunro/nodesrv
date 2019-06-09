@@ -1,5 +1,4 @@
 import {createPlayer} from "../../../player/factory/factory"
-import { Player } from "../../../player/model/player"
 import AuthStep from "../authStep"
 import {CreationMessages} from "../constants"
 import Password from "../createPlayer/password"

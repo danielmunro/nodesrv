@@ -1,5 +1,6 @@
 import {inject, injectable} from "inversify"
 import "reflect-metadata"
+import KafkaService from "../../kafka/kafkaService"
 import {Mob} from "../../mob/model/mob"
 import MobRepository from "../../mob/repository/mob"
 import Customization from "../../mob/specialization/customization"
@@ -18,7 +19,8 @@ export default class CreationService {
     @inject(Types.PlayerRepository) private readonly playerRepository: PlayerRepository,
     @inject(Types.MobRepository) private readonly mobRepository: MobRepository,
     @inject(Types.SpecializationGroups) private readonly specializationGroups: SpecializationGroup[],
-    @inject(Types.SpecializationService) private readonly specializationService: SpecializationService) {}
+    @inject(Types.SpecializationService) private readonly specializationService: SpecializationService,
+    @inject(Types.KafkaService) private readonly kafkaService: KafkaService) {}
 
   public getOnePlayer(email: string): Promise<Player> {
     return this.playerRepository.findOneByEmail(email)
@@ -67,6 +69,14 @@ export default class CreationService {
   }
 
   public async savePlayer(player: Player) {
-    return this.playerRepository.save(player)
+    const savedPlayer = await this.playerRepository.save(player)
+    await this.kafkaService.publishPlayer(savedPlayer)
+    return savedPlayer
+  }
+
+  public async saveMob(mob: Mob) {
+    const savedMob = await this.mobRepository.save(mob)
+    await this.kafkaService.publishMob(savedMob)
+    return savedMob
   }
 }

@@ -137,6 +137,13 @@
   dependencies:
     "@types/jest-diff" "*"
 
+"@types/kafkajs@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@types/kafkajs/-/kafkajs-1.8.0.tgz#f969808a8579df24359b6026b97dcd57733222f1"
+  integrity sha512-TBQBNN7ncvD3jKnQ/2CxRG8paxmErTntzmZZJ/mYErg146k0wLIcqlqKpNFiYlEJQICcg1YH9/FhzardbEPCRw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/lodash@^4.14.119":
   version "4.14.119"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.119.tgz#be847e5f4bc3e35e46d041c394ead8b603ad8b39"
@@ -2546,6 +2553,13 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+kafkajs@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/kafkajs/-/kafkajs-1.8.0.tgz#3673a7723a901c2eed7748077b552d115968ef5a"
+  integrity sha512-awNE7O4Vvb6etYL+8WOaDv9xScW+LXF2OZpbXnHvBz+nUpEyuA13KhCxrzRybc0xthnbh9hpk+txcclMaFMofQ==
+  dependencies:
+    long "^4.0.0"
+
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -2657,6 +2671,11 @@ lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
   integrity sha512-UejweD1pDoXu+AD825lWwp4ZGtSwgnpZxb3JDViD7StjQz+Nb/6l093lx4OQ0foGWNRoc19mWy7BzL+UAK2iVg==
+
+long@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
+  integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
 
 loose-envify@^1.0.0:
   version "1.4.0"

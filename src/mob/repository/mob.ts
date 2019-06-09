@@ -6,7 +6,7 @@ export default interface MobRepository {
   findAll(): Promise<Mob[]>
   findOne(uuid: string): Promise<Mob | undefined>
   findOneByName(name: string): Promise<Mob | undefined>
-  save(mob: Mob | Mob[]): Promise<Mob | Mob[]>
+  save(mob: Mob | Mob[]): Promise<any>
 }
 
 export async function getMobRepository(): Promise<MobRepository> {

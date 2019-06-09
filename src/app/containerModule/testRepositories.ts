@@ -6,8 +6,11 @@ import {Types} from "../../support/types"
 
 const mockPlayerRepository = jest.fn(() => ({
   findOneByEmail: () => getTestMob(),
+  save: (player: any) => player,
 }))
-const mockMobRepository = jest.fn()
+const mockMobRepository = jest.fn(() => ({
+  findOneByName: (name: string) => getTestMob(name),
+}))
 
 export default new ContainerModule(bind => {
   bind<PlayerRepository>(Types.PlayerRepository)

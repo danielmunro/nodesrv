@@ -12,6 +12,7 @@ export default class Complete extends PlayerAuthStep implements AuthStep {
   }
 
   public async processRequest(request: Request): Promise<Response> {
+    await this.creationService.savePlayer(this.player)
     return request.ok(new FinalComplete(this.creationService, this.player))
   }
 }

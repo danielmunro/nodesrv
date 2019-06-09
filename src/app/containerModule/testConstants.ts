@@ -1,4 +1,5 @@
 import {AsyncContainerModule} from "inversify"
+import {MessagePayload, Producer} from "kafkajs"
 import {Server} from "ws"
 import {ItemContainerReset} from "../../item/model/itemContainerReset"
 import ItemMobReset from "../../item/model/itemMobReset"
@@ -23,4 +24,9 @@ export default new AsyncContainerModule(async bind => {
     .toConstantValue([])
   bind<ItemContainerReset[]>(Types.ItemContainerResets)
     .toConstantValue([])
+  bind<Producer>(Types.KafkaProducer)
+    .toConstantValue({
+      send(payload: MessagePayload): Promise<void> {
+      },
+    })
 })

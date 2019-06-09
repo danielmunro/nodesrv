@@ -18,6 +18,8 @@ export const Types = {
   ItemRoomResets: Symbol.for("ItemRoomResets"),
   ItemService: Symbol.for("ItemService"),
   ItemTable: Symbol.for("ItemTable"),
+  KafkaProducer: Symbol.for("KafkaProducer"),
+  KafkaService: Symbol.for("KafkaService"),
   LocationService: Symbol.for("LocationService"),
   MobEquipResets: Symbol.for("MobEquipResets"),
   MobRepository: Symbol.for("MobRepository"),
