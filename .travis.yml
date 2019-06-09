@@ -1,5 +1,8 @@
 dist: xenial
 language: node_js
+env:
+  global:
+    - CC_TEST_REPORTER_ID=649d8490a1a222bff372a38656f2c5fc4bf224208970c3c78f050abe44661e5b
 services:
   - postgresql
 cache:
@@ -13,6 +16,9 @@ before_script:
   - psql -c 'create database nodesrvtest;' -U postgres
   - cp ormconfig-travis.json ormconfig.json
   - yarn lint
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script:
   - yarn test-coverage
   - sonar-scanner
@@ -21,6 +27,8 @@ addons:
     organization: danielmunro-github
     token:
       secure: befa09151a77d699e6e168d61eec0aafe1aadc6e
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 #deploy:
 #  provider: script
 #  script: bash bin/deploy.sh
