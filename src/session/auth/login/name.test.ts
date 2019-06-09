@@ -1,10 +1,13 @@
+import {AsyncContainerModule} from "inversify"
 import * as sillyname from "sillyname"
 import {createTestAppContainer} from "../../../app/factory/testFactory"
+import MobRepository from "../../../mob/repository/mob"
 import {getConnection, initializeConnection} from "../../../support/db/connection"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import Complete from "../complete"
 import {CreationMessages} from "../constants"
+import NewMobConfirm from "../createMob/newMobConfirm"
 import CreationService from "../creationService"
 import { ResponseStatus } from "../enum/responseStatus"
 import Request from "../request"
@@ -28,6 +31,35 @@ beforeEach(async () => {
 })
 
 describe("auth login name", () => {
+  it("should be able to request a new mob", async () => {
+    // setup -- rebind the mob repository with different mock behavior
+    const app = await createTestAppContainer(async container =>
+      new AsyncContainerModule(async bind => {
+        container.unbind(Types.MobRepository)
+        bind<MobRepository>(Types.MobRepository).toConstantValue(
+          jest.fn(() => ({
+            findOneByName: async () => undefined,
+          }))() as any)
+      }))
+    testRunner = app.get<TestRunner>(Types.TestRunner)
+    creationService = app.get<CreationService>(Types.CreationService)
+
+    // setup -- create a client
+    const client = testRunner.createClient()
+    client.player = testRunner.createPlayer().get()
+    const name = new Name(creationService, client.player)
+
+    // given
+    const validMobName = sillyname()
+
+    // when
+    const response = await name.processRequest(new Request(client, validMobName))
+
+    // then
+    expect(response.status).toBe(ResponseStatus.OK)
+    expect(response.authStep).toBeInstanceOf(NewMobConfirm)
+  })
+
   it("should not allow a player to use another player's mob", async () => {
     // given
     const player1MobName = sillyname()

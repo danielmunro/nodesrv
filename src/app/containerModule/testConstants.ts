@@ -26,7 +26,8 @@ export default new AsyncContainerModule(async bind => {
     .toConstantValue([])
   bind<Producer>(Types.KafkaProducer)
     .toConstantValue({
-      send(payload: MessagePayload): Promise<void> {
+      async send(payload: MessagePayload): Promise<void> {
+        console.log("payload", payload)
       },
-    })
+    } as any)
 })
