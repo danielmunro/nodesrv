@@ -1,16 +1,19 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import EventService from "../../event/service/eventService"
+import KafkaService from "../../kafka/kafkaService"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import { Fight } from "./fight"
 import {Round} from "./round"
 
 let testRunner: TestRunner
+let kafkaService: KafkaService
 let eventService: EventService
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
+  kafkaService = app.get<KafkaService>(Types.KafkaService)
   eventService = app.get<EventService>(Types.EventService)
 })
 
@@ -23,6 +26,7 @@ describe("fight", () => {
 
     // when
     const fight = new Fight(
+      kafkaService,
       eventService,
       aggressor,
       target,

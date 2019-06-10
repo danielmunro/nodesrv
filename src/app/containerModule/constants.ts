@@ -34,7 +34,7 @@ export default (startRoomId: number, port: number) => {
     bind<ItemContainerReset[]>(Types.ItemContainerResets)
       .toConstantValue(await (await getItemContainerResetRepository()).findAll())
     bind<Producer>(Types.KafkaProducer)
-      .toConstantValue(await kafkaProducer("app", ["kafka1:9092", "kafka2:9092"]))
+      .toConstantValue(await kafkaProducer("app", ["localhost:9092"]))
   })
   console.log("done loading constants")
   return constants

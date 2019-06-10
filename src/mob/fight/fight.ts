@@ -4,6 +4,7 @@ import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
 import {createFightEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
+import KafkaService from "../../kafka/kafkaService"
 import {Room} from "../../room/model/room"
 import roll, {simpleD4} from "../../support/random/dice"
 import {Disposition} from "../enum/disposition"
@@ -48,6 +49,7 @@ export class Fight {
   private status: FightStatus = FightStatus.InProgress
 
   constructor(
+    private readonly kafkaService: KafkaService,
     public readonly eventService: EventService,
     public readonly aggressor: Mob,
     public readonly target: Mob,
@@ -113,7 +115,7 @@ export class Fight {
       defender,
       AttackResult.Hit,
       calculateDamageFromEvent(event),
-      defender.hp < 0 ? this.createDeath(attacker, defender) : undefined)
+      defender.hp < 0 ? await this.createDeath(attacker, defender) : undefined)
   }
 
   private async turnFor(x: Mob, y: Mob): Promise<Attack[]> {
@@ -125,7 +127,7 @@ export class Fight {
     return attacks
   }
 
-  private createDeath(winner: Mob, vanquished: Mob): Death {
+  private async createDeath(winner: Mob, vanquished: Mob): Promise<Death> {
     console.debug(`${vanquished.name} is killed by ${winner.name}`)
 
     this.status = FightStatus.Done
@@ -138,6 +140,7 @@ export class Fight {
     }
 
     const death = new Death(vanquished, this.room, winner, bounty)
+    await this.kafkaService.death(death)
 
     if (winner.playerMob) {
       winner.playerMob.addExperience(death.calculateKillerExperience())
