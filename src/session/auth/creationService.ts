@@ -70,13 +70,13 @@ export default class CreationService {
 
   public async savePlayer(player: Player) {
     const savedPlayer = await this.playerRepository.save(player)
-    await this.kafkaService.publishPlayer(savedPlayer)
+    await this.kafkaService.playerCreated(savedPlayer)
     return savedPlayer
   }
 
   public async saveMob(mob: Mob) {
     const savedMob = await this.mobRepository.save(mob)
-    await this.kafkaService.publishMob(savedMob)
+    await this.kafkaService.mobCreated(savedMob)
     return savedMob
   }
 }

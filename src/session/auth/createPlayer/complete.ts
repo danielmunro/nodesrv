@@ -8,7 +8,7 @@ import Response from "../response"
 export default class Complete extends PlayerAuthStep implements AuthStep {
   /* istanbul ignore next */
   public getStepMessage(): string {
-    return CreationMessages.All.Done
+    return CreationMessages.Player.PlayerDone
   }
 
   public async processRequest(request: Request): Promise<Response> {

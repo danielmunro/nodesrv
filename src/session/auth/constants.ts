@@ -29,5 +29,6 @@ export const CreationMessages = {
     PasswordMismatch: "Passwords do not match.",
     PasswordPrompt: "Password:",
     PasswordTooShort: "Password is too short.",
+    PlayerDone: "Done. By what name do you wish to be known?",
   },
 }

@@ -15,7 +15,7 @@ export default class PasswordConfirm extends PlayerAuthStep implements AuthStep 
 
   /* istanbul ignore next */
   public getStepMessage(): string {
-    return CreationMessages.Player.Confirm
+    return CreationMessages.Player.PasswordConfirm
   }
 
   public async processRequest(request: Request): Promise<Response> {
