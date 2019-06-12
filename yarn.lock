@@ -137,6 +137,11 @@
   dependencies:
     "@types/jest-diff" "*"
 
+"@types/json-stringify-safe@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/json-stringify-safe/-/json-stringify-safe-5.0.0.tgz#df34d054419d39323a3730966bacba02ac5e474e"
+  integrity sha512-UUA1sH0RSRROdInuDOA1yoRzbi5xVFD1RHCoOvNRPTNwR8zBkJ/84PZ6NhKVDtKp0FTeIccJCdQz1X2aJPr4uw==
+
 "@types/kafkajs@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@types/kafkajs/-/kafkajs-1.8.0.tgz#f969808a8579df24359b6026b97dcd57733222f1"
