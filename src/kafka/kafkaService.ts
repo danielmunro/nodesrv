@@ -5,6 +5,7 @@ import Death from "../mob/fight/death"
 import {Mob} from "../mob/model/mob"
 import {Player} from "../player/model/player"
 import {Types} from "../support/types"
+import {Topic} from "./topic"
 
 @injectable()
 export default class KafkaService {
@@ -14,14 +15,14 @@ export default class KafkaService {
   public async playerCreated(player: Player) {
     return this.producer.send({
       messages: [{ value: stringify(player) }],
-      topic: "player.create",
+      topic: Topic.PlayerCreate,
     })
   }
 
   public async mobCreated(mob: Mob) {
     return this.producer.send({
       messages: [{ value: stringify(mob) }],
-      topic: "mob.create",
+      topic: Topic.MobCreate,
     })
   }
 
@@ -36,7 +37,7 @@ export default class KafkaService {
           roomName: death.room.name,
         }),
       }],
-      topic: "mob.death",
+      topic: Topic.MobDeath,
     })
   }
 }
