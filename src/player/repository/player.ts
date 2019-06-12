@@ -5,7 +5,7 @@ import PlayerRepositoryImpl from "./impl"
 
 export default interface PlayerRepository {
   findOneByEmail(email: string): Promise<Player>
-  save(player: Player | Player[])
+  save(player: Player | Player[]): Promise<any>
 }
 
 export async function getPlayerRepository(): Promise<PlayerRepository> {
