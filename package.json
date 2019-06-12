@@ -54,6 +54,7 @@
     "is-uuid": "^1.0.2",
     "json-stringify-safe": "^5.0.1",
     "kafkajs": "^1.8.0",
+    "lodash": "^4.17.11",
     "password-hash": "^1.2.2",
     "pg": "^7.7.1",
     "typeorm": "^0.2",
