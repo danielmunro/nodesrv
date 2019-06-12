@@ -10,6 +10,7 @@ const mockPlayerRepository = jest.fn(() => ({
 }))
 const mockMobRepository = jest.fn(() => ({
   findOneByName: (name: string) => getTestMob(name),
+  save: async (mob: any) => mob,
 }))
 
 export default new ContainerModule(bind => {
