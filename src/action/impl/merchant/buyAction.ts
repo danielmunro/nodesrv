@@ -35,7 +35,10 @@ export default class BuyAction extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const item = cloneDeep(requestService.getResult())
+    const targetItem = requestService.getResult() as Item
+    targetItem.inventory.removeItem(targetItem)
+    targetItem.inventory = undefined
+    const item = cloneDeep(targetItem)
     requestService.addItemToMobInventory(item)
     requestService.subtractGold(item.value)
     await this.eventService.publish(
