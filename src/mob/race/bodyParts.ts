@@ -1,14 +1,14 @@
 /* istanbul ignore next */
 import {AffectType} from "../../affect/enum/affectType"
 import {newAffect} from "../../affect/factory/affectFactory"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import {newFood, newTrash} from "../../item/factory/itemFactory"
-import {Item} from "../../item/model/item"
 import {format} from "../../support/string"
 import {MobEntity} from "../entity/mobEntity"
 import {Messages} from "./constants"
 import {BodyPart} from "./enum/bodyParts"
 
-export function getBodyPartItem(mob: MobEntity, bodyPart: BodyPart): Item {
+export function getBodyPartItem(mob: MobEntity, bodyPart: BodyPart): ItemEntity {
   switch (bodyPart) {
     case BodyPart.Guts:
       const item = newFood(

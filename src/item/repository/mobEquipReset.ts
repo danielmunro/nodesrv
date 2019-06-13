@@ -1,5 +1,5 @@
 import { getConnection } from "../../support/db/connection"
-import { MobEquipReset } from "../model/mobEquipReset"
+import { MobEquipResetEntity } from "../entity/mobEquipResetEntity"
 import MobEquipResetRepositoryImpl from "./mobEquipResetRepositoryImpl"
 
 export default interface MobEquipResetRepository {
@@ -9,5 +9,5 @@ export default interface MobEquipResetRepository {
 
 export async function getMobEquipResetRepository(): Promise<MobEquipResetRepository> {
   const connection = await getConnection()
-  return new MobEquipResetRepositoryImpl(connection.getRepository(MobEquipReset))
+  return new MobEquipResetRepositoryImpl(connection.getRepository(MobEquipResetEntity))
 }

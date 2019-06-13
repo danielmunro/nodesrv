@@ -1,7 +1,7 @@
-import {Inventory} from "../model/inventory"
+import {InventoryEntity} from "../entity/inventoryEntity"
 
-export function createInventory(): Inventory {
-  const inventory = new Inventory()
+export function createInventory(): InventoryEntity {
+  const inventory = new InventoryEntity()
   inventory.items = []
   return inventory
 }

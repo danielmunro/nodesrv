@@ -1,9 +1,9 @@
 import {Entity, JoinColumn, ManyToOne} from "typeorm"
 import { MobEntity } from "../../mob/entity/mobEntity"
-import ItemReset from "./itemReset"
+import ItemResetEntity from "./itemResetEntity"
 
 @Entity()
-export class MobEquipReset extends ItemReset {
+export class MobEquipResetEntity extends ItemResetEntity {
   @ManyToOne(() => MobEntity, { eager: true })
   @JoinColumn()
   public mob: MobEntity

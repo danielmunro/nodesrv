@@ -1,7 +1,7 @@
+import { InventoryEntity } from "./entity/inventoryEntity"
+import { ItemEntity } from "./entity/itemEntity"
 import {createInventory} from "./factory/inventoryFactory"
 import {createItem, newTrash} from "./factory/itemFactory"
-import { Inventory } from "./model/inventory"
-import { Item } from "./model/item"
 
 describe("inventory entity", () => {
   it("should be able to find an item", () => {
@@ -13,9 +13,9 @@ describe("inventory entity", () => {
     inventory.addItem(item1)
     inventory.addItem(item2)
 
-    expect(inventory.find((item: Item) => item.name === "foo")).toBe(item1)
-    expect(inventory.find((item: Item) => item.name === "bar")).toBe(item2)
-    expect(inventory.find((item: Item) => item.name === "baz")).toBeUndefined()
+    expect(inventory.find((item: ItemEntity) => item.name === "foo")).toBe(item1)
+    expect(inventory.find((item: ItemEntity) => item.name === "bar")).toBe(item2)
+    expect(inventory.find((item: ItemEntity) => item.name === "baz")).toBeUndefined()
   })
 
   it("should combine items with the same name", () => {

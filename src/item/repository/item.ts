@@ -1,13 +1,13 @@
 import { getConnection } from "../../support/db/connection"
-import { Item } from "../model/item"
+import { ItemEntity } from "../entity/itemEntity"
 import ItemRepositoryImpl from "./itemImpl"
 
 export default interface ItemRepository {
-  findAll(): Promise<Item[]>
+  findAll(): Promise<ItemEntity[]>
   save(item)
 }
 
 export async function getItemRepository(): Promise<ItemRepository> {
   const connection = await getConnection()
-  return new ItemRepositoryImpl(connection.getRepository(Item))
+  return new ItemRepositoryImpl(connection.getRepository(ItemEntity))
 }

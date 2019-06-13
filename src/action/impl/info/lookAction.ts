@@ -1,7 +1,7 @@
 import {AffectType} from "../../../affect/enum/affectType"
 import Check from "../../../check/check"
 import TimeService from "../../../gameService/timeService"
-import {Item} from "../../../item/model/item"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import ItemService from "../../../item/service/itemService"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import {onlyLiving} from "../../../mob/enum/disposition"
@@ -119,7 +119,7 @@ export default class LookAction extends Action {
   }
 
   private somethingIsGlowing(request: Request) {
-    return request.mob.equipped.find((item: Item) => item.affect().has(AffectType.Glow))
-      || request.getRoom().inventory.find((item: Item) => item.affect().has(AffectType.Glow))
+    return request.mob.equipped.find((item: ItemEntity) => item.affect().has(AffectType.Glow))
+      || request.getRoom().inventory.find((item: ItemEntity) => item.affect().has(AffectType.Glow))
   }
 }

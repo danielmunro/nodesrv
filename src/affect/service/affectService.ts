@@ -1,4 +1,4 @@
-import {Item} from "../../item/model/item"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {Trigger} from "../../mob/enum/trigger"
 import {AffectEntity} from "../entity/affectEntity"
@@ -16,7 +16,7 @@ export default class AffectService {
     return value
   }
 
-  constructor(private readonly mob: MobEntity | Item) {}
+  constructor(private readonly mob: MobEntity | ItemEntity) {}
 
   public canDetectInvisible(): boolean {
     return this.has(AffectType.DetectInvisible)

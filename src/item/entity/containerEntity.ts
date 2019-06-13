@@ -1,10 +1,10 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import { Inventory } from "./inventory"
-import { Item } from "./item"
+import { InventoryEntity } from "./inventoryEntity"
+import { ItemEntity } from "./itemEntity"
 
 @Entity()
-export default class Container {
+export default class ContainerEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -27,16 +27,16 @@ export default class Container {
   @Column("integer")
   public maxWeightForItem: number = 0
 
-  @OneToOne(() => Inventory, { eager: true, cascade: true })
+  @OneToOne(() => InventoryEntity, { eager: true, cascade: true })
   @JoinColumn()
-  public inventory: Inventory
+  public inventory: InventoryEntity
 
-  public addItem(item: Item, carriedBy?: any) {
+  public addItem(item: ItemEntity, carriedBy?: any) {
     this.inventory.addItem(item)
     item.carriedBy = carriedBy
   }
 
-  public getItemFrom(item: Item, inventory: Inventory) {
+  public getItemFrom(item: ItemEntity, inventory: InventoryEntity) {
     this.inventory.getItemFrom(item, inventory)
   }
 

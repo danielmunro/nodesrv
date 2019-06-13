@@ -6,14 +6,14 @@ import AttributesEntity from "../../attributes/entity/attributesEntity"
 import { Equipment } from "../enum/equipment"
 import { ItemType } from "../enum/itemType"
 import { MaterialType } from "../enum/materialType"
-import Container from "./container"
-import Drink from "./drink"
-import Food from "./food"
-import Forge from "./forge"
-import { Inventory } from "./inventory"
+import ContainerEntity from "./containerEntity"
+import DrinkEntity from "./drinkEntity"
+import FoodEntity from "./foodEntity"
+import ForgeEntity from "./forgeEntity"
+import { InventoryEntity } from "./inventoryEntity"
 
 @Entity()
-export class Item {
+export class ItemEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -72,8 +72,8 @@ export class Item {
   @Column("integer", { nullable: true })
   public wearTimer: number
 
-  @ManyToOne(() => Inventory, inventory => inventory.items)
-  public inventory: Inventory
+  @ManyToOne(() => InventoryEntity, inventory => inventory.items)
+  public inventory: InventoryEntity
 
   @OneToOne(() => AttributesEntity, { cascade: true, eager: true })
   @JoinColumn()
@@ -82,21 +82,21 @@ export class Item {
   @OneToMany(() => AffectEntity, affect => affect.item, { cascade: true, eager: true })
   public affects: AffectEntity[]
 
-  @OneToOne(() => Container, { cascade: true })
+  @OneToOne(() => ContainerEntity, { cascade: true })
   @JoinColumn()
-  public container: Container
+  public container: ContainerEntity
 
-  @OneToOne(() => Food, food => food.item, { cascade: true, eager: true})
+  @OneToOne(() => FoodEntity, food => food.item, { cascade: true, eager: true})
   @JoinColumn()
-  public food: Food
+  public food: FoodEntity
 
-  @OneToOne(() => Drink, drink => drink.item, { cascade: true, eager: true })
+  @OneToOne(() => DrinkEntity, drink => drink.item, { cascade: true, eager: true })
   @JoinColumn()
-  public drink: Drink
+  public drink: DrinkEntity
 
-  @OneToOne(() => Forge, { eager: true, cascade: true })
+  @OneToOne(() => ForgeEntity, { eager: true, cascade: true })
   @JoinColumn()
-  public forge: Forge
+  public forge: ForgeEntity
 
   public carriedBy: any
 

@@ -4,9 +4,9 @@ import { AffectEntity } from "../../affect/entity/affectEntity"
 import AffectService from "../../affect/service/affectService"
 import { default as Attributes } from "../../attributes/entity/attributesEntity"
 import AttributeService from "../../attributes/service/attributeService"
+import { InventoryEntity } from "../../item/entity/inventoryEntity"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import {Equipment} from "../../item/enum/equipment"
-import { Inventory } from "../../item/model/inventory"
-import {Item} from "../../item/model/item"
 import { PlayerEntity } from "../../player/entity/playerEntity"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
 import { Skill } from "../../skill/model/skill"
@@ -119,13 +119,13 @@ export class MobEntity {
   @ManyToOne(() => PlayerEntity, player => player.mobs)
   public player: PlayerEntity
 
-  @OneToOne(() => Inventory, { cascade: true, eager: true })
+  @OneToOne(() => InventoryEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public inventory: Inventory
+  public inventory: InventoryEntity
 
-  @OneToOne(() => Inventory, { cascade: true, eager: true })
+  @OneToOne(() => InventoryEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public equipped: Inventory
+  public equipped: InventoryEntity
 
   @OneToMany(() => Skill, skill => skill.mob, { cascade: true, eager: true })
   public skills: Skill[]
@@ -185,7 +185,7 @@ export class MobEntity {
     return this.spells.find(spell => spell.spellType === spellType)
   }
 
-  public getFirstEquippedItemAtPosition(equipment: Equipment): Item | undefined {
+  public getFirstEquippedItemAtPosition(equipment: Equipment): ItemEntity | undefined {
     return this.equipped.items.find(item => item.equipment === equipment)
   }
 

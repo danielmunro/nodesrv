@@ -1,8 +1,8 @@
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {ItemType} from "../../../item/enum/itemType"
-import {Item} from "../../../item/model/item"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
@@ -32,12 +32,12 @@ export default class CloseItemAction extends Action {
         ConditionMessages.Close.Fail.NotFound)
       .capture()
       .require(
-        (item: Item) => item.itemType === ItemType.Container,
+        (item: ItemEntity) => item.itemType === ItemType.Container,
         ConditionMessages.Close.Fail.ItemIsNotAContainer)
       .require(
-        (item: Item) => item.container.isOpen,
+        (item: ItemEntity) => item.container.isOpen,
         ConditionMessages.Close.Fail.AlreadyClosed)
-      .require((item: Item) => item.container.isCloseable,
+      .require((item: ItemEntity) => item.container.isCloseable,
         ConditionMessages.Close.Fail.CannotClose)
       .create()
   }

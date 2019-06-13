@@ -1,11 +1,11 @@
+import {ItemContainerResetEntity} from "../../item/entity/itemContainerResetEntity"
+import {ItemRoomResetEntity} from "../../item/entity/itemRoomResetEntity"
+import {MobEquipResetEntity} from "../../item/entity/mobEquipResetEntity"
 import {
   newItemContainerReset,
   newItemMobReset,
   newItemRoomReset,
   newMobEquipReset } from "../../item/factory/itemFactory"
-import {ItemContainerReset} from "../../item/model/itemContainerReset"
-import {ItemRoomReset} from "../../item/model/itemRoomReset"
-import {MobEquipReset} from "../../item/model/mobEquipReset"
 import ItemContainerResetRepository from "../../item/repository/itemContainerReset"
 import ItemMobResetRepository from "../../item/repository/itemMobReset"
 import ItemRoomResetRepository from "../../item/repository/itemRoomReset"
@@ -92,7 +92,7 @@ export default class ResetImportService {
     return this.itemMobResetRepository.save(newItemMobReset(item, mob, reset.maxQuantity, reset.maxPerRoom))
   }
 
-  private async createMobEquipReset(reset: Reset): Promise<MobEquipReset> {
+  private async createMobEquipReset(reset: Reset): Promise<MobEquipResetEntity> {
     const item = this.itemTable.getByImportId(reset.idOfResetSubject)
     const mob = this.mobTable.getByImportId(reset.idOfResetDestination)
     if (!item || !mob) {
@@ -101,7 +101,7 @@ export default class ResetImportService {
     return this.mobEquipResetRepository.save(newMobEquipReset(item, mob, reset.maxQuantity, reset.maxPerRoom))
   }
 
-  private async createItemContainerReset(reset: Reset): Promise<ItemContainerReset> {
+  private async createItemContainerReset(reset: Reset): Promise<ItemContainerResetEntity> {
     const itemSubject = this.itemTable.getByImportId(reset.idOfResetSubject)
     const itemDestination = this.itemTable.getByImportId(reset.idOfResetDestination)
 
@@ -121,7 +121,7 @@ export default class ResetImportService {
     return this.mobResetRepository.save(newMobReset(mob, room, reset.maxQuantity, reset.maxPerRoom))
   }
 
-  private async createItemRoomReset(reset: Reset): Promise<ItemRoomReset> {
+  private async createItemRoomReset(reset: Reset): Promise<ItemRoomResetEntity> {
     const room = this.roomTable.getByImportId(reset.idOfResetDestination)
     const item = this.itemTable.getByImportId(reset.idOfResetSubject)
     if (!item || !room) {

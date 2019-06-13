@@ -1,9 +1,9 @@
 import {cloneDeep} from "lodash"
 import * as uuid from "uuid"
 import {createTestAppContainer} from "../../../app/factory/testFactory"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {ItemType} from "../../../item/enum/itemType"
 import {newItem} from "../../../item/factory/itemFactory"
-import {Item} from "../../../item/model/item"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/enum/requestType"
 import doNTimes from "../../../support/functional/times"
@@ -11,7 +11,7 @@ import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 
-function getItem1(): Item {
+function getItem1(): ItemEntity {
   const item = newItem(ItemType.Light, "name", "description")
   item.brief = "a test item"
   item.value = 100
@@ -19,7 +19,7 @@ function getItem1(): Item {
   return item
 }
 
-function getItem2(): Item {
+function getItem2(): ItemEntity {
   const item = newItem(ItemType.Light, "name", "description")
   item.brief = "a different test item"
   item.value = 20

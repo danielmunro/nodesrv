@@ -1,9 +1,9 @@
 import {Column, Entity, Generated, JoinColumn, OneToMany, PrimaryGeneratedColumn} from "typeorm"
 import * as v4 from "uuid"
-import Recipe from "./recipe"
+import RecipeEntity from "./recipeEntity"
 
 @Entity()
-export default class Forge {
+export default class ForgeEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -11,7 +11,7 @@ export default class Forge {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @OneToMany(() => Recipe, recipe => recipe.forge, { cascade: true, eager: true })
+  @OneToMany(() => RecipeEntity, recipe => recipe.forge, { cascade: true, eager: true })
   @JoinColumn()
-  public recipes: Recipe[]
+  public recipes: RecipeEntity[]
 }

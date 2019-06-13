@@ -1,10 +1,10 @@
 import {AffectType} from "../affect/enum/affectType"
+import ForgeEntity from "../item/entity/forgeEntity"
+import WeaponEntity from "../item/entity/weaponEntity"
 import {Equipment} from "../item/enum/equipment"
 import {ItemType} from "../item/enum/itemType"
 import {Liquid} from "../item/enum/liquid"
 import {WeaponType} from "../item/enum/weaponType"
-import Forge from "../item/model/forge"
-import Weapon from "../item/model/weapon"
 import {DamageType} from "../mob/fight/enum/damageType"
 import {SpellType} from "../spell/spellType"
 import { ItemType as ImportItemType } from "./enum/itemType"
@@ -19,10 +19,10 @@ describe("itemBuilder", () => {
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "sword (null) slash",
       type: ImportItemType.Weapon,
-    }) as Weapon
+    }) as WeaponEntity
 
     // expect
-    expect(item).toBeInstanceOf(Weapon)
+    expect(item).toBeInstanceOf(WeaponEntity)
     expect(item.damageType).toBe(DamageType.Slash)
     expect(item.weaponType).toBe(WeaponType.Sword)
   })
@@ -32,10 +32,10 @@ describe("itemBuilder", () => {
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "4 10 10 'magic missile' 0",
       type: ImportItemType.Wand,
-    }) as Weapon
+    }) as WeaponEntity
 
     // expect
-    expect(item).toBeInstanceOf(Weapon)
+    expect(item).toBeInstanceOf(WeaponEntity)
     expect(item.damageType).toBe(DamageType.Magic)
     expect(item.weaponType).toBe(WeaponType.Wand)
     expect(item.itemType).toBe(ItemType.Equipment)
@@ -51,10 +51,10 @@ describe("itemBuilder", () => {
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "4 10 10 'magic missile' 0",
       type: ImportItemType.Staff,
-    }) as Weapon
+    }) as WeaponEntity
 
     // expect
-    expect(item).toBeInstanceOf(Weapon)
+    expect(item).toBeInstanceOf(WeaponEntity)
     expect(item.weaponType).toBe(WeaponType.Stave)
   })
 
@@ -183,7 +183,7 @@ describe("itemBuilder", () => {
     // expect
     expect(item.itemType).toBe(ItemType.Forge)
     expect(item.isTransferable).toBeFalsy()
-    expect(item.forge).toBeInstanceOf(Forge)
+    expect(item.forge).toBeInstanceOf(ForgeEntity)
   })
 
   it("should build a light", async () => {

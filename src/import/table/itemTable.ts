@@ -1,15 +1,15 @@
-import { Item } from "../../item/model/item"
+import { ItemEntity } from "../../item/entity/itemEntity"
 
 export default class ItemTable {
   private readonly itemsByImportId = {}
 
-  constructor(items: Item[]) {
+  constructor(items: ItemEntity[]) {
     for (const item of items) {
       this.itemsByImportId[item.canonicalId] = item
     }
   }
 
-  public getByImportId(id): Item {
+  public getByImportId(id): ItemEntity {
     return this.itemsByImportId[id]
   }
 }

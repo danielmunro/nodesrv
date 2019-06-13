@@ -1,9 +1,9 @@
 import {Entity, JoinColumn, ManyToOne} from "typeorm"
 import { RoomEntity } from "../../room/entity/roomEntity"
-import ItemReset from "./itemReset"
+import ItemResetEntity from "./itemResetEntity"
 
 @Entity()
-export class ItemRoomReset extends ItemReset {
+export class ItemRoomResetEntity extends ItemResetEntity {
   @ManyToOne(() => RoomEntity, { eager: true })
   @JoinColumn()
   public room: RoomEntity

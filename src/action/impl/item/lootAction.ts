@@ -1,8 +1,8 @@
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {ItemType} from "../../../item/enum/itemType"
-import {Item} from "../../../item/model/item"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
@@ -34,10 +34,11 @@ export default class LootAction extends Action {
         CheckType.ContainerPresent)
       .capture()
       .require(
-        (item: Item) => item.itemType === ItemType.Corpse,
+        (item: ItemEntity) => item.itemType === ItemType.Corpse,
           Messages.Loot.NotACorpse)
       .require(
-        (corpse: Item) => corpse.container.inventory.items.find((item: Item) => match(item.name, request.getSubject())),
+        (corpse: ItemEntity) =>
+          corpse.container.inventory.items.find((item: ItemEntity) => match(item.name, request.getSubject())),
         Messages.Loot.CorpseDoesNotHaveItem,
         CheckType.ItemPresent)
       .create()

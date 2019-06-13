@@ -4,12 +4,12 @@ import collectionSearch from "../../support/matcher/collectionSearch"
 import { format } from "../../support/string"
 import {Equipment} from "../enum/equipment"
 import ItemQuantity from "../itemQuantity"
-import { Item } from "./item"
+import { ItemEntity } from "./itemEntity"
 
 interface ItemQuantityMap { [key: string]: ItemQuantity }
 
 @Entity()
-export class Inventory {
+export class InventoryEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -17,26 +17,26 @@ export class Inventory {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @OneToMany(() => Item, item => item.inventory, { cascade: true, eager: true })
-  public items: Item[]
+  @OneToMany(() => ItemEntity, item => item.inventory, { cascade: true, eager: true })
+  public items: ItemEntity[]
 
-  public find(search: (value: Item) => boolean): Item | undefined {
+  public find(search: (value: ItemEntity) => boolean): ItemEntity | undefined {
     return this.items.find(search)
   }
 
-  public getItemByEquipment(equipment: Equipment): Item | undefined {
+  public getItemByEquipment(equipment: Equipment): ItemEntity | undefined {
     return this.items.find(item => item.equipment === equipment)
   }
 
-  public findItemByName(search: string): Item | undefined {
+  public findItemByName(search: string): ItemEntity | undefined {
     return collectionSearch(this.items, search)
   }
 
-  public removeItem(item: Item): void {
+  public removeItem(item: ItemEntity): void {
     this.items = this.items.filter((i) => i !== item)
   }
 
-  public addItem(item: Item, carriedBy?: any): void {
+  public addItem(item: ItemEntity, carriedBy?: any): void {
     if (item.inventory) {
       item.inventory.removeItem(item)
     }
@@ -45,7 +45,7 @@ export class Inventory {
     this.items.push(item)
   }
 
-  public getItemFrom(item: Item, fromInventory: Inventory): void {
+  public getItemFrom(item: ItemEntity, fromInventory: InventoryEntity): void {
     fromInventory.removeItem(item)
     this.addItem(item)
   }

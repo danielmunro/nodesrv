@@ -1,5 +1,5 @@
 import Check from "../../../check/check"
-import {Item} from "../../../item/model/item"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import ItemService from "../../../item/service/itemService"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import {RequestType} from "../../../request/enum/requestType"
@@ -10,7 +10,7 @@ import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
 export default class InventoryAction extends Action {
-  private static getItemName(mob: MobEntity, item: Item): string {
+  private static getItemName(mob: MobEntity, item: ItemEntity): string {
     if (item.affect().isInvisible() && !mob.affect().canDetectInvisible()) {
       return "(something)"
     }

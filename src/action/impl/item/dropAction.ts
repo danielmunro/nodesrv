@@ -4,7 +4,7 @@ import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {EventType} from "../../../event/enum/eventType"
 import {createItemDroppedEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"
-import {Item} from "../../../item/model/item"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
@@ -27,13 +27,13 @@ export default class DropAction extends Action {
       .requireFromActionParts(request, this.getActionParts())
       .not().requireAffect(AffectType.Curse, ConditionMessages.All.Item.CannotRemoveCursedItem)
       .require(
-        (item: Item) => item.isTransferable,
+        (item: ItemEntity) => item.isTransferable,
         ConditionMessages.All.Item.NotTransferrable)
       .create()
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const item = requestService.getResult() as Item
+    const item = requestService.getResult() as ItemEntity
 
     if (item.affect().has(AffectType.MeltDrop)) {
       await this.eventService.publish(

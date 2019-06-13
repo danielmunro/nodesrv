@@ -1,4 +1,4 @@
-import {Item} from "../../item/model/item"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import {Region} from "../../region/model/region"
 import DoorEntity from "../../room/entity/doorEntity"
 import {ExitEntity} from "../../room/entity/exitEntity"
@@ -29,7 +29,7 @@ export default class RoomBuilder {
     return this
   }
 
-  public addItem(item: Item): RoomBuilder {
+  public addItem(item: ItemEntity): RoomBuilder {
     this.room.inventory.addItem(item, this.room)
     return this
   }

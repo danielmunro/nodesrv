@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
-import {Item} from "../../../item/model/item"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {RequestType} from "../../../request/enum/requestType"
 import {ResponseStatus} from "../../../request/enum/responseStatus"
 import MobBuilder from "../../../support/test/mobBuilder"
@@ -9,7 +9,7 @@ import {ConditionMessages} from "../../constants"
 
 let testRunner: TestRunner
 let mobBuilder: MobBuilder
-let item: Item
+let item: ItemEntity
 const closeCommand = "close satchel"
 
 beforeEach(async () => {

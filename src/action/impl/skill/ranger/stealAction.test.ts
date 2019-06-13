@@ -1,6 +1,6 @@
 import {AffectType} from "../../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
-import {Item} from "../../../../item/model/item"
+import {ItemEntity} from "../../../../item/entity/itemEntity"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {RequestType} from "../../../../request/enum/requestType"
 import {SkillType} from "../../../../skill/skillType"
@@ -14,7 +14,7 @@ const initialLevel = MAX_PRACTICE_LEVEL * 0.9
 let testRunner: TestRunner
 let mob1: MobBuilder
 let mob2: MobBuilder
-let item: Item
+let item: ItemEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)

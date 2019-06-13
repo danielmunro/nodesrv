@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import { Item } from "../../item/model/item"
+import { ItemEntity } from "../../item/entity/itemEntity"
 import doNTimes from "../../support/functional/times"
 import { getTestMob } from "../../support/test/mob"
 import { getTestRoom } from "../../support/test/room"
@@ -45,6 +45,6 @@ describe("death event consumer", () => {
     const death = new Death(getTestMob(), getTestRoom(), getTestMob())
     const bodyParts = await doNTimes(10, () => death.createBodyPart())
 
-    bodyParts.forEach(bodyPart => expect(bodyPart).toBeInstanceOf(Item))
+    bodyParts.forEach(bodyPart => expect(bodyPart).toBeInstanceOf(ItemEntity))
   })
 })

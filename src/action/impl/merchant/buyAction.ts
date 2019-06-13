@@ -4,7 +4,7 @@ import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {EventType} from "../../../event/enum/eventType"
 import EventService from "../../../event/service/eventService"
-import {Item} from "../../../item/model/item"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import {Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/enum/requestType"
@@ -30,12 +30,12 @@ export default class BuyAction extends Action {
       .require((mob: MobEntity) =>
         mob.inventory.findItemByName(subject), ConditionMessages.Buy.MerchantNoItem, CheckType.HasItem)
       .capture()
-      .require((item: Item) => request.mob.gold >= item.value, ConditionMessages.Buy.CannotAfford)
+      .require((item: ItemEntity) => request.mob.gold >= item.value, ConditionMessages.Buy.CannotAfford)
       .create()
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const targetItem = requestService.getResult() as Item
+    const targetItem = requestService.getResult() as ItemEntity
     targetItem.inventory.removeItem(targetItem)
     targetItem.inventory = undefined
     const item = cloneDeep(targetItem)

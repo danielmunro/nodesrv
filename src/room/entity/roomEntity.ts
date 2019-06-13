@@ -1,6 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as uuid from "uuid"
-import { Inventory } from "../../item/model/inventory"
+import { InventoryEntity } from "../../item/entity/inventoryEntity"
 import MobResetEntity from "../../mob/entity/mobResetEntity"
 import { Terrain } from "../../region/enum/terrain"
 import { Region } from "../../region/model/region"
@@ -35,9 +35,9 @@ export class RoomEntity {
   @OneToMany(() => ExitEntity, (exit) => exit.destination, { eager: true })
   public entrances: ExitEntity[]
 
-  @OneToOne(() => Inventory, { cascade: true, eager: true })
+  @OneToOne(() => InventoryEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public inventory: Inventory
+  public inventory: InventoryEntity
 
   @ManyToOne(() => Region, (region) => region.rooms, { cascade: true, eager: true })
   public region: Region

@@ -1,9 +1,9 @@
+import {ItemEntity} from "../../item/entity/itemEntity"
 import {newContainer} from "../../item/factory/itemFactory"
-import {Item} from "../../item/model/item"
 import {liquidMap} from "../map/liquidMap"
 import ItemPrototype from "./itemPrototype"
 
-export default function(itemPrototype: ItemPrototype): Item {
+export default function(itemPrototype: ItemPrototype): ItemEntity {
   const { name, description, args } = itemPrototype
   const item = newContainer(name, description)
   item.container.weightCapacity = +args[0]

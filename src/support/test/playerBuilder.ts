@@ -1,4 +1,4 @@
-import {Item} from "../../item/model/item"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {Standing} from "../../mob/enum/standing"
 import {SpecializationType} from "../../mob/specialization/enum/specializationType"
@@ -27,17 +27,17 @@ export default class PlayerBuilder {
     return this
   }
 
-  public equip(item: Item): PlayerBuilder {
+  public equip(item: ItemEntity): PlayerBuilder {
     this.player.sessionMob.equipped.addItem(item)
     return this
   }
 
-  public addItem(item: Item): PlayerBuilder {
+  public addItem(item: ItemEntity): PlayerBuilder {
     this.player.sessionMob.inventory.addItem(item)
     return this
   }
 
-  public getItems(): Item[] {
+  public getItems(): ItemEntity[] {
     return this.player.sessionMob.inventory.items
   }
 

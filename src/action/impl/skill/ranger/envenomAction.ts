@@ -3,9 +3,9 @@ import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
+import {ItemEntity} from "../../../../item/entity/itemEntity"
+import WeaponEntity from "../../../../item/entity/weaponEntity"
 import {Equipment} from "../../../../item/enum/equipment"
-import {Item} from "../../../../item/model/item"
-import Weapon from "../../../../item/model/weapon"
 import {DamageType} from "../../../../mob/fight/enum/damageType"
 import ResponseMessage from "../../../../request/responseMessage"
 import {ConditionMessages as PreconditionMessages, Costs, SkillMessages} from "../../../../skill/constants"
@@ -28,9 +28,9 @@ export default function(abilityService: AbilityService): Skill {
           PreconditionMessages.All.NoItem,
           CheckType.HasItem)
         .capture(item)
-        .require((captured: Item) =>
+        .require((captured: ItemEntity) =>
           captured.equipment === Equipment.Weapon, SkillMessages.Envenom.Error.NotAWeapon)
-        .require((captured: Weapon) =>
+        .require((captured: WeaponEntity) =>
           captured.damageType === DamageType.Slash || captured.damageType === DamageType.Pierce,
           SkillMessages.Envenom.Error.WrongWeaponType)
         .create()
@@ -46,7 +46,7 @@ export default function(abilityService: AbilityService): Skill {
     .setSuccessMessage(requestService => {
       const item = requestService.getResult(CheckType.HasItem)
       return requestService.createResponseMessage(SkillMessages.Envenom.Success)
-        .addReplacement("item", item)
+        .addReplacement("itemEntity.ts", item)
         .setVerbToRequestCreator("envenom")
         .setVerbToTarget("envenom")
         .setVerbToObservers("envenoms")
@@ -55,7 +55,7 @@ export default function(abilityService: AbilityService): Skill {
     .setFailMessage(requestService => {
       const item = requestService.getResult(CheckType.HasItem)
       return requestService.createResponseMessage(SkillMessages.Envenom.Fail)
-        .addReplacement("item", item)
+        .addReplacement("itemEntity.ts", item)
         .setVerbToRequestCreator("fail")
         .setVerbToTarget("fail")
         .setVerbToObservers("fails")

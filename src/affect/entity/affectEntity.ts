@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import AttributesEntity from "../../attributes/entity/attributesEntity"
-import { Item } from "../../item/model/item"
+import { ItemEntity } from "../../item/entity/itemEntity"
 import DamageSourceEntity from "../../mob/entity/damageSourceEntity"
 import { MobEntity } from "../../mob/entity/mobEntity"
 import { AffectType } from "../enum/affectType"
@@ -13,8 +13,8 @@ export class AffectEntity {
   @ManyToOne(() => MobEntity, (mob) => mob.affects)
   public mob: MobEntity
 
-  @ManyToOne(() => Item, (item) => item.affects)
-  public item: Item
+  @ManyToOne(() => ItemEntity, (item) => item.affects)
+  public item: ItemEntity
 
   @Column("text")
   public affectType: AffectType

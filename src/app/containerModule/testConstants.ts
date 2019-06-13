@@ -1,10 +1,10 @@
 import {AsyncContainerModule} from "inversify"
 import {MessagePayload, Producer} from "kafkajs"
 import {Server} from "ws"
-import {ItemContainerReset} from "../../item/model/itemContainerReset"
-import ItemMobReset from "../../item/model/itemMobReset"
-import {ItemRoomReset} from "../../item/model/itemRoomReset"
-import {MobEquipReset} from "../../item/model/mobEquipReset"
+import {ItemContainerResetEntity} from "../../item/entity/itemContainerResetEntity"
+import ItemMobResetEntity from "../../item/entity/itemMobResetEntity"
+import {ItemRoomResetEntity} from "../../item/entity/itemRoomResetEntity"
+import {MobEquipResetEntity} from "../../item/entity/mobEquipResetEntity"
 import MobResetEntity from "../../mob/entity/mobResetEntity"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import {getTestRoom} from "../../support/test/room"
@@ -16,13 +16,13 @@ export default new AsyncContainerModule(async bind => {
   bind<Server>(Types.WebSocketServer).toConstantValue(new Server({ noServer: true }))
   bind<MobResetEntity[]>(Types.MobResets)
     .toConstantValue([])
-  bind<ItemMobReset[]>(Types.ItemMobResets)
+  bind<ItemMobResetEntity[]>(Types.ItemMobResets)
     .toConstantValue([])
-  bind<ItemRoomReset[]>(Types.ItemRoomResets)
+  bind<ItemRoomResetEntity[]>(Types.ItemRoomResets)
     .toConstantValue([])
-  bind<MobEquipReset[]>(Types.MobEquipResets)
+  bind<MobEquipResetEntity[]>(Types.MobEquipResets)
     .toConstantValue([])
-  bind<ItemContainerReset[]>(Types.ItemContainerResets)
+  bind<ItemContainerResetEntity[]>(Types.ItemContainerResets)
     .toConstantValue([])
   bind<Producer>(Types.KafkaProducer)
     .toConstantValue({

@@ -1,7 +1,7 @@
 import {inject, injectable} from "inversify"
 import {Client} from "../../client/client"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import {Equipment} from "../../item/enum/equipment"
-import {Item} from "../../item/model/item"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {AttackVerb} from "../../mob/enum/attackVerb"
 import {Attack} from "../../mob/fight/attack"
@@ -37,7 +37,7 @@ export function getHealthIndicator(percent: number): string {
     .get()
 }
 
-function getAttackVerb(weapon: Item): AttackVerb {
+function getAttackVerb(weapon: ItemEntity): AttackVerb {
   return new Maybe(weapon).do(w => w.attackVerb).or(() => AttackVerb.Hit).get()
 }
 

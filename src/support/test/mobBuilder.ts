@@ -2,7 +2,7 @@ import {inject} from "inversify"
 import {AffectEntity} from "../../affect/entity/affectEntity"
 import {AffectType} from "../../affect/enum/affectType"
 import {newAffect} from "../../affect/factory/affectFactory"
-import {Item} from "../../item/model/item"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import { MobEntity } from "../../mob/entity/mobEntity"
 import ShopEntity from "../../mob/entity/shopEntity"
 import {Disposition} from "../../mob/enum/disposition"
@@ -120,7 +120,7 @@ export default class MobBuilder {
     return this
   }
 
-  public addItem(item: Item): MobBuilder {
+  public addItem(item: ItemEntity): MobBuilder {
     this.mob.inventory.addItem(item, this.mob)
     return this
   }
@@ -148,12 +148,12 @@ export default class MobBuilder {
     return this.mob.name
   }
 
-  public equip(item: Item): this {
+  public equip(item: ItemEntity): this {
     this.mob.equipped.addItem(item, this.mob)
     return this
   }
 
-  public getItems(): Item[] {
+  public getItems(): ItemEntity[] {
     return this.mob.inventory.items
   }
 

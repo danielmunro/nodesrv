@@ -1,7 +1,7 @@
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
-import {Item} from "../../../item/model/item"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import ItemService from "../../../item/service/itemService"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
@@ -38,7 +38,7 @@ export default class LockAction extends Action {
       .require(
         (exit: ExitEntity) =>
           this.itemService.getByCanonicalId(exit.door.unlockedByCanonicalId)
-            .find((item: Item) => item.inventory === request.mob.inventory),
+            .find((item: ItemEntity) => item.inventory === request.mob.inventory),
         ConditionMessages.Lock.Fail.NoKey)
       .create()
   }

@@ -43,14 +43,14 @@ export default function(abilityService: AbilityService): Skill {
         .setVerbToRequestCreator("steal")
         .setVerbToTarget("steals")
         .setVerbToObservers("steals")
-        .addReplacement("item", requestService.getResult(CheckType.HasItem))
+        .addReplacement("itemEntity.ts", requestService.getResult(CheckType.HasItem))
         .create())
     .setFailMessage(requestService =>
       requestService.createResponseMessage(ActionMessages.Steal.Failure)
         .setVerbToRequestCreator("fail")
         .setVerbToTarget("fails")
         .setVerbToObservers("fails")
-        .addReplacement("item", requestService.getResult(CheckType.HasItem))
+        .addReplacement("itemEntity.ts", requestService.getResult(CheckType.HasItem))
         .create())
     .create()
 }

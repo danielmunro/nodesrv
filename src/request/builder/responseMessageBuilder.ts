@@ -1,4 +1,4 @@
-import {Item} from "../../item/model/item"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import ResponseMessage from "../responseMessage"
 
@@ -17,7 +17,7 @@ export default class ResponseMessageBuilder {
   constructor(
     private readonly requestCreator: MobEntity,
     private readonly templateString: string,
-    private readonly target?: MobEntity | Item) {
+    private readonly target?: MobEntity | ItemEntity) {
     if (!this.target) {
       this.target = requestCreator
     }

@@ -3,7 +3,7 @@ import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {EventType} from "../../../event/enum/eventType"
 import EventService from "../../../event/service/eventService"
-import {Item} from "../../../item/model/item"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
@@ -25,7 +25,7 @@ export default class SacrificeAction extends Action {
       .requireFromActionParts(request, this.getActionParts())
       .not()
       .requireAffect(AffectType.NoSacrifice, ConditionMessages.All.Item.CannotSacrifice)
-      .require((item: Item) => item.isContainer()
+      .require((item: ItemEntity) => item.isContainer()
         ? item.container.items.length === 0 : true, MESSAGE_FAIL_CONTAINER_NOT_EMPTY)
       .create()
   }

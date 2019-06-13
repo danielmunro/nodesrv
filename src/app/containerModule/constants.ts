@@ -1,10 +1,10 @@
 import {AsyncContainerModule} from "inversify"
 import {Producer} from "kafkajs"
 import {Server} from "ws"
-import {ItemContainerReset} from "../../item/model/itemContainerReset"
-import ItemMobReset from "../../item/model/itemMobReset"
-import {ItemRoomReset} from "../../item/model/itemRoomReset"
-import {MobEquipReset} from "../../item/model/mobEquipReset"
+import {ItemContainerResetEntity} from "../../item/entity/itemContainerResetEntity"
+import ItemMobResetEntity from "../../item/entity/itemMobResetEntity"
+import {ItemRoomResetEntity} from "../../item/entity/itemRoomResetEntity"
+import {MobEquipResetEntity} from "../../item/entity/mobEquipResetEntity"
 import {getItemContainerResetRepository} from "../../item/repository/itemContainerReset"
 import {getItemMobResetRepository} from "../../item/repository/itemMobReset"
 import {getItemRoomResetRepository} from "../../item/repository/itemRoomReset"
@@ -25,13 +25,13 @@ export default (startRoomId: number, port: number) => {
     bind<Server>(Types.WebSocketServer).toConstantValue(new Server({port}))
     bind<MobResetEntity[]>(Types.MobResets)
       .toConstantValue(await (await getMobResetRepository()).findAll())
-    bind<ItemMobReset[]>(Types.ItemMobResets)
+    bind<ItemMobResetEntity[]>(Types.ItemMobResets)
       .toConstantValue(await (await getItemMobResetRepository()).findAll())
-    bind<ItemRoomReset[]>(Types.ItemRoomResets)
+    bind<ItemRoomResetEntity[]>(Types.ItemRoomResets)
       .toConstantValue(await (await getItemRoomResetRepository()).findAll())
-    bind<MobEquipReset[]>(Types.MobEquipResets)
+    bind<MobEquipResetEntity[]>(Types.MobEquipResets)
       .toConstantValue(await (await getMobEquipResetRepository()).findAll())
-    bind<ItemContainerReset[]>(Types.ItemContainerResets)
+    bind<ItemContainerResetEntity[]>(Types.ItemContainerResets)
       .toConstantValue(await (await getItemContainerResetRepository()).findAll())
     bind<Producer>(Types.KafkaProducer)
       .toConstantValue(await kafkaProducer("app", ["localhost:9092"]))

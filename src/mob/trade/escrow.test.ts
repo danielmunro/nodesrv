@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import {Item} from "../../item/model/item"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import MobBuilder from "../../support/test/mobBuilder"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
@@ -9,7 +9,7 @@ let testRunner: TestRunner
 let requester: MobBuilder
 let trader: MobBuilder
 let escrow: Escrow
-let item: Item
+let item: ItemEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)

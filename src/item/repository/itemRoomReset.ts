@@ -1,5 +1,5 @@
 import { getConnection } from "../../support/db/connection"
-import { ItemRoomReset } from "../model/itemRoomReset"
+import { ItemRoomResetEntity } from "../entity/itemRoomResetEntity"
 import ItemRoomResetRepositoryImpl from "./itemRoomResetRepositoryImpl"
 
 export default interface ItemRoomResetRepository {
@@ -9,5 +9,5 @@ export default interface ItemRoomResetRepository {
 
 export async function getItemRoomResetRepository(): Promise<ItemRoomResetRepository> {
   const connection = await getConnection()
-  return new ItemRoomResetRepositoryImpl(connection.getRepository(ItemRoomReset))
+  return new ItemRoomResetRepositoryImpl(connection.getRepository(ItemRoomResetEntity))
 }

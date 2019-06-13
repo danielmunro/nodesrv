@@ -1,13 +1,13 @@
 import { getConnection } from "../../support/db/connection"
-import { ItemContainerReset } from "../model/itemContainerReset"
+import { ItemContainerResetEntity } from "../entity/itemContainerResetEntity"
 import ItemContainerResetRepositoryImpl from "./itemContainerResetRepositoryImpl"
 
 export default interface ItemContainerResetRepository {
-  findAll(): Promise<ItemContainerReset[]>
+  findAll(): Promise<ItemContainerResetEntity[]>
   save(itemContainerReset)
 }
 
 export async function getItemContainerResetRepository(): Promise<ItemContainerResetRepository> {
   const connection = await getConnection()
-  return new ItemContainerResetRepositoryImpl(connection.getRepository(ItemContainerReset))
+  return new ItemContainerResetRepositoryImpl(connection.getRepository(ItemContainerResetEntity))
 }

@@ -5,8 +5,8 @@ import {Channel} from "../../client/enum/channel"
 import ClientEvent from "../../client/event/clientEvent"
 import InputEvent from "../../client/event/inputEvent"
 import SocialEvent from "../../client/event/socialEvent"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import ItemEvent from "../../item/event/itemEvent"
-import {Item} from "../../item/model/item"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import AttackEvent from "../../mob/event/attackEvent"
 import CastEvent from "../../mob/event/castEvent"
@@ -63,7 +63,7 @@ export function createTestEvent(eventType: EventType): TestEvent {
   return { eventType }
 }
 
-export function createItemEvent(eventType: EventType, item: Item, carriedBy?: any): ItemEvent {
+export function createItemEvent(eventType: EventType, item: ItemEntity, carriedBy?: any): ItemEvent {
   return { eventType, item, carriedBy }
 }
 
@@ -96,7 +96,7 @@ export function createMobEvent(eventType: EventType, mob: MobEntity): MobEvent {
   return { eventType, mob }
 }
 
-export function createItemDroppedEvent(mob: MobEntity, item: Item): ItemDroppedEvent {
+export function createItemDroppedEvent(mob: MobEntity, item: ItemEntity): ItemDroppedEvent {
   return { eventType: EventType.ItemDropped, mob, item }
 }
 

@@ -1,7 +1,7 @@
-import {Item} from "./model/item"
+import {ItemEntity} from "./entity/itemEntity"
 
 export default interface ItemQuantity {
-  readonly item: Item
+  readonly item: ItemEntity
   readonly canonicalId: string
   quantity: number
 }

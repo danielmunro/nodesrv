@@ -1,11 +1,11 @@
+import {ItemEntity} from "../../item/entity/itemEntity"
 import {ItemType} from "../../item/enum/itemType"
 import {createDrink, newItem} from "../../item/factory/itemFactory"
-import {Item} from "../../item/model/item"
 import ItemBuilder from "../itemBuilder"
 import {liquidMap} from "../map/liquidMap"
 import ItemPrototype from "./itemPrototype"
 
-export default function(itemPrototype: ItemPrototype): Item {
+export default function(itemPrototype: ItemPrototype): ItemEntity {
   const { name, description, args } = itemPrototype
   const fountain = newItem(ItemType.Fountain, name, description)
   fountain.drink = createDrink()

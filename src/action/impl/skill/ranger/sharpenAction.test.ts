@@ -1,6 +1,6 @@
 import { AffectType } from "../../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
-import {Item} from "../../../../item/model/item"
+import {ItemEntity} from "../../../../item/entity/itemEntity"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
 import { RequestType } from "../../../../request/enum/requestType"
 import { SkillType } from "../../../../skill/skillType"
@@ -10,7 +10,7 @@ import {Types} from "../../../../support/types"
 
 const iterations = 100
 let testRunner: TestRunner
-let axe: Item
+let axe: ItemEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)

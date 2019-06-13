@@ -24,7 +24,7 @@ export default class ListAction extends Action {
 
   public async invoke(requestService: RequestService): Promise<Response> {
     const merchant = requestService.getResult(CheckType.HasTarget)
-    const itemQuantityMap = merchant.inventory.getItemQuantityMap()
+    const itemQuantityMap = merchant.inventoryEntity.getItemQuantityMap()
     return requestService
       .respondWith()
       .success(Object.keys(itemQuantityMap).reduce((previousValue, currentValue) => {

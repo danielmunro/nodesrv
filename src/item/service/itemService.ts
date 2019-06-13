@@ -2,9 +2,9 @@ import {inject, injectable} from "inversify"
 import {cloneDeep} from "lodash"
 import "reflect-metadata"
 import {Types} from "../../support/types"
-import { Inventory } from "../model/inventory"
-import { Item } from "../model/item"
-import ItemReset from "../model/itemReset"
+import { InventoryEntity } from "../entity/inventoryEntity"
+import { ItemEntity } from "../entity/itemEntity"
+import ItemResetEntity from "../entity/itemResetEntity"
 import ItemTable from "../table/itemTable"
 
 @injectable()
@@ -13,9 +13,9 @@ export default class ItemService {
     @inject(Types.ItemTable) private readonly itemTemplateTable: ItemTable = new ItemTable(),
     public readonly itemTable: ItemTable = new ItemTable()) {}
 
-  public async generateNewItemInstance(itemReset: ItemReset): Promise<Item> {
+  public async generateNewItemInstance(itemReset: ItemResetEntity): Promise<ItemEntity> {
     const item = this.itemTemplateTable.items.find(i => i.id === itemReset.item.id)
-    const copy = cloneDeep(item) as Item
+    const copy = cloneDeep(item) as ItemEntity
     copy.canonicalId = itemReset.item.canonicalId
     return copy
   }
@@ -24,22 +24,22 @@ export default class ItemService {
     return this.itemTable.items.filter(item => item.canonicalId === canonicalId)
   }
 
-  public findItem(inventory: Inventory, search: string) {
+  public findItem(inventory: InventoryEntity, search: string) {
     return this.itemTable.findItemByInventory(inventory, search)
   }
 
-  public findAllByInventory(inventory: Inventory) {
+  public findAllByInventory(inventory: InventoryEntity) {
     return this.itemTable.findByInventory(inventory)
   }
 
-  public add(item: Item, carriedBy: any = null) {
+  public add(item: ItemEntity, carriedBy: any = null) {
     this.itemTable.add(item)
     if (carriedBy) {
       item.carriedBy = carriedBy
     }
   }
 
-  public remove(item: Item) {
+  public remove(item: ItemEntity) {
     this.itemTable.remove(item)
   }
 }

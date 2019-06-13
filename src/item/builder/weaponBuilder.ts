@@ -1,12 +1,12 @@
 import {DamageType} from "../../mob/fight/enum/damageType"
+import WeaponEntity from "../entity/weaponEntity"
 import {Equipment} from "../enum/equipment"
 import {ItemType} from "../enum/itemType"
 import {WeaponType} from "../enum/weaponType"
-import Weapon from "../model/weapon"
 import AbstractItemBuilder from "./abstractItemBuilder"
 
 export default class WeaponBuilder extends AbstractItemBuilder {
-  protected readonly item: Weapon
+  protected readonly item: WeaponEntity
 
   public asAxe(): WeaponBuilder {
     this.item.weaponType = WeaponType.Axe

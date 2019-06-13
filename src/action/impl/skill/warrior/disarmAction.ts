@@ -2,8 +2,8 @@ import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
+import {ItemEntity} from "../../../../item/entity/itemEntity"
 import {Equipment} from "../../../../item/enum/equipment"
-import {Item} from "../../../../item/model/item"
 import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {
   ActionMessages,
@@ -27,7 +27,7 @@ export default function(abilityService: AbilityService): Skill {
     ])
     .setCheckBuilder((_, checkBuilder) => {
       return checkBuilder.require(
-        (__: any, target: MobEntity) => target.equipped.find((i: Item) => i.equipment === Equipment.Weapon),
+        (__: any, target: MobEntity) => target.equipped.find((i: ItemEntity) => i.equipment === Equipment.Weapon),
           PreconditionMessages.Disarm.FailNothingToDisarm,
         CheckType.ItemPresent)
       .create()

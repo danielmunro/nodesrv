@@ -8,7 +8,7 @@ import ResetImportService from "../src/import/service/resetImportService"
 import ItemTable from "../src/import/table/itemTable"
 import MobTable from "../src/import/table/mobTable"
 import RoomTable from "../src/import/table/roomTable"
-import { Item } from "../src/item/model/item"
+import { ItemEntity } from "../src/item/entity/itemEntity"
 import { getItemRepository } from "../src/item/repository/item"
 import { getItemContainerResetRepository } from "../src/item/repository/itemContainerReset"
 import { getItemMobResetRepository } from "../src/item/repository/itemMobReset"
@@ -41,7 +41,7 @@ async function parse(importService: ImportService) {
   const rowCount = areaFiles.length
   let i = 1
   const rooms: RoomEntity[] = []
-  const items: Item[] = []
+  const items: ItemEntity[] = []
   const mobs: MobEntity[] = []
   for (const file of areaFiles) {
     console.log(`  - importing ${file} (${i}/${rowCount})`)

@@ -5,8 +5,8 @@ import CheckedRequest from "../../check/checkedRequest"
 import {CheckType} from "../../check/enum/checkType"
 import {EventType} from "../../event/enum/eventType"
 import {createAttackEvent, createItemEvent, createSkillEvent} from "../../event/factory/eventFactory"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import ItemEvent from "../../item/event/itemEvent"
-import {Item} from "../../item/model/item"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {Disposition} from "../../mob/enum/disposition"
 import AttackEvent from "../../mob/event/attackEvent"
@@ -45,7 +45,7 @@ export default class RequestService {
     return this.checkedRequest.mob.affect().has(affectType)
   }
 
-  public getEquipped(): Item[] {
+  public getEquipped(): ItemEntity[] {
     return this.checkedRequest.mob.equipped.items
   }
 
@@ -53,7 +53,7 @@ export default class RequestService {
     return createAttackEvent(this.checkedRequest.mob, target ? target : this.getTarget())
   }
 
-  public createItemEvent(eventType: EventType, item: Item): ItemEvent {
+  public createItemEvent(eventType: EventType, item: ItemEntity): ItemEvent {
     return createItemEvent(eventType, item, this.checkedRequest.mob)
   }
 
@@ -118,7 +118,7 @@ export default class RequestService {
     return this.checkedRequest.room.getMovementCost()
   }
 
-  public addItemToMobInventory(item?: Item): void {
+  public addItemToMobInventory(item?: ItemEntity): void {
     if (!item) {
       item = this.getResult(CheckType.ItemPresent)
       if (!item) {
@@ -128,7 +128,7 @@ export default class RequestService {
     this.checkedRequest.mob.inventory.addItem(item)
   }
 
-  public addItemToRoomInventory(item?: Item): void {
+  public addItemToRoomInventory(item?: ItemEntity): void {
     if (!item) {
       item = this.getResult(CheckType.ItemPresent)
       if (!item) {
@@ -138,11 +138,11 @@ export default class RequestService {
     this.checkedRequest.room.inventory.addItem(item)
   }
 
-  public removeItemFromMobInventory(item?: Item): void {
+  public removeItemFromMobInventory(item?: ItemEntity): void {
     this.checkedRequest.mob.inventory.removeItem(item ? item : this.getResult())
   }
 
-  public removeItemFromRoomInventory(item?: Item): void {
+  public removeItemFromRoomInventory(item?: ItemEntity): void {
     this.checkedRequest.room.inventory.removeItem(item ? item : this.getResult())
   }
 

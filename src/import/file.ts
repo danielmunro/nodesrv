@@ -1,4 +1,4 @@
-import { Item } from "../item/model/item"
+import { ItemEntity } from "../item/entity/itemEntity"
 import { MobEntity } from "../mob/entity/mobEntity"
 import ShopEntity from "../mob/entity/shopEntity"
 import { RoomEntity } from "../room/entity/roomEntity"
@@ -9,7 +9,7 @@ export default class File {
   public roomMap: object = {}
   public mobs: MobEntity[] = []
   public mobMap: object = {}
-  public items: Item[] = []
+  public items: ItemEntity[] = []
   public roomDataMap: object = {}
   public resets: Reset[] = []
   public shops: ShopEntity[] = []

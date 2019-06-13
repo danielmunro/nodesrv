@@ -1,10 +1,10 @@
 import { Column, Entity, Generated, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import { Liquid } from "../enum/liquid"
-import { Item } from "./item"
+import { ItemEntity } from "./itemEntity"
 
 @Entity()
-export default class Drink {
+export default class DrinkEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -24,6 +24,6 @@ export default class Drink {
   @Column("integer")
   public foodAmount: number
 
-  @OneToOne(() => Item, item => item.food)
-  public item: Item
+  @OneToOne(() => ItemEntity, item => item.food)
+  public item: ItemEntity
 }

@@ -1,6 +1,6 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
-import {Item} from "../../../item/model/item"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {RequestType} from "../../../request/enum/requestType"
 import {ResponseStatus} from "../../../request/enum/responseStatus"
 import Request from "../../../request/request"
@@ -18,14 +18,14 @@ export default class WearAction extends Action {
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireFromActionParts(request, this.getActionParts())
-      .require((item: Item) => !!item.equipment, ConditionMessages.All.Item.NotEquipment)
+      .require((item: ItemEntity) => !!item.equipment, ConditionMessages.All.Item.NotEquipment)
       .create()
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
     const item = requestService.getResult()
     const mob = requestService.getMob()
-    const currentEq = mob.equipped.find((i: Item) => i.equipment === item.equipment)
+    const currentEq = mob.equipped.find((i: ItemEntity) => i.equipment === item.equipment)
 
     if (currentEq) {
       mob.inventory.addItem(currentEq)
@@ -35,7 +35,7 @@ export default class WearAction extends Action {
     return requestService.respondWith().response(
       ResponseStatus.Success,
       requestService.createResponseMessage(Messages.Wear.Success)
-        .addReplacement("item", item.name)
+        .addReplacement("itemEntity.ts", item.name)
         .setVerbToRequestCreator("wear")
         .addReplacementForRequestCreator("removeClause", currentEq ? ` remove ${currentEq.name} and` : "")
         .setVerbToTarget("wear")

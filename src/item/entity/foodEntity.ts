@@ -1,9 +1,9 @@
 import { Column, Entity, Generated, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import { Item } from "./item"
+import { ItemEntity } from "./itemEntity"
 
 @Entity()
-export default class Food {
+export default class FoodEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -17,6 +17,6 @@ export default class Food {
   @Column("integer")
   public drinkAmount: number = 0
 
-  @OneToOne(() => Item, item => item.food)
-  public item: Item
+  @OneToOne(() => ItemEntity, item => item.food)
+  public item: ItemEntity
 }

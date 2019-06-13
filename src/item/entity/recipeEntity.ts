@@ -1,11 +1,11 @@
 import {Column, Entity, Generated, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm"
 import * as v4 from "uuid"
 import {SpellType} from "../../spell/spellType"
-import Forge from "./forge"
-import {Item} from "./item"
+import ForgeEntity from "./forgeEntity"
+import {ItemEntity} from "./itemEntity"
 
 @Entity()
-export default class Recipe {
+export default class RecipeEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -22,9 +22,9 @@ export default class Recipe {
   @Column("integer")
   public difficulty: number
 
-  @OneToOne(() => Item)
-  public createsItem: Item
+  @OneToOne(() => ItemEntity)
+  public createsItem: ItemEntity
 
-  @ManyToOne(() => Forge, forge => forge.recipes)
-  public forge: Forge
+  @ManyToOne(() => ForgeEntity, forge => forge.recipes)
+  public forge: ForgeEntity
 }

@@ -1,7 +1,7 @@
 import Event from "../../event/event"
-import {Item} from "../model/item"
+import {ItemEntity} from "../entity/itemEntity"
 
 export default interface ItemEvent extends Event {
-  readonly item: Item
+  readonly item: ItemEntity
   readonly carriedBy?: any
 }

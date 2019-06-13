@@ -1,10 +1,10 @@
 import {inject, injectable} from "inversify"
 import {cloneDeep} from "lodash"
-import { Item } from "../item/model/item"
-import { ItemContainerReset } from "../item/model/itemContainerReset"
-import ItemMobReset from "../item/model/itemMobReset"
-import { ItemRoomReset } from "../item/model/itemRoomReset"
-import { MobEquipReset } from "../item/model/mobEquipReset"
+import { ItemContainerResetEntity } from "../item/entity/itemContainerResetEntity"
+import { ItemEntity } from "../item/entity/itemEntity"
+import ItemMobResetEntity from "../item/entity/itemMobResetEntity"
+import { ItemRoomResetEntity } from "../item/entity/itemRoomResetEntity"
+import { MobEquipResetEntity } from "../item/entity/mobEquipResetEntity"
 import ItemService from "../item/service/itemService"
 import { MobEntity } from "../mob/entity/mobEntity"
 import { default as MobReset } from "../mob/entity/mobResetEntity"
@@ -17,10 +17,10 @@ import {Types} from "../support/types"
 export default class ResetService {
   constructor(
     @inject(Types.MobResets) private readonly mobResets: MobReset[],
-    @inject(Types.ItemMobResets) private readonly itemMobResets: ItemMobReset[],
-    @inject(Types.ItemRoomResets) private readonly itemRoomResets: ItemRoomReset[],
-    @inject(Types.MobEquipResets) private readonly mobEquipResets: MobEquipReset[],
-    @inject(Types.ItemContainerResets) private readonly itemContainerResets: ItemContainerReset[],
+    @inject(Types.ItemMobResets) private readonly itemMobResets: ItemMobResetEntity[],
+    @inject(Types.ItemRoomResets) private readonly itemRoomResets: ItemRoomResetEntity[],
+    @inject(Types.MobEquipResets) private readonly mobEquipResets: MobEquipResetEntity[],
+    @inject(Types.ItemContainerResets) private readonly itemContainerResets: ItemContainerResetEntity[],
     @inject(Types.MobService) private readonly mobService: MobService,
     @inject(Types.RoomTable) private readonly roomTable: RoomTable,
     @inject(Types.ItemService) private readonly itemService: ItemService) {}
@@ -58,7 +58,7 @@ export default class ResetService {
     }
   }
 
-  private async respawnFromItemRoomReset(itemRoomReset: ItemRoomReset) {
+  private async respawnFromItemRoomReset(itemRoomReset: ItemRoomResetEntity) {
     const item = await this.itemService.generateNewItemInstance(itemRoomReset)
     const room = this.roomTable.get(itemRoomReset.room.uuid)
     const itemsInRoom = this.itemService.findAllByInventory(room.inventory)
@@ -94,7 +94,7 @@ export default class ResetService {
     }
   }
 
-  private async addToContainer(item: Item, room: RoomEntity) {
+  private async addToContainer(item: ItemEntity, room: RoomEntity) {
     for (const itemContainerReset of this.itemContainerResets) {
       if (itemContainerReset.item.canonicalId === item.canonicalId) {
         const instance = await this.itemService.generateNewItemInstance(itemContainerReset)

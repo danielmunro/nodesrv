@@ -1,4 +1,4 @@
-import { Item } from "../item/model/item"
+import { ItemEntity } from "../item/entity/itemEntity"
 import { MobEntity } from "../mob/entity/mobEntity"
 import {AuthorizationLevel} from "../player/enum/authorizationLevel"
 import {Region} from "../region/model/region"
@@ -28,11 +28,11 @@ export default class Request {
     return this.context.requestType
   }
 
-  public findItemInRoomInventory(item = this.getSubject()): Item | undefined {
+  public findItemInRoomInventory(item = this.getSubject()): ItemEntity | undefined {
     return this.room.inventory.findItemByName(item)
   }
 
-  public findItemInSessionMobInventory(item = this.getSubject()): Item | undefined {
+  public findItemInSessionMobInventory(item = this.getSubject()): ItemEntity | undefined {
     return this.mob.inventory.findItemByName(item)
   }
 

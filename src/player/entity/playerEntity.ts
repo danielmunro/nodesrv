@@ -1,5 +1,5 @@
 import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from "typeorm"
-import { Inventory } from "../../item/model/inventory"
+import { InventoryEntity } from "../../item/entity/inventoryEntity"
 import { MobEntity } from "../../mob/entity/mobEntity"
 import hash from "../password/hash"
 
@@ -32,7 +32,7 @@ export class PlayerEntity {
     this.password = hash(password)
   }
 
-  public getInventory(): Inventory {
+  public getInventory(): InventoryEntity {
     return this.sessionMob.inventory
   }
 

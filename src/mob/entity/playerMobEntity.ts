@@ -1,7 +1,7 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import { default as Attributes } from "../../attributes/entity/attributesEntity"
-import { Item } from "../../item/model/item"
+import { ItemEntity } from "../../item/entity/itemEntity"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
 import { Standing } from "../enum/standing"
 import Customization from "../specialization/customization"
@@ -66,7 +66,7 @@ export class PlayerMobEntity {
     this.normalizeVitals()
   }
 
-  public eat(item: Item) {
+  public eat(item: ItemEntity) {
     this.hunger += item.hunger
     item.affects.forEach((affect) => this.mob.affect().add(affect))
     this.normalizeVitals()

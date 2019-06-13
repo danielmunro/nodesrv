@@ -3,10 +3,10 @@ import { AttackVerb } from "../../mob/enum/attackVerb"
 import { DamageType } from "../../mob/fight/enum/damageType"
 import {SpellType} from "../../spell/spellType"
 import { WeaponType } from "../enum/weaponType"
-import { Item } from "./item"
+import { ItemEntity } from "./itemEntity"
 
 @Entity()
-export default class Weapon extends Item {
+export default class WeaponEntity extends ItemEntity {
   @Column("integer")
   public weaponType: WeaponType
 

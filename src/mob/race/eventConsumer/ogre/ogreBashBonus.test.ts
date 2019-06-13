@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {createDamageEvent} from "../../../../event/factory/eventFactory"
-import Weapon from "../../../../item/model/weapon"
+import WeaponEntity from "../../../../item/entity/weaponEntity"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
 import {MobEntity} from "../../../entity/mobEntity"
@@ -12,12 +12,12 @@ import OgreBashBonus from "./ogreBashBonus"
 let testRunner: TestRunner
 let attacker: MobEntity
 let defender: MobEntity
-let weapon: Weapon
+let weapon: WeaponEntity
 let eventConsumer: OgreBashBonus
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  weapon = testRunner.createWeapon().asMace().setDamageType(DamageType.Bash).build() as Weapon
+  weapon = testRunner.createWeapon().asMace().setDamageType(DamageType.Bash).build() as WeaponEntity
   attacker = testRunner.createMob()
     .setRace(RaceType.Ogre)
     .equip(weapon)

@@ -1,7 +1,7 @@
 import { AffectType } from "../../../affect/enum/affectType"
 import {newAffect} from "../../../affect/factory/affectFactory"
 import {createTestAppContainer} from "../../../app/factory/testFactory"
-import {Item} from "../../../item/model/item"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import { RequestType } from "../../../request/enum/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"
 import TestRunner from "../../../support/test/testRunner"
@@ -10,7 +10,7 @@ import {ConditionMessages} from "../../constants"
 
 let testRunner: TestRunner
 let playerBuilder: PlayerBuilder
-let item: Item
+let item: ItemEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)

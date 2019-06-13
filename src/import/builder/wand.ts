@@ -1,15 +1,15 @@
+import {ItemEntity} from "../../item/entity/itemEntity"
+import WeaponEntity from "../../item/entity/weaponEntity"
 import {WeaponType} from "../../item/enum/weaponType"
 import {newWeapon} from "../../item/factory/itemFactory"
-import {Item} from "../../item/model/item"
-import Weapon from "../../item/model/weapon"
 import {DamageType} from "../../mob/fight/enum/damageType"
 import {SpellType} from "../../spell/spellType"
 import ItemPrototype from "./itemPrototype"
 
-export default function(itemPrototype: ItemPrototype): Item {
+export default function(itemPrototype: ItemPrototype): ItemEntity {
   const { name, description, args } = itemPrototype
 
-  const weapon = newWeapon(name, description, WeaponType.Wand, DamageType.Magic) as Weapon
+  const weapon = newWeapon(name, description, WeaponType.Wand, DamageType.Magic) as WeaponEntity
   weapon.castLevel = +args[0]
   weapon.maxCharges = +args[1]
   weapon.currentCharges = +args[2]

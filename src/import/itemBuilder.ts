@@ -1,7 +1,7 @@
 import AffectBuilder from "../affect/builder/affectBuilder"
 import { AffectType } from "../affect/enum/affectType"
+import { ItemEntity } from "../item/entity/itemEntity"
 import {createBuilderDefinition} from "../item/factory/itemFactory"
-import { Item } from "../item/model/item"
 import any from "./builder/any"
 import armor from "./builder/armor"
 import container from "./builder/container"
@@ -43,7 +43,7 @@ export default class ItemBuilder {
     ])
   }
 
-  public static applyPoisonIfFlagged(item: Item, flag: string) {
+  public static applyPoisonIfFlagged(item: ItemEntity, flag: string) {
     if (flag !== "0") {
       item.affects.push(new AffectBuilder(AffectType.Poison).build())
     }
@@ -51,7 +51,7 @@ export default class ItemBuilder {
     return item
   }
 
-  private static setItemAffects(item: Item, flags: string[]) {
+  private static setItemAffects(item: ItemEntity, flags: string[]) {
     for (const flag of flags) {
       // @ts-ignore
       const f = itemAffectMap[flag]
@@ -63,7 +63,7 @@ export default class ItemBuilder {
     return item
   }
 
-  private static addPropertiesToItem(item: Item, itemData: any) {
+  private static addPropertiesToItem(item: ItemEntity, itemData: any) {
     item.level = itemData.level
     item.value = itemData.cost
     item.weight = itemData.weight
@@ -106,7 +106,7 @@ export default class ItemBuilder {
 
   constructor(private readonly builders: BuilderDefinition[] = []) {}
 
-  public async createItemFromImportData(itemData: any): Promise<Item> {
+  public async createItemFromImportData(itemData: any): Promise<ItemEntity> {
     const args = itemData.pObjFlags ? ItemBuilder.splitPObjFlags(itemData.pObjFlags) : []
     const { name, description, type } = itemData
     const prototype = { type, name, description, args }

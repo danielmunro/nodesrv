@@ -39,7 +39,7 @@ export default class SellAction extends Action {
       .response(
         ResponseStatus.Success,
         requestService.createResponseMessage(ActionMessages.Sell.Success)
-          .addReplacement("item", item)
+          .addReplacement("itemEntity.ts", item)
           .addReplacement("value", item.value)
           .setVerbToRequestCreator("sell")
           .setVerbToTarget("sell")

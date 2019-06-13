@@ -2,7 +2,7 @@ import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {EventType} from "../../../event/enum/eventType"
 import EventService from "../../../event/service/eventService"
-import {Item} from "../../../item/model/item"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
@@ -22,7 +22,7 @@ export default class EatAction extends Action {
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireSubject(ConditionMessages.All.Arguments.Eat)
       .requireFromActionParts(request, this.getActionParts())
-      .require((item: Item) => item.isFood(), ConditionMessages.Eat.NotFood)
+      .require((item: ItemEntity) => item.isFood(), ConditionMessages.Eat.NotFood)
       .require(request.mob.playerMob.hunger < request.mob.race().appetite, ConditionMessages.Eat.AlreadyFull)
       .create()
   }

@@ -1,6 +1,6 @@
+import {InventoryEntity} from "../../item/entity/inventoryEntity"
+import {ItemEntity} from "../../item/entity/itemEntity"
 import {createInventory} from "../../item/factory/inventoryFactory"
-import {Inventory} from "../../item/model/inventory"
-import {Item} from "../../item/model/item"
 import {MobEntity} from "../entity/mobEntity"
 import {EscrowStatus} from "./escrowStatus"
 
@@ -17,14 +17,14 @@ export default class Escrow {
     private readonly requester: MobEntity,
     private readonly trader: MobEntity) {}
 
-  public addItemForRequester(item: Item) {
+  public addItemForRequester(item: ItemEntity) {
     if (this.escrowStatus !== EscrowStatus.Live) {
       throw new Error()
     }
     this.requesterInventory.addItem(item)
   }
 
-  public addItemForTrader(item: Item) {
+  public addItemForTrader(item: ItemEntity) {
     if (this.escrowStatus !== EscrowStatus.Live) {
       throw new Error()
     }

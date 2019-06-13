@@ -4,26 +4,26 @@ import {ItemType as ImportItemType} from "../../import/enum/itemType"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {DamageType} from "../../mob/fight/enum/damageType"
 import {RoomEntity} from "../../room/entity/roomEntity"
+import ContainerEntity from "../entity/containerEntity"
+import DrinkEntity from "../entity/drinkEntity"
+import {ItemContainerResetEntity} from "../entity/itemContainerResetEntity"
+import {ItemEntity} from "../entity/itemEntity"
+import ItemMobResetEntity from "../entity/itemMobResetEntity"
+import {ItemRoomResetEntity} from "../entity/itemRoomResetEntity"
+import {MobEquipResetEntity} from "../entity/mobEquipResetEntity"
+import WeaponEntity from "../entity/weaponEntity"
 import {Equipment} from "../enum/equipment"
 import {ItemType} from "../enum/itemType"
 import {Liquid} from "../enum/liquid"
 import {WeaponType} from "../enum/weaponType"
-import Container from "../model/container"
-import Drink from "../model/drink"
-import {Item} from "../model/item"
-import {ItemContainerReset} from "../model/itemContainerReset"
-import ItemMobReset from "../model/itemMobReset"
-import {ItemRoomReset} from "../model/itemRoomReset"
-import {MobEquipReset} from "../model/mobEquipReset"
-import Weapon from "../model/weapon"
 import {createInventory} from "./inventoryFactory"
 
 export function newItemRoomReset(
-  item: Item,
+  item: ItemEntity,
   room: RoomEntity,
   maxQuantity: number,
-  maxPerRoom: number): ItemRoomReset {
-  const itemReset = new ItemRoomReset()
+  maxPerRoom: number): ItemRoomResetEntity {
+  const itemReset = new ItemRoomResetEntity()
   itemReset.item = item
   itemReset.room = room
   itemReset.maxQuantity = maxQuantity
@@ -33,11 +33,11 @@ export function newItemRoomReset(
 }
 
 export function newItemMobReset(
-  item: Item,
+  item: ItemEntity,
   mob: MobEntity,
   maxQuantity: number,
-  maxPerRoom: number): ItemMobReset {
-  const itemReset = new ItemMobReset()
+  maxPerRoom: number): ItemMobResetEntity {
+  const itemReset = new ItemMobResetEntity()
   itemReset.item = item
   itemReset.mob = mob
   itemReset.maxQuantity = maxQuantity
@@ -46,8 +46,8 @@ export function newItemMobReset(
   return itemReset
 }
 
-export function newMobEquipReset(item: Item, mob: MobEntity, maxQuantity: number, maxPerRoom: number) {
-  const equipMobReset = new MobEquipReset()
+export function newMobEquipReset(item: ItemEntity, mob: MobEntity, maxQuantity: number, maxPerRoom: number) {
+  const equipMobReset = new MobEquipResetEntity()
   equipMobReset.item = item
   equipMobReset.mob = mob
   equipMobReset.maxQuantity = maxQuantity
@@ -56,8 +56,8 @@ export function newMobEquipReset(item: Item, mob: MobEntity, maxQuantity: number
   return equipMobReset
 }
 
-export function newItemContainerReset(itemSource: Item, itemDestination: Item) {
-  const itemContainerReset = new ItemContainerReset()
+export function newItemContainerReset(itemSource: ItemEntity, itemDestination: ItemEntity) {
+  const itemContainerReset = new ItemContainerResetEntity()
   itemContainerReset.item = itemSource
   itemContainerReset.itemDestination = itemDestination
   itemContainerReset.maxQuantity = 1
@@ -66,7 +66,7 @@ export function newItemContainerReset(itemSource: Item, itemDestination: Item) {
   return itemContainerReset
 }
 
-export function newItem(itemType: ItemType, name: string, description: string, level: number = 1): Item {
+export function newItem(itemType: ItemType, name: string, description: string, level: number = 1): ItemEntity {
   const item = createItem()
   item.itemType = itemType
   item.name = name
@@ -77,14 +77,15 @@ export function newItem(itemType: ItemType, name: string, description: string, l
   return item
 }
 
-export function createItem(): Item {
-  const item = new Item()
+export function createItem(): ItemEntity {
+  const item = new ItemEntity()
   item.affects = []
   item.attributes = newEmptyAttributes()
   return item
 }
 
-export function newWeapon(name: string, description: string, weaponType: WeaponType, damageType: DamageType): Item {
+export function newWeapon(
+  name: string, description: string, weaponType: WeaponType, damageType: DamageType): ItemEntity {
   const weapon = createWeapon()
   weapon.name = name
   weapon.description = description
@@ -97,27 +98,27 @@ export function newWeapon(name: string, description: string, weaponType: WeaponT
   return weapon
 }
 
-export function createWeapon(): Weapon {
-  const weapon = new Weapon()
+export function createWeapon(): WeaponEntity {
+  const weapon = new WeaponEntity()
   weapon.affects = []
   weapon.attributes = newEmptyAttributes()
   return weapon
 }
 
-export function createDrink(): Drink {
-  const drink = new Drink()
+export function createDrink(): DrinkEntity {
+  const drink = new DrinkEntity()
   drink.liquid = Liquid.Water
   return drink
 }
 
-export function newEquipment(name: string, description: string, equipment: Equipment): Item {
+export function newEquipment(name: string, description: string, equipment: Equipment): ItemEntity {
   const item = newItem(ItemType.Equipment, name, description)
   item.equipment = equipment
 
   return item
 }
 
-export function newFood(name: string, description: string, nourishment: number = 1): Item {
+export function newFood(name: string, description: string, nourishment: number = 1): ItemEntity {
   const item = newItem(ItemType.Food, name, description)
   item.hunger = nourishment
 
@@ -128,7 +129,7 @@ export function newContainer(
   name: string,
   description: string,
   weightCapacity: number = 0,
-  itemCapacity: number = 0): Item {
+  itemCapacity: number = 0): ItemEntity {
   const item = newItem(ItemType.Container, name, description)
   item.container = createContainer()
   item.container.weightCapacity = weightCapacity
@@ -137,8 +138,8 @@ export function newContainer(
   return item
 }
 
-export function createContainer(): Container {
-  const container = new Container()
+export function createContainer(): ContainerEntity {
+  const container = new ContainerEntity()
   container.inventory = createInventory()
   return container
 }

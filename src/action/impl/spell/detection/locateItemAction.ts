@@ -4,8 +4,8 @@ import ManaCost from "../../../../check/cost/manaCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
 import StateService from "../../../../gameService/stateService"
-import Container from "../../../../item/model/container"
-import {Item} from "../../../../item/model/item"
+import ContainerEntity from "../../../../item/entity/containerEntity"
+import {ItemEntity} from "../../../../item/entity/itemEntity"
 import ItemService from "../../../../item/service/itemService"
 import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {Region} from "../../../../region/model/region"
@@ -24,7 +24,7 @@ function filterItem(
   stateService: StateService,
   mob: MobEntity,
   region: Region,
-  item: Item,
+  item: ItemEntity,
   input: string,
   spell: SpellModel): boolean {
   return match(item.name, input) &&
@@ -34,12 +34,12 @@ function filterItem(
     percentRoll() < 2 * spell.level
 }
 
-function reduceCarriedBy(carriedBy: MobEntity | RoomEntity | Container) {
+function reduceCarriedBy(carriedBy: MobEntity | RoomEntity | ContainerEntity) {
   if (carriedBy instanceof MobEntity) {
     return `carried by ${carriedBy.name}`
   } else if (carriedBy instanceof RoomEntity) {
     return `in ${carriedBy.name}`
-  } else if (carriedBy instanceof Container) {
+  } else if (carriedBy instanceof ContainerEntity) {
     return `in a container`
   }
 
@@ -51,7 +51,7 @@ export default function(abilityService: AbilityService, itemService: ItemService
     .setSpellType(SpellType.LocateItem)
     .setActionType(ActionType.Neutral)
     .addToCheckBuilder((request, checkBuilder) => {
-      let item: Item
+      let item: ItemEntity
       const items = itemService.itemTable.items
         .filter(i => {
           item = i
