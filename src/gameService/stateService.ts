@@ -1,8 +1,8 @@
 import {inject, injectable} from "inversify"
 import {MobEntity} from "../mob/entity/mobEntity"
 import {isAbleToSee} from "../mob/race/sight"
+import {RegionEntity} from "../region/entity/regionEntity"
 import {Weather} from "../region/enum/weather"
-import {Region} from "../region/model/region"
 import WeatherService from "../region/service/weatherService"
 import {Types} from "../support/types"
 import TimeService from "./timeService"
@@ -21,7 +21,7 @@ export default class StateService {
     this.timeService.incrementTime()
   }
 
-  public getWeatherForRegion(region: Region): Weather | undefined {
+  public getWeatherForRegion(region: RegionEntity): Weather | undefined {
     return this.weatherService.getWeatherForRegion(region)
   }
 
@@ -29,7 +29,7 @@ export default class StateService {
     return this.timeService.getCurrentTime()
   }
 
-  public canMobSee(mob: MobEntity, region: Region) {
+  public canMobSee(mob: MobEntity, region: RegionEntity) {
     return isAbleToSee(
       mob.race().sight,
       this.getCurrentTime(),

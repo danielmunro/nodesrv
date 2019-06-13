@@ -35,7 +35,7 @@ export default class WearAction extends Action {
     return requestService.respondWith().response(
       ResponseStatus.Success,
       requestService.createResponseMessage(Messages.Wear.Success)
-        .addReplacement("itemEntity.ts", item.name)
+        .addReplacement("item", item.name)
         .setVerbToRequestCreator("wear")
         .addReplacementForRequestCreator("removeClause", currentEq ? ` remove ${currentEq.name} and` : "")
         .setVerbToTarget("wear")

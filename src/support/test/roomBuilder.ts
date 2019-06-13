@@ -1,5 +1,5 @@
 import {ItemEntity} from "../../item/entity/itemEntity"
-import {Region} from "../../region/model/region"
+import {RegionEntity} from "../../region/entity/regionEntity"
 import DoorEntity from "../../room/entity/doorEntity"
 import {ExitEntity} from "../../room/entity/exitEntity"
 import { RoomEntity } from "../../room/entity/roomEntity"
@@ -13,7 +13,7 @@ export default class RoomBuilder {
     return this
   }
 
-  public setRegion(region: Region): RoomBuilder {
+  public setRegion(region: RegionEntity): RoomBuilder {
     this.room.region = region
     return this
   }

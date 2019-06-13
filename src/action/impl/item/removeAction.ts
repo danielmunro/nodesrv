@@ -37,7 +37,7 @@ export default class RemoveAction extends Action {
       .response(
         ResponseStatus.Info,
         requestService.createResponseMessage(ConditionMessages.Remove.Success)
-          .addReplacement("itemEntity.ts", item.name)
+          .addReplacement("item", item.name)
           .setVerbToRequestCreator("remove")
           .addReplacementForRequestCreator("verb2", "put")
           .addReplacementForRequestCreator("requestCreator2", "your")

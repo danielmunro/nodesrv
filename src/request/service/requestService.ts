@@ -14,8 +14,8 @@ import DamageEventBuilder from "../../mob/event/damageEventBuilder"
 import {DamageType} from "../../mob/fight/enum/damageType"
 import {Target} from "../../mob/target"
 import {ExitEntity} from "../../room/entity/exitEntity"
+import {SkillEntity} from "../../skill/entity/skillEntity"
 import SkillEvent from "../../skill/event/skillEvent"
-import {Skill} from "../../skill/model/skill"
 import ResponseBuilder from "../builder/responseBuilder"
 import ResponseMessageBuilder from "../builder/responseMessageBuilder"
 import Request from "../request"
@@ -57,7 +57,7 @@ export default class RequestService {
     return createItemEvent(eventType, item, this.checkedRequest.mob)
   }
 
-  public createSkillEvent(skill: Skill, rollResult: boolean): SkillEvent {
+  public createSkillEvent(skill: SkillEntity, rollResult: boolean): SkillEvent {
     return createSkillEvent(skill, this.checkedRequest.mob, rollResult)
   }
 

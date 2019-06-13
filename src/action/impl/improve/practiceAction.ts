@@ -10,8 +10,8 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import {Skill} from "../../../skill/model/skill"
-import {Spell} from "../../../spell/model/spell"
+import {SkillEntity} from "../../../skill/entity/skillEntity"
+import {SpellEntity} from "../../../spell/entity/spellEntity"
 import Maybe from "../../../support/functional/maybe"
 import match from "../../../support/matcher/match"
 import {Messages} from "../../constants"
@@ -23,15 +23,15 @@ export default class PracticeAction extends Action {
     return mob.attribute().getInt() / 2
   }
 
-  private static minimumLevel(specialization: SpecializationType, practice: Skill | Spell): number {
+  private static minimumLevel(specialization: SpecializationType, practice: SkillEntity | SpellEntity): number {
     return getSpecializationLevel(
       specialization,
-      practice instanceof Skill ? practice.skillType : practice.spellType).minimumLevel
+      practice instanceof SkillEntity ? practice.skillType : practice.spellType).minimumLevel
   }
 
-  private static findPractice(mob: MobEntity, input: string): Skill | Spell | undefined {
-    return Maybe.if(mob.skills.find((skill: Skill) => match(skill.skillType, input)))
-      .or(() => mob.spells.find((spell: Spell) => match(spell.spellType, input)))
+  private static findPractice(mob: MobEntity, input: string): SkillEntity | SpellEntity | undefined {
+    return Maybe.if(mob.skills.find((skill: SkillEntity) => match(skill.skillType, input)))
+      .or(() => mob.spells.find((spell: SpellEntity) => match(spell.spellType, input)))
       .get()
   }
 
@@ -54,9 +54,9 @@ export default class PracticeAction extends Action {
         CheckType.ValidSubject)
       .capture()
       .require(
-        (practice: Skill | Spell) => practice.level < MAX_PRACTICE_LEVEL,
+        (practice: SkillEntity | SpellEntity) => practice.level < MAX_PRACTICE_LEVEL,
         Messages.Practice.CannotImproveAnymore)
-      .require((practice: Skill | Spell) => {
+      .require((practice: SkillEntity | SpellEntity) => {
           const minimum = PracticeAction.minimumLevel(request.mob.specializationType, practice)
           return request.mob.level >= minimum
         },

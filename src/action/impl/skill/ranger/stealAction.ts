@@ -4,7 +4,6 @@ import MvCost from "../../../../check/cost/mvCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
 import {MobEntity} from "../../../../mob/entity/mobEntity"
-import ResponseMessage from "../../../../request/responseMessage"
 import {ActionMessages, ConditionMessages, Costs} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import roll from "../../../../support/random/dice"
@@ -43,14 +42,14 @@ export default function(abilityService: AbilityService): Skill {
         .setVerbToRequestCreator("steal")
         .setVerbToTarget("steals")
         .setVerbToObservers("steals")
-        .addReplacement("itemEntity.ts", requestService.getResult(CheckType.HasItem))
+        .addReplacement("item", requestService.getResult(CheckType.HasItem))
         .create())
     .setFailMessage(requestService =>
       requestService.createResponseMessage(ActionMessages.Steal.Failure)
         .setVerbToRequestCreator("fail")
         .setVerbToTarget("fails")
         .setVerbToObservers("fails")
-        .addReplacement("itemEntity.ts", requestService.getResult(CheckType.HasItem))
+        .addReplacement("item", requestService.getResult(CheckType.HasItem))
         .create())
     .create()
 }

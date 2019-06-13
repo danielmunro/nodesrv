@@ -8,10 +8,10 @@ import ContainerEntity from "../../../../item/entity/containerEntity"
 import {ItemEntity} from "../../../../item/entity/itemEntity"
 import ItemService from "../../../../item/service/itemService"
 import {MobEntity} from "../../../../mob/entity/mobEntity"
-import {Region} from "../../../../region/model/region"
+import {RegionEntity} from "../../../../region/entity/regionEntity"
 import {RoomEntity} from "../../../../room/entity/roomEntity"
 import {SpellMessages} from "../../../../spell/constants"
-import {Spell as SpellModel} from "../../../../spell/model/spell"
+import {SpellEntity as SpellModel} from "../../../../spell/entity/spellEntity"
 import {SpellType} from "../../../../spell/spellType"
 import match from "../../../../support/matcher/match"
 import {percentRoll} from "../../../../support/random/helpers"
@@ -23,7 +23,7 @@ import Spell from "../../spell"
 function filterItem(
   stateService: StateService,
   mob: MobEntity,
-  region: Region,
+  region: RegionEntity,
   item: ItemEntity,
   input: string,
   spell: SpellModel): boolean {

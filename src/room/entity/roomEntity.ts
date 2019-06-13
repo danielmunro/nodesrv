@@ -2,8 +2,8 @@ import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, 
 import * as uuid from "uuid"
 import { InventoryEntity } from "../../item/entity/inventoryEntity"
 import MobResetEntity from "../../mob/entity/mobResetEntity"
+import { RegionEntity } from "../../region/entity/regionEntity"
 import { Terrain } from "../../region/enum/terrain"
-import { Region } from "../../region/model/region"
 import getMovementCost from "../../region/movementCost"
 import {Direction} from "../enum/direction"
 import { ExitEntity } from "./exitEntity"
@@ -39,8 +39,8 @@ export class RoomEntity {
   @JoinColumn()
   public inventory: InventoryEntity
 
-  @ManyToOne(() => Region, (region) => region.rooms, { cascade: true, eager: true })
-  public region: Region
+  @ManyToOne(() => RegionEntity, (region) => region.rooms, { cascade: true, eager: true })
+  public region: RegionEntity
 
   @OneToMany(() => MobResetEntity, reset => reset.room)
   public mobResets: MobResetEntity[]

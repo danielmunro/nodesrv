@@ -1,7 +1,7 @@
 import { ItemEntity } from "../item/entity/itemEntity"
 import { MobEntity } from "../mob/entity/mobEntity"
 import {AuthorizationLevel} from "../player/enum/authorizationLevel"
-import {Region} from "../region/model/region"
+import {RegionEntity} from "../region/entity/regionEntity"
 import {ExitEntity} from "../room/entity/exitEntity"
 import { RoomEntity } from "../room/entity/roomEntity"
 import ResponseBuilder from "./builder/responseBuilder"
@@ -40,7 +40,7 @@ export default class Request {
     return this.targetMobInRoom
   }
 
-  public getRoomRegion(): Region {
+  public getRoomRegion(): RegionEntity {
     return this.room.region
   }
 

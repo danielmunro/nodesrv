@@ -1,5 +1,5 @@
+import Event from "../../event/event"
 import EventService from "../../event/service/eventService"
-import MobEvent from "../../mob/event/mobEvent"
 import Request from "../../request/request"
 import CheckBuilderFactory from "../factory/checkBuilderFactory"
 
@@ -12,7 +12,7 @@ export default class AbilityService {
     return this.checkBuilderFactory.createCheckTemplate(request)
   }
 
-  public publishEvent(event: MobEvent) {
+  public publishEvent(event: Event) {
     return this.eventService.publish(event)
   }
 }

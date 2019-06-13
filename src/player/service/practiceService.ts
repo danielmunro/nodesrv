@@ -1,7 +1,7 @@
 import {MAX_MOB_LEVEL} from "../../mob/constants"
 import {MobEntity} from "../../mob/entity/mobEntity"
-import {Skill} from "../../skill/model/skill"
-import {Spell} from "../../spell/model/spell"
+import {SkillEntity} from "../../skill/entity/skillEntity"
+import {SpellEntity} from "../../spell/entity/spellEntity"
 
 const LENGTH = 24
 
@@ -12,12 +12,12 @@ export default class PracticeService {
     return ability + " ".repeat(spaces)
   }
 
-  private static getPracticedLevel(mob: MobEntity, ability: Skill | Spell) {
+  private static getPracticedLevel(mob: MobEntity, ability: SkillEntity | SpellEntity) {
     return mob.level >= ability.levelObtained ? ability.level : "NA"
   }
 
-  private static getType(ability: Skill | Spell) {
-    if (ability instanceof Skill) {
+  private static getType(ability: SkillEntity | SpellEntity) {
+    if (ability instanceof SkillEntity) {
       return ability.skillType
     }
 
@@ -46,7 +46,7 @@ export default class PracticeService {
   }
 
   private reduce(mob: MobEntity, abilities: any) {
-    return abilities.reduce((previous: string, current: Skill | Spell) =>
+    return abilities.reduce((previous: string, current: SkillEntity | SpellEntity) =>
       previous + PracticeService.createSpace(PracticeService.getType(current)) +
       PracticeService.getPracticedLevel(mob, current) + "\n", "")
   }

@@ -1,6 +1,6 @@
+import {RegionEntity} from "../entity/regionEntity"
 import {Weather} from "../enum/weather"
 import {createRegion} from "../factory/regionFactory"
-import {Region} from "../model/region"
 import WeatherService from "./weatherService"
 
 describe("weather service", () => {

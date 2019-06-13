@@ -7,7 +7,6 @@ import {ItemEntity} from "../../../../item/entity/itemEntity"
 import WeaponEntity from "../../../../item/entity/weaponEntity"
 import {Equipment} from "../../../../item/enum/equipment"
 import {DamageType} from "../../../../mob/fight/enum/damageType"
-import ResponseMessage from "../../../../request/responseMessage"
 import {ConditionMessages as PreconditionMessages, Costs, SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import SkillBuilder from "../../../builder/skillBuilder"
@@ -46,7 +45,7 @@ export default function(abilityService: AbilityService): Skill {
     .setSuccessMessage(requestService => {
       const item = requestService.getResult(CheckType.HasItem)
       return requestService.createResponseMessage(SkillMessages.Envenom.Success)
-        .addReplacement("itemEntity.ts", item)
+        .addReplacement("item", item)
         .setVerbToRequestCreator("envenom")
         .setVerbToTarget("envenom")
         .setVerbToObservers("envenoms")
@@ -55,7 +54,7 @@ export default function(abilityService: AbilityService): Skill {
     .setFailMessage(requestService => {
       const item = requestService.getResult(CheckType.HasItem)
       return requestService.createResponseMessage(SkillMessages.Envenom.Fail)
-        .addReplacement("itemEntity.ts", item)
+        .addReplacement("item", item)
         .setVerbToRequestCreator("fail")
         .setVerbToTarget("fail")
         .setVerbToObservers("fails")

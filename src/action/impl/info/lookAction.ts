@@ -7,8 +7,8 @@ import {MobEntity} from "../../../mob/entity/mobEntity"
 import {onlyLiving} from "../../../mob/enum/disposition"
 import {isAbleToSee} from "../../../mob/race/sight"
 import LocationService from "../../../mob/service/locationService"
+import {RegionEntity} from "../../../region/entity/regionEntity"
 import {Weather} from "../../../region/enum/weather"
-import {Region} from "../../../region/model/region"
 import WeatherService from "../../../region/service/weatherService"
 import ResponseBuilder from "../../../request/builder/responseBuilder"
 import {RequestType} from "../../../request/enum/requestType"
@@ -106,9 +106,9 @@ export default class LookAction extends Action {
     return builder.error(Messages.Look.NotFound)
   }
 
-  protected isAbleToSee(mob: MobEntity, region?: Region) {
+  protected isAbleToSee(mob: MobEntity, region?: RegionEntity) {
     return new Maybe(region)
-      .do((r: Region) =>
+      .do((r: RegionEntity) =>
         isAbleToSee(
           mob.race().sight,
           this.timeService.getCurrentTime(),

@@ -1,6 +1,6 @@
+import { RegionEntity } from "../entity/regionEntity"
 import { Terrain } from "../enum/terrain"
 import {Weather} from "../enum/weather"
-import { Region } from "../model/region"
 import WeatherPattern from "../weatherPattern"
 
 export default function newRegion(name: string, terrain: Terrain) {
@@ -11,12 +11,12 @@ export default function newRegion(name: string, terrain: Terrain) {
   return region
 }
 
-export function createRegion(): Region {
-  const region = new Region()
+export function createRegion(): RegionEntity {
+  const region = new RegionEntity()
   region.rooms = []
   return region
 }
 
-export function newWeatherPattern(region: Region, weather: Weather): WeatherPattern {
+export function newWeatherPattern(region: RegionEntity, weather: Weather): WeatherPattern {
   return { region, weather }
 }

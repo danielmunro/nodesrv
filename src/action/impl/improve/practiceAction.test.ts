@@ -2,7 +2,7 @@ import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
 import {SpecializationType} from "../../../mob/specialization/enum/specializationType"
 import {RequestType} from "../../../request/enum/requestType"
-import {Skill} from "../../../skill/model/skill"
+import {SkillEntity} from "../../../skill/entity/skillEntity"
 import {SkillType} from "../../../skill/skillType"
 import PlayerBuilder from "../../../support/test/playerBuilder"
 import TestRunner from "../../../support/test/testRunner"
@@ -57,7 +57,7 @@ describe("practice action", () => {
   it("increases skill level when successfully practiced", async () => {
     testRunner.createMob().asPractice()
     playerBuilder.setLevel(4)
-    const skill = playerBuilder.getMob().getSkill(SkillType.Sneak) as Skill
+    const skill = playerBuilder.getMob().getSkill(SkillType.Sneak) as SkillEntity
     const initialValue = skill.level
 
     // when
@@ -71,7 +71,7 @@ describe("practice action", () => {
   it("will not exceed max practice level", async () => {
     testRunner.createMob().asPractice()
     playerBuilder.setLevel(4)
-    const skill = playerBuilder.getMob().getSkill(SkillType.Sneak) as Skill
+    const skill = playerBuilder.getMob().getSkill(SkillType.Sneak) as SkillEntity
     skill.level = MAX_PRACTICE_LEVEL
 
     // when
@@ -85,7 +85,7 @@ describe("practice action", () => {
   it("will not exceed max practice level if near limit", async () => {
     testRunner.createMob().asPractice()
     playerBuilder.setLevel(4)
-    const skill = playerBuilder.getMob().getSkill(SkillType.Sneak) as Skill
+    const skill = playerBuilder.getMob().getSkill(SkillType.Sneak) as SkillEntity
     skill.level = MAX_PRACTICE_LEVEL - 1
 
     // when

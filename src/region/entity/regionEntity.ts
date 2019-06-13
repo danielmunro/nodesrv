@@ -4,7 +4,7 @@ import { RoomEntity } from "../../room/entity/roomEntity"
 import { Terrain } from "../enum/terrain"
 
 @Entity()
-export class Region {
+export class RegionEntity {
   @PrimaryGeneratedColumn()
   public id: number
 

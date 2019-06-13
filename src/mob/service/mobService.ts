@@ -4,10 +4,10 @@ import KafkaService from "../../kafka/kafkaService"
 import LevelService from "../../player/service/levelService"
 import { RoomEntity } from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
+import { SkillEntity } from "../../skill/entity/skillEntity"
 import { newSkill } from "../../skill/factory"
-import { Skill } from "../../skill/model/skill"
 import { SkillType } from "../../skill/skillType"
-import { Spell } from "../../spell/model/spell"
+import { SpellEntity } from "../../spell/entity/spellEntity"
 import { SpellType } from "../../spell/spellType"
 import {Types} from "../../support/types"
 import { MobEntity } from "../entity/mobEntity"
@@ -20,12 +20,12 @@ import { Specialization } from "../specialization/specialization"
 import MobTable from "../table/mobTable"
 import LocationService from "./locationService"
 
-function createSkillFromSkillType(skillType: SkillType): Skill {
+function createSkillFromSkillType(skillType: SkillType): SkillEntity {
   return newSkill(skillType, 1)
 }
 
-function createSpellFromSpellType(spellType: SpellType): Spell {
-  const spell = new Spell()
+function createSpellFromSpellType(spellType: SpellType): SpellEntity {
+  const spell = new SpellEntity()
   spell.spellType = spellType
   spell.level = 1
   return spell

@@ -9,9 +9,9 @@ import {ItemEntity} from "../../item/entity/itemEntity"
 import {Equipment} from "../../item/enum/equipment"
 import { PlayerEntity } from "../../player/entity/playerEntity"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
-import { Skill } from "../../skill/model/skill"
+import { SkillEntity } from "../../skill/entity/skillEntity"
 import {SkillType} from "../../skill/skillType"
-import { Spell } from "../../spell/model/spell"
+import { SpellEntity } from "../../spell/entity/spellEntity"
 import {SpellType} from "../../spell/spellType"
 import { Disposition } from "../enum/disposition"
 import { Gender } from "../enum/gender"
@@ -127,11 +127,11 @@ export class MobEntity {
   @JoinColumn()
   public equipped: InventoryEntity
 
-  @OneToMany(() => Skill, skill => skill.mob, { cascade: true, eager: true })
-  public skills: Skill[]
+  @OneToMany(() => SkillEntity, skill => skill.mob, { cascade: true, eager: true })
+  public skills: SkillEntity[]
 
-  @OneToMany(() => Spell, spell => spell.mob, { cascade: true, eager: true })
-  public spells: Spell[]
+  @OneToMany(() => SpellEntity, spell => spell.mob, { cascade: true, eager: true })
+  public spells: SpellEntity[]
 
   @OneToOne(() => PlayerMobEntity, playerMob => playerMob.mob, { nullable: true, cascade: true, eager: true })
   public playerMob: PlayerMobEntity
@@ -177,11 +177,11 @@ export class MobEntity {
     return this.playerMob ? this.playerMob.standing : Standing.Good
   }
 
-  public getSkill(skillType: SkillType): Skill | undefined {
+  public getSkill(skillType: SkillType): SkillEntity | undefined {
     return this.skills.find(skill => skill.skillType === skillType)
   }
 
-  public getSpell(spellType: SpellType): Spell | undefined {
+  public getSpell(spellType: SpellType): SpellEntity | undefined {
     return this.spells.find(spell => spell.spellType === spellType)
   }
 

@@ -1,7 +1,7 @@
 import Spell from "../../../../action/impl/spell"
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {createCastEvent} from "../../../../event/factory/eventFactory"
-import {Spell as SpellModel} from "../../../../spell/model/spell"
+import {SpellEntity as SpellModel} from "../../../../spell/entity/spellEntity"
 import {SpellType} from "../../../../spell/spellType"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"

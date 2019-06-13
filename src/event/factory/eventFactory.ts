@@ -29,9 +29,9 @@ import ResponseMessage from "../../request/responseMessage"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
 import RoomMessageEvent from "../../room/event/roomMessageEvent"
+import {SkillEntity} from "../../skill/entity/skillEntity"
 import SkillEvent from "../../skill/event/skillEvent"
-import {Skill} from "../../skill/model/skill"
-import {Spell} from "../../spell/model/spell"
+import {SpellEntity} from "../../spell/entity/spellEntity"
 import {EventType} from "../enum/eventType"
 import TestEvent from "../test/testEvent"
 
@@ -122,7 +122,7 @@ export function createRoomMessageEvent(room: RoomEntity, message: ResponseMessag
   return { eventType: EventType.RoomMessage, room, message }
 }
 
-export function createSkillEvent(skill: Skill | Spell, mob: MobEntity, rollResult: boolean): SkillEvent {
+export function createSkillEvent(skill: SkillEntity | SpellEntity, mob: MobEntity, rollResult: boolean): SkillEvent {
   return { eventType: EventType.SkillInvoked, skill, mob, rollResult }
 }
 
@@ -142,7 +142,7 @@ export function createModifiedTickEvent(event: TickEvent, regenModifier: number)
   return { ...event, regenModifier }
 }
 
-export function createCastEvent(mob: MobEntity, spell: Spell, target: Target, roll: number): CastEvent {
+export function createCastEvent(mob: MobEntity, spell: SpellEntity, target: Target, roll: number): CastEvent {
   return { eventType: EventType.Cast, mob, spell, target, roll }
 }
 
