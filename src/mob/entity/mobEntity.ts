@@ -7,8 +7,8 @@ import AttributeService from "../../attributes/service/attributeService"
 import {Equipment} from "../../item/enum/equipment"
 import { Inventory } from "../../item/model/inventory"
 import {Item} from "../../item/model/item"
+import { PlayerEntity } from "../../player/entity/playerEntity"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
-import { Player } from "../../player/model/player"
 import { Skill } from "../../skill/model/skill"
 import {SkillType} from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
@@ -116,8 +116,8 @@ export class MobEntity {
   @OneToMany(() => Attributes, attributes => attributes.mob, { cascade: true, eager: true })
   public attributes: Attributes[]
 
-  @ManyToOne(() => Player, player => player.mobs)
-  public player: Player
+  @ManyToOne(() => PlayerEntity, player => player.mobs)
+  public player: PlayerEntity
 
   @OneToOne(() => Inventory, { cascade: true, eager: true })
   @JoinColumn()

@@ -9,7 +9,7 @@ import EventService from "../event/service/eventService"
 import { MobEntity } from "../mob/entity/mobEntity"
 import CostEvent from "../mob/event/costEvent"
 import LocationService from "../mob/service/locationService"
-import { Player } from "../player/model/player"
+import { PlayerEntity } from "../player/entity/playerEntity"
 import RequestBuilder from "../request/builder/requestBuilder"
 import Request from "../request/request"
 import Response from "../request/response"
@@ -19,7 +19,7 @@ import Session from "../session/session"
 import InputEvent from "./event/inputEvent"
 
 export class Client {
-  public player: Player
+  public player: PlayerEntity
   private requests: any = []
 
   constructor(

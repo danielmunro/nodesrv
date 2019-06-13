@@ -5,7 +5,7 @@ import EventService from "../../event/service/eventService"
 import GameService from "../../gameService/gameService"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
-import {Player} from "../../player/model/player"
+import {PlayerEntity} from "../../player/entity/playerEntity"
 import { default as AuthService } from "../../session/auth/creationService"
 import Email from "../../session/auth/login/email"
 import Session from "../../session/session"
@@ -18,7 +18,10 @@ const ws = jest.fn(() => ({
 const mock = jest.fn()
 
 async function createClient(
-  player: Player, actions: Action[], locationService: LocationService, authService: AuthService): Promise<Client> {
+  player: PlayerEntity,
+  actions: Action[],
+  locationService: LocationService,
+  authService: AuthService): Promise<Client> {
   const client = new Client(
     new Session(new Email(authService)),
     ws(),

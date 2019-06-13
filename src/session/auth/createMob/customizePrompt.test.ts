@@ -1,7 +1,7 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {Client} from "../../../client/client"
 import {SpecializationType} from "../../../mob/specialization/enum/specializationType"
-import {Player} from "../../../player/model/player"
+import {PlayerEntity} from "../../../player/entity/playerEntity"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import {CreationMessages} from "../constants"
@@ -12,7 +12,7 @@ import CustomizePrompt from "./customizePrompt"
 let testRunner: TestRunner
 let customizePrompt: CustomizePrompt
 let client: Client
-let player: Player
+let player: PlayerEntity
 
 beforeEach(async () => {
   const app = await createTestAppContainer()

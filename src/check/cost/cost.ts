@@ -1,5 +1,5 @@
 import { MobEntity } from "../../mob/entity/mobEntity"
-import { Player } from "../../player/model/player"
+import { PlayerEntity } from "../../player/entity/playerEntity"
 import { CostType } from "./costType"
 
 export default class Cost {
@@ -8,7 +8,7 @@ export default class Cost {
     public readonly amount: ((mob: MobEntity) => number) | number,
     public readonly failMessage: string = "") {}
 
-  public applyTo(player: Player): void {
+  public applyTo(player: PlayerEntity): void {
     const calculatedAmount = this.getAmount(player.sessionMob)
     if (this.costType === CostType.Mv) {
       player.sessionMob.mv -= calculatedAmount

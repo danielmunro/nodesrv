@@ -2,15 +2,15 @@ import {Item} from "../../item/model/item"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {Standing} from "../../mob/enum/standing"
 import {SpecializationType} from "../../mob/specialization/enum/specializationType"
+import {PlayerEntity} from "../../player/entity/playerEntity"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
-import {Player} from "../../player/model/player"
 import {newSkill} from "../../skill/factory"
 import {SkillType} from "../../skill/skillType"
 import {newSpell} from "../../spell/factory"
 import {SpellType} from "../../spell/spellType"
 
 export default class PlayerBuilder {
-  constructor(public readonly player: Player) {}
+  constructor(public readonly player: PlayerEntity) {}
 
   public setSpecializationType(specializationType: SpecializationType): PlayerBuilder {
     this.player.sessionMob.specializationType = specializationType
@@ -111,7 +111,7 @@ export default class PlayerBuilder {
     return this.player.sessionMob.name
   }
 
-  public get(): Player {
+  public get(): PlayerEntity {
     return this.player
   }
 }

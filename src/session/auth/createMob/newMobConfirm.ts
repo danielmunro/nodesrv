@@ -1,7 +1,7 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
 import { MobEntity } from "../../../mob/entity/mobEntity"
 import {createMob, createPlayerMob} from "../../../mob/factory/mobFactory"
-import { Player } from "../../../player/model/player"
+import { PlayerEntity } from "../../../player/entity/playerEntity"
 import AuthStep from "../authStep"
 import {CreationMessages} from "../constants"
 import CreationService from "../creationService"
@@ -12,7 +12,7 @@ import Response from "../response"
 import Race from "./race"
 
 export default class NewMobConfirm extends PlayerAuthStep implements AuthStep {
-  constructor(authService: CreationService, player: Player, public readonly name: string) {
+  constructor(authService: CreationService, player: PlayerEntity, public readonly name: string) {
     super(authService, player)
   }
 

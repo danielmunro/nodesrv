@@ -4,7 +4,7 @@ import { MobEntity } from "../../mob/entity/mobEntity"
 import hash from "../password/hash"
 
 @Entity()
-export class Player {
+export class PlayerEntity {
   @PrimaryGeneratedColumn()
   public id: number
 

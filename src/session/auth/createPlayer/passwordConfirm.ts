@@ -1,4 +1,4 @@
-import { Player } from "../../../player/model/player"
+import { PlayerEntity } from "../../../player/entity/playerEntity"
 import AuthStep from "../authStep"
 import {CreationMessages} from "../constants"
 import CreationService from "../creationService"
@@ -9,7 +9,7 @@ import Complete from "./complete"
 import Password from "./password"
 
 export default class PasswordConfirm extends PlayerAuthStep implements AuthStep {
-  constructor(authService: CreationService, player: Player, public readonly firstPassword: string) {
+  constructor(authService: CreationService, player: PlayerEntity, public readonly firstPassword: string) {
     super(authService, player)
   }
 

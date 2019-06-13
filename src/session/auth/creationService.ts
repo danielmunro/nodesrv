@@ -7,7 +7,7 @@ import Customization from "../../mob/specialization/customization"
 import SpecializationService from "../../mob/specialization/service/specializationService"
 import SpecializationGroup from "../../mob/specialization/specializationGroup"
 import SpecializationLevel from "../../mob/specialization/specializationLevel"
-import { Player } from "../../player/model/player"
+import { PlayerEntity } from "../../player/entity/playerEntity"
 import PlayerRepository from "../../player/repository/player"
 import Maybe from "../../support/functional/maybe"
 import match from "../../support/matcher/match"
@@ -22,7 +22,7 @@ export default class CreationService {
     @inject(Types.SpecializationService) private readonly specializationService: SpecializationService,
     @inject(Types.KafkaService) private readonly kafkaService: KafkaService) {}
 
-  public getOnePlayer(email: string): Promise<Player> {
+  public getOnePlayer(email: string): Promise<PlayerEntity> {
     return this.playerRepository.findOneByEmail(email)
   }
 
@@ -68,7 +68,7 @@ export default class CreationService {
     return this.specializationService.getUnavailableSkills(mob)
   }
 
-  public async savePlayer(player: Player) {
+  public async savePlayer(player: PlayerEntity) {
     const savedPlayer = await this.playerRepository.save(player)
     await this.kafkaService.playerCreated(savedPlayer)
     return savedPlayer

@@ -3,7 +3,7 @@ import * as stringify from "json-stringify-safe"
 import {Producer} from "kafkajs"
 import {MobEntity} from "../mob/entity/mobEntity"
 import Death from "../mob/fight/death"
-import {Player} from "../player/model/player"
+import {PlayerEntity} from "../player/entity/playerEntity"
 import {Types} from "../support/types"
 import {Topic} from "./topic"
 
@@ -12,7 +12,7 @@ export default class KafkaService {
   @inject(Types.KafkaProducer)
   private producer: Producer
 
-  public async playerCreated(player: Player) {
+  public async playerCreated(player: PlayerEntity) {
     return this.producer.send({
       messages: [{ value: stringify(player) }],
       topic: Topic.PlayerCreate,

@@ -1,8 +1,8 @@
 import { MobEntity } from "../../mob/entity/mobEntity"
 import {createPlayerMob} from "../../mob/factory/mobFactory"
-import { Player } from "../model/player"
+import { PlayerEntity } from "../entity/playerEntity"
 
-export function newPlayer(name: string, sessionMob: MobEntity): Player {
+export function newPlayer(name: string, sessionMob: MobEntity): PlayerEntity {
   const player = createPlayer()
   player.name = name
   player.sessionMob = sessionMob
@@ -11,8 +11,8 @@ export function newPlayer(name: string, sessionMob: MobEntity): Player {
   return player
 }
 
-export function createPlayer(): Player {
-  const player = new Player()
+export function createPlayer(): PlayerEntity {
+  const player = new PlayerEntity()
   player.mobs = []
   return player
 }

@@ -1,6 +1,6 @@
 import { Client } from "../client/client"
 import { MobEntity } from "../mob/entity/mobEntity"
-import { Player } from "../player/model/player"
+import { PlayerEntity } from "../player/entity/playerEntity"
 import AuthStep from "./auth/authStep"
 import Complete from "./auth/complete"
 import { default as MobComplete } from "./auth/createMob/complete"
@@ -9,7 +9,7 @@ import { default as AuthRequest } from "./auth/request"
 import { SessionStatus } from "./enum/sessionStatus"
 
 export default class Session {
-  private player: Player
+  private player: PlayerEntity
   private mob: MobEntity
   private status: SessionStatus = SessionStatus.Initialized
 
@@ -41,7 +41,7 @@ export default class Session {
     return this.player
   }
 
-  public async login(client: Client, player: Player): Promise<void> {
+  public async login(client: Client, player: PlayerEntity): Promise<void> {
     this.mob = player.sessionMob
     this.player = player
     this.status = SessionStatus.LoggedIn
