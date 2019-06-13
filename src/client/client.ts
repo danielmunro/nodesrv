@@ -13,7 +13,7 @@ import { Player } from "../player/model/player"
 import RequestBuilder from "../request/builder/requestBuilder"
 import Request from "../request/request"
 import Response from "../request/response"
-import { Room } from "../room/model/room"
+import { RoomEntity } from "../room/entity/roomEntity"
 import { default as AuthRequest } from "../session/auth/request"
 import Session from "../session/session"
 import InputEvent from "./event/inputEvent"
@@ -115,7 +115,7 @@ export class Client {
     this.addRequest(this.getNewRequestFromMessageEvent(message))
   }
 
-  private getNewRequestFromMessageEvent(messageEvent: MessageEvent, room?: Room): Request | AuthRequest {
+  private getNewRequestFromMessageEvent(messageEvent: MessageEvent, room?: RoomEntity): Request | AuthRequest {
     const data = JSON.parse(messageEvent.data)
     if (!this.player) {
       return new AuthRequest(this, data.request)

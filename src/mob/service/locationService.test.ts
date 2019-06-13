@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import { newMobLocation } from "../factory/mobFactory"
@@ -9,8 +9,8 @@ import LocationService from "./locationService"
 let locationService: LocationService
 let mob1: Mob
 let mob2: Mob
-let room1: Room
-let room2: Room
+let room1: RoomEntity
+let room2: RoomEntity
 
 beforeEach(async () => {
   const app = await createTestAppContainer()

@@ -2039,7 +2039,7 @@ Exit ~
 16384 -1 6390
 S
 #6392
-The Great Door~
+The Great DoorEntity~
 Before you you see a large, web-like door.  Various designs
 of ancient runes and names of Midgaard heroes are etched into
 the webwork.  Perhaps lists of victims?  You can't tell.
@@ -2309,8 +2309,8 @@ D 0 6390   0 16384	* The Entrance to the Arachnos' Lair north
 D 0 6390   5 16384	* The Entrance to the Arachnos' Lair down
 D 0 6391   0 16384	* The Sticky Chamber north
 D 0 6391   2 16384	* The Sticky Chamber south
-D 0 6392   0 16387	* The Great Door north
-D 0 6392   2 16384	* The Great Door south
+D 0 6392   0 16387	* The Great DoorEntity north
+D 0 6392   2 16384	* The Great DoorEntity south
 D 0 6399   2 16387	* The Lair of Arachnos south
 S
 

@@ -1,9 +1,9 @@
 import Event from "../../event/event"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import {Mob} from "../model/mob"
 
 export default interface TickEvent extends Event {
   readonly mob: Mob
-  readonly room: Room
+  readonly room: RoomEntity
   readonly regenModifier: number
 }

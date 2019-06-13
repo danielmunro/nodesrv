@@ -4,17 +4,17 @@ import newRegion from "../../region/factory/regionFactory"
 import roll from "../../support/random/dice"
 import {allDirections} from "../constants"
 import {getFreeReciprocalDirection, isReciprocalFree, reverse} from "../direction"
+import DoorEntity from "../entity/doorEntity"
+import {ExitEntity} from "../entity/exitEntity"
+import {RoomEntity} from "../entity/roomEntity"
 import {Direction} from "../enum/direction"
-import Door from "../model/door"
-import {Exit} from "../model/exit"
-import {Room} from "../model/room"
 import {getExitRepository} from "../repository/exit"
 import {getRoomRepository} from "../repository/room"
 import ExitTable from "../table/exitTable"
 import {default as RoomTable} from "../table/roomTable"
 
-export function newDoor(name: string, isClosed: boolean, isLocked: boolean, unlockedById?: number): Door {
-  const door = new Door()
+export function newDoor(name: string, isClosed: boolean, isLocked: boolean, unlockedById?: number): DoorEntity {
+  const door = new DoorEntity()
   door.name = name
   door.isClosed = isClosed
   door.isLocked = isLocked
@@ -22,7 +22,7 @@ export function newDoor(name: string, isClosed: boolean, isLocked: boolean, unlo
   return door
 }
 
-export function newRoom(name: string, description: string, items = []): Room {
+export function newRoom(name: string, description: string, items = []): RoomEntity {
   const room = createRoom()
   room.name = name
   room.description = description
@@ -32,8 +32,8 @@ export function newRoom(name: string, description: string, items = []): Room {
   return room
 }
 
-export function createRoom(): Room {
-  const room = new Room()
+export function createRoom(): RoomEntity {
+  const room = new RoomEntity()
   room.exits = []
   room.entrances = []
   room.inventory = createInventory()
@@ -41,8 +41,8 @@ export function createRoom(): Room {
   return room
 }
 
-export function newExit(direction: Direction, source: Room, destination: Room): Exit {
-  const exit = new Exit()
+export function newExit(direction: Direction, source: RoomEntity, destination: RoomEntity): ExitEntity {
+  const exit = new ExitEntity()
   exit.direction = direction
   exit.source = source
   exit.destination = destination
@@ -52,9 +52,9 @@ export function newExit(direction: Direction, source: Room, destination: Room): 
 }
 
 export function newReciprocalExit(
-  source: Room,
-  destination: Room,
-  direction: Direction = getFreeReciprocalDirection(source, destination)): Exit[] {
+  source: RoomEntity,
+  destination: RoomEntity,
+  direction: Direction = getFreeReciprocalDirection(source, destination)): ExitEntity[] {
   if (!allDirections.includes(direction)) {
     direction = roll(1, 2) === 1 ? Direction.Up : Direction.Down
     console.debug(`new reciprocal exit falling back to non-cardinal direction ${direction}`)

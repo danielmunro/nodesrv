@@ -3,7 +3,7 @@ import BuilderDefinition, {ItemFactory} from "../../import/builderDefinition"
 import {ItemType as ImportItemType} from "../../import/enum/itemType"
 import {DamageType} from "../../mob/fight/enum/damageType"
 import {Mob} from "../../mob/model/mob"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import {Equipment} from "../enum/equipment"
 import {ItemType} from "../enum/itemType"
 import {Liquid} from "../enum/liquid"
@@ -20,7 +20,7 @@ import {createInventory} from "./inventoryFactory"
 
 export function newItemRoomReset(
   item: Item,
-  room: Room,
+  room: RoomEntity,
   maxQuantity: number,
   maxPerRoom: number): ItemRoomReset {
   const itemReset = new ItemRoomReset()

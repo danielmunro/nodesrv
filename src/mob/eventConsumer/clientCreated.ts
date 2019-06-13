@@ -3,14 +3,14 @@ import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import {newMobLocation} from "../factory/mobFactory"
 import LocationService from "../service/locationService"
 
 export default class ClientCreated implements EventConsumer {
   constructor(
     private readonly locationService: LocationService,
-    private readonly startRoom: Room) {}
+    private readonly startRoom: RoomEntity) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.ClientLogin]

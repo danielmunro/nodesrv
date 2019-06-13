@@ -5,7 +5,7 @@ import {Types} from "../support/types"
 
 const INITIAL_AMOUNT = 1000
 
-describe("playerMob model", () => {
+describe("playerMob entity", () => {
   it("does not add experience if the player qualifies for a level", async () => {
     // setup
     const testBuilder = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)

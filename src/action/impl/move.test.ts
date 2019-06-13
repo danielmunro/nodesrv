@@ -2,8 +2,8 @@ import {AffectType} from "../../affect/enum/affectType"
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import LocationService from "../../mob/service/locationService"
 import {RequestType} from "../../request/enum/requestType"
+import DoorEntity from "../../room/entity/doorEntity"
 import {Direction} from "../../room/enum/direction"
-import Door from "../../room/model/door"
 import MobBuilder from "../../support/test/mobBuilder"
 import RoomBuilder from "../../support/test/roomBuilder"
 import TestRunner from "../../support/test/testRunner"
@@ -59,7 +59,7 @@ describe("move", () => {
 
   it("does not allow movement when an exit has a closed door", async () => {
     // given
-    const door = new Door()
+    const door = new DoorEntity()
     door.isClosed = true
     testRunner.getStartRoom().addDoor(door)
 

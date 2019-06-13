@@ -2,8 +2,8 @@ import {inject, injectable} from "inversify"
 import "reflect-metadata"
 import {createMobMoveEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
+import { RoomEntity } from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
-import { Room } from "../../room/model/room"
 import ExitTable from "../../room/table/exitTable"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
@@ -18,10 +18,10 @@ export default class LocationService {
     @inject(Types.EventService) private readonly eventService: EventService,
     @inject(Types.RoomTable) private readonly roomTable: RoomTable,
     @inject(Types.ExitTable) private readonly exitTable: ExitTable,
-    @inject(Types.StartRoom) private readonly startRoom: Room,
+    @inject(Types.StartRoom) private readonly startRoom: RoomEntity,
     private mobLocations: MobLocation[] = []) {}
 
-  public getRecall(): Room {
+  public getRecall(): RoomEntity {
     return this.startRoom
   }
 
@@ -46,7 +46,7 @@ export default class LocationService {
     this.mobLocations.push(mobLocation)
   }
 
-  public async updateMobLocation(mob: Mob, room: Room, direction?: Direction) {
+  public async updateMobLocation(mob: Mob, room: RoomEntity, direction?: Direction) {
     for (const mobLocation of this.mobLocations) {
       if (mobLocation.mob.uuid !== mob.uuid) {
         continue
@@ -78,7 +78,7 @@ export default class LocationService {
     return mobLocation
   }
 
-  public getRoomForMob(mob: Mob): Room {
+  public getRoomForMob(mob: Mob): RoomEntity {
     const mobLocation = this.mobLocations.find(it => it.mob === mob)
     if (!mobLocation) {
       throw Error(`${mob.name} (${mob.uuid}) not found in location service`)
@@ -90,7 +90,7 @@ export default class LocationService {
     this.mobLocations = this.mobLocations.filter(mobLocation => mobLocation.mob !== mob)
   }
 
-  public getMobsByRoom(room: Room) {
+  public getMobsByRoom(room: RoomEntity) {
     return this.mobLocations.filter(mobLocation => mobLocation.room === room)
       .map(mobLocation => mobLocation.mob)
   }

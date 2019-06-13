@@ -4081,7 +4081,7 @@ Sunset
 ~
 0 -1 25037
 D2
-Door blocking your way into a home
+DoorEntity blocking your way into a home
 ~
 door~
 1 -1 25484
@@ -4105,7 +4105,7 @@ Sunset
 ~
 0 -1 25038
 D2
-Door blocking your way into a home
+DoorEntity blocking your way into a home
 ~
 door~
 1 -1 25485
@@ -4134,7 +4134,7 @@ Sunset
 ~
 0 -1 25039
 D2
-Door blocking your way into a home
+DoorEntity blocking your way into a home
 ~
 door~
 1 -1 25486
@@ -4168,7 +4168,7 @@ Sunset
 ~
 0 -1 25040
 D2
-Door to a home
+DoorEntity to a home
 ~
 door~
 1 -1 25487
@@ -5374,7 +5374,7 @@ Slaver's route
 ~
 0 -1 25090
 D2
-Door to the guardian eye's H.Q.
+DoorEntity to the guardian eye's H.Q.
 ~
 door~
 1 -1 25327
@@ -8943,7 +8943,7 @@ The hall goes onwards
 0 -1 25230
 S
 #25230
-Jaded Hall Before a Beautiful Door~
+Jaded Hall Before a Beautiful DoorEntity~
 You are in a large spacious hall.  The north wall has been covered with
 jade and every once in awhile your light dances off the wall into your eye. 
 The hall has been lit, but the light that is already there is murky and your
@@ -10790,7 +10790,7 @@ A door stands to the north, east is the common room.
 ~
 0 8|8192 1
 D0
-Door to the washroom
+DoorEntity to the washroom
 ~
 door~
 1 -1 25307
@@ -11052,7 +11052,7 @@ Traveller's Den Hallway~
 You are at the end of the hall to the rooms of this fine inn.  The hall is lit
 by a few torches that hang off between the doors.
 
-A Door leads to a room to the south, the hallway heads west 
+A DoorEntity leads to a room to the south, the hallway heads west
 ~
 0 8|8192 1
 D2
@@ -12456,7 +12456,7 @@ is a large mural of a thief picking the gate to a palace.  The floor is dark
 green and glints in the light.  Next to the door on the north wall is a
 pedestal with a large glowing hand.
 
-Door lie north and south, the hallway continues east
+DoorEntity lie north and south, the hallway continues east
 ~
 0 8|8192 1
 D0

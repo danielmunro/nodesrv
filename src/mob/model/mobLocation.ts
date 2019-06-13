@@ -1,6 +1,6 @@
 import { Column, Entity, Generated, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import { Room } from "../../room/model/room"
+import { RoomEntity } from "../../room/entity/roomEntity"
 import { Mob } from "./mob"
 
 @Entity()
@@ -15,6 +15,6 @@ export default class MobLocation {
   @OneToOne(() => Mob)
   public mob: Mob
 
-  @ManyToOne(() => Room)
-  public room: Room
+  @ManyToOne(() => RoomEntity)
+  public room: RoomEntity
 }

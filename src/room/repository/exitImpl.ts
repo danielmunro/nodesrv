@@ -1,15 +1,15 @@
 import { Repository } from "typeorm"
-import { Exit } from "../model/exit"
+import { ExitEntity } from "../entity/exitEntity"
 import ExitRepository from "./exit"
 
 export default class ExitRepositoryImpl implements ExitRepository {
-  constructor(private readonly exitRepository: Repository<Exit>) {}
+  constructor(private readonly exitRepository: Repository<ExitEntity>) {}
 
-  public save(model: Exit): Promise<Exit> {
+  public save(model: ExitEntity): Promise<ExitEntity> {
     return this.exitRepository.save(model)
   }
 
-  public findOneById(id: number): Promise<Exit | undefined> {
+  public findOneById(id: number): Promise<ExitEntity | undefined> {
     return this.exitRepository.findOne(id, { relations: ["source", "destination"] })
   }
 

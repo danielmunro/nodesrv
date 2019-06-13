@@ -5,7 +5,7 @@ import {EventType} from "../../event/enum/eventType"
 import {createFightEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import KafkaService from "../../kafka/kafkaService"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import roll, {simpleD4} from "../../support/random/dice"
 import {Disposition} from "../enum/disposition"
 import {Trigger} from "../enum/trigger"
@@ -53,7 +53,7 @@ export class Fight {
     public readonly eventService: EventService,
     public readonly aggressor: Mob,
     public readonly target: Mob,
-    public readonly room: Room) {}
+    public readonly room: RoomEntity) {}
 
   public isParticipant(mob: Mob): boolean {
     return mob.uuid === this.aggressor.uuid || mob.uuid === this.target.uuid

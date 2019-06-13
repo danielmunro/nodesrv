@@ -8,7 +8,7 @@ import {RaceType} from "../../../../mob/race/enum/raceType"
 import MobService from "../../../../mob/service/mobService"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import ResponseMessage from "../../../../request/responseMessage"
-import {Room} from "../../../../room/model/room"
+import {RoomEntity} from "../../../../room/entity/roomEntity"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
 import {percentRoll} from "../../../../support/random/helpers"
@@ -16,7 +16,7 @@ import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../spell"
 
-async function turn(room: Room, target: Mob, abilityService: AbilityService) {
+async function turn(room: RoomEntity, target: Mob, abilityService: AbilityService) {
   target.disposition = Disposition.Dead
   await abilityService.publishEvent(createRoomMessageEvent(
     room,

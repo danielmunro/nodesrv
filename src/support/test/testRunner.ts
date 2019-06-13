@@ -17,9 +17,9 @@ import InputContext from "../../request/context/inputContext"
 import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
 import Response from "../../request/response"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
 import {newReciprocalExit} from "../../room/factory/roomFactory"
-import {Room} from "../../room/model/room"
 import ExitTable from "../../room/table/exitTable"
 import RoomTable from "../../room/table/roomTable"
 import ClientService from "../../server/service/clientService"
@@ -72,7 +72,7 @@ export default class TestRunner {
     return new WeaponBuilder(weapon)
   }
 
-  public createMob(room: Room = this.getStartRoom().room): MobBuilder {
+  public createMob(room: RoomEntity = this.getStartRoom().room): MobBuilder {
     const mob = getTestMob()
     this.mobService.add(mob, room)
     if (!this.firstMob) {

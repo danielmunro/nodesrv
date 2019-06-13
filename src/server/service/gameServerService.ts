@@ -4,7 +4,7 @@ import {Client} from "../../client/client"
 import {EventType} from "../../event/enum/eventType"
 import {createClientEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import {poll} from "../../support/poll/poll"
 import {ImmediateTimer} from "../../support/timer/immediateTimer"
 import {Timer} from "../../support/timer/timer"
@@ -20,7 +20,7 @@ export class GameServerService {
 
   constructor(
     @inject(Types.WebSocketServer) public readonly wss: Server,
-    @inject(Types.StartRoom) public readonly startRoom: Room,
+    @inject(Types.StartRoom) public readonly startRoom: RoomEntity,
     @inject(Types.ClientService) public readonly clientService: ClientService,
     @inject(Types.EventService) public readonly eventService: EventService) {}
 

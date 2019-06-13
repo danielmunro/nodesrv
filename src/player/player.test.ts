@@ -1,7 +1,7 @@
 import { getTestMob } from "../support/test/mob"
 import { getTestPlayer } from "../support/test/player"
 
-describe("player model", () => {
+describe("player entity", () => {
   it("should not own a random mob", () => {
     const player = getTestPlayer()
     const mob = getTestMob()

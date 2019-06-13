@@ -5,7 +5,7 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import {Exit} from "../../../room/model/exit"
+import {ExitEntity} from "../../../room/entity/exitEntity"
 import match from "../../../support/matcher/match"
 import {Messages} from "../../constants"
 import {ConditionMessages } from "../../constants"
@@ -28,10 +28,10 @@ export default class CloseDoorAction extends Action {
         ConditionMessages.Close.Fail.NotFound)
       .capture()
       .require(
-        (exit: Exit) => !exit.door.isClosed,
+        (exit: ExitEntity) => !exit.door.isClosed,
         ConditionMessages.Close.Fail.AlreadyClosed)
       .require(
-        (exit: Exit) => !exit.door.noClose,
+        (exit: ExitEntity) => !exit.door.noClose,
         ConditionMessages.Close.Fail.CannotClose)
       .create()
   }

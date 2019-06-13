@@ -7,7 +7,7 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import {Exit} from "../../../room/model/exit"
+import {ExitEntity} from "../../../room/entity/exitEntity"
 import match from "../../../support/matcher/match"
 import {Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
@@ -33,10 +33,10 @@ export default class LockAction extends Action {
         CheckType.HasTarget)
       .capture()
       .require(
-        (exit: Exit) => !exit.door.isLocked,
+        (exit: ExitEntity) => !exit.door.isLocked,
         ConditionMessages.Lock.Fail.AlreadyLocked)
       .require(
-        (exit: Exit) =>
+        (exit: ExitEntity) =>
           this.itemService.getByCanonicalId(exit.door.unlockedByCanonicalId)
             .find((item: Item) => item.inventory === request.mob.inventory),
         ConditionMessages.Lock.Fail.NoKey)

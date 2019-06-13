@@ -5,8 +5,8 @@ import { newMob } from "../../mob/factory/mobFactory"
 import {Mob} from "../../mob/model/mob"
 import Shop from "../../mob/model/shop"
 import MobRepository from "../../mob/repository/mob"
+import { RoomEntity } from "../../room/entity/roomEntity"
 import { newRoom } from "../../room/factory/roomFactory"
-import { Room } from "../../room/model/room"
 import RoomRepository from "../../room/repository/room"
 import roll from "../../support/random/dice"
 import {DamageSourceFlag} from "../enum/damageSourceFlag"
@@ -194,7 +194,7 @@ export default class ImportService {
     file.items.push(item)
   }
 
-  private async addRoom(file: File, roomData: any): Promise<Room> {
+  private async addRoom(file: File, roomData: any): Promise<RoomEntity> {
     const room = newRoom(roomData.title, roomData.description)
     room.area = file.filename
     room.canonicalId = roomData.id

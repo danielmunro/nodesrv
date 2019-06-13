@@ -1,7 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import MobMoveEvent from "../event/mobMoveEvent"
 import {Mob} from "../model/mob"
 import LocationService from "../service/locationService"
@@ -18,7 +18,7 @@ export default class PetFollowsOwner implements EventConsumer {
     return EventResponse.none(event)
   }
 
-  private async followIfPetOfMob(mob: Mob, source: Room, destination: Room) {
+  private async followIfPetOfMob(mob: Mob, source: RoomEntity, destination: RoomEntity) {
     const sourceMobs = this.locationService.getMobsByRoom(source)
     for (const sourceMob of sourceMobs) {
       if (sourceMob.traits.isPet && mob.pet === sourceMob) {

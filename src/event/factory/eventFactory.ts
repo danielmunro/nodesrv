@@ -26,9 +26,9 @@ import {Target} from "../../mob/target"
 import Request from "../../request/request"
 import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
 import RoomMessageEvent from "../../room/event/roomMessageEvent"
-import {Room} from "../../room/model/room"
 import SkillEvent from "../../skill/event/skillEvent"
 import {Skill} from "../../skill/model/skill"
 import {Spell} from "../../spell/model/spell"
@@ -101,7 +101,7 @@ export function createItemDroppedEvent(mob: Mob, item: Item): ItemDroppedEvent {
 }
 
 export function createMobMoveEvent(
-  mob: Mob, source: Room, destination: Room, mvCost: number, direction?: Direction): MobMoveEvent {
+  mob: Mob, source: RoomEntity, destination: RoomEntity, mvCost: number, direction?: Direction): MobMoveEvent {
   return { eventType: EventType.MobMoved, mob, source, destination, mvCost, direction }
 }
 
@@ -117,7 +117,7 @@ export function createFightEvent(eventType: EventType, mob: Mob, fight: Fight, a
   return { eventType, mob, fight, attacks }
 }
 
-export function createRoomMessageEvent(room: Room, message: ResponseMessage): RoomMessageEvent {
+export function createRoomMessageEvent(room: RoomEntity, message: ResponseMessage): RoomMessageEvent {
   return { eventType: EventType.RoomMessage, room, message }
 }
 
@@ -133,7 +133,7 @@ export function createAttackEvent(mob: Mob, target: Mob): AttackEvent {
   return { eventType: EventType.Attack, mob, target }
 }
 
-export function createTickEvent(mob: Mob, room: Room, regenModifier: number): TickEvent {
+export function createTickEvent(mob: Mob, room: RoomEntity, regenModifier: number): TickEvent {
   return { eventType: EventType.Tick, mob, room, regenModifier }
 }
 

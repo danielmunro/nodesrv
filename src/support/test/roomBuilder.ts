@@ -1,12 +1,12 @@
 import {Item} from "../../item/model/item"
 import {Region} from "../../region/model/region"
+import DoorEntity from "../../room/entity/doorEntity"
+import {ExitEntity} from "../../room/entity/exitEntity"
+import { RoomEntity } from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
-import Door from "../../room/model/door"
-import {Exit} from "../../room/model/exit"
-import { Room } from "../../room/model/room"
 
 export default class RoomBuilder {
-  constructor(public readonly room: Room) {}
+  constructor(public readonly room: RoomEntity) {}
 
   public setArea(area: string): RoomBuilder {
     this.room.area = area
@@ -23,8 +23,8 @@ export default class RoomBuilder {
     return this
   }
 
-  public addDoor(door: Door, direction: Direction = this.room.exits[0].direction): RoomBuilder {
-    const exit = this.room.exits.find(e => e.direction === direction) as Exit
+  public addDoor(door: DoorEntity, direction: Direction = this.room.exits[0].direction): RoomBuilder {
+    const exit = this.room.exits.find(e => e.direction === direction) as ExitEntity
     exit.door = door
     return this
   }
@@ -38,7 +38,7 @@ export default class RoomBuilder {
     return this.room.inventory.items.length
   }
 
-  public get(): Room {
+  public get(): RoomEntity {
     return this.room
   }
 }

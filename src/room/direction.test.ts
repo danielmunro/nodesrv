@@ -2,7 +2,6 @@ import { allDirections, cardinalDirections} from "./constants"
 import { getFreeDirection, getFreeReciprocalDirection, reverse } from "./direction"
 import {Direction} from "./enum/direction"
 import {createRoom, newExit} from "./factory/roomFactory"
-import { Room } from "./model/room"
 
 describe("direction", () => {
   it("should be able to get the reverse direction", () => {

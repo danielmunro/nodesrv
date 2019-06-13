@@ -5,7 +5,7 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import {Exit} from "../../../room/model/exit"
+import {ExitEntity} from "../../../room/entity/exitEntity"
 import match from "../../../support/matcher/match"
 import {Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
@@ -34,10 +34,10 @@ export default class OpenDoorAction extends Action {
         CheckType.HasTarget)
       .capture()
       .require(
-        (exit: Exit) => !exit.door.isLocked,
+        (exit: ExitEntity) => !exit.door.isLocked,
         ConditionMessages.Open.Fail.Locked)
       .require(
-        (exit: Exit) => exit.door.isClosed,
+        (exit: ExitEntity) => exit.door.isClosed,
         ConditionMessages.Open.Fail.AlreadyOpen)
       .create()
   }

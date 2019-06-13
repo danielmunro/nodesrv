@@ -1,4 +1,4 @@
-import { Room } from "../../room/model/room"
+import { RoomEntity } from "../../room/entity/roomEntity"
 import {pickOne} from "../../support/random/helpers"
 import { Mob } from "../model/mob"
 import {BodyPart} from "../race/enum/bodyParts"
@@ -7,7 +7,7 @@ import Death from "./death"
 import { Fight } from "./fight"
 
 export class Round {
-  public readonly room: Room
+  public readonly room: RoomEntity
   public readonly isFatality: boolean
   public readonly victor?: Mob
   public readonly vanquished?: Mob

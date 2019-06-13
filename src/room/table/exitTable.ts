@@ -1,16 +1,16 @@
-import { Exit } from "../model/exit"
-import {Room} from "../model/room"
+import { ExitEntity } from "../entity/exitEntity"
+import {RoomEntity} from "../entity/roomEntity"
 
 export default class ExitTable {
   constructor(
-    private readonly exits: Exit[] = []) {}
+    private readonly exits: ExitEntity[] = []) {}
 
-  public exitsForRoom(room: Room): Exit[] {
+  public exitsForRoom(room: RoomEntity): ExitEntity[] {
     const roomExitIds = room.exits.map(exit => exit.id)
     return this.exits.filter(exit => roomExitIds.includes(exit.id))
   }
 
-  public add(exit: Exit) {
+  public add(exit: ExitEntity) {
     this.exits.push(exit)
   }
 }

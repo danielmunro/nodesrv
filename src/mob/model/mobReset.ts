@@ -1,6 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import { Room } from "../../room/model/room"
+import { RoomEntity } from "../../room/entity/roomEntity"
 import { Disposition } from "../enum/disposition"
 import { Mob } from "./mob"
 
@@ -17,9 +17,9 @@ export default class MobReset {
   @JoinColumn()
   public mob: Mob
 
-  @ManyToOne(() => Room, room => room.mobResets, { eager: true })
+  @ManyToOne(() => RoomEntity, room => room.mobResets, { eager: true })
   @JoinColumn()
-  public room: Room
+  public room: RoomEntity
 
   @Column("text", { nullable: true })
   public disposition: Disposition

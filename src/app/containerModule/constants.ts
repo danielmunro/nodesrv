@@ -12,16 +12,16 @@ import {getMobEquipResetRepository} from "../../item/repository/mobEquipReset"
 import kafkaProducer from "../../kafka/kafkaProducer"
 import MobReset from "../../mob/model/mobReset"
 import {getMobResetRepository} from "../../mob/repository/mobReset"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
 
 export default (startRoomId: number, port: number) => {
   console.log("loading constants")
   const constants = new AsyncContainerModule(async bind => {
-    bind<Room>(Types.StartRoom).toDynamicValue(context =>
+    bind<RoomEntity>(Types.StartRoom).toDynamicValue(context =>
       context.container.get<RoomTable>(Types.RoomTable)
-        .getRooms().find(r => r.canonicalId === startRoomId) as Room).inSingletonScope()
+        .getRooms().find(r => r.canonicalId === startRoomId) as RoomEntity).inSingletonScope()
     bind<Server>(Types.WebSocketServer).toConstantValue(new Server({port}))
     bind<MobReset[]>(Types.MobResets)
       .toConstantValue(await (await getMobResetRepository()).findAll())

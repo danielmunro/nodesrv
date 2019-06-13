@@ -1,15 +1,15 @@
 import { Repository } from "typeorm"
-import { Room } from "../model/room"
+import { RoomEntity } from "../entity/roomEntity"
 import RoomRepository from "./room"
 
 export default class RoomRepositoryImpl implements RoomRepository {
-  constructor(private readonly roomRepository: Repository<Room>) {}
+  constructor(private readonly roomRepository: Repository<RoomEntity>) {}
 
-  public save(model: Room): Promise<Room> {
+  public save(model: RoomEntity): Promise<RoomEntity> {
     return this.roomRepository.save(model)
   }
 
-  public findAll(): Promise<Room[]> {
+  public findAll(): Promise<RoomEntity[]> {
     return this.roomRepository.find()
   }
 }

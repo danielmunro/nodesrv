@@ -9,7 +9,7 @@ import ItemService from "../item/service/itemService"
 import { Mob } from "../mob/model/mob"
 import { default as MobReset } from "../mob/model/mobReset"
 import MobService from "../mob/service/mobService"
-import {Room} from "../room/model/room"
+import {RoomEntity} from "../room/entity/roomEntity"
 import RoomTable from "../room/table/roomTable"
 import {Types} from "../support/types"
 
@@ -94,7 +94,7 @@ export default class ResetService {
     }
   }
 
-  private async addToContainer(item: Item, room: Room) {
+  private async addToContainer(item: Item, room: RoomEntity) {
     for (const itemContainerReset of this.itemContainerResets) {
       if (itemContainerReset.item.canonicalId === item.canonicalId) {
         const instance = await this.itemService.generateNewItemInstance(itemContainerReset)

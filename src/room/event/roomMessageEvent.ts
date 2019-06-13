@@ -1,8 +1,8 @@
 import Event from "../../event/event"
 import ResponseMessage from "../../request/responseMessage"
-import {Room} from "../model/room"
+import {RoomEntity} from "../entity/roomEntity"
 
 export default interface RoomMessageEvent extends Event {
-  readonly room: Room
+  readonly room: RoomEntity
   readonly message: ResponseMessage
 }

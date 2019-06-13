@@ -10,7 +10,7 @@ beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
-describe("mob model", () => {
+describe("mob entity", () => {
   it("cannot exceed its max appetite when eating", async () => {
     // given
     const playerBuilder = testRunner.createPlayer()

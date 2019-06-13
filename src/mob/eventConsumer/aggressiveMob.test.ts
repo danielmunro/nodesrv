@@ -1,8 +1,8 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import {createMobMoveEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
-import {Room} from "../../room/model/room"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {Fight} from "../fight/fight"
@@ -11,14 +11,14 @@ import MobService from "../service/mobService"
 let testRunner: TestRunner
 let mobService: MobService
 let eventService: EventService
-let room: Room
+let room: RoomEntity
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   mobService = app.get<MobService>(Types.MobService)
   eventService = app.get<EventService>(Types.EventService)
-  room = app.get<Room>(Types.StartRoom)
+  room = app.get<RoomEntity>(Types.StartRoom)
 })
 
 describe("aggressive mob event consumer", () => {

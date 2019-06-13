@@ -3,7 +3,7 @@ import {createItem, newTrash} from "./factory/itemFactory"
 import { Inventory } from "./model/inventory"
 import { Item } from "./model/item"
 
-describe("inventory model", () => {
+describe("inventory entity", () => {
   it("should be able to find an item", () => {
     const inventory = createInventory()
     const item1 = createItem()

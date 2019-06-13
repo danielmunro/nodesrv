@@ -1,6 +1,6 @@
+import {ExitEntity} from "../../room/entity/exitEntity"
 import {Direction} from "../../room/enum/direction"
 import { newExit } from "../../room/factory/roomFactory"
-import {Exit} from "../../room/model/exit"
 import ExitRepository from "../../room/repository/exit"
 import { DirectionFlag } from "../enum/directionFlag"
 import File from "../file"
@@ -27,7 +27,7 @@ export default class ExitImportService {
     return exits
   }
 
-  private async createExitFromDoor(door, importId): Promise<Exit> {
+  private async createExitFromDoor(door, importId): Promise<ExitEntity> {
     let direction: Direction
     switch (door.door) {
       case DirectionFlag.North:

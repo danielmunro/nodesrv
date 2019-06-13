@@ -2,7 +2,7 @@ import {ActionPart} from "../../action/enum/actionPart"
 import Action from "../../action/impl/action"
 import {Mob} from "../../mob/model/mob"
 import LocationService from "../../mob/service/locationService"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import Maybe from "../../support/functional/maybe"
 import match from "../../support/matcher/match"
 import InputContext from "../context/inputContext"
@@ -14,12 +14,12 @@ export default class RequestBuilder {
     private readonly actions: Action[],
     private readonly locationService: LocationService,
     private readonly mob: Mob,
-    private readonly room?: Room) {}
+    private readonly room?: RoomEntity) {}
 
   public create(requestType: RequestType, input: string = requestType.toString()): Request {
     return new Request(
       this.mob,
-      this.room as Room,
+      this.room as RoomEntity,
       new InputContext(requestType, input),
       this.getTargetFromRequest(requestType, input))
   }
@@ -41,7 +41,7 @@ export default class RequestBuilder {
       return
     }
     return this.locationService
-      .getMobsByRoom(this.room as Room)
+      .getMobsByRoom(this.room as RoomEntity)
       .find((mob: Mob) => match(mob.name, word))
   }
 }

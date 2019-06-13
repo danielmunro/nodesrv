@@ -17,7 +17,7 @@ import { getMobEquipResetRepository } from "../src/item/repository/mobEquipReset
 import { Mob } from "../src/mob/model/mob"
 import { getMobRepository } from "../src/mob/repository/mob"
 import { getMobResetRepository } from "../src/mob/repository/mobReset"
-import { Room } from "../src/room/model/room"
+import { RoomEntity } from "../src/room/entity/roomEntity"
 import { getExitRepository } from "../src/room/repository/exit"
 import { getRoomRepository } from "../src/room/repository/room"
 import { initializeConnection } from "../src/support/db/connection"
@@ -40,7 +40,7 @@ async function parse(importService: ImportService) {
   const areas: File[] = []
   const rowCount = areaFiles.length
   let i = 1
-  const rooms: Room[] = []
+  const rooms: RoomEntity[] = []
   const items: Item[] = []
   const mobs: Mob[] = []
   for (const file of areaFiles) {

@@ -299,7 +299,7 @@ Brett's hobbies, you would also say he subscribes to National Geographic
 considering every map here was taken from the book.
 ~
 E
-Door~
+DoorEntity~
 It's the door to the closet.  It's cramped and dark.
 ~
 S
@@ -328,7 +328,7 @@ other ones...  Close encounters, the bionic woman, boulderdash, win lose or
 draw, and even hungry hungry hippo.  Wow, flash back time...
 ~
 E
-East Door ~
+East DoorEntity ~
 Whew!  It's still there, being stuck in here can make a person panic for a sec
 if the door was suddenly missing...
 ~

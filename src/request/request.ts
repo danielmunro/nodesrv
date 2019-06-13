@@ -2,8 +2,8 @@ import { Item } from "../item/model/item"
 import { Mob } from "../mob/model/mob"
 import {AuthorizationLevel} from "../player/enum/authorizationLevel"
 import {Region} from "../region/model/region"
-import {Exit} from "../room/model/exit"
-import { Room } from "../room/model/room"
+import {ExitEntity} from "../room/entity/exitEntity"
+import { RoomEntity } from "../room/entity/roomEntity"
 import ResponseBuilder from "./builder/responseBuilder"
 import InputContext from "./context/inputContext"
 import RequestContext from "./context/requestContext"
@@ -12,7 +12,7 @@ import { RequestType } from "./enum/requestType"
 export default class Request {
   constructor(
     public readonly mob: Mob,
-    private readonly room: Room,
+    private readonly room: RoomEntity,
     private readonly context: RequestContext,
     private readonly targetMobInRoom?: Mob) {}
 
@@ -20,7 +20,7 @@ export default class Request {
     return this.context as InputContext
   }
 
-  public getRoom(): Room {
+  public getRoom(): RoomEntity {
     return this.room
   }
 
@@ -44,7 +44,7 @@ export default class Request {
     return this.room.region
   }
 
-  public getRoomExits(): Exit[] {
+  public getRoomExits(): ExitEntity[] {
     return this.room.exits
   }
 

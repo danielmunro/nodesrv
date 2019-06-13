@@ -3,7 +3,7 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import {createClientEvent} from "../../event/factory/eventFactory"
 import StateService from "../../gameService/stateService"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
 import LoggedIn from "./loggedIn"
@@ -18,7 +18,7 @@ describe("logged in client event consumer", () => {
     }))
     const app = await createTestAppContainer()
     app.get<StateService>(Types.StateService).setTime(12)
-    const room = app.get<Room>(Types.StartRoom)
+    const room = app.get<RoomEntity>(Types.StartRoom)
     const client = mockClient() as any
 
     // given

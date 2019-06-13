@@ -2,7 +2,7 @@ import {newEmptyAttributes} from "../../attributes/factory/attributeFactory"
 import Attributes from "../../attributes/model/attributes"
 import {createInventory} from "../../item/factory/inventoryFactory"
 import {Item} from "../../item/model/item"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import {Disposition} from "../enum/disposition"
 import DamageSource from "../model/damageSource"
 import {Mob} from "../model/mob"
@@ -16,7 +16,7 @@ import {SpecializationType} from "../specialization/enum/specializationType"
 
 export function newMobReset(
   mob: Mob,
-  room: Room,
+  room: RoomEntity,
   maxQuantity: number,
   maxPerRoom: number): MobReset {
   const mobReset = new MobReset()
@@ -31,7 +31,7 @@ export function newMobReset(
 
 export function newMobLocation(
   mob: Mob,
-  room: Room): MobLocation {
+  room: RoomEntity): MobLocation {
   const mobLocation = new MobLocation()
   mobLocation.mob = mob
   mobLocation.room = room

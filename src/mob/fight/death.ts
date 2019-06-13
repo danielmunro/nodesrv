@@ -1,6 +1,6 @@
 import { newContainer } from "../../item/factory/itemFactory"
 import { Item } from "../../item/model/item"
-import { Room } from "../../room/model/room"
+import { RoomEntity } from "../../room/entity/roomEntity"
 import { Messages } from "../../server/observers/constants"
 import {pickOne} from "../../support/random/helpers"
 import { format } from "../../support/string"
@@ -12,7 +12,7 @@ const EXPERIENCE_GAIN = 100
 export default class Death {
   constructor(
     public readonly mobKilled: Mob,
-    public readonly room: Room,
+    public readonly room: RoomEntity,
     public readonly killer?: Mob,
     public readonly bounty?: number,
   ) {}

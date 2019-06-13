@@ -1,7 +1,7 @@
 import {AsyncContainerModule, Container} from "inversify"
 import EventConsumer from "../../event/eventConsumer"
 import EventService from "../../event/service/eventService"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
 import actions from "../containerModule/actions"
@@ -25,6 +25,6 @@ export async function createTestAppContainer(afterLoad?: AfterLoad): Promise<Con
   const eventService = app.get<EventService>(Types.EventService)
   const eventConsumerTable = app.get<EventConsumer[]>(Types.EventConsumerTable)
   eventConsumerTable.forEach(eventConsumer => eventService.addConsumer(eventConsumer))
-  app.get<RoomTable>(Types.RoomTable).add(app.get<Room>(Types.StartRoom))
+  app.get<RoomTable>(Types.RoomTable).add(app.get<RoomEntity>(Types.StartRoom))
   return app
 }

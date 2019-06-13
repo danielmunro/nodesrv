@@ -8,11 +8,11 @@ import {Mob} from "../../mob/model/mob"
 import EventContext from "../../request/context/eventContext"
 import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import {SkillType} from "../skillType"
 
 export default class ShieldBlockEventConsumer implements EventConsumer {
-  private static createRequest(mob: Mob, room: Room): Request {
+  private static createRequest(mob: Mob, room: RoomEntity): Request {
     return new Request(mob, room, { requestType: RequestType.Noop } as EventContext)
   }
 

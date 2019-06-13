@@ -9,8 +9,8 @@ import LocationService from "../../mob/service/locationService"
 import Request from "../../request/request"
 import Response from "../../request/response"
 import RequestService from "../../request/service/requestService"
+import {ExitEntity} from "../../room/entity/exitEntity"
 import {Direction} from "../../room/enum/direction"
-import {Exit} from "../../room/model/exit"
 import {ConditionMessages, Messages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
 import Action from "./action"
@@ -23,7 +23,7 @@ export default abstract class Move extends Action {
       request.getRoomMvCost())
   }
 
-  private static eitherNoDoorOrDoorIsOpen(exit: Exit) {
+  private static eitherNoDoorOrDoorIsOpen(exit: ExitEntity) {
     return !exit.door || !exit.door.isClosed
   }
 
@@ -65,7 +65,7 @@ export default abstract class Move extends Action {
     return this.direction
   }
 
-  private aValidExit(exits: Exit[]) {
+  private aValidExit(exits: ExitEntity[]) {
     return exits.find(e => e.direction === this.direction)
   }
 }

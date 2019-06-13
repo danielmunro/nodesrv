@@ -1,7 +1,7 @@
 import { pickOne } from "../support/random/helpers"
 import { cardinalDirections} from "./constants"
+import { RoomEntity } from "./entity/roomEntity"
 import {Direction} from "./enum/direction"
-import { Room } from "./model/room"
 
 export function reverse(direction: Direction) {
   switch (direction) {
@@ -21,15 +21,15 @@ export function reverse(direction: Direction) {
   return Direction.Noop
 }
 
-export function isReciprocalFree(direction: Direction, room1: Room, room2: Room) {
+export function isReciprocalFree(direction: Direction, room1: RoomEntity, room2: RoomEntity) {
   return room1.isDirectionFree(direction) && room2.isDirectionFree(reverse(direction))
 }
 
-export function getFreeDirection(room: Room): Direction {
+export function getFreeDirection(room: RoomEntity): Direction {
   return pickOne(cardinalDirections.filter((d) => !room.exits.find((e) => e.direction === d)))
 }
 
-export function getFreeReciprocalDirection(source: Room, destination: Room) {
+export function getFreeReciprocalDirection(source: RoomEntity, destination: RoomEntity) {
   return pickOne(cardinalDirections.filter(
     (d) => source.isDirectionFree(d) && destination.isDirectionFree(reverse(d))))
 }

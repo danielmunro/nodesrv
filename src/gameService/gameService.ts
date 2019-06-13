@@ -8,8 +8,8 @@ import {Mob} from "../mob/model/mob"
 import MobLocation from "../mob/model/mobLocation"
 import MobService from "../mob/service/mobService"
 import {RequestType} from "../request/enum/requestType"
+import {RoomEntity} from "../room/entity/roomEntity"
 import {Direction} from "../room/enum/direction"
-import {Room} from "../room/model/room"
 import {SkillType} from "../skill/skillType"
 import {Types} from "../support/types"
 
@@ -27,7 +27,7 @@ export default class GameService {
     return this.mobService.getLocationForMob(mob)
   }
 
-  public getMobsByRoom(room: Room): Mob[] {
+  public getMobsByRoom(room: RoomEntity): Mob[] {
     return this.mobService.getMobsByRoom(room)
   }
 

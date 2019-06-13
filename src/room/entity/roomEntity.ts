@@ -6,10 +6,10 @@ import { Terrain } from "../../region/enum/terrain"
 import { Region } from "../../region/model/region"
 import getMovementCost from "../../region/movementCost"
 import {Direction} from "../enum/direction"
-import { Exit } from "./exit"
+import { ExitEntity } from "./exitEntity"
 
 @Entity()
-export class Room {
+export class RoomEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -29,11 +29,11 @@ export class Room {
   @Column("text")
   public area: string
 
-  @OneToMany(() => Exit, (exit) => exit.source, { cascade: true, eager: true })
-  public exits: Exit[]
+  @OneToMany(() => ExitEntity, (exit) => exit.source, { cascade: true, eager: true })
+  public exits: ExitEntity[]
 
-  @OneToMany(() => Exit, (exit) => exit.destination, { eager: true })
-  public entrances: Exit[]
+  @OneToMany(() => ExitEntity, (exit) => exit.destination, { eager: true })
+  public entrances: ExitEntity[]
 
   @OneToOne(() => Inventory, { cascade: true, eager: true })
   @JoinColumn()
@@ -62,7 +62,8 @@ Exits [${this.getExitsString()}]`
   }
 
   private getExitsString(): string {
-    return this.exits.sort((a, b) => a.direction > b.direction ? 1 : -1).reduce((combined: string, current: Exit) => {
+    return this.exits.sort((a, b) =>
+      a.direction > b.direction ? 1 : -1).reduce((combined: string, current: ExitEntity) => {
       return combined + current.direction.toString()[0]
     }, "")
   }

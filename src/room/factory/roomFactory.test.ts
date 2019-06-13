@@ -1,6 +1,6 @@
 import { getTestRoom } from "../../support/test/room"
+import { RoomEntity } from "../entity/roomEntity"
 import {Direction} from "../enum/direction"
-import { Room } from "../model/room"
 import {createRoom, newReciprocalExit, newRoom} from "./roomFactory"
 
 describe("room factory", () => {
@@ -8,7 +8,7 @@ describe("room factory", () => {
     const name = "a test room"
     const description = "this has a test fixture"
     const room = newRoom(name, description)
-    expect(room).toBeInstanceOf(Room)
+    expect(room).toBeInstanceOf(RoomEntity)
     expect(room.name).toBe(name)
     expect(room.description).toBe(description)
   })

@@ -9,7 +9,7 @@ import {Item} from "../../../../item/model/item"
 import ItemService from "../../../../item/service/itemService"
 import {Mob} from "../../../../mob/model/mob"
 import {Region} from "../../../../region/model/region"
-import {Room} from "../../../../room/model/room"
+import {RoomEntity} from "../../../../room/entity/roomEntity"
 import {SpellMessages} from "../../../../spell/constants"
 import {Spell as SpellModel} from "../../../../spell/model/spell"
 import {SpellType} from "../../../../spell/spellType"
@@ -34,10 +34,10 @@ function filterItem(
     percentRoll() < 2 * spell.level
 }
 
-function reduceCarriedBy(carriedBy: Mob | Room | Container) {
+function reduceCarriedBy(carriedBy: Mob | RoomEntity | Container) {
   if (carriedBy instanceof Mob) {
     return `carried by ${carriedBy.name}`
-  } else if (carriedBy instanceof Room) {
+  } else if (carriedBy instanceof RoomEntity) {
     return `in ${carriedBy.name}`
   } else if (carriedBy instanceof Container) {
     return `in a container`

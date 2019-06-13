@@ -2,8 +2,8 @@ import {inject, injectable} from "inversify"
 import {cloneDeep} from "lodash"
 import KafkaService from "../../kafka/kafkaService"
 import LevelService from "../../player/service/levelService"
+import { RoomEntity } from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
-import { Room } from "../../room/model/room"
 import { newSkill } from "../../skill/factory"
 import { Skill } from "../../skill/model/skill"
 import { SkillType } from "../../skill/skillType"
@@ -47,7 +47,7 @@ export default class MobService {
     public readonly mobTable: MobTable = new MobTable(),
     private readonly fightTable: FightTable = new FightTable()) {}
 
-  public add(mob: Mob, room: Room) {
+  public add(mob: Mob, room: RoomEntity) {
     this.mobTable.add(mob)
     this.locationService.addMobLocation(newMobLocation(mob, room))
   }
@@ -87,7 +87,7 @@ export default class MobService {
     return this.locationService.getMobsByImportId(importId)
   }
 
-  public getMobsByRoom(room: Room): Mob[] {
+  public getMobsByRoom(room: RoomEntity): Mob[] {
     return this.locationService.getMobsByRoom(room)
   }
 
@@ -99,7 +99,7 @@ export default class MobService {
     await this.locationService.moveMob(mob, direction)
   }
 
-  public async updateMobLocation(mob: Mob, room: Room, direction?: Direction) {
+  public async updateMobLocation(mob: Mob, room: RoomEntity, direction?: Direction) {
     await this.locationService.updateMobLocation(mob, room, direction)
   }
 

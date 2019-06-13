@@ -1,10 +1,10 @@
 import {Entity, JoinColumn, ManyToOne} from "typeorm"
-import { Room } from "../../room/model/room"
+import { RoomEntity } from "../../room/entity/roomEntity"
 import ItemReset from "./itemReset"
 
 @Entity()
 export class ItemRoomReset extends ItemReset {
-  @ManyToOne(() => Room, { eager: true })
+  @ManyToOne(() => RoomEntity, { eager: true })
   @JoinColumn()
-  public room: Room
+  public room: RoomEntity
 }

@@ -2,7 +2,7 @@ import {Column, Entity, PrimaryGeneratedColumn} from "typeorm"
 import {LockpickDifficulty} from "../enum/lockpickDifficulty"
 
 @Entity()
-export default class Door {
+export default class DoorEntity {
   @PrimaryGeneratedColumn()
   public id: number
 

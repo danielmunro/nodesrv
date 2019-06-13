@@ -9,12 +9,12 @@ import LocationService from "../../mob/service/locationService"
 import EventContext from "../../request/context/eventContext"
 import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
-import {Room} from "../../room/model/room"
+import {RoomEntity} from "../../room/entity/roomEntity"
 
 export default class LoggedIn implements EventConsumer {
   constructor(
     private readonly locationService: LocationService,
-    private readonly startRoom: Room,
+    private readonly startRoom: RoomEntity,
     private readonly lookDefinition: Action) {}
 
   public getConsumingEventTypes(): EventType[] {

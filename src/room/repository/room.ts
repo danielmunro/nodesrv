@@ -1,14 +1,14 @@
 import { getConnection } from "../../support/db/connection"
-import { Room } from "../model/room"
+import { RoomEntity } from "../entity/roomEntity"
 import RoomRepositoryImpl from "./roomImpl"
 
 export default interface RoomRepository {
-  save(model: Room): Promise<Room>
-  findAll(): Promise<Room[]>
+  save(model: RoomEntity): Promise<RoomEntity>
+  findAll(): Promise<RoomEntity[]>
 }
 
 export async function getRoomRepository(): Promise<RoomRepository> {
   const connection = await getConnection()
 
-  return new RoomRepositoryImpl(connection.getRepository(Room))
+  return new RoomRepositoryImpl(connection.getRepository(RoomEntity))
 }
