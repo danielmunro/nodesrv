@@ -1,5 +1,7 @@
 import {inject, injectable} from "inversify"
 import {cloneDeep} from "lodash"
+import KafkaService from "../../kafka/kafkaService"
+import LevelService from "../../player/service/levelService"
 import {Direction} from "../../room/enum/direction"
 import { Room } from "../../room/model/room"
 import { newSkill } from "../../skill/factory"
@@ -41,6 +43,7 @@ export default class MobService {
   constructor(
     @inject(Types.MobTable) public readonly mobTemplateTable: MobTable,
     @inject(Types.LocationService) private readonly locationService: LocationService,
+    @inject(Types.KafkaService) private readonly kafkaService: KafkaService,
     public readonly mobTable: MobTable = new MobTable(),
     private readonly fightTable: FightTable = new FightTable()) {}
 
@@ -120,5 +123,9 @@ export default class MobService {
   public async createMobFromId(id: number) {
     const mob = this.mobTemplateTable.find((m: Mob) => m.id === id)
     return cloneDeep(mob)
+  }
+
+  public createLevelServiceForMob(mob: Mob): LevelService {
+    return new LevelService(this.kafkaService, mob)
   }
 }

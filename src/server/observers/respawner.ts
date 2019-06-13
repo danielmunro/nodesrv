@@ -19,8 +19,11 @@ export default class Respawner implements Observer {
   }
 
   public async respawn(mob: Mob) {
-    const mobReset = mob.mobReset
-    await this.resetService.respawnFromMobReset(mobReset)
+    try {
+      await this.resetService.respawnFromMob(mob)
+    } catch (e) {
+      // ok -- mob is gone permanently
+    }
   }
 
   public async seedMobTable() {

@@ -1,5 +1,6 @@
 import AttributeBuilder from "../../attributes/builder/attributeBuilder"
 import Attributes from "../../attributes/model/attributes"
+import KafkaService from "../../kafka/kafkaService"
 import {MAX_MOB_LEVEL} from "../../mob/constants"
 import {Mob} from "../../mob/model/mob"
 import {RaceType} from "../../mob/race/enum/raceType"
@@ -40,7 +41,9 @@ export default class LevelService {
       getRandomIntFromRange(...specialization.getHpGainRange())) / 4
   }
 
-  constructor(private readonly mob: Mob) {}
+  constructor(
+    private readonly kafkaService: KafkaService,
+    private readonly mob: Mob) {}
 
   public calculateHpGain() {
     const attributes = this.mob.attribute().combine()
@@ -84,7 +87,7 @@ export default class LevelService {
       && this.mob.level < MAX_MOB_LEVEL
   }
 
-  public gainLevel(): Gain {
+  public async gainLevel(): Promise<Gain> {
     const gain = this.createGain()
     this.mob.attributes.push(LevelService.createAttributesFromGain(gain))
     this.mob.playerMob.experienceToLevel =
@@ -92,6 +95,7 @@ export default class LevelService {
     this.mob.level = gain.newLevel
     this.mob.playerMob.practices += gain.practices
     this.mob.playerMob.trains++
+    await this.kafkaService.mobLeveled(this.mob)
 
     return gain
   }

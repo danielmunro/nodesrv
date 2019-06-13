@@ -26,6 +26,13 @@ export default class KafkaService {
     })
   }
 
+  public async mobLeveled(mob: Mob) {
+    return this.producer.send({
+      messages: [ { value: stringify(mob) } ],
+      topic: Topic.MobLevel,
+    })
+  }
+
   public async death(death: Death) {
     return this.producer.send({
       messages: [{

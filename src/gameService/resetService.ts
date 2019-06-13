@@ -37,6 +37,14 @@ export default class ResetService {
     await Promise.all(this.itemRoomResets.map(this.respawnFromItemRoomReset.bind(this)))
   }
 
+  public async respawnFromMob(mob: Mob) {
+    const mobReset = this.mobResets.find(reset => reset.mob.uuid === mob.uuid)
+    if (!mobReset) {
+      throw new Error("no mob reset found")
+    }
+    await this.respawnFromMobReset(mobReset)
+  }
+
   public async respawnFromMobReset(mobReset: MobReset) {
     const mob = await this.mobService.createMobFromReset(mobReset)
     const room = this.roomTable.get(mobReset.room.uuid)

@@ -1,5 +1,6 @@
 import {inject, injectable} from "inversify"
 import {cloneDeep} from "lodash"
+import "reflect-metadata"
 import {Types} from "../../support/types"
 import { Inventory } from "../model/inventory"
 import { Item } from "../model/item"

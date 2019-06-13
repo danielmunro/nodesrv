@@ -1,41 +1,33 @@
-import EventService from "../../event/service/eventService"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import ResetService from "../../gameService/resetService"
-import { Disposition } from "../../mob/enum/disposition"
-import FightTable from "../../mob/fight/fightTable"
+import {Disposition} from "../../mob/enum/disposition"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
-import { default as MobTable } from "../../mob/table/mobTable"
-import { getTestMob } from "../../support/test/mob"
-import { getTestRoom } from "../../support/test/room"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import Respawner from "./respawner"
 
 describe("respawner", () => {
   it("should reset dispositions for dead mobs", async () => {
     // setup
-    const startRoom = getTestRoom()
-    const currentRoom = getTestRoom()
+    const app = await createTestAppContainer()
+    const testRunner = app.get<TestRunner>(Types.TestRunner)
+    const startRoom = testRunner.getStartRoom().get()
 
     // dead
-    const mob1 = getTestMob()
+    testRunner.createMob().withDisposition(Disposition.Dead)
 
     // dead
-    const mob2 = getTestMob()
+    testRunner.createMob().withDisposition(Disposition.Dead)
 
     // not dead
-    const mob3 = getTestMob()
+    testRunner.createMob()
 
     // given
-    const eventService = new EventService()
-    const locationService = new LocationService(eventService, startRoom)
-    const mobTable = new MobTable()
-    const mobService = new MobService(new MobTable([mob1, mob2, mob3]), locationService, mobTable, new FightTable())
-    const respawner = new Respawner(
-      new ResetService([], [], [], [], [], mobService, [], null))
+    const locationService = app.get<LocationService>(Types.LocationService)
+    const mobService = app.get<MobService>(Types.MobService)
+    const respawner = new Respawner(app.get<ResetService>(Types.ResetService))
     await respawner.seedMobTable()
-    mobTable.getMobs().forEach(async mob => {
-      mob.disposition = Disposition.Dead
-      await mobService.updateMobLocation(mob, currentRoom)
-    })
 
     // when
     await respawner.notify()

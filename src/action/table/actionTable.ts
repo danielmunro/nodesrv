@@ -187,7 +187,7 @@ export default function getActionTable(
 
     // mob
     new FollowAction(checkBuilderFactory),
-    new LevelAction(checkBuilderFactory),
+    new LevelAction(checkBuilderFactory, mobService),
     new TradeRequestAction(checkBuilderFactory, escrowService),
 
     // social
