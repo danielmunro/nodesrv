@@ -1,8 +1,8 @@
-import {createTestAppContainer} from "../app/factory/testFactory"
-import {Tick} from "../server/observers/tick"
-import { getTestMob } from "../support/test/mob"
-import TestRunner from "../support/test/testRunner"
-import {Types} from "../support/types"
+import {createTestAppContainer} from "../../app/factory/testFactory"
+import {Tick} from "../../server/observers/tick"
+import { getTestMob } from "../../support/test/mob"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 
 let testRunner: TestRunner
 

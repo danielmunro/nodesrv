@@ -4,7 +4,6 @@ import { InventoryEntity } from "../../item/entity/inventoryEntity"
 import MobResetEntity from "../../mob/entity/mobResetEntity"
 import { RegionEntity } from "../../region/entity/regionEntity"
 import { Terrain } from "../../region/enum/terrain"
-import getMovementCost from "../../region/movementCost"
 import {Direction} from "../enum/direction"
 import { ExitEntity } from "./exitEntity"
 
@@ -58,7 +57,21 @@ Exits [${this.getExitsString()}]`
   }
 
   public getMovementCost() {
-    return getMovementCost(this.region ? this.region.terrain : Terrain.Other)
+    const terrain = this.region ? this.region.terrain : Terrain.Other
+
+    if (terrain === Terrain.Mountains || terrain === Terrain.Water) {
+      return 2
+    }
+
+    if (terrain === Terrain.Forest) {
+      return 1.5
+    }
+
+    if (terrain === Terrain.Settlement) {
+      return 0.5
+    }
+
+    return 1
   }
 
   private getExitsString(): string {

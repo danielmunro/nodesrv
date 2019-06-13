@@ -1,7 +1,7 @@
 
-import {createTestAppContainer} from "../app/factory/testFactory"
-import TestRunner from "../support/test/testRunner"
-import {Types} from "../support/types"
+import {createTestAppContainer} from "../../app/factory/testFactory"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 
 const INITIAL_AMOUNT = 1000
 
