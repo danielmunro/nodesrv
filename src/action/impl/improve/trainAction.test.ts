@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import { allStats, allVitals } from "../../../attributes/constants"
-import Attributes from "../../../attributes/model/attributes"
+import AttributesEntity from "../../../attributes/entity/attributesEntity"
 import { RequestType } from "../../../request/enum/requestType"
 import { ResponseStatus } from "../../../request/enum/responseStatus"
 import PlayerBuilder from "../../../support/test/playerBuilder"
@@ -12,7 +12,7 @@ import {VITAL_INCREMENT} from "./trainAction"
 
 let testRunner: TestRunner
 let playerBuilder: PlayerBuilder
-let trainedAttributes: Attributes
+let trainedAttributes: AttributesEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)

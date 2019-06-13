@@ -1,13 +1,13 @@
 import {inject, injectable} from "inversify"
 import "reflect-metadata"
-import {Affect} from "../../affect/model/affect"
+import {AffectEntity} from "../../affect/entity/affectEntity"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import MobTable from "../../mob/table/mobTable"
 import {Types} from "../../support/types"
 import { Observer } from "./observer"
 
 export function decrementAffects(mob: MobEntity) {
-  mob.affects = mob.affects.filter((affect: Affect) => {
+  mob.affects = mob.affects.filter((affect: AffectEntity) => {
     affect.timeout--
     return affect.timeout >= 0
   })

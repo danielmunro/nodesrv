@@ -1,8 +1,8 @@
 import {Item} from "../../item/model/item"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {Trigger} from "../../mob/enum/trigger"
+import {AffectEntity} from "../entity/affectEntity"
 import {AffectType} from "../enum/affectType"
-import {Affect} from "../model/affect"
 import {modifierTable} from "../table/modifierTable"
 
 export default class AffectService {
@@ -38,11 +38,11 @@ export default class AffectService {
     return !!this.get(affectType)
   }
 
-  public get(affectType: AffectType): Affect | undefined {
+  public get(affectType: AffectType): AffectEntity | undefined {
     return this.mob.affects.find(affect => affect.affectType === affectType)
   }
 
-  public add(affect: Affect) {
+  public add(affect: AffectEntity) {
     const current = this.has(affect.affectType)
     if (!current) {
       this.mob.affects.push(affect)

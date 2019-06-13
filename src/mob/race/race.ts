@@ -1,4 +1,4 @@
-import Attributes from "../../attributes/model/attributes"
+import AttributesEntity from "../../attributes/entity/attributesEntity"
 import {SkillType} from "../../skill/skillType"
 import DamageModifier from "../fight/damageModifier"
 import {SpecializationType} from "../specialization/enum/specializationType"
@@ -15,7 +15,7 @@ export default interface Race {
   readonly appetite: Appetite,
   readonly bodyParts: BodyPart[],
   readonly damageAbsorption: DamageModifier[],
-  readonly attributes: Attributes,
+  readonly attributes: AttributesEntity,
   readonly preferredSpecializations: SpecializationType[],
   readonly startingSkills: SkillType[],
   readonly creationPoints: number,

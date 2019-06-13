@@ -1,7 +1,7 @@
 import AttributeBuilder from "../builder/attributeBuilder"
-import Attributes from "../model/attributes"
+import AttributesEntity from "../entity/attributesEntity"
 
-export function newStartingAttributes(hp: number, mana: number, mv: number, level: number = 1): Attributes {
+export function newStartingAttributes(hp: number, mana: number, mv: number, level: number = 1): AttributesEntity {
   return new AttributeBuilder()
     .setVitals(hp, mana, mv)
     .setStats(15, 15, 15, 15, 15, 15)
@@ -9,7 +9,7 @@ export function newStartingAttributes(hp: number, mana: number, mv: number, leve
     .build()
 }
 
-export function newEmptyAttributes(): Attributes {
+export function newEmptyAttributes(): AttributesEntity {
   return new AttributeBuilder()
     .setVitals(0, 0, 0)
     .setStats(0, 0, 0, 0, 0, 0)

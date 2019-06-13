@@ -1,5 +1,5 @@
 import AttributeBuilder from "../../attributes/builder/attributeBuilder"
-import Attributes from "../../attributes/model/attributes"
+import AttributesEntity from "../../attributes/entity/attributesEntity"
 import KafkaService from "../../kafka/kafkaService"
 import {MAX_MOB_LEVEL} from "../../mob/constants"
 import {MobEntity} from "../../mob/entity/mobEntity"
@@ -9,7 +9,7 @@ import {getRandomIntFromRange, percentRoll} from "../../support/random/helpers"
 import Gain from "./levelService/gain"
 
 export default class LevelService {
-  private static createAttributesFromGain(gain: Gain): Attributes {
+  private static createAttributesFromGain(gain: Gain): AttributesEntity {
     return new AttributeBuilder()
       .setVitals(gain.hp, gain.mana, gain.mv).build()
   }
@@ -31,12 +31,12 @@ export default class LevelService {
     }
   }
 
-  private static calculateHpGainFromCon(attributes: Attributes, specialization: Specialization): number {
+  private static calculateHpGainFromCon(attributes: AttributesEntity, specialization: Specialization): number {
     return ((3 * LevelService.getGainFromStat(attributes.con)) +
       getRandomIntFromRange(...specialization.getHpGainRange())) / 3
   }
 
-  private static calculateHpGainFromStr(attributes: Attributes, specialization: Specialization): number {
+  private static calculateHpGainFromStr(attributes: AttributesEntity, specialization: Specialization): number {
     return ((3 * LevelService.getGainFromStat(attributes.str)) +
       getRandomIntFromRange(...specialization.getHpGainRange())) / 4
   }

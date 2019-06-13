@@ -1,10 +1,10 @@
-import Attributes from "../../attributes/model/attributes"
+import AttributesEntity from "../../attributes/entity/attributesEntity"
 import DamageSourceEntity from "../../mob/entity/damageSourceEntity"
+import {AffectEntity} from "../entity/affectEntity"
 import {AffectType} from "../enum/affectType"
-import {Affect} from "../model/affect"
 
 export default class AffectBuilder {
-  private readonly affect = new Affect()
+  private readonly affect = new AffectEntity()
 
   constructor(affectType: AffectType) {
     this.affect.affectType = affectType
@@ -21,7 +21,7 @@ export default class AffectBuilder {
     return this
   }
 
-  public setAttributes(attributes: Attributes): AffectBuilder {
+  public setAttributes(attributes: AttributesEntity): AffectBuilder {
     this.affect.attributes = attributes
     return this
   }
@@ -41,7 +41,7 @@ export default class AffectBuilder {
     return this
   }
 
-  public build(): Affect {
+  public build(): AffectEntity {
     return this.affect
   }
 }

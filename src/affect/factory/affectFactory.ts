@@ -1,11 +1,11 @@
 import AffectDefinition from "../affectDefinition"
 import AffectBuilder from "../builder/affectBuilder"
+import {AffectEntity} from "../entity/affectEntity"
 import {AffectType} from "../enum/affectType"
 import {StackBehavior} from "../enum/stackBehavior"
-import {Affect} from "../model/affect"
 
 export function newAffect(
-  affectType: AffectType, timeout: number = -1): Affect {
+  affectType: AffectType, timeout: number = -1): AffectEntity {
   return new AffectBuilder(affectType)
     .setTimeout(timeout)
     .build()

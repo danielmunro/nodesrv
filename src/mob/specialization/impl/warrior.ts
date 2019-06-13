@@ -1,6 +1,6 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
+import AttributesEntity from "../../../attributes/entity/attributesEntity"
 import {Stat} from "../../../attributes/enum/stat"
-import Attributes from "../../../attributes/model/attributes"
 import {WeaponType} from "../../../item/enum/weaponType"
 import { SkillType } from "../../../skill/skillType"
 import { SpellType } from "../../../spell/spellType"
@@ -12,7 +12,7 @@ export default class Warrior implements Specialization {
     return SpecializationType.Warrior
   }
 
-  public getAttributes(): Attributes {
+  public getAttributes(): AttributesEntity {
     return new AttributeBuilder()
       .setStats(2, -1, -2, 0, 1, 1)
       .build()

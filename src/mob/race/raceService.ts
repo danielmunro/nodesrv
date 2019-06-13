@@ -1,4 +1,4 @@
-import Attributes from "../../attributes/model/attributes"
+import AttributesEntity from "../../attributes/entity/attributesEntity"
 import {newSkill} from "../../skill/factory"
 import Maybe from "../../support/functional/maybe"
 import {MobEntity} from "../entity/mobEntity"
@@ -16,7 +16,7 @@ export default class RaceService {
     mob.skills.push(...mob.race().startingSkills.map(skillType => newSkill(skillType)))
   }
 
-  public static combineAttributes(mob: MobEntity, attributes: Attributes): Attributes {
+  public static combineAttributes(mob: MobEntity, attributes: AttributesEntity): AttributesEntity {
     return new Maybe(mob.race().attributes)
       .do(raceAttr => attributes.combine(raceAttr))
       .or(() => attributes)

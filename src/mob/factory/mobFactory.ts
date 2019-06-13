@@ -1,5 +1,5 @@
+import AttributesEntity from "../../attributes/entity/attributesEntity"
 import {newEmptyAttributes} from "../../attributes/factory/attributeFactory"
-import Attributes from "../../attributes/model/attributes"
 import {createInventory} from "../../item/factory/inventoryFactory"
 import {Item} from "../../item/model/item"
 import {RoomEntity} from "../../room/entity/roomEntity"
@@ -41,7 +41,7 @@ export function newMobLocation(
 
 /*tslint:disable*/
 export function newMob(name: string, description: string, race: RaceType, hp: number, mana: number,
-                       mv: number, attributes: Attributes, wanders: boolean = false, items: Item[] = [],
+                       mv: number, attributes: AttributesEntity, wanders: boolean = false, items: Item[] = [],
                        specialization = SpecializationType.Warrior): MobEntity {
 
   const mob = createMob()

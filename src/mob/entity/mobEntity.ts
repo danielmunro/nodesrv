@@ -1,8 +1,8 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import { Affect } from "../../affect/model/affect"
+import { AffectEntity } from "../../affect/entity/affectEntity"
 import AffectService from "../../affect/service/affectService"
-import { default as Attributes } from "../../attributes/model/attributes"
+import { default as Attributes } from "../../attributes/entity/attributesEntity"
 import AttributeService from "../../attributes/service/attributeService"
 import {Equipment} from "../../item/enum/equipment"
 import { Inventory } from "../../item/model/inventory"
@@ -98,8 +98,8 @@ export class MobEntity {
   @JoinColumn()
   public vulnerable: DamageSourceEntity
 
-  @OneToMany(() => Affect, affect => affect.mob, { cascade: true, eager: true })
-  public affects: Affect[]
+  @OneToMany(() => AffectEntity, affect => affect.mob, { cascade: true, eager: true })
+  public affects: AffectEntity[]
 
   @OneToOne(() => MobTraitsEntity, { cascade: true, eager: true })
   @JoinColumn()

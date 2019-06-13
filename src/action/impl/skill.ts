@@ -1,6 +1,6 @@
 import AffectBuilder from "../../affect/builder/affectBuilder"
+import {AffectEntity} from "../../affect/entity/affectEntity"
 import {AffectType} from "../../affect/enum/affectType"
-import {Affect} from "../../affect/model/affect"
 import Check from "../../check/check"
 import Cost from "../../check/cost/cost"
 import {CheckType} from "../../check/enum/checkType"
@@ -107,7 +107,7 @@ export default class Skill extends Action {
     return this.actionParts
   }
 
-  private applyAffectIfAffectCreated(requestService: RequestService, checkTarget?: MobEntity, affect?: Affect) {
+  private applyAffectIfAffectCreated(requestService: RequestService, checkTarget?: MobEntity, affect?: AffectEntity) {
     if (affect) {
       const target = checkTarget || requestService.getMob()
       target.affect().add(affect)

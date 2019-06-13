@@ -1,5 +1,5 @@
 import AffectService from "../../affect/service/affectService"
-import Attributes from "../../attributes/model/attributes"
+import AttributesEntity from "../../attributes/entity/attributesEntity"
 import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
 import {createFightEvent} from "../../event/factory/eventFactory"
@@ -39,7 +39,8 @@ export class Fight {
     return new Attack(attacker, defender, result, 0)
   }
 
-  private static isTargetAcDefeated(attackerAttributes: Attributes, defenderAttributes: Attributes): boolean {
+  private static isTargetAcDefeated(
+    attackerAttributes: AttributesEntity, defenderAttributes: AttributesEntity): boolean {
     const str = attackerAttributes.str
     const hit = attackerAttributes.hit
     const defense = defenderAttributes.acSlash

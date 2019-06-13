@@ -1,4 +1,4 @@
-import Attributes from "../../attributes/model/attributes"
+import AttributesEntity from "../../attributes/entity/attributesEntity"
 import {SkillType} from "../../skill/skillType"
 import DamageModifier from "../fight/damageModifier"
 import {SpecializationType} from "../specialization/enum/specializationType"
@@ -15,7 +15,7 @@ export default class RaceBuilder {
   private appetite: number = 4
   private bodyParts: BodyPart[] = standardPackage
   private damageAbsorption: DamageModifier[] = []
-  private attributes: Attributes
+  private attributes: AttributesEntity
   private preferredSpecializations: SpecializationType[] = []
   private startingSkills: SkillType[] = []
   private creationPoints: number = 0
@@ -52,7 +52,7 @@ export default class RaceBuilder {
     return this
   }
 
-  public setAttributes(attributes: Attributes): RaceBuilder {
+  public setAttributes(attributes: AttributesEntity): RaceBuilder {
     this.attributes = attributes
     return this
   }

@@ -1,6 +1,6 @@
 import ApplyAbilityResponse from "../../action/response/applyAbilityResponse"
+import {AffectEntity} from "../../affect/entity/affectEntity"
 import {AffectType} from "../../affect/enum/affectType"
-import {Affect} from "../../affect/model/affect"
 import CheckedRequest from "../../check/checkedRequest"
 import {CheckType} from "../../check/enum/checkType"
 import {EventType} from "../../event/enum/eventType"
@@ -37,7 +37,7 @@ export default class RequestService {
     this.checkedRequest.mob.follows = mob
   }
 
-  public getAffects(): Affect[] {
+  public getAffects(): AffectEntity[] {
     return this.checkedRequest.mob.affects
   }
 

@@ -1,6 +1,6 @@
 import {ActionPart} from "../../action/enum/actionPart"
+import {AffectEntity} from "../../affect/entity/affectEntity"
 import {AffectType} from "../../affect/enum/affectType"
-import {Affect} from "../../affect/model/affect"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {Disposition} from "../../mob/enum/disposition"
 import {Fight} from "../../mob/fight/fight"
@@ -184,7 +184,7 @@ export default class CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.HasAffect,
       (captured: any) =>
-        (captured.affects ? captured : this.mob).affects.find((a: Affect) => a.affectType === affectType),
+        (captured.affects ? captured : this.mob).affects.find((a: AffectEntity) => a.affectType === affectType),
       failMessage))
     return this
   }

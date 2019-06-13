@@ -1,5 +1,5 @@
+import {AffectEntity} from "../../../../affect/entity/affectEntity"
 import {AffectType} from "../../../../affect/enum/affectType"
-import {Affect} from "../../../../affect/model/affect"
 import AttributeBuilder from "../../../../attributes/builder/attributeBuilder"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
@@ -32,7 +32,7 @@ export default function(abilityService: AbilityService): Skill {
         .require(item, PreconditionMessages.All.NoItem, CheckType.HasItem)
         .capture()
         .require(
-          item.affects.find((affect: Affect) => affect.affectType === AffectType.Sharpened) === undefined,
+          item.affects.find((affect: AffectEntity) => affect.affectType === AffectType.Sharpened) === undefined,
           PreconditionMessages.Sharpen.AlreadySharpened)
         .require(
           item instanceof Weapon,

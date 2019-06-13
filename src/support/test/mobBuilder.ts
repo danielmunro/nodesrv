@@ -1,7 +1,7 @@
 import {inject} from "inversify"
+import {AffectEntity} from "../../affect/entity/affectEntity"
 import {AffectType} from "../../affect/enum/affectType"
 import {newAffect} from "../../affect/factory/affectFactory"
-import {Affect} from "../../affect/model/affect"
 import {Item} from "../../item/model/item"
 import { MobEntity } from "../../mob/entity/mobEntity"
 import ShopEntity from "../../mob/entity/shopEntity"
@@ -125,7 +125,7 @@ export default class MobBuilder {
     return this
   }
 
-  public addAffect(affect: Affect): MobBuilder {
+  public addAffect(affect: AffectEntity): MobBuilder {
     this.mob.affects.push(affect)
     return this
   }

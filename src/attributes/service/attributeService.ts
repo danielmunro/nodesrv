@@ -1,12 +1,12 @@
 import {MobEntity} from "../../mob/entity/mobEntity"
 import RaceService from "../../mob/race/raceService"
+import AttributesEntity from "../entity/attributesEntity"
 import {newEmptyAttributes} from "../factory/attributeFactory"
-import Attributes from "../model/attributes"
 
 export default class AttributeService {
   constructor(private readonly mob: MobEntity) {}
 
-  public combine(): Attributes {
+  public combine(): AttributesEntity {
     let attributes = newEmptyAttributes()
     this.mob.attributes.forEach(a => attributes = attributes.combine(a))
     this.mob.equipped.items.forEach(i => attributes = attributes.combine(i.attributes))

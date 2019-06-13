@@ -1,9 +1,9 @@
-import Attributes from "./model/attributes"
+import AttributesEntity from "./entity/attributesEntity"
 
 const TEST_ATTRIBUTES_VALUE = 1
 
-function getNewTestAttributes(): Attributes {
-  const attributes = new Attributes()
+function getNewTestAttributes(): AttributesEntity {
+  const attributes = new AttributesEntity()
   attributes.hit = TEST_ATTRIBUTES_VALUE
   attributes.dam = TEST_ATTRIBUTES_VALUE
   attributes.str = TEST_ATTRIBUTES_VALUE
@@ -23,7 +23,7 @@ function getNewTestAttributes(): Attributes {
   return attributes
 }
 
-describe("attributes", () => {
+describe("attributesEntity.ts", () => {
   it("should be able to combine test attributes three times and each value should be multiplied accordingly", () => {
     const attrs = getNewTestAttributes()
       .combine(getNewTestAttributes())

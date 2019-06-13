@@ -1,4 +1,4 @@
-import {Affect} from "../../../affect/model/affect"
+import {AffectEntity} from "../../../affect/entity/affectEntity"
 import Check from "../../../check/check"
 import {RequestType} from "../../../request/enum/requestType"
 import Response from "../../../request/response"
@@ -8,8 +8,8 @@ import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
 export default class AffectsAction extends Action {
-  private static reduceAffects(affects: Affect[]) {
-    return affects.reduce((previous: string, current: Affect) =>
+  private static reduceAffects(affects: AffectEntity[]) {
+    return affects.reduce((previous: string, current: AffectEntity) =>
       previous + "\n" + current.affectType + ": " + current.timeout + " hour" + (current.timeout === 1 ? "" : "s"), "")
   }
 

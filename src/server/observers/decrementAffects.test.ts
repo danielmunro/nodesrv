@@ -1,6 +1,6 @@
+import {AffectEntity} from "../../affect/entity/affectEntity"
 import { AffectType } from "../../affect/enum/affectType"
 import { newAffect } from "../../affect/factory/affectFactory"
-import {Affect} from "../../affect/model/affect"
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import MobTable from "../../mob/table/mobTable"
 import TestRunner from "../../support/test/testRunner"
@@ -29,9 +29,9 @@ describe("decrementAffects", () => {
     decrementAffects.notify()
 
     // then
-    const affect1 = mob.affect().get(AffectType.Stunned) as Affect
+    const affect1 = mob.affect().get(AffectType.Stunned) as AffectEntity
     expect(affect1.timeout).toBe(TEST_TIMEOUT_1 - 1)
-    const affect2 = mob.affect().get(AffectType.Shield) as Affect
+    const affect2 = mob.affect().get(AffectType.Shield) as AffectEntity
     expect(affect2.timeout).toBe(TEST_TIMEOUT_2 - 1)
   })
 

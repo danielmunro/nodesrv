@@ -1,4 +1,4 @@
-import {Affect} from "../../../../affect/model/affect"
+import {AffectEntity} from "../../../../affect/entity/affectEntity"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
@@ -22,7 +22,7 @@ export default function(abilityService: AbilityService): Spell {
     ])
     .setApplySpell(async requestService => {
       const target = requestService.getTarget()
-      target.affects.forEach((affect: Affect) => {
+      target.affects.forEach((affect: AffectEntity) => {
         if (percentRoll() < CHANCE_THRESHOLD) {
           target.affect().remove(affect.affectType)
         }

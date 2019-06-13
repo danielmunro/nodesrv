@@ -1,8 +1,8 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
-import { Affect } from "../../affect/model/affect"
+import { AffectEntity } from "../../affect/entity/affectEntity"
 import AffectService from "../../affect/service/affectService"
-import Attributes from "../../attributes/model/attributes"
+import AttributesEntity from "../../attributes/entity/attributesEntity"
 import { Equipment } from "../enum/equipment"
 import { ItemType } from "../enum/itemType"
 import { MaterialType } from "../enum/materialType"
@@ -75,12 +75,12 @@ export class Item {
   @ManyToOne(() => Inventory, inventory => inventory.items)
   public inventory: Inventory
 
-  @OneToOne(() => Attributes, { cascade: true, eager: true })
+  @OneToOne(() => AttributesEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public attributes: Attributes
+  public attributes: AttributesEntity
 
-  @OneToMany(() => Affect, affect => affect.item, { cascade: true, eager: true })
-  public affects: Affect[]
+  @OneToMany(() => AffectEntity, affect => affect.item, { cascade: true, eager: true })
+  public affects: AffectEntity[]
 
   @OneToOne(() => Container, { cascade: true })
   @JoinColumn()

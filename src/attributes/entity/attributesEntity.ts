@@ -3,7 +3,7 @@ import { MobEntity } from "../../mob/entity/mobEntity"
 import {newEmptyAttributes} from "../factory/attributeFactory"
 
 @Entity()
-export default class Attributes {
+export default class AttributesEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -55,7 +55,7 @@ export default class Attributes {
   @Column("integer", { default: 0 })
   public acMagic: number
 
-  public combine(withAttributes: Attributes): Attributes {
+  public combine(withAttributes: AttributesEntity): AttributesEntity {
     const attributes = newEmptyAttributes()
     attributes.hit = this.hit + withAttributes.hit
     attributes.dam = this.dam + withAttributes.dam

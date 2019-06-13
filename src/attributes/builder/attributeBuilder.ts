@@ -1,10 +1,10 @@
-import Attributes from "../model/attributes"
+import AttributesEntity from "../entity/attributesEntity"
 
 export default class AttributeBuilder {
-  private readonly attributes: Attributes
+  private readonly attributes: AttributesEntity
 
   constructor() {
-    this.attributes = new Attributes()
+    this.attributes = new AttributesEntity()
     this.attributes.hp = 0
     this.attributes.mana = 0
     this.attributes.mv = 0
@@ -41,7 +41,7 @@ export default class AttributeBuilder {
     return this
   }
 
-  public build(): Attributes {
+  public build(): AttributesEntity {
     return this.attributes
   }
 }
