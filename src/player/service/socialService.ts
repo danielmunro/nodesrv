@@ -5,8 +5,8 @@ import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
 import {Channel} from "../../client/enum/channel"
 import {createSocialEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {isBanned} from "../../mob/enum/standing"
-import {Mob} from "../../mob/model/mob"
 import Request from "../../request/request"
 
 export default class SocialService {
@@ -23,21 +23,21 @@ export default class SocialService {
       .require(!isBanned(request.mob.getStanding()), ConditionMessages.Social.LackingStanding)
   }
 
-  public async gossip(mob: Mob, message: string) {
+  public async gossip(mob: MobEntity, message: string) {
     await this.eventService.publish(createSocialEvent(
       mob,
       Channel.Gossip,
       `${mob.name} gossips, "${message}"`))
   }
 
-  public async say(mob: Mob, message: string) {
+  public async say(mob: MobEntity, message: string) {
     await this.eventService.publish(createSocialEvent(
       mob,
       Channel.Say,
       `${mob.name} says, "${message}"`))
   }
 
-  public async tell(mob: Mob, target: Mob, message: string) {
+  public async tell(mob: MobEntity, target: MobEntity, message: string) {
     await this.eventService.publish(createSocialEvent(
       mob,
       Channel.Tell,

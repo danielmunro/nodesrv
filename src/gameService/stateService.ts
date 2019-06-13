@@ -1,5 +1,5 @@
 import {inject, injectable} from "inversify"
-import {Mob} from "../mob/model/mob"
+import {MobEntity} from "../mob/entity/mobEntity"
 import {isAbleToSee} from "../mob/race/sight"
 import {Weather} from "../region/enum/weather"
 import {Region} from "../region/model/region"
@@ -29,7 +29,7 @@ export default class StateService {
     return this.timeService.getCurrentTime()
   }
 
-  public canMobSee(mob: Mob, region: Region) {
+  public canMobSee(mob: MobEntity, region: Region) {
     return isAbleToSee(
       mob.race().sight,
       this.getCurrentTime(),

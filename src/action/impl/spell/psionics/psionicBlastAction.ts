@@ -1,9 +1,9 @@
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import DamageEvent from "../../../../mob/event/damageEvent"
 import {DamageType} from "../../../../mob/fight/enum/damageType"
-import {Mob} from "../../../../mob/model/mob"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
@@ -27,7 +27,7 @@ export default function(abilityService: AbilityService): Spell {
       .setVerbToObservers("is")
       .create())
     .setApplySpell(async requestService => {
-      const target = requestService.getTarget() as Mob
+      const target = requestService.getTarget() as MobEntity
       const eventResponse = await abilityService.publishEvent(
         requestService.createDamageEvent(roll(2, 6), DamageType.Mental).build())
       target.hp -= (eventResponse.event as DamageEvent).amount

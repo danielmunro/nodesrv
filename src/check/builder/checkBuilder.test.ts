@@ -1,8 +1,8 @@
 import {AffectType} from "../../affect/enum/affectType"
 import {newAffect} from "../../affect/factory/affectFactory"
 import {createTestAppContainer} from "../../app/factory/testFactory"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {Disposition} from "../../mob/enum/disposition"
-import {Mob} from "../../mob/model/mob"
 import MobService from "../../mob/service/mobService"
 import {RequestType} from "../../request/enum/requestType"
 import TestRunner from "../../support/test/testRunner"
@@ -14,7 +14,7 @@ const FAIL_MESSAGE = "this has a fail"
 
 let testRunner: TestRunner
 let checkBuilder: CheckBuilder
-let mob: Mob
+let mob: MobEntity
 
 beforeEach(async () => {
   const app = await createTestAppContainer()

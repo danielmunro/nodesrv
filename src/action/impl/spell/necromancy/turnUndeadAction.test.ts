@@ -27,7 +27,7 @@ describe("turn undead action", () => {
     await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast turn")
 
     // then
-    expect(mobs.filter(mobBuilder => mobBuilder.mob.disposition === Disposition.Dead).length).toBeGreaterThan(0)
+    expect(mobs.filter(mobBuilder => mobBuilder.mobEntity.disposition === Disposition.Dead).length).toBeGreaterThan(0)
   })
 
   it("does not kill mobs who are not undead", async () => {

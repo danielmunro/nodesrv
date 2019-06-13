@@ -1,11 +1,11 @@
-import { Mob } from "../../mob/model/mob"
+import { MobEntity } from "../../mob/entity/mobEntity"
 import { Player } from "../../player/model/player"
 import { CostType } from "./costType"
 
 export default class Cost {
   constructor(
     public readonly costType: CostType,
-    public readonly amount: ((mob: Mob) => number) | number,
+    public readonly amount: ((mob: MobEntity) => number) | number,
     public readonly failMessage: string = "") {}
 
   public applyTo(player: Player): void {
@@ -31,7 +31,7 @@ export default class Cost {
     }
   }
 
-  public canApplyTo(mob: Mob): boolean {
+  public canApplyTo(mob: MobEntity): boolean {
     const calculatedAmount = this.getAmount(mob)
     if (this.costType === CostType.Mv) {
       return mob.mv >= calculatedAmount
@@ -52,7 +52,7 @@ export default class Cost {
     return false
   }
 
-  private getAmount(mob: Mob): number {
+  private getAmount(mob: MobEntity): number {
     if (typeof this.amount === "function") {
       return this.amount(mob)
     }

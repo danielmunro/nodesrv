@@ -1,6 +1,6 @@
 import { RoomEntity } from "../../room/entity/roomEntity"
 import {pickOne} from "../../support/random/helpers"
-import { Mob } from "../model/mob"
+import { MobEntity } from "../entity/mobEntity"
 import {BodyPart} from "../race/enum/bodyParts"
 import { Attack } from "./attack"
 import Death from "./death"
@@ -9,8 +9,8 @@ import { Fight } from "./fight"
 export class Round {
   public readonly room: RoomEntity
   public readonly isFatality: boolean
-  public readonly victor?: Mob
-  public readonly vanquished?: Mob
+  public readonly victor?: MobEntity
+  public readonly vanquished?: MobEntity
   public readonly death?: Death
   public readonly bodyParts?: BodyPart[]
 
@@ -46,12 +46,12 @@ export class Round {
     return this.counters[this.counters.length - 1]
   }
 
-  public isParticipant(mob: Mob) {
+  public isParticipant(mob: MobEntity) {
     const lastAttack = this.getLastAttack()
     return mob === lastAttack.attacker || mob === lastAttack.defender
   }
 
-  public getWinner(): Mob | undefined {
+  public getWinner(): MobEntity | undefined {
     return this.death ? this.death.killer : undefined
   }
 }

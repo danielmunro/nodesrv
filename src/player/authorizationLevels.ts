@@ -1,4 +1,4 @@
-import {Mob} from "../mob/model/mob"
+import {MobEntity} from "../mob/entity/mobEntity"
 import {AuthorizationLevel} from "./enum/authorizationLevel"
 
 const authorizationLevels = [
@@ -11,12 +11,12 @@ const authorizationLevels = [
 
 export default authorizationLevels
 
-export function getNextPromotion(mob: Mob) {
+export function getNextPromotion(mob: MobEntity) {
   const currentIndex = authorizationLevels.findIndex(value => value === mob.getAuthorizationLevel())
   return authorizationLevels[currentIndex + 1]
 }
 
-export function getNextDemotion(mob: Mob) {
+export function getNextDemotion(mob: MobEntity) {
   const currentIndex = authorizationLevels.findIndex(value => value === mob.getAuthorizationLevel())
   return authorizationLevels[currentIndex - 1]
 }

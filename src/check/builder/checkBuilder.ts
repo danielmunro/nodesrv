@@ -1,9 +1,9 @@
 import {ActionPart} from "../../action/enum/actionPart"
 import {AffectType} from "../../affect/enum/affectType"
 import {Affect} from "../../affect/model/affect"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {Disposition} from "../../mob/enum/disposition"
 import {Fight} from "../../mob/fight/fight"
-import {Mob} from "../../mob/model/mob"
 import MobService from "../../mob/service/mobService"
 import {isSpecialAuthorizationLevel} from "../../player/authorizationLevels"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
@@ -28,7 +28,7 @@ export default class CheckBuilder {
   private checkResults: CheckResult[] = []
   private costs: Cost[] = []
   private confirm: boolean = true
-  private mob: Mob
+  private mob: MobEntity
   private captured: any
   private lastCheckResult: CheckResult
 
@@ -71,23 +71,23 @@ export default class CheckBuilder {
   public requireMerchant() {
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
-      this.mobService.findMobInRoomWithMob(this.mob, (m: Mob) => m.isMerchant()),
+      this.mobService.findMobInRoomWithMob(this.mob, (m: MobEntity) => m.isMerchant()),
       CheckMessages.NoMerchant,
     ))
 
     return this
   }
 
-  public optionalMob(mob?: Mob) {
+  public optionalMob(mob?: MobEntity) {
     this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob))
 
     return this
   }
 
-  public requirePlayer(mob: Mob, failMessage = CheckMessages.NotAPlayer): CheckBuilder {
+  public requirePlayer(mob: MobEntity, failMessage = CheckMessages.NotAPlayer): CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.IsPlayer,
-      new Maybe(mob).do((m: Mob) => !m.traits.isNpc ? m : null).or(() => false).get(),
+      new Maybe(mob).do((m: MobEntity) => !m.traits.isNpc ? m : null).or(() => false).get(),
       failMessage))
 
     return this
@@ -151,7 +151,7 @@ export default class CheckBuilder {
     return this
   }
 
-  public forMob(mob: Mob) {
+  public forMob(mob: MobEntity) {
     this.mob = mob
     return this
   }
@@ -204,7 +204,7 @@ export default class CheckBuilder {
       CheckType.IsFighting,
       Maybe.if(
         this.mobService.findFight((f: Fight) => f.isParticipant(this.mob)),
-        (f: Fight) => f.getOpponentFor(this.mob) as Mob)
+        (f: Fight) => f.getOpponentFor(this.mob) as MobEntity)
         .get(),
       failMessage))
     return this

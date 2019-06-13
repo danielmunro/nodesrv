@@ -6,15 +6,15 @@ import {SpellType} from "../../../../spell/spellType"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
 import {MAX_PRACTICE_LEVEL} from "../../../constants"
+import {MobEntity} from "../../../entity/mobEntity"
 import CastEvent from "../../../event/castEvent"
-import {Mob} from "../../../model/mob"
 import {SpecializationType} from "../../../specialization/enum/specializationType"
 import {RaceType} from "../../enum/raceType"
 import DrowMageBonus from "./drowMageBonus"
 
 let testRunner: TestRunner
 let eventConsumer: DrowMageBonus
-let mob: Mob
+let mob: MobEntity
 
 beforeEach(async () => {
   const app = await createTestAppContainer()

@@ -1,6 +1,6 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
-import {Mob} from "../../../mob/model/mob"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import Escrow from "../../../mob/trade/escrow"
 import EscrowService from "../../../mob/trade/escrowService"
 import {RequestType} from "../../../request/enum/requestType"
@@ -23,7 +23,7 @@ export default class TradeRequestAction extends Action {
       .requireFromActionParts(request, this.getActionParts())
       .capture()
       .require(
-        () => !this.escrowService.findEscrowForMobs(request.mob, request.getTargetMobInRoom() as Mob),
+        () => !this.escrowService.findEscrowForMobs(request.mob, request.getTargetMobInRoom() as MobEntity),
         Messages.Trade.AlreadyInitialized)
       .create()
   }

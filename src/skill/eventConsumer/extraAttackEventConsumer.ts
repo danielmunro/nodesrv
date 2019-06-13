@@ -2,8 +2,8 @@ import Skill from "../../action/impl/skill"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import FightEvent from "../../mob/fight/event/fightEvent"
-import {Mob} from "../../mob/model/mob"
 import EventContext from "../../request/context/eventContext"
 import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
@@ -23,7 +23,7 @@ export default class ExtraAttackEventConsumer implements EventConsumer {
     const result = await this.skill.handle(
       new Request(event.mob, fight.room, { requestType: RequestType.Noop , event } as EventContext))
     if (result.isSuccessful()) {
-      event.attacks.push(await fight.attack(event.mob, fight.getOpponentFor(event.mob) as Mob))
+      event.attacks.push(await fight.attack(event.mob, fight.getOpponentFor(event.mob) as MobEntity))
     }
     return EventResponse.none(event)
   }

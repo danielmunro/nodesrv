@@ -1,13 +1,13 @@
 import { getConnection } from "../../support/db/connection"
-import MobReset from "../model/mobReset"
+import MobResetEntity from "../entity/mobResetEntity"
 import MobResetRepositoryImpl from "./mobResetRepositoryImpl"
 
 export default interface MobResetRepository {
-  findAll(): Promise<MobReset[]>
-  save(mobReset: MobReset): Promise<MobReset>
+  findAll(): Promise<MobResetEntity[]>
+  save(mobReset: MobResetEntity): Promise<MobResetEntity>
 }
 
 export async function getMobResetRepository(): Promise<MobResetRepository> {
   return await getConnection().then((connection) =>
-    new MobResetRepositoryImpl(connection.getRepository(MobReset)))
+    new MobResetRepositoryImpl(connection.getRepository(MobResetEntity)))
 }

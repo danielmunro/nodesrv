@@ -5,8 +5,8 @@ import Cost from "../../check/cost/cost"
 import {CheckType} from "../../check/enum/checkType"
 import AbilityService from "../../check/service/abilityService"
 import {createCastEvent, createSkillEvent} from "../../event/factory/eventFactory"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import CastEvent from "../../mob/event/castEvent"
-import {Mob} from "../../mob/model/mob"
 import {SpecializationType} from "../../mob/specialization/enum/specializationType"
 import {RequestType} from "../../request/enum/requestType"
 import {ResponseStatus} from "../../request/enum/responseStatus"
@@ -82,7 +82,7 @@ export default class Spell extends Action {
     return checkBuilder.create()
   }
 
-  public getFailureMessage(mob: Mob): ResponseMessage {
+  public getFailureMessage(mob: MobEntity): ResponseMessage {
     return new ResponseMessage(mob, Messages.Cast.Fail)
   }
 

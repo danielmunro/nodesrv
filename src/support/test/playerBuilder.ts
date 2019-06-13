@@ -1,6 +1,6 @@
 import {Item} from "../../item/model/item"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {Standing} from "../../mob/enum/standing"
-import {Mob} from "../../mob/model/mob"
 import {SpecializationType} from "../../mob/specialization/enum/specializationType"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
 import {Player} from "../../player/model/player"
@@ -99,7 +99,7 @@ export default class PlayerBuilder {
     return this.player.sessionMob.playerMob.experienceToLevel
   }
 
-  public getMob(): Mob {
+  public getMob(): MobEntity {
     return this.player.sessionMob
   }
 

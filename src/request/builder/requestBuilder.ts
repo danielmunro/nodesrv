@@ -1,6 +1,6 @@
 import {ActionPart} from "../../action/enum/actionPart"
 import Action from "../../action/impl/action"
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import Maybe from "../../support/functional/maybe"
@@ -13,7 +13,7 @@ export default class RequestBuilder {
   constructor(
     private readonly actions: Action[],
     private readonly locationService: LocationService,
-    private readonly mob: Mob,
+    private readonly mob: MobEntity,
     private readonly room?: RoomEntity) {}
 
   public create(requestType: RequestType, input: string = requestType.toString()): Request {
@@ -24,7 +24,7 @@ export default class RequestBuilder {
       this.getTargetFromRequest(requestType, input))
   }
 
-  private getTargetFromRequest(requestType: RequestType, input: string): Mob | undefined {
+  private getTargetFromRequest(requestType: RequestType, input: string): MobEntity | undefined {
     const actionParts = new Maybe(this.actions.find((a: Action) => a.isAbleToHandleRequestType(requestType)))
       .do(action => action.getActionParts())
       .or(() => [])
@@ -42,6 +42,6 @@ export default class RequestBuilder {
     }
     return this.locationService
       .getMobsByRoom(this.room as RoomEntity)
-      .find((mob: Mob) => match(mob.name, word))
+      .find((mob: MobEntity) => match(mob.name, word))
   }
 }

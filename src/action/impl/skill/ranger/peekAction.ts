@@ -1,7 +1,7 @@
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import AbilityService from "../../../../check/service/abilityService"
-import {Mob} from "../../../../mob/model/mob"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {SkillMessages} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
 import SkillBuilder from "../../../builder/skillBuilder"
@@ -21,7 +21,7 @@ export default function(abilityService: AbilityService): Skill {
       requestService.createResponseMessage(SkillMessages.Peek.Success)
         .addReplacement(
           "inventory",
-          (requestService.getTarget() as Mob).inventory.items.reduce(
+          (requestService.getTarget() as MobEntity).inventory.items.reduce(
             (previous, current) => previous + current.name + "\n", ""))
         .create())
     .create()

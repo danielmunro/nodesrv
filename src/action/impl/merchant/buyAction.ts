@@ -5,8 +5,8 @@ import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {EventType} from "../../../event/enum/eventType"
 import EventService from "../../../event/service/eventService"
 import {Item} from "../../../item/model/item"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import {Disposition} from "../../../mob/enum/disposition"
-import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
@@ -27,7 +27,7 @@ export default class BuyAction extends Action {
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .require(subject, ConditionMessages.All.Arguments.Buy)
       .requireMerchant()
-      .require((mob: Mob) =>
+      .require((mob: MobEntity) =>
         mob.inventory.findItemByName(subject), ConditionMessages.Buy.MerchantNoItem, CheckType.HasItem)
       .capture()
       .require((item: Item) => request.mob.gold >= item.value, ConditionMessages.Buy.CannotAfford)

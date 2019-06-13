@@ -1,18 +1,18 @@
 import {createDamageEvent} from "../../event/factory/eventFactory"
+import {MobEntity} from "../entity/mobEntity"
 import {DamageType} from "../fight/enum/damageType"
-import {Mob} from "../model/mob"
 import DamageEvent from "./damageEvent"
 
 export default class DamageEventBuilder {
   private modifier: number = 1
-  private source: Mob
+  private source: MobEntity
 
   constructor(
-    private readonly target: Mob,
+    private readonly target: MobEntity,
     private readonly amount: number,
     private readonly damageType: DamageType) {}
 
-  public setSource(source: Mob): DamageEventBuilder {
+  public setSource(source: MobEntity): DamageEventBuilder {
     this.source = source
     return this
   }

@@ -5,10 +5,10 @@ import { Item } from "../../item/model/item"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
 import { Standing } from "../enum/standing"
 import Customization from "../specialization/customization"
-import { Mob } from "./mob"
+import { MobEntity } from "./mobEntity"
 
 @Entity()
-export class PlayerMob {
+export class PlayerMobEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -28,9 +28,9 @@ export class PlayerMob {
   @Column("integer")
   public appetite: number = 0
 
-  @OneToOne(() => Mob, mob => mob.playerMob)
+  @OneToOne(() => MobEntity, mob => mob.playerMob)
   @JoinColumn()
-  public mob: Mob
+  public mob: MobEntity
 
   @OneToOne(() => Attributes, { eager: true, cascade: true })
   @JoinColumn()

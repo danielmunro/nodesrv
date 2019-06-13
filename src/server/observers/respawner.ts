@@ -1,6 +1,6 @@
 import {inject, injectable} from "inversify"
 import ResetService from "../../gameService/resetService"
-import { Mob } from "../../mob/model/mob"
+import { MobEntity } from "../../mob/entity/mobEntity"
 import {Types} from "../../support/types"
 import { Observer } from "./observer"
 
@@ -18,7 +18,7 @@ export default class Respawner implements Observer {
     console.log(`reset service done with ${deadMobsLength} mobs reset`)
   }
 
-  public async respawn(mob: Mob) {
+  public async respawn(mob: MobEntity) {
     try {
       await this.resetService.respawnFromMob(mob)
     } catch (e) {

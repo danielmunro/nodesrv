@@ -1,10 +1,10 @@
 import { Column, Entity, Generated, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as v4 from "uuid"
 import { RoomEntity } from "../../room/entity/roomEntity"
-import { Mob } from "./mob"
+import { MobEntity } from "./mobEntity"
 
 @Entity()
-export default class MobLocation {
+export default class MobLocationEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -12,8 +12,8 @@ export default class MobLocation {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @OneToOne(() => Mob)
-  public mob: Mob
+  @OneToOne(() => MobEntity)
+  public mob: MobEntity
 
   @ManyToOne(() => RoomEntity)
   public room: RoomEntity

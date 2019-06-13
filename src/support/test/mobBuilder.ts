@@ -3,9 +3,9 @@ import {AffectType} from "../../affect/enum/affectType"
 import {newAffect} from "../../affect/factory/affectFactory"
 import {Affect} from "../../affect/model/affect"
 import {Item} from "../../item/model/item"
+import { MobEntity } from "../../mob/entity/mobEntity"
+import ShopEntity from "../../mob/entity/shopEntity"
 import {Disposition} from "../../mob/enum/disposition"
-import { Mob } from "../../mob/model/mob"
-import Shop from "../../mob/model/shop"
 import {RaceType} from "../../mob/race/enum/raceType"
 import {SpecializationType} from "../../mob/specialization/enum/specializationType"
 import SpecializationService from "../../mob/specialization/service/specializationService"
@@ -18,7 +18,7 @@ import {Types} from "../types"
 export default class MobBuilder {
   constructor(
     @inject(Types.SpecializationService) private readonly specializationService: SpecializationService,
-    public readonly mob: Mob) {}
+    public readonly mob: MobEntity) {}
 
   public asTrainer(): MobBuilder {
     this.mob.traits.trainer = true
@@ -36,7 +36,7 @@ export default class MobBuilder {
   }
 
   public asMerchant(): MobBuilder {
-    this.mob.shop = new Shop()
+    this.mob.shop = new ShopEntity()
     return this
   }
 
@@ -157,7 +157,7 @@ export default class MobBuilder {
     return this.mob.inventory.items
   }
 
-  public get(): Mob {
+  public get(): MobEntity {
     return this.mob
   }
 }

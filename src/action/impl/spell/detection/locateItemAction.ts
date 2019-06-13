@@ -7,7 +7,7 @@ import StateService from "../../../../gameService/stateService"
 import Container from "../../../../item/model/container"
 import {Item} from "../../../../item/model/item"
 import ItemService from "../../../../item/service/itemService"
-import {Mob} from "../../../../mob/model/mob"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {Region} from "../../../../region/model/region"
 import {RoomEntity} from "../../../../room/entity/roomEntity"
 import {SpellMessages} from "../../../../spell/constants"
@@ -22,7 +22,7 @@ import Spell from "../../spell"
 
 function filterItem(
   stateService: StateService,
-  mob: Mob,
+  mob: MobEntity,
   region: Region,
   item: Item,
   input: string,
@@ -34,8 +34,8 @@ function filterItem(
     percentRoll() < 2 * spell.level
 }
 
-function reduceCarriedBy(carriedBy: Mob | RoomEntity | Container) {
-  if (carriedBy instanceof Mob) {
+function reduceCarriedBy(carriedBy: MobEntity | RoomEntity | Container) {
+  if (carriedBy instanceof MobEntity) {
     return `carried by ${carriedBy.name}`
   } else if (carriedBy instanceof RoomEntity) {
     return `in ${carriedBy.name}`

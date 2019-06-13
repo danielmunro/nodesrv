@@ -7,10 +7,10 @@ import {Direction} from "../../room/enum/direction"
 import ExitTable from "../../room/table/exitTable"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
+import { MobEntity } from "../entity/mobEntity"
+import MobLocationEntity from "../entity/mobLocationEntity"
 import MobMoveEvent from "../event/mobMoveEvent"
 import {newMobLocation} from "../factory/mobFactory"
-import { Mob } from "../model/mob"
-import MobLocation from "../model/mobLocation"
 
 @injectable()
 export default class LocationService {
@@ -19,13 +19,13 @@ export default class LocationService {
     @inject(Types.RoomTable) private readonly roomTable: RoomTable,
     @inject(Types.ExitTable) private readonly exitTable: ExitTable,
     @inject(Types.StartRoom) private readonly startRoom: RoomEntity,
-    private mobLocations: MobLocation[] = []) {}
+    private mobLocations: MobLocationEntity[] = []) {}
 
   public getRecall(): RoomEntity {
     return this.startRoom
   }
 
-  public async moveMob(mob: Mob, direction: Direction) {
+  public async moveMob(mob: MobEntity, direction: Direction) {
     const location = this.getLocationForMob(mob)
     const exitsForRoom = this.exitTable.exitsForRoom(location.room)
     const exit = exitsForRoom.find(e => e.direction === direction)
@@ -42,11 +42,11 @@ export default class LocationService {
     return this.mobLocations.length
   }
 
-  public addMobLocation(mobLocation: MobLocation) {
+  public addMobLocation(mobLocation: MobLocationEntity) {
     this.mobLocations.push(mobLocation)
   }
 
-  public async updateMobLocation(mob: Mob, room: RoomEntity, direction?: Direction) {
+  public async updateMobLocation(mob: MobEntity, room: RoomEntity, direction?: Direction) {
     for (const mobLocation of this.mobLocations) {
       if (mobLocation.mob.uuid !== mob.uuid) {
         continue
@@ -70,7 +70,7 @@ export default class LocationService {
     return newLocation
   }
 
-  public getLocationForMob(mob: Mob): MobLocation {
+  public getLocationForMob(mob: MobEntity): MobLocationEntity {
     const mobLocation = this.mobLocations.find(it => it.mob === mob)
     if (!mobLocation) {
       throw Error(`${mob.name} (${mob.uuid}) not found in location service`)
@@ -78,7 +78,7 @@ export default class LocationService {
     return mobLocation
   }
 
-  public getRoomForMob(mob: Mob): RoomEntity {
+  public getRoomForMob(mob: MobEntity): RoomEntity {
     const mobLocation = this.mobLocations.find(it => it.mob === mob)
     if (!mobLocation) {
       throw Error(`${mob.name} (${mob.uuid}) not found in location service`)
@@ -86,7 +86,7 @@ export default class LocationService {
     return mobLocation.room
   }
 
-  public removeMob(mob: Mob): void {
+  public removeMob(mob: MobEntity): void {
     this.mobLocations = this.mobLocations.filter(mobLocation => mobLocation.mob !== mob)
   }
 
@@ -95,17 +95,17 @@ export default class LocationService {
       .map(mobLocation => mobLocation.mob)
   }
 
-  public getMobsInRoomWithMob(mob: Mob): Mob[] {
+  public getMobsInRoomWithMob(mob: MobEntity): MobEntity[] {
     const location = this.getLocationForMob(mob)
     return this.getMobsByRoom(location.room)
   }
 
-  public getMobsByImportId(importId: string): Mob[] {
+  public getMobsByImportId(importId: string): MobEntity[] {
     return this.mobLocations.filter(mobLocation => mobLocation.mob.importId === importId)
       .map(mobLocation => mobLocation.mob)
   }
 
-  public findMobsByArea(area: string): MobLocation[] {
+  public findMobsByArea(area: string): MobLocationEntity[] {
     return this.mobLocations.filter(mobLocation => mobLocation.room.area === area)
   }
 }

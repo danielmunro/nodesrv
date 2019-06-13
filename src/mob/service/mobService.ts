@@ -10,12 +10,12 @@ import { SkillType } from "../../skill/skillType"
 import { Spell } from "../../spell/model/spell"
 import { SpellType } from "../../spell/spellType"
 import {Types} from "../../support/types"
+import { MobEntity } from "../entity/mobEntity"
+import MobLocationEntity from "../entity/mobLocationEntity"
+import MobResetEntity from "../entity/mobResetEntity"
 import { newMobLocation } from "../factory/mobFactory"
 import { Fight } from "../fight/fight"
 import FightTable from "../fight/fightTable"
-import { Mob } from "../model/mob"
-import MobLocation from "../model/mobLocation"
-import MobReset from "../model/mobReset"
 import { Specialization } from "../specialization/specialization"
 import MobTable from "../table/mobTable"
 import LocationService from "./locationService"
@@ -31,7 +31,7 @@ function createSpellFromSpellType(spellType: SpellType): Spell {
   return spell
 }
 
-export function assignSpecializationToMob(mob: Mob, specialization: Specialization) {
+export function assignSpecializationToMob(mob: MobEntity, specialization: Specialization) {
   mob.specializationType = specialization.getSpecializationType()
   mob.attributes.push(specialization.getAttributes())
   mob.skills = [...mob.skills, ...specialization.getSkills().map(createSkillFromSkillType)]
@@ -47,7 +47,7 @@ export default class MobService {
     public readonly mobTable: MobTable = new MobTable(),
     private readonly fightTable: FightTable = new FightTable()) {}
 
-  public add(mob: Mob, room: RoomEntity) {
+  public add(mob: MobEntity, room: RoomEntity) {
     this.mobTable.add(mob)
     this.locationService.addMobLocation(newMobLocation(mob, room))
   }
@@ -64,7 +64,7 @@ export default class MobService {
     return this.fightTable.getFights().find(search)
   }
 
-  public findFightForMob(mob: Mob): Fight | undefined {
+  public findFightForMob(mob: MobEntity): Fight | undefined {
     return this.fightTable.getFights().find(fight => fight.isParticipant(mob))
   }
 
@@ -87,45 +87,45 @@ export default class MobService {
     return this.locationService.getMobsByImportId(importId)
   }
 
-  public getMobsByRoom(room: RoomEntity): Mob[] {
+  public getMobsByRoom(room: RoomEntity): MobEntity[] {
     return this.locationService.getMobsByRoom(room)
   }
 
-  public getLocationForMob(mob: Mob): MobLocation {
+  public getLocationForMob(mob: MobEntity): MobLocationEntity {
     return this.locationService.getLocationForMob(mob)
   }
 
-  public async moveMob(mob: Mob, direction: Direction) {
+  public async moveMob(mob: MobEntity, direction: Direction) {
     await this.locationService.moveMob(mob, direction)
   }
 
-  public async updateMobLocation(mob: Mob, room: RoomEntity, direction?: Direction) {
+  public async updateMobLocation(mob: MobEntity, room: RoomEntity, direction?: Direction) {
     await this.locationService.updateMobLocation(mob, room, direction)
   }
 
-  public findMob(search: (mob: Mob) => boolean) {
+  public findMob(search: (mob: MobEntity) => boolean) {
     return this.mobTable.find(search)
   }
 
-  public findMobsByArea(area: string): MobLocation[] {
+  public findMobsByArea(area: string): MobLocationEntity[] {
     return this.locationService.findMobsByArea(area)
   }
 
-  public findMobInRoomWithMob(mob: Mob, searchCriteria: (mob: Mob) => boolean) {
+  public findMobInRoomWithMob(mob: MobEntity, searchCriteria: (mob: MobEntity) => boolean) {
     const mobs = this.locationService.getMobsInRoomWithMob(mob)
     return mobs.find(searchCriteria)
   }
 
-  public async createMobFromReset(mobReset: MobReset): Promise<Mob> {
+  public async createMobFromReset(mobReset: MobResetEntity): Promise<MobEntity> {
     return cloneDeep(mobReset.mob)
   }
 
   public async createMobFromId(id: number) {
-    const mob = this.mobTemplateTable.find((m: Mob) => m.id === id)
+    const mob = this.mobTemplateTable.find((m: MobEntity) => m.id === id)
     return cloneDeep(mob)
   }
 
-  public createLevelServiceForMob(mob: Mob): LevelService {
+  public createLevelServiceForMob(mob: MobEntity): LevelService {
     return new LevelService(this.kafkaService, mob)
   }
 }

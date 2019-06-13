@@ -3,7 +3,7 @@ import * as v4 from "uuid"
 import {DamageType} from "../fight/enum/damageType"
 
 @Entity()
-export default class DamageSource {
+export default class DamageSourceEntity {
   @PrimaryGeneratedColumn()
   public id: number
 

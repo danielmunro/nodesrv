@@ -2,8 +2,8 @@ import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
 import {createRoomMessageEvent} from "../../../../event/factory/eventFactory"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {Disposition} from "../../../../mob/enum/disposition"
-import {Mob} from "../../../../mob/model/mob"
 import {RaceType} from "../../../../mob/race/enum/raceType"
 import MobService from "../../../../mob/service/mobService"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
@@ -16,7 +16,7 @@ import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../spell"
 
-async function turn(room: RoomEntity, target: Mob, abilityService: AbilityService) {
+async function turn(room: RoomEntity, target: MobEntity, abilityService: AbilityService) {
   target.disposition = Disposition.Dead
   await abilityService.publishEvent(createRoomMessageEvent(
     room,

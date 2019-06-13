@@ -1,7 +1,7 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import MobLocationEntity from "../../../mob/entity/mobLocationEntity"
 import {Disposition} from "../../../mob/enum/disposition"
-import MobLocation from "../../../mob/model/mobLocation"
 import MobService from "../../../mob/service/mobService"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
@@ -29,7 +29,7 @@ export default class ScanAction extends Action {
       .findMobsByArea(mobLocation.room.area)
       .filter(location => match(location.mob.name, requestService.getSubject()))
     return requestService.respondWith().success(
-      `mobs nearby:\n${mobLocations.reduce((previous: string, current: MobLocation) =>
+      `mobs nearby:\n${mobLocations.reduce((previous: string, current: MobLocationEntity) =>
         previous + current.mob.name + " at " + current.room.name + "\n", "")}`)
   }
 

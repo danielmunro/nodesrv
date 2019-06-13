@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import Attributes from "../../attributes/model/attributes"
 import { Item } from "../../item/model/item"
-import DamageSource from "../../mob/model/damageSource"
-import { Mob } from "../../mob/model/mob"
+import DamageSourceEntity from "../../mob/entity/damageSourceEntity"
+import { MobEntity } from "../../mob/entity/mobEntity"
 import { AffectType } from "../enum/affectType"
 
 @Entity()
@@ -10,8 +10,8 @@ export class Affect {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @ManyToOne(() => Mob, (mob) => mob.affects)
-  public mob: Mob
+  @ManyToOne(() => MobEntity, (mob) => mob.affects)
+  public mob: MobEntity
 
   @ManyToOne(() => Item, (item) => item.affects)
   public item: Item
@@ -29,15 +29,15 @@ export class Affect {
   @JoinColumn()
   public attributes: Attributes
 
-  @OneToOne(() => DamageSource, { cascade: true, eager: true })
+  @OneToOne(() => DamageSourceEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public immune: DamageSource = new DamageSource()
+  public immune: DamageSourceEntity = new DamageSourceEntity()
 
-  @OneToOne(() => DamageSource, { cascade: true, eager: true })
+  @OneToOne(() => DamageSourceEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public resist: DamageSource = new DamageSource()
+  public resist: DamageSourceEntity = new DamageSourceEntity()
 
-  @OneToOne(() => DamageSource, { cascade: true, eager: true })
+  @OneToOne(() => DamageSourceEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public vulnerable: DamageSource = new DamageSource()
+  public vulnerable: DamageSourceEntity = new DamageSourceEntity()
 }

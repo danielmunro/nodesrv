@@ -5,7 +5,7 @@ import {ItemContainerReset} from "../../item/model/itemContainerReset"
 import ItemMobReset from "../../item/model/itemMobReset"
 import {ItemRoomReset} from "../../item/model/itemRoomReset"
 import {MobEquipReset} from "../../item/model/mobEquipReset"
-import MobReset from "../../mob/model/mobReset"
+import MobResetEntity from "../../mob/entity/mobResetEntity"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import {getTestRoom} from "../../support/test/room"
 import {Types} from "../../support/types"
@@ -14,7 +14,7 @@ export default new AsyncContainerModule(async bind => {
   bind<RoomEntity>(Types.StartRoom).toDynamicValue(() =>
     getTestRoom()).inSingletonScope()
   bind<Server>(Types.WebSocketServer).toConstantValue(new Server({ noServer: true }))
-  bind<MobReset[]>(Types.MobResets)
+  bind<MobResetEntity[]>(Types.MobResets)
     .toConstantValue([])
   bind<ItemMobReset[]>(Types.ItemMobResets)
     .toConstantValue([])

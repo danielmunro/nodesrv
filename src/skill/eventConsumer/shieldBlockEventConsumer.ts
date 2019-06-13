@@ -3,8 +3,8 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {Equipment} from "../../item/enum/equipment"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import FightEvent from "../../mob/fight/event/fightEvent"
-import {Mob} from "../../mob/model/mob"
 import EventContext from "../../request/context/eventContext"
 import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
@@ -12,7 +12,7 @@ import {RoomEntity} from "../../room/entity/roomEntity"
 import {SkillType} from "../skillType"
 
 export default class ShieldBlockEventConsumer implements EventConsumer {
-  private static createRequest(mob: Mob, room: RoomEntity): Request {
+  private static createRequest(mob: MobEntity, room: RoomEntity): Request {
     return new Request(mob, room, { requestType: RequestType.Noop } as EventContext)
   }
 
@@ -23,7 +23,7 @@ export default class ShieldBlockEventConsumer implements EventConsumer {
   }
 
   public async consume(event: FightEvent): Promise<EventResponse> {
-    const target = event.fight.getOpponentFor(event.mob) as Mob
+    const target = event.fight.getOpponentFor(event.mob) as MobEntity
     if (!target.getSkill(SkillType.ShieldBlock) || !target.getFirstEquippedItemAtPosition(Equipment.Shield)) {
       return EventResponse.none(event)
     }

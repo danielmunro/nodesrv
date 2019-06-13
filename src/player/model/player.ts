@@ -1,6 +1,6 @@
 import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { Inventory } from "../../item/model/inventory"
-import { Mob } from "../../mob/model/mob"
+import { MobEntity } from "../../mob/entity/mobEntity"
 import hash from "../password/hash"
 
 @Entity()
@@ -21,10 +21,10 @@ export class Player {
   @Column("text")
   public password: string
 
-  @OneToMany(() => Mob, mob => mob.player, { eager: true, cascade: true })
-  public mobs: Mob[]
+  @OneToMany(() => MobEntity, mob => mob.player, { eager: true, cascade: true })
+  public mobs: MobEntity[]
 
-  public sessionMob: Mob
+  public sessionMob: MobEntity
 
   public delay: number = 0
 
@@ -42,7 +42,7 @@ export class Player {
       + `${this.sessionMob.mana}/${combined.mana}mana ${this.sessionMob.mv}/${combined.mv}mv -> `
   }
 
-  public ownsMob(mob: Mob): boolean {
+  public ownsMob(mob: MobEntity): boolean {
     return !!this.mobs.find(m => m.uuid === mob.uuid)
   }
 }

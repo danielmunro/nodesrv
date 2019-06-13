@@ -3,7 +3,7 @@ import ManaCost from "../../../../check/cost/manaCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
 import {createRoomMessageEvent} from "../../../../event/factory/eventFactory"
-import {Mob} from "../../../../mob/model/mob"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import MobService from "../../../../mob/service/mobService"
 import ResponseMessageBuilder from "../../../../request/builder/responseMessageBuilder"
 import {SpellMessages} from "../../../../spell/constants"
@@ -22,7 +22,7 @@ export default function(abilityService: AbilityService, mobService: MobService):
       new DelayCost(1),
     ])
     .addToCheckBuilder(async (request, checkBuilder) => {
-      const target = mobService.findMob(mob => match(mob.name, request.getComponent())) as Mob
+      const target = mobService.findMob(mob => match(mob.name, request.getComponent())) as MobEntity
       checkBuilder.require(
         target,
         SpellMessages.Summon.MobNotFound,

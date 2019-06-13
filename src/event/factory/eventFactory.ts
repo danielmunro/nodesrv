@@ -7,6 +7,7 @@ import InputEvent from "../../client/event/inputEvent"
 import SocialEvent from "../../client/event/socialEvent"
 import ItemEvent from "../../item/event/itemEvent"
 import {Item} from "../../item/model/item"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import AttackEvent from "../../mob/event/attackEvent"
 import CastEvent from "../../mob/event/castEvent"
 import CostEvent from "../../mob/event/costEvent"
@@ -21,7 +22,6 @@ import {Attack} from "../../mob/fight/attack"
 import {DamageType} from "../../mob/fight/enum/damageType"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Fight} from "../../mob/fight/fight"
-import {Mob} from "../../mob/model/mob"
 import {Target} from "../../mob/target"
 import Request from "../../request/request"
 import Response from "../../request/response"
@@ -49,7 +49,7 @@ export function createInputEvent(request: Request, action: Action, response?: Re
   }
 }
 
-export function createSocialEvent(mob: Mob, channel: Channel, message: string, toMob?: Mob): SocialEvent {
+export function createSocialEvent(mob: MobEntity, channel: Channel, message: string, toMob?: MobEntity): SocialEvent {
   return {
     channel,
     eventType: EventType.Social,
@@ -67,12 +67,12 @@ export function createItemEvent(eventType: EventType, item: Item, carriedBy?: an
   return { eventType, item, carriedBy }
 }
 
-export function createCostEvent(mob: Mob, costs: Cost[]): CostEvent {
+export function createCostEvent(mob: MobEntity, costs: Cost[]): CostEvent {
   return { eventType: EventType.CostApplied, mob, costs }
 }
 
 export function createDamageEvent(
-  mob: Mob, amount: number, damageType: DamageType, modifier: number, source: Mob): DamageEvent {
+  mob: MobEntity, amount: number, damageType: DamageType, modifier: number, source: MobEntity): DamageEvent {
   return {
     amount,
     damageType,
@@ -92,16 +92,16 @@ export function createModifiedDamageEvent(damageEvent: DamageEvent, modifier: nu
     damageEvent.source)
 }
 
-export function createMobEvent(eventType: EventType, mob: Mob): MobEvent {
+export function createMobEvent(eventType: EventType, mob: MobEntity): MobEvent {
   return { eventType, mob }
 }
 
-export function createItemDroppedEvent(mob: Mob, item: Item): ItemDroppedEvent {
+export function createItemDroppedEvent(mob: MobEntity, item: Item): ItemDroppedEvent {
   return { eventType: EventType.ItemDropped, mob, item }
 }
 
 export function createMobMoveEvent(
-  mob: Mob, source: RoomEntity, destination: RoomEntity, mvCost: number, direction?: Direction): MobMoveEvent {
+  mob: MobEntity, source: RoomEntity, destination: RoomEntity, mvCost: number, direction?: Direction): MobMoveEvent {
   return { eventType: EventType.MobMoved, mob, source, destination, mvCost, direction }
 }
 
@@ -109,11 +109,12 @@ export function createModifiedMobMoveEvent(event: MobMoveEvent, mvCost: number):
   return { ...event, mvCost }
 }
 
-export function createMobMessageEvent(mob: Mob, message: string): MobMessageEvent {
+export function createMobMessageEvent(mob: MobEntity, message: string): MobMessageEvent {
   return { eventType: EventType.MobUpdated, mob, message }
 }
 
-export function createFightEvent(eventType: EventType, mob: Mob, fight: Fight, attacks: Attack[] = []): FightEvent {
+export function createFightEvent(
+  eventType: EventType, mob: MobEntity, fight: Fight, attacks: Attack[] = []): FightEvent {
   return { eventType, mob, fight, attacks }
 }
 
@@ -121,19 +122,19 @@ export function createRoomMessageEvent(room: RoomEntity, message: ResponseMessag
   return { eventType: EventType.RoomMessage, room, message }
 }
 
-export function createSkillEvent(skill: Skill | Spell, mob: Mob, rollResult: boolean): SkillEvent {
+export function createSkillEvent(skill: Skill | Spell, mob: MobEntity, rollResult: boolean): SkillEvent {
   return { eventType: EventType.SkillInvoked, skill, mob, rollResult }
 }
 
-export function createTouchEvent(mob: Mob, target: Mob): TouchEvent {
+export function createTouchEvent(mob: MobEntity, target: MobEntity): TouchEvent {
   return { eventType: EventType.Touch, mob, target }
 }
 
-export function createAttackEvent(mob: Mob, target: Mob): AttackEvent {
+export function createAttackEvent(mob: MobEntity, target: MobEntity): AttackEvent {
   return { eventType: EventType.Attack, mob, target }
 }
 
-export function createTickEvent(mob: Mob, room: RoomEntity, regenModifier: number): TickEvent {
+export function createTickEvent(mob: MobEntity, room: RoomEntity, regenModifier: number): TickEvent {
   return { eventType: EventType.Tick, mob, room, regenModifier }
 }
 
@@ -141,7 +142,7 @@ export function createModifiedTickEvent(event: TickEvent, regenModifier: number)
   return { ...event, regenModifier }
 }
 
-export function createCastEvent(mob: Mob, spell: Spell, target: Target, roll: number): CastEvent {
+export function createCastEvent(mob: MobEntity, spell: Spell, target: Target, roll: number): CastEvent {
   return { eventType: EventType.Cast, mob, spell, target, roll }
 }
 

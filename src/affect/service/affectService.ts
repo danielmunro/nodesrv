@@ -1,6 +1,6 @@
 import {Item} from "../../item/model/item"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {Trigger} from "../../mob/enum/trigger"
-import {Mob} from "../../mob/model/mob"
 import {AffectType} from "../enum/affectType"
 import {Affect} from "../model/affect"
 import {modifierTable} from "../table/modifierTable"
@@ -16,7 +16,7 @@ export default class AffectService {
     return value
   }
 
-  constructor(private readonly mob: Mob | Item) {}
+  constructor(private readonly mob: MobEntity | Item) {}
 
   public canDetectInvisible(): boolean {
     return this.has(AffectType.DetectInvisible)
@@ -46,7 +46,7 @@ export default class AffectService {
     const current = this.has(affect.affectType)
     if (!current) {
       this.mob.affects.push(affect)
-      if (this.mob instanceof Mob) {
+      if (this.mob instanceof MobEntity) {
         affect.mob = this.mob
       }
     }

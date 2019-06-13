@@ -1,7 +1,7 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import {Fight} from "../../../mob/fight/fight"
-import {Mob} from "../../../mob/model/mob"
 import LocationService from "../../../mob/service/locationService"
 import MobService from "../../../mob/service/mobService"
 import { RequestType } from "../../../request/enum/requestType"
@@ -14,7 +14,7 @@ import {
   MESSAGE_FAIL_NOT_FIGHTING,
 } from "../../constants"
 
-let mob: Mob
+let mob: MobEntity
 let player
 let room2: RoomBuilder
 let testRunner: TestRunner

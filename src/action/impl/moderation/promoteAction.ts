@@ -1,8 +1,8 @@
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import {isBanned} from "../../../mob/enum/standing"
-import {Mob} from "../../../mob/model/mob"
 import MobService from "../../../mob/service/mobService"
 import {getAuthorizationLevelName, getNextPromotion} from "../../../player/authorizationLevels"
 import {RequestType} from "../../../request/enum/requestType"
@@ -27,7 +27,7 @@ export default class PromoteAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject()) as Mob
+    const mob = this.mobService.mobTable.find((m: MobEntity) => m.name === request.getSubject()) as MobEntity
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireMob()
       .capture()
@@ -37,7 +37,7 @@ export default class PromoteAction extends Action {
         format(Messages.Promote.Fail.NoMorePromotions, mob.name),
         CheckType.AuthorizationLevel)
       .requireImmortal(request.getAuthorizationLevel())
-      .require((m: Mob) => !isBanned(m.getStanding()), MESSAGE_FAIL_BANNED)
+      .require((m: MobEntity) => !isBanned(m.getStanding()), MESSAGE_FAIL_BANNED)
       .not().requireImmortal(
         Maybe.if(mob, () => mob.getAuthorizationLevel()).get(),
         MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS)

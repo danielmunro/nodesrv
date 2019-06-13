@@ -7,10 +7,10 @@ import EventService from "../../event/service/eventService"
 import KafkaService from "../../kafka/kafkaService"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import roll, {simpleD4} from "../../support/random/dice"
+import {MobEntity} from "../entity/mobEntity"
 import {Disposition} from "../enum/disposition"
 import {Trigger} from "../enum/trigger"
 import DamageEvent, {calculateDamageFromEvent} from "../event/damageEvent"
-import {Mob} from "../model/mob"
 import {Attack, getSuppressionAttackResultFromSkillType} from "./attack"
 import DamageService from "./damageService"
 import Death from "./death"
@@ -20,8 +20,8 @@ import {Round} from "./round"
 
 export class Fight {
   public static calculateDamageForOneHit(
-    attacker: Mob,
-    defender: Mob): number {
+    attacker: MobEntity,
+    defender: MobEntity): number {
     const attackerAttributes = attacker.attribute().combine()
     let damage = roll(attackerAttributes.hit, attackerAttributes.dam)
     damage = AffectService.applyAffectModifier(
@@ -35,7 +35,7 @@ export class Fight {
     return damage
   }
 
-  private static attackDefeated(attacker: Mob, defender: Mob, result: AttackResult) {
+  private static attackDefeated(attacker: MobEntity, defender: MobEntity, result: AttackResult) {
     return new Attack(attacker, defender, result, 0)
   }
 
@@ -51,15 +51,15 @@ export class Fight {
   constructor(
     private readonly kafkaService: KafkaService,
     public readonly eventService: EventService,
-    public readonly aggressor: Mob,
-    public readonly target: Mob,
+    public readonly aggressor: MobEntity,
+    public readonly target: MobEntity,
     public readonly room: RoomEntity) {}
 
-  public isParticipant(mob: Mob): boolean {
+  public isParticipant(mob: MobEntity): boolean {
     return mob.uuid === this.aggressor.uuid || mob.uuid === this.target.uuid
   }
 
-  public getOpponentFor(mob: Mob): Mob | undefined {
+  public getOpponentFor(mob: MobEntity): MobEntity | undefined {
     if (!this.isParticipant(mob)) {
       return
     }
@@ -78,7 +78,7 @@ export class Fight {
     return this.status === FightStatus.InProgress
   }
 
-  public participantFled(mob: Mob) {
+  public participantFled(mob: MobEntity) {
     if (!this.isParticipant(mob)) {
       throw new Error("Not part of the fight")
     }
@@ -86,7 +86,7 @@ export class Fight {
     this.status = FightStatus.Done
   }
 
-  public async attack(attacker: Mob, defender: Mob): Promise<Attack> {
+  public async attack(attacker: MobEntity, defender: MobEntity): Promise<Attack> {
     const eventResponse = await this.eventService.publish(
       createFightEvent(EventType.AttackRoundStart, attacker, this))
     if (eventResponse.status === EventResponseStatus.Satisfied) {
@@ -118,7 +118,7 @@ export class Fight {
       defender.hp < 0 ? await this.createDeath(attacker, defender) : undefined)
   }
 
-  private async turnFor(x: Mob, y: Mob): Promise<Attack[]> {
+  private async turnFor(x: MobEntity, y: MobEntity): Promise<Attack[]> {
     const attacks = [await this.attack(x, y)]
     if (y.hp < 0) {
       return attacks
@@ -127,7 +127,7 @@ export class Fight {
     return attacks
   }
 
-  private async createDeath(winner: Mob, vanquished: Mob): Promise<Death> {
+  private async createDeath(winner: MobEntity, vanquished: MobEntity): Promise<Death> {
     console.debug(`${vanquished.name} is killed by ${winner.name}`)
 
     this.status = FightStatus.Done

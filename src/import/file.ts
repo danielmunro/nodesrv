@@ -1,18 +1,18 @@
 import { Item } from "../item/model/item"
-import { Mob } from "../mob/model/mob"
-import Shop from "../mob/model/shop"
+import { MobEntity } from "../mob/entity/mobEntity"
+import ShopEntity from "../mob/entity/shopEntity"
 import { RoomEntity } from "../room/entity/roomEntity"
 import Reset from "./reset"
 
 export default class File {
   public rooms: RoomEntity[] = []
   public roomMap: object = {}
-  public mobs: Mob[] = []
+  public mobs: MobEntity[] = []
   public mobMap: object = {}
   public items: Item[] = []
   public roomDataMap: object = {}
   public resets: Reset[] = []
-  public shops: Shop[] = []
+  public shops: ShopEntity[] = []
 
   constructor(
     public readonly filename: string,

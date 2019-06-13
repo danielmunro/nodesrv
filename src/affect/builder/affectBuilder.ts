@@ -1,5 +1,5 @@
 import Attributes from "../../attributes/model/attributes"
-import DamageSource from "../../mob/model/damageSource"
+import DamageSourceEntity from "../../mob/entity/damageSourceEntity"
 import {AffectType} from "../enum/affectType"
 import {Affect} from "../model/affect"
 
@@ -26,17 +26,17 @@ export default class AffectBuilder {
     return this
   }
 
-  public setResist(damageSource: DamageSource): AffectBuilder {
+  public setResist(damageSource: DamageSourceEntity): AffectBuilder {
     this.affect.resist = damageSource
     return this
   }
 
-  public setImmune(damageSource: DamageSource): AffectBuilder {
+  public setImmune(damageSource: DamageSourceEntity): AffectBuilder {
     this.affect.immune = damageSource
     return this
   }
 
-  public setVulnerable(damageSource: DamageSource): AffectBuilder {
+  public setVulnerable(damageSource: DamageSourceEntity): AffectBuilder {
     this.affect.vulnerable = damageSource
     return this
   }

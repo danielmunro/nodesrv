@@ -1,7 +1,7 @@
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
-import {Mob} from "../../../mob/model/mob"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import MobService from "../../../mob/service/mobService"
 import {getAuthorizationLevelName, getNextDemotion} from "../../../player/authorizationLevels"
 import {RequestType} from "../../../request/enum/requestType"
@@ -22,7 +22,7 @@ export default class DemoteAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject()) as Mob
+    const mob = this.mobService.mobTable.find((m: MobEntity) => m.name === request.getSubject()) as MobEntity
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireMob()
       .capture()

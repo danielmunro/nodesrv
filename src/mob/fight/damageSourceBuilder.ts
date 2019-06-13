@@ -1,14 +1,14 @@
-import DamageSource from "../model/damageSource"
+import DamageSourceEntity from "../entity/damageSourceEntity"
 
 export default class DamageSourceBuilder {
-  private readonly damageSource = new DamageSource()
+  private readonly damageSource = new DamageSourceEntity()
 
   public enableMental(): DamageSourceBuilder {
     this.damageSource.mental = true
     return this
   }
 
-  public get(): DamageSource {
+  public get(): DamageSourceEntity {
     return this.damageSource
   }
 }

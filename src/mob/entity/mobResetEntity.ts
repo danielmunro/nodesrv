@@ -2,10 +2,10 @@ import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColum
 import * as v4 from "uuid"
 import { RoomEntity } from "../../room/entity/roomEntity"
 import { Disposition } from "../enum/disposition"
-import { Mob } from "./mob"
+import { MobEntity } from "./mobEntity"
 
 @Entity()
-export default class MobReset {
+export default class MobResetEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -13,9 +13,9 @@ export default class MobReset {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @ManyToOne(() => Mob, mob => mob.mobResets, { eager: true })
+  @ManyToOne(() => MobEntity, mob => mob.mobResets, { eager: true })
   @JoinColumn()
-  public mob: Mob
+  public mob: MobEntity
 
   @ManyToOne(() => RoomEntity, room => room.mobResets, { eager: true })
   @JoinColumn()

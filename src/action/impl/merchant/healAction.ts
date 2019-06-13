@@ -1,8 +1,8 @@
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import HealerSpell from "../../../mob/healer/healerSpell"
-import {Mob} from "../../../mob/model/mob"
 import LocationService from "../../../mob/service/locationService"
 import EventContext from "../../../request/context/eventContext"
 import {RequestType} from "../../../request/enum/requestType"
@@ -70,7 +70,7 @@ export default class HealAction extends Action {
     return Messages.Help.NoActionHelpTextProvided
   }
 
-  private listSpells(healer: Mob) {
+  private listSpells(healer: MobEntity) {
     return format(
       "{0} offers the following spells:\n{1}Type heal [spell] to be healed",
       healer.name,

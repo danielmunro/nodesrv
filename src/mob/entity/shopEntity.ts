@@ -2,7 +2,7 @@ import {Column, Entity, Generated, PrimaryGeneratedColumn} from "typeorm"
 import * as v4 from "uuid"
 
 @Entity()
-export default class Shop {
+export default class ShopEntity {
   @PrimaryGeneratedColumn()
   public id: number
 

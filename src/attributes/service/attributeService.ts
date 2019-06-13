@@ -1,10 +1,10 @@
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import RaceService from "../../mob/race/raceService"
 import {newEmptyAttributes} from "../factory/attributeFactory"
 import Attributes from "../model/attributes"
 
 export default class AttributeService {
-  constructor(private readonly mob: Mob) {}
+  constructor(private readonly mob: MobEntity) {}
 
   public combine(): Attributes {
     let attributes = newEmptyAttributes()

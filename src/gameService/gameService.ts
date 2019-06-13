@@ -4,8 +4,8 @@ import Action from "../action/impl/action"
 import Move from "../action/impl/move"
 import Skill from "../action/impl/skill"
 import ActionService from "../action/service/actionService"
-import {Mob} from "../mob/model/mob"
-import MobLocation from "../mob/model/mobLocation"
+import {MobEntity} from "../mob/entity/mobEntity"
+import MobLocationEntity from "../mob/entity/mobLocationEntity"
 import MobService from "../mob/service/mobService"
 import {RequestType} from "../request/enum/requestType"
 import {RoomEntity} from "../room/entity/roomEntity"
@@ -19,15 +19,15 @@ export default class GameService {
     @inject(Types.MobService) private readonly mobService: MobService,
     @inject(Types.ActionService) private readonly actionService: ActionService) {}
 
-  public async moveMob(mob: Mob, direction: Direction) {
+  public async moveMob(mob: MobEntity, direction: Direction) {
     await this.mobService.moveMob(mob, direction)
   }
 
-  public getMobLocation(mob: Mob): MobLocation {
+  public getMobLocation(mob: MobEntity): MobLocationEntity {
     return this.mobService.getLocationForMob(mob)
   }
 
-  public getMobsByRoom(room: RoomEntity): Mob[] {
+  public getMobsByRoom(room: RoomEntity): MobEntity[] {
     return this.mobService.getMobsByRoom(room)
   }
 

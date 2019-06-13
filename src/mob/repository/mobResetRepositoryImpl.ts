@@ -1,15 +1,15 @@
 import { Repository } from "typeorm"
-import MobReset from "../model/mobReset"
+import MobResetEntity from "../entity/mobResetEntity"
 import MobResetRepository from "./mobReset"
 
 export default class MobResetRepositoryImpl implements MobResetRepository {
-  constructor(private readonly mobResetRepository: Repository<MobReset>) {}
+  constructor(private readonly mobResetRepository: Repository<MobResetEntity>) {}
 
-  public findAll(): Promise<MobReset[]> {
+  public findAll(): Promise<MobResetEntity[]> {
       return this.mobResetRepository.find()
   }
 
-  public save(mobReset: MobReset) {
+  public save(mobReset: MobResetEntity) {
     return this.mobResetRepository.save(mobReset)
   }
 }

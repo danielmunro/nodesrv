@@ -1,6 +1,6 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
+import { MobEntity } from "../../../mob/entity/mobEntity"
 import {createMob, createPlayerMob} from "../../../mob/factory/mobFactory"
-import { Mob } from "../../../mob/model/mob"
 import { Player } from "../../../player/model/player"
 import AuthStep from "../authStep"
 import {CreationMessages} from "../constants"
@@ -34,7 +34,7 @@ export default class NewMobConfirm extends PlayerAuthStep implements AuthStep {
     return request.fail(this, CreationMessages.All.ConfirmFailed)
   }
 
-  private async createMob(): Promise<Mob> {
+  private async createMob(): Promise<MobEntity> {
     const mob = createMob()
     mob.hp = 20
     mob.mana = 100

@@ -10,8 +10,8 @@ import ItemContainerResetRepository from "../../item/repository/itemContainerRes
 import ItemMobResetRepository from "../../item/repository/itemMobReset"
 import ItemRoomResetRepository from "../../item/repository/itemRoomReset"
 import MobEquipResetRepository from "../../item/repository/mobEquipReset"
+import MobResetEntity from "../../mob/entity/mobResetEntity"
 import { newMobReset } from "../../mob/factory/mobFactory"
-import MobReset from "../../mob/model/mobReset"
 import MobResetRepository from "../../mob/repository/mobReset"
 import { ResetFlag } from "../enum/resetFlag"
 import File from "../file"
@@ -83,7 +83,7 @@ export default class ResetImportService {
     return resets
   }
 
-  private async createItemMobReset(reset: Reset): Promise<MobReset> {
+  private async createItemMobReset(reset: Reset): Promise<MobResetEntity> {
     const item = this.itemTable.getByImportId(reset.idOfResetSubject)
     const mob = this.mobTable.getByImportId(reset.idOfResetDestination)
     if (!item || !mob) {
@@ -111,7 +111,7 @@ export default class ResetImportService {
     return this.itemContainerResetRepository.save(newItemContainerReset(itemSubject, itemDestination))
   }
 
-  private async createMobRoomReset(reset: Reset): Promise<MobReset> {
+  private async createMobRoomReset(reset: Reset): Promise<MobResetEntity> {
     const room = this.roomTable.getByImportId(reset.idOfResetDestination)
     const mob = this.mobTable.getByImportId(reset.idOfResetSubject)
     if (!room || !mob) {

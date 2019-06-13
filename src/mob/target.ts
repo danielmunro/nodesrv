@@ -1,4 +1,4 @@
 import {Item} from "../item/model/item"
-import {Mob} from "./model/mob"
+import {MobEntity} from "./entity/mobEntity"
 
-export type Target = Mob | Item | undefined
+export type Target = MobEntity | Item | undefined

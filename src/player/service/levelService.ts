@@ -2,7 +2,7 @@ import AttributeBuilder from "../../attributes/builder/attributeBuilder"
 import Attributes from "../../attributes/model/attributes"
 import KafkaService from "../../kafka/kafkaService"
 import {MAX_MOB_LEVEL} from "../../mob/constants"
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {RaceType} from "../../mob/race/enum/raceType"
 import {Specialization} from "../../mob/specialization/specialization"
 import {getRandomIntFromRange, percentRoll} from "../../support/random/helpers"
@@ -43,7 +43,7 @@ export default class LevelService {
 
   constructor(
     private readonly kafkaService: KafkaService,
-    private readonly mob: Mob) {}
+    private readonly mob: MobEntity) {}
 
   public calculateHpGain() {
     const attributes = this.mob.attribute().combine()

@@ -3,23 +3,23 @@ import Attributes from "../../attributes/model/attributes"
 import {createInventory} from "../../item/factory/inventoryFactory"
 import {Item} from "../../item/model/item"
 import {RoomEntity} from "../../room/entity/roomEntity"
+import DamageSourceEntity from "../entity/damageSourceEntity"
+import {MobEntity} from "../entity/mobEntity"
+import MobLocationEntity from "../entity/mobLocationEntity"
+import MobResetEntity from "../entity/mobResetEntity"
+import {MobTraitsEntity} from "../entity/mobTraitsEntity"
+import OffensiveTraitsEntity from "../entity/offensiveTraitsEntity"
+import {PlayerMobEntity} from "../entity/playerMobEntity"
 import {Disposition} from "../enum/disposition"
-import DamageSource from "../model/damageSource"
-import {Mob} from "../model/mob"
-import MobLocation from "../model/mobLocation"
-import MobReset from "../model/mobReset"
-import {MobTraits} from "../model/mobTraits"
-import OffensiveTraits from "../model/offensiveTraits"
-import {PlayerMob} from "../model/playerMob"
 import {RaceType} from "../race/enum/raceType"
 import {SpecializationType} from "../specialization/enum/specializationType"
 
 export function newMobReset(
-  mob: Mob,
+  mob: MobEntity,
   room: RoomEntity,
   maxQuantity: number,
-  maxPerRoom: number): MobReset {
-  const mobReset = new MobReset()
+  maxPerRoom: number): MobResetEntity {
+  const mobReset = new MobResetEntity()
   mobReset.mob = mob
   mobReset.room = room
   mobReset.disposition = Disposition.Standing
@@ -30,9 +30,9 @@ export function newMobReset(
 }
 
 export function newMobLocation(
-  mob: Mob,
-  room: RoomEntity): MobLocation {
-  const mobLocation = new MobLocation()
+  mob: MobEntity,
+  room: RoomEntity): MobLocationEntity {
+  const mobLocation = new MobLocationEntity()
   mobLocation.mob = mob
   mobLocation.room = room
 
@@ -42,7 +42,7 @@ export function newMobLocation(
 /*tslint:disable*/
 export function newMob(name: string, description: string, race: RaceType, hp: number, mana: number,
                        mv: number, attributes: Attributes, wanders: boolean = false, items: Item[] = [],
-                       specialization = SpecializationType.Warrior): Mob {
+                       specialization = SpecializationType.Warrior): MobEntity {
 
   const mob = createMob()
   mob.name = name
@@ -59,14 +59,14 @@ export function newMob(name: string, description: string, race: RaceType, hp: nu
   return mob
 }
 
-export function createMob(): Mob {
-  const mob = new Mob()
+export function createMob(): MobEntity {
+  const mob = new MobEntity()
   mob.affects = []
-  mob.immune = new DamageSource()
-  mob.resist = new DamageSource()
-  mob.vulnerable = new DamageSource()
-  mob.traits = new MobTraits()
-  mob.offensiveTraits = new OffensiveTraits()
+  mob.immune = new DamageSourceEntity()
+  mob.resist = new DamageSourceEntity()
+  mob.vulnerable = new DamageSourceEntity()
+  mob.traits = new MobTraitsEntity()
+  mob.offensiveTraits = new OffensiveTraitsEntity()
   mob.hp = 0
   mob.mana = 0
   mob.mv = 0
@@ -78,8 +78,8 @@ export function createMob(): Mob {
   return mob
 }
 
-export function createPlayerMob(): PlayerMob {
-  const playerMob = new PlayerMob()
+export function createPlayerMob(): PlayerMobEntity {
+  const playerMob = new PlayerMobEntity()
   playerMob.trainedAttributes = newEmptyAttributes()
   return playerMob
 }

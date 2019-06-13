@@ -1,4 +1,4 @@
-import { Mob } from "../model/mob"
+import { MobEntity } from "../entity/mobEntity"
 
 export enum Disposition {
   Standing = "standing",
@@ -8,7 +8,7 @@ export enum Disposition {
   Any = "any",
 }
 
-export function onlyLiving(mob: Mob): boolean {
+export function onlyLiving(mob: MobEntity): boolean {
   return mob.disposition !== Disposition.Dead
 }
 

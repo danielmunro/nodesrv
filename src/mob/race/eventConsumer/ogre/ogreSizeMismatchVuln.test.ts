@@ -2,15 +2,15 @@ import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {createDamageEvent} from "../../../../event/factory/eventFactory"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
+import {MobEntity} from "../../../entity/mobEntity"
 import DamageEvent from "../../../event/damageEvent"
 import {DamageType} from "../../../fight/enum/damageType"
-import {Mob} from "../../../model/mob"
 import {RaceType} from "../../enum/raceType"
 import OgreSizeMismatchVuln from "./ogreSizeMismatchVuln"
 
 let testRunner: TestRunner
-let attacker: Mob
-let defender: Mob
+let attacker: MobEntity
+let defender: MobEntity
 let eventConsumer: OgreSizeMismatchVuln
 
 beforeEach(async () => {

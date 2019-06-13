@@ -1,7 +1,7 @@
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
-import {Mob} from "../../../../mob/model/mob"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../spell/constants"
 import {SpellType} from "../../../../spell/spellType"
@@ -18,7 +18,7 @@ export default function(abilityService: AbilityService): Spell {
       new DelayCost(1),
     ])
     .setApplySpell(async requestService => {
-      const target = requestService.getTarget() as Mob
+      const target = requestService.getTarget() as MobEntity
       target.playerMob.hunger = target.playerMob.appetite
     })
     .setSuccessMessage(requestService =>

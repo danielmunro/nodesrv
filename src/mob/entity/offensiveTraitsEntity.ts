@@ -2,7 +2,7 @@ import {Column, Entity, Generated, PrimaryGeneratedColumn} from "typeorm"
 import * as v4 from "uuid"
 
 @Entity()
-export default class OffensiveTraits {
+export default class OffensiveTraitsEntity {
   @PrimaryGeneratedColumn()
   public id: number
 

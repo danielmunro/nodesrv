@@ -1,12 +1,12 @@
+import {MobEntity} from "../entity/mobEntity"
 import {DamageType} from "../fight/enum/damageType"
-import {Mob} from "../model/mob"
 import MobEvent from "./mobEvent"
 
 export default interface DamageEvent extends MobEvent {
   readonly amount: number
   readonly damageType: DamageType
   readonly modifier: number
-  readonly source: Mob
+  readonly source: MobEntity
 }
 
 export function calculateDamageFromEvent(damageEvent: DamageEvent): number {

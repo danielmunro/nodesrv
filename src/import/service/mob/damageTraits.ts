@@ -1,7 +1,7 @@
-import DamageSource from "../../../mob/model/damageSource"
+import DamageSourceEntity from "../../../mob/entity/damageSourceEntity"
 import {DamageSourceFlag} from "../../enum/damageSourceFlag"
 
-export default function(damageSource: DamageSource, trait: DamageSourceFlag) {
+export default function(damageSource: DamageSourceEntity, trait: DamageSourceFlag) {
   switch (trait) {
     case DamageSourceFlag.Summon:
       damageSource.summon = true

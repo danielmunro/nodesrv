@@ -1,7 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
 import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/service/clientService"
@@ -24,7 +24,7 @@ export default class RoomMessageEventConsumer implements EventConsumer {
     return [ EventType.RoomMessage ]
   }
 
-  private sendMessage(mob: Mob, message: ResponseMessage) {
+  private sendMessage(mob: MobEntity, message: ResponseMessage) {
     this.clientService.sendMessageToMob(mob, message.getMessageToObservers())
   }
 }

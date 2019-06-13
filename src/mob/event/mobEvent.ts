@@ -1,6 +1,6 @@
 import Event from "../../event/event"
-import {Mob} from "../model/mob"
+import {MobEntity} from "../entity/mobEntity"
 
 export default interface MobEvent extends Event {
-  readonly mob: Mob
+  readonly mob: MobEntity
 }

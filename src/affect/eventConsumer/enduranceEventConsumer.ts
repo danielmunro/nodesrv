@@ -4,12 +4,12 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {createCostEvent} from "../../event/factory/eventFactory"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import CostEvent from "../../mob/event/costEvent"
-import {Mob} from "../../mob/model/mob"
 import {AffectType} from "../enum/affectType"
 
 export default class EnduranceEventConsumer implements EventConsumer {
-  private static reduceAmount(mob: Mob, cost: Cost) {
+  private static reduceAmount(mob: MobEntity, cost: Cost) {
     if (typeof cost.amount === "function") {
       return cost.amount(mob) / 3
     }

@@ -1,7 +1,7 @@
 import {createInventory} from "../../item/factory/inventoryFactory"
 import {Inventory} from "../../item/model/inventory"
 import {Item} from "../../item/model/item"
-import {Mob} from "../model/mob"
+import {MobEntity} from "../entity/mobEntity"
 import {EscrowStatus} from "./escrowStatus"
 
 export default class Escrow {
@@ -14,8 +14,8 @@ export default class Escrow {
   private escrowStatus: EscrowStatus = EscrowStatus.Live
 
   constructor(
-    private readonly requester: Mob,
-    private readonly trader: Mob) {}
+    private readonly requester: MobEntity,
+    private readonly trader: MobEntity) {}
 
   public addItemForRequester(item: Item) {
     if (this.escrowStatus !== EscrowStatus.Live) {
@@ -70,7 +70,7 @@ export default class Escrow {
     this.reject()
   }
 
-  public isParticipant(mob: Mob) {
+  public isParticipant(mob: MobEntity) {
     return this.requester === mob || this.trader === mob
   }
 

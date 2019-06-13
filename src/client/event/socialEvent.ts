@@ -1,12 +1,12 @@
 import {EventType} from "../../event/enum/eventType"
 import Event from "../../event/event"
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {Channel} from "../enum/channel"
 
 export default interface SocialEvent extends Event {
   readonly channel: Channel
-  readonly mob: Mob
+  readonly mob: MobEntity
   readonly message: string
-  readonly toMob?: Mob
+  readonly toMob?: MobEntity
   readonly eventType: EventType.Social
 }

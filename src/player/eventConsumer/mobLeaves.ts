@@ -1,8 +1,8 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
-import {Mob} from "../../mob/model/mob"
 import ClientService from "../../server/service/clientService"
 
 export default class MobLeaves implements EventConsumer {
@@ -17,7 +17,7 @@ export default class MobLeaves implements EventConsumer {
     return EventResponse.none(event)
   }
 
-  private announceLeaving(mob: Mob) {
+  private announceLeaving(mob: MobEntity) {
     this.clientService.sendMessageInRoom(mob, mob.name + " left.")
   }
 }

@@ -5,13 +5,13 @@ import RoomTable from "../../room/table/roomTable"
 import RoomBuilder from "../../support/test/roomBuilder"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import {Mob} from "../model/mob"
+import {MobEntity} from "../entity/mobEntity"
 import LocationService from "../service/locationService"
 
 let testRunner: TestRunner
 let locationService: LocationService
-let mob1: Mob
-let mob2: Mob
+let mob1: MobEntity
+let mob2: MobEntity
 let room1: RoomBuilder
 let room2: RoomBuilder
 

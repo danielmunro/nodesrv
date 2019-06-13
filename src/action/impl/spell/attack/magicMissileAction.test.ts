@@ -1,14 +1,14 @@
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
-import {Mob} from "../../../../mob/model/mob"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import { RequestType } from "../../../../request/enum/requestType"
 import { SpellType } from "../../../../spell/spellType"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
 
 let testRunner: TestRunner
-let caster: Mob
-let target: Mob
+let caster: MobEntity
+let target: MobEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)

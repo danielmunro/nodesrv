@@ -1,12 +1,12 @@
 import {inject, injectable} from "inversify"
 import "reflect-metadata"
 import {Affect} from "../../affect/model/affect"
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import MobTable from "../../mob/table/mobTable"
 import {Types} from "../../support/types"
 import { Observer } from "./observer"
 
-export function decrementAffects(mob: Mob) {
+export function decrementAffects(mob: MobEntity) {
   mob.affects = mob.affects.filter((affect: Affect) => {
     affect.timeout--
     return affect.timeout >= 0

@@ -1,6 +1,6 @@
 import {SkillType} from "../../skill/skillType"
 import {BASE_KILL_EXPERIENCE} from "../constants"
-import {Mob} from "../model/mob"
+import {MobEntity} from "../entity/mobEntity"
 import Death from "./death"
 import {AttackResult} from "./enum/attackResult"
 
@@ -41,8 +41,8 @@ export class Attack {
   public readonly experience: number = 0
 
   constructor(
-    public readonly attacker: Mob,
-    public readonly defender: Mob,
+    public readonly attacker: MobEntity,
+    public readonly defender: MobEntity,
     public readonly result: AttackResult,
     public readonly damage: number,
     public readonly death?: Death) {

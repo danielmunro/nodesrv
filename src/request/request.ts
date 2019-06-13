@@ -1,5 +1,5 @@
 import { Item } from "../item/model/item"
-import { Mob } from "../mob/model/mob"
+import { MobEntity } from "../mob/entity/mobEntity"
 import {AuthorizationLevel} from "../player/enum/authorizationLevel"
 import {Region} from "../region/model/region"
 import {ExitEntity} from "../room/entity/exitEntity"
@@ -11,10 +11,10 @@ import { RequestType } from "./enum/requestType"
 
 export default class Request {
   constructor(
-    public readonly mob: Mob,
+    public readonly mob: MobEntity,
     private readonly room: RoomEntity,
     private readonly context: RequestContext,
-    private readonly targetMobInRoom?: Mob) {}
+    private readonly targetMobInRoom?: MobEntity) {}
 
   public getContextAsInput(): InputContext {
     return this.context as InputContext
@@ -36,7 +36,7 @@ export default class Request {
     return this.mob.inventory.findItemByName(item)
   }
 
-  public getTargetMobInRoom(): Mob | undefined {
+  public getTargetMobInRoom(): MobEntity | undefined {
     return this.targetMobInRoom
   }
 

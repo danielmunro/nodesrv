@@ -1,7 +1,7 @@
-import {Mob} from "../../../mob/model/mob"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import {MobTrait} from "../../enum/mobTrait"
 
-export default function(mob: Mob, trait: MobTrait) {
+export default function(mob: MobEntity, trait: MobTrait) {
   switch (trait) {
     case MobTrait.IsNpc:
       mob.traits.isNpc = true

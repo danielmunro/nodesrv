@@ -1,9 +1,9 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
+import {MobEntity} from "../entity/mobEntity"
 import MobMoveEvent from "../event/mobMoveEvent"
 import FightBuilder from "../fight/fightBuilder"
-import {Mob} from "../model/mob"
 import LocationService from "../service/locationService"
 import MobService from "../service/mobService"
 
@@ -24,7 +24,7 @@ export default class AggressiveMob implements EventConsumer {
     return EventResponse.none(event)
   }
 
-  private checkForAggressiveMobs(mob: Mob) {
+  private checkForAggressiveMobs(mob: MobEntity) {
     const location = this.locationService.getLocationForMob(mob)
     const mobs = this.locationService.getMobsByRoom(location.room).filter(m => m !== mob)
     mobs.forEach(m => {

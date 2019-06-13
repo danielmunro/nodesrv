@@ -1,9 +1,9 @@
 import * as sillyname from "sillyname"
 import { getTestMob } from "../../support/test/mob"
-import { Mob } from "../model/mob"
+import { MobEntity } from "../entity/mobEntity"
 import MobTable from "../table/mobTable"
 
-function getTestWanderingMob(): Mob {
+function getTestWanderingMob(): MobEntity {
   const mob = getTestMob()
   mob.traits.wanders = true
 

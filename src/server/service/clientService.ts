@@ -2,7 +2,7 @@ import {inject, injectable} from "inversify"
 import Action from "../../action/impl/action"
 import {Client} from "../../client/client"
 import EventService from "../../event/service/eventService"
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
 import CreationService from "../../session/auth/creationService"
 import Email from "../../session/auth/login/email"
@@ -39,7 +39,7 @@ export default class ClientService {
     this.clients = this.clients.filter(c => c !== client)
   }
 
-  public getClientByMob(mob: Mob): Client | undefined {
+  public getClientByMob(mob: MobEntity): Client | undefined {
     return this.clients.find((client: Client) => client.getSessionMob() === mob)
   }
 
@@ -51,20 +51,20 @@ export default class ClientService {
     observer.notify(this.clients)
   }
 
-  public sendMessageToMob(mob: Mob, message: string) {
+  public sendMessageToMob(mob: MobEntity, message: string) {
     const client = this.clients.find(c => c.getSessionMob() === mob)
     if (client) {
       client.sendMessage(message)
     }
   }
 
-  public sendMessageInRoom(mob: Mob, message: string): void {
+  public sendMessageInRoom(mob: MobEntity, message: string): void {
     const mobs = this.getRoomMobs(mob)
     const clients = this.clients.filter(c => mobs.includes(c.getSessionMob()) && c.getSessionMob() !== mob)
     clients.forEach(c => c.sendMessage(message))
   }
 
-  public sendMessage(mob: Mob, message: string): void {
+  public sendMessage(mob: MobEntity, message: string): void {
     this.clients.forEach(c => {
       if (c.getSessionMob() !== mob) {
         c.sendMessage(message)
@@ -72,7 +72,7 @@ export default class ClientService {
     })
   }
 
-  private getRoomMobs(mob: Mob): Mob[] {
+  private getRoomMobs(mob: MobEntity): MobEntity[] {
     const location = this.locationService.getLocationForMob(mob)
     return this.locationService.getMobsByRoom(location.room)
   }

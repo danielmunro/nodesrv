@@ -7,9 +7,9 @@ import ItemBuilder from "../../item/builder/itemBuilder"
 import WeaponBuilder from "../../item/builder/weaponBuilder"
 import {createItem, createWeapon} from "../../item/factory/itemFactory"
 import ItemService from "../../item/service/itemService"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {Fight} from "../../mob/fight/fight"
 import FightBuilder from "../../mob/fight/fightBuilder"
-import {Mob} from "../../mob/model/mob"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import SpecializationService from "../../mob/specialization/service/specializationService"
@@ -43,7 +43,7 @@ const mockRequest = jest.fn()
 
 @injectable()
 export default class TestRunner {
-  private firstMob: Mob
+  private firstMob: MobEntity
 
   constructor(
     @inject(Types.MobService) private readonly mobService: MobService,
@@ -131,7 +131,7 @@ export default class TestRunner {
   public createRequest(
     requestType: RequestType,
     input: string = requestType.toString(),
-    targetMobInRoom?: Mob): Request {
+    targetMobInRoom?: MobEntity): Request {
     return new Request(
       this.firstMob,
       this.getStartRoom().get(),
@@ -139,7 +139,7 @@ export default class TestRunner {
       targetMobInRoom)
   }
 
-  public fight(target: Mob = this.createMob().get()): Fight {
+  public fight(target: MobEntity = this.createMob().get()): Fight {
     const fight = this.fightBuilder.create(this.firstMob, target)
     this.mobService.addFight(fight)
     return fight
@@ -149,7 +149,7 @@ export default class TestRunner {
     return new RoomBuilder(this.locationService.getRecall())
   }
 
-  public async invokeAction(requestType: RequestType, input?: string, targetMobInRoom?: Mob): Promise<Response> {
+  public async invokeAction(requestType: RequestType, input?: string, targetMobInRoom?: MobEntity): Promise<Response> {
     if (!this.firstMob) {
       this.createMob()
     }
@@ -163,7 +163,7 @@ export default class TestRunner {
   }
 
   public async invokeActionSuccessfully(
-    requestType: RequestType, input?: string, targetMobInRoom?: Mob): Promise<Response> {
+    requestType: RequestType, input?: string, targetMobInRoom?: MobEntity): Promise<Response> {
     const response = await this.invokeAction(requestType, input, targetMobInRoom)
     if (response.isFailure()) {
       return this.invokeActionSuccessfully(requestType, input, targetMobInRoom)
@@ -174,7 +174,7 @@ export default class TestRunner {
   public async invokeActionFailure(
     requestType: RequestType,
     input?: string,
-    targetMobInRoom?: Mob,
+    targetMobInRoom?: MobEntity,
     resetState: () => void = () => { /**/ }): Promise<Response> {
     const response = await this.invokeAction(requestType, input, targetMobInRoom)
     if (response.isSuccessful()) {

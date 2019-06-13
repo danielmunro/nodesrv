@@ -1,6 +1,6 @@
 import Action from "../../action/impl/action"
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
@@ -8,7 +8,7 @@ import {RequestType} from "../enum/requestType"
 import RequestBuilder from "./requestBuilder"
 
 let requestBuilder: RequestBuilder
-let target: Mob
+let target: MobEntity
 
 beforeEach(async () => {
   // setup

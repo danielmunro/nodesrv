@@ -3,8 +3,8 @@ import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import ItemService from "../../item/service/itemService"
 import ClientService from "../../server/service/clientService"
+import {MobEntity} from "../entity/mobEntity"
 import MobEvent from "../event/mobEvent"
-import {Mob} from "../model/mob"
 import LocationService from "../service/locationService"
 
 export const SCAVENGE_TIMEOUT_MS = 10000
@@ -27,7 +27,7 @@ export default class Scavenge implements EventConsumer {
     return EventResponse.none(event)
   }
 
-  public scavenge(mob: Mob) {
+  public scavenge(mob: MobEntity) {
     const location = this.locationService.getLocationForMob(mob)
     const items = this.itemService.findAllByInventory(location.room.inventory)
     let message = ""

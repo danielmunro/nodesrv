@@ -1,9 +1,9 @@
 import { readFileSync } from "fs"
 import { newStartingAttributes } from "../../attributes/factory/attributeFactory"
 import ItemRepository from "../../item/repository/item"
+import {MobEntity} from "../../mob/entity/mobEntity"
+import ShopEntity from "../../mob/entity/shopEntity"
 import { newMob } from "../../mob/factory/mobFactory"
-import {Mob} from "../../mob/model/mob"
-import Shop from "../../mob/model/shop"
 import MobRepository from "../../mob/repository/mob"
 import { RoomEntity } from "../../room/entity/roomEntity"
 import { newRoom } from "../../room/factory/roomFactory"
@@ -42,29 +42,29 @@ export default class ImportService {
     return amount
   }
 
-  private static addMobTraits(mob: Mob, traits: MobTrait[]) {
+  private static addMobTraits(mob: MobEntity, traits: MobTrait[]) {
     traits.forEach(trait => mobTraits(mob, trait))
   }
 
-  private static addMobOffensiveTraits(mob: Mob, traits: MobOffensiveTrait[]) {
+  private static addMobOffensiveTraits(mob: MobEntity, traits: MobOffensiveTrait[]) {
     traits.forEach(trait => offensiveTraits(mob, trait))
   }
 
-  private static addMobVulnerableTraits(mob: Mob, traits: DamageSourceFlag[]) {
+  private static addMobVulnerableTraits(mob: MobEntity, traits: DamageSourceFlag[]) {
     traits.forEach(trait => damageTraits(mob.vulnerable, trait))
   }
 
-  private static addMobResistTraits(mob: Mob, traits: DamageSourceFlag[]) {
+  private static addMobResistTraits(mob: MobEntity, traits: DamageSourceFlag[]) {
     traits.forEach(trait => damageTraits(mob.resist, trait))
   }
 
-  private static addMobImmuneTraits(mob: Mob, traits: DamageSourceFlag[]) {
+  private static addMobImmuneTraits(mob: MobEntity, traits: DamageSourceFlag[]) {
     traits.forEach(trait => damageTraits(mob.immune, trait))
   }
 
   private static async addShop(file: File, resetData) {
     const mob = file.mobs.find(m => m.canonicalId === resetData.keeper)
-    const shop = new Shop()
+    const shop = new ShopEntity()
     shop.buyModifier = resetData.profitBuy
     shop.sellModifier = resetData.profitSell
     shop.openHour = resetData.openHour

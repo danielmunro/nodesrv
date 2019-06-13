@@ -2,13 +2,13 @@ import {createTestAppContainer} from "../../app/factory/testFactory"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
+import {MobEntity} from "../entity/mobEntity"
 import { newMobLocation } from "../factory/mobFactory"
-import {Mob} from "../model/mob"
 import LocationService from "./locationService"
 
 let locationService: LocationService
-let mob1: Mob
-let mob2: Mob
+let mob1: MobEntity
+let mob2: MobEntity
 let room1: RoomEntity
 let room2: RoomEntity
 

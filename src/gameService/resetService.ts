@@ -6,8 +6,8 @@ import ItemMobReset from "../item/model/itemMobReset"
 import { ItemRoomReset } from "../item/model/itemRoomReset"
 import { MobEquipReset } from "../item/model/mobEquipReset"
 import ItemService from "../item/service/itemService"
-import { Mob } from "../mob/model/mob"
-import { default as MobReset } from "../mob/model/mobReset"
+import { MobEntity } from "../mob/entity/mobEntity"
+import { default as MobReset } from "../mob/entity/mobResetEntity"
 import MobService from "../mob/service/mobService"
 import {RoomEntity} from "../room/entity/roomEntity"
 import RoomTable from "../room/table/roomTable"
@@ -37,7 +37,7 @@ export default class ResetService {
     await Promise.all(this.itemRoomResets.map(this.respawnFromItemRoomReset.bind(this)))
   }
 
-  public async respawnFromMob(mob: Mob) {
+  public async respawnFromMob(mob: MobEntity) {
     const mobReset = this.mobResets.find(reset => reset.mob.uuid === mob.uuid)
     if (!mobReset) {
       throw new Error("no mob reset found")
@@ -73,7 +73,7 @@ export default class ResetService {
     }
   }
 
-  private async giveItemToMob(mob: Mob) {
+  private async giveItemToMob(mob: MobEntity) {
     for (const reset of this.itemMobResets) {
       if (reset.mob.importId === mob.importId) {
         const item = cloneDeep(reset.item)
@@ -83,7 +83,7 @@ export default class ResetService {
     }
   }
 
-  private async equipToMob(mob: Mob) {
+  private async equipToMob(mob: MobEntity) {
     for (const mobEquipReset of this.mobEquipResets) {
       if (mobEquipReset.mob.importId === mob.importId) {
         const equipment = await this.itemService.generateNewItemInstance(mobEquipReset)

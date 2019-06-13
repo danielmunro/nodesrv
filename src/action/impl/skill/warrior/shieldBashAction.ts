@@ -3,7 +3,7 @@ import {newAffect} from "../../../../affect/factory/affectFactory"
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import AbilityService from "../../../../check/service/abilityService"
-import {Mob} from "../../../../mob/model/mob"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {SkillType} from "../../../../skill/skillType"
 import SkillBuilder from "../../../builder/skillBuilder"
 import {Messages} from "../../../constants"
@@ -16,7 +16,7 @@ export default function(abilityService: AbilityService): Skill {
     .setAffectType(AffectType.Stunned)
     .setTouchesTarget()
     .setCosts([
-      new MvCost((mob: Mob) => Math.max(80, mob.mv / 2)),
+      new MvCost((mob: MobEntity) => Math.max(80, mob.mv / 2)),
       new DelayCost(2),
     ])
     .setApplySkill(requestService => {

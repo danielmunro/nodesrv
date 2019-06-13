@@ -1,6 +1,6 @@
 import createAppContainer from "../src/app/factory/factory"
+import {MobEntity} from "../src/mob/entity/mobEntity"
 import {createMob} from "../src/mob/factory/mobFactory"
-import {Mob} from "../src/mob/model/mob"
 import {RaceType} from "../src/mob/race/enum/raceType"
 import {SpecializationType} from "../src/mob/specialization/enum/specializationType"
 import PracticeService from "../src/player/service/practiceService"

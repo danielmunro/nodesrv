@@ -1,7 +1,7 @@
 import {inject, injectable} from "inversify"
 import "reflect-metadata"
 import KafkaService from "../../kafka/kafkaService"
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import MobRepository from "../../mob/repository/mob"
 import Customization from "../../mob/specialization/customization"
 import SpecializationService from "../../mob/specialization/service/specializationService"
@@ -30,7 +30,7 @@ export default class CreationService {
     return this.mobRepository.findOneByName(name)
   }
 
-  public getUnknownCustomization(mob: Mob, subject: string): Customization | undefined {
+  public getUnknownCustomization(mob: MobEntity, subject: string): Customization | undefined {
     return new Maybe(this.getUnknownSpecializationGroups(mob)
       .find(specializationGroup => match(specializationGroup.groupName, subject)))
       .do(it => it)
@@ -39,7 +39,7 @@ export default class CreationService {
       .get()
   }
 
-  public getKnownCustomization(mob: Mob, subject: string): Customization | undefined {
+  public getKnownCustomization(mob: MobEntity, subject: string): Customization | undefined {
     return new Maybe(this.getKnownSpecializationGroups(mob)
       .find(specializationGroup => match(specializationGroup.groupName, subject)))
       .do(it => it)
@@ -48,23 +48,23 @@ export default class CreationService {
       .get()
   }
 
-  public getUnknownSpecializationGroups(mob: Mob): SpecializationGroup[] {
+  public getUnknownSpecializationGroups(mob: MobEntity): SpecializationGroup[] {
     return this.specializationGroups.filter(
       specializationGroup =>
         specializationGroup.specializationType === mob.specializationType
         && !mob.playerMob.customizations.includes(specializationGroup))
   }
 
-  public getUnknownSkills(mob: Mob): SpecializationLevel[] {
+  public getUnknownSkills(mob: MobEntity): SpecializationLevel[] {
     return this.specializationService.getAvailableSkills(mob)
   }
 
-  public getKnownSpecializationGroups(mob: Mob): SpecializationGroup[] {
+  public getKnownSpecializationGroups(mob: MobEntity): SpecializationGroup[] {
     return this.specializationGroups.filter(
       specializationGroup => mob.playerMob.customizations.includes(specializationGroup))
   }
 
-  public getKnownSkills(mob: Mob): SpecializationLevel[] {
+  public getKnownSkills(mob: MobEntity): SpecializationLevel[] {
     return this.specializationService.getUnavailableSkills(mob)
   }
 
@@ -74,7 +74,7 @@ export default class CreationService {
     return savedPlayer
   }
 
-  public async saveMob(mob: Mob) {
+  public async saveMob(mob: MobEntity) {
     const savedMob = await this.mobRepository.save(mob)
     await this.kafkaService.mobCreated(savedMob)
     return savedMob

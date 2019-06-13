@@ -6,8 +6,8 @@ import Cost from "../check/cost/cost"
 import {EventType} from "../event/enum/eventType"
 import {createClientEvent, createCostEvent, createInputEvent, createMobEvent} from "../event/factory/eventFactory"
 import EventService from "../event/service/eventService"
+import { MobEntity } from "../mob/entity/mobEntity"
 import CostEvent from "../mob/event/costEvent"
-import { Mob } from "../mob/model/mob"
 import LocationService from "../mob/service/locationService"
 import { Player } from "../player/model/player"
 import RequestBuilder from "../request/builder/requestBuilder"
@@ -52,7 +52,7 @@ export class Client {
     return this.hasRequests() && this.player.delay === 0
   }
 
-  public getSessionMob(): Mob {
+  public getSessionMob(): MobEntity {
     return this.session.getMob()
   }
 

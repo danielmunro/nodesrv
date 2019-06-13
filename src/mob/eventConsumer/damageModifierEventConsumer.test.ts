@@ -1,15 +1,15 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
+import {MobEntity} from "../entity/mobEntity"
 import DamageEvent, {calculateDamageFromEvent} from "../event/damageEvent"
 import DamageEventBuilder from "../event/damageEventBuilder"
 import {DamageType} from "../fight/enum/damageType"
-import {Mob} from "../model/mob"
 import {RaceType} from "../race/enum/raceType"
 import DamageModifierEventConsumer from "./damageModifierEventConsumer"
 
 let consumer: DamageModifierEventConsumer
-let mob: Mob
+let mob: MobEntity
 const initialDamage = 1
 
 beforeEach(async () => {

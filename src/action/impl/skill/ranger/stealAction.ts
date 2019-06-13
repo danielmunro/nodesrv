@@ -3,7 +3,7 @@ import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
-import {Mob} from "../../../../mob/model/mob"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import ResponseMessage from "../../../../request/responseMessage"
 import {ActionMessages, ConditionMessages, Costs} from "../../../../skill/constants"
 import {SkillType} from "../../../../skill/skillType"
@@ -23,7 +23,7 @@ export default function(abilityService: AbilityService): Skill {
       .requireMobInRoom(CheckMessages.NoMob)
       .capture()
       .require(
-        (target: Mob) => target.inventory.findItemByName(request.getSubject()),
+        (target: MobEntity) => target.inventory.findItemByName(request.getSubject()),
         ConditionMessages.Steal.ErrorNoItem,
         CheckType.HasItem)
       .create())

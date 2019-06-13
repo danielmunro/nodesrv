@@ -5,12 +5,12 @@ import EventResponse from "../../event/eventResponse"
 import EventContext from "../../request/context/eventContext"
 import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
+import {MobEntity} from "../entity/mobEntity"
 import FightEvent from "../fight/event/fightEvent"
-import {Mob} from "../model/mob"
 import LocationService from "../service/locationService"
 
 export default class Wimpy implements EventConsumer {
-  private static isWimpy(mob: Mob, target: Mob) {
+  private static isWimpy(mob: MobEntity, target: MobEntity) {
     return target.hp / target.attribute().getMaxHp() < 0.2 || target.level < mob.level - 8
   }
 
@@ -33,7 +33,7 @@ export default class Wimpy implements EventConsumer {
     return EventResponse.none(event)
   }
 
-  private tryWimpy(mob: Mob) {
+  private tryWimpy(mob: MobEntity) {
     return this.fleeDefinition.handle(
       new Request(
         mob,

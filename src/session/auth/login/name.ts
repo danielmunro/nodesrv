@@ -1,4 +1,4 @@
-import {Mob} from "../../../mob/model/mob"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import AuthStep from "../authStep"
 import Complete from "../complete"
 import {CreationMessages} from "../constants"
@@ -30,7 +30,7 @@ export default class Name extends PlayerAuthStep implements AuthStep {
     return request.ok(new NewMobConfirm(this.creationService, this.player, name))
   }
 
-  private async existingMobFound(request: Request, mob: Mob): Promise<Response> {
+  private async existingMobFound(request: Request, mob: MobEntity): Promise<Response> {
     this.player.sessionMob = mob
     return request.ok(new Complete(this.creationService, this.player))
   }

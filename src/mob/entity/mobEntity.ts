@@ -25,15 +25,15 @@ import AlignmentService from "../service/alignmentService"
 import { SpecializationType } from "../specialization/enum/specializationType"
 import {createSpecializationFromType} from "../specialization/factory"
 import {Specialization} from "../specialization/specialization"
-import DamageSource from "./damageSource"
-import MobReset from "./mobReset"
-import {MobTraits} from "./mobTraits"
-import OffensiveTraits from "./offensiveTraits"
-import { PlayerMob } from "./playerMob"
-import Shop from "./shop"
+import DamageSourceEntity from "./damageSourceEntity"
+import MobResetEntity from "./mobResetEntity"
+import {MobTraitsEntity} from "./mobTraitsEntity"
+import OffensiveTraitsEntity from "./offensiveTraitsEntity"
+import { PlayerMobEntity } from "./playerMobEntity"
+import ShopEntity from "./shopEntity"
 
 @Entity()
-export class Mob {
+export class MobEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
@@ -86,32 +86,32 @@ export class Mob {
   @Column("integer")
   public mv: number
 
-  @OneToOne(() => DamageSource, { cascade: true, eager: true })
+  @OneToOne(() => DamageSourceEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public immune: DamageSource
+  public immune: DamageSourceEntity
 
-  @OneToOne(() => DamageSource, { cascade: true, eager: true })
+  @OneToOne(() => DamageSourceEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public resist: DamageSource
+  public resist: DamageSourceEntity
 
-  @OneToOne(() => DamageSource, { cascade: true, eager: true })
+  @OneToOne(() => DamageSourceEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public vulnerable: DamageSource
+  public vulnerable: DamageSourceEntity
 
   @OneToMany(() => Affect, affect => affect.mob, { cascade: true, eager: true })
   public affects: Affect[]
 
-  @OneToOne(() => MobTraits, { cascade: true, eager: true })
+  @OneToOne(() => MobTraitsEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public traits: MobTraits
+  public traits: MobTraitsEntity
 
-  @OneToOne(() => OffensiveTraits, { cascade: true, eager: true })
+  @OneToOne(() => OffensiveTraitsEntity, { cascade: true, eager: true })
   @JoinColumn()
-  public offensiveTraits: OffensiveTraits
+  public offensiveTraits: OffensiveTraitsEntity
 
-  @OneToOne(() => Shop, { cascade: true })
+  @OneToOne(() => ShopEntity, { cascade: true })
   @JoinColumn()
-  public shop: Shop
+  public shop: ShopEntity
 
   @OneToMany(() => Attributes, attributes => attributes.mob, { cascade: true, eager: true })
   public attributes: Attributes[]
@@ -133,15 +133,15 @@ export class Mob {
   @OneToMany(() => Spell, spell => spell.mob, { cascade: true, eager: true })
   public spells: Spell[]
 
-  @OneToOne(() => PlayerMob, playerMob => playerMob.mob, { nullable: true, cascade: true, eager: true })
-  public playerMob: PlayerMob
+  @OneToOne(() => PlayerMobEntity, playerMob => playerMob.mob, { nullable: true, cascade: true, eager: true })
+  public playerMob: PlayerMobEntity
 
-  @OneToMany(() => MobReset, reset => reset.mob)
-  public mobResets: MobReset[]
+  @OneToMany(() => MobResetEntity, reset => reset.mob)
+  public mobResets: MobResetEntity[]
 
-  public pet: Mob
+  public pet: MobEntity
 
-  public follows: Mob
+  public follows: MobEntity
 
   public deathTimer: number = 0
 

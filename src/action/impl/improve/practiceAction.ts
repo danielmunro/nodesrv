@@ -2,7 +2,7 @@ import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
-import {Mob} from "../../../mob/model/mob"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import MobService from "../../../mob/service/mobService"
 import {SpecializationType} from "../../../mob/specialization/enum/specializationType"
 import {getSpecializationLevel} from "../../../mob/specialization/specializationLevels"
@@ -19,7 +19,7 @@ import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
 export default class PracticeAction extends Action {
-  private static getImproveAmount(mob: Mob): number {
+  private static getImproveAmount(mob: MobEntity): number {
     return mob.attribute().getInt() / 2
   }
 
@@ -29,7 +29,7 @@ export default class PracticeAction extends Action {
       practice instanceof Skill ? practice.skillType : practice.spellType).minimumLevel
   }
 
-  private static findPractice(mob: Mob, input: string): Skill | Spell | undefined {
+  private static findPractice(mob: MobEntity, input: string): Skill | Spell | undefined {
     return Maybe.if(mob.skills.find((skill: Skill) => match(skill.skillType, input)))
       .or(() => mob.spells.find((spell: Spell) => match(spell.spellType, input)))
       .get()
@@ -44,7 +44,7 @@ export default class PracticeAction extends Action {
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
       .require(
-        this.mobService.findMobInRoomWithMob(request.mob, (mob: Mob) => mob.traits.practice),
+        this.mobService.findMobInRoomWithMob(request.mob, (mob: MobEntity) => mob.traits.practice),
         Messages.Practice.MobNotHere,
         CheckType.MobPresent)
       .require(request.mob.playerMob.practices > 0, Messages.Practice.NotEnoughPractices)

@@ -6,7 +6,7 @@ import Cost from "../../../check/cost/cost"
 import {CostType} from "../../../check/cost/costType"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
-import {Mob} from "../../../mob/model/mob"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import LocationService from "../../../mob/service/locationService"
 import ResponseBuilder from "../../../request/builder/responseBuilder"
 import {RequestType} from "../../../request/enum/requestType"
@@ -24,7 +24,7 @@ function canTrain(stat: number): boolean {
   return stat < MAX_TRAINABLE_STATS
 }
 
-function trainStat(mob: Mob, responseBuilder: ResponseBuilder, message: string, stat: Stat): Promise<Response> {
+function trainStat(mob: MobEntity, responseBuilder: ResponseBuilder, message: string, stat: Stat): Promise<Response> {
   const attributes = mob.playerMob.trainedAttributes
   if (!canTrain(attributes[stat])) {
     return responseBuilder.fail(ConditionMessages.Train.CannotTrainMore)
@@ -33,7 +33,8 @@ function trainStat(mob: Mob, responseBuilder: ResponseBuilder, message: string, 
   return responseBuilder.success(message)
 }
 
-function trainVital(mob: Mob, responseBuilder: ResponseBuilder, message: string, vital: Vital): Promise<Response> {
+function trainVital(
+  mob: MobEntity, responseBuilder: ResponseBuilder, message: string, vital: Vital): Promise<Response> {
   if (vital === Vital.Hp) {
     mob.playerMob.trainedAttributes.hp += VITAL_INCREMENT
   } else if (vital === Vital.Mana) {

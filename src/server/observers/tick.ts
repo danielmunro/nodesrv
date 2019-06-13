@@ -5,9 +5,9 @@ import {Client} from "../../client/client"
 import {createTickEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import TimeService from "../../gameService/timeService"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {Trigger} from "../../mob/enum/trigger"
 import TickEvent from "../../mob/event/tickEvent"
-import {Mob} from "../../mob/model/mob"
 import LocationService from "../../mob/service/locationService"
 import roll from "../../support/random/dice"
 import {Types} from "../../support/types"
@@ -19,14 +19,14 @@ const TIMING = "tick notification duration"
 
 @injectable()
 export class Tick implements Observer {
-  public static getRegenModifier(mob: Mob): number {
+  public static getRegenModifier(mob: MobEntity): number {
     return AffectService.applyAffectModifier(
       mob.affects.map(a => a.affectType),
       Trigger.Tick,
       BaseRegenModifier)
   }
 
-  public static regen(mob: Mob, regenModifier: number) {
+  public static regen(mob: MobEntity, regenModifier: number) {
     const combined = mob.attribute().combine()
     mob.hp += roll(8, (combined.hp * regenModifier) / 8)
     mob.mana += roll( 8, (combined.mana * regenModifier) / 8)

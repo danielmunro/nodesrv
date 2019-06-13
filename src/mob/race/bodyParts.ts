@@ -4,11 +4,11 @@ import {newAffect} from "../../affect/factory/affectFactory"
 import {newFood, newTrash} from "../../item/factory/itemFactory"
 import {Item} from "../../item/model/item"
 import {format} from "../../support/string"
-import {Mob} from "../model/mob"
+import {MobEntity} from "../entity/mobEntity"
 import {Messages} from "./constants"
 import {BodyPart} from "./enum/bodyParts"
 
-export function getBodyPartItem(mob: Mob, bodyPart: BodyPart): Item {
+export function getBodyPartItem(mob: MobEntity, bodyPart: BodyPart): Item {
   switch (bodyPart) {
     case BodyPart.Guts:
       const item = newFood(

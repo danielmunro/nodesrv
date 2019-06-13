@@ -4,16 +4,16 @@ import { RoomEntity } from "../../room/entity/roomEntity"
 import { Messages } from "../../server/observers/constants"
 import {pickOne} from "../../support/random/helpers"
 import { format } from "../../support/string"
-import { Mob } from "../model/mob"
+import { MobEntity } from "../entity/mobEntity"
 import {getBodyPartItem} from "../race/bodyParts"
 
 const EXPERIENCE_GAIN = 100
 
 export default class Death {
   constructor(
-    public readonly mobKilled: Mob,
+    public readonly mobKilled: MobEntity,
     public readonly room: RoomEntity,
-    public readonly killer?: Mob,
+    public readonly killer?: MobEntity,
     public readonly bounty?: number,
   ) {}
 

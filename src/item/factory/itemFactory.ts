@@ -1,8 +1,8 @@
 import {newEmptyAttributes} from "../../attributes/factory/attributeFactory"
 import BuilderDefinition, {ItemFactory} from "../../import/builderDefinition"
 import {ItemType as ImportItemType} from "../../import/enum/itemType"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {DamageType} from "../../mob/fight/enum/damageType"
-import {Mob} from "../../mob/model/mob"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import {Equipment} from "../enum/equipment"
 import {ItemType} from "../enum/itemType"
@@ -34,7 +34,7 @@ export function newItemRoomReset(
 
 export function newItemMobReset(
   item: Item,
-  mob: Mob,
+  mob: MobEntity,
   maxQuantity: number,
   maxPerRoom: number): ItemMobReset {
   const itemReset = new ItemMobReset()
@@ -46,7 +46,7 @@ export function newItemMobReset(
   return itemReset
 }
 
-export function newMobEquipReset(item: Item, mob: Mob, maxQuantity: number, maxPerRoom: number) {
+export function newMobEquipReset(item: Item, mob: MobEntity, maxQuantity: number, maxPerRoom: number) {
   const equipMobReset = new MobEquipReset()
   equipMobReset.item = item
   equipMobReset.mob = mob

@@ -4,14 +4,14 @@ import {Terrain} from "../../../../region/enum/terrain"
 import newRegion from "../../../../region/factory/regionFactory"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
+import {MobEntity} from "../../../entity/mobEntity"
 import MobMoveEvent from "../../../event/mobMoveEvent"
-import {Mob} from "../../../model/mob"
 import {RaceType} from "../../enum/raceType"
 import HalflingMvBonus from "./halflingMvBonus"
 
 let testRunner: TestRunner
 let consumer: HalflingMvBonus
-let mob: Mob
+let mob: MobEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)

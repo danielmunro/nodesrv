@@ -1,7 +1,7 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import {isBanned, Standing} from "../../../mob/enum/standing"
-import {Mob} from "../../../mob/model/mob"
 import MobService from "../../../mob/service/mobService"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
@@ -23,13 +23,13 @@ export default class UnbanAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    const mob = this.mobService.mobTable.find((m: Mob) => m.name === request.getSubject()) as Mob
+    const mob = this.mobService.mobTable.find((m: MobEntity) => m.name === request.getSubject()) as MobEntity
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireMob()
       .capture()
       .requirePlayer(mob)
       .requireSpecialAuthorization(request.getAuthorizationLevel())
-      .require((m: Mob) => isBanned(m.getStanding()), MESSAGE_FAIL_NOT_BANNED)
+      .require((m: MobEntity) => isBanned(m.getStanding()), MESSAGE_FAIL_NOT_BANNED)
       .not().requireSpecialAuthorization(
         Maybe.if(mob, () => mob.getAuthorizationLevel()).get(),
         MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS)

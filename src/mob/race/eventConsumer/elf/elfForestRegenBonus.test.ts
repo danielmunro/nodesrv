@@ -4,14 +4,14 @@ import {Terrain} from "../../../../region/enum/terrain"
 import newRegion from "../../../../region/factory/regionFactory"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
+import {MobEntity} from "../../../entity/mobEntity"
 import TickEvent from "../../../event/tickEvent"
-import {Mob} from "../../../model/mob"
 import {RaceType} from "../../enum/raceType"
 import ElfForestRegenBonus from "./elfForestRegenBonus"
 
 let testRunner: TestRunner
 let eventConsumer: ElfForestRegenBonus
-let mob: Mob
+let mob: MobEntity
 const regenModifier = 2
 
 beforeEach(async () => {

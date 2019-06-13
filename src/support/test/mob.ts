@@ -1,10 +1,10 @@
 import * as sillyname from "sillyname"
 import { newStartingAttributes } from "../../attributes/factory/attributeFactory"
+import { MobEntity } from "../../mob/entity/mobEntity"
 import { newMob } from "../../mob/factory/mobFactory"
-import { Mob } from "../../mob/model/mob"
 import { RaceType } from "../../mob/race/enum/raceType"
 
-export function getTestMob(name: string = null, level: number = 1): Mob {
+export function getTestMob(name: string = null, level: number = 1): MobEntity {
   if (name === null) {
     name = sillyname()
   }

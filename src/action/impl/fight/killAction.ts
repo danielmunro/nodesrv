@@ -2,8 +2,8 @@ import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import EventService from "../../../event/service/eventService"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import {Disposition} from "../../../mob/enum/disposition"
-import {Mob} from "../../../mob/model/mob"
 import {RequestType} from "../../../request/enum/requestType"
 import {ResponseStatus} from "../../../request/enum/responseStatus"
 import Request from "../../../request/request"
@@ -24,7 +24,7 @@ export default class KillAction extends Action {
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .requireFromActionParts(request, this.getActionParts())
       .capture()
-      .require((target: Mob) => request.mob !== target, MESSAGE_FAIL_CANNOT_ATTACK_SELF)
+      .require((target: MobEntity) => request.mob !== target, MESSAGE_FAIL_CANNOT_ATTACK_SELF)
       .not().requireFight(MESSAGE_FAIL_KILL_ALREADY_FIGHTING)
       .create()
   }

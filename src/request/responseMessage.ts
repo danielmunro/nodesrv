@@ -1,11 +1,11 @@
-import {Mob} from "../mob/model/mob"
+import {MobEntity} from "../mob/entity/mobEntity"
 import { format } from "../support/string"
 
 export default class ResponseMessage {
   private toAll: boolean = true
 
   constructor(
-    public readonly requestCreator: Mob,
+    public readonly requestCreator: MobEntity,
     public readonly templateString: string,
     public readonly toRequestCreator?: object,
     public readonly toTarget = toRequestCreator,

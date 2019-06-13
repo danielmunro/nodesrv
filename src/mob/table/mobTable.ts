@@ -1,13 +1,13 @@
-import { Mob } from "../model/mob"
+import { MobEntity } from "../entity/mobEntity"
 
 export default class MobTable {
-  constructor(private mobs: Mob[] = []) {}
+  constructor(private mobs: MobEntity[] = []) {}
 
-  public getWanderingMobs(): Mob[] {
-    return this.mobs.filter((mob: Mob) => mob.traits.wanders)
+  public getWanderingMobs(): MobEntity[] {
+    return this.mobs.filter((mob: MobEntity) => mob.traits.wanders)
   }
 
-  public find(criteria: (mob: Mob) => boolean): Mob | undefined {
+  public find(criteria: (mob: MobEntity) => boolean): MobEntity | undefined {
     for (const mob of this.mobs) {
       if (criteria(mob)) {
         return mob
@@ -20,11 +20,11 @@ export default class MobTable {
     return this.mobs.forEach(fn)
   }
 
-  public add(mob: Mob) {
+  public add(mob: MobEntity) {
     this.mobs.push(mob)
   }
 
-  public getMobs(): Mob[] {
+  public getMobs(): MobEntity[] {
     return this.mobs
   }
 

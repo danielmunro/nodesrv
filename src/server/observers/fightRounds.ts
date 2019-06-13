@@ -2,12 +2,12 @@ import {inject, injectable} from "inversify"
 import {Client} from "../../client/client"
 import {Equipment} from "../../item/enum/equipment"
 import {Item} from "../../item/model/item"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {AttackVerb} from "../../mob/enum/attackVerb"
 import {Attack} from "../../mob/fight/attack"
 import {getPhysicalDamageDescriptor} from "../../mob/fight/damageDescriptor"
 import healthIndicator from "../../mob/fight/healthIndicator"
 import {Round} from "../../mob/fight/round"
-import {Mob} from "../../mob/model/mob"
 import {BodyPart} from "../../mob/race/enum/bodyParts"
 import MobService from "../../mob/service/mobService"
 import Maybe from "../../support/functional/maybe"
@@ -41,7 +41,7 @@ function getAttackVerb(weapon: Item): AttackVerb {
   return new Maybe(weapon).do(w => w.attackVerb).or(() => AttackVerb.Hit).get()
 }
 
-export function attackMessage(attack: Attack, mob: Mob): string {
+export function attackMessage(attack: Attack, mob: MobEntity): string {
   const d = getPhysicalDamageDescriptor(attack.damage)
   const equipped = mob.equipped.items.find(i => i.equipment === Equipment.Weapon)
   const attackVerb = equipped ? getAttackVerb(equipped) : AttackVerb.Punch
@@ -80,7 +80,7 @@ export function attackMessage(attack: Attack, mob: Mob): string {
 
 function getFatalityMessages(round: Round): string[] {
   const messages = []
-  const vanquished = round.vanquished as Mob
+  const vanquished = round.vanquished as MobEntity
   messages.push(format(Messages.Fight.DeathCry, vanquished.name))
   simpleD4(() => messages.push(format(Messages.Fight.BloodSplatter, vanquished.name)))
   if (round.bodyParts) {
@@ -90,7 +90,7 @@ function getFatalityMessages(round: Round): string[] {
   return messages
 }
 
-function getBodyPartMessage(mob: Mob, bodyPart: BodyPart): string {
+function getBodyPartMessage(mob: MobEntity, bodyPart: BodyPart): string {
   const m = ServerObserverMessages.Fight.BodyParts
   switch (bodyPart) {
     case BodyPart.Guts:
@@ -106,7 +106,7 @@ function getBodyPartMessage(mob: Mob, bodyPart: BodyPart): string {
   }
 }
 
-function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
+function createMessageFromFightRound(round: Round, sessionMob: MobEntity): string {
   const messages = []
   const lastAttack = round.getLastAttack()
   const attacker = lastAttack.attacker
@@ -120,7 +120,7 @@ function createMessageFromFightRound(round: Round, sessionMob: Mob): string {
   if (round.isFatality) {
     messages.push(...getFatalityMessages(round))
   } else if (round.isParticipant(sessionMob)) {
-    messages.push(withValue(attacker === sessionMob ? defender : attacker, (opponent: Mob) =>
+    messages.push(withValue(attacker === sessionMob ? defender : attacker, (opponent: MobEntity) =>
       opponent.name + " " +
       getHealthIndicator(opponent.hp / opponent.attribute().getMaxHp()) + "."))
   }
@@ -139,7 +139,7 @@ export function createClientMobMap(clients: Client[]): object {
 
 @injectable()
 export class FightRounds implements Observer {
-  private static updateClient(client: Client, mob: Mob, round: Round) {
+  private static updateClient(client: Client, mob: MobEntity, round: Round) {
     const message = createMessageFromFightRound(round, mob)
     client.send({ message })
     client.sendMessage(client.player.prompt())
@@ -163,7 +163,7 @@ export class FightRounds implements Observer {
     return this.mobService.doFightRounds()
   }
 
-  private updateClientIfMobIsOwned(clientMobMap: any, mob: Mob, round: Round): void {
+  private updateClientIfMobIsOwned(clientMobMap: any, mob: MobEntity, round: Round): void {
     new Maybe(clientMobMap[mob.name]).do((client) =>
       FightRounds.updateClient(client, mob, round))
   }

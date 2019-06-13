@@ -1,7 +1,7 @@
-import {Mob} from "../../../mob/model/mob"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import {MobOffensiveTrait} from "../../enum/mobOffensiveTrait"
 
-export default function(mob: Mob, trait: MobOffensiveTrait) {
+export default function(mob: MobEntity, trait: MobOffensiveTrait) {
   switch (trait) {
     case MobOffensiveTrait.AreaAttack:
       mob.offensiveTraits.areaAttack = true

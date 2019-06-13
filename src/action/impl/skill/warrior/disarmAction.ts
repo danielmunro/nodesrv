@@ -4,7 +4,7 @@ import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
 import {Equipment} from "../../../../item/enum/equipment"
 import {Item} from "../../../../item/model/item"
-import {Mob} from "../../../../mob/model/mob"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {
   ActionMessages,
   Costs,
@@ -27,7 +27,7 @@ export default function(abilityService: AbilityService): Skill {
     ])
     .setCheckBuilder((_, checkBuilder) => {
       return checkBuilder.require(
-        (__: any, target: Mob) => target.equipped.find((i: Item) => i.equipment === Equipment.Weapon),
+        (__: any, target: MobEntity) => target.equipped.find((i: Item) => i.equipment === Equipment.Weapon),
           PreconditionMessages.Disarm.FailNothingToDisarm,
         CheckType.ItemPresent)
       .create()

@@ -14,7 +14,7 @@ import { getItemContainerResetRepository } from "../src/item/repository/itemCont
 import { getItemMobResetRepository } from "../src/item/repository/itemMobReset"
 import { getItemRoomResetRepository } from "../src/item/repository/itemRoomReset"
 import { getMobEquipResetRepository } from "../src/item/repository/mobEquipReset"
-import { Mob } from "../src/mob/model/mob"
+import { MobEntity } from "../src/mob/entity/mobEntity"
 import { getMobRepository } from "../src/mob/repository/mob"
 import { getMobResetRepository } from "../src/mob/repository/mobReset"
 import { RoomEntity } from "../src/room/entity/roomEntity"
@@ -42,7 +42,7 @@ async function parse(importService: ImportService) {
   let i = 1
   const rooms: RoomEntity[] = []
   const items: Item[] = []
-  const mobs: Mob[] = []
+  const mobs: MobEntity[] = []
   for (const file of areaFiles) {
     console.log(`  - importing ${file} (${i}/${rowCount})`)
     const parsedArea = await importService.parseAreaFile(file)

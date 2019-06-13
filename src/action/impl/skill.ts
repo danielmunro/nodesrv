@@ -6,7 +6,7 @@ import Cost from "../../check/cost/cost"
 import {CheckType} from "../../check/enum/checkType"
 import AbilityService from "../../check/service/abilityService"
 import {createTouchEvent} from "../../event/factory/eventFactory"
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {RequestType} from "../../request/enum/requestType"
 import {ResponseStatus} from "../../request/enum/responseStatus"
 import Request from "../../request/request"
@@ -107,14 +107,14 @@ export default class Skill extends Action {
     return this.actionParts
   }
 
-  private applyAffectIfAffectCreated(requestService: RequestService, checkTarget?: Mob, affect?: Affect) {
+  private applyAffectIfAffectCreated(requestService: RequestService, checkTarget?: MobEntity, affect?: Affect) {
     if (affect) {
       const target = checkTarget || requestService.getMob()
       target.affect().add(affect)
     }
   }
 
-  private async checkIfSkillIsOffensive(requestService: RequestService, checkTarget: Mob) {
+  private async checkIfSkillIsOffensive(requestService: RequestService, checkTarget: MobEntity) {
     if (this.actionType === ActionType.Offensive) {
       await this.abilityService.publishEvent(requestService.createAttackEvent(checkTarget))
     }

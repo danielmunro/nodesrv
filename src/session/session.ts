@@ -1,5 +1,5 @@
 import { Client } from "../client/client"
-import { Mob } from "../mob/model/mob"
+import { MobEntity } from "../mob/entity/mobEntity"
 import { Player } from "../player/model/player"
 import AuthStep from "./auth/authStep"
 import Complete from "./auth/complete"
@@ -10,7 +10,7 @@ import { SessionStatus } from "./enum/sessionStatus"
 
 export default class Session {
   private player: Player
-  private mob: Mob
+  private mob: MobEntity
   private status: SessionStatus = SessionStatus.Initialized
 
   constructor(private authStep: AuthStep) {}

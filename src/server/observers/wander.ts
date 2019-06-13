@@ -1,5 +1,5 @@
 import {inject, injectable} from "inversify"
-import { Mob } from "../../mob/model/mob"
+import { MobEntity } from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
 import MobTable from "../../mob/table/mobTable"
 import {asyncForEach} from "../../support/functional/collection"
@@ -10,7 +10,7 @@ import { Observer } from "./observer"
 
 @injectable()
 export class Wander implements Observer {
-  private readonly mobs: Mob[]
+  private readonly mobs: MobEntity[]
 
   constructor(
     @inject(Types.MobTable) mobTable: MobTable,

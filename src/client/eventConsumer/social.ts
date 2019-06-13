@@ -1,7 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import ClientService from "../../server/service/clientService"
 import {Channel} from "../enum/channel"
 import SocialEvent from "../event/socialEvent"
@@ -22,7 +22,7 @@ export default class Social implements EventConsumer {
         this.clientService.sendMessageInRoom(event.mob, event.message)
         break
       case Channel.Tell:
-        this.clientService.sendMessageToMob(event.toMob as Mob, event.message)
+        this.clientService.sendMessageToMob(event.toMob as MobEntity, event.message)
         break
       case Channel.GlobalUpdate:
         this.clientService.sendMessage(event.mob, event.message)

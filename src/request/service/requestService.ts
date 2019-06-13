@@ -7,11 +7,11 @@ import {EventType} from "../../event/enum/eventType"
 import {createAttackEvent, createItemEvent, createSkillEvent} from "../../event/factory/eventFactory"
 import ItemEvent from "../../item/event/itemEvent"
 import {Item} from "../../item/model/item"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {Disposition} from "../../mob/enum/disposition"
 import AttackEvent from "../../mob/event/attackEvent"
 import DamageEventBuilder from "../../mob/event/damageEventBuilder"
 import {DamageType} from "../../mob/fight/enum/damageType"
-import {Mob} from "../../mob/model/mob"
 import {Target} from "../../mob/target"
 import {ExitEntity} from "../../room/entity/exitEntity"
 import SkillEvent from "../../skill/event/skillEvent"
@@ -25,7 +25,7 @@ export default class RequestService {
 
   constructor(private readonly checkedRequest: CheckedRequest) {}
 
-  public getMob(): Mob {
+  public getMob(): MobEntity {
     return this.checkedRequest.mob
   }
 
@@ -33,7 +33,7 @@ export default class RequestService {
     return this.checkedRequest.mob.level
   }
 
-  public setFollow(mob: Mob) {
+  public setFollow(mob: MobEntity) {
     this.checkedRequest.mob.follows = mob
   }
 
@@ -49,7 +49,7 @@ export default class RequestService {
     return this.checkedRequest.mob.equipped.items
   }
 
-  public createAttackEvent(target?: Mob): AttackEvent {
+  public createAttackEvent(target?: MobEntity): AttackEvent {
     return createAttackEvent(this.checkedRequest.mob, target ? target : this.getTarget())
   }
 

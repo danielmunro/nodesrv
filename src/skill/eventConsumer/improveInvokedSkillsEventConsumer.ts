@@ -2,12 +2,12 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
-import {Mob} from "../../mob/model/mob"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {percentRoll} from "../../support/random/helpers"
 import SkillEvent from "../event/skillEvent"
 
 export default class ImproveInvokedSkillsEventConsumer implements EventConsumer {
-  private static getRollCheck(mob: Mob) {
+  private static getRollCheck(mob: MobEntity) {
     return Math.max(1, (mob.attribute().getInt() - 18)) * 2
   }
 

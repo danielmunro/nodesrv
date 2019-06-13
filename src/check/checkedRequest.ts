@@ -1,4 +1,4 @@
-import {Mob} from "../mob/model/mob"
+import {MobEntity} from "../mob/entity/mobEntity"
 import ResponseBuilder from "../request/builder/responseBuilder"
 import {ResponseStatus} from "../request/enum/responseStatus"
 import Request from "../request/request"
@@ -9,7 +9,7 @@ import Check from "./check"
 import {CheckType} from "./enum/checkType"
 
 export default class CheckedRequest {
-  public readonly mob: Mob
+  public readonly mob: MobEntity
   public readonly room: RoomEntity
 
   constructor(public readonly request: Request, public readonly check: Check) {

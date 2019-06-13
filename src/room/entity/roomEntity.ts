@@ -1,7 +1,7 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as uuid from "uuid"
 import { Inventory } from "../../item/model/inventory"
-import MobReset from "../../mob/model/mobReset"
+import MobResetEntity from "../../mob/entity/mobResetEntity"
 import { Terrain } from "../../region/enum/terrain"
 import { Region } from "../../region/model/region"
 import getMovementCost from "../../region/movementCost"
@@ -42,8 +42,8 @@ export class RoomEntity {
   @ManyToOne(() => Region, (region) => region.rooms, { cascade: true, eager: true })
   public region: Region
 
-  @OneToMany(() => MobReset, reset => reset.room)
-  public mobResets: MobReset[]
+  @OneToMany(() => MobResetEntity, reset => reset.room)
+  public mobResets: MobResetEntity[]
 
   public isDirectionFree(direction: Direction): boolean {
     return !this.exits.find((e) => e.direction === direction)

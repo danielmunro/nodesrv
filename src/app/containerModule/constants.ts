@@ -10,7 +10,7 @@ import {getItemMobResetRepository} from "../../item/repository/itemMobReset"
 import {getItemRoomResetRepository} from "../../item/repository/itemRoomReset"
 import {getMobEquipResetRepository} from "../../item/repository/mobEquipReset"
 import kafkaProducer from "../../kafka/kafkaProducer"
-import MobReset from "../../mob/model/mobReset"
+import MobResetEntity from "../../mob/entity/mobResetEntity"
 import {getMobResetRepository} from "../../mob/repository/mobReset"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import RoomTable from "../../room/table/roomTable"
@@ -23,7 +23,7 @@ export default (startRoomId: number, port: number) => {
       context.container.get<RoomTable>(Types.RoomTable)
         .getRooms().find(r => r.canonicalId === startRoomId) as RoomEntity).inSingletonScope()
     bind<Server>(Types.WebSocketServer).toConstantValue(new Server({port}))
-    bind<MobReset[]>(Types.MobResets)
+    bind<MobResetEntity[]>(Types.MobResets)
       .toConstantValue(await (await getMobResetRepository()).findAll())
     bind<ItemMobReset[]>(Types.ItemMobResets)
       .toConstantValue(await (await getItemMobResetRepository()).findAll())

@@ -3,8 +3,8 @@ import Check from "../../../check/check"
 import TimeService from "../../../gameService/timeService"
 import {Item} from "../../../item/model/item"
 import ItemService from "../../../item/service/itemService"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import {onlyLiving} from "../../../mob/enum/disposition"
-import {Mob} from "../../../mob/model/mob"
 import {isAbleToSee} from "../../../mob/race/sight"
 import LocationService from "../../../mob/service/locationService"
 import {Weather} from "../../../region/enum/weather"
@@ -75,12 +75,12 @@ export default class LookAction extends Action {
     return Messages.Help.NoActionHelpTextProvided
   }
 
-  protected reduceMobs(mob: Mob, mobs: Mob[]): string {
+  protected reduceMobs(mob: MobEntity, mobs: MobEntity[]): string {
     const aff = mob.affect()
     return mobs.filter(onlyLiving)
       .filter(m => !m.affect().has(AffectType.Invisible) || aff.has(AffectType.DetectInvisible))
       .filter(m => !m.affect().has(AffectType.Hidden) || aff.has(AffectType.DetectHidden))
-      .reduce((previous: string, current: Mob) =>
+      .reduce((previous: string, current: MobEntity) =>
         previous + (current !== mob ? "\n" + current.brief : ""), "")
   }
 
@@ -106,7 +106,7 @@ export default class LookAction extends Action {
     return builder.error(Messages.Look.NotFound)
   }
 
-  protected isAbleToSee(mob: Mob, region?: Region) {
+  protected isAbleToSee(mob: MobEntity, region?: Region) {
     return new Maybe(region)
       .do((r: Region) =>
         isAbleToSee(

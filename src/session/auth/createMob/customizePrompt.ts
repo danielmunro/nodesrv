@@ -1,4 +1,4 @@
-import {Mob} from "../../../mob/model/mob"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import FormatterService from "../../../mob/specialization/service/formatterService"
 import match from "../../../support/matcher/match"
 import {format} from "../../../support/string"
@@ -13,7 +13,7 @@ import {CustomizeCommand} from "./customizeCommand"
 const BASE_EXPERIENCE_PER_LEVEL = 1000
 
 export default class CustomizePrompt extends PlayerAuthStep implements AuthStep {
-  private static calculateExperiencePerLevel(mob: Mob): number {
+  private static calculateExperiencePerLevel(mob: MobEntity): number {
     return Math.max(BASE_EXPERIENCE_PER_LEVEL, mob.race().creationPoints
     + mob.playerMob.getCreationPoints())
   }
@@ -53,7 +53,7 @@ export default class CustomizePrompt extends PlayerAuthStep implements AuthStep 
     return request.fail(this, CreationMessages.Mob.CustomizeFail)
   }
 
-  private remove(mob: Mob, subject: string, request: Request): Response {
+  private remove(mob: MobEntity, subject: string, request: Request): Response {
     const toRemove = this.creationService.getKnownCustomization(mob, subject)
     if (!toRemove) {
       const it = this.creationService.getUnknownCustomization(mob, subject)
@@ -69,7 +69,7 @@ export default class CustomizePrompt extends PlayerAuthStep implements AuthStep 
     return request.ok(this, format("{0} has been removed", toRemove.getName()))
   }
 
-  private add(mob: Mob, subject: string, request: Request): Response {
+  private add(mob: MobEntity, subject: string, request: Request): Response {
     const toAdd = this.creationService.getUnknownCustomization(mob, subject)
     if (!toAdd) {
       const it = this.creationService.getKnownCustomization(mob, subject)
@@ -84,7 +84,7 @@ export default class CustomizePrompt extends PlayerAuthStep implements AuthStep 
     return request.ok(this, format("{0} has been added", toAdd.getName()))
   }
 
-  private learned(mob: Mob, request: Request): Response {
+  private learned(mob: MobEntity, request: Request): Response {
     const specializationGroups = this.creationService.getKnownSpecializationGroups(mob)
     const skills = this.creationService.getKnownSkills(mob)
 
@@ -95,7 +95,7 @@ export default class CustomizePrompt extends PlayerAuthStep implements AuthStep 
         CustomizePrompt.calculateExperiencePerLevel(mob)))
   }
 
-  private list(mob: Mob, request: Request): Response {
+  private list(mob: MobEntity, request: Request): Response {
     const specializationGroups = this.creationService.getUnknownSpecializationGroups(mob)
     const skills = this.creationService.getUnknownSkills(mob)
 
@@ -106,7 +106,7 @@ export default class CustomizePrompt extends PlayerAuthStep implements AuthStep 
         CustomizePrompt.calculateExperiencePerLevel(mob)))
   }
 
-  private done(mob: Mob, request: Request): Response {
+  private done(mob: MobEntity, request: Request): Response {
     mob.playerMob.experiencePerLevel =
       CustomizePrompt.calculateExperiencePerLevel(mob)
     return request.ok(new Complete(this.creationService, this.player), CreationMessages.All.Done)

@@ -1,8 +1,8 @@
 import {inject, injectable} from "inversify"
 import * as stringify from "json-stringify-safe"
 import {Producer} from "kafkajs"
+import {MobEntity} from "../mob/entity/mobEntity"
 import Death from "../mob/fight/death"
-import {Mob} from "../mob/model/mob"
 import {Player} from "../player/model/player"
 import {Types} from "../support/types"
 import {Topic} from "./topic"
@@ -19,14 +19,14 @@ export default class KafkaService {
     })
   }
 
-  public async mobCreated(mob: Mob) {
+  public async mobCreated(mob: MobEntity) {
     return this.producer.send({
       messages: [{ value: stringify(mob) }],
       topic: Topic.MobCreate,
     })
   }
 
-  public async mobLeveled(mob: Mob) {
+  public async mobLeveled(mob: MobEntity) {
     return this.producer.send({
       messages: [ { value: stringify(mob) } ],
       topic: Topic.MobLevel,

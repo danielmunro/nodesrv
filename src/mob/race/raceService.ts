@@ -1,12 +1,12 @@
 import Attributes from "../../attributes/model/attributes"
 import {newSkill} from "../../skill/factory"
 import Maybe from "../../support/functional/maybe"
-import {Mob} from "../model/mob"
+import {MobEntity} from "../entity/mobEntity"
 import {RaceType} from "./enum/raceType"
 import createRaceFromRaceType from "./factory"
 
 export default class RaceService {
-  public static assignRaceToMob(mob: Mob, raceType: RaceType): void {
+  public static assignRaceToMob(mob: MobEntity, raceType: RaceType): void {
     mob.raceType = raceType
     if (mob.playerMob) {
       const race = createRaceFromRaceType(raceType)
@@ -16,7 +16,7 @@ export default class RaceService {
     mob.skills.push(...mob.race().startingSkills.map(skillType => newSkill(skillType)))
   }
 
-  public static combineAttributes(mob: Mob, attributes: Attributes): Attributes {
+  public static combineAttributes(mob: MobEntity, attributes: Attributes): Attributes {
     return new Maybe(mob.race().attributes)
       .do(raceAttr => attributes.combine(raceAttr))
       .or(() => attributes)

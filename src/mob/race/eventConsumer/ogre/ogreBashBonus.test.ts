@@ -3,15 +3,15 @@ import {createDamageEvent} from "../../../../event/factory/eventFactory"
 import Weapon from "../../../../item/model/weapon"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
+import {MobEntity} from "../../../entity/mobEntity"
 import DamageEvent from "../../../event/damageEvent"
 import {DamageType} from "../../../fight/enum/damageType"
-import {Mob} from "../../../model/mob"
 import {RaceType} from "../../enum/raceType"
 import OgreBashBonus from "./ogreBashBonus"
 
 let testRunner: TestRunner
-let attacker: Mob
-let defender: Mob
+let attacker: MobEntity
+let defender: MobEntity
 let weapon: Weapon
 let eventConsumer: OgreBashBonus
 
