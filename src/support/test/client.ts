@@ -24,7 +24,7 @@ async function createClient(
   authService: AuthService): Promise<Client> {
   const client = new Client(
     new Session(new Email(authService)),
-    ws(),
+    ws() as any,
     "127.0.0.1",
     actions,
     locationService,
@@ -38,8 +38,7 @@ export async function getTestClient(player = getTestPlayer()): Promise<Client> {
   const mobService = new MobService(mock(), mock(), mock(), mock())
   const service = new GameService(mobService, new ActionService([], [], []))
   const actions = service.getActions()
-  const authService = new AuthService(mock(), mobService)
-  const client = await createClient(player, actions, mock(), authService)
+  const client = await createClient(player, actions, mock(), mock())
   await client.session.login(client, player)
 
   return Promise.resolve(client)
