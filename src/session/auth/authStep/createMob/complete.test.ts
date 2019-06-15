@@ -1,10 +1,10 @@
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
-import { default as FinalComplete } from "../complete"
 import { ResponseStatus } from "../../enum/responseStatus"
 import Request from "../../request"
 import CreationService from "../../service/creationService"
+import { default as FinalComplete } from "../complete"
 import Complete from "./complete"
 
 describe("create mob auth step: complete", () => {
