@@ -17,23 +17,23 @@ export class ItemEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("text", { nullable: true })
+  @Column({ nullable: true })
   public canonicalId: string
 
-  @Column("text", { nullable: true })
+  @Column({ nullable: true })
   public canonicalIdentifier: string
 
-  @Column("text")
+  @Column()
   public name: string
 
-  @Column("text")
+  @Column()
   public brief: string
 
-  @Column("text")
+  @Column()
   public description: string
 
   @Column("text", { nullable: true })
@@ -42,34 +42,34 @@ export class ItemEntity {
   @Column("integer")
   public itemType: ItemType
 
-  @Column("integer")
+  @Column({ default: 0 })
   public value: number = 0
 
-  @Column("integer", { nullable: true })
+  @Column({ nullable: true })
   public hunger: number
 
-  @Column("boolean", { default: true })
+  @Column({ default: true })
   public isTransferable: boolean = true
 
-  @Column("integer")
-  public level: number = 0
+  @Column({ default: 1 })
+  public level: number = 1
 
-  @Column("integer")
+  @Column({ default: 0 })
   public weight: number = 0
 
   @Column("text")
   public material: MaterialType = MaterialType.Undefined
 
-  @Column("integer")
-  public condition: number = 1
+  @Column({ default: 100 })
+  public condition: number = 100
 
-  @Column("boolean", { default: true })
-  public identified = true
+  @Column({ default: true })
+  public identified: boolean = true
 
-  @Column("integer", { nullable: true })
+  @Column({ nullable: true })
   public capacity: number
 
-  @Column("integer", { nullable: true })
+  @Column({ nullable: true })
   public wearTimer: number
 
   @ManyToOne(() => InventoryEntity, inventory => inventory.items)
