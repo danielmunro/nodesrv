@@ -1,6 +1,9 @@
+import bludgeonAction from "../action/impl/skill/event/bludgeonAction"
+import cleaveAction from "../action/impl/skill/event/cleaveAction"
 import dodgeAction from "../action/impl/skill/event/dodgeAction"
 import enhancedDamageAction from "../action/impl/skill/event/enhancedDamageAction"
 import fastHealingAction from "../action/impl/skill/event/fastHealingAction"
+import gougeAction from "../action/impl/skill/event/gougeAction"
 import parryAction from "../action/impl/skill/event/parryAction"
 import secondAttackAction from "../action/impl/skill/event/secondAttackAction"
 import shieldBlockAction from "../action/impl/skill/event/shieldBlockAction"
@@ -56,6 +59,9 @@ export function getSkillTable(mobService: MobService, eventService: EventService
     disarmAction(abilityService),
     shieldBashAction(abilityService),
     tripAction(abilityService),
+    bludgeonAction(abilityService),
+    cleaveAction(abilityService),
+    gougeAction(abilityService),
 
     weaponAction(abilityService, SkillType.Sword),
     weaponAction(abilityService, SkillType.Mace),

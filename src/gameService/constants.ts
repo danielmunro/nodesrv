@@ -232,6 +232,11 @@ shield bash             NA
 level 20
 parry                   NA
 
+level 22
+bludgeon                NA
+cleave                  NA
+gouge                   NA
+
 level 28
 third attack            NA
 `,

@@ -32,6 +32,7 @@ import MobUpdatedEventConsumer from "../../mob/eventConsumer/mobUpdatedEventCons
 import PetFollowsOwner from "../../mob/eventConsumer/petFollowsOwner"
 import Scavenge from "../../mob/eventConsumer/scavenge"
 import Wimpy from "../../mob/eventConsumer/wimpy"
+import {DamageType} from "../../mob/fight/enum/damageType"
 import FightBuilder from "../../mob/fight/fightBuilder"
 import DrowMageBonus from "../../mob/race/eventConsumer/drow/drowMageBonus"
 import ElfForestRegenBonus from "../../mob/race/eventConsumer/elf/elfForestRegenBonus"
@@ -46,6 +47,7 @@ import MobLeaves from "../../player/eventConsumer/mobLeaves"
 import {RequestType} from "../../request/enum/requestType"
 import RoomMessageEventConsumer from "../../room/eventConsumer/roomMessageEventConsumer"
 import {GameServerService} from "../../server/service/gameServerService"
+import DamageTypeEventConsumer from "../../skill/eventConsumer/damageTypeEventConsumer"
 import DodgeEventConsumer from "../../skill/eventConsumer/dodgeEventConsumer"
 import ExtraAttackEventConsumer from "../../skill/eventConsumer/extraAttackEventConsumer"
 import FastHealingEventConsumer from "../../skill/eventConsumer/fastHealingEventConsumer"
@@ -121,6 +123,9 @@ export default function createEventConsumerTable(
     new ShieldBlockEventConsumer(gameService.getSkill(SkillType.ShieldBlock)),
     new ParryEventConsumer(gameService.getSkill(SkillType.Parry)),
     new ImproveInvokedSkillsEventConsumer(),
+    new DamageTypeEventConsumer(SkillType.Bludgeon, DamageType.Bash),
+    new DamageTypeEventConsumer(SkillType.Cleave, DamageType.Slash),
+    new DamageTypeEventConsumer(SkillType.Gouge, DamageType.Pierce),
 
     // app
     new MobCreated(mobService, gameServer.startRoom),

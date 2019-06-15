@@ -2,7 +2,6 @@ import {AffectType} from "../affect/enum/affectType"
 import {newAffect} from "../affect/factory/affectFactory"
 import {createTestAppContainer} from "../app/factory/testFactory"
 import MobService from "../mob/service/mobService"
-import {PlayerEntity} from "../player/entity/playerEntity"
 import {createPlayer} from "../player/factory/factory"
 import InputContext from "../request/context/inputContext"
 import {RequestType} from "../request/enum/requestType"
@@ -34,7 +33,7 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   const clientService = app.get<ClientService>(Types.ClientService)
-  client = clientService.createNewClient(mockWebSocket(), mockReq())
+  client = clientService.createNewClient(mockWebSocket() as any, mockReq())
   const player = testRunner.createPlayer().get()
   await client.session.login(client, player)
   const mobService = app.get<MobService>(Types.MobService)

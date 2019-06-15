@@ -16,5 +16,8 @@ export default [
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Sharpen, 15, 4),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.ShieldBash, 18, 7),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.Parry, 20, 4),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.Bludgeon, 22, 6),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.Cleave, 22, 6),
+  new SpecializationLevel(SpecializationType.Warrior, SkillType.Gouge, 22, 6),
   new SpecializationLevel(SpecializationType.Warrior, SkillType.ThirdAttack, 28, 4),
 ]
