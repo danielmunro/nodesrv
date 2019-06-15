@@ -1,10 +1,10 @@
 import {createTestAppContainer} from "../app/factory/testFactory"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
-import Complete from "./auth/complete"
-import CreationService from "./auth/creationService"
-import Email from "./auth/login/email"
+import Complete from "./auth/authStep/complete"
+import Email from "./auth/authStep/login/email"
 import Request from "./auth/request"
+import CreationService from "./auth/service/creationService"
 import Session from "./session"
 
 const mockAuthService = jest.fn()

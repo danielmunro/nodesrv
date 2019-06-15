@@ -1,8 +1,9 @@
 import { Client } from "../../client/client"
 import InputContext from "../../request/context/inputContext"
 import {RequestType} from "../../request/enum/requestType"
-import AuthStep from "./authStep"
+import AuthStep from "./authStep/authStep"
 import { ResponseStatus } from "./enum/responseStatus"
+import {createResponse} from "./factory/requestAuthFactory"
 import Response from "./response"
 
 export default class Request {
@@ -15,21 +16,19 @@ export default class Request {
   }
 
   public fail(authStep: AuthStep, message: string): Response {
-    return new Response(
+    return createResponse(
       this,
       ResponseStatus.FAILED,
       authStep,
-      message,
-    )
+      message)
   }
 
   public ok(authStep: AuthStep, message?: string): Response {
-    return new Response(
+    return createResponse(
       this,
       ResponseStatus.OK,
       authStep,
-      message,
-    )
+      message)
   }
 
   public didConfirm() {

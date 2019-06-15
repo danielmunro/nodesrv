@@ -15,7 +15,7 @@ import EscrowService from "../../mob/trade/escrowService"
 import WeatherService from "../../region/service/weatherService"
 import ClientService from "../../server/service/clientService"
 import {GameServerService} from "../../server/service/gameServerService"
-import CreationService from "../../session/auth/creationService"
+import CreationService from "../../session/auth/service/creationService"
 import {Types} from "../../support/types"
 
 export default new ContainerModule(bind => {

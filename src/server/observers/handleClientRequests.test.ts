@@ -3,6 +3,7 @@ import InputContext from "../../request/context/inputContext"
 import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
 import {ResponseStatus} from "../../session/auth/enum/responseStatus"
+import {createResponse} from "../../session/auth/factory/requestAuthFactory"
 import { default as AuthRequest } from "../../session/auth/request"
 import Response from "../../session/auth/response"
 import {getTestPlayer} from "../../support/test/player"
@@ -29,7 +30,7 @@ const authStep = jest.fn(() => ({
 const mockInputRequest = jest.fn(() => ({
   fail: jest.fn(),
   input: "email@foo.com",
-  ok: (request: AuthRequest) => new Response(request, ResponseStatus.OK, authStep()),
+  ok: (request: AuthRequest) => createResponse(request, ResponseStatus.OK, authStep()),
 }))
 
 describe("handleClientRequests", () => {
