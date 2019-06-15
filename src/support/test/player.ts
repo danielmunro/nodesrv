@@ -17,6 +17,8 @@ export function getTestPlayer(): PlayerEntity {
   player.sessionMob.playerMob.appetite = player.sessionMob.race().appetite
   player.sessionMob.playerMob.experiencePerLevel = 1000
   player.sessionMob.playerMob.experienceToLevel = 1000
+  player.sessionMob.playerMob.experience = 0
+  player.sessionMob.playerMob.bounty = 0
   player.mobs.push(player.sessionMob)
 
   return player

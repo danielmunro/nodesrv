@@ -12,21 +12,21 @@ export class PlayerMobEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("integer", { default: 0 })
-  public trains: number = 0
+  @Column({ default: 0 })
+  public trains: number
 
-  @Column("integer", { default: 0 })
-  public practices: number = 0
+  @Column({ default: 0 })
+  public practices: number
 
-  @Column("integer")
-  public hunger: number = 0
+  @Column({ default: 0 })
+  public hunger: number
 
-  @Column("integer")
-  public appetite: number = 0
+  @Column({ default: 0 })
+  public appetite: number
 
   @OneToOne(() => MobEntity, mob => mob.playerMob)
   @JoinColumn()
@@ -36,23 +36,23 @@ export class PlayerMobEntity {
   @JoinColumn()
   public trainedAttributes: Attributes
 
-  @Column("integer")
-  public experience: number = 0
+  @Column({ default: 0 })
+  public experience: number
 
-  @Column("integer")
-  public experienceToLevel: number = 0
+  @Column({ default: 0 })
+  public experienceToLevel: number
 
-  @Column("integer")
-  public experiencePerLevel: number = 0
+  @Column({ default: 0 })
+  public experiencePerLevel: number
 
-  @Column("varchar")
+  @Column("text")
   public standing: Standing = Standing.Good
 
   @Column("integer")
   public authorizationLevel: AuthorizationLevel = AuthorizationLevel.Mortal
 
-  @Column("integer")
-  public bounty: number = 0
+  @Column({ default: 0 })
+  public bounty: number
 
   public customizations: Customization[] = []
 
