@@ -8,15 +8,15 @@
   "synchronize": true,
   "logging": false,
   "entities": [
-    "src/room/model/*.ts",
-    "src/mob/model/*.ts",
-    "src/player/model/*.ts",
-    "src/attributes/model/*.ts",
-    "src/item/model/*.ts",
-    "src/affect/model/*.ts",
-    "src/spell/model/*.ts",
-    "src/skill/model/*.ts",
-    "src/region/model/*.ts"
+    "src/room/entity/*Entity.ts",
+    "src/mob/entity/*Entity.ts",
+    "src/player/entity/*Entity.ts",
+    "src/attributes/entity/*Entity.ts",
+    "src/item/entity/*Entity.ts",
+    "src/affect/entity/*Entity.ts",
+    "src/spell/entity/*Entity.ts",
+    "src/skill/entity/*Entity.ts",
+    "src/region/entity/*Entity.ts"
   ],
   "migrations": [
     "src/migration/**/*.ts"
