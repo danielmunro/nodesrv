@@ -6,82 +6,82 @@ export class MobTraitsEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("boolean")
+  @Column()
   public isNpc: boolean = false
 
-  @Column("boolean")
+  @Column()
   public wanders: boolean = true
 
-  @Column("boolean")
+  @Column()
   public scavenger: boolean = false
 
-  @Column("boolean")
+  @Column()
   public aggressive: boolean = false
 
-  @Column("boolean")
+  @Column()
   public stayArea: boolean = false
 
-  @Column("boolean")
+  @Column()
   public wimpy: boolean = false
 
-  @Column("boolean")
+  @Column()
   public isPet: boolean = false
 
-  @Column("boolean")
+  @Column()
   public trainer: boolean = false
 
-  @Column("boolean")
+  @Column()
   public practice: boolean = false
 
-  @Column("boolean")
+  @Column()
   public undead: boolean = false
 
-  @Column("boolean")
+  @Column()
   public weaponsmith: boolean = false
 
-  @Column("boolean")
+  @Column()
   public armorer: boolean = false
 
-  @Column("boolean")
+  @Column()
   public cleric: boolean = false
 
-  @Column("boolean")
+  @Column()
   public mage: boolean = false
 
-  @Column("boolean")
+  @Column()
   public ranger: boolean = false
 
-  @Column("boolean")
+  @Column()
   public warrior: boolean = false
 
-  @Column("boolean")
+  @Column()
   public noAlign: boolean = false
 
-  @Column("boolean")
+  @Column()
   public noPurge: boolean = false
 
-  @Column("boolean")
+  @Column()
   public outdoors: boolean = false
 
-  @Column("boolean")
+  @Column()
   public indoors: boolean = false
 
-  @Column("boolean")
+  @Column()
   public mount: boolean = false
 
-  @Column("boolean")
+  @Column()
   public healer: boolean = false
 
-  @Column("boolean")
+  @Column()
   public gain: boolean = false
 
-  @Column("boolean")
+  @Column()
   public changer: boolean = false
 
-  @Column("boolean")
+  @Column()
   public noTrans: boolean = false
 }
