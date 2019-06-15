@@ -20,7 +20,7 @@ beforeEach(async () => {
   defender = testRunner.createMob()
 })
 
-describe("damage type event consumer", () => {
+describe("bludgeon damage type event consumer", () => {
   it("increases bludgeon bonus with a bashing weapon", async () => {
     // setup
     consumer = new DamageTypeEventConsumer(SkillType.Bludgeon, DamageType.Bash)
@@ -29,9 +29,11 @@ describe("damage type event consumer", () => {
     attacker.withSkill(SkillType.Bludgeon)
     attacker.equip(testRunner.createWeapon().asMace().build())
 
+    // when
     const eventResponse = await consumer.consume(
       createDamageEvent(defender.get(), 1, DamageType.Bash, modifier, attacker.get()))
 
+    // then
     expect((eventResponse.event as DamageEvent).modifier).toBeGreaterThan(modifier)
   })
 
@@ -42,9 +44,11 @@ describe("damage type event consumer", () => {
     // given
     attacker.equip(testRunner.createWeapon().asMace().build())
 
+    // when
     const eventResponse = await consumer.consume(
       createDamageEvent(defender.get(), 1, DamageType.Bash, modifier, attacker.get()))
 
+    // then
     expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
   })
 
@@ -56,9 +60,109 @@ describe("damage type event consumer", () => {
     attacker.withSkill(SkillType.Bludgeon)
     attacker.equip(testRunner.createWeapon().asAxe().build())
 
+    // when
     const eventResponse = await consumer.consume(
       createDamageEvent(defender.get(), 1, DamageType.Bash, modifier, attacker.get()))
 
+    // then
+    expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
+  })
+})
+
+describe("cleave damage type event consumer", () => {
+  it("increases damage bonus with a slashing weapon", async () => {
+    // setup
+    consumer = new DamageTypeEventConsumer(SkillType.Cleave, DamageType.Slash)
+
+    // given
+    attacker.withSkill(SkillType.Cleave)
+    attacker.equip(testRunner.createWeapon().asAxe().build())
+
+    // when
+    const eventResponse = await consumer.consume(
+      createDamageEvent(defender.get(), 1, DamageType.Slash, modifier, attacker.get()))
+
+    // then
+    expect((eventResponse.event as DamageEvent).modifier).toBeGreaterThan(modifier)
+  })
+
+  it("does not increase damage bonus without the skill", async () => {
+    // setup
+    consumer = new DamageTypeEventConsumer(SkillType.Cleave, DamageType.Slash)
+
+    // given
+    attacker.equip(testRunner.createWeapon().asAxe().build())
+
+    // when
+    const eventResponse = await consumer.consume(
+      createDamageEvent(defender.get(), 1, DamageType.Slash, modifier, attacker.get()))
+
+    // then
+    expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
+  })
+
+  it("does not increase damage bonus without a slashing weapon", async () => {
+    // setup
+    consumer = new DamageTypeEventConsumer(SkillType.Cleave, DamageType.Slash)
+
+    // given
+    attacker.withSkill(SkillType.Cleave)
+    attacker.equip(testRunner.createWeapon().asMace().build())
+
+    // when
+    const eventResponse = await consumer.consume(
+      createDamageEvent(defender.get(), 1, DamageType.Slash, modifier, attacker.get()))
+
+    // then
+    expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
+  })
+})
+
+describe("gouge damage type event consumer", () => {
+  it("increases damage bonus with a piercing weapon", async () => {
+    // setup
+    consumer = new DamageTypeEventConsumer(SkillType.Gouge, DamageType.Pierce)
+
+    // given
+    attacker.withSkill(SkillType.Gouge)
+    attacker.equip(testRunner.createWeapon().asDagger().build())
+
+    // when
+    const eventResponse = await consumer.consume(
+      createDamageEvent(defender.get(), 1, DamageType.Pierce, modifier, attacker.get()))
+
+    // then
+    expect((eventResponse.event as DamageEvent).modifier).toBeGreaterThan(modifier)
+  })
+
+  it("does not increase damage bonus without the skill", async () => {
+    // setup
+    consumer = new DamageTypeEventConsumer(SkillType.Gouge, DamageType.Pierce)
+
+    // given
+    attacker.equip(testRunner.createWeapon().asDagger().build())
+
+    // when
+    const eventResponse = await consumer.consume(
+      createDamageEvent(defender.get(), 1, DamageType.Pierce, modifier, attacker.get()))
+
+    // then
+    expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
+  })
+
+  it("does not increase damage bonus without a piercing weapon", async () => {
+    // setup
+    consumer = new DamageTypeEventConsumer(SkillType.Gouge, DamageType.Pierce)
+
+    // given
+    attacker.withSkill(SkillType.Gouge)
+    attacker.equip(testRunner.createWeapon().asMace().build())
+
+    // when
+    const eventResponse = await consumer.consume(
+      createDamageEvent(defender.get(), 1, DamageType.Bash, modifier, attacker.get()))
+
+    // then
     expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
   })
 })

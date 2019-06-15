@@ -8,6 +8,18 @@ import AbstractItemBuilder from "./abstractItemBuilder"
 export default class WeaponBuilder extends AbstractItemBuilder {
   protected readonly item: WeaponEntity
 
+  public asDagger(): WeaponBuilder {
+    this.item.weaponType = WeaponType.Dagger
+    this.item.damageType = DamageType.Pierce
+    this.item.itemType = ItemType.Equipment
+    this.item.equipment = Equipment.Weapon
+    this.item.name = "a practice dagger"
+    this.item.value = 10
+    this.item.level = 1
+    this.item.weight = 1.0
+    return this
+  }
+
   public asAxe(): WeaponBuilder {
     this.item.weaponType = WeaponType.Axe
     this.item.damageType = DamageType.Slash

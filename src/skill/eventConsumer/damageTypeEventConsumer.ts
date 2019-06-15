@@ -18,7 +18,8 @@ export default class DamageTypeEventConsumer implements EventConsumer {
   }
 
   public async consume(event: DamageEvent): Promise<EventResponse> {
-    if (!event.source || !event.source.skills.find(skill => skill.skillType === this.skillType)) {
+    const has = event.source.skills.find(skill => skill.skillType === this.skillType)
+    if (!event.source || has === undefined) {
       return EventResponse.none(event)
     }
     const weapon = event.source.getFirstEquippedItemAtPosition(Equipment.Weapon) as WeaponEntity
