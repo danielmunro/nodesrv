@@ -14,7 +14,7 @@ describe("specializationType factory", () => {
     expect(createSpecializationFromType(SpecializationType.Mage)).toBeInstanceOf(Mage)
   })
 
-  it("should be able to create a ranger", () => {
+  it("should be able to create a thief", () => {
     expect(createSpecializationFromType(SpecializationType.Ranger)).toBeInstanceOf(Ranger)
   })
 

@@ -11,7 +11,7 @@ export const defaultSpecializationLevels = [
   // warrior
   ...warrior,
 
-  // ranger
+  // thief
   ...ranger,
 
   // cleric

@@ -39,11 +39,9 @@ function reduceCarriedBy(carriedBy: MobEntity | RoomEntity | ContainerEntity) {
     return `carried by ${carriedBy.name}`
   } else if (carriedBy instanceof RoomEntity) {
     return `in ${carriedBy.name}`
-  } else if (carriedBy instanceof ContainerEntity) {
-    return `in a container`
   }
 
-  return `found at ${carriedBy.name}`
+  return `in a container`
 }
 
 export default function(abilityService: AbilityService, itemService: ItemService, stateService: StateService): Spell {
