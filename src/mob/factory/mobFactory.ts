@@ -48,6 +48,7 @@ export function newMob(name: string, description: string, race: RaceType, hp: nu
   mob.name = name
   mob.description = description
   mob.raceType = race
+  mob.gold = 0
   mob.hp = hp
   mob.mana = mana
   mob.mv = mv

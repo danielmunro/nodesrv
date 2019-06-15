@@ -37,20 +37,20 @@ export class MobEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("text", { nullable: true })
+  @Column({ nullable: true })
   public canonicalId: string
 
-  @Column("text")
+  @Column()
   public name: string
 
-  @Column("text", { nullable: true })
+  @Column({ nullable: true })
   public description: string
 
-  @Column("text", { nullable: true })
+  @Column({ nullable: true })
   public brief: string
 
   @Column("text")
@@ -59,31 +59,31 @@ export class MobEntity {
   @Column("text", { nullable: true })
   public specializationType: SpecializationType
 
-  @Column("integer")
-  public level: number = 1
+  @Column({ default: 1 })
+  public level: number
 
-  @Column("integer", { default: 0 })
-  public gold: number = 0
+  @Column({ default: 0 })
+  public gold: number
 
   @Column("text", { default: Gender.Unspecified })
   public gender: Gender = Gender.Unspecified
 
-  @Column("text", { nullable: true })
+  @Column("text", { default: Disposition.Standing })
   public disposition = Disposition.Standing
 
-  @Column("text", { nullable: true })
+  @Column({ nullable: true })
   public importId: string
 
-  @Column("integer", { default: 0 })
-  public alignment: number = 0
+  @Column({ default: 0 })
+  public alignment: number
 
-  @Column("integer")
+  @Column()
   public hp: number
 
-  @Column("integer")
+  @Column()
   public mana: number
 
-  @Column("integer")
+  @Column()
   public mv: number
 
   @OneToOne(() => DamageSourceEntity, { cascade: true, eager: true })
