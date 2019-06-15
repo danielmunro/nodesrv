@@ -50,7 +50,7 @@ export default class RequestService {
   }
 
   public createAttackEvent(target?: MobEntity): AttackEvent {
-    return createAttackEvent(this.checkedRequest.mob, target ? target : this.getTarget())
+    return createAttackEvent(this.checkedRequest.mob, target ? target : this.getTarget() as MobEntity)
   }
 
   public createItemEvent(eventType: EventType, item: ItemEntity): ItemEvent {
@@ -62,7 +62,7 @@ export default class RequestService {
   }
 
   public createDamageEvent(amount: number, damageType: DamageType): DamageEventBuilder {
-    return new DamageEventBuilder(this.getTarget(), amount, damageType)
+    return new DamageEventBuilder(this.getTarget() as MobEntity, amount, damageType)
       .setSource(this.getMob())
   }
 
