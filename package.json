@@ -10,7 +10,7 @@
     "lint": "yarn clean && tslint --project .",
     "test": "ENV=test jest --forceExit --detectOpenHandles",
     "test-actions": "ENV=test jest --forceExit --detectOpenHandles action/impl",
-    "test-most": "ENV=test jest --forceExit --detectOpenHandles --testPathIgnorePatterns import",
+    "test-most": "ENV=test jest --forceExit --detectOpenHandles --testPathIgnorePatterns import persist login/name",
     "reset-test-db": "ts-node bin/reset-test-db.ts",
     "test-coverage": "yarn test --coverage",
     "complexity": "ts-complexity --max-complexity 14 src/**/*",
