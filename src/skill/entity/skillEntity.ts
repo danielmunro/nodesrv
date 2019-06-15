@@ -10,10 +10,10 @@ export class SkillEntity {
   @Column("text")
   public skillType: SkillType
 
-  @Column("integer")
-  public level: number = 1
+  @Column({ default: 1 })
+  public level: number
 
-  @Column("integer")
+  @Column()
   public levelObtained: number
 
   @ManyToOne(() => MobEntity, mob => mob.skills)

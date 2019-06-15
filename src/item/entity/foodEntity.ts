@@ -7,14 +7,14 @@ export default class FoodEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("integer")
+  @Column()
   public foodAmount: number = 1
 
-  @Column("integer")
+  @Column()
   public drinkAmount: number = 0
 
   @OneToOne(() => ItemEntity, item => item.food)

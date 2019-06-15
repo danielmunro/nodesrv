@@ -8,23 +8,23 @@ export default class ContainerEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("boolean")
+  @Column()
   public isOpen: boolean = false
 
-  @Column("boolean", { nullable: true })
+  @Column({ nullable: true })
   public isCloseable: boolean = false
 
-  @Column("integer")
+  @Column()
   public weightCapacity: number = 0
 
-  @Column("integer")
+  @Column()
   public itemCapacity: number = 0
 
-  @Column("integer")
+  @Column()
   public maxWeightForItem: number = 0
 
   @OneToOne(() => InventoryEntity, { eager: true, cascade: true })

@@ -6,19 +6,19 @@ export default class ShopEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("integer")
+  @Column()
   public buyModifier: number
 
-  @Column("integer")
+  @Column()
   public sellModifier: number
 
-  @Column("integer")
+  @Column()
   public openHour: number
 
-  @Column("integer")
+  @Column()
   public closeHour: number
 }

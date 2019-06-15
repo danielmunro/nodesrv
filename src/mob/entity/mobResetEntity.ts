@@ -9,7 +9,7 @@ export default class MobResetEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
@@ -24,9 +24,9 @@ export default class MobResetEntity {
   @Column("text", { nullable: true })
   public disposition: Disposition
 
-  @Column("integer")
+  @Column()
   public maxQuantity: number
 
-  @Column("integer", { nullable: true })
+  @Column({ nullable: true })
   public maxPerRoom: number
 }

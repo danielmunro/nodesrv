@@ -6,76 +6,76 @@ export default class OffensiveTraitsEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("boolean")
-  public areaAttack: boolean = false
+  @Column({ default: false })
+  public areaAttack: boolean
 
-  @Column("boolean")
-  public backstab: boolean = false
+  @Column({ default: false })
+  public backstab: boolean
 
-  @Column("boolean")
-  public bash: boolean = false
+  @Column({ default: false })
+  public bash: boolean
 
-  @Column("boolean")
-  public berserk: boolean = false
+  @Column({ default: false })
+  public berserk: boolean
 
-  @Column("boolean")
-  public disarm: boolean = false
+  @Column({ default: false })
+  public disarm: boolean
 
-  @Column("boolean")
-  public dodge: boolean = false
+  @Column({ default: false })
+  public dodge: boolean
 
-  @Column("boolean")
-  public fade: boolean = false
+  @Column({ default: false })
+  public fade: boolean
 
-  @Column("boolean")
-  public fast: boolean = false
+  @Column({ default: false })
+  public fast: boolean
 
-  @Column("boolean")
-  public kick: boolean = false
+  @Column({ default: false })
+  public kick: boolean
 
-  @Column("boolean")
-  public kickDirt: boolean = false
+  @Column({ default: false })
+  public kickDirt: boolean
 
-  @Column("boolean")
-  public parry: boolean = false
+  @Column({ default: false })
+  public parry: boolean
 
-  @Column("boolean")
-  public rescue: boolean = false
+  @Column({ default: false })
+  public rescue: boolean
 
-  @Column("boolean")
-  public tail: boolean = false
+  @Column({ default: false })
+  public tail: boolean
 
-  @Column("boolean")
-  public trip: boolean = false
+  @Column({ default: false })
+  public trip: boolean
 
-  @Column("boolean")
-  public crush: boolean = false
+  @Column({ default: false })
+  public crush: boolean
 
-  @Column("boolean")
-  public assistAll: boolean = false
+  @Column({ default: false })
+  public assistAll: boolean
 
-  @Column("boolean")
-  public assistAlign: boolean = false
+  @Column({ default: false })
+  public assistAlign: boolean
 
-  @Column("boolean")
-  public assistRace: boolean = false
+  @Column({ default: false })
+  public assistRace: boolean
 
-  @Column("boolean")
-  public assistPlayers: boolean = false
+  @Column({ default: false })
+  public assistPlayers: boolean
 
-  @Column("boolean")
-  public assistGuard: boolean = false
+  @Column({ default: false })
+  public assistGuard: boolean
 
-  @Column("boolean")
-  public assistVnum: boolean = false
+  @Column({ default: false })
+  public assistVnum: boolean
 
-  @Column("boolean")
-  public offCharge: boolean = false
+  @Column({ default: false })
+  public offCharge: boolean
 
-  @Column("boolean")
-  public assistElement: boolean = false
+  @Column({ default: false })
+  public assistElement: boolean
 }

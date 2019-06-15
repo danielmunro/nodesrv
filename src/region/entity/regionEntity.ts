@@ -8,11 +8,11 @@ export class RegionEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("text", { nullable: true })
+  @Column({ nullable: true })
   public name: string
 
   @Column("integer")

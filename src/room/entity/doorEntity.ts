@@ -6,33 +6,33 @@ export default class DoorEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("integer")
+  @Column()
   public canonicalId: number
 
-  @Column("text")
+  @Column()
   public name: string
 
-  @Column("integer")
+  @Column()
   public unlockedByCanonicalId: number
 
-  @Column("boolean")
+  @Column()
   public isClosed: boolean
 
-  @Column("boolean")
+  @Column()
   public isLocked: boolean
 
-  @Column("boolean")
+  @Column()
   public isPickproof: boolean
 
   @Column("integer")
   public lockpickDifficulty: LockpickDifficulty
 
-  @Column("boolean")
+  @Column()
   public noClose: boolean
 
-  @Column("boolean")
+  @Column()
   public noLock: boolean
 
-  @Column("boolean")
+  @Column()
   public isConcealed: boolean
 }

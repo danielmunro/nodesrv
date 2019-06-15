@@ -13,6 +13,7 @@ export function getTestPlayer(): PlayerEntity {
   player.sessionMob.traits.isNpc = false
   player.sessionMob.playerMob = createPlayerMob()
   player.sessionMob.playerMob.mob = player.sessionMob
+  player.sessionMob.playerMob.hunger = 0
   player.sessionMob.playerMob.appetite = player.sessionMob.race().appetite
   player.sessionMob.playerMob.experiencePerLevel = 1000
   player.sessionMob.playerMob.experienceToLevel = 1000

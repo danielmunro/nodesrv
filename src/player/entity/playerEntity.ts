@@ -8,17 +8,17 @@ export class PlayerEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string
 
-  @Column("text", { nullable: true })
+  @Column({ nullable: true })
   public name: string
 
-  @Column("text", { unique: true })
+  @Column({ unique: true })
   public email: string
 
-  @Column("text")
+  @Column()
   public password: string
 
   @OneToMany(() => MobEntity, mob => mob.player, { eager: true, cascade: true })

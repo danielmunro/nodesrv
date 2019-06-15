@@ -10,49 +10,49 @@ export default class AttributesEntity {
   @ManyToOne(() => MobEntity, mob => mob.attributes)
   public mob: MobEntity
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public hit: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public dam: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public hp: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public mana: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public mv: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public str: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public int: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public wis: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public dex: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public con: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public sta: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public acPierce: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public acBash: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public acSlash: number
 
-  @Column("integer", { default: 0 })
+  @Column({ default: 0 })
   public acMagic: number
 
   public combine(withAttributes: AttributesEntity): AttributesEntity {

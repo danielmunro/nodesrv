@@ -8,7 +8,7 @@ export default abstract class ItemResetEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
@@ -19,9 +19,9 @@ export default abstract class ItemResetEntity {
   @Column("text", { nullable: true })
   public equipmentPosition: Equipment
 
-  @Column("integer")
+  @Column()
   public maxQuantity: number
 
-  @Column("integer", { nullable: true })
+  @Column({ nullable: true })
   public maxPerRoom: number
 }

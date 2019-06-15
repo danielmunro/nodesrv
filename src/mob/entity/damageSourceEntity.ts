@@ -7,81 +7,81 @@ export default class DamageSourceEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("boolean")
-  public summon: boolean = false
+  @Column({ default: false })
+  public summon: boolean
 
-  @Column("boolean")
-  public charm: boolean = false
+  @Column({ default: false })
+  public charm: boolean
 
-  @Column("boolean")
-  public magic: boolean = false
+  @Column({ default: false })
+  public magic: boolean
 
-  @Column("boolean")
-  public weapon: boolean = false
+  @Column({ default: false })
+  public weapon: boolean
 
-  @Column("boolean")
-  public bash: boolean = false
+  @Column({ default: false })
+  public bash: boolean
 
-  @Column("boolean")
-  public slash: boolean = false
+  @Column({ default: false })
+  public slash: boolean
 
-  @Column("boolean")
-  public pierce: boolean = false
+  @Column({ default: false })
+  public pierce: boolean
 
-  @Column("boolean")
-  public fire: boolean = false
+  @Column({ default: false })
+  public fire: boolean
 
-  @Column("boolean")
-  public cold: boolean = false
+  @Column({ default: false })
+  public cold: boolean
 
-  @Column("boolean")
-  public lightning: boolean = false
+  @Column({ default: false })
+  public lightning: boolean
 
-  @Column("boolean")
-  public acid: boolean = false
+  @Column({ default: false })
+  public acid: boolean
 
-  @Column("boolean")
-  public poison: boolean = false
+  @Column({ default: false })
+  public poison: boolean
 
-  @Column("boolean")
-  public negative: boolean = false
+  @Column({ default: false })
+  public negative: boolean
 
-  @Column("boolean")
-  public holy: boolean = false
+  @Column({ default: false })
+  public holy: boolean
 
-  @Column("boolean")
-  public energy: boolean = false
+  @Column({ default: false })
+  public energy: boolean
 
-  @Column("boolean")
-  public mental: boolean = false
+  @Column({ default: false })
+  public mental: boolean
 
-  @Column("boolean")
-  public disease: boolean = false
+  @Column({ default: false })
+  public disease: boolean
 
-  @Column("boolean")
-  public drowning: boolean = false
+  @Column({ default: false })
+  public drowning: boolean
 
-  @Column("boolean")
-  public light: boolean = false
+  @Column({ default: false })
+  public light: boolean
 
-  @Column("boolean")
-  public sound: boolean = false
+  @Column({ default: false })
+  public sound: boolean
 
-  @Column("boolean")
-  public wood: boolean = false
+  @Column({ default: false })
+  public wood: boolean
 
-  @Column("boolean")
-  public silver: boolean = false
+  @Column({ default: false })
+  public silver: boolean
 
-  @Column("boolean")
-  public iron: boolean = false
+  @Column({ default: false })
+  public iron: boolean
 
-  @Column("boolean")
-  public distraction: boolean = false
+  @Column({ default: false })
+  public distraction: boolean
 
   public isDamageTypeActive(damageType: DamageType): boolean {
     switch (damageType) {

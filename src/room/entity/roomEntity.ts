@@ -12,20 +12,20 @@ export class RoomEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = uuid()
 
-  @Column("integer", { nullable: true })
+  @Column({ nullable: true })
   public canonicalId: number
 
-  @Column("text")
+  @Column()
   public name: string
 
-  @Column("text")
+  @Column()
   public description: string
 
-  @Column("text")
+  @Column()
   public area: string
 
   @OneToMany(() => ExitEntity, (exit) => exit.source, { cascade: true, eager: true })

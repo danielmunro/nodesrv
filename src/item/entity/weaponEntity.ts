@@ -16,15 +16,15 @@ export default class WeaponEntity extends ItemEntity {
   @Column("text")
   public attackVerb: AttackVerb
 
-  @Column("integer")
+  @Column()
   public maxCharges: number
 
-  @Column("integer")
+  @Column()
   public currentCharges: number
 
   @Column("text")
   public spellType: SpellType
 
-  @Column("integer")
+  @Column()
   public castLevel: number
 }

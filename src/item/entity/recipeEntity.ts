@@ -9,17 +9,17 @@ export default class RecipeEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("text")
+  @Column()
   public importId: string
 
   @Column("integer")
   public spellType: SpellType
 
-  @Column("integer")
+  @Column()
   public difficulty: number
 
   @OneToOne(() => ItemEntity)

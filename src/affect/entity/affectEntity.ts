@@ -19,10 +19,10 @@ export class AffectEntity {
   @Column("text")
   public affectType: AffectType
 
-  @Column("integer")
+  @Column()
   public timeout: number
 
-  @Column("integer")
+  @Column()
   public level: number = 1
 
   @OneToOne(() => AttributesEntity, { cascade: true, eager: true })

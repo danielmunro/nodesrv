@@ -8,20 +8,20 @@ export default class DrinkEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
-  @Column("text")
+  @Column()
   @Generated("uuid")
   public uuid: string = v4()
 
   @Column("text", { default: Liquid.Water })
   public liquid: Liquid
 
-  @Column("integer", { nullable: true })
+  @Column({ nullable: true })
   public capacity: number
 
-  @Column("integer")
+  @Column()
   public drinkAmount: number
 
-  @Column("integer")
+  @Column()
   public foodAmount: number
 
   @OneToOne(() => ItemEntity, item => item.food)

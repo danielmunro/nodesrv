@@ -4,10 +4,7 @@ import { MobEntity } from "../../mob/entity/mobEntity"
 import { newMob } from "../../mob/factory/mobFactory"
 import { RaceType } from "../../mob/race/enum/raceType"
 
-export function getTestMob(name: string = null, level: number = 1): MobEntity {
-  if (name === null) {
-    name = sillyname()
-  }
+export function getTestMob(name: string = sillyname(), level: number = 1): MobEntity {
   const mob = newMob(
     name,
     "a test fixture",
