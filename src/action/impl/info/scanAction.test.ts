@@ -2,6 +2,7 @@ import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {RequestType} from "../../../request/enum/requestType"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
+import {ConditionMessages} from "../../constants"
 
 let testRunner: TestRunner
 const testAreaName = "test area"
@@ -44,5 +45,13 @@ describe("scan action", () => {
     expect(message.includes(`${names[1]} at room 2`)).toBe(mob2Present)
     expect(message.includes(`${names[2]} at room 3`)).toBe(mob3Present)
     expect(message.includes(`${names[3]} at room 4`)).toBeFalsy()
+  })
+
+  it("requires a subject", async () => {
+    // when
+    const response = await testRunner.invokeAction(RequestType.Scan)
+
+    // then
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Scan.NoSubject)
   })
 })
