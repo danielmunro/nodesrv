@@ -19,23 +19,34 @@ import FightTable from "../fight/fightTable"
 import { Specialization } from "../specialization/specialization"
 import MobTable from "../table/mobTable"
 import LocationService from "./locationService"
+import {defaultSpecializationLevels} from "../specialization/specializationLevels"
 
-function createSkillFromSkillType(skillType: SkillType): SkillEntity {
-  return newSkill(skillType, 1)
+function createSkillFromSkillType(skillType: SkillType, levelObtained: number): SkillEntity {
+  const skill =  newSkill(skillType, 1)
+  skill.levelObtained = levelObtained
+  return skill
 }
 
-function createSpellFromSpellType(spellType: SpellType): SpellEntity {
+function createSpellFromSpellType(spellType: SpellType, levelObtained: number): SpellEntity {
   const spell = new SpellEntity()
   spell.spellType = spellType
   spell.level = 1
+  spell.levelObtained = levelObtained
   return spell
 }
 
 export function assignSpecializationToMob(mob: MobEntity, specialization: Specialization) {
   mob.specializationType = specialization.getSpecializationType()
   mob.attributes.push(specialization.getAttributes())
-  mob.skills = [...mob.skills, ...specialization.getSkills().map(createSkillFromSkillType)]
-  mob.spells = [...mob.spells, ...specialization.getSpells().map(createSpellFromSpellType)]
+  const specializations = defaultSpecializationLevels.filter(spec =>
+    spec.specialization === specialization.getSpecializationType())
+  specializations.forEach(spec => {
+    if (Object.keys(SkillType).includes(spec.abilityType)) {
+      mob.skills.push(createSkillFromSkillType(spec.abilityType as SkillType, spec.minimumLevel))
+    } else {
+      mob.spells.push(createSpellFromSpellType(spec.abilityType as SpellType, spec.minimumLevel))
+    }
+  })
 }
 
 @injectable()
