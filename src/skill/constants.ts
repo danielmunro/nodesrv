@@ -82,6 +82,11 @@ export const Costs = {
     Mana: 100,
     Mv: 100,
   },
+  Repair: {
+    Delay: 2,
+    Mana: 40,
+    Mv: 80,
+  },
   Sharpen: {
     Delay: 2,
     Mana: 50,
@@ -121,6 +126,10 @@ export const ConditionMessages = {
   Disarm: {
     FailNothingToDisarm: "They don't have a weapon to disarm.",
   },
+  Repair: {
+    ItemAlreadyInGoodCondition: "You can't repair it anymore.",
+    ItemNotEquipment: "That cannot be repaired.",
+  },
   Sharpen: {
     AlreadySharpened: "That has already sharpened.",
     NotABladedWeapon: "That weapon needs a blade to sharpen.",
@@ -139,6 +148,10 @@ export const ActionMessages = {
   Disarm: {
     Failure: "{requestCreator} {verb} to disarm {target}.",
     Success: "{requestCreator} {verb} {target} and {verb2} {gender} weapon flying!",
+  },
+  Repair: {
+    Failure: "{requestCreator} {verb} to repair {item}.",
+    Success: "{requestCreator} {verb} {item}, restoring its durability.",
   },
   Sharpen: {
     Failure: "{requestCreator} {verb} to sharpen {target}.",

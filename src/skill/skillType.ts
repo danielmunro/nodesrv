@@ -32,6 +32,7 @@ export enum SkillType {
   Mace = "mace",
   Meditation = "meditation",
   Noop = "noop",
+  Repair = "repair",
   Parry = "parry",
   Peek = "peek",
   Polearm = "polearm",

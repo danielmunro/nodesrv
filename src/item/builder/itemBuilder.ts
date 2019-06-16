@@ -1,3 +1,4 @@
+import * as uuid from "uuid"
 import {Equipment} from "../enum/equipment"
 import {ItemType} from "../enum/itemType"
 import {createInventory} from "../factory/inventoryFactory"
@@ -45,7 +46,7 @@ export default class ItemBuilder extends AbstractItemBuilder {
     return this
   }
 
-  public asKey(canonicalId: string): ItemBuilder {
+  public asKey(canonicalId: string = uuid()): ItemBuilder {
     this.item.itemType = ItemType.Key
     this.item.name = "a small brass key"
     this.item.description = "a small brass key"

@@ -73,6 +73,7 @@ import hamstringAction from "../impl/skill/assassin/hamstringAction"
 import tripAction from "../impl/skill/assassin/tripAction"
 import bashAction from "../impl/skill/brawler/bashAction"
 import shieldBashAction from "../impl/skill/brawler/shieldBashAction"
+import repairAction from "../impl/skill/crafting/repairAction"
 import sharpenAction from "../impl/skill/crafting/sharpenAction"
 import detectTouchAction from "../impl/skill/detection/detectTouchAction"
 import dirtKickAction from "../impl/skill/evasion/dirtKickAction"
@@ -164,6 +165,7 @@ export default function getActionTable(
     detectTouchAction(abilityService),
     eyeGougeAction(abilityService),
     hamstringAction(abilityService),
+    repairAction(abilityService),
 
     // casting
     new CastAction(checkBuilderFactory, spellTable),

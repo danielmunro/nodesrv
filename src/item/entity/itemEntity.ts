@@ -14,6 +14,8 @@ import { InventoryEntity } from "./inventoryEntity"
 
 @Entity()
 export class ItemEntity {
+  public static maxCondition: number = 100
+
   @PrimaryGeneratedColumn()
   public id: number
 
