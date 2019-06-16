@@ -76,10 +76,8 @@ export default class LookAction extends Action {
   }
 
   protected reduceMobs(mob: MobEntity, mobs: MobEntity[]): string {
-    const aff = mob.affect()
     return mobs.filter(onlyLiving)
-      .filter(m => !m.affect().has(AffectType.Invisible) || aff.has(AffectType.DetectInvisible))
-      .filter(m => !m.affect().has(AffectType.Hidden) || aff.has(AffectType.DetectHidden))
+      .filter(m => mob.canSee(m))
       .reduce((previous: string, current: MobEntity) =>
         previous + (current !== mob ? "\n" + current.brief : ""), "")
   }
@@ -89,17 +87,18 @@ export default class LookAction extends Action {
     const mob = this.locationService
       .getMobsByRoom(request.getRoom())
       .find(m => match(m.name, subject))
-    if (mob) {
+
+    if (mob && request.mob.canSee(mob)) {
       return builder.info(mob.describe())
     }
 
     let item = request.findItemInRoomInventory()
-    if (item) {
+    if (item && request.mob.canSee(item)) {
       return builder.info(item.describe())
     }
 
     item = this.itemService.findItem(request.mob.inventory, subject)
-    if (item) {
+    if (item && request.mob.canSee(item)) {
       return builder.info(item.describe())
     }
 

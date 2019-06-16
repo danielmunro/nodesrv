@@ -60,6 +60,7 @@ export enum RequestType {
   Scan = "scan",
   ShieldBash = "shield bash",
   Peek = "peek",
+  DetectHidden = "detect hidden",
   DetectTouch = "detect touch",
   EyeGouge = "eye gouge",
   TradeRequest = "trade",

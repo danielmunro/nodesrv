@@ -109,9 +109,9 @@ level 19
 know alignment          NA
 
 level 20
+detect hidden           NA
 dirt kick               NA
 detect invisibility     NA
-detect hidden           NA
 turn undead             NA
 
 level 21

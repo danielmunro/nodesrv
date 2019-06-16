@@ -75,6 +75,7 @@ import bashAction from "../impl/skill/brawler/bashAction"
 import shieldBashAction from "../impl/skill/brawler/shieldBashAction"
 import repairAction from "../impl/skill/crafting/repairAction"
 import sharpenAction from "../impl/skill/crafting/sharpenAction"
+import detectHiddenAction from "../impl/skill/detection/detectHiddenAction"
 import detectTouchAction from "../impl/skill/detection/detectTouchAction"
 import dirtKickAction from "../impl/skill/evasion/dirtKickAction"
 import peekAction from "../impl/skill/thief/peekAction"
@@ -162,6 +163,7 @@ export default function getActionTable(
     shieldBashAction(abilityService),
     peekAction(abilityService),
     garotteAction(abilityService),
+    detectHiddenAction(abilityService),
     detectTouchAction(abilityService),
     eyeGougeAction(abilityService),
     hamstringAction(abilityService),

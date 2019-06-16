@@ -7,6 +7,7 @@ export enum SkillType {
   Bludgeon = "bludgeon",
   Cleave = "cleave",
   Dagger = "dagger",
+  DetectHidden = "detect hidden",
   DetectTouch = "detect touch",
   DirtKick = "dirt kick",
   Disarm = "disarm",

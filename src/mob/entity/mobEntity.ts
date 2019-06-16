@@ -1,35 +1,36 @@
-import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import {Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
 import * as v4 from "uuid"
-import { AffectEntity } from "../../affect/entity/affectEntity"
+import {AffectEntity} from "../../affect/entity/affectEntity"
+import {AffectType} from "../../affect/enum/affectType"
 import AffectService from "../../affect/service/affectService"
-import { default as Attributes } from "../../attributes/entity/attributesEntity"
+import {default as Attributes} from "../../attributes/entity/attributesEntity"
 import AttributeService from "../../attributes/service/attributeService"
-import { InventoryEntity } from "../../item/entity/inventoryEntity"
+import {InventoryEntity} from "../../item/entity/inventoryEntity"
 import {ItemEntity} from "../../item/entity/itemEntity"
 import {Equipment} from "../../item/enum/equipment"
-import { PlayerEntity } from "../../player/entity/playerEntity"
+import {PlayerEntity} from "../../player/entity/playerEntity"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
-import { SkillEntity } from "../../skill/entity/skillEntity"
+import {SkillEntity} from "../../skill/entity/skillEntity"
 import {SkillType} from "../../skill/skillType"
-import { SpellEntity } from "../../spell/entity/spellEntity"
+import {SpellEntity} from "../../spell/entity/spellEntity"
 import {SpellType} from "../../spell/spellType"
-import { Disposition } from "../enum/disposition"
-import { Gender } from "../enum/gender"
-import { Standing } from "../enum/standing"
+import {Disposition} from "../enum/disposition"
+import {Gender} from "../enum/gender"
+import {Standing} from "../enum/standing"
 import DamageEventBuilder from "../event/damageEventBuilder"
 import {DamageType} from "../fight/enum/damageType"
-import { RaceType } from "../race/enum/raceType"
+import {RaceType} from "../race/enum/raceType"
 import createRaceFromRaceType from "../race/factory"
 import Race from "../race/race"
 import AlignmentService from "../service/alignmentService"
-import { SpecializationType } from "../specialization/enum/specializationType"
+import {SpecializationType} from "../specialization/enum/specializationType"
 import {createSpecializationFromType} from "../specialization/factory"
 import {Specialization} from "../specialization/specialization"
 import DamageSourceEntity from "./damageSourceEntity"
 import MobResetEntity from "./mobResetEntity"
 import {MobTraitsEntity} from "./mobTraitsEntity"
 import OffensiveTraitsEntity from "./offensiveTraitsEntity"
-import { PlayerMobEntity } from "./playerMobEntity"
+import {PlayerMobEntity} from "./playerMobEntity"
 import ShopEntity from "./shopEntity"
 
 @Entity()
@@ -219,5 +220,20 @@ export class MobEntity {
       this,
       amount,
       damageType)
+  }
+
+  public canSee(thing: MobEntity | ItemEntity): boolean {
+    const aff = this.affect()
+    const thingAff = thing.affect()
+
+    if (thingAff.has(AffectType.Hidden) && aff.has(AffectType.DetectHidden)) {
+      return true
+    }
+
+    if (thingAff.has(AffectType.Invisible) && aff.has(AffectType.DetectInvisible)) {
+      return true
+    }
+
+    return !thingAff.has(AffectType.Hidden) && !thingAff.has(AffectType.Invisible)
   }
 }
