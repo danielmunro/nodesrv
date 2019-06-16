@@ -11,6 +11,7 @@ import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
 import Skill from "../../skill"
+import {createApplyAbilityResponse} from "../../../factory/responseFactory"
 
 export default function(abilityService: AbilityService): Skill {
   return new SkillBuilder(abilityService, SkillType.DetectTouch)
@@ -27,7 +28,7 @@ export default function(abilityService: AbilityService): Skill {
       new ManaCost(Costs.DetectTouch.Mana),
     ])
     .setApplySkill(async (requestService, affectBuilder) =>
-      affectBuilder.setTimeout(requestService.getMobLevel() / 8).build())
+      createApplyAbilityResponse(affectBuilder.setTimeout(requestService.getMobLevel() / 8).build()))
     .setSuccessMessage(requestService =>
       requestService.createResponseMessage(SkillMessages.DetectTouch.Success)
         .setVerbToRequestCreator("are")
