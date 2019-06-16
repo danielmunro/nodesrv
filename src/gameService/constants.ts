@@ -161,6 +161,7 @@ peek                    NA
 
 level 8
 sharpen                 NA
+detect hidden           NA
 
 level 9
 eye gouge               NA
@@ -235,6 +236,9 @@ sharpen                 NA
 level 18
 shield bash             NA
 
+level 19
+detect hidden           NA
+
 level 20
 parry                   NA
 
@@ -242,6 +246,9 @@ level 22
 bludgeon                NA
 cleave                  NA
 gouge                   NA
+
+level 24
+detect touch            NA
 
 level 28
 third attack            NA
