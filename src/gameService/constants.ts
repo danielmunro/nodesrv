@@ -165,6 +165,9 @@ sharpen                 NA
 level 9
 eye gouge               NA
 
+level 10
+repair                  NA
+
 level 11
 steal                   NA
 
@@ -213,6 +216,9 @@ fast healing            NA
 
 level 7
 second attack           NA
+
+level 10
+repair                  NA
 
 level 11
 disarm                  NA
