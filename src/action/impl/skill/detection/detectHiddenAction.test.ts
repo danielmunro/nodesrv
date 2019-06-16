@@ -15,7 +15,10 @@ let target: MobEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mob = testRunner.createMob().withSkill(SkillType.DetectHidden, MAX_PRACTICE_LEVEL).get()
+  mob = testRunner.createMob()
+    .withSkill(SkillType.DetectHidden, MAX_PRACTICE_LEVEL)
+    .setLevel(30)
+    .get()
   target = testRunner.createMob().addAffectType(AffectType.Hidden).get()
 })
 

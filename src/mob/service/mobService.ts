@@ -2,24 +2,25 @@ import {inject, injectable} from "inversify"
 import {cloneDeep} from "lodash"
 import KafkaService from "../../kafka/kafkaService"
 import LevelService from "../../player/service/levelService"
-import { RoomEntity } from "../../room/entity/roomEntity"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
-import { SkillEntity } from "../../skill/entity/skillEntity"
-import { newSkill } from "../../skill/factory"
-import { SkillType } from "../../skill/skillType"
-import { SpellEntity } from "../../spell/entity/spellEntity"
-import { SpellType } from "../../spell/spellType"
+import {SkillEntity} from "../../skill/entity/skillEntity"
+import {newSkill} from "../../skill/factory"
+import {SkillType} from "../../skill/skillType"
+import {SpellEntity} from "../../spell/entity/spellEntity"
+import {SpellType} from "../../spell/spellType"
 import {Types} from "../../support/types"
-import { MobEntity } from "../entity/mobEntity"
+import {MobEntity} from "../entity/mobEntity"
 import MobLocationEntity from "../entity/mobLocationEntity"
 import MobResetEntity from "../entity/mobResetEntity"
-import { newMobLocation } from "../factory/mobFactory"
-import { Fight } from "../fight/fight"
+import {newMobLocation} from "../factory/mobFactory"
+import {Fight} from "../fight/fight"
 import FightTable from "../fight/fightTable"
-import { Specialization } from "../specialization/specialization"
+import {SpecializationType} from "../specialization/enum/specializationType"
+import {Specialization} from "../specialization/specialization"
+import {defaultSpecializationLevels} from "../specialization/specializationLevels"
 import MobTable from "../table/mobTable"
 import LocationService from "./locationService"
-import {defaultSpecializationLevels} from "../specialization/specializationLevels"
 
 function createSkillFromSkillType(skillType: SkillType, levelObtained: number): SkillEntity {
   const skill =  newSkill(skillType, 1)
@@ -39,9 +40,10 @@ export function assignSpecializationToMob(mob: MobEntity, specialization: Specia
   mob.specializationType = specialization.getSpecializationType()
   mob.attributes.push(specialization.getAttributes())
   const specializations = defaultSpecializationLevels.filter(spec =>
-    spec.specialization === specialization.getSpecializationType())
+    spec.specialization === specialization.getSpecializationType() ||
+    spec.specialization === SpecializationType.Any)
   specializations.forEach(spec => {
-    if (Object.keys(SkillType).includes(spec.abilityType)) {
+    if (Object.values(SkillType).includes(spec.abilityType)) {
       mob.skills.push(createSkillFromSkillType(spec.abilityType as SkillType, spec.minimumLevel))
     } else {
       mob.spells.push(createSpellFromSpellType(spec.abilityType as SpellType, spec.minimumLevel))
