@@ -39,9 +39,11 @@ function createSpellFromSpellType(spellType: SpellType, levelObtained: number): 
 export function assignSpecializationToMob(mob: MobEntity, specialization: Specialization) {
   mob.specializationType = specialization.getSpecializationType()
   mob.attributes.push(specialization.getAttributes())
+
   const specializations = defaultSpecializationLevels.filter(spec =>
     spec.specialization === specialization.getSpecializationType() ||
     spec.specialization === SpecializationType.Any)
+
   specializations.forEach(spec => {
     if (Object.values(SkillType).includes(spec.abilityType)) {
       mob.skills.push(createSkillFromSkillType(spec.abilityType as SkillType, spec.minimumLevel))
