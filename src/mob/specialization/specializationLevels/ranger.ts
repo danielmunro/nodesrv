@@ -14,6 +14,7 @@ export default [
   createSpec(SkillType.Dodge, 5, 4),
   createSpec(SkillType.Peek, 5, 3),
   createSpec(SkillType.Sharpen, 8, 3),
+  createSpec(SkillType.DetectHidden, 8, 5),
   createSpec(SkillType.EyeGouge, 9, 4),
   createSpec(SkillType.Repair, 10, 4),
   createSpec(SkillType.Steal, 11, 4),
