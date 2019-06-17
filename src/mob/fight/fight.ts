@@ -124,8 +124,9 @@ export class Fight {
     const attacks = [await this.attack(x, y)]
     const attackDeath = attacks.find(attack => !!attack.death)
     if (attackDeath) {
-      await this.kafkaService.death(attackDeath.death)
-      await this.eventService.publish(createDeathEvent(attackDeath.death))
+      const death = attackDeath.death as Death
+      await this.kafkaService.death(death)
+      await this.eventService.publish(createDeathEvent(death))
       return attacks
     }
     await this.eventService.publish(createFightEvent(EventType.AttackRound, x, this, attacks))
