@@ -9,6 +9,7 @@ export enum EventType {
   MobMoved,
   MobAdvanceLevel,
   MobUpdated,
+  MobDeath,
   Cast,
   ItemDropped,
   ItemDestroyed,

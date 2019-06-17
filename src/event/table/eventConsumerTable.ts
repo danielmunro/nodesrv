@@ -44,6 +44,7 @@ import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import MobArrives from "../../player/eventConsumer/mobArrives"
 import MobLeaves from "../../player/eventConsumer/mobLeaves"
+import PlayerMobDeath from "../../player/eventConsumer/playerMobDeath"
 import {RequestType} from "../../request/enum/requestType"
 import RoomMessageEventConsumer from "../../room/eventConsumer/roomMessageEventConsumer"
 import {GameServerService} from "../../server/service/gameServerService"
@@ -95,6 +96,7 @@ export default function createEventConsumerTable(
     new DamageModifierEventConsumer(),
     new FollowMob(locationService, gameService.getMovementActions()),
     new DeathTimerEventConsumer(eventService),
+    new PlayerMobDeath(locationService, gameServer.startRoom),
 
     // race
     new ElfIronVuln(),

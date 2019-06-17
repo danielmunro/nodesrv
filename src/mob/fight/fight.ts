@@ -2,7 +2,7 @@ import AffectService from "../../affect/service/affectService"
 import AttributesEntity from "../../attributes/entity/attributesEntity"
 import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
-import {createFightEvent} from "../../event/factory/eventFactory"
+import {createDeathEvent, createFightEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import KafkaService from "../../kafka/kafkaService"
 import {RoomEntity} from "../../room/entity/roomEntity"
@@ -109,19 +109,23 @@ export class Fight {
         .setSource(attacker)
         .build())
     const event = response.event as DamageEvent
-    defender.hp -= event.amount
+    const damage = calculateDamageFromEvent(event)
+    defender.hp -= damage
 
     return new Attack(
       attacker,
       defender,
       AttackResult.Hit,
-      calculateDamageFromEvent(event),
+      damage,
       defender.hp < 0 ? await this.createDeath(attacker, defender) : undefined)
   }
 
   private async turnFor(x: MobEntity, y: MobEntity): Promise<Attack[]> {
     const attacks = [await this.attack(x, y)]
-    if (y.hp < 0) {
+    const attackDeath = attacks.find(attack => !!attack.death)
+    if (attackDeath) {
+      await this.kafkaService.death(attackDeath.death)
+      await this.eventService.publish(createDeathEvent(attackDeath.death))
       return attacks
     }
     await this.eventService.publish(createFightEvent(EventType.AttackRound, x, this, attacks))
@@ -141,7 +145,6 @@ export class Fight {
     }
 
     const death = new Death(vanquished, this.room, winner, bounty)
-    await this.kafkaService.death(death)
 
     if (winner.playerMob) {
       winner.playerMob.addExperience(death.calculateKillerExperience())

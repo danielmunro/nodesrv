@@ -12,6 +12,7 @@ import AttackEvent from "../../mob/event/attackEvent"
 import CastEvent from "../../mob/event/castEvent"
 import CostEvent from "../../mob/event/costEvent"
 import DamageEvent from "../../mob/event/damageEvent"
+import DeathEvent from "../../mob/event/deathEvent"
 import ItemDroppedEvent from "../../mob/event/itemDroppedEvent"
 import MobEvent from "../../mob/event/mobEvent"
 import MobMessageEvent from "../../mob/event/mobMessageEvent"
@@ -19,6 +20,7 @@ import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import TickEvent from "../../mob/event/tickEvent"
 import TouchEvent from "../../mob/event/touchEvent"
 import {Attack} from "../../mob/fight/attack"
+import Death from "../../mob/fight/death"
 import {DamageType} from "../../mob/fight/enum/damageType"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Fight} from "../../mob/fight/fight"
@@ -148,4 +150,8 @@ export function createCastEvent(mob: MobEntity, spell: SpellEntity, target: Targ
 
 export function createModifiedCastEvent(event: CastEvent, roll: number): CastEvent {
   return { ...event, roll }
+}
+
+export function createDeathEvent(death: Death): DeathEvent {
+  return { eventType: EventType.MobDeath, death }
 }

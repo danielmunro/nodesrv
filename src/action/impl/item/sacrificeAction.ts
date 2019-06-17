@@ -26,7 +26,7 @@ export default class SacrificeAction extends Action {
       .not()
       .requireAffect(AffectType.NoSacrifice, ConditionMessages.All.Item.CannotSacrifice)
       .require((item: ItemEntity) => item.isContainer()
-        ? item.container.items.length === 0 : true, MESSAGE_FAIL_CONTAINER_NOT_EMPTY)
+        ? item.container.inventory.items.length === 0 : true, MESSAGE_FAIL_CONTAINER_NOT_EMPTY)
       .create()
   }
 
