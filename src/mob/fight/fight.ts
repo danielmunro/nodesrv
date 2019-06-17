@@ -1,6 +1,5 @@
 import AffectService from "../../affect/service/affectService"
 import AttributesEntity from "../../attributes/entity/attributesEntity"
-import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
 import {createDeathEvent, createFightEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
@@ -17,6 +16,7 @@ import Death from "./death"
 import {AttackResult} from "./enum/attackResult"
 import {FightStatus} from "./enum/fightStatus"
 import {Round} from "./round"
+import EventResponse from "../../event/eventResponse"
 
 export class Fight {
   public static calculateDamageForOneHit(
@@ -88,9 +88,9 @@ export class Fight {
   }
 
   public async attack(attacker: MobEntity, defender: MobEntity): Promise<Attack> {
-    const eventResponse = await this.eventService.publish(
-      createFightEvent(EventType.AttackRoundStart, attacker, this))
-    if (eventResponse.status === EventResponseStatus.Satisfied) {
+    const eventResponse = await this.publishAttackRoundStart(attacker)
+
+    if (eventResponse.isSatisfied()) {
       return Fight.attackDefeated(attacker, defender, getSuppressionAttackResultFromSkillType(eventResponse.context))
     }
 
@@ -101,14 +101,7 @@ export class Fight {
       return Fight.attackDefeated(attacker, defender, AttackResult.Miss)
     }
 
-    const initialDamageCalculation = Fight.calculateDamageForOneHit(attacker, defender)
-    const response = await this.eventService.publish(
-      defender.createDamageEventBuilder(
-        initialDamageCalculation,
-        new DamageService(attacker).getDamageType())
-        .setSource(attacker)
-        .build())
-    const event = response.event as DamageEvent
+    const event = await this.publishDamageEvent(attacker, defender, Fight.calculateDamageForOneHit(attacker, defender))
     const damage = calculateDamageFromEvent(event)
     defender.hp -= damage
 
@@ -120,8 +113,23 @@ export class Fight {
       defender.hp < 0 ? await this.createDeath(attacker, defender) : undefined)
   }
 
-  private async turnFor(x: MobEntity, y: MobEntity): Promise<Attack[]> {
-    const attacks = [await this.attack(x, y)]
+  private async publishAttackRoundStart(attacker: MobEntity): Promise<EventResponse> {
+    return this.eventService.publish(createFightEvent(EventType.AttackRoundStart, attacker, this))
+  }
+
+  private async publishDamageEvent(
+    attacker: MobEntity, defender: MobEntity, damage: number): Promise<DamageEvent> {
+    const eventResponse = await this.eventService.publish(
+      defender.createDamageEventBuilder(
+        damage,
+        new DamageService(attacker).getDamageType())
+        .setSource(attacker)
+        .build())
+    return eventResponse.event as DamageEvent
+  }
+
+  private async turnFor(attacker: MobEntity, defender: MobEntity): Promise<Attack[]> {
+    const attacks = [await this.attack(attacker, defender)]
     const attackDeath = attacks.find(attack => !!attack.death)
     if (attackDeath) {
       const death = attackDeath.death as Death
@@ -129,7 +137,7 @@ export class Fight {
       await this.eventService.publish(createDeathEvent(death))
       return attacks
     }
-    await this.eventService.publish(createFightEvent(EventType.AttackRound, x, this, attacks))
+    await this.eventService.publish(createFightEvent(EventType.AttackRound, attacker, this, attacks))
     return attacks
   }
 

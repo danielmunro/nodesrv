@@ -1,4 +1,4 @@
 export enum FightStatus {
-  InProgress,
-  Done,
+  InProgress = "in progress",
+  Done = "done",
 }
