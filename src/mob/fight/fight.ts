@@ -1,6 +1,7 @@
 import AffectService from "../../affect/service/affectService"
 import AttributesEntity from "../../attributes/entity/attributesEntity"
 import {EventType} from "../../event/enum/eventType"
+import EventResponse from "../../event/eventResponse"
 import {createDeathEvent, createFightEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import KafkaService from "../../kafka/kafkaService"
@@ -16,7 +17,6 @@ import Death from "./death"
 import {AttackResult} from "./enum/attackResult"
 import {FightStatus} from "./enum/fightStatus"
 import {Round} from "./round"
-import EventResponse from "../../event/eventResponse"
 
 export class Fight {
   public static calculateDamageForOneHit(
