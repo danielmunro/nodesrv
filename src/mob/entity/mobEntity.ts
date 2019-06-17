@@ -78,13 +78,13 @@ export class MobEntity {
   @Column({ default: 0 })
   public alignment: number
 
-  @Column()
+  @Column("float")
   public hp: number
 
-  @Column()
+  @Column("float")
   public mana: number
 
-  @Column()
+  @Column("float")
   public mv: number
 
   @OneToOne(() => DamageSourceEntity, { cascade: true, eager: true })
