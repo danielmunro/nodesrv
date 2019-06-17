@@ -1,0 +1,7 @@
+{
+  "uid": "app",
+  "append": true,
+  "watch": true,
+  "script": "bin/start-game-server.ts",
+  "sourceDir": "/home/dan/github/nodesrv"
+}
