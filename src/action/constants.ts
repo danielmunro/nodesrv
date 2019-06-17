@@ -242,6 +242,9 @@ export const ConditionMessages = {
   Remove: {
     Success: "{requestCreator} {verb} {item} and {verb2} it in {requestCreator2} inventory.",
   },
+  Scan: {
+    NoSubject: "For whom would you like to scan?",
+  },
   Sleep: {
     AlreadySleeping: "You are already asleep.",
   },

@@ -8,7 +8,7 @@ import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
 import match from "../../../support/matcher/match"
-import {Messages} from "../../constants"
+import {ConditionMessages, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
@@ -20,7 +20,10 @@ export default class ScanAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing).create()
+    return this.checkBuilderFactory
+      .createCheckBuilder(request, Disposition.Standing)
+      .require(request.getSubject(), ConditionMessages.Scan.NoSubject)
+      .create()
   }
 
   public invoke(requestService: RequestService): Promise<Response> {

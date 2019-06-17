@@ -173,11 +173,11 @@ export default function getActionTable(
     new CastAction(checkBuilderFactory, spellTable),
 
     // info
+    new ScoreAction(),
     new ScanAction(checkBuilderFactory, mobService),
     new AffectsAction(),
     lookAction,
     new LoreAction(checkBuilderFactory, itemService),
-    new ScoreAction(),
     new InventoryAction(itemService),
     new EquippedAction(),
     new ExitsAction(),
