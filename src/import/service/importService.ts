@@ -24,7 +24,7 @@ import offensiveTraits from "./mob/offensiveTraits"
 const NPC_MOVEMENT = 1000
 
 export default class ImportService {
-  private static dice(rollData) {
+  private static dice(rollData: any): number {
     const parts = rollData.split("d")
     const count = parts[0]
     const secondPart = parts[1].split("+")
@@ -34,7 +34,7 @@ export default class ImportService {
     return roll(count, sides) + bonus
   }
 
-  private static getAmount(amount) {
+  private static getAmount(amount: number): number {
     if (amount <= 0 || amount === null) {
       return 999
     }
@@ -42,28 +42,28 @@ export default class ImportService {
     return amount
   }
 
-  private static addMobTraits(mob: MobEntity, traits: MobTrait[]) {
+  private static addMobTraits(mob: MobEntity, traits: MobTrait[]): void {
     traits.forEach(trait => mobTraits(mob, trait))
   }
 
-  private static addMobOffensiveTraits(mob: MobEntity, traits: MobOffensiveTrait[]) {
+  private static addMobOffensiveTraits(mob: MobEntity, traits: MobOffensiveTrait[]): void {
     traits.forEach(trait => offensiveTraits(mob, trait))
   }
 
-  private static addMobVulnerableTraits(mob: MobEntity, traits: DamageSourceFlag[]) {
+  private static addMobVulnerableTraits(mob: MobEntity, traits: DamageSourceFlag[]): void {
     traits.forEach(trait => damageTraits(mob.vulnerable, trait))
   }
 
-  private static addMobResistTraits(mob: MobEntity, traits: DamageSourceFlag[]) {
+  private static addMobResistTraits(mob: MobEntity, traits: DamageSourceFlag[]): void {
     traits.forEach(trait => damageTraits(mob.resist, trait))
   }
 
-  private static addMobImmuneTraits(mob: MobEntity, traits: DamageSourceFlag[]) {
+  private static addMobImmuneTraits(mob: MobEntity, traits: DamageSourceFlag[]): void {
     traits.forEach(trait => damageTraits(mob.immune, trait))
   }
 
-  private static async addShop(file: File, resetData) {
-    const mob = file.mobs.find(m => m.canonicalId === resetData.keeper)
+  private static async addShop(file: File, resetData: any): Promise<void> {
+    const mob = file.mobs.find(m => m.canonicalId === resetData.keeper) as MobEntity
     const shop = new ShopEntity()
     shop.buyModifier = resetData.profitBuy
     shop.sellModifier = resetData.profitSell
@@ -73,7 +73,7 @@ export default class ImportService {
     file.shops.push(shop)
   }
 
-  private static async addMob(file: any, mobData: any) {
+  private static async addMob(file: any, mobData: any): Promise<void> {
     const hp = ImportService.dice(mobData.hit)
     const mana = ImportService.dice(mobData.mana)
     const mv = NPC_MOVEMENT
@@ -132,7 +132,7 @@ export default class ImportService {
         if (Object.keys(row).length === 1) {
           continue
         }
-        await this.addRow(header, file, row)
+        await this.addRow(header as SectionHeader, file, row)
       }
     }
     if (this.writeNewData) {
@@ -141,7 +141,7 @@ export default class ImportService {
     }
   }
 
-  private async addRow(header, file: File, row) {
+  private async addRow(header: SectionHeader, file: File, row: any) {
     switch (header) {
       case SectionHeader.Mobiles:
         await ImportService.addMob(file, row)
@@ -161,7 +161,7 @@ export default class ImportService {
     }
   }
 
-  private async addReset(file, resetData) {
+  private async addReset(file: File, resetData: any) {
     const resetSubject = resetData.args[0]
     const reset = new Reset(
       resetData.command,
@@ -175,7 +175,7 @@ export default class ImportService {
     file.resets.push(reset)
   }
 
-  private getResetDestination(resetData) {
+  private getResetDestination(resetData: any) {
     if (resetData.command === ResetFlag.GiveItemToMob) {
       return this.lastReset.idOfResetSubject
     }
@@ -185,7 +185,7 @@ export default class ImportService {
     return resetData.args[2]
   }
 
-  private async addItem(file, itemData) {
+  private async addItem(file: File, itemData: any) {
     const item = await this.itemBuilder.createItemFromImportData(itemData)
     if (!item) {
       console.log(`skipping ${itemData.type}: ${itemData.id}`)

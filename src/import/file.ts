@@ -6,15 +6,15 @@ import Reset from "./reset"
 
 export default class File {
   public rooms: RoomEntity[] = []
-  public roomMap: object = {}
+  public roomMap: any = {}
   public mobs: MobEntity[] = []
-  public mobMap: object = {}
+  public mobMap: any = {}
   public items: ItemEntity[] = []
-  public roomDataMap: object = {}
+  public roomDataMap: any = {}
   public resets: Reset[] = []
   public shops: ShopEntity[] = []
 
   constructor(
     public readonly filename: string,
-    public readonly data = []) {}
+    public readonly data: any[] = []) {}
 }
