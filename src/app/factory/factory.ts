@@ -1,5 +1,6 @@
 import {Container} from "inversify"
 import App from "../app"
+import {Timings} from "../constants"
 import actions from "../containerModule/actions"
 import constants from "../containerModule/constants"
 import eventConsumers from "../containerModule/eventConsumers"
@@ -9,8 +10,10 @@ import services from "../containerModule/services"
 import tables from "../containerModule/tables"
 
 export default async function createAppContainer(startRoomId = 3001, port: number = 5151): Promise<App> {
+  console.time(Timings.container)
   const container = new Container()
   container.load(services, actions, eventConsumers, observers)
   await container.loadAsync(tables, repositories, constants(startRoomId, port))
+  console.timeEnd(Timings.container)
   return new App(container)
 }

@@ -12,8 +12,10 @@ import {newExitTable, newRoomTable} from "../../room/factory/roomFactory"
 import ExitTable from "../../room/table/exitTable"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
+import {Timings} from "../constants"
 
 export default new AsyncContainerModule(async bind => {
+  console.time(Timings.tables)
   bind<MobTable>(Types.MobTable).toConstantValue(new MobTable())
   bind<RoomTable>(Types.RoomTable).toConstantValue(await newRoomTable())
   bind<ItemTable>(Types.ItemTable).toConstantValue(new ItemTable(await (await getItemRepository()).findAll()))
@@ -24,5 +26,5 @@ export default new AsyncContainerModule(async bind => {
     const specializationService = context.container.get<SpecializationService>(Types.SpecializationService)
     return specializationGroups(specializationService)
   })
-  console.log("done loading tables")
+  console.timeEnd(Timings.tables)
 })

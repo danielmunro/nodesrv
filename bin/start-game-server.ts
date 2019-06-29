@@ -1,24 +1,15 @@
 import * as assert from "assert"
+import {Timings} from "../src/app/constants"
 import createAppContainer from "../src/app/factory/factory"
 import {tick} from "../src/server/constants"
 import {ObserverChain} from "../src/server/observers/observerChain"
-import { initializeConnection } from "../src/support/db/connection"
+import {initializeConnection} from "../src/support/db/connection"
 import {DiceRoller} from "../src/support/random/dice"
 import {FiveMinuteTimer} from "../src/support/timer/fiveMinuteTimer"
 import {MinuteTimer} from "../src/support/timer/minuteTimer"
 import {RandomTickTimer} from "../src/support/timer/randomTickTimer"
 import {SecondIntervalTimer} from "../src/support/timer/secondTimer"
 import {ShortIntervalTimer} from "../src/support/timer/shortIntervalTimer"
-
-const Timings = {
-  init: "total game initialization",
-  itemService: "item service",
-  openPort: "open server port",
-  resetService: "create reset service initialization",
-  roomAndMobTables: "room, mob, and exit table initialization",
-  seedItems: "seeding items",
-  seedMobs: "seeding world",
-}
 
 /**
  * Obtain the start room ID and port from arguments passed in
@@ -35,8 +26,9 @@ initializeConnection().then(async () => {
   /**
    * seed mob and item resets
    */
+  console.time(Timings.resetService)
   const resetService = app.getResetService()
-  console.log("done loading reset service")
+  console.timeEnd(Timings.resetService)
   console.time(Timings.seedMobs)
   await resetService.seedMobTable()
   console.timeEnd(Timings.seedMobs)
