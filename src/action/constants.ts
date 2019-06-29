@@ -145,7 +145,7 @@ export const MESSAGE_DIRECTION_DOES_NOT_EXIST = "Alas, that direction does not e
 export const MESSAGE_OUT_OF_MOVEMENT = "You are too tired."
 export const MESSAGE_REMOVE_FAIL = "You aren't wearing that."
 export const MESSAGE_FAIL_ALREADY_AWAKE = "You're already awake."
-export const MESSAGE_FAIL_CONTAINER_NOT_EMPTY = "That has not empty."
+export const MESSAGE_FAIL_CONTAINER_NOT_EMPTY = "That is not empty."
 
 export const ConditionMessages = {
   All: {
@@ -161,14 +161,14 @@ export const ConditionMessages = {
     },
     Disposition: "You must be standing to do that",
     Item: {
-      CannotRemoveCursedItem: "{0} has cursed and binds to your flesh.",
+      CannotRemoveCursedItem: "{0} is cursed and binds to your flesh.",
       CannotSacrifice: "You cannot sacrifice that.",
       NoMerchant: "You don't see a merchant anywhere.",
       NoRemoveItem: "{0} cannot be removed.",
-      NotEquipment: "That has not equipment.",
+      NotEquipment: "That is not equipment.",
       NotFound: "You don't see that anywhere.",
       NotOwned: "You don't have that.",
-      NotTransferrable: "{0} has not transferrable.",
+      NotTransferrable: "{0} is not transferrable.",
     },
     MalformedInput: "What was that?",
     Mob: {

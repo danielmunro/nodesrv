@@ -1,6 +1,7 @@
 import AffectBuilder from "../affect/builder/affectBuilder"
-import { AffectType } from "../affect/enum/affectType"
-import { ItemEntity } from "../item/entity/itemEntity"
+import {AffectType} from "../affect/enum/affectType"
+import {ItemEntity} from "../item/entity/itemEntity"
+import {Equipment} from "../item/enum/equipment"
 import {createBuilderDefinition} from "../item/factory/itemFactory"
 import any from "./builder/any"
 import armor from "./builder/armor"
@@ -15,8 +16,8 @@ import staff from "./builder/staff"
 import wand from "./builder/wand"
 import weapon from "./builder/weapon"
 import BuilderDefinition from "./builderDefinition"
-import { ItemType as ImportItemType } from "./enum/itemType"
-import { itemAffectMap } from "./map/itemAffectMap"
+import {ItemType as ImportItemType} from "./enum/itemType"
+import {itemAffectMap} from "./map/itemAffectMap"
 
 export default class ItemBuilder {
   public static new(): ItemBuilder {
@@ -63,6 +64,54 @@ export default class ItemBuilder {
     return item
   }
 
+  private static getEquipmentFromWearFlag(flag: string): Equipment | undefined {
+    let realFlag = ""
+    if (flag.length === 1) {
+      realFlag = flag
+    }
+    if (flag.length > 1) {
+      realFlag = flag.substring(1, 2)
+    }
+    switch (realFlag) {
+      case "B":
+        return Equipment.Finger
+      case "C":
+        return Equipment.Neck
+      case "D":
+        return Equipment.Torso
+      case "E":
+        return Equipment.Head
+      case "F":
+        return Equipment.Legs
+      case "G":
+        return Equipment.Feet
+      case "H":
+        return Equipment.Hands
+      case "I":
+        return Equipment.Arms
+      case "J":
+        return Equipment.Shield
+      case "K":
+        return Equipment.About
+      case "L":
+        return Equipment.Waist
+      case "M":
+        return Equipment.Wrist
+      case "N":
+        return Equipment.Weapon
+      case "O":
+        return Equipment.Hold
+      case "P":
+        return
+      case "Q":
+        return Equipment.Float
+      case "R":
+        return Equipment.Dragging
+      default:
+        return
+    }
+  }
+
   private static addPropertiesToItem(item: ItemEntity, itemData: any) {
     item.level = itemData.level
     item.value = itemData.cost
@@ -70,6 +119,14 @@ export default class ItemBuilder {
     item.material = itemData.material
     item.canonicalId = itemData.id
     item.brief = itemData.brief
+
+    if (itemData.wearFlag) {
+      const eq = ItemBuilder.getEquipmentFromWearFlag(itemData.wearFlag)
+      if (eq) {
+        item.equipment = eq
+      }
+    }
+
     if (itemData.extraFlag && itemData.extraFlag !== "0") {
       ItemBuilder.setItemAffects(item, itemData.extraFlag.split(""))
     }
