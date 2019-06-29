@@ -1,6 +1,6 @@
-import {createTestAppContainer} from "../app/factory/testFactory"
-import TestRunner from "../support/test/testRunner"
-import {Types} from "../support/types"
+import {createTestAppContainer} from "../../app/factory/testFactory"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
 import {SkillType} from "./skillType"
 
 describe("skill table", () => {

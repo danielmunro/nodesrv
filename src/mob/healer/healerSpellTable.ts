@@ -1,5 +1,5 @@
 import Spell from "../../action/impl/spell"
-import {SpellType} from "../../spell/spellType"
+import {SpellType} from "../spell/spellType"
 import HealerSpell, {createHealerSpell} from "./healerSpell"
 
 export default function getHealerSpellTable(spells: Spell[]): HealerSpell[] {

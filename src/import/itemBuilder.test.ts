@@ -6,7 +6,7 @@ import {ItemType} from "../item/enum/itemType"
 import {Liquid} from "../item/enum/liquid"
 import {WeaponType} from "../item/enum/weaponType"
 import {DamageType} from "../mob/fight/enum/damageType"
-import {SpellType} from "../spell/spellType"
+import {SpellType} from "../mob/spell/spellType"
 import { ItemType as ImportItemType } from "./enum/itemType"
 import ItemBuilder from "./itemBuilder"
 

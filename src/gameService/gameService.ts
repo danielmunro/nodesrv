@@ -10,7 +10,7 @@ import MobService from "../mob/service/mobService"
 import {RequestType} from "../request/enum/requestType"
 import {RoomEntity} from "../room/entity/roomEntity"
 import {Direction} from "../room/enum/direction"
-import {SkillType} from "../skill/skillType"
+import {SkillType} from "../mob/skill/skillType"
 import {Types} from "../support/types"
 
 @injectable()

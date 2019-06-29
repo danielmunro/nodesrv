@@ -8,9 +8,9 @@ import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {
   ActionMessages,
   Costs,
-} from "../../../../skill/constants"
-import { ConditionMessages as PreconditionMessages } from "../../../../skill/constants"
-import {SkillType} from "../../../../skill/skillType"
+} from "../../../../mob/skill/constants"
+import { ConditionMessages as PreconditionMessages } from "../../../../mob/skill/constants"
+import {SkillType} from "../../../../mob/skill/skillType"
 import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"

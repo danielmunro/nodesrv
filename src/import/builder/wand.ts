@@ -3,7 +3,7 @@ import WeaponEntity from "../../item/entity/weaponEntity"
 import {WeaponType} from "../../item/enum/weaponType"
 import {newWeapon} from "../../item/factory/itemFactory"
 import {DamageType} from "../../mob/fight/enum/damageType"
-import {SpellType} from "../../spell/spellType"
+import {SpellType} from "../../mob/spell/spellType"
 import ItemPrototype from "./itemPrototype"
 
 export default function(itemPrototype: ItemPrototype): ItemEntity {

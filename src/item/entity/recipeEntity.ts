@@ -1,6 +1,6 @@
 import {Column, Entity, Generated, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm"
 import * as v4 from "uuid"
-import {SpellType} from "../../spell/spellType"
+import {SpellType} from "../../mob/spell/spellType"
 import ForgeEntity from "./forgeEntity"
 import {ItemEntity} from "./itemEntity"
 

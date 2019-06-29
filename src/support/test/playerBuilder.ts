@@ -4,10 +4,10 @@ import {Standing} from "../../mob/enum/standing"
 import {SpecializationType} from "../../mob/specialization/enum/specializationType"
 import {PlayerEntity} from "../../player/entity/playerEntity"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
-import {newSkill} from "../../skill/factory"
-import {SkillType} from "../../skill/skillType"
-import {newSpell} from "../../spell/factory"
-import {SpellType} from "../../spell/spellType"
+import {newSkill} from "../../mob/skill/factory"
+import {SkillType} from "../../mob/skill/skillType"
+import {newSpell} from "../../mob/spell/factory"
+import {SpellType} from "../../mob/spell/spellType"
 
 export default class PlayerBuilder {
   constructor(public readonly player: PlayerEntity) {}

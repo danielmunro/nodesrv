@@ -1,14 +1,14 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
-import { MobEntity } from "../../mob/entity/mobEntity"
-import { SpellType } from "../spellType"
+import { MobEntity } from "../../entity/mobEntity"
+import { SkillType } from "../skillType"
 
 @Entity()
-export class SpellEntity {
+export class SkillEntity {
   @PrimaryGeneratedColumn()
   public id: number
 
   @Column("text")
-  public spellType: SpellType
+  public skillType: SkillType
 
   @Column({ default: 1 })
   public level: number
@@ -16,6 +16,10 @@ export class SpellEntity {
   @Column()
   public levelObtained: number
 
-  @ManyToOne(() => MobEntity, (mob) => mob.spells)
+  @ManyToOne(() => MobEntity, mob => mob.skills)
   public mob: MobEntity
+
+  public toString(): string {
+    return this.skillType
+  }
 }

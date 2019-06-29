@@ -1,5 +1,5 @@
-import Event from "../../event/event"
-import {MobEntity} from "../../mob/entity/mobEntity"
+import Event from "../../../event/event"
+import {MobEntity} from "../../entity/mobEntity"
 import {SpellEntity} from "../../spell/entity/spellEntity"
 import {SkillEntity} from "../entity/skillEntity"
 

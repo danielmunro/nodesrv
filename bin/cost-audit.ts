@@ -10,8 +10,8 @@ import MobService from "../src/mob/service/mobService"
 import MobTable from "../src/mob/table/mobTable"
 import WeatherService from "../src/region/service/weatherService"
 import {createRoom} from "../src/room/factory/roomFactory"
-import {getSkillTable} from "../src/skill/skillTable"
-import getSpellTable from "../src/spell/spellTable"
+import {getSkillTable} from "../src/mob/skill/skillTable"
+import getSpellTable from "../src/mob/spell/spellTable"
 
 const eventService = new EventService()
 const locationService = new LocationService(eventService, createRoom())

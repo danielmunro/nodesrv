@@ -1,4 +1,4 @@
-import {SkillType} from "../../skill/skillType"
+import {SkillType} from "../skill/skillType"
 import {BASE_KILL_EXPERIENCE} from "../constants"
 import {MobEntity} from "../entity/mobEntity"
 import Death from "./death"

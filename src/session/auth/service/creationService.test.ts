@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {SpecializationType} from "../../../mob/specialization/enum/specializationType"
-import {SkillType} from "../../../skill/skillType"
+import {SkillType} from "../../../mob/skill/skillType"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import CreationService from "./creationService"

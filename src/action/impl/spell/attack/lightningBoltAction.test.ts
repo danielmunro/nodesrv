@@ -2,7 +2,7 @@ import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import { MAX_PRACTICE_LEVEL } from "../../../../mob/constants"
 import {MobEntity} from "../../../../mob/entity/mobEntity"
 import { RequestType } from "../../../../request/enum/requestType"
-import { SpellType } from "../../../../spell/spellType"
+import { SpellType } from "../../../../mob/spell/spellType"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
 

@@ -1,4 +1,4 @@
-import {ConditionMessages} from "../../spell/constants"
+import {ConditionMessages} from "../../mob/spell/constants"
 import AffectDefinition from "../affectDefinition"
 import {AffectType} from "../enum/affectType"
 import {StackBehavior} from "../enum/stackBehavior"

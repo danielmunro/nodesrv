@@ -1,5 +1,5 @@
 import AttributesEntity from "../../attributes/entity/attributesEntity"
-import {SkillType} from "../../skill/skillType"
+import {SkillType} from "../skill/skillType"
 import DamageModifier from "../fight/damageModifier"
 import {SpecializationType} from "../specialization/enum/specializationType"
 import {Appetite} from "./enum/appetite"

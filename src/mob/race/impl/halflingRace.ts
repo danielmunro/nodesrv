@@ -1,5 +1,5 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
-import {SkillType} from "../../../skill/skillType"
+import {SkillType} from "../../skill/skillType"
 import {SpecializationType} from "../../specialization/enum/specializationType"
 import {Appetite} from "../enum/appetite"
 import {Eyesight} from "../enum/eyesight"

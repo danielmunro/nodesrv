@@ -1,4 +1,4 @@
-import {SkillType} from "../../../skill/skillType"
+import {SkillType} from "../../skill/skillType"
 import {SpecializationType} from "../enum/specializationType"
 import SpecializationLevel from "../specializationLevel"
 

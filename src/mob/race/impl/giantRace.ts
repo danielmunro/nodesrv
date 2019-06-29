@@ -1,5 +1,5 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
-import {SkillType} from "../../../skill/skillType"
+import {SkillType} from "../../skill/skillType"
 import {Vulnerability} from "../../enum/vulnerability"
 import {createDamageModifier} from "../../fight/damageModifier"
 import {DamageType} from "../../fight/enum/damageType"

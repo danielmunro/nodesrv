@@ -1,5 +1,5 @@
-import {SkillType} from "../../skill/skillType"
-import {SpellType} from "../../spell/spellType"
+import {SkillType} from "../skill/skillType"
+import {SpellType} from "../spell/spellType"
 import Customization from "./customization"
 import {SpecializationType} from "./enum/specializationType"
 

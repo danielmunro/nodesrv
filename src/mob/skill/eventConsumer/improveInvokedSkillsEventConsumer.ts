@@ -1,9 +1,9 @@
-import {EventType} from "../../event/enum/eventType"
-import EventConsumer from "../../event/eventConsumer"
-import EventResponse from "../../event/eventResponse"
-import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
-import {MobEntity} from "../../mob/entity/mobEntity"
-import {percentRoll} from "../../support/random/helpers"
+import {EventType} from "../../../event/enum/eventType"
+import EventConsumer from "../../../event/eventConsumer"
+import EventResponse from "../../../event/eventResponse"
+import {MAX_PRACTICE_LEVEL} from "../../constants"
+import {MobEntity} from "../../entity/mobEntity"
+import {percentRoll} from "../../../support/random/helpers"
 import SkillEvent from "../event/skillEvent"
 
 export default class ImproveInvokedSkillsEventConsumer implements EventConsumer {

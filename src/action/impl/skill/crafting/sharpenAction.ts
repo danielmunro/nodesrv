@@ -12,8 +12,8 @@ import {
   ActionMessages,
   ConditionMessages as PreconditionMessages,
   Costs,
-} from "../../../../skill/constants"
-import {SkillType} from "../../../../skill/skillType"
+} from "../../../../mob/skill/constants"
+import {SkillType} from "../../../../mob/skill/skillType"
 import collectionSearch from "../../../../support/matcher/collectionSearch"
 import roll from "../../../../support/random/dice"
 import SkillBuilder from "../../../builder/skillBuilder"

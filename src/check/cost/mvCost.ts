@@ -1,5 +1,5 @@
 import {MobEntity} from "../../mob/entity/mobEntity"
-import {ConditionMessages} from "../../skill/constants"
+import {ConditionMessages} from "../../mob/skill/constants"
 import Cost from "./cost"
 import {CostType} from "./costType"
 
