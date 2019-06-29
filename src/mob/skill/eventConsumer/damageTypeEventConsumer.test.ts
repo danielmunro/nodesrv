@@ -1,10 +1,10 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {createDamageEvent} from "../../../event/factory/eventFactory"
-import DamageEvent from "../../event/damageEvent"
-import {DamageType} from "../../fight/enum/damageType"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
+import DamageEvent from "../../event/damageEvent"
+import {DamageType} from "../../fight/enum/damageType"
 import {SkillType} from "../skillType"
 import DamageTypeEventConsumer from "./damageTypeEventConsumer"
 

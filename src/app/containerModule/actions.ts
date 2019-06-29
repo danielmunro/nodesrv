@@ -9,10 +9,10 @@ import TimeService from "../../gameService/timeService"
 import ItemService from "../../item/service/itemService"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
-import EscrowService from "../../mob/trade/escrowService"
-import WeatherService from "../../region/service/weatherService"
 import {getSkillTable} from "../../mob/skill/skillTable"
 import getSpellTable from "../../mob/spell/spellTable"
+import EscrowService from "../../mob/trade/escrowService"
+import WeatherService from "../../region/service/weatherService"
 import {Types} from "../../support/types"
 
 export default new ContainerModule(bind => {

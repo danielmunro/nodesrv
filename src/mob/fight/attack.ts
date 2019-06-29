@@ -1,6 +1,6 @@
-import {SkillType} from "../skill/skillType"
 import {BASE_KILL_EXPERIENCE} from "../constants"
 import {MobEntity} from "../entity/mobEntity"
+import {SkillType} from "../skill/skillType"
 import Death from "./death"
 import {AttackResult} from "./enum/attackResult"
 

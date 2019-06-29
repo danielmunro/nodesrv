@@ -2,11 +2,11 @@ import Skill from "../../../action/impl/skill"
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/eventConsumer"
 import EventResponse from "../../../event/eventResponse"
-import {MobEntity} from "../../entity/mobEntity"
-import FightEvent from "../../fight/event/fightEvent"
 import EventContext from "../../../request/context/eventContext"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
+import {MobEntity} from "../../entity/mobEntity"
+import FightEvent from "../../fight/event/fightEvent"
 
 export default class ExtraAttackEventConsumer implements EventConsumer {
   constructor(private readonly skill: Skill) {}

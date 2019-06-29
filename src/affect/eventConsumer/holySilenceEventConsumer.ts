@@ -3,11 +3,11 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import {createInputEvent} from "../../event/factory/eventFactory"
+import {SpellMessages} from "../../mob/spell/constants"
 import {RequestType} from "../../request/enum/requestType"
 import {ResponseStatus} from "../../request/enum/responseStatus"
 import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
-import {SpellMessages} from "../../mob/spell/constants"
 import {AffectType} from "../enum/affectType"
 
 export default class HolySilenceEventConsumer implements EventConsumer {

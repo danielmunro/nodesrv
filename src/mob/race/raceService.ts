@@ -1,7 +1,7 @@
 import AttributesEntity from "../../attributes/entity/attributesEntity"
-import {newSkill} from "../skill/factory"
 import Maybe from "../../support/functional/maybe"
 import {MobEntity} from "../entity/mobEntity"
+import {newSkill} from "../skill/factory"
 import {RaceType} from "./enum/raceType"
 import createRaceFromRaceType from "./factory"
 

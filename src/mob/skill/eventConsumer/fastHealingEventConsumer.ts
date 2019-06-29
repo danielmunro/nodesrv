@@ -2,10 +2,10 @@ import Skill from "../../../action/impl/skill"
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/eventConsumer"
 import EventResponse from "../../../event/eventResponse"
-import TickEvent from "../../event/tickEvent"
 import EventContext from "../../../request/context/eventContext"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
+import TickEvent from "../../event/tickEvent"
 
 export default class FastHealingEventConsumer implements EventConsumer {
   constructor(private readonly fastHealing: Skill) {}

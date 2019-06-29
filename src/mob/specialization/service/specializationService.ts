@@ -1,10 +1,10 @@
 import {inject, injectable} from "inversify"
+import {Types} from "../../../support/types"
+import {MobEntity} from "../../entity/mobEntity"
 import {newSkill} from "../../skill/factory"
 import {SkillType} from "../../skill/skillType"
 import {newSpell} from "../../spell/factory"
 import {SpellType} from "../../spell/spellType"
-import {Types} from "../../../support/types"
-import {MobEntity} from "../../entity/mobEntity"
 import {SpecializationType} from "../enum/specializationType"
 import SpecializationLevel from "../specializationLevel"
 

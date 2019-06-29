@@ -1,13 +1,13 @@
 import {ItemEntity} from "../../item/entity/itemEntity"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {Standing} from "../../mob/enum/standing"
-import {SpecializationType} from "../../mob/specialization/enum/specializationType"
-import {PlayerEntity} from "../../player/entity/playerEntity"
-import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
 import {newSkill} from "../../mob/skill/factory"
 import {SkillType} from "../../mob/skill/skillType"
+import {SpecializationType} from "../../mob/specialization/enum/specializationType"
 import {newSpell} from "../../mob/spell/factory"
 import {SpellType} from "../../mob/spell/spellType"
+import {PlayerEntity} from "../../player/entity/playerEntity"
+import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
 
 export default class PlayerBuilder {
   constructor(public readonly player: PlayerEntity) {}

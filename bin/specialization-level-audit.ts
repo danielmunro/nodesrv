@@ -5,12 +5,12 @@ import ItemService from "../src/item/service/itemService"
 import FightTable from "../src/mob/fight/fightTable"
 import LocationService from "../src/mob/service/locationService"
 import MobService from "../src/mob/service/mobService"
+import {getSkillTable} from "../src/mob/skill/skillTable"
 import {defaultSpecializationLevels} from "../src/mob/specialization/specializationLevels"
+import getSpellTable from "../src/mob/spell/spellTable"
 import MobTable from "../src/mob/table/mobTable"
 import WeatherService from "../src/region/service/weatherService"
 import {createRoom} from "../src/room/factory/roomFactory"
-import {getSkillTable} from "../src/mob/skill/skillTable"
-import getSpellTable from "../src/mob/spell/spellTable"
 
 const eventService = new EventService()
 const locationService = new LocationService(eventService, createRoom())

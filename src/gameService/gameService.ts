@@ -7,10 +7,10 @@ import ActionService from "../action/service/actionService"
 import {MobEntity} from "../mob/entity/mobEntity"
 import MobLocationEntity from "../mob/entity/mobLocationEntity"
 import MobService from "../mob/service/mobService"
+import {SkillType} from "../mob/skill/skillType"
 import {RequestType} from "../request/enum/requestType"
 import {RoomEntity} from "../room/entity/roomEntity"
 import {Direction} from "../room/enum/direction"
-import {SkillType} from "../mob/skill/skillType"
 import {Types} from "../support/types"
 
 @injectable()

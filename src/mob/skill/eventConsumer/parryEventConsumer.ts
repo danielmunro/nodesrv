@@ -3,11 +3,11 @@ import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/eventConsumer"
 import EventResponse from "../../../event/eventResponse"
 import {Equipment} from "../../../item/enum/equipment"
-import {MobEntity} from "../../entity/mobEntity"
-import FightEvent from "../../fight/event/fightEvent"
 import EventContext from "../../../request/context/eventContext"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
+import {MobEntity} from "../../entity/mobEntity"
+import FightEvent from "../../fight/event/fightEvent"
 import {SkillType} from "../skillType"
 
 export default class ParryEventConsumer implements EventConsumer {
