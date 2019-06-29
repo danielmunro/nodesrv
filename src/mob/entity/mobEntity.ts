@@ -110,7 +110,7 @@ export class MobEntity {
   @JoinColumn()
   public offensiveTraits: OffensiveTraitsEntity
 
-  @OneToOne(() => ShopEntity, { cascade: true })
+  @OneToOne(() => ShopEntity, { cascade: true, eager: true })
   @JoinColumn()
   public shop: ShopEntity
 
