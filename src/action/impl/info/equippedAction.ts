@@ -14,7 +14,7 @@ export default class EquippedAction extends Action {
   public invoke(requestService: RequestService): Promise<Response> {
     return requestService.respondWith().info("You are wearing:\n" +
       requestService.getEquipped().map(
-        item => item.name).join("\n"))
+        item => item.equipment + " -- " + item.brief).join("\n"))
   }
 
   /* istanbul ignore next */

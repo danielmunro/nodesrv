@@ -208,7 +208,7 @@ export class MobEntity {
 
   public describe(): string {
     return this.description + "\n\nEquipped:\n" + this.equipped.items.reduce(
-      (previous, current) => previous + current.equipment + ": " + current.name + "\n", "")
+      (previous, current) => previous + current.equipment + ": " + current.brief + "\n", "")
   }
 
   public isDead(): boolean {

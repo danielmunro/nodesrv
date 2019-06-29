@@ -32,6 +32,7 @@ export default class ItemBuilder extends AbstractItemBuilder {
   public asHelmet(): ItemBuilder {
     this.item.itemType = ItemType.Equipment
     this.item.name = "a baseball cap"
+    this.item.brief = "a baseball cap"
     this.item.equipment = Equipment.Head
     this.item.value = 10
     return this

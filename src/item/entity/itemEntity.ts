@@ -116,7 +116,9 @@ export class ItemEntity {
 
   public describe(): string {
     return this.description + (this.itemType === ItemType.Container ?
-      `\n\n${this.name} contents:\n${this.container.toString()}` : "")
+      `\n\n${this.brief}, made of ${this.material}. Level ${this.level}, ${this.value} worth, ${this.weight} weight.
+Contents:
+${this.container.toString()}` : "")
   }
 
   public toString(): string {
