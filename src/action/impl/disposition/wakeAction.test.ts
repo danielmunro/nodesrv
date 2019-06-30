@@ -2,7 +2,6 @@ import {AffectType} from "../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/enum/requestType"
-import {ResponseStatus} from "../../../request/enum/responseStatus"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import {MESSAGE_FAIL_ALREADY_AWAKE, Messages} from "../../constants"
@@ -13,7 +12,7 @@ beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
-describe("sleep action action", () => {
+describe("wake action", () => {
   it("should change the mob's disposition to standing", async () => {
     // given
     const mobBuilder = testRunner.createMob().withDisposition(Disposition.Sleeping)
@@ -22,8 +21,9 @@ describe("sleep action action", () => {
     const response = await testRunner.invokeAction(RequestType.Wake)
 
     // then
-    expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.getMessageToRequestCreator()).toBe(Messages.Wake.Success)
+    expect(response.getMessageToRequestCreator()).toBe("you wake and stand up.")
+    expect(response.getMessageToTarget()).toBe("you wake and stand up.")
+    expect(response.getMessageToObservers()).toBe(`${mobBuilder.getMobName()} wakes and stands up.`)
     expect(mobBuilder.mob.disposition).toBe(Disposition.Standing)
   })
 

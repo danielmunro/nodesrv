@@ -1,10 +1,9 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/enum/requestType"
-import {ResponseStatus} from "../../../request/enum/responseStatus"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
-import {ConditionMessages, Messages} from "../../constants"
+import {ConditionMessages} from "../../constants"
 
 let testRunner: TestRunner
 
@@ -12,7 +11,7 @@ beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
-describe("sleep action action", () => {
+describe("sleep action", () => {
   it("should change the mob's disposition to sleeping", async () => {
     // given
     const mobBuilder = testRunner.createMob()
@@ -21,8 +20,9 @@ describe("sleep action action", () => {
     const response = await testRunner.invokeAction(RequestType.Sleep)
 
     // then
-    expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.getMessageToRequestCreator()).toBe(Messages.Sleep.Success)
+    expect(response.getMessageToRequestCreator()).toBe("you lay down and go to sleep.")
+    expect(response.getMessageToTarget()).toBe("you lay down and go to sleep.")
+    expect(response.getMessageToObservers()).toBe(`${mobBuilder.getMobName()} lays down and goes to sleep.`)
     expect(mobBuilder.mob.disposition).toBe(Disposition.Sleeping)
   })
 

@@ -5,8 +5,7 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import {HelpMessages, Messages} from "../../constants"
-import {ConditionMessages} from "../../constants"
+import {ConditionMessages, HelpMessages, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
@@ -22,8 +21,13 @@ export default class SitAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    requestService.setMobDisposition(Disposition.Sitting)
-    return requestService.respondWith().success(Messages.Sitting.Success)
+    return requestService
+      .setMobDisposition(Disposition.Sitting)
+      .respondWith()
+      .okWithMessage(requestService.createResponseMessage(Messages.Sitting.Success)
+        .setVerbToRequestCreator("sit")
+        .setVerbToTarget("sit")
+        .setVerbToObservers("sits"))
   }
 
   /* istanbul ignore next */

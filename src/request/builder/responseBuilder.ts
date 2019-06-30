@@ -1,8 +1,9 @@
 import CheckedRequest from "../../check/checkedRequest"
-import { ResponseStatus } from "../enum/responseStatus"
+import {ResponseStatus} from "../enum/responseStatus"
 import Request from "../request"
 import Response from "../response"
 import ResponseMessage from "../responseMessage"
+import ResponseMessageBuilder from "./responseMessageBuilder"
 
 export default class ResponseBuilder {
   constructor(private readonly request: Request | CheckedRequest) {}
@@ -47,6 +48,10 @@ export default class ResponseBuilder {
     return this.response(
       ResponseStatus.PreconditionsFailed,
       new ResponseMessage(this.request.mob, messageToRequestCreator))
+  }
+
+  public okWithMessage(responseMessageBuilder: ResponseMessageBuilder): Promise<Response> {
+    return this.response(ResponseStatus.Ok, responseMessageBuilder.create())
   }
 
   public response(status: ResponseStatus, message: ResponseMessage): Promise<Response> {

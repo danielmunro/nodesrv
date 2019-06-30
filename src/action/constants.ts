@@ -131,7 +131,7 @@ export const Messages = {
   },
   Wake: {
     CannotWakeUp: "You cannot wake up.",
-    Success: "You wake and stand up.",
+    Success: "{requestCreator} {verb} and {verb2} up.",
   },
   Wear: {
     Success: "{requestCreator}{removeClause} {verb} {item}.",

@@ -22,8 +22,16 @@ export default class SleepAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    requestService.setMobDisposition(Disposition.Sleeping)
-    return requestService.respondWith().success(Messages.Sleep.Success)
+    return requestService
+      .setMobDisposition(Disposition.Sleeping)
+      .respondWith()
+      .okWithMessage(requestService.createResponseMessage(Messages.Sleep.Success)
+        .setVerbToRequestCreator("lay")
+        .addReplacementForRequestCreator("verb2", "go")
+        .setVerbToTarget("lay")
+        .addReplacementForTarget("verb2", "go")
+        .setVerbToObservers("lays")
+        .addReplacementForObservers("verb2", "goes"))
   }
 
   /* istanbul ignore next */

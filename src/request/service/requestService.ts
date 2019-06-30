@@ -146,8 +146,9 @@ export default class RequestService {
     this.checkedRequest.room.inventory.removeItem(item ? item : this.getResult())
   }
 
-  public setMobDisposition(disposition: Disposition): void {
+  public setMobDisposition(disposition: Disposition): RequestService {
     this.checkedRequest.mob.disposition = disposition
+    return this
   }
 
   public subtractGold(amount: number): void {

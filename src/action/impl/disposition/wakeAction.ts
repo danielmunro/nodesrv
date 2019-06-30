@@ -24,8 +24,16 @@ export default class WakeAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    requestService.setMobDisposition(Disposition.Standing)
-    return requestService.respondWith().success(Messages.Wake.Success)
+    return requestService
+      .setMobDisposition(Disposition.Standing)
+      .respondWith()
+      .okWithMessage(requestService.createResponseMessage(Messages.Wake.Success)
+        .setVerbToRequestCreator("wake")
+        .addReplacementForRequestCreator("verb2", "stand")
+        .setVerbToTarget("wake")
+        .addReplacementForTarget("verb2", "stand")
+        .setVerbToObservers("wakes")
+        .addReplacementForObservers("verb2", "stands"))
   }
 
   /* istanbul ignore next */

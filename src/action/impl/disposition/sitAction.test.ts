@@ -1,10 +1,9 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/enum/requestType"
-import {ResponseStatus} from "../../../request/enum/responseStatus"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
-import {ConditionMessages, Messages} from "../../constants"
+import {ConditionMessages} from "../../constants"
 
 let testRunner: TestRunner
 
@@ -21,8 +20,9 @@ describe("sit action", () => {
     const response = await testRunner.invokeAction(RequestType.Sit)
 
     // then
-    expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.getMessageToRequestCreator()).toBe(Messages.Sitting.Success)
+    expect(response.getMessageToRequestCreator()).toBe("you sit down.")
+    expect(response.getMessageToTarget()).toBe("you sit down.")
+    expect(response.getMessageToObservers()).toBe(`${mobBuilder.getMobName()} sits down.`)
     expect(mobBuilder.mob.disposition).toBe(Disposition.Sitting)
   })
 
