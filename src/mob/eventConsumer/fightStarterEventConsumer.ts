@@ -5,7 +5,7 @@ import EventResponse from "../../event/eventResponse"
 import FightBuilder from "../fight/fightBuilder"
 import MobService from "../service/mobService"
 
-export default class FightStarter implements EventConsumer {
+export default class FightStarterEventConsumer implements EventConsumer {
   constructor(
     private readonly mobService: MobService,
     private readonly fightBuilder: FightBuilder) {}

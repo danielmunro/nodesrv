@@ -7,7 +7,7 @@ import {RoomEntity} from "../../room/entity/roomEntity"
 import {newMobLocation} from "../factory/mobFactory"
 import LocationService from "../service/locationService"
 
-export default class ClientCreated implements EventConsumer {
+export default class ClientCreatedEventConsumer implements EventConsumer {
   constructor(
     private readonly locationService: LocationService,
     private readonly startRoom: RoomEntity) {}

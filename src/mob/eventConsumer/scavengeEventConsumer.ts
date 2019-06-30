@@ -9,7 +9,7 @@ import LocationService from "../service/locationService"
 
 export const SCAVENGE_TIMEOUT_MS = 10000
 
-export default class Scavenge implements EventConsumer {
+export default class ScavengeEventConsumer implements EventConsumer {
   constructor(
     private readonly clientService: ClientService,
     private readonly itemService: ItemService,

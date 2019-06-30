@@ -4,7 +4,7 @@ import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
 import LocationService from "../service/locationService"
 
-export default class ClientDisconnected implements EventConsumer {
+export default class ClientDisconnectedEventConsumer implements EventConsumer {
   constructor(private readonly locationService: LocationService) {}
 
   public getConsumingEventTypes(): EventType[] {

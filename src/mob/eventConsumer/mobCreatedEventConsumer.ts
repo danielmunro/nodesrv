@@ -6,7 +6,7 @@ import {RoomEntity} from "../../room/entity/roomEntity"
 import MobEvent from "../event/mobEvent"
 import MobService from "../service/mobService"
 
-export default class MobCreated implements EventConsumer {
+export default class MobCreatedEventConsumer implements EventConsumer {
   constructor(
     private readonly mobService: MobService,
     private readonly startRoom: RoomEntity) {}

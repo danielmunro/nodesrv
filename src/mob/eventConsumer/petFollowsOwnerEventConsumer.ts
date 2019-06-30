@@ -6,7 +6,7 @@ import {MobEntity} from "../entity/mobEntity"
 import MobMoveEvent from "../event/mobMoveEvent"
 import LocationService from "../service/locationService"
 
-export default class PetFollowsOwner implements EventConsumer {
+export default class PetFollowsOwnerEventConsumer implements EventConsumer {
   constructor(private readonly locationService: LocationService) {}
 
   public getConsumingEventTypes(): EventType[] {

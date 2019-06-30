@@ -7,7 +7,7 @@ import FightBuilder from "../fight/fightBuilder"
 import LocationService from "../service/locationService"
 import MobService from "../service/mobService"
 
-export default class AggressiveMob implements EventConsumer {
+export default class AggressiveMobEventConsumer implements EventConsumer {
   constructor(
     private readonly mobService: MobService,
     private readonly locationService: LocationService,

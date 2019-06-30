@@ -20,18 +20,18 @@ import GameService from "../../gameService/gameService"
 import ItemCreated from "../../item/eventConsumer/itemCreated"
 import ItemDestroyed from "../../item/eventConsumer/itemDestroyed"
 import ItemService from "../../item/service/itemService"
-import AggressiveMob from "../../mob/eventConsumer/aggressiveMob"
-import ClientCreated from "../../mob/eventConsumer/clientCreated"
-import {default as MobClientDisconnected} from "../../mob/eventConsumer/clientDisconnected"
+import AggressiveMobEventConsumer from "../../mob/eventConsumer/aggressiveMobEventConsumer"
+import ClientCreatedEventConsumer from "../../mob/eventConsumer/clientCreatedEventConsumer"
+import {default as MobClientDisconnected} from "../../mob/eventConsumer/clientDisconnectedEventConsumer"
 import DamageModifierEventConsumer from "../../mob/eventConsumer/damageModifierEventConsumer"
 import DeathTimerEventConsumer from "../../mob/eventConsumer/deathTimerEventConsumer"
-import FightStarter from "../../mob/eventConsumer/fightStarter"
-import FollowMob from "../../mob/eventConsumer/followMob"
-import MobCreated from "../../mob/eventConsumer/mobCreated"
+import FightStarterEventConsumer from "../../mob/eventConsumer/fightStarterEventConsumer"
+import FollowMobEventConsumer from "../../mob/eventConsumer/followMobEventConsumer"
+import MobCreatedEventConsumer from "../../mob/eventConsumer/mobCreatedEventConsumer"
 import MobUpdatedEventConsumer from "../../mob/eventConsumer/mobUpdatedEventConsumer"
-import PetFollowsOwner from "../../mob/eventConsumer/petFollowsOwner"
-import Scavenge from "../../mob/eventConsumer/scavenge"
-import Wimpy from "../../mob/eventConsumer/wimpy"
+import PetFollowsOwnerEventConsumer from "../../mob/eventConsumer/petFollowsOwnerEventConsumer"
+import ScavengeEventConsumer from "../../mob/eventConsumer/scavengeEventConsumer"
+import WimpyEventConsumer from "../../mob/eventConsumer/wimpyEventConsumer"
 import {DamageType} from "../../mob/fight/enum/damageType"
 import FightBuilder from "../../mob/fight/fightBuilder"
 import DrowMageBonus from "../../mob/race/eventConsumer/drow/drowMageBonus"
@@ -84,17 +84,17 @@ export default function createEventConsumerTable(
     new FlyEventConsumer(),
 
     // mob
-    new AggressiveMob(mobService, locationService, fightBuilder),
-    new PetFollowsOwner(locationService),
+    new AggressiveMobEventConsumer(mobService, locationService, fightBuilder),
+    new PetFollowsOwnerEventConsumer(locationService),
     new MobArrives(clientService),
     new MobLeaves(clientService),
-    new Scavenge(clientService, itemService, locationService),
-    new Wimpy(locationService, gameService.getAction(RequestType.Flee)),
-    new FightStarter(mobService, fightBuilder),
+    new ScavengeEventConsumer(clientService, itemService, locationService),
+    new WimpyEventConsumer(locationService, gameService.getAction(RequestType.Flee)),
+    new FightStarterEventConsumer(mobService, fightBuilder),
     new MobClientDisconnected(locationService),
-    new MobCreated(mobService, gameServer.startRoom),
+    new MobCreatedEventConsumer(mobService, gameServer.startRoom),
     new DamageModifierEventConsumer(),
-    new FollowMob(locationService, gameService.getMovementActions()),
+    new FollowMobEventConsumer(locationService, gameService.getMovementActions()),
     new DeathTimerEventConsumer(eventService),
     new PlayerMobDeath(locationService, gameServer.startRoom),
 
@@ -130,12 +130,12 @@ export default function createEventConsumerTable(
     new DamageTypeEventConsumer(SkillType.Gouge, DamageType.Pierce),
 
     // app
-    new MobCreated(mobService, gameServer.startRoom),
+    new MobCreatedEventConsumer(mobService, gameServer.startRoom),
     new MobUpdatedEventConsumer(clientService),
 
     // client
     new Disconnected(clientService),
-    new ClientCreated(locationService, gameServer.startRoom),
+    new ClientCreatedEventConsumer(locationService, gameServer.startRoom),
     new LoggedIn(locationService, gameServer.startRoom, gameService.getAction(RequestType.Look)),
     new Quit(clientService),
     new LookEventConsumer(clientService, gameService.getAction(RequestType.Look)),

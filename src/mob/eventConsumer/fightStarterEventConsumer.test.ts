@@ -4,17 +4,17 @@ import {createAttackEvent} from "../../event/factory/eventFactory"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import MobService from "../service/mobService"
-import FightStarter from "./fightStarter"
+import FightStarterEventConsumer from "./fightStarterEventConsumer"
 
 let testRunner: TestRunner
-let fightStarter: FightStarter
+let fightStarter: FightStarterEventConsumer
 let mobService: MobService
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   fightStarter = app.get<EventConsumer[]>(Types.EventConsumerTable).find(eventConsumer =>
-    eventConsumer instanceof FightStarter) as FightStarter
+    eventConsumer instanceof FightStarterEventConsumer) as FightStarterEventConsumer
   mobService = app.get<MobService>(Types.MobService)
 })
 

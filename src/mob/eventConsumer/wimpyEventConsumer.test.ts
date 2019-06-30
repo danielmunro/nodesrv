@@ -7,7 +7,7 @@ import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import LocationService from "../service/locationService"
 import MobService from "../service/mobService"
-import Wimpy from "./wimpy"
+import WimpyEventConsumer from "./wimpyEventConsumer"
 
 describe("wimpy event consumer", () => {
   it("causes a weak mob to flee", async () => {
@@ -20,7 +20,7 @@ describe("wimpy event consumer", () => {
     const target = testRunner.createMob().get()
     const fight = testRunner.fight(target)
     const wimpy = app.get<EventConsumer[]>(Types.EventConsumerTable).find(eventConsumer =>
-      eventConsumer instanceof Wimpy) as Wimpy
+      eventConsumer instanceof WimpyEventConsumer) as WimpyEventConsumer
 
     // given
     target.traits.wimpy = true

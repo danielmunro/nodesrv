@@ -5,7 +5,7 @@ import {RoomEntity} from "../../room/entity/roomEntity"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
 import MobService from "../service/mobService"
-import MobCreated from "./mobCreated"
+import MobCreatedEventConsumer from "./mobCreatedEventConsumer"
 
 describe("mob created event consumer", () => {
   it("adds a created mob to the mob service", async () => {
@@ -15,7 +15,7 @@ describe("mob created event consumer", () => {
     const startRoom = app.get<RoomEntity>(Types.StartRoom)
 
     // given
-    const mobCreated = new MobCreated(mobService, startRoom)
+    const mobCreated = new MobCreatedEventConsumer(mobService, startRoom)
 
     // when
     await mobCreated.consume(createMobEvent(EventType.MobCreated, getTestMob()))

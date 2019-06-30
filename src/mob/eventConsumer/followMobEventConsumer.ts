@@ -9,7 +9,7 @@ import {MobEntity} from "../entity/mobEntity"
 import MobMoveEvent from "../event/mobMoveEvent"
 import LocationService from "../service/locationService"
 
-export default class FollowMob implements EventConsumer {
+export default class FollowMobEventConsumer implements EventConsumer {
   constructor(
     private readonly locationService: LocationService,
     private readonly moveActions: Move[]) {}
