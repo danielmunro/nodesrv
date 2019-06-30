@@ -1,6 +1,7 @@
 import {inject, injectable} from "inversify"
 import {cloneDeep} from "lodash"
 import "reflect-metadata"
+import { v4 } from "uuid"
 import {Types} from "../../support/types"
 import { InventoryEntity } from "../entity/inventoryEntity"
 import { ItemEntity } from "../entity/itemEntity"
@@ -9,6 +10,28 @@ import ItemTable from "../table/itemTable"
 
 @injectable()
 export default class ItemService {
+  public static cloneItem(targetItem: ItemEntity): ItemEntity {
+    targetItem.inventory = undefined
+    const item = cloneDeep(targetItem)
+    item.id = undefined
+    item.uuid = v4()
+    item.affects.forEach(affect => affect.id = undefined)
+    item.attributes.id = undefined
+    if (item.forge) {
+      item.forge.id = undefined
+      item.forge.uuid = undefined
+    }
+    if (item.drink) {
+      item.drink.id = undefined
+      item.drink.uuid = undefined
+    }
+    if (item.food) {
+      item.food.id = undefined
+      item.food.uuid = undefined
+    }
+    return item
+  }
+
   constructor(
     @inject(Types.ItemTable) private readonly itemTemplateTable: ItemTable = new ItemTable(),
     public readonly itemTable: ItemTable = new ItemTable()) {}

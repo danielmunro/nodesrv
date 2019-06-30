@@ -31,10 +31,9 @@ describe("buy action", () => {
     merchant.addItem(item2)
 
     // when
-    const response = await testRunner.invokeAction(RequestType.Buy, "buy axe")
+    await testRunner.invokeAction(RequestType.Buy, "buy axe")
 
     // then
-    expect(response.isSuccessful()).toBeTruthy()
     expect(buyer.getItems()).toHaveLength(1)
     expect(buyer.mob.gold).toBe(initialGold - item2.value)
   })
@@ -101,6 +100,23 @@ describe("buy action", () => {
     expect(response.isSuccessful()).toBeTruthy()
   })
 
+  it("generates accurate success messages", async () => {
+    // given
+    const item = testRunner.createItem()
+      .asHelmet()
+      .withValue(initialGold)
+      .build()
+    testRunner.createMob().asMerchant().addItem(item)
+
+    // when
+    const response = await testRunner.invokeAction(RequestType.Buy, `buy '${item.name}'`)
+
+    // then
+    expect(response.getMessageToRequestCreator()).toBe("you buy a baseball cap for 100 gold")
+    expect(response.getMessageToTarget()).toBe(`${buyer.getMobName()} buys a baseball cap for 100 gold`)
+    expect(response.getMessageToObservers()).toBe(`${buyer.getMobName()} buys a baseball cap for 100 gold`)
+  })
+
   it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
     // given
     const item = testRunner.createWeapon()
@@ -115,6 +131,6 @@ describe("buy action", () => {
 
     // then
     expect(response.status)
-      .toBe(disposition === Disposition.Standing ? ResponseStatus.Success : ResponseStatus.PreconditionsFailed)
+      .toBe(disposition === Disposition.Standing ? ResponseStatus.Ok : ResponseStatus.PreconditionsFailed)
   })
 })

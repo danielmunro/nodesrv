@@ -1,11 +1,10 @@
-import {cloneDeep} from "lodash"
-import uuid = require("uuid")
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {EventType} from "../../../event/enum/eventType"
 import EventService from "../../../event/service/eventService"
 import {ItemEntity} from "../../../item/entity/itemEntity"
+import ItemService from "../../../item/service/itemService"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import {Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/enum/requestType"
@@ -37,38 +36,20 @@ export default class BuyAction extends Action {
 
   public async invoke(requestService: RequestService): Promise<Response> {
     const targetItem = requestService.getResult() as ItemEntity
-    targetItem.inventory.removeItem(targetItem)
-    targetItem.inventory = undefined
-    const item = cloneDeep(targetItem)
-    item.id = undefined
-    item.uuid = uuid()
-    item.affects.forEach(affect => affect.id = undefined)
-    item.attributes.id = undefined
-    if (item.forge) {
-      item.forge.id = undefined
-      item.forge.uuid = undefined
-    }
-    if (item.drink) {
-      item.drink.id = undefined
-      item.drink.uuid = undefined
-    }
-    if (item.food) {
-      item.food.id = undefined
-      item.food.uuid = undefined
-    }
+    const item = ItemService.cloneItem(targetItem)
     requestService.addItemToMobInventory(item)
     requestService.subtractGold(item.value)
     await this.eventService.publish(
       requestService.createItemEvent(EventType.ItemCreated, item))
-    const replacements = {
-      item,
-      value: item.value,
-    }
     return requestService
       .respondWith()
-      .success(ActionMessages.Buy.Success,
-        { verb: "buy", ...replacements },
-        { verb: "buys", ...replacements })
+      .okWithMessage(
+        requestService.createResponseMessage(ActionMessages.Buy.Success)
+          .setVerbToRequestCreator("buy")
+          .setVerbToTarget("buys")
+          .setVerbToObservers("buys")
+          .addReplacement("item", item.brief)
+          .addReplacement("value", item.value.toString()))
   }
 
   public getActionParts(): ActionPart[] {

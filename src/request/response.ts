@@ -1,5 +1,5 @@
 import CheckedRequest from "../check/checkedRequest"
-import { ResponseStatus } from "./enum/responseStatus"
+import {ResponseStatus} from "./enum/responseStatus"
 import Request from "./request"
 import ResponseMessage from "./responseMessage"
 
@@ -10,7 +10,7 @@ export default class Response {
     readonly message: ResponseMessage) {}
 
   public isSuccessful(): boolean {
-    return this.status === ResponseStatus.Success
+    return this.status === ResponseStatus.Success || this.status === ResponseStatus.Ok
   }
 
   public isFailure(): boolean {
