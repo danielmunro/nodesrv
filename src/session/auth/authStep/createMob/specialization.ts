@@ -12,7 +12,6 @@ import PlayerAuthStep from "../playerAuthStep"
 import CustomizeCheck from "./customizeCheck"
 
 export default class Specialization extends PlayerAuthStep implements AuthStep {
-  /* istanbul ignore next */
   public getStepMessage(): string {
     return format(
       CreationMessages.Mob.SpecializationPrompt,
