@@ -10,6 +10,15 @@ import SpecializationLevel from "../specializationLevel"
 
 @injectable()
 export default class SpecializationService {
+  public static getSpecializationTypes(): SpecializationType[] {
+    return [
+      SpecializationType.Ranger,
+      SpecializationType.Warrior,
+      SpecializationType.Mage,
+      SpecializationType.Cleric,
+    ]
+  }
+
   constructor(
     @inject(Types.SpecializationLevels) private readonly specializationLevels: SpecializationLevel[]) {}
 

@@ -18,7 +18,7 @@ export const CreationMessages = {
     RaceInvalid: "That is not a valid race.",
     RacePrompt: "Choose a race.",
     SpecializationInvalid: "That is not a valid specialization.",
-    SpecializationPrompt: "Choose a specialization [cleric, mage, thief, warrior].",
+    SpecializationPrompt: "Choose a specialization [{0} ].",
   },
   Player: {
     Confirm: "New player. Are you sure?",
