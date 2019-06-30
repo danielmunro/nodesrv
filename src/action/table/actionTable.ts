@@ -15,6 +15,7 @@ import {ActionPart} from "../enum/actionPart"
 import Action from "../impl/action"
 import CastAction from "../impl/castAction"
 import QuitAction from "../impl/client/quitAction"
+import SitAction from "../impl/disposition/sitAction"
 import SleepAction from "../impl/disposition/sleepAction"
 import WakeAction from "../impl/disposition/wakeAction"
 import BountyAction from "../impl/fight/bountyAction"
@@ -212,6 +213,7 @@ export default function getActionTable(
     // disposition
     new WakeAction(checkBuilderFactory),
     new SleepAction(checkBuilderFactory),
+    new SitAction(checkBuilderFactory),
 
     // client
     new QuitAction(checkBuilderFactory, eventService),

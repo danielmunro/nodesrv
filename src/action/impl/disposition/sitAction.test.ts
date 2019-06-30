@@ -12,38 +12,38 @@ beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 })
 
-describe("sleep action action", () => {
-  it("should change the mob's disposition to sleeping", async () => {
+describe("sit action", () => {
+  it("should change the mob's disposition to sitting", async () => {
     // given
     const mobBuilder = testRunner.createMob()
 
     // when
-    const response = await testRunner.invokeAction(RequestType.Sleep)
+    const response = await testRunner.invokeAction(RequestType.Sit)
 
     // then
     expect(response.status).toBe(ResponseStatus.Success)
-    expect(response.getMessageToRequestCreator()).toBe(Messages.Sleep.Success)
-    expect(mobBuilder.mob.disposition).toBe(Disposition.Sleeping)
+    expect(response.getMessageToRequestCreator()).toBe(Messages.Sitting.Success)
+    expect(mobBuilder.mob.disposition).toBe(Disposition.Sitting)
   })
 
-  it("should not be able to sleep if already sleeping", async () => {
+  it("should not be able to sit if already sitting", async () => {
     // given
-    testRunner.createMob().withDisposition(Disposition.Sleeping)
+    testRunner.createMob().withDisposition(Disposition.Sitting)
 
     // when
-    const response = await testRunner.invokeAction(RequestType.Sleep)
+    const response = await testRunner.invokeAction(RequestType.Sit)
 
     // then
     expect(response.isError()).toBeTruthy()
-    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Sleep.AlreadySleeping)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.Sit.AlreadySitting)
   })
 
   it("provides accurate help text", async () => {
     // when
-    const response = await testRunner.invokeAction(RequestType.Help, "help sleep")
+    const response = await testRunner.invokeAction(RequestType.Help, "help sit")
 
     // then
-    expect(response.getMessageToRequestCreator()).toBe(`syntax: sleep
+    expect(response.getMessageToRequestCreator()).toBe(`syntax: sit
 
 These commands change your position.  When you SIT or SLEEP, you
 regenerate hit points, mana points, and movement points faster.

@@ -56,12 +56,12 @@ describe("sleep action action", () => {
     // then
     expect(response.getMessageToRequestCreator()).toBe(`syntax: wake
 
-These commands change your position.  When you REST or SLEEP, you
+These commands change your position.  When you SIT or SLEEP, you
 regenerate hit points, mana points, and movement points faster.
 However, you are more vulnerable to attack, and if you SLEEP,
 you won't hear many things happen.
 
-Use STAND or WAKE to come back to a standing position.  You can
+Use WAKE to come back to a standing position.  You can
 also WAKE other sleeping characters.`)
   })
 })

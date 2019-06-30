@@ -104,8 +104,11 @@ export const Messages = {
     Fail: "{requestCreator} {verb} to shield bash {target} but {verb2}.",
     Success: "{requestCreator} {verb} {target} in the face with {requestCreator2} shield.",
   },
+  Sitting: {
+    Success: "{requestCreator} {verb} down.",
+  },
   Sleep: {
-    Success: "You lay down and go to sleep.",
+    Success: "{requestCreator} {verb} down and {verb2} to sleep.",
   },
   Trade: {
     AlreadyInitialized: "A trade with {target} has already been initialized.",
@@ -245,6 +248,9 @@ export const ConditionMessages = {
   Scan: {
     NoSubject: "For whom would you like to scan?",
   },
+  Sit: {
+    AlreadySitting: "You are already sitting.",
+  },
   Sleep: {
     AlreadySleeping: "You are already asleep.",
   },
@@ -290,12 +296,12 @@ The effect of the spell is reduced or eliminated if the victim makes the
 saving throw successfully.
 
 See also the help sections for individual spells.`,
-  ChangeDisposition: `These commands change your position.  When you REST or SLEEP, you
+  ChangeDisposition: `These commands change your position.  When you SIT or SLEEP, you
 regenerate hit points, mana points, and movement points faster.
 However, you are more vulnerable to attack, and if you SLEEP,
 you won't hear many things happen.
 
-Use STAND or WAKE to come back to a standing position.  You can
+Use WAKE to come back to a standing position.  You can
 also WAKE other sleeping characters.`,
   Flee: `Once you start a fight, you can't just walk away from it.  If the fight
 is not going well, you can attempt to FLEE, or another character can

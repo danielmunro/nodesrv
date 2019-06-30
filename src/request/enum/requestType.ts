@@ -32,6 +32,7 @@ export enum RequestType {
   List = "list",
   Heal = "heal",
   Quit = "quit",
+  Sit = "sit",
   Sleep = "sleep",
   Wake = "wake",
   Train = "train",
