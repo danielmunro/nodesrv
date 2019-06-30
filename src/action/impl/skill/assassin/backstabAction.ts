@@ -8,6 +8,7 @@ import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
 import Skill from "../../skill"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 
 export default function(abilityService: AbilityService): Skill {
   return new SkillBuilder(abilityService, SkillType.Backstab)
@@ -19,7 +20,7 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(Costs.Backstab.Delay),
     ])
     .setApplySkill(async requestService => {
-      const target = requestService.getTarget()
+      const target = requestService.getTarget() as MobEntity
       target.hp -= Fight.calculateDamageForOneHit(requestService.getMob(), target)
     })
     .setSuccessMessage(requestService =>
