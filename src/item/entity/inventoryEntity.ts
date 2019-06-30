@@ -70,7 +70,7 @@ export class InventoryEntity {
           "{0}\n{1}{2} {3}",
           aggregate,
           itemQuantity.quantity > 1 ? "(" + itemQuantity.quantity + ") " : "",
-          itemQuantity.item.name,
+          itemQuantity.item.brief,
           suffix)
       }, "")
   }

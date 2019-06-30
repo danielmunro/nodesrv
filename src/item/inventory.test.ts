@@ -1,4 +1,3 @@
-import { InventoryEntity } from "./entity/inventoryEntity"
 import { ItemEntity } from "./entity/itemEntity"
 import {createInventory} from "./factory/inventoryFactory"
 import {createItem, newTrash} from "./factory/itemFactory"

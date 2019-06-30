@@ -11,6 +11,7 @@ import MobResetEntity from "../entity/mobResetEntity"
 import {newMobLocation} from "../factory/mobFactory"
 import {Fight} from "../fight/fight"
 import FightTable from "../fight/fightTable"
+import MobRepository from "../repository/mob"
 import {SkillEntity} from "../skill/entity/skillEntity"
 import {newSkill} from "../skill/factory"
 import {SkillType} from "../skill/skillType"
@@ -59,6 +60,7 @@ export default class MobService {
     @inject(Types.MobTable) public readonly mobTemplateTable: MobTable,
     @inject(Types.LocationService) private readonly locationService: LocationService,
     @inject(Types.KafkaService) private readonly kafkaService: KafkaService,
+    @inject(Types.MobRepository) private readonly mobRepository: MobRepository,
     public readonly mobTable: MobTable = new MobTable(),
     private readonly fightTable: FightTable = new FightTable()) {}
 
@@ -142,5 +144,9 @@ export default class MobService {
 
   public createLevelServiceForMob(mob: MobEntity): LevelService {
     return new LevelService(this.kafkaService, mob)
+  }
+
+  public async save(mob: MobEntity): Promise<void> {
+    await this.mobRepository.save(mob)
   }
 }

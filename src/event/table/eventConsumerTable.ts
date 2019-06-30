@@ -137,7 +137,7 @@ export default function createEventConsumerTable(
     new Disconnected(clientService),
     new ClientCreatedEventConsumer(locationService, gameServer.startRoom),
     new LoggedIn(locationService, gameServer.startRoom, gameService.getAction(RequestType.Look)),
-    new Quit(clientService),
+    new Quit(clientService, mobService),
     new LookEventConsumer(clientService, gameService.getAction(RequestType.Look)),
   ]
 }

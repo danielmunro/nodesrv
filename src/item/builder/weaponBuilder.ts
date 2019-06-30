@@ -26,6 +26,7 @@ export default class WeaponBuilder extends AbstractItemBuilder {
     this.item.itemType = ItemType.Equipment
     this.item.equipment = Equipment.Weapon
     this.item.name = "a wood chopping axe"
+    this.item.brief = this.item.name
     this.item.value = 10
     this.item.level = 1
     this.item.weight = 5.0

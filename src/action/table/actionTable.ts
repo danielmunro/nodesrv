@@ -179,7 +179,7 @@ export default function getActionTable(
     new AffectsAction(),
     lookAction,
     new LoreAction(checkBuilderFactory, itemService),
-    new InventoryAction(itemService),
+    new InventoryAction(),
     new EquippedAction(),
     new ExitsAction(),
     new HelpAction(),

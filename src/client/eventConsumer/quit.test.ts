@@ -11,7 +11,7 @@ describe("quit client event consumer", () => {
     // setup
     const app = await createTestAppContainer()
     const clientService = app.get<ClientService>(Types.ClientService)
-    const quit = new Quit(clientService)
+    const quit = new Quit(clientService, jest.fn()())
     const mob = getTestMob()
     const mockClient = jest.fn(() => ({
       getSessionMob: () => mob,

@@ -70,6 +70,7 @@ export function newItem(itemType: ItemType, name: string, description: string, l
   const item = createItem()
   item.itemType = itemType
   item.name = name
+  item.brief = name
   item.description = description
   item.level = level
   item.affects = []

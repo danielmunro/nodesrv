@@ -59,7 +59,7 @@ export default class LookAction extends Action {
     return builder.info(
       request.getRoom().toString()
       + this.reduceMobs(requestService.getMob(), this.locationService.getMobsByRoom(request.getRoom()))
-      + request.getRoom().inventory.toString("has here."))
+      + request.getRoom().inventory.toString("is here."))
   }
 
   public getActionParts(): ActionPart[] {

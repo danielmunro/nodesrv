@@ -1,4 +1,5 @@
 import {cloneDeep} from "lodash"
+import uuid = require("uuid")
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
@@ -39,6 +40,22 @@ export default class BuyAction extends Action {
     targetItem.inventory.removeItem(targetItem)
     targetItem.inventory = undefined
     const item = cloneDeep(targetItem)
+    item.id = undefined
+    item.uuid = uuid()
+    item.affects.forEach(affect => affect.id = undefined)
+    item.attributes.id = undefined
+    if (item.forge) {
+      item.forge.id = undefined
+      item.forge.uuid = undefined
+    }
+    if (item.drink) {
+      item.drink.id = undefined
+      item.drink.uuid = undefined
+    }
+    if (item.food) {
+      item.food.id = undefined
+      item.food.uuid = undefined
+    }
     requestService.addItemToMobInventory(item)
     requestService.subtractGold(item.value)
     await this.eventService.publish(

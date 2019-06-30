@@ -1,6 +1,5 @@
 import Check from "../../../check/check"
 import {ItemEntity} from "../../../item/entity/itemEntity"
-import ItemService from "../../../item/service/itemService"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import {RequestType} from "../../../request/enum/requestType"
 import Response from "../../../request/response"
@@ -15,11 +14,7 @@ export default class InventoryAction extends Action {
       return "(something)"
     }
 
-    return item.name
-  }
-
-  constructor(private readonly itemService: ItemService) {
-    super()
+    return item.brief
   }
 
   public check(): Promise<Check> {
@@ -28,7 +23,7 @@ export default class InventoryAction extends Action {
 
   public invoke(requestService: RequestService): Promise<Response> {
     const mob = requestService.getMob()
-    const items = this.itemService.findAllByInventory(mob.inventory)
+    const items = mob.inventory.items
     return requestService.respondWith()
       .info("Your inventory:\n" +
         items.reduce((previous, current) => previous + InventoryAction.getItemName(mob, current) + "\n", ""))
