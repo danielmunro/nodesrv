@@ -12,8 +12,8 @@ import ClientService from "../../../server/service/clientService"
 import roll from "../../../support/random/dice"
 import {ItemEntity} from "../../entity/itemEntity"
 import {Equipment} from "../../enum/equipment"
-import {MaterialType} from "../../enum/materialType"
 import {WeaponEffect} from "../../enum/weaponEffect"
+import {isMaterialFlammable} from "../../service/materialProperties"
 import {WeaponEffectMessages} from "./constants"
 
 export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
@@ -30,7 +30,7 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
     const equippedWeapon = event.source.getFirstEquippedItemAtPosition(Equipment.Weapon)
     if (equippedWeapon && equippedWeapon.weaponEffects.includes(WeaponEffect.Flaming)) {
       event.mob.equipped.items.forEach(async item => {
-        if (item.material === MaterialType.Wood && !item.affect().has(AffectType.Fireproof)) {
+        if (isMaterialFlammable(item.material) && !item.affect().has(AffectType.Fireproof)) {
           await this.calculateBurningEquipment(item, event.mob)
         }
       })
