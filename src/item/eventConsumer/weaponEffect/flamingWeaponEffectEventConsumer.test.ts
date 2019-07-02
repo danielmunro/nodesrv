@@ -101,6 +101,29 @@ describe("flaming weapon effect event consumer", () => {
     expect(mob1.get().equipped.items).toHaveLength(1)
   })
 
+  it("drops contents when a containers burns", async () => {
+    // given
+    mob1.equip(testRunner.createItem()
+      .asSatchel()
+      .setMaterial(MaterialType.Leather)
+      .addItemToContainerInventory(testRunner.createItem().asKey().build())
+      .addItemToContainerInventory(testRunner.createItem().asHelmet().build())
+      .build())
+
+    // when
+    await doNTimes(iterations, () =>
+      eventConsumer.consume(createDamageEvent(
+        mob1.get(),
+        1,
+        DamageType.Slash,
+        1,
+        mob2.get())))
+
+    // then
+    expect(mob1.get().equipped.items).toHaveLength(0)
+    expect(testRunner.getStartRoom().getItemCount()).toBe(2)
+  })
+
   it("generates accurate burning messages", async () => {
     // setup
     let response: Response

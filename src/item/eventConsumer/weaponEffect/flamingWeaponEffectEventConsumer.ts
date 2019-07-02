@@ -8,6 +8,7 @@ import {MobEntity} from "../../../mob/entity/mobEntity"
 import DamageEvent from "../../../mob/event/damageEvent"
 import LocationService from "../../../mob/service/locationService"
 import ResponseBuilder from "../../../request/builder/responseBuilder"
+import {RoomEntity} from "../../../room/entity/roomEntity"
 import ClientService from "../../../server/service/clientService"
 import roll from "../../../support/random/dice"
 import {ItemEntity} from "../../entity/itemEntity"
@@ -41,14 +42,23 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
   private async calculateBurningEquipment(item: ItemEntity, mob: MobEntity) {
     if (roll(1, 8) === 1) {
       await this.eventService.publish(createDestroyItemEvent(item))
+      const room = this.locationService.getRoomForMob(mob)
+      if (item.isContainer()) {
+        this.dropContainerContents(item, room)
+      }
       this.clientService.sendResponseToRoom(
         ResponseBuilder.createResponse(
           mob,
-          this.locationService.getRoomForMob(mob),
+          room,
           WeaponEffectMessages.flamingWeaponEffect,
           { item, target: mob },
           { item, target: "you" },
           { item, target: mob }))
     }
+  }
+
+  private dropContainerContents(item: ItemEntity, room: RoomEntity) {
+    item.container.inventory.items.forEach(i =>
+      room.inventory.addItem(i))
   }
 }

@@ -12,6 +12,7 @@ const flammable = [
   MaterialType.Bread,
   MaterialType.Bamboo,
   MaterialType.Alcohol,
+  MaterialType.Leather,
 ]
 
 export function isMaterialFlammable(materialType: MaterialType): boolean {
