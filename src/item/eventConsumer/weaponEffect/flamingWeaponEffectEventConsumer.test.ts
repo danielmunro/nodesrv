@@ -3,6 +3,7 @@ import {createDamageEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"
 import {DamageType} from "../../../mob/fight/enum/damageType"
 import LocationService from "../../../mob/service/locationService"
+import Response from "../../../request/response"
 import ClientService from "../../../server/service/clientService"
 import doNTimes from "../../../support/functional/times"
 import MobBuilder from "../../../support/test/mobBuilder"
@@ -13,22 +14,27 @@ import {WeaponEffect} from "../../enum/weaponEffect"
 import FlamingWeaponEffectEventConsumer from "./flamingWeaponEffectEventConsumer"
 
 let testRunner: TestRunner
+let eventService: EventService
+let locationService: LocationService
 let mob1: MobBuilder
 let mob2: MobBuilder
 let eventConsumer: FlamingWeaponEffectEventConsumer
+const iterations = 100
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
-  mob1 = testRunner.createMob()
-  mob2 = testRunner.createMob()
+  eventService = app.get<EventService>(Types.EventService)
+  locationService = app.get<LocationService>(Types.LocationService)
+  mob1 = testRunner.createMob().setName("foo")
+  mob2 = testRunner.createMob().setName("bar")
     .equip(testRunner.createWeapon()
       .asAxe()
       .addWeaponEffect(WeaponEffect.Flaming)
       .build())
   eventConsumer = new FlamingWeaponEffectEventConsumer(
-    app.get<EventService>(Types.EventService),
-    app.get<LocationService>(Types.LocationService),
+    eventService,
+    locationService,
     app.get<ClientService>(Types.ClientService))
 })
 
@@ -41,7 +47,7 @@ describe("flaming weapon effect event consumer", () => {
       .build())
 
     // when
-    await doNTimes(100, () =>
+    await doNTimes(iterations, () =>
       eventConsumer.consume(createDamageEvent(
         mob1.get(),
         1,
@@ -61,7 +67,7 @@ describe("flaming weapon effect event consumer", () => {
       .build())
 
     // when
-    await doNTimes(100, () =>
+    await doNTimes(iterations, () =>
       eventConsumer.consume(createDamageEvent(
         mob1.get(),
         1,
@@ -71,5 +77,43 @@ describe("flaming weapon effect event consumer", () => {
 
     // then
     expect(mob1.get().equipped.items).toHaveLength(0)
+  })
+
+  it("generates accurate burning messages", async () => {
+    // setup
+    let response: Response
+    const mock = jest.fn(() => ({
+      sendResponseToRoom: (res: Response) => {
+        response = res
+      },
+    }))
+    eventConsumer = new FlamingWeaponEffectEventConsumer(
+      eventService,
+      locationService,
+      mock() as ClientService)
+
+    // given
+    mob1.equip(testRunner.createItem()
+      .asShield()
+      .setMaterial(MaterialType.Wood)
+      .build())
+
+    // when
+    await doNTimes(iterations, () =>
+      eventConsumer.consume(createDamageEvent(
+        mob1.get(),
+        1,
+        DamageType.Slash,
+        1,
+        mob2.get())))
+
+    // then
+    expect(response).toBeDefined()
+    expect(response.getMessageToRequestCreator())
+      .toBe(`a wooden practice shield catches fire and burns up as it falls off ${mob1.getMobName()}.`)
+    expect(response.getMessageToTarget())
+      .toBe("a wooden practice shield catches fire and burns up as it falls off you.")
+    expect(response.getMessageToObservers())
+      .toBe(`a wooden practice shield catches fire and burns up as it falls off ${mob1.getMobName()}.`)
   })
 })

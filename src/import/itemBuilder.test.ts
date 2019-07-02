@@ -17,7 +17,7 @@ describe("itemBuilder", () => {
   it("should build a weapon", async () => {
     // given
     const item = await itemBuilder.createItemFromImportData({
-      pObjFlags: "sword (null) slash",
+      pObjFlags: "sword (null) 0 slash",
       type: ImportItemType.Weapon,
     })
 

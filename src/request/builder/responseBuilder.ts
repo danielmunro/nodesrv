@@ -1,4 +1,8 @@
 import CheckedRequest from "../../check/checkedRequest"
+import {MobEntity} from "../../mob/entity/mobEntity"
+import {RoomEntity} from "../../room/entity/roomEntity"
+import InputContext from "../context/inputContext"
+import {RequestType} from "../enum/requestType"
 import {ResponseStatus} from "../enum/responseStatus"
 import Request from "../request"
 import Response from "../response"
@@ -6,6 +10,24 @@ import ResponseMessage from "../responseMessage"
 import ResponseMessageBuilder from "./responseMessageBuilder"
 
 export default class ResponseBuilder {
+  public static createResponse(
+    mob: MobEntity,
+    room: RoomEntity,
+    messageTemplate: string,
+    toRequestCreator?: object,
+    toTarget?: object,
+    toObservers?: object) {
+    return new Response(
+      new Request(mob, room, new InputContext(RequestType.Noop, "")),
+      ResponseStatus.Info,
+      new ResponseMessage(
+        mob,
+        messageTemplate,
+        toRequestCreator,
+        toTarget,
+        toObservers))
+  }
+
   constructor(private readonly request: Request | CheckedRequest) {}
 
   public success(

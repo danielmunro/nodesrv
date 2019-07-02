@@ -6,18 +6,14 @@ import EventService from "../../../event/service/eventService"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import DamageEvent from "../../../mob/event/damageEvent"
 import LocationService from "../../../mob/service/locationService"
-import InputContext from "../../../request/context/inputContext"
-import {RequestType} from "../../../request/enum/requestType"
-import {ResponseStatus} from "../../../request/enum/responseStatus"
-import Request from "../../../request/request"
-import Response from "../../../request/response"
-import ResponseMessage from "../../../request/responseMessage"
+import ResponseBuilder from "../../../request/builder/responseBuilder"
 import ClientService from "../../../server/service/clientService"
 import roll from "../../../support/random/dice"
 import {ItemEntity} from "../../entity/itemEntity"
 import {Equipment} from "../../enum/equipment"
 import {MaterialType} from "../../enum/materialType"
 import {WeaponEffect} from "../../enum/weaponEffect"
+import {WeaponEffectMessages} from "./constants"
 
 export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
   constructor(
@@ -45,15 +41,13 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
     if (roll(1, 8) === 1) {
       await this.eventService.publish(createDestroyItemEvent(item))
       this.clientService.sendResponseToRoom(
-        new Response(
-          new Request(mob, this.locationService.getRoomForMob(mob), new InputContext(RequestType.Noop, "")),
-          ResponseStatus.Info,
-          new ResponseMessage(
-            mob,
-            "{item} catches fire and burns up as it falls off {target}.",
-            { item },
-            { item },
-            { item })))
+        ResponseBuilder.createResponse(
+          mob,
+          this.locationService.getRoomForMob(mob),
+          WeaponEffectMessages.flamingWeaponEffect,
+          { item, target: mob },
+          { item, target: "you" },
+          { item, target: mob }))
     }
   }
 }
