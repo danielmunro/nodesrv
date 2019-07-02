@@ -1,3 +1,4 @@
+import {AffectType} from "../../../affect/enum/affectType"
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/eventConsumer"
 import EventResponse from "../../../event/eventResponse"
@@ -29,7 +30,7 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
     const equippedWeapon = event.source.getFirstEquippedItemAtPosition(Equipment.Weapon)
     if (equippedWeapon && equippedWeapon.weaponEffects.includes(WeaponEffect.Flaming)) {
       event.mob.equipped.items.forEach(async item => {
-        if (item.material === MaterialType.Wood) {
+        if (item.material === MaterialType.Wood && !item.affect().has(AffectType.Fireproof)) {
           await this.calculateBurningEquipment(item, event.mob)
         }
       })

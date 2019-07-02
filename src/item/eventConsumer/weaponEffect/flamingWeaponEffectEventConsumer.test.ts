@@ -1,3 +1,4 @@
+import {AffectType} from "../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {createDamageEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"
@@ -77,6 +78,27 @@ describe("flaming weapon effect event consumer", () => {
 
     // then
     expect(mob1.get().equipped.items).toHaveLength(0)
+  })
+
+  it("does not burn wood equipment if the eq has a fireproof affect", async () => {
+    // given
+    mob1.equip(testRunner.createItem()
+      .asShield()
+      .setMaterial(MaterialType.Wood)
+      .addAffect(AffectType.Fireproof)
+      .build())
+
+    // when
+    await doNTimes(iterations, () =>
+      eventConsumer.consume(createDamageEvent(
+        mob1.get(),
+        1,
+        DamageType.Slash,
+        1,
+        mob2.get())))
+
+    // then
+    expect(mob1.get().equipped.items).toHaveLength(1)
   })
 
   it("generates accurate burning messages", async () => {

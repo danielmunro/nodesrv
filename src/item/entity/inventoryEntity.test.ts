@@ -1,6 +1,6 @@
-import { ItemEntity } from "./entity/itemEntity"
-import {createInventory} from "./factory/inventoryFactory"
-import {createItem, newTrash} from "./factory/itemFactory"
+import {createInventory} from "../factory/inventoryFactory"
+import {createItem, newTrash} from "../factory/itemFactory"
+import { ItemEntity } from "./itemEntity"
 
 describe("inventory entity", () => {
   it("should be able to find an item", () => {
@@ -17,7 +17,7 @@ describe("inventory entity", () => {
     expect(inventory.find((item: ItemEntity) => item.name === "baz")).toBeUndefined()
   })
 
-  it("should combine items with the same name", () => {
+  it("combines items with the same name", () => {
     const itemCreator = () => newTrash("foo", "bar")
     const inventory = createInventory()
     inventory.addItem(itemCreator())
