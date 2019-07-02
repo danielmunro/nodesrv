@@ -1,6 +1,6 @@
 import {AffectType} from "../affect/enum/affectType"
 import ForgeEntity from "../item/entity/forgeEntity"
-import WeaponEntity from "../item/entity/weaponEntity"
+import {ItemEntity} from "../item/entity/itemEntity"
 import {Equipment} from "../item/enum/equipment"
 import {ItemType} from "../item/enum/itemType"
 import {Liquid} from "../item/enum/liquid"
@@ -19,10 +19,10 @@ describe("itemBuilder", () => {
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "sword (null) slash",
       type: ImportItemType.Weapon,
-    }) as WeaponEntity
+    })
 
     // expect
-    expect(item).toBeInstanceOf(WeaponEntity)
+    expect(item).toBeInstanceOf(ItemEntity)
     expect(item.damageType).toBe(DamageType.Slash)
     expect(item.weaponType).toBe(WeaponType.Sword)
   })
@@ -32,10 +32,10 @@ describe("itemBuilder", () => {
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "4 10 10 'magic missile' 0",
       type: ImportItemType.Wand,
-    }) as WeaponEntity
+    })
 
     // expect
-    expect(item).toBeInstanceOf(WeaponEntity)
+    expect(item).toBeInstanceOf(ItemEntity)
     expect(item.damageType).toBe(DamageType.Magic)
     expect(item.weaponType).toBe(WeaponType.Wand)
     expect(item.itemType).toBe(ItemType.Equipment)
@@ -51,10 +51,10 @@ describe("itemBuilder", () => {
     const item = await itemBuilder.createItemFromImportData({
       pObjFlags: "4 10 10 'magic missile' 0",
       type: ImportItemType.Staff,
-    }) as WeaponEntity
+    })
 
     // expect
-    expect(item).toBeInstanceOf(WeaponEntity)
+    expect(item).toBeInstanceOf(ItemEntity)
     expect(item.weaponType).toBe(WeaponType.Stave)
   })
 

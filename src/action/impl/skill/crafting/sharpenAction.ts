@@ -6,7 +6,7 @@ import ManaCost from "../../../../check/cost/manaCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
-import WeaponEntity from "../../../../item/entity/weaponEntity"
+import {Equipment} from "../../../../item/enum/equipment"
 import {DamageType} from "../../../../mob/fight/enum/damageType"
 import {
   ActionMessages,
@@ -35,7 +35,7 @@ export default function(abilityService: AbilityService): Skill {
           item.affects.find((affect: AffectEntity) => affect.affectType === AffectType.Sharpened) === undefined,
           PreconditionMessages.Sharpen.AlreadySharpened)
         .require(
-          item instanceof WeaponEntity,
+          item.equipment === Equipment.Weapon,
           PreconditionMessages.Sharpen.NotAWeapon)
         .require(
           item.damageType === DamageType.Slash,

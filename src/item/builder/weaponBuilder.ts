@@ -1,12 +1,13 @@
 import {DamageType} from "../../mob/fight/enum/damageType"
-import WeaponEntity from "../entity/weaponEntity"
+import {ItemEntity} from "../entity/itemEntity"
 import {Equipment} from "../enum/equipment"
 import {ItemType} from "../enum/itemType"
+import {WeaponEffect} from "../enum/weaponEffect"
 import {WeaponType} from "../enum/weaponType"
 import AbstractItemBuilder from "./abstractItemBuilder"
 
 export default class WeaponBuilder extends AbstractItemBuilder {
-  protected readonly item: WeaponEntity
+  protected readonly item: ItemEntity
 
   public asDagger(): WeaponBuilder {
     this.item.weaponType = WeaponType.Dagger
@@ -45,6 +46,14 @@ export default class WeaponBuilder extends AbstractItemBuilder {
 
   public setDamageType(damageType: DamageType): WeaponBuilder {
     this.item.damageType = damageType
+    return this
+  }
+
+  public addWeaponEffect(weaponEffect: WeaponEffect): WeaponBuilder {
+    if (!this.item.weaponEffects) {
+      this.item.weaponEffects = []
+    }
+    this.item.weaponEffects.push(weaponEffect)
     return this
   }
 }

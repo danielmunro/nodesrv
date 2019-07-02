@@ -1,11 +1,11 @@
-import CheckedRequest from "../check/checkedRequest"
+import {MobEntity} from "../mob/entity/mobEntity"
+import ClientRequest from "./clientRequest"
 import {ResponseStatus} from "./enum/responseStatus"
-import Request from "./request"
 import ResponseMessage from "./responseMessage"
 
 export default class Response {
   constructor(
-    readonly request: Request | CheckedRequest,
+    readonly request: ClientRequest,
     readonly status: ResponseStatus,
     readonly message: ResponseMessage) {}
 
@@ -38,5 +38,9 @@ export default class Response {
       message: this.message.getMessageToRequestCreator(),
       status: this.status,
     }
+  }
+
+  public getMob(): MobEntity {
+    return this.request.getMob()
   }
 }

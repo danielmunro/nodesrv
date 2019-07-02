@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {createDamageEvent} from "../../../../event/factory/eventFactory"
-import WeaponEntity from "../../../../item/entity/weaponEntity"
+import {ItemEntity} from "../../../../item/entity/itemEntity"
 import {MaterialType} from "../../../../item/enum/materialType"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
@@ -14,14 +14,14 @@ let testRunner: TestRunner
 let attacker: MobEntity
 let defender: MobEntity
 let eventConsumer: ElfIronVuln
-let weapon: WeaponEntity
+let weapon: ItemEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   weapon = testRunner.createWeapon()
     .asAxe()
     .setMaterial(MaterialType.Iron)
-    .build() as WeaponEntity
+    .build()
   attacker = testRunner.createMob().equip(weapon).get()
   defender = testRunner.createMob().setRace(RaceType.Elf).get()
   eventConsumer = new ElfIronVuln()

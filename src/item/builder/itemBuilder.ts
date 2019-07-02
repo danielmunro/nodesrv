@@ -41,7 +41,7 @@ export default class ItemBuilder extends AbstractItemBuilder {
   public asShield(): ItemBuilder {
     this.item.itemType = ItemType.Equipment
     this.item.name = "a wooden practice shield"
-    this.item.description = "a wooden practice shield"
+    this.item.description = "a practice shield"
     this.item.equipment = Equipment.Shield
     this.item.value = 10
     return this

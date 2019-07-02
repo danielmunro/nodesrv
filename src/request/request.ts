@@ -5,11 +5,12 @@ import {RegionEntity} from "../region/entity/regionEntity"
 import {ExitEntity} from "../room/entity/exitEntity"
 import { RoomEntity } from "../room/entity/roomEntity"
 import ResponseBuilder from "./builder/responseBuilder"
+import ClientRequest from "./clientRequest"
 import InputContext from "./context/inputContext"
 import RequestContext from "./context/requestContext"
 import { RequestType } from "./enum/requestType"
 
-export default class Request {
+export default class Request implements ClientRequest {
   constructor(
     public readonly mob: MobEntity,
     private readonly room: RoomEntity,
@@ -74,5 +75,9 @@ export default class Request {
 
   public respondWith(): ResponseBuilder {
     return new ResponseBuilder(this)
+  }
+
+  public getMob(): MobEntity {
+    return this.mob
   }
 }

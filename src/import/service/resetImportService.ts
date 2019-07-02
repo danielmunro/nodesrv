@@ -34,7 +34,6 @@ export default class ResetImportService {
 
   public async materializeResets(file: File) {
     const resets = []
-    console.log("file resets", file.resets.length)
     for (const reset of file.resets) {
       switch (reset.resetFlag) {
         case ResetFlag.Mob:

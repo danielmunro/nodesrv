@@ -3,9 +3,14 @@ import * as v4 from "uuid"
 import { AffectEntity } from "../../affect/entity/affectEntity"
 import AffectService from "../../affect/service/affectService"
 import AttributesEntity from "../../attributes/entity/attributesEntity"
+import {AttackVerb} from "../../mob/enum/attackVerb"
+import {DamageType} from "../../mob/fight/enum/damageType"
+import {SpellType} from "../../mob/spell/spellType"
 import { Equipment } from "../enum/equipment"
 import { ItemType } from "../enum/itemType"
 import { MaterialType } from "../enum/materialType"
+import {WeaponEffect} from "../enum/weaponEffect"
+import {WeaponType} from "../enum/weaponType"
 import ContainerEntity from "./containerEntity"
 import DrinkEntity from "./drinkEntity"
 import FoodEntity from "./foodEntity"
@@ -99,6 +104,30 @@ export class ItemEntity {
   @OneToOne(() => ForgeEntity, { eager: true, cascade: true })
   @JoinColumn()
   public forge: ForgeEntity
+
+  @Column("text", { nullable: true })
+  public weaponType: WeaponType
+
+  @Column("text", { nullable: true })
+  public damageType: DamageType
+
+  @Column("simple-array", { nullable: true })
+  public weaponEffects: WeaponEffect[]
+
+  @Column("text", { nullable: true })
+  public attackVerb: AttackVerb
+
+  @Column({ nullable: true })
+  public maxCharges: number
+
+  @Column({ nullable: true })
+  public currentCharges: number
+
+  @Column("text", { nullable: true })
+  public spellType: SpellType
+
+  @Column({ nullable: true })
+  public castLevel: number
 
   public carriedBy: any
 

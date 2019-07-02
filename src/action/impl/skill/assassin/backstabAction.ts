@@ -1,6 +1,7 @@
 import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import AbilityService from "../../../../check/service/abilityService"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {Fight} from "../../../../mob/fight/fight"
 import {ActionMessages, Costs} from "../../../../mob/skill/constants"
 import {SkillType} from "../../../../mob/skill/skillType"
@@ -8,7 +9,6 @@ import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
 import Skill from "../../skill"
-import {MobEntity} from "../../../../mob/entity/mobEntity"
 
 export default function(abilityService: AbilityService): Skill {
   return new SkillBuilder(abilityService, SkillType.Backstab)

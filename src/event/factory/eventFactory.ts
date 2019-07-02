@@ -69,6 +69,10 @@ export function createItemEvent(eventType: EventType, item: ItemEntity, carriedB
   return { eventType, item, carriedBy }
 }
 
+export function createDestroyItemEvent(item: ItemEntity, carriedBy?: any): ItemEvent {
+  return { eventType: EventType.ItemDestroyed, item, carriedBy }
+}
+
 export function createCostEvent(mob: MobEntity, costs: Cost[]): CostEvent {
   return { eventType: EventType.CostApplied, mob, costs }
 }

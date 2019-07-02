@@ -1,5 +1,4 @@
 import {ItemEntity} from "../../item/entity/itemEntity"
-import WeaponEntity from "../../item/entity/weaponEntity"
 import {WeaponType} from "../../item/enum/weaponType"
 import {newWeapon} from "../../item/factory/itemFactory"
 import {DamageType} from "../../mob/fight/enum/damageType"
@@ -9,7 +8,7 @@ import ItemPrototype from "./itemPrototype"
 export default function(itemPrototype: ItemPrototype): ItemEntity {
   const { name, description, args } = itemPrototype
 
-  const weapon = newWeapon(name, description, WeaponType.Stave, DamageType.Magic) as WeaponEntity
+  const weapon = newWeapon(name, description, WeaponType.Stave, DamageType.Magic)
   weapon.castLevel = +args[0]
   weapon.maxCharges = +args[1]
   weapon.currentCharges = +args[2]

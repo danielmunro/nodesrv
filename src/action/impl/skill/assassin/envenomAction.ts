@@ -4,7 +4,6 @@ import MvCost from "../../../../check/cost/mvCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
 import {ItemEntity} from "../../../../item/entity/itemEntity"
-import WeaponEntity from "../../../../item/entity/weaponEntity"
 import {Equipment} from "../../../../item/enum/equipment"
 import {DamageType} from "../../../../mob/fight/enum/damageType"
 import {ConditionMessages as PreconditionMessages, Costs, SkillMessages} from "../../../../mob/skill/constants"
@@ -29,7 +28,7 @@ export default function(abilityService: AbilityService): Skill {
         .capture(item)
         .require((captured: ItemEntity) =>
           captured.equipment === Equipment.Weapon, SkillMessages.Envenom.Error.NotAWeapon)
-        .require((captured: WeaponEntity) =>
+        .require((captured: ItemEntity) =>
           captured.damageType === DamageType.Slash || captured.damageType === DamageType.Pierce,
           SkillMessages.Envenom.Error.WrongWeaponType)
         .create()

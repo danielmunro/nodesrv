@@ -3,4 +3,5 @@ export default interface ItemPrototype {
   readonly name: string
   readonly description: string
   readonly args: string[]
+  readonly extraFlag: string
 }

@@ -11,7 +11,6 @@ import {ItemEntity} from "../entity/itemEntity"
 import ItemMobResetEntity from "../entity/itemMobResetEntity"
 import {ItemRoomResetEntity} from "../entity/itemRoomResetEntity"
 import {MobEquipResetEntity} from "../entity/mobEquipResetEntity"
-import WeaponEntity from "../entity/weaponEntity"
 import {Equipment} from "../enum/equipment"
 import {ItemType} from "../enum/itemType"
 import {Liquid} from "../enum/liquid"
@@ -95,12 +94,13 @@ export function newWeapon(
   weapon.weaponType = weaponType
   weapon.damageType = damageType
   weapon.level = 1
+  weapon.weaponEffects = []
 
   return weapon
 }
 
-export function createWeapon(): WeaponEntity {
-  const weapon = new WeaponEntity()
+export function createWeapon(): ItemEntity {
+  const weapon = new ItemEntity()
   weapon.affects = []
   weapon.attributes = newEmptyAttributes()
   return weapon

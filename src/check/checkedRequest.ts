@@ -1,5 +1,6 @@
 import {MobEntity} from "../mob/entity/mobEntity"
 import ResponseBuilder from "../request/builder/responseBuilder"
+import ClientRequest from "../request/clientRequest"
 import {ResponseStatus} from "../request/enum/responseStatus"
 import Request from "../request/request"
 import Response from "../request/response"
@@ -8,7 +9,7 @@ import {RoomEntity} from "../room/entity/roomEntity"
 import Check from "./check"
 import {CheckType} from "./enum/checkType"
 
-export default class CheckedRequest {
+export default class CheckedRequest implements ClientRequest {
   public readonly mob: MobEntity
   public readonly room: RoomEntity
 
@@ -17,8 +18,16 @@ export default class CheckedRequest {
     this.room = request.getRoom()
   }
 
+  public getTargetMobInRoom(): MobEntity | undefined {
+    return this.getTarget()
+  }
+
   public getTarget() {
     return this.getCheckTypeResult(CheckType.HasTarget)
+  }
+
+  public getMob(): MobEntity {
+    return this.mob
   }
 
   public getCheckTypeResult(checkType: CheckType) {

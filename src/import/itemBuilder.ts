@@ -165,8 +165,8 @@ export default class ItemBuilder {
 
   public async createItemFromImportData(itemData: any): Promise<ItemEntity> {
     const args = itemData.pObjFlags ? ItemBuilder.splitPObjFlags(itemData.pObjFlags) : []
-    const { name, description, type } = itemData
-    const prototype = { type, name, description, args }
+    const { name, description, type, extraFlag } = itemData
+    const prototype = { type, name, description, extraFlag, args }
     const builder = this.builders.find(b => b.itemType === type)
     const flags = args[1] !== undefined ? args[1].split("") : []
     if (builder) {

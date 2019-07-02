@@ -4,6 +4,7 @@ import {Client} from "../../client/client"
 import EventService from "../../event/service/eventService"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
+import Response from "../../request/response"
 import Email from "../../session/auth/authStep/login/email"
 import CreationService from "../../session/auth/service/creationService"
 import Session from "../../session/session"
@@ -62,6 +63,20 @@ export default class ClientService {
     const mobs = this.getRoomMobs(mob)
     const clients = this.clients.filter(c => mobs.includes(c.getSessionMob()) && c.getSessionMob() !== mob)
     clients.forEach(c => c.sendMessage(message))
+  }
+
+  public sendResponseToRoom(response: Response): void {
+    const mobs = this.getRoomMobs(response.getMob())
+    const clients = this.clients.filter(c => mobs.includes(c.getSessionMob()))
+    clients.forEach(client => {
+      if (client.getSessionMob() === response.getMob()) {
+        client.sendMessage(response.getMessageToRequestCreator())
+      } else if (client.getSessionMob() === response.request.getTargetMobInRoom()) {
+        client.sendMessage(response.getMessageToTarget())
+      } else {
+        client.sendMessage(response.getMessageToObservers())
+      }
+    })
   }
 
   public sendMessage(mob: MobEntity, message: string): void {

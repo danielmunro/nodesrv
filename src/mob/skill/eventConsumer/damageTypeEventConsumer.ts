@@ -2,7 +2,7 @@ import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/eventConsumer"
 import EventResponse from "../../../event/eventResponse"
 import {createModifiedDamageEvent} from "../../../event/factory/eventFactory"
-import WeaponEntity from "../../../item/entity/weaponEntity"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {Equipment} from "../../../item/enum/equipment"
 import DamageEvent from "../../event/damageEvent"
 import {DamageType} from "../../fight/enum/damageType"
@@ -22,7 +22,7 @@ export default class DamageTypeEventConsumer implements EventConsumer {
     if (!event.source || has === undefined) {
       return EventResponse.none(event)
     }
-    const weapon = event.source.getFirstEquippedItemAtPosition(Equipment.Weapon) as WeaponEntity
+    const weapon = event.source.getFirstEquippedItemAtPosition(Equipment.Weapon) as ItemEntity
     if (weapon && weapon.damageType === this.damageType) {
       return EventResponse.modified(createModifiedDamageEvent(event, DamageTypeEventConsumer.bonusAmount))
     }

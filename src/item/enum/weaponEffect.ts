@@ -1,0 +1,15 @@
+export enum WeaponEffect {
+  Flaming = "flaming",
+  Frost = "frost",
+  Vampiric = "vampiric",
+  Sharp = "sharp",
+  Vorpal = "vorpal",
+  Shocking = "shocking",
+  Poison = "poison",
+  Stun = "stun",
+  Holy = "holy",
+  Favored = "favored",
+  Nether = "nether",
+  Scion = "scion",
+  ResistEnchant = "resist enchant",
+}
