@@ -2,10 +2,12 @@ import {AffectType} from "../../../affect/enum/affectType"
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/eventConsumer"
 import EventResponse from "../../../event/eventResponse"
-import {createDestroyItemEvent} from "../../../event/factory/eventFactory"
+import {createDestroyItemEvent, createModifiedDamageEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import DamageEvent from "../../../mob/event/damageEvent"
+import {DamageType} from "../../../mob/fight/enum/damageType"
+import vulnerabilityModifier from "../../../mob/fight/vulnerabilityModifier"
 import LocationService from "../../../mob/service/locationService"
 import ResponseBuilder from "../../../request/builder/responseBuilder"
 import {RoomEntity} from "../../../room/entity/roomEntity"
@@ -30,17 +32,40 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
   public async consume(event: DamageEvent): Promise<EventResponse> {
     const equippedWeapon = event.source.getFirstEquippedItemAtPosition(Equipment.Weapon)
     if (equippedWeapon && equippedWeapon.weaponEffects.includes(WeaponEffect.Flaming)) {
-      event.mob.equipped.items.forEach(async item => {
-        if (isMaterialFlammable(item.material) && !item.affect().has(AffectType.Fireproof)) {
-          await this.calculateBurningEquipment(item, event.mob)
-        }
-      })
+      await this.checkForFlammableEquipment(event.mob)
+      return this.checkForRacialVulnerability(event, equippedWeapon)
+    }
+    return EventResponse.none(event)
+  }
+
+  private async checkForFlammableEquipment(mob: MobEntity) {
+    mob.equipped.items.forEach(async item => {
+      if (isMaterialFlammable(item.material) && !item.affect().has(AffectType.Fireproof)) {
+        await this.calculateBurningEquipment(item, mob)
+      }
+    })
+  }
+
+  private async checkForRacialVulnerability(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
+    const damageAbsorption = event.mob.race().damageAbsorption.find(damage => damage.damageType === DamageType.Fire)
+    if (damageAbsorption && roll(1, 8) === 1) {
+      const room = this.locationService.getRoomForMob(event.mob)
+      this.clientService.sendResponseToRoom(
+        ResponseBuilder.createResponse(
+          event.mob,
+          room,
+          WeaponEffectMessages.mobBurned,
+          { item: weapon, target: event.mob + "'s", target2: "they" },
+          { item: weapon, target: "your", target2: "you"},
+          { item: weapon, target: event.mob + "'s", target2: "they" }))
+      return EventResponse.modified(createModifiedDamageEvent(
+        event, vulnerabilityModifier(damageAbsorption.vulnerability)))
     }
     return EventResponse.none(event)
   }
 
   private async calculateBurningEquipment(item: ItemEntity, mob: MobEntity) {
-    if (roll(1, 8) === 1) {
+    if (roll(1, 10) === 1) {
       await this.eventService.publish(createDestroyItemEvent(item))
       const room = this.locationService.getRoomForMob(mob)
       if (item.isContainer()) {
@@ -50,7 +75,7 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
         ResponseBuilder.createResponse(
           mob,
           room,
-          WeaponEffectMessages.flamingWeaponEffect,
+          WeaponEffectMessages.itemBurned,
           { item, target: mob },
           { item, target: "you" },
           { item, target: mob }))

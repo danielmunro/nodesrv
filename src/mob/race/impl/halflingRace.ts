@@ -1,4 +1,7 @@
 import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
+import {Vulnerability} from "../../enum/vulnerability"
+import {createDamageModifier} from "../../fight/damageModifier"
+import {DamageType} from "../../fight/enum/damageType"
 import {SkillType} from "../../skill/skillType"
 import {SpecializationType} from "../../specialization/enum/specializationType"
 import {Appetite} from "../enum/appetite"
@@ -21,6 +24,9 @@ export default function(): Race {
     .setStartingSkills([
       SkillType.Dodge,
       SkillType.Sneak,
+    ])
+    .setDamageAbsorption([
+      createDamageModifier(DamageType.Fire, Vulnerability.Vulnerable),
     ])
     .setCreationPoints(2)
     .create()

@@ -3,6 +3,7 @@ import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {createDamageEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"
 import {DamageType} from "../../../mob/fight/enum/damageType"
+import {RaceType} from "../../../mob/race/enum/raceType"
 import LocationService from "../../../mob/service/locationService"
 import Response from "../../../request/response"
 import ClientService from "../../../server/service/clientService"
@@ -124,7 +125,7 @@ describe("flaming weapon effect event consumer", () => {
     expect(testRunner.getStartRoom().getItemCount()).toBe(2)
   })
 
-  it("generates accurate burning messages", async () => {
+  it("generates accurate item burning messages", async () => {
     // setup
     let response: Response
     const mock = jest.fn(() => ({
@@ -160,5 +161,40 @@ describe("flaming weapon effect event consumer", () => {
       .toBe("a wooden practice shield catches fire and burns up as it falls off you.")
     expect(response.getMessageToObservers())
       .toBe(`a wooden practice shield catches fire and burns up as it falls off ${mob1.getMobName()}.`)
+  })
+
+  it("generates accurate race burning messages", async () => {
+    // setup
+    let response: Response
+    const mock = jest.fn(() => ({
+      sendResponseToRoom: (res: Response) => {
+        response = res
+      },
+    }))
+    eventConsumer = new FlamingWeaponEffectEventConsumer(
+      eventService,
+      locationService,
+      mock() as ClientService)
+
+    // given
+    mob1.setRace(RaceType.Halfling)
+
+    // when
+    await doNTimes(iterations, () =>
+      eventConsumer.consume(createDamageEvent(
+        mob1.get(),
+        1,
+        DamageType.Slash,
+        1,
+        mob2.get())))
+
+    // then
+    expect(response).toBeDefined()
+    expect(response.getMessageToRequestCreator())
+      .toBe(`a wood chopping axe sears ${mob1.getMobName()}'s flesh as they scream in pain.`)
+    expect(response.getMessageToTarget())
+      .toBe("a wood chopping axe sears your flesh as you scream in pain.")
+    expect(response.getMessageToObservers())
+      .toBe(`a wood chopping axe sears ${mob1.getMobName()}'s flesh as they scream in pain.`)
   })
 })
