@@ -20,6 +20,9 @@ export const SkillMessages = {
     Fail: "{requestCreator} {verb} dirt and {verb2} {target}!",
     Success: "{requestCreator} {verb} dirt right in {target} eyes!",
   },
+  Endurance: {
+    Success: "{requestCreator} {verb} strong and invigorated.",
+  },
   Envenom: {
     Error: {
       NotAWeapon: "That's not a weapon.",

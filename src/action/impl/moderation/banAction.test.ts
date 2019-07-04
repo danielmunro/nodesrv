@@ -7,6 +7,8 @@ import PlayerBuilder from "../../../support/test/playerBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import {MESSAGE_FAIL_ALREADY_BANNED, MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS} from "../../constants"
+import {BanCommand} from "../../enum/banCommand"
+import BanAction from "./banAction"
 
 let testRunner: TestRunner
 let banningPlayer: PlayerBuilder
@@ -83,5 +85,18 @@ describe("ban moderation action", () => {
     // then
     expect(response.isError()).toBeTruthy()
     expect(response.getMessageToRequestCreator()).toBe(CheckMessages.NotAPlayer)
+  })
+
+  it("correctly translates ban commands to standings", () => {
+    expect(BanAction.getNewStandingFromBanCommand(BanCommand.Lift))
+      .toBe(Standing.Good)
+    expect(BanAction.getNewStandingFromBanCommand(BanCommand.Cooloff))
+      .toBe(Standing.Cooloff)
+    expect(BanAction.getNewStandingFromBanCommand(BanCommand.Indefinite))
+      .toBe(Standing.IndefiniteBan)
+    expect(BanAction.getNewStandingFromBanCommand(BanCommand.Perma))
+      .toBe(Standing.PermaBan)
+    expect(BanAction.getNewStandingFromBanCommand(null as any))
+      .toBe(undefined)
   })
 })

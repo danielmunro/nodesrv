@@ -14,6 +14,7 @@ import shieldBashAction from "../../action/impl/skill/brawler/shieldBashAction"
 import thirdAttackAction from "../../action/impl/skill/brawler/thirdAttackAction"
 import sharpenAction from "../../action/impl/skill/crafting/sharpenAction"
 import detectTouchAction from "../../action/impl/skill/detection/detectTouchAction"
+import enduranceAction from "../../action/impl/skill/endurance/enduranceAction"
 import fastHealingAction from "../../action/impl/skill/endurance/fastHealingAction"
 import dirtKickAction from "../../action/impl/skill/evasion/dirtKickAction"
 import dodgeAction from "../../action/impl/skill/evasion/dodgeAction"
@@ -62,6 +63,7 @@ export function getSkillTable(mobService: MobService, eventService: EventService
     bludgeonAction(abilityService),
     cleaveAction(abilityService),
     gougeAction(abilityService),
+    enduranceAction(abilityService),
 
     weaponAction(abilityService, SkillType.Sword),
     weaponAction(abilityService, SkillType.Mace),

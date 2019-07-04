@@ -34,6 +34,7 @@ export default class ListAction extends Action {
       }, merchant.name + " has selling:\n[ quantity cost ]\n"))
   }
 
+  /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action ]
   }
@@ -43,6 +44,7 @@ export default class ListAction extends Action {
     return RequestType.List
   }
 
+  /* istanbul ignore next */
   public getHelpText(): string {
     return Messages.Help.NoActionHelpTextProvided
   }

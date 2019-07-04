@@ -17,7 +17,7 @@ import {BanCommand} from "../../enum/banCommand"
 import Action from "../action"
 
 export default class BanAction extends Action {
-  private static getNewStanding(arg: BanCommand): Standing | undefined {
+  public static getNewStandingFromBanCommand(arg: BanCommand): Standing | undefined {
     switch (arg) {
       case BanCommand.Lift:
         return Standing.Good
@@ -58,7 +58,7 @@ export default class BanAction extends Action {
 
   public invoke(requestService: RequestService): Promise<Response> {
     const target = requestService.getResult()
-    const newStanding = BanAction.getNewStanding(BanAction.getBanCommand(requestService.getComponent()))
+    const newStanding = BanAction.getNewStandingFromBanCommand(BanAction.getBanCommand(requestService.getComponent()))
     target.playerMob.standing = newStanding
 
     return requestService.respondWith().success(

@@ -78,6 +78,7 @@ import repairAction from "../impl/skill/crafting/repairAction"
 import sharpenAction from "../impl/skill/crafting/sharpenAction"
 import detectHiddenAction from "../impl/skill/detection/detectHiddenAction"
 import detectTouchAction from "../impl/skill/detection/detectTouchAction"
+import enduranceAction from "../impl/skill/endurance/enduranceAction"
 import dirtKickAction from "../impl/skill/evasion/dirtKickAction"
 import peekAction from "../impl/skill/thief/peekAction"
 import sneakAction from "../impl/skill/thief/sneakAction"
@@ -169,6 +170,7 @@ export default function getActionTable(
     eyeGougeAction(abilityService),
     hamstringAction(abilityService),
     repairAction(abilityService),
+    enduranceAction(abilityService),
 
     // casting
     new CastAction(checkBuilderFactory, spellTable),
