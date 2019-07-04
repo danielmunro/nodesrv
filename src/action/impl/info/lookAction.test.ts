@@ -110,7 +110,7 @@ describe("look action", () => {
     const response = await testRunner.invokeAction(RequestType.Look, "look shield")
 
     // then
-    expect(response.getMessageToRequestCreator()).toBe(item.description)
+    expect(response.getMessageToRequestCreator()).toBe(item.describe())
   })
 
   it("can describe an item in the session mob's inventory", async () => {
