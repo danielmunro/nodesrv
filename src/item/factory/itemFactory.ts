@@ -94,7 +94,6 @@ export function newWeapon(
   weapon.weaponType = weaponType
   weapon.damageType = damageType
   weapon.level = 1
-  weapon.weaponEffects = []
 
   return weapon
 }
@@ -102,6 +101,7 @@ export function newWeapon(
 export function createWeapon(): ItemEntity {
   const weapon = new ItemEntity()
   weapon.affects = []
+  weapon.weaponEffects = []
   weapon.attributes = newEmptyAttributes()
   return weapon
 }

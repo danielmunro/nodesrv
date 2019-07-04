@@ -27,6 +27,7 @@ export default function(): Race {
     ])
     .setDamageAbsorption([
       createDamageModifier(DamageType.Fire, Vulnerability.Vulnerable),
+      createDamageModifier(DamageType.Frost, Vulnerability.Vulnerable),
     ])
     .setCreationPoints(2)
     .create()

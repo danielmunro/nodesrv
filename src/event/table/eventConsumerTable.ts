@@ -19,6 +19,7 @@ import Social from "../../client/eventConsumer/social"
 import GameService from "../../gameService/gameService"
 import ItemCreated from "../../item/eventConsumer/itemCreated"
 import ItemDestroyed from "../../item/eventConsumer/itemDestroyed"
+import FlamingWeaponEffectEventConsumer from "../../item/eventConsumer/weaponEffect/flamingWeaponEffectEventConsumer"
 import ItemService from "../../item/service/itemService"
 import AggressiveMobEventConsumer from "../../mob/eventConsumer/aggressiveMobEventConsumer"
 import ClientCreatedEventConsumer from "../../mob/eventConsumer/clientCreatedEventConsumer"
@@ -58,7 +59,6 @@ import RoomMessageEventConsumer from "../../room/eventConsumer/roomMessageEventC
 import {GameServerService} from "../../server/service/gameServerService"
 import EventConsumer from "../eventConsumer"
 import EventService from "../service/eventService"
-import FlamingWeaponEffectEventConsumer from "../../item/eventConsumer/weaponEffect/flamingWeaponEffectEventConsumer"
 
 export default function createEventConsumerTable(
   gameService: GameService,

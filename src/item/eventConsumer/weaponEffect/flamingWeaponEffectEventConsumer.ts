@@ -54,7 +54,7 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
         ResponseBuilder.createResponse(
           event.mob,
           room,
-          WeaponEffectMessages.mobBurned,
+          WeaponEffectMessages.Flame.MobBurned,
           { item: weapon, target: event.mob + "'s", target2: "they" },
           { item: weapon, target: "your", target2: "you"},
           { item: weapon, target: event.mob + "'s", target2: "they" }))
@@ -75,7 +75,7 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
         ResponseBuilder.createResponse(
           mob,
           room,
-          WeaponEffectMessages.itemBurned,
+          WeaponEffectMessages.Flame.ItemBurned,
           { item, target: mob },
           { item, target: "you" },
           { item, target: mob }))
