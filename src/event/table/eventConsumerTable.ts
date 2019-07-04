@@ -58,6 +58,7 @@ import RoomMessageEventConsumer from "../../room/eventConsumer/roomMessageEventC
 import {GameServerService} from "../../server/service/gameServerService"
 import EventConsumer from "../eventConsumer"
 import EventService from "../service/eventService"
+import FlamingWeaponEffectEventConsumer from "../../item/eventConsumer/weaponEffect/flamingWeaponEffectEventConsumer"
 
 export default function createEventConsumerTable(
   gameService: GameService,
@@ -113,6 +114,9 @@ export default function createEventConsumerTable(
     // item
     new ItemCreated(itemService),
     new ItemDestroyed(itemService),
+
+    // weapon effects
+    new FlamingWeaponEffectEventConsumer(eventService, locationService, clientService),
 
     // social
     new Social(clientService),
