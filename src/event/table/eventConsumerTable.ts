@@ -22,6 +22,7 @@ import ItemDestroyed from "../../item/eventConsumer/itemDestroyed"
 import FlamingWeaponEffectEventConsumer from "../../item/eventConsumer/weaponEffect/flamingWeaponEffectEventConsumer"
 import FrostWeaponEffectEventConsumer from "../../item/eventConsumer/weaponEffect/frostWeaponEffectEventConsumer"
 import VampiricWeaponEffectEventConsumer from "../../item/eventConsumer/weaponEffect/vampiricWeaponEffectEventConsumer"
+import VorpalWeaponEffectEventConsumer from "../../item/eventConsumer/weaponEffect/vorpalWeaponEffectEventConsumer"
 import ItemService from "../../item/service/itemService"
 import WeaponEffectService from "../../item/service/weaponEffectService"
 import AggressiveMobEventConsumer from "../../mob/eventConsumer/aggressiveMobEventConsumer"
@@ -123,6 +124,7 @@ export default function createEventConsumerTable(
     new FlamingWeaponEffectEventConsumer(weaponEffectService),
     new FrostWeaponEffectEventConsumer(weaponEffectService),
     new VampiricWeaponEffectEventConsumer(weaponEffectService),
+    new VorpalWeaponEffectEventConsumer(),
 
     // social
     new Social(clientService),
