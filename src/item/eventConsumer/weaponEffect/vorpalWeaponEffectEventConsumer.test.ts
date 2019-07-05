@@ -8,23 +8,23 @@ import {WeaponEffect} from "../../enum/weaponEffect"
 import VorpalWeaponEffectEventConsumer from "./vorpalWeaponEffectEventConsumer"
 
 let testRunner: TestRunner
-let mob1: MobBuilder
-let mob2: MobBuilder
+let mob: MobBuilder
 let eventConsumer: VorpalWeaponEffectEventConsumer
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mob1 = testRunner.createMob()
-  mob2 = testRunner.createMob().equip(
+  mob = testRunner.createMob().equip(
     testRunner.createWeapon().asAxe().addWeaponEffect(WeaponEffect.Vorpal).build())
   eventConsumer = new VorpalWeaponEffectEventConsumer()
 })
 
 describe("vorpal weapon effect event consumer", () => {
   it("adds an attack", async () => {
+    const target = testRunner.createMob().get()
+
     // when
     const eventResponse = await eventConsumer.consume(
-      createFightEvent(EventType.AttackRound, mob2.get(), testRunner.fight(mob2.get())))
+      createFightEvent(EventType.AttackRound, mob.get(), testRunner.fight(target)))
 
     // then
     expect(eventResponse.event.attacks).toHaveLength(1)
