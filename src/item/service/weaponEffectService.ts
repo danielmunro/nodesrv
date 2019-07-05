@@ -9,11 +9,18 @@ import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/service/clientService"
 import {Types} from "../../support/types"
 import {ItemEntity} from "../entity/itemEntity"
+import {Equipment} from "../enum/equipment"
+import {WeaponEffect} from "../enum/weaponEffect"
 
 @injectable()
 export default class WeaponEffectService {
   public static findDamageAbsorption(mob: MobEntity, damageType: DamageType) {
     return mob.race().damageAbsorption.find(damage => damage.damageType === damageType)
+  }
+
+  public static getWeaponMatchingWeaponEffect(mob: MobEntity, weaponEffect: WeaponEffect) {
+    const equippedWeapon = mob.getFirstEquippedItemAtPosition(Equipment.Weapon)
+    return equippedWeapon && equippedWeapon.weaponEffects.includes(weaponEffect) ? equippedWeapon : undefined
   }
 
   constructor(

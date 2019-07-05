@@ -3,9 +3,9 @@ import EventConsumer from "../../../event/eventConsumer"
 import EventResponse from "../../../event/eventResponse"
 import DamageEvent from "../../../mob/event/damageEvent"
 import ResponseMessage from "../../../request/responseMessage"
+import Maybe from "../../../support/functional/maybe"
 import roll from "../../../support/random/dice"
 import {ItemEntity} from "../../entity/itemEntity"
-import {Equipment} from "../../enum/equipment"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
 import {WeaponEffectMessages} from "./constants"
@@ -18,11 +18,10 @@ export default class VampiricWeaponEffectEventConsumer implements EventConsumer 
   }
 
   public async consume(event: DamageEvent): Promise<EventResponse> {
-    const equippedWeapon = event.source.getFirstEquippedItemAtPosition(Equipment.Weapon)
-    if (equippedWeapon && equippedWeapon.weaponEffects.includes(WeaponEffect.Vampiric)) {
-      return this.applyVampiricWeaponEffect(event, equippedWeapon)
-    }
-    return EventResponse.none(event)
+    return new Maybe(WeaponEffectService.getWeaponMatchingWeaponEffect(event.source, WeaponEffect.Vampiric))
+      .do(equippedWeapon => this.applyVampiricWeaponEffect(event, equippedWeapon))
+      .or(() => EventResponse.none(event))
+      .get()
   }
 
   private async applyVampiricWeaponEffect(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {

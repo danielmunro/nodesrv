@@ -8,7 +8,6 @@ import vulnerabilityModifier from "../../../mob/fight/vulnerabilityModifier"
 import ResponseMessage from "../../../request/responseMessage"
 import Maybe from "../../../support/functional/maybe"
 import {ItemEntity} from "../../entity/itemEntity"
-import {Equipment} from "../../enum/equipment"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
 import {WeaponEffectMessages} from "./constants"
@@ -21,11 +20,10 @@ export default class FrostWeaponEffectEventConsumer implements EventConsumer {
   }
 
   public async consume(event: DamageEvent): Promise<EventResponse> {
-    const equippedWeapon = event.source.getFirstEquippedItemAtPosition(Equipment.Weapon)
-    if (equippedWeapon && equippedWeapon.weaponEffects.includes(WeaponEffect.Frost)) {
-      return this.checkForRacialVulnerability(event, equippedWeapon)
-    }
-    return EventResponse.none(event)
+    return new Maybe(WeaponEffectService.getWeaponMatchingWeaponEffect(event.source, WeaponEffect.Frost))
+      .do(equippedWeapon => this.checkForRacialVulnerability(event, equippedWeapon))
+      .or(() => EventResponse.none(event))
+      .get()
   }
 
   private async checkForRacialVulnerability(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {

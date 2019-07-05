@@ -11,7 +11,6 @@ import ResponseMessage from "../../../request/responseMessage"
 import Maybe from "../../../support/functional/maybe"
 import roll from "../../../support/random/dice"
 import {ItemEntity} from "../../entity/itemEntity"
-import {Equipment} from "../../enum/equipment"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import {isMaterialFlammable} from "../../service/materialProperties"
 import WeaponEffectService from "../../service/weaponEffectService"
@@ -25,12 +24,13 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
   }
 
   public async consume(event: DamageEvent): Promise<EventResponse> {
-    const equippedWeapon = event.source.getFirstEquippedItemAtPosition(Equipment.Weapon)
-    if (equippedWeapon && equippedWeapon.weaponEffects.includes(WeaponEffect.Flaming)) {
-      await this.checkForFlammableEquipment(event.mob)
-      return this.checkForRacialVulnerability(event, equippedWeapon)
-    }
-    return EventResponse.none(event)
+    return new Maybe(WeaponEffectService.getWeaponMatchingWeaponEffect(event.source, WeaponEffect.Flaming))
+      .do(async equippedWeapon => {
+        await this.checkForFlammableEquipment(event.mob)
+        return this.checkForRacialVulnerability(event, equippedWeapon)
+      })
+      .or(() => EventResponse.none(event))
+      .get()
   }
 
   private async checkForFlammableEquipment(mob: MobEntity) {
