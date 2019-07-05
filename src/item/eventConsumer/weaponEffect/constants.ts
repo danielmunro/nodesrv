@@ -6,4 +6,7 @@ export const WeaponEffectMessages = {
   Frost: {
     MobFrozen: "{item} freezes {target}!",
   },
+  Vampiric: {
+    VampiricStrike: "{item} draws life from {target}.",
+  },
 }

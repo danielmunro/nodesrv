@@ -6,6 +6,7 @@ import ResetService from "../../gameService/resetService"
 import StateService from "../../gameService/stateService"
 import TimeService from "../../gameService/timeService"
 import ItemService from "../../item/service/itemService"
+import WeaponEffectService from "../../item/service/weaponEffectService"
 import KafkaService from "../../kafka/kafkaService"
 import FightBuilder from "../../mob/fight/fightBuilder"
 import LocationService from "../../mob/service/locationService"
@@ -36,4 +37,5 @@ export default new ContainerModule(bind => {
   bind<FightBuilder>(Types.FightBuilder).to(FightBuilder).inSingletonScope()
   bind<SpecializationService>(Types.SpecializationService).to(SpecializationService).inSingletonScope()
   bind<KafkaService>(Types.KafkaService).to(KafkaService).inSingletonScope()
+  bind<WeaponEffectService>(Types.WeaponEffectService).to(WeaponEffectService).inSingletonScope()
 })

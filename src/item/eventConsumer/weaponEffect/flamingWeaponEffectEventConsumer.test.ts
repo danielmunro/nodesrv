@@ -35,9 +35,7 @@ beforeEach(async () => {
       .asAxe()
       .addWeaponEffect(WeaponEffect.Flaming)
       .build())
-  eventConsumer = new FlamingWeaponEffectEventConsumer(
-    new WeaponEffectService(
-      eventService, locationService, app.get<ClientService>(Types.ClientService)))
+  eventConsumer = new FlamingWeaponEffectEventConsumer(app.get<WeaponEffectService>(Types.WeaponEffectService))
 })
 
 describe("flaming weapon effect event consumer", () => {

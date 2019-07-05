@@ -44,6 +44,7 @@ export const Types = {
   TickObserver: Symbol.for("TickObserver"),
   TimeService: Symbol.for("TimeService"),
   WanderObserver: Symbol.for("WanderObserver"),
+  WeaponEffectService: Symbol.for("WeaponEffectService"),
   WeatherService: Symbol.for("WeatherService"),
   WebSocketServer: Symbol.for("WebSocketServer"),
 }
