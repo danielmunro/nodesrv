@@ -6,6 +6,7 @@ import DamageEvent from "../../../mob/event/damageEvent"
 import {DamageType} from "../../../mob/fight/enum/damageType"
 import vulnerabilityModifier from "../../../mob/fight/vulnerabilityModifier"
 import ResponseMessage from "../../../request/responseMessage"
+import Maybe from "../../../support/functional/maybe"
 import {ItemEntity} from "../../entity/itemEntity"
 import {Equipment} from "../../enum/equipment"
 import {WeaponEffect} from "../../enum/weaponEffect"
@@ -28,19 +29,20 @@ export default class FrostWeaponEffectEventConsumer implements EventConsumer {
   }
 
   private async checkForRacialVulnerability(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
-    const damageAbsorption = WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Frost)
-    if (damageAbsorption) {
-      this.weaponEffectService.sendMessageToMobRoom(
-        event.mob,
-        new ResponseMessage(
+    return new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Frost))
+      .do(damageAbsorption => {
+        this.weaponEffectService.sendMessageToMobRoom(
           event.mob,
-          WeaponEffectMessages.Frost.MobFrozen,
-          { item: weapon, target: event.mob },
-          { item: weapon, target: "you" },
-          { item: weapon, target: event.mob }))
-      return EventResponse.modified(createModifiedDamageEvent(
-        event, vulnerabilityModifier(damageAbsorption.vulnerability)))
-    }
-    return EventResponse.none(event)
+          new ResponseMessage(
+            event.mob,
+            WeaponEffectMessages.Frost.MobFrozen,
+            { item: weapon, target: event.mob },
+            { item: weapon, target: "you" },
+            { item: weapon, target: event.mob }))
+        return EventResponse.modified(createModifiedDamageEvent(
+          event, vulnerabilityModifier(damageAbsorption.vulnerability)))
+      })
+      .or(() => EventResponse.none(event))
+      .get()
   }
 }

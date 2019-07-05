@@ -8,6 +8,7 @@ import DamageEvent from "../../../mob/event/damageEvent"
 import {DamageType} from "../../../mob/fight/enum/damageType"
 import vulnerabilityModifier from "../../../mob/fight/vulnerabilityModifier"
 import ResponseMessage from "../../../request/responseMessage"
+import Maybe from "../../../support/functional/maybe"
 import roll from "../../../support/random/dice"
 import {ItemEntity} from "../../entity/itemEntity"
 import {Equipment} from "../../enum/equipment"
@@ -41,20 +42,21 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
   }
 
   private async checkForRacialVulnerability(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
-    const damageAbsorption = WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Fire)
-    if (damageAbsorption) {
-      this.weaponEffectService.sendMessageToMobRoom(
-        event.mob,
-        new ResponseMessage(
+    return new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Fire))
+      .do(damageAbsorption => {
+        this.weaponEffectService.sendMessageToMobRoom(
           event.mob,
-          WeaponEffectMessages.Flame.MobBurned,
-          { item: weapon, target: event.mob + "'s", target2: "they" },
-          { item: weapon, target: "your", target2: "you"},
-          { item: weapon, target: event.mob + "'s", target2: "they" }))
-      return EventResponse.modified(createModifiedDamageEvent(
-        event, vulnerabilityModifier(damageAbsorption.vulnerability)))
-    }
-    return EventResponse.none(event)
+          new ResponseMessage(
+            event.mob,
+            WeaponEffectMessages.Flame.MobBurned,
+            { item: weapon, target: event.mob + "'s", target2: "they" },
+            { item: weapon, target: "your", target2: "you"},
+            { item: weapon, target: event.mob + "'s", target2: "they" }))
+        return EventResponse.modified(createModifiedDamageEvent(
+          event, vulnerabilityModifier(damageAbsorption.vulnerability)))
+      })
+      .or(() => EventResponse.none(event))
+      .get()
   }
 
   private async calculateBurningEquipment(item: ItemEntity, mob: MobEntity) {
