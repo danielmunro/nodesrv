@@ -1,6 +1,4 @@
 import {AffectType} from "../../../affect/enum/affectType"
-import {EventType} from "../../../event/enum/eventType"
-import EventConsumer from "../../../event/eventConsumer"
 import EventResponse from "../../../event/eventResponse"
 import {createModifiedDamageEvent} from "../../../event/factory/eventFactory"
 import {MobEntity} from "../../../mob/entity/mobEntity"
@@ -14,23 +12,17 @@ import {ItemEntity} from "../../entity/itemEntity"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import {isMaterialFlammable} from "../../service/materialProperties"
 import WeaponEffectService from "../../service/weaponEffectService"
+import AbstractWeaponEffectEventConsumer from "./abstractWeaponEffectEventConsumer"
 import {WeaponEffectMessages} from "./constants"
 
-export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
-  constructor(private readonly weaponEffectService: WeaponEffectService) {}
-
-  public getConsumingEventTypes(): EventType[] {
-    return [ EventType.DamageCalculation ]
+export default class FlamingWeaponEffectEventConsumer extends AbstractWeaponEffectEventConsumer {
+  public getWeaponEffect(): WeaponEffect {
+    return WeaponEffect.Flaming
   }
 
-  public async consume(event: DamageEvent): Promise<EventResponse> {
-    return new Maybe(WeaponEffectService.getWeaponMatchingWeaponEffect(event.source, WeaponEffect.Flaming))
-      .do(async equippedWeapon => {
-        await this.checkForFlammableEquipment(event.mob)
-        return this.checkForRacialVulnerability(event, equippedWeapon)
-      })
-      .or(() => EventResponse.none(event))
-      .get()
+  public async applyWeaponEffect(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
+    await this.checkForFlammableEquipment(event.mob)
+    return this.increaseDamageModifier(event, weapon)
   }
 
   private async checkForFlammableEquipment(mob: MobEntity) {
@@ -41,7 +33,7 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
     })
   }
 
-  private async checkForRacialVulnerability(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
+  private async increaseDamageModifier(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
     return new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Fire))
       .do(damageAbsorption => {
         this.weaponEffectService.sendMessageToMobRoom(

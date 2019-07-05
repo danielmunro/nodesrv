@@ -1,5 +1,3 @@
-import {EventType} from "../../../event/enum/eventType"
-import EventConsumer from "../../../event/eventConsumer"
 import EventResponse from "../../../event/eventResponse"
 import {createModifiedDamageEvent} from "../../../event/factory/eventFactory"
 import DamageEvent from "../../../mob/event/damageEvent"
@@ -10,23 +8,15 @@ import Maybe from "../../../support/functional/maybe"
 import {ItemEntity} from "../../entity/itemEntity"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
+import AbstractWeaponEffectEventConsumer from "./abstractWeaponEffectEventConsumer"
 import {WeaponEffectMessages} from "./constants"
 
-export default class FrostWeaponEffectEventConsumer implements EventConsumer {
-  constructor(private readonly weaponEffectService: WeaponEffectService) {}
-
-  public getConsumingEventTypes(): EventType[] {
-    return [ EventType.DamageCalculation ]
+export default class FrostWeaponEffectEventConsumer extends AbstractWeaponEffectEventConsumer {
+  public getWeaponEffect(): WeaponEffect {
+    return WeaponEffect.Frost
   }
 
-  public async consume(event: DamageEvent): Promise<EventResponse> {
-    return new Maybe(WeaponEffectService.getWeaponMatchingWeaponEffect(event.source, WeaponEffect.Frost))
-      .do(equippedWeapon => this.checkForRacialVulnerability(event, equippedWeapon))
-      .or(() => EventResponse.none(event))
-      .get()
-  }
-
-  private async checkForRacialVulnerability(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
+  public applyWeaponEffect(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
     return new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Frost))
       .do(damageAbsorption => {
         this.weaponEffectService.sendMessageToMobRoom(
