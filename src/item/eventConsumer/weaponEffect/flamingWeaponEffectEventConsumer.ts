@@ -2,28 +2,22 @@ import {AffectType} from "../../../affect/enum/affectType"
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/eventConsumer"
 import EventResponse from "../../../event/eventResponse"
-import {createDestroyItemEvent, createModifiedDamageEvent} from "../../../event/factory/eventFactory"
-import EventService from "../../../event/service/eventService"
+import {createModifiedDamageEvent} from "../../../event/factory/eventFactory"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import DamageEvent from "../../../mob/event/damageEvent"
 import {DamageType} from "../../../mob/fight/enum/damageType"
 import vulnerabilityModifier from "../../../mob/fight/vulnerabilityModifier"
-import LocationService from "../../../mob/service/locationService"
-import ResponseBuilder from "../../../request/builder/responseBuilder"
-import {RoomEntity} from "../../../room/entity/roomEntity"
-import ClientService from "../../../server/service/clientService"
+import ResponseMessage from "../../../request/responseMessage"
 import roll from "../../../support/random/dice"
 import {ItemEntity} from "../../entity/itemEntity"
 import {Equipment} from "../../enum/equipment"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import {isMaterialFlammable} from "../../service/materialProperties"
+import WeaponEffectService from "../../service/weaponEffectService"
 import {WeaponEffectMessages} from "./constants"
 
 export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
-  constructor(
-    private readonly eventService: EventService,
-    private readonly locationService: LocationService,
-    private readonly clientService: ClientService) {}
+  constructor(private readonly weaponEffectService: WeaponEffectService) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.DamageCalculation ]
@@ -47,13 +41,12 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
   }
 
   private async checkForRacialVulnerability(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
-    const damageAbsorption = event.mob.race().damageAbsorption.find(damage => damage.damageType === DamageType.Fire)
-    if (damageAbsorption && roll(1, 8) === 1) {
-      const room = this.locationService.getRoomForMob(event.mob)
-      this.clientService.sendResponseToRoom(
-        ResponseBuilder.createResponse(
+    const damageAbsorption = WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Fire)
+    if (damageAbsorption) {
+      this.weaponEffectService.sendMessageToMobRoom(
+        event.mob,
+        new ResponseMessage(
           event.mob,
-          room,
           WeaponEffectMessages.Flame.MobBurned,
           { item: weapon, target: event.mob + "'s", target2: "they" },
           { item: weapon, target: "your", target2: "you"},
@@ -66,24 +59,15 @@ export default class FlamingWeaponEffectEventConsumer implements EventConsumer {
 
   private async calculateBurningEquipment(item: ItemEntity, mob: MobEntity) {
     if (roll(1, 10) === 1) {
-      await this.eventService.publish(createDestroyItemEvent(item))
-      const room = this.locationService.getRoomForMob(mob)
-      if (item.isContainer()) {
-        this.dropContainerContents(item, room)
-      }
-      this.clientService.sendResponseToRoom(
-        ResponseBuilder.createResponse(
+      await this.weaponEffectService.destroyItemOnMob(mob, item)
+      this.weaponEffectService.sendMessageToMobRoom(
+        mob,
+        new ResponseMessage(
           mob,
-          room,
           WeaponEffectMessages.Flame.ItemBurned,
           { item, target: mob },
           { item, target: "you" },
           { item, target: mob }))
     }
-  }
-
-  private dropContainerContents(item: ItemEntity, room: RoomEntity) {
-    item.container.inventory.items.forEach(i =>
-      room.inventory.addItem(i))
   }
 }

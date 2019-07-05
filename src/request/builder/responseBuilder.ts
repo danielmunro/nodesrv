@@ -13,19 +13,11 @@ export default class ResponseBuilder {
   public static createResponse(
     mob: MobEntity,
     room: RoomEntity,
-    messageTemplate: string,
-    toRequestCreator?: object,
-    toTarget?: object,
-    toObservers?: object) {
+    responseMessage: ResponseMessage) {
     return new Response(
       new Request(mob, room, new InputContext(RequestType.Noop, "")),
       ResponseStatus.Info,
-      new ResponseMessage(
-        mob,
-        messageTemplate,
-        toRequestCreator,
-        toTarget,
-        toObservers))
+      responseMessage)
   }
 
   constructor(private readonly request: Request | CheckedRequest) {}

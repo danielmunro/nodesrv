@@ -1,6 +1,7 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import EventResponse from "../../../event/eventResponse"
 import {createDamageEvent} from "../../../event/factory/eventFactory"
+import EventService from "../../../event/service/eventService"
 import {DamageType} from "../../../mob/fight/enum/damageType"
 import {RaceType} from "../../../mob/race/enum/raceType"
 import LocationService from "../../../mob/service/locationService"
@@ -11,10 +12,12 @@ import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import {WeaponEffect} from "../../enum/weaponEffect"
+import WeaponEffectService from "../../service/weaponEffectService"
 import FrostWeaponEffectEventConsumer from "./frostWeaponEffectEventConsumer"
 
 let testRunner: TestRunner
 let locationService: LocationService
+let eventService: EventService
 let eventConsumer: FrostWeaponEffectEventConsumer
 let mob1: MobBuilder
 let mob2: MobBuilder
@@ -23,10 +26,13 @@ const iterations = 100
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
+  eventService = app.get<EventService>(Types.EventService)
   locationService = app.get<LocationService>(Types.LocationService)
   eventConsumer = new FrostWeaponEffectEventConsumer(
-    locationService,
-    app.get<ClientService>(Types.ClientService))
+    new WeaponEffectService(
+      eventService,
+      locationService,
+      app.get<ClientService>(Types.ClientService)))
   mob1 = testRunner.createMob().setRace(RaceType.Halfling)
   mob2 = testRunner.createMob()
     .equip(testRunner.createWeapon()
@@ -57,8 +63,10 @@ describe("frost weapon effect event consumer", () => {
       },
     }))
     eventConsumer = new FrostWeaponEffectEventConsumer(
-      locationService,
-      mock() as ClientService)
+      new WeaponEffectService(
+        eventService,
+        locationService,
+        mock() as ClientService))
 
     // given
     const event = createDamageEvent(mob1.get(), 1, DamageType.Slash, 1, mob2.get())

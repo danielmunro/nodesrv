@@ -13,6 +13,7 @@ import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import {MaterialType} from "../../enum/materialType"
 import {WeaponEffect} from "../../enum/weaponEffect"
+import WeaponEffectService from "../../service/weaponEffectService"
 import FlamingWeaponEffectEventConsumer from "./flamingWeaponEffectEventConsumer"
 
 let testRunner: TestRunner
@@ -35,9 +36,8 @@ beforeEach(async () => {
       .addWeaponEffect(WeaponEffect.Flaming)
       .build())
   eventConsumer = new FlamingWeaponEffectEventConsumer(
-    eventService,
-    locationService,
-    app.get<ClientService>(Types.ClientService))
+    new WeaponEffectService(
+      eventService, locationService, app.get<ClientService>(Types.ClientService)))
 })
 
 describe("flaming weapon effect event consumer", () => {
@@ -134,9 +134,7 @@ describe("flaming weapon effect event consumer", () => {
       },
     }))
     eventConsumer = new FlamingWeaponEffectEventConsumer(
-      eventService,
-      locationService,
-      mock() as ClientService)
+      new WeaponEffectService(eventService, locationService, mock() as ClientService))
 
     // given
     mob1.equip(testRunner.createItem()
@@ -172,9 +170,7 @@ describe("flaming weapon effect event consumer", () => {
       },
     }))
     eventConsumer = new FlamingWeaponEffectEventConsumer(
-      eventService,
-      locationService,
-      mock() as ClientService)
+      new WeaponEffectService(eventService, locationService, mock() as ClientService))
 
     // given
     mob1.setRace(RaceType.Halfling)

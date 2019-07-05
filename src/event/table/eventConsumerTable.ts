@@ -20,7 +20,9 @@ import GameService from "../../gameService/gameService"
 import ItemCreated from "../../item/eventConsumer/itemCreated"
 import ItemDestroyed from "../../item/eventConsumer/itemDestroyed"
 import FlamingWeaponEffectEventConsumer from "../../item/eventConsumer/weaponEffect/flamingWeaponEffectEventConsumer"
+import FrostWeaponEffectEventConsumer from "../../item/eventConsumer/weaponEffect/frostWeaponEffectEventConsumer"
 import ItemService from "../../item/service/itemService"
+import WeaponEffectService from "../../item/service/weaponEffectService"
 import AggressiveMobEventConsumer from "../../mob/eventConsumer/aggressiveMobEventConsumer"
 import ClientCreatedEventConsumer from "../../mob/eventConsumer/clientCreatedEventConsumer"
 import {default as MobClientDisconnected} from "../../mob/eventConsumer/clientDisconnectedEventConsumer"
@@ -69,6 +71,7 @@ export default function createEventConsumerTable(
   eventService: EventService,
   locationService: LocationService): EventConsumer[] {
   const clientService = gameServer.clientService
+  const weaponEffectService = new WeaponEffectService(eventService, locationService, clientService)
   return [
     // affects
     new SanctuaryEventConsumer(),
@@ -116,7 +119,8 @@ export default function createEventConsumerTable(
     new ItemDestroyed(itemService),
 
     // weapon effects
-    new FlamingWeaponEffectEventConsumer(eventService, locationService, clientService),
+    new FlamingWeaponEffectEventConsumer(weaponEffectService),
+    new FrostWeaponEffectEventConsumer(weaponEffectService),
 
     // social
     new Social(clientService),
