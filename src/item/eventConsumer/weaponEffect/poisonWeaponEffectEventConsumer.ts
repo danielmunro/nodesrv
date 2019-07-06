@@ -1,4 +1,5 @@
 import {AffectType} from "../../../affect/enum/affectType"
+import {newAffect} from "../../../affect/factory/affectFactory"
 import EventResponse from "../../../event/eventResponse"
 import {createModifiedDamageEvent} from "../../../event/factory/eventFactory"
 import {MobEntity} from "../../../mob/entity/mobEntity"
@@ -10,56 +11,44 @@ import Maybe from "../../../support/functional/maybe"
 import roll from "../../../support/random/dice"
 import {ItemEntity} from "../../entity/itemEntity"
 import {WeaponEffect} from "../../enum/weaponEffect"
-import {isMaterialFlammable} from "../../service/materialProperties"
 import WeaponEffectService from "../../service/weaponEffectService"
 import AbstractWeaponEffectEventConsumer from "./abstractWeaponEffectEventConsumer"
 import {WeaponEffectMessages} from "./constants"
 
-export default class FlamingWeaponEffectEventConsumer extends AbstractWeaponEffectEventConsumer {
+export default class PoisonWeaponEffectEventConsumer extends AbstractWeaponEffectEventConsumer {
   public getWeaponEffect(): WeaponEffect {
-    return WeaponEffect.Flaming
+    return WeaponEffect.Poison
   }
 
   public async applyWeaponEffect(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
-    await this.checkForFlammableEquipment(event.mob)
-    return this.increaseDamageModifier(event, weapon)
-  }
-
-  private async checkForFlammableEquipment(mob: MobEntity) {
-    mob.equipped.items.forEach(async item => {
-      if (isMaterialFlammable(item.material) && !item.affect().has(AffectType.Fireproof)) {
-        await this.calculateBurningEquipment(item, mob)
-      }
-    })
-  }
-
-  private async increaseDamageModifier(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
     this.weaponEffectService.sendMessageToMobRoom(
       event.mob,
       new ResponseMessage(
         event.mob,
-        WeaponEffectMessages.Flame.MobBurned,
-        { item: weapon, target: event.mob + "'s", target2: "they" },
-        { item: weapon, target: "your", target2: "you"},
-        { item: weapon, target: event.mob + "'s", target2: "they" }))
-    const modifier = new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Fire))
-      .do(damageAbsorption => vulnerabilityModifier(damageAbsorption.vulnerability))
+        WeaponEffectMessages.Poison.MobHit,
+        { item: weapon, target: event.mob, verb: "is" },
+        { item: weapon, target: "you", verb: "are" },
+        { item: weapon, target: event.mob, verb: "is" }))
+    const modifier = new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Poison))
+      .do(damageAbsorption =>
+        vulnerabilityModifier(damageAbsorption.vulnerability))
       .or(() => AbstractWeaponEffectEventConsumer.defaultBonus)
       .get()
+    await this.checkPoisonMob(event.mob, weapon)
     return EventResponse.modified(createModifiedDamageEvent(event, modifier))
   }
 
-  private async calculateBurningEquipment(item: ItemEntity, mob: MobEntity) {
+  private async checkPoisonMob(mob: MobEntity, weapon: ItemEntity) {
     if (roll(1, 10) === 1) {
-      await this.weaponEffectService.destroyItemOnMob(mob, item)
+      mob.affect().add(newAffect(AffectType.Poison))
       this.weaponEffectService.sendMessageToMobRoom(
         mob,
         new ResponseMessage(
           mob,
-          WeaponEffectMessages.Flame.ItemBurned,
-          { item, target: mob },
-          { item, target: "you" },
-          { item, target: mob }))
+          WeaponEffectMessages.Poison.MobPoisoned,
+          { item: weapon, target: mob, verb: "turns" },
+          { item: weapon, target: "you", verb: "turn" },
+          { item: weapon, target: mob, verb: "turns" }))
     }
   }
 }

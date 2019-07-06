@@ -8,6 +8,8 @@ import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
 
 export default abstract class AbstractWeaponEffectEventConsumer implements EventConsumer {
+  public static defaultBonus = 0.15
+
   constructor(protected readonly weaponEffectService: WeaponEffectService) {}
 
   public getConsumingEventTypes(): EventType[] {

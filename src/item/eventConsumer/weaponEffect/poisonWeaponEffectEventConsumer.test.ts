@@ -1,3 +1,4 @@
+import {AffectType} from "../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {createDamageEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"
@@ -12,14 +13,14 @@ import {MaterialType} from "../../enum/materialType"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
 import clientServiceMock from "./clientServiceMock"
-import ShockingWeaponEffectEventConsumer from "./shockingWeaponEffectEventConsumer"
+import PoisonWeaponEffectEventConsumer from "./poisonWeaponEffectEventConsumer"
 
 let testRunner: TestRunner
 let eventService: EventService
 let locationService: LocationService
 let mob1: MobBuilder
 let mob2: MobBuilder
-let eventConsumer: ShockingWeaponEffectEventConsumer
+let eventConsumer: PoisonWeaponEffectEventConsumer
 const iterations = 100
 
 beforeEach(async () => {
@@ -27,13 +28,13 @@ beforeEach(async () => {
   testRunner = app.get<TestRunner>(Types.TestRunner)
   mob1 = testRunner.createMob()
   mob2 = testRunner.createMob().equip(
-    testRunner.createWeapon().asAxe().addWeaponEffect(WeaponEffect.Shocking).build())
-  eventConsumer = new ShockingWeaponEffectEventConsumer(app.get<WeaponEffectService>(Types.WeaponEffectService))
+    testRunner.createWeapon().asAxe().addWeaponEffect(WeaponEffect.Poison).build())
+  eventConsumer = new PoisonWeaponEffectEventConsumer(app.get<WeaponEffectService>(Types.WeaponEffectService))
   eventService = app.get<EventService>(Types.EventService)
   locationService = app.get<LocationService>(Types.LocationService)
 })
 
-describe("shocking weapon effect event consumer", () => {
+describe("poison weapon effect event consumer", () => {
   it("increases the damage modifier", async () => {
     // given
     const modifier = 1
@@ -49,7 +50,7 @@ describe("shocking weapon effect event consumer", () => {
   it("generates correct success messages", async () => {
     // setup
     const mock = clientServiceMock()
-    eventConsumer = new ShockingWeaponEffectEventConsumer(
+    eventConsumer = new PoisonWeaponEffectEventConsumer(
       new WeaponEffectService(
         eventService,
         locationService,
@@ -64,16 +65,19 @@ describe("shocking weapon effect event consumer", () => {
     // then
     const response = mock.getResponse()
     expect(response).toBeDefined()
-    expect(response.getMessageToRequestCreator()).toBe(`a wood chopping axe shocks ${mob1.getMobName()}.`)
-    expect(response.getMessageToTarget()).toBe("a wood chopping axe shocks you.")
-    expect(response.getMessageToRequestCreator()).toBe(`a wood chopping axe shocks ${mob1.getMobName()}.`)
+    expect(response.getMessageToRequestCreator())
+      .toBe(`${mob1.getMobName()} is hit with poison from a wood chopping axe.`)
+    expect(response.getMessageToTarget())
+      .toBe("you are hit with poison from a wood chopping axe.")
+    expect(response.getMessageToRequestCreator())
+      .toBe(`${mob1.getMobName()} is hit with poison from a wood chopping axe.`)
   })
 
-  it("generates correct item drop messages", async () => {
+  it("generates correct poisoning messages", async () => {
     // setup
     mob1.equip(testRunner.createItem().asHelmet().setMaterial(MaterialType.Metal).build())
     const mock = clientServiceMock()
-    eventConsumer = new ShockingWeaponEffectEventConsumer(
+    eventConsumer = new PoisonWeaponEffectEventConsumer(
       new WeaponEffectService(
         eventService,
         locationService,
@@ -83,20 +87,19 @@ describe("shocking weapon effect event consumer", () => {
     const event = createDamageEvent(mob1.get(), 1, DamageType.Slash, 1, mob2.get())
 
     // when
-    const room = testRunner.getStartRoom().get()
     await doNTimesOrUntilTruthy(iterations, async () => {
       await eventConsumer.consume(event)
-      return room.inventory.items.length > 0
+      return mob1.hasAffect(AffectType.Poison)
     })
 
     // then
     const response = mock.getResponse()
     expect(response).toBeDefined()
     expect(response.getMessageToRequestCreator())
-      .toBe(`a baseball cap is shocked by a wood chopping axe and falls off ${mob1.getMobName()}.`)
+      .toBe(`${mob1.getMobName()} turns green from a wood chopping axe's poison.`)
     expect(response.getMessageToTarget())
-      .toBe("a baseball cap is shocked by a wood chopping axe and falls off.")
+      .toBe("you turn green from a wood chopping axe's poison.")
     expect(response.getMessageToRequestCreator())
-      .toBe(`a baseball cap is shocked by a wood chopping axe and falls off ${mob1.getMobName()}.`)
+      .toBe(`${mob1.getMobName()} turns green from a wood chopping axe's poison.`)
   })
 })

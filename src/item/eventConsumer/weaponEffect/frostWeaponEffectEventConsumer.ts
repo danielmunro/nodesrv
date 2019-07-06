@@ -28,7 +28,7 @@ export default class FrostWeaponEffectEventConsumer extends AbstractWeaponEffect
     const modifier = new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Frost))
       .do(damageAbsorption =>
         vulnerabilityModifier(damageAbsorption.vulnerability))
-      .or(() => 0)
+      .or(() => AbstractWeaponEffectEventConsumer.defaultBonus)
       .get()
     return EventResponse.modified(createModifiedDamageEvent(event, modifier))
   }

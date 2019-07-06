@@ -18,7 +18,7 @@ export default class ShockingWeaponEffectEventConsumer extends AbstractWeaponEff
   private static calculateModifier(mob: MobEntity): number {
     return new Maybe(WeaponEffectService.findDamageAbsorption(mob, DamageType.Electric))
       .do(damageAbsorption => vulnerabilityModifier(damageAbsorption.vulnerability))
-      .or(() => 0.15)
+      .or(() => AbstractWeaponEffectEventConsumer.defaultBonus)
       .get()
   }
 
