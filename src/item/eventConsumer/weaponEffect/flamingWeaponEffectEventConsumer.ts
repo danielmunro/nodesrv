@@ -34,21 +34,19 @@ export default class FlamingWeaponEffectEventConsumer extends AbstractWeaponEffe
   }
 
   private async increaseDamageModifier(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
-    return new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Fire))
-      .do(damageAbsorption => {
-        this.weaponEffectService.sendMessageToMobRoom(
-          event.mob,
-          new ResponseMessage(
-            event.mob,
-            WeaponEffectMessages.Flame.MobBurned,
-            { item: weapon, target: event.mob + "'s", target2: "they" },
-            { item: weapon, target: "your", target2: "you"},
-            { item: weapon, target: event.mob + "'s", target2: "they" }))
-        return EventResponse.modified(createModifiedDamageEvent(
-          event, vulnerabilityModifier(damageAbsorption.vulnerability)))
-      })
-      .or(() => EventResponse.none(event))
+    this.weaponEffectService.sendMessageToMobRoom(
+      event.mob,
+      new ResponseMessage(
+        event.mob,
+        WeaponEffectMessages.Flame.MobBurned,
+        { item: weapon, target: event.mob + "'s", target2: "they" },
+        { item: weapon, target: "your", target2: "you"},
+        { item: weapon, target: event.mob + "'s", target2: "they" }))
+    const modifier = new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Fire))
+      .do(damageAbsorption => vulnerabilityModifier(damageAbsorption.vulnerability))
+      .or(() => 0)
       .get()
+    return EventResponse.modified(createModifiedDamageEvent(event, modifier))
   }
 
   private async calculateBurningEquipment(item: ItemEntity, mob: MobEntity) {

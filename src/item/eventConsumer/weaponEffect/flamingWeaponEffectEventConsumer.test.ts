@@ -7,7 +7,7 @@ import {RaceType} from "../../../mob/race/enum/raceType"
 import LocationService from "../../../mob/service/locationService"
 import Response from "../../../request/response"
 import ClientService from "../../../server/service/clientService"
-import doNTimes from "../../../support/functional/times"
+import doNTimes, {doNTimesOrUntilTruthy} from "../../../support/functional/times"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
@@ -141,13 +141,15 @@ describe("flaming weapon effect event consumer", () => {
       .build())
 
     // when
-    await doNTimes(iterations, () =>
-      eventConsumer.consume(createDamageEvent(
+    await doNTimesOrUntilTruthy(iterations, async () => {
+      await eventConsumer.consume(createDamageEvent(
         mob1.get(),
         1,
         DamageType.Slash,
         1,
-        mob2.get())))
+        mob2.get()))
+      return mob1.get().equipped.items.length === 0
+    })
 
     // then
     expect(response).toBeDefined()

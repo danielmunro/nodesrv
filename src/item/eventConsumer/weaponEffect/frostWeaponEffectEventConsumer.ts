@@ -17,20 +17,19 @@ export default class FrostWeaponEffectEventConsumer extends AbstractWeaponEffect
   }
 
   public applyWeaponEffect(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
-    return new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Frost))
-      .do(damageAbsorption => {
-        this.weaponEffectService.sendMessageToMobRoom(
-          event.mob,
-          new ResponseMessage(
-            event.mob,
-            WeaponEffectMessages.Frost.MobFrozen,
-            { item: weapon, target: event.mob },
-            { item: weapon, target: "you" },
-            { item: weapon, target: event.mob }))
-        return EventResponse.modified(createModifiedDamageEvent(
-          event, vulnerabilityModifier(damageAbsorption.vulnerability)))
-      })
-      .or(() => EventResponse.none(event))
+    this.weaponEffectService.sendMessageToMobRoom(
+      event.mob,
+      new ResponseMessage(
+        event.mob,
+        WeaponEffectMessages.Frost.MobFrozen,
+        { item: weapon, target: event.mob },
+        { item: weapon, target: "you" },
+        { item: weapon, target: event.mob }))
+    const modifier = new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Frost))
+      .do(damageAbsorption =>
+        vulnerabilityModifier(damageAbsorption.vulnerability))
+      .or(() => 0)
       .get()
+    return EventResponse.modified(createModifiedDamageEvent(event, modifier))
   }
 }
