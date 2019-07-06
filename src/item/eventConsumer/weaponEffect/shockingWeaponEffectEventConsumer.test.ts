@@ -5,9 +5,11 @@ import {DamageType} from "../../../mob/fight/enum/damageType"
 import LocationService from "../../../mob/service/locationService"
 import Response from "../../../request/response"
 import ClientService from "../../../server/service/clientService"
+import {doNTimesOrUntilTruthy} from "../../../support/functional/times"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
+import {MaterialType} from "../../enum/materialType"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
 import ShockingWeaponEffectEventConsumer from "./shockingWeaponEffectEventConsumer"
@@ -18,6 +20,7 @@ let locationService: LocationService
 let mob1: MobBuilder
 let mob2: MobBuilder
 let eventConsumer: ShockingWeaponEffectEventConsumer
+const iterations = 100
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
@@ -68,5 +71,40 @@ describe("shocking weapon effect event consumer", () => {
     expect(response.getMessageToRequestCreator()).toBe(`a wood chopping axe shocks ${mob1.getMobName()}!`)
     expect(response.getMessageToTarget()).toBe("a wood chopping axe shocks you!")
     expect(response.getMessageToRequestCreator()).toBe(`a wood chopping axe shocks ${mob1.getMobName()}!`)
+  })
+
+  it("generates correct item drop messages", async () => {
+    // setup
+    mob1.equip(testRunner.createItem().asHelmet().setMaterial(MaterialType.Metal).build())
+    let response: Response
+    const mock = jest.fn(() => ({
+      sendResponseToRoom: (res: Response) => {
+        response = res
+      },
+    }))
+    eventConsumer = new ShockingWeaponEffectEventConsumer(
+      new WeaponEffectService(
+        eventService,
+        locationService,
+        mock() as ClientService))
+
+    // given
+    const event = createDamageEvent(mob1.get(), 1, DamageType.Slash, 1, mob2.get())
+
+    // when
+    const room = testRunner.getStartRoom().get()
+    await doNTimesOrUntilTruthy(iterations, async () => {
+      await eventConsumer.consume(event)
+      return room.inventory.items.length > 0
+    })
+
+    // then
+    expect(response).toBeDefined()
+    expect(response.getMessageToRequestCreator())
+      .toBe(`a baseball cap is shocked by a wood chopping axe and falls off ${mob1.getMobName()}!`)
+    expect(response.getMessageToTarget())
+      .toBe("a baseball cap is shocked by a wood chopping axe and falls off!")
+    expect(response.getMessageToRequestCreator())
+      .toBe(`a baseball cap is shocked by a wood chopping axe and falls off ${mob1.getMobName()}!`)
   })
 })

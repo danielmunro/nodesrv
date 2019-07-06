@@ -44,4 +44,9 @@ export default class WeaponEffectService {
         room.inventory.addItem(i))
     }
   }
+
+  public async dropItem(mob: MobEntity, item: ItemEntity) {
+    const room = this.locationService.getRoomForMob(mob)
+    room.inventory.addItem(item)
+  }
 }
