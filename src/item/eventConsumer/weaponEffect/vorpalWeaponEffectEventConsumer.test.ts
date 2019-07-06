@@ -1,6 +1,7 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {EventType} from "../../../event/enum/eventType"
 import {createFightEvent} from "../../../event/factory/eventFactory"
+import FightEvent from "../../../mob/fight/event/fightEvent"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
@@ -27,6 +28,6 @@ describe("vorpal weapon effect event consumer", () => {
       createFightEvent(EventType.AttackRound, mob.get(), testRunner.fight(target)))
 
     // then
-    expect(eventResponse.event.attacks).toHaveLength(1)
+    expect((eventResponse.event as FightEvent).attacks).toHaveLength(1)
   })
 })

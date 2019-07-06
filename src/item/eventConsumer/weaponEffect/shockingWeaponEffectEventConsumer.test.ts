@@ -1,10 +1,9 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {createDamageEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"
+import DamageEvent from "../../../mob/event/damageEvent"
 import {DamageType} from "../../../mob/fight/enum/damageType"
 import LocationService from "../../../mob/service/locationService"
-import Response from "../../../request/response"
-import ClientService from "../../../server/service/clientService"
 import {doNTimesOrUntilTruthy} from "../../../support/functional/times"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
@@ -12,6 +11,7 @@ import {Types} from "../../../support/types"
 import {MaterialType} from "../../enum/materialType"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
+import clientServiceMock from "./clientServiceMock"
 import ShockingWeaponEffectEventConsumer from "./shockingWeaponEffectEventConsumer"
 
 let testRunner: TestRunner
@@ -43,22 +43,17 @@ describe("shocking weapon effect event consumer", () => {
       mob1.get(), 1, DamageType.Slash, modifier, mob2.get()))
 
     // then
-    expect(eventResponse.event.modifier).toBeGreaterThan(modifier)
+    expect((eventResponse.event as DamageEvent).modifier).toBeGreaterThan(modifier)
   })
 
   it("generates correct success messages", async () => {
     // setup
-    let response: Response
-    const mock = jest.fn(() => ({
-      sendResponseToRoom: (res: Response) => {
-        response = res
-      },
-    }))
+    const mock = clientServiceMock()
     eventConsumer = new ShockingWeaponEffectEventConsumer(
       new WeaponEffectService(
         eventService,
         locationService,
-        mock() as ClientService))
+        mock as any))
 
     // given
     const event = createDamageEvent(mob1.get(), 1, DamageType.Slash, 1, mob2.get())
@@ -67,6 +62,7 @@ describe("shocking weapon effect event consumer", () => {
     await eventConsumer.consume(event)
 
     // then
+    const response = mock.getResponse()
     expect(response).toBeDefined()
     expect(response.getMessageToRequestCreator()).toBe(`a wood chopping axe shocks ${mob1.getMobName()}!`)
     expect(response.getMessageToTarget()).toBe("a wood chopping axe shocks you!")
@@ -76,17 +72,12 @@ describe("shocking weapon effect event consumer", () => {
   it("generates correct item drop messages", async () => {
     // setup
     mob1.equip(testRunner.createItem().asHelmet().setMaterial(MaterialType.Metal).build())
-    let response: Response
-    const mock = jest.fn(() => ({
-      sendResponseToRoom: (res: Response) => {
-        response = res
-      },
-    }))
+    const mock = clientServiceMock()
     eventConsumer = new ShockingWeaponEffectEventConsumer(
       new WeaponEffectService(
         eventService,
         locationService,
-        mock() as ClientService))
+        mock as any))
 
     // given
     const event = createDamageEvent(mob1.get(), 1, DamageType.Slash, 1, mob2.get())
@@ -99,6 +90,7 @@ describe("shocking weapon effect event consumer", () => {
     })
 
     // then
+    const response = mock.getResponse()
     expect(response).toBeDefined()
     expect(response.getMessageToRequestCreator())
       .toBe(`a baseball cap is shocked by a wood chopping axe and falls off ${mob1.getMobName()}!`)

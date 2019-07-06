@@ -2,17 +2,17 @@ import {createTestAppContainer} from "../../../app/factory/testFactory"
 import EventResponse from "../../../event/eventResponse"
 import {createDamageEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"
+import DamageEvent from "../../../mob/event/damageEvent"
 import {DamageType} from "../../../mob/fight/enum/damageType"
 import {RaceType} from "../../../mob/race/enum/raceType"
 import LocationService from "../../../mob/service/locationService"
-import Response from "../../../request/response"
-import ClientService from "../../../server/service/clientService"
 import doNTimes from "../../../support/functional/times"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
+import clientServiceMock from "./clientServiceMock"
 import FrostWeaponEffectEventConsumer from "./frostWeaponEffectEventConsumer"
 
 let testRunner: TestRunner
@@ -47,22 +47,18 @@ describe("frost weapon effect event consumer", () => {
       await doNTimes(iterations, () => eventConsumer.consume(event))
 
     // then
-    expect(eventResponses.find(eventResponse => eventResponse.event.modifier > 1)).toBeDefined()
+    expect(eventResponses.find(eventResponse =>
+      (eventResponse.event as DamageEvent).modifier > 1)).toBeDefined()
   })
 
   it("generates correct success messages", async () => {
     // setup
-    let response: Response
-    const mock = jest.fn(() => ({
-      sendResponseToRoom: (res: Response) => {
-        response = res
-      },
-    }))
+    const mock = clientServiceMock()
     eventConsumer = new FrostWeaponEffectEventConsumer(
       new WeaponEffectService(
         eventService,
         locationService,
-        mock() as ClientService))
+        mock as any))
 
     // given
     const event = createDamageEvent(mob1.get(), 1, DamageType.Slash, 1, mob2.get())
@@ -71,6 +67,7 @@ describe("frost weapon effect event consumer", () => {
     await doNTimes(iterations, () => eventConsumer.consume(event))
 
     // then
+    const response = mock.getResponse()
     expect(response).toBeDefined()
     expect(response.getMessageToRequestCreator()).toBe(`a wood chopping axe freezes ${mob1.getMobName()}!`)
     expect(response.getMessageToTarget()).toBe("a wood chopping axe freezes you!")

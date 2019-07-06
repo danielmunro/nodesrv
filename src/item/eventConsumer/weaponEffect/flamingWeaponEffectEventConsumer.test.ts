@@ -5,8 +5,6 @@ import EventService from "../../../event/service/eventService"
 import {DamageType} from "../../../mob/fight/enum/damageType"
 import {RaceType} from "../../../mob/race/enum/raceType"
 import LocationService from "../../../mob/service/locationService"
-import Response from "../../../request/response"
-import ClientService from "../../../server/service/clientService"
 import doNTimes, {doNTimesOrUntilTruthy} from "../../../support/functional/times"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
@@ -14,6 +12,7 @@ import {Types} from "../../../support/types"
 import {MaterialType} from "../../enum/materialType"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
+import clientServiceMock from "./clientServiceMock"
 import FlamingWeaponEffectEventConsumer from "./flamingWeaponEffectEventConsumer"
 
 let testRunner: TestRunner
@@ -125,14 +124,9 @@ describe("flaming weapon effect event consumer", () => {
 
   it("generates accurate item burning messages", async () => {
     // setup
-    let response: Response
-    const mock = jest.fn(() => ({
-      sendResponseToRoom: (res: Response) => {
-        response = res
-      },
-    }))
+    const mock = clientServiceMock()
     eventConsumer = new FlamingWeaponEffectEventConsumer(
-      new WeaponEffectService(eventService, locationService, mock() as ClientService))
+      new WeaponEffectService(eventService, locationService, mock as any))
 
     // given
     mob1.equip(testRunner.createItem()
@@ -152,6 +146,7 @@ describe("flaming weapon effect event consumer", () => {
     })
 
     // then
+    const response = mock.getResponse()
     expect(response).toBeDefined()
     expect(response.getMessageToRequestCreator())
       .toBe(`a wooden practice shield catches fire and burns up as it falls off ${mob1.getMobName()}.`)
@@ -163,14 +158,9 @@ describe("flaming weapon effect event consumer", () => {
 
   it("generates accurate race burning messages", async () => {
     // setup
-    let response: Response
-    const mock = jest.fn(() => ({
-      sendResponseToRoom: (res: Response) => {
-        response = res
-      },
-    }))
+    const mock = clientServiceMock()
     eventConsumer = new FlamingWeaponEffectEventConsumer(
-      new WeaponEffectService(eventService, locationService, mock() as ClientService))
+      new WeaponEffectService(eventService, locationService, mock as any))
 
     // given
     mob1.setRace(RaceType.Halfling)
@@ -185,6 +175,7 @@ describe("flaming weapon effect event consumer", () => {
         mob2.get())))
 
     // then
+    const response = mock.getResponse()
     expect(response).toBeDefined()
     expect(response.getMessageToRequestCreator())
       .toBe(`a wood chopping axe sears ${mob1.getMobName()}'s flesh as they scream in pain.`)

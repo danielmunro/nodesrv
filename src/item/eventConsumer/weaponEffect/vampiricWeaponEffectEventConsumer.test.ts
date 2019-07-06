@@ -5,13 +5,13 @@ import {DamageType} from "../../../mob/fight/enum/damageType"
 import {RaceType} from "../../../mob/race/enum/raceType"
 import LocationService from "../../../mob/service/locationService"
 import Response from "../../../request/response"
-import ClientService from "../../../server/service/clientService"
 import doNTimes from "../../../support/functional/times"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
+import clientServiceMock from "./clientServiceMock"
 import VampiricWeaponEffectEventConsumer from "./vampiricWeaponEffectEventConsumer"
 
 let testRunner: TestRunner
@@ -53,17 +53,12 @@ describe("vampiric weapon effect event consumer", () => {
 
   it("generates correct success messages", async () => {
     // setup
-    let response: Response
-    const mock = jest.fn(() => ({
-      sendResponseToRoom: (res: Response) => {
-        response = res
-      },
-    }))
+    const mock = clientServiceMock()
     eventConsumer = new VampiricWeaponEffectEventConsumer(
       new WeaponEffectService(
         eventService,
         locationService,
-        mock() as ClientService))
+        mock as any))
 
     // given
     const event = createDamageEvent(mob1.get(), 1, DamageType.Slash, 1, mob2.get())
@@ -72,6 +67,7 @@ describe("vampiric weapon effect event consumer", () => {
     await doNTimes(iterations, () => eventConsumer.consume(event))
 
     // then
+    const response = mock.getResponse()
     expect(response).toBeDefined()
     expect(response.getMessageToRequestCreator())
       .toBe(`a wood chopping axe draws life from ${mob1.getMobName()}.`)
