@@ -1,4 +1,5 @@
 export enum WeaponEffect {
+  // implemented
   Flaming = "flaming",
   Frost = "frost",
   Vampiric = "vampiric",
@@ -6,8 +7,10 @@ export enum WeaponEffect {
   Shocking = "shocking",
   Poison = "poison",
   Favored = "favored",
-  Stun = "stun",
+
+  // not implemented
   Holy = "holy",
+  Stun = "stun",
   Nether = "nether",
   Scion = "scion",
   Sharp = "sharp",
