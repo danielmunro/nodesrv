@@ -76,7 +76,7 @@ export default class CreationService {
 
   public async saveMob(mob: MobEntity) {
     const savedMob = await this.mobRepository.save(mob)
-    await this.kafkaService.mobCreated(savedMob)
+    await this.kafkaService.publishMob(savedMob)
     return savedMob
   }
 }

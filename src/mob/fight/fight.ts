@@ -113,6 +113,16 @@ export class Fight {
       defender.hp < 0 ? await this.createDeath(attacker, defender) : undefined)
   }
 
+  public isP2P(): boolean {
+    return !!this.aggressor.playerMob && !!this.target.playerMob
+  }
+
+  private async handleP2PDeath(death: Death) {
+    await this.kafkaService.publishDeath(death)
+    death.mobKilled.player.deaths++
+    (death.killer as MobEntity).player.kills++
+  }
+
   private async publishAttackRoundStart(attacker: MobEntity): Promise<EventResponse> {
     return this.eventService.publish(createFightEvent(EventType.AttackRoundStart, attacker, this))
   }
@@ -133,8 +143,10 @@ export class Fight {
     const attackDeath = attacks.find(attack => !!attack.death)
     if (attackDeath) {
       const death = attackDeath.death as Death
-      await this.kafkaService.death(death)
       await this.eventService.publish(createDeathEvent(death))
+      if (this.isP2P()) {
+        await this.handleP2PDeath(death)
+      }
       return attacks
     }
     await this.eventService.publish(createFightEvent(EventType.AttackRound, attacker, this, attacks))

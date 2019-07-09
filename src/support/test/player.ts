@@ -19,6 +19,7 @@ export function getTestPlayer(): PlayerEntity {
   player.sessionMob.playerMob.experienceToLevel = 1000
   player.sessionMob.playerMob.experience = 0
   player.sessionMob.playerMob.bounty = 0
+  player.sessionMob.player = player
   player.mobs.push(player.sessionMob)
 
   return player

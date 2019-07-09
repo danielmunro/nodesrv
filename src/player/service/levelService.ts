@@ -95,7 +95,7 @@ export default class LevelService {
     this.mob.level = gain.newLevel
     this.mob.playerMob.practices += gain.practices
     this.mob.playerMob.trains++
-    await this.kafkaService.mobLeveled(this.mob)
+    await this.kafkaService.publishMob(this.mob)
 
     return gain
   }

@@ -19,27 +19,20 @@ export default class KafkaService {
     })
   }
 
-  public async mobCreated(mob: MobEntity) {
+  public async publishMob(mob: MobEntity) {
     return this.producer.send({
       messages: [{ value: stringify(mob) }],
-      topic: Topic.MobCreate,
+      topic: Topic.Mob,
     })
   }
 
-  public async mobLeveled(mob: MobEntity) {
-    return this.producer.send({
-      messages: [ { value: stringify(mob) } ],
-      topic: Topic.MobLevel,
-    })
-  }
-
-  public async death(death: Death) {
+  public async publishDeath(death: Death) {
     return this.producer.send({
       messages: [{
         value: stringify({
           bounty: death.bounty,
           killed: death.mobKilled.uuid,
-          killer: death.killer ? death.killer : undefined,
+          killer: death.killer ? death.killer.uuid : undefined,
           room: death.room.uuid,
           roomName: death.room.name,
         }),

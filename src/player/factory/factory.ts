@@ -13,6 +13,8 @@ export function newPlayer(name: string, sessionMob: MobEntity): PlayerEntity {
 
 export function createPlayer(): PlayerEntity {
   const player = new PlayerEntity()
+  player.kills = 0
+  player.deaths = 0
   player.mobs = []
   return player
 }
