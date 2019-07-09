@@ -21,6 +21,15 @@ export class PlayerEntity {
   @Column()
   public password: string
 
+  @Column("timestamp", { nullable: true })
+  public lastLogin: Date
+
+  @Column({ default: 0 })
+  public kills: number
+
+  @Column({ default: 0 })
+  public deaths: number
+
   @OneToMany(() => MobEntity, mob => mob.player, { eager: true, cascade: true })
   public mobs: MobEntity[]
 

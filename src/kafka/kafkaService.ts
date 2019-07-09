@@ -12,10 +12,10 @@ export default class KafkaService {
   @inject(Types.KafkaProducer)
   private producer: Producer
 
-  public async playerCreated(player: PlayerEntity) {
+  public async publishPlayer(player: PlayerEntity) {
     return this.producer.send({
       messages: [{ value: stringify(player) }],
-      topic: Topic.PlayerCreate,
+      topic: Topic.Player,
     })
   }
 

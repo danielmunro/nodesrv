@@ -1,5 +1,5 @@
 export enum Topic {
-  PlayerCreate = "player.create",
+  Player = "player",
   MobCreate = "mob.create",
   MobLevel = "mob.level",
   MobDeath = "mob.death",

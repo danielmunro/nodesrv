@@ -2,6 +2,7 @@ import {Container} from "inversify"
 import EventConsumer from "../event/eventConsumer"
 import EventService from "../event/service/eventService"
 import ResetService from "../gameService/resetService"
+import KafkaService from "../kafka/kafkaService"
 import SpecializationService from "../mob/specialization/service/specializationService"
 import {GameServerService} from "../server/service/gameServerService"
 import {Types} from "../support/types"
@@ -32,5 +33,9 @@ export default class App {
 
   public getObservers(): Observers {
     return new Observers(this.container)
+  }
+
+  public getKafkaService(): KafkaService {
+    return this.container.get<KafkaService>(Types.KafkaService)
   }
 }

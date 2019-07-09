@@ -27,6 +27,7 @@ import VampiricWeaponEffectEventConsumer from "../../item/eventConsumer/weaponEf
 import VorpalWeaponEffectEventConsumer from "../../item/eventConsumer/weaponEffect/vorpalWeaponEffectEventConsumer"
 import ItemService from "../../item/service/itemService"
 import WeaponEffectService from "../../item/service/weaponEffectService"
+import KafkaService from "../../kafka/kafkaService"
 import AggressiveMobEventConsumer from "../../mob/eventConsumer/aggressiveMobEventConsumer"
 import ClientCreatedEventConsumer from "../../mob/eventConsumer/clientCreatedEventConsumer"
 import {default as MobClientDisconnected} from "../../mob/eventConsumer/clientDisconnectedEventConsumer"
@@ -66,6 +67,7 @@ import {GameServerService} from "../../server/service/gameServerService"
 import EventConsumer from "../eventConsumer"
 import EventService from "../service/eventService"
 
+/* tslint:disable */
 export default function createEventConsumerTable(
   gameService: GameService,
   gameServer: GameServerService,
@@ -73,7 +75,8 @@ export default function createEventConsumerTable(
   itemService: ItemService,
   fightBuilder: FightBuilder,
   eventService: EventService,
-  locationService: LocationService): EventConsumer[] {
+  locationService: LocationService,
+  kafkaService: KafkaService): EventConsumer[] {
   const clientService = gameServer.clientService
   const weaponEffectService = new WeaponEffectService(eventService, locationService, clientService)
   return [
@@ -152,7 +155,7 @@ export default function createEventConsumerTable(
     // client
     new Disconnected(clientService),
     new ClientCreatedEventConsumer(locationService, gameServer.startRoom),
-    new LoggedIn(locationService, gameServer.startRoom, gameService.getAction(RequestType.Look)),
+    new LoggedIn(locationService, gameServer.startRoom, gameService.getAction(RequestType.Look), kafkaService),
     new Quit(clientService, mobService),
     new LookEventConsumer(clientService, gameService.getAction(RequestType.Look)),
   ]

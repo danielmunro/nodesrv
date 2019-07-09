@@ -14,6 +14,7 @@ describe("logged in client event consumer", () => {
     const mob = getTestMob()
     const mockClient = jest.fn(() => ({
       getSessionMob: () => mob,
+      player: { lastLogin: null },
       sendMessage: jest.fn(),
     }))
     const app = await createTestAppContainer()

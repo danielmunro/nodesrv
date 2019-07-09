@@ -4,6 +4,7 @@ import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/eventConsumer"
 import EventResponse from "../../event/eventResponse"
+import KafkaService from "../../kafka/kafkaService"
 import {newMobLocation} from "../../mob/factory/mobFactory"
 import LocationService from "../../mob/service/locationService"
 import EventContext from "../../request/context/eventContext"
@@ -15,7 +16,8 @@ export default class LoggedIn implements EventConsumer {
   constructor(
     private readonly locationService: LocationService,
     private readonly startRoom: RoomEntity,
-    private readonly lookDefinition: Action) {}
+    private readonly lookDefinition: Action,
+    private readonly kafkaService: KafkaService) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.ClientLogin]
@@ -28,6 +30,8 @@ export default class LoggedIn implements EventConsumer {
         this.startRoom,
         { requestType: RequestType.Look } as EventContext))
     event.client.sendMessage(response.message.getMessageToRequestCreator())
+    event.client.player.lastLogin = new Date()
+    await this.kafkaService.publishPlayer(event.client.player)
     return new EventResponse(event, EventResponseStatus.None, response)
   }
 }

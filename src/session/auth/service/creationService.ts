@@ -70,7 +70,7 @@ export default class CreationService {
 
   public async savePlayer(player: PlayerEntity) {
     const savedPlayer = await this.playerRepository.save(player)
-    await this.kafkaService.playerCreated(savedPlayer)
+    await this.kafkaService.publishPlayer(savedPlayer)
     return savedPlayer
   }
 
