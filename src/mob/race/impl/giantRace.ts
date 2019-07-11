@@ -30,6 +30,7 @@ export default function(): Race {
     .setAttributes(
       new AttributeBuilder()
         .setStats(2, -2, -2, -1, 2, 1)
+        .setHitRoll(1, 2)
         .build())
     .setStartingSkills([
       SkillType.EnhancedDamage,

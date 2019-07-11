@@ -26,6 +26,7 @@ export default function(): Race {
     .setAttributes(
       new AttributeBuilder()
         .setStats(-2, 2, 2, 1, -2, -1)
+        .setHitRoll(1, 1)
         .build())
     .setStartingSkills([
       SkillType.Meditation,

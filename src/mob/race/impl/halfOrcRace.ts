@@ -28,6 +28,7 @@ export default function(): Race {
     .setAttributes(
       new AttributeBuilder()
         .setStats(2, -1, -1, -1, 2, 0)
+        .setHitRoll(1, 2)
         .build())
     .setStartingSkills([
       SkillType.Bite,

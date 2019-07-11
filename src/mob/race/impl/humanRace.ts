@@ -12,6 +12,8 @@ export default function(): Race {
     .setAppetite(Appetite.Medium)
     .setSight(Eyesight.Ok)
     .setCreationPoints(0)
-    .setAttributes(new AttributeBuilder().setHitRoll(1, 1).build())
+    .setAttributes(new AttributeBuilder()
+      .setHitRoll(1, 1)
+      .build())
     .create()
 }

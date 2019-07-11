@@ -3,6 +3,7 @@ import {getTestMob} from "../../support/test/mob"
 import {getTestPlayer} from "../../support/test/player"
 import {RaceType} from "./enum/raceType"
 import RaceService from "./raceService"
+import raceTable from "./raceTable"
 
 describe("race service", () => {
   it("gives a mob a race type", () => {
@@ -50,5 +51,12 @@ describe("race service", () => {
 
     // then
     expect(attributes.str).toBe(mob.race().attributes.str)
+  })
+
+  it("requires hitroll in order to be complete", () => {
+    raceTable.forEach(race => {
+      expect(race.attributes.hit).toBeGreaterThan(0)
+      expect(race.attributes.dam).toBeGreaterThan(0)
+    })
   })
 })

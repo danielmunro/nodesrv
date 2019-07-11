@@ -19,6 +19,7 @@ export default function(): Race {
     .setAttributes(
       new AttributeBuilder()
         .setStats(-1, 1, 0, 1, 0, 0)
+        .setHitRoll(1, 1)
         .build())
     .setPreferredSpecializations([ SpecializationType.Ranger ])
     .setStartingSkills([

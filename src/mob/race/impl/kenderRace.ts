@@ -26,6 +26,7 @@ export default function(): Race {
     .setAttributes(
       new AttributeBuilder()
         .setStats(1, 1, 0, 1, -1, -1)
+        .setHitRoll(1, 1)
         .build())
     .setStartingSkills([
       SkillType.Dagger,
