@@ -1,19 +1,16 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import EventService from "../../event/service/eventService"
-import KafkaService from "../../kafka/kafkaService"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import { Fight } from "./fight"
 import {Round} from "./round"
 
 let testRunner: TestRunner
-let kafkaService: KafkaService
 let eventService: EventService
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
-  kafkaService = app.get<KafkaService>(Types.KafkaService)
   eventService = app.get<EventService>(Types.EventService)
 })
 
@@ -26,7 +23,6 @@ describe("fight", () => {
 
     // when
     const fight = new Fight(
-      kafkaService,
       eventService,
       aggressor,
       target,
@@ -91,25 +87,6 @@ describe("fight", () => {
 
     // then
     expect(fight.isP2P()).toBeTruthy()
-  })
-
-  it("increments kills and deaths for P2P fights", async () => {
-    // given
-    const player1 = testRunner.createPlayer().get()
-    const player2 = testRunner.createPlayer().get()
-    const fight = testRunner.fight(player2.sessionMob)
-
-    // when
-    while (fight.isInProgress()) {
-      player1.sessionMob.hp = 20
-      await fight.round()
-    }
-
-    // then
-    expect(player1.kills).toBe(1)
-    expect(player1.deaths).toBe(0)
-    expect(player2.kills).toBe(0)
-    expect(player2.deaths).toBe(1)
   })
 
   it("falsy sanity check for isP2P", () => {

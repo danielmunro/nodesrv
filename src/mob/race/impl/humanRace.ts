@@ -1,3 +1,4 @@
+import AttributeBuilder from "../../../attributes/builder/attributeBuilder"
 import {Appetite} from "../enum/appetite"
 import {Eyesight} from "../enum/eyesight"
 import {RaceType} from "../enum/raceType"
@@ -11,5 +12,6 @@ export default function(): Race {
     .setAppetite(Appetite.Medium)
     .setSight(Eyesight.Ok)
     .setCreationPoints(0)
+    .setAttributes(new AttributeBuilder().setHitRoll(1, 1).build())
     .create()
 }

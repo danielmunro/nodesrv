@@ -2,10 +2,12 @@ import {ContainerModule} from "inversify"
 import MobRepository from "../../mob/repository/mob"
 import PlayerRepository from "../../player/repository/player"
 import {getTestMob} from "../../support/test/mob"
+import {getTestPlayer} from "../../support/test/player"
 import {Types} from "../../support/types"
 
 const mockPlayerRepository = jest.fn(() => ({
-  findOneByEmail: () => getTestMob(),
+  findOneByEmail: () => getTestPlayer(),
+  findOneByMob: () => getTestPlayer(),
   save: (player: any) => player,
 }))
 const mockMobRepository = jest.fn(() => ({

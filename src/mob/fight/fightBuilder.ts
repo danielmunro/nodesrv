@@ -1,6 +1,5 @@
 import {inject, injectable} from "inversify"
 import EventService from "../../event/service/eventService"
-import KafkaService from "../../kafka/kafkaService"
 import {Types} from "../../support/types"
 import {MobEntity} from "../entity/mobEntity"
 import LocationService from "../service/locationService"
@@ -10,12 +9,10 @@ import {Fight} from "./fight"
 export default class FightBuilder {
   constructor(
     @inject(Types.EventService) private readonly eventService: EventService,
-    @inject(Types.LocationService) private readonly locationService: LocationService,
-    @inject(Types.KafkaService) private readonly kafkaService: KafkaService) {}
+    @inject(Types.LocationService) private readonly locationService: LocationService) {}
 
   public create(aggressor: MobEntity, defender: MobEntity): Fight {
     return new Fight(
-      this.kafkaService,
       this.eventService,
       aggressor,
       defender,

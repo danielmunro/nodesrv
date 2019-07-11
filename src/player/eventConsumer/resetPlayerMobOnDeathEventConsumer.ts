@@ -5,7 +5,7 @@ import DeathEvent from "../../mob/event/deathEvent"
 import LocationService from "../../mob/service/locationService"
 import {RoomEntity} from "../../room/entity/roomEntity"
 
-export default class PlayerMobDeath implements EventConsumer {
+export default class ResetPlayerMobOnDeathEventConsumer implements EventConsumer {
   constructor(
     private readonly locationService: LocationService,
     private readonly startRoom: RoomEntity) {}

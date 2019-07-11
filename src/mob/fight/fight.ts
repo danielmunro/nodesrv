@@ -4,7 +4,6 @@ import {EventType} from "../../event/enum/eventType"
 import EventResponse from "../../event/eventResponse"
 import {createDeathEvent, createFightEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
-import KafkaService from "../../kafka/kafkaService"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import roll, {simpleD4} from "../../support/random/dice"
 import {MobEntity} from "../entity/mobEntity"
@@ -41,16 +40,16 @@ export class Fight {
 
   private static isTargetAcDefeated(
     attackerAttributes: AttributesEntity, defenderAttributes: AttributesEntity): boolean {
-    const str = attackerAttributes.str
+    const dex = attackerAttributes.dex
     const hit = attackerAttributes.hit
-    const defense = defenderAttributes.acSlash
-    return roll(1, str) + hit > defense
+    const defense = defenderAttributes.acSlash || 0
+    const attack = roll(1, dex) + hit
+    return attack > defense
   }
 
   private status: FightStatus = FightStatus.InProgress
 
   constructor(
-    private readonly kafkaService: KafkaService,
     public readonly eventService: EventService,
     public readonly aggressor: MobEntity,
     public readonly target: MobEntity,
@@ -97,7 +96,7 @@ export class Fight {
     const xAttributes = attacker.attribute().combine()
     const yAttributes = defender.attribute().combine()
 
-    if (Fight.isTargetAcDefeated(xAttributes, yAttributes)) {
+    if (!Fight.isTargetAcDefeated(xAttributes, yAttributes)) {
       return Fight.attackDefeated(attacker, defender, AttackResult.Miss)
     }
 
@@ -115,12 +114,6 @@ export class Fight {
 
   public isP2P(): boolean {
     return !!this.aggressor.playerMob && !!this.target.playerMob
-  }
-
-  private async handleP2PDeath(death: Death) {
-    await this.kafkaService.publishDeath(death)
-    death.mobKilled.player.deaths++
-    (death.killer as MobEntity).player.kills++
   }
 
   private async publishAttackRoundStart(attacker: MobEntity): Promise<EventResponse> {
@@ -144,9 +137,6 @@ export class Fight {
     if (attackDeath) {
       const death = attackDeath.death as Death
       await this.eventService.publish(createDeathEvent(death))
-      if (this.isP2P()) {
-        await this.handleP2PDeath(death)
-      }
       return attacks
     }
     await this.eventService.publish(createFightEvent(EventType.AttackRound, attacker, this, attacks))

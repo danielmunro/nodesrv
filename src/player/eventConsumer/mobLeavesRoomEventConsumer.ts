@@ -5,7 +5,7 @@ import {MobEntity} from "../../mob/entity/mobEntity"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import ClientService from "../../server/service/clientService"
 
-export default class MobLeaves implements EventConsumer {
+export default class MobLeavesRoomEventConsumer implements EventConsumer {
   constructor(private readonly clientService: ClientService) {}
 
   public getConsumingEventTypes(): EventType[] {

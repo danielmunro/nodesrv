@@ -46,6 +46,7 @@ export default class NewMobConfirm extends PlayerAuthStep implements AuthStep {
     mob.attributes.push(new AttributeBuilder()
       .setVitals(20, 100, 100)
       .setStats(15, 15, 15, 15, 15, 15)
+      .setHitRoll(1, 1)
       .build())
     mob.playerMob = createPlayerMob()
     return mob

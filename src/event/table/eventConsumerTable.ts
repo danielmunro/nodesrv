@@ -58,9 +58,11 @@ import ImproveInvokedSkillsEventConsumer from "../../mob/skill/eventConsumer/imp
 import ParryEventConsumer from "../../mob/skill/eventConsumer/parryEventConsumer"
 import ShieldBlockEventConsumer from "../../mob/skill/eventConsumer/shieldBlockEventConsumer"
 import {SkillType} from "../../mob/skill/skillType"
-import MobArrives from "../../player/eventConsumer/mobArrives"
-import MobLeaves from "../../player/eventConsumer/mobLeaves"
-import PlayerMobDeath from "../../player/eventConsumer/playerMobDeath"
+import IncrementDeathCountsEventConsumer from "../../player/eventConsumer/incrementDeathCountsEventConsumer"
+import MobArrivesInRoomEventConsumer from "../../player/eventConsumer/mobArrivesInRoomEventConsumer"
+import MobLeavesRoomEventConsumer from "../../player/eventConsumer/mobLeavesRoomEventConsumer"
+import ResetPlayerMobOnDeathEventConsumer from "../../player/eventConsumer/resetPlayerMobOnDeathEventConsumer"
+import PlayerRepository from "../../player/repository/player"
 import {RequestType} from "../../request/enum/requestType"
 import RoomMessageEventConsumer from "../../room/eventConsumer/roomMessageEventConsumer"
 import {GameServerService} from "../../server/service/gameServerService"
@@ -76,7 +78,8 @@ export default function createEventConsumerTable(
   fightBuilder: FightBuilder,
   eventService: EventService,
   locationService: LocationService,
-  kafkaService: KafkaService): EventConsumer[] {
+  kafkaService: KafkaService,
+  playerRepository: PlayerRepository): EventConsumer[] {
   const clientService = gameServer.clientService
   const weaponEffectService = new WeaponEffectService(eventService, locationService, clientService)
   return [
@@ -97,8 +100,6 @@ export default function createEventConsumerTable(
     // mob
     new AggressiveMobEventConsumer(mobService, locationService, fightBuilder),
     new PetFollowsOwnerEventConsumer(locationService),
-    new MobArrives(clientService),
-    new MobLeaves(clientService),
     new ScavengeEventConsumer(clientService, itemService, locationService),
     new WimpyEventConsumer(locationService, gameService.getAction(RequestType.Flee)),
     new FightStarterEventConsumer(mobService, fightBuilder),
@@ -107,7 +108,12 @@ export default function createEventConsumerTable(
     new DamageModifierEventConsumer(),
     new FollowMobEventConsumer(locationService, gameService.getMovementActions()),
     new DeathTimerEventConsumer(eventService),
-    new PlayerMobDeath(locationService, gameServer.startRoom),
+
+    // player
+    new ResetPlayerMobOnDeathEventConsumer(locationService, gameServer.startRoom),
+    new MobArrivesInRoomEventConsumer(clientService),
+    new MobLeavesRoomEventConsumer(clientService),
+    new IncrementDeathCountsEventConsumer(kafkaService, playerRepository),
 
     // race
     new ElfIronVuln(),

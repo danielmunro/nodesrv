@@ -8,6 +8,7 @@ import KafkaService from "../../kafka/kafkaService"
 import FightBuilder from "../../mob/fight/fightBuilder"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
+import PlayerRepository from "../../player/repository/player"
 import {GameServerService} from "../../server/service/gameServerService"
 import {Types} from "../../support/types"
 import {Timings} from "../constants"
@@ -22,6 +23,7 @@ export default new ContainerModule(bind => {
       context.container.get<FightBuilder>(Types.FightBuilder),
       context.container.get<EventService>(Types.EventService),
       context.container.get<LocationService>(Types.LocationService),
-      context.container.get<KafkaService>(Types.KafkaService))).inSingletonScope()
+      context.container.get<KafkaService>(Types.KafkaService),
+      context.container.get<PlayerRepository>(Types.PlayerRepository))).inSingletonScope()
   console.timeEnd(Timings.eventConsumerTable)
 })
