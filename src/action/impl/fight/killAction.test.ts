@@ -46,10 +46,11 @@ describe("kill action", () => {
 
   it("should not be able to kill a mob that isn't in the room", async () => {
     // given
-    const target = getTestMob()
+    const room = testRunner.createRoom()
+    const target = testRunner.createMob(room.get())
 
     // when
-    const response = await testRunner.invokeAction(RequestType.Kill, `kill ${target.name}`, target)
+    const response = await testRunner.invokeAction(RequestType.Kill, `kill ${target.getMobName()}`, target.get())
 
     // then
     expect(response.isError()).toBeTruthy()

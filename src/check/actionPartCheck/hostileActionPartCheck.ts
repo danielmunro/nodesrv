@@ -17,6 +17,6 @@ export default class HostileActionPartCheck implements ActionPartCheck {
       checkBuilder.requireFight()
       return
     }
-    checkBuilder.requireMob(ConditionMessages.All.Mob.NotFound)
+    checkBuilder.requireMobInRoom(ConditionMessages.All.Mob.NotFound)
   }
 }
