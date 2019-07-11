@@ -15,8 +15,9 @@ export default class MobCreatedEventConsumer implements EventConsumer {
     return [ EventType.MobCreated ]
   }
 
-  public consume(event: MobEvent): Promise<EventResponse> {
-    this.mobService.add(event.mob, this.startRoom)
+  public async consume(event: MobEvent): Promise<EventResponse> {
+    console.log("mob created event consumer")
+    await this.mobService.add(event.mob, this.startRoom)
     return Promise.resolve(new EventResponse(event, EventResponseStatus.None))
   }
 }

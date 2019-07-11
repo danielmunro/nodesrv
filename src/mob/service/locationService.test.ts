@@ -25,12 +25,12 @@ beforeEach(async () => {
 describe("location gameService", () => {
   it("should not add a mob twice, an update should occur", async () => {
     // when
-    locationService.addMobLocation(newMobLocation(mob1, room1))
+    await locationService.addMobLocation(newMobLocation(mob1, room1))
     await locationService.updateMobLocation(mob1, room2)
 
     // then
     expect(locationService.getLocationForMob(mob1).room).toBe(room2)
-    expect(locationService.getMobLocationCount()).toBe(3)
+    expect(locationService.getMobLocationCount()).toBe(2)
   })
 
   it("sanity checks", () => {

@@ -29,7 +29,6 @@ import ItemService from "../../item/service/itemService"
 import WeaponEffectService from "../../item/service/weaponEffectService"
 import KafkaService from "../../kafka/kafkaService"
 import AggressiveMobEventConsumer from "../../mob/eventConsumer/aggressiveMobEventConsumer"
-import ClientCreatedEventConsumer from "../../mob/eventConsumer/clientCreatedEventConsumer"
 import {default as MobClientDisconnected} from "../../mob/eventConsumer/clientDisconnectedEventConsumer"
 import DamageModifierEventConsumer from "../../mob/eventConsumer/damageModifierEventConsumer"
 import DeathTimerEventConsumer from "../../mob/eventConsumer/deathTimerEventConsumer"
@@ -155,13 +154,11 @@ export default function createEventConsumerTable(
     new DamageTypeEventConsumer(SkillType.Gouge, DamageType.Pierce),
 
     // app
-    new MobCreatedEventConsumer(mobService, gameServer.startRoom),
     new MobUpdatedEventConsumer(clientService),
 
     // client
     new Disconnected(clientService),
-    new ClientCreatedEventConsumer(locationService, gameServer.startRoom),
-    new LoggedIn(locationService, gameServer.startRoom, gameService.getAction(RequestType.Look), kafkaService),
+    new LoggedIn(gameServer.startRoom, gameService.getAction(RequestType.Look), kafkaService),
     new Quit(clientService, mobService),
     new LookEventConsumer(clientService, gameService.getAction(RequestType.Look)),
   ]

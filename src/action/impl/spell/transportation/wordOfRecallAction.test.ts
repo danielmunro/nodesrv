@@ -24,9 +24,9 @@ beforeEach(async () => {
     .withSpell(SpellType.WordOfRecall, MAX_PRACTICE_LEVEL)
     .setLevel(30)
   const locationService = app.get<LocationService>(Types.LocationService)
-  locationService.addMobLocation(newMobLocation(caster.mob, room.get()))
+  await locationService.addMobLocation(newMobLocation(caster.mob, room.get()))
   target = testRunner.createMob()
-  locationService.addMobLocation(newMobLocation(target.mob, room.get()))
+  await locationService.addMobLocation(newMobLocation(target.mob, room.get()))
   mobService = app.get<MobService>(Types.MobService)
 })
 

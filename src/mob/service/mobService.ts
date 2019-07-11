@@ -64,9 +64,10 @@ export default class MobService {
     public readonly mobTable: MobTable = new MobTable(),
     private readonly fightTable: FightTable = new FightTable()) {}
 
-  public add(mob: MobEntity, room: RoomEntity) {
+  public async add(mob: MobEntity, room: RoomEntity) {
+    console.log("add mob service")
     this.mobTable.add(mob)
-    this.locationService.addMobLocation(newMobLocation(mob, room))
+    await this.locationService.addMobLocation(newMobLocation(mob, room))
   }
 
   public getFightCount(): number {

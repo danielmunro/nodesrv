@@ -61,6 +61,7 @@ export class Client {
       const request = this.requests.shift() as AuthRequest
       const response = await this.session.handleRequest(this, request)
       if (this.session.isLoggedIn()) {
+        console.log("handleNextRequest and user is logged in now")
         await this.eventService.publish(createMobEvent(EventType.MobCreated, this.session.getMob()))
         await this.eventService.publish(createClientEvent(EventType.ClientLogin, this))
       }

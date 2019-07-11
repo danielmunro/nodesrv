@@ -54,7 +54,7 @@ export default class ResetService {
     if (mobsInRoom.length < mobReset.maxPerRoom && mobsTotal.length < mobReset.maxQuantity) {
       await this.equipToMob(mob)
       await this.giveItemToMob(mob)
-      this.mobService.add(mob, room)
+      await this.mobService.add(mob, room)
     }
   }
 

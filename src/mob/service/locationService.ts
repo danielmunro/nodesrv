@@ -42,7 +42,13 @@ export default class LocationService {
     return this.mobLocations.length
   }
 
-  public addMobLocation(mobLocation: MobLocationEntity) {
+  public async addMobLocation(mobLocation: MobLocationEntity) {
+    const mob = mobLocation.mob
+    const existingMobLocation = this.mobLocations.find(it => it.mob === mob)
+    if (existingMobLocation) {
+      await this.updateMobLocation(mob, mobLocation.room)
+      return
+    }
     this.mobLocations.push(mobLocation)
   }
 
@@ -66,7 +72,7 @@ export default class LocationService {
     }
     console.log(`update mob location called on ${mob.name}, but mob not known`)
     const newLocation = newMobLocation(mob, room)
-    this.addMobLocation(newLocation)
+    await this.addMobLocation(newLocation)
     return newLocation
   }
 

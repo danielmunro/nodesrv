@@ -79,7 +79,7 @@ export default class LookAction extends Action {
     return mobs.filter(onlyLiving)
       .filter(m => mob.canSee(m))
       .reduce((previous: string, current: MobEntity) =>
-        previous + (current !== mob ? "\n" + current.brief : ""), "")
+        previous + (current !== mob ? "\n" + current.look() : ""), "")
   }
 
   protected lookAtSubject(request: Request, builder: ResponseBuilder) {
