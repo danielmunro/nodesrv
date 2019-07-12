@@ -14,7 +14,9 @@ import CostEvent from "../../mob/event/costEvent"
 import DamageEvent from "../../mob/event/damageEvent"
 import DeathEvent from "../../mob/event/deathEvent"
 import ItemDroppedEvent from "../../mob/event/itemDroppedEvent"
+import MobArrivedEvent from "../../mob/event/mobArrivedEvent"
 import MobEvent from "../../mob/event/mobEvent"
+import MobLeftEvent from "../../mob/event/mobLeftEvent"
 import MobMessageEvent from "../../mob/event/mobMessageEvent"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import TickEvent from "../../mob/event/tickEvent"
@@ -104,6 +106,16 @@ export function createMobEvent(eventType: EventType, mob: MobEntity): MobEvent {
 
 export function createItemDroppedEvent(mob: MobEntity, item: ItemEntity): ItemDroppedEvent {
   return { eventType: EventType.ItemDropped, mob, item }
+}
+
+export function createMobLeaveEvent(
+  mob: MobEntity, room: RoomEntity, mvCost: number, direction?: Direction): MobLeftEvent {
+  return { eventType: EventType.MobLeft, mob, room, mvCost, direction }
+}
+
+export function createMobArriveEvent(
+  mob: MobEntity, room: RoomEntity, mvCost: number, direction?: Direction): MobArrivedEvent {
+  return { eventType: EventType.MobArrived, mob, room, mvCost, direction }
 }
 
 export function createMobMoveEvent(

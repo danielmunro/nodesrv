@@ -65,7 +65,6 @@ export default class MobService {
     private readonly fightTable: FightTable = new FightTable()) {}
 
   public async add(mob: MobEntity, room: RoomEntity) {
-    console.log("add mob service")
     this.mobTable.add(mob)
     await this.locationService.addMobLocation(newMobLocation(mob, room))
   }

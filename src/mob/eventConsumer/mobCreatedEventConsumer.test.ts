@@ -2,6 +2,7 @@ import {createTestAppContainer} from "../../app/factory/testFactory"
 import {EventType} from "../../event/enum/eventType"
 import {createMobEvent} from "../../event/factory/eventFactory"
 import {RoomEntity} from "../../room/entity/roomEntity"
+import ClientService from "../../server/service/clientService"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
 import MobService from "../service/mobService"
@@ -13,9 +14,10 @@ describe("mob created event consumer", () => {
     const app = await createTestAppContainer()
     const mobService = app.get<MobService>(Types.MobService)
     const startRoom = app.get<RoomEntity>(Types.StartRoom)
+    const clientService = app.get<ClientService>(Types.ClientService)
 
     // given
-    const mobCreated = new MobCreatedEventConsumer(mobService, startRoom)
+    const mobCreated = new MobCreatedEventConsumer(mobService, clientService, startRoom)
 
     // when
     await mobCreated.consume(createMobEvent(EventType.MobCreated, getTestMob()))

@@ -103,7 +103,7 @@ export default function createEventConsumerTable(
     new WimpyEventConsumer(locationService, gameService.getAction(RequestType.Flee)),
     new FightStarterEventConsumer(mobService, fightBuilder),
     new MobClientDisconnected(locationService),
-    new MobCreatedEventConsumer(mobService, gameServer.startRoom),
+    new MobCreatedEventConsumer(mobService, clientService, gameServer.startRoom),
     new DamageModifierEventConsumer(),
     new FollowMobEventConsumer(locationService, gameService.getMovementActions()),
     new DeathTimerEventConsumer(eventService),

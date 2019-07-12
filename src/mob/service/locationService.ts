@@ -1,6 +1,7 @@
 import {inject, injectable} from "inversify"
 import "reflect-metadata"
-import {createMobMoveEvent} from "../../event/factory/eventFactory"
+import EventResponse from "../../event/eventResponse"
+import {createMobArriveEvent, createMobLeaveEvent, createMobMoveEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import { RoomEntity } from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
@@ -57,23 +58,49 @@ export default class LocationService {
       if (mobLocation.mob.uuid !== mob.uuid) {
         continue
       }
-      const eventResponse = await this.eventService.publish(createMobMoveEvent(
-        mob,
-        mobLocation.room,
-        room,
-        mobLocation.room.getMovementCost(),
-        direction))
+      await this.publishMobLeavesEvent(mob, room, direction)
+      const eventResponse = await this.publishMobMoveEvent(
+        mob, mobLocation.room, room, direction)
       if (eventResponse.isSatisfied()) {
         return
       }
       mob.mv -= (eventResponse.event as MobMoveEvent).mvCost
       mobLocation.room = room
+      await this.publishMobArrivesEvent(mob, room, direction)
       return
     }
-    console.log(`update mob location called on ${mob.name}, but mob not known`)
+    await this.publishMobArrivesEvent(mob, room, direction)
     const newLocation = newMobLocation(mob, room)
     await this.addMobLocation(newLocation)
     return newLocation
+  }
+
+  public async publishMobArrivesEvent(
+    mob: MobEntity, room: RoomEntity, direction?: Direction): Promise<EventResponse> {
+    return this.eventService.publish(createMobArriveEvent(
+      mob,
+      room,
+      room.getMovementCost(),
+      direction))
+  }
+
+  public async publishMobLeavesEvent(
+    mob: MobEntity, room: RoomEntity, direction?: Direction): Promise<EventResponse> {
+    return this.eventService.publish(createMobLeaveEvent(
+      mob,
+      room,
+      room.getMovementCost(),
+      direction))
+  }
+
+  public async publishMobMoveEvent(
+    mob: MobEntity, source: RoomEntity, destination: RoomEntity, direction?: Direction): Promise<EventResponse> {
+    return this.eventService.publish(createMobMoveEvent(
+      mob,
+      source,
+      destination,
+      source.getMovementCost(),
+      direction))
   }
 
   public getLocationForMob(mob: MobEntity): MobLocationEntity {

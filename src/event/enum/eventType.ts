@@ -6,6 +6,8 @@ export enum EventType {
   ClientMessage,
   CostApplied,
   MobCreated,
+  MobLeft,
+  MobArrived,
   MobMoved,
   MobAdvanceLevel,
   MobUpdated,
