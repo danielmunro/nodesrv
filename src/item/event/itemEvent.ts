@@ -1,4 +1,4 @@
-import Event from "../../event/event"
+import Event from "../../event/interface/event"
 import {ItemEntity} from "../entity/itemEntity"
 
 export default interface ItemEvent extends Event {

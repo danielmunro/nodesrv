@@ -1,4 +1,4 @@
-import EventResponse from "../../../event/eventResponse"
+import EventResponse from "../../../event/messageExchange/eventResponse"
 import DamageEvent from "../../../mob/event/damageEvent"
 import ResponseMessage from "../../../request/responseMessage"
 import roll from "../../../support/random/dice"

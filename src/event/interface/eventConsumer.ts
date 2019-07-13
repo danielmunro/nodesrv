@@ -1,6 +1,6 @@
-import {EventType} from "./enum/eventType"
+import {EventType} from "../enum/eventType"
+import EventResponse from "../messageExchange/eventResponse"
 import Event from "./event"
-import EventResponse from "./eventResponse"
 
 export default interface EventConsumer {
   getConsumingEventTypes(): EventType[]

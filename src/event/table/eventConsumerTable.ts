@@ -65,7 +65,7 @@ import PlayerRepository from "../../player/repository/player"
 import {RequestType} from "../../request/enum/requestType"
 import RoomMessageEventConsumer from "../../room/eventConsumer/roomMessageEventConsumer"
 import {GameServerService} from "../../server/service/gameServerService"
-import EventConsumer from "../eventConsumer"
+import EventConsumer from "../interface/eventConsumer"
 import EventService from "../service/eventService"
 
 /* tslint:disable */

@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import EventConsumer from "../../event/eventConsumer"
 import {createRoomMessageEvent} from "../../event/factory/eventFactory"
+import EventConsumer from "../../event/interface/eventConsumer"
 import LocationService from "../../mob/service/locationService"
 import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/service/clientService"

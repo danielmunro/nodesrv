@@ -1,5 +1,5 @@
 import {Container} from "inversify"
-import EventConsumer from "../event/eventConsumer"
+import EventConsumer from "../event/interface/eventConsumer"
 import EventService from "../event/service/eventService"
 import ResetService from "../gameService/resetService"
 import KafkaService from "../kafka/kafkaService"

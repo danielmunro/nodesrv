@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
-import EventResponse from "../../../event/eventResponse"
 import {createDamageEvent} from "../../../event/factory/eventFactory"
+import EventResponse from "../../../event/messageExchange/eventResponse"
 import EventService from "../../../event/service/eventService"
 import DamageEvent from "../../../mob/event/damageEvent"
 import {DamageType} from "../../../mob/fight/enum/damageType"

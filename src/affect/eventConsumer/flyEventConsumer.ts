@@ -1,7 +1,7 @@
 import {EventType} from "../../event/enum/eventType"
-import EventConsumer from "../../event/eventConsumer"
-import EventResponse from "../../event/eventResponse"
 import {createModifiedMobMoveEvent} from "../../event/factory/eventFactory"
+import EventConsumer from "../../event/interface/eventConsumer"
+import EventResponse from "../../event/messageExchange/eventResponse"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import {AffectType} from "../enum/affectType"
 

@@ -35,7 +35,7 @@ import ResponseMessage from "../../request/responseMessage"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
 import RoomMessageEvent from "../../room/event/roomMessageEvent"
-import {Target} from "../../types/target"
+import {Target} from "../../type/target"
 import {EventType} from "../enum/eventType"
 import TestEvent from "../test/testEvent"
 

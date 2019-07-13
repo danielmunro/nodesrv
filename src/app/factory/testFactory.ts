@@ -1,5 +1,5 @@
 import {AsyncContainerModule, Container} from "inversify"
-import EventConsumer from "../../event/eventConsumer"
+import EventConsumer from "../../event/interface/eventConsumer"
 import EventService from "../../event/service/eventService"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import RoomTable from "../../room/table/roomTable"

@@ -1,7 +1,7 @@
 import {EventType} from "../../../../event/enum/eventType"
-import EventConsumer from "../../../../event/eventConsumer"
-import EventResponse from "../../../../event/eventResponse"
 import {createModifiedTickEvent} from "../../../../event/factory/eventFactory"
+import EventConsumer from "../../../../event/interface/eventConsumer"
+import EventResponse from "../../../../event/messageExchange/eventResponse"
 import {Terrain} from "../../../../region/enum/terrain"
 import TickEvent from "../../../event/tickEvent"
 

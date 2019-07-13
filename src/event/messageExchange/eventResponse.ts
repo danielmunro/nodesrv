@@ -1,5 +1,5 @@
-import {EventResponseStatus} from "./enum/eventResponseStatus"
-import Event from "./event"
+import {EventResponseStatus} from "../enum/eventResponseStatus"
+import Event from "../interface/event"
 
 export default class EventResponse {
   public static async satisfied(event: Event, context: any = null): Promise<EventResponse> {

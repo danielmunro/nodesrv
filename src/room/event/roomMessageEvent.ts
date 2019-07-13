@@ -1,4 +1,4 @@
-import Event from "../../event/event"
+import Event from "../../event/interface/event"
 import ResponseMessage from "../../request/responseMessage"
 import {RoomEntity} from "../entity/roomEntity"
 

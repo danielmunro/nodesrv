@@ -1,5 +1,5 @@
 import {ContainerModule} from "inversify"
-import EventConsumer from "../../event/eventConsumer"
+import EventConsumer from "../../event/interface/eventConsumer"
 import EventService from "../../event/service/eventService"
 import createEventConsumerTable from "../../event/table/eventConsumerTable"
 import GameService from "../../gameService/gameService"

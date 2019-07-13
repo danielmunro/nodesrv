@@ -1,4 +1,4 @@
-import Event from "../../event/event"
+import Event from "../../event/interface/event"
 import EventService from "../../event/service/eventService"
 import Request from "../../request/request"
 import CheckBuilderFactory from "../factory/checkBuilderFactory"

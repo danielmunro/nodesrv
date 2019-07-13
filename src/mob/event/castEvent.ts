@@ -1,4 +1,4 @@
-import {Target} from "../../types/target"
+import {Target} from "../../type/target"
 import {SpellEntity} from "../spell/entity/spellEntity"
 import MobEvent from "./mobEvent"
 

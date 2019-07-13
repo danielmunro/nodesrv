@@ -1,5 +1,5 @@
-import EventResponse from "../../../event/eventResponse"
 import {createModifiedDamageEvent} from "../../../event/factory/eventFactory"
+import EventResponse from "../../../event/messageExchange/eventResponse"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import DamageEvent from "../../../mob/event/damageEvent"
 import {DamageType} from "../../../mob/fight/enum/damageType"

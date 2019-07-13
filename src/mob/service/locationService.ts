@@ -1,7 +1,7 @@
 import {inject, injectable} from "inversify"
 import "reflect-metadata"
-import EventResponse from "../../event/eventResponse"
 import {createMobArriveEvent, createMobLeaveEvent, createMobMoveEvent} from "../../event/factory/eventFactory"
+import EventResponse from "../../event/messageExchange/eventResponse"
 import EventService from "../../event/service/eventService"
 import { RoomEntity } from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"

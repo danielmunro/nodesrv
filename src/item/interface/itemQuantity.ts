@@ -1,4 +1,4 @@
-import {ItemEntity} from "./entity/itemEntity"
+import {ItemEntity} from "../entity/itemEntity"
 
 export default interface ItemQuantity {
   readonly item: ItemEntity

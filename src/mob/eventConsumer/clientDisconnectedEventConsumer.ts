@@ -1,7 +1,7 @@
 import ClientEvent from "../../client/event/clientEvent"
 import {EventType} from "../../event/enum/eventType"
-import EventConsumer from "../../event/eventConsumer"
-import EventResponse from "../../event/eventResponse"
+import EventConsumer from "../../event/interface/eventConsumer"
+import EventResponse from "../../event/messageExchange/eventResponse"
 import LocationService from "../service/locationService"
 
 export default class ClientDisconnectedEventConsumer implements EventConsumer {

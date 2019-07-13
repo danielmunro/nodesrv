@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import EventConsumer from "../../event/eventConsumer"
+import EventConsumer from "../../event/interface/eventConsumer"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import ScavengeEventConsumer from "./scavengeEventConsumer"

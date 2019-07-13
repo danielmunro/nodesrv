@@ -3,7 +3,7 @@ import * as v4 from "uuid"
 import collectionSearch from "../../support/matcher/collectionSearch"
 import { format } from "../../support/string"
 import {Equipment} from "../enum/equipment"
-import ItemQuantity from "../itemQuantity"
+import ItemQuantity from "../interface/itemQuantity"
 import { ItemEntity } from "./itemEntity"
 
 interface ItemQuantityMap { [key: string]: ItemQuantity }
