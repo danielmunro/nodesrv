@@ -1,5 +1,5 @@
+import {Target} from "../../types/target"
 import {SpellEntity} from "../spell/entity/spellEntity"
-import {Target} from "../target"
 import MobEvent from "./mobEvent"
 
 export default interface CastEvent extends MobEvent {
