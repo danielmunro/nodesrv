@@ -21,8 +21,8 @@ describe("Action", () => {
   })
 
   it("applyCallback should fail on different request types", async () => {
-    await expect(action.handle(new Request(null, null, null)))
-      .rejects.toThrowError()
+    await expect(action.handle(new Request(null, null, new InputContext(RequestType.Gossip))))
+      .rejects.toThrowError("request type mismatch")
   })
 
   it("applyCallback should succeed on matching request types", async () => {

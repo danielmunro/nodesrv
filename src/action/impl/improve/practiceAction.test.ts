@@ -3,6 +3,8 @@ import {MAX_PRACTICE_LEVEL} from "../../../mob/constants"
 import {SkillEntity} from "../../../mob/skill/entity/skillEntity"
 import {SkillType} from "../../../mob/skill/skillType"
 import {SpecializationType} from "../../../mob/specialization/enum/specializationType"
+import {SpellEntity} from "../../../mob/spell/entity/spellEntity"
+import {SpellType} from "../../../mob/spell/spellType"
 import {RequestType} from "../../../request/enum/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"
 import TestRunner from "../../../support/test/testRunner"
@@ -17,6 +19,7 @@ beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   playerBuilder = testRunner.createPlayer()
     .addSkill(SkillType.Sneak)
+    .addSpell(SpellType.MagicMissile)
     .setSpecializationType(SpecializationType.Ranger)
     .setPractices(1)
 })
@@ -66,6 +69,20 @@ describe("practice action", () => {
     // then
     expect(response.getMessageToRequestCreator()).toBe(`You get better at ${skill.skillType}!`)
     expect(skill.level).toBeGreaterThan(initialValue)
+  })
+
+  it("increases spell level when successfully practiced", async () => {
+    testRunner.createMob().asPractice()
+    playerBuilder.setLevel(4)
+    const spell = playerBuilder.getMob().getSpell(SpellType.MagicMissile) as SpellEntity
+    const initialValue = spell.level
+
+    // when
+    const response = await testRunner.invokeAction(RequestType.Practice, "practice magic")
+
+    // then
+    expect(response.getMessageToRequestCreator()).toBe(`You get better at ${spell.spellType}!`)
+    expect(spell.level).toBeGreaterThan(initialValue)
   })
 
   it("will not exceed max practice level", async () => {

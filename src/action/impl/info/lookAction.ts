@@ -15,7 +15,6 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import Maybe from "../../../support/functional/maybe"
 import match from "../../../support/matcher/match"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
@@ -105,16 +104,12 @@ export default class LookAction extends Action {
     return builder.error(Messages.Look.NotFound)
   }
 
-  protected isAbleToSee(mob: MobEntity, region?: RegionEntity) {
-    return new Maybe(region)
-      .do((r: RegionEntity) =>
-        isAbleToSee(
-          mob.race().sight,
-          this.timeService.getCurrentTime(),
-          r.terrain,
-          this.weatherService.getWeatherForRegion(r) as Weather))
-      .or(() => true)
-      .get()
+  protected isAbleToSee(mob: MobEntity, region: RegionEntity) {
+    return isAbleToSee(
+      mob.race().sight,
+      this.timeService.getCurrentTime(),
+      region.terrain,
+      this.weatherService.getWeatherForRegion(region) as Weather)
   }
 
   private somethingIsGlowing(request: Request) {

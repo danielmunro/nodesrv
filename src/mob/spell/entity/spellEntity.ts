@@ -18,4 +18,8 @@ export class SpellEntity {
 
   @ManyToOne(() => MobEntity, (mob) => mob.spells)
   public mob: MobEntity
+
+  public toString(): string {
+    return this.spellType
+  }
 }

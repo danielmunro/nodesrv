@@ -25,7 +25,7 @@ beforeEach(async () => {
 
 describe("eye gouge skill action", () => {
   it("imparts blind affect", async () => {
-    await testRunner.invokeAction(
+    await testRunner.invokeActionSuccessfully(
         RequestType.EyeGouge,
         `eye ${defender.getMobName()}`,
         defender.mob)
@@ -34,7 +34,7 @@ describe("eye gouge skill action", () => {
   })
 
   it("causes a fight", async () => {
-    await testRunner.invokeAction(
+    await testRunner.invokeActionSuccessfully(
         RequestType.EyeGouge,
         `eye ${defender.getMobName()}`,
         defender.mob)

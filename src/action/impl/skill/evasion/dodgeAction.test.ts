@@ -6,7 +6,7 @@ import doNTimes from "../../../../support/functional/times"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
 
-const iterations = 100
+const iterations = 1000
 
 describe("dodge skill", () => {
   it("should be able to succeed and fail in a small collection of attempts", async () => {
