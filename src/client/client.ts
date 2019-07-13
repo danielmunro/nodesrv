@@ -15,7 +15,7 @@ import Request from "../request/request"
 import Response from "../request/response"
 import { RoomEntity } from "../room/entity/roomEntity"
 import { default as AuthRequest } from "../session/auth/request"
-import Session from "../session/session"
+import SessionService from "../session/service/sessionService"
 import InputEvent from "./event/inputEvent"
 
 export class Client {
@@ -23,7 +23,7 @@ export class Client {
   private requests: any = []
 
   constructor(
-    public readonly session: Session,
+    public readonly session: SessionService,
     public readonly ws: WebSocket,
     public readonly ip: string,
     private readonly actions: Action[],

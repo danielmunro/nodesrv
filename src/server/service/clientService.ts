@@ -7,7 +7,7 @@ import LocationService from "../../mob/service/locationService"
 import Response from "../../request/response"
 import Email from "../../session/auth/authStep/login/email"
 import CreationService from "../../session/auth/service/creationService"
-import Session from "../../session/session"
+import SessionService from "../../session/service/sessionService"
 import {Types} from "../../support/types"
 import {Observer} from "../observers/observer"
 
@@ -22,7 +22,7 @@ export default class ClientService {
 
   public createNewClient(ws: WebSocket, req: any) {
     const client = new Client(
-      new Session(new Email(this.authService)),
+      new SessionService(new Email(this.authService)),
       ws,
       req ? req.connection.remoteAddress : null,
       this.actions,

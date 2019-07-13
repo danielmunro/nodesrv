@@ -9,7 +9,7 @@ import {RequestType} from "../request/enum/requestType"
 import Request from "../request/request"
 import ClientService from "../server/service/clientService"
 import {default as AuthRequest} from "../session/auth/request"
-import Session from "../session/session"
+import SessionService from "../session/service/sessionService"
 import {getTestRoom} from "../support/test/room"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
@@ -79,7 +79,7 @@ describe("client sanity checks", () => {
       }))
       const mockService = jest.fn()
       client = new Client(
-        new Session(null),
+        new SessionService(null),
         ws(),
         "127.0.0.1",
         [],

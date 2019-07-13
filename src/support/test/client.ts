@@ -8,7 +8,7 @@ import MobService from "../../mob/service/mobService"
 import {PlayerEntity} from "../../player/entity/playerEntity"
 import Email from "../../session/auth/authStep/login/email"
 import { default as AuthService } from "../../session/auth/service/creationService"
-import Session from "../../session/session"
+import SessionService from "../../session/service/sessionService"
 import { getTestPlayer } from "./player"
 
 const ws = jest.fn(() => ({
@@ -23,7 +23,7 @@ async function createClient(
   locationService: LocationService,
   authService: AuthService): Promise<Client> {
   const client = new Client(
-    new Session(new Email(authService)),
+    new SessionService(new Email(authService)),
     ws() as any,
     "127.0.0.1",
     actions,

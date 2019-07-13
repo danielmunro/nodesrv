@@ -1,11 +1,11 @@
-import {createTestAppContainer} from "../app/factory/testFactory"
-import TestRunner from "../support/test/testRunner"
-import {Types} from "../support/types"
-import Complete from "./auth/authStep/complete"
-import Email from "./auth/authStep/login/email"
-import Request from "./auth/request"
-import CreationService from "./auth/service/creationService"
-import Session from "./session"
+import {createTestAppContainer} from "../../app/factory/testFactory"
+import TestRunner from "../../support/test/testRunner"
+import {Types} from "../../support/types"
+import Complete from "../auth/authStep/complete"
+import Email from "../auth/authStep/login/email"
+import Request from "../auth/request"
+import CreationService from "../auth/service/creationService"
+import SessionService from "./sessionService"
 
 const mockAuthService = jest.fn()
 const mockPlayerRepository = jest.fn()
@@ -22,7 +22,7 @@ describe("session", () => {
     const playerBuilder = testRunner.createPlayer()
     const player = playerBuilder.player
     const client = testRunner.createClient()
-    const session = new Session(
+    const session = new SessionService(
       new Email(new CreationService(mockPlayerRepository(), mockMobService())))
 
     // expect
@@ -40,7 +40,7 @@ describe("session", () => {
   it("should login when complete", async () => {
     // given
     const client = testRunner.createClient()
-    const session = new Session(
+    const session = new SessionService(
       new Complete(mockAuthService(), testRunner.createPlayer().get()),
     )
 
