@@ -1,11 +1,11 @@
-import {SkillType} from "../skill/skillType"
-import {SpellType} from "../spell/spellType"
-import {SpecializationType} from "./enum/specializationType"
-import SpecializationLevel from "./specializationLevel"
-import cleric from "./specializationLevels/cleric"
-import mage from "./specializationLevels/mage"
-import ranger from "./specializationLevels/ranger"
-import warrior from "./specializationLevels/warrior"
+import {SkillType} from "../../skill/skillType"
+import {SpellType} from "../../spell/spellType"
+import {SpecializationType} from "../enum/specializationType"
+import SpecializationLevel from "../specializationLevel"
+import cleric from "./cleric"
+import mage from "./mage"
+import ranger from "./ranger"
+import warrior from "./warrior"
 
 export const defaultSpecializationLevels = [
   // warrior

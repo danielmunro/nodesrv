@@ -1,8 +1,8 @@
-import { SpecializationType } from "./enum/specializationType"
-import Cleric from "./impl/cleric"
-import Mage from "./impl/mage"
-import Ranger from "./impl/ranger"
-import Warrior from "./impl/warrior"
+import { SpecializationType } from "../enum/specializationType"
+import Cleric from "../impl/cleric"
+import Mage from "../impl/mage"
+import Ranger from "../impl/ranger"
+import Warrior from "../impl/warrior"
 
 export function createSpecializationFromType(specializationType: SpecializationType) {
   if (specializationType === SpecializationType.Cleric) {

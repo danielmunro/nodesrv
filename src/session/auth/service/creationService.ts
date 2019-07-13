@@ -22,7 +22,7 @@ export default class CreationService {
     @inject(Types.SpecializationService) private readonly specializationService: SpecializationService,
     @inject(Types.KafkaService) private readonly kafkaService: KafkaService) {}
 
-  public getOnePlayer(email: string): Promise<PlayerEntity> {
+  public getOnePlayer(email: string): Promise<PlayerEntity | undefined> {
     return this.playerRepository.findOneByEmail(email)
   }
 

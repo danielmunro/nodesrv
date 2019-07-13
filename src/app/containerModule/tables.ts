@@ -6,7 +6,7 @@ import SpecializationService from "../../mob/specialization/service/specializati
 import SpecializationGroup from "../../mob/specialization/specializationGroup"
 import specializationGroups from "../../mob/specialization/specializationGroups"
 import SpecializationLevel from "../../mob/specialization/specializationLevel"
-import {defaultSpecializationLevels} from "../../mob/specialization/specializationLevels"
+import {defaultSpecializationLevels} from "../../mob/specialization/specializationLevels/specializationLevels"
 import MobTable from "../../mob/table/mobTable"
 import {newExitTable, newRoomTable} from "../../room/factory/roomFactory"
 import ExitTable from "../../room/table/exitTable"

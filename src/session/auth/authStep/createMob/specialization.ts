@@ -1,7 +1,7 @@
 import { assignSpecializationToMob } from "../../../../mob/service/mobService"
 import { allSpecializations } from "../../../../mob/specialization/constants"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
-import { createSpecializationFromType } from "../../../../mob/specialization/factory"
+import { createSpecializationFromType } from "../../../../mob/specialization/factory/factory"
 import SpecializationService from "../../../../mob/specialization/service/specializationService"
 import {format} from "../../../../support/string"
 import {CreationMessages} from "../../constants"

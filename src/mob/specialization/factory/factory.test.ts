@@ -1,9 +1,9 @@
-import { SpecializationType } from "./enum/specializationType"
+import { SpecializationType } from "../enum/specializationType"
+import Cleric from "../impl/cleric"
+import Mage from "../impl/mage"
+import Ranger from "../impl/ranger"
+import Warrior from "../impl/warrior"
 import { createSpecializationFromType } from "./factory"
-import Cleric from "./impl/cleric"
-import Mage from "./impl/mage"
-import Ranger from "./impl/ranger"
-import Warrior from "./impl/warrior"
 
 describe("specializationType factory", () => {
   it("should be able to create a cleric", () => {
