@@ -1,4 +1,5 @@
 import {MobEntity} from "../../../../mob/entity/mobEntity"
+import Customization from "../../../../mob/specialization/customization"
 import FormatterService from "../../../../mob/specialization/service/formatterService"
 import match from "../../../../support/matcher/match"
 import {format} from "../../../../support/string"
@@ -54,34 +55,37 @@ export default class CustomizePrompt extends PlayerAuthStep implements AuthStep 
   }
 
   private remove(mob: MobEntity, subject: string, request: Request): Response {
-    const toRemove = this.creationService.getKnownCustomization(mob, subject)
-    if (!toRemove) {
-      const it = this.creationService.getUnknownCustomization(mob, subject)
-      if (it) {
-        return request.fail(this, CreationMessages.Mob.NotKnown)
-      }
-      return request.fail(this, CreationMessages.All.NotFound)
-    }
+    return this.creationService.getKnownCustomization(mob, subject)
+      .maybe(toRemove => {
+        mob.playerMob.customizations = mob.playerMob.customizations.filter(specialization =>
+          specialization !== toRemove)
 
-    mob.playerMob.customizations = mob.playerMob.customizations.filter(specialization =>
-      specialization !== toRemove)
-
-    return request.ok(this, format("{0} has been removed", toRemove.getName()))
+        return request.ok(this, format("{0} has been removed", toRemove.getName()))
+      })
+      .or(() => this.creationService.getUnknownCustomization(mob, subject)
+        .maybe(() => request.fail(this, CreationMessages.Mob.NotKnown))
+        .or(() => request.fail(this, CreationMessages.All.NotFound))
+        .get())
+      .get()
   }
 
   private add(mob: MobEntity, subject: string, request: Request): Response {
-    const toAdd = this.creationService.getUnknownCustomization(mob, subject)
-    if (!toAdd) {
-      const it = this.creationService.getKnownCustomization(mob, subject)
-      if (it) {
-        return request.fail(this, format(CreationMessages.Mob.AlreadyKnown, it.getName()))
-      }
-      return request.fail(this, CreationMessages.All.NotFound)
-    }
+    return this.creationService.getUnknownCustomization(mob, subject)
+      .maybe(customization => this.addCustomization(mob, customization, request))
+      .or(() => this.checkIfCustomizationAlreadyExists(mob, subject, request))
+      .get()
+  }
 
-    mob.playerMob.customizations.push(toAdd)
+  private addCustomization(mob: MobEntity, customization: Customization, request: Request): Response {
+    mob.playerMob.customizations.push(customization)
+    return request.ok(this, format("{0} has been added", customization.getName()))
+  }
 
-    return request.ok(this, format("{0} has been added", toAdd.getName()))
+  private checkIfCustomizationAlreadyExists(mob: MobEntity, subject: string, request: Request) {
+    return this.creationService.getKnownCustomization(mob, subject)
+      .maybe(customization => request.fail(this, format(CreationMessages.Mob.AlreadyKnown, customization.getName())))
+      .or(() => request.fail(this, CreationMessages.All.NotFound))
+      .get()
   }
 
   private learned(mob: MobEntity, request: Request): Response {

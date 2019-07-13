@@ -30,22 +30,18 @@ export default class CreationService {
     return this.mobRepository.findOneByName(name)
   }
 
-  public getUnknownCustomization(mob: MobEntity, subject: string): Customization | undefined {
-    return new Maybe(this.getUnknownSpecializationGroups(mob)
+  public getUnknownCustomization(mob: MobEntity, subject: string): Maybe<Customization> {
+    return new Maybe<Customization>(this.getUnknownSpecializationGroups(mob)
       .find(specializationGroup => match(specializationGroup.groupName, subject)))
-      .do(it => it)
       .or(() => this.getUnknownSkills(mob)
         .find(specializationLevel => match(specializationLevel.abilityType, subject)))
-      .get()
   }
 
-  public getKnownCustomization(mob: MobEntity, subject: string): Customization | undefined {
-    return new Maybe(this.getKnownSpecializationGroups(mob)
+  public getKnownCustomization(mob: MobEntity, subject: string): Maybe<Customization> {
+    return new Maybe<Customization>(this.getKnownSpecializationGroups(mob)
       .find(specializationGroup => match(specializationGroup.groupName, subject)))
-      .do(it => it)
       .or(() => this.getKnownSkills(mob)
         .find(specializationLevel => match(specializationLevel.abilityType, subject)))
-      .get()
   }
 
   public getUnknownSpecializationGroups(mob: MobEntity): SpecializationGroup[] {
