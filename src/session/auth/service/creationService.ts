@@ -9,7 +9,7 @@ import SpecializationGroup from "../../../mob/specialization/specializationGroup
 import SpecializationLevel from "../../../mob/specialization/specializationLevel"
 import { PlayerEntity } from "../../../player/entity/playerEntity"
 import PlayerRepository from "../../../player/repository/player"
-import Maybe from "../../../support/functional/maybe"
+import Maybe from "../../../support/functional/maybe/maybe"
 import match from "../../../support/matcher/match"
 import {Types} from "../../../support/types"
 

@@ -1,6 +1,6 @@
 import {injectable} from "inversify"
 import "reflect-metadata"
-import Maybe from "../../support/functional/maybe"
+import Maybe from "../../support/functional/maybe/maybe"
 import {RegionEntity} from "../entity/regionEntity"
 import {Weather} from "../enum/weather"
 import {newWeatherPattern} from "../factory/regionFactory"

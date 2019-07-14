@@ -1,4 +1,4 @@
-import Maybe from "../../support/functional/maybe"
+import Maybe from "../../support/functional/maybe/maybe"
 
 export interface DamageDescriptor {
   readonly damage: number,

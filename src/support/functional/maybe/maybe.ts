@@ -1,12 +1,9 @@
-import ObjectLiteral from "../objectLiteral"
-
-enum MaybeStatus {
-  Thing,
-  NotThing,
-}
+import ObjectLiteral from "../../objectLiteral"
+import {MaybeStatus} from "./maybeStatus"
+import {DoType, MaybeResult, OrType, Thing} from "./types"
 
 export default class Maybe<MaybeObject extends ObjectLiteral> {
-  public static if(thing: any, doIt: (thing: any) => any = it => it): Maybe<any> {
+  public static if(thing: Thing, doIt: DoType = it => it): MaybeResult {
     return new Maybe(thing).do(doIt)
   }
 
@@ -14,9 +11,9 @@ export default class Maybe<MaybeObject extends ObjectLiteral> {
   private status?: MaybeStatus
   private doRegistered: boolean = false
 
-  constructor(private readonly thing: any) {}
+  constructor(private readonly thing: Thing) {}
 
-  public do(fn: (thing: any) => any) {
+  public do(fn: DoType) {
     this.doRegistered = true
     if (this.thing) {
       this.result = fn(this.thing)
@@ -28,7 +25,7 @@ export default class Maybe<MaybeObject extends ObjectLiteral> {
     return this
   }
 
-  public or(fn: () => any) {
+  public or(fn: OrType) {
     if (this.status === MaybeStatus.NotThing) {
       this.result = fn()
       if (this.result) {
@@ -47,7 +44,7 @@ export default class Maybe<MaybeObject extends ObjectLiteral> {
     return this.result
   }
 
-  public maybe(fn: (got: MaybeObject) => any): Maybe<any> {
+  public maybe(fn: (got: MaybeObject) => Thing): MaybeResult {
     const got = this.get()
     if (got) {
       return new Maybe(fn(got))

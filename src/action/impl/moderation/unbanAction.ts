@@ -7,7 +7,7 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import Maybe from "../../../support/functional/maybe"
+import Maybe from "../../../support/functional/maybe/maybe"
 import {
   MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS,
   MESSAGE_FAIL_NOT_BANNED, Messages,

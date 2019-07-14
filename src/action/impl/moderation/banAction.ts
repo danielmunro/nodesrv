@@ -7,7 +7,7 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import Maybe from "../../../support/functional/maybe"
+import Maybe from "../../../support/functional/maybe/maybe"
 import {
   MESSAGE_FAIL_ALREADY_BANNED, Messages,
 } from "../../constants"

@@ -1,5 +1,5 @@
 import {WeaponEffect} from "../../item/enum/weaponEffect"
-import Maybe from "../../support/functional/maybe"
+import Maybe from "../../support/functional/maybe/maybe"
 
 export interface ExtraFlagWeaponEffectMapType {
   [key: string]: WeaponEffect,

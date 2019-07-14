@@ -2,7 +2,7 @@ import {ItemEntity} from "../../item/entity/itemEntity"
 import {WeaponType} from "../../item/enum/weaponType"
 import {newWeapon} from "../../item/factory/itemFactory"
 import {DamageType} from "../../mob/fight/enum/damageType"
-import Maybe from "../../support/functional/maybe"
+import Maybe from "../../support/functional/maybe/maybe"
 import {maybeExtraFlagWeaponWeaponEffect} from "./extraFlagWeaponEffectMap"
 import ItemPrototype from "./itemPrototype"
 

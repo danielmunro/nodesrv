@@ -1,4 +1,4 @@
-import Maybe from "../support/functional/maybe"
+import Maybe from "../support/functional/maybe/maybe"
 import CheckResult from "./checkResult"
 import Cost from "./cost/cost"
 import { CheckStatus } from "./enum/checkStatus"
