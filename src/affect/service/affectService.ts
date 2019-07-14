@@ -1,6 +1,7 @@
 import {ItemEntity} from "../../item/entity/itemEntity"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {Trigger} from "../../mob/enum/trigger"
+import Maybe from "../../support/functional/maybe/maybe"
 import {AffectEntity} from "../entity/affectEntity"
 import {AffectType} from "../enum/affectType"
 import {modifierTable} from "../table/modifierTable"
@@ -35,11 +36,11 @@ export default class AffectService {
   }
 
   public has(affectType: AffectType): boolean {
-    return !!this.get(affectType)
+    return !!this.get(affectType).get()
   }
 
-  public get(affectType: AffectType): AffectEntity | undefined {
-    return this.mob.affects.find(affect => affect.affectType === affectType)
+  public get(affectType: AffectType): Maybe<AffectEntity> {
+    return new Maybe(this.mob.affects.find(affect => affect.affectType === affectType))
   }
 
   public add(affect: AffectEntity) {
