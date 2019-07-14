@@ -59,9 +59,9 @@ export class Fight {
     return mob.uuid === this.aggressor.uuid || mob.uuid === this.target.uuid
   }
 
-  public getOpponentFor(mob: MobEntity): MobEntity | undefined {
+  public getOpponentFor(mob: MobEntity): MobEntity {
     if (!this.isParticipant(mob)) {
-      return
+      throw new Error("mob not fighting")
     }
 
     return mob === this.aggressor ? this.target : this.aggressor

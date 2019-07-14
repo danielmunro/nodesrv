@@ -204,7 +204,7 @@ export default class CheckBuilder {
       CheckType.IsFighting,
       Maybe.if(
         this.mobService.findFightForMob(this.mob).get(),
-        (f: Fight) => f.getOpponentFor(this.mob) as MobEntity)
+        (f: Fight) => f.getOpponentFor(this.mob))
         .get(),
       failMessage))
     return this

@@ -29,7 +29,7 @@ describe("fight", () => {
       testRunner.getStartRoom().get())
 
     // then
-    expect(fight.getOpponentFor(bystander)).toBeUndefined()
+    expect(() => fight.getOpponentFor(bystander)).toThrowError()
   })
 
   it("should stop when hit points reach zero", async () => {

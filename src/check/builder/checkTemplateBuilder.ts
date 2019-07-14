@@ -4,7 +4,6 @@ import Spell from "../../action/impl/spell"
 import {AffectType} from "../../affect/enum/affectType"
 import {StackBehavior} from "../../affect/enum/stackBehavior"
 import {findAffectDefinition} from "../../affect/table/affectTable"
-import {MobEntity} from "../../mob/entity/mobEntity"
 import MobService from "../../mob/service/mobService"
 import {getSpecializationLevel} from "../../mob/specialization/specializationLevels/specializationLevels"
 import Request from "../../request/request"
@@ -67,7 +66,7 @@ export default class CheckTemplateBuilder {
     if (fight && target) {
       checkBuilder.require(target === fight.getOpponentFor(this.request.mob), CheckMessages.TooManyTargets)
     } else if (!target && fight) {
-      target = fight.getOpponentFor(this.request.mob) as MobEntity
+      target = fight.getOpponentFor(this.request.mob)
     }
     if (actionType === ActionType.Offensive) {
       checkBuilder.require(target, CheckMessages.NoTarget, CheckType.HasTarget)

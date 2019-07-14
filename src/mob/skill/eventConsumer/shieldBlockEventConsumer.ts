@@ -23,7 +23,7 @@ export default class ShieldBlockEventConsumer implements EventConsumer {
   }
 
   public async consume(event: FightEvent): Promise<EventResponse> {
-    const target = event.fight.getOpponentFor(event.mob) as MobEntity
+    const target = event.fight.getOpponentFor(event.mob)
     if (!target.getSkill(SkillType.ShieldBlock) || !target.getFirstEquippedItemAtPosition(Equipment.Shield)) {
       return EventResponse.none(event)
     }

@@ -6,7 +6,6 @@ import {Equipment} from "../../../item/enum/equipment"
 import EventContext from "../../../request/context/eventContext"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
-import {MobEntity} from "../../entity/mobEntity"
 import FightEvent from "../../fight/event/fightEvent"
 import {SkillType} from "../skillType"
 
@@ -18,7 +17,7 @@ export default class ParryEventConsumer implements EventConsumer {
   }
 
   public async consume(event: FightEvent): Promise<EventResponse> {
-    const target = event.fight.getOpponentFor(event.mob) as MobEntity
+    const target = event.fight.getOpponentFor(event.mob)
     if (!target.skills.find(skill => skill.skillType === SkillType.Parry)
       || !target.equipped.items.find(item => item.equipment === Equipment.Weapon)) {
       return EventResponse.none(event)

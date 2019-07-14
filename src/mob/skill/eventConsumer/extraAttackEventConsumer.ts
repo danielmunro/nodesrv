@@ -5,7 +5,6 @@ import EventResponse from "../../../event/messageExchange/eventResponse"
 import EventContext from "../../../request/context/eventContext"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
-import {MobEntity} from "../../entity/mobEntity"
 import FightEvent from "../../fight/event/fightEvent"
 
 export default class ExtraAttackEventConsumer implements EventConsumer {
@@ -23,7 +22,7 @@ export default class ExtraAttackEventConsumer implements EventConsumer {
     const result = await this.skill.handle(
       new Request(event.mob, fight.room, { requestType: RequestType.Noop , event } as EventContext))
     if (result.isSuccessful()) {
-      event.attacks.push(await fight.attack(event.mob, fight.getOpponentFor(event.mob) as MobEntity))
+      event.attacks.push(await fight.attack(event.mob, fight.getOpponentFor(event.mob)))
     }
     return EventResponse.none(event)
   }

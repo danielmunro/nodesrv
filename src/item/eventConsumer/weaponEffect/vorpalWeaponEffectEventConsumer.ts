@@ -1,7 +1,6 @@
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/interface/eventConsumer"
 import EventResponse from "../../../event/messageExchange/eventResponse"
-import {MobEntity} from "../../../mob/entity/mobEntity"
 import FightEvent from "../../../mob/fight/event/fightEvent"
 import {Equipment} from "../../enum/equipment"
 import {WeaponEffect} from "../../enum/weaponEffect"
@@ -14,7 +13,7 @@ export default class VorpalWeaponEffectEventConsumer implements EventConsumer {
   public async consume(event: FightEvent): Promise<EventResponse> {
     const weapon = event.mob.getFirstEquippedItemAtPosition(Equipment.Weapon)
     if (weapon && weapon.weaponEffects.includes(WeaponEffect.Vorpal)) {
-      event.attacks.push(await event.fight.attack(event.mob, event.fight.getOpponentFor(event.mob) as MobEntity))
+      event.attacks.push(await event.fight.attack(event.mob, event.fight.getOpponentFor(event.mob)))
       return EventResponse.modified(event)
     }
     return EventResponse.none(event)
