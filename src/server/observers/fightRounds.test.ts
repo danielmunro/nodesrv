@@ -2,7 +2,6 @@ import {createTestAppContainer} from "../../app/factory/testFactory"
 import { Disposition } from "../../mob/enum/disposition"
 import { Attack} from "../../mob/fight/attack"
 import {AttackResult} from "../../mob/fight/enum/attackResult"
-import {Fight} from "../../mob/fight/fight"
 import MobService from "../../mob/service/mobService"
 import { getTestMob } from "../../support/test/mob"
 import TestRunner from "../../support/test/testRunner"
@@ -66,7 +65,7 @@ describe("fight rounds", () => {
     const mobService = app.get<MobService>(Types.MobService)
 
     // when
-    const fight = mobService.findFight(f => f.isParticipant(mobBuilder.mob)) as Fight
+    const fight = mobService.findFightForMob(mobBuilder.get()).get()
 
     // then
     expect(fight.isInProgress()).toBe(true)
@@ -77,7 +76,7 @@ describe("fight rounds", () => {
     // then
     mobService.filterCompleteFights()
     expect(fight.isInProgress()).toBe(false)
-    expect(mobService.findFight(f => f.isParticipant(mobBuilder.mob))).toBeUndefined()
+    expect(mobService.findFightForMob(mobBuilder.get()).get()).toBeUndefined()
   })
 
   it("should filter out fight rounds that are complete", async () => {
@@ -93,7 +92,7 @@ describe("fight rounds", () => {
     await fightRounds.notify([])
 
     // then
-    const fight = mobService.findFight(f => f.isParticipant(mobBuilder.get())) as Fight
+    const fight = mobService.findFightForMob(mobBuilder.get()).get()
     expect(fight.isInProgress()).toBe(true)
 
     // and when
@@ -102,7 +101,7 @@ describe("fight rounds", () => {
     await fightRounds.notify([])
 
     // then
-    const fight2 = mobService.findFight(f => f.isParticipant(mobBuilder.get()))
+    const fight2 = mobService.findFightForMob(mobBuilder.get()).get()
     expect(fight2).toBeUndefined()
   })
 })

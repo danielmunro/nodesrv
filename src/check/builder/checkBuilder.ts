@@ -203,7 +203,7 @@ export default class CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.IsFighting,
       Maybe.if(
-        this.mobService.findFight((f: Fight) => f.isParticipant(this.mob)),
+        this.mobService.findFightForMob(this.mob).get(),
         (f: Fight) => f.getOpponentFor(this.mob) as MobEntity)
         .get(),
       failMessage))

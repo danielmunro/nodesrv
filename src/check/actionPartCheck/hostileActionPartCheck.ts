@@ -13,7 +13,7 @@ export default class HostileActionPartCheck implements ActionPartCheck {
   }
 
   public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): any {
-    if (this.mobService.findFight(fight => fight.isParticipant(request.mob))) {
+    if (this.mobService.findFightForMob(request.mob).get()) {
       checkBuilder.requireFight()
       return
     }

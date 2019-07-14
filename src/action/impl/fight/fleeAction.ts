@@ -34,7 +34,7 @@ export default class FleeAction extends Action {
     const mvCost = request.getRoomMvCost() * FLEE_MOVEMENT_COST_MULTIPLIER
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .require(
-        this.mobService.findFight(f => f.isParticipant(request.mob)),
+        this.mobService.findFightForMob(request.mob).get(),
         MESSAGE_FAIL_NOT_FIGHTING,
         CheckType.IsFighting)
       .capture()
