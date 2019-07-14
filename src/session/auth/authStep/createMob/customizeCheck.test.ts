@@ -1,12 +1,12 @@
-import CustomizeCheck from "./customizeCheck"
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
-import CreationService from "../../service/creationService"
-import {Types} from "../../../../support/types"
+import {Client} from "../../../../client/client"
 import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 import {CreationMessages} from "../../constants"
 import Request from "../../request"
-import {Client} from "../../../../client/client"
+import CreationService from "../../service/creationService"
 import Complete from "./complete"
+import CustomizeCheck from "./customizeCheck"
 import CustomizePrompt from "./customizePrompt"
 
 let customizeCheck: CustomizeCheck
