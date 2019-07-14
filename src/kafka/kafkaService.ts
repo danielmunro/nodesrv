@@ -4,6 +4,7 @@ import {Producer} from "kafkajs"
 import {MobEntity} from "../mob/entity/mobEntity"
 import Death from "../mob/fight/death"
 import {PlayerEntity} from "../player/entity/playerEntity"
+import {TickEntity} from "../server/entity/tickEntity"
 import {Types} from "../support/types"
 import {Topic} from "./topic"
 
@@ -38,6 +39,15 @@ export default class KafkaService {
         }),
       }],
       topic: Topic.MobDeath,
+    })
+  }
+
+  public async publishTick(tick: TickEntity) {
+    return this.producer.send({
+      messages: [{
+        value: stringify(tick),
+      }],
+      topic: Topic.Tick,
     })
   }
 }

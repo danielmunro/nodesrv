@@ -1,16 +1,18 @@
 import {inject, injectable} from "inversify"
-import {v4} from "uuid"
 import AffectService from "../../affect/service/affectService"
 import {Client} from "../../client/client"
 import {createTickEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import TimeService from "../../gameService/timeService"
+import KafkaService from "../../kafka/kafkaService"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {Trigger} from "../../mob/enum/trigger"
 import TickEvent from "../../mob/event/tickEvent"
 import LocationService from "../../mob/service/locationService"
 import roll from "../../support/random/dice"
 import {Types} from "../../support/types"
+import {TickEntity} from "../entity/tickEntity"
+import TickRepository from "../repository/tickRepository"
 import {BaseRegenModifier} from "./constants"
 import {Observer} from "./observer"
 
@@ -40,17 +42,23 @@ export class Tick implements Observer {
   constructor(
     @inject(Types.TimeService) private readonly timeService: TimeService,
     @inject(Types.EventService) private readonly eventService: EventService,
-    @inject(Types.LocationService) private readonly locationService: LocationService) {}
+    @inject(Types.LocationService) private readonly locationService: LocationService,
+    @inject(Types.TickRepository) private readonly tickRepository: TickRepository,
+    @inject(Types.KafkaService) private readonly kafkaService: KafkaService) {}
 
   public async notify(clients: Client[]): Promise<void> {
     console.time(TIMING)
-    const id = v4()
-    const timestamp = new Date()
+    const tickEntity = new TickEntity()
+    tickEntity.numberOfMobs = this.locationService.getMobLocationCount()
+    tickEntity.numberOfPlayers = clients.length
+    tickEntity.timeOfDay = this.timeService.getCurrentTime()
+    await this.tickRepository.save(tickEntity)
     this.timeService.incrementTime()
     await Promise.all(clients
       .filter(client => client.isLoggedIn())
-      .map(client => this.notifyClient(client, id, timestamp)))
-    console.log(`tick at ${timestamp}, ${this.locationService.getMobLocationCount()} mobs in the realm`)
+      .map(client => this.notifyClient(client, tickEntity.uuid, tickEntity.created)))
+    await this.kafkaService.publishTick(tickEntity)
+    console.log(`tick at ${tickEntity.created}, ${this.locationService.getMobLocationCount()} mobs in the realm`)
     console.timeEnd(TIMING)
   }
 

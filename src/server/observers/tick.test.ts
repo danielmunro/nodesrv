@@ -1,8 +1,6 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import EventService from "../../event/service/eventService"
-import TimeService from "../../gameService/timeService"
 import {MAX_PRACTICE_LEVEL} from "../../mob/constants"
-import LocationService from "../../mob/service/locationService"
 import FastHealingEventConsumer from "../../mob/skill/eventConsumer/fastHealingEventConsumer"
 import {newSkill} from "../../mob/skill/factory"
 import {SkillType} from "../../mob/skill/skillType"
@@ -11,12 +9,14 @@ import {Types} from "../../support/types"
 import {Tick} from "./tick"
 
 let testRunner: TestRunner
-let locationService: LocationService
+let eventService: EventService
+let tick: Tick
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
-  locationService = app.get<LocationService>(Types.LocationService)
+  tick = app.get<Tick>(Types.TickObserver)
+  eventService = app.get<EventService>(Types.EventService)
 })
 
 describe("ticks", () => {
@@ -33,11 +33,6 @@ describe("ticks", () => {
       await client.session.login(client, testRunner.createPlayer().get())
     }
 
-    const tick = new Tick(
-      new TimeService(),
-      new EventService(),
-      locationService)
-
     // when
     await tick.notify(clients)
 
@@ -53,18 +48,14 @@ describe("ticks", () => {
     const clients = [client]
     const mockSkill = jest.fn(() => ({
       handle: jest.fn(() => ({
-        isSuccessful: jest.fn(),
+        isSuccessful: jest.fn(() => true),
       })),
     }))()
 
-    const eventService = new EventService()
     eventService.addConsumer(new FastHealingEventConsumer(mockSkill as any))
 
     // when
-    await new Tick(
-      new TimeService(),
-      eventService,
-      locationService).notify(clients)
+    await tick.notify(clients)
 
     // then
     expect(mockSkill.handle.mock.calls.length).toBe(1)
