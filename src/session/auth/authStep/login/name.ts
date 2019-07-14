@@ -1,4 +1,5 @@
 import {MobEntity} from "../../../../mob/entity/mobEntity"
+import Maybe from "../../../../support/functional/maybe/maybe"
 import {CreationMessages} from "../../constants"
 import Request from "../../request"
 import Response from "../../response"
@@ -15,15 +16,12 @@ export default class Name extends PlayerAuthStep implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     const name = request.input
-    const mob = this.player.mobs.find(m => m.name === name)
-
-    if (mob) {
-      return this.existingMobFound(request, mob)
-    }
-
-    return (await this.creationService.findOnePlayerMob(name))
-      .maybe(() => request.fail(this, CreationMessages.Mob.NameUnavailable))
-      .or(() => request.ok(new NewMobConfirm(this.creationService, this.player, name)))
+    return new Maybe<MobEntity>(this.player.mobs.find(m => m.name === name))
+      .maybe(mob => this.existingMobFound(request, mob))
+      .or(async () => (await this.creationService.findOnePlayerMob(name))
+        .maybe(() => request.fail(this, CreationMessages.Mob.NameUnavailable))
+        .or(() => request.ok(new NewMobConfirm(this.creationService, this.player, name)))
+        .get())
       .get()
   }
 
