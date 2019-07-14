@@ -40,6 +40,6 @@ describe("wimpy event consumer", () => {
     // and
     const mobService = app.get<MobService>(Types.MobService)
     mobService.filterCompleteFights()
-    expect(mobService.findFight(f => f === fight)).toBeUndefined()
+    expect(mobService.findFightForMob(mob).get()).toBeUndefined()
   })
 })

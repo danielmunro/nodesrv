@@ -78,10 +78,6 @@ export default class MobService {
     this.fightTable.addFight(fight)
   }
 
-  public findFight(search: (fight: Fight) => boolean) {
-    return this.fightTable.getFights().find(search)
-  }
-
   public findFightForMob(mob: MobEntity): Maybe<Fight> {
     return new Maybe(this.fightTable.getFights().find(fight => fight.isParticipant(mob)))
   }
@@ -121,7 +117,7 @@ export default class MobService {
     await this.locationService.updateMobLocation(mob, room, direction)
   }
 
-  public findMob(search: (mob: MobEntity) => boolean) {
+  public findMob(search: (mob: MobEntity) => boolean): MobEntity | undefined {
     return this.mobTable.find(search)
   }
 
