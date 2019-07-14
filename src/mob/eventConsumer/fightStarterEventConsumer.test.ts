@@ -28,7 +28,7 @@ describe("fight starter", () => {
     await fightStarter.consume(createAttackEvent(mob1, mob2))
 
     // then
-    expect(mobService.findFightForMob(mob1)).toBeDefined()
+    expect(mobService.findFightForMob(mob1).get()).toBeDefined()
   })
 
   it("won't create more than one fight between the same two mobs", async () => {

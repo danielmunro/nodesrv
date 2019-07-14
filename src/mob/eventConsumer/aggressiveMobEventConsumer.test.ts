@@ -34,7 +34,7 @@ describe("aggressive mob event consumer", () => {
       createMobMoveEvent(player.getMob(), room, room, 1, Direction.Noop))
 
     // then
-    const fight = mobService.findFightForMob(player.getMob())
+    const fight = mobService.findFightForMob(player.getMob()).get()
     expect(fight).toBeDefined()
     expect(fight).toBeInstanceOf(Fight)
   })
@@ -50,7 +50,7 @@ describe("aggressive mob event consumer", () => {
     await eventService.publish(createMobMoveEvent(mob1, room, room, 1, Direction.Noop))
 
     // then
-    const fight = mobService.findFightForMob(mob1)
+    const fight = mobService.findFightForMob(mob1).get()
     expect(fight).not.toBeDefined()
   })
 
@@ -67,7 +67,7 @@ describe("aggressive mob event consumer", () => {
       createMobMoveEvent(player.getMob(), room, room, 1, Direction.Noop))
 
     // then
-    const fight = mobService.findFightForMob(player.getMob())
+    const fight = mobService.findFightForMob(player.getMob()).get()
     expect(fight).not.toBeDefined()
   })
 })

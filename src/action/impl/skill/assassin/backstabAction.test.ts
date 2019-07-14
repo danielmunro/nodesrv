@@ -107,7 +107,7 @@ describe("backstab skill action", () => {
         opponent.get())
 
     // then
-    expect(mobService.findFightForMob(mobBuilder.get())).toBeDefined()
+    expect(mobService.findFightForMob(mobBuilder.get()).get()).toBeDefined()
   })
 
   it("generates the right messages", async () => {

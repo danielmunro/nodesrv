@@ -1,7 +1,6 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
-import {Fight} from "../../../mob/fight/fight"
 import LocationService from "../../../mob/service/locationService"
 import MobService from "../../../mob/service/mobService"
 import { RequestType } from "../../../request/enum/requestType"
@@ -36,13 +35,13 @@ beforeEach(async () => {
 describe("flee action handler", () => {
   it("flee should stop a fight", async () => {
     // verify
-    expect(mobService.findFightForMob(mob)).toBeDefined()
+    expect(mobService.findFightForMob(mob).get()).toBeDefined()
 
     // when
     await testRunner.invokeActionSuccessfully(RequestType.Flee)
 
     // then
-    expect((mobService.findFightForMob(mob) as Fight).isInProgress()).toBeFalsy()
+    expect((mobService.findFightForMob(mob).get()).isInProgress()).toBeFalsy()
   })
 
   it("flee should cause the fleeing mob to change rooms", async () => {

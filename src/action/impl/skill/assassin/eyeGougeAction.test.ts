@@ -39,7 +39,7 @@ describe("eye gouge skill action", () => {
         `eye ${defender.getMobName()}`,
         defender.mob)
 
-    expect(mobService.findFightForMob(defender.mob)).toBeDefined()
+    expect(mobService.findFightForMob(defender.mob).get()).toBeDefined()
   })
 
   it("generates accurate success messages", async () => {

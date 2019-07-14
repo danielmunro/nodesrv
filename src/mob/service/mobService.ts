@@ -4,6 +4,7 @@ import KafkaService from "../../kafka/kafkaService"
 import LevelService from "../../player/service/levelService"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import {Direction} from "../../room/enum/direction"
+import Maybe from "../../support/functional/maybe"
 import {Types} from "../../support/types"
 import {MobEntity} from "../entity/mobEntity"
 import MobLocationEntity from "../entity/mobLocationEntity"
@@ -81,8 +82,8 @@ export default class MobService {
     return this.fightTable.getFights().find(search)
   }
 
-  public findFightForMob(mob: MobEntity): Fight | undefined {
-    return this.fightTable.getFights().find(fight => fight.isParticipant(mob))
+  public findFightForMob(mob: MobEntity): Maybe<Fight> {
+    return new Maybe(this.fightTable.getFights().find(fight => fight.isParticipant(mob)))
   }
 
   public filterCompleteFights() {
