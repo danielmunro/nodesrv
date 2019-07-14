@@ -22,12 +22,12 @@ export default class CreationService {
     @inject(Types.SpecializationService) private readonly specializationService: SpecializationService,
     @inject(Types.KafkaService) private readonly kafkaService: KafkaService) {}
 
-  public getOnePlayer(email: string): Promise<PlayerEntity | undefined> {
-    return this.playerRepository.findOneByEmail(email)
+  public async getOnePlayer(email: string): Promise<Maybe<PlayerEntity>> {
+    return new Maybe(await this.playerRepository.findOneByEmail(email))
   }
 
-  public findOnePlayerMob(name: string) {
-    return this.mobRepository.findOneByName(name)
+  public async findOnePlayerMob(name: string): Promise<Maybe<MobEntity>> {
+    return new Maybe(await this.mobRepository.findOneByName(name))
   }
 
   public getUnknownCustomization(mob: MobEntity, subject: string): Maybe<Customization> {

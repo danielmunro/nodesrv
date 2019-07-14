@@ -24,12 +24,9 @@ export default class Email extends AbstractAuthStep implements AuthStep {
       return request.fail(this, CreationMessages.Player.EmailInvalid)
     }
 
-    const player = await this.creationService.getOnePlayer(email)
-
-    if (player) {
-      return request.ok(new Password(this.creationService, player))
-    }
-
-    return request.ok(new NewPlayerConfirm(this.creationService, email))
+    return (await this.creationService.getOnePlayer(email))
+      .maybe(player => request.ok(new Password(this.creationService, player)))
+      .or(() => request.ok(new NewPlayerConfirm(this.creationService, email)))
+      .get()
   }
 }

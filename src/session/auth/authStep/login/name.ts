@@ -15,19 +15,16 @@ export default class Name extends PlayerAuthStep implements AuthStep {
 
   public async processRequest(request: Request): Promise<Response> {
     const name = request.input
-    let mob = this.player.mobs.find(m => m.name === name)
+    const mob = this.player.mobs.find(m => m.name === name)
 
     if (mob) {
       return this.existingMobFound(request, mob)
     }
 
-    mob = await this.creationService.findOnePlayerMob(name)
-
-    if (mob) {
-      return request.fail(this, CreationMessages.Mob.NameUnavailable)
-    }
-
-    return request.ok(new NewMobConfirm(this.creationService, this.player, name))
+    return (await this.creationService.findOnePlayerMob(name))
+      .maybe(() => request.fail(this, CreationMessages.Mob.NameUnavailable))
+      .or(() => request.ok(new NewMobConfirm(this.creationService, this.player, name)))
+      .get()
   }
 
   private async existingMobFound(request: Request, mob: MobEntity): Promise<Response> {
