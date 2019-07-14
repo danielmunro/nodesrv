@@ -109,7 +109,9 @@ export default class LookAction extends Action {
       mob.race().sight,
       this.timeService.getCurrentTime(),
       region.terrain,
-      this.weatherService.getWeatherForRegion(region) as Weather)
+      this.weatherService.getWeatherForRegion(region)
+        .or(() => Weather.Clear)
+        .get())
   }
 
   private somethingIsGlowing(request: Request) {

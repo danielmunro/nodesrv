@@ -20,9 +20,8 @@ export default class WeatherService {
     this.weatherPatterns.push(newWeatherPattern(region, weather))
   }
 
-  public getWeatherForRegion(region: RegionEntity): Weather | undefined {
-    return new Maybe(this.weatherPatterns.find(w => w.region === region))
-      .do(weatherPattern => weatherPattern.weather)
-      .get()
+  public getWeatherForRegion(region: RegionEntity): Maybe<Weather> {
+    return new Maybe<WeatherPattern>(this.weatherPatterns.find(w => w.region === region))
+      .maybe<Weather>(pattern => pattern.weather)
   }
 }

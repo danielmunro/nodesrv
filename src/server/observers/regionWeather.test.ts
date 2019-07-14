@@ -22,14 +22,14 @@ describe("region weather server observer", () => {
     regions.forEach(region => weatherService.updateRegionWeather(region, getRandomWeather()))
 
     // given
-    const weather = regions.map(region => weatherService.getWeatherForRegion(region))
+    const weather = regions.map(region => weatherService.getWeatherForRegion(region).get())
 
     // when
     const regionWeather = new RegionWeather(null, weatherService, regions)
     await regionWeather.notify([])
 
     // then
-    const newWeatherPatterns = regions.map(region => weatherService.getWeatherForRegion(region))
+    const newWeatherPatterns = regions.map(region => weatherService.getWeatherForRegion(region).get())
     expect(weather).not.toBe(newWeatherPatterns)
   })
 })

@@ -21,8 +21,10 @@ export default class StateService {
     this.timeService.incrementTime()
   }
 
-  public getWeatherForRegion(region: RegionEntity): Weather | undefined {
+  public getWeatherForRegion(region: RegionEntity): Weather {
     return this.weatherService.getWeatherForRegion(region)
+      .or(() => Weather.Clear)
+      .get()
   }
 
   public getCurrentTime(): number {
@@ -34,6 +36,6 @@ export default class StateService {
       mob.race().sight,
       this.getCurrentTime(),
       region.terrain,
-      this.getWeatherForRegion(region) as Weather)
+      this.getWeatherForRegion(region))
   }
 }

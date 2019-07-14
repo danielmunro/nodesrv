@@ -1,8 +1,7 @@
-import ObjectLiteral from "../../objectLiteral"
 import {MaybeStatus} from "./maybeStatus"
 import {DoType, MaybeResult, OrType, Thing} from "./types"
 
-export default class Maybe<MaybeObject extends ObjectLiteral> {
+export default class Maybe<MaybeObject extends any> {
   public static if(thing: Thing, doIt: DoType = it => it): MaybeResult {
     return new Maybe(thing).do(doIt)
   }
@@ -15,7 +14,7 @@ export default class Maybe<MaybeObject extends ObjectLiteral> {
 
   public do(fn: DoType) {
     this.doRegistered = true
-    if (this.thing) {
+    if (this.thing !== undefined && this.thing !== null) {
       this.result = fn(this.thing)
       this.status = MaybeStatus.Thing
       return this
@@ -44,10 +43,10 @@ export default class Maybe<MaybeObject extends ObjectLiteral> {
     return this.result
   }
 
-  public maybe(fn: (got: MaybeObject) => Thing): MaybeResult {
+  public maybe<T>(fn: (got: MaybeObject) => Thing): MaybeResult {
     const got = this.get()
-    if (got) {
-      return new Maybe(fn(got))
+    if (got !== undefined && got !== null) {
+      return new Maybe<T>(fn(got))
     }
 
     return this

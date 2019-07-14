@@ -1,4 +1,3 @@
-import {RegionEntity} from "../entity/regionEntity"
 import {Weather} from "../enum/weather"
 import {createRegion} from "../factory/regionFactory"
 import WeatherService from "./weatherService"
@@ -14,6 +13,6 @@ describe("weather service", () => {
     weatherService.updateRegionWeather(region, Weather.Clear)
 
     // then
-    expect(weatherService.getWeatherForRegion(region)).toBe(Weather.Clear)
+    expect(weatherService.getWeatherForRegion(region).get()).toBe(Weather.Clear)
   })
 })
