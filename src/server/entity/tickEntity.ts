@@ -1,4 +1,4 @@
-import {Column, Entity, Generated, PrimaryGeneratedColumn} from "typeorm"
+import {Column, CreateDateColumn, Entity, Generated, PrimaryGeneratedColumn} from "typeorm"
 import * as v4 from "uuid"
 
 @Entity()
@@ -10,7 +10,7 @@ export class TickEntity {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column("timestamp")
+  @CreateDateColumn()
   public created: Date
 
   @Column()
