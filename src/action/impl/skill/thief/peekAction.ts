@@ -21,7 +21,7 @@ export default function(abilityService: AbilityService): Skill {
       requestService.createResponseMessage(SkillMessages.Peek.Success)
         .addReplacement(
           "inventory",
-          (requestService.getTarget() as MobEntity).inventory.items.reduce(
+          requestService.getTarget<MobEntity>().inventory.items.reduce(
             (previous, current) => previous + current.name + "\n", ""))
         .create())
     .create()

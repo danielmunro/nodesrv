@@ -71,7 +71,7 @@ export default class ClientService {
     clients.forEach(client => {
       if (client.getSessionMob() === response.getMob()) {
         client.sendMessage(response.getMessageToRequestCreator())
-      } else if (client.getSessionMob() === response.request.getTargetMobInRoom()) {
+      } else if (client.getSessionMob() === response.request.getTarget()) {
         client.sendMessage(response.getMessageToTarget())
       } else {
         client.sendMessage(response.getMessageToObservers())

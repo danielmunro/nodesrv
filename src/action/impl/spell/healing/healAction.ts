@@ -25,7 +25,7 @@ export default function(abilityService: AbilityService): Spell {
       .setVerbToObservers("is")
       .create())
     .setApplySpell(async requestService => {
-      const target = requestService.getTarget() as MobEntity
+      const target = requestService.getTarget<MobEntity>()
       target.hp += roll(20, 4)
     })
     .setSpecializationType(SpecializationType.Cleric)

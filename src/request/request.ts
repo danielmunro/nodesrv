@@ -37,8 +37,8 @@ export default class Request implements ClientRequest {
     return this.mob.inventory.findItemByName(item)
   }
 
-  public getTargetMobInRoom(): MobEntity | undefined {
-    return this.targetMobInRoom
+  public getTargetMobInRoom(): MobEntity {
+    return this.targetMobInRoom as MobEntity
   }
 
   public getRoomRegion(): RegionEntity {

@@ -23,7 +23,7 @@ export default class TradeRequestAction extends Action {
       .requireFromActionParts(request, this.getActionParts())
       .capture()
       .require(
-        () => !this.escrowService.findEscrowForMobs(request.mob, request.getTargetMobInRoom() as MobEntity),
+        () => !this.escrowService.findEscrowForMobs(request.mob, request.getTargetMobInRoom()),
         Messages.Trade.AlreadyInitialized)
       .create()
   }
@@ -42,7 +42,7 @@ export default class TradeRequestAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const target = requestService.getTarget()
+    const target = requestService.getTarget<MobEntity>()
     const escrow = new Escrow(requestService.getMob(), target)
     this.escrowService.addEscrow(escrow)
     return requestService.respondWith().success(

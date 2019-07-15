@@ -15,7 +15,6 @@ import {DamageType} from "../../mob/fight/enum/damageType"
 import {SkillEntity} from "../../mob/skill/entity/skillEntity"
 import SkillEvent from "../../mob/skill/event/skillEvent"
 import {ExitEntity} from "../../room/entity/exitEntity"
-import {Target} from "../../type/target"
 import ResponseBuilder from "../builder/responseBuilder"
 import ResponseMessageBuilder from "../builder/responseMessageBuilder"
 import Request from "../request"
@@ -50,7 +49,7 @@ export default class RequestService {
   }
 
   public createAttackEvent(target?: MobEntity): AttackEvent {
-    return createAttackEvent(this.checkedRequest.mob, target ? target : this.getTarget() as MobEntity)
+    return createAttackEvent(this.checkedRequest.mob, target ? target : this.getTarget<MobEntity>())
   }
 
   public createItemEvent(eventType: EventType, item: ItemEntity): ItemEvent {
@@ -62,7 +61,7 @@ export default class RequestService {
   }
 
   public createDamageEvent(amount: number, damageType: DamageType): DamageEventBuilder {
-    return new DamageEventBuilder(this.getTarget() as MobEntity, amount, damageType)
+    return new DamageEventBuilder(this.getTarget<MobEntity>(), amount, damageType)
       .setSource(this.getMob())
   }
 
@@ -106,7 +105,7 @@ export default class RequestService {
     return this.checkedRequest.request
   }
 
-  public getTarget(): Target {
+  public getTarget<T>(): T {
     return this.getResult(CheckType.HasTarget)
   }
 

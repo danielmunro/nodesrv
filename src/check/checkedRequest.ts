@@ -18,20 +18,16 @@ export default class CheckedRequest implements ClientRequest {
     this.room = request.getRoom()
   }
 
-  public getTargetMobInRoom(): MobEntity | undefined {
-    return this.getTarget()
-  }
-
-  public getTarget() {
-    return this.getCheckTypeResult(CheckType.HasTarget)
+  public getTargetMobInRoom(): MobEntity {
+    return this.getCheckTypeResult<MobEntity>(CheckType.HasTarget)
   }
 
   public getMob(): MobEntity {
     return this.mob
   }
 
-  public getCheckTypeResult(checkType: CheckType) {
-    return this.check.getCheckTypeResult(checkType)
+  public getCheckTypeResult<T>(checkType: CheckType) {
+    return this.check.getCheckTypeResult(checkType) as T
   }
 
   public results(...checkTypes: CheckType[]) {

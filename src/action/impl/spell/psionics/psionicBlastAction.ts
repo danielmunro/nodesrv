@@ -27,7 +27,7 @@ export default function(abilityService: AbilityService): Spell {
       .setVerbToObservers("is")
       .create())
     .setApplySpell(async requestService => {
-      const target = requestService.getTarget() as MobEntity
+      const target = requestService.getTarget<MobEntity>()
       const eventResponse = await abilityService.publishEvent(
         requestService.createDamageEvent(roll(2, 6), DamageType.Mental).build())
       target.hp -= (eventResponse.event as DamageEvent).amount

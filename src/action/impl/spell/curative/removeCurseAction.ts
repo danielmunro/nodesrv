@@ -30,7 +30,7 @@ export default function(abilityService: AbilityService): Spell {
         .setTargetPossessive()
         .create())
     .addToCheckBuilder((request, checkBuilder) => {
-      const affect = (request.getTargetMobInRoom() as MobEntity).affect().get(AffectType.Curse).get()
+      const affect = request.getTargetMobInRoom().affect().get(AffectType.Curse).get()
       checkBuilder.addCheck(new CheckComponent(
         CheckType.HasSpell,
         true,

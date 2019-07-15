@@ -20,7 +20,7 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(Costs.Backstab.Delay),
     ])
     .setApplySkill(async requestService => {
-      const target = requestService.getTarget() as MobEntity
+      const target = requestService.getTarget<MobEntity>()
       target.hp -= Fight.calculateDamageForOneHit(requestService.getMob(), target)
     })
     .setSuccessMessage(requestService =>

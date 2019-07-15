@@ -19,7 +19,7 @@ export default function(abilityService: AbilityService): Spell {
       new DelayCost(1),
     ])
     .setApplySpell(async requestService => {
-      const target = requestService.getTarget() as MobEntity
+      const target = requestService.getTarget<MobEntity>()
       target.affect().remove(AffectType.Poison)
     })
     .setSuccessMessage(requestService =>
