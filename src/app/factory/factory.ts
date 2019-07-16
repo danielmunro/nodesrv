@@ -8,12 +8,17 @@ import observers from "../containerModule/observers"
 import repositories from "../containerModule/repositories"
 import services from "../containerModule/services"
 import tables from "../containerModule/tables"
+import {Environment} from "../enum/environment"
 
-export default async function createAppContainer(startRoomId = 3001, port: number = 5151): Promise<App> {
+export default async function createAppContainer(
+  stripeApiKey: string,
+  environment: Environment,
+  startRoomId = 3001,
+  port: number = 5151): Promise<App> {
   console.time(Timings.container)
   const container = new Container()
   container.load(services, actions, eventConsumers, observers)
-  await container.loadAsync(tables, repositories, constants(startRoomId, port))
+  await container.loadAsync(tables, repositories, constants(stripeApiKey, environment, startRoomId, port))
   console.timeEnd(Timings.container)
   return new App(container)
 }

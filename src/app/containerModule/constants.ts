@@ -1,5 +1,6 @@
 import {AsyncContainerModule} from "inversify"
 import {Producer} from "kafkajs"
+import * as Stripe from "stripe"
 import {Server} from "ws"
 import {ItemContainerResetEntity} from "../../item/entity/itemContainerResetEntity"
 import ItemMobResetEntity from "../../item/entity/itemMobResetEntity"
@@ -16,8 +17,9 @@ import {RoomEntity} from "../../room/entity/roomEntity"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
 import {Timings} from "../constants"
+import {Environment} from "../enum/environment"
 
-export default (startRoomId: number, port: number) => {
+export default (stripeApiKey: string, environment: Environment, startRoomId: number, port: number) => {
   console.time(Timings.constants)
   const constants = new AsyncContainerModule(async bind => {
     bind<RoomEntity>(Types.StartRoom).toDynamicValue(context =>
@@ -36,6 +38,8 @@ export default (startRoomId: number, port: number) => {
       .toConstantValue(await (await getItemContainerResetRepository()).findAll())
     bind<Producer>(Types.KafkaProducer)
       .toConstantValue(await kafkaProducer("app", ["localhost:9092"]))
+    bind<Stripe>(Types.StripeClient).toConstantValue(new Stripe(stripeApiKey))
+    bind<Environment>(Types.Environment).toConstantValue(environment)
   })
   console.timeEnd(Timings.constants)
   return constants

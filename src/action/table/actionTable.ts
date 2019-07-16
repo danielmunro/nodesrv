@@ -7,6 +7,8 @@ import getHealerSpellTable from "../../mob/healer/healerSpellTable"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import EscrowService from "../../mob/trade/escrowService"
+import PlayerRepository from "../../player/repository/player"
+import PaymentService from "../../player/service/paymentService"
 import SocialService from "../../player/service/socialService"
 import WeatherService from "../../region/service/weatherService"
 import {RequestType} from "../../request/enum/requestType"
@@ -89,6 +91,8 @@ import GossipAction from "../impl/social/gossipAction"
 import SayAction from "../impl/social/sayAction"
 import TellAction from "../impl/social/tellAction"
 import Spell from "../impl/spell"
+import CcAddAction from "../impl/subscription/ccAddAction"
+import CcListAction from "../impl/subscription/ccListAction"
 
 /* tslint:disable */
 export default function getActionTable(
@@ -99,7 +103,9 @@ export default function getActionTable(
   weatherService: WeatherService,
   spellTable: Spell[],
   locationService: LocationService,
-  escrowService: EscrowService): Action[] {
+  escrowService: EscrowService,
+  playerRepository: PlayerRepository,
+  paymentService: PaymentService): Action[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const lookAction = new LookAction(locationService, itemService, timeService, weatherService)
   const socialService = new SocialService(checkBuilderFactory, eventService)
@@ -219,6 +225,10 @@ export default function getActionTable(
 
     // client
     new QuitAction(checkBuilderFactory, eventService),
+
+    // cc
+    new CcListAction(checkBuilderFactory, playerRepository),
+    new CcAddAction(checkBuilderFactory, playerRepository, paymentService),
 
     // catch-all
     new NoopAction(),

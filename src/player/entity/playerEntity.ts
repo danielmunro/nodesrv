@@ -1,7 +1,8 @@
-import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import {Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn} from "typeorm"
 import { InventoryEntity } from "../../item/entity/inventoryEntity"
 import { MobEntity } from "../../mob/entity/mobEntity"
 import hash from "../password/hash"
+import {PaymentMethodEntity} from "./paymentMethodEntity"
 
 @Entity()
 export class PlayerEntity {
@@ -32,6 +33,15 @@ export class PlayerEntity {
 
   @OneToMany(() => MobEntity, mob => mob.player, { eager: true, cascade: true })
   public mobs: MobEntity[]
+
+  @OneToMany(() => PaymentMethodEntity, paymentMethod => paymentMethod.player, { eager: true, cascade: true })
+  public paymentMethods: PaymentMethodEntity[]
+
+  @Column({ nullable: true })
+  public stripeCustomerId: string
+
+  @Column({ nullable: true })
+  public stripeSubscriptionId: string
 
   public sessionMob: MobEntity
 

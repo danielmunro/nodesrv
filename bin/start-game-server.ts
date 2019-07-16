@@ -1,5 +1,6 @@
 import * as assert from "assert"
 import {Timings} from "../src/app/constants"
+import {Environment} from "../src/app/enum/environment"
 import createAppContainer from "../src/app/factory/factory"
 import {tick} from "../src/server/constants"
 import {ObserverChain} from "../src/server/observers/observerChain"
@@ -21,7 +22,11 @@ assert.ok(startRoomID, "start room ID has required to be defined")
 console.log(`startup parameters:  port: ${port}, room: ${startRoomID}`)
 
 initializeConnection().then(async () => {
-  const app = await createAppContainer(startRoomID, port)
+  const app = await createAppContainer(
+    process.env.STRIPE_API_KEY as string,
+    process.env.ENV as Environment,
+    startRoomID,
+    port)
 
   /**
    * seed mob and item resets

@@ -15,6 +15,7 @@ export default class PlayerRepositoryImpl implements PlayerRepository {
   public async findOneByMob(mobEntity: MobEntity): Promise<PlayerEntity | undefined> {
     return this.playerRepository.createQueryBuilder("player")
       .leftJoinAndSelect("player.mobs", "mob")
+      .leftJoinAndSelect("player.paymentMethods", "paymentMethods")
       .where("mob.id = :id", { id: mobEntity.id })
       .getOne()
   }

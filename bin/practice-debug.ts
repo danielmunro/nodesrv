@@ -1,5 +1,5 @@
+import {Environment} from "../src/app/enum/environment"
 import createAppContainer from "../src/app/factory/factory"
-import {MobEntity} from "../src/mob/entity/mobEntity"
 import {createMob} from "../src/mob/factory/mobFactory"
 import {RaceType} from "../src/mob/race/enum/raceType"
 import {SpecializationType} from "../src/mob/specialization/enum/specializationType"
@@ -14,7 +14,9 @@ const level = +process.argv[4]
 console.log("debug", { race, specialization, level })
 
 initializeConnection().then(async () => {
-  const app = await createAppContainer()
+  const app = await createAppContainer(
+    process.env.STRIPE_API_KEY as string,
+    Environment.Development)
   const specializationService = app.getSpecializationService()
   // service & mob
   const mob = createMob()

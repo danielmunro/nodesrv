@@ -1,5 +1,6 @@
 import {AsyncContainerModule} from "inversify"
 import {MessagePayload, Producer} from "kafkajs"
+import * as Stripe from "stripe"
 import {Server} from "ws"
 import {ItemContainerResetEntity} from "../../item/entity/itemContainerResetEntity"
 import ItemMobResetEntity from "../../item/entity/itemMobResetEntity"
@@ -9,6 +10,7 @@ import MobResetEntity from "../../mob/entity/mobResetEntity"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import {getTestRoom} from "../../support/test/room"
 import {Types} from "../../support/types"
+import {Environment} from "../enum/environment"
 
 export default new AsyncContainerModule(async bind => {
   bind<RoomEntity>(Types.StartRoom).toDynamicValue(() =>
@@ -30,4 +32,6 @@ export default new AsyncContainerModule(async bind => {
         console.log("payload", payload)
       },
     } as any)
+  bind<Stripe>(Types.StripeClient).toConstantValue({} as any)
+  bind<Environment>(Types.Environment).toConstantValue(Environment.Testing)
 })
