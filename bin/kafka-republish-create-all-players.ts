@@ -7,6 +7,7 @@ import {initializeConnection} from "../src/support/db/connection"
 initializeConnection().then(async () => {
   const app = await createAppContainer(
     process.env.STRIPE_API_KEY as string,
+    process.env.STRIPE_PLAN_ID as string,
     Environment.Development)
   const connection = getConnection()
   const playerRepository = connection.getRepository<PlayerEntity>(PlayerEntity)

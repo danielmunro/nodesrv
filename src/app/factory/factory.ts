@@ -12,13 +12,14 @@ import {Environment} from "../enum/environment"
 
 export default async function createAppContainer(
   stripeApiKey: string,
+  stripePlanId: string,
   environment: Environment,
   startRoomId = 3001,
   port: number = 5151): Promise<App> {
   console.time(Timings.container)
   const container = new Container()
   container.load(services, actions, eventConsumers, observers)
-  await container.loadAsync(tables, repositories, constants(stripeApiKey, environment, startRoomId, port))
+  await container.loadAsync(tables, repositories, constants(stripeApiKey, stripePlanId, environment, startRoomId, port))
   console.timeEnd(Timings.container)
   return new App(container)
 }

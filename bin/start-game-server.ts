@@ -24,6 +24,7 @@ console.log(`startup parameters:  port: ${port}, room: ${startRoomID}`)
 initializeConnection().then(async () => {
   const app = await createAppContainer(
     process.env.STRIPE_API_KEY as string,
+    process.env.STRIPE_PLAN_ID as string,
     process.env.ENV as Environment,
     startRoomID,
     port)

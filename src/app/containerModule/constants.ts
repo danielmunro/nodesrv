@@ -19,7 +19,8 @@ import {Types} from "../../support/types"
 import {Timings} from "../constants"
 import {Environment} from "../enum/environment"
 
-export default (stripeApiKey: string, environment: Environment, startRoomId: number, port: number) => {
+export default (
+  stripeApiKey: string, stripePlanId: string, environment: Environment, startRoomId: number, port: number) => {
   console.time(Timings.constants)
   const constants = new AsyncContainerModule(async bind => {
     bind<RoomEntity>(Types.StartRoom).toDynamicValue(context =>
@@ -39,6 +40,7 @@ export default (stripeApiKey: string, environment: Environment, startRoomId: num
     bind<Producer>(Types.KafkaProducer)
       .toConstantValue(await kafkaProducer("app", ["localhost:9092"]))
     bind<Stripe>(Types.StripeClient).toConstantValue(new Stripe(stripeApiKey))
+    bind<string>(Types.StripePlanId).toConstantValue(stripePlanId)
     bind<Environment>(Types.Environment).toConstantValue(environment)
   })
   console.timeEnd(Timings.constants)

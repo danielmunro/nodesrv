@@ -43,6 +43,7 @@ export const Types = {
   StartRoom: Symbol.for("StartRoom"),
   StateService: Symbol.for("StateService"),
   StripeClient: Symbol.for("StripeClient"),
+  StripePlanId: Symbol.for("StripePlanId"),
   TestRunner: Symbol.for("TestRunner"),
   TickObserver: Symbol.for("TickObserver"),
   TickRepository: Symbol.for("TickRepository"),

@@ -6,12 +6,11 @@ import {PaymentMethodEntity} from "../entity/paymentMethodEntity"
 import {PlayerEntity} from "../entity/playerEntity"
 import ICardSourceCreationOptions = Stripe.cards.ICardSourceCreationOptions
 
-const stripePlanId = "plan_FRLSOX5KKZWg66"
-
 @injectable()
 export default class PaymentService {
   constructor(
     @inject(Types.StripeClient) private readonly stripeClient: Stripe,
+    @inject(Types.StripePlanId) private readonly stripePlanId: string,
     @inject(Types.Environment) private readonly environment: Environment) {}
 
   public async createCustomer(player: PlayerEntity) {
@@ -57,7 +56,7 @@ export default class PaymentService {
     }
     const response = await this.stripeClient.subscriptions.create({
       customer: player.stripeCustomerId,
-      items: [{ plan: stripePlanId }],
+      items: [{ plan: this.stripePlanId }],
     })
     player.stripeSubscriptionId = response.id
     return response.status === "active"

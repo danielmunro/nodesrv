@@ -33,5 +33,6 @@ export default new AsyncContainerModule(async bind => {
       },
     } as any)
   bind<Stripe>(Types.StripeClient).toConstantValue({} as any)
+  bind<string>(Types.StripePlanId).toConstantValue("abc")
   bind<Environment>(Types.Environment).toConstantValue(Environment.Testing)
 })

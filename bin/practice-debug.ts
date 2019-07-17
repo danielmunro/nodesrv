@@ -16,6 +16,7 @@ console.log("debug", { race, specialization, level })
 initializeConnection().then(async () => {
   const app = await createAppContainer(
     process.env.STRIPE_API_KEY as string,
+    process.env.STRIPE_PLAN_ID as string,
     Environment.Development)
   const specializationService = app.getSpecializationService()
   // service & mob
