@@ -5,6 +5,10 @@ import {Types} from "../../support/types"
 import {PaymentMethodEntity} from "../entity/paymentMethodEntity"
 import {PlayerEntity} from "../entity/playerEntity"
 import ICardSourceCreationOptions = Stripe.cards.ICardSourceCreationOptions
+import { StripeSubscriptionStatus } from "./paymentService/stripeSubscriptionStatus"
+
+const paymentSourceObjectType = "card"
+const testCCToken = "tok_visa"
 
 @injectable()
 export default class PaymentService {
@@ -59,17 +63,17 @@ export default class PaymentService {
       items: [{ plan: this.stripePlanId }],
     })
     player.stripeSubscriptionId = response.id
-    return response.status === "active"
+    return response.status === StripeSubscriptionStatus.Active
   }
 
   public async removeSubscription(player: PlayerEntity): Promise<boolean> {
     const response = await this.stripeClient.subscriptions.del(player.stripeSubscriptionId)
 
-    if (response.status === "canceled") {
+    if (response.status === StripeSubscriptionStatus.Canceled) {
       player.stripeSubscriptionId = ""
     }
 
-    return response.status === "canceled"
+    return response.status === StripeSubscriptionStatus.Canceled
   }
 
   private getSource(ccNumber: string, expMonth: number, expYear: number): string | ICardSourceCreationOptions {
@@ -77,7 +81,7 @@ export default class PaymentService {
       exp_month: expMonth,
       exp_year: expYear,
       number: ccNumber,
-      object: "card",
-    } : "tok_visa"
+      object: paymentSourceObjectType,
+    } : testCCToken
   }
 }
