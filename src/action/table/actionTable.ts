@@ -93,6 +93,9 @@ import TellAction from "../impl/social/tellAction"
 import Spell from "../impl/spell"
 import CcAddAction from "../impl/subscription/ccAddAction"
 import CcListAction from "../impl/subscription/ccListAction"
+import CcRemoveAction from "../impl/subscription/ccRemoveAction"
+import SubscribeAction from "../impl/subscription/subscribeAction"
+import UnsubscribeAction from "../impl/subscription/unsubscribeAction"
 
 /* tslint:disable */
 export default function getActionTable(
@@ -229,6 +232,11 @@ export default function getActionTable(
     // cc
     new CcListAction(checkBuilderFactory, playerRepository),
     new CcAddAction(checkBuilderFactory, playerRepository, paymentService),
+    new CcRemoveAction(checkBuilderFactory, playerRepository, paymentService),
+
+    // subscription
+    new SubscribeAction(checkBuilderFactory, playerRepository, paymentService),
+    new UnsubscribeAction(checkBuilderFactory, playerRepository, paymentService),
 
     // catch-all
     new NoopAction(),

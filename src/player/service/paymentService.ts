@@ -39,6 +39,15 @@ export default class PaymentService {
     player.paymentMethods.push(paymentMethod)
   }
 
+  public async removePaymentMethod(player: PlayerEntity, paymentMethod: PaymentMethodEntity): Promise<boolean> {
+    const response = await this.stripeClient.customers.deleteSource(
+      player.stripeCustomerId, paymentMethod.stripePaymentMethodId)
+    if (response.deleted) {
+      player.paymentMethods = player.paymentMethods.filter(p => p !== paymentMethod)
+    }
+    return response.deleted
+  }
+
   public async purchaseSubscription(player: PlayerEntity): Promise<boolean> {
     if (!player.stripeCustomerId) {
       await this.createCustomer(player)
@@ -46,11 +55,22 @@ export default class PaymentService {
     if (!player.paymentMethods) {
       return false
     }
-    const response = await this.stripeClient.customers.createSubscription(player.stripeCustomerId, {
+    const response = await this.stripeClient.subscriptions.create({
+      customer: player.stripeCustomerId,
       items: [{ plan: stripePlanId }],
     })
     player.stripeSubscriptionId = response.id
     return response.status === "active"
+  }
+
+  public async removeSubscription(player: PlayerEntity): Promise<boolean> {
+    const response = await this.stripeClient.subscriptions.del(player.stripeSubscriptionId)
+
+    if (response.status === "canceled") {
+      player.stripeSubscriptionId = ""
+    }
+
+    return response.status === "canceled"
   }
 
   private getSource(ccNumber: string, expMonth: number, expYear: number): string | ICardSourceCreationOptions {

@@ -70,6 +70,8 @@ export enum RequestType {
   CCList = "cc-list",
   CCAdd = "cc-add",
   CCRemove = "cc-remove",
+  Subscribe = "subscribe",
+  Unsubscribe = "unsubscribe",
   Noop = "noop",
   Any = "any",
   Event = "event",

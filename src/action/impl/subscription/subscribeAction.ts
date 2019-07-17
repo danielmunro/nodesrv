@@ -1,6 +1,6 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
-import {PaymentMethodEntity} from "../../../player/entity/paymentMethodEntity"
+import {PlayerEntity} from "../../../player/entity/playerEntity"
 import PlayerRepository from "../../../player/repository/player"
 import PaymentService from "../../../player/service/paymentService"
 import {RequestType} from "../../../request/enum/requestType"
@@ -12,7 +12,7 @@ import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
-export default class CcRemoveAction extends Action {
+export default class SubscribeAction extends Action {
   constructor(
     private readonly checkBuilderFactory: CheckBuilderFactory,
     private readonly playerRepository: PlayerRepository,
@@ -34,30 +34,27 @@ export default class CcRemoveAction extends Action {
   }
 
   public getRequestType(): RequestType {
-    return RequestType.CCRemove
+    return RequestType.Subscribe
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
     const mob = requestService.getMob()
     return new Maybe<Response>(await this.playerRepository.findOneByMob(mob))
-      .do(player => {
+      .do(async (player: PlayerEntity) => {
         if (!player.paymentMethods) {
-          return requestService.respondWith().fail("You have no payment methods to remove")
+          return requestService.respondWith().fail("Add a credit card in order to subscribe")
         }
-        const nickname = requestService.getSubject()
-        return new Maybe<Response>(player.paymentMethods.find((paymentMethod: PaymentMethodEntity) =>
-          paymentMethod.nickname === nickname))
-          .do(async paymentMethod => {
-            const result = await this.paymentService.removePaymentMethod(player, paymentMethod)
-            return result ?
-              requestService.respondWith().success(`Payment method "${paymentMethod.nickname}" removed.`) :
-              requestService.respondWith().fail("An error occurred while removing payment method")
-          })
-          .or(() => requestService.respondWith().fail("That payment method was not found"))
-          .get()
+        if (player.stripeSubscriptionId) {
+          return requestService.respondWith().fail("Subscription already added, try to `unsubscribe`.")
+        }
+        const response = await this.paymentService.purchaseSubscription(player)
+        console.log("sub id", player.stripeSubscriptionId)
+        await this.playerRepository.save(player)
+        return response ?
+          requestService.respondWith().success("Subscription activated") :
+          requestService.respondWith().fail("An error occurred -- make sure you have an active payment method")
       })
       .or(() => requestService.respondWith().error("An error occurred"))
       .get()
   }
-
 }

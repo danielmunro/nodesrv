@@ -43,7 +43,7 @@ export default class CcListAction extends Action {
            player.paymentMethods.reduce(
             (previous: string, current: PaymentMethodEntity) =>
               previous + "\n" + current.nickname + " - created " +
-              current.created.format("YYYY-MM-DD"), "Your payment methods: ") :
+              current.created, "Your payment methods: ") :
           "You have no payment methods defined"))
       .or(() => requestService.respondWith().error("An error occurred"))
       .get()
