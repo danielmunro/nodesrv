@@ -1,6 +1,8 @@
 import { MobEntity } from "../../mob/entity/mobEntity"
 import {createPlayerMob} from "../../mob/factory/mobFactory"
 import { PlayerEntity } from "../entity/playerEntity"
+import {getPlayerRepository} from "../repository/player"
+import PlayerTable from "../table/playerTable"
 
 export function newPlayer(name: string, sessionMob: MobEntity): PlayerEntity {
   const player = createPlayer()
@@ -17,4 +19,9 @@ export function createPlayer(): PlayerEntity {
   player.deaths = 0
   player.mobs = []
   return player
+}
+
+export async function getPlayerTable(): Promise<PlayerTable> {
+  const repository = await getPlayerRepository()
+  return new PlayerTable(await repository.find())
 }

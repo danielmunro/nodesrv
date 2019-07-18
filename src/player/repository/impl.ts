@@ -8,6 +8,10 @@ import PlayerRepository from "./player"
 export default class PlayerRepositoryImpl implements PlayerRepository {
   constructor(private readonly playerRepository: Repository<PlayerEntity>) {}
 
+  public async find(): Promise<PlayerEntity[]> {
+    return this.playerRepository.find()
+  }
+
   public async findOneByEmail(email: string): Promise<PlayerEntity | undefined> {
     return this.playerRepository.findOne({ email })
   }

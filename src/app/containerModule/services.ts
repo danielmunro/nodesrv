@@ -14,6 +14,7 @@ import MobService from "../../mob/service/mobService"
 import SpecializationService from "../../mob/specialization/service/specializationService"
 import EscrowService from "../../mob/trade/escrowService"
 import PaymentService from "../../player/service/paymentService"
+import PlayerService from "../../player/service/playerService"
 import WeatherService from "../../region/service/weatherService"
 import ClientService from "../../server/service/clientService"
 import {GameServerService} from "../../server/service/gameServerService"
@@ -40,4 +41,5 @@ export default new ContainerModule(bind => {
   bind<KafkaService>(Types.KafkaService).to(KafkaService).inSingletonScope()
   bind<WeaponEffectService>(Types.WeaponEffectService).to(WeaponEffectService).inSingletonScope()
   bind<PaymentService>(Types.PaymentService).to(PaymentService).inSingletonScope()
+  bind<PlayerService>(Types.PlayerService).to(PlayerService).inSingletonScope()
 })

@@ -1,12 +1,11 @@
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {PaymentMethodEntity} from "../../../player/entity/paymentMethodEntity"
-import PlayerRepository from "../../../player/repository/player"
+import PlayerService from "../../../player/service/playerService"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import Maybe from "../../../support/functional/maybe/maybe"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
@@ -14,7 +13,7 @@ import Action from "../action"
 export default class CcListAction extends Action {
   constructor(
     private readonly checkBuilderFactory: CheckBuilderFactory,
-    private readonly playerRepository: PlayerRepository) {
+    private readonly playerService: PlayerService) {
     super()
   }
 
@@ -37,14 +36,13 @@ export default class CcListAction extends Action {
 
   public async invoke(requestService: RequestService): Promise<Response> {
     const mob = requestService.getMob()
-    return new Maybe<Response>(await this.playerRepository.findOneByMob(mob))
-      .do(player =>
-        requestService.respondWith().info(player.paymentMethods ?
-           player.paymentMethods.reduce(
-            (previous: string, current: PaymentMethodEntity) =>
-              previous + "\n" + current.nickname + " - created " +
-              current.created, "Your payment methods: ") :
-          "You have no payment methods defined"))
+    return this.playerService.getPlayerFromMob(mob).maybe<Response>(player =>
+      requestService.respondWith().info(player.paymentMethods ?
+        player.paymentMethods.reduce(
+          (previous: string, current: PaymentMethodEntity) =>
+            previous + "\n" + current.nickname + " - created " +
+            current.created, "Your payment methods: ") :
+            "You have no payment methods defined"))
       .or(() => requestService.respondWith().error("An error occurred"))
       .get()
   }

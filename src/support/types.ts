@@ -30,6 +30,8 @@ export const Types = {
   PaymentService: Symbol.for("PaymentService"),
   PersistPlayersObservers: Symbol.for("PersistPlayersObservers"),
   PlayerRepository: Symbol.for("PlayerRepository"),
+  PlayerService: Symbol.for("PlayerService"),
+  PlayerTable: Symbol.for("PlayerTable"),
   Port: Symbol.for("Port"),
   RegionWeatherObserver: Symbol.for("RegionWeatherObserver"),
   ResetService: Symbol.for("ResetService"),

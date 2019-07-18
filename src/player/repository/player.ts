@@ -7,6 +7,7 @@ import PlayerRepositoryImpl from "./impl"
 export default interface PlayerRepository {
   findOneByEmail(email: string): Promise<PlayerEntity | undefined>
   findOneByMob(mobEntity: MobEntity): Promise<PlayerEntity | undefined>
+  find(): Promise<PlayerEntity[]>
   save(player: PlayerEntity | PlayerEntity[]): Promise<any>
 }
 

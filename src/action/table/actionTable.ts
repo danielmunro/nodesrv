@@ -7,8 +7,7 @@ import getHealerSpellTable from "../../mob/healer/healerSpellTable"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import EscrowService from "../../mob/trade/escrowService"
-import PlayerRepository from "../../player/repository/player"
-import PaymentService from "../../player/service/paymentService"
+import PlayerService from "../../player/service/playerService"
 import SocialService from "../../player/service/socialService"
 import WeatherService from "../../region/service/weatherService"
 import {RequestType} from "../../request/enum/requestType"
@@ -107,8 +106,7 @@ export default function getActionTable(
   spellTable: Spell[],
   locationService: LocationService,
   escrowService: EscrowService,
-  playerRepository: PlayerRepository,
-  paymentService: PaymentService): Action[] {
+  playerService: PlayerService): Action[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const lookAction = new LookAction(locationService, itemService, timeService, weatherService)
   const socialService = new SocialService(checkBuilderFactory, eventService)
@@ -230,13 +228,13 @@ export default function getActionTable(
     new QuitAction(checkBuilderFactory, eventService),
 
     // cc
-    new CcListAction(checkBuilderFactory, playerRepository),
-    new CcAddAction(checkBuilderFactory, playerRepository, paymentService),
-    new CcRemoveAction(checkBuilderFactory, playerRepository, paymentService),
+    new CcListAction(checkBuilderFactory, playerService),
+    new CcAddAction(checkBuilderFactory, playerService),
+    new CcRemoveAction(checkBuilderFactory, playerService),
 
     // subscription
-    new SubscribeAction(checkBuilderFactory, playerRepository, paymentService),
-    new UnsubscribeAction(checkBuilderFactory, playerRepository, paymentService),
+    new SubscribeAction(checkBuilderFactory, playerService),
+    new UnsubscribeAction(checkBuilderFactory, playerService),
 
     // catch-all
     new NoopAction(),
