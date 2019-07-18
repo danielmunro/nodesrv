@@ -32,16 +32,14 @@ export default class PlayerService {
     this.playerTable.getPlayerFromMob(mob)
       .do(async (player: PlayerEntity) => {
         if (!player.paymentMethods) {
-          return
+          throw new Error("no payment methods defined")
         }
         const paymentMethod = player.paymentMethods.find(p => p.nickname === nickname)
         if (!paymentMethod) {
-          return
+          throw new Error("that payment method was not found")
         }
-        const success = await this.paymentService.removePaymentMethod(player, paymentMethod)
-        if (success) {
-          await this.playerRepository.save(player)
-        }
+        await this.paymentService.removePaymentMethod(player, paymentMethod)
+        await this.playerRepository.save(player)
       })
       .get()
   }
@@ -49,10 +47,8 @@ export default class PlayerService {
   public async subscribe(mob: MobEntity) {
     this.playerTable.getPlayerFromMob(mob)
       .do(async player => {
-        const success = await this.paymentService.purchaseSubscription(player)
-        if (success) {
-          await this.playerRepository.save(player)
-        }
+        await this.paymentService.purchaseSubscription(player)
+        await this.playerRepository.save(player)
       })
       .get()
   }
@@ -60,10 +56,8 @@ export default class PlayerService {
   public async  unsubscribe(mob: MobEntity) {
     this.playerTable.getPlayerFromMob(mob)
       .do(async player => {
-        const success = await this.paymentService.removeSubscription(player)
-        if (success) {
-          await this.playerRepository.save(player)
-        }
+        await this.paymentService.removeSubscription(player)
+        await this.playerRepository.save(player)
       })
       .get()
   }
