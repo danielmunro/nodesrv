@@ -20,45 +20,33 @@ export default class PlayerService {
 
   public async addPaymentMethod(
     mob: MobEntity, nickname: string, ccNumber: string, expMonth: number, expYear: number) {
-    this.playerTable.getPlayerFromMob(mob)
-      .do(async player => {
-        await this.paymentService.addPaymentMethod(player, nickname, ccNumber, expMonth, expYear)
-        await this.playerRepository.save(player)
-      })
-      .get()
+    const player = this.playerTable.getPlayerFromMob(mob).get()
+    await this.paymentService.addPaymentMethod(player, nickname, ccNumber, expMonth, expYear)
+    await this.playerRepository.save(player)
   }
 
   public async removePaymentMethod(mob: MobEntity, nickname: string) {
-    this.playerTable.getPlayerFromMob(mob)
-      .do(async (player: PlayerEntity) => {
-        if (!player.paymentMethods) {
-          throw new Error("no payment methods defined")
-        }
-        const paymentMethod = player.paymentMethods.find(p => p.nickname === nickname)
-        if (!paymentMethod) {
-          throw new Error("that payment method was not found")
-        }
-        await this.paymentService.removePaymentMethod(player, paymentMethod)
-        await this.playerRepository.save(player)
-      })
-      .get()
+    const player = this.getPlayerFromMob(mob).get()
+    if (!player.paymentMethods) {
+      throw new Error("no payment methods defined")
+    }
+    const paymentMethod = player.paymentMethods.find(p => p.nickname === nickname)
+    if (!paymentMethod) {
+      throw new Error("that payment method was not found")
+    }
+    await this.paymentService.removePaymentMethod(player, paymentMethod)
+    await this.playerRepository.save(player)
   }
 
   public async subscribe(mob: MobEntity) {
-    this.playerTable.getPlayerFromMob(mob)
-      .do(async player => {
-        await this.paymentService.purchaseSubscription(player)
-        await this.playerRepository.save(player)
-      })
-      .get()
+    const player = this.getPlayerFromMob(mob).get()
+    await this.paymentService.purchaseSubscription(player)
+    await this.playerRepository.save(player)
   }
 
   public async  unsubscribe(mob: MobEntity) {
-    this.playerTable.getPlayerFromMob(mob)
-      .do(async player => {
-        await this.paymentService.removeSubscription(player)
-        await this.playerRepository.save(player)
-      })
-      .get()
+    const player = this.getPlayerFromMob(mob).get()
+    await this.paymentService.removeSubscription(player)
+    await this.playerRepository.save(player)
   }
 }
