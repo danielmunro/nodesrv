@@ -40,6 +40,9 @@ export default class PlayerService {
 
   public async subscribe(mob: MobEntity) {
     const player = this.getPlayerFromMob(mob).get()
+    if (player.stripeSubscriptionId) {
+      throw new Error("subscription already active")
+    }
     await this.paymentService.purchaseSubscription(player)
     await this.playerRepository.save(player)
   }

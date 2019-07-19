@@ -15,7 +15,7 @@ export default class HelpAction extends Action {
     this.actions = actions
   }
   public check(request: Request): Promise<Check> {
-    return new Maybe(this.actions.find(
+    return new Maybe<any>(this.actions.find(
       (a: Action) => a.isAbleToHandleRequestType(request.getSubject() as RequestType)))
       .do(action => Check.ok(action))
       .or(() => Check.fail(Messages.Help.Fail))
@@ -28,8 +28,9 @@ export default class HelpAction extends Action {
     actionParts.shift()
     const parts = actionParts.map((actionPart: ActionPart) => "{" + actionPart + "}").join(" ")
     return requestService.respondWith().success(
-`syntax: ${action.getRequestType()}${parts ? " " + parts : ""}
-
+`Help:
+command: ${action.getRequestType()}
+syntax: ${action.getRequestType()}${parts ? " " + parts : ""}
 ${action.getHelpText()}`)
   }
 

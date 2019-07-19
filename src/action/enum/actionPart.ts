@@ -16,4 +16,8 @@ export enum ActionPart {
   FreeForm = "free form",
   Number = "number",
   GoldOnHand = "gold on hand",
+  ShortName = "short name",
+  CCNumber = "credit card number",
+  ExpMonth = "exp month",
+  ExpYear = "exp year",
 }

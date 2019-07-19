@@ -121,8 +121,9 @@ describe("flee action handler", () => {
 
   it("renders help text", async () => {
     const response = await testRunner.invokeAction(RequestType.Help, "help flee")
-    expect(response.getMessageToRequestCreator()).toBe(`syntax: flee
-
+    expect(response.getMessageToRequestCreator()).toBe(`Help:
+command: flee
+syntax: flee
 Once you start a fight, you can't just walk away from it.  If the fight
 is not going well, you can attempt to FLEE, or another character can
 RESCUE you.  (You can also RECALL, but this is less likely to work,

@@ -1,3 +1,5 @@
+import {MudName} from "../gameService/constants"
+
 export const MAX_TRAINABLE_STATS = 4
 export const FLEE_MOVEMENT_COST_MULTIPLIER = 3
 export const Messages = {
@@ -296,6 +298,13 @@ The effect of the spell is reduced or eliminated if the victim makes the
 saving throw successfully.
 
 See also the help sections for individual spells.`,
+  CcAdd: `Add a credit card for subscription purposes. Here are some examples:
+cc-add debit 4141414141414141 01 20
+cc-add 'my cc' 4444444444444444 11 19`,
+  CcList: `List cards available for subscription payments.`,
+  CcRemove: `Remove a credit card by its short name. Examples include:
+cc-remove 'bank card'
+cc-remove cc1`,
   ChangeDisposition: `These commands change your position.  When you SIT or SLEEP, you
 regenerate hit points, mana points, and movement points faster.
 However, you are more vulnerable to attack, and if you SLEEP,
@@ -311,4 +320,7 @@ and costs more experience points, then fleeing).
 If you lose your link during a fight, then your character will keep
 fighting, and will attempt to RECALL from time to time.  Your chances
 of making the recall are reduced, and you will lose much more experience.`,
+  Subscribe: `Start a $3.00 monthly subscription to ${MudName}. You can 'unsubscribe'
+at any time.`,
+  Unsubscribe: `Cancel an active subscription. You can 'subscribe' again at any time.`,
 }

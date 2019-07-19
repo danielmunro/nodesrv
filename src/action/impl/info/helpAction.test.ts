@@ -17,8 +17,9 @@ describe("help action", () => {
 
     // then
     expect(response.getMessageToRequestCreator())
-      .toBe(`syntax: cast {spell} {target}
-
+      .toBe(`Help:
+command: cast
+syntax: cast {spell} {target}
 Before you can cast a spell, you have to practice it.  The more you practice,
 the higher chance you have of success when casting.  Casting spells costs mana.
 The mana cost decreases as your level increases.
@@ -43,7 +44,10 @@ See also the help sections for individual spells.`)
 
     // then
     expect(response.getMessageToRequestCreator())
-      .toBe("syntax: buy {item with room mob}\n\nMore information coming soon.")
+      .toBe(`Help:
+command: buy
+syntax: buy {item with room mob}
+More information coming soon.`)
   })
 
   it("can handle when no help subject has found", async () => {

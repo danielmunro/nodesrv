@@ -43,8 +43,9 @@ describe("sleep action", () => {
     const response = await testRunner.invokeAction(RequestType.Help, "help sleep")
 
     // then
-    expect(response.getMessageToRequestCreator()).toBe(`syntax: sleep
-
+    expect(response.getMessageToRequestCreator()).toBe(`Help:
+command: sleep
+syntax: sleep
 These commands change your position.  When you SIT or SLEEP, you
 regenerate hit points, mana points, and movement points faster.
 However, you are more vulnerable to attack, and if you SLEEP,

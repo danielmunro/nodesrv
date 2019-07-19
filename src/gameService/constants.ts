@@ -1,3 +1,4 @@
+export const MudName = "Ruins of Midgaard"
 export const PracticeMessages = {
   Cleric: `skill                   current practiced level
 

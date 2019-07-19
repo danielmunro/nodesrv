@@ -5,7 +5,7 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import {Messages} from "../../constants"
+import {HelpMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
@@ -26,7 +26,7 @@ export default class UnsubscribeAction extends Action {
   }
 
   public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
+    return HelpMessages.Unsubscribe
   }
 
   public getRequestType(): RequestType {
