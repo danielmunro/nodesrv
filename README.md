@@ -19,8 +19,6 @@ Server setup assumes the target system has:
   * nodejs runtime
   * yarn
 
-In order to run the client, 
-
 ### Install Dependencies And Setup Fixtures
 
 Clone this repository
