@@ -17,6 +17,7 @@ Server setup assumes the target system has:
   * git
   * docker, docker-compose
   * nodejs runtime
+  * yarn
 
 In order to run the client, 
 
