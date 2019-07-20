@@ -43,13 +43,19 @@ export default class PlayerService {
     if (player.stripeSubscriptionId) {
       throw new Error("subscription already active")
     }
-    await this.paymentService.purchaseSubscription(player)
+    const success = await this.paymentService.purchaseSubscription(player)
+    if (!success) {
+      throw new Error("Error purchasing subscription. Do you have an active credit card?")
+    }
     await this.playerRepository.save(player)
   }
 
-  public async  unsubscribe(mob: MobEntity) {
+  public async unsubscribe(mob: MobEntity) {
     const player = this.getPlayerFromMob(mob).get()
-    await this.paymentService.removeSubscription(player)
+    const success = await this.paymentService.removeSubscription(player)
+    if (!success) {
+      throw new Error("Error unsubscribing. Do you have an active subscription?")
+    }
     await this.playerRepository.save(player)
   }
 }
