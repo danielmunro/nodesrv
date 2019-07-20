@@ -17,6 +17,10 @@ export default class Request implements ClientRequest {
     private readonly context: RequestContext,
     private readonly targetMobInRoom?: MobEntity) {}
 
+  public getWord(index: number) {
+    return this.getContextAsInput().words[index]
+  }
+
   public getContextAsInput(): InputContext {
     return this.context as InputContext
   }

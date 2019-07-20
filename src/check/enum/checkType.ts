@@ -15,4 +15,7 @@ export enum CheckType {
   HasSpell,
   HasAffect,
   Unspecified,
+  CCNumber,
+  ExpirationMonth,
+  ExpirationYear,
 }

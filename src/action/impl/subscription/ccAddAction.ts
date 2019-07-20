@@ -18,6 +18,7 @@ export default class CcAddAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
+      .requireFromActionParts(request, this.getActionParts())
       .create()
   }
 

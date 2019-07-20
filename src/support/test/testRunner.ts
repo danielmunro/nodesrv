@@ -14,6 +14,7 @@ import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import {SkillType} from "../../mob/skill/skillType"
 import SpecializationService from "../../mob/specialization/service/specializationService"
+import PlayerTable from "../../player/table/playerTable"
 import InputContext from "../../request/context/inputContext"
 import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
@@ -57,6 +58,7 @@ export default class TestRunner {
     @inject(Types.Skills) private readonly skills: Skill[],
     @inject(Types.StateService) private readonly stateService: StateService,
     @inject(Types.SpecializationService) private readonly specializationService: SpecializationService,
+    @inject(Types.PlayerTable) private readonly playerTable: PlayerTable,
   ) {}
 
   public createItem(): ItemBuilder {
@@ -94,6 +96,7 @@ export default class TestRunner {
     const client = this.clientService.createNewClient(websocket, null)
     client.player = player
     this.mobService.add(player.sessionMob, this.getStartRoom().room)
+    this.playerTable.add(player)
     if (!this.firstMob) {
       this.firstMob = player.sessionMob
     }

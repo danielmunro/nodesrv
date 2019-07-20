@@ -32,7 +32,12 @@ export default new AsyncContainerModule(async bind => {
         console.log("payload", payload)
       },
     } as any)
-  bind<Stripe>(Types.StripeClient).toConstantValue({} as any)
+  bind<Stripe>(Types.StripeClient).toConstantValue({
+    customers: {
+      create: () => ({}),
+      createSource: () => ({}),
+    },
+  } as any)
   bind<string>(Types.StripePlanId).toConstantValue("abc")
   bind<Environment>(Types.Environment).toConstantValue(Environment.Testing)
 })

@@ -1,5 +1,8 @@
 import MobService from "../../mob/service/mobService"
 import ActionPartCheck from "../actionPartCheck/actionPartCheck"
+import CcNumberActionPartCheck from "../actionPartCheck/ccNumberActionPartCheck"
+import ExpirationMonthActionPartCheck from "../actionPartCheck/expirationMonthActionPartCheck"
+import ExpirationYearActionPartCheck from "../actionPartCheck/expirationYearActionPartCheck"
 import GoldActionPartCheck from "../actionPartCheck/goldActionPartCheck"
 import HostileActionPartCheck from "../actionPartCheck/hostileActionPartCheck"
 import ItemInInventoryActionPartCheck from "../actionPartCheck/itemInInventoryActionPartCheck"
@@ -15,5 +18,8 @@ export default function getActionPartTable(mobService: MobService): ActionPartCh
     new MobInRoomActionPartCheck(),
     new ItemInInventoryActionPartCheck(),
     new ItemInRoomActionPartCheck(),
+    new CcNumberActionPartCheck(),
+    new ExpirationMonthActionPartCheck(),
+    new ExpirationYearActionPartCheck(),
   ]
 }
