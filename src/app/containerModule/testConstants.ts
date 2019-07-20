@@ -36,6 +36,7 @@ export default new AsyncContainerModule(async bind => {
     customers: {
       create: () => ({}),
       createSource: () => ({}),
+      deleteSource: () => ({}),
     },
   } as any)
   bind<string>(Types.StripePlanId).toConstantValue("abc")
