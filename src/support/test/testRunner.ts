@@ -74,9 +74,9 @@ export default class TestRunner {
     return new WeaponBuilder(weapon)
   }
 
-  public createMob(room: RoomEntity = this.getStartRoom().room): MobBuilder {
+  public async createMob(room: RoomEntity = this.getStartRoom().room): Promise<MobBuilder> {
     const mob = getTestMob()
-    this.mobService.add(mob, room)
+    await this.mobService.add(mob, room)
     if (!this.firstMob) {
       this.firstMob = mob
     }
@@ -84,18 +84,18 @@ export default class TestRunner {
     return new MobBuilder(this.specializationService, mob)
   }
 
-  public createAndSetMainMob(): MobBuilder {
-    const mobBuilder = this.createMob()
-    this.firstMob = mobBuilder.mob
+  public async createAndSetMainMob(): Promise<MobBuilder> {
+    const mobBuilder = await this.createMob()
+    this.firstMob = mobBuilder.get()
     return mobBuilder
   }
 
-  public createPlayer(): PlayerBuilder {
+  public async createPlayer(): Promise<PlayerBuilder> {
     const player = getTestPlayer()
     const websocket = ws() as any
     const client = this.clientService.createNewClient(websocket, null)
     client.player = player
-    this.mobService.add(player.sessionMob, this.getStartRoom().room)
+    await this.mobService.add(player.sessionMob, this.getStartRoom().room)
     this.playerTable.add(player)
     if (!this.firstMob) {
       this.firstMob = player.sessionMob
@@ -109,7 +109,7 @@ export default class TestRunner {
 
   public async createLoggedInClient(): Promise<Client> {
     const client = this.createClient()
-    await client.session.login(client, this.createPlayer().get())
+    await client.session.login(client, (await this.createPlayer()).get())
     return client
   }
 
@@ -142,7 +142,10 @@ export default class TestRunner {
       targetMobInRoom)
   }
 
-  public fight(target: MobEntity = this.createMob().get()): Fight {
+  public async fight(target?: MobEntity): Promise<Fight> {
+    if (!target) {
+      target = (await this.createMob()).get()
+    }
     const fight = this.fightBuilder.create(this.firstMob, target)
     this.mobService.addFight(fight)
     return fight
@@ -154,7 +157,7 @@ export default class TestRunner {
 
   public async invokeAction(requestType: RequestType, input?: string, targetMobInRoom?: MobEntity): Promise<Response> {
     if (!this.firstMob) {
-      this.createMob()
+      await this.createMob()
     }
     const action = this.actions.find(a => a.getRequestType() === requestType) as Action
     return await action.handle(

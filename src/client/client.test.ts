@@ -34,7 +34,7 @@ beforeEach(async () => {
   testRunner = app.get<TestRunner>(Types.TestRunner)
   const clientService = app.get<ClientService>(Types.ClientService)
   client = clientService.createNewClient(mockWebSocket() as any, mockReq())
-  const player = testRunner.createPlayer().get()
+  const player = (await testRunner.createPlayer()).get()
   await client.session.login(client, player)
   const mobService = app.get<MobService>(Types.MobService)
   mobService.add(player.sessionMob, testRunner.getStartRoom().get())
@@ -171,7 +171,7 @@ describe("clients", () => {
 
   it("training will apply the cost appropriately", async () => {
     // setup
-    testRunner.createMob().asTrainer()
+    (await testRunner.createMob()).asTrainer()
     client.player.sessionMob.playerMob.trains = 1
     client.addRequest(
       new Request(

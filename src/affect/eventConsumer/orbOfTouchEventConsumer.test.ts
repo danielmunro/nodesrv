@@ -16,8 +16,8 @@ beforeEach(async () => {
 describe("orb of touch event consumer", () => {
   it("removes the affect if triggered", async () => {
     // given
-    const attacker = testRunner.createMob()
-    const defender = testRunner.createMob().addAffectType(AffectType.OrbOfTouch)
+    const attacker = await testRunner.createMob()
+    const defender = (await testRunner.createMob()).addAffectType(AffectType.OrbOfTouch)
 
     // when
     await eventConsumer.consume(createAttackEvent(attacker.mob, defender.mob))

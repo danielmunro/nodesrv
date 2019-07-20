@@ -12,7 +12,7 @@ let player: PlayerBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  player = testRunner.createPlayer()
+  player = (await testRunner.createPlayer())
     .setLevel(20)
 })
 
@@ -20,7 +20,7 @@ describe("bash skill action", () => {
   it("can trigger a failed bash", async () => {
     // given
     player.addSkill(SkillType.Bash)
-    testRunner.fight()
+    await testRunner.fight()
 
     // when
     const response = await testRunner.invokeActionFailure(RequestType.Bash)
@@ -32,8 +32,8 @@ describe("bash skill action", () => {
   it("can trigger a successful bash", async () => {
     // given
     player.setLevel(20).addSkill(SkillType.Bash, MAX_PRACTICE_LEVEL)
-    const opponent = testRunner.createMob()
-    testRunner.fight(opponent.mob)
+    const opponent = await testRunner.createMob()
+    await testRunner.fight(opponent.get())
 
     // when
     await testRunner.invokeActionSuccessfully(RequestType.Bash)
@@ -45,7 +45,7 @@ describe("bash skill action", () => {
   it("bounces off an orb of touch", async () => {
     // given
     player.addSkill(SkillType.Bash, MAX_PRACTICE_LEVEL)
-    const target = testRunner.createMob()
+    const target = (await testRunner.createMob())
       .addAffectType(AffectType.OrbOfTouch)
 
     // when
@@ -66,8 +66,8 @@ describe("bash skill action", () => {
   it("generates messages correctly", async () => {
     // given
     player.setLevel(20).addSkill(SkillType.Bash, MAX_PRACTICE_LEVEL / 2)
-    const opponent = testRunner.createMob()
-    testRunner.fight(opponent.mob)
+    const opponent = await testRunner.createMob()
+    await testRunner.fight(opponent.get())
 
     // when
     const response1 = await testRunner.invokeActionSuccessfully(RequestType.Bash)

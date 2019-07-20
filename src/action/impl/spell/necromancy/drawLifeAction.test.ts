@@ -11,10 +11,10 @@ let target: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .setLevel(40)
     .withSpell(SpellType.DrawLife)
-  target = testRunner.createMob().setLevel(40)
+  target = (await testRunner.createMob()).setLevel(40)
 })
 
 describe("draw life action", () => {

@@ -9,8 +9,8 @@ let trader: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  testRunner.createMob()
-  trader = testRunner.createMob()
+  await testRunner.createMob()
+  trader = await testRunner.createMob()
 })
 
 describe("trade request action", () => {

@@ -14,7 +14,7 @@ beforeEach(async () => {
 describe("sleep action", () => {
   it("should change the mob's disposition to sleeping", async () => {
     // given
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Sleep)
@@ -28,7 +28,7 @@ describe("sleep action", () => {
 
   it("should not be able to sleep if already sleeping", async () => {
     // given
-    testRunner.createMob().withDisposition(Disposition.Sleeping)
+    (await testRunner.createMob()).withDisposition(Disposition.Sleeping)
 
     // when
     const response = await testRunner.invokeAction(RequestType.Sleep)

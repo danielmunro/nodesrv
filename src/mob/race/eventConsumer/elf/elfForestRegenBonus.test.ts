@@ -16,7 +16,7 @@ const regenModifier = 2
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mob = testRunner.createMob().setRace(RaceType.Elf).get()
+  mob = (await testRunner.createMob()).setRace(RaceType.Elf).get()
   eventConsumer = new ElfForestRegenBonus()
 })
 

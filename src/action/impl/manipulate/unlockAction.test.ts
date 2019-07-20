@@ -15,7 +15,7 @@ const unlockCommand = "unlock door"
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   testRunner.createRoom()
-  mobBuilder = testRunner.createMob()
+  mobBuilder = await testRunner.createMob()
   const item = testRunner.createItem().asKey(unlockCanonicalId as any).build()
   mobBuilder.addItem(item)
 })

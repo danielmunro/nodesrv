@@ -14,18 +14,18 @@ let eventConsumer: VorpalWeaponEffectEventConsumer
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mob = testRunner.createMob().equip(
+  mob = (await testRunner.createMob()).equip(
     testRunner.createWeapon().asAxe().addWeaponEffect(WeaponEffect.Vorpal).build())
   eventConsumer = new VorpalWeaponEffectEventConsumer()
 })
 
 describe("vorpal weapon effect event consumer", () => {
   it("adds an attack", async () => {
-    const target = testRunner.createMob().get()
+    const target = (await testRunner.createMob()).get()
 
     // when
     const eventResponse = await eventConsumer.consume(
-      createFightEvent(EventType.AttackRound, mob.get(), testRunner.fight(target)))
+      createFightEvent(EventType.AttackRound, mob.get(), await testRunner.fight(target)))
 
     // then
     expect((eventResponse.event as FightEvent).attacks).toHaveLength(1)

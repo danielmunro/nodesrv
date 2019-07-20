@@ -14,7 +14,7 @@ beforeEach(async () => {
 describe("fast healing skill action", () => {
   it("should succeed and fail periodically", async () => {
     // setup
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = await testRunner.createMob()
 
     // given
     mobBuilder.mob.level = 30

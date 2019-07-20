@@ -16,9 +16,10 @@ let trainedAttributes: AttributesEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  playerBuilder = testRunner.createPlayer().setTrains(1)
+  playerBuilder = (await testRunner.createPlayer()).setTrains(1)
   trainedAttributes = playerBuilder.getMob().playerMob.trainedAttributes
-  testRunner.createMob().asTrainer()
+  const trainer = await testRunner.createMob()
+  trainer.asTrainer()
 })
 
 describe("train action", () => {

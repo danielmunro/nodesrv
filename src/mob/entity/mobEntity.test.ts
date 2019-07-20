@@ -13,7 +13,7 @@ beforeEach(async () => {
 describe("mob entity", () => {
   it("cannot exceed its max appetite when eating", async () => {
     // given
-    const playerBuilder = testRunner.createPlayer()
+    const playerBuilder = await testRunner.createPlayer()
     const food = testRunner.createItem()
       .asFood()
       .build()
@@ -75,9 +75,9 @@ describe("mob entity", () => {
 
   it("describes if it's a merchant", async () => {
     // given
-    const mob = testRunner.createMob().get()
-    const merchant = testRunner.createMob().asMerchant().get()
-    const player = testRunner.createPlayer().player
+    const mob = (await testRunner.createMob()).get()
+    const merchant = (await testRunner.createMob()).asMerchant().get()
+    const player = (await testRunner.createPlayer()).get()
 
     // expect
     expect(mob.isMerchant()).toBeFalsy()

@@ -13,10 +13,10 @@ let target: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .setLevel(30)
     .withSpell(SpellType.HolySilence)
-  target = testRunner.createMob()
+  target = await testRunner.createMob()
 })
 
 describe("holy silence spell action", () => {

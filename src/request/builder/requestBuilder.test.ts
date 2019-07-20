@@ -15,9 +15,9 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   const testRunner = app.get<TestRunner>(Types.TestRunner)
   // action creator
-  const mob = testRunner.createMob().get()
+  const mob = (await testRunner.createMob()).get()
   // potential target
-  target = testRunner.createMob().get()
+  target = (await testRunner.createMob()).get()
   requestBuilder = new RequestBuilder(
     app.get<Action[]>(Types.Actions),
     app.get<LocationService>(Types.LocationService),

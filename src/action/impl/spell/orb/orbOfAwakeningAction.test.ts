@@ -13,7 +13,7 @@ const expectedMessage = "you are surrounded by an orb of awakening."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .withSpell(SpellType.OrbOfAwakening, MAX_PRACTICE_LEVEL)
     .setLevel(30)
 })
@@ -41,7 +41,7 @@ describe("orb of awakening spell action", () => {
 
   it("generates accurate success messages when casting on a target", async () => {
     // given
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeActionSuccessfully(

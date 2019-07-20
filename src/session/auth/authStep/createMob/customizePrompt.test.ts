@@ -18,7 +18,7 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   client = testRunner.createClient()
-  player = testRunner.createPlayer().get()
+  player = (await testRunner.createPlayer()).get()
   await client.session.login(client, player)
   customizePrompt = new CustomizePrompt(
     app.get<CreationService>(Types.CreationService), player)

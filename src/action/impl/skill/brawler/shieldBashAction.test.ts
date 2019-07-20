@@ -23,10 +23,10 @@ describe("shield bash skill action", () => {
 
   it("bounces off an orb of touch", async () => {
     // given
-    const attacker = testRunner.createMob()
+    const attacker = (await testRunner.createMob())
       .withSkill(SkillType.ShieldBash, MAX_PRACTICE_LEVEL)
       .setLevel(30)
-    const target = testRunner.createMob().addAffectType(AffectType.OrbOfTouch)
+    const target = (await testRunner.createMob()).addAffectType(AffectType.OrbOfTouch)
 
     // when
     const response = await testRunner.invokeAction(
@@ -44,10 +44,10 @@ describe("shield bash skill action", () => {
   })
 
   it("generates accurate success messages", async () => {
-    const attacker = testRunner.createMob()
+    const attacker = (await testRunner.createMob())
       .withSkill(SkillType.ShieldBash, MAX_PRACTICE_LEVEL)
       .setLevel(30)
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     const response = await testRunner.invokeActionSuccessfully(
       RequestType.ShieldBash, `shield '${target.getMobName()}'`, target.get())
@@ -61,10 +61,10 @@ describe("shield bash skill action", () => {
   })
 
   it("generates accurate fail messages", async () => {
-    const attacker = testRunner.createMob()
+    const attacker = (await testRunner.createMob())
       .withSkill(SkillType.ShieldBash)
       .setLevel(30)
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     const response = await testRunner.invokeActionFailure(
       RequestType.ShieldBash, `shield '${target.getMobName()}'`, target.get())

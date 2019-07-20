@@ -21,11 +21,11 @@ beforeEach(async () => {
 describe("cast spell action", () => {
   it("should be able to cast a known spell", async () => {
     // given
-    testRunner.createMob()
+    (await testRunner.createMob())
       .setLevel(20)
       .withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
 
-    const target = testRunner.createMob().mob
+    const target = (await testRunner.createMob()).mob
 
     // when
     const response = await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast blind", target)
@@ -62,7 +62,7 @@ describe("cast spell action", () => {
 
   it("should display an appropriate result if the caster lacks mana", async () => {
     // given
-    testRunner.createMob()
+    (await testRunner.createMob())
       .withSpell(SpellType.Shield, MAX_PRACTICE_LEVEL)
       .setMana(0)
       .setLevel(30)

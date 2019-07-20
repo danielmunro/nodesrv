@@ -14,8 +14,8 @@ let caster: MobBuilder
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   consumer = new HolySilenceEventConsumer()
-  caster = testRunner.createMob()
-  testRunner.fight()
+  caster = await testRunner.createMob()
+  await testRunner.fight()
 })
 
 describe("holy silence event consumer", () => {

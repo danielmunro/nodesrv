@@ -11,12 +11,12 @@ let target: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  testRunner.createMob()
-    .setLevel(30)
+  const mob = await testRunner.createMob()
+  mob.setLevel(30)
     .withSkill(SkillType.Peek, MAX_PRACTICE_LEVEL)
 
   // and
-  target = testRunner.createMob()
+  target = (await testRunner.createMob())
     .addItem(testRunner.createWeapon()
     .asAxe()
     .build())

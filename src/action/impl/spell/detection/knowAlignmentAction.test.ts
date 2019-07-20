@@ -9,8 +9,8 @@ let testRunner: TestRunner
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  testRunner.createMob()
-    .setLevel(30)
+  const mob = await testRunner.createMob()
+  mob.setLevel(30)
     .withSpell(SpellType.KnowAlignment, MAX_PRACTICE_LEVEL)
 })
 
@@ -21,7 +21,7 @@ describe("know alignment spell action", () => {
     [1000, " is good."],
   ])("generates accurate success messages for %s alignment number", async (amount: any, message) => {
     // given
-    const target = testRunner.createMob().setAlignment(amount)
+    const target = (await testRunner.createMob()).setAlignment(amount)
 
     // when
     const response = await testRunner.invokeActionSuccessfully(

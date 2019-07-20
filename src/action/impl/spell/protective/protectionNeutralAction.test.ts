@@ -13,7 +13,7 @@ const expectedMessage = "you are engulfed in a gray aura."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .withSpell(SpellType.ProtectionNeutral, MAX_PRACTICE_LEVEL)
 })
 
@@ -36,7 +36,7 @@ describe("protection neutral spell action", () => {
   })
 
   it("generates accurate success messages on a target", async () => {
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     const response = await testRunner.invokeActionSuccessfully(
       RequestType.Cast, `cast 'protection neutral' ${target.getMobName()}`, target.get())

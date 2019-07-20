@@ -10,10 +10,10 @@ describe("pet follows owner event consumer", () => {
     const app = await createTestAppContainer()
     const testRunner = app.get<TestRunner>(Types.TestRunner)
     const room2 = testRunner.createRoom(Direction.North).get()
-    const mob1 = testRunner.createMob().get()
+    const mob1 = (await testRunner.createMob()).get()
 
     // given
-    const mob2 = testRunner.createMob().get()
+    const mob2 = (await testRunner.createMob()).get()
     mob2.traits.isPet = true
     mob1.pet = mob2
 

@@ -13,7 +13,7 @@ let equipment: ItemEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mobBuilder = testRunner.createMob()
+  mobBuilder = await testRunner.createMob()
   equipment = testRunner.createItem()
     .asHelmet()
     .build()

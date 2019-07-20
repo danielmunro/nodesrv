@@ -18,12 +18,12 @@ let item: ItemEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mob1 = testRunner.createMob()
+  mob1 = (await testRunner.createMob())
     .setLevel(5)
     .withSkill(SkillType.Steal, initialLevel)
 
   // and
-  mob2 = testRunner.createMob()
+  mob2 = await testRunner.createMob()
   item = testRunner.createWeapon()
     .asAxe()
     .build()

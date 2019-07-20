@@ -12,10 +12,10 @@ let target: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  testRunner.createMob()
-    .withSpell(SpellType.Wrath, MAX_PRACTICE_LEVEL)
+  const mob = await testRunner.createMob()
+  mob.withSpell(SpellType.Wrath, MAX_PRACTICE_LEVEL)
     .setLevel(30)
-  target = testRunner.createMob()
+  target = await testRunner.createMob()
 })
 
 describe("wrath action", () => {

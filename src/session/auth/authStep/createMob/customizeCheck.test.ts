@@ -17,7 +17,7 @@ beforeEach(async () => {
   const creationService = app.get<CreationService>(Types.CreationService)
   const testRunner = app.get<TestRunner>(Types.TestRunner)
   client = testRunner.createClient()
-  client.player = testRunner.createPlayer().get()
+  client.player = (await testRunner.createPlayer()).get()
   customizeCheck = new CustomizeCheck(creationService, client.player)
 })
 

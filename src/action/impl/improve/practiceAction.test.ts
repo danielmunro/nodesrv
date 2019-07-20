@@ -17,7 +17,7 @@ const command = "practice sneak"
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  playerBuilder = testRunner.createPlayer()
+  playerBuilder = (await testRunner.createPlayer())
     .addSkill(SkillType.Sneak)
     .addSpell(SpellType.MagicMissile)
     .setSpecializationType(SpecializationType.Ranger)
@@ -27,7 +27,7 @@ beforeEach(async () => {
 describe("practice action", () => {
   it("cannot practice if not at minimum level", async () => {
     // given
-    testRunner.createMob().asPractice()
+    (await testRunner.createMob()).asPractice()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Practice, command)
@@ -47,7 +47,7 @@ describe("practice action", () => {
 
   it("requires available practice sessions", async () => {
     // given
-    testRunner.createMob().asPractice()
+    (await testRunner.createMob()).asPractice()
     playerBuilder.setPractices(0)
 
     // when
@@ -58,7 +58,7 @@ describe("practice action", () => {
   })
 
   it("increases skill level when successfully practiced", async () => {
-    testRunner.createMob().asPractice()
+    (await testRunner.createMob()).asPractice()
     playerBuilder.setLevel(4)
     const skill = playerBuilder.getMob().getSkill(SkillType.Sneak) as SkillEntity
     const initialValue = skill.level
@@ -72,7 +72,7 @@ describe("practice action", () => {
   })
 
   it("increases spell level when successfully practiced", async () => {
-    testRunner.createMob().asPractice()
+    (await testRunner.createMob()).asPractice()
     playerBuilder.setLevel(4)
     const spell = playerBuilder.getMob().getSpell(SpellType.MagicMissile) as SpellEntity
     const initialValue = spell.level
@@ -86,7 +86,7 @@ describe("practice action", () => {
   })
 
   it("will not exceed max practice level", async () => {
-    testRunner.createMob().asPractice()
+    (await testRunner.createMob()).asPractice()
     playerBuilder.setLevel(4)
     const skill = playerBuilder.getMob().getSkill(SkillType.Sneak) as SkillEntity
     skill.level = MAX_PRACTICE_LEVEL
@@ -100,7 +100,7 @@ describe("practice action", () => {
   })
 
   it("will not exceed max practice level if near limit", async () => {
-    testRunner.createMob().asPractice()
+    (await testRunner.createMob()).asPractice()
     playerBuilder.setLevel(4)
     const skill = playerBuilder.getMob().getSkill(SkillType.Sneak) as SkillEntity
     skill.level = MAX_PRACTICE_LEVEL - 1

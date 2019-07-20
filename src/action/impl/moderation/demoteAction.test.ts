@@ -11,9 +11,9 @@ let playerToDemote: PlayerBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  testRunner.createPlayer()
-    .setAuthorizationLevel(AuthorizationLevel.Immortal)
-  playerToDemote = testRunner.createPlayer()
+  const player = await testRunner.createPlayer()
+  player.setAuthorizationLevel(AuthorizationLevel.Immortal)
+  playerToDemote = await testRunner.createPlayer()
 })
 
 describe("demote moderation action", () => {

@@ -16,7 +16,7 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   locationService = app.get<LocationService>(Types.LocationService)
-  mob = testRunner.createMob().get()
+  mob = (await testRunner.createMob()).get()
   wander = new Wander(new MobTable([mob]), locationService)
 })
 

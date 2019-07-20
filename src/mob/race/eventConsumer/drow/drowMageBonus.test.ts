@@ -20,7 +20,7 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   eventConsumer = new DrowMageBonus(app.get<Spell[]>(Types.Spells))
-  mob = testRunner.createMob()
+  mob = (await testRunner.createMob())
     .setRace(RaceType.Drow)
     .setSpecialization(SpecializationType.Mage)
     .withSpell(SpellType.Heal, MAX_PRACTICE_LEVEL)
@@ -31,14 +31,14 @@ beforeEach(async () => {
 describe("drow mage bonus", () => {
   it("provides a bonus when casting mage spells", async () => {
     const eventResponse = await eventConsumer.consume(
-      createCastEvent(mob, mob.getSpell(SpellType.MagicMissile) as SpellModel, testRunner.createMob().get(), 0))
+      createCastEvent(mob, mob.getSpell(SpellType.MagicMissile) as SpellModel, (await testRunner.createMob()).get(), 0))
 
     expect((eventResponse.event as CastEvent).roll).toBeGreaterThan(0)
   })
 
   it("does not provide a bonus when casting cleric spells", async () => {
     const eventResponse = await eventConsumer.consume(
-      createCastEvent(mob, mob.getSpell(SpellType.Heal) as SpellModel, testRunner.createMob().get(), 0))
+      createCastEvent(mob, mob.getSpell(SpellType.Heal) as SpellModel, (await testRunner.createMob()).get(), 0))
 
     expect((eventResponse.event as CastEvent).roll).toBe(0)
   })

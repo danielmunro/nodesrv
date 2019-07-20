@@ -12,7 +12,7 @@ const expectedMessage = "you feel satiated."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mobBuilder = testRunner.createPlayer()
+  mobBuilder = (await testRunner.createPlayer())
     .setLevel(20)
 })
 
@@ -43,7 +43,7 @@ describe("feast action", () => {
   it("generates accurate success messages on target", async () => {
     // given
     mobBuilder.addSpell(SpellType.Feast, MAX_PRACTICE_LEVEL)
-    const target = testRunner.createPlayer()
+    const target = await testRunner.createPlayer()
 
     // when
     const response = await testRunner.invokeActionSuccessfully(

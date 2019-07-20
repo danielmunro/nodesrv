@@ -15,7 +15,7 @@ const initialDamage = 1
 beforeEach(async () => {
   consumer = new DamageModifierEventConsumer()
   const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mob = testRunner.createMob()
+  mob = (await testRunner.createMob())
     .withRace(RaceType.Giant)
     .get()
 })

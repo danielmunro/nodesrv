@@ -17,13 +17,13 @@ let fight: Fight
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  testRunner.createMob()
-  mob2 = testRunner.createMob()
+  await testRunner.createMob()
+  mob2 = (await testRunner.createMob())
     .setSpecialization(SpecializationType.Cleric)
     .equip(
       testRunner.createWeapon().asAxe().addWeaponEffect(WeaponEffect.Favored).build())
   eventConsumer = new FavoredWeaponEffectEventConsumer()
-  fight = testRunner.fight(mob2.get())
+  fight = await testRunner.fight(mob2.get())
 })
 
 describe("favored weapon effect event consumer", () => {

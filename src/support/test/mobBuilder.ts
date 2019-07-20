@@ -89,6 +89,10 @@ export default class MobBuilder {
     return this
   }
 
+  public getGold(): number {
+    return this.mob.gold
+  }
+
   public setSpecialization(specialization: SpecializationType) {
     this.mob.specializationType = specialization
     this.specializationService.applyAllDefaults(this.mob)

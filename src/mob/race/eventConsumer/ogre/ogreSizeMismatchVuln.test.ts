@@ -15,8 +15,8 @@ let eventConsumer: OgreSizeMismatchVuln
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  attacker = testRunner.createMob().setRace(RaceType.Ogre).get()
-  defender = testRunner.createMob().setRace(RaceType.Elf).get()
+  attacker = (await testRunner.createMob()).setRace(RaceType.Ogre).get()
+  defender = (await testRunner.createMob()).setRace(RaceType.Elf).get()
   eventConsumer = new OgreSizeMismatchVuln()
 })
 

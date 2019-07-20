@@ -13,7 +13,7 @@ let mob: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mob = testRunner.createMob()
+  mob = await testRunner.createMob()
 })
 
 describe("kill action", () => {
@@ -28,7 +28,7 @@ describe("kill action", () => {
 
   it("sanity check", async () => {
     // given
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Kill, `kill ${target.getMobName()}`)
@@ -46,7 +46,7 @@ describe("kill action", () => {
   it("should not be able to kill a mob that isn't in the room", async () => {
     // given
     const room = testRunner.createRoom()
-    const target = testRunner.createMob(room.get())
+    const target = await testRunner.createMob(room.get())
 
     // when
     const response = await testRunner.invokeAction(RequestType.Kill, `kill ${target.getMobName()}`, target.get())
@@ -58,11 +58,11 @@ describe("kill action", () => {
 
   it("shouldn't be able to target a mob when already fighting", async () => {
     // given
-    const mob1 = testRunner.createMob()
-    const mob2 = testRunner.createMob()
+    const mob1 = await testRunner.createMob()
+    const mob2 = await testRunner.createMob()
 
     // and
-    testRunner.fight(mob1.mob)
+    await testRunner.fight(mob1.mob)
 
     // when
     const response = await testRunner.invokeAction(
@@ -75,7 +75,7 @@ describe("kill action", () => {
 
   it("should be able to kill a mob in the same room", async () => {
     // given
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeAction(
@@ -88,7 +88,7 @@ describe("kill action", () => {
   it.each(allDispositions)("should require a standing disposition, provided with %s", async disposition => {
     // given
     mob.withDisposition(disposition)
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Kill, `kill ${target.getMobName()}`)
@@ -99,7 +99,7 @@ describe("kill action", () => {
 
   it("fails when the target has orb of touch applied", async () => {
     // given
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
     target.addAffectType(AffectType.OrbOfTouch)
 
     // when

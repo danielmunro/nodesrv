@@ -17,7 +17,7 @@ let caster: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .setLevel(30)
     .withSpell(SpellType.Crusade, MAX_PRACTICE_LEVEL)
 })
@@ -26,11 +26,11 @@ describe("crusade spell action", () => {
   it("periodically invokes an additional attack", async () => {
     // setup
     caster.addAffectType(AffectType.Crusade)
-    const target = testRunner.createMob()
+    const target = (await testRunner.createMob())
       .setLevel(30)
 
     // given
-    const fight = testRunner.fight(target.mob)
+    const fight = await testRunner.fight(target.mob)
 
     // when
     const rounds = await doNTimes(ITERATIONS, () => {
@@ -64,7 +64,7 @@ describe("crusade spell action", () => {
 
   it("generates accurate success message casting on a target", async () => {
     // given
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeActionSuccessfully(

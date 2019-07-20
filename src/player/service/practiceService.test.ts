@@ -20,9 +20,9 @@ describe("practice service", () => {
     [SpecializationType.Cleric, PracticeMessages.Cleric],
   ])
   // @ts-ignore
-  ("generates accurate practice messages for a %s", (specialization: SpecializationType, message: string) => {
+  ("generates accurate practice messages for a %s", async (specialization: SpecializationType, message: string) => {
     // when
-    const mob = testRunner.createMob()
+    const mob = (await testRunner.createMob())
       .setSpecialization(specialization)
       .get()
 

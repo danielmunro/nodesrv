@@ -12,7 +12,7 @@ const expectedMessage = "you glow with a blue aura."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .setLevel(30)
     .withSpell(SpellType.Fireproof)
 })
@@ -33,7 +33,7 @@ describe("fireproof action", () => {
   })
 
   it("generates accurate success messages on a target", async () => {
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
     const response = await testRunner.invokeActionSuccessfully(
       RequestType.Cast, `cast fireproof '${target.getMobName()}'`, target.get())
 

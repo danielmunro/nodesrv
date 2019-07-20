@@ -14,7 +14,7 @@ beforeEach(async () => {
 describe("sit action", () => {
   it("should change the mob's disposition to sitting", async () => {
     // given
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Sit)
@@ -28,7 +28,7 @@ describe("sit action", () => {
 
   it("should not be able to sit if already sitting", async () => {
     // given
-    testRunner.createMob().withDisposition(Disposition.Sitting)
+    (await testRunner.createMob()).withDisposition(Disposition.Sitting)
 
     // when
     const response = await testRunner.invokeAction(RequestType.Sit)

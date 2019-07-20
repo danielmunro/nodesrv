@@ -13,10 +13,10 @@ let target: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  attacker = testRunner.createMob()
+  attacker = (await testRunner.createMob())
     .withSkill(SkillType.Garotte, MAX_PRACTICE_LEVEL)
     .setLevel(30)
-  target = testRunner.createMob()
+  target = await testRunner.createMob()
 })
 
 describe("garotte skill action", () => {

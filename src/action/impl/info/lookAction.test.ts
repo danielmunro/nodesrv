@@ -42,7 +42,7 @@ describe("look action", () => {
 
   it("describes a mob when a mob has present", async () => {
     // given
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeAction(
@@ -54,7 +54,7 @@ describe("look action", () => {
 
   it("does not describe a mob when a mob has invisible", async () => {
     // given
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = (await testRunner.createMob())
       .addAffectType(AffectType.Invisible)
 
     // when
@@ -66,7 +66,7 @@ describe("look action", () => {
 
   it("does not describe a mob when a mob has hidden", async () => {
     // given
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = (await testRunner.createMob())
       .addAffectType(AffectType.Hidden)
 
     // when
@@ -78,8 +78,8 @@ describe("look action", () => {
 
   it("describes a mob when a mob has hidden and the request creator has detect hidden", async () => {
     // given
-    testRunner.createMob().addAffectType(AffectType.DetectHidden)
-    const mobBuilder = testRunner.createMob()
+    (await testRunner.createMob()).addAffectType(AffectType.DetectHidden)
+    const mobBuilder = (await testRunner.createMob())
       .addAffectType(AffectType.Hidden)
 
     // when
@@ -91,8 +91,8 @@ describe("look action", () => {
 
   it("describes a mob when a mob has invisible and the request creator can detect invisible", async () => {
     // given
-    testRunner.createMob().addAffectType(AffectType.DetectInvisible)
-    const mobBuilder = testRunner.createMob().addAffectType(AffectType.Invisible)
+    (await testRunner.createMob()).addAffectType(AffectType.DetectInvisible)
+    const mobBuilder = (await testRunner.createMob()).addAffectType(AffectType.Invisible)
 
     // when
     const response = await testRunner.invokeAction(RequestType.Look)
@@ -116,7 +116,8 @@ describe("look action", () => {
   it("can describe an item in the session mob's inventory", async () => {
     // given
     const item = testRunner.createItem().asShield().build()
-    testRunner.createMob().addItem(item)
+    const mob = await testRunner.createMob()
+    mob.addItem(item)
 
     // when
     const response = await testRunner.invokeAction(RequestType.Look, `look '${item.name}'`)
@@ -127,7 +128,7 @@ describe("look action", () => {
 
   it("cannot be able to see if blind", async () => {
     // given
-    testRunner.createMob().addAffectType(AffectType.Blind)
+    (await testRunner.createMob()).addAffectType(AffectType.Blind)
 
     // when
     const response = await testRunner.invokeAction(RequestType.Look)
@@ -141,7 +142,7 @@ describe("look action", () => {
     testRunner.setTime(0)
     const room = testRunner.getStartRoom()
     room.setRegion(newRegion("test", Terrain.Forest))
-    const mobBuilder = testRunner.createMob().setRace(RaceType.HalfOrc)
+    const mobBuilder = (await testRunner.createMob()).setRace(RaceType.HalfOrc)
 
     // when
     const response1 = await testRunner.invokeAction(RequestType.Look)

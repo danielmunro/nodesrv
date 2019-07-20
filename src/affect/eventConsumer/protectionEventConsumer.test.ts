@@ -13,9 +13,9 @@ let fight: Fight
 
 beforeEach(async () => {
   const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  attacker = testRunner.createMob()
-  target = testRunner.createMob()
-  fight = testRunner.fight(target.mob)
+  attacker = await testRunner.createMob()
+  target = await testRunner.createMob()
+  fight = await testRunner.fight(target.mob)
 })
 
 describe("protection event consumer", () => {

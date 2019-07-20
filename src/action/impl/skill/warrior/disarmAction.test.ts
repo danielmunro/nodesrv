@@ -15,8 +15,8 @@ let mob2: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mob1 = testRunner.createMob().setLevel(50)
-  mob2 = testRunner.createMob().setLevel(50)
+  mob1 = (await testRunner.createMob()).setLevel(50)
+  mob2 = (await testRunner.createMob()).setLevel(50)
 })
 
 describe("disarm skill action", () => {
@@ -30,7 +30,7 @@ describe("disarm skill action", () => {
       .build())
 
     // and
-    testRunner.fight(mob2.get())
+    await testRunner.fight(mob2.get())
 
     // when
     const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.Disarm)
@@ -44,7 +44,7 @@ describe("disarm skill action", () => {
   it("should succeed a reasonable number of times when practiced", async () => {
     // setup
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL * 0.75)
-    testRunner.fight(mob2.get())
+    await testRunner.fight(mob2.get())
 
     // when
     const responses = await doNTimes(iterations, () => {
@@ -74,7 +74,7 @@ describe("disarm skill action", () => {
   it("should not work if the target is not armed", async () => {
     // given
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
-    testRunner.fight()
+    await testRunner.fight()
 
     // when
     const result = await testRunner.invokeAction(RequestType.Disarm)
@@ -86,9 +86,9 @@ describe("disarm skill action", () => {
 
   it("should not work if the mob is too tired", async () => {
     // setup
-    const targetBuilder = testRunner.createMob()
+    const targetBuilder = (await testRunner.createMob())
       .equip(testRunner.createWeapon().asAxe().build())
-    testRunner.fight(targetBuilder.mob)
+    await testRunner.fight(targetBuilder.mob)
 
     // given
     mob1.setMv(0)
@@ -105,9 +105,9 @@ describe("disarm skill action", () => {
   it("succeeds or fails if all conditions are met", async () => {
     // setup
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
-    const targetBuilder = testRunner.createMob()
+    const targetBuilder = (await testRunner.createMob())
       .equip(testRunner.createWeapon().asAxe().build())
-    testRunner.fight(targetBuilder.mob)
+    await testRunner.fight(targetBuilder.mob)
 
     // when
     const response = await testRunner.invokeAction(RequestType.Disarm)
@@ -120,9 +120,9 @@ describe("disarm skill action", () => {
     // setup
     mob1.withSkill(SkillType.Disarm, MAX_PRACTICE_LEVEL)
     const axe = testRunner.createWeapon().asAxe().build()
-    const targetBuilder = testRunner.createMob()
+    const targetBuilder = (await testRunner.createMob())
       .equip(axe)
-    testRunner.fight(targetBuilder.mob)
+    await testRunner.fight(targetBuilder.mob)
 
     // when
     const response1 = await testRunner.invokeActionSuccessfully(RequestType.Disarm)

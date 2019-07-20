@@ -18,7 +18,7 @@ beforeEach(async () => {
 describe("level service", () => {
   it("will report if a mob can level successfully", async () => {
     // setup
-    const player = testRunner.createPlayer()
+    const player = await testRunner.createPlayer()
     const levelService = new LevelService(kafkaService, player.getMob())
 
     // when
@@ -36,7 +36,7 @@ describe("level service", () => {
 
   it("won't allow leveling beyond mob max level", async () => {
     // setup
-    const player = testRunner.createPlayer()
+    const player = await testRunner.createPlayer()
     const levelService = new LevelService(kafkaService, player.getMob())
     player.getMob().level = MAX_MOB_LEVEL
 
@@ -49,7 +49,7 @@ describe("level service", () => {
 
   it("can generate a gain, sanity check", async () => {
     // setup
-    const player = testRunner.createPlayer()
+    const player = await testRunner.createPlayer()
     const levelService = new LevelService(kafkaService, player.getMob())
     const playerMob = player.getMob().playerMob
     playerMob.experiencePerLevel = INITIAL_AMOUNT

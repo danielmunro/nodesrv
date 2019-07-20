@@ -16,15 +16,15 @@ const expectedResponse = "you are surrounded by a faint glow."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = await testRunner.createMob()
 })
 
 describe("sanctuary action", () => {
   it("sanctuary affect significantly reduces damage", async () => {
     // given
     caster.addAffectType(AffectType.Sanctuary)
-    const target = testRunner.createMob()
-    const fight = testRunner.fight(target.get())
+    const target = await testRunner.createMob()
+    const fight = await testRunner.fight(target.get())
     let attackDamage = 0
     let counterDamage = 0
 
@@ -60,7 +60,7 @@ describe("sanctuary action", () => {
   it("generates accurate success messages on a target", async () => {
     // given
     caster.withSpell(SpellType.Sanctuary, MAX_PRACTICE_LEVEL)
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeActionSuccessfully(

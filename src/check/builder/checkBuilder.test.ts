@@ -19,7 +19,7 @@ let mob: MobEntity
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
-  mob = testRunner.createMob().get()
+  mob = (await testRunner.createMob()).get()
   const mobService = app.get<MobService>(Types.MobService)
   checkBuilder = new CheckBuilder(
     mobService,
@@ -43,7 +43,7 @@ describe("checkBuilder", () => {
 
     it("should succeed if a fight has started", async () => {
       // given
-      testRunner.fight()
+      await testRunner.fight()
       checkBuilder.requireFight()
 
       // when
@@ -215,7 +215,7 @@ describe("checkBuilder", () => {
 
     it("succeeds if the mob has a player mob", async () => {
       // given
-      checkBuilder.requirePlayer(testRunner.createPlayer().getMob())
+      checkBuilder.requirePlayer((await testRunner.createPlayer()).getMob())
 
       // when
       const check = await checkBuilder.create()

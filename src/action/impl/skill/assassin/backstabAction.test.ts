@@ -21,9 +21,9 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   mobService = app.get<MobService>(Types.MobService)
-  mobBuilder = testRunner.createMob()
-  opponent = testRunner.createMob()
-  testRunner.fight(opponent.mob)
+  mobBuilder = await testRunner.createMob()
+  opponent = await testRunner.createMob()
+  await testRunner.fight(opponent.mob)
 })
 
 describe("backstab skill action", () => {
@@ -94,7 +94,7 @@ describe("backstab skill action", () => {
 
   it("starts a fight", async () => {
     testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-    opponent = testRunner.createMob()
+    opponent = await testRunner.createMob()
 
     // given
     mobBuilder.setLevel(50)

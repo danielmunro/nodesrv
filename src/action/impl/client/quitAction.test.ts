@@ -8,13 +8,13 @@ let testRunner: TestRunner
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  testRunner.createMob()
+  await testRunner.createMob()
 })
 
 describe("quit action", () => {
   it("does not allow quiting while fighting", async () => {
     // given
-    testRunner.fight()
+    await testRunner.fight()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Quit)

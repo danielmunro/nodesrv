@@ -7,7 +7,7 @@ describe("put action", () => {
   it("should transfer an item", async () => {
     // setup
     const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = await testRunner.createMob()
 
     // given
     const item = testRunner.createWeapon()

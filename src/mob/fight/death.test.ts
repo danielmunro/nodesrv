@@ -11,7 +11,7 @@ describe("death event consumer", () => {
   it("transfers all items when a corpse is created", async () => {
     // setup
     const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-    const playerBuilder = testRunner.createPlayer()
+    const playerBuilder = await testRunner.createPlayer()
     const mob = playerBuilder.player.sessionMob
     playerBuilder.equip(testRunner.createItem()
       .asHelmet()

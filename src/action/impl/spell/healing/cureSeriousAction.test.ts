@@ -13,10 +13,10 @@ const defaultMessage = "you feel better!"
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .setLevel(20)
     .withSpell(SpellType.CureSerious, MAX_PRACTICE_LEVEL)
-  target = testRunner.createMob()
+  target = await testRunner.createMob()
 })
 
 describe("cure serious", () => {

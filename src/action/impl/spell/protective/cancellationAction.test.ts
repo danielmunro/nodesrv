@@ -14,7 +14,7 @@ const expectedMessage = "you suddenly feel more normal."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .withSpell(SpellType.Cancellation, MAX_PRACTICE_LEVEL)
 })
 
@@ -47,7 +47,7 @@ describe("cancellation action", () => {
   })
 
   it("generates correct success message on a target", async () => {
-    const mob = testRunner.createMob()
+    const mob = await testRunner.createMob()
     mob.addAffectType(AffectType.Bless)
       .addAffectType(AffectType.Curse)
       .addAffectType(AffectType.Poison)

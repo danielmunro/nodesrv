@@ -13,7 +13,7 @@ const expectedMessage = "you are engulfed in a white aura."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .withSpell(SpellType.ProtectionEvil, MAX_PRACTICE_LEVEL)
 })
 
@@ -37,7 +37,7 @@ describe("protection evil spell action", () => {
   })
 
   it("generates accurate success messages on a target", async () => {
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     const response = await testRunner.invokeActionSuccessfully(
       RequestType.Cast, `cast 'protection evil' ${target.getMobName()}`, target.get())

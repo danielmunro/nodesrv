@@ -13,10 +13,10 @@ const defaultMessage = "a warm wave flows through you."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .setLevel(30)
     .withSpell(SpellType.Heal, MAX_PRACTICE_LEVEL)
-  target = testRunner.createMob()
+  target = await testRunner.createMob()
 })
 
 describe("heal spell action", () => {

@@ -19,10 +19,10 @@ beforeEach(async () => {
 describe("trip skill action", () => {
   it("can fail tripping", async () => {
     // setup
-    testRunner.createPlayer()
+    (await testRunner.createPlayer())
       .setLevel(40)
       .addSkill(SkillType.Trip)
-    testRunner.fight()
+    await testRunner.fight()
 
     // when
     const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.Trip)
@@ -33,10 +33,10 @@ describe("trip skill action", () => {
 
   it("can succeed tripping", async () => {
     // given
-    testRunner.createPlayer()
+    (await testRunner.createPlayer())
       .setLevel(40)
       .addSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)
-    testRunner.fight()
+    await testRunner.fight()
 
     // when
     const response = await testRunner.invokeActionSuccessfully(RequestType.Trip)
@@ -47,9 +47,9 @@ describe("trip skill action", () => {
 
   it("bounces off an orb of touch", async () => {
     // given
-    const playerBuilder = testRunner.createPlayer()
+    const playerBuilder = await testRunner.createPlayer()
     playerBuilder.addSkill(SkillType.Trip, MAX_PRACTICE_LEVEL).setLevel(30)
-    const target = testRunner.createMob().addAffectType(AffectType.OrbOfTouch)
+    const target = (await testRunner.createMob()).addAffectType(AffectType.OrbOfTouch)
 
     // when
     const response = await doNTimesOrUntilTruthy(iterations, async () => {
@@ -71,11 +71,11 @@ describe("trip skill action", () => {
 
   it("need movement to work", async () => {
     // given
-    testRunner.createPlayer()
+    (await testRunner.createPlayer())
       .setLevel(10)
       .setMv(0)
       .addSkill(SkillType.Trip)
-    testRunner.fight()
+    await testRunner.fight()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Trip)
@@ -87,10 +87,10 @@ describe("trip skill action", () => {
 
   it("success sanity createDefaultCheckFor", async () => {
     // setup
-    testRunner.createPlayer()
+    (await testRunner.createPlayer())
       .setLevel(10)
       .addSkill(SkillType.Trip)
-    testRunner.fight()
+    await testRunner.fight()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Trip)
@@ -101,10 +101,10 @@ describe("trip skill action", () => {
 
   it("generates accurate messages", async () => {
     // setup
-    const playerBuilder = testRunner.createPlayer()
+    const playerBuilder = (await testRunner.createPlayer())
       .setLevel(10)
-    const target = testRunner.createMob()
-    testRunner.fight(target.get())
+    const target = await testRunner.createMob()
+    await testRunner.fight(target.get())
 
     // given
     playerBuilder.addSkill(SkillType.Trip, MAX_PRACTICE_LEVEL)

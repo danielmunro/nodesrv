@@ -15,10 +15,10 @@ const responseMessage = "your eyes tingle."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .withSpell(SpellType.DetectHidden, MAX_PRACTICE_LEVEL)
     .setLevel(30)
-  target = testRunner.createMob()
+  target = await testRunner.createMob()
 })
 
 describe("detect hidden spell action", () => {

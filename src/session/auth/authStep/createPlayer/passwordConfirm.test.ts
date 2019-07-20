@@ -20,7 +20,7 @@ describe("create player password confirm auth step", () => {
     // setup
     const password = uuid.v4()
     const client = testRunner.createClient()
-    await client.session.login(client, testRunner.createPlayer().get())
+    await client.session.login(client, (await testRunner.createPlayer()).get())
 
     // given
     const passwordConfirm = new PasswordConfirm(mockAuthService(), client.player, password)

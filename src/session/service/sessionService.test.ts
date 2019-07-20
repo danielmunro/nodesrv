@@ -19,7 +19,7 @@ beforeEach(async () => {
 describe("session", () => {
   it("isLoggedIn sanity createDefaultCheckFor", async () => {
     // given
-    const playerBuilder = testRunner.createPlayer()
+    const playerBuilder = await testRunner.createPlayer()
     const player = playerBuilder.player
     const client = testRunner.createClient()
     const session = new SessionService(
@@ -41,7 +41,7 @@ describe("session", () => {
     // given
     const client = testRunner.createClient()
     const session = new SessionService(
-      new Complete(mockAuthService(), testRunner.createPlayer().get()),
+      new Complete(mockAuthService(), (await testRunner.createPlayer()).get()),
     )
 
     // expect

@@ -13,7 +13,7 @@ let caster: MobBuilder
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   testRunner.setTime(12)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .setLevel(30)
     .withSpell(SpellType.LocateItem, MAX_PRACTICE_LEVEL)
 })
@@ -25,7 +25,7 @@ describe("locate item spell action", () => {
       .asShield()
       .addAffect(AffectType.NoLocate)
       .build()
-    const anotherMob = testRunner.createMob()
+    const anotherMob = (await testRunner.createMob())
     const item2 = testRunner.createItem()
       .asShield()
       .build()

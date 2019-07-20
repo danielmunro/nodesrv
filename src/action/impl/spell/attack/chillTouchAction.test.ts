@@ -12,8 +12,8 @@ let target: MobEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob().withSpell(SpellType.ChillTouch, MAX_PRACTICE_LEVEL).get()
-  target = testRunner.createMob().get()
+  caster = (await testRunner.createMob()).withSpell(SpellType.ChillTouch, MAX_PRACTICE_LEVEL).get()
+  target = (await testRunner.createMob()).get()
 })
 
 describe("chill touch action", () => {

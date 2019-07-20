@@ -17,7 +17,7 @@ beforeEach(async () => {
   item = testRunner.createItem().asSatchel().build()
   item.container.isOpen = true
   item.container.isCloseable = true
-  mobBuilder = testRunner.createMob().addItem(item)
+  mobBuilder = (await testRunner.createMob()).addItem(item)
 })
 
 describe("close action", () => {

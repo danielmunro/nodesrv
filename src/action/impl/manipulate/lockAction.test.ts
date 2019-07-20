@@ -15,7 +15,7 @@ const lockCommand = "lock door"
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   testRunner.createRoom()
-  mobBuilder = testRunner.createMob()
+  mobBuilder = await testRunner.createMob()
 })
 
 describe("lock action", () => {

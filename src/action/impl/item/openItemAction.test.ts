@@ -13,7 +13,7 @@ beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   item = testRunner.createItem().asSatchel().build()
   item.container.isOpen = false
-  mobBuilder = testRunner.createMob()
+  mobBuilder = await testRunner.createMob()
   mobBuilder.addItem(item)
 })
 

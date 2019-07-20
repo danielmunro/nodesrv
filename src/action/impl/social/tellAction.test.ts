@@ -7,8 +7,8 @@ describe("tell social action", () => {
   it("sanity: happy path", async () => {
     // setup
     const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-    testRunner.createPlayer()
-    const toPlayer = testRunner.createPlayer()
+    await testRunner.createPlayer()
+    const toPlayer = await testRunner.createPlayer()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Tell, `tell '${toPlayer.getMobName()}' hello world`)

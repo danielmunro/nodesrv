@@ -15,10 +15,10 @@ const responseMessage = "you fade out of existence."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .withSpell(SpellType.Invisibility, MAX_PRACTICE_LEVEL)
     .setLevel(30)
-  target = testRunner.createMob()
+  target = await testRunner.createMob()
 })
 
 describe("invisibility spell action", () => {

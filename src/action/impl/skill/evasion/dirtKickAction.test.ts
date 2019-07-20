@@ -14,7 +14,7 @@ let mobBuilder: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mobBuilder = testRunner.createMob()
+  mobBuilder = (await testRunner.createMob())
     .setLevel(20)
 })
 
@@ -33,8 +33,8 @@ describe("dirt kick skill action", () => {
   it("succeeds when practiced", async () => {
     // given
     mobBuilder.withSkill(SkillType.DirtKick, MAX_PRACTICE_LEVEL)
-    const opponent = testRunner.createMob()
-    testRunner.fight(opponent.get())
+    const opponent = await testRunner.createMob()
+    await testRunner.fight(opponent.get())
 
     // when
     await testRunner.invokeActionSuccessfully(RequestType.DirtKick)
@@ -46,8 +46,8 @@ describe("dirt kick skill action", () => {
   it("does not stack blind affects", async () => {
     // given
     mobBuilder.withSkill(SkillType.DirtKick, MAX_PRACTICE_LEVEL)
-    const opponent = testRunner.createMob()
-    testRunner.fight(opponent.get())
+    const opponent = await testRunner.createMob()
+    await testRunner.fight(opponent.get())
 
     // when
     const responses = await testRunner.invokeSkillNTimes(iterations, SkillType.DirtKick)
@@ -60,8 +60,8 @@ describe("dirt kick skill action", () => {
   it("generates accurate messages", async () => {
     // given
     mobBuilder.withSkill(SkillType.DirtKick, MAX_PRACTICE_LEVEL)
-    const opponent = testRunner.createMob()
-    testRunner.fight(opponent.mob)
+    const opponent = await testRunner.createMob()
+    await testRunner.fight(opponent.get())
 
     // when
     const response = await testRunner.invokeActionSuccessfully(RequestType.DirtKick)

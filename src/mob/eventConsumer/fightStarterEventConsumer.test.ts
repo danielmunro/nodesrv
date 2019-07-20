@@ -21,8 +21,8 @@ beforeEach(async () => {
 describe("fight starter", () => {
   it("starts a fight from an attack event", async () => {
     // given
-    const mob1 = testRunner.createMob().get()
-    const mob2 = testRunner.createMob().get()
+    const mob1 = (await testRunner.createMob()).get()
+    const mob2 = (await testRunner.createMob()).get()
 
     // when
     await fightStarter.consume(createAttackEvent(mob1, mob2))
@@ -33,8 +33,8 @@ describe("fight starter", () => {
 
   it("won't create more than one fight between the same two mobs", async () => {
     // given
-    const mob1 = testRunner.createMob().get()
-    const mob2 = testRunner.createMob().get()
+    const mob1 = (await testRunner.createMob()).get()
+    const mob2 = (await testRunner.createMob()).get()
 
     // when
     await fightStarter.consume(createAttackEvent(mob1, mob2))

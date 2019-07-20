@@ -10,8 +10,8 @@ describe("affects", () => {
     const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 
     // given
-    testRunner.createMob()
-      .addAffectType(AffectType.Noop, 1)
+    const mobBuilder = await testRunner.createMob()
+    mobBuilder.addAffectType(AffectType.Noop, 1)
       .addAffectType(AffectType.Stunned, 2)
 
     // when

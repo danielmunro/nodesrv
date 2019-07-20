@@ -16,7 +16,7 @@ describe("death timer event consumer", () => {
     const locationService = app.get<LocationService>(Types.LocationService)
 
     // given
-    const mob = testRunner.createMob().get()
+    const mob = (await testRunner.createMob()).get()
     mob.deathTimer = 1
 
     // when

@@ -9,7 +9,7 @@ let playerBuilder: PlayerBuilder
 
 beforeEach(async () => {
   const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  playerBuilder = testRunner.createPlayer()
+  playerBuilder = await testRunner.createPlayer()
 })
 
 describe("cost createDefaultCheckFor", () => {

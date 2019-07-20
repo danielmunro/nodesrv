@@ -19,7 +19,7 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   locationService = app.get<LocationService>(Types.LocationService)
-  mobBuilder = testRunner.createMob()
+  mobBuilder = await testRunner.createMob()
   destination = testRunner.createRoom(Direction.East)
 })
 

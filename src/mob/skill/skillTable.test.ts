@@ -9,7 +9,8 @@ describe("skill table", () => {
     const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 
     // given
-    testRunner.createMob().withSkill(SkillType.Axe)
+    const mob = await testRunner.createMob()
+    mob.withSkill(SkillType.Axe)
 
     // when
     const response = await testRunner.invokeSkill(SkillType.Axe)

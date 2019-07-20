@@ -10,10 +10,10 @@ describe("shield spell action", () => {
   it("should shield when casted", async () => {
     // setup
     const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-    testRunner.createMob()
-      .withSpell(SpellType.Shield, MAX_PRACTICE_LEVEL)
+    const mob = await testRunner.createMob()
+    mob.withSpell(SpellType.Shield, MAX_PRACTICE_LEVEL)
       .setLevel(30)
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast shield bob", target.get())

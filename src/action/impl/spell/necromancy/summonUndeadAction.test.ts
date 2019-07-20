@@ -15,8 +15,8 @@ let mobService: MobService
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
-  testRunner.createMob()
-    .setLevel(30)
+  const mob = await testRunner.createMob()
+  mob.setLevel(30)
     .withSpell(SpellType.SummonUndead, MAX_PRACTICE_LEVEL)
 
   const skeletalWarrior = getTestMob()

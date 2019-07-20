@@ -16,9 +16,9 @@ describe("wimpy event consumer", () => {
     const testRunner = app.get<TestRunner>(Types.TestRunner)
     const room1 = testRunner.getStartRoom()
     const room2 = testRunner.createRoom()
-    const mob = testRunner.createMob().get()
-    const target = testRunner.createMob().get()
-    const fight = testRunner.fight(target)
+    const mob = (await testRunner.createMob()).get()
+    const target = (await testRunner.createMob()).get()
+    const fight = await testRunner.fight(target)
     const wimpy = app.get<EventConsumer[]>(Types.EventConsumerTable).find(eventConsumer =>
       eventConsumer instanceof WimpyEventConsumer) as WimpyEventConsumer
 

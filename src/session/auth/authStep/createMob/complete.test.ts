@@ -16,8 +16,8 @@ describe("create mob auth step: complete", () => {
 
     // given
     const client = testRunner.createClient()
-    client.player = testRunner.createPlayer().get()
-    client.player.sessionMob = testRunner.createMob().get()
+    client.player = (await testRunner.createPlayer()).get()
+    client.player.sessionMob = (await testRunner.createMob()).get()
 
     // when
     const response = await new Complete(creationService, client.player).processRequest(new Request(client, ""))

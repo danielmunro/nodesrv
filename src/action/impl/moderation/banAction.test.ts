@@ -16,9 +16,9 @@ let playerToBan: PlayerBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  banningPlayer = testRunner.createPlayer()
+  banningPlayer = (await testRunner.createPlayer())
     .setAuthorizationLevel(AuthorizationLevel.Admin)
-  playerToBan = testRunner.createPlayer()
+  playerToBan = await testRunner.createPlayer()
 })
 
 describe("ban moderation action", () => {
@@ -77,7 +77,7 @@ describe("ban moderation action", () => {
 
   it("should not be able to ban mobs who are not players", async () => {
     // given
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Ban, `ban '${mobBuilder.getMobName()}'`)

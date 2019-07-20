@@ -16,8 +16,8 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   locationService = app.get<LocationService>(Types.LocationService)
-  seller = testRunner.createMob()
-  merchant = testRunner.createMob().asMerchant()
+  seller = await testRunner.createMob()
+  merchant = (await testRunner.createMob()).asMerchant()
 })
 
 describe("sell action", () => {

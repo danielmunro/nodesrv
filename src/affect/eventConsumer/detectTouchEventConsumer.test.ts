@@ -23,8 +23,8 @@ beforeEach(async () => {
 describe("detect touch event consumer", () => {
   it("publishes an event when a touch happens", async () => {
     // given
-    const attacker = testRunner.createMob()
-    const defender = testRunner.createMob().addAffectType(AffectType.DetectTouch)
+    const attacker = await testRunner.createMob()
+    const defender = (await testRunner.createMob()).addAffectType(AffectType.DetectTouch)
 
     // when
     await eventConsumer.consume(createAttackEvent(attacker.mob, defender.mob))

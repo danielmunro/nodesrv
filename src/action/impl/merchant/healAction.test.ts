@@ -13,8 +13,8 @@ const initialGold = 100
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mobBuilder = testRunner.createMob().setGold(initialGold)
-  healer = testRunner.createMob()
+  mobBuilder = (await testRunner.createMob()).setGold(initialGold)
+  healer = (await testRunner.createMob())
     .asHealer()
     .withSpell(SpellType.CureLight, MAX_PRACTICE_LEVEL)
 })

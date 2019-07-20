@@ -12,11 +12,11 @@ let target: MobEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .setLevel(30)
     .withSpell(SpellType.LightningBolt, MAX_PRACTICE_LEVEL)
     .get()
-  target = testRunner.createMob().get()
+  target = (await testRunner.createMob()).get()
 })
 
 describe("lightning bolt", () => {

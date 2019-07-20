@@ -15,10 +15,10 @@ const MESSAGE_FEELS_LESS_SICK = "you feel less sick."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .withSpell(SpellType.CurePoison, MAX_PRACTICE_LEVEL)
     .setLevel(20)
-  target = testRunner.createMob()
+  target = await testRunner.createMob()
   target.addAffectType(AffectType.Poison)
 })
 

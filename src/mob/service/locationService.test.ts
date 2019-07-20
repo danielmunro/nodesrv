@@ -17,8 +17,8 @@ beforeEach(async () => {
   const testRunner = app.get<TestRunner>(Types.TestRunner)
   room1 = testRunner.getStartRoom().get()
   room2 = testRunner.createRoom().get()
-  mob1 = testRunner.createMob().get()
-  mob2 = testRunner.createMob().get()
+  mob1 = (await testRunner.createMob()).get()
+  mob2 = (await testRunner.createMob()).get()
   locationService = app.get<LocationService>(Types.LocationService)
 })
 

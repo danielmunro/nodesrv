@@ -14,7 +14,7 @@ describe("withstand death event consumer", () => {
   it("will allow the mob to survive, and remove withstand death affect", async () => {
     // setup
     const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-    const mob = testRunner.createMob()
+    const mob = await testRunner.createMob()
     const withstandDeathEventConsumer = new WithstandDeathEventConsumer()
 
     // given
@@ -32,7 +32,7 @@ describe("withstand death event consumer", () => {
   it("does not modify the event if the mob is not affected by withstand death", async () => {
     // setup
     const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-    const mob = testRunner.createMob()
+    const mob = await testRunner.createMob()
     const withstandDeathEventConsumer = new WithstandDeathEventConsumer()
 
     // given

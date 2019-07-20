@@ -15,13 +15,15 @@ describe("respawner", () => {
     const startRoom = testRunner.getStartRoom().get()
 
     // dead
-    testRunner.createMob().withDisposition(Disposition.Dead)
+    const mob1 = await testRunner.createMob()
+    mob1.withDisposition(Disposition.Dead)
 
     // dead
-    testRunner.createMob().withDisposition(Disposition.Dead)
+    const mob2 = await testRunner.createMob()
+    mob2.withDisposition(Disposition.Dead)
 
     // not dead
-    testRunner.createMob()
+    await testRunner.createMob()
 
     // given
     const locationService = app.get<LocationService>(Types.LocationService)

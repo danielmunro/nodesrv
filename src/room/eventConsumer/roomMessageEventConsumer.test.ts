@@ -21,8 +21,8 @@ describe("room message event consumer", () => {
     const testRunner = app.get<TestRunner>(Types.TestRunner)
     const room1 = testRunner.getStartRoom()
     const room2 = testRunner.createRoom()
-    const player1 = testRunner.createPlayer()
-    const player2 = testRunner.createPlayer()
+    const player1 = await testRunner.createPlayer()
+    const player2 = await testRunner.createPlayer()
     const locationService = app.get<LocationService>(Types.LocationService)
     await locationService.updateMobLocation(player2.getMob(), room2.get())
 

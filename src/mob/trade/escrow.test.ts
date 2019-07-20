@@ -13,8 +13,8 @@ let item: ItemEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  requester = testRunner.createMob().withGold(100)
-  trader = testRunner.createMob()
+  requester = (await testRunner.createMob()).withGold(100)
+  trader = await testRunner.createMob()
   escrow = new Escrow(requester.mob, trader.mob)
   item = testRunner.createItem().asHelmet().addToMobBuilder(trader).build()
 })

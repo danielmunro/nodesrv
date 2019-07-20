@@ -12,8 +12,8 @@ beforeEach(async () => {
 describe("follow action", () => {
   it("sanity check", async () => {
     // given
-    const follower = testRunner.createMob()
-    const target = testRunner.createMob()
+    const follower = await testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Follow, `follow '${target.getMobName()}'`)

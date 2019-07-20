@@ -46,7 +46,7 @@ describe("auth login name", () => {
 
     // setup -- create a client
     const client = testRunner.createClient()
-    client.player = testRunner.createPlayer().get()
+    client.player = (await testRunner.createPlayer()).get()
     const name = new Name(creationService, client.player)
 
     // given

@@ -11,7 +11,7 @@ let mob: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mob = testRunner.createMob().withSkill(SkillType.Endurance)
+  mob = (await testRunner.createMob()).withSkill(SkillType.Endurance)
 })
 
 describe("endurance action", () => {

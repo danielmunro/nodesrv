@@ -17,7 +17,7 @@ const initialAmount = 100
 beforeEach(async () => {
   const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   consumer = new DamageSourceEventConsumer()
-  mob = testRunner.createMob()
+  mob = await testRunner.createMob()
 })
 
 describe("damage source event consumer", () => {

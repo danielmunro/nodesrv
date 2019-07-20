@@ -23,8 +23,8 @@ beforeEach(async () => {
   const roomTable = app.get<RoomTable>(Types.RoomTable)
   roomTable.add(room1.get())
   roomTable.add(room2.get())
-  mob1 = testRunner.createMob().get()
-  mob2 = testRunner.createMob().get()
+  mob1 = (await testRunner.createMob()).get()
+  mob2 = (await testRunner.createMob()).get()
   locationService = app.get<LocationService>(Types.LocationService)
 })
 

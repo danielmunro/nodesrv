@@ -8,7 +8,7 @@ describe("exits action", () => {
   it("should describe room exits", async () => {
     // setup
     const  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-    testRunner.createMob()
+    await testRunner.createMob()
     const room = testRunner.getStartRoom()
 
     // given

@@ -15,7 +15,7 @@ let mobBuilder: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mobBuilder = testRunner.createMob().setLevel(20)
+  mobBuilder = (await testRunner.createMob()).setLevel(20)
 })
 
 describe("envenom skill action", () => {

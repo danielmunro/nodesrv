@@ -33,8 +33,8 @@ let merchant: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  buyer = testRunner.createMob()
-  merchant = testRunner.createMob().asMerchant()
+  buyer = await testRunner.createMob()
+  merchant = (await testRunner.createMob()).asMerchant()
 })
 
 describe("list action", () => {

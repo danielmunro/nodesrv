@@ -15,7 +15,7 @@ describe("skill action", () => {
     const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 
     // given
-    const mob1 = testRunner.createMob()
+    const mob1 = (await testRunner.createMob())
       .setLevel(30)
       .addAffectType(AffectType.Forget)
       .withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
@@ -28,7 +28,7 @@ describe("skill action", () => {
         return testRunner.invokeAction(RequestType.Berserk)
       })
 
-    const mob2 = testRunner.createAndSetMainMob()
+    const mob2 = (await testRunner.createAndSetMainMob())
       .setLevel(30)
       .withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
     const responses2 = await doNTimes(

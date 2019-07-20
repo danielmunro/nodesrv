@@ -15,10 +15,10 @@ const iterations = 1000
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  testRunner.createMob()
-    .withSpell(SpellType.Slow, MAX_PRACTICE_LEVEL)
+  const mob = await testRunner.createMob()
+  mob.withSpell(SpellType.Slow, MAX_PRACTICE_LEVEL)
     .setLevel(30)
-  target = testRunner.createMob()
+  target = await testRunner.createMob()
 })
 
 describe("slow spell action", () => {

@@ -13,8 +13,8 @@ const goldAmount = 100
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  player1 = testRunner.createPlayer()
-  player2 = testRunner.createPlayer()
+  player1 = await testRunner.createPlayer()
+  player2 = await testRunner.createPlayer()
 })
 
 describe("bounty action", () => {
@@ -54,7 +54,7 @@ describe("bounty action", () => {
     player2.setBounty(goldAmount).setHp(1)
 
     // given
-    const fight = testRunner.fight(player2.getMob())
+    const fight = await testRunner.fight(player2.getMob())
     let lastRound: Round
 
     // when

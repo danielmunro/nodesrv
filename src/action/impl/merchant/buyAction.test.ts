@@ -13,14 +13,14 @@ const initialGold = 100
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  buyer = testRunner.createMob()
+  buyer = (await testRunner.createMob())
     .setGold(initialGold)
 })
 
 describe("buy action", () => {
   it("purchaser should receive an item", async () => {
     // given
-    const merchant = testRunner.createMob().asMerchant()
+    const merchant = (await testRunner.createMob()).asMerchant()
     const item1 = testRunner.createItem()
       .asHelmet()
       .build()
@@ -58,7 +58,7 @@ describe("buy action", () => {
 
   it("fails when the merchant doesn't have the item requested", async () => {
     // given
-    testRunner.createMob().asMerchant()
+    (await testRunner.createMob()).asMerchant()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Buy, "buy foo")
@@ -75,7 +75,8 @@ describe("buy action", () => {
       .withValue(initialGold + 1)
       .build()
 
-    testRunner.createMob().asMerchant().addItem(item)
+    const merchant = await testRunner.createMob()
+    merchant.asMerchant().addItem(item)
 
     // when
     const response = await testRunner.invokeAction(RequestType.Buy, `buy ${item.name}`)
@@ -91,7 +92,9 @@ describe("buy action", () => {
       .asHelmet()
       .withValue(initialGold)
       .build()
-    testRunner.createMob().asMerchant().addItem(item)
+
+    const merchant = await testRunner.createMob()
+    merchant.asMerchant().addItem(item)
 
     // when
     const response = await testRunner.invokeAction(RequestType.Buy, `buy '${item.name}'`)
@@ -106,7 +109,9 @@ describe("buy action", () => {
       .asHelmet()
       .withValue(initialGold)
       .build()
-    testRunner.createMob().asMerchant().addItem(item)
+
+    const merchant = await testRunner.createMob()
+    merchant.asMerchant().addItem(item)
 
     // when
     const response = await testRunner.invokeAction(RequestType.Buy, `buy '${item.name}'`)
@@ -122,7 +127,8 @@ describe("buy action", () => {
     const item = testRunner.createWeapon()
       .asAxe()
       .build()
-    testRunner.createMob().asMerchant().addItem(item)
+    const merchant = await testRunner.createMob()
+    merchant.asMerchant().addItem(item)
     buyer.withDisposition(disposition)
     buyer.setGold(initialGold)
 

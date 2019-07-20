@@ -38,7 +38,7 @@ describe("specialization create mob auth step", () => {
       // setup
       const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
       const client = testRunner.createClient()
-      await client.session.login(client, testRunner.createPlayer().get())
+      await client.session.login(client, (await testRunner.createPlayer()).get())
 
       // given
       const specialization = new Specialization(mockAuthService(), client.player)

@@ -26,8 +26,8 @@ const iterations = 100
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
-  mob1 = testRunner.createMob()
-  mob2 = testRunner.createMob().equip(
+  mob1 = await testRunner.createMob()
+  mob2 = (await testRunner.createMob()).equip(
     testRunner.createWeapon().asAxe().addWeaponEffect(WeaponEffect.Poison).build())
   eventConsumer = new PoisonWeaponEffectEventConsumer(app.get<WeaponEffectService>(Types.WeaponEffectService))
   eventService = app.get<EventService>(Types.EventService)

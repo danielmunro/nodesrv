@@ -11,17 +11,17 @@ beforeEach(async () => {
 })
 
 describe("damage service", () => {
-  it("reports the damage type of a mob that is unequipped", () => {
+  it("reports the damage type of a mob that is unequipped", async () => {
     // when
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = await testRunner.createMob()
 
     // then
     expect(new DamageService(mobBuilder.mob).getDamageType()).toBe(DamageType.Bash)
   })
 
-  it("reports the damage type of a mob that is equipped", () => {
+  it("reports the damage type of a mob that is equipped", async () => {
     // when
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = await testRunner.createMob()
     mobBuilder.equip(testRunner.createWeapon()
       .asAxe()
       .build())

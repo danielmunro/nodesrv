@@ -15,9 +15,9 @@ let playerToPromote: PlayerBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  promotingPlayer = testRunner.createPlayer()
+  promotingPlayer = (await testRunner.createPlayer())
     .setAuthorizationLevel(AuthorizationLevel.Immortal)
-  playerToPromote = testRunner.createPlayer()
+  playerToPromote = await testRunner.createPlayer()
 })
 
 describe("promote moderation action", () => {
@@ -94,7 +94,7 @@ describe("promote moderation action", () => {
 
   it("cannot promote non-player mobs", async () => {
     // given
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeAction(

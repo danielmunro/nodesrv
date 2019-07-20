@@ -18,11 +18,11 @@ let eventConsumer: OgreBashBonus
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   weapon = testRunner.createWeapon().asMace().setDamageType(DamageType.Bash).build()
-  attacker = testRunner.createMob()
+  attacker = (await testRunner.createMob())
     .setRace(RaceType.Ogre)
     .equip(weapon)
     .get()
-  defender = testRunner.createMob().setRace(RaceType.Elf).get()
+  defender = (await testRunner.createMob()).setRace(RaceType.Elf).get()
   eventConsumer = new OgreBashBonus()
 })
 

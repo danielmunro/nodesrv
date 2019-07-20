@@ -13,15 +13,15 @@ const undeadCount = 10
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  testRunner.createMob()
-    .withSpell(SpellType.TurnUndead, MAX_PRACTICE_LEVEL)
+  const mob = await testRunner.createMob()
+  mob.withSpell(SpellType.TurnUndead, MAX_PRACTICE_LEVEL)
     .setLevel(30)
 })
 
 describe("turn undead action", () => {
   it("kills undead mobs", async () => {
     // given
-    const mobs = await doNTimes(undeadCount, () => testRunner.createMob().setRace(RaceType.Undead))
+    const mobs = await doNTimes(undeadCount, async () => (await testRunner.createMob()).setRace(RaceType.Undead))
 
     // when
     await testRunner.invokeActionSuccessfully(RequestType.Cast, "cast turn")

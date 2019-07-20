@@ -16,10 +16,10 @@ const expectedMessage = "your curse has lifted."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .withSpell(SpellType.RemoveCurse, MAX_PRACTICE_LEVEL)
     .setLevel(20)
-  target = testRunner.createMob()
+  target = (await testRunner.createMob())
     .addAffectType(AffectType.Curse)
 })
 

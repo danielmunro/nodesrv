@@ -15,14 +15,14 @@ describe("sacrifice action", () => {
   it("destroys the item", async () => {
     // setup
     const item = testRunner.createItem().asShield().build()
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = await testRunner.createMob()
 
     // when
     await testRunner.invokeAction(RequestType.Sacrifice, `sacrifice '${item.name}'`)
 
     // then
     expect(testRunner.getStartRoom().getItemCount()).toBe(0)
-    expect(mobBuilder.mob.gold).toBeGreaterThan(0)
+    expect(mobBuilder.getGold()).toBeGreaterThan(0)
   })
 
   it("cannot sacrifice an item affected by NoSac", async () => {

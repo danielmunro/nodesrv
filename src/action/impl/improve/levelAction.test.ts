@@ -11,7 +11,7 @@ let playerBuilder: PlayerBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  playerBuilder = testRunner.createPlayer()
+  playerBuilder = await testRunner.createPlayer()
 })
 
 describe("level action", () => {

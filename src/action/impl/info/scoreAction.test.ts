@@ -9,7 +9,7 @@ describe("score information action", () => {
     const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
 
     // given
-    const playerBuilder = testRunner.createPlayer()
+    const playerBuilder = await testRunner.createPlayer()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Score)

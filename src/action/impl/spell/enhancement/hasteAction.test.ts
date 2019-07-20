@@ -14,10 +14,10 @@ const expectedMessage = "you begin moving quickly."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .setLevel(20)
     .withSpell(SpellType.Haste, MAX_PRACTICE_LEVEL)
-  target = testRunner.createMob()
+  target = await testRunner.createMob()
 })
 
 describe("haste spell action", () => {

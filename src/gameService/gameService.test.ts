@@ -16,7 +16,7 @@ beforeEach(async () => {
 describe("moveMob", () => {
   it("does not allow movement where an exit does not exist", async () => {
     // setup
-    const mob = testRunner.createMob()
+    const mob = await testRunner.createMob()
 
     // expect
     return expect(gameService.moveMob(mob.get(), Direction.North)).rejects.toThrowError()
@@ -25,7 +25,7 @@ describe("moveMob", () => {
   it("should allow movement where a direction exists", async () => {
     // setup
     const destination = testRunner.createRoom(Direction.North).get()
-    const mob = testRunner.createMob().get()
+    const mob = (await testRunner.createMob()).get()
 
     // when
     await gameService.moveMob(mob, Direction.North)
@@ -39,8 +39,8 @@ describe("moveMob", () => {
     // given
     const room1 = testRunner.getStartRoom().get()
     const room2 = testRunner.createRoom().get()
-    const mob1 = testRunner.createMob().get()
-    const mob2 = testRunner.createMob().get()
+    const mob1 = (await testRunner.createMob()).get()
+    const mob2 = (await testRunner.createMob()).get()
 
     // expect
     expect(gameService.getMobsByRoom(room1)).toHaveLength(2)

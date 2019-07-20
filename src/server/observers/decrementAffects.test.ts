@@ -17,7 +17,7 @@ beforeEach(async () => {
 describe("decrementAffects", () => {
   it("should decrement all affects for a mob", async () => {
     // setup
-    const mob = testRunner.createMob().get()
+    const mob = (await testRunner.createMob()).get()
     const affect = mob.affect()
     affect.add(newAffect(AffectType.Stunned, TEST_TIMEOUT_1))
     affect.add(newAffect(AffectType.Shield, TEST_TIMEOUT_2))
@@ -36,7 +36,7 @@ describe("decrementAffects", () => {
 
   it("should remove an affect once it decrements to zero", async () => {
     // setup
-    const mob = testRunner.createMob().get()
+    const mob = (await testRunner.createMob()).get()
     mob.affect().add(newAffect(AffectType.Stunned, 0))
     const table = new MobTable([mob])
     const decrementAffects = new DecrementAffects(table)

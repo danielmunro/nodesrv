@@ -30,7 +30,7 @@ describe("ticks", () => {
       testRunner.createClient(),
     ]
     for (const client of clients) {
-      await client.session.login(client, testRunner.createPlayer().get())
+      await client.session.login(client, (await testRunner.createPlayer()).get())
     }
 
     // when
@@ -43,7 +43,7 @@ describe("ticks", () => {
   it("should invoke fast healing on tick", async () => {
     // given
     const client = testRunner.createClient()
-    await client.session.login(client, testRunner.createPlayer().get())
+    await client.session.login(client, (await testRunner.createPlayer()).get())
     client.getSessionMob().skills.push(newSkill(SkillType.FastHealing, MAX_PRACTICE_LEVEL))
     const clients = [client]
     const mockSkill = jest.fn(() => ({

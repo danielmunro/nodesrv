@@ -9,7 +9,7 @@ let mobBuilder: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mobBuilder = testRunner.createMob()
+  mobBuilder = await testRunner.createMob()
 })
 
 describe("specialization service", () => {

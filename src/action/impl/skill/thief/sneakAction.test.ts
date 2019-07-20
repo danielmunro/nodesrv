@@ -11,7 +11,7 @@ let player: PlayerBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  player = testRunner.createPlayer()
+  player = await testRunner.createPlayer()
 })
 
 describe("sneak skill action", () => {

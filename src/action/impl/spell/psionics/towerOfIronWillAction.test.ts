@@ -13,7 +13,7 @@ const expectedMessage = "your will cannot be broken."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .withSpell(SpellType.TowerOfIronWill, MAX_PRACTICE_LEVEL)
     .setLevel(30)
 })
@@ -40,7 +40,7 @@ describe("tower of iron will spell action", () => {
 
   it("generates accurate success messages against a target", async () => {
     // given
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeActionSuccessfully(

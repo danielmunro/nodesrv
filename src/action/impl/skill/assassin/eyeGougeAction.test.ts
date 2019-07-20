@@ -17,10 +17,10 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   mobService = app.get<MobService>(Types.MobService)
-  attacker = testRunner.createMob()
+  attacker = (await testRunner.createMob())
     .withSkill(SkillType.EyeGouge, MAX_PRACTICE_LEVEL)
     .setLevel(30)
-  defender = testRunner.createMob()
+  defender = await testRunner.createMob()
 })
 
 describe("eye gouge skill action", () => {

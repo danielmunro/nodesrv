@@ -11,9 +11,9 @@ let defender: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  testRunner.createMob()
-    .withSpell(SpellType.PsionicBlast, MAX_PRACTICE_LEVEL)
-  defender = testRunner.createMob()
+  const mob = await testRunner.createMob()
+  mob.withSpell(SpellType.PsionicBlast, MAX_PRACTICE_LEVEL)
+  defender = await testRunner.createMob()
 })
 
 describe("psionic blast spell action", () => {

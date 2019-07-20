@@ -13,7 +13,7 @@ const expectedMessage = "you feel more powerful than death."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = await testRunner.createMob()
 })
 
 describe("withstand death spell action", () => {
@@ -46,7 +46,7 @@ describe("withstand death spell action", () => {
     // given
     caster.withSpell(SpellType.WithstandDeath, MAX_PRACTICE_LEVEL)
       .setLevel(30)
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeActionSuccessfully(

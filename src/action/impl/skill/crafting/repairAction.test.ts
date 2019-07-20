@@ -15,7 +15,7 @@ const input = "repair axe"
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mobBuilder = testRunner.createMob()
+  mobBuilder = (await testRunner.createMob())
     .withSkill(SkillType.Repair, MAX_PRACTICE_LEVEL)
   mobBuilder.addItem(testRunner.createWeapon()
     .asMace()

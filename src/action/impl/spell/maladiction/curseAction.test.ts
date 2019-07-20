@@ -12,9 +12,10 @@ let target: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  testRunner.createMob().setLevel(20)
+  const mob = await testRunner.createMob()
+  mob.setLevel(20)
     .withSpell(SpellType.Curse, MAX_PRACTICE_LEVEL)
-  target = testRunner.createMob()
+  target = await testRunner.createMob()
 })
 
 describe("curse spell action", () => {

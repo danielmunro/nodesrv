@@ -11,7 +11,7 @@ const expirationYearErrorMessage = "expiration year must be valid"
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   client = testRunner.createClient()
-  client.player = testRunner.createPlayer().get()
+  client.player = (await testRunner.createPlayer()).get()
 })
 
 describe("cc add action", () => {

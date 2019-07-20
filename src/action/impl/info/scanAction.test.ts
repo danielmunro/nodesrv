@@ -12,19 +12,23 @@ const names = ["bob", "alice", "al", "jane"]
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   testRunner.getStartRoom().setArea(testAreaName)
-  testRunner.createMob()
+  await testRunner.createMob()
 
   const room1 = testRunner.createRoom().setArea(testAreaName).setName("room 1")
-  testRunner.createMob(room1.room).setName(names[0])
+  const mob1 = await testRunner.createMob(room1.room)
+  mob1.setName(names[0])
 
   const room2 = testRunner.createRoom().setArea(testAreaName).setName("room 2")
-  testRunner.createMob(room2.room).setName(names[1])
+  const mob2 = await testRunner.createMob(room2.room)
+  mob2.setName(names[1])
 
   const room3 = testRunner.createRoom().setArea(testAreaName).setName("room 3")
-  testRunner.createMob(room3.room).setName(names[2])
+  const mob3 = await testRunner.createMob(room3.room)
+  mob3.setName(names[2])
 
   const room4 = testRunner.createRoom().setArea(differentTestArea).setName("room 4")
-  testRunner.createMob(room4.room).setName(names[3])
+  const mob4 = await testRunner.createMob(room4.room)
+  mob4.setName(names[3])
 })
 
 describe("scan action", () => {

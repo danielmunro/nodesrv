@@ -15,8 +15,8 @@ describe("equipped", () => {
       .build()
 
     // given
-    testRunner.createMob()
-      .equip(helmet)
+    const mobBuilder = await testRunner.createMob()
+    mobBuilder.equip(helmet)
       .addItem(axe)
 
     // when

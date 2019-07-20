@@ -14,7 +14,7 @@ let axe: ItemEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  const mobBuilder = testRunner.createMob()
+  const mobBuilder = (await testRunner.createMob())
     .withSkill(SkillType.Sharpen, MAX_PRACTICE_LEVEL)
   mobBuilder.addItem(testRunner.createWeapon()
     .asMace()

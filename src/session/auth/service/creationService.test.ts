@@ -15,9 +15,9 @@ beforeEach(async () => {
 })
 
 describe("creation service", () => {
-  it("includes weapons in the list of available skills", () => {
+  it("includes weapons in the list of available skills", async () => {
     // setup
-    const player = testRunner.createPlayer().get()
+    const player = (await testRunner.createPlayer()).get()
 
     // given
     player.sessionMob.specializationType = SpecializationType.Cleric

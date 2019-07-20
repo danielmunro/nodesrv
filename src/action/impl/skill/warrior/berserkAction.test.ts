@@ -16,7 +16,7 @@ beforeEach(async () => {
 describe("berserk skill action", () => {
   it("fails often when not practiced", async () => {
     // given
-    testRunner.createMob()
+    (await testRunner.createMob())
       .withSkill(SkillType.Berserk)
 
     // when
@@ -28,7 +28,7 @@ describe("berserk skill action", () => {
 
   it("should be able to succeed berserking", async () => {
     // given
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = (await testRunner.createMob())
       .setLevel(20)
       .withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL)
 
@@ -42,7 +42,7 @@ describe("berserk skill action", () => {
 
   it("should generate accurate messages", async () => {
     // given
-    const mobBuilder = testRunner.createMob()
+    const mobBuilder = (await testRunner.createMob())
       .setLevel(40)
       .withSkill(SkillType.Berserk, MAX_PRACTICE_LEVEL / 2)
 

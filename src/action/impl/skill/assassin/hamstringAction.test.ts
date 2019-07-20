@@ -17,11 +17,11 @@ beforeEach(async () => {
 describe("hamstring skill action", () => {
   it("should not work if already fighting", async () => {
     // setup
-    testRunner.createMob().withSkill(SkillType.Hamstring, MAX_PRACTICE_LEVEL)
-    const target = testRunner.createMob()
+    (await testRunner.createMob()).withSkill(SkillType.Hamstring, MAX_PRACTICE_LEVEL)
+    const target = await testRunner.createMob()
 
     // given
-    testRunner.fight(target.get())
+    await testRunner.fight(target.get())
 
     // when
     const response = await testRunner.invokeAction(RequestType.Hamstring, `hamstring ${target.getMobName()}`)
@@ -33,8 +33,8 @@ describe("hamstring skill action", () => {
 
   it("bounces off an orb of touch", async () => {
     // given
-    const attacker = testRunner.createMob().withSkill(SkillType.Hamstring, MAX_PRACTICE_LEVEL)
-    const target = testRunner.createMob().addAffectType(AffectType.OrbOfTouch)
+    const attacker = (await testRunner.createMob()).withSkill(SkillType.Hamstring, MAX_PRACTICE_LEVEL)
+    const target = (await testRunner.createMob()).addAffectType(AffectType.OrbOfTouch)
 
     // when
     const response = await testRunner.invokeAction(
@@ -53,9 +53,9 @@ describe("hamstring skill action", () => {
 
   it("should be able to succeed and fail hamstring", async () => {
     // given
-    const aggressor = testRunner.createMob()
+    const aggressor = (await testRunner.createMob())
       .withSkill(SkillType.Hamstring, MAX_PRACTICE_LEVEL)
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const responses = await doNTimes(iterations, () =>

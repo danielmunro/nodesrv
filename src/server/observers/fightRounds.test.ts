@@ -60,8 +60,8 @@ describe("fight rounds", () => {
     // setup
     const app = await createTestAppContainer()
     const testRunner = app.get<TestRunner>(Types.TestRunner)
-    const mobBuilder = testRunner.createMob().setHp(0)
-    testRunner.fight()
+    const mobBuilder = (await testRunner.createMob()).setHp(0)
+    await testRunner.fight()
     const mobService = app.get<MobService>(Types.MobService)
 
     // when
@@ -83,8 +83,8 @@ describe("fight rounds", () => {
     // setup
     const app = await createTestAppContainer()
     const testRunner = app.get<TestRunner>(Types.TestRunner)
-    const mobBuilder = testRunner.createMob()
-    testRunner.fight()
+    const mobBuilder = await testRunner.createMob()
+    await testRunner.fight()
     const mobService = app.get<MobService>(Types.MobService)
     const fightRounds = new FightRounds(mobService)
 

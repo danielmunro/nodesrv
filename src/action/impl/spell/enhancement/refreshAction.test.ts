@@ -12,7 +12,7 @@ const expectedMessage = "you feel refreshed."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  caster = testRunner.createMob()
+  caster = (await testRunner.createMob())
     .setLevel(30)
     .withSpell(SpellType.RefreshMovement, MAX_PRACTICE_LEVEL)
 })
@@ -40,7 +40,7 @@ describe("refresh spell action", () => {
   })
 
   it("generates correct success messages on target", async () => {
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeActionSuccessfully(

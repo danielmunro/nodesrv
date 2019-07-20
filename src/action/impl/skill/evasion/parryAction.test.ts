@@ -17,11 +17,11 @@ const iterations = 1000
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  attacker = testRunner.createMob()
+  attacker = (await testRunner.createMob())
     .withSkill(SkillType.Parry, MAX_PRACTICE_LEVEL)
     .setLevel(20)
-  defender = testRunner.createMob()
-  fight = testRunner.fight(defender.mob)
+  defender = await testRunner.createMob()
+  fight = await testRunner.fight(defender.mob)
 })
 
 describe("parry event consumer", () => {

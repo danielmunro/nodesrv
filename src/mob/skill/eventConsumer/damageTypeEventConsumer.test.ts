@@ -16,8 +16,8 @@ const modifier = 1
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  attacker = testRunner.createMob()
-  defender = testRunner.createMob()
+  attacker = await testRunner.createMob()
+  defender = await testRunner.createMob()
 })
 
 describe("bludgeon damage type event consumer", () => {

@@ -16,8 +16,8 @@ let mob: MobBuilder
 beforeEach(async () => {
   const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   consumer = new HasteEventConsumer()
-  mob = testRunner.createMob()
-  fight = testRunner.fight()
+  mob = await testRunner.createMob()
+  fight = await testRunner.fight()
 })
 
 describe("haste event consumer", () => {

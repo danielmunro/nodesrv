@@ -24,10 +24,11 @@ beforeEach(async () => {
 describe("aggressive mob event consumer", () => {
   it("arriving in a room with an aggressive mob should trigger a fight", async () => {
     // setup
-    const player = testRunner.createPlayer()
+    const player = await testRunner.createPlayer()
 
     // given
-    testRunner.createMob().setAggressive()
+    const mob = await testRunner.createMob()
+    mob.setAggressive()
 
     // when
     await eventService.publish(
@@ -41,10 +42,11 @@ describe("aggressive mob event consumer", () => {
 
   it("don't attack non-players", async () => {
     // setup
-    const mob1 = testRunner.createMob().get()
+    const mob1 = (await testRunner.createMob()).get()
 
     // given
-    testRunner.createMob().setAggressive()
+    const mob2 = await testRunner.createMob()
+    mob2.setAggressive()
 
     // when
     await eventService.publish(createMobMoveEvent(mob1, room, room, 1, Direction.Noop))
@@ -56,10 +58,10 @@ describe("aggressive mob event consumer", () => {
 
   it("if an aggressive mob has a lower level than the target, don't initiate an attack", async () => {
     // setup
-    const player = testRunner.createPlayer()
+    const player = await testRunner.createPlayer()
 
     // given
-    const mob2 = testRunner.createMob().setAggressive().get()
+    const mob2 = (await testRunner.createMob()).setAggressive().get()
     player.setLevel(mob2.level + 1)
 
     // when

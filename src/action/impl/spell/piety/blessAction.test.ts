@@ -12,7 +12,7 @@ const expectedMessage = "you feel blessed."
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mobBuilder = testRunner.createMob()
+  mobBuilder = await testRunner.createMob()
 })
 
 describe("bless action", () => {
@@ -33,7 +33,7 @@ describe("bless action", () => {
   it("generates accurate success messages when casting against a target", async () => {
     // given
     mobBuilder.withSpell(SpellType.Bless, MAX_PRACTICE_LEVEL)
-    const target = testRunner.createMob()
+    const target = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeActionSuccessfully(

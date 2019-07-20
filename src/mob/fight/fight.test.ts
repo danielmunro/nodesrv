@@ -17,9 +17,9 @@ beforeEach(async () => {
 describe("fight", () => {
   it("getOpponentFor should return null for mobs not in the fight", async () => {
     // setup
-    const aggressor = testRunner.createMob().get()
-    const target = testRunner.createMob().get()
-    const bystander = testRunner.createMob().get()
+    const aggressor = (await testRunner.createMob()).get()
+    const target = (await testRunner.createMob()).get()
+    const bystander = (await testRunner.createMob()).get()
 
     // when
     const fight = new Fight(
@@ -34,11 +34,11 @@ describe("fight", () => {
 
   it("should stop when hit points reach zero", async () => {
     // setup
-    const aggressor = testRunner.createMob().get()
-    const target = testRunner.createMob().get()
+    const aggressor = (await testRunner.createMob()).get()
+    const target = (await testRunner.createMob()).get()
 
     // when - a fight has allowed to complete
-    const fight = testRunner.fight(target)
+    const fight = await testRunner.fight(target)
     expect(fight.isInProgress()).toBe(true)
     let round: Round = await fight.round()
 
@@ -60,13 +60,13 @@ describe("fight", () => {
   it("players gain experience after killing a mob", async () => {
     // setup
     const experienceToLevel = 1000
-    const aggressor = testRunner.createPlayer()
+    const aggressor = await testRunner.createPlayer()
 
     // given
     aggressor.getMob().playerMob.experienceToLevel = experienceToLevel
 
     // when
-    const fight = testRunner.fight()
+    const fight = await testRunner.fight()
     while (fight.isInProgress()) {
       aggressor.setHp(20)
       await fight.round()
@@ -77,37 +77,37 @@ describe("fight", () => {
     expect(aggressor.getMob().playerMob.experienceToLevel).toBeLessThan(experienceToLevel)
   })
 
-  it("truthy sanity check for isP2P", () => {
+  it("truthy sanity check for isP2P", async () => {
     // given
-    testRunner.createPlayer()
-    const player = testRunner.createPlayer()
+    await testRunner.createPlayer()
+    const player = await testRunner.createPlayer()
 
     // when
-    const fight = testRunner.fight(player.getMob())
+    const fight = await testRunner.fight(player.getMob())
 
     // then
     expect(fight.isP2P()).toBeTruthy()
   })
 
-  it("falsy sanity check for isP2P", () => {
+  it("falsy sanity check for isP2P", async () => {
     // given
-    testRunner.createPlayer()
-    const mob = testRunner.createMob()
+    await testRunner.createPlayer()
+    const mob = await testRunner.createMob()
 
     // when
-    const fight = testRunner.fight(mob.get())
+    const fight = await testRunner.fight(mob.get())
 
     // then
     expect(fight.isP2P()).toBeFalsy()
   })
 
-  it("another falsy sanity check for isP2P", () => {
+  it("another falsy sanity check for isP2P", async () => {
     // given
-    testRunner.createMob()
-    const mob = testRunner.createMob()
+    await testRunner.createMob()
+    const mob = await testRunner.createMob()
 
     // when
-    const fight = testRunner.fight(mob.get())
+    const fight = await testRunner.fight(mob.get())
 
     // then
     expect(fight.isP2P()).toBeFalsy()

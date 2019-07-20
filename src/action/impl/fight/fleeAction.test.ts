@@ -26,10 +26,10 @@ beforeEach(async () => {
   locationService = app.get<LocationService>(Types.LocationService)
   mobService = app.get<MobService>(Types.MobService)
   room2 = testRunner.createRoom()
-  const playerBuilder = testRunner.createPlayer()
+  const playerBuilder = await testRunner.createPlayer()
   player = playerBuilder.player
   mob = player.sessionMob
-  testRunner.fight(testRunner.createMob().mob)
+  await testRunner.fight()
 })
 
 describe("flee action handler", () => {
@@ -77,8 +77,8 @@ describe("flee action handler", () => {
   it("should not work if no exits available", async () => {
     // given
     testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-    testRunner.createMob()
-    testRunner.fight(testRunner.createMob().mob)
+    await testRunner.createMob()
+    await testRunner.fight()
 
     // when
     const response = await testRunner.invokeAction(RequestType.Flee)

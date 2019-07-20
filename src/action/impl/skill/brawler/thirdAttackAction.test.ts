@@ -16,10 +16,10 @@ let fight: Fight
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  aggressor = testRunner.createMob()
+  aggressor = (await testRunner.createMob())
     .setLevel(30)
-  target = testRunner.createMob().setLevel(30)
-  fight = testRunner.fight(target.mob)
+  target = (await testRunner.createMob()).setLevel(30)
+  fight = await testRunner.fight(target.mob)
 })
 
 describe("third attack skill action", () => {
