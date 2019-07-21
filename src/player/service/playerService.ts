@@ -58,4 +58,9 @@ export default class PlayerService {
     }
     await this.playerRepository.save(player)
   }
+
+  public getLoggedInMobs(): MobEntity[] {
+    return this.playerTable.getPlayers().filter(player => player.sessionMob)
+      .map(player => player.sessionMob)
+  }
 }

@@ -80,13 +80,10 @@ describe("client sanity checks", () => {
       const ws = jest.fn(() => ({
         send,
       }))
-      const mockService = jest.fn()
       client = new Client(
         new SessionService(null),
         ws(),
-        "127.0.0.1",
-        [],
-        mockService())
+        "127.0.0.1")
     })
 
     it("send sanity test", () => {

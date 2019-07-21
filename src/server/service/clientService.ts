@@ -3,8 +3,12 @@ import Action from "../../action/impl/action"
 import {Client} from "../../client/client"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
+import RequestBuilder from "../../request/builder/requestBuilder"
+import Request from "../../request/request"
 import Response from "../../request/response"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import Email from "../../session/auth/authStep/login/email"
+import {default as AuthRequest} from "../../session/auth/request"
 import CreationService from "../../session/auth/service/creationService"
 import SessionService from "../../session/service/sessionService"
 import {Types} from "../../support/types"
@@ -22,10 +26,9 @@ export default class ClientService {
     const client = new Client(
       new SessionService(new Email(this.authService)),
       ws,
-      req ? req.connection.remoteAddress : null,
-      this.actions,
-      this.locationService)
+      req ? req.connection.remoteAddress : null)
     this.add(client)
+    ws.onmessage = message => this.onMessage(client, message)
     return client
   }
 
@@ -87,5 +90,27 @@ export default class ClientService {
   private getRoomMobs(mob: MobEntity): MobEntity[] {
     const location = this.locationService.getLocationForMob(mob)
     return this.locationService.getMobsByRoom(location.room)
+  }
+
+  private onMessage(client: Client, message: any) {
+    try {
+      const mobLocation = this.locationService.getLocationForMob(client.getSessionMob())
+      client.addRequest(this.getNewRequestFromMessageEvent(client, message, mobLocation.room))
+      return
+    } catch (e) {
+      // fine
+    }
+    client.addRequest(this.getNewRequestFromMessageEvent(client, message))
+  }
+
+  private getNewRequestFromMessageEvent(
+    client: Client, messageEvent: MessageEvent, room?: RoomEntity): Request | AuthRequest {
+    const data = JSON.parse(messageEvent.data)
+    if (!client.player) {
+      return new AuthRequest(client, data.request)
+    }
+    const requestArgs = data.request.split(" ")
+    const mob = client.getSessionMob()
+    return new RequestBuilder(this.actions, this.locationService, mob, room).create(requestArgs[0], data.request)
   }
 }

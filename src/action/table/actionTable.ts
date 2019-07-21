@@ -35,6 +35,7 @@ import LookAction from "../impl/info/lookAction"
 import LoreAction from "../impl/info/loreAction"
 import ScanAction from "../impl/info/scanAction"
 import ScoreAction from "../impl/info/scoreAction"
+import WhoAction from "../impl/info/whoAction"
 import CloseItemAction from "../impl/item/closeItemAction"
 import DropAction from "../impl/item/dropAction"
 import EatAction from "../impl/item/eatAction"
@@ -192,6 +193,7 @@ export default function getActionTable(
     new EquippedAction(),
     new ExitsAction(),
     new HelpAction(),
+    new WhoAction(playerService),
 
     // merchants/healers
     new BuyAction(checkBuilderFactory, eventService),

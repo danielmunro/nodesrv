@@ -15,4 +15,8 @@ export default class PlayerTable {
     return new Maybe<PlayerEntity>(this.players.find(player =>
       !!player.mobs.find(m => m.uuid === mob.uuid)))
   }
+
+  public getPlayers(): PlayerEntity[] {
+    return this.players
+  }
 }
