@@ -1,3 +1,4 @@
+import ActionService from "../action/service/actionService"
 import {AffectType} from "../affect/enum/affectType"
 import {newAffect} from "../affect/factory/affectFactory"
 import {createTestAppContainer} from "../app/factory/testFactory"
@@ -22,6 +23,7 @@ function getNewTestMessageEvent(message = "hello world") {
 
 let testRunner: TestRunner
 let client: Client
+let actionService: ActionService
 
 const mockReq = jest.fn()
 const mockWebSocket = jest.fn(() => ({
@@ -37,7 +39,8 @@ beforeEach(async () => {
   const player = (await testRunner.createPlayer()).get()
   await client.session.login(client, player)
   const mobService = app.get<MobService>(Types.MobService)
-  mobService.add(player.sessionMob, testRunner.getStartRoom().get())
+  await mobService.add(player.sessionMob, testRunner.getStartRoom().get())
+  actionService = app.get<ActionService>(Types.ActionService)
 })
 
 describe("client sanity checks", () => {
@@ -83,7 +86,7 @@ describe("client sanity checks", () => {
         ws(),
         "127.0.0.1",
         [],
-        mockService(), mockService())
+        mockService())
     })
 
     it("send sanity test", () => {
@@ -139,11 +142,11 @@ describe("client sanity checks", () => {
 })
 
 describe("clients", () => {
-  it("should delegate handling requests to the session if not logged in", async () => {
+  it("proceeds auth step in session when not logged in", async () => {
     const newClient = testRunner.createClient()
     const authStep = newClient.session.getAuthStepMessage()
     newClient.addRequest(new AuthRequest(newClient, "testemail@email.com"))
-    await newClient.handleNextRequest()
+    await actionService.handleRequest(newClient, newClient.getNextRequest())
     expect(newClient.session.getAuthStepMessage()).not.toBe(authStep)
   })
 
@@ -152,10 +155,10 @@ describe("clients", () => {
     const request = testRunner.createRequest(RequestType.Noop)
 
     // when
-    const response = await client.handleRequest(request)
+    const response = await actionService.handleRequest(client, request)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toEqual(MESSAGE_NOT_UNDERSTOOD)
+    expect(response.getMessageToRequestCreator()).toEqual(MESSAGE_NOT_UNDERSTOOD)
   })
 
   it("invokes the default request action when input has no action handler", async () => {
@@ -163,10 +166,10 @@ describe("clients", () => {
     const request = testRunner.createRequest(RequestType.Noop)
 
     // when
-    const response = await client.handleRequest(request)
+    const response = await actionService.handleRequest(client, request)
 
     // then
-    expect(response.message.getMessageToRequestCreator()).toContain(MESSAGE_NOT_UNDERSTOOD)
+    expect(response.getMessageToRequestCreator()).toContain(MESSAGE_NOT_UNDERSTOOD)
   })
 
   it("training will apply the cost appropriately", async () => {
@@ -180,7 +183,7 @@ describe("clients", () => {
         new InputContext(RequestType.Train, "train str")))
 
     // when
-    await client.handleNextRequest()
+    await actionService.handleRequest(client, client.getNextRequest())
 
     // then
     expect(client.getSessionMob().playerMob.trains).toBe(0)
@@ -192,7 +195,7 @@ describe("clients", () => {
     const request = testRunner.createRequest(RequestType.Cast)
 
     // when
-    const response = await client.handleRequest(request)
+    const response = await actionService.handleRequest(client, request)
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(SpellMessages.HolySilence.CastPrevented)

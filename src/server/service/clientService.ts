@@ -1,7 +1,6 @@
 import {inject, injectable} from "inversify"
 import Action from "../../action/impl/action"
 import {Client} from "../../client/client"
-import EventService from "../../event/service/eventService"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
 import Response from "../../request/response"
@@ -14,7 +13,6 @@ import {Observer} from "../observers/observer"
 @injectable()
 export default class ClientService {
   constructor(
-    @inject(Types.EventService) private readonly eventService: EventService,
     @inject(Types.CreationService) private readonly authService: CreationService,
     @inject(Types.LocationService) private readonly locationService: LocationService,
     @inject(Types.Actions) private readonly actions: Action[],
@@ -26,8 +24,7 @@ export default class ClientService {
       ws,
       req ? req.connection.remoteAddress : null,
       this.actions,
-      this.locationService,
-      this.eventService)
+      this.locationService)
     this.add(client)
     return client
   }
@@ -71,7 +68,7 @@ export default class ClientService {
     clients.forEach(client => {
       if (client.getSessionMob() === response.getMob()) {
         client.sendMessage(response.getMessageToRequestCreator())
-      } else if (client.getSessionMob() === response.request.getTarget()) {
+      } else if (client.getSessionMob() === response.request.getMob()) {
         client.sendMessage(response.getMessageToTarget())
       } else {
         client.sendMessage(response.getMessageToObservers())

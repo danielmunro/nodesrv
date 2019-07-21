@@ -1,37 +1,26 @@
 import { Server } from "mock-socket"
-import ActionService from "../../action/service/actionService"
+import {createTestAppContainer} from "../../app/factory/testFactory"
 import EventService from "../../event/service/eventService"
-import GameService from "../../gameService/gameService"
-import FightTable from "../../mob/fight/fightTable"
-import LocationService from "../../mob/service/locationService"
-import MobService from "../../mob/service/mobService"
-import MobTable from "../../mob/table/mobTable"
-import CreationService from "../../session/auth/service/creationService"
 import { DontExecuteTestObserver } from "../../support/test/dontExecuteTestObserver"
 import { ExpectTestObserver } from "../../support/test/expectTestObserver"
-import { getTestRoom } from "../../support/test/room"
+import TestRunner from "../../support/test/testRunner"
 import { ImmediateTimer } from "../../support/timer/immediateTimer"
 import { ShortIntervalTimer } from "../../support/timer/shortIntervalTimer"
+import {Types} from "../../support/types"
 import ClientService from "./clientService"
 import { GameServerService } from "./gameServerService"
 
 let ws
 
 async function getGameServer(): Promise<GameServerService> {
-  const eventService = new EventService()
-  const room = getTestRoom()
-  const locationService = new LocationService(eventService, room)
-  const mobService = new MobService(new MobTable(), locationService, new MobTable(), new FightTable())
-  const gameService = new GameService(mobService, new ActionService([], [], []))
+  const app = await createTestAppContainer()
+  const eventService = app.get<EventService>(Types.EventService)
+  const testRunner = app.get<TestRunner>(Types.TestRunner)
+  const room = testRunner.getStartRoom().get()
   return new GameServerService(
     ws,
     room,
-    new ClientService(
-      eventService,
-      new CreationService(jest.fn()(), mobService, [], jest.fn()()),
-      locationService,
-      gameService.getActionService().actions,
-    ),
+    app.get<ClientService>(Types.ClientService),
     eventService)
 }
 
@@ -47,7 +36,7 @@ afterEach(() => {
 })
 
 describe("the server", () => {
-  test("should start if initialized", async () => {
+  test("starts if initialized", async () => {
     const server = await getGameServer()
     expect(server.isInitialized()).toBe(true)
     await server.start()

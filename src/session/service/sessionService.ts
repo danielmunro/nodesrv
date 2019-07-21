@@ -27,6 +27,7 @@ export default class SessionService {
     if (this.isEndStep()) {
       await this.doEndStep(client, request)
     }
+    return response
   }
 
   public getAuthStepMessage(): string {

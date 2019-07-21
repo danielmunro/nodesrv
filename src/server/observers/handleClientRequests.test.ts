@@ -5,7 +5,6 @@ import Request from "../../request/request"
 import {ResponseStatus} from "../../session/auth/enum/responseStatus"
 import {createResponse} from "../../session/auth/factory/requestAuthFactory"
 import { default as AuthRequest } from "../../session/auth/request"
-import Response from "../../session/auth/response"
 import {getTestPlayer} from "../../support/test/player"
 import {getTestRoom} from "../../support/test/room"
 import {Types} from "../../support/types"
@@ -13,10 +12,12 @@ import ClientService from "../service/clientService"
 import {HandleClientRequests} from "./handleClientRequests"
 
 let clientService: ClientService
+let observer: HandleClientRequests
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   clientService = app.get<ClientService>(Types.ClientService)
+  observer = app.get<HandleClientRequests>(Types.HandleClientRequestsObserver)
 })
 
 const mockSocket = jest.fn(() => ({
@@ -39,7 +40,7 @@ describe("handleClientRequests", () => {
     client.addRequest(mockInputRequest())
 
     expect(client.hasRequests()).toBe(true)
-    await new HandleClientRequests().notify([client])
+    await observer.notify([client])
     expect(client.hasRequests()).toBe(false)
   })
 
@@ -52,7 +53,7 @@ describe("handleClientRequests", () => {
     client.player.delay += 1
 
     expect(client.hasRequests()).toBe(true)
-    await new HandleClientRequests().notify([client])
+    await observer.notify([client])
     expect(client.hasRequests()).toBe(true)
   })
 })

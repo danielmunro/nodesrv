@@ -1,6 +1,7 @@
 import {ContainerModule} from "inversify"
 import {DecrementAffects} from "../../server/observers/decrementAffects"
 import {FightRounds} from "../../server/observers/fightRounds"
+import {HandleClientRequests} from "../../server/observers/handleClientRequests"
 import {PersistPlayers} from "../../server/observers/persistPlayers"
 import {RegionWeather} from "../../server/observers/regionWeather"
 import Respawner from "../../server/observers/respawner"
@@ -16,4 +17,5 @@ export default new ContainerModule(bind => {
   bind<FightRounds>(Types.FightRoundsObserver).to(FightRounds).inSingletonScope()
   bind<Respawner>(Types.RespawnerObserver).to(Respawner).inSingletonScope()
   bind<PersistPlayers>(Types.PersistPlayersObservers).to(PersistPlayers).inSingletonScope()
+  bind<HandleClientRequests>(Types.HandleClientRequestsObserver).to(HandleClientRequests).inSingletonScope()
 })

@@ -46,6 +46,6 @@ export default class Observers {
   }
 
   public getHandleClientRequestsObserver(): HandleClientRequests {
-    return new HandleClientRequests()
+    return this.container.get<HandleClientRequests>(Types.HandleClientRequestsObserver)
   }
 }
