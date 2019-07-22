@@ -14,13 +14,11 @@ node_js:
 before_script:
   - pip install --user awscli
   - psql -c 'create database nodesrvtest;' -U postgres
-  - psql -U postgres nodesrvtest < testdb.sql
   - cp ormconfig-travis.json ormconfig.json
   - yarn lint
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
-  - ./node_modules/ts-node/dist/bin.js ./node_modules/typeorm/cli.js migration:run
 script:
   - yarn test-coverage
   - sonar-scanner
