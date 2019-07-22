@@ -16,13 +16,13 @@ import {Observer} from "../observers/observer"
 @injectable()
 export default class ClientService {
   constructor(
-    @inject(Types.CreationService) private readonly authService: CreationService,
+    @inject(Types.CreationService) private readonly creationService: CreationService,
     @inject(Types.LocationService) private readonly locationService: LocationService,
     private clients: Client[] = []) {}
 
   public createNewClient(ws: WebSocket, req: any) {
     const client = new Client(
-      new SessionService(new Email(this.authService)),
+      new SessionService(new Email(this.creationService)),
       ws,
       req ? req.connection.remoteAddress : null)
     this.add(client)
