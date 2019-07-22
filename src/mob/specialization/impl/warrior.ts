@@ -83,4 +83,8 @@ export default class Warrior implements Specialization {
   public getSpells(): SpellType[] {
     return []
   }
+
+  public getFormattedName(): string {
+    return "war"
+  }
 }

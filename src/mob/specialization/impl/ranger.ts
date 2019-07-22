@@ -81,4 +81,8 @@ export default class Ranger implements Specialization {
   public getSpells(): SpellType[] {
     return []
   }
+
+  public getFormattedName(): string {
+    return "ran"
+  }
 }

@@ -33,5 +33,6 @@ export default function(): Race {
       SkillType.Infravision,
     ])
     .setCreationPoints(6)
+    .setFormattedName(" fae ")
     .create()
 }

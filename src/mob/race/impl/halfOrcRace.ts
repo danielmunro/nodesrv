@@ -34,5 +34,6 @@ export default function(): Race {
       SkillType.Bite,
     ])
     .setCreationPoints(4)
+    .setFormattedName("h-orc")
     .create()
 }

@@ -71,4 +71,8 @@ export default class Mage implements Specialization {
       SpellType.Haste,
     ]
   }
+
+  public getFormattedName(): string {
+    return "mag"
+  }
 }

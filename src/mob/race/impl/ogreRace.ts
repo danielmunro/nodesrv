@@ -37,5 +37,6 @@ export default function(): Race {
       SkillType.Bite,
     ])
     .setCreationPoints(6)
+    .setFormattedName("ogre ")
     .create()
 }

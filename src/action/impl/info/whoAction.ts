@@ -9,6 +9,10 @@ import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
 export default class WhoAction extends Action {
+  private static formatLevel(mob: MobEntity): string {
+    return mob.level < 10 ? " " + mob.level : mob.level.toString()
+  }
+
   constructor(private readonly clientService: ClientService) {
     super()
   }
@@ -32,6 +36,7 @@ export default class WhoAction extends Action {
   public invoke(requestService: RequestService): Promise<Response> {
     return requestService.respondWith().info(
       this.clientService.getLoggedInMobs().reduce((previous: string, current: MobEntity) =>
-        previous + current.name + "\n", "Who list:\n"))
+        previous + "[" + WhoAction.formatLevel(current) + " " + current.race().formattedName +
+        " " + current.specialization().getFormattedName() + "] " + current.name + "\n", "Who list:\n"))
   }
 }

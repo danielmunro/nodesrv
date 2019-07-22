@@ -19,4 +19,5 @@ export default interface Race {
   readonly preferredSpecializations: SpecializationType[],
   readonly startingSkills: SkillType[],
   readonly creationPoints: number,
+  readonly formattedName: string
 }

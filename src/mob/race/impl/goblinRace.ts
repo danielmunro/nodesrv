@@ -35,5 +35,6 @@ export default function(): Race {
       SkillType.Sneak,
     ])
     .setCreationPoints(4)
+    .setFormattedName(" gob ")
     .create()
 }

@@ -16,4 +16,5 @@ export interface Specialization {
   getStartingWeaponType(): WeaponType
   getDamageModifier(): number
   getManaGainModifier(): number
+  getFormattedName(): string
 }

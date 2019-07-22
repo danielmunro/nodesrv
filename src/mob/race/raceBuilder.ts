@@ -19,8 +19,11 @@ export default class RaceBuilder {
   private preferredSpecializations: SpecializationType[] = []
   private startingSkills: SkillType[] = []
   private creationPoints: number = 0
+  private formattedName: string
 
-  constructor(private raceType: RaceType) {}
+  constructor(private raceType: RaceType) {
+    this.formattedName = raceType.toString()
+  }
 
   public setSize(size: Size): RaceBuilder {
     this.size = size
@@ -67,6 +70,11 @@ export default class RaceBuilder {
     return this
   }
 
+  public setFormattedName(formattedName: string): RaceBuilder {
+    this.formattedName = formattedName
+    return this
+  }
+
   public create(): Race {
     return {
       appetite: this.appetite,
@@ -74,6 +82,7 @@ export default class RaceBuilder {
       bodyParts: this.bodyParts,
       creationPoints: this.creationPoints,
       damageAbsorption: this.damageAbsorption,
+      formattedName: this.formattedName,
       preferredSpecializations: this.preferredSpecializations,
       raceType: this.raceType,
       sight: this.sight,

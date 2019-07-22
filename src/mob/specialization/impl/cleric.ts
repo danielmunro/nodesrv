@@ -71,4 +71,8 @@ export default class Cleric implements Specialization {
       SpellType.Bless,
     ]
   }
+
+  public getFormattedName(): string {
+    return "cle"
+  }
 }

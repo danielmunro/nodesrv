@@ -54,6 +54,9 @@ export class PlayerMobEntity {
   @Column({ default: 0 })
   public bounty: number
 
+  @Column({ nullable: true })
+  public title: string
+
   public customizations: Customization[] = []
 
   public getCreationPoints(): number {

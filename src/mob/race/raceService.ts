@@ -17,7 +17,7 @@ export default class RaceService {
   }
 
   public static combineAttributes(mob: MobEntity, attributes: AttributesEntity): AttributesEntity {
-    return new Maybe(mob.race().attributes)
+    return new Maybe<AttributesEntity>(mob.race().attributes)
       .do(raceAttr => attributes.combine(raceAttr))
       .or(() => attributes)
       .get()

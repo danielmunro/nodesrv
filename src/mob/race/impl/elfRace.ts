@@ -32,5 +32,6 @@ export default function(): Race {
       SkillType.Dodge,
     ])
     .setCreationPoints(7)
+    .setFormattedName(" elf ")
     .create()
 }

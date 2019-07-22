@@ -27,5 +27,6 @@ export default function(): Race {
         .setHitRoll(1, 1)
         .build())
     .setCreationPoints(4)
+    .setFormattedName("drow ")
     .create()
 }

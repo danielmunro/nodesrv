@@ -31,5 +31,6 @@ export default function(): Race {
       createDamageModifier(DamageType.Frost, Vulnerability.Vulnerable),
     ])
     .setCreationPoints(2)
+    .setFormattedName("hling")
     .create()
 }
