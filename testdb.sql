@@ -1082,7 +1082,6 @@ CREATE TABLE public.player_mob_entity (
     standing text NOT NULL,
     "authorizationLevel" integer NOT NULL,
     bounty integer DEFAULT 0 NOT NULL,
-    title character varying DEFAULT 'the acolyte'::character varying NOT NULL,
     "mobId" integer,
     "trainedAttributesId" integer
 );
@@ -1796,7 +1795,7 @@ COPY public.player_entity (id, uuid, name, email, password, "lastLogin", kills, 
 -- Data for Name: player_mob_entity; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.player_mob_entity (id, uuid, trains, practices, hunger, appetite, experience, "experienceToLevel", "experiencePerLevel", standing, "authorizationLevel", bounty, title, "mobId", "trainedAttributesId") FROM stdin;
+COPY public.player_mob_entity (id, uuid, trains, practices, hunger, appetite, experience, "experienceToLevel", "experiencePerLevel", standing, "authorizationLevel", bounty, "mobId", "trainedAttributesId") FROM stdin;
 \.
 
 
