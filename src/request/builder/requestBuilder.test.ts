@@ -1,4 +1,3 @@
-import Action from "../../action/impl/action"
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
@@ -19,7 +18,7 @@ beforeEach(async () => {
   // potential target
   target = (await testRunner.createMob()).get()
   requestBuilder = new RequestBuilder(
-    app.get<Action[]>(Types.Actions),
+    // app.get<Action[]>(Types.Actions),
     app.get<LocationService>(Types.LocationService),
     mob,
     testRunner.getStartRoom().get())

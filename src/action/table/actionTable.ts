@@ -11,6 +11,7 @@ import PlayerService from "../../player/service/playerService"
 import SocialService from "../../player/service/socialService"
 import WeatherService from "../../region/service/weatherService"
 import {RequestType} from "../../request/enum/requestType"
+import ClientService from "../../server/service/clientService"
 import {ConditionMessages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
 import Action from "../impl/action"
@@ -107,7 +108,8 @@ export default function getActionTable(
   spellTable: Spell[],
   locationService: LocationService,
   escrowService: EscrowService,
-  playerService: PlayerService): Action[] {
+  playerService: PlayerService,
+  clientService: ClientService): Action[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const lookAction = new LookAction(locationService, itemService, timeService, weatherService)
   const socialService = new SocialService(checkBuilderFactory, eventService)
@@ -193,7 +195,7 @@ export default function getActionTable(
     new EquippedAction(),
     new ExitsAction(),
     new HelpAction(),
-    new WhoAction(playerService),
+    new WhoAction(clientService),
 
     // merchants/healers
     new BuyAction(checkBuilderFactory, eventService),

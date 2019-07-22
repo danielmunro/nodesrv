@@ -1,5 +1,4 @@
 import {inject, injectable} from "inversify"
-import Action from "../../action/impl/action"
 import {Client} from "../../client/client"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
@@ -19,7 +18,6 @@ export default class ClientService {
   constructor(
     @inject(Types.CreationService) private readonly authService: CreationService,
     @inject(Types.LocationService) private readonly locationService: LocationService,
-    @inject(Types.Actions) private readonly actions: Action[],
     private clients: Client[] = []) {}
 
   public createNewClient(ws: WebSocket, req: any) {
@@ -87,6 +85,11 @@ export default class ClientService {
     })
   }
 
+  public getLoggedInMobs(): MobEntity[] {
+    return this.clients.filter(client => client.isLoggedIn())
+      .map(client => client.getSessionMob())
+  }
+
   private getRoomMobs(mob: MobEntity): MobEntity[] {
     const location = this.locationService.getLocationForMob(mob)
     return this.locationService.getMobsByRoom(location.room)
@@ -111,6 +114,6 @@ export default class ClientService {
     }
     const requestArgs = data.request.split(" ")
     const mob = client.getSessionMob()
-    return new RequestBuilder(this.actions, this.locationService, mob, room).create(requestArgs[0], data.request)
+    return new RequestBuilder(this.locationService, mob, room).create(requestArgs[0], data.request)
   }
 }
