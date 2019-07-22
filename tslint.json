@@ -10,5 +10,10 @@
     "no-identical-functions": false,
     "arrow-parens": [false, "ban-single-arg-parens"],
     "no-unused-variable": [true]
+  },
+  "linterOptions": {
+    "exclude": [
+      "migrations/*.ts"
+    ]
   }
 }
