@@ -19,6 +19,7 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+  - ./node_modules/ts-node/dist/bin.js ./node_modules/typeorm/cli.js migration:run
 script:
   - yarn test-coverage
   - sonar-scanner

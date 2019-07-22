@@ -54,7 +54,7 @@ export class PlayerMobEntity {
   @Column({ default: 0 })
   public bounty: number
 
-  @Column({ nullable: true })
+  @Column({ default: "the acolyte" })
   public title: string
 
   public customizations: Customization[] = []

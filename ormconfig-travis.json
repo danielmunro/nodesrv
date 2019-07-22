@@ -5,7 +5,7 @@
   "username": "postgres",
   "password": "",
   "database": "nodesrv",
-  "synchronize": true,
+  "synchronize": false,
   "logging": false,
   "entities": [
     "src/room/entity/*Entity.ts",
@@ -18,10 +18,8 @@
     "src/affect/entity/*Entity.ts",
     "src/region/entity/*Entity.ts"
   ],
-  "migrations": [
-    "src/migration/**/*.ts"
-  ],
-  "subscribers": [
-    "src/subscriber/**/*.ts"
-  ]
+  "migrations": ["migrations/*.ts"],
+  "cli": {
+    "migrationsDir": "migrations"
+  }
 }

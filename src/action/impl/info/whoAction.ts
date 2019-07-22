@@ -37,6 +37,7 @@ export default class WhoAction extends Action {
     return requestService.respondWith().info(
       this.clientService.getLoggedInMobs().reduce((previous: string, current: MobEntity) =>
         previous + "[" + WhoAction.formatLevel(current) + " " + current.race().formattedName +
-        " " + current.specialization().getFormattedName() + "] " + current.name + "\n", "Who list:\n"))
+        " " + current.specialization().getFormattedName() + "] " + current.name +
+        " " + current.playerMob.title + "\n", "Who list:\n"))
   }
 }
