@@ -41,7 +41,7 @@ export class GameServerService {
     const client = this.clientService.createNewClient(ws, req)
     console.info("new client connected", { ip: client.ip })
     ws.onclose = () => this.removeClient(client)
-    client.send({ message: client.session.getAuthStepMessage() })
+    client.sendMessage(client.session.getAuthStepMessage())
   }
 
   public isInitialized(): boolean {

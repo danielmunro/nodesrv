@@ -38,10 +38,13 @@ export default class ActionService {
     if (!client.isLoggedIn()) {
       const authResponse = await client.session.handleRequest(client, request as any)
       if (client.isLoggedIn()) {
-        await this.eventService.publish(createMobEvent(EventType.MobCreated, request.mob))
+        await this.eventService.publish(createMobEvent(EventType.MobCreated, client.getSessionMob()))
         await this.eventService.publish(createClientEvent(EventType.ClientLogin, client))
       }
-      return new Response(request, ResponseStatus.Ok, new ResponseMessage(request.mob, authResponse.message as string))
+      return new Response(
+        request,
+        ResponseStatus.Ok,
+        new ResponseMessage(client.getSessionMob(), authResponse.message as string))
     }
     const matchingHandlerDefinition = this.actions.find(action =>
       action.isAbleToHandleRequestType(request.getType())) as Action

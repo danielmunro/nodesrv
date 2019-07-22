@@ -15,7 +15,9 @@ export class PersistPlayers implements Observer {
 
   public async notify(clients: Client[]) {
     console.time(timeLabel)
-    await this.playerRepository.save(clients.map(client => client.player))
+    await this.playerRepository.save(clients
+      .filter(client => client.isLoggedIn())
+      .map(client => client.player))
     await this.mobRepository.save(clients.map(client => client.getSessionMob()))
     console.timeEnd(timeLabel)
   }
