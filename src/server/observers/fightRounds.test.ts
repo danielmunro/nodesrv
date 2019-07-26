@@ -53,6 +53,7 @@ describe("fight rounds", () => {
     const map = createClientMobMap(clients)
     const keys = Object.keys(map)
     expect(keys.length).toBe(3)
+    // @ts-ignore
     keys.forEach((key, i) => expect(map[key]).toBe(clients[i]))
   })
 

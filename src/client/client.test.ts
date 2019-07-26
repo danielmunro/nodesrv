@@ -8,6 +8,7 @@ import {createPlayer} from "../player/factory/factory"
 import InputContext from "../request/context/inputContext"
 import {RequestType} from "../request/enum/requestType"
 import Request from "../request/request"
+import Response from "../request/response"
 import ClientService from "../server/service/clientService"
 import {default as AuthRequest} from "../session/auth/request"
 import SessionService from "../session/service/sessionService"
@@ -88,12 +89,14 @@ describe("client sanity checks", () => {
 
     it("send sanity test", () => {
       // expect
+      // @ts-ignore
       expect(send.mock.calls.length).toBe(0)
 
       // when
       client.send({})
 
       // then
+      // @ts-ignore
       expect(send.mock.calls.length).toBe(1)
     })
 
@@ -106,7 +109,9 @@ describe("client sanity checks", () => {
       client.tick(id, timestamp)
 
       // then
+      // @ts-ignore
       expect(send.mock.calls.length).toBe(1)
+      // @ts-ignore
       expect(send.mock.calls[0][0]).toContain("tick")
     })
 
@@ -131,6 +136,7 @@ describe("client sanity checks", () => {
     expect(client.hasRequests()).toBeFalsy()
 
     // when
+    // @ts-ignore
     client.ws.onmessage(getNewTestMessageEvent("hello"))
 
     // then
@@ -152,7 +158,7 @@ describe("clients", () => {
     const request = testRunner.createRequest(RequestType.Noop)
 
     // when
-    const response = await actionService.handleRequest(client, request)
+    const response = await actionService.handleRequest(client, request) as Response
 
     // then
     expect(response.getMessageToRequestCreator()).toEqual(MESSAGE_NOT_UNDERSTOOD)
@@ -163,7 +169,7 @@ describe("clients", () => {
     const request = testRunner.createRequest(RequestType.Noop)
 
     // when
-    const response = await actionService.handleRequest(client, request)
+    const response = await actionService.handleRequest(client, request) as Response
 
     // then
     expect(response.getMessageToRequestCreator()).toContain(MESSAGE_NOT_UNDERSTOOD)
@@ -192,7 +198,7 @@ describe("clients", () => {
     const request = testRunner.createRequest(RequestType.Cast)
 
     // when
-    const response = await actionService.handleRequest(client, request)
+    const response = await actionService.handleRequest(client, request) as Response
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(SpellMessages.HolySilence.CastPrevented)

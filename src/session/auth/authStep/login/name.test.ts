@@ -1,4 +1,5 @@
 import {AsyncContainerModule} from "inversify"
+// @ts-ignore
 import * as sillyname from "sillyname"
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import MobRepository from "../../../../mob/repository/mob"

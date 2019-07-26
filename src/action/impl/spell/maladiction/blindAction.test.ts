@@ -8,13 +8,12 @@ import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
 
 let testRunner: TestRunner
-let mobBuilder: MobBuilder
 let target: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mobBuilder = (await testRunner.createMob())
-    .setLevel(20)
+  const mobBuilder = await testRunner.createMob()
+  mobBuilder.setLevel(20)
     .withSpell(SpellType.Blind, MAX_PRACTICE_LEVEL)
   target = await testRunner.createMob()
 })

@@ -8,12 +8,13 @@ import CreationService from "../auth/service/creationService"
 import SessionService from "./sessionService"
 
 const mockAuthService = jest.fn()
-const mockPlayerRepository = jest.fn()
-const mockMobService = jest.fn()
 let testRunner: TestRunner
+let creationService: CreationService
 
 beforeEach(async () => {
-  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  creationService = app.get<CreationService>(Types.CreationService)
 })
 
 describe("session", () => {
@@ -23,7 +24,7 @@ describe("session", () => {
     const player = playerBuilder.player
     const client = testRunner.createClient()
     const session = new SessionService(
-      new Email(new CreationService(mockPlayerRepository(), mockMobService())))
+      new Email(creationService))
 
     // expect
     expect(session.isLoggedIn()).toBeFalsy()

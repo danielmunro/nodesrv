@@ -1,7 +1,6 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import {EventType} from "../../event/enum/eventType"
 import {createFightEvent} from "../../event/factory/eventFactory"
-import FightEvent from "../../mob/fight/event/fightEvent"
 import {Fight} from "../../mob/fight/fight"
 import MobBuilder from "../../support/test/mobBuilder"
 import TestRunner from "../../support/test/testRunner"

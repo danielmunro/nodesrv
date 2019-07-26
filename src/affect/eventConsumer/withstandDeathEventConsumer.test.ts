@@ -43,6 +43,6 @@ describe("withstand death event consumer", () => {
       new DamageEventBuilder(mob.mob, AMOUNT, DamageType.Bash).build())
 
     // then
-    expect(response.event.amount).toBe(AMOUNT)
+    expect((response.event as DamageEvent).amount).toBe(AMOUNT)
   })
 })

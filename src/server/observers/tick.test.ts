@@ -37,6 +37,7 @@ describe("ticks", () => {
     await tick.notify(clients)
 
     // then
+    // @ts-ignore
     clients.forEach((client) => expect(client.ws.send.mock.calls.length).toBeGreaterThan(1))
   })
 

@@ -42,7 +42,9 @@ describe("room message event consumer", () => {
       createRoomMessageEvent(room1.room, new ResponseMessage(player1.getMob(),  "")))
 
     // then
+    // @ts-ignore
     expect(client1.ws.send.mock.calls).toHaveLength(1)
+    // @ts-ignore
     expect(client2.ws.send.mock.calls).toHaveLength(0)
   })
 })

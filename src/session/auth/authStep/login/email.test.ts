@@ -1,7 +1,6 @@
 import { v4 } from "uuid"
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {Client} from "../../../../client/client"
-import {getTestPlayer} from "../../../../support/test/player"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
 import { ResponseStatus } from "../../enum/responseStatus"
@@ -12,23 +11,22 @@ import Email from "./email"
 import NewPlayerConfirm from "./newPlayerConfirm"
 import Password from "./password"
 
-const mockRepository = jest.fn(() => ({
-  findOneByEmail: () => getTestPlayer(),
-}))
-
 const mockRepositoryWithNoResults = jest.fn(() => ({
   findOneByEmail: () => null,
 }))
 
 async function processInput(input: string, client: Client): Promise<Response> {
-  return new Email(new CreationService(mockRepository(), null)).processRequest(
+  return authStep.processRequest(
     new Request(client, input))
 }
 
 let testRunner: TestRunner
+let authStep: Email
 
 beforeEach(async () => {
-  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  authStep = new Email(app.get<CreationService>(Types.CreationService))
 })
 
 describe("login email auth step", () => {
@@ -81,7 +79,8 @@ describe("login email auth step", () => {
     const client = testRunner.createClient()
 
     // when
-    const response = await new Email(new CreationService(mockRepositoryWithNoResults(), null))
+    // @ts-ignore
+    const response = await new Email(new CreationService(mockRepositoryWithNoResults(), null, null, null, null))
       .processRequest(new Request(client, email))
 
     // then
