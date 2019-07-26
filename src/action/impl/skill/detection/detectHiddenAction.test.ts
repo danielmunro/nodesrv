@@ -29,7 +29,7 @@ describe("detect hidden action", () => {
 
     // when
     const response = await testRunner.invokeActionSuccessfully(
-      RequestType.Look, `look ${target}`)
+      RequestType.Look, `look ${target}`, target)
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(`a test fixture

@@ -15,7 +15,6 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import match from "../../../support/matcher/match"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
@@ -83,9 +82,7 @@ export default class LookAction extends Action {
 
   protected lookAtSubject(request: Request, builder: ResponseBuilder) {
     const subject = request.getSubject()
-    const mob = this.locationService
-      .getMobsByRoom(request.getRoom())
-      .find(m => match(m.name, subject))
+    const mob = request.getTargetMobInRoom()
 
     if (mob && request.mob.canSee(mob)) {
       return builder.info(mob.describe())

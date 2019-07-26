@@ -40,13 +40,13 @@ describe("look action", () => {
     expect(response.getMessageToRequestCreator()).toBe(Messages.Look.NotFound)
   })
 
-  it("describes a mob when a mob has present", async () => {
+  it("describes a mob when a mob is present", async () => {
     // given
     const mobBuilder = await testRunner.createMob()
 
     // when
     const response = await testRunner.invokeAction(
-      RequestType.Look, `look ${mobBuilder.getMobName()}`)
+      RequestType.Look, `look ${mobBuilder.getMobName()}`, mobBuilder.get())
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(mobBuilder.mob.describe())
@@ -89,7 +89,7 @@ describe("look action", () => {
     expect(response.getMessageToRequestCreator()).toContain(mobBuilder.getMobName())
   })
 
-  it("describes a mob when a mob has invisible and the request creator can detect invisible", async () => {
+  it("describes a mob when a mob is invisible and the request creator can detect invisible", async () => {
     // given
     (await testRunner.createMob()).addAffectType(AffectType.DetectInvisible)
     const mobBuilder = (await testRunner.createMob()).addAffectType(AffectType.Invisible)
