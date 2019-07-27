@@ -36,21 +36,9 @@ export default class LookAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    if (request.mob.affect().isBlind()) {
-      return Check.fail(Messages.Look.Fail)
-    }
-
-    if (this.somethingIsGlowing(request)) {
-      return Check.ok()
-    }
-
-    const ableToSee = this.isAbleToSee(request.mob, request.getRoomRegion())
-
-    if (!ableToSee) {
-      return Check.fail(Messages.Look.Fail)
-    }
-
-    return Check.ok()
+    return !request.mob.affect().isBlind() &&
+      (this.somethingIsGlowing(request) ||
+      this.isAbleToSee(request.mob, request.getRoomRegion())) ? Check.ok() : Check.fail(Messages.Look.Fail)
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
