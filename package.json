@@ -80,7 +80,8 @@
       "!**/node_modules/**",
       "!**/vendor/**",
       "!**/bin/**",
-      "!**/fixture/**"
+      "!**/fixture/**",
+      "!**/migrations/**"
     ],
     "coveragePathIgnorePatterns": [
       "constants.ts",
