@@ -1,24 +1,27 @@
-import { pickOne } from "../support/random/helpers"
-import { cardinalDirections} from "./constants"
-import { RoomEntity } from "./entity/roomEntity"
+import {pickOne} from "../support/random/helpers"
+import {cardinalDirections} from "./constants"
+import {RoomEntity} from "./entity/roomEntity"
 import {Direction} from "./enum/direction"
+import Maybe from "../support/functional/maybe/maybe"
 
-export function reverse(direction: Direction) {
-  switch (direction) {
-    case Direction.Up:
-      return Direction.Down
-    case Direction.Down:
-      return Direction.Up
-    case Direction.North:
-      return Direction.South
-    case Direction.South:
-      return Direction.North
-    case Direction.East:
-      return Direction.West
-    case Direction.West:
-      return Direction.East
-  }
-  return Direction.Noop
+const directionMap = [
+  [ Direction.Up, Direction.Down ],
+  [ Direction.Down, Direction.Up ],
+  [ Direction.North, Direction.South ],
+  [ Direction.South, Direction.North ],
+  [ Direction.East, Direction.West ],
+  [ Direction.West, Direction.East ],
+]
+
+function getFromDirectionMap(direction: Direction) {
+  const map = directionMap.find(m => m[0] === direction)
+  return map ? map[1] : undefined
+}
+
+export function reverse(direction: Direction): Direction {
+  return new Maybe<Direction>(getFromDirectionMap(direction))
+    .or(() => Direction.Noop)
+    .get()
 }
 
 export function isReciprocalFree(direction: Direction, room1: RoomEntity, room2: RoomEntity) {
