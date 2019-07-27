@@ -86,7 +86,6 @@ export default class ImportService {
     mob.brief = mobData.brief
     mob.gold = mobData.wealth
     mob.canonicalId = mobData.id
-    mob.importId = mobData.id
     mob.alignment = mobData.alignment
     mob.level = mobData.level
     ImportService.addMobTraits(mob, Array.isArray(mobData.affects) ? mobData.affects : [mobData.affects])
@@ -98,7 +97,7 @@ export default class ImportService {
     ImportService.addMobImmuneTraits(
       mob, Array.isArray(mobData.imm) ? mobData.imm : [mobData.imm])
     file.mobs.push(mob)
-    file.mobMap[mob.importId] = mob
+    file.mobMap[mob.canonicalId] = mob
   }
 
   private lastReset: Reset

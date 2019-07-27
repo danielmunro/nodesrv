@@ -5,7 +5,7 @@ export default class MobTable {
 
   constructor(mobs: MobEntity[]) {
     for (const mob of mobs) {
-      this.mobsByImportId[mob.importId] = mob
+      this.mobsByImportId[mob.canonicalId] = mob
     }
   }
 

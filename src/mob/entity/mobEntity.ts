@@ -73,9 +73,6 @@ export class MobEntity {
   @Column("text", { default: Disposition.Standing })
   public disposition = Disposition.Standing
 
-  @Column({ nullable: true })
-  public importId: string
-
   @Column({ default: 0 })
   public alignment: number
 

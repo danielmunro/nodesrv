@@ -134,7 +134,7 @@ export default class LocationService {
   }
 
   public getMobsByImportId(importId: string): MobEntity[] {
-    return this.mobLocations.filter(mobLocation => mobLocation.mob.importId === importId)
+    return this.mobLocations.filter(mobLocation => mobLocation.mob.canonicalId === importId)
       .map(mobLocation => mobLocation.mob)
   }
 

@@ -49,8 +49,8 @@ export default class ResetService {
     const mob = await this.mobService.createMobFromReset(mobReset)
     const room = this.roomTable.get(mobReset.room.uuid)
     const mobsInRoom = this.mobService
-      .getMobsByRoom(room).filter(m => m.importId === mob.importId)
-    const mobsTotal = this.mobService.getMobsByImportId(mob.importId)
+      .getMobsByRoom(room).filter(m => m.canonicalId === mob.canonicalId)
+    const mobsTotal = this.mobService.getMobsByImportId(mob.canonicalId)
     if (mobsInRoom.length < mobReset.maxPerRoom && mobsTotal.length < mobReset.maxQuantity) {
       await this.equipToMob(mob)
       await this.giveItemToMob(mob)
@@ -75,7 +75,7 @@ export default class ResetService {
 
   private async giveItemToMob(mob: MobEntity) {
     for (const reset of this.itemMobResets) {
-      if (reset.mob.importId === mob.importId) {
+      if (reset.mob.canonicalId === mob.canonicalId) {
         const item = cloneDeep(reset.item)
         mob.inventory.addItem(item, mob)
         this.itemService.add(item, mob)
@@ -85,7 +85,7 @@ export default class ResetService {
 
   private async equipToMob(mob: MobEntity) {
     for (const mobEquipReset of this.mobEquipResets) {
-      if (mobEquipReset.mob.importId === mob.importId) {
+      if (mobEquipReset.mob.canonicalId === mob.canonicalId) {
         const equipment = await this.itemService.generateNewItemInstance(mobEquipReset)
         mob.equipped.addItem(equipment, mob)
         this.itemService.add(equipment, mob)
