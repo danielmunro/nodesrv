@@ -1,8 +1,8 @@
+import Maybe from "../support/functional/maybe/maybe"
 import {pickOne} from "../support/random/helpers"
 import {cardinalDirections} from "./constants"
 import {RoomEntity} from "./entity/roomEntity"
 import {Direction} from "./enum/direction"
-import Maybe from "../support/functional/maybe/maybe"
 
 const directionMap = [
   [ Direction.Up, Direction.Down ],
