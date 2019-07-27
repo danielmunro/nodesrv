@@ -81,21 +81,19 @@ export default class LookAction extends Action {
   }
 
   protected lookAtSubject(request: Request, builder: ResponseBuilder) {
-    const subject = request.getSubject()
     const mob = request.getTargetMobInRoom()
-
     if (mob && request.mob.canSee(mob)) {
       return builder.info(mob.describe())
     }
 
-    let item = request.findItemInRoomInventory()
-    if (item && request.mob.canSee(item)) {
-      return builder.info(item.describe())
+    const itemInRoom = request.findItemInRoomInventory()
+    if (itemInRoom && request.mob.canSee(itemInRoom)) {
+      return builder.info(itemInRoom.describe())
     }
 
-    item = this.itemService.findItem(request.mob.inventory, subject)
-    if (item && request.mob.canSee(item)) {
-      return builder.info(item.describe())
+    const itemInInventory = this.itemService.findItem(request.mob.inventory, request.getSubject())
+    if (itemInInventory && request.mob.canSee(itemInInventory)) {
+      return builder.info(itemInInventory.describe())
     }
 
     return builder.error(Messages.Look.NotFound)
