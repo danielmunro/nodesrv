@@ -18,6 +18,7 @@ import RequestService from "../../../request/service/requestService"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
+import Describeable from "../../../type/describeable"
 
 export default class LookAction extends Action {
   constructor(
@@ -82,21 +83,25 @@ export default class LookAction extends Action {
 
   protected lookAtSubject(request: Request, builder: ResponseBuilder) {
     const mob = request.getTargetMobInRoom()
-    if (mob && request.mob.canSee(mob)) {
+    if (this.isTarget(request, mob)) {
       return builder.info(mob.describe())
     }
 
     const itemInRoom = request.findItemInRoomInventory()
-    if (itemInRoom && request.mob.canSee(itemInRoom)) {
+    if (this.isTarget(request, itemInRoom)) {
       return builder.info(itemInRoom.describe())
     }
 
     const itemInInventory = this.itemService.findItem(request.mob.inventory, request.getSubject())
-    if (itemInInventory && request.mob.canSee(itemInInventory)) {
+    if (this.isTarget(request, itemInInventory)) {
       return builder.info(itemInInventory.describe())
     }
 
     return builder.error(Messages.Look.NotFound)
+  }
+
+  protected isTarget(request: Request, describeable?: Describeable) {
+    return describeable && request.mob.canSee(describeable)
   }
 
   protected isAbleToSee(mob: MobEntity, region: RegionEntity) {

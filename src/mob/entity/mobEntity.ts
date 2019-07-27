@@ -32,6 +32,7 @@ import {MobTraitsEntity} from "./mobTraitsEntity"
 import OffensiveTraitsEntity from "./offensiveTraitsEntity"
 import {PlayerMobEntity} from "./playerMobEntity"
 import ShopEntity from "./shopEntity"
+import Describeable from "../../type/describeable"
 
 @Entity()
 export class MobEntity {
@@ -230,7 +231,7 @@ export class MobEntity {
       damageType)
   }
 
-  public canSee(thing: MobEntity | ItemEntity): boolean {
+  public canSee(thing: Describeable): boolean {
     const aff = this.affect()
     const thingAff = thing.affect()
 
