@@ -73,7 +73,8 @@ export default class LookAction extends Action {
 
   protected async lookAtSubject(request: Request, builder: ResponseBuilder) {
     return await LookAction.createBuilderFromTarget(request, builder, request.getTargetMobInRoom()) ||
-      await LookAction.createBuilderFromTarget(request, builder, request.findItemInRoomInventory()) ||
+      await LookAction.createBuilderFromTarget(
+        request, builder, this.itemService.findItem(request.getRoom().inventory, request.getSubject())) ||
       await LookAction.createBuilderFromTarget(
       request, builder, this.itemService.findItem(request.mob.inventory, request.getSubject())) ||
       builder.error(Messages.Look.NotFound)

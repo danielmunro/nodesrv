@@ -6,7 +6,7 @@ export default class ItemRepositoryImpl implements ItemRepository {
   constructor(private readonly itemRepository: Repository<ItemEntity>) {}
 
   public findAll(): Promise<ItemEntity[]> {
-    return this.itemRepository.find()
+    return this.itemRepository.find({ relations: ["container"] })
   }
 
   public save(item) {
