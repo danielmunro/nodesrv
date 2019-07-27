@@ -10,6 +10,7 @@ import {ItemEntity} from "../../item/entity/itemEntity"
 import {Equipment} from "../../item/enum/equipment"
 import {PlayerEntity} from "../../player/entity/playerEntity"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
+import Describeable from "../../type/describeable"
 import {Disposition} from "../enum/disposition"
 import {Gender} from "../enum/gender"
 import {Standing} from "../enum/standing"
@@ -32,7 +33,6 @@ import {MobTraitsEntity} from "./mobTraitsEntity"
 import OffensiveTraitsEntity from "./offensiveTraitsEntity"
 import {PlayerMobEntity} from "./playerMobEntity"
 import ShopEntity from "./shopEntity"
-import Describeable from "../../type/describeable"
 
 @Entity()
 export class MobEntity {

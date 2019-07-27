@@ -15,12 +15,18 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
+import withValue from "../../../support/functional/withValue"
+import Describeable from "../../../type/describeable"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
-import Describeable from "../../../type/describeable"
 
 export default class LookAction extends Action {
+  protected static async createBuilderFromTarget(
+    request: Request, builder: ResponseBuilder, describeable?: Describeable): Promise<Response | undefined> {
+    return describeable && request.mob.canSee(describeable) ? builder.info(describeable.describe()) : undefined
+  }
+
   constructor(
     private readonly locationService: LocationService,
     private readonly itemService: ItemService,
@@ -48,17 +54,13 @@ export default class LookAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const builder = requestService.respondWith()
-    const request = requestService.getRequest()
-
-    if (requestService.getSubject()) {
-      return this.lookAtSubject(request, builder)
-    }
-
-    return builder.info(
-      request.getRoom().toString()
-      + this.reduceMobs(requestService.getMob(), this.locationService.getMobsByRoom(request.getRoom()))
-      + request.getRoom().inventory.toString("is here."))
+    return requestService.getSubject() ?
+      this.lookAtSubject(requestService.getRequest(), requestService.respondWith()) :
+      withValue(requestService.getRequest(), request =>
+        requestService.respondWith().info(
+          request.getRoom().toString()
+          + this.reduceMobs(requestService.getMob(), this.locationService.getMobsByRoom(request.getRoom()))
+          + request.getRoom().inventory.toString("is here.")))
   }
 
   public getActionParts(): ActionPart[] {
@@ -81,27 +83,12 @@ export default class LookAction extends Action {
         previous + (current !== mob ? "\n" + current.look() : ""), "")
   }
 
-  protected lookAtSubject(request: Request, builder: ResponseBuilder) {
-    const mob = request.getTargetMobInRoom()
-    if (this.isTarget(request, mob)) {
-      return builder.info(mob.describe())
-    }
-
-    const itemInRoom = request.findItemInRoomInventory()
-    if (this.isTarget(request, itemInRoom)) {
-      return builder.info(itemInRoom.describe())
-    }
-
-    const itemInInventory = this.itemService.findItem(request.mob.inventory, request.getSubject())
-    if (this.isTarget(request, itemInInventory)) {
-      return builder.info(itemInInventory.describe())
-    }
-
-    return builder.error(Messages.Look.NotFound)
-  }
-
-  protected isTarget(request: Request, describeable?: Describeable) {
-    return describeable && request.mob.canSee(describeable)
+  protected async lookAtSubject(request: Request, builder: ResponseBuilder) {
+    return await LookAction.createBuilderFromTarget(request, builder, request.getTargetMobInRoom()) ||
+      await LookAction.createBuilderFromTarget(request, builder, request.findItemInRoomInventory()) ||
+      await LookAction.createBuilderFromTarget(
+      request, builder, this.itemService.findItem(request.mob.inventory, request.getSubject())) ||
+      builder.error(Messages.Look.NotFound)
   }
 
   protected isAbleToSee(mob: MobEntity, region: RegionEntity) {
