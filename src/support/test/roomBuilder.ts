@@ -1,4 +1,5 @@
 import {ItemEntity} from "../../item/entity/itemEntity"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import {RegionEntity} from "../../region/entity/regionEntity"
 import DoorEntity from "../../room/entity/doorEntity"
 import {ExitEntity} from "../../room/entity/exitEntity"
@@ -20,6 +21,16 @@ export default class RoomBuilder {
 
   public setName(name: string): RoomBuilder {
     this.room.name = name
+    return this
+  }
+
+  public makeOwnable(): RoomBuilder {
+    this.room.isOwnable = true
+    return this
+  }
+
+  public setOwner(mob: MobEntity): RoomBuilder {
+    this.room.owner = mob
     return this
   }
 

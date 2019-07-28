@@ -34,6 +34,7 @@ import HelpAction from "../impl/info/helpAction"
 import InventoryAction from "../impl/info/inventoryAction"
 import LookAction from "../impl/info/lookAction"
 import LoreAction from "../impl/info/loreAction"
+import OwnedAction from "../impl/info/ownedAction"
 import ScanAction from "../impl/info/scanAction"
 import ScoreAction from "../impl/info/scoreAction"
 import WhoAction from "../impl/info/whoAction"
@@ -196,6 +197,7 @@ export default function getActionTable(
     new ExitsAction(),
     new HelpAction(),
     new WhoAction(clientService),
+    new OwnedAction(checkBuilderFactory),
 
     // merchants/healers
     new BuyAction(checkBuilderFactory, eventService),

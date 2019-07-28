@@ -1,6 +1,7 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import * as uuid from "uuid"
 import { InventoryEntity } from "../../item/entity/inventoryEntity"
+import {MobEntity} from "../../mob/entity/mobEntity"
 import MobResetEntity from "../../mob/entity/mobResetEntity"
 import { RegionEntity } from "../../region/entity/regionEntity"
 import { Terrain } from "../../region/enum/terrain"
@@ -27,6 +28,12 @@ export class RoomEntity {
 
   @Column()
   public area: string
+
+  @Column()
+  public isOwnable: boolean
+
+  @ManyToOne(() => MobEntity, mob => mob.ownedRooms, { nullable: true })
+  public owner: MobEntity
 
   @OneToMany(() => ExitEntity, (exit) => exit.source, { cascade: true, eager: true })
   public exits: ExitEntity[]

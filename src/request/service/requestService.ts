@@ -15,6 +15,7 @@ import {DamageType} from "../../mob/fight/enum/damageType"
 import {SkillEntity} from "../../mob/skill/entity/skillEntity"
 import SkillEvent from "../../mob/skill/event/skillEvent"
 import {ExitEntity} from "../../room/entity/exitEntity"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import ResponseBuilder from "../builder/responseBuilder"
 import ResponseMessageBuilder from "../builder/responseMessageBuilder"
 import Request from "../request"
@@ -107,6 +108,10 @@ export default class RequestService {
 
   public getTarget<T>(): T {
     return this.getResult(CheckType.HasTarget)
+  }
+
+  public getRoom(): RoomEntity {
+    return this.checkedRequest.room
   }
 
   public getRoomExits(): ExitEntity[] {

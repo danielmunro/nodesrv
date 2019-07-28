@@ -10,6 +10,7 @@ import {ItemEntity} from "../../item/entity/itemEntity"
 import {Equipment} from "../../item/enum/equipment"
 import {PlayerEntity} from "../../player/entity/playerEntity"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import Describeable from "../../type/describeable"
 import {Disposition} from "../enum/disposition"
 import {Gender} from "../enum/gender"
@@ -137,6 +138,9 @@ export class MobEntity {
 
   @OneToMany(() => MobResetEntity, reset => reset.mob)
   public mobResets: MobResetEntity[]
+
+  @OneToMany(() => RoomEntity, room => room.owner)
+  public ownedRooms: RoomEntity[]
 
   public pet: MobEntity
 

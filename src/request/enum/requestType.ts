@@ -72,6 +72,7 @@ export enum RequestType {
   CCRemove = "cc-remove",
   Subscribe = "subscribe",
   Unsubscribe = "unsubscribe",
+  Owned = "owned",
   Who = "who",
   Noop = "noop",
   Any = "any",

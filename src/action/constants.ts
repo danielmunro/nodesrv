@@ -81,6 +81,11 @@ export const Messages = {
   OpenDoor: {
     Success: "{requestCreator} {openVerb} a {door} {direction}.",
   },
+  Owned: {
+    Info: "{room} is owned by {owner}.",
+    NotOwnable: "{room} cannot be owned.",
+    OwnableButNotOwned: "{room} does not have an owner.",
+  },
   Practice: {
     CannotImproveAnymore: "You cannot improve anymore.",
     CannotPractice: "You can't practice that.",

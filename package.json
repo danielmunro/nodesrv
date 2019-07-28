@@ -19,7 +19,8 @@
     "cost-audit": "ts-node bin/cost-audit.ts",
     "container": "ts-node src/test.ts",
     "republish-players": "ts-node --max_old_space_size=8192 bin/kafka-republish-create-all-players.ts",
-    "migrate-db": "ts-node ./node_modules/typeorm/cli.js migration:run"
+    "migration-run": "ts-node ./node_modules/typeorm/cli.js migration:run",
+    "migration-generate": "ts-node ./node_modules/typeorm/cli.js migration:generate"
   },
   "repository": "https://github.com/danielmunro/nodesrv",
   "keywords": [],
