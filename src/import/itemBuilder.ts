@@ -167,6 +167,9 @@ export default class ItemBuilder {
     const args = itemData.pObjFlags ? ItemBuilder.splitPObjFlags(itemData.pObjFlags) : []
     const { name, description, type, extraFlag } = itemData
     const prototype = { type, name, description, extraFlag, args }
+    if (Array.isArray(prototype.description)) {
+      prototype.description = prototype.description.join(" ")
+    }
     const builder = this.builders.find(b => b.itemType === type)
     const flags = args[1] !== undefined ? args[1].split("") : []
     if (builder) {
