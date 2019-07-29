@@ -26,6 +26,12 @@ const listFile = readFileSync("fixtures/areas/area.lst").toString()
 const areaFiles = listFile.split("\n")
 const args = minimist(process.argv.slice(2))
 const writeNewData = args.write === undefined ? false : args.write
+const fix = args.fix === undefined ? false : args.fix
+
+if (writeNewData && fix) {
+  console.error("cannot write data and fix descriptions")
+  process.exit(1)
+}
 
 initializeConnection().then(async () =>
   await parse(new ImportService(
@@ -51,6 +57,17 @@ async function parse(importService: ImportService) {
     items.push(...parsedArea.items)
     mobs.push(...parsedArea.mobs)
     i++
+  }
+  if (fix) {
+    const itemRepository = await getItemRepository()
+    const itemEntities = await itemRepository.findAll()
+    for (const itemPrototype of items) {
+      const itemEntity = itemEntities.find(e => e.canonicalId === itemPrototype.canonicalId)
+      if (itemEntity) {
+        itemEntity.description = itemPrototype.description
+        await itemRepository.save(itemEntity)
+      }
+    }
   }
   if (!writeNewData) {
     return
