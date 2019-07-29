@@ -8,7 +8,6 @@ import {createPlayer} from "../player/factory/factory"
 import InputContext from "../request/context/inputContext"
 import {RequestType} from "../request/enum/requestType"
 import Request from "../request/request"
-import Response from "../request/response"
 import ClientService from "../server/service/clientService"
 import {default as AuthRequest} from "../session/auth/request"
 import SessionService from "../session/service/sessionService"
@@ -158,7 +157,7 @@ describe("clients", () => {
     const request = testRunner.createRequest(RequestType.Noop)
 
     // when
-    const response = await actionService.handleRequest(client, request) as Response
+    const response = await actionService.handleRequest(client, request)
 
     // then
     expect(response.getMessageToRequestCreator()).toEqual(MESSAGE_NOT_UNDERSTOOD)
@@ -169,7 +168,7 @@ describe("clients", () => {
     const request = testRunner.createRequest(RequestType.Noop)
 
     // when
-    const response = await actionService.handleRequest(client, request) as Response
+    const response = await actionService.handleRequest(client, request)
 
     // then
     expect(response.getMessageToRequestCreator()).toContain(MESSAGE_NOT_UNDERSTOOD)
@@ -198,7 +197,7 @@ describe("clients", () => {
     const request = testRunner.createRequest(RequestType.Cast)
 
     // when
-    const response = await actionService.handleRequest(client, request) as Response
+    const response = await actionService.handleRequest(client, request)
 
     // then
     expect(response.getMessageToRequestCreator()).toBe(SpellMessages.HolySilence.CastPrevented)
