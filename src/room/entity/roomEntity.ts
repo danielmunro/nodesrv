@@ -29,7 +29,7 @@ export class RoomEntity {
   @Column()
   public area: string
 
-  @Column()
+  @Column({ default: false })
   public isOwnable: boolean
 
   @ManyToOne(() => MobEntity, mob => mob.ownedRooms, { nullable: true })
