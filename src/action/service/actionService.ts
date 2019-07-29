@@ -36,7 +36,7 @@ export default class ActionService {
     }
   }
 
-  public async handleRequest(client: Client, request: Request): Promise<Response | void> {
+  public async handleRequest(client: Client, request: Request): Promise<Response> {
     if (!client.isLoggedIn()) {
       return this.handleNonLoggedInRequest(client, request)
     }

@@ -16,7 +16,7 @@ export class HandleClientRequests implements Observer {
 
   private async handleClientRequest(client: Client) {
     const response = await this.actionService.handleRequest(client, client.getNextRequest())
-    if (response && client.isLoggedIn()) {
+    if (client.isLoggedIn()) {
       client.send(response.getPayload())
       client.sendMessage(client.player.prompt())
     }
