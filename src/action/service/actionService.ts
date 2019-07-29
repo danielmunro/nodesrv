@@ -9,11 +9,13 @@ import {createClientEvent, createCostEvent, createInputEvent, createMobEvent} fr
 import EventService from "../../event/service/eventService"
 import CostEvent from "../../mob/event/costEvent"
 import {PlayerEntity} from "../../player/entity/playerEntity"
+import {RequestType} from "../../request/enum/requestType"
 import {ResponseStatus} from "../../request/enum/responseStatus"
 import Request from "../../request/request"
 import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/service/clientService"
+import withValue from "../../support/functional/withValue"
 import {Types} from "../../support/types"
 import Action from "../impl/action"
 import HelpAction from "../impl/info/helpAction"
@@ -36,27 +38,38 @@ export default class ActionService {
 
   public async handleRequest(client: Client, request: Request): Promise<Response | void> {
     if (!client.isLoggedIn()) {
-      const authResponse = await client.session.handleRequest(client, request as any)
-      if (client.isLoggedIn()) {
-        await this.eventService.publish(createMobEvent(EventType.MobCreated, client.getSessionMob()))
-        await this.eventService.publish(createClientEvent(EventType.ClientLogin, client))
-      }
-      return new Response(
-        request,
-        ResponseStatus.Ok,
-        new ResponseMessage(client.getSessionMob(), authResponse.message as string))
+      return this.handleNonLoggedInRequest(client, request)
     }
-    const matchingHandlerDefinition = this.actions.find(action =>
-      action.isAbleToHandleRequestType(request.getType())) as Action
-    const eventResponse = await this.eventService.publish(
-      createInputEvent(
-        request,
-        matchingHandlerDefinition))
-    if (eventResponse.isSatisfied()) {
-      const inputEvent = eventResponse.event as InputEvent
-      return inputEvent.response as Response
+    const action = this.findActionForRequestType(request.getType())
+    return withValue(await this.publishInputEvent(request, action), eventResponse =>
+      eventResponse.isSatisfied() ?
+        (eventResponse.event as InputEvent).response :
+        this.handleAction(client, request, action))
+  }
+
+  private async handleNonLoggedInRequest(client: Client, request: Request) {
+    const authResponse = await client.session.handleRequest(client, request as any)
+    if (client.isLoggedIn()) {
+      await this.eventService.publish(createMobEvent(EventType.MobCreated, client.getSessionMob()))
+      await this.eventService.publish(createClientEvent(EventType.ClientLogin, client))
     }
-    const response = await matchingHandlerDefinition.handle(request)
+    return new Response(
+      request,
+      ResponseStatus.Ok,
+      new ResponseMessage(client.getSessionMob(), authResponse.message as string))
+  }
+
+  private findActionForRequestType(requestType: RequestType) {
+    return this.actions.find(action =>
+      action.isAbleToHandleRequestType(requestType)) as Action
+  }
+
+  private publishInputEvent(request: Request, action: Action) {
+    return this.eventService.publish(createInputEvent(request, action))
+  }
+
+  private async handleAction(client: Client, request: Request, action: Action) {
+    const response = await action.handle(request)
     if (response.request instanceof CheckedRequest) {
       await this.applyCosts(client.player, response.request.check.costs)
     }
