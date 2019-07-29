@@ -37,17 +37,19 @@ export default class ActionService {
   }
 
   public async handleRequest(client: Client, request: Request): Promise<Response> {
-    if (!client.isLoggedIn()) {
-      return this.handleNonLoggedInRequest(client, request)
-    }
-    const action = this.findActionForRequestType(request.getType())
+    return client.isLoggedIn() ?
+      this.handleAuthenticatedRequest(client, request, this.findActionForRequestType(request.getType())) :
+      this.handleUnauthenticatedRequest(client, request)
+  }
+
+  private async handleAuthenticatedRequest(client: Client, request: Request, action: Action) {
     return withValue(await this.publishInputEvent(request, action), eventResponse =>
       eventResponse.isSatisfied() ?
         (eventResponse.event as InputEvent).response :
         this.handleAction(client, request, action))
   }
 
-  private async handleNonLoggedInRequest(client: Client, request: Request) {
+  private async handleUnauthenticatedRequest(client: Client, request: Request) {
     const authResponse = await client.session.handleRequest(client, request as any)
     if (client.isLoggedIn()) {
       await this.eventService.publish(createMobEvent(EventType.MobCreated, client.getSessionMob()))
