@@ -102,7 +102,14 @@ export const Messages = {
     Success: "You put {item} in {container}.",
   },
   Room: {
-    Buy: "",
+    Bid: {
+      AlreadyOwn: "You already own this room",
+      AmountIsRequired: "What is the amount of gold you'd like to bid?",
+      CannotBid: "This room cannot be bid on.",
+      NotBeingSold: "This room is not currently being sold.",
+      NotEnoughGold: "You don't have that much gold.",
+      Success: "You bid {amount} gold on {room}.",
+    },
     Info: "",
     Sell: {
       AmountIsRequired: "What is the asking price?",

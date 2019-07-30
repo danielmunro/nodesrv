@@ -11,8 +11,10 @@ import MobTable from "../../mob/table/mobTable"
 import {getPlayerTable} from "../../player/factory/factory"
 import PlayerTable from "../../player/table/playerTable"
 import {newExitTable, newRoomTable} from "../../room/factory/roomFactory"
+import {createRealEstateBidRepository} from "../../room/repository/realEstateBidRepository"
 import {createRealEstateListingRepository} from "../../room/repository/realEstateListingRepository"
 import ExitTable from "../../room/table/exitTable"
+import RealEstateBidTable from "../../room/table/realEstateBidTable"
 import RealEstateListingTable from "../../room/table/realEstateListingTable"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
@@ -33,5 +35,7 @@ export default new AsyncContainerModule(async bind => {
   bind<PlayerTable>(Types.PlayerTable).toConstantValue(await getPlayerTable())
   bind<RealEstateListingTable>(Types.RealEstateListingTable)
     .toConstantValue(new RealEstateListingTable(await (await createRealEstateListingRepository()).find()))
+  bind<RealEstateBidTable>(Types.RealEstateBidTable)
+    .toConstantValue(new RealEstateBidTable(await (await createRealEstateBidRepository()).find()))
   console.timeEnd(Timings.tables)
 })

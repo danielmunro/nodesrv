@@ -73,7 +73,7 @@ export enum RequestType {
   Subscribe = "subscribe",
   Unsubscribe = "unsubscribe",
   RoomSell = "room sell",
-  RoomBuy = "room buy",
+  RoomBid = "room buy",
   RoomInfo = "room info",
   Owned = "owned",
   Who = "who",

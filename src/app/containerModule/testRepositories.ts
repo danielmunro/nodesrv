@@ -1,7 +1,9 @@
 import {ContainerModule} from "inversify"
 import MobRepository from "../../mob/repository/mob"
 import PlayerRepository from "../../player/repository/player"
+import {RealEstateBidEntity} from "../../room/entity/realEstateBidEntity"
 import {RealEstateListingEntity} from "../../room/entity/realEstateListingEntity"
+import RealEstateBidRepository from "../../room/repository/realEstateBidRepository"
 import RealEstateListingRepository from "../../room/repository/realEstateListingRepository"
 import TickRepository from "../../server/repository/tickRepository"
 import {getTestMob} from "../../support/test/mob"
@@ -23,6 +25,9 @@ const mockTickRepository = jest.fn(() => ({
 const mockRealEstateListingRepository = jest.fn(() => ({
   save: async (realEstateListing: RealEstateListingEntity) => Promise.resolve(realEstateListing),
 }))
+const mockRealEstateBidRepository = jest.fn(() => ({
+  save: async (realEstateBid: RealEstateBidEntity) => Promise.resolve(realEstateBid),
+}))
 
 export default new ContainerModule(bind => {
   bind<PlayerRepository>(Types.PlayerRepository)
@@ -33,4 +38,6 @@ export default new ContainerModule(bind => {
     .toConstantValue(mockTickRepository())
   bind<RealEstateListingRepository>(Types.RealEstateListingRepository)
     .toConstantValue(mockRealEstateListingRepository())
+  bind<RealEstateBidRepository>(Types.RealEstateBidRepository)
+    .toConstantValue(mockRealEstateBidRepository())
 })

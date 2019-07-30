@@ -18,4 +18,5 @@ export enum CheckType {
   CCNumber,
   ExpirationMonth,
   ExpirationYear,
+  Amount,
 }

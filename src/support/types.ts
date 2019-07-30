@@ -34,6 +34,8 @@ export const Types = {
   PlayerService: Symbol.for("PlayerService"),
   PlayerTable: Symbol.for("PlayerTable"),
   Port: Symbol.for("Port"),
+  RealEstateBidRepository: Symbol.for("RealEstateBidRepository"),
+  RealEstateBidTable: Symbol.for("RealEstateBidTable"),
   RealEstateListingRepository: Symbol.for("RealEstateListingRepository"),
   RealEstateListingService: Symbol.for("RealEstateListingService"),
   RealEstateListingTable: Symbol.for("RealEstateListingTable"),

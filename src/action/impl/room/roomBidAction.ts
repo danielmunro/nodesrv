@@ -5,13 +5,13 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import {RealEstateListingEntity} from "../../../room/entity/realEstateListingEntity"
+import {RealEstateBidEntity} from "../../../room/entity/realEstateBidEntity"
 import RealEstateService from "../../../room/service/realEstateService"
 import {ConditionMessages, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
-export default class RoomSellAction extends Action {
+export default class RoomBidAction extends Action {
   constructor(
     private readonly checkBuilderFactory: CheckBuilderFactory,
     private readonly realEstateService: RealEstateService) {
@@ -19,7 +19,7 @@ export default class RoomSellAction extends Action {
   }
 
   public getRequestType(): RequestType {
-    return RequestType.RoomSell
+    return RequestType.RoomBid
   }
 
   public getActionParts(): ActionPart[] {
@@ -35,21 +35,25 @@ export default class RoomSellAction extends Action {
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireFromActionParts(request, this.getActionParts())
       .not().requireFight(ConditionMessages.All.Mob.Fighting)
-      .require(room.isOwnable && room.owner, Messages.Room.Sell.RoomIsNotOwned)
-      .require(() => room.owner.is(request.mob), Messages.Room.Sell.RoomIsNotOwnedByYou)
-      .require(parseInt(request.getComponent(), 10), Messages.Room.Sell.AmountIsRequired, CheckType.Amount)
+      .require(room.isOwnable, Messages.Room.Bid.CannotBid)
+      .not().require(() => room.owner.is(request.mob), Messages.Room.Bid.AlreadyOwn)
+      .require(parseInt(request.getComponent(), 10), Messages.Room.Bid.AmountIsRequired, CheckType.Amount)
+      .capture()
+      .require((amount: number) => request.mob.gold >= amount, Messages.Room.Bid.NotEnoughGold)
+      .require(this.realEstateService.getListing(room), Messages.Room.Bid.NotBeingSold, CheckType.ValidSubject)
       .create()
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
     const mob = requestService.getMob()
     const room = requestService.getRoom()
-    const amount = parseInt(requestService.getComponent(), 10)
-    const realEstateListing = new RealEstateListingEntity()
-    realEstateListing.agent = mob
-    realEstateListing.room = room
-    realEstateListing.offeringPrice = amount
-    await this.realEstateService.createListing(realEstateListing)
-    return requestService.respondWith().success(Messages.Room.Sell.Success, { room: room.name, amount })
+    const amount = requestService.getResult(CheckType.Amount)
+    const listing = requestService.getResult(CheckType.ValidSubject)
+    const realEstateBid = new RealEstateBidEntity()
+    realEstateBid.bidder = mob
+    realEstateBid.listing = listing
+    realEstateBid.amount = amount
+    await this.realEstateService.createBid(realEstateBid)
+    return requestService.respondWith().success(Messages.Room.Bid.Success, { room: room.name, amount })
   }
 }

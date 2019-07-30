@@ -1,5 +1,6 @@
 export enum ActionPart {
   Action = "action",
+  Directive = "directive",
   Thing = "thing",
   Spell = "spell",
   Skill = "skill",
@@ -16,6 +17,7 @@ export enum ActionPart {
   FreeForm = "free form",
   Number = "number",
   GoldOnHand = "gold on hand",
+  Amount = "amount",
   ShortName = "short name",
   CCNumber = "credit card number",
   ExpMonth = "exp month",
