@@ -70,6 +70,7 @@ import UpAction from "../impl/move/upAction"
 import WestAction from "../impl/move/westAction"
 import MultiAction from "../impl/multiAction"
 import NoopAction from "../impl/noopAction"
+import RoomInfoAction from "../impl/room/roomInfoAction"
 import backstabAction from "../impl/skill/assassin/backstabAction"
 import envenomAction from "../impl/skill/assassin/envenomAction"
 import eyeGougeAction from "../impl/skill/assassin/eyeGougeAction"
@@ -198,6 +199,9 @@ export default function getActionTable(
     new HelpAction(),
     new WhoAction(clientService),
     new OwnedAction(checkBuilderFactory),
+
+    // rooms
+    new RoomInfoAction(checkBuilderFactory),
 
     // merchants/healers
     new BuyAction(checkBuilderFactory, eventService),

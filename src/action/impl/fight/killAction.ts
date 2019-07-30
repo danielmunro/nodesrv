@@ -9,7 +9,10 @@ import {ResponseStatus} from "../../../request/enum/responseStatus"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
-import {MESSAGE_FAIL_CANNOT_ATTACK_SELF, MESSAGE_FAIL_KILL_ALREADY_FIGHTING, Messages} from "../../constants"
+import {
+  ConditionMessages,
+  Messages,
+} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
@@ -24,8 +27,8 @@ export default class KillAction extends Action {
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .requireFromActionParts(request, this.getActionParts())
       .capture()
-      .require((target: MobEntity) => request.mob !== target, MESSAGE_FAIL_CANNOT_ATTACK_SELF)
-      .not().requireFight(MESSAGE_FAIL_KILL_ALREADY_FIGHTING)
+      .require((target: MobEntity) => request.mob !== target, ConditionMessages.All.Mob.CannotAttackSelf)
+      .not().requireFight(ConditionMessages.All.Mob.Fighting)
       .create()
   }
 

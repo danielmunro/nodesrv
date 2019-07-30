@@ -6,7 +6,7 @@ import {ResponseStatus} from "../../../request/enum/responseStatus"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
-import {ConditionMessages, MESSAGE_FAIL_CANNOT_ATTACK_SELF, MESSAGE_FAIL_KILL_ALREADY_FIGHTING} from "../../constants"
+import {ConditionMessages} from "../../constants"
 
 let testRunner: TestRunner
 let mob: MobBuilder
@@ -23,7 +23,7 @@ describe("kill action", () => {
 
     // then
     expect(response.isSuccessful()).toBeFalsy()
-    expect(response.getMessageToRequestCreator()).toBe(MESSAGE_FAIL_CANNOT_ATTACK_SELF)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Mob.CannotAttackSelf)
   })
 
   it("sanity check", async () => {
@@ -70,7 +70,7 @@ describe("kill action", () => {
 
     // then
     expect(response.isError()).toBeTruthy()
-    expect(response.getMessageToRequestCreator()).toBe(MESSAGE_FAIL_KILL_ALREADY_FIGHTING)
+    expect(response.getMessageToRequestCreator()).toBe(ConditionMessages.All.Mob.Fighting)
   })
 
   it("should be able to kill a mob in the same room", async () => {

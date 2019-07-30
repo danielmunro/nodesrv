@@ -101,6 +101,11 @@ export const Messages = {
   Put: {
     Success: "You put {item} in {container}.",
   },
+  Room: {
+    Buy: "",
+    Info: "",
+    Sell: "",
+  },
   Sacrifice: {
     Success: "You sacrifice {0} to your deity, and are rewarded with {1} gold.",
   },
@@ -149,8 +154,6 @@ export const MESSAGE_FAIL_CONTAINER_NOT_FOUND = "That container isn't here."
 export const MESSAGE_FAIL_NOT_FIGHTING = "You're not fighting anyone."
 export const MESSAGE_FAIL_NO_DIRECTIONS_TO_FLEE = "You don't see any directions to flee."
 export const MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE = "You cannot get that."
-export const MESSAGE_FAIL_KILL_ALREADY_FIGHTING = "No way! You are already fighting."
-export const MESSAGE_FAIL_CANNOT_ATTACK_SELF = "No way! You can't attacks yourself."
 export const MESSAGE_DIRECTION_DOES_NOT_EXIST = "Alas, that direction does not exist."
 export const MESSAGE_OUT_OF_MOVEMENT = "You are too tired."
 export const MESSAGE_REMOVE_FAIL = "You aren't wearing that."
@@ -182,6 +185,8 @@ export const ConditionMessages = {
     },
     MalformedInput: "What was that?",
     Mob: {
+      CannotAttackSelf: "No way! You can't attacks yourself.",
+      Fighting: "No way! You are fighting.",
       NotFound: "They aren't here.",
     },
   },
