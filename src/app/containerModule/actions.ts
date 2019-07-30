@@ -14,6 +14,7 @@ import getSpellTable from "../../mob/spell/spellTable"
 import EscrowService from "../../mob/trade/escrowService"
 import PlayerService from "../../player/service/playerService"
 import WeatherService from "../../region/service/weatherService"
+import RealEstateService from "../../room/service/realEstateService"
 import ClientService from "../../server/service/clientService"
 import {Types} from "../../support/types"
 
@@ -29,7 +30,8 @@ export default new ContainerModule(bind => {
       context.container.get<LocationService>(Types.LocationService),
       context.container.get<EscrowService>(Types.EscrowService),
       context.container.get<PlayerService>(Types.PlayerService),
-      context.container.get<ClientService>(Types.ClientService))).inSingletonScope()
+      context.container.get<ClientService>(Types.ClientService),
+      context.container.get<RealEstateService>(Types.RealEstateListingService))).inSingletonScope()
   bind<Skill[]>(Types.Skills).toDynamicValue(context =>
     getSkillTable(
       context.container.get<MobService>(Types.MobService),

@@ -11,7 +11,9 @@ import MobTable from "../../mob/table/mobTable"
 import {getPlayerTable} from "../../player/factory/factory"
 import PlayerTable from "../../player/table/playerTable"
 import {newExitTable, newRoomTable} from "../../room/factory/roomFactory"
+import {createRealEstateListingRepository} from "../../room/repository/realEstateListingRepository"
 import ExitTable from "../../room/table/exitTable"
+import RealEstateListingTable from "../../room/table/realEstateListingTable"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
 import {Timings} from "../constants"
@@ -29,5 +31,7 @@ export default new AsyncContainerModule(async bind => {
     return specializationGroups(specializationService)
   })
   bind<PlayerTable>(Types.PlayerTable).toConstantValue(await getPlayerTable())
+  bind<RealEstateListingTable>(Types.RealEstateListingTable)
+    .toConstantValue(new RealEstateListingTable(await (await createRealEstateListingRepository()).find()))
   console.timeEnd(Timings.tables)
 })

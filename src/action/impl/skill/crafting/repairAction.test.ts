@@ -41,7 +41,7 @@ describe("repair action", () => {
 
   it("does not improve above 100", async () => {
     // given
-    item.condition = 99
+    item.condition = 99.9
 
     // when
     await testRunner.invokeActionSuccessfully(RequestType.Repair, input)

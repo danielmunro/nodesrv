@@ -16,6 +16,7 @@ import EscrowService from "../../mob/trade/escrowService"
 import PaymentService from "../../player/service/paymentService"
 import PlayerService from "../../player/service/playerService"
 import WeatherService from "../../region/service/weatherService"
+import RealEstateService from "../../room/service/realEstateService"
 import ClientService from "../../server/service/clientService"
 import {GameServerService} from "../../server/service/gameServerService"
 import CreationService from "../../session/auth/service/creationService"
@@ -42,4 +43,5 @@ export default new ContainerModule(bind => {
   bind<WeaponEffectService>(Types.WeaponEffectService).to(WeaponEffectService).inSingletonScope()
   bind<PaymentService>(Types.PaymentService).to(PaymentService).inSingletonScope()
   bind<PlayerService>(Types.PlayerService).to(PlayerService).inSingletonScope()
+  bind<RealEstateService>(Types.RealEstateListingService).to(RealEstateService).inSingletonScope()
 })

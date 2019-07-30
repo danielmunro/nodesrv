@@ -104,7 +104,12 @@ export const Messages = {
   Room: {
     Buy: "",
     Info: "",
-    Sell: "",
+    Sell: {
+      AmountIsRequired: "What is the asking price?",
+      RoomIsNotOwned: "The room is not owned.",
+      RoomIsNotOwnedByYou: "You do not own this room.",
+      Success: "You have successfully listed {room} for {amount} gold.",
+    },
   },
   Sacrifice: {
     Success: "You sacrifice {0} to your deity, and are rewarded with {1} gold.",

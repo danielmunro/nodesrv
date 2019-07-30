@@ -246,4 +246,8 @@ export class MobEntity {
 
     return !thingAff.has(AffectType.Hidden) && !thingAff.has(AffectType.Invisible)
   }
+
+  public is(mob: MobEntity) {
+    return this.uuid === mob.uuid
+  }
 }

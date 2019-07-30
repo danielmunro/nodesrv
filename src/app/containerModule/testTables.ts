@@ -9,6 +9,7 @@ import {defaultSpecializationLevels} from "../../mob/specialization/specializati
 import MobTable from "../../mob/table/mobTable"
 import PlayerTable from "../../player/table/playerTable"
 import ExitTable from "../../room/table/exitTable"
+import RealEstateListingTable from "../../room/table/realEstateListingTable"
 import RoomTable from "../../room/table/roomTable"
 import {Types} from "../../support/types"
 
@@ -24,4 +25,5 @@ export default new AsyncContainerModule(async bind => {
     const specializationService = context.container.get<SpecializationService>(Types.SpecializationService)
     return specializationGroups(specializationService)
   })
+  bind<RealEstateListingTable>(Types.RealEstateListingTable).toConstantValue(new RealEstateListingTable())
 })
