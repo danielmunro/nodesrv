@@ -13,7 +13,7 @@
     "test-most": "ENV=test jest --forceExit --detectOpenHandles --testPathIgnorePatterns import persist login/name",
     "reset-test-db": "ts-node bin/reset-test-db.ts",
     "test-coverage": "yarn test --coverage",
-    "complexity": "ts-complexity --max-complexity 14 src/**/*",
+    "complexity": "ts-complexity --max-complexity 10 --pattern 'src/**/!(*.test).ts' src/**/*",
     "practice-debug": "ts-node bin/practice-debug.ts",
     "specialization-level-audit": "ts-node bin/specialization-level-audit.ts",
     "cost-audit": "ts-node bin/cost-audit.ts",
