@@ -1,6 +1,6 @@
 import {MobEntity} from "../../../mob/entity/mobEntity"
-import {MobTrait} from "../../enum/mobTrait"
 import Maybe from "../../../support/functional/maybe/maybe"
+import {MobTrait} from "../../enum/mobTrait"
 
 type MobTraitTransformer = (mob: MobEntity) => void
 

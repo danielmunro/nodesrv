@@ -1,6 +1,5 @@
 import ApplyAbilityResponse from "../../action/response/applyAbilityResponse"
 import {AffectEntity} from "../../affect/entity/affectEntity"
-import {AffectType} from "../../affect/enum/affectType"
 import CheckedRequest from "../../check/checkedRequest"
 import {CheckType} from "../../check/enum/checkType"
 import {EventType} from "../../event/enum/eventType"
@@ -39,10 +38,6 @@ export default class RequestService {
 
   public getAffects(): AffectEntity[] {
     return this.checkedRequest.mob.affects
-  }
-
-  public hasAffect(affectType: AffectType): boolean {
-    return this.checkedRequest.mob.affect().has(affectType)
   }
 
   public getEquipped(): ItemEntity[] {
@@ -122,23 +117,11 @@ export default class RequestService {
     return this.checkedRequest.room.getMovementCost()
   }
 
-  public addItemToMobInventory(item?: ItemEntity): void {
-    if (!item) {
-      item = this.getResult(CheckType.ItemPresent)
-      if (!item) {
-        throw new Error("item not found for get action!")
-      }
-    }
+  public addItemToMobInventory(item: ItemEntity = this.getResult(CheckType.ItemPresent)): void {
     this.checkedRequest.mob.inventory.addItem(item)
   }
 
-  public addItemToRoomInventory(item?: ItemEntity): void {
-    if (!item) {
-      item = this.getResult(CheckType.ItemPresent)
-      if (!item) {
-        throw new Error("item not found for get action!")
-      }
-    }
+  public addItemToRoomInventory(item: ItemEntity = this.getResult(CheckType.ItemPresent)): void {
     this.checkedRequest.room.inventory.addItem(item)
   }
 
