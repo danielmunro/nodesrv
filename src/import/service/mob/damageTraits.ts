@@ -1,79 +1,50 @@
 import DamageSourceEntity from "../../../mob/entity/damageSourceEntity"
+import Maybe from "../../../support/functional/maybe/maybe"
 import {DamageSourceFlag} from "../../enum/damageSourceFlag"
 
-export default function(damageSource: DamageSourceEntity, trait: DamageSourceFlag) {
-  switch (trait) {
-    case DamageSourceFlag.Summon:
-      damageSource.summon = true
-      return
-    case DamageSourceFlag.Charm:
-      damageSource.charm = true
-      return
-    case DamageSourceFlag.Magic:
-      damageSource.magic = true
-      return
-    case DamageSourceFlag.Weapon:
-      damageSource.weapon = true
-      return
-    case DamageSourceFlag.Bash:
-      damageSource.bash = true
-      return
-    case DamageSourceFlag.Pierce:
-      damageSource.pierce = true
-      return
-    case DamageSourceFlag.Slash:
-      damageSource.slash = true
-      return
-    case DamageSourceFlag.Fire:
-      damageSource.fire = true
-      return
-    case DamageSourceFlag.Cold:
-      damageSource.cold = true
-      return
-    case DamageSourceFlag.Lightning:
-      damageSource.lightning = true
-      return
-    case DamageSourceFlag.Acid:
-      damageSource.acid = true
-      return
-    case DamageSourceFlag.Poison:
-      damageSource.poison = true
-      return
-    case DamageSourceFlag.Negative:
-      damageSource.negative = true
-      return
-    case DamageSourceFlag.Holy:
-      damageSource.holy = true
-      return
-    case DamageSourceFlag.Energy:
-      damageSource.energy = true
-      return
-    case DamageSourceFlag.Mental:
-      damageSource.mental = true
-      return
-    case DamageSourceFlag.Disease:
-      damageSource.disease = true
-      return
-    case DamageSourceFlag.Drowning:
-      damageSource.drowning = true
-      return
-    case DamageSourceFlag.Light:
-      damageSource.light = true
-      return
-    case DamageSourceFlag.Sound:
-      damageSource.sound = true
-      return
-    case DamageSourceFlag.Wood:
-      damageSource.wood = true
-      return
-    case DamageSourceFlag.Silver:
-      damageSource.silver = true
-      return
-    case DamageSourceFlag.Iron:
-      damageSource.iron = true
-      return
-    case DamageSourceFlag.Distraction:
-      damageSource.distraction = true
-      return
+type DamageSourceTransformer = (damageSource: DamageSourceEntity) => void
+
+interface DamageSourceMapper {
+  damageSource: DamageSourceFlag,
+  transform: DamageSourceTransformer,
+}
+
+function createMapper(damageSource: DamageSourceFlag, transform: DamageSourceTransformer): DamageSourceMapper {
+  return {
+    damageSource,
+    transform,
   }
+}
+
+const damageSourceTransformerMap: DamageSourceMapper[] = [
+  createMapper(DamageSourceFlag.Summon, damageSource => damageSource.summon = true),
+  createMapper(DamageSourceFlag.Charm, damageSource => damageSource.charm = true),
+  createMapper(DamageSourceFlag.Magic, damageSource => damageSource.magic = true),
+  createMapper(DamageSourceFlag.Weapon, damageSource => damageSource.weapon = true),
+  createMapper(DamageSourceFlag.Bash, damageSource => damageSource.bash = true),
+  createMapper(DamageSourceFlag.Pierce, damageSource => damageSource.pierce = true),
+  createMapper(DamageSourceFlag.Slash, damageSource => damageSource.slash = true),
+  createMapper(DamageSourceFlag.Fire, damageSource => damageSource.fire = true),
+  createMapper(DamageSourceFlag.Charm, damageSource => damageSource.charm = true),
+  createMapper(DamageSourceFlag.Cold, damageSource => damageSource.cold = true),
+  createMapper(DamageSourceFlag.Lightning, damageSource => damageSource.lightning = true),
+  createMapper(DamageSourceFlag.Acid, damageSource => damageSource.acid = true),
+  createMapper(DamageSourceFlag.Poison, damageSource => damageSource.poison = true),
+  createMapper(DamageSourceFlag.Negative, damageSource => damageSource.negative = true),
+  createMapper(DamageSourceFlag.Holy, damageSource => damageSource.holy = true),
+  createMapper(DamageSourceFlag.Energy, damageSource => damageSource.energy = true),
+  createMapper(DamageSourceFlag.Mental, damageSource => damageSource.mental = true),
+  createMapper(DamageSourceFlag.Disease, damageSource => damageSource.disease = true),
+  createMapper(DamageSourceFlag.Drowning, damageSource => damageSource.drowning = true),
+  createMapper(DamageSourceFlag.Light, damageSource => damageSource.light = true),
+  createMapper(DamageSourceFlag.Sound, damageSource => damageSource.sound = true),
+  createMapper(DamageSourceFlag.Wood, damageSource => damageSource.wood = true),
+  createMapper(DamageSourceFlag.Silver, damageSource => damageSource.silver = true),
+  createMapper(DamageSourceFlag.Iron, damageSource => damageSource.iron = true),
+  createMapper(DamageSourceFlag.Distraction, damageSource => damageSource.distraction = true),
+]
+
+export default function(damageSourceFlag: DamageSourceFlag, damageSourceEntity: DamageSourceEntity) {
+  Maybe.if(damageSourceTransformerMap.find(t => t.damageSource === damageSourceFlag),
+      map => map.transform(damageSourceEntity))
 }
