@@ -42,6 +42,7 @@ export const Types = {
   RegionWeatherObserver: Symbol.for("RegionWeatherObserver"),
   ResetService: Symbol.for("ResetService"),
   RespawnerObserver: Symbol.for("RespawnerObserver"),
+  RoomRepository: Symbol.for("RoomRepository"),
   RoomTable: Symbol.for("RoomTable"),
   Skills: Symbol.for("Skills"),
   SpecializationGroups: Symbol.for("SpecializationGroups"),

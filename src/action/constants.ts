@@ -106,7 +106,8 @@ export const Messages = {
       Accepted: "Congratulations! Your bid on {room} was accepted.",
       BidNotFound: "That bid was not found.",
       Rejected: "Sorry! Your bid on {room} was rejected. You've been refunded {gold} gold.",
-      Success: "You accept a bid on {room}.",
+      RoomNotOwned: "You don't own this room.",
+      Success: "You accept the bid from {mob} on {room}. You receive {gold} gold.",
     },
     Bid: {
       AlreadyOwn: "You already own this room.",

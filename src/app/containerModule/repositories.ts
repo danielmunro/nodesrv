@@ -5,6 +5,7 @@ import PlayerRepository, {getPlayerRepository} from "../../player/repository/pla
 import RealEstateBidRepository, {createRealEstateBidRepository} from "../../room/repository/realEstateBidRepository"
 import RealEstateListingRepository,
 {createRealEstateListingRepository} from "../../room/repository/realEstateListingRepository"
+import RoomRepository, {getRoomRepository} from "../../room/repository/room"
 import {TickEntity} from "../../server/entity/tickEntity"
 import TickRepository from "../../server/repository/tickRepository"
 import {Types} from "../../support/types"
@@ -21,4 +22,6 @@ export default new AsyncContainerModule(async bind => {
     .toConstantValue(await createRealEstateListingRepository())
   bind<RealEstateBidRepository>(Types.RealEstateBidRepository)
     .toConstantValue(await createRealEstateBidRepository())
+  bind<RoomRepository>(Types.RoomRepository)
+    .toConstantValue(await getRoomRepository())
 })

@@ -155,6 +155,17 @@ export default class TestRunner {
     return new RoomBuilder(this.locationService.getRecall())
   }
 
+  public async invokeActionAs(
+    mob: MobEntity, requestType: RequestType, input?: string, targetMobInRoom?: MobEntity): Promise<Response> {
+    const action = this.actions.find(a => a.getRequestType() === requestType) as Action
+    return await action.handle(
+      new Request(
+        mob,
+        this.locationService.getRoomForMob(mob),
+        new InputContext(requestType, input),
+        targetMobInRoom))
+  }
+
   public async invokeAction(requestType: RequestType, input?: string, targetMobInRoom?: MobEntity): Promise<Response> {
     if (!this.firstMob) {
       await this.createMob()

@@ -9,6 +9,7 @@ import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
 import {RealEstateBidEntity} from "../../../room/entity/realEstateBidEntity"
 import {RealEstateBidStatus} from "../../../room/enum/realEstateBidStatus"
+import RoomRepository from "../../../room/repository/room"
 import RealEstateService from "../../../room/service/realEstateService"
 import ClientService from "../../../server/service/clientService"
 import match from "../../../support/matcher/match"
@@ -22,7 +23,8 @@ export default class RoomAcceptAction extends Action {
     private readonly checkBuilderFactory: CheckBuilderFactory,
     private readonly realEstateService: RealEstateService,
     private readonly mobService: MobService,
-    private readonly clientService: ClientService) {
+    private readonly clientService: ClientService,
+    private readonly roomRepository: RoomRepository) {
     super()
   }
 
@@ -45,6 +47,7 @@ export default class RoomAcceptAction extends Action {
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireFromActionParts(request, this.getActionParts())
       .not().requireFight(ConditionMessages.All.Mob.Fighting)
+      .require(room.owner.is(request.mob), Messages.Room.Accept.RoomNotOwned)
       .require(matchingBid, Messages.Room.Accept.BidNotFound, CheckType.Bid)
       .create()
   }
@@ -58,6 +61,8 @@ export default class RoomAcceptAction extends Action {
           bid.status = RealEstateBidStatus.Approved
           const mob = requestService.getMob()
           mob.gold += bid.amount
+          room.owner = bid.bidder
+          await this.roomRepository.save(room)
           this.clientService.sendMessageToMob(
             mob,
             format(Messages.Room.Accept.Accepted, { room: room.name }))
@@ -73,6 +78,6 @@ export default class RoomAcceptAction extends Action {
       }))
 
     return requestService.respondWith().success(
-      Messages.Room.Accept.Success, { room: room.name })
+      Messages.Room.Accept.Success, { room: room.name, mob: winningBid.bidder, gold: winningBid.amount })
   }
 }

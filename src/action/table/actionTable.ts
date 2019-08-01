@@ -11,6 +11,7 @@ import PlayerService from "../../player/service/playerService"
 import SocialService from "../../player/service/socialService"
 import WeatherService from "../../region/service/weatherService"
 import {RequestType} from "../../request/enum/requestType"
+import RoomRepository from "../../room/repository/room"
 import RealEstateService from "../../room/service/realEstateService"
 import ClientService from "../../server/service/clientService"
 import {ConditionMessages} from "../constants"
@@ -71,6 +72,7 @@ import UpAction from "../impl/move/upAction"
 import WestAction from "../impl/move/westAction"
 import MultiAction from "../impl/multiAction"
 import NoopAction from "../impl/noopAction"
+import RoomAcceptAction from "../impl/room/roomAcceptAction"
 import RoomBidAction from "../impl/room/roomBidAction"
 import RoomInfoAction from "../impl/room/roomInfoAction"
 import RoomSellAction from "../impl/room/roomSellAction"
@@ -115,7 +117,8 @@ export default function getActionTable(
   escrowService: EscrowService,
   playerService: PlayerService,
   clientService: ClientService,
-  realEstateService: RealEstateService): Action[] {
+  realEstateService: RealEstateService,
+  roomRepository: RoomRepository): Action[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const lookAction = new LookAction(locationService, itemService, timeService, weatherService)
   const socialService = new SocialService(checkBuilderFactory, eventService)
@@ -208,6 +211,7 @@ export default function getActionTable(
     new RoomInfoAction(checkBuilderFactory),
     new RoomSellAction(checkBuilderFactory, realEstateService),
     new RoomBidAction(checkBuilderFactory, realEstateService),
+    new RoomAcceptAction(checkBuilderFactory, realEstateService, mobService, clientService, roomRepository),
 
     // merchants/healers
     new BuyAction(checkBuilderFactory, eventService),
