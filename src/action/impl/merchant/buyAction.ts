@@ -35,7 +35,7 @@ export default class BuyAction extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const targetItem = requestService.getResult() as ItemEntity
+    const targetItem = requestService.getResult<ItemEntity>()
     const item = ItemService.cloneItem(targetItem)
     requestService.addItemToMobInventory(item)
     requestService.subtractGold(item.value)

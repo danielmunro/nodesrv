@@ -78,6 +78,11 @@ export default class CheckBuilder {
     return this
   }
 
+  public optional(checkType: CheckType, result: any) {
+    this.checks.push(this.newCheckComponent(checkType, result))
+    return this
+  }
+
   public optionalMob(mob?: MobEntity) {
     this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob))
 

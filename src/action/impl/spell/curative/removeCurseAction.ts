@@ -21,7 +21,7 @@ export default function(abilityService: AbilityService): Spell {
       new DelayCost(1),
     ])
     .setApplySpell(async requestService => {
-      const target = requestService.getResult(CheckType.HasTarget) as MobEntity
+      const target = requestService.getResult<MobEntity>(CheckType.HasTarget)
       target.affects = target.affects.filter(affect => affect.affectType !== AffectType.Curse)
     })
     .setSuccessMessage(requestService =>

@@ -33,7 +33,7 @@ export default class DropAction extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const item = requestService.getResult() as ItemEntity
+    const item = requestService.getResult<ItemEntity>()
 
     if (item.affect().has(AffectType.MeltDrop)) {
       await this.eventService.publish(

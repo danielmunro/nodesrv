@@ -23,7 +23,7 @@ export default class HelpAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const action = requestService.getResult() as Action
+    const action = requestService.getResult<Action>()
     const actionParts = action.getActionParts()
     actionParts.shift()
     const parts = actionParts.map((actionPart: ActionPart) => "{" + actionPart + "}").join(" ")

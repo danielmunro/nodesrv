@@ -102,8 +102,14 @@ export const Messages = {
     Success: "You put {item} in {container}.",
   },
   Room: {
+    Accept: {
+      Accepted: "Congratulations! Your bid on {room} was accepted.",
+      BidNotFound: "That bid was not found.",
+      Rejected: "Sorry! Your bid on {room} was rejected. You've been refunded {gold} gold.",
+      Success: "You accept a bid on {room}.",
+    },
     Bid: {
-      AlreadyOwn: "You already own this room",
+      AlreadyOwn: "You already own this room.",
       AmountIsRequired: "What is the amount of gold you'd like to bid?",
       CannotBid: "This room cannot be bid on.",
       NotBeingSold: "This room is not currently being sold.",

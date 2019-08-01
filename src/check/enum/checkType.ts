@@ -19,4 +19,5 @@ export enum CheckType {
   ExpirationMonth,
   ExpirationYear,
   Amount,
+  Bid,
 }

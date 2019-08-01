@@ -72,6 +72,7 @@ export enum RequestType {
   CCRemove = "cc remove",
   Subscribe = "subscribe",
   Unsubscribe = "unsubscribe",
+  RoomAccept = "room accept",
   RoomSell = "room sell",
   RoomBid = "room buy",
   RoomInfo = "room info",

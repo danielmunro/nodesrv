@@ -28,6 +28,14 @@ export default class RealEstateService {
 
   public async createBid(realEstateBidEntity: RealEstateBidEntity) {
     this.realEstateBidTable.addBid(realEstateBidEntity)
+    await this.saveBid(realEstateBidEntity)
+  }
+
+  public async saveBid(realEstateBidEntity: RealEstateBidEntity) {
     await this.realEstateBidRepository.save(realEstateBidEntity)
+  }
+
+  public getBidsForRoom(room: RoomEntity): RealEstateBidEntity[] {
+    return this.realEstateBidTable.getBidsForRoom(room)
   }
 }

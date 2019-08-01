@@ -51,7 +51,7 @@ export default class FleeAction extends Action {
 
     const mob = requestService.getMob()
     const exit = pickOne(requestService.getRoomExits())
-    const fight = requestService.getResult(CheckType.IsFighting) as Fight
+    const fight = requestService.getResult<Fight>(CheckType.IsFighting)
 
     fight.participantFled(mob)
     mob.mv -= requestService.getRoomMvCost() * FLEE_MOVEMENT_COST_MULTIPLIER

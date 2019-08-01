@@ -69,7 +69,7 @@ export default class RequestService {
     return new ResponseBuilder(this.checkedRequest)
   }
 
-  public getResult(checkType?: CheckType) {
+  public getResult<T>(checkType?: CheckType): T {
     if (!checkType) {
       return this.checkedRequest.check.result
     }
