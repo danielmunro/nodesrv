@@ -3,6 +3,7 @@ import {AffectType} from "../affect/enum/affectType"
 import {ItemEntity} from "../item/entity/itemEntity"
 import {Equipment} from "../item/enum/equipment"
 import {createBuilderDefinition} from "../item/factory/itemFactory"
+import Maybe from "../support/functional/maybe/maybe"
 import any from "./builder/any"
 import armor from "./builder/armor"
 import container from "./builder/container"
@@ -52,6 +53,25 @@ export default class ItemBuilder {
     return item
   }
 
+  private static equipmentFlagMap: {[key: string]: Equipment} = {
+    B: Equipment.Finger,
+    C: Equipment.Neck,
+    D: Equipment.Torso,
+    E: Equipment.Head,
+    F: Equipment.Legs,
+    G: Equipment.Feet,
+    H: Equipment.Hands,
+    I: Equipment.Arms,
+    J: Equipment.Shield,
+    K: Equipment.About,
+    L: Equipment.Waist,
+    M: Equipment.Wrist,
+    N: Equipment.Weapon,
+    O: Equipment.Hold,
+    Q: Equipment.Float,
+    R: Equipment.Dragging,
+  }
+
   private static setItemAffects(item: ItemEntity, flags: string[]) {
     for (const flag of flags) {
       // @ts-ignore
@@ -64,52 +84,14 @@ export default class ItemBuilder {
     return item
   }
 
-  private static getEquipmentFromWearFlag(flag: string): Equipment | undefined {
+  private static getEquipmentFromWearFlag(flag: string): Maybe<Equipment> {
     let realFlag = ""
     if (flag.length === 1) {
       realFlag = flag
-    }
-    if (flag.length > 1) {
+    } else if (flag.length > 1) {
       realFlag = flag.substring(1, 2)
     }
-    switch (realFlag) {
-      case "B":
-        return Equipment.Finger
-      case "C":
-        return Equipment.Neck
-      case "D":
-        return Equipment.Torso
-      case "E":
-        return Equipment.Head
-      case "F":
-        return Equipment.Legs
-      case "G":
-        return Equipment.Feet
-      case "H":
-        return Equipment.Hands
-      case "I":
-        return Equipment.Arms
-      case "J":
-        return Equipment.Shield
-      case "K":
-        return Equipment.About
-      case "L":
-        return Equipment.Waist
-      case "M":
-        return Equipment.Wrist
-      case "N":
-        return Equipment.Weapon
-      case "O":
-        return Equipment.Hold
-      case "P":
-        return
-      case "Q":
-        return Equipment.Float
-      case "R":
-        return Equipment.Dragging
-      default:
-        return
-    }
+    return new Maybe<Equipment>(ItemBuilder.equipmentFlagMap[realFlag])
   }
 
   private static addPropertiesToItem(item: ItemEntity, itemData: any) {
@@ -123,7 +105,7 @@ export default class ItemBuilder {
     if (itemData.wearFlag) {
       const eq = ItemBuilder.getEquipmentFromWearFlag(itemData.wearFlag)
       if (eq) {
-        item.equipment = eq
+        item.equipment = eq.get()
       }
     }
 
