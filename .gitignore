@@ -7,6 +7,7 @@ ormconfig.json
 postgres-data/
 report*.json
 ormconfig.json.production
+ormconfig-production.json
 test-report.xml
 
 # Logs
