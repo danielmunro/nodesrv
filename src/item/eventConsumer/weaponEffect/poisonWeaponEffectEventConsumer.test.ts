@@ -63,7 +63,7 @@ describe("poison weapon effect event consumer", () => {
     await eventConsumer.consume(event)
 
     // then
-    const response = mock.getResponse()
+    const response = mock.getFirstResponse()
     expect(response).toBeDefined()
     expect(response.getMessageToRequestCreator())
       .toBe(`${mob1.getMobName()} is hit with poison from a wood chopping axe.`)

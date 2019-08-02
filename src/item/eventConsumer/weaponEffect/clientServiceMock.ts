@@ -1,11 +1,12 @@
 import Response from "../../../request/response"
 
 export default jest.fn(() => {
-  let response: Response
+  const responses: Response[] = []
   return {
-    getResponse: () => response,
+    getFirstResponse: () => responses[0],
+    getResponse: () => responses[responses.length - 1],
     sendResponseToRoom: (resp: Response) => {
-      response = resp
+      responses.push(resp)
     },
   }
 })
