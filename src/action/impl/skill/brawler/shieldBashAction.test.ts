@@ -5,6 +5,7 @@ import {SkillType} from "../../../../mob/skill/skillType"
 import {RequestType} from "../../../../request/enum/requestType"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
+import {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
 
 let testRunner: TestRunner
 
@@ -29,10 +30,13 @@ describe("shield bash skill action", () => {
     const target = (await testRunner.createMob()).addAffectType(AffectType.OrbOfTouch)
 
     // when
-    const response = await testRunner.invokeAction(
-      RequestType.ShieldBash,
-      `shield ${target.getMobName()}`,
-      target.mob)
+    const response = await doNTimesOrUntilTruthy(100, async () => {
+      const handled = await testRunner.invokeAction(
+        RequestType.ShieldBash,
+        `shield ${target.getMobName()}`,
+        target.mob)
+      return handled.isFailure() && handled.getMessageToRequestCreator().includes("bounce") ? handled : null
+    })
 
     // then
     expect(response.getMessageToRequestCreator())

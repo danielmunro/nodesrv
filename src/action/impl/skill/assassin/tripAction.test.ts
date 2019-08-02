@@ -57,7 +57,7 @@ describe("trip skill action", () => {
         RequestType.Trip,
         `trip ${target.getMobName()}`,
         target.mob)
-      return handled.isFailure() ? handled : null
+      return handled.isFailure() && handled.getMessageToRequestCreator().includes("bounce") ? handled : null
     })
 
     // then
