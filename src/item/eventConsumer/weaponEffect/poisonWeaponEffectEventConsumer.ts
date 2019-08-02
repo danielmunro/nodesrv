@@ -29,7 +29,7 @@ export default class PoisonWeaponEffectEventConsumer extends AbstractWeaponEffec
         { item: weapon, target: event.mob, verb: "is" },
         { item: weapon, target: "you", verb: "are" },
         { item: weapon, target: event.mob, verb: "is" }))
-    const modifier = new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Poison))
+    const modifier = new Maybe<number>(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Poison))
       .do(damageAbsorption =>
         vulnerabilityModifier(damageAbsorption.vulnerability))
       .or(() => AbstractWeaponEffectEventConsumer.defaultBonus)

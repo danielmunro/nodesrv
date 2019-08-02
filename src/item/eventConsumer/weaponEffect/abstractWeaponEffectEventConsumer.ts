@@ -16,8 +16,9 @@ export default abstract class AbstractWeaponEffectEventConsumer implements Event
     return [ EventType.DamageCalculation ]
   }
 
-  public consume(event: DamageEvent): Promise<EventResponse> {
-    return new Maybe(WeaponEffectService.getWeaponMatchingWeaponEffect(event.source, this.getWeaponEffect()))
+  public async consume(event: DamageEvent): Promise<EventResponse> {
+    return new Maybe<EventResponse>
+    (WeaponEffectService.getWeaponMatchingWeaponEffect(event.source, this.getWeaponEffect()))
       .do(async equippedWeapon => this.applyWeaponEffect(event, equippedWeapon))
       .or(() => EventResponse.none(event))
       .get()
