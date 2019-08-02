@@ -6,7 +6,7 @@ import {ConditionMessages as AllMessages} from "../../../../mob/skill/constants"
 import {SkillType} from "../../../../mob/skill/skillType"
 import {RequestType} from "../../../../request/enum/requestType"
 import Response from "../../../../request/response"
-import doNTimes from "../../../../support/functional/times"
+import doNTimes, {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
 import MobBuilder from "../../../../support/test/mobBuilder"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
@@ -68,7 +68,13 @@ describe("backstab skill action", () => {
     opponent.addAffectType(AffectType.OrbOfTouch)
 
     // when
-    const response = await testRunner.invokeAction(RequestType.Backstab)
+    const response = await doNTimesOrUntilTruthy(iterations, async () => {
+      const handled = await testRunner.invokeAction(
+        RequestType.Backstab,
+        `backstab ${opponent.getMobName()}`,
+        opponent.mob)
+      return handled.isFailure() && handled.getMessageToRequestCreator().includes("bounce") ? handled : null
+    })
 
     // then
     expect(response.getMessageToRequestCreator())
