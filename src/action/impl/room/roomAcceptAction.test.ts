@@ -34,7 +34,7 @@ describe("room accept action", () => {
     await testRunner.invokeAction(RequestType.RoomBid, "room bid 10")
 
     // when
-    const response = await testRunner.invokeActionAs(owner, RequestType.RoomAccept, `room accept '${bidder.name}'`)
+    const response = await testRunner.invokeActionAs(owner, RequestType.RoomBidAccept, `room accept '${bidder.name}'`)
 
     // then
     expect(response.getMessageToRequestCreator())
@@ -47,7 +47,7 @@ describe("room accept action", () => {
     await testRunner.invokeAction(RequestType.RoomBid, "room bid 10")
 
     // when
-    const response = await testRunner.invokeActionAs(accepter, RequestType.RoomAccept, `room accept '${bidder.name}'`)
+    const response = await testRunner.invokeActionAs(accepter, RequestType.RoomBidAccept, `room accept '${bidder.name}'`)
 
     // then
     expect(response.getMessageToRequestCreator())
@@ -56,7 +56,7 @@ describe("room accept action", () => {
 
   it("must have a valid matching bid", async () => {
     // when
-    const response = await testRunner.invokeActionAs(owner, RequestType.RoomAccept, `room accept '${bidder.name}'`)
+    const response = await testRunner.invokeActionAs(owner, RequestType.RoomBidAccept, `room accept '${bidder.name}'`)
 
     // then
     expect(response.getMessageToRequestCreator())
@@ -68,7 +68,7 @@ describe("room accept action", () => {
     await testRunner.fight(owner)
 
     // when
-    const response = await testRunner.invokeActionAs(owner, RequestType.RoomAccept, `room accept '${bidder.name}'`)
+    const response = await testRunner.invokeActionAs(owner, RequestType.RoomBidAccept, `room accept '${bidder.name}'`)
 
     // then
     expect(response.getMessageToRequestCreator())

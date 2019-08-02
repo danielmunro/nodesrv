@@ -29,7 +29,7 @@ export default class RoomAcceptAction extends Action {
   }
 
   public getRequestType(): RequestType {
-    return RequestType.RoomAccept
+    return RequestType.RoomBidAccept
   }
 
   public getActionParts(): ActionPart[] {
