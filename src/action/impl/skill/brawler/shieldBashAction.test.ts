@@ -3,9 +3,9 @@ import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {SkillType} from "../../../../mob/skill/skillType"
 import {RequestType} from "../../../../request/enum/requestType"
+import {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
-import {doNTimesOrUntilTruthy} from "../../../../support/functional/times"
 
 let testRunner: TestRunner
 

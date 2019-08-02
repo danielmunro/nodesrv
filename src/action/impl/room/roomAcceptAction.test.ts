@@ -47,7 +47,8 @@ describe("room accept action", () => {
     await testRunner.invokeAction(RequestType.RoomBid, "room bid 10")
 
     // when
-    const response = await testRunner.invokeActionAs(accepter, RequestType.RoomBidAccept, `room accept '${bidder.name}'`)
+    const response = await testRunner.invokeActionAs(
+      accepter, RequestType.RoomBidAccept, `room accept '${bidder.name}'`)
 
     // then
     expect(response.getMessageToRequestCreator())
