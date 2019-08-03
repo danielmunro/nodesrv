@@ -100,7 +100,7 @@ export default class TestRunner {
     if (!this.firstMob) {
       this.firstMob = player.sessionMob
     }
-    return new PlayerBuilder(player)
+    return new PlayerBuilder(this.specializationService, player)
   }
 
   public createClient(): Client {

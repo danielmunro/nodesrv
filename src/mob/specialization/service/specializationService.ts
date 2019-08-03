@@ -8,6 +8,8 @@ import {SpellType} from "../../spell/spellType"
 import {SpecializationType} from "../enum/specializationType"
 import SpecializationLevel from "../specializationLevel"
 
+const initialAbilityLearnedValue = 1
+
 @injectable()
 export default class SpecializationService {
   public static getSpecializationTypes(): SpecializationType[] {
@@ -19,25 +21,30 @@ export default class SpecializationService {
     ]
   }
 
+  private static addAbility(mob: MobEntity, specializationLevel: SpecializationLevel) {
+    if (Object.values(SkillType).includes(specializationLevel.abilityType)) {
+      mob.skills.push(newSkill(
+        specializationLevel.abilityType as SkillType,
+        initialAbilityLearnedValue,
+        specializationLevel.minimumLevel))
+      return
+    }
+
+    if (Object.values(SpellType).includes(specializationLevel.abilityType)) {
+      mob.spells.push(newSpell(
+        specializationLevel.abilityType as SpellType,
+        initialAbilityLearnedValue,
+        specializationLevel.minimumLevel))
+    }
+  }
+
   constructor(
     @inject(Types.SpecializationLevels) private readonly specializationLevels: SpecializationLevel[]) {}
 
   public applyAllDefaults(mob: MobEntity) {
     this.specializationLevels.filter(specializationLevel =>
       specializationLevel.specialization === mob.specializationType)
-      .forEach(specializationLevel => {
-        if (Object.values(SkillType).includes(specializationLevel.abilityType)) {
-          mob.skills.push(newSkill(
-            specializationLevel.abilityType as SkillType,
-            1,
-            specializationLevel.minimumLevel))
-        } else if (Object.values(SpellType).includes(specializationLevel.abilityType)) {
-          mob.spells.push(newSpell(
-            specializationLevel.abilityType as SpellType,
-            1,
-            specializationLevel.minimumLevel))
-        }
-      })
+      .forEach(specializationLevel => SpecializationService.addAbility(mob, specializationLevel))
   }
 
   public getSpecializationLevel(abilityType: SkillType | SpellType): SpecializationLevel {
@@ -56,13 +63,13 @@ export default class SpecializationService {
     return this.filterSpecializationType(mob.specializationType)
       .specializationLevels.filter(specializationLevel =>
         Object.values(SkillType).includes(specializationLevel.abilityType)
-        && !mob.playerMob.customizations.includes(specializationLevel))
+        && !mob.skills.find(skill => skill.skillType === specializationLevel.abilityType))
   }
 
   public getUnavailableSkills(mob: MobEntity): SpecializationLevel[] {
     return this.filterSpecializationType(mob.specializationType)
       .specializationLevels.filter(specializationLevel =>
         Object.values(SkillType).includes(specializationLevel.abilityType)
-        && !mob.playerMob.customizations.includes(specializationLevel))
+        && mob.skills.find(skill => skill.skillType === specializationLevel.abilityType))
   }
 }
