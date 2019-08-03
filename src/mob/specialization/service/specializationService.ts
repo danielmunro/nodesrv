@@ -60,16 +60,19 @@ export default class SpecializationService {
   }
 
   public getAvailableSkills(mob: MobEntity): SpecializationLevel[] {
-    return this.filterSpecializationType(mob.specializationType)
-      .specializationLevels.filter(specializationLevel =>
-        Object.values(SkillType).includes(specializationLevel.abilityType)
-        && !mob.skills.find(skill => skill.skillType === specializationLevel.abilityType))
+    return this.filterAnd(mob, (specializationLevel: SpecializationLevel) =>
+      !mob.skills.find(skill => skill.skillType === specializationLevel.abilityType))
   }
 
   public getUnavailableSkills(mob: MobEntity): SpecializationLevel[] {
+    return this.filterAnd(mob, (specializationLevel: SpecializationLevel) =>
+      mob.skills.find(skill => skill.skillType === specializationLevel.abilityType))
+  }
+
+  private filterAnd(mob: MobEntity, filter: any) {
     return this.filterSpecializationType(mob.specializationType)
       .specializationLevels.filter(specializationLevel =>
-        Object.values(SkillType).includes(specializationLevel.abilityType)
-        && mob.skills.find(skill => skill.skillType === specializationLevel.abilityType))
+      Object.values(SkillType).includes(specializationLevel.abilityType)
+      && filter(specializationLevel))
   }
 }
