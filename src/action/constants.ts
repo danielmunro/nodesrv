@@ -117,6 +117,10 @@ export const Messages = {
       NotEnoughGold: "You don't have that much gold.",
       Success: "You bid {amount} gold on {room}.",
     },
+    BidList: {
+      NoBids: "This room has no bids.",
+      Success: "Bids on {room}:{bids}",
+    },
     Info: "",
     Sell: {
       AmountIsRequired: "What is the asking price?",

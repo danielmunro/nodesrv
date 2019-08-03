@@ -74,6 +74,7 @@ import MultiAction from "../impl/multiAction"
 import NoopAction from "../impl/noopAction"
 import RoomAcceptAction from "../impl/room/roomAcceptAction"
 import RoomBidAction from "../impl/room/roomBidAction"
+import RoomBidListAction from "../impl/room/roomBidListAction"
 import RoomInfoAction from "../impl/room/roomInfoAction"
 import RoomSellAction from "../impl/room/roomSellAction"
 import backstabAction from "../impl/skill/assassin/backstabAction"
@@ -211,6 +212,7 @@ export default function getActionTable(
     new RoomInfoAction(checkBuilderFactory),
     new RoomSellAction(checkBuilderFactory, realEstateService),
     new RoomBidAction(checkBuilderFactory, realEstateService),
+    new RoomBidListAction(checkBuilderFactory, realEstateService),
     new RoomAcceptAction(checkBuilderFactory, realEstateService, mobService, clientService, roomRepository),
 
     // merchants/healers
