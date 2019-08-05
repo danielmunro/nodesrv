@@ -31,10 +31,6 @@ export default class GameService {
     return this.mobService.getMobsByRoom(room)
   }
 
-  public getActionService(): ActionService {
-    return this.actionService
-  }
-
   public getActions(): Action[] {
     return this.actionService.actions
   }

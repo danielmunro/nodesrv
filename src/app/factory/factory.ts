@@ -17,7 +17,7 @@ export default async function createAppContainer(
   startRoomId = 3001,
   port: number = 5151): Promise<App> {
   console.time(Timings.container)
-  const container = new Container()
+  const container = new Container({ skipBaseClassChecks: true })
   container.load(services, actions, eventConsumers, observers)
   await container.loadAsync(tables, repositories, constants(stripeApiKey, stripePlanId, environment, startRoomId, port))
   console.timeEnd(Timings.container)

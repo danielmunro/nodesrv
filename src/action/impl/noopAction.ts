@@ -1,3 +1,4 @@
+import {injectable} from "inversify"
 import Check from "../../check/check"
 import {MESSAGE_NOT_UNDERSTOOD} from "../../client/constants"
 import {RequestType} from "../../request/enum/requestType"
@@ -7,6 +8,7 @@ import {Messages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
 import Action from "./action"
 
+@injectable()
 export default class NoopAction extends Action {
   public check(): Promise<Check> {
     return Check.ok()

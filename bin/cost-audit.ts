@@ -1,38 +1,28 @@
+import App from "../src/app/app"
+import createAppContainer from "../src/app/factory/factory"
 import Cost from "../src/check/cost/cost"
 import {CostType} from "../src/check/cost/costType"
-import EventService from "../src/event/service/eventService"
-import StateService from "../src/gameService/stateService"
-import TimeService from "../src/gameService/timeService"
-import ItemService from "../src/item/service/itemService"
-import FightTable from "../src/mob/fight/fightTable"
-import LocationService from "../src/mob/service/locationService"
-import MobService from "../src/mob/service/mobService"
 import {getSkillTable} from "../src/mob/skill/skillTable"
-import getSpellTable from "../src/mob/spell/spellTable"
-import MobTable from "../src/mob/table/mobTable"
-import WeatherService from "../src/region/service/weatherService"
-import {createRoom} from "../src/room/factory/roomFactory"
+import {initializeConnection} from "../src/support/db/connection"
 
-const eventService = new EventService()
-const locationService = new LocationService(eventService, createRoom())
-const mobService = new MobService(new MobTable(), locationService, new MobTable(), new FightTable())
+initializeConnection().then(() => createAppContainer(null, null, null).then((app: App) => {
+  console.log("spells:")
+// getSpellTable(
+//   mobService,
+//   eventService,
+//   new ItemService(),
+//   new StateService(new WeatherService(), new TimeService()),
+//   locationService).forEach(spell => {
+//   console.log(spell.getCosts().reduce((previous: string, cost: Cost) =>
+//     previous + ", " + getCostTypeLabel(cost.costType) + ": " + cost.amount, spell.getSpellType()))
+// })
 
-console.log("spells:")
-getSpellTable(
-  mobService,
-  eventService,
-  new ItemService(),
-  new StateService(new WeatherService(), new TimeService()),
-  locationService).forEach(spell => {
-  console.log(spell.getCosts().reduce((previous: string, cost: Cost) =>
-    previous + ", " + getCostTypeLabel(cost.costType) + ": " + cost.amount, spell.getSpellType()))
-})
-
-console.log("\nskills:")
-getSkillTable(mobService, eventService).forEach(skill => {
-  console.log(skill.getCosts().reduce((previous: string, cost: Cost) =>
-    previous + ", " + getCostTypeLabel(cost.costType) + ": " + cost.amount, skill.getSkillType()))
-})
+  console.log("\nskills:")
+  getSkillTable(app.getContainer()).forEach(skill => {
+    console.log(skill.getCosts().reduce((previous: string, cost: Cost) =>
+      previous + ", " + getCostTypeLabel(cost.costType) + ": " + cost.amount, skill.getSkillType()))
+  })
+}))
 
 function getCostTypeLabel(costType: CostType): string {
   switch (costType) {

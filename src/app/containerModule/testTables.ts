@@ -1,6 +1,9 @@
 import {AsyncContainerModule} from "inversify"
+import Spell from "../../action/impl/spell"
 import ItemTable from "../../item/table/itemTable"
 import FightTable from "../../mob/fight/fightTable"
+import HealerSpell from "../../mob/healer/healerSpell"
+import getHealerSpellTable from "../../mob/healer/healerSpellTable"
 import SpecializationService from "../../mob/specialization/service/specializationService"
 import SpecializationGroup from "../../mob/specialization/specializationGroup"
 import specializationGroups from "../../mob/specialization/specializationGroups"
@@ -28,4 +31,6 @@ export default new AsyncContainerModule(async bind => {
   })
   bind<RealEstateListingTable>(Types.RealEstateListingTable).toConstantValue(new RealEstateListingTable())
   bind<RealEstateBidTable>(Types.RealEstateBidTable).toConstantValue(new RealEstateBidTable())
+  bind<HealerSpell[]>(Types.HealerSpells).toDynamicValue(context =>
+    getHealerSpellTable(context.container.get<Spell[]>(Types.Spells)))
 })

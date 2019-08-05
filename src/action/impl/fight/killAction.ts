@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
@@ -9,6 +10,7 @@ import {ResponseStatus} from "../../../request/enum/responseStatus"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
+import {Types} from "../../../support/types"
 import {
   ConditionMessages,
   Messages,
@@ -16,10 +18,11 @@ import {
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class KillAction extends Action {
   constructor(
-    private readonly checkBuilderFactory: CheckBuilderFactory,
-    private readonly eventService: EventService) {
+    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.EventService) private readonly eventService: EventService) {
     super()
   }
 

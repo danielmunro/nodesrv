@@ -1,16 +1,19 @@
+import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
+import {Types} from "../../../support/types"
 import {Messages, Messages as ActionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class OwnedAction extends Action {
   constructor(
-    private readonly checkBuilderFactory: CheckBuilderFactory) {
+    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory) {
     super()
   }
 

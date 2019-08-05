@@ -38,4 +38,8 @@ export default class App {
   public getKafkaService(): KafkaService {
     return this.container.get<KafkaService>(Types.KafkaService)
   }
+
+  public getContainer(): Container {
+    return this.container
+  }
 }

@@ -1,3 +1,4 @@
+import {injectable} from "inversify"
 import {AffectEntity} from "../../../affect/entity/affectEntity"
 import Check from "../../../check/check"
 import {RequestType} from "../../../request/enum/requestType"
@@ -7,6 +8,7 @@ import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class AffectsAction extends Action {
   private static reduceAffects(affects: AffectEntity[]) {
     return affects.reduce((previous: string, current: AffectEntity) =>

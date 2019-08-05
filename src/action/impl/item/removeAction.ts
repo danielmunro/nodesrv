@@ -1,19 +1,24 @@
+import {inject, injectable} from "inversify"
 import {AffectType} from "../../../affect/enum/affectType"
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {RequestType} from "../../../request/enum/requestType"
 import {ResponseStatus} from "../../../request/enum/responseStatus"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
 import {format} from "../../../support/string"
+import {Types} from "../../../support/types"
 import {ConditionMessages, MESSAGE_REMOVE_FAIL, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class RemoveAction extends Action {
-  constructor(private readonly checkBuilderFactory: CheckBuilderFactory) {
+  constructor(
+    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory) {
     super()
   }
 
@@ -31,7 +36,7 @@ export default class RemoveAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const item = requestService.getResult()
+    const item = requestService.getResult<ItemEntity>()
     requestService.getMob().equipped.removeItem(item)
     return requestService.respondWith()
       .response(

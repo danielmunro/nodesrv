@@ -1,3 +1,4 @@
+import {unmanaged} from "inversify"
 import {AffectType} from "../../affect/enum/affectType"
 import AffectService from "../../affect/service/affectService"
 import Check from "../../check/check"
@@ -30,7 +31,7 @@ export default abstract class Move extends Action {
   protected constructor(
     private readonly checkBuilderFactory: CheckBuilderFactory,
     private readonly locationService: LocationService,
-    private readonly direction: Direction) {
+    @unmanaged() private readonly direction: Direction) {
     super()
   }
 

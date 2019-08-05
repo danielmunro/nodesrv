@@ -17,7 +17,7 @@
     "complexity": "ts-complexity --max-complexity 10 --pattern 'src/**/!(*.test).ts' src/**/*",
     "practice-debug": "ts-node bin/practice-debug.ts",
     "specialization-level-audit": "ts-node bin/specialization-level-audit.ts",
-    "cost-audit": "ts-node bin/cost-audit.ts",
+    "cost-audit": "ts-node --max_old_space_size=8192 bin/cost-audit.ts",
     "container": "ts-node src/test.ts",
     "republish-players": "ts-node --max_old_space_size=8192 bin/kafka-republish-create-all-players.ts",
     "migration-run": "ts-node ./node_modules/typeorm/cli.js migration:run",

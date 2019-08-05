@@ -1,19 +1,23 @@
+import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import {RequestType} from "../../../request/enum/requestType"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
 import ClientService from "../../../server/service/clientService"
+import {Types} from "../../../support/types"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class WhoAction extends Action {
   private static formatLevel(mob: MobEntity): string {
     return mob.level < 10 ? " " + mob.level : mob.level.toString()
   }
 
-  constructor(private readonly clientService: ClientService) {
+  constructor(
+    @inject(Types.ClientService) private readonly clientService: ClientService) {
     super()
   }
 

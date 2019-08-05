@@ -1,3 +1,4 @@
+import {injectable} from "inversify"
 import AffectBuilder from "../../affect/builder/affectBuilder"
 import CheckBuilder from "../../check/builder/checkBuilder"
 import Check from "../../check/check"
@@ -15,6 +16,7 @@ export type ApplyAbility = (requestService: RequestService, affectBuilder: Affec
 
 export type CheckComponentAdder = (request: Request, checkBuilder: CheckBuilder) => void
 
+@injectable()
 export default abstract class Action {
   public isAbleToHandleRequestType(requestType: RequestType): boolean {
     const thisRequestType = this.getRequestType()
