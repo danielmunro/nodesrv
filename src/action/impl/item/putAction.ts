@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
@@ -7,15 +8,17 @@ import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
 import Maybe from "../../../support/functional/maybe/maybe"
+import {Types} from "../../../support/types"
 import {MESSAGE_FAIL_CONTAINER_NOT_FOUND, Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class PutAction extends Action {
   constructor(
-    private readonly checkBuilderFactory: CheckBuilderFactory,
-    private readonly itemService: ItemService) {
+    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.ItemService) private readonly itemService: ItemService) {
     super()
   }
 

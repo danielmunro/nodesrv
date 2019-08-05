@@ -1,5 +1,15 @@
 import {ContainerModule} from "inversify"
 import Action from "../../action/impl/action"
+import DropAction from "../../action/impl/item/dropAction"
+import EatAction from "../../action/impl/item/eatAction"
+import GetAction from "../../action/impl/item/getAction"
+import LootAction from "../../action/impl/item/lootAction"
+import PutAction from "../../action/impl/item/putAction"
+import RemoveAction from "../../action/impl/item/removeAction"
+import SacrificeAction from "../../action/impl/item/sacrificeAction"
+import WearAction from "../../action/impl/item/wearAction"
+import LockAction from "../../action/impl/manipulate/lockAction"
+import UnlockAction from "../../action/impl/manipulate/unlockAction"
 import DownAction from "../../action/impl/move/downAction"
 import EastAction from "../../action/impl/move/eastAction"
 import NorthAction from "../../action/impl/move/northAction"
@@ -26,12 +36,27 @@ import ClientService from "../../server/service/clientService"
 import {Types} from "../../support/types"
 
 export default new ContainerModule(bind => {
+  // moving
   bind<Action>(Types.Actions).to(NorthAction)
   bind<Action>(Types.Actions).to(SouthAction)
   bind<Action>(Types.Actions).to(EastAction)
   bind<Action>(Types.Actions).to(WestAction)
   bind<Action>(Types.Actions).to(UpAction)
   bind<Action>(Types.Actions).to(DownAction)
+
+  // items
+  bind<Action>(Types.Actions).to(GetAction)
+  bind<Action>(Types.Actions).to(DropAction)
+  bind<Action>(Types.Actions).to(PutAction)
+  bind<Action>(Types.Actions).to(WearAction)
+  bind<Action>(Types.Actions).to(RemoveAction)
+  bind<Action>(Types.Actions).to(EatAction)
+  bind<Action>(Types.Actions).to(SacrificeAction)
+  bind<Action>(Types.Actions).to(LootAction)
+
+  // locks
+  bind<Action>(Types.Actions).to(UnlockAction)
+  bind<Action>(Types.Actions).to(LockAction)
 
   bind<Action[]>(Types.ActionTable).toDynamicValue(context =>
     getActionTable(

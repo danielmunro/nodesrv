@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import {AffectType} from "../../../affect/enum/affectType"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
@@ -9,15 +10,17 @@ import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
+import {Types} from "../../../support/types"
 import {Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class DropAction extends Action {
   constructor(
-    private readonly checkBuilderFactory: CheckBuilderFactory,
-    private readonly eventService: EventService) {
+    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.EventService) private readonly eventService: EventService) {
     super()
   }
 

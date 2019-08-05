@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
@@ -8,10 +9,12 @@ import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
 import match from "../../../support/matcher/match"
+import {Types} from "../../../support/types"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class LootAction extends Action {
   private static getVerb(isRequestCreator: boolean) {
     if (isRequestCreator) {
@@ -21,7 +24,8 @@ export default class LootAction extends Action {
     return "gets"
   }
 
-  constructor(private readonly checkBuilderFactory: CheckBuilderFactory) {
+  constructor(
+    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory) {
     super()
   }
 

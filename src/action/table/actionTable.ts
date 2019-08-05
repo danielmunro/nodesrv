@@ -41,19 +41,9 @@ import ScanAction from "../impl/info/scanAction"
 import ScoreAction from "../impl/info/scoreAction"
 import WhoAction from "../impl/info/whoAction"
 import CloseItemAction from "../impl/item/closeItemAction"
-import DropAction from "../impl/item/dropAction"
-import EatAction from "../impl/item/eatAction"
-import GetAction from "../impl/item/getAction"
-import LootAction from "../impl/item/lootAction"
 import OpenItemAction from "../impl/item/openItemAction"
-import PutAction from "../impl/item/putAction"
-import RemoveAction from "../impl/item/removeAction"
-import SacrificeAction from "../impl/item/sacrificeAction"
-import WearAction from "../impl/item/wearAction"
 import CloseDoorAction from "../impl/manipulate/closeDoorAction"
-import LockAction from "../impl/manipulate/lockAction"
 import OpenDoorAction from "../impl/manipulate/openDoorAction"
-import UnlockAction from "../impl/manipulate/unlockAction"
 import BuyAction from "../impl/merchant/buyAction"
 import HealAction from "../impl/merchant/healAction"
 import ListAction from "../impl/merchant/listAction"
@@ -119,24 +109,6 @@ export default function getActionTable(
   const socialService = new SocialService(checkBuilderFactory, eventService)
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
-    // moving
-    // new NorthAction(checkBuilderFactory, locationService),
-    // new SouthAction(checkBuilderFactory, locationService),
-    // new EastAction(checkBuilderFactory, locationService),
-    // new WestAction(checkBuilderFactory, locationService),
-    // new UpAction(checkBuilderFactory, locationService),
-    // new DownAction(checkBuilderFactory, locationService),
-
-    // items
-    new GetAction(checkBuilderFactory, itemService),
-    new DropAction(checkBuilderFactory, eventService),
-    new PutAction(checkBuilderFactory, itemService),
-    new WearAction(checkBuilderFactory),
-    new RemoveAction(checkBuilderFactory),
-    new EatAction(checkBuilderFactory, eventService),
-    new SacrificeAction(checkBuilderFactory, eventService),
-    new LootAction(checkBuilderFactory),
-
     // multi-actions
     new MultiAction(
       RequestType.Close,
@@ -154,10 +126,6 @@ export default function getActionTable(
         new OpenItemAction(checkBuilderFactory),
         new OpenDoorAction(checkBuilderFactory),
       ]),
-
-    // manipulate
-    new UnlockAction(checkBuilderFactory, itemService),
-    new LockAction(checkBuilderFactory, itemService),
 
     // fighting
     new KillAction(checkBuilderFactory, eventService),
