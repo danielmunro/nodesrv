@@ -10,22 +10,15 @@ import EscrowService from "../../mob/trade/escrowService"
 import PlayerService from "../../player/service/playerService"
 import SocialService from "../../player/service/socialService"
 import WeatherService from "../../region/service/weatherService"
-import {RequestType} from "../../request/enum/requestType"
 import RoomRepository from "../../room/repository/room"
 import RealEstateService from "../../room/service/realEstateService"
 import ClientService from "../../server/service/clientService"
-import {ConditionMessages} from "../constants"
-import {ActionPart} from "../enum/actionPart"
 import Action from "../impl/action"
 import CastAction from "../impl/castAction"
 import QuitAction from "../impl/client/quitAction"
 import SitAction from "../impl/disposition/sitAction"
 import SleepAction from "../impl/disposition/sleepAction"
 import WakeAction from "../impl/disposition/wakeAction"
-import BountyAction from "../impl/fight/bountyAction"
-import FleeAction from "../impl/fight/fleeAction"
-import HitAction from "../impl/fight/hitAction"
-import KillAction from "../impl/fight/killAction"
 import LevelAction from "../impl/improve/levelAction"
 import PracticeAction from "../impl/improve/practiceAction"
 import TrainAction from "../impl/improve/trainAction"
@@ -40,10 +33,6 @@ import OwnedAction from "../impl/info/ownedAction"
 import ScanAction from "../impl/info/scanAction"
 import ScoreAction from "../impl/info/scoreAction"
 import WhoAction from "../impl/info/whoAction"
-import CloseItemAction from "../impl/item/closeItemAction"
-import OpenItemAction from "../impl/item/openItemAction"
-import CloseDoorAction from "../impl/manipulate/closeDoorAction"
-import OpenDoorAction from "../impl/manipulate/openDoorAction"
 import BuyAction from "../impl/merchant/buyAction"
 import HealAction from "../impl/merchant/healAction"
 import ListAction from "../impl/merchant/listAction"
@@ -54,7 +43,6 @@ import BanAction from "../impl/moderation/banAction"
 import DemoteAction from "../impl/moderation/demoteAction"
 import PromoteAction from "../impl/moderation/promoteAction"
 import UnbanAction from "../impl/moderation/unbanAction"
-import MultiAction from "../impl/multiAction"
 import NoopAction from "../impl/noopAction"
 import RoomAcceptAction from "../impl/room/roomAcceptAction"
 import RoomBidAction from "../impl/room/roomBidAction"
@@ -109,30 +97,6 @@ export default function getActionTable(
   const socialService = new SocialService(checkBuilderFactory, eventService)
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
-    // multi-actions
-    new MultiAction(
-      RequestType.Close,
-      ConditionMessages.All.Arguments.Close,
-      [ ActionPart.Action, ActionPart.Target ],
-      [
-        new CloseItemAction(checkBuilderFactory),
-        new CloseDoorAction(checkBuilderFactory),
-      ]),
-    new MultiAction(
-      RequestType.Open,
-      ConditionMessages.All.Arguments.Open,
-      [ ActionPart.Action, ActionPart.Target ],
-      [
-        new OpenItemAction(checkBuilderFactory),
-        new OpenDoorAction(checkBuilderFactory),
-      ]),
-
-    // fighting
-    new KillAction(checkBuilderFactory, eventService),
-    new HitAction(checkBuilderFactory, eventService),
-    new FleeAction(checkBuilderFactory, mobService, locationService),
-    new BountyAction(checkBuilderFactory),
-
     // skills
     backstabAction(abilityService),
     bashAction(abilityService),

@@ -33,7 +33,7 @@ export default class ActionService {
     @inject(Types.Spells) public readonly spells: Spell[]) {
     const helpAction = this.actionTable.find(action => action instanceof HelpAction) as HelpAction
     if (helpAction) {
-      helpAction.setActions(this.actionTable)
+      helpAction.setActions(this.actionTable.concat(this.actions))
     }
   }
 

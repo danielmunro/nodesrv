@@ -1,14 +1,24 @@
 import {ContainerModule} from "inversify"
+import {ConditionMessages} from "../../action/constants"
+import {ActionPart} from "../../action/enum/actionPart"
 import Action from "../../action/impl/action"
+import BountyAction from "../../action/impl/fight/bountyAction"
+import FleeAction from "../../action/impl/fight/fleeAction"
+import HitAction from "../../action/impl/fight/hitAction"
+import KillAction from "../../action/impl/fight/killAction"
+import CloseItemAction from "../../action/impl/item/closeItemAction"
 import DropAction from "../../action/impl/item/dropAction"
 import EatAction from "../../action/impl/item/eatAction"
 import GetAction from "../../action/impl/item/getAction"
 import LootAction from "../../action/impl/item/lootAction"
+import OpenItemAction from "../../action/impl/item/openItemAction"
 import PutAction from "../../action/impl/item/putAction"
 import RemoveAction from "../../action/impl/item/removeAction"
 import SacrificeAction from "../../action/impl/item/sacrificeAction"
 import WearAction from "../../action/impl/item/wearAction"
+import CloseDoorAction from "../../action/impl/manipulate/closeDoorAction"
 import LockAction from "../../action/impl/manipulate/lockAction"
+import OpenDoorAction from "../../action/impl/manipulate/openDoorAction"
 import UnlockAction from "../../action/impl/manipulate/unlockAction"
 import DownAction from "../../action/impl/move/downAction"
 import EastAction from "../../action/impl/move/eastAction"
@@ -16,9 +26,11 @@ import NorthAction from "../../action/impl/move/northAction"
 import SouthAction from "../../action/impl/move/southAction"
 import UpAction from "../../action/impl/move/upAction"
 import WestAction from "../../action/impl/move/westAction"
+import MultiAction from "../../action/impl/multiAction"
 import Skill from "../../action/impl/skill"
 import Spell from "../../action/impl/spell"
 import getActionTable from "../../action/table/actionTable"
+import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
 import EventService from "../../event/service/eventService"
 import StateService from "../../gameService/stateService"
 import TimeService from "../../gameService/timeService"
@@ -30,6 +42,7 @@ import getSpellTable from "../../mob/spell/spellTable"
 import EscrowService from "../../mob/trade/escrowService"
 import PlayerService from "../../player/service/playerService"
 import WeatherService from "../../region/service/weatherService"
+import {RequestType} from "../../request/enum/requestType"
 import RoomRepository from "../../room/repository/room"
 import RealEstateService from "../../room/service/realEstateService"
 import ClientService from "../../server/service/clientService"
@@ -57,6 +70,36 @@ export default new ContainerModule(bind => {
   // locks
   bind<Action>(Types.Actions).to(UnlockAction)
   bind<Action>(Types.Actions).to(LockAction)
+
+  // open/close
+  bind<Action>(Types.Actions).toDynamicValue(context => {
+    const checkBuilderFactory = context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory)
+    return new MultiAction(
+      RequestType.Close,
+      ConditionMessages.All.Arguments.Close,
+      [ ActionPart.Action, ActionPart.Target ],
+      [
+        new CloseItemAction(checkBuilderFactory),
+        new CloseDoorAction(checkBuilderFactory),
+      ])
+  })
+  bind<Action>(Types.Actions).toDynamicValue(context => {
+    const checkBuilderFactory = context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory)
+    return new MultiAction(
+      RequestType.Open,
+      ConditionMessages.All.Arguments.Open,
+      [ ActionPart.Action, ActionPart.Target ],
+      [
+        new OpenItemAction(checkBuilderFactory),
+        new OpenDoorAction(checkBuilderFactory),
+      ])
+  })
+
+  // fighting
+  bind<Action>(Types.Actions).to(KillAction)
+  bind<Action>(Types.Actions).to(HitAction)
+  bind<Action>(Types.Actions).to(FleeAction)
+  bind<Action>(Types.Actions).to(BountyAction)
 
   bind<Action[]>(Types.ActionTable).toDynamicValue(context =>
     getActionTable(
