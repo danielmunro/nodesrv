@@ -18,7 +18,7 @@ beforeEach(async () => {
   // potential target
   target = (await testRunner.createMob()).get()
   requestBuilder = new RequestBuilder(
-    // app.get<Action[]>(Types.Actions),
+    // app.get<Action[]>(Types.ActionTable),
     app.get<LocationService>(Types.LocationService),
     mob,
     testRunner.getStartRoom().get())

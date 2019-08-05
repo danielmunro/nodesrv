@@ -1,4 +1,4 @@
-import {inject, injectable} from "inversify"
+import {inject, injectable, multiInject} from "inversify"
 import "reflect-metadata"
 import CheckedRequest from "../../check/checkedRequest"
 import Cost from "../../check/cost/cost"
@@ -27,12 +27,13 @@ export default class ActionService {
   constructor(
     @inject(Types.ClientService) public readonly clientService: ClientService,
     @inject(Types.EventService) public readonly eventService: EventService,
-    @inject(Types.Actions) public readonly actions: Action[],
+    @inject(Types.ActionTable) public readonly actionTable: Action[],
+    @multiInject(Types.Actions) public readonly actions: Action[],
     @inject(Types.Skills) public readonly skills: Skill[],
     @inject(Types.Spells) public readonly spells: Spell[]) {
-    const helpAction = this.actions.find(action => action instanceof HelpAction) as HelpAction
+    const helpAction = this.actionTable.find(action => action instanceof HelpAction) as HelpAction
     if (helpAction) {
-      helpAction.setActions(this.actions)
+      helpAction.setActions(this.actionTable)
     }
   }
 
@@ -62,7 +63,7 @@ export default class ActionService {
   }
 
   private findActionForRequestType(requestType: RequestType) {
-    return this.actions.find(action =>
+    return this.actionTable.find(action =>
       action.isAbleToHandleRequestType(requestType)) as Action
   }
 

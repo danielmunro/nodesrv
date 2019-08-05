@@ -1,5 +1,11 @@
 import {ContainerModule} from "inversify"
 import Action from "../../action/impl/action"
+import DownAction from "../../action/impl/move/downAction"
+import EastAction from "../../action/impl/move/eastAction"
+import NorthAction from "../../action/impl/move/northAction"
+import SouthAction from "../../action/impl/move/southAction"
+import UpAction from "../../action/impl/move/upAction"
+import WestAction from "../../action/impl/move/westAction"
 import Skill from "../../action/impl/skill"
 import Spell from "../../action/impl/spell"
 import getActionTable from "../../action/table/actionTable"
@@ -20,7 +26,14 @@ import ClientService from "../../server/service/clientService"
 import {Types} from "../../support/types"
 
 export default new ContainerModule(bind => {
-  bind<Action[]>(Types.Actions).toDynamicValue(context =>
+  bind<Action>(Types.Actions).to(NorthAction)
+  bind<Action>(Types.Actions).to(SouthAction)
+  bind<Action>(Types.Actions).to(EastAction)
+  bind<Action>(Types.Actions).to(WestAction)
+  bind<Action>(Types.Actions).to(UpAction)
+  bind<Action>(Types.Actions).to(DownAction)
+
+  bind<Action[]>(Types.ActionTable).toDynamicValue(context =>
     getActionTable(
       context.container.get<MobService>(Types.MobService),
       context.container.get<ItemService>(Types.ItemService),

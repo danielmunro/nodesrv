@@ -64,12 +64,6 @@ import BanAction from "../impl/moderation/banAction"
 import DemoteAction from "../impl/moderation/demoteAction"
 import PromoteAction from "../impl/moderation/promoteAction"
 import UnbanAction from "../impl/moderation/unbanAction"
-import DownAction from "../impl/move/downAction"
-import EastAction from "../impl/move/eastAction"
-import NorthAction from "../impl/move/northAction"
-import SouthAction from "../impl/move/southAction"
-import UpAction from "../impl/move/upAction"
-import WestAction from "../impl/move/westAction"
 import MultiAction from "../impl/multiAction"
 import NoopAction from "../impl/noopAction"
 import RoomAcceptAction from "../impl/room/roomAcceptAction"
@@ -126,12 +120,12 @@ export default function getActionTable(
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
     // moving
-    new NorthAction(checkBuilderFactory, locationService),
-    new SouthAction(checkBuilderFactory, locationService),
-    new EastAction(checkBuilderFactory, locationService),
-    new WestAction(checkBuilderFactory, locationService),
-    new UpAction(checkBuilderFactory, locationService),
-    new DownAction(checkBuilderFactory, locationService),
+    // new NorthAction(checkBuilderFactory, locationService),
+    // new SouthAction(checkBuilderFactory, locationService),
+    // new EastAction(checkBuilderFactory, locationService),
+    // new WestAction(checkBuilderFactory, locationService),
+    // new UpAction(checkBuilderFactory, locationService),
+    // new DownAction(checkBuilderFactory, locationService),
 
     // items
     new GetAction(checkBuilderFactory, itemService),

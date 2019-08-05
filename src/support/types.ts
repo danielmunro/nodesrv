@@ -1,6 +1,17 @@
+export const Actions = {
+  Down: Symbol.for("DownAction"),
+  East: Symbol.for("EastAction"),
+  North: Symbol.for("NorthAction"),
+  South: Symbol.for("SouthAction"),
+  Up: Symbol.for("UpAction"),
+  West: Symbol.for("WestAction"),
+}
+
 export const Types = {
   ActionService: Symbol.for("ActionService"),
+  ActionTable: Symbol.for("ActionTable"),
   Actions: Symbol.for("Actions"),
+  CheckBuilderFactory: Symbol.for("CheckBuilderFactory"),
   ClientService: Symbol.for("ClientService"),
   CreationService: Symbol.for("CreationService"),
   DecrementAffectObserver: Symbol.for("DecrementAffect"),

@@ -1,4 +1,4 @@
-import {inject, injectable} from "inversify"
+import {inject, injectable, multiInject} from "inversify"
 import Action from "../../action/impl/action"
 import Skill from "../../action/impl/skill"
 import {Client} from "../../client/client"
@@ -54,7 +54,8 @@ export default class TestRunner {
     @inject(Types.RoomTable) private readonly roomTable: RoomTable,
     @inject(Types.ExitTable) private readonly exitTable: ExitTable,
     @inject(Types.ItemService) private readonly itemService: ItemService,
-    @inject(Types.Actions) private readonly actions: Action[],
+    @inject(Types.ActionTable) private readonly actionTable: Action[],
+    @multiInject(Types.Actions) private readonly actions: Action[],
     @inject(Types.Skills) private readonly skills: Skill[],
     @inject(Types.StateService) private readonly stateService: StateService,
     @inject(Types.SpecializationService) private readonly specializationService: SpecializationService,
@@ -157,7 +158,8 @@ export default class TestRunner {
 
   public async invokeActionAs(
     mob: MobEntity, requestType: RequestType, input?: string, targetMobInRoom?: MobEntity): Promise<Response> {
-    const action = this.actions.find(a => a.getRequestType() === requestType) as Action
+    const action = this.actionTable.find(a => a.getRequestType() === requestType) ||
+      this.actions.find(a => a.getRequestType() === requestType) as Action
     return await action.handle(
       new Request(
         mob,
@@ -170,7 +172,8 @@ export default class TestRunner {
     if (!this.firstMob) {
       await this.createMob()
     }
-    const action = this.actions.find(a => a.getRequestType() === requestType) as Action
+    const action = this.actionTable.find(a => a.getRequestType() === requestType) ||
+      this.actions.find(a => a.getRequestType() === requestType) as Action
     return await action.handle(
       new Request(
         this.firstMob,
