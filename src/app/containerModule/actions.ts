@@ -1,6 +1,4 @@
 import {ContainerModule, interfaces} from "inversify"
-import {ConditionMessages} from "../../action/constants"
-import {ActionPart} from "../../action/enum/actionPart"
 import Action from "../../action/impl/action"
 import CastAction from "../../action/impl/castAction"
 import QuitAction from "../../action/impl/client/quitAction"
@@ -24,19 +22,15 @@ import LoreAction from "../../action/impl/info/loreAction"
 import OwnedAction from "../../action/impl/info/ownedAction"
 import ScanAction from "../../action/impl/info/scanAction"
 import ScoreAction from "../../action/impl/info/scoreAction"
-import CloseItemAction from "../../action/impl/item/closeItemAction"
 import DropAction from "../../action/impl/item/dropAction"
 import EatAction from "../../action/impl/item/eatAction"
 import GetAction from "../../action/impl/item/getAction"
 import LootAction from "../../action/impl/item/lootAction"
-import OpenItemAction from "../../action/impl/item/openItemAction"
 import PutAction from "../../action/impl/item/putAction"
 import RemoveAction from "../../action/impl/item/removeAction"
 import SacrificeAction from "../../action/impl/item/sacrificeAction"
 import WearAction from "../../action/impl/item/wearAction"
-import CloseDoorAction from "../../action/impl/manipulate/closeDoorAction"
 import LockAction from "../../action/impl/manipulate/lockAction"
-import OpenDoorAction from "../../action/impl/manipulate/openDoorAction"
 import UnlockAction from "../../action/impl/manipulate/unlockAction"
 import BuyAction from "../../action/impl/merchant/buyAction"
 import HealAction from "../../action/impl/merchant/healAction"
@@ -55,6 +49,8 @@ import SouthAction from "../../action/impl/move/southAction"
 import UpAction from "../../action/impl/move/upAction"
 import WestAction from "../../action/impl/move/westAction"
 import MultiAction from "../../action/impl/multiAction"
+import closeMultiAction from "../../action/impl/multiAction/closeMultiAction"
+import openMultiAction from "../../action/impl/multiAction/openMultiAction"
 import NoopAction from "../../action/impl/noopAction"
 import RoomAcceptAction from "../../action/impl/room/roomAcceptAction"
 import RoomBidAction from "../../action/impl/room/roomBidAction"
@@ -100,7 +96,6 @@ import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import {getSkillTable} from "../../mob/skill/skillTable"
 import getSpellTable from "../../mob/spell/spellTable"
-import {RequestType} from "../../request/enum/requestType"
 import {Types} from "../../support/types"
 
 function bindSkill(bind: Bind, method: (abilityService: AbilityService) => Skill) {
@@ -206,28 +201,10 @@ export default new ContainerModule(bind => {
   actions.forEach(action => bind<Action>(Types.Actions).to(action))
 
   // open/close
-  bind<Action>(Types.Actions).toDynamicValue(context => {
-    const checkBuilderFactory = context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory)
-    return new MultiAction(
-      RequestType.Close,
-      ConditionMessages.All.Arguments.Close,
-      [ ActionPart.Action, ActionPart.Target ],
-      [
-        new CloseItemAction(checkBuilderFactory),
-        new CloseDoorAction(checkBuilderFactory),
-      ])
-  })
-  bind<Action>(Types.Actions).toDynamicValue(context => {
-    const checkBuilderFactory = context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory)
-    return new MultiAction(
-      RequestType.Open,
-      ConditionMessages.All.Arguments.Open,
-      [ ActionPart.Action, ActionPart.Target ],
-      [
-        new OpenItemAction(checkBuilderFactory),
-        new OpenDoorAction(checkBuilderFactory),
-      ])
-  })
+  bind<Action>(Types.Actions).toDynamicValue(context =>
+    closeMultiAction(context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory)))
+  bind<Action>(Types.Actions).toDynamicValue(context =>
+    openMultiAction(context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory)))
 
   // noop
   bind<Action>(Types.Actions).to(NoopAction)
