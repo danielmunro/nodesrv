@@ -64,6 +64,11 @@ import GossipAction from "../../action/impl/social/gossipAction"
 import SayAction from "../../action/impl/social/sayAction"
 import TellAction from "../../action/impl/social/tellAction"
 import Spell from "../../action/impl/spell"
+import CcAddAction from "../../action/impl/subscription/ccAddAction"
+import CcListAction from "../../action/impl/subscription/ccListAction"
+import CcRemoveAction from "../../action/impl/subscription/ccRemoveAction"
+import SubscribeAction from "../../action/impl/subscription/subscribeAction"
+import UnsubscribeAction from "../../action/impl/subscription/unsubscribeAction"
 import getActionTable from "../../action/table/actionTable"
 import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
 import EventService from "../../event/service/eventService"
@@ -73,7 +78,6 @@ import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import {getSkillTable} from "../../mob/skill/skillTable"
 import getSpellTable from "../../mob/spell/spellTable"
-import PlayerService from "../../player/service/playerService"
 import {RequestType} from "../../request/enum/requestType"
 import {Types} from "../../support/types"
 
@@ -187,13 +191,19 @@ export default new ContainerModule(bind => {
   // client
   bind<Action>(Types.Actions).to(QuitAction)
 
+  // subscriptions
+  bind<Action>(Types.Actions).to(CcListAction)
+  bind<Action>(Types.Actions).to(CcAddAction)
+  bind<Action>(Types.Actions).to(CcRemoveAction)
+  bind<Action>(Types.Actions).to(SubscribeAction)
+  bind<Action>(Types.Actions).to(UnsubscribeAction)
+
   bind<Action[]>(Types.ActionTable).toDynamicValue(context =>
     getActionTable(
       context.container.get<MobService>(Types.MobService),
       context.container.get<EventService>(Types.EventService),
       context.container.get<Spell[]>(Types.Spells),
-      context.container.get<LocationService>(Types.LocationService),
-      context.container.get<PlayerService>(Types.PlayerService))).inSingletonScope()
+      context.container.get<LocationService>(Types.LocationService))).inSingletonScope()
   bind<Skill[]>(Types.Skills).toDynamicValue(context =>
     getSkillTable(
       context.container.get<MobService>(Types.MobService),

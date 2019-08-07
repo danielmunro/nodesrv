@@ -4,7 +4,6 @@ import EventService from "../../event/service/eventService"
 import getHealerSpellTable from "../../mob/healer/healerSpellTable"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
-import PlayerService from "../../player/service/playerService"
 import Action from "../impl/action"
 import HealAction from "../impl/merchant/healAction"
 import NoopAction from "../impl/noopAction"
@@ -28,19 +27,13 @@ import stealAction from "../impl/skill/thief/stealAction"
 import berserkAction from "../impl/skill/warrior/berserkAction"
 import disarmAction from "../impl/skill/warrior/disarmAction"
 import Spell from "../impl/spell"
-import CcAddAction from "../impl/subscription/ccAddAction"
-import CcListAction from "../impl/subscription/ccListAction"
-import CcRemoveAction from "../impl/subscription/ccRemoveAction"
-import SubscribeAction from "../impl/subscription/subscribeAction"
-import UnsubscribeAction from "../impl/subscription/unsubscribeAction"
 
 /* tslint:disable */
 export default function getActionTable(
   mobService: MobService,
   eventService: EventService,
   spellTable: Spell[],
-  locationService: LocationService,
-  playerService: PlayerService): Action[] {
+  locationService: LocationService): Action[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
@@ -67,15 +60,6 @@ export default function getActionTable(
 
     // merchants/healers
     new HealAction(checkBuilderFactory, locationService, getHealerSpellTable(spellTable)),
-
-    // cc
-    new CcListAction(checkBuilderFactory, playerService),
-    new CcAddAction(checkBuilderFactory, playerService),
-    new CcRemoveAction(checkBuilderFactory, playerService),
-
-    // subscription
-    new SubscribeAction(checkBuilderFactory, playerService),
-    new UnsubscribeAction(checkBuilderFactory, playerService),
 
     // catch-all
     new NoopAction(),
