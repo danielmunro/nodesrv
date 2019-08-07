@@ -1,3 +1,4 @@
+import {injectable} from "inversify"
 import Check from "../../../check/check"
 import {RequestType} from "../../../request/enum/requestType"
 import Response from "../../../request/response"
@@ -6,12 +7,13 @@ import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class ScoreAction extends Action {
   public check(): Promise<Check> {
     return Check.ok()
   }
 
-  /*tslint:disable*/
+  /* tslint:disable */
   public invoke(requestService: RequestService): Promise<Response> {
     const mob = requestService.getMob()
     const attributes = mob.attribute().combine()

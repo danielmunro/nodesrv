@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import {AffectType} from "../../../affect/enum/affectType"
 import Check from "../../../check/check"
 import TimeService from "../../../gameService/timeService"
@@ -16,11 +17,13 @@ import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
 import withValue from "../../../support/functional/withValue"
+import {Types} from "../../../support/types"
 import Describeable from "../../../type/describeable"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class LookAction extends Action {
   protected static async createBuilderFromTarget(
     request: Request, builder: ResponseBuilder, describeable?: Describeable): Promise<Response | undefined> {
@@ -28,10 +31,10 @@ export default class LookAction extends Action {
   }
 
   constructor(
-    private readonly locationService: LocationService,
-    private readonly itemService: ItemService,
-    private readonly timeService: TimeService,
-    private readonly weatherService: WeatherService) {
+    @inject(Types.LocationService) private readonly locationService: LocationService,
+    @inject(Types.ItemService) private readonly itemService: ItemService,
+    @inject(Types.TimeService) private readonly timeService: TimeService,
+    @inject(Types.WeatherService) private readonly weatherService: WeatherService) {
     super()
   }
 

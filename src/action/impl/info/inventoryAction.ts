@@ -1,3 +1,4 @@
+import {injectable} from "inversify"
 import Check from "../../../check/check"
 import {ItemEntity} from "../../../item/entity/itemEntity"
 import {MobEntity} from "../../../mob/entity/mobEntity"
@@ -8,6 +9,7 @@ import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class InventoryAction extends Action {
   private static getItemName(mob: MobEntity, item: ItemEntity): string {
     if (item.affect().isInvisible() && !mob.affect().canDetectInvisible()) {

@@ -14,7 +14,6 @@ import RoomRepository from "../../room/repository/room"
 import RealEstateService from "../../room/service/realEstateService"
 import ClientService from "../../server/service/clientService"
 import Action from "../impl/action"
-import CastAction from "../impl/castAction"
 import QuitAction from "../impl/client/quitAction"
 import SitAction from "../impl/disposition/sitAction"
 import SleepAction from "../impl/disposition/sleepAction"
@@ -22,17 +21,7 @@ import WakeAction from "../impl/disposition/wakeAction"
 import LevelAction from "../impl/improve/levelAction"
 import PracticeAction from "../impl/improve/practiceAction"
 import TrainAction from "../impl/improve/trainAction"
-import AffectsAction from "../impl/info/affectsAction"
-import EquippedAction from "../impl/info/equippedAction"
-import ExitsAction from "../impl/info/exitsAction"
-import HelpAction from "../impl/info/helpAction"
-import InventoryAction from "../impl/info/inventoryAction"
 import LookAction from "../impl/info/lookAction"
-import LoreAction from "../impl/info/loreAction"
-import OwnedAction from "../impl/info/ownedAction"
-import ScanAction from "../impl/info/scanAction"
-import ScoreAction from "../impl/info/scoreAction"
-import WhoAction from "../impl/info/whoAction"
 import BuyAction from "../impl/merchant/buyAction"
 import HealAction from "../impl/merchant/healAction"
 import ListAction from "../impl/merchant/listAction"
@@ -117,22 +106,6 @@ export default function getActionTable(
     hamstringAction(abilityService),
     repairAction(abilityService),
     enduranceAction(abilityService),
-
-    // casting
-    new CastAction(checkBuilderFactory, spellTable),
-
-    // info
-    new ScoreAction(),
-    new ScanAction(checkBuilderFactory, mobService),
-    new AffectsAction(),
-    lookAction,
-    new LoreAction(checkBuilderFactory, itemService),
-    new InventoryAction(),
-    new EquippedAction(),
-    new ExitsAction(),
-    new HelpAction(),
-    new WhoAction(clientService),
-    new OwnedAction(checkBuilderFactory),
 
     // rooms
     new RoomInfoAction(checkBuilderFactory),

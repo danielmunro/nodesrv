@@ -1,3 +1,4 @@
+import {injectable} from "inversify"
 import Check from "../../../check/check"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
@@ -8,14 +9,15 @@ import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class HelpAction extends Action {
   private actions: Action[]
 
   public setActions(actions: Action[]) {
     this.actions = actions
   }
-  public check(request: Request): Promise<Check> {
-    return new Maybe<any>(this.actions.find(
+  public async check(request: Request): Promise<Check> {
+    return new Maybe<Check>(this.actions.find(
       (a: Action) => a.isAbleToHandleRequestType(request.getSubject() as RequestType)))
       .do(action => Check.ok(action))
       .or(() => Check.fail(Messages.Help.Fail))

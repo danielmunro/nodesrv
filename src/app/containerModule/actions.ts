@@ -2,10 +2,21 @@ import {ContainerModule} from "inversify"
 import {ConditionMessages} from "../../action/constants"
 import {ActionPart} from "../../action/enum/actionPart"
 import Action from "../../action/impl/action"
+import CastAction from "../../action/impl/castAction"
 import BountyAction from "../../action/impl/fight/bountyAction"
 import FleeAction from "../../action/impl/fight/fleeAction"
 import HitAction from "../../action/impl/fight/hitAction"
 import KillAction from "../../action/impl/fight/killAction"
+import AffectsAction from "../../action/impl/info/affectsAction"
+import EquippedAction from "../../action/impl/info/equippedAction"
+import ExitsAction from "../../action/impl/info/exitsAction"
+import HelpAction from "../../action/impl/info/helpAction"
+import InventoryAction from "../../action/impl/info/inventoryAction"
+import LookAction from "../../action/impl/info/lookAction"
+import LoreAction from "../../action/impl/info/loreAction"
+import OwnedAction from "../../action/impl/info/ownedAction"
+import ScanAction from "../../action/impl/info/scanAction"
+import ScoreAction from "../../action/impl/info/scoreAction"
 import CloseItemAction from "../../action/impl/item/closeItemAction"
 import DropAction from "../../action/impl/item/dropAction"
 import EatAction from "../../action/impl/item/eatAction"
@@ -100,6 +111,21 @@ export default new ContainerModule(bind => {
   bind<Action>(Types.Actions).to(HitAction)
   bind<Action>(Types.Actions).to(FleeAction)
   bind<Action>(Types.Actions).to(BountyAction)
+
+  // casting
+  bind<Action>(Types.Actions).to(CastAction)
+
+  // info
+  bind<Action>(Types.Actions).to(ScoreAction)
+  bind<Action>(Types.Actions).to(ScanAction)
+  bind<Action>(Types.Actions).to(AffectsAction)
+  bind<Action>(Types.Actions).to(LookAction)
+  bind<Action>(Types.Actions).to(LoreAction)
+  bind<Action>(Types.Actions).to(InventoryAction)
+  bind<Action>(Types.Actions).to(EquippedAction)
+  bind<Action>(Types.Actions).to(ExitsAction)
+  bind<Action>(Types.Actions).to(OwnedAction)
+  bind<Action>(Types.Actions).to(HelpAction)
 
   bind<Action[]>(Types.ActionTable).toDynamicValue(context =>
     getActionTable(

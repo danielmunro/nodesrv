@@ -31,7 +31,8 @@ export default class ActionService {
     @multiInject(Types.Actions) public readonly actions: Action[],
     @inject(Types.Skills) public readonly skills: Skill[],
     @inject(Types.Spells) public readonly spells: Spell[]) {
-    const helpAction = this.actionTable.find(action => action instanceof HelpAction) as HelpAction
+    const helpAction = this.actionTable.find(action => action instanceof HelpAction) as HelpAction ||
+      this.actions.find(action => action instanceof HelpAction) as HelpAction
     if (helpAction) {
       helpAction.setActions(this.actionTable.concat(this.actions))
     }
