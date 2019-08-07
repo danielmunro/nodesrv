@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import {allStats} from "../../../attributes/constants"
 import {Stat} from "../../../attributes/enum/stat"
 import {Vital} from "../../../attributes/enum/vital"
@@ -14,6 +15,7 @@ import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
 import {format} from "../../../support/string"
+import {Types} from "../../../support/types"
 import {ConditionMessages, MAX_TRAINABLE_STATS, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
@@ -62,10 +64,11 @@ const trainMap = [
   newTrainMapEntry(trainVital, Vital.Mv, Messages.Train.Mv),
 ]
 
+@injectable()
 export default class TrainAction extends Action {
   constructor(
-    private readonly checkBuilderFactory: CheckBuilderFactory,
-    private readonly locationService: LocationService) {
+    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.LocationService) private readonly locationService: LocationService) {
     super()
   }
 

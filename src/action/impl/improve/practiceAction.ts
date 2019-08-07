@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
@@ -14,10 +15,12 @@ import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
 import Maybe from "../../../support/functional/maybe/maybe"
 import match from "../../../support/matcher/match"
+import {Types} from "../../../support/types"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class PracticeAction extends Action {
   private static getImproveAmount(mob: MobEntity): number {
     return mob.attribute().getInt() / 2
@@ -36,8 +39,8 @@ export default class PracticeAction extends Action {
   }
 
   constructor(
-    private readonly checkBuilderFactory: CheckBuilderFactory,
-    private readonly mobService: MobService) {
+    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.MobService) private readonly mobService: MobService) {
     super()
   }
 

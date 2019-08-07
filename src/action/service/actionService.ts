@@ -65,7 +65,8 @@ export default class ActionService {
 
   private findActionForRequestType(requestType: RequestType) {
     return this.actionTable.find(action =>
-      action.isAbleToHandleRequestType(requestType)) as Action
+      action.isAbleToHandleRequestType(requestType)) as Action ||
+      this.actions.find(action => action.isAbleToHandleRequestType(requestType)) as Action
   }
 
   private publishInputEvent(request: Request, action: Action) {

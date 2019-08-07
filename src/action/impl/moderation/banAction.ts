@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {MobEntity} from "../../../mob/entity/mobEntity"
@@ -8,6 +9,7 @@ import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
 import Maybe from "../../../support/functional/maybe/maybe"
+import {Types} from "../../../support/types"
 import {
   MESSAGE_FAIL_ALREADY_BANNED, Messages,
 } from "../../constants"
@@ -16,6 +18,7 @@ import {ActionPart} from "../../enum/actionPart"
 import {BanCommand} from "../../enum/banCommand"
 import Action from "../action"
 
+@injectable()
 export default class BanAction extends Action {
   public static getNewStandingFromBanCommand(arg: BanCommand): Standing | undefined {
     switch (arg) {
@@ -37,8 +40,8 @@ export default class BanAction extends Action {
   }
 
   constructor(
-    private readonly checkBuilderFactory: CheckBuilderFactory,
-    private readonly mobService: MobService) {
+    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.MobService) private readonly mobService: MobService) {
     super()
   }
 

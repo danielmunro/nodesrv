@@ -5,19 +5,8 @@ import getHealerSpellTable from "../../mob/healer/healerSpellTable"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import PlayerService from "../../player/service/playerService"
-import SocialService from "../../player/service/socialService"
 import Action from "../impl/action"
-import QuitAction from "../impl/client/quitAction"
-import SitAction from "../impl/disposition/sitAction"
-import SleepAction from "../impl/disposition/sleepAction"
-import WakeAction from "../impl/disposition/wakeAction"
-import PracticeAction from "../impl/improve/practiceAction"
-import TrainAction from "../impl/improve/trainAction"
 import HealAction from "../impl/merchant/healAction"
-import BanAction from "../impl/moderation/banAction"
-import DemoteAction from "../impl/moderation/demoteAction"
-import PromoteAction from "../impl/moderation/promoteAction"
-import UnbanAction from "../impl/moderation/unbanAction"
 import NoopAction from "../impl/noopAction"
 import backstabAction from "../impl/skill/assassin/backstabAction"
 import envenomAction from "../impl/skill/assassin/envenomAction"
@@ -53,7 +42,6 @@ export default function getActionTable(
   locationService: LocationService,
   playerService: PlayerService): Action[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
-  const socialService = new SocialService(checkBuilderFactory, eventService)
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
     // skills
@@ -79,24 +67,6 @@ export default function getActionTable(
 
     // merchants/healers
     new HealAction(checkBuilderFactory, locationService, getHealerSpellTable(spellTable)),
-
-    // improve
-    new TrainAction(checkBuilderFactory, locationService),
-    new PracticeAction(checkBuilderFactory, mobService),
-
-    // // moderation
-    new BanAction(checkBuilderFactory, mobService),
-    new UnbanAction(checkBuilderFactory, mobService),
-    new PromoteAction(checkBuilderFactory, mobService),
-    new DemoteAction(checkBuilderFactory, mobService),
-
-    // disposition
-    new WakeAction(checkBuilderFactory),
-    new SleepAction(checkBuilderFactory),
-    new SitAction(checkBuilderFactory),
-
-    // client
-    new QuitAction(checkBuilderFactory, eventService),
 
     // cc
     new CcListAction(checkBuilderFactory, playerService),

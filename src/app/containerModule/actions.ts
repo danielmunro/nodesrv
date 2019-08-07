@@ -3,11 +3,17 @@ import {ConditionMessages} from "../../action/constants"
 import {ActionPart} from "../../action/enum/actionPart"
 import Action from "../../action/impl/action"
 import CastAction from "../../action/impl/castAction"
+import QuitAction from "../../action/impl/client/quitAction"
+import SitAction from "../../action/impl/disposition/sitAction"
+import SleepAction from "../../action/impl/disposition/sleepAction"
+import WakeAction from "../../action/impl/disposition/wakeAction"
 import BountyAction from "../../action/impl/fight/bountyAction"
 import FleeAction from "../../action/impl/fight/fleeAction"
 import HitAction from "../../action/impl/fight/hitAction"
 import KillAction from "../../action/impl/fight/killAction"
 import LevelAction from "../../action/impl/improve/levelAction"
+import PracticeAction from "../../action/impl/improve/practiceAction"
+import TrainAction from "../../action/impl/improve/trainAction"
 import AffectsAction from "../../action/impl/info/affectsAction"
 import EquippedAction from "../../action/impl/info/equippedAction"
 import ExitsAction from "../../action/impl/info/exitsAction"
@@ -37,6 +43,10 @@ import ListAction from "../../action/impl/merchant/listAction"
 import SellAction from "../../action/impl/merchant/sellAction"
 import FollowAction from "../../action/impl/mob/followAction"
 import TradeRequestAction from "../../action/impl/mob/tradeRequestAction"
+import BanAction from "../../action/impl/moderation/banAction"
+import DemoteAction from "../../action/impl/moderation/demoteAction"
+import PromoteAction from "../../action/impl/moderation/promoteAction"
+import UnbanAction from "../../action/impl/moderation/unbanAction"
 import DownAction from "../../action/impl/move/downAction"
 import EastAction from "../../action/impl/move/eastAction"
 import NorthAction from "../../action/impl/move/northAction"
@@ -157,6 +167,25 @@ export default new ContainerModule(bind => {
   bind<Action>(Types.Actions).to(GossipAction)
   bind<Action>(Types.Actions).to(SayAction)
   bind<Action>(Types.Actions).to(TellAction)
+
+  // improvement
+  bind<Action>(Types.Actions).to(TrainAction)
+  bind<Action>(Types.Actions).to(PracticeAction)
+  bind<Action>(Types.Actions).to(RoomInfoAction)
+
+  // admin
+  bind<Action>(Types.Actions).to(BanAction)
+  bind<Action>(Types.Actions).to(UnbanAction)
+  bind<Action>(Types.Actions).to(PromoteAction)
+  bind<Action>(Types.Actions).to(DemoteAction)
+
+  // disposition
+  bind<Action>(Types.Actions).to(WakeAction)
+  bind<Action>(Types.Actions).to(SleepAction)
+  bind<Action>(Types.Actions).to(SitAction)
+
+  // client
+  bind<Action>(Types.Actions).to(QuitAction)
 
   bind<Action[]>(Types.ActionTable).toDynamicValue(context =>
     getActionTable(
