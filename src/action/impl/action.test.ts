@@ -10,7 +10,7 @@ let action: Action
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
-  action = app.get<ActionService>(Types.ActionService).actionTable.find(a =>
+  action = app.get<ActionService>(Types.ActionService).actions.find(a =>
     a.getRequestType() === RequestType.Noop) as Action
 })
 

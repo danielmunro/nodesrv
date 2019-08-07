@@ -158,8 +158,7 @@ export default class TestRunner {
 
   public async invokeActionAs(
     mob: MobEntity, requestType: RequestType, input?: string, targetMobInRoom?: MobEntity): Promise<Response> {
-    const action = this.actionService.actionTable.find(a => a.getRequestType() === requestType) ||
-      this.actionService.actions.find(a => a.getRequestType() === requestType) as Action
+    const action = this.actionService.actions.find(a => a.getRequestType() === requestType) as Action
     return await action.handle(
       new Request(
         mob,
@@ -172,8 +171,7 @@ export default class TestRunner {
     if (!this.firstMob) {
       await this.createMob()
     }
-    const action = this.actionService.actionTable.find(a => a.getRequestType() === requestType) ||
-      this.actionService.actions.find(a => a.getRequestType() === requestType) as Action
+    const action = this.actionService.actions.find(a => a.getRequestType() === requestType) as Action
     return await action.handle(
       new Request(
         this.firstMob,

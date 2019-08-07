@@ -10,7 +10,6 @@ export const Actions = {
 export const Types = {
   AbilityService: Symbol.for("AbilityService"),
   ActionService: Symbol.for("ActionService"),
-  ActionTable: Symbol.for("ActionTable"),
   Actions: Symbol.for("Actions"),
   CheckBuilderFactory: Symbol.for("CheckBuilderFactory"),
   ClientService: Symbol.for("ClientService"),
@@ -27,6 +26,7 @@ export const Types = {
   GameServer: Symbol.for("GameServerService"),
   GameService: Symbol.for("GameService"),
   HandleClientRequestsObserver: Symbol.for("HandleClientRequestsObserver"),
+  HealerSpells: Symbol.for("HealerSpells"),
   ItemContainerResets: Symbol.for("ItemContainerResets"),
   ItemMobResets: Symbol.for("ItemMobResets"),
   ItemRoomResets: Symbol.for("ItemRoomResets"),

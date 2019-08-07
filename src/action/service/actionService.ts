@@ -27,14 +27,12 @@ export default class ActionService {
   constructor(
     @inject(Types.ClientService) public readonly clientService: ClientService,
     @inject(Types.EventService) public readonly eventService: EventService,
-    @inject(Types.ActionTable) public readonly actionTable: Action[],
     @multiInject(Types.Actions) public readonly actions: Action[],
     @inject(Types.Skills) public readonly skills: Skill[],
     @inject(Types.Spells) public readonly spells: Spell[]) {
-    const helpAction = this.actionTable.find(action => action instanceof HelpAction) as HelpAction ||
-      this.actions.find(action => action instanceof HelpAction) as HelpAction
+    const helpAction = this.actions.find(action => action instanceof HelpAction) as HelpAction
     if (helpAction) {
-      helpAction.setActions(this.actionTable.concat(this.actions))
+      helpAction.setActions(this.actions)
     }
   }
 
@@ -64,9 +62,7 @@ export default class ActionService {
   }
 
   private findActionForRequestType(requestType: RequestType) {
-    return this.actionTable.find(action =>
-      action.isAbleToHandleRequestType(requestType)) as Action ||
-      this.actions.find(action => action.isAbleToHandleRequestType(requestType)) as Action
+    return this.actions.find(action => action.isAbleToHandleRequestType(requestType)) as Action
   }
 
   private publishInputEvent(request: Request, action: Action) {

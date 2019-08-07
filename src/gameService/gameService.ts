@@ -32,7 +32,7 @@ export default class GameService {
   }
 
   public getActions(): Action[] {
-    return this.actionService.actionTable
+    return this.actionService.actions
   }
 
   public getMovementActions(): Move[] {
@@ -40,8 +40,7 @@ export default class GameService {
   }
 
   public getAction(requestType: RequestType): Action {
-    const found = this.actionService.actionTable.find(action => action.isAbleToHandleRequestType(requestType)) ||
-      this.actionService.actions.find(action => action.isAbleToHandleRequestType(requestType))
+    const found = this.actionService.actions.find(action => action.isAbleToHandleRequestType(requestType))
     if (!found) {
       throw new Error(`unknown action for ${requestType}`)
     }

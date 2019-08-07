@@ -39,6 +39,7 @@ import LockAction from "../../action/impl/manipulate/lockAction"
 import OpenDoorAction from "../../action/impl/manipulate/openDoorAction"
 import UnlockAction from "../../action/impl/manipulate/unlockAction"
 import BuyAction from "../../action/impl/merchant/buyAction"
+import HealAction from "../../action/impl/merchant/healAction"
 import ListAction from "../../action/impl/merchant/listAction"
 import SellAction from "../../action/impl/merchant/sellAction"
 import FollowAction from "../../action/impl/mob/followAction"
@@ -54,6 +55,7 @@ import SouthAction from "../../action/impl/move/southAction"
 import UpAction from "../../action/impl/move/upAction"
 import WestAction from "../../action/impl/move/westAction"
 import MultiAction from "../../action/impl/multiAction"
+import NoopAction from "../../action/impl/noopAction"
 import RoomAcceptAction from "../../action/impl/room/roomAcceptAction"
 import RoomBidAction from "../../action/impl/room/roomBidAction"
 import RoomBidListAction from "../../action/impl/room/roomBidListAction"
@@ -89,7 +91,6 @@ import CcListAction from "../../action/impl/subscription/ccListAction"
 import CcRemoveAction from "../../action/impl/subscription/ccRemoveAction"
 import SubscribeAction from "../../action/impl/subscription/subscribeAction"
 import UnsubscribeAction from "../../action/impl/subscription/unsubscribeAction"
-import getActionTable from "../../action/table/actionTable"
 import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
 import AbilityService from "../../check/service/abilityService"
 import EventService from "../../event/service/eventService"
@@ -186,7 +187,7 @@ export default new ContainerModule(bind => {
   bind<Action>(Types.Actions).to(BuyAction)
   bind<Action>(Types.Actions).to(SellAction)
   bind<Action>(Types.Actions).to(ListAction)
-  // bind<Action>(Types.Actions).to(HealAction)
+  bind<Action>(Types.Actions).to(HealAction)
 
   // mobs
   bind<Action>(Types.Actions).to(FollowAction)
@@ -224,6 +225,9 @@ export default new ContainerModule(bind => {
   bind<Action>(Types.Actions).to(SubscribeAction)
   bind<Action>(Types.Actions).to(UnsubscribeAction)
 
+  // noop
+  bind<Action>(Types.Actions).to(NoopAction)
+
   // skills
   bindSkill(bind, backstabAction)
   bindSkill(bind, bashAction)
@@ -245,11 +249,6 @@ export default new ContainerModule(bind => {
   bindSkill(bind, repairAction)
   bindSkill(bind, enduranceAction)
 
-  bind<Action[]>(Types.ActionTable).toDynamicValue(context =>
-    getActionTable(
-      context.container.get<MobService>(Types.MobService),
-      context.container.get<Spell[]>(Types.Spells),
-      context.container.get<LocationService>(Types.LocationService))).inSingletonScope()
   bind<Skill[]>(Types.Skills).toDynamicValue(context =>
     getSkillTable(
       context.container.get<MobService>(Types.MobService),
