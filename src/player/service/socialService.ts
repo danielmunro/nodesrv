@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify"
 import {ConditionMessages} from "../../action/constants"
 import CheckBuilder from "../../check/builder/checkBuilder"
 import Check from "../../check/check"
@@ -8,11 +9,13 @@ import EventService from "../../event/service/eventService"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {isBanned} from "../../mob/enum/standing"
 import Request from "../../request/request"
+import {Types} from "../../support/types"
 
+@injectable()
 export default class SocialService {
   constructor(
-    private readonly checkBuilderFactory: CheckBuilderFactory,
-    private readonly eventService: EventService) {}
+    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.EventService) private readonly eventService: EventService) {}
 
   public async createSocialCheck(request: Request): Promise<Check> {
     return (await this.getSocialCheck(request)).create()

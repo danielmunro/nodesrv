@@ -56,6 +56,7 @@ export const Types = {
   RoomRepository: Symbol.for("RoomRepository"),
   RoomTable: Symbol.for("RoomTable"),
   Skills: Symbol.for("Skills"),
+  SocialService: Symbol.for("SocialService"),
   SpecializationGroups: Symbol.for("SpecializationGroups"),
   SpecializationLevels: Symbol.for("SpecializationLevels"),
   SpecializationService: Symbol.for("SpecializationService"),

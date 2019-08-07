@@ -7,6 +7,7 @@ import BountyAction from "../../action/impl/fight/bountyAction"
 import FleeAction from "../../action/impl/fight/fleeAction"
 import HitAction from "../../action/impl/fight/hitAction"
 import KillAction from "../../action/impl/fight/killAction"
+import LevelAction from "../../action/impl/improve/levelAction"
 import AffectsAction from "../../action/impl/info/affectsAction"
 import EquippedAction from "../../action/impl/info/equippedAction"
 import ExitsAction from "../../action/impl/info/exitsAction"
@@ -31,6 +32,11 @@ import CloseDoorAction from "../../action/impl/manipulate/closeDoorAction"
 import LockAction from "../../action/impl/manipulate/lockAction"
 import OpenDoorAction from "../../action/impl/manipulate/openDoorAction"
 import UnlockAction from "../../action/impl/manipulate/unlockAction"
+import BuyAction from "../../action/impl/merchant/buyAction"
+import ListAction from "../../action/impl/merchant/listAction"
+import SellAction from "../../action/impl/merchant/sellAction"
+import FollowAction from "../../action/impl/mob/followAction"
+import TradeRequestAction from "../../action/impl/mob/tradeRequestAction"
 import DownAction from "../../action/impl/move/downAction"
 import EastAction from "../../action/impl/move/eastAction"
 import NorthAction from "../../action/impl/move/northAction"
@@ -44,6 +50,9 @@ import RoomBidListAction from "../../action/impl/room/roomBidListAction"
 import RoomInfoAction from "../../action/impl/room/roomInfoAction"
 import RoomSellAction from "../../action/impl/room/roomSellAction"
 import Skill from "../../action/impl/skill"
+import GossipAction from "../../action/impl/social/gossipAction"
+import SayAction from "../../action/impl/social/sayAction"
+import TellAction from "../../action/impl/social/tellAction"
 import Spell from "../../action/impl/spell"
 import getActionTable from "../../action/table/actionTable"
 import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
@@ -54,7 +63,6 @@ import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import {getSkillTable} from "../../mob/skill/skillTable"
 import getSpellTable from "../../mob/spell/spellTable"
-import EscrowService from "../../mob/trade/escrowService"
 import PlayerService from "../../player/service/playerService"
 import {RequestType} from "../../request/enum/requestType"
 import {Types} from "../../support/types"
@@ -134,13 +142,28 @@ export default new ContainerModule(bind => {
   bind<Action>(Types.Actions).to(RoomBidListAction)
   bind<Action>(Types.Actions).to(RoomAcceptAction)
 
+  // merchant
+  bind<Action>(Types.Actions).to(BuyAction)
+  bind<Action>(Types.Actions).to(SellAction)
+  bind<Action>(Types.Actions).to(ListAction)
+  // bind<Action>(Types.Actions).to(HealAction)
+
+  // mobs
+  bind<Action>(Types.Actions).to(FollowAction)
+  bind<Action>(Types.Actions).to(LevelAction)
+  bind<Action>(Types.Actions).to(TradeRequestAction)
+
+  // social
+  bind<Action>(Types.Actions).to(GossipAction)
+  bind<Action>(Types.Actions).to(SayAction)
+  bind<Action>(Types.Actions).to(TellAction)
+
   bind<Action[]>(Types.ActionTable).toDynamicValue(context =>
     getActionTable(
       context.container.get<MobService>(Types.MobService),
       context.container.get<EventService>(Types.EventService),
       context.container.get<Spell[]>(Types.Spells),
       context.container.get<LocationService>(Types.LocationService),
-      context.container.get<EscrowService>(Types.EscrowService),
       context.container.get<PlayerService>(Types.PlayerService))).inSingletonScope()
   bind<Skill[]>(Types.Skills).toDynamicValue(context =>
     getSkillTable(

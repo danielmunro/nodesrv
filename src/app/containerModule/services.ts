@@ -16,6 +16,7 @@ import SpecializationService from "../../mob/specialization/service/specializati
 import EscrowService from "../../mob/trade/escrowService"
 import PaymentService from "../../player/service/paymentService"
 import PlayerService from "../../player/service/playerService"
+import SocialService from "../../player/service/socialService"
 import WeatherService from "../../region/service/weatherService"
 import RealEstateService from "../../room/service/realEstateService"
 import ClientService from "../../server/service/clientService"
@@ -46,4 +47,5 @@ export default new ContainerModule(bind => {
   bind<PlayerService>(Types.PlayerService).to(PlayerService).inSingletonScope()
   bind<RealEstateService>(Types.RealEstateListingService).to(RealEstateService).inSingletonScope()
   bind<CheckBuilderFactory>(Types.CheckBuilderFactory).to(CheckBuilderFactory).inSingletonScope()
+  bind<SocialService>(Types.SocialService).to(SocialService).inSingletonScope()
 })

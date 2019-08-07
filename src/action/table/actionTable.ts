@@ -4,7 +4,6 @@ import EventService from "../../event/service/eventService"
 import getHealerSpellTable from "../../mob/healer/healerSpellTable"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
-import EscrowService from "../../mob/trade/escrowService"
 import PlayerService from "../../player/service/playerService"
 import SocialService from "../../player/service/socialService"
 import Action from "../impl/action"
@@ -12,15 +11,9 @@ import QuitAction from "../impl/client/quitAction"
 import SitAction from "../impl/disposition/sitAction"
 import SleepAction from "../impl/disposition/sleepAction"
 import WakeAction from "../impl/disposition/wakeAction"
-import LevelAction from "../impl/improve/levelAction"
 import PracticeAction from "../impl/improve/practiceAction"
 import TrainAction from "../impl/improve/trainAction"
-import BuyAction from "../impl/merchant/buyAction"
 import HealAction from "../impl/merchant/healAction"
-import ListAction from "../impl/merchant/listAction"
-import SellAction from "../impl/merchant/sellAction"
-import FollowAction from "../impl/mob/followAction"
-import TradeRequestAction from "../impl/mob/tradeRequestAction"
 import BanAction from "../impl/moderation/banAction"
 import DemoteAction from "../impl/moderation/demoteAction"
 import PromoteAction from "../impl/moderation/promoteAction"
@@ -45,9 +38,6 @@ import sneakAction from "../impl/skill/thief/sneakAction"
 import stealAction from "../impl/skill/thief/stealAction"
 import berserkAction from "../impl/skill/warrior/berserkAction"
 import disarmAction from "../impl/skill/warrior/disarmAction"
-import GossipAction from "../impl/social/gossipAction"
-import SayAction from "../impl/social/sayAction"
-import TellAction from "../impl/social/tellAction"
 import Spell from "../impl/spell"
 import CcAddAction from "../impl/subscription/ccAddAction"
 import CcListAction from "../impl/subscription/ccListAction"
@@ -61,7 +51,6 @@ export default function getActionTable(
   eventService: EventService,
   spellTable: Spell[],
   locationService: LocationService,
-  escrowService: EscrowService,
   playerService: PlayerService): Action[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
   const socialService = new SocialService(checkBuilderFactory, eventService)
@@ -89,20 +78,7 @@ export default function getActionTable(
     enduranceAction(abilityService),
 
     // merchants/healers
-    new BuyAction(checkBuilderFactory, eventService),
-    new SellAction(checkBuilderFactory, eventService),
-    new ListAction(checkBuilderFactory),
     new HealAction(checkBuilderFactory, locationService, getHealerSpellTable(spellTable)),
-
-    // mob
-    new FollowAction(checkBuilderFactory),
-    new LevelAction(checkBuilderFactory, mobService),
-    new TradeRequestAction(checkBuilderFactory, escrowService),
-
-    // social
-    new GossipAction(socialService),
-    new SayAction(socialService),
-    new TellAction(socialService),
 
     // improve
     new TrainAction(checkBuilderFactory, locationService),
