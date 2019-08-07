@@ -48,7 +48,6 @@ import NorthAction from "../../action/impl/move/northAction"
 import SouthAction from "../../action/impl/move/southAction"
 import UpAction from "../../action/impl/move/upAction"
 import WestAction from "../../action/impl/move/westAction"
-import MultiAction from "../../action/impl/multiAction"
 import closeMultiAction from "../../action/impl/multiAction/closeMultiAction"
 import openMultiAction from "../../action/impl/multiAction/openMultiAction"
 import NoopAction from "../../action/impl/noopAction"
@@ -197,14 +196,17 @@ const actions = [
   UnsubscribeAction,
 ]
 
+const multiActions = [
+  closeMultiAction,
+  openMultiAction,
+]
+
 export default new ContainerModule(bind => {
   actions.forEach(action => bind<Action>(Types.Actions).to(action))
 
   // open/close
-  bind<Action>(Types.Actions).toDynamicValue(context =>
-    closeMultiAction(context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory)))
-  bind<Action>(Types.Actions).toDynamicValue(context =>
-    openMultiAction(context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory)))
+  multiActions.forEach(multiAction => bind<Action>(Types.Actions).toDynamicValue(context =>
+    multiAction(context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory))))
 
   // noop
   bind<Action>(Types.Actions).to(NoopAction)
