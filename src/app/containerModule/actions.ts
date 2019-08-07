@@ -38,13 +38,17 @@ import SouthAction from "../../action/impl/move/southAction"
 import UpAction from "../../action/impl/move/upAction"
 import WestAction from "../../action/impl/move/westAction"
 import MultiAction from "../../action/impl/multiAction"
+import RoomAcceptAction from "../../action/impl/room/roomAcceptAction"
+import RoomBidAction from "../../action/impl/room/roomBidAction"
+import RoomBidListAction from "../../action/impl/room/roomBidListAction"
+import RoomInfoAction from "../../action/impl/room/roomInfoAction"
+import RoomSellAction from "../../action/impl/room/roomSellAction"
 import Skill from "../../action/impl/skill"
 import Spell from "../../action/impl/spell"
 import getActionTable from "../../action/table/actionTable"
 import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
 import EventService from "../../event/service/eventService"
 import StateService from "../../gameService/stateService"
-import TimeService from "../../gameService/timeService"
 import ItemService from "../../item/service/itemService"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
@@ -52,11 +56,7 @@ import {getSkillTable} from "../../mob/skill/skillTable"
 import getSpellTable from "../../mob/spell/spellTable"
 import EscrowService from "../../mob/trade/escrowService"
 import PlayerService from "../../player/service/playerService"
-import WeatherService from "../../region/service/weatherService"
 import {RequestType} from "../../request/enum/requestType"
-import RoomRepository from "../../room/repository/room"
-import RealEstateService from "../../room/service/realEstateService"
-import ClientService from "../../server/service/clientService"
 import {Types} from "../../support/types"
 
 export default new ContainerModule(bind => {
@@ -127,20 +127,21 @@ export default new ContainerModule(bind => {
   bind<Action>(Types.Actions).to(OwnedAction)
   bind<Action>(Types.Actions).to(HelpAction)
 
+  // rooms
+  bind<Action>(Types.Actions).to(RoomInfoAction)
+  bind<Action>(Types.Actions).to(RoomSellAction)
+  bind<Action>(Types.Actions).to(RoomBidAction)
+  bind<Action>(Types.Actions).to(RoomBidListAction)
+  bind<Action>(Types.Actions).to(RoomAcceptAction)
+
   bind<Action[]>(Types.ActionTable).toDynamicValue(context =>
     getActionTable(
       context.container.get<MobService>(Types.MobService),
-      context.container.get<ItemService>(Types.ItemService),
-      context.container.get<TimeService>(Types.TimeService),
       context.container.get<EventService>(Types.EventService),
-      context.container.get<WeatherService>(Types.WeatherService),
       context.container.get<Spell[]>(Types.Spells),
       context.container.get<LocationService>(Types.LocationService),
       context.container.get<EscrowService>(Types.EscrowService),
-      context.container.get<PlayerService>(Types.PlayerService),
-      context.container.get<ClientService>(Types.ClientService),
-      context.container.get<RealEstateService>(Types.RealEstateListingService),
-      context.container.get<RoomRepository>(Types.RoomRepository))).inSingletonScope()
+      context.container.get<PlayerService>(Types.PlayerService))).inSingletonScope()
   bind<Skill[]>(Types.Skills).toDynamicValue(context =>
     getSkillTable(
       context.container.get<MobService>(Types.MobService),

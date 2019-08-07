@@ -1,15 +1,19 @@
+import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
+import {Types} from "../../../support/types"
 import {ConditionMessages, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
+@injectable()
 export default class RoomInfoAction extends Action {
-  constructor(private readonly checkBuilderFactory: CheckBuilderFactory) {
+  constructor(
+    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory) {
     super()
   }
 

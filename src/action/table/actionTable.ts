@@ -1,18 +1,12 @@
 import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
 import AbilityService from "../../check/service/abilityService"
 import EventService from "../../event/service/eventService"
-import TimeService from "../../gameService/timeService"
-import ItemService from "../../item/service/itemService"
 import getHealerSpellTable from "../../mob/healer/healerSpellTable"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
 import EscrowService from "../../mob/trade/escrowService"
 import PlayerService from "../../player/service/playerService"
 import SocialService from "../../player/service/socialService"
-import WeatherService from "../../region/service/weatherService"
-import RoomRepository from "../../room/repository/room"
-import RealEstateService from "../../room/service/realEstateService"
-import ClientService from "../../server/service/clientService"
 import Action from "../impl/action"
 import QuitAction from "../impl/client/quitAction"
 import SitAction from "../impl/disposition/sitAction"
@@ -21,7 +15,6 @@ import WakeAction from "../impl/disposition/wakeAction"
 import LevelAction from "../impl/improve/levelAction"
 import PracticeAction from "../impl/improve/practiceAction"
 import TrainAction from "../impl/improve/trainAction"
-import LookAction from "../impl/info/lookAction"
 import BuyAction from "../impl/merchant/buyAction"
 import HealAction from "../impl/merchant/healAction"
 import ListAction from "../impl/merchant/listAction"
@@ -33,11 +26,6 @@ import DemoteAction from "../impl/moderation/demoteAction"
 import PromoteAction from "../impl/moderation/promoteAction"
 import UnbanAction from "../impl/moderation/unbanAction"
 import NoopAction from "../impl/noopAction"
-import RoomAcceptAction from "../impl/room/roomAcceptAction"
-import RoomBidAction from "../impl/room/roomBidAction"
-import RoomBidListAction from "../impl/room/roomBidListAction"
-import RoomInfoAction from "../impl/room/roomInfoAction"
-import RoomSellAction from "../impl/room/roomSellAction"
 import backstabAction from "../impl/skill/assassin/backstabAction"
 import envenomAction from "../impl/skill/assassin/envenomAction"
 import eyeGougeAction from "../impl/skill/assassin/eyeGougeAction"
@@ -70,19 +58,12 @@ import UnsubscribeAction from "../impl/subscription/unsubscribeAction"
 /* tslint:disable */
 export default function getActionTable(
   mobService: MobService,
-  itemService: ItemService,
-  timeService: TimeService,
   eventService: EventService,
-  weatherService: WeatherService,
   spellTable: Spell[],
   locationService: LocationService,
   escrowService: EscrowService,
-  playerService: PlayerService,
-  clientService: ClientService,
-  realEstateService: RealEstateService,
-  roomRepository: RoomRepository): Action[] {
+  playerService: PlayerService): Action[] {
   const checkBuilderFactory = new CheckBuilderFactory(mobService)
-  const lookAction = new LookAction(locationService, itemService, timeService, weatherService)
   const socialService = new SocialService(checkBuilderFactory, eventService)
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
@@ -106,13 +87,6 @@ export default function getActionTable(
     hamstringAction(abilityService),
     repairAction(abilityService),
     enduranceAction(abilityService),
-
-    // rooms
-    new RoomInfoAction(checkBuilderFactory),
-    new RoomSellAction(checkBuilderFactory, realEstateService),
-    new RoomBidAction(checkBuilderFactory, realEstateService),
-    new RoomBidListAction(checkBuilderFactory, realEstateService),
-    new RoomAcceptAction(checkBuilderFactory, realEstateService, mobService, clientService, roomRepository),
 
     // merchants/healers
     new BuyAction(checkBuilderFactory, eventService),
