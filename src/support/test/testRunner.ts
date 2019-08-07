@@ -1,4 +1,4 @@
-import {inject, injectable} from "inversify"
+import {inject, injectable, multiInject} from "inversify"
 import Action from "../../action/impl/action"
 import Skill from "../../action/impl/skill"
 import ActionService from "../../action/service/actionService"
@@ -56,7 +56,7 @@ export default class TestRunner {
     @inject(Types.ExitTable) private readonly exitTable: ExitTable,
     @inject(Types.ItemService) private readonly itemService: ItemService,
     @inject(Types.ActionService) private readonly actionService: ActionService,
-    @inject(Types.Skills) private readonly skills: Skill[],
+    @multiInject(Types.Skills) private readonly skills: Skill[],
     @inject(Types.StateService) private readonly stateService: StateService,
     @inject(Types.SpecializationService) private readonly specializationService: SpecializationService,
     @inject(Types.PlayerTable) private readonly playerTable: PlayerTable,

@@ -28,7 +28,7 @@ export default class ActionService {
     @inject(Types.ClientService) public readonly clientService: ClientService,
     @inject(Types.EventService) public readonly eventService: EventService,
     @multiInject(Types.Actions) public readonly actions: Action[],
-    @inject(Types.Skills) public readonly skills: Skill[],
+    @multiInject(Types.Skills) public readonly skills: Skill[],
     @inject(Types.Spells) public readonly spells: Spell[]) {
     const helpAction = this.actions.find(action => action instanceof HelpAction) as HelpAction
     if (helpAction) {
