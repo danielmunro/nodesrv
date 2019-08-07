@@ -7,6 +7,7 @@ import {CheckType} from "../../check/enum/checkType"
 import AbilityService from "../../check/service/abilityService"
 import {createTouchEvent} from "../../event/factory/eventFactory"
 import {MobEntity} from "../../mob/entity/mobEntity"
+import {SkillEntity} from "../../mob/skill/entity/skillEntity"
 import SkillEvent from "../../mob/skill/event/skillEvent"
 import {SkillType} from "../../mob/skill/skillType"
 import {RequestType} from "../../request/enum/requestType"
@@ -54,7 +55,7 @@ export default class Skill extends Action {
       }
     }
     const applyResponse = await this.getAffectFromApplySkill(requestService)
-    const checkTarget = requestService.getResult(CheckType.HasTarget)
+    const checkTarget = requestService.getResult<MobEntity>(CheckType.HasTarget)
     if (applyResponse) {
       this.applyAffectIfAffectCreated(requestService, checkTarget, applyResponse.affect)
     }
@@ -132,7 +133,7 @@ export default class Skill extends Action {
 
   private async doRoll(requestService: RequestService): Promise<boolean> {
     const rollResultInitial = this.roll(requestService)
-    const skill = requestService.getResult(CheckType.HasSkill)
+    const skill = requestService.getResult<SkillEntity>(CheckType.HasSkill)
     const eventResponse = await this.abilityService.publishEvent(
       requestService.createSkillEvent(skill, rollResultInitial))
     return (eventResponse.event as SkillEvent).rollResult

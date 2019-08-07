@@ -60,6 +60,7 @@ import RoomBidListAction from "../../action/impl/room/roomBidListAction"
 import RoomInfoAction from "../../action/impl/room/roomInfoAction"
 import RoomSellAction from "../../action/impl/room/roomSellAction"
 import Skill from "../../action/impl/skill"
+import backstabAction from "../../action/impl/skill/assassin/backstabAction"
 import GossipAction from "../../action/impl/social/gossipAction"
 import SayAction from "../../action/impl/social/sayAction"
 import TellAction from "../../action/impl/social/tellAction"
@@ -71,6 +72,7 @@ import SubscribeAction from "../../action/impl/subscription/subscribeAction"
 import UnsubscribeAction from "../../action/impl/subscription/unsubscribeAction"
 import getActionTable from "../../action/table/actionTable"
 import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
+import AbilityService from "../../check/service/abilityService"
 import EventService from "../../event/service/eventService"
 import StateService from "../../gameService/stateService"
 import ItemService from "../../item/service/itemService"
@@ -197,6 +199,10 @@ export default new ContainerModule(bind => {
   bind<Action>(Types.Actions).to(CcRemoveAction)
   bind<Action>(Types.Actions).to(SubscribeAction)
   bind<Action>(Types.Actions).to(UnsubscribeAction)
+
+  // skills
+  bind<Action>(Types.Actions).toDynamicValue(context =>
+    backstabAction(context.container.get<AbilityService>(Types.AbilityService)))
 
   bind<Action[]>(Types.ActionTable).toDynamicValue(context =>
     getActionTable(

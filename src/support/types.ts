@@ -8,6 +8,7 @@ export const Actions = {
 }
 
 export const Types = {
+  AbilityService: Symbol.for("AbilityService"),
   ActionService: Symbol.for("ActionService"),
   ActionTable: Symbol.for("ActionTable"),
   Actions: Symbol.for("Actions"),

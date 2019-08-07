@@ -1,6 +1,7 @@
 import {ContainerModule} from "inversify"
 import ActionService from "../../action/service/actionService"
 import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
+import AbilityService from "../../check/service/abilityService"
 import EventService from "../../event/service/eventService"
 import GameService from "../../gameService/gameService"
 import ResetService from "../../gameService/resetService"
@@ -48,4 +49,5 @@ export default new ContainerModule(bind => {
   bind<RealEstateService>(Types.RealEstateListingService).to(RealEstateService).inSingletonScope()
   bind<CheckBuilderFactory>(Types.CheckBuilderFactory).to(CheckBuilderFactory).inSingletonScope()
   bind<SocialService>(Types.SocialService).to(SocialService).inSingletonScope()
+  bind<AbilityService>(Types.AbilityService).to(AbilityService).inSingletonScope()
 })

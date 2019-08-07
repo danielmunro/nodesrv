@@ -7,7 +7,6 @@ import MobService from "../../mob/service/mobService"
 import Action from "../impl/action"
 import HealAction from "../impl/merchant/healAction"
 import NoopAction from "../impl/noopAction"
-import backstabAction from "../impl/skill/assassin/backstabAction"
 import envenomAction from "../impl/skill/assassin/envenomAction"
 import eyeGougeAction from "../impl/skill/assassin/eyeGougeAction"
 import garotteAction from "../impl/skill/assassin/garotteAction"
@@ -38,7 +37,6 @@ export default function getActionTable(
   const abilityService = new AbilityService(checkBuilderFactory, eventService)
   return [
     // skills
-    backstabAction(abilityService),
     bashAction(abilityService),
     berserkAction(abilityService),
     dirtKickAction(abilityService),
