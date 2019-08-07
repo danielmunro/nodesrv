@@ -108,28 +108,102 @@ function bindSkill(bind: Bind, method: (abilityService: AbilityService) => Skill
     method(context.container.get<AbilityService>(Types.AbilityService)))
 }
 
-export default new ContainerModule(bind => {
-  // moving
-  bind<Action>(Types.Actions).to(NorthAction)
-  bind<Action>(Types.Actions).to(SouthAction)
-  bind<Action>(Types.Actions).to(EastAction)
-  bind<Action>(Types.Actions).to(WestAction)
-  bind<Action>(Types.Actions).to(UpAction)
-  bind<Action>(Types.Actions).to(DownAction)
+const actions = [
+  // directions
+  NorthAction,
+  SouthAction,
+  EastAction,
+  WestAction,
+  UpAction,
+  DownAction,
 
   // items
-  bind<Action>(Types.Actions).to(GetAction)
-  bind<Action>(Types.Actions).to(DropAction)
-  bind<Action>(Types.Actions).to(PutAction)
-  bind<Action>(Types.Actions).to(WearAction)
-  bind<Action>(Types.Actions).to(RemoveAction)
-  bind<Action>(Types.Actions).to(EatAction)
-  bind<Action>(Types.Actions).to(SacrificeAction)
-  bind<Action>(Types.Actions).to(LootAction)
+  GetAction,
+  DropAction,
+  PutAction,
+  WearAction,
+  RemoveAction,
+  EatAction,
+  SacrificeAction,
+  LootAction,
 
   // locks
-  bind<Action>(Types.Actions).to(UnlockAction)
-  bind<Action>(Types.Actions).to(LockAction)
+  UnlockAction,
+  LockAction,
+
+  // fighting
+  KillAction,
+  HitAction,
+  FleeAction,
+  BountyAction,
+
+  // casting
+  CastAction,
+
+  // info
+  ScoreAction,
+  ScanAction,
+  AffectsAction,
+  LookAction,
+  LoreAction,
+  InventoryAction,
+  EquippedAction,
+  ExitsAction,
+  OwnedAction,
+  HelpAction,
+
+  // rooms
+  RoomInfoAction,
+  RoomSellAction,
+  RoomBidAction,
+  RoomBidListAction,
+  RoomAcceptAction,
+
+  // trade
+  BuyAction,
+  SellAction,
+  ListAction,
+  HealAction,
+
+  // mobs
+  FollowAction,
+  LevelAction,
+  TradeRequestAction,
+
+  // social
+  GossipAction,
+  SayAction,
+  TellAction,
+
+  // improvement
+  TrainAction,
+  PracticeAction,
+  RoomInfoAction,
+
+  // admin
+  BanAction,
+  UnbanAction,
+  PromoteAction,
+  DemoteAction,
+
+  // disposition
+  WakeAction,
+  SleepAction,
+  SitAction,
+
+  // client
+  QuitAction,
+
+  // subscriptions
+  CcListAction,
+  CcAddAction,
+  CcRemoveAction,
+  SubscribeAction,
+  UnsubscribeAction,
+]
+
+export default new ContainerModule(bind => {
+  actions.forEach(action => bind<Action>(Types.Actions).to(action))
 
   // open/close
   bind<Action>(Types.Actions).toDynamicValue(context => {
@@ -154,76 +228,6 @@ export default new ContainerModule(bind => {
         new OpenDoorAction(checkBuilderFactory),
       ])
   })
-
-  // fighting
-  bind<Action>(Types.Actions).to(KillAction)
-  bind<Action>(Types.Actions).to(HitAction)
-  bind<Action>(Types.Actions).to(FleeAction)
-  bind<Action>(Types.Actions).to(BountyAction)
-
-  // casting
-  bind<Action>(Types.Actions).to(CastAction)
-
-  // info
-  bind<Action>(Types.Actions).to(ScoreAction)
-  bind<Action>(Types.Actions).to(ScanAction)
-  bind<Action>(Types.Actions).to(AffectsAction)
-  bind<Action>(Types.Actions).to(LookAction)
-  bind<Action>(Types.Actions).to(LoreAction)
-  bind<Action>(Types.Actions).to(InventoryAction)
-  bind<Action>(Types.Actions).to(EquippedAction)
-  bind<Action>(Types.Actions).to(ExitsAction)
-  bind<Action>(Types.Actions).to(OwnedAction)
-  bind<Action>(Types.Actions).to(HelpAction)
-
-  // rooms
-  bind<Action>(Types.Actions).to(RoomInfoAction)
-  bind<Action>(Types.Actions).to(RoomSellAction)
-  bind<Action>(Types.Actions).to(RoomBidAction)
-  bind<Action>(Types.Actions).to(RoomBidListAction)
-  bind<Action>(Types.Actions).to(RoomAcceptAction)
-
-  // merchant
-  bind<Action>(Types.Actions).to(BuyAction)
-  bind<Action>(Types.Actions).to(SellAction)
-  bind<Action>(Types.Actions).to(ListAction)
-  bind<Action>(Types.Actions).to(HealAction)
-
-  // mobs
-  bind<Action>(Types.Actions).to(FollowAction)
-  bind<Action>(Types.Actions).to(LevelAction)
-  bind<Action>(Types.Actions).to(TradeRequestAction)
-
-  // social
-  bind<Action>(Types.Actions).to(GossipAction)
-  bind<Action>(Types.Actions).to(SayAction)
-  bind<Action>(Types.Actions).to(TellAction)
-
-  // improvement
-  bind<Action>(Types.Actions).to(TrainAction)
-  bind<Action>(Types.Actions).to(PracticeAction)
-  bind<Action>(Types.Actions).to(RoomInfoAction)
-
-  // admin
-  bind<Action>(Types.Actions).to(BanAction)
-  bind<Action>(Types.Actions).to(UnbanAction)
-  bind<Action>(Types.Actions).to(PromoteAction)
-  bind<Action>(Types.Actions).to(DemoteAction)
-
-  // disposition
-  bind<Action>(Types.Actions).to(WakeAction)
-  bind<Action>(Types.Actions).to(SleepAction)
-  bind<Action>(Types.Actions).to(SitAction)
-
-  // client
-  bind<Action>(Types.Actions).to(QuitAction)
-
-  // subscriptions
-  bind<Action>(Types.Actions).to(CcListAction)
-  bind<Action>(Types.Actions).to(CcAddAction)
-  bind<Action>(Types.Actions).to(CcRemoveAction)
-  bind<Action>(Types.Actions).to(SubscribeAction)
-  bind<Action>(Types.Actions).to(UnsubscribeAction)
 
   // noop
   bind<Action>(Types.Actions).to(NoopAction)
