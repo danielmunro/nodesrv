@@ -1,4 +1,4 @@
-import {ContainerModule} from "inversify"
+import {ContainerModule, interfaces} from "inversify"
 import {ConditionMessages} from "../../action/constants"
 import {ActionPart} from "../../action/enum/actionPart"
 import Action from "../../action/impl/action"
@@ -61,6 +61,25 @@ import RoomInfoAction from "../../action/impl/room/roomInfoAction"
 import RoomSellAction from "../../action/impl/room/roomSellAction"
 import Skill from "../../action/impl/skill"
 import backstabAction from "../../action/impl/skill/assassin/backstabAction"
+import envenomAction from "../../action/impl/skill/assassin/envenomAction"
+import eyeGougeAction from "../../action/impl/skill/assassin/eyeGougeAction"
+import garotteAction from "../../action/impl/skill/assassin/garotteAction"
+import hamstringAction from "../../action/impl/skill/assassin/hamstringAction"
+import tripAction from "../../action/impl/skill/assassin/tripAction"
+import Bind = interfaces.Bind
+import bashAction from "../../action/impl/skill/brawler/bashAction"
+import shieldBashAction from "../../action/impl/skill/brawler/shieldBashAction"
+import repairAction from "../../action/impl/skill/crafting/repairAction"
+import sharpenAction from "../../action/impl/skill/crafting/sharpenAction"
+import detectHiddenAction from "../../action/impl/skill/detection/detectHiddenAction"
+import detectTouchAction from "../../action/impl/skill/detection/detectTouchAction"
+import enduranceAction from "../../action/impl/skill/endurance/enduranceAction"
+import dirtKickAction from "../../action/impl/skill/evasion/dirtKickAction"
+import peekAction from "../../action/impl/skill/thief/peekAction"
+import sneakAction from "../../action/impl/skill/thief/sneakAction"
+import stealAction from "../../action/impl/skill/thief/stealAction"
+import berserkAction from "../../action/impl/skill/warrior/berserkAction"
+import disarmAction from "../../action/impl/skill/warrior/disarmAction"
 import GossipAction from "../../action/impl/social/gossipAction"
 import SayAction from "../../action/impl/social/sayAction"
 import TellAction from "../../action/impl/social/tellAction"
@@ -82,6 +101,11 @@ import {getSkillTable} from "../../mob/skill/skillTable"
 import getSpellTable from "../../mob/spell/spellTable"
 import {RequestType} from "../../request/enum/requestType"
 import {Types} from "../../support/types"
+
+function bindSkill(bind: Bind, method: (abilityService: AbilityService) => Skill) {
+  bind<Action>(Types.Actions).toDynamicValue(context =>
+    method(context.container.get<AbilityService>(Types.AbilityService)))
+}
 
 export default new ContainerModule(bind => {
   // moving
@@ -201,13 +225,29 @@ export default new ContainerModule(bind => {
   bind<Action>(Types.Actions).to(UnsubscribeAction)
 
   // skills
-  bind<Action>(Types.Actions).toDynamicValue(context =>
-    backstabAction(context.container.get<AbilityService>(Types.AbilityService)))
+  bindSkill(bind, backstabAction)
+  bindSkill(bind, bashAction)
+  bindSkill(bind, berserkAction)
+  bindSkill(bind, dirtKickAction)
+  bindSkill(bind, disarmAction)
+  bindSkill(bind, tripAction)
+  bindSkill(bind, envenomAction)
+  bindSkill(bind, sharpenAction)
+  bindSkill(bind, sneakAction)
+  bindSkill(bind, stealAction)
+  bindSkill(bind, shieldBashAction)
+  bindSkill(bind, peekAction)
+  bindSkill(bind, garotteAction)
+  bindSkill(bind, detectHiddenAction)
+  bindSkill(bind, detectTouchAction)
+  bindSkill(bind, eyeGougeAction)
+  bindSkill(bind, hamstringAction)
+  bindSkill(bind, repairAction)
+  bindSkill(bind, enduranceAction)
 
   bind<Action[]>(Types.ActionTable).toDynamicValue(context =>
     getActionTable(
       context.container.get<MobService>(Types.MobService),
-      context.container.get<EventService>(Types.EventService),
       context.container.get<Spell[]>(Types.Spells),
       context.container.get<LocationService>(Types.LocationService))).inSingletonScope()
   bind<Skill[]>(Types.Skills).toDynamicValue(context =>
