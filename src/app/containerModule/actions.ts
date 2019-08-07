@@ -194,6 +194,7 @@ const actions = [
   CcRemoveAction,
   SubscribeAction,
   UnsubscribeAction,
+  NoopAction,
 ]
 
 const multiActions = [
@@ -201,36 +202,37 @@ const multiActions = [
   openMultiAction,
 ]
 
+const skillActions = [
+  backstabAction,
+  bashAction,
+  berserkAction,
+  dirtKickAction,
+  disarmAction,
+  tripAction,
+  envenomAction,
+  sharpenAction,
+  sneakAction,
+  stealAction,
+  shieldBashAction,
+  peekAction,
+  garotteAction,
+  detectHiddenAction,
+  detectTouchAction,
+  eyeGougeAction,
+  hamstringAction,
+  repairAction,
+  enduranceAction,
+]
+
 export default new ContainerModule(bind => {
   actions.forEach(action => bind<Action>(Types.Actions).to(action))
 
-  // open/close
   multiActions.forEach(multiAction => bind<Action>(Types.Actions).toDynamicValue(context =>
     multiAction(context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory))))
 
-  // noop
-  bind<Action>(Types.Actions).to(NoopAction)
-
-  // skills
-  bindSkill(bind, backstabAction)
-  bindSkill(bind, bashAction)
-  bindSkill(bind, berserkAction)
-  bindSkill(bind, dirtKickAction)
-  bindSkill(bind, disarmAction)
-  bindSkill(bind, tripAction)
-  bindSkill(bind, envenomAction)
-  bindSkill(bind, sharpenAction)
-  bindSkill(bind, sneakAction)
-  bindSkill(bind, stealAction)
-  bindSkill(bind, shieldBashAction)
-  bindSkill(bind, peekAction)
-  bindSkill(bind, garotteAction)
-  bindSkill(bind, detectHiddenAction)
-  bindSkill(bind, detectTouchAction)
-  bindSkill(bind, eyeGougeAction)
-  bindSkill(bind, hamstringAction)
-  bindSkill(bind, repairAction)
-  bindSkill(bind, enduranceAction)
+  skillActions.forEach(skillAction =>
+    bind<Action>(Types.Actions).toDynamicValue(context =>
+      skillAction(context.container.get<AbilityService>(Types.AbilityService))))
 
   bind<Skill[]>(Types.Skills).toDynamicValue(context =>
     getSkillTable(
