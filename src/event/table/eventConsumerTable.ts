@@ -105,7 +105,7 @@ export default function createEventConsumerTable(
     new MobClientDisconnected(locationService),
     new MobCreatedEventConsumer(mobService, clientService, gameServer.startRoom),
     new DamageModifierEventConsumer(),
-    new FollowMobEventConsumer(locationService, gameService.getMovementActions()),
+    new FollowMobEventConsumer(mobService, gameService.getMovementActions()),
     new DeathTimerEventConsumer(eventService),
 
     // player

@@ -41,6 +41,7 @@ export const Messages = {
     Success: "{requestCreator} {verb} to the {direction}!",
   },
   Follow: {
+    NotAllowed: "They are not accepting followers at this time.",
     Success: "{requestCreator} {verb} following {target}.",
   },
   Get: {
@@ -74,6 +75,9 @@ export const Messages = {
   },
   Lore: {
     Success: "{item} details:\nlevel: {level}  weight: {weight}  value: {value}",
+  },
+  NoFollow: {
+    Success: "{requestCreator} {verb} accepting followers.",
   },
   OpenContainer: {
     Success: "{requestCreator} {openVerb} {item}.",

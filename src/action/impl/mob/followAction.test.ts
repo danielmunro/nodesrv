@@ -1,12 +1,16 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
+import MobService from "../../../mob/service/mobService"
 import {RequestType} from "../../../request/enum/requestType"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 
 let testRunner: TestRunner
+let mobService: MobService
 
 beforeEach(async () => {
-  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  mobService = app.get<MobService>(Types.MobService)
 })
 
 describe("follow action", () => {
@@ -25,5 +29,17 @@ describe("follow action", () => {
       .toBe(`${follower.getMobName()} begins following you.`)
     expect(response.message.getMessageToObservers())
       .toBe(`${follower.getMobName()} begins following ${target.getMobName()}.`)
+  })
+
+  it("registers in the mob service", async () => {
+    // given
+    const mob = (await testRunner.createMob()).get()
+    const target = await testRunner.createMob()
+
+    // when
+    await testRunner.invokeAction(RequestType.Follow, `follow '${target.getMobName()}'`)
+
+    // then
+    expect(mobService.getFollowers(mob)).toHaveLength(1)
   })
 })

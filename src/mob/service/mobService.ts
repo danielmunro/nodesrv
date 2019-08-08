@@ -12,6 +12,7 @@ import MobResetEntity from "../entity/mobResetEntity"
 import {newMobLocation} from "../factory/mobFactory"
 import {Fight} from "../fight/fight"
 import FightTable from "../fight/fightTable"
+import Follow from "../follow"
 import MobRepository from "../repository/mob"
 import {SkillEntity} from "../skill/entity/skillEntity"
 import {newSkill} from "../skill/factory"
@@ -63,7 +64,8 @@ export default class MobService {
     @inject(Types.KafkaService) private readonly kafkaService: KafkaService,
     @inject(Types.MobRepository) private readonly mobRepository: MobRepository,
     public readonly mobTable: MobTable = new MobTable(),
-    private readonly fightTable: FightTable = new FightTable()) {}
+    private readonly fightTable: FightTable = new FightTable(),
+    private follows: Follow[] = []) {}
 
   public async add(mob: MobEntity, room: RoomEntity) {
     this.mobTable.add(mob)
@@ -145,5 +147,18 @@ export default class MobService {
 
   public async save(mob: MobEntity): Promise<void> {
     await this.mobRepository.save(mob)
+  }
+
+  public follow(mob: MobEntity, follower: MobEntity) {
+    this.follows.push({ mob, follower })
+  }
+
+  public getFollowers(mob: MobEntity): MobEntity[] {
+    return this.follows.filter(follow => follow.mob.is(mob))
+      .map(follow => follow.follower)
+  }
+
+  public removeFollowers(mob: MobEntity) {
+    this.follows = this.follows.filter(followed => !followed.mob.is(mob))
   }
 }

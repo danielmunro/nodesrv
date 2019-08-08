@@ -86,6 +86,9 @@ export class MobEntity {
   @Column("float")
   public mv: number
 
+  @Column({ default: true })
+  public allowFollow: boolean
+
   @OneToOne(() => DamageSourceEntity, { cascade: true, eager: true })
   @JoinColumn()
   public immune: DamageSourceEntity

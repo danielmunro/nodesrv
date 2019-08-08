@@ -35,6 +35,7 @@ import HealAction from "../../../action/impl/merchant/healAction"
 import ListAction from "../../../action/impl/merchant/listAction"
 import SellAction from "../../../action/impl/merchant/sellAction"
 import FollowAction from "../../../action/impl/mob/followAction"
+import NoFollowAction from "../../../action/impl/mob/noFollowAction"
 import TradeRequestAction from "../../../action/impl/mob/tradeRequestAction"
 import BanAction from "../../../action/impl/moderation/banAction"
 import DemoteAction from "../../../action/impl/moderation/demoteAction"
@@ -120,6 +121,7 @@ export const actions = [
 
   // mobs
   FollowAction,
+  NoFollowAction,
   LevelAction,
   TradeRequestAction,
 

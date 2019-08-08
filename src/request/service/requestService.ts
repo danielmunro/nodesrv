@@ -32,6 +32,11 @@ export default class RequestService {
     return this.checkedRequest.mob.level
   }
 
+  public setAllowFollow(): boolean {
+    this.checkedRequest.mob.allowFollow = !this.checkedRequest.mob.allowFollow
+    return this.checkedRequest.mob.allowFollow
+  }
+
   public setFollow(mob: MobEntity) {
     this.checkedRequest.mob.follows = mob
   }

@@ -7,9 +7,11 @@ import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {MobEntity} from "../entity/mobEntity"
 import LocationService from "../service/locationService"
+import MobService from "../service/mobService"
 
 let testRunner: TestRunner
 let locationService: LocationService
+let mobService: MobService
 let mob1: MobEntity
 let mob2: MobEntity
 let room1: RoomBuilder
@@ -26,12 +28,13 @@ beforeEach(async () => {
   mob1 = (await testRunner.createMob()).get()
   mob2 = (await testRunner.createMob()).get()
   locationService = app.get<LocationService>(Types.LocationService)
+  mobService = app.get<MobService>(Types.MobService)
 })
 
 describe("follow mob event consumer", () => {
   it("follows a mob to a new room", async () => {
     // given
-    mob2.follows = mob1
+    mobService.follow(mob1, mob2)
 
     // when
     await testRunner.invokeAction(RequestType.South)
@@ -55,7 +58,7 @@ describe("follow mob event consumer", () => {
     await locationService.moveMob(mob1, Direction.South)
 
     // given
-    mob2.follows = mob1
+    mobService.follow(mob1, mob2)
 
     // when
     await locationService.moveMob(mob1, Direction.South)

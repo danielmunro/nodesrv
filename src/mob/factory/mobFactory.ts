@@ -76,6 +76,7 @@ export function createMob(): MobEntity {
   mob.equipped = createInventory()
   mob.skills = []
   mob.spells = []
+  mob.allowFollow = true
   return mob
 }
 
