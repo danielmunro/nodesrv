@@ -42,4 +42,19 @@ describe("follow action", () => {
     // then
     expect(mobService.getFollowers(mob)).toHaveLength(1)
   })
+
+  it("cannot follow no follow'd mobs", async () => {
+    // setup
+    await testRunner.createMob()
+    const target = (await testRunner.createMob()).get()
+
+    // given
+    target.allowFollow = false
+
+    // when
+    const response = await testRunner.invokeAction(RequestType.Follow, `follow '${target.name}'`)
+
+    // then
+    expect(response.getMessageToRequestCreator()).toBe("They are not accepting followers at this time.")
+  })
 })

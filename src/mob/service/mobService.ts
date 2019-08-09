@@ -12,7 +12,6 @@ import MobResetEntity from "../entity/mobResetEntity"
 import {newMobLocation} from "../factory/mobFactory"
 import {Fight} from "../fight/fight"
 import FightTable from "../fight/fightTable"
-import Follow from "../follow"
 import MobRepository from "../repository/mob"
 import {SkillEntity} from "../skill/entity/skillEntity"
 import {newSkill} from "../skill/factory"
@@ -23,6 +22,7 @@ import {defaultSpecializationLevels} from "../specialization/specializationLevel
 import {SpellEntity} from "../spell/entity/spellEntity"
 import {SpellType} from "../spell/spellType"
 import MobTable from "../table/mobTable"
+import Follow from "../type/follow"
 import LocationService from "./locationService"
 
 function createSkillFromSkillType(skillType: SkillType, levelObtained: number): SkillEntity {
