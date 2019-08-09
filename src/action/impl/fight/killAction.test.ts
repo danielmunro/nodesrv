@@ -106,12 +106,12 @@ describe("kill action", () => {
     const response = await testRunner.invokeAction(RequestType.Kill, `kill ${target.getMobName()}`)
 
     // then
-    expect(response.status).toBe(ResponseStatus.ActionFailed)
     expect(response.getMessageToRequestCreator())
       .toBe(`you bounce off of ${target.getMobName()}'s orb of touch.`)
     expect(response.message.getMessageToTarget())
       .toBe(`${mob.getMobName()} bounces off of your orb of touch.`)
     expect(response.message.getMessageToObservers())
       .toBe(`${mob.getMobName()} bounces off of ${target.getMobName()}'s orb of touch.`)
+    expect(response.status).toBe(ResponseStatus.ActionFailed)
   })
 })

@@ -36,7 +36,7 @@ export default class KillAction extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const target = requestService.getResult(CheckType.HasTarget)
+    const target = requestService.getResult<MobEntity>(CheckType.HasTarget)
     const event = await this.eventService.publish(requestService.createAttackEvent(target))
     if (event.isSatisfied()) {
       return requestService.respondWith().response(ResponseStatus.ActionFailed, event.context)

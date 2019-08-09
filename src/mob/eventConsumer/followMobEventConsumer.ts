@@ -20,8 +20,8 @@ export default class FollowMobEventConsumer implements EventConsumer {
 
   public async consume(event: MobMoveEvent): Promise<EventResponse> {
     const action = this.moveActions.find((move: Move) => move.getDirection() === event.direction) as Move
-    const followers = this.mobService.getFollowers(event.mob).filter(follower =>
-      this.mobService.getLocationForMob(follower).room.uuid === event.source.uuid)
+    const followers = this.mobService.getFollowers(event.mob)
+      .filter(follower => this.mobService.getLocationForMob(follower).room.uuid === event.source.uuid)
     await Promise.all(followers
       .map((mob: MobEntity) => action.handle(
         new Request(mob, event.source, { requestType: RequestType.South } as EventContext))))

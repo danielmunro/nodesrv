@@ -16,8 +16,7 @@ export default class WhoAction extends Action {
     return mob.level < 10 ? " " + mob.level : mob.level.toString()
   }
 
-  constructor(
-    @inject(Types.ClientService) private readonly clientService: ClientService) {
+  constructor(@inject(Types.ClientService) private readonly clientService: ClientService) {
     super()
   }
 
