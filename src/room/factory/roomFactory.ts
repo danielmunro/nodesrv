@@ -3,13 +3,13 @@ import {Terrain} from "../../region/enum/terrain"
 import newRegion from "../../region/factory/regionFactory"
 import roll from "../../support/random/dice"
 import {allDirections} from "../constants"
-import {getFreeReciprocalDirection, isReciprocalFree, reverse} from "../direction"
 import DoorEntity from "../entity/doorEntity"
 import {ExitEntity} from "../entity/exitEntity"
 import {RoomEntity} from "../entity/roomEntity"
 import {Direction} from "../enum/direction"
 import {getExitRepository} from "../repository/exit"
 import {getRoomRepository} from "../repository/room"
+import {reverse} from "../service/direction"
 import ExitTable from "../table/exitTable"
 import {default as RoomTable} from "../table/roomTable"
 
@@ -54,17 +54,17 @@ export function newExit(direction: Direction, source: RoomEntity, destination: R
 export function newReciprocalExit(
   source: RoomEntity,
   destination: RoomEntity,
-  direction: Direction = getFreeReciprocalDirection(source, destination)): ExitEntity[] {
+  direction: Direction = source.getUnusedReciprocalDirection(destination)): ExitEntity[] {
   if (!allDirections.includes(direction)) {
     direction = roll(1, 2) === 1 ? Direction.Up : Direction.Down
     console.debug(`new reciprocal exit falling back to non-cardinal direction ${direction}`)
 
-    if (!isReciprocalFree(direction, source, destination)) {
+    if (!source.isReciprocalDirectionFree(destination, direction)) {
       direction = reverse(direction)
       console.debug(`last new reciprocal exit attempt with direction ${direction}`)
     }
 
-    if (!isReciprocalFree(direction, source, destination)) {
+    if (!source.isReciprocalDirectionFree(destination, direction)) {
       throw new Error("No connection can be made")
     }
   }

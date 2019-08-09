@@ -7,6 +7,9 @@ import { RegionEntity } from "../../region/entity/regionEntity"
 import { Terrain } from "../../region/enum/terrain"
 import {Direction} from "../enum/direction"
 import { ExitEntity } from "./exitEntity"
+import {pickOne} from "../../support/random/helpers"
+import {cardinalDirections} from "../constants"
+import {reverse} from "../service/direction"
 
 @Entity()
 export class RoomEntity {
@@ -79,6 +82,19 @@ Exits [${this.getExitsString()}]`
     }
 
     return 1
+  }
+
+  public getUnusedDirection() {
+    return pickOne(cardinalDirections.filter((d) => !this.exits.find(e => e.direction === d)))
+  }
+
+  public getUnusedReciprocalDirection(destination: RoomEntity) {
+    return pickOne(cardinalDirections.filter(
+      d => this.isDirectionFree(d) && destination.isDirectionFree(reverse(d))))
+  }
+
+  public isReciprocalDirectionFree(destination: RoomEntity, direction: Direction) {
+    return this.isDirectionFree(direction) && destination.isDirectionFree(reverse(direction))
   }
 
   private getExitsString(): string {

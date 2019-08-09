@@ -1,7 +1,7 @@
-import { allDirections, cardinalDirections} from "./constants"
-import { getFreeDirection, getFreeReciprocalDirection, reverse } from "./direction"
-import {Direction} from "./enum/direction"
-import {createRoom, newExit} from "./factory/roomFactory"
+import { allDirections, cardinalDirections} from "../constants"
+import {Direction} from "../enum/direction"
+import {createRoom, newExit} from "../factory/roomFactory"
+import { reverse } from "./direction"
 
 describe("direction", () => {
   it("should be able to get the reverse direction", () => {
@@ -16,13 +16,13 @@ describe("direction", () => {
 
   it("getFreeDirection should never return a direction which has in use, nor up or down", () => {
     const source = createRoom()
-    let direction = getFreeDirection(source)
+    let direction = source.getUnusedDirection()
     while (direction) {
       if (source.exits.find((e) => e.direction === direction)) {
         fail("direction already added")
       }
       newExit(direction, source, createRoom())
-      direction = getFreeDirection(source)
+      direction = source.getUnusedDirection()
     }
     const NSEW_DIRECTIONS_COUNT = 4
     expect(source.exits.length).toBe(NSEW_DIRECTIONS_COUNT)
@@ -38,7 +38,7 @@ describe("direction", () => {
     newExit(Direction.East, destination, createRoom())
 
     // expect
-    expect(getFreeReciprocalDirection(source, destination)).toBe(Direction.East)
+    expect(source.getUnusedReciprocalDirection(destination)).toBe(Direction.East)
   })
 
   it("getFreeReciprocalDirection should not make impossible connections", () => {
@@ -48,6 +48,6 @@ describe("direction", () => {
     cardinalDirections.forEach((d) => newExit(d, destination, createRoom()))
 
     // expect
-    expect(getFreeReciprocalDirection(source, destination)).toBeUndefined()
+    expect(source.getUnusedReciprocalDirection(destination)).toBeUndefined()
   })
 })
