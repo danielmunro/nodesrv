@@ -52,6 +52,7 @@ export enum RequestType {
   Sharpen = "sharpen",
   Open = "open",
   Close = "close",
+  Consider = "consider",
   Loot = "loot",
   Unlock = "unlock",
   Lock = "lock",

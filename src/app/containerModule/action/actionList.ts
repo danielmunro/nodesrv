@@ -4,6 +4,7 @@ import SitAction from "../../../action/impl/disposition/sitAction"
 import SleepAction from "../../../action/impl/disposition/sleepAction"
 import WakeAction from "../../../action/impl/disposition/wakeAction"
 import BountyAction from "../../../action/impl/fight/bountyAction"
+import ConsiderAction from "../../../action/impl/fight/considerAction"
 import FleeAction from "../../../action/impl/fight/fleeAction"
 import HitAction from "../../../action/impl/fight/hitAction"
 import KillAction from "../../../action/impl/fight/killAction"
@@ -93,6 +94,7 @@ export const actions = [
   HitAction,
   FleeAction,
   BountyAction,
+  ConsiderAction,
 
   // casting
   CastAction,

@@ -21,6 +21,15 @@ export const Messages = {
   CloseDoor: {
     Success: "{requestCreator} {closeVerb} a {door} {direction}.",
   },
+  Consider: {
+    Death: "Death will thank you for your gift.",
+    EasyKill: "{0} looks like an easy kill.",
+    FeelLucky: "{0} says 'Do you feel lucky, punk?'",
+    LaughsMercilessly: "{0} laughs at you mercilessly.",
+    NakedAndWeaponless: "You can kill {0} naked and weaponless.",
+    NoMatch: "{0} is no match for you.",
+    PerfectMatch: "The perfect match!",
+  },
   Demote: {
     Fail: {
       NoMoreDemotions: "{0} has no more demotions.",
