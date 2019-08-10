@@ -9,6 +9,15 @@ import {Direction} from "../../room/enum/direction"
 export default class RoomBuilder {
   constructor(public readonly room: RoomEntity) {}
 
+  public setGroup(groupName: string): RoomBuilder {
+    this.room.groupName = groupName
+    return this
+  }
+
+  public getGroup(): string {
+    return this.room.groupName
+  }
+
   public setArea(area: string): RoomBuilder {
     this.room.area = area
     return this

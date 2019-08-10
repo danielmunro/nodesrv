@@ -1,6 +1,7 @@
 import MobService from "../../mob/service/mobService"
 import ActionPartCheck from "../actionPartCheck/actionPartCheck"
 import CcNumberActionPartCheck from "../actionPartCheck/ccNumberActionPartCheck"
+import DirectionActionPartCheck from "../actionPartCheck/directionActionPartCheck"
 import ExpirationMonthActionPartCheck from "../actionPartCheck/expirationMonthActionPartCheck"
 import ExpirationYearActionPartCheck from "../actionPartCheck/expirationYearActionPartCheck"
 import FreeFormActionPartCheck from "../actionPartCheck/freeFormActionPartCheck"
@@ -23,5 +24,6 @@ export default function getActionPartTable(mobService: MobService): ActionPartCh
     new ExpirationMonthActionPartCheck(),
     new ExpirationYearActionPartCheck(),
     new FreeFormActionPartCheck(),
+    new DirectionActionPartCheck(),
   ]
 }

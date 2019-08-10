@@ -21,4 +21,5 @@ export enum CheckType {
   Amount,
   Bid,
   FreeForm,
+  Direction,
 }

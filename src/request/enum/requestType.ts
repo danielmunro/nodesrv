@@ -75,6 +75,7 @@ export enum RequestType {
   RoomBidAccept = "room bid accept",
   RoomBidList = "room bid list",
   RoomBid = "room bid",
+  RoomJoin = "room join",
   RoomGroup = "room group",
   RoomSell = "room sell",
   RoomInfo = "room info",

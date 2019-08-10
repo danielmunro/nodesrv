@@ -1,6 +1,7 @@
 export enum ActionPart {
   Action = "action",
   Directive = "directive",
+  Direction = "direction",
   Thing = "thing",
   Spell = "spell",
   Skill = "skill",

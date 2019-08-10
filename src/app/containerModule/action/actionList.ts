@@ -54,6 +54,7 @@ import RoomBidAction from "../../../action/impl/room/roomBidAction"
 import RoomBidListAction from "../../../action/impl/room/roomBidListAction"
 import RoomGroupAction from "../../../action/impl/room/roomGroupAction"
 import RoomInfoAction from "../../../action/impl/room/roomInfoAction"
+import RoomJoinAction from "../../../action/impl/room/roomJoinAction"
 import RoomSellAction from "../../../action/impl/room/roomSellAction"
 import GossipAction from "../../../action/impl/social/gossipAction"
 import SayAction from "../../../action/impl/social/sayAction"
@@ -115,6 +116,7 @@ export const actions = [
   RoomBidListAction,
   RoomAcceptAction,
   RoomGroupAction,
+  RoomJoinAction,
 
   // trade
   BuyAction,
