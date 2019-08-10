@@ -20,4 +20,5 @@ export enum CheckType {
   ExpirationYear,
   Amount,
   Bid,
+  FreeForm,
 }

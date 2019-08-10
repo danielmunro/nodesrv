@@ -20,6 +20,7 @@ import PlayerService from "../../player/service/playerService"
 import SocialService from "../../player/service/socialService"
 import WeatherService from "../../region/service/weatherService"
 import RealEstateService from "../../room/service/realEstateService"
+import RoomService from "../../room/service/roomService"
 import ClientService from "../../server/service/clientService"
 import {GameServerService} from "../../server/service/gameServerService"
 import CreationService from "../../session/auth/service/creationService"
@@ -50,4 +51,5 @@ export default new ContainerModule(bind => {
   bind<CheckBuilderFactory>(Types.CheckBuilderFactory).to(CheckBuilderFactory).inSingletonScope()
   bind<SocialService>(Types.SocialService).to(SocialService).inSingletonScope()
   bind<AbilityService>(Types.AbilityService).to(AbilityService).inSingletonScope()
+  bind<RoomService>(Types.RoomService).to(RoomService).inSingletonScope()
 })

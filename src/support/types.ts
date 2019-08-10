@@ -55,6 +55,7 @@ export const Types = {
   ResetService: Symbol.for("ResetService"),
   RespawnerObserver: Symbol.for("RespawnerObserver"),
   RoomRepository: Symbol.for("RoomRepository"),
+  RoomService: Symbol.for("RoomService"),
   RoomTable: Symbol.for("RoomTable"),
   Skills: Symbol.for("Skills"),
   SocialService: Symbol.for("SocialService"),

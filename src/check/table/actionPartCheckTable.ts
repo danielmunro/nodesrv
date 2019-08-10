@@ -3,6 +3,7 @@ import ActionPartCheck from "../actionPartCheck/actionPartCheck"
 import CcNumberActionPartCheck from "../actionPartCheck/ccNumberActionPartCheck"
 import ExpirationMonthActionPartCheck from "../actionPartCheck/expirationMonthActionPartCheck"
 import ExpirationYearActionPartCheck from "../actionPartCheck/expirationYearActionPartCheck"
+import FreeFormActionPartCheck from "../actionPartCheck/freeFormActionPartCheck"
 import GoldActionPartCheck from "../actionPartCheck/goldActionPartCheck"
 import HostileActionPartCheck from "../actionPartCheck/hostileActionPartCheck"
 import ItemInInventoryActionPartCheck from "../actionPartCheck/itemInInventoryActionPartCheck"
@@ -21,5 +22,6 @@ export default function getActionPartTable(mobService: MobService): ActionPartCh
     new CcNumberActionPartCheck(),
     new ExpirationMonthActionPartCheck(),
     new ExpirationYearActionPartCheck(),
+    new FreeFormActionPartCheck(),
   ]
 }

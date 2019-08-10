@@ -5,11 +5,11 @@ import {MobEntity} from "../../mob/entity/mobEntity"
 import MobResetEntity from "../../mob/entity/mobResetEntity"
 import { RegionEntity } from "../../region/entity/regionEntity"
 import { Terrain } from "../../region/enum/terrain"
-import {Direction} from "../enum/direction"
-import { ExitEntity } from "./exitEntity"
 import {pickOne} from "../../support/random/helpers"
 import {cardinalDirections} from "../constants"
+import {Direction} from "../enum/direction"
 import {reverse} from "../service/direction"
+import { ExitEntity } from "./exitEntity"
 
 @Entity()
 export class RoomEntity {
@@ -31,6 +31,9 @@ export class RoomEntity {
 
   @Column()
   public area: string
+
+  @Column({ nullable: true })
+  public groupName: string
 
   @Column({ default: false })
   public isOwnable: boolean
