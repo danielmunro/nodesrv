@@ -1,6 +1,7 @@
 import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import SocialService from "../../../player/service/socialService"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
@@ -19,14 +20,14 @@ export default class TellAction extends Action {
   }
 
   public async check(request: Request): Promise<Check> {
-    const checkBuilder = await this.socialService.getSocialCheck(request)
+    const checkBuilder = await this.socialService.getSocialCheck(request, this.getActionParts())
     checkBuilder.requireMob()
     return checkBuilder.create()
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const target = requestService.getResult(CheckType.HasTarget)
-    const message = requestService.getMessageInTell()
+    const target = requestService.getResult<MobEntity>(CheckType.HasTarget)
+    const message = requestService.getResult<string>(CheckType.FreeForm)
     await this.socialService.tell(
       requestService.getMob(),
       target,

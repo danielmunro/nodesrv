@@ -11,7 +11,7 @@ export default class FreeFormActionPartCheck implements ActionPartCheck {
 
   public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request, actionParts: ActionPart[]): any {
     const position = actionParts.indexOf(ActionPart.FreeForm)
-    const freeForm = request.getWord(position)
+    const freeForm = request.getContextAsInput().words.splice(position).join(" ")
     checkBuilder.require(
       freeForm,
       "value was required",

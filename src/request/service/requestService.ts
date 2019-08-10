@@ -37,10 +37,6 @@ export default class RequestService {
     return this.checkedRequest.mob.allowFollow
   }
 
-  public setFollow(mob: MobEntity) {
-    this.checkedRequest.mob.follows = mob
-  }
-
   public getAffects(): AffectEntity[] {
     return this.checkedRequest.mob.affects
   }
@@ -88,14 +84,6 @@ export default class RequestService {
 
   public getSubject(): string {
     return this.checkedRequest.request.getSubject()
-  }
-
-  public getMessage(): string {
-    return this.checkedRequest.request.getContextAsInput().message
-  }
-
-  public getMessageInTell(): string {
-    return this.checkedRequest.request.getContextAsInput().words.slice(2).join(" ")
   }
 
   public getComponent(): string {

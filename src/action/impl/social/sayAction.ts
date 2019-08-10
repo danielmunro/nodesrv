@@ -1,5 +1,6 @@
 import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
+import {CheckType} from "../../../check/enum/checkType"
 import SocialService from "../../../player/service/socialService"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
@@ -18,13 +19,14 @@ export default class SayAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    return this.socialService.createSocialCheck(request)
+    return this.socialService.createSocialCheck(request, this.getActionParts())
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    await this.socialService.say(requestService.getMob(), requestService.getMessage())
+    const message = requestService.getResult<string>(CheckType.FreeForm)
+    await this.socialService.say(requestService.getMob(), message)
     return requestService.respondWith()
-      .success(`You said, "${requestService.getMessage()}"`)
+      .success(`You said, "${message}"`)
   }
 
   /* istanbul ignore next */

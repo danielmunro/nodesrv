@@ -1,5 +1,6 @@
 import {inject, injectable} from "inversify"
 import {ConditionMessages} from "../../action/constants"
+import {ActionPart} from "../../action/enum/actionPart"
 import CheckBuilder from "../../check/builder/checkBuilder"
 import Check from "../../check/check"
 import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
@@ -17,12 +18,13 @@ export default class SocialService {
     @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
     @inject(Types.EventService) private readonly eventService: EventService) {}
 
-  public async createSocialCheck(request: Request): Promise<Check> {
-    return (await this.getSocialCheck(request)).create()
+  public async createSocialCheck(request: Request, actionParts: ActionPart[]): Promise<Check> {
+    return (await this.getSocialCheck(request, actionParts)).create()
   }
 
-  public async getSocialCheck(request: Request): Promise<CheckBuilder> {
+  public async getSocialCheck(request: Request, actionParts: ActionPart[]): Promise<CheckBuilder> {
     return this.checkBuilderFactory.createCheckBuilder(request)
+      .requireFromActionParts(request, actionParts)
       .require(!isBanned(request.mob.getStanding()), ConditionMessages.Social.LackingStanding)
   }
 

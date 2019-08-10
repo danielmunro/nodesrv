@@ -1,5 +1,6 @@
 import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
+import {CheckType} from "../../../check/enum/checkType"
 import SocialService from "../../../player/service/socialService"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
@@ -18,13 +19,14 @@ export default class GossipAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    return this.socialService.createSocialCheck(request)
+    return this.socialService.createSocialCheck(request, this.getActionParts())
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    await this.socialService.gossip(requestService.getMob(), requestService.getMessage())
+    const message = requestService.getResult<string>(CheckType.FreeForm)
+    await this.socialService.gossip(requestService.getMob(), message)
     return requestService.respondWith()
-      .info(`You gossip, "${requestService.getMessage()}"`)
+      .info(`You gossip, "${message}"`)
   }
 
   /* istanbul ignore next */
