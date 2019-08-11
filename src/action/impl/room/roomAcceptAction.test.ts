@@ -1,7 +1,9 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import {RequestType} from "../../../request/enum/requestType"
+import {RealEstateBidEntity} from "../../../room/entity/realEstateBidEntity"
 import {RealEstateListingEntity} from "../../../room/entity/realEstateListingEntity"
+import {RealEstateBidStatus} from "../../../room/enum/realEstateBidStatus"
 import RealEstateService from "../../../room/service/realEstateService"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
@@ -10,6 +12,7 @@ let testRunner: TestRunner
 let realEstateService: RealEstateService
 let owner: MobEntity
 let bidder: MobEntity
+let listing: RealEstateListingEntity
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
@@ -21,7 +24,7 @@ beforeEach(async () => {
   room.isOwnable = true
   room.owner = owner
   bidder.gold = 10
-  const listing = new RealEstateListingEntity()
+  listing = new RealEstateListingEntity()
   listing.agent = owner
   listing.room = room
   listing.offeringPrice = 10
@@ -39,6 +42,26 @@ describe("room accept action", () => {
     // then
     expect(response.getMessageToRequestCreator())
       .toBe(`You accept the bid from ${bidder.name} on Test room 1. You receive 10 gold.`)
+  })
+
+  it("refunds bid rejections", async () => {
+    // setup
+    const initialGold = 20
+    const bidder2 = (await testRunner.createMob()).setGold(initialGold).get()
+
+    // given
+    const bid = new RealEstateBidEntity()
+    bid.amount = 5
+    bid.bidder = bidder2
+    bid.listing = listing
+    bid.status = RealEstateBidStatus.Submitted
+    await realEstateService.createBid(bid)
+
+    // when
+    await testRunner.invokeActionAs(owner, RequestType.RoomBidAccept, `room accept '${bidder.name}'`)
+
+    // then
+    expect(bidder2.gold).toBe(initialGold)
   })
 
   it("cannot accept a bid for a room that is not owned by the requester", async () => {

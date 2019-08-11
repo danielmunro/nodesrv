@@ -2,8 +2,6 @@ import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
-import {MobEntity} from "../../../mob/entity/mobEntity"
-import MobService from "../../../mob/service/mobService"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
@@ -25,7 +23,6 @@ export default class RoomAcceptAction extends Action {
   constructor(
     @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
     @inject(Types.RealEstateListingService) private readonly realEstateService: RealEstateService,
-    @inject(Types.MobService) private readonly mobService: MobService,
     @inject(Types.ClientService) private readonly clientService: ClientService,
     @inject(Types.RoomRepository) private readonly roomRepository: RoomRepository) {
     super()
@@ -71,10 +68,9 @@ export default class RoomAcceptAction extends Action {
             format(Messages.Room.Accept.Accepted, { room: room.name }))
         } else {
           bid.status = RealEstateBidStatus.Rejected
-          const mobLost = this.mobService.findMob(m => m.is(bid.bidder)) as MobEntity
-          mobLost.gold += bid.amount
+          bid.bidder.gold += bid.amount
           this.clientService.sendMessageToMob(
-            mobLost,
+            bid.bidder,
             format(Messages.Room.Accept.Rejected, { room: bid.listing.room.name, gold: bid.amount}))
         }
         await this.realEstateService.saveBid(bid)
