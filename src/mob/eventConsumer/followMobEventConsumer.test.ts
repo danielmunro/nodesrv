@@ -34,7 +34,7 @@ beforeEach(async () => {
 describe("follow mob event consumer", () => {
   it("follows a mob to a new room", async () => {
     // given
-    mobService.follow(mob1, mob2)
+    mobService.addFollow(mob1, mob2)
 
     // when
     await testRunner.invokeAction(RequestType.South)
@@ -58,7 +58,7 @@ describe("follow mob event consumer", () => {
     await locationService.moveMob(mob1, Direction.South)
 
     // given
-    mobService.follow(mob1, mob2)
+    mobService.addFollow(mob1, mob2)
 
     // when
     await locationService.moveMob(mob1, Direction.South)

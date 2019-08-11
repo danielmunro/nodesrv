@@ -26,12 +26,14 @@ describe("consider action", () => {
     [17, Messages.Consider.FeelLucky],
     [20, Messages.Consider.LaughsMercilessly],
     [25, Messages.Consider.Death],
-  ])("considers a mob correctly when the target is level %s",
-    async (level: any, message: any) => {
+  ])("considers a mob correctly when the target is level %s", async (level: any, message: any) => {
+    // given
     mob2.setLevel(level)
 
+    // when
     const response = await testRunner.invokeAction(RequestType.Consider, `consider '${mob2.getMobName()}'`)
 
+    // then
     const formatted = format(message, mob2.getMobName())
     expect(response.getMessageToRequestCreator()).toBe(formatted || message)
   })

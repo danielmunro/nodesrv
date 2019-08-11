@@ -23,6 +23,7 @@ import {SpellEntity} from "../spell/entity/spellEntity"
 import {SpellType} from "../spell/spellType"
 import MobTable from "../table/mobTable"
 import Follow from "../type/follow"
+import Group from "../type/group"
 import LocationService from "./locationService"
 
 function createSkillFromSkillType(skillType: SkillType, levelObtained: number): SkillEntity {
@@ -65,7 +66,8 @@ export default class MobService {
     @inject(Types.MobRepository) private readonly mobRepository: MobRepository,
     public readonly mobTable: MobTable = new MobTable(),
     private readonly fightTable: FightTable = new FightTable(),
-    private follows: Follow[] = []) {}
+    private follows: Follow[] = [],
+    private groups: Group[] = []) {}
 
   public async add(mob: MobEntity, room: RoomEntity) {
     this.mobTable.add(mob)
@@ -149,7 +151,7 @@ export default class MobService {
     await this.mobRepository.save(mob)
   }
 
-  public follow(mob: MobEntity, follower: MobEntity) {
+  public addFollow(mob: MobEntity, follower: MobEntity) {
     this.follows.push({ mob, follower })
   }
 
@@ -159,6 +161,18 @@ export default class MobService {
   }
 
   public removeFollowers(mob: MobEntity) {
-    this.follows = this.follows.filter(followed => !followed.mob.is(mob))
+    this.follows = this.follows.filter(follow => !follow.mob.is(mob))
+    const group = this.groups.find(g => !!g.mobs.find(m => m.is(mob)))
+    if (group) {
+      group.mobs = group.mobs.filter(m => !m.is(mob))
+    }
+  }
+
+  public addGroup(mobs: MobEntity[]) {
+    this.groups.push({ mobs })
+  }
+
+  public getGroupForMob(mob: MobEntity): Group | undefined {
+    return this.groups.find(group => !!group.mobs.find(m => m.is(mob)))
   }
 }

@@ -43,7 +43,7 @@ export default class FollowAction extends Action {
 
   public invoke(requestService: RequestService): Promise<Response> {
     const target = requestService.getResult<MobEntity>(CheckType.HasTarget)
-    this.mobService.follow(requestService.getMob(), target)
+    this.mobService.addFollow(requestService.getMob(), target)
     return requestService.respondWith().success(
       Messages.Follow.Success,
       { verb: "begin", target },

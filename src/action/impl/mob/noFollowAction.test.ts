@@ -67,13 +67,30 @@ describe("no follow action", () => {
     const mob3 = (await testRunner.createMob()).get()
 
     // given
-    mobService.follow(mob1, mob2)
-    mobService.follow(mob1, mob3)
+    mobService.addFollow(mob1, mob2)
+    mobService.addFollow(mob1, mob3)
 
     // when
     await testRunner.invokeAction(RequestType.NoFollow)
 
     // then
     expect(mobService.getFollowers(mob1)).toHaveLength(0)
+  })
+
+  it("also breaks a group when nofollowed", async () => {
+    // setup
+    const mob1 = (await testRunner.createMob()).get()
+    const mob2 = (await testRunner.createMob()).get()
+
+    // given
+    mobService.addFollow(mob1, mob2)
+    mobService.addGroup([mob1, mob2])
+
+    // when
+    await testRunner.invokeAction(RequestType.NoFollow)
+
+    // then
+    expect(mobService.getFollowers(mob1)).toHaveLength(0)
+    expect(mobService.getGroupForMob(mob1)).toBeUndefined()
   })
 })
