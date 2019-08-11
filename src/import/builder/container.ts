@@ -1,8 +1,8 @@
+import DrinkEntity from "../../item/entity/drinkEntity"
 import {ItemEntity} from "../../item/entity/itemEntity"
 import {newContainer} from "../../item/factory/itemFactory"
 import {liquidMap} from "../map/liquidMap"
 import ItemPrototype from "./itemPrototype"
-import DrinkEntity from "../../item/entity/drinkEntity"
 
 export default function(itemPrototype: ItemPrototype): ItemEntity {
   const { name, description, args } = itemPrototype
