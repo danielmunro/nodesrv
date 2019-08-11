@@ -49,4 +49,12 @@ export default class SocialService {
       `${mob.name} tells you, "${message}"`,
       target))
   }
+
+  public async groupTell(mob: MobEntity, target: MobEntity, message: string) {
+    await this.eventService.publish(createSocialEvent(
+      mob,
+      Channel.GroupTell,
+      `${mob.name} tells the group, "${message}"`,
+      target))
+  }
 }

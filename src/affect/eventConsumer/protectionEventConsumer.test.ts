@@ -23,7 +23,9 @@ describe("protection event consumer", () => {
     [ AffectType.ProtectionGood, ALIGNMENT_GOOD + 1 ],
     [ AffectType.ProtectionEvil, ALIGNMENT_EVIL - 1 ],
     [ AffectType.ProtectionNeutral, 0 ],
-  ])("modifies damage for %s", async (affectType: AffectType, alignment: number) => {
+  ])("modifies damage for %s",
+    // @ts-ignore
+    async (affectType: AffectType, alignment: number) => {
     // setup
     let attackerDamage = 0
     let defenderDamage = 0

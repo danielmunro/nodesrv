@@ -4,7 +4,6 @@ import MvCost from "../../../../check/cost/mvCost"
 import AbilityService from "../../../../check/service/abilityService"
 import {Costs, SkillMessages} from "../../../../mob/skill/constants"
 import {SkillType} from "../../../../mob/skill/skillType"
-import ResponseMessage from "../../../../request/responseMessage"
 import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionPart} from "../../../enum/actionPart"
 import {ActionType} from "../../../enum/actionType"
@@ -20,7 +19,9 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.Bash.Mv),
       new DelayCost(Costs.Bash.Delay),
     ])
-    .setApplySkill(async (_, affectBuilder) => affectBuilder.setTimeout(1).build())
+    .setApplySkill(async (_, affectBuilder) => {
+      affectBuilder.setTimeout(1).build()
+    })
     .setSuccessMessage(requestService =>
       requestService.createResponseMessage(SkillMessages.Bash.Success)
         .setVerbToRequestCreator("slam")

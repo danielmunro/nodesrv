@@ -2,12 +2,12 @@ import { RoomEntity } from "../entity/roomEntity"
 
 export default class RoomTable {
   public static new(rooms: RoomEntity[]) {
-    const roomsById = {}
+    const roomsById: any = {}
     rooms.forEach(room => roomsById[room.uuid] = room)
     return new RoomTable(roomsById)
   }
 
-  constructor(private readonly roomsById: object = {}) {}
+  constructor(private readonly roomsById: any = {}) {}
 
   public getRooms(): RoomEntity[] {
     return Object.values(this.roomsById)

@@ -1,6 +1,6 @@
 import roll from "./dice"
 
-export function pickOne(collection) {
+export function pickOne(collection: any[]) {
   return collection[Math.floor(Math.random() * collection.length)]
 }
 
@@ -16,10 +16,8 @@ export function coinFlip(): boolean {
   return roll(1, 2) === 1
 }
 
-export function onCoinFlipSuccess(callback): Promise<any> {
-  if (coinFlip()) {
-    return callback()
-  }
+export function onCoinFlipSuccess(callback: any): Promise<any> {
+  return coinFlip() ? callback() : undefined
 }
 
 export function percentRoll(): number {

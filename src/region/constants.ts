@@ -1,3 +1,4 @@
+import Maybe from "../support/functional/maybe/maybe"
 import {pickOne} from "../support/random/helpers"
 import {Terrain} from "./enum/terrain"
 import {Weather} from "./enum/weather"
@@ -8,7 +9,12 @@ export const MESSAGE_WEATHER_OVERCAST = "High altitude clouds lay like waves acr
 export const MESSAGE_WEATHER_RAINING = "A trickle of rain picks up."
 export const MESSAGE_WEATHER_STORMING = "Dark thunderclouds consume the sky as rain pours down."
 
-function createMapEntry(weather: Weather, message: string) {
+interface WeatherMessage {
+  weather: Weather
+  message: string
+}
+
+function createMapEntry(weather: Weather, message: string): WeatherMessage {
   return {weather, message}
 }
 
@@ -32,7 +38,9 @@ export function getRandomWeather(): Weather {
 }
 
 export function getWeatherTransitionMessage(weather: Weather) {
-  return weatherMessageMap.find((w) => w.weather === weather).message
+  return new Maybe<WeatherMessage>(weatherMessageMap.find((w) => w.weather === weather))
+    .or(() => weatherMessageMap[0])
+    .get().message
 }
 
 export const allTerrains = [

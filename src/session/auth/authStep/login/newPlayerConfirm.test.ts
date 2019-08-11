@@ -11,7 +11,8 @@ import NewPlayerConfirm from "./newPlayerConfirm"
 const TEST_EMAIL = "foo@bar.com"
 
 async function getNewPlayerConfirm(email: string) {
-   return new NewPlayerConfirm(new CreationService(jest.fn()(), null), email)
+  // @ts-ignore
+  return new NewPlayerConfirm(new CreationService(jest.fn()(), null), email)
 }
 
 let testRunner: TestRunner

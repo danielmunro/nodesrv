@@ -47,7 +47,7 @@ export default class LockAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const exit = requestService.getResult()
+    const exit = requestService.getResult<ExitEntity>()
     exit.door.isLocked = true
 
     return requestService.respondWith().success(

@@ -37,7 +37,7 @@ export default class CloseDoorAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const exit = requestService.getResult()
+    const exit = requestService.getResult<ExitEntity>()
     exit.door.isClosed = true
 
     return requestService.respondWith().success(

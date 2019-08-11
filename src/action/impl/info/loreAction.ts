@@ -2,6 +2,7 @@ import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import ItemService from "../../../item/service/itemService"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
@@ -32,8 +33,7 @@ export default class LoreAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const item = requestService.getResult(CheckType.HasItem)
-
+    const item = requestService.getResult<ItemEntity>(CheckType.HasItem)
     return requestService.respondWith().success(
       ActionMessages.Lore.Success,
       {

@@ -3,6 +3,8 @@ import {newAffect} from "../../affect/factory/affectFactory"
 import {getTestMob} from "../../support/test/mob"
 import {CheckType} from "../enum/checkType"
 import CheckComponent from "./checkComponent"
+import {AffectEntity} from "../../affect/entity/affectEntity"
+import {MobEntity} from "../../mob/entity/mobEntity"
 
 describe("createDefaultCheckFor component", () => {
   it("should be required if a fail message has provided", () => {
@@ -33,8 +35,8 @@ describe("createDefaultCheckFor component", () => {
 
   it("should re-evaluate thing for subsequent requests (not cache the first result)", () => {
     // given
-    const checkComponent = new CheckComponent(CheckType.HasAffect, true, m =>
-      m.affects.find(a => a.affectType === AffectType.Noop))
+    const checkComponent = new CheckComponent(CheckType.HasAffect, true, (m: MobEntity) =>
+      m.affects.find((a: AffectEntity) => a.affectType === AffectType.Noop))
     const mob = getTestMob()
 
     // expect
@@ -49,8 +51,8 @@ describe("createDefaultCheckFor component", () => {
 
   it("negative evaluation should work", () => {
     // given
-    const checkComponent = new CheckComponent(CheckType.HasAffect, false, m =>
-      m.affects.find(a => a.affectType === AffectType.Noop))
+    const checkComponent = new CheckComponent(CheckType.HasAffect, false, (m: MobEntity) =>
+      m.affects.find((a: AffectEntity) => a.affectType === AffectType.Noop))
     const mob = getTestMob()
 
     // expect

@@ -59,6 +59,7 @@ import RoomInfoAction from "../../../action/impl/room/roomInfoAction"
 import RoomJoinAction from "../../../action/impl/room/roomJoinAction"
 import RoomSellAction from "../../../action/impl/room/roomSellAction"
 import GossipAction from "../../../action/impl/social/gossipAction"
+import GroupTellAction from "../../../action/impl/social/groupTellAction"
 import SayAction from "../../../action/impl/social/sayAction"
 import TellAction from "../../../action/impl/social/tellAction"
 import CcAddAction from "../../../action/impl/subscription/ccAddAction"
@@ -133,6 +134,7 @@ export const actions = [
   LevelAction,
   TradeRequestAction,
   GroupAction,
+  GroupTellAction,
 
   // social
   GossipAction,

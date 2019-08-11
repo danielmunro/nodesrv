@@ -16,7 +16,7 @@ import {WeaponEffectMessages} from "./constants"
 
 export default class ShockingWeaponEffectEventConsumer extends AbstractWeaponEffectEventConsumer {
   private static calculateModifier(mob: MobEntity): number {
-    return new Maybe(WeaponEffectService.findDamageAbsorption(mob, DamageType.Electric))
+    return new Maybe<number>(WeaponEffectService.findDamageAbsorption(mob, DamageType.Electric))
       .do(damageAbsorption => vulnerabilityModifier(damageAbsorption.vulnerability))
       .or(() => AbstractWeaponEffectEventConsumer.defaultBonus)
       .get()
@@ -41,7 +41,7 @@ export default class ShockingWeaponEffectEventConsumer extends AbstractWeaponEff
   }
 
   private async dropConductiveEquipment(mob: MobEntity, weapon: ItemEntity) {
-    mob.equipped.items.forEach(async item => {
+    await Promise.all(mob.equipped.items.map(async item => {
       if (isMaterialConductive(item.material) && roll(1, 8) === 1) {
         await this.weaponEffectService.dropItem(mob, item)
         this.weaponEffectService.sendMessageToMobRoom(
@@ -53,6 +53,6 @@ export default class ShockingWeaponEffectEventConsumer extends AbstractWeaponEff
             { item, weapon, target: "" },
             { item, weapon, target: " " + mob }))
       }
-    })
+    }))
   }
 }

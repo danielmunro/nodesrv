@@ -62,10 +62,8 @@ export default function(abilityService: AbilityService, itemService: ItemService
             request.mob.spells.find(spell => spell.spellType === SpellType.LocateItem) as SpellModel)
         })
         .map(i => i.carriedBy)
-      checkBuilder.require(
-        item,
-        Messages.LocateItem.Fail,
-        CheckType.HasTarget)
+      // @ts-ignore
+      checkBuilder.require(item, Messages.LocateItem.Fail, CheckType.HasTarget)
       checkBuilder.require(
         items,
         Messages.LocateItem.Fail,
@@ -79,7 +77,7 @@ export default function(abilityService: AbilityService, itemService: ItemService
       requestService.createResponseMessage(SpellMessages.LocateItem.Success)
         .addReplacement(
           "rooms",
-          requestService.getResult(CheckType.HasItem).reduce((previous: string, current: any) =>
+          requestService.getResult<ItemEntity[]>(CheckType.HasItem).reduce((previous: string, current: any) =>
             previous + "\n" + reduceCarriedBy(current), ""))
         .create())
     .create()

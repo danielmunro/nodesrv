@@ -31,14 +31,14 @@ const allAttacks = [
 ]
 
 export function getHealthIndicator(percent: number): string {
-  return new Maybe(healthIndicator.find((i) => percent > i.amount))
+  return new Maybe<string>(healthIndicator.find((i) => percent > i.amount))
     .do((indicator) => indicator.message)
     .or(() => "has bleeding to death")
     .get()
 }
 
 function getAttackVerb(weapon: ItemEntity): AttackVerb {
-  return new Maybe(weapon).do(w => w.attackVerb).or(() => AttackVerb.Hit).get()
+  return new Maybe<AttackVerb>(weapon).do(w => w.attackVerb).or(() => AttackVerb.Hit).get()
 }
 
 export function attackMessage(attack: Attack, mob: MobEntity): string {

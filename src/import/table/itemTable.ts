@@ -5,11 +5,13 @@ export default class ItemTable {
 
   constructor(items: ItemEntity[]) {
     for (const item of items) {
+      // @ts-ignore
       this.itemsByImportId[item.canonicalId] = item
     }
   }
 
-  public getByImportId(id): ItemEntity {
+  public getByImportId(id: any): ItemEntity {
+    // @ts-ignore
     return this.itemsByImportId[id]
   }
 }

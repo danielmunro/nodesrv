@@ -5,6 +5,7 @@ import EventService from "../../../event/service/eventService"
 import {DamageType} from "../../../mob/fight/enum/damageType"
 import {RaceType} from "../../../mob/race/enum/raceType"
 import LocationService from "../../../mob/service/locationService"
+import Response from "../../../request/response"
 import doNTimes, {doNTimesOrUntilTruthy} from "../../../support/functional/times"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
@@ -146,7 +147,8 @@ describe("flaming weapon effect event consumer", () => {
     })
 
     // then
-    const response = mock.getResponse()
+    const response = mock.getResponses().find(r =>
+      r.getMessageToRequestCreator().includes("catches fire")) as Response
     expect(response).toBeDefined()
     expect(response.getMessageToRequestCreator())
       .toBe(`a wooden practice shield catches fire and burns up as it falls off ${mob1.getMobName()}.`)

@@ -22,8 +22,9 @@ export default function(abilityService: AbilityService): Skill {
       new MvCost(Costs.Sneak.Mv),
       new DelayCost(Costs.Sneak.Delay),
     ])
-    .setApplySkill(async (requestService, affectBuilder) =>
-      affectBuilder.setTimeout(requestService.getMobLevel()).build())
+    .setApplySkill(async (requestService, affectBuilder) => {
+      affectBuilder.setTimeout(requestService.getMobLevel()).build()
+    })
     .setSuccessMessage(requestService =>
       new ResponseMessage(requestService.getMob(), SkillMessages.Sneak.Success))
     .setFailMessage(requestService =>

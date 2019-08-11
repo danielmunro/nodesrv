@@ -6,6 +6,7 @@ import {MobEntity} from "../../../mob/entity/mobEntity"
 import {isBanned} from "../../../mob/enum/standing"
 import MobService from "../../../mob/service/mobService"
 import {getAuthorizationLevelName, getNextPromotion} from "../../../player/authorizationLevels"
+import {AuthorizationLevel} from "../../../player/enum/authorizationLevel"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
@@ -48,8 +49,8 @@ export default class PromoteAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const [ target, authorizationLevel ] = requestService.getResults(
-      CheckType.HasTarget, CheckType.AuthorizationLevel)
+    const target = requestService.getResult<MobEntity>()
+    const authorizationLevel = requestService.getResult<AuthorizationLevel>(CheckType.AuthorizationLevel)
     target.playerMob.authorizationLevel = authorizationLevel
     return requestService.respondWith().success(
         `You promoted ${target.name} to ${getAuthorizationLevelName(authorizationLevel)}.`)

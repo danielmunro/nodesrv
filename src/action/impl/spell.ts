@@ -8,6 +8,7 @@ import {createCastEvent, createSkillEvent} from "../../event/factory/eventFactor
 import {MobEntity} from "../../mob/entity/mobEntity"
 import CastEvent from "../../mob/event/castEvent"
 import {SpecializationType} from "../../mob/specialization/enum/specializationType"
+import {SpellEntity} from "../../mob/spell/entity/spellEntity"
 import {SpellType} from "../../mob/spell/spellType"
 import {RequestType} from "../../request/enum/requestType"
 import {ResponseStatus} from "../../request/enum/responseStatus"
@@ -37,7 +38,7 @@ export default class Spell extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const spell = requestService.getResult(CheckType.HasSpell)
+    const spell = requestService.getResult<SpellEntity>(CheckType.HasSpell)
     const eventResponse = await this.abilityService.publishEvent(createCastEvent(
       requestService.getMob(), spell, requestService.getTarget(), this.roll(spell.level)))
     if (!this.rollSucceeds((eventResponse.event as CastEvent).roll)) {
@@ -54,7 +55,7 @@ export default class Spell extends Action {
       requestService.applyAbilityResponse = applyResponse
       const affect = applyResponse.affect
       if (affect && affect.affectType !== AffectType.Noop) {
-        requestService.getResult(CheckType.HasTarget).affect().add(affect)
+        requestService.getResult<MobEntity>(CheckType.HasTarget).affect().add(affect)
       }
     }
     await this.abilityService.publishEvent(

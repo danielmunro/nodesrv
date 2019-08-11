@@ -22,4 +22,6 @@ export enum CheckType {
   Bid,
   FreeForm,
   Direction,
+  HasGroup,
+  HasGold,
 }

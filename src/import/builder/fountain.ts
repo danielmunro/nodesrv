@@ -11,6 +11,7 @@ export default function(itemPrototype: ItemPrototype): ItemEntity {
   fountain.drink = createDrink()
   fountain.drink.foodAmount = +args[0]
   fountain.drink.drinkAmount = +args[1]
+  // @ts-ignore
   fountain.drink.liquid = liquidMap[args[2]]
   fountain.isTransferable = false
   ItemBuilder.applyPoisonIfFlagged(fountain, args[3])

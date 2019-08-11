@@ -35,16 +35,19 @@ const mockRoomRepository = jest.fn(() => ({
 }))
 
 export default new ContainerModule(bind => {
-  bind<PlayerRepository>(Types.PlayerRepository)
-    .toConstantValue(mockPlayerRepository())
-  bind<MobRepository>(Types.MobRepository)
-    .toConstantValue(mockMobRepository())
-  bind<TickRepository>(Types.TickRepository)
-    .toConstantValue(mockTickRepository())
+  // @ts-ignore
+  bind<PlayerRepository>(Types.PlayerRepository).toConstantValue(mockPlayerRepository())
+  // @ts-ignore
+  bind<MobRepository>(Types.MobRepository).toConstantValue(mockMobRepository())
+  // @ts-ignore
+  bind<TickRepository>(Types.TickRepository).toConstantValue(mockTickRepository())
   bind<RealEstateListingRepository>(Types.RealEstateListingRepository)
+    // @ts-ignore
     .toConstantValue(mockRealEstateListingRepository())
   bind<RealEstateBidRepository>(Types.RealEstateBidRepository)
+    // @ts-ignore
     .toConstantValue(mockRealEstateBidRepository())
   bind<RoomRepository>(Types.RoomRepository)
+    // @ts-ignore
     .toConstantValue(mockRoomRepository())
 })

@@ -82,7 +82,7 @@ export default class PracticeAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const toPractice = requestService.getResult(CheckType.ValidSubject)
+    const toPractice = requestService.getResult<MobEntity>(CheckType.ValidSubject)
     const mob = requestService.getMob()
     toPractice.level += PracticeAction.getImproveAmount(mob)
     if (toPractice.level > MAX_PRACTICE_LEVEL) {

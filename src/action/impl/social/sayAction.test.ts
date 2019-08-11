@@ -15,6 +15,7 @@ describe("say social action", () => {
     const eventService = jest.fn(() => ({
       publish: jest.fn(),
     }))()
+    // @ts-ignore
     const action = new SayAction(new SocialService(jest.fn()(), eventService))
 
     // when

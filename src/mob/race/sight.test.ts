@@ -17,6 +17,7 @@ describe("sight", () => {
     [RaceType.Kender, 20, Terrain.Forest, Weather.Storming, true],
     [RaceType.Kender, 21, Terrain.Forest, Weather.Storming, false],
   ])("sanity createDefaultCheckFor %s (time: %i, terrain: %s, weather: %s). Should be able to see: %s",
+    // @ts-ignore
     (race: RaceType, timeOfDay: number, terrain: Terrain, weather: Weather, expectedToSee: boolean) => {
     expect(isAbleToSee(
       createRaceFromRaceType(race).sight, timeOfDay, terrain, weather)).toBe(expectedToSee)

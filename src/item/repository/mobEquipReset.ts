@@ -3,8 +3,8 @@ import { MobEquipResetEntity } from "../entity/mobEquipResetEntity"
 import MobEquipResetRepositoryImpl from "./mobEquipResetRepositoryImpl"
 
 export default interface MobEquipResetRepository {
-  findAll()
-  save(mobEquipReset)
+  findAll(): any
+  save(mobEquipReset: any): any
 }
 
 export async function getMobEquipResetRepository(): Promise<MobEquipResetRepository> {

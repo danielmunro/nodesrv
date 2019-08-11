@@ -38,22 +38,22 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(Costs.Envenom.Delay),
     ])
     .setApplySkill(async (requestService, affectBuilder) => {
-      const item = requestService.getResult(CheckType.HasItem)
+      const item = requestService.getResult<ItemEntity>(CheckType.HasItem)
       item.affects.push(affectBuilder.build())
     })
     .setSuccessMessage(requestService => {
-      const item = requestService.getResult(CheckType.HasItem)
+      const item = requestService.getResult<ItemEntity>(CheckType.HasItem)
       return requestService.createResponseMessage(SkillMessages.Envenom.Success)
-        .addReplacement("item", item)
+        .addReplacement("item", item.toString())
         .setVerbToRequestCreator("envenom")
         .setVerbToTarget("envenom")
         .setVerbToObservers("envenoms")
         .create()
     })
     .setFailMessage(requestService => {
-      const item = requestService.getResult(CheckType.HasItem)
+      const item = requestService.getResult<ItemEntity>(CheckType.HasItem)
       return requestService.createResponseMessage(SkillMessages.Envenom.Fail)
-        .addReplacement("item", item)
+        .addReplacement("item", item.toString())
         .setVerbToRequestCreator("fail")
         .setVerbToTarget("fail")
         .setVerbToObservers("fails")

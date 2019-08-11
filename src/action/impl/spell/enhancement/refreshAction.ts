@@ -2,8 +2,10 @@ import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../mob/spell/constants"
+import {SpellEntity} from "../../../../mob/spell/entity/spellEntity"
 import {SpellType} from "../../../../mob/spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
@@ -24,9 +26,9 @@ export default function(abilityService: AbilityService): Spell {
         .setVerbToObservers("feels")
         .create())
     .setApplySpell(async requestService => {
-      const target = requestService.getResult(CheckType.HasTarget)
+      const target = requestService.getResult<MobEntity>(CheckType.HasTarget)
       const attr = target.attribute()
-      attr.addMv(requestService.getResult(CheckType.HasSpell).level / 3)
+      attr.addMv(requestService.getResult<SpellEntity>(CheckType.HasSpell).level / 3)
     })
     .setSpecializationType(SpecializationType.Cleric)
     .create()

@@ -20,7 +20,7 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(2),
     ])
     .setApplySkill(requestService => {
-      const target = requestService.getTarget()
+      const target = requestService.getTarget<MobEntity>()
       const affect = target.affect()
       affect.add(newAffect(AffectType.Stunned, requestService.getMobLevel() / 10))
       affect.remove(AffectType.Haste)

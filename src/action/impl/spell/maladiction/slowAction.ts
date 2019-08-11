@@ -2,6 +2,7 @@ import {AffectType} from "../../../../affect/enum/affectType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../mob/spell/constants"
 import {SpellType} from "../../../../mob/spell/spellType"
@@ -21,7 +22,7 @@ export default function(abilityService: AbilityService): Spell {
       new DelayCost(1),
     ])
     .setApplySpell(async (requestService, affectBuilder) => {
-      const aff = requestService.getTarget().affect()
+      const aff = requestService.getTarget<MobEntity>().affect()
       if (aff.has(AffectType.Haste)) {
         aff.remove(AffectType.Haste)
         if (roll(1, 2) === 1) {
@@ -33,7 +34,7 @@ export default function(abilityService: AbilityService): Spell {
         .build())
     })
     .setSuccessMessage(requestService =>
-      requestService.getTarget().affect().has(AffectType.Slow) ?
+      requestService.getTarget<MobEntity>().affect().has(AffectType.Slow) ?
         requestService.createResponseMessage(
           SpellMessages.Slow.Success)
           .setVerbToRequestCreator("starts")

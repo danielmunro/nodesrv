@@ -76,7 +76,9 @@ describe("damage traits", () => {
     DamageSourceFlag.Wood,
     (damageSourceEntity: DamageSourceEntity) => damageSourceEntity.wood,
   ],
-  ])("modifies damage source entity in expected ways", (damageSourceFlag: DamageSourceFlag, expectation: any) => {
+  ])("modifies damage source entity in expected ways",
+    // @ts-ignore
+    (damageSourceFlag: DamageSourceFlag, expectation: any) => {
     const damageSourceEntity = new DamageSourceEntity()
     damageTraits(damageSourceFlag, damageSourceEntity)
     expect(expectation).toBeTruthy()

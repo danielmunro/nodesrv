@@ -5,7 +5,6 @@ import MvCost from "../../../../check/cost/mvCost"
 import AbilityService from "../../../../check/service/abilityService"
 import {Costs} from "../../../../mob/skill/constants"
 import {SkillType} from "../../../../mob/skill/skillType"
-import ResponseMessage from "../../../../request/responseMessage"
 import SkillBuilder from "../../../builder/skillBuilder"
 import {ConditionMessages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
@@ -23,9 +22,11 @@ export default function(abilityService: AbilityService): Skill {
       new ManaCost(Costs.Hamstring.Mana),
       new DelayCost(Costs.Hamstring.Delay),
     ])
-    .setApplySkill(async (requestService, affectBuilder) => affectBuilder
-      .setTimeout(Math.max(1, requestService.getMobLevel() / 15))
-      .build())
+    .setApplySkill(async (requestService, affectBuilder) => {
+      affectBuilder
+        .setTimeout(Math.max(1, requestService.getMobLevel() / 15))
+        .build()
+    })
     .setSuccessMessage(requestService =>
       requestService.createResponseMessage(ConditionMessages.Hamstring.Success)
         .setVerbToRequestCreator("slice")

@@ -9,7 +9,7 @@ export default class ItemContainerResetRepositoryImpl implements ItemContainerRe
     return this.itemContainerResetRepository.find()
   }
 
-  public save(itemContainerReset) {
+  public save(itemContainerReset: any) {
     return this.itemContainerResetRepository.save(itemContainerReset)
   }
 }

@@ -4,7 +4,7 @@ import ItemContainerResetRepositoryImpl from "./itemContainerResetRepositoryImpl
 
 export default interface ItemContainerResetRepository {
   findAll(): Promise<ItemContainerResetEntity[]>
-  save(itemContainerReset)
+  save(itemContainerReset: any): any
 }
 
 export async function getItemContainerResetRepository(): Promise<ItemContainerResetRepository> {

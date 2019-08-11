@@ -5,5 +5,5 @@ import ItemPrototype from "./itemPrototype"
 
 export default function(itemPrototype: ItemPrototype): ItemEntity {
   const { type, name, description } = itemPrototype
-  return newItem(itemTypeMap.find(typeMap => typeMap.import === type).type, name, description)
+  return newItem((itemTypeMap.find(typeMap => typeMap.import === type) as any).type, name, description)
 }

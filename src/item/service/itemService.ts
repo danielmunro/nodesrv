@@ -11,22 +11,32 @@ import ItemTable from "../table/itemTable"
 @injectable()
 export default class ItemService {
   public static cloneItem(targetItem: ItemEntity): ItemEntity {
+    // @ts-ignore
     targetItem.inventory = undefined
     const item = cloneDeep(targetItem)
+    // @ts-ignore
     item.id = undefined
     item.uuid = v4()
+    // @ts-ignore
     item.affects.forEach(affect => affect.id = undefined)
+    // @ts-ignore
     item.attributes.id = undefined
     if (item.forge) {
+      // @ts-ignore
       item.forge.id = undefined
+      // @ts-ignore
       item.forge.uuid = undefined
     }
     if (item.drink) {
+      // @ts-ignore
       item.drink.id = undefined
+      // @ts-ignore
       item.drink.uuid = undefined
     }
     if (item.food) {
+      // @ts-ignore
       item.food.id = undefined
+      // @ts-ignore
       item.food.uuid = undefined
     }
     return item

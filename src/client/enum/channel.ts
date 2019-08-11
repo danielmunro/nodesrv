@@ -4,4 +4,5 @@ export enum Channel {
   Tell,
   OOC,
   GlobalUpdate,
+  GroupTell,
 }

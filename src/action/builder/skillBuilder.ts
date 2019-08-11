@@ -4,6 +4,7 @@ import Cost from "../../check/cost/cost"
 import {CheckType} from "../../check/enum/checkType"
 import AbilityService from "../../check/service/abilityService"
 import {SkillMessages} from "../../mob/skill/constants"
+import {SkillEntity} from "../../mob/skill/entity/skillEntity"
 import {SkillType} from "../../mob/skill/skillType"
 import {RequestType} from "../../request/enum/requestType"
 import Request from "../../request/request"
@@ -47,7 +48,7 @@ export default class SkillBuilder {
     this.applySkill = (_, affectBuilder) =>
       Promise.resolve(affectBuilder ? createApplyAbilityResponse(affectBuilder.build()) : undefined)
     this.roll = (requestService: RequestService) =>
-      requestService.getResult(CheckType.HasSkill).level > percentRoll()
+      requestService.getResult<SkillEntity>(CheckType.HasSkill).level > percentRoll()
     this.failMessage = SkillBuilder.createDefaultResponseMessage()
     this.successMessage = SkillBuilder.createFailResponseMessage()
   }

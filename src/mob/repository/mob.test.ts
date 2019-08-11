@@ -1,3 +1,4 @@
+// @ts-ignore
 import * as sillyname from "sillyname"
 import { getTestMob } from "../../support/test/mob"
 import { MobEntity } from "../entity/mobEntity"

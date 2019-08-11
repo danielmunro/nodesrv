@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Server } from "mock-socket"
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import EventService from "../../event/service/eventService"
@@ -10,7 +11,7 @@ import {Types} from "../../support/types"
 import ClientService from "./clientService"
 import { GameServerService } from "./gameServerService"
 
-let ws
+let ws: any
 
 async function getGameServer(): Promise<GameServerService> {
   const app = await createTestAppContainer()
@@ -55,14 +56,14 @@ describe("the server", () => {
   test("with new WS connections should add a client", async () => {
     const server = await getGameServer()
     await server.start()
-    await server.addWS(mockWs(), mockRequest())
+    await server.addWS(mockWs() as any, mockRequest())
     expect(server.getClientCount()).toBe(1)
   })
 
   test("should notify an observer immediately if it has added with an immediate timer", async () => {
     const server = await getGameServer()
     await server.start()
-    await server.addWS(mockWs(), mockRequest())
+    await server.addWS(mockWs() as any, mockRequest())
     expect.assertions(1)
     server.addObserver(new ExpectTestObserver(), new ImmediateTimer())
   })
@@ -70,7 +71,7 @@ describe("the server", () => {
   test("should not notify an observer immediately if a timeout larger than 0 has specified", async () => {
     const server = await getGameServer()
     await server.start()
-    await server.addWS(mockWs(), mockRequest())
+    await server.addWS(mockWs() as any, mockRequest())
     const observer = new DontExecuteTestObserver()
     const spy = jest.spyOn(observer, "notify")
     const shortIntervalTimer = new ShortIntervalTimer()

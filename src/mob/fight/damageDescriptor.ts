@@ -10,14 +10,14 @@ function newDamageDescriptor(damage: number, descriptors: string[]): DamageDescr
 }
 
 export function getPhysicalDamageDescriptor(damage: number): string[] {
-  return new Maybe(physicalDamage.find(m => damage <= m.damage))
+  return new Maybe<string[]>(physicalDamage.find(m => damage <= m.damage))
     .do(m => m.descriptors)
     .or(() => ["masterful", "does UNSPEAKABLE things to", "!"])
     .get()
 }
 
 export function getMagicDamageDescriptor(damage: number): string[] {
-  return new Maybe(magicDamage.find(m => damage <= m.damage))
+  return new Maybe<string[]>(magicDamage.find(m => damage <= m.damage))
     .do(m => m.descriptors)
     .or(() => ["do {RUNSPEAKABLE{x things to", "does {RUNSPEAKABLE{x things to"])
     .get()

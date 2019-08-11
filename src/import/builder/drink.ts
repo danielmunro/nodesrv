@@ -3,6 +3,7 @@ import {ItemType} from "../../item/enum/itemType"
 import {createDrink, newItem} from "../../item/factory/itemFactory"
 import ItemBuilder from "../itemBuilder"
 import ItemPrototype from "./itemPrototype"
+import {Liquid} from "../../item/enum/liquid"
 
 export default function(itemPrototype: ItemPrototype): ItemEntity {
   const { name, description, args } = itemPrototype
@@ -11,7 +12,7 @@ export default function(itemPrototype: ItemPrototype): ItemEntity {
   drink.drink.foodAmount = +args[0]
   drink.drink.drinkAmount = +args[1]
   drink.drink.capacity = +args[1]
-  drink.drink.liquid = args[2]
+  drink.drink.liquid = args[2] as Liquid
   ItemBuilder.applyPoisonIfFlagged(drink, args[3])
   return drink
 }

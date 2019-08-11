@@ -6,6 +6,7 @@ import ManaCost from "../../../../check/cost/manaCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
+import {ItemEntity} from "../../../../item/entity/itemEntity"
 import {Equipment} from "../../../../item/enum/equipment"
 import {DamageType} from "../../../../mob/fight/enum/damageType"
 import {
@@ -13,6 +14,7 @@ import {
   ConditionMessages as PreconditionMessages,
   Costs,
 } from "../../../../mob/skill/constants"
+import {SkillEntity} from "../../../../mob/skill/entity/skillEntity"
 import {SkillType} from "../../../../mob/skill/skillType"
 import collectionSearch from "../../../../support/matcher/collectionSearch"
 import roll from "../../../../support/random/dice"
@@ -48,7 +50,8 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(Costs.Sharpen.Delay),
     ])
     .setApplySkill(async (requestService, affectBuilder) => {
-      const [ skill, item ] = requestService.getResults(CheckType.HasSkill, CheckType.HasItem)
+      const skill = requestService.getResult<SkillEntity>(CheckType.HasSkill)
+      const item = requestService.getResult<ItemEntity>(CheckType.HasItem)
       const affect = affectBuilder
         .setAttributes(new AttributeBuilder()
           .setHitRoll(1, roll(1, skill.level / 10) + 1)

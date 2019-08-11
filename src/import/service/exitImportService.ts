@@ -27,7 +27,7 @@ export default class ExitImportService {
     return exits
   }
 
-  private async createExitFromDoor(door, importId): Promise<ExitEntity> {
+  private async createExitFromDoor(door: any, importId: any): Promise<ExitEntity> {
     let direction: Direction
     switch (door.door) {
       case DirectionFlag.North:
@@ -50,7 +50,7 @@ export default class ExitImportService {
         break
       default:
         console.error("no direction for door", door, importId)
-        return
+        direction = Direction.Noop
     }
     const source = this.roomTable.getByImportId(importId)
     const destination = this.roomTable.getByImportId(door.vnum)

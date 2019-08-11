@@ -21,13 +21,13 @@ describe("Action", () => {
   })
 
   it("applyCallback should fail on different request types", async () => {
-    await expect(action.handle(new Request(null, null, new InputContext(RequestType.Gossip))))
+    await expect(action.handle(new Request(null as any, null as any, new InputContext(RequestType.Gossip))))
       .rejects.toThrowError("request type mismatch")
   })
 
   it("applyCallback should succeed on matching request types", async () => {
     const callback = jest.fn()
-    action.handle(new Request(null, null, new InputContext(RequestType.Noop)))
+    action.handle(new Request(null as any, null as any, new InputContext(RequestType.Noop)))
       .then(callback)
       .then(() => expect(callback).toBeCalled())
   })

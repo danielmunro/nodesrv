@@ -2,12 +2,13 @@ import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import DamageEvent from "../../../../mob/event/damageEvent"
 import {getMagicDamageDescriptor} from "../../../../mob/fight/damageDescriptor"
 import {DamageType} from "../../../../mob/fight/enum/damageType"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../mob/spell/constants"
-import {SpellEntity as SpellModel} from "../../../../mob/spell/entity/spellEntity"
+import {SpellEntity, SpellEntity as SpellModel} from "../../../../mob/spell/entity/spellEntity"
 import {SpellType} from "../../../../mob/spell/spellType"
 import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
@@ -30,7 +31,8 @@ export default function(
       new DelayCost(1),
     ])
     .setApplySpell(async requestService => {
-      const [ target, spell ] = requestService.getResults(CheckType.HasTarget, CheckType.HasSpell)
+      const target = requestService.getResult<MobEntity>(CheckType.HasTarget)
+      const spell = requestService.getResult<SpellEntity>(CheckType.HasSpell)
       const eventResponse = await abilityService.publishEvent(
         requestService.createDamageEvent(
           rollDamage(spell, requestService.getMob().specializationType),

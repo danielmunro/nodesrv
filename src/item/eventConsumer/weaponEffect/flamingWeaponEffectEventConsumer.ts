@@ -26,11 +26,11 @@ export default class FlamingWeaponEffectEventConsumer extends AbstractWeaponEffe
   }
 
   private async checkForFlammableEquipment(mob: MobEntity) {
-    mob.equipped.items.forEach(async item => {
+    await Promise.all(mob.equipped.items.map(async item => {
       if (isMaterialFlammable(item.material) && !item.affect().has(AffectType.Fireproof)) {
         await this.calculateBurningEquipment(item, mob)
       }
-    })
+    }))
   }
 
   private async increaseDamageModifier(event: DamageEvent, weapon: ItemEntity): Promise<EventResponse> {
@@ -42,7 +42,7 @@ export default class FlamingWeaponEffectEventConsumer extends AbstractWeaponEffe
         { item: weapon, target: event.mob + "'s", target2: "they" },
         { item: weapon, target: "your", target2: "you"},
         { item: weapon, target: event.mob + "'s", target2: "they" }))
-    const modifier = new Maybe(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Fire))
+    const modifier = new Maybe<number>(WeaponEffectService.findDamageAbsorption(event.mob, DamageType.Fire))
       .do(damageAbsorption => vulnerabilityModifier(damageAbsorption.vulnerability))
       .or(() => AbstractWeaponEffectEventConsumer.defaultBonus)
       .get()

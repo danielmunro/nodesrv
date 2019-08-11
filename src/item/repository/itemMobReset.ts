@@ -4,7 +4,7 @@ import ItemMobResetRepositoryImpl from "./itemMobResetRepositoryImpl"
 
 export default interface ItemMobResetRepository {
   findAll(): Promise<ItemMobResetEntity[]>
-  save(itemMobReset: ItemMobResetEntity)
+  save(itemMobReset: ItemMobResetEntity): any
 }
 
 export async function getItemMobResetRepository(): Promise<ItemMobResetRepository> {

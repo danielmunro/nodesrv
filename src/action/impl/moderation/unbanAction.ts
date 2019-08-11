@@ -40,7 +40,7 @@ export default class UnbanAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const target = requestService.getResult()
+    const target = requestService.getResult<MobEntity>()
     target.playerMob.standing = Standing.Good
     return requestService.respondWith()
       .success(`You have lifted the ban on ${target.name}.`)

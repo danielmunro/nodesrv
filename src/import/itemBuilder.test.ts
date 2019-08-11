@@ -90,7 +90,7 @@ describe("itemBuilder", () => {
     // expect
     expect(item.itemType).toBe(ItemType.Container)
     expect(item.container.weightCapacity).toBe(10)
-    expect(item.container.liquid).toBe(Liquid.Water)
+    expect(item.drink.liquid).toBe(Liquid.Water)
     expect(item.container.maxWeightForItem).toBe(1)
     expect(item.affects.some(affect => affect.affectType === AffectType.Glow)).toBeTruthy()
     expect(item.affects.some(affect => affect.affectType === AffectType.Hum)).toBeTruthy()

@@ -3,7 +3,9 @@ import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {ActionMessages, Costs} from "../../../../mob/skill/constants"
+import {SkillEntity} from "../../../../mob/skill/entity/skillEntity"
 import {SkillType} from "../../../../mob/skill/skillType"
 import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionPart} from "../../../enum/actionPart"
@@ -23,7 +25,8 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(Costs.Trip.Delay),
     ])
     .setApplySkill(async (requestService, affectBuilder) => {
-      const [ target, skill ] = requestService.getResults(CheckType.HasTarget, CheckType.HasSkill)
+      const target = requestService.getResult<MobEntity>(CheckType.HasTarget)
+      const skill = requestService.getResult<SkillEntity>(CheckType.HasSkill)
       const amount = skill.level / 10
       target.hp -= amount
       return createApplyAbilityResponse(affectBuilder

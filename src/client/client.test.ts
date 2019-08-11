@@ -73,7 +73,7 @@ describe("client sanity checks", () => {
   })
 
   describe("client sanity checks with mock services", () => {
-    let send
+    let send: any
 
     beforeEach(() => {
       send = jest.fn()
@@ -81,8 +81,8 @@ describe("client sanity checks", () => {
         send,
       }))
       client = new Client(
-        new SessionService(null),
-        ws(),
+        new SessionService(null as any),
+        ws() as any,
         "127.0.0.1")
     })
 

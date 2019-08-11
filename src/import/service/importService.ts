@@ -47,19 +47,19 @@ export default class ImportService {
   }
 
   private static addMobOffensiveTraits(mob: MobEntity, traits: MobOffensiveTrait[]): void {
-    traits.forEach(trait => offensiveTraits(mob, trait))
+    traits.forEach(trait => offensiveTraits(trait, mob))
   }
 
   private static addMobVulnerableTraits(mob: MobEntity, traits: DamageSourceFlag[]): void {
-    traits.forEach(trait => damageTraits(mob.vulnerable, trait))
+    traits.forEach(trait => damageTraits(trait, mob.vulnerable))
   }
 
   private static addMobResistTraits(mob: MobEntity, traits: DamageSourceFlag[]): void {
-    traits.forEach(trait => damageTraits(mob.resist, trait))
+    traits.forEach(trait => damageTraits(trait, mob.resist))
   }
 
   private static addMobImmuneTraits(mob: MobEntity, traits: DamageSourceFlag[]): void {
-    traits.forEach(trait => damageTraits(mob.immune, trait))
+    traits.forEach(trait => damageTraits(trait, mob.immune))
   }
 
   private static async addShop(file: File, resetData: any): Promise<void> {

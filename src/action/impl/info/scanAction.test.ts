@@ -39,6 +39,7 @@ describe("scan action", () => {
     ["scan floodle", false, false, false],
     ["scan jane", false, false, false],
   ])("will find mobs using '%s'",
+    // @ts-ignore
     async (command: string, mob1Present: boolean, mob2Present: boolean, mob3Present: boolean) => {
     // when
     const response = await testRunner.invokeAction(RequestType.Scan, command)

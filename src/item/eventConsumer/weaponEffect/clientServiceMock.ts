@@ -5,6 +5,7 @@ export default jest.fn(() => {
   return {
     getFirstResponse: () => responses[0],
     getResponse: () => responses[responses.length - 1],
+    getResponses: () => responses,
     sendResponseToRoom: (resp: Response) => {
       responses.push(resp)
     },

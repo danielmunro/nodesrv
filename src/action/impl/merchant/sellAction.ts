@@ -5,6 +5,7 @@ import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {EventType} from "../../../event/enum/eventType"
 import {createItemEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import {Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/enum/requestType"
 import {ResponseStatus} from "../../../request/enum/responseStatus"
@@ -32,7 +33,7 @@ export default class SellAction extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const item = requestService.getResult(CheckType.HasItem)
+    const item = requestService.getResult<ItemEntity>(CheckType.HasItem)
     await this.eventService.publish(createItemEvent(EventType.ItemDestroyed, item))
     requestService.removeItemFromMobInventory(item)
     requestService.addGold(item.value)
@@ -42,8 +43,8 @@ export default class SellAction extends Action {
       .response(
         ResponseStatus.Success,
         requestService.createResponseMessage(ActionMessages.Sell.Success)
-          .addReplacement("item", item)
-          .addReplacement("value", item.value)
+          .addReplacement("item", item.toString())
+          .addReplacement("value", item.value.toString())
           .setVerbToRequestCreator("sell")
           .setVerbToTarget("sell")
           .setVerbToObservers("sells")

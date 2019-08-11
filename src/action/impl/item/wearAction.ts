@@ -27,7 +27,7 @@ export default class WearAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const item = requestService.getResult()
+    const item = requestService.getResult<ItemEntity>()
     const mob = requestService.getMob()
     const currentEq = mob.equipped.find((i: ItemEntity) => i.equipment === item.equipment)
 

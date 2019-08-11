@@ -5,6 +5,7 @@ import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import MobService from "../../../mob/service/mobService"
 import {getAuthorizationLevelName, getNextDemotion} from "../../../player/authorizationLevels"
+import {AuthorizationLevel} from "../../../player/enum/authorizationLevel"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
@@ -42,8 +43,8 @@ export default class DemoteAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const [ target, authorizationLevel ] = requestService.getResults(
-      CheckType.HasTarget, CheckType.AuthorizationLevel)
+    const target = requestService.getResult<MobEntity>()
+    const authorizationLevel = requestService.getResult<AuthorizationLevel>(CheckType.AuthorizationLevel)
     target.playerMob.authorizationLevel = authorizationLevel
     return requestService.respondWith().success(
     `You demoted ${target.name} to ${getAuthorizationLevelName(authorizationLevel)}.`)

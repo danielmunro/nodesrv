@@ -25,7 +25,7 @@ describe("region weather server observer", () => {
     const weather = regions.map(region => weatherService.getWeatherForRegion(region).get())
 
     // when
-    const regionWeather = new RegionWeather(null, weatherService, regions)
+    const regionWeather = new RegionWeather(null as any, weatherService, regions)
     await regionWeather.notify([])
 
     // then

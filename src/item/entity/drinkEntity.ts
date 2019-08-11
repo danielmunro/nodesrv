@@ -18,10 +18,10 @@ export default class DrinkEntity {
   @Column({ nullable: true })
   public capacity: number
 
-  @Column()
+  @Column({ default: 1 })
   public drinkAmount: number
 
-  @Column()
+  @Column({ default: 1 })
   public foodAmount: number
 
   @OneToOne(() => ItemEntity, item => item.food)

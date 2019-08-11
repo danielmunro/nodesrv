@@ -2,6 +2,7 @@ import {AffectEntity} from "../../../../affect/entity/affectEntity"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../mob/spell/constants"
 import {SpellType} from "../../../../mob/spell/spellType"
@@ -21,7 +22,7 @@ export default function(abilityService: AbilityService): Spell {
       new DelayCost(1),
     ])
     .setApplySpell(async requestService => {
-      const target = requestService.getTarget()
+      const target = requestService.getTarget<MobEntity>()
       target.affects.forEach((affect: AffectEntity) => {
         if (percentRoll() < CHANCE_THRESHOLD) {
           target.affect().remove(affect.affectType)

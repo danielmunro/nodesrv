@@ -108,6 +108,7 @@ export function createWeapon(): ItemEntity {
 
 export function createDrink(): DrinkEntity {
   const drink = new DrinkEntity()
+  drink.drinkAmount = 1
   drink.liquid = Liquid.Water
   return drink
 }

@@ -16,7 +16,7 @@ export default class MobTable {
     return undefined
   }
 
-  public apply(fn: () => {}) {
+  public apply(fn: (mob: MobEntity) => void) {
     return this.mobs.forEach(fn)
   }
 

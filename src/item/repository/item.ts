@@ -4,7 +4,7 @@ import ItemRepositoryImpl from "./itemImpl"
 
 export default interface ItemRepository {
   findAll(): Promise<ItemEntity[]>
-  save(item)
+  save(item: any): any
 }
 
 export async function getItemRepository(): Promise<ItemRepository> {

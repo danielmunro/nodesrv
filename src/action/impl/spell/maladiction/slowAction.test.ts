@@ -66,9 +66,7 @@ describe("slow spell action", () => {
           `cast slow '${target.getMobName()}'`,
           target.get())
 
-      if (!aff.has(AffectType.Slow)) {
-        return handled
-      }
+      return aff.has(AffectType.Slow) ? undefined : handled
     })
 
     expect(response.getMessageToRequestCreator()).toBe(`${target.getMobName()} stops moving quickly.`)

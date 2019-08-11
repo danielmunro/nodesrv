@@ -33,12 +33,12 @@ export default function(abilityService: AbilityService): Skill {
       .create()
     })
     .setApplySkill(requestService => {
-      const item = requestService.getResult(CheckType.ItemPresent)
+      const item = requestService.getResult<ItemEntity>(CheckType.ItemPresent)
       requestService.addItemToRoomInventory(item)
       return Promise.resolve()
     })
     .setSuccessMessage(requestService => {
-      const target = requestService.getTarget()
+      const target = requestService.getTarget<MobEntity>()
       return requestService.createResponseMessage(ActionMessages.Disarm.Success)
         .setVerbToRequestCreator("disarm")
         .addReplacementForRequestCreator("gender", target.gender)

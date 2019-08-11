@@ -41,7 +41,7 @@ export default function(abilityService: AbilityService, mobService: MobService):
         .setVerbToObservers("arrives")
         .create())
     .setApplySpell(async requestService => {
-      const target = requestService.getTarget()
+      const target = requestService.getTarget<MobEntity>()
       const location = mobService.getLocationForMob(target)
       if (location) {
         await abilityService.publishEvent(

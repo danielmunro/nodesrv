@@ -3,6 +3,7 @@ import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
+import {ItemEntity} from "../../../../item/entity/itemEntity"
 import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {ActionMessages, ConditionMessages, Costs} from "../../../../mob/skill/constants"
 import {SkillType} from "../../../../mob/skill/skillType"
@@ -31,7 +32,7 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(Costs.Steal.Delay),
     ])
     .setApplySkill(async (requestService) => {
-      const item = requestService.getResult(CheckType.HasItem)
+      const item = requestService.getResult<ItemEntity>(CheckType.HasItem)
       requestService.addItemToMobInventory(item)
       if (roll(1, 5) === 1) {
         await abilityService.publishEvent(requestService.createAttackEvent())

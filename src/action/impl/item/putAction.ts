@@ -2,6 +2,7 @@ import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import {ItemEntity} from "../../../item/entity/itemEntity"
 import ItemService from "../../../item/service/itemService"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
@@ -9,8 +10,7 @@ import Response from "../../../request/response"
 import RequestService from "../../../request/service/requestService"
 import Maybe from "../../../support/functional/maybe/maybe"
 import {Types} from "../../../support/types"
-import {MESSAGE_FAIL_CONTAINER_NOT_FOUND, Messages} from "../../constants"
-import {ConditionMessages} from "../../constants"
+import {ConditionMessages, MESSAGE_FAIL_CONTAINER_NOT_FOUND, Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import Action from "../action"
 
@@ -39,9 +39,8 @@ export default class PutAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const [ item, container ] = requestService.getResults(
-      CheckType.HasItem,
-      CheckType.ContainerPresent)
+    const item = requestService.getResult<ItemEntity>(CheckType.HasItem)
+    const container = requestService.getResult<ItemEntity>(CheckType.ContainerPresent)
     container.container.addItem(item)
     return requestService.respondWith()
       .success(Messages.Put.Success, { item, container })

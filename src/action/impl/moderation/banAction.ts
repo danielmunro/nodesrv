@@ -60,8 +60,9 @@ export default class BanAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const target = requestService.getResult()
-    const newStanding = BanAction.getNewStandingFromBanCommand(BanAction.getBanCommand(requestService.getComponent()))
+    const target = requestService.getResult<MobEntity>()
+    const newStanding = BanAction.getNewStandingFromBanCommand(
+      BanAction.getBanCommand(requestService.getComponent())) as Standing
     target.playerMob.standing = newStanding
 
     return requestService.respondWith().success(

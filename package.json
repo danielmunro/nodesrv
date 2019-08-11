@@ -48,7 +48,7 @@
     "sillyname": "^0.1.0",
     "slugify": "^1.2.9",
     "ts-complexity": "^0.0.3",
-    "ts-jest": "^23.1.4",
+    "ts-jest": "23.10.4",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
     "tslint-sonarts": "^1.8.0",

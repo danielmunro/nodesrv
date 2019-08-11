@@ -3,6 +3,7 @@ import DelayCost from "../../../../check/cost/delayCost"
 import MvCost from "../../../../check/cost/mvCost"
 import AbilityService from "../../../../check/service/abilityService"
 import {createAttackEvent} from "../../../../event/factory/eventFactory"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {Fight} from "../../../../mob/fight/fight"
 import {Costs, SkillMessages} from "../../../../mob/skill/constants"
 import {SkillType} from "../../../../mob/skill/skillType"
@@ -23,7 +24,7 @@ export default function(abilityService: AbilityService): Skill {
     ])
     .setApplySkill(async (requestService, affectBuilder) => {
       const level = requestService.getMobLevel()
-      const target = requestService.getTarget()
+      const target = requestService.getTarget<MobEntity>()
       target.hp -= Fight.calculateDamageForOneHit(requestService.getMob(), target)
       await abilityService.publishEvent(createAttackEvent(requestService.getMob(), target))
       return createApplyAbilityResponse(affectBuilder

@@ -11,10 +11,10 @@ export default class FoodEntity {
   @Generated("uuid")
   public uuid: string = v4()
 
-  @Column()
+  @Column({ default: 1 })
   public foodAmount: number = 1
 
-  @Column()
+  @Column({ default: 1 })
   public drinkAmount: number = 0
 
   @OneToOne(() => ItemEntity, item => item.food)

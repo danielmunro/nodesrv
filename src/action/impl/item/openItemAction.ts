@@ -37,7 +37,7 @@ export default class OpenItemAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const item = requestService.getResult(CheckType.HasTarget)
+    const item = requestService.getResult<ItemEntity>(CheckType.HasTarget)
     item.container.isOpen = true
 
     return requestService.respondWith().success(

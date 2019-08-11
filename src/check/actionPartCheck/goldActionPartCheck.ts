@@ -11,10 +11,11 @@ export default class GoldActionPartCheck implements ActionPartCheck {
   }
 
   public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): any {
+    const component = parseInt(request.getComponent(), 10)
     checkBuilder.require(
-      request.getComponent(),
+      component,
       Messages.Bounty.NeedAmount,
-      CheckType.HasArguments)
+      CheckType.HasGold)
     .require(
       (amount: number) => request.mob.gold >= amount,
       Messages.Bounty.NeedMoreGold)

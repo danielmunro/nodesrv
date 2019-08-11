@@ -20,7 +20,7 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - yarn test-coverage
+  - yarn test-coverage -w 2
   - sonar-scanner
 addons:
   sonarcloud:

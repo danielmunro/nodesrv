@@ -3,6 +3,7 @@ import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import ItemQuantity from "../../../item/interface/itemQuantity"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import {Disposition} from "../../../mob/enum/disposition"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
@@ -27,7 +28,7 @@ export default class ListAction extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const merchant = requestService.getResult(CheckType.HasTarget)
+    const merchant = requestService.getResult<MobEntity>(CheckType.HasTarget)
     const itemQuantityMap = merchant.inventory.getItemQuantityMap()
     return requestService
       .respondWith()

@@ -39,7 +39,7 @@ export default class CastAction extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const spell = requestService.getResult()
+    const spell = requestService.getResult<Spell>()
     return spell.invoke(requestService)
   }
 

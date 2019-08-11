@@ -9,7 +9,7 @@ export default class ItemRepositoryImpl implements ItemRepository {
     return this.itemRepository.find({ relations: ["container"] })
   }
 
-  public save(item) {
+  public save(item: any): any {
     return this.itemRepository.save(item)
   }
 }

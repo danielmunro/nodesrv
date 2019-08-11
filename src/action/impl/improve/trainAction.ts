@@ -91,7 +91,7 @@ export default class TrainAction extends Action {
   public invoke(requestService: RequestService): Promise<Response> {
     const mob = requestService.getMob()
     const responseBuilder = requestService.respondWith()
-    const subject = requestService.getResult(CheckType.ValidSubject)
+    const subject = requestService.getResult<any>(CheckType.ValidSubject)
 
     if (subject === true) {
       const attributes = mob.playerMob.trainedAttributes

@@ -5,6 +5,7 @@ import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
 import {ItemEntity} from "../../../../item/entity/itemEntity"
 import {ActionMessages, ConditionMessages as PreconditionMessages, Costs} from "../../../../mob/skill/constants"
+import {SkillEntity} from "../../../../mob/skill/entity/skillEntity"
 import {SkillType} from "../../../../mob/skill/skillType"
 import SkillBuilder from "../../../builder/skillBuilder"
 import {ActionPart} from "../../../enum/actionPart"
@@ -32,7 +33,8 @@ export default function(abilityService: AbilityService): Skill {
       new DelayCost(Costs.Repair.Delay),
     ])
     .setApplySkill(async requestService => {
-      const [ skill, item ] = requestService.getResults(CheckType.HasSkill, CheckType.HasItem)
+      const skill = requestService.getResult<SkillEntity>(CheckType.HasSkill)
+      const item = requestService.getResult<ItemEntity>(CheckType.HasItem)
       const improvement = (Math.random() * skill.level) / 4
       item.condition = Math.min(item.condition + improvement, ItemEntity.maxCondition)
     })

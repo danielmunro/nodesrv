@@ -5,5 +5,6 @@ import ItemPrototype from "./itemPrototype"
 
 export default function(itemPrototype: ItemPrototype): ItemEntity {
   const { name, description, args } = itemPrototype
+  // @ts-ignore
   return newEquipment(name, description, equipmentMap[args[0]])
 }

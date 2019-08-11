@@ -2,6 +2,7 @@ import {inject, injectable} from "inversify"
 import Check from "../../../check/check"
 import {CheckType} from "../../../check/enum/checkType"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import {RequestType} from "../../../request/enum/requestType"
 import Request from "../../../request/request"
 import Response from "../../../request/response"
@@ -38,11 +39,10 @@ export default class BountyAction extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const [ mob, amount ] = requestService.getResults(
-      CheckType.IsPlayer, CheckType.HasArguments)
+    const mob = requestService.getResult<MobEntity>(CheckType.IsPlayer)
+    const amount = requestService.getResult<number>(CheckType.HasGold)
     requestService.subtractGold(amount)
-    mob.playerMob.bounty += parseInt(amount, 10)
-
+    mob.playerMob.bounty += amount
     return requestService.respondWith().success(Messages.Bounty.Success)
   }
 }

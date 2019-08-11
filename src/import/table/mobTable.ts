@@ -5,11 +5,13 @@ export default class MobTable {
 
   constructor(mobs: MobEntity[]) {
     for (const mob of mobs) {
+      // @ts-ignore
       this.mobsByImportId[mob.canonicalId] = mob
     }
   }
 
-  public getByImportId(id): MobEntity {
+  public getByImportId(id: any): MobEntity {
+    // @ts-ignore
     return this.mobsByImportId[id]
   }
 }

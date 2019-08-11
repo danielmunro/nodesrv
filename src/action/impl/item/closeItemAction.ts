@@ -43,7 +43,7 @@ export default class CloseItemAction extends Action {
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
-    const item = requestService.getResult()
+    const item = requestService.getResult<ItemEntity>()
     item.container.isOpen = false
 
     return requestService.respondWith().success(

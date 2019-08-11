@@ -44,7 +44,7 @@ export default class HealAction extends Action {
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {
-    const healer = requestService.getResult()
+    const healer = requestService.getResult<MobEntity>()
     const subject = requestService.getSubject()
     if (!subject) {
       return requestService.respondWith().info(this.listSpells(healer))
