@@ -11,10 +11,8 @@ import MobService from "../../mob/service/mobService"
 import PlayerRepository from "../../player/repository/player"
 import {GameServerService} from "../../server/service/gameServerService"
 import {Types} from "../../support/types"
-import {Timings} from "../constants"
 
 export default new ContainerModule(bind => {
-  console.time(Timings.eventConsumerTable)
   bind<EventConsumer[]>(Types.EventConsumerTable).toDynamicValue(context => createEventConsumerTable(
       context.container.get<GameService>(Types.GameService),
       context.container.get<GameServerService>(Types.GameServer),
@@ -25,5 +23,4 @@ export default new ContainerModule(bind => {
       context.container.get<LocationService>(Types.LocationService),
       context.container.get<KafkaService>(Types.KafkaService),
       context.container.get<PlayerRepository>(Types.PlayerRepository))).inSingletonScope()
-  console.timeEnd(Timings.eventConsumerTable)
 })
