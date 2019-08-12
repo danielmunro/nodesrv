@@ -43,8 +43,8 @@ describe("room message event consumer", () => {
 
     // then
     // @ts-ignore
-    expect(client1.ws.send.mock.calls).toHaveLength(1)
+    expect(client1.socket.ws.send.mock.calls).toHaveLength(1)
     // @ts-ignore
-    expect(client2.ws.send.mock.calls).toHaveLength(0)
+    expect(client2.socket.ws.send.mock.calls).toHaveLength(0)
   })
 })

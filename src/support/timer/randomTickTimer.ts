@@ -1,4 +1,4 @@
-import { DiceRoller } from "../../dice/dice"
+import {DiceRoller} from "../random/dice"
 import { Timer } from "./timer"
 
 export class RandomTickTimer implements Timer {

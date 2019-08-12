@@ -1,5 +1,6 @@
 import {inject, injectable} from "inversify"
 import {Client} from "../../client/client"
+import Socket from "../../client/socket"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
 import RequestBuilder from "../../request/builder/requestBuilder"
@@ -23,7 +24,7 @@ export default class ClientService {
   public createNewClient(ws: WebSocket, req: any) {
     const client = new Client(
       new SessionService(new Email(this.creationService)),
-      ws,
+      new Socket(ws),
       req ? req.connection.remoteAddress : null)
     this.add(client)
     ws.onmessage = message => this.onMessage(client, message)

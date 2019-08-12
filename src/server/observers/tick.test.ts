@@ -38,7 +38,7 @@ describe("ticks", () => {
 
     // then
     // @ts-ignore
-    clients.forEach((client) => expect(client.ws.send.mock.calls.length).toBeGreaterThan(1))
+    clients.forEach((client) => expect(client.socket.ws.send.mock.calls.length).toBeGreaterThan(1))
   })
 
   it("should invoke fast healing on tick", async () => {

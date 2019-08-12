@@ -5,6 +5,7 @@ import { PlayerEntity } from "../player/entity/playerEntity"
 import Request from "../request/request"
 import { default as AuthRequest } from "../session/auth/request"
 import SessionService from "../session/service/sessionService"
+import Socket from "./socket"
 
 export class Client {
   public player: PlayerEntity
@@ -12,7 +13,7 @@ export class Client {
 
   constructor(
     public readonly session: SessionService,
-    public readonly ws: WebSocket,
+    public readonly socket: Socket,
     public readonly ip: string) {}
 
   public hasRequests(): boolean {
@@ -44,7 +45,7 @@ export class Client {
   }
 
   public send(data: any): void {
-    this.ws.send(stringify(data))
+    this.socket.send(stringify(data))
   }
 
   public sendMessage(message: string) {

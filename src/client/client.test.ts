@@ -136,7 +136,7 @@ describe("client sanity checks", () => {
 
     // when
     // @ts-ignore
-    client.ws.onmessage(getNewTestMessageEvent("hello"))
+    client.socket.ws.onmessage(getNewTestMessageEvent("hello"))
 
     // then
     expect(client.hasRequests()).toBeTruthy()
