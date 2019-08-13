@@ -5,6 +5,7 @@ import EventConsumer from "../../event/interface/eventConsumer"
 import LocationService from "../../mob/service/locationService"
 import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/service/clientService"
+import withValue from "../../support/functional/withValue"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import RoomMessageEventConsumer from "./roomMessageEventConsumer"
@@ -33,12 +34,13 @@ describe("room message event consumer", () => {
     await client2.session.login(client2, player2.player)
 
     // setup -- event consumer instance
-    const roomMessageEventConsumer = app.get<EventConsumer[]>(Types.EventConsumerTable).find(eventConsumer =>
-      eventConsumer instanceof RoomMessageEventConsumer) as RoomMessageEventConsumer
-
-    // when
-    await roomMessageEventConsumer.consume(
-      createRoomMessageEvent(room1.room, new ResponseMessage(player1.getMob(),  "")))
+    await withValue(
+      app.get<EventConsumer[]>(Types.EventConsumerTable).find(eventConsumer =>
+      eventConsumer instanceof RoomMessageEventConsumer),
+      consumer =>
+        consumer.consume(createRoomMessageEvent(
+          room1.room,
+          new ResponseMessage(player1.getMob(),  ""))))
 
     // then
     // @ts-ignore
