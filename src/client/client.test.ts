@@ -16,6 +16,7 @@ import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
 import {Client} from "./client"
 import {MESSAGE_NOT_UNDERSTOOD} from "./constants"
+import Socket from "./socket"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
@@ -35,7 +36,7 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   const clientService = app.get<ClientService>(Types.ClientService)
-  client = clientService.createNewClient(mockWebSocket() as any, mockReq())
+  client = clientService.createNewClient(new Socket(mockWebSocket() as any), mockReq())
   const player = (await testRunner.createPlayer()).get()
   await client.session.login(client, player)
   const mobService = app.get<MobService>(Types.MobService)

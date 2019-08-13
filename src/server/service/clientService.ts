@@ -21,13 +21,13 @@ export default class ClientService {
     @inject(Types.LocationService) private readonly locationService: LocationService,
     private clients: Client[] = []) {}
 
-  public createNewClient(ws: WebSocket, req: any) {
+  public createNewClient(socket: Socket, req: any) {
     const client = new Client(
       new SessionService(new Email(this.creationService)),
-      new Socket(ws),
+      socket,
       req ? req.connection.remoteAddress : null)
     this.add(client)
-    ws.onmessage = message => this.onMessage(client, message)
+    socket.onMessage(message => this.onMessage(client, message))
     return client
   }
 

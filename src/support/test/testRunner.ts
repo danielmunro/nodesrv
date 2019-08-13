@@ -3,6 +3,7 @@ import Action from "../../action/impl/action"
 import Skill from "../../action/impl/skill"
 import ActionService from "../../action/service/actionService"
 import {Client} from "../../client/client"
+import Socket from "../../client/socket"
 import StateService from "../../gameService/stateService"
 import ItemBuilder from "../../item/builder/itemBuilder"
 import WeaponBuilder from "../../item/builder/weaponBuilder"
@@ -94,7 +95,7 @@ export default class TestRunner {
   public async createPlayer(): Promise<PlayerBuilder> {
     const player = getTestPlayer()
     const websocket = ws() as any
-    const client = this.clientService.createNewClient(websocket, null)
+    const client = this.clientService.createNewClient(new Socket(websocket), null)
     client.player = player
     await this.mobService.add(player.sessionMob, this.getStartRoom().room)
     this.playerTable.add(player)
@@ -105,7 +106,7 @@ export default class TestRunner {
   }
 
   public createClient(): Client {
-    return this.clientService.createNewClient(ws() as any, mockRequest())
+    return this.clientService.createNewClient(new Socket(ws() as any), mockRequest())
   }
 
   public async createLoggedInClient(): Promise<Client> {

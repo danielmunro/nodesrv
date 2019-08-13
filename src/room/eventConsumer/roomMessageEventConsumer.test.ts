@@ -1,4 +1,5 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
+import Socket from "../../client/socket"
 import {createRoomMessageEvent} from "../../event/factory/eventFactory"
 import EventConsumer from "../../event/interface/eventConsumer"
 import LocationService from "../../mob/service/locationService"
@@ -8,11 +9,9 @@ import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import RoomMessageEventConsumer from "./roomMessageEventConsumer"
 
-const mockSocket = jest.fn(() => ({
-  onMessage: jest.fn(),
-  send: jest.fn(),
-}))
+jest.mock("../../client/socket")
 const mockRequest = jest.fn()
+const mockWs = jest.fn()
 
 describe("room message event consumer", () => {
   it("notifies clients in the same room", async () => {
@@ -28,9 +27,9 @@ describe("room message event consumer", () => {
 
     // setup -- log in clients
     const clientService = app.get<ClientService>(Types.ClientService)
-    const client1 = clientService.createNewClient(mockSocket() as any, mockRequest())
+    const client1 = clientService.createNewClient(new Socket(mockWs()), mockRequest())
     await client1.session.login(client1, player1.player)
-    const client2 = clientService.createNewClient(mockSocket() as any, mockRequest())
+    const client2 = clientService.createNewClient(new Socket(mockWs()), mockRequest())
     await client2.session.login(client2, player2.player)
 
     // setup -- event consumer instance
@@ -43,8 +42,8 @@ describe("room message event consumer", () => {
 
     // then
     // @ts-ignore
-    expect(client1.socket.ws.send.mock.calls).toHaveLength(1)
+    expect(client1.socket.send.mock.calls).toHaveLength(1)
     // @ts-ignore
-    expect(client2.socket.ws.send.mock.calls).toHaveLength(0)
+    expect(client2.socket.send.mock.calls).toHaveLength(0)
   })
 })
