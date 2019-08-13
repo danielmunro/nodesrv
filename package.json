@@ -4,7 +4,7 @@
   "description": "A minimal server",
   "main": "bin/start-game-server.js",
   "scripts": {
-    "start": "ts-node bin/start-game-server.ts 3001 5151",
+    "start": "NODE_OPTIONS=\"--max-old-space-size=8192\" ts-node bin/start-game-server.ts 3001 5151",
     "create-fixtures": "ts-node bin/create-fixtures.ts .",
     "clean": "rm -rf ./coverage",
     "lint": "yarn clean && tslint --project .",
