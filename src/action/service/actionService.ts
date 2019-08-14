@@ -49,7 +49,7 @@ export default class ActionService {
   }
 
   private async handleUnauthenticatedRequest(client: Client, request: Request) {
-    const authResponse = await client.session.handleRequest(client, request as any)
+    const authResponse = await client.session.handleRequest(client, request)
     if (client.isLoggedIn()) {
       await this.eventService.publish(createMobEvent(EventType.MobCreated, client.getSessionMob()))
       await this.eventService.publish(createClientEvent(EventType.ClientLogin, client))

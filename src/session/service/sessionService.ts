@@ -1,6 +1,7 @@
 import { Client } from "../../client/client"
 import { MobEntity } from "../../mob/entity/mobEntity"
 import { PlayerEntity } from "../../player/entity/playerEntity"
+import Request from "../../request/request"
 import AuthStep from "../auth/authStep/authStep"
 import Complete from "../auth/authStep/complete"
 import { default as MobComplete } from "../auth/authStep/createMob/complete"
@@ -19,13 +20,14 @@ export default class SessionService {
     return this.status === SessionStatus.LoggedIn
   }
 
-  public async handleRequest(client: Client, request: AuthRequest) {
-    const response = await this.authStep.processRequest(request)
+  public async handleRequest(client: Client, request: Request) {
+    const authRequest = new AuthRequest(client, request.getContextAsInput().input)
+    const response = await this.authStep.processRequest(authRequest)
     this.authStep = response.authStep
     client.send({ message: response.message })
     client.send({ message: this.authStep.getStepMessage() })
     if (this.isEndStep()) {
-      await this.doEndStep(client, request)
+      await this.doEndStep(client, authRequest)
     }
     return response
   }
