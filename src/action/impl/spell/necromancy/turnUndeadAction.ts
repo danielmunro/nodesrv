@@ -5,7 +5,6 @@ import {createRoomMessageEvent} from "../../../../event/factory/eventFactory"
 import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {Disposition} from "../../../../mob/enum/disposition"
 import {RaceType} from "../../../../mob/race/enum/raceType"
-import MobService from "../../../../mob/service/mobService"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../mob/spell/constants"
 import {SpellType} from "../../../../mob/spell/spellType"
@@ -26,7 +25,7 @@ async function turn(room: RoomEntity, target: MobEntity, abilityService: Ability
       { target })))
 }
 
-export default function(abilityService: AbilityService, mobService: MobService): Spell {
+export default function(abilityService: AbilityService): Spell {
   return new SpellBuilder(abilityService)
     .setSpellType(SpellType.TurnUndead)
     .setActionType(ActionType.Defensive)
@@ -38,11 +37,10 @@ export default function(abilityService: AbilityService, mobService: MobService):
       requestService.createResponseMessage(SpellMessages.TurnUndead.Success)
         .create())
     .setApplySpell(async requestService => {
-      const location = mobService.getLocationForMob(requestService.getMob())
-      await Promise.all(mobService.getMobsByRoom(location.room)
+      await Promise.all(abilityService.getMobsByRoom(requestService.getRoom())
         .filter(mob => mob.raceType === RaceType.Undead)
         .filter(mob => percentRoll() < 100 - mob.level)
-        .map(mob => turn(location.room, mob, abilityService)))
+        .map(mob => turn(requestService.getRoom(), mob, abilityService)))
     })
     .setSpecializationType(SpecializationType.Mage)
     .create()

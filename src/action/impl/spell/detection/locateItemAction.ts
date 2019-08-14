@@ -1,38 +1,17 @@
-import {AffectType} from "../../../../affect/enum/affectType"
 import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
-import StateService from "../../../../gameService/stateService"
 import ContainerEntity from "../../../../item/entity/containerEntity"
 import {ItemEntity} from "../../../../item/entity/itemEntity"
-import ItemService from "../../../../item/service/itemService"
 import {MobEntity} from "../../../../mob/entity/mobEntity"
 import {SpellMessages} from "../../../../mob/spell/constants"
-import {SpellEntity as SpellModel} from "../../../../mob/spell/entity/spellEntity"
 import {SpellType} from "../../../../mob/spell/spellType"
-import {RegionEntity} from "../../../../region/entity/regionEntity"
 import {RoomEntity} from "../../../../room/entity/roomEntity"
-import match from "../../../../support/matcher/match"
-import {percentRoll} from "../../../../support/random/helpers"
 import SpellBuilder from "../../../builder/spellBuilder"
 import {Messages} from "../../../constants"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../spell"
-
-function filterItem(
-  stateService: StateService,
-  mob: MobEntity,
-  region: RegionEntity,
-  item: ItemEntity,
-  input: string,
-  spell: SpellModel): boolean {
-  return match(item.name, input) &&
-    stateService.canMobSee(mob, region) &&
-    mob.level >= item.level &&
-    !item.affects.find(affect => affect.affectType === AffectType.NoLocate) &&
-    percentRoll() < 2 * spell.level
-}
 
 function reduceCarriedBy(carriedBy: MobEntity | RoomEntity | ContainerEntity) {
   if (carriedBy instanceof MobEntity) {
@@ -44,30 +23,14 @@ function reduceCarriedBy(carriedBy: MobEntity | RoomEntity | ContainerEntity) {
   return `in a container`
 }
 
-export default function(abilityService: AbilityService, itemService: ItemService, stateService: StateService): Spell {
+export default function(abilityService: AbilityService): Spell {
   return new SpellBuilder(abilityService)
     .setSpellType(SpellType.LocateItem)
     .setActionType(ActionType.Neutral)
     .addToCheckBuilder((request, checkBuilder) => {
-      let item: ItemEntity
-      const items = itemService.itemTable.items
-        .filter(i => {
-          item = i
-          return filterItem(
-            stateService,
-            request.mob,
-            request.getRoomRegion(),
-            i,
-            request.getComponent(),
-            request.mob.spells.find(spell => spell.spellType === SpellType.LocateItem) as SpellModel)
-        })
-        .map(i => i.carriedBy)
-      // @ts-ignore
-      checkBuilder.require(item, Messages.LocateItem.Fail, CheckType.HasTarget)
-      checkBuilder.require(
-        items,
-        Messages.LocateItem.Fail,
-        CheckType.HasItem)
+      const foundItem = abilityService.findItems(request.getMob(), request.getRoomRegion(), request.getComponent())
+      checkBuilder.require(foundItem.item, Messages.LocateItem.Fail, CheckType.HasTarget)
+      checkBuilder.require(foundItem.mobs, Messages.LocateItem.Fail, CheckType.HasItem)
     })
     .setCosts([
       new ManaCost(20),

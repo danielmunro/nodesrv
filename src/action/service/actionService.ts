@@ -29,7 +29,7 @@ export default class ActionService {
     @inject(Types.EventService) public readonly eventService: EventService,
     @multiInject(Types.Actions) public readonly actions: Action[],
     @multiInject(Types.Skills) public readonly skills: Skill[],
-    @inject(Types.Spells) public readonly spells: Spell[]) {
+    @multiInject(Types.Spells) public readonly spells: Spell[]) {
     withValue(
       this.actions.find(action => action instanceof HelpAction),
       helpAction => helpAction.setActions(this.actions))

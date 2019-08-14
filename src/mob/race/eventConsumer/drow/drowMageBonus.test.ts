@@ -19,7 +19,7 @@ let mob: MobEntity
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
-  eventConsumer = new DrowMageBonus(app.get<Spell[]>(Types.Spells))
+  eventConsumer = new DrowMageBonus(app.getAll<Spell>(Types.Spells))
   mob = (await testRunner.createMob())
     .setRace(RaceType.Drow)
     .setSpecialization(SpecializationType.Mage)

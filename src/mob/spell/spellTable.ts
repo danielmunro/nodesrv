@@ -45,22 +45,10 @@ import towerOfIronWillAction from "../../action/impl/spell/psionics/towerOfIronW
 import flyAction from "../../action/impl/spell/transportation/flyAction"
 import summonAction from "../../action/impl/spell/transportation/summonAction"
 import wordOfRecallAction from "../../action/impl/spell/transportation/wordOfRecallAction"
-import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
 import AbilityService from "../../check/service/abilityService"
-import EventService from "../../event/service/eventService"
-import StateService from "../../gameService/stateService"
-import ItemService from "../../item/service/itemService"
-import LocationService from "../service/locationService"
-import MobService from "../service/mobService"
 
 export default function getSpellTable(
-  mobService: MobService,
-  eventService: EventService,
-  itemService: ItemService,
-  stateService: StateService,
-  locationService: LocationService): Spell[] {
-  const checkBuilderFactory = new CheckBuilderFactory(mobService)
-  const abilityService = new AbilityService(checkBuilderFactory, eventService)
+  abilityService: AbilityService): Spell[] {
   return [
     // maladictions
     blindAction(abilityService),
@@ -107,7 +95,7 @@ export default function getSpellTable(
     // detection
     detectInvisibleAction(abilityService),
     detectHiddenAction(abilityService),
-    locateItemAction(abilityService, itemService, stateService),
+    locateItemAction(abilityService),
     knowAlignmentAction(abilityService),
 
     // piety
@@ -121,16 +109,16 @@ export default function getSpellTable(
 
     // transportation
     flyAction(abilityService),
-    wordOfRecallAction(abilityService, locationService),
-    summonAction(abilityService, mobService),
+    wordOfRecallAction(abilityService),
+    summonAction(abilityService),
 
     // orbs
     orbOfTouchAction(abilityService),
     orbOfAwakeningAction(abilityService),
 
     // necromancy
-    summonUndeadAction(abilityService, mobService),
-    turnUndeadAction(abilityService, mobService),
+    summonUndeadAction(abilityService),
+    turnUndeadAction(abilityService),
     drawLifeAction(abilityService),
     withstandDeathAction(abilityService),
   ]

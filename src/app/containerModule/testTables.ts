@@ -32,5 +32,5 @@ export default new AsyncContainerModule(async bind => {
   bind<RealEstateListingTable>(Types.RealEstateListingTable).toConstantValue(new RealEstateListingTable())
   bind<RealEstateBidTable>(Types.RealEstateBidTable).toConstantValue(new RealEstateBidTable())
   bind<HealerSpell[]>(Types.HealerSpells).toDynamicValue(context =>
-    getHealerSpellTable(context.container.get<Spell[]>(Types.Spells)))
+    getHealerSpellTable(context.container.getAll<Spell>(Types.Spells)))
 })

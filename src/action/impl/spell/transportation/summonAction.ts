@@ -4,16 +4,15 @@ import {CheckType} from "../../../../check/enum/checkType"
 import AbilityService from "../../../../check/service/abilityService"
 import {createRoomMessageEvent} from "../../../../event/factory/eventFactory"
 import {MobEntity} from "../../../../mob/entity/mobEntity"
-import MobService from "../../../../mob/service/mobService"
 import {SpellMessages} from "../../../../mob/spell/constants"
 import {SpellType} from "../../../../mob/spell/spellType"
 import ResponseMessageBuilder from "../../../../request/builder/responseMessageBuilder"
-import match from "../../../../support/matcher/match"
+import withValue from "../../../../support/functional/withValue"
 import SpellBuilder from "../../../builder/spellBuilder"
 import {ActionType} from "../../../enum/actionType"
 import Spell from "../../spell"
 
-export default function(abilityService: AbilityService, mobService: MobService): Spell {
+export default function(abilityService: AbilityService): Spell {
   return new SpellBuilder(abilityService)
     .setSpellType(SpellType.Summon)
     .setActionType(ActionType.Neutral)
@@ -22,7 +21,7 @@ export default function(abilityService: AbilityService, mobService: MobService):
       new DelayCost(1),
     ])
     .addToCheckBuilder(async (request, checkBuilder) => {
-      const target = mobService.findMob(mob => match(mob.name, request.getComponent())) as MobEntity
+      const target = abilityService.findMob(request.getComponent()) as MobEntity
       checkBuilder.require(
         target,
         SpellMessages.Summon.MobNotFound,
@@ -42,9 +41,9 @@ export default function(abilityService: AbilityService, mobService: MobService):
         .create())
     .setApplySpell(async requestService => {
       const target = requestService.getTarget<MobEntity>()
-      const location = mobService.getLocationForMob(target)
-      if (location) {
-        await abilityService.publishEvent(
+      await withValue(
+        abilityService.getLocationForMob(target),
+        location => abilityService.publishEvent(
           createRoomMessageEvent(
             location.room,
             new ResponseMessageBuilder(
@@ -53,12 +52,10 @@ export default function(abilityService: AbilityService, mobService: MobService):
               .setVerbToRequestCreator("disappear")
               .setVerbToTarget("disappear")
               .setVerbToObservers("disappears")
-              .create()))
-      }
-      const toRoom = mobService.getLocationForMob(requestService.getMob())
-      await mobService.updateMobLocation(
+              .create())))
+      await abilityService.updateMobLocation(
         requestService.getTarget(),
-        toRoom.room)
+        requestService.getRoom())
     })
     .create()
 }

@@ -1,4 +1,4 @@
-import {inject, injectable} from "inversify"
+import {inject, injectable, multiInject} from "inversify"
 import Check from "../../check/check"
 import {CheckType} from "../../check/enum/checkType"
 import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
@@ -17,7 +17,7 @@ import Spell from "./spell"
 export default class CastAction extends Action {
   constructor(
     @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
-    @inject(Types.Spells) private readonly spells: Spell[]) {
+    @multiInject(Types.Spells) private readonly spells: Spell[]) {
     super()
   }
 
