@@ -7,6 +7,7 @@ import Complete from "../auth/authStep/complete"
 import { default as MobComplete } from "../auth/authStep/createMob/complete"
 import { default as PlayerComplete } from "../auth/authStep/createPlayer/complete"
 import { default as AuthRequest } from "../auth/request"
+import Response from "../auth/response"
 import { SessionStatus } from "../enum/sessionStatus"
 
 export default class SessionService {
@@ -20,7 +21,7 @@ export default class SessionService {
     return this.status === SessionStatus.LoggedIn
   }
 
-  public async handleRequest(client: Client, request: Request) {
+  public async handleRequest(client: Client, request: Request): Promise<Response> {
     const authRequest = new AuthRequest(client, request.getContextAsInput().input)
     const response = await this.authStep.processRequest(authRequest)
     this.authStep = response.authStep

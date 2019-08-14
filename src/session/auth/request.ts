@@ -1,8 +1,8 @@
-import { Client } from "../../client/client"
+import {Client} from "../../client/client"
 import InputContext from "../../request/context/inputContext"
 import {RequestType} from "../../request/enum/requestType"
 import AuthStep from "./authStep/authStep"
-import { ResponseStatus } from "./enum/responseStatus"
+import {ResponseStatus} from "./enum/responseStatus"
 import {createResponse} from "./factory/requestAuthFactory"
 import Response from "./response"
 
@@ -37,5 +37,9 @@ export default class Request {
 
   public didDeny() {
     return this.input === "n"
+  }
+
+  public getType(): RequestType {
+    return RequestType.Any
   }
 }

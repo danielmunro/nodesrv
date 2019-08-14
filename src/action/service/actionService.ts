@@ -9,18 +9,22 @@ import {createClientEvent, createCostEvent, createInputEvent, createMobEvent} fr
 import EventService from "../../event/service/eventService"
 import CostEvent from "../../mob/event/costEvent"
 import {PlayerEntity} from "../../player/entity/playerEntity"
+import ResponseMessageBuilder from "../../request/builder/responseMessageBuilder"
 import {RequestType} from "../../request/enum/requestType"
 import {ResponseStatus} from "../../request/enum/responseStatus"
 import Request from "../../request/request"
 import Response from "../../request/response"
 import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/service/clientService"
+import Maybe from "../../support/functional/maybe/maybe"
 import withValue from "../../support/functional/withValue"
 import {Types} from "../../support/types"
 import Action from "../impl/action"
 import HelpAction from "../impl/info/helpAction"
 import Skill from "../impl/skill"
 import Spell from "../impl/spell"
+
+const errorNoAssociatedAction = "No action found to handle input"
 
 @injectable()
 export default class ActionService {
@@ -36,9 +40,16 @@ export default class ActionService {
   }
 
   public async handleRequest(client: Client, request: Request): Promise<Response> {
-    return client.isLoggedIn() ?
-      this.handleAuthenticatedRequest(client, request, this.findActionForRequestType(request.getType())) :
-      this.handleUnauthenticatedRequest(client, request)
+    return new Maybe(this.findActionForRequestType(request.getType()))
+      .do(action =>
+      client.isLoggedIn() ?
+        this.handleAuthenticatedRequest(client, request, action) :
+        this.handleUnauthenticatedRequest(client, request))
+      .or(() => new Response(
+        request,
+        ResponseStatus.Error,
+        new ResponseMessageBuilder(request.mob, errorNoAssociatedAction).create()))
+      .get()
   }
 
   private async handleAuthenticatedRequest(client: Client, request: Request, action: Action) {
@@ -57,11 +68,11 @@ export default class ActionService {
     return new Response(
       request,
       ResponseStatus.Ok,
-      new ResponseMessage(client.getSessionMob(), authResponse.message as string))
+      new ResponseMessage(client.getSessionMob(), authResponse.message))
   }
 
-  private findActionForRequestType(requestType: RequestType) {
-    return this.actions.find(action => action.isAbleToHandleRequestType(requestType)) as Action
+  private findActionForRequestType(requestType: RequestType): Action | undefined {
+    return this.actions.find(action => action.isAbleToHandleRequestType(requestType))
   }
 
   private publishInputEvent(request: Request, action: Action) {
