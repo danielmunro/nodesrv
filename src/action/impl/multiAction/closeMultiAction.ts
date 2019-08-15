@@ -1,5 +1,5 @@
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
-import {RequestType} from "../../../request/enum/requestType"
+import {RequestType} from "../../../messageExchange/enum/requestType"
 import {ConditionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
 import CloseItemAction from "../item/closeItemAction"

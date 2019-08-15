@@ -1,4 +1,4 @@
-import Response from "../../../request/response"
+import Response from "../../../messageExchange/response"
 
 export default jest.fn(() => {
   const responses: Response[] = []

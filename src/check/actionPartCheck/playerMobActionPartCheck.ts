@@ -1,7 +1,7 @@
 import {ActionPart} from "../../action/enum/actionPart"
+import Request from "../../messageExchange/request"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import MobService from "../../mob/service/mobService"
-import Request from "../../request/request"
 import CheckBuilder from "../builder/checkBuilder"
 import ActionPartCheck from "./actionPartCheck"
 

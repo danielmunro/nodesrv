@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
+import {RequestType} from "../../../messageExchange/enum/requestType"
 import {MobEntity} from "../../../mob/entity/mobEntity"
-import {RequestType} from "../../../request/enum/requestType"
 import {RealEstateBidEntity} from "../../../room/entity/realEstateBidEntity"
 import {RealEstateListingEntity} from "../../../room/entity/realEstateListingEntity"
 import {RealEstateBidStatus} from "../../../room/enum/realEstateBidStatus"

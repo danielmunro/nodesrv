@@ -7,9 +7,9 @@ import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
 import {Channel} from "../../client/enum/channel"
 import {createSocialEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
+import Request from "../../messageExchange/request"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {isBanned} from "../../mob/enum/standing"
-import Request from "../../request/request"
 import {Types} from "../../support/types"
 
 @injectable()

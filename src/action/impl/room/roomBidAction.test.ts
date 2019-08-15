@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
-import {RequestType} from "../../../request/enum/requestType"
+import {RequestType} from "../../../messageExchange/enum/requestType"
 import {RealEstateListingEntity} from "../../../room/entity/realEstateListingEntity"
 import RealEstateService from "../../../room/service/realEstateService"
 import TestRunner from "../../../support/test/testRunner"

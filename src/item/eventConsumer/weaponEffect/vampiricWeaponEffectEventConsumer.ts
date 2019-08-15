@@ -1,6 +1,6 @@
 import EventResponse from "../../../event/messageExchange/eventResponse"
+import ResponseMessage from "../../../messageExchange/responseMessage"
 import DamageEvent from "../../../mob/event/damageEvent"
-import ResponseMessage from "../../../request/responseMessage"
 import roll from "../../../support/random/dice"
 import {ItemEntity} from "../../entity/itemEntity"
 import {WeaponEffect} from "../../enum/weaponEffect"

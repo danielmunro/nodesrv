@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
+import {RequestType} from "../../../../messageExchange/enum/requestType"
 import {SpellType} from "../../../../mob/spell/spellType"
-import {RequestType} from "../../../../request/enum/requestType"
 import MobBuilder from "../../../../support/test/mobBuilder"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"

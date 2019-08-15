@@ -1,8 +1,8 @@
 // @ts-ignore
 import stringify from "json-stringify-safe"
+import Request from "../messageExchange/request"
 import { MobEntity } from "../mob/entity/mobEntity"
 import { PlayerEntity } from "../player/entity/playerEntity"
-import Request from "../request/request"
 import { default as AuthRequest } from "../session/auth/request"
 import SessionService from "../session/service/sessionService"
 import Socket from "./socket"

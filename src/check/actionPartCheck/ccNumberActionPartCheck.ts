@@ -1,5 +1,5 @@
 import {ActionPart} from "../../action/enum/actionPart"
-import Request from "../../request/request"
+import Request from "../../messageExchange/request"
 import CheckBuilder from "../builder/checkBuilder"
 import {CheckType} from "../enum/checkType"
 import ActionPartCheck from "./actionPartCheck"

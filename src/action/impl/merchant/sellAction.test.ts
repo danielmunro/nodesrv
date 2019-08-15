@@ -1,7 +1,7 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
+import { RequestType } from "../../../messageExchange/enum/requestType"
 import {allDispositions, Disposition} from "../../../mob/enum/disposition"
 import LocationService from "../../../mob/service/locationService"
-import { RequestType } from "../../../request/enum/requestType"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"

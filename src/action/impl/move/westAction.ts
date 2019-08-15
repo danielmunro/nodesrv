@@ -1,7 +1,7 @@
 import {inject, injectable} from "inversify"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import {RequestType} from "../../../messageExchange/enum/requestType"
 import LocationService from "../../../mob/service/locationService"
-import {RequestType} from "../../../request/enum/requestType"
 import {Direction} from "../../../room/enum/direction"
 import {Types} from "../../../support/types"
 import Move from "../move"

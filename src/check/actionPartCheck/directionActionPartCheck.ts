@@ -1,5 +1,5 @@
 import {ActionPart} from "../../action/enum/actionPart"
-import Request from "../../request/request"
+import Request from "../../messageExchange/request"
 import {allDirections} from "../../room/constants"
 import {Direction} from "../../room/enum/direction"
 import CheckBuilder from "../builder/checkBuilder"

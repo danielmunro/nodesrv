@@ -1,9 +1,9 @@
 import Action from "../../action/impl/action"
 import {EventType} from "../../event/enum/eventType"
 import Event from "../../event/interface/event"
+import Request from "../../messageExchange/request"
+import Response from "../../messageExchange/response"
 import {MobEntity} from "../../mob/entity/mobEntity"
-import Request from "../../request/request"
-import Response from "../../request/response"
 
 export default interface InputEvent extends Event {
   readonly mob: MobEntity

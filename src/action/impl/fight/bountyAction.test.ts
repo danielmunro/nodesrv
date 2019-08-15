@@ -1,6 +1,6 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
+import {RequestType} from "../../../messageExchange/enum/requestType"
 import {Round} from "../../../mob/fight/round"
-import {RequestType} from "../../../request/enum/requestType"
 import PlayerBuilder from "../../../support/test/playerBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"

@@ -1,7 +1,7 @@
 import { Client } from "../../client/client"
+import Request from "../../messageExchange/request"
 import { MobEntity } from "../../mob/entity/mobEntity"
 import { PlayerEntity } from "../../player/entity/playerEntity"
-import Request from "../../request/request"
 import AuthStep from "../auth/authStep/authStep"
 import Complete from "../auth/authStep/complete"
 import { default as MobComplete } from "../auth/authStep/createMob/complete"

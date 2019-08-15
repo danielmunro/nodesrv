@@ -1,8 +1,8 @@
 import {AffectType} from "../../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
+import Response from "../../../../messageExchange/response"
 import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {SkillType} from "../../../../mob/skill/skillType"
-import Response from "../../../../request/response"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
 

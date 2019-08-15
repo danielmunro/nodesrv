@@ -1,6 +1,6 @@
 import { AffectType } from "../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../app/factory/testFactory"
-import { RequestType } from "../../../request/enum/requestType"
+import { RequestType } from "../../../messageExchange/enum/requestType"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 import { ConditionMessages } from "../../constants"

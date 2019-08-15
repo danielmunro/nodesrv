@@ -1,9 +1,9 @@
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
+import ResponseMessage from "../../messageExchange/responseMessage"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
-import ResponseMessage from "../../request/responseMessage"
 import ClientService from "../../server/service/clientService"
 import RoomMessageEvent from "../event/roomMessageEvent"
 

@@ -5,9 +5,9 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import KafkaService from "../../kafka/kafkaService"
-import EventContext from "../../request/context/eventContext"
-import {RequestType} from "../../request/enum/requestType"
-import Request from "../../request/request"
+import EventContext from "../../messageExchange/context/eventContext"
+import {RequestType} from "../../messageExchange/enum/requestType"
+import Request from "../../messageExchange/request"
 import {RoomEntity} from "../../room/entity/roomEntity"
 
 export default class LoggedIn implements EventConsumer {

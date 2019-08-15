@@ -2,10 +2,10 @@ import Action from "../../action/impl/action"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
+import EventContext from "../../messageExchange/context/eventContext"
+import {RequestType} from "../../messageExchange/enum/requestType"
+import Request from "../../messageExchange/request"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
-import EventContext from "../../request/context/eventContext"
-import {RequestType} from "../../request/enum/requestType"
-import Request from "../../request/request"
 import ClientService from "../../server/service/clientService"
 
 export default class LookEventConsumer implements EventConsumer {
