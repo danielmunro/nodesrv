@@ -1,10 +1,14 @@
 import {Client} from "../../client/client"
 import InputContext from "../../request/context/inputContext"
 import {RequestType} from "../../request/enum/requestType"
+import match from "../../support/matcher/match"
 import AuthStep from "./authStep/authStep"
 import {ResponseStatus} from "./enum/responseStatus"
 import {createResponse} from "./factory/requestAuthFactory"
 import Response from "./response"
+
+const confirm = "yes"
+const deny = "no"
 
 export default class Request {
   constructor(
@@ -32,11 +36,11 @@ export default class Request {
   }
 
   public didConfirm() {
-    return this.input === "y"
+    return match(confirm, this.input)
   }
 
   public didDeny() {
-    return this.input === "n"
+    return match(deny, this.input)
   }
 
   public getType(): RequestType {
