@@ -1,5 +1,5 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
-import * as uuid from "uuid"
+import uuid from "uuid"
 import { InventoryEntity } from "../../item/entity/inventoryEntity"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import MobResetEntity from "../../mob/entity/mobResetEntity"

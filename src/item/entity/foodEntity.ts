@@ -1,5 +1,5 @@
 import { Column, Entity, Generated, OneToOne, PrimaryGeneratedColumn } from "typeorm"
-import * as v4 from "uuid"
+import v4 from "uuid"
 import { ItemEntity } from "./itemEntity"
 
 @Entity()

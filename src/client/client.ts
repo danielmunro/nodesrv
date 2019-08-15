@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as stringify from "json-stringify-safe"
+import stringify from "json-stringify-safe"
 import { MobEntity } from "../mob/entity/mobEntity"
 import { PlayerEntity } from "../player/entity/playerEntity"
 import Request from "../request/request"

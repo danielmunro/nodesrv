@@ -1,5 +1,5 @@
 import {Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm"
-import * as v4 from "uuid"
+import v4 from "uuid"
 import {AffectEntity} from "../../affect/entity/affectEntity"
 import {AffectType} from "../../affect/enum/affectType"
 import AffectService from "../../affect/service/affectService"

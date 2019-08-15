@@ -1,5 +1,5 @@
 import {Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm"
-import * as v4 from "uuid"
+import v4 from "uuid"
 import { Equipment } from "../enum/equipment"
 import { ItemEntity } from "./itemEntity"
 

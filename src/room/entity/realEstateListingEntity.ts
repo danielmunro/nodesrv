@@ -1,5 +1,5 @@
 import {Column, CreateDateColumn, Entity, Generated, OneToOne, PrimaryGeneratedColumn} from "typeorm"
-import * as uuid from "uuid"
+import uuid from "uuid"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {RoomEntity} from "./roomEntity"
 

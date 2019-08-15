@@ -1,5 +1,5 @@
 import {cloneDeep} from "lodash"
-import * as uuid from "uuid"
+import uuid from "uuid"
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {ItemEntity} from "../../../item/entity/itemEntity"
 import {ItemType} from "../../../item/enum/itemType"

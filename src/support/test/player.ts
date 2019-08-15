@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as sillyname from "sillyname"
+import sillyname from "sillyname"
 import {createPlayerMob} from "../../mob/factory/mobFactory"
 import { PlayerEntity } from "../../player/entity/playerEntity"
 import {createPlayer} from "../../player/factory/factory"

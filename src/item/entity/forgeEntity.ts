@@ -1,5 +1,5 @@
 import {Column, Entity, Generated, JoinColumn, OneToMany, PrimaryGeneratedColumn} from "typeorm"
-import * as v4 from "uuid"
+import v4 from "uuid"
 import RecipeEntity from "./recipeEntity"
 
 @Entity()

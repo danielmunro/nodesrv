@@ -1,5 +1,5 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
-import * as v4 from "uuid"
+import v4 from "uuid"
 import { RoomEntity } from "../../room/entity/roomEntity"
 import { Disposition } from "../enum/disposition"
 import { MobEntity } from "./mobEntity"

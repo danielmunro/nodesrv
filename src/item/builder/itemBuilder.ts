@@ -1,4 +1,4 @@
-import * as uuid from "uuid"
+import uuid from "uuid"
 import {Equipment} from "../enum/equipment"
 import {ItemType} from "../enum/itemType"
 import {createInventory} from "../factory/inventoryFactory"

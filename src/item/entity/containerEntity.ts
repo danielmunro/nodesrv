@@ -1,5 +1,5 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
-import * as v4 from "uuid"
+import v4 from "uuid"
 import { InventoryEntity } from "./inventoryEntity"
 import { ItemEntity } from "./itemEntity"
 

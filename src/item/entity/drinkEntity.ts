@@ -1,5 +1,5 @@
 import { Column, Entity, Generated, OneToOne, PrimaryGeneratedColumn } from "typeorm"
-import * as v4 from "uuid"
+import v4 from "uuid"
 import { Liquid } from "../enum/liquid"
 import { ItemEntity } from "./itemEntity"
 

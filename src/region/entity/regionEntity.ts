@@ -1,5 +1,5 @@
 import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from "typeorm"
-import * as v4 from "uuid"
+import v4 from "uuid"
 import { RoomEntity } from "../../room/entity/roomEntity"
 import { Terrain } from "../enum/terrain"
 

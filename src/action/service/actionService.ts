@@ -68,7 +68,7 @@ export default class ActionService {
     return new Response(
       request,
       ResponseStatus.Ok,
-      new ResponseMessage(client.getSessionMob(), authResponse.message))
+      new ResponseMessage(client.getSessionMob(), authResponse.message || ""))
   }
 
   private findActionForRequestType(requestType: RequestType): Action | undefined {

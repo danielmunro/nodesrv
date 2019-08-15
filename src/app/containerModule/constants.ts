@@ -1,6 +1,6 @@
 import {AsyncContainerModule} from "inversify"
 import {Producer} from "kafkajs"
-import * as Stripe from "stripe"
+import Stripe from "stripe"
 import {Server} from "ws"
 import {ItemContainerResetEntity} from "../../item/entity/itemContainerResetEntity"
 import ItemMobResetEntity from "../../item/entity/itemMobResetEntity"

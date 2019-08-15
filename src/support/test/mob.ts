@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as sillyname from "sillyname"
+import sillyname from "sillyname"
 import { newStartingAttributes } from "../../attributes/factory/attributeFactory"
 import { MobEntity } from "../../mob/entity/mobEntity"
 import { newMob } from "../../mob/factory/mobFactory"

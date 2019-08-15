@@ -1,5 +1,5 @@
 import {inject, injectable} from "inversify"
-import * as stringify from "json-stringify-safe"
+import stringify from "json-stringify-safe"
 import {Producer} from "kafkajs"
 import {MobEntity} from "../mob/entity/mobEntity"
 import Death from "../mob/fight/death"

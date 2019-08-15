@@ -1,5 +1,5 @@
 import {inject, injectable} from "inversify"
-import * as Stripe from "stripe"
+import Stripe from "stripe"
 import {Environment} from "../../app/enum/environment"
 import {Types} from "../../support/types"
 import {PaymentMethodEntity} from "../entity/paymentMethodEntity"
