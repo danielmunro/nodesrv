@@ -3,13 +3,13 @@ import stringify from "json-stringify-safe"
 import Request from "../messageExchange/request"
 import { MobEntity } from "../mob/entity/mobEntity"
 import { PlayerEntity } from "../player/entity/playerEntity"
-import { default as AuthRequest } from "../session/auth/request"
 import SessionService from "../session/service/sessionService"
+import Maybe from "../support/functional/maybe/maybe"
 import Socket from "./socket"
 
 export class Client {
   public player: PlayerEntity
-  private requests: any = []
+  private requests: Request[] = []
 
   constructor(
     public readonly session: SessionService,
@@ -20,7 +20,7 @@ export class Client {
     return this.requests.length > 0
   }
 
-  public addRequest(request: Request | AuthRequest): void {
+  public addRequest(request: Request): void {
     this.requests.push(request)
   }
 
@@ -41,7 +41,11 @@ export class Client {
   }
 
   public getNextRequest(): Request {
-    return this.requests.shift()
+    return new Maybe<Request>(this.requests.shift())
+      .or(() => {
+        throw new Error("No available requests")
+      })
+      .get()
   }
 
   public send(data: any): void {
