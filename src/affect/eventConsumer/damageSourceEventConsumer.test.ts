@@ -1,5 +1,5 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import DamageEvent, {calculateDamageFromEvent} from "../../mob/event/damageEvent"
+import {calculateDamageFromEvent} from "../../mob/event/damageEvent"
 import DamageEventBuilder from "../../mob/event/damageEventBuilder"
 import DamageSourceBuilder from "../../mob/fight/damageSourceBuilder"
 import {DamageType} from "../../mob/fight/enum/damageType"
@@ -22,58 +22,66 @@ beforeEach(async () => {
 
 describe("damage source event consumer", () => {
   it("resist damage type reduces damage", async () => {
+    // given
     mob.addAffect(new AffectBuilder(AffectType.Noop)
       .setResist(new DamageSourceBuilder().enableMental().get())
       .build())
 
+    // when
     const eventResponse = await consumer.consume(new DamageEventBuilder(
       mob.get(),
       initialAmount,
       DamageType.Mental).build())
 
-    const event = eventResponse.event as DamageEvent
-    expect(calculateDamageFromEvent(event)).toBeLessThan(initialAmount)
+    // then
+    expect(calculateDamageFromEvent(eventResponse.getDamageEvent())).toBeLessThan(initialAmount)
   })
 
   it("immune reduces damage to 0", async () => {
+    // given
     mob.addAffect(new AffectBuilder(AffectType.Noop)
       .setImmune(new DamageSourceBuilder().enableMental().get())
       .build())
 
+    // when
     const eventResponse = await consumer.consume(new DamageEventBuilder(
       mob.get(),
       initialAmount,
       DamageType.Mental).build())
 
-    const event = eventResponse.event as DamageEvent
-    expect(calculateDamageFromEvent(event)).toBe(0)
+    // then
+    expect(calculateDamageFromEvent(eventResponse.getDamageEvent())).toBe(0)
   })
 
   it("vulnerable increases damage", async () => {
+    // given
     mob.addAffect(new AffectBuilder(AffectType.Noop)
       .setVulnerable(new DamageSourceBuilder().enableMental().get())
       .build())
 
+    // when
     const eventResponse = await consumer.consume(new DamageEventBuilder(
       mob.get(),
       initialAmount,
       DamageType.Mental).build())
 
-    const event = eventResponse.event as DamageEvent
-    expect(calculateDamageFromEvent(event)).toBeGreaterThan(initialAmount)
+    // then
+    expect(calculateDamageFromEvent(eventResponse.getDamageEvent())).toBeGreaterThan(initialAmount)
   })
 
   it("different damage types not affected", async () => {
+    // given
     mob.addAffect(new AffectBuilder(AffectType.Noop)
       .setResist(new DamageSourceBuilder().enableMental().get())
       .build())
 
+    // when
     const eventResponse = await consumer.consume(new DamageEventBuilder(
       mob.mob,
       initialAmount,
       DamageType.Bash).build())
 
-    const event = eventResponse.event as DamageEvent
-    expect(calculateDamageFromEvent(event)).toBe(initialAmount)
+    // then
+    expect(calculateDamageFromEvent(eventResponse.getDamageEvent())).toBe(initialAmount)
   })
 })

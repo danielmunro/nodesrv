@@ -44,7 +44,7 @@ export default class SkillBuilder {
 
   constructor(private readonly abilityService: AbilityService, private readonly skillType: SkillType) {
     this.helpText = Messages.Help.NoActionHelpTextProvided
-    this.requestType = (this.skillType as any) as RequestType
+    this.requestType = (this.skillType as string) as RequestType
     this.applySkill = (_, affectBuilder) =>
       Promise.resolve(affectBuilder ? createApplyAbilityResponse(affectBuilder.build()) : undefined)
     this.roll = (requestService: RequestService) =>

@@ -1,4 +1,5 @@
 import InputEvent from "../../client/event/inputEvent"
+import DamageEvent from "../../mob/event/damageEvent"
 import {EventResponseStatus} from "../enum/eventResponseStatus"
 import Event from "../interface/event"
 
@@ -30,5 +31,9 @@ export default class EventResponse {
 
   public getInputEvent(): InputEvent {
     return this.event as InputEvent
+  }
+
+  public getDamageEvent(): DamageEvent {
+    return this.event as DamageEvent
   }
 }

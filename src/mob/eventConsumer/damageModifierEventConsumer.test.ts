@@ -2,7 +2,7 @@ import {createTestAppContainer} from "../../app/factory/testFactory"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {MobEntity} from "../entity/mobEntity"
-import DamageEvent, {calculateDamageFromEvent} from "../event/damageEvent"
+import {calculateDamageFromEvent} from "../event/damageEvent"
 import DamageEventBuilder from "../event/damageEventBuilder"
 import {DamageType} from "../fight/enum/damageType"
 import {RaceType} from "../race/enum/raceType"
@@ -29,8 +29,7 @@ describe("damage modifier event consumer", () => {
     const response = await consumer.consume(event)
 
     // then
-    const newEvent = response.event as DamageEvent
-    expect(calculateDamageFromEvent(newEvent)).toBeGreaterThan(calculateDamageFromEvent(event))
+    expect(calculateDamageFromEvent(response.getDamageEvent())).toBeGreaterThan(calculateDamageFromEvent(event))
   })
 
   it("decreases the damage amount on a matching resist", async () => {
@@ -41,8 +40,7 @@ describe("damage modifier event consumer", () => {
     const response = await consumer.consume(event)
 
     // then
-    const newEvent = response.event as DamageEvent
-    expect(calculateDamageFromEvent(newEvent)).toBeLessThan(calculateDamageFromEvent(event))
+    expect(calculateDamageFromEvent(response.getDamageEvent())).toBeLessThan(calculateDamageFromEvent(event))
   })
 
   it("decreases the damage amount to zero if invulnerable", async () => {
@@ -54,8 +52,7 @@ describe("damage modifier event consumer", () => {
     const response = await consumer.consume(event)
 
     // then
-    const newEvent = response.event as DamageEvent
-    expect(calculateDamageFromEvent(newEvent)).toBe(0)
+    expect(calculateDamageFromEvent(response.getDamageEvent())).toBe(0)
   })
 
   it("does not modify the damage when no vulnerability matches are found", async () => {
@@ -66,7 +63,6 @@ describe("damage modifier event consumer", () => {
     const response = await consumer.consume(event)
 
     // then
-    const newEvent = response.event as DamageEvent
-    expect(calculateDamageFromEvent(newEvent)).toBe(calculateDamageFromEvent(event))
+    expect(calculateDamageFromEvent(response.getDamageEvent())).toBe(calculateDamageFromEvent(event))
   })
 })

@@ -3,7 +3,6 @@ import {createDamageEvent} from "../../../../event/factory/eventFactory"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
 import {MobEntity} from "../../../entity/mobEntity"
-import DamageEvent from "../../../event/damageEvent"
 import {DamageType} from "../../../fight/enum/damageType"
 import {RaceType} from "../../enum/raceType"
 import OgreSizeMismatchVuln from "./ogreSizeMismatchVuln"
@@ -27,7 +26,7 @@ describe("ogre size mismatch vuln", () => {
       createDamageEvent(defender, 1, DamageType.Slash, 1, attacker))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBeLessThan(1)
+    expect(eventResponse.getDamageEvent().modifier).toBeLessThan(1)
   })
 
   it("unmodified when the size matches", async () => {
@@ -39,6 +38,6 @@ describe("ogre size mismatch vuln", () => {
       createDamageEvent(defender, 1, DamageType.Slash, 1, attacker))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBe(1)
+    expect(eventResponse.getDamageEvent().modifier).toBe(1)
   })
 })

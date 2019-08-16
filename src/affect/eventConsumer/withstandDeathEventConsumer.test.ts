@@ -1,5 +1,4 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
-import DamageEvent from "../../mob/event/damageEvent"
 import DamageEventBuilder from "../../mob/event/damageEventBuilder"
 import {DamageType} from "../../mob/fight/enum/damageType"
 import TestRunner from "../../support/test/testRunner"
@@ -25,7 +24,7 @@ describe("withstand death event consumer", () => {
       new DamageEventBuilder(mob.get(), AMOUNT, DamageType.Bash).build())
 
     // then
-    expect((response.event as DamageEvent).modifier).toBe(0)
+    expect(response.getDamageEvent().modifier).toBe(0)
     expect(mob.hasAffect(AffectType.WithstandDeath)).toBeFalsy()
   })
 
@@ -43,6 +42,6 @@ describe("withstand death event consumer", () => {
       new DamageEventBuilder(mob.mob, AMOUNT, DamageType.Bash).build())
 
     // then
-    expect((response.event as DamageEvent).amount).toBe(AMOUNT)
+    expect(response.getDamageEvent().amount).toBe(AMOUNT)
   })
 })

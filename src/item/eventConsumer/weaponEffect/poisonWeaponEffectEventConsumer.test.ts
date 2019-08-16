@@ -2,7 +2,6 @@ import {AffectType} from "../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {createDamageEvent} from "../../../event/factory/eventFactory"
 import EventService from "../../../event/service/eventService"
-import DamageEvent from "../../../mob/event/damageEvent"
 import {DamageType} from "../../../mob/fight/enum/damageType"
 import LocationService from "../../../mob/service/locationService"
 import {doNTimesOrUntilTruthy} from "../../../support/functional/times"
@@ -44,7 +43,7 @@ describe("poison weapon effect event consumer", () => {
       mob1.get(), 1, DamageType.Slash, modifier, mob2.get()))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBeGreaterThan(modifier)
+    expect(eventResponse.getDamageEvent().modifier).toBeGreaterThan(modifier)
   })
 
   it("generates correct success messages", async () => {

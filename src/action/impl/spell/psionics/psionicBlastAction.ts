@@ -2,7 +2,6 @@ import DelayCost from "../../../../check/cost/delayCost"
 import ManaCost from "../../../../check/cost/manaCost"
 import AbilityService from "../../../../check/service/abilityService"
 import {MobEntity} from "../../../../mob/entity/mobEntity"
-import DamageEvent from "../../../../mob/event/damageEvent"
 import {DamageType} from "../../../../mob/fight/enum/damageType"
 import {SpecializationType} from "../../../../mob/specialization/enum/specializationType"
 import {SpellMessages} from "../../../../mob/spell/constants"
@@ -30,7 +29,7 @@ export default function(abilityService: AbilityService): Spell {
       const target = requestService.getTarget<MobEntity>()
       const eventResponse = await abilityService.publishEvent(
         requestService.createDamageEvent(roll(2, 6), DamageType.Mental).build())
-      target.hp -= (eventResponse.event as DamageEvent).amount
+      target.hp -= eventResponse.getDamageEvent().amount
     })
     .setSpecializationType(SpecializationType.Cleric)
     .create()

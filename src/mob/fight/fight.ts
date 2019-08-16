@@ -128,7 +128,7 @@ export class Fight {
         new DamageService(attacker).getDamageType())
         .setSource(attacker)
         .build())
-    return eventResponse.event as DamageEvent
+    return eventResponse.getDamageEvent()
   }
 
   private async turnFor(attacker: MobEntity, defender: MobEntity): Promise<Attack[]> {

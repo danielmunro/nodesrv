@@ -3,7 +3,6 @@ import {createDamageEvent} from "../../../event/factory/eventFactory"
 import MobBuilder from "../../../support/test/mobBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
-import DamageEvent from "../../event/damageEvent"
 import {DamageType} from "../../fight/enum/damageType"
 import {SkillType} from "../skillType"
 import DamageTypeEventConsumer from "./damageTypeEventConsumer"
@@ -34,7 +33,7 @@ describe("bludgeon damage type event consumer", () => {
       createDamageEvent(defender.get(), 1, DamageType.Bash, modifier, attacker.get()))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBeGreaterThan(modifier)
+    expect(eventResponse.getDamageEvent().modifier).toBeGreaterThan(modifier)
   })
 
   it("does not increase bludgeon bonus without the skill", async () => {
@@ -49,7 +48,7 @@ describe("bludgeon damage type event consumer", () => {
       createDamageEvent(defender.get(), 1, DamageType.Bash, modifier, attacker.get()))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
+    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
   })
 
   it("does not increase bludgeon bonus without a bludgeoning weapon", async () => {
@@ -65,7 +64,7 @@ describe("bludgeon damage type event consumer", () => {
       createDamageEvent(defender.get(), 1, DamageType.Bash, modifier, attacker.get()))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
+    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
   })
 })
 
@@ -83,7 +82,7 @@ describe("cleave damage type event consumer", () => {
       createDamageEvent(defender.get(), 1, DamageType.Slash, modifier, attacker.get()))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBeGreaterThan(modifier)
+    expect(eventResponse.getDamageEvent().modifier).toBeGreaterThan(modifier)
   })
 
   it("does not increase damage bonus without the skill", async () => {
@@ -98,7 +97,7 @@ describe("cleave damage type event consumer", () => {
       createDamageEvent(defender.get(), 1, DamageType.Slash, modifier, attacker.get()))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
+    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
   })
 
   it("does not increase damage bonus without a slashing weapon", async () => {
@@ -114,7 +113,7 @@ describe("cleave damage type event consumer", () => {
       createDamageEvent(defender.get(), 1, DamageType.Slash, modifier, attacker.get()))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
+    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
   })
 })
 
@@ -132,7 +131,7 @@ describe("gouge damage type event consumer", () => {
       createDamageEvent(defender.get(), 1, DamageType.Pierce, modifier, attacker.get()))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBeGreaterThan(modifier)
+    expect(eventResponse.getDamageEvent().modifier).toBeGreaterThan(modifier)
   })
 
   it("does not increase damage bonus without the skill", async () => {
@@ -147,7 +146,7 @@ describe("gouge damage type event consumer", () => {
       createDamageEvent(defender.get(), 1, DamageType.Pierce, modifier, attacker.get()))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
+    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
   })
 
   it("does not increase damage bonus without a piercing weapon", async () => {
@@ -163,6 +162,6 @@ describe("gouge damage type event consumer", () => {
       createDamageEvent(defender.get(), 1, DamageType.Bash, modifier, attacker.get()))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBe(modifier)
+    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
   })
 })

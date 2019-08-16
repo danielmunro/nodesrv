@@ -2,7 +2,6 @@ import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {createDamageEvent} from "../../../event/factory/eventFactory"
 import EventResponse from "../../../event/messageExchange/eventResponse"
 import EventService from "../../../event/service/eventService"
-import DamageEvent from "../../../mob/event/damageEvent"
 import {DamageType} from "../../../mob/fight/enum/damageType"
 import {RaceType} from "../../../mob/race/enum/raceType"
 import LocationService from "../../../mob/service/locationService"
@@ -48,7 +47,7 @@ describe("frost weapon effect event consumer", () => {
 
     // then
     expect(eventResponses.find(eventResponse =>
-      (eventResponse.event as DamageEvent).modifier > 1)).toBeDefined()
+      eventResponse.getDamageEvent().modifier > 1)).toBeDefined()
   })
 
   it("generates correct success messages", async () => {

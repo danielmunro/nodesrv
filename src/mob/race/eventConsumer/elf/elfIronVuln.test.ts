@@ -5,7 +5,6 @@ import {MaterialType} from "../../../../item/enum/materialType"
 import TestRunner from "../../../../support/test/testRunner"
 import {Types} from "../../../../support/types"
 import {MobEntity} from "../../../entity/mobEntity"
-import DamageEvent from "../../../event/damageEvent"
 import {DamageType} from "../../../fight/enum/damageType"
 import {RaceType} from "../../enum/raceType"
 import ElfIronVuln from "./elfIronVuln"
@@ -34,7 +33,7 @@ describe("elf iron vuln", () => {
       createDamageEvent(defender, 1, DamageType.Slash, 1, attacker))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBeGreaterThan(1)
+    expect(eventResponse.getDamageEvent().modifier).toBeGreaterThan(1)
   })
 
   it("is unmodified when not using iron", async () => {
@@ -46,6 +45,6 @@ describe("elf iron vuln", () => {
       createDamageEvent(defender, 1, DamageType.Slash, 1, attacker))
 
     // then
-    expect((eventResponse.event as DamageEvent).modifier).toBe(1)
+    expect(eventResponse.getDamageEvent().modifier).toBe(1)
   })
 })
