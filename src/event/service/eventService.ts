@@ -3,12 +3,13 @@ import "reflect-metadata"
 import {EventResponseStatus} from "../enum/eventResponseStatus"
 import {EventType} from "../enum/eventType"
 import Event from "../interface/event"
+import EventChannels from "../interface/eventChannels"
 import EventConsumer from "../interface/eventConsumer"
 import EventResponse from "../messageExchange/eventResponse"
 
 @injectable()
 export default class EventService {
-  private eventChannels: any = {}
+  private eventChannels: EventChannels = {}
 
   constructor() {
     this.initializeEventChannels()

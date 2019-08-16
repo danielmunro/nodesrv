@@ -67,11 +67,11 @@ export function createTestEvent(eventType: EventType): TestEvent {
   return { eventType }
 }
 
-export function createItemEvent(eventType: EventType, item: ItemEntity, carriedBy?: any): ItemEvent {
+export function createItemEvent(eventType: EventType, item: ItemEntity, carriedBy?: Target): ItemEvent {
   return { eventType, item, carriedBy }
 }
 
-export function createDestroyItemEvent(item: ItemEntity, carriedBy?: any): ItemEvent {
+export function createDestroyItemEvent(item: ItemEntity, carriedBy?: Target): ItemEvent {
   return { eventType: EventType.ItemDestroyed, item, carriedBy }
 }
 

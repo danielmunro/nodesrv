@@ -1,13 +1,14 @@
 import { RoomEntity } from "../entity/roomEntity"
+import RoomsById from "../interface/roomsById"
 
 export default class RoomTable {
   public static new(rooms: RoomEntity[]) {
-    const roomsById: any = {}
+    const roomsById: RoomsById = {}
     rooms.forEach(room => roomsById[room.uuid] = room)
     return new RoomTable(roomsById)
   }
 
-  constructor(private readonly roomsById: any = {}) {}
+  constructor(private readonly roomsById: RoomsById = {}) {}
 
   public getRooms(): RoomEntity[] {
     return Object.values(this.roomsById)

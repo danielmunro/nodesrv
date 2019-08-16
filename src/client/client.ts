@@ -48,7 +48,7 @@ export class Client {
       .get()
   }
 
-  public send(data: any): void {
+  public send(data: object): void {
     this.socket.send(stringify(data))
   }
 

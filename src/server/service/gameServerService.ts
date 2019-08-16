@@ -38,7 +38,7 @@ export class GameServerService {
     this.wss.close()
   }
 
-  public async addWS(ws: WebSocket, req: any): Promise<void> {
+  public async addWS(ws: WebSocket, req: Request): Promise<void> {
     const client = this.clientService.createNewClient(new Socket(ws), req)
     console.info("new client connected", { ip: client.ip })
     ws.onclose = () => this.removeClient(client)
