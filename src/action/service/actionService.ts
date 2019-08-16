@@ -3,9 +3,9 @@ import "reflect-metadata"
 import CheckedRequest from "../../check/checkedRequest"
 import Cost from "../../check/cost/cost"
 import {Client} from "../../client/client"
-import InputEvent from "../../client/event/inputEvent"
 import {EventType} from "../../event/enum/eventType"
 import {createClientEvent, createCostEvent, createInputEvent, createMobEvent} from "../../event/factory/eventFactory"
+import EventResponse from "../../event/messageExchange/eventResponse"
 import EventService from "../../event/service/eventService"
 import ResponseMessageBuilder from "../../messageExchange/builder/responseMessageBuilder"
 import {RequestType} from "../../messageExchange/enum/requestType"
@@ -53,17 +53,16 @@ export default class ActionService {
   }
 
   private async handleAuthenticatedRequest(client: Client, request: Request, action: Action) {
-    return withValue(await this.publishInputEvent(request, action), eventResponse =>
+    return withValue(await this.publishInputEvent(request, action), (eventResponse: EventResponse) =>
       eventResponse.isSatisfied() ?
-        (eventResponse.event as InputEvent).response :
+        eventResponse.getInputEvent().response :
         this.handleAction(client, request, action))
   }
 
   private async handleUnauthenticatedRequest(client: Client, request: Request) {
     const authResponse = await client.session.handleRequest(client, request)
     if (client.isLoggedIn()) {
-      await this.eventService.publish(createMobEvent(EventType.MobCreated, client.getSessionMob()))
-      await this.eventService.publish(createClientEvent(EventType.ClientLogin, client))
+      await this.publishLoginEvents(client)
     }
     return new Response(
       request,
@@ -73,6 +72,11 @@ export default class ActionService {
 
   private findActionForRequestType(requestType: RequestType): Action | undefined {
     return this.actions.find(action => action.isAbleToHandleRequestType(requestType))
+  }
+
+  private async publishLoginEvents(client: Client) {
+    await this.eventService.publish(createMobEvent(EventType.MobCreated, client.getSessionMob()))
+    await this.eventService.publish(createClientEvent(EventType.ClientLogin, client))
   }
 
   private publishInputEvent(request: Request, action: Action) {

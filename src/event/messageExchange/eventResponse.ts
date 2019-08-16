@@ -1,3 +1,4 @@
+import InputEvent from "../../client/event/inputEvent"
 import {EventResponseStatus} from "../enum/eventResponseStatus"
 import Event from "../interface/event"
 
@@ -25,5 +26,9 @@ export default class EventResponse {
 
   public isModified(): boolean {
     return this.status === EventResponseStatus.Modified
+  }
+
+  public getInputEvent(): InputEvent {
+    return this.event as InputEvent
   }
 }
