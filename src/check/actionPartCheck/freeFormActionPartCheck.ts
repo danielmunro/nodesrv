@@ -9,7 +9,7 @@ export default class FreeFormActionPartCheck implements ActionPartCheck {
     return ActionPart.FreeForm
   }
 
-  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request, actionParts: ActionPart[]): any {
+  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request, actionParts: ActionPart[]): void {
     const position = actionParts.indexOf(ActionPart.FreeForm)
     const freeForm = request.getContextAsInput().words.splice(position).join(" ")
     checkBuilder.require(

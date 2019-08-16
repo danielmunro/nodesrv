@@ -11,7 +11,7 @@ export default class DirectionActionPartCheck implements ActionPartCheck {
     return ActionPart.Direction
   }
 
-  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request, actionParts: ActionPart[]): any {
+  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request, actionParts: ActionPart[]): void {
     const position = actionParts.indexOf(ActionPart.Direction)
     const direction = request.getWord(position) as Direction
     const room = request.getRoom()

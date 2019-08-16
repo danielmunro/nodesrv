@@ -13,7 +13,7 @@ export default class ExpirationMonthActionPartCheck implements ActionPartCheck {
     return ActionPart.ExpMonth
   }
 
-  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): any {
+  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): void {
     const expirationMonth = parseInt(request.getContextAsInput().words[3], 10)
     checkBuilder.require(
       expirationMonth,

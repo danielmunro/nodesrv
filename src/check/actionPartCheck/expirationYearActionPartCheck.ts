@@ -14,7 +14,7 @@ export default class ExpirationYearActionPartCheck implements ActionPartCheck {
     return ActionPart.ExpYear
   }
 
-  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): any {
+  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): void {
     const expirationYear = parseInt(request.getWord(4), 10)
     checkBuilder.require(
       expirationYear,

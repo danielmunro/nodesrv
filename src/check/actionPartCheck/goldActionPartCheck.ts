@@ -10,7 +10,7 @@ export default class GoldActionPartCheck implements ActionPartCheck {
     return ActionPart.GoldOnHand
   }
 
-  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): any {
+  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): void {
     const component = parseInt(request.getComponent(), 10)
     checkBuilder.require(
       component,

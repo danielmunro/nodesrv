@@ -10,7 +10,7 @@ export default class ItemInInventoryActionPartCheck implements ActionPartCheck {
     return ActionPart.ItemInInventory
   }
 
-  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): any {
+  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): void {
     checkBuilder.require(
       request.mob.inventory.findItemByName(request.getSubject()),
       ConditionMessages.All.Item.NotOwned,

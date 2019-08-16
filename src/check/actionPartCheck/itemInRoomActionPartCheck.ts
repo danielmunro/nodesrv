@@ -10,7 +10,7 @@ export default class ItemInRoomActionPartCheck implements ActionPartCheck {
     return ActionPart.ItemInRoom
   }
 
-  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): any {
+  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): void {
     checkBuilder.require(
       request.findItemInRoomInventory(),
       ConditionMessages.All.Item.NotFound,

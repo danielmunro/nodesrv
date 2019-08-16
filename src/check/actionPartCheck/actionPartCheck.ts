@@ -4,5 +4,5 @@ import CheckBuilder from "../builder/checkBuilder"
 
 export default interface ActionPartCheck {
   getActionPart(): ActionPart
-  addToCheckBuilder(checkBuilder: CheckBuilder, request: Request, actionParts: ActionPart[]): any
+  addToCheckBuilder(checkBuilder: CheckBuilder, request: Request, actionParts: ActionPart[]): void
 }

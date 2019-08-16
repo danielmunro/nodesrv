@@ -9,7 +9,7 @@ export default class CcNumberActionPartCheck implements ActionPartCheck {
     return ActionPart.CCNumber
   }
 
-  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): any {
+  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): void {
     const ccNumber = request.getComponent()
     checkBuilder.require(
       ccNumber,

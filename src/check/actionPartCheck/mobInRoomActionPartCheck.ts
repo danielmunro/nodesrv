@@ -8,7 +8,7 @@ export default class MobInRoomActionPartCheck implements ActionPartCheck {
     return ActionPart.MobInRoom
   }
 
-  public addToCheckBuilder(checkBuilder: CheckBuilder): any {
+  public addToCheckBuilder(checkBuilder: CheckBuilder): void {
     checkBuilder.requireMobInRoom(ConditionMessages.All.Mob.NotFound)
   }
 }
