@@ -1,12 +1,12 @@
 import { CheckType } from "../enum/checkType"
 
-export default class CheckComponent {
+export default class CheckComponent<T> {
   public readonly isRequired: boolean
 
   constructor(
     public readonly checkType: CheckType,
     public readonly confirm: boolean,
-    private readonly thing: any,
+    private readonly thing: T,
     public readonly failMessage?: string) {
     this.isRequired = this.failMessage !== undefined
   }
