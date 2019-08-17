@@ -47,6 +47,8 @@ export class PlayerEntity {
 
   public delay: number = 0
 
+  public isAfk: boolean = false
+
   public setPassword(password: string): void {
     this.password = hash(password)
   }

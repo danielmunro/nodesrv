@@ -1,4 +1,5 @@
 import CastAction from "../../../action/impl/castAction"
+import AfkAction from "../../../action/impl/client/afkAction"
 import QuitAction from "../../../action/impl/client/quitAction"
 import SitAction from "../../../action/impl/disposition/sitAction"
 import SleepAction from "../../../action/impl/disposition/sleepAction"
@@ -160,6 +161,7 @@ export const actions = [
   // client
   QuitAction,
   WhoAction,
+  AfkAction,
 
   // subscriptions
   CcListAction,

@@ -1,5 +1,6 @@
 export enum RequestType {
   Affects = "affects",
+  Afk = "afk",
   Any = "any",
   Backstab = "backstab",
   Ban = "ban",

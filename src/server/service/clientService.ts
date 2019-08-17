@@ -8,9 +8,8 @@ import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import Email from "../../session/auth/authStep/login/email"
-import {default as AuthRequest} from "../../session/auth/request"
 import CreationService from "../../session/auth/service/creationService"
-import SessionService from "../../session/service/sessionService"
+import Session from "../../session/session"
 import {Types} from "../../support/types"
 import {Observer} from "../observers/observer"
 
@@ -23,7 +22,7 @@ export default class ClientService {
 
   public createNewClient(socket: Socket, req: any) {
     const client = new Client(
-      new SessionService(new Email(this.creationService)),
+      new Session(new Email(this.creationService)),
       socket,
       req ? req.connection.remoteAddress : null)
     this.add(client)
@@ -108,11 +107,8 @@ export default class ClientService {
   }
 
   private getNewRequestFromMessageEvent(
-    client: Client, messageEvent: MessageEvent, room?: RoomEntity): Request | AuthRequest {
+    client: Client, messageEvent: MessageEvent, room?: RoomEntity): Request {
     const data = JSON.parse(messageEvent.data)
-    if (!client.player) {
-      return new AuthRequest(client, data.request)
-    }
     const requestArgs = data.request.split(" ")
     const mob = client.getSessionMob()
     return new RequestBuilder(this.locationService, mob, room).create(requestArgs[0], data.request)

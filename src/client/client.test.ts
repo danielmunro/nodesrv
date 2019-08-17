@@ -10,7 +10,7 @@ import {SpellMessages} from "../mob/spell/constants"
 import {createPlayer} from "../player/factory/factory"
 import ClientService from "../server/service/clientService"
 import {default as AuthRequest} from "../session/auth/request"
-import SessionService from "../session/service/sessionService"
+import Session from "../session/session"
 import {getTestRoom} from "../support/test/room"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
@@ -82,7 +82,7 @@ describe("client sanity checks", () => {
         send,
       }))
       client = new Client(
-        new SessionService(null as any),
+        new Session(null as any),
         ws() as any,
         "127.0.0.1")
     })

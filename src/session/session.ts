@@ -1,16 +1,16 @@
-import { Client } from "../../client/client"
-import Request from "../../messageExchange/request"
-import { MobEntity } from "../../mob/entity/mobEntity"
-import { PlayerEntity } from "../../player/entity/playerEntity"
-import AuthStep from "../auth/authStep/authStep"
-import Complete from "../auth/authStep/complete"
-import { default as MobComplete } from "../auth/authStep/createMob/complete"
-import { default as PlayerComplete } from "../auth/authStep/createPlayer/complete"
-import { default as AuthRequest } from "../auth/request"
-import Response from "../auth/response"
-import { SessionStatus } from "../enum/sessionStatus"
+import { Client } from "../client/client"
+import Request from "../messageExchange/request"
+import { MobEntity } from "../mob/entity/mobEntity"
+import { PlayerEntity } from "../player/entity/playerEntity"
+import AuthStep from "./auth/authStep/authStep"
+import Complete from "./auth/authStep/complete"
+import { default as MobComplete } from "./auth/authStep/createMob/complete"
+import { default as PlayerComplete } from "./auth/authStep/createPlayer/complete"
+import { default as AuthRequest } from "./auth/request"
+import Response from "./auth/response"
+import { SessionStatus } from "./enum/sessionStatus"
 
-export default class SessionService {
+export default class Session {
   private player: PlayerEntity
   private mob: MobEntity
   private status: SessionStatus = SessionStatus.Initialized

@@ -1,13 +1,13 @@
-import {createTestAppContainer} from "../../app/factory/testFactory"
-import InputContext from "../../messageExchange/context/inputContext"
-import {RequestType} from "../../messageExchange/enum/requestType"
-import Request from "../../messageExchange/request"
-import TestRunner from "../../support/test/testRunner"
-import {Types} from "../../support/types"
-import Complete from "../auth/authStep/complete"
-import Email from "../auth/authStep/login/email"
-import CreationService from "../auth/service/creationService"
-import SessionService from "./sessionService"
+import {createTestAppContainer} from "../app/factory/testFactory"
+import InputContext from "../messageExchange/context/inputContext"
+import {RequestType} from "../messageExchange/enum/requestType"
+import Request from "../messageExchange/request"
+import TestRunner from "../support/test/testRunner"
+import {Types} from "../support/types"
+import Complete from "./auth/authStep/complete"
+import Email from "./auth/authStep/login/email"
+import CreationService from "./auth/service/creationService"
+import Session from "./session"
 
 const mockAuthService = jest.fn()
 let testRunner: TestRunner
@@ -25,7 +25,7 @@ describe("session", () => {
     const playerBuilder = await testRunner.createPlayer()
     const player = playerBuilder.player
     const client = testRunner.createClient()
-    const session = new SessionService(
+    const session = new Session(
       new Email(creationService))
 
     // expect
@@ -45,7 +45,7 @@ describe("session", () => {
     const client = testRunner.createClient()
     const player = (await testRunner.createPlayer()).get()
     const room = testRunner.getStartRoom().get()
-    const session = new SessionService(
+    const session = new Session(
       new Complete(mockAuthService(), player))
 
     // expect

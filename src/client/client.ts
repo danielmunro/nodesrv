@@ -3,16 +3,19 @@ import stringify from "json-stringify-safe"
 import Request from "../messageExchange/request"
 import { MobEntity } from "../mob/entity/mobEntity"
 import { PlayerEntity } from "../player/entity/playerEntity"
-import SessionService from "../session/service/sessionService"
+import AuthRequest from "../session/auth/request"
+import Session from "../session/session"
 import Maybe from "../support/functional/maybe/maybe"
 import Socket from "./socket"
 
+type Requests = Array<Request | AuthRequest>
+
 export class Client {
   public player: PlayerEntity
-  private requests: Request[] = []
+  private requests: Requests = []
 
   constructor(
-    public readonly session: SessionService,
+    public readonly session: Session,
     public readonly socket: Socket,
     public readonly ip: string) {}
 
@@ -20,7 +23,7 @@ export class Client {
     return this.requests.length > 0
   }
 
-  public addRequest(request: Request): void {
+  public addRequest(request: Request | AuthRequest): void {
     this.requests.push(request)
   }
 
