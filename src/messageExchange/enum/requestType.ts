@@ -64,6 +64,7 @@ export enum RequestType {
   Quit = "quit",
   Remove = "remove",
   Repair = "repair",
+  Reply = "reply",
   RoomBidAccept = "room bid accept",
   RoomBidList = "room bid list",
   RoomBid = "room bid",

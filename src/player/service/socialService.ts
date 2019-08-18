@@ -43,6 +43,9 @@ export default class SocialService {
   }
 
   public async tell(mob: MobEntity, target: MobEntity, message: string) {
+    if (target.playerMob) {
+      target.playerMob.lastTell = mob
+    }
     await this.eventService.publish(createSocialEvent(
       mob,
       Channel.Tell,

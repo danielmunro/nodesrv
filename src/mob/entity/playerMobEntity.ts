@@ -38,6 +38,10 @@ export class PlayerMobEntity {
   @JoinColumn()
   public trainedAttributes: Attributes
 
+  @OneToOne(() => MobEntity, { eager: true })
+  @JoinColumn()
+  public lastTell: MobEntity
+
   @Column({ default: 0 })
   public experience: number
 

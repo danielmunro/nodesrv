@@ -119,6 +119,9 @@ export const Messages = {
   Put: {
     Success: "You put {item} in {container}.",
   },
+  Reply: {
+    NoLastTell: "No one has told you anything.",
+  },
   Room: {
     Accept: {
       Accepted: "Congratulations! Your bid on {room} was accepted.",
