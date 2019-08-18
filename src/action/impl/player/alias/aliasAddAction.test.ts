@@ -51,4 +51,28 @@ describe("alias add action", () => {
 Equipped:
 `)
   })
+
+  it("cannot add more than the max number of aliases", async () => {
+    // given
+    const aliases = [
+      "alias add foo1 look",
+      "alias add foo2 look",
+      "alias add foo3 look",
+      "alias add foo4 look",
+      "alias add foo5 look",
+      "alias add foo6 look",
+      "alias add foo7 look",
+      "alias add foo8 look",
+      "alias add foo9 look",
+      "alias add foo10 look",
+      "alias add foo11 look",
+    ]
+    await Promise.all(aliases.map(alias => testRunner.invokeAction(RequestType.AliasAdd, alias)))
+
+    // when
+    const response = await testRunner.invokeAction(RequestType.AliasAdd, "alias add foo12 look")
+
+    // then
+    expect(response.getMessageToRequestCreator()).toBe(Messages.Alias.TooManyAliases)
+  })
 })
