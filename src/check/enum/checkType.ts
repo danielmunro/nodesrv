@@ -24,4 +24,6 @@ export enum CheckType {
   Direction,
   HasGroup,
   HasGold,
+  Directive,
+  Name,
 }

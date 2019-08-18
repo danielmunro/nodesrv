@@ -3,6 +3,11 @@ import {MudName} from "../gameService/constants"
 export const MAX_TRAINABLE_STATS = 4
 export const FLEE_MOVEMENT_COST_MULTIPLIER = 3
 export const Messages = {
+  Alias: {
+    AliasAlreadySet: "That alias is already set.",
+    AliasDoesNotExist: "That alias does not exist.",
+    TooManyAliases: "You already have too many aliases.",
+  },
   Bounty: {
     NeedAmount: "How much gold do you want to set on that bounty?",
     NeedMoreGold: "You need more gold.",

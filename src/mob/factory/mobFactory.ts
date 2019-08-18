@@ -83,5 +83,6 @@ export function createMob(): MobEntity {
 export function createPlayerMob(): PlayerMobEntity {
   const playerMob = new PlayerMobEntity()
   playerMob.trainedAttributes = newEmptyAttributes()
+  playerMob.aliases = []
   return playerMob
 }

@@ -1,8 +1,10 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import v4 from "uuid"
+import {Aliases} from "../../action/impl/type/aliases"
 import { default as Attributes } from "../../attributes/entity/attributesEntity"
 import { ItemEntity } from "../../item/entity/itemEntity"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
+import Maybe from "../../support/functional/maybe/maybe"
 import { Standing } from "../enum/standing"
 import Customization from "../specialization/customization"
 import { MobEntity } from "./mobEntity"
@@ -57,7 +59,14 @@ export class PlayerMobEntity {
   @Column({ default: "the acolyte" })
   public title: string
 
+  @Column("json", { default: [] })
+  public aliases: Aliases
+
   public customizations: Customization[] = []
+
+  public getAliasCommand(alias: string) {
+    return Maybe.if(this.aliases.find(a => a.alias === alias), a => a.command).get()
+  }
 
   public getCreationPoints(): number {
     return this.customizations.reduce(

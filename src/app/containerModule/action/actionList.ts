@@ -1,6 +1,4 @@
 import CastAction from "../../../action/impl/castAction"
-import AfkAction from "../../../action/impl/client/afkAction"
-import QuitAction from "../../../action/impl/client/quitAction"
 import SitAction from "../../../action/impl/disposition/sitAction"
 import SleepAction from "../../../action/impl/disposition/sleepAction"
 import WakeAction from "../../../action/impl/disposition/wakeAction"
@@ -52,6 +50,12 @@ import SouthAction from "../../../action/impl/move/southAction"
 import UpAction from "../../../action/impl/move/upAction"
 import WestAction from "../../../action/impl/move/westAction"
 import NoopAction from "../../../action/impl/noopAction"
+import AfkAction from "../../../action/impl/player/afkAction"
+import AliasAddAction from "../../../action/impl/player/alias/aliasAddAction"
+import AliasListAction from "../../../action/impl/player/alias/aliasListAction"
+import AliasRemoveAction from "../../../action/impl/player/alias/aliasRemoveAction"
+import AliasResetAction from "../../../action/impl/player/alias/aliasResetAction"
+import QuitAction from "../../../action/impl/player/quitAction"
 import RoomAcceptAction from "../../../action/impl/room/roomAcceptAction"
 import RoomBidAction from "../../../action/impl/room/roomBidAction"
 import RoomBidListAction from "../../../action/impl/room/roomBidListAction"
@@ -158,10 +162,14 @@ export const actions = [
   SleepAction,
   SitAction,
 
-  // client
+  // player
   QuitAction,
   WhoAction,
   AfkAction,
+  AliasAddAction,
+  AliasListAction,
+  AliasRemoveAction,
+  AliasResetAction,
 
   // subscriptions
   CcListAction,

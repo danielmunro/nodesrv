@@ -1,6 +1,10 @@
 export enum RequestType {
   Affects = "affects",
   Afk = "afk",
+  AliasAdd = "alias add",
+  AliasList = "alias list",
+  AliasRemove = "alias remove",
+  AliasReset = "alias reset",
   Any = "any",
   Backstab = "backstab",
   Ban = "ban",
