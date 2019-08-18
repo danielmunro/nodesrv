@@ -2,10 +2,10 @@ import {createTestAppContainer} from "../../app/factory/testFactory"
 import InputContext from "../../messageExchange/context/inputContext"
 import { RequestType } from "../../messageExchange/enum/requestType"
 import Request from "../../messageExchange/request"
+import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import ActionService from "../service/actionService"
 import Action from "./action"
-import TestRunner from "../../support/test/testRunner"
 
 let action: Action
 let testRunner: TestRunner

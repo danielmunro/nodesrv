@@ -1,3 +1,4 @@
+import Alias from "../action/impl/type/alias"
 import { ItemEntity } from "../item/entity/itemEntity"
 import { MobEntity } from "../mob/entity/mobEntity"
 import {AuthorizationLevel} from "../player/enum/authorizationLevel"
@@ -11,17 +12,20 @@ import RequestContext from "./context/requestContext"
 import { RequestType } from "./enum/requestType"
 
 export default class Request implements ClientRequest {
+  private static getInputContextFromAlias(alias: Alias): InputContext {
+    const aliasWords = alias.command.split(" ")
+    return new InputContext(aliasWords[0] as RequestType, alias.command)
+  }
+
   constructor(
     public readonly mob: MobEntity,
     private readonly room: RoomEntity,
     private readonly context: RequestContext,
     private readonly targetMobInRoom?: MobEntity) {
     if (mob && mob.playerMob) {
-      const command = this.getContextAsInput().command
-      const alias = mob.playerMob.aliases.find(a => a.alias === command)
+      const alias = this.getAlias()
       if (alias) {
-        const aliasWords = alias.command.split(" ")
-        this.context = new InputContext(aliasWords[0] as RequestType, alias.command)
+        this.context = Request.getInputContextFromAlias(alias)
       }
     }
   }
@@ -92,5 +96,10 @@ export default class Request implements ClientRequest {
 
   public getMob(): MobEntity {
     return this.mob
+  }
+
+  private getAlias(): Alias | undefined {
+    const command = this.getContextAsInput().command
+    return this.mob.playerMob.aliases.find(a => a.alias === command)
   }
 }
