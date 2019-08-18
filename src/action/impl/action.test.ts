@@ -5,13 +5,16 @@ import Request from "../../messageExchange/request"
 import {Types} from "../../support/types"
 import ActionService from "../service/actionService"
 import Action from "./action"
+import TestRunner from "../../support/test/testRunner"
 
 let action: Action
+let testRunner: TestRunner
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   action = app.get<ActionService>(Types.ActionService).actions.find(a =>
     a.getRequestType() === RequestType.Noop) as Action
+  testRunner = app.get<TestRunner>(Types.TestRunner)
 })
 
 describe("Action", () => {
@@ -21,13 +24,15 @@ describe("Action", () => {
   })
 
   it("applyCallback should fail on different request types", async () => {
-    await expect(action.handle(new Request(null as any, null as any, new InputContext(RequestType.Gossip))))
+    await expect(action.handle(
+      new Request((await testRunner.createMob()).get(), null as any, new InputContext(RequestType.Gossip))))
       .rejects.toThrowError("request type mismatch")
   })
 
   it("applyCallback should succeed on matching request types", async () => {
     const callback = jest.fn()
-    action.handle(new Request(null as any, null as any, new InputContext(RequestType.Noop)))
+    action.handle(
+      new Request((await testRunner.createMob()).get(), null as any, new InputContext(RequestType.Noop)))
       .then(callback)
       .then(() => expect(callback).toBeCalled())
   })

@@ -27,7 +27,7 @@ import Action from "../action"
 export default class LookAction extends Action {
   protected static async createBuilderFromTarget(
     request: Request, builder: ResponseBuilder, describeable?: Describeable): Promise<Response | undefined> {
-    return describeable && request.mob.canSee(describeable) ? builder.info(describeable.describe()) : undefined
+    return describeable && request.mob.canSee(describeable) ? await builder.info(describeable.describe()) : undefined
   }
 
   constructor(
@@ -80,7 +80,7 @@ export default class LookAction extends Action {
         request, builder, this.itemService.findItem(request.getRoom().inventory, request.getSubject())) ||
       await LookAction.createBuilderFromTarget(
       request, builder, this.itemService.findItem(request.mob.inventory, request.getSubject())) ||
-      builder.error(Messages.Look.NotFound)
+      await builder.error(Messages.Look.NotFound)
   }
 
   protected isAbleToSee(mob: MobEntity, region: RegionEntity) {

@@ -15,7 +15,16 @@ export default class Request implements ClientRequest {
     public readonly mob: MobEntity,
     private readonly room: RoomEntity,
     private readonly context: RequestContext,
-    private readonly targetMobInRoom?: MobEntity) {}
+    private readonly targetMobInRoom?: MobEntity) {
+    if (mob && mob.playerMob) {
+      const command = this.getContextAsInput().command
+      const alias = mob.playerMob.aliases.find(a => a.alias === command)
+      if (alias) {
+        const aliasWords = alias.command.split(" ")
+        this.context = new InputContext(aliasWords[0] as RequestType, alias.command)
+      }
+    }
+  }
 
   public getWord(index: number) {
     return this.getContextAsInput().words[index]

@@ -52,7 +52,8 @@ describe("session", () => {
     expect(session.isLoggedIn()).toBeFalsy()
 
     // when
-    await session.handleRequest(client, new Request(client.getSessionMob(), room, new InputContext(RequestType.Any)))
+    await session.handleRequest(
+      client, new Request(client.getSessionMob(), room, new InputContext(RequestType.Any)))
 
     // then
     expect(session.isLoggedIn()).toBeTruthy()
