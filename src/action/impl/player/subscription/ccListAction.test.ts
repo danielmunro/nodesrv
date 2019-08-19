@@ -1,8 +1,8 @@
-import {createTestAppContainer} from "../../../app/factory/testFactory"
-import {Client} from "../../../client/client"
-import {RequestType} from "../../../messageExchange/enum/requestType"
-import TestRunner from "../../../support/test/testRunner"
-import {Types} from "../../../support/types"
+import {createTestAppContainer} from "../../../../app/factory/testFactory"
+import {Client} from "../../../../client/client"
+import {RequestType} from "../../../../messageExchange/enum/requestType"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
 let testRunner: TestRunner
 let client: Client

@@ -1,7 +1,7 @@
-import {createTestAppContainer} from "../../../app/factory/testFactory"
-import {RequestType} from "../../../messageExchange/enum/requestType"
-import TestRunner from "../../../support/test/testRunner"
-import {Types} from "../../../support/types"
+import {createTestAppContainer} from "../../../../app/factory/testFactory"
+import {RequestType} from "../../../../messageExchange/enum/requestType"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
 
 describe("tell social action", () => {
   it("sanity: happy path", async () => {

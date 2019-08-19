@@ -1,10 +1,10 @@
-import {createTestAppContainer} from "../../../app/factory/testFactory"
-import {RequestType} from "../../../messageExchange/enum/requestType"
-import {AuthorizationLevel} from "../../../player/enum/authorizationLevel"
-import PlayerBuilder from "../../../support/test/playerBuilder"
-import TestRunner from "../../../support/test/testRunner"
-import {Types} from "../../../support/types"
-import {MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS} from "../../constants"
+import {createTestAppContainer} from "../../../../app/factory/testFactory"
+import {RequestType} from "../../../../messageExchange/enum/requestType"
+import {AuthorizationLevel} from "../../../../player/enum/authorizationLevel"
+import PlayerBuilder from "../../../../support/test/playerBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
+import {MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS} from "../../../constants"
 
 let testRunner: TestRunner
 let playerToDemote: PlayerBuilder

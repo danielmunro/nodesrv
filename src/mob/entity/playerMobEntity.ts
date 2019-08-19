@@ -1,6 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import v4 from "uuid"
-import {Aliases} from "../../action/impl/type/aliases"
+import {Aliases} from "../../action/type/aliases"
 import { default as Attributes } from "../../attributes/entity/attributesEntity"
 import { ItemEntity } from "../../item/entity/itemEntity"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"

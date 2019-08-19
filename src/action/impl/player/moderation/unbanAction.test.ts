@@ -1,13 +1,13 @@
-import {createTestAppContainer} from "../../../app/factory/testFactory"
-import {CheckMessages} from "../../../check/constants"
-import {RequestType} from "../../../messageExchange/enum/requestType"
-import {ResponseStatus} from "../../../messageExchange/enum/responseStatus"
-import {Standing} from "../../../mob/enum/standing"
-import {AuthorizationLevel} from "../../../player/enum/authorizationLevel"
-import PlayerBuilder from "../../../support/test/playerBuilder"
-import TestRunner from "../../../support/test/testRunner"
-import {Types} from "../../../support/types"
-import {MESSAGE_FAIL_NOT_BANNED} from "../../constants"
+import {createTestAppContainer} from "../../../../app/factory/testFactory"
+import {CheckMessages} from "../../../../check/constants"
+import {RequestType} from "../../../../messageExchange/enum/requestType"
+import {ResponseStatus} from "../../../../messageExchange/enum/responseStatus"
+import {Standing} from "../../../../mob/enum/standing"
+import {AuthorizationLevel} from "../../../../player/enum/authorizationLevel"
+import PlayerBuilder from "../../../../support/test/playerBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
+import {MESSAGE_FAIL_NOT_BANNED} from "../../../constants"
 
 let testRunner: TestRunner
 let banningPlayer: PlayerBuilder

@@ -1,9 +1,9 @@
-import {createTestAppContainer} from "../../../app/factory/testFactory"
-import {RequestType} from "../../../messageExchange/enum/requestType"
-import PlayerBuilder from "../../../support/test/playerBuilder"
-import TestRunner from "../../../support/test/testRunner"
-import {Types} from "../../../support/types"
-import {Messages} from "../../constants"
+import {createTestAppContainer} from "../../../../app/factory/testFactory"
+import {RequestType} from "../../../../messageExchange/enum/requestType"
+import PlayerBuilder from "../../../../support/test/playerBuilder"
+import TestRunner from "../../../../support/test/testRunner"
+import {Types} from "../../../../support/types"
+import {Messages} from "../../../constants"
 
 let testRunner: TestRunner
 let player1: PlayerBuilder

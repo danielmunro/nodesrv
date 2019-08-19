@@ -8,8 +8,8 @@ import RequestService from "../../../../messageExchange/service/requestService"
 import {Types} from "../../../../support/types"
 import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
+import Alias from "../../../type/alias"
 import Action from "../../action"
-import Alias from "../../type/alias"
 
 @injectable()
 export default class AliasListAction extends Action {

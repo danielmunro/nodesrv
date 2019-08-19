@@ -1,19 +1,19 @@
 import {inject, injectable} from "inversify"
-import Check from "../../../check/check"
-import {CheckType} from "../../../check/enum/checkType"
-import {RequestType} from "../../../messageExchange/enum/requestType"
-import Request from "../../../messageExchange/request"
-import Response from "../../../messageExchange/response"
-import RequestService from "../../../messageExchange/service/requestService"
-import {MobEntity} from "../../../mob/entity/mobEntity"
-import SocialService from "../../../player/service/socialService"
-import {Types} from "../../../support/types"
-import {Messages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import Check from "../../../../check/check"
+import {CheckType} from "../../../../check/enum/checkType"
+import {RequestType} from "../../../../messageExchange/enum/requestType"
+import Request from "../../../../messageExchange/request"
+import Response from "../../../../messageExchange/response"
+import RequestService from "../../../../messageExchange/service/requestService"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
+import SocialService from "../../../../player/service/socialService"
+import {Types} from "../../../../support/types"
+import {Messages} from "../../../constants"
+import {ActionPart} from "../../../enum/actionPart"
+import Action from "../../action"
 
 @injectable()
-export default class ReplyAction extends Action {
+export default class TellAction extends Action {
   constructor(
     @inject(Types.SocialService) private readonly socialService: SocialService) {
     super()
@@ -21,7 +21,7 @@ export default class ReplyAction extends Action {
 
   public async check(request: Request): Promise<Check> {
     const checkBuilder = await this.socialService.getSocialCheck(request, this.getActionParts())
-    checkBuilder.require(request.mob.playerMob.lastTell, Messages.Reply.NoLastTell, CheckType.HasTarget)
+    checkBuilder.requireMob()
     return checkBuilder.create()
   }
 
@@ -33,16 +33,16 @@ export default class ReplyAction extends Action {
       target,
       message)
     return requestService.respondWith()
-      .success(`You reply to ${target.name}, "${message}"`)
+      .success(`You tell ${target.name}, "${message}"`)
   }
 
   /* istanbul ignore next */
   public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action, ActionPart.FreeForm ]
+    return [ActionPart.Action, ActionPart.Target, ActionPart.FreeForm]
   }
 
   public getRequestType(): RequestType {
-    return RequestType.Reply
+    return RequestType.Tell
   }
 
   /* istanbul ignore next */

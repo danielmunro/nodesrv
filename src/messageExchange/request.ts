@@ -1,4 +1,4 @@
-import Alias from "../action/impl/type/alias"
+import Alias from "../action/type/alias"
 import { ItemEntity } from "../item/entity/itemEntity"
 import { MobEntity } from "../mob/entity/mobEntity"
 import {AuthorizationLevel} from "../player/enum/authorizationLevel"
