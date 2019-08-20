@@ -89,6 +89,9 @@ export class MobEntity {
   @Column({ default: true })
   public allowFollow: boolean
 
+  @Column({ nullable: true })
+  public wimpy: number
+
   @OneToOne(() => DamageSourceEntity, { cascade: true, eager: true })
   @JoinColumn()
   public immune: DamageSourceEntity

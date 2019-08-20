@@ -12,6 +12,7 @@ import ItemInInventoryActionPartCheck from "../actionPartCheck/itemInInventoryAc
 import ItemInRoomActionPartCheck from "../actionPartCheck/itemInRoomActionPartCheck"
 import MobInRoomActionPartCheck from "../actionPartCheck/mobInRoomActionPartCheck"
 import NameActionPartCheck from "../actionPartCheck/nameActionPartCheck"
+import NumberActionPartCheck from "../actionPartCheck/numberActionPartCheck"
 import PlayerMobActionPartCheck from "../actionPartCheck/playerMobActionPartCheck"
 
 export default function getActionPartTable(mobService: MobService): ActionPartCheck[] {
@@ -29,5 +30,6 @@ export default function getActionPartTable(mobService: MobService): ActionPartCh
     new DirectionActionPartCheck(),
     new DirectiveActionPartCheck(),
     new NameActionPartCheck(),
+    new NumberActionPartCheck(),
   ]
 }

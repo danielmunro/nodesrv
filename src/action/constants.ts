@@ -192,6 +192,10 @@ export const Messages = {
   Wear: {
     Success: "{requestCreator}{removeClause} {verb} {item}.",
   },
+  Wimpy: {
+    Success: "Wimpy is now set to {0}.",
+    TooHigh: "That wimpy is too high. It must be below {0}.",
+  },
 }
 
 export const MESSAGE_FAIL_CONTAINER_NOT_FOUND = "That container isn't here."

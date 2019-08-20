@@ -7,6 +7,7 @@ import ConsiderAction from "../../../action/impl/fight/considerAction"
 import FleeAction from "../../../action/impl/fight/fleeAction"
 import HitAction from "../../../action/impl/fight/hitAction"
 import KillAction from "../../../action/impl/fight/killAction"
+import WimpyAction from "../../../action/impl/fight/wimpyAction"
 import LevelAction from "../../../action/impl/improve/levelAction"
 import PracticeAction from "../../../action/impl/improve/practiceAction"
 import TrainAction from "../../../action/impl/improve/trainAction"
@@ -103,6 +104,7 @@ export const actions = [
   FleeAction,
   BountyAction,
   ConsiderAction,
+  WimpyAction,
 
   // casting
   CastAction,
