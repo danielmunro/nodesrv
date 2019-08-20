@@ -1,36 +1,43 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
 import {RequestType} from "../../../messageExchange/enum/requestType"
+import {MobEntity} from "../../../mob/entity/mobEntity"
 import {RealEstateListingEntity} from "../../../room/entity/realEstateListingEntity"
+import {RoomEntity} from "../../../room/entity/roomEntity"
 import RealEstateService from "../../../room/service/realEstateService"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
 
 let testRunner: TestRunner
 let realEstateService: RealEstateService
+let bidder: MobEntity
+let owner: MobEntity
+let room: RoomEntity
 const input = "room bid 10"
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
+  bidder = (await testRunner.createMob()).get()
+  room = testRunner.getStartRoom().get()
+  owner = (await testRunner.createMob()).get()
+  room.isOwnable = true
+  room.owner = owner
+  bidder.gold = 10
   realEstateService = app.get<RealEstateService>(Types.RealEstateListingService)
 })
 
+function createListing() {
+  const listing = new RealEstateListingEntity()
+  listing.agent = owner
+  listing.room = room
+  listing.offeringPrice = 10
+  return listing
+}
+
 describe("room bid action", () => {
   it("can bid on a listed room", async () => {
-    // setup
-    const bidder = (await testRunner.createMob()).get()
-    const room = testRunner.getStartRoom().get()
-    const owner = (await testRunner.createMob()).get()
-    room.isOwnable = true
-    room.owner = owner
-    bidder.gold = 10
-
     // given
-    const listing = new RealEstateListingEntity()
-    listing.agent = owner
-    listing.room = room
-    listing.offeringPrice = 10
-    await realEstateService.createListing(listing)
+    await realEstateService.createListing(createListing())
 
     // when
     const response = await testRunner.invokeAction(RequestType.RoomBid, input)
@@ -41,17 +48,8 @@ describe("room bid action", () => {
 
   it("can update a bid", async () => {
     // setup
-    const bidder = (await testRunner.createMob()).get()
-    const room = testRunner.getStartRoom().get()
-    const owner = (await testRunner.createMob()).get()
-    room.isOwnable = true
-    room.owner = owner
     bidder.gold = 20
-    const listing = new RealEstateListingEntity()
-    listing.agent = owner
-    listing.room = room
-    listing.offeringPrice = 10
-    await realEstateService.createListing(listing)
+    await realEstateService.createListing(createListing())
 
     // given
     await testRunner.invokeAction(RequestType.RoomBid, input)
@@ -65,20 +63,8 @@ describe("room bid action", () => {
   })
 
   it("deducts the bid amount from the bidder", async () => {
-    // setup
-    const bidder = (await testRunner.createMob()).get()
-    const room = testRunner.getStartRoom().get()
-    const owner = (await testRunner.createMob()).get()
-    room.isOwnable = true
-    room.owner = owner
-    bidder.gold = 10
-
     // given
-    const listing = new RealEstateListingEntity()
-    listing.agent = owner
-    listing.room = room
-    listing.offeringPrice = 10
-    await realEstateService.createListing(listing)
+    await realEstateService.createListing(createListing())
 
     // when
     const response = await testRunner.invokeAction(RequestType.RoomBid, input)
@@ -88,14 +74,6 @@ describe("room bid action", () => {
   })
 
   it("requires a listing to bid", async () => {
-    // given
-    const bidder = (await testRunner.createMob()).get()
-    const room = testRunner.getStartRoom().get()
-    const owner = (await testRunner.createMob()).get()
-    room.isOwnable = true
-    room.owner = owner
-    bidder.gold = 10
-
     // when
     const response = await testRunner.invokeAction(RequestType.RoomBid, input)
 
@@ -105,16 +83,7 @@ describe("room bid action", () => {
 
   it("requires money to bid", async () => {
     // setup
-    const bidder = (await testRunner.createMob()).get()
-    const room = testRunner.getStartRoom().get()
-    const owner = (await testRunner.createMob()).get()
-    room.isOwnable = true
-    room.owner = owner
-    const listing = new RealEstateListingEntity()
-    listing.agent = owner
-    listing.room = room
-    listing.offeringPrice = 10
-    await realEstateService.createListing(listing)
+    await realEstateService.createListing(createListing())
 
     // given
     bidder.gold = 1
@@ -128,16 +97,7 @@ describe("room bid action", () => {
 
   it("cannot bid on own property", async () => {
     // setup
-    const bidder = (await testRunner.createMob()).get()
-    const room = testRunner.getStartRoom().get()
-    const owner = (await testRunner.createMob()).get()
-    room.isOwnable = true
-    const listing = new RealEstateListingEntity()
-    listing.agent = owner
-    listing.room = room
-    listing.offeringPrice = 10
-    bidder.gold = 10
-    await realEstateService.createListing(listing)
+    await realEstateService.createListing(createListing())
 
     // given
     room.owner = bidder
