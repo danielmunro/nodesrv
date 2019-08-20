@@ -40,13 +40,11 @@ export default class RoomBidAction extends Action {
     const existingBid = this.realEstateService.getBidsForRoom(room).find(bid => bid.bidder.is(request.mob))
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireFromActionParts(request, this.getActionParts())
+      .require((amount: number) =>
+        request.mob.gold + (existingBid ? existingBid.amount : 0) >= amount, Messages.Room.Bid.NotEnoughGold)
       .not().requireFight(ConditionMessages.All.Mob.Fighting)
       .require(room.isOwnable, Messages.Room.Bid.CannotBid)
       .not().require(() => room.owner.is(request.mob), Messages.Room.Bid.AlreadyOwn)
-      .require(parseInt(request.getComponent(), 10), Messages.Room.Bid.AmountIsRequired, CheckType.Amount)
-      .capture()
-      .require((amount: number) =>
-        request.mob.gold + (existingBid ? existingBid.amount : 0) >= amount, Messages.Room.Bid.NotEnoughGold)
       .require(this.realEstateService.getListing(room), Messages.Room.Bid.NotBeingSold, CheckType.ValidSubject)
       .optional(CheckType.Bid, existingBid)
       .create()
