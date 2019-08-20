@@ -36,7 +36,7 @@ export default class RoomSellAction extends Action {
   public check(request: Request): Promise<Check> {
     const room = request.getRoom()
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .not().requireFight(ConditionMessages.All.Mob.Fighting)
       .require(room.isOwnable && room.owner, Messages.Room.Sell.RoomIsNotOwned)
       .require(() => room.owner.is(request.mob), Messages.Room.Sell.RoomIsNotOwnedByYou)

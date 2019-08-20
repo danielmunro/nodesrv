@@ -21,7 +21,7 @@ export default class WearAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .require((item: ItemEntity) => !!item.equipment, ConditionMessages.All.Item.NotEquipment)
       .create()
   }

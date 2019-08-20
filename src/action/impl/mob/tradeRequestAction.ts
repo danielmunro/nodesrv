@@ -23,7 +23,7 @@ export default class TradeRequestAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .capture()
       .require(
         () => !this.escrowService.findEscrowForMobs(request.mob, request.getTargetMobInRoom()),

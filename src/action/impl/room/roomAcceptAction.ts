@@ -45,7 +45,7 @@ export default class RoomAcceptAction extends Action {
     const bids = this.realEstateService.getBidsForRoom(room)
     const matchingBid = bids.find(bid => match(bid.bidder.name, request.getComponent()))
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .not().requireFight(ConditionMessages.All.Mob.Fighting)
       .require(room.owner.is(request.mob), Messages.Room.Accept.RoomNotOwned)
       .require(matchingBid, Messages.Room.Accept.BidNotFound, CheckType.Bid)

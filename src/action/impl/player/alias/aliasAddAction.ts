@@ -24,7 +24,7 @@ export default class AliasAddAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .not().require(request.mob.playerMob.getAliasCommand(request.getComponent()), Messages.Alias.AliasAlreadySet)
       .require(request.mob.playerMob.aliases.length <= maxAliases, Messages.Alias.TooManyAliases)
       .create()

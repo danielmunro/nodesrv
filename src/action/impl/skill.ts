@@ -68,7 +68,7 @@ export default class Skill extends Action {
   public check(request: Request): Promise<Check> {
     const checkBuilder = this.abilityService.createCheckTemplate(request)
       .perform(this)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
     if (this.checkComponents) {
       this.checkComponents(request, checkBuilder)
     }

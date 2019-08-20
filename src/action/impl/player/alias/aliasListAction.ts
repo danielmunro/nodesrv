@@ -19,7 +19,7 @@ export default class AliasListAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts()).create()
+      .requireFromActionParts(this.getActionParts()).create()
   }
 
   public getActionParts(): ActionPart[] {

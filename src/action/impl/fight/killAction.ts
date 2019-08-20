@@ -28,7 +28,7 @@ export default class KillAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .capture()
       .require((target: MobEntity) => request.mob !== target, ConditionMessages.All.Mob.CannotAttackSelf)
       .not().requireFight(ConditionMessages.All.Mob.Fighting)

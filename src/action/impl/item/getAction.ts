@@ -95,7 +95,7 @@ export default class GetAction extends Action {
   private getFromRoom(request: Request) {
     const item = request.findItemInRoomInventory() as ItemEntity
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .require(() => item.isTransferable, MESSAGE_FAIL_ITEM_NOT_TRANSFERABLE)
       .create()
   }

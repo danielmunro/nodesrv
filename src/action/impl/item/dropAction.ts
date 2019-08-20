@@ -27,7 +27,7 @@ export default class DropAction extends Action {
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireSubject(ConditionMessages.All.Arguments.Drop)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .not().requireAffect(AffectType.Curse, ConditionMessages.All.Item.CannotRemoveCursedItem)
       .require(
         (item: ItemEntity) => item.isTransferable,

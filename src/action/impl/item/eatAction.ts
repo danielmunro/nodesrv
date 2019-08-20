@@ -24,7 +24,7 @@ export default class EatAction extends Action {
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
       .requireSubject(ConditionMessages.All.Arguments.Eat)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .require((item: ItemEntity) => item.isFood(), ConditionMessages.Eat.NotFood)
       .require(request.mob.playerMob.hunger < request.mob.race().appetite, ConditionMessages.Eat.AlreadyFull)
       .create()

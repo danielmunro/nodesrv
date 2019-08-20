@@ -71,7 +71,7 @@ export default class GroupAction extends Action {
 
   public async check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .create()
   }
 }

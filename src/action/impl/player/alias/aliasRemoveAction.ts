@@ -22,7 +22,7 @@ export default class AliasRemoveAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .require(
         request.mob.playerMob.aliases.find(a => a.alias === request.getComponent()),
         Messages.Alias.AliasDoesNotExist)

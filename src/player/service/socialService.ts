@@ -24,7 +24,7 @@ export default class SocialService {
 
   public async getSocialCheck(request: Request, actionParts: ActionPart[]): Promise<CheckBuilder> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, actionParts)
+      .requireFromActionParts(actionParts)
       .require(!isBanned(request.mob.getStanding()), ConditionMessages.Social.LackingStanding)
   }
 

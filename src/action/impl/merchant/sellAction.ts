@@ -28,7 +28,7 @@ export default class SellAction extends Action {
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request, Disposition.Standing)
       .requireMerchant()
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .create()
   }
 

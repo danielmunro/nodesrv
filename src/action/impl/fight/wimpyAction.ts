@@ -21,7 +21,7 @@ export default class WimpyAction extends Action {
   public check(request: Request): Promise<Check> {
     const maxWimpy = Math.floor(request.mob.attribute().getHp() * 0.2)
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .require((amount: number) => amount <= maxWimpy, format(Messages.Wimpy.TooHigh, maxWimpy))
       .create()
   }

@@ -22,7 +22,7 @@ export default class AliasResetAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .optional(CheckType.FreeForm, request.getContextAsInput().words.slice(2))
       .create()
   }

@@ -37,7 +37,7 @@ export default class RoomBidListAction extends Action {
     const room = request.getRoom()
     const bids = this.realEstateService.getBidsForRoom(room)
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .not().requireFight(ConditionMessages.All.Mob.Fighting)
       .require(room.isOwnable, Messages.Room.Bid.CannotBid)
       .require(() => room.owner.is(request.mob), Messages.Room.Bid.AlreadyOwn)

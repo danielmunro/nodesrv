@@ -39,12 +39,12 @@ export default class CheckBuilder {
     this.mob = request.mob
   }
 
-  public requireFromActionParts(request: Request, actionParts: ActionPart[]): CheckBuilder {
+  public requireFromActionParts(actionParts: ActionPart[]): CheckBuilder {
     const parts = actionParts.map(actionPart =>
       this.actionPartChecks.find(a => a.getActionPart() === actionPart))
         .filter(Boolean) as ActionPartCheck[]
     parts.forEach(actionPartCheck =>
-      actionPartCheck.addToCheckBuilder(this, request, actionParts))
+      actionPartCheck.addToCheckBuilder(this, this.request, actionParts))
     return this
   }
 

@@ -39,7 +39,7 @@ export default class RoomBidAction extends Action {
     const room = request.getRoom()
     const existingBid = this.realEstateService.getBidsForRoom(room).find(bid => bid.bidder.is(request.mob))
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .require((amount: number) =>
         request.mob.gold + (existingBid ? existingBid.amount : 0) >= amount, Messages.Room.Bid.NotEnoughGold)
       .not().requireFight(ConditionMessages.All.Mob.Fighting)

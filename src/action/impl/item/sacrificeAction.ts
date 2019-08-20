@@ -25,7 +25,7 @@ export default class SacrificeAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .not()
       .requireAffect(AffectType.NoSacrifice, ConditionMessages.All.Item.CannotSacrifice)
       .require((item: ItemEntity) => item.isContainer()

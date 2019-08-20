@@ -23,7 +23,7 @@ export default class FollowAction extends Action {
 
   public check(request: Request): Promise<Check> {
     return this.checkBuilderFactory.createCheckBuilder(request)
-      .requireFromActionParts(request, this.getActionParts())
+      .requireFromActionParts(this.getActionParts())
       .require((target: MobEntity) => target.allowFollow, Messages.Follow.NotAllowed)
       .create()
   }
