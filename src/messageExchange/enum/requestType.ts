@@ -96,6 +96,7 @@ export enum RequestType {
   Wake = "wake",
   West = "west",
   Wear = "wear",
+  Weather = "weather",
   Who = "who",
   Wimpy = "wimpy",
 }

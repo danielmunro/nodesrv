@@ -18,7 +18,7 @@ function createMapEntry(weather: Weather, message: string): WeatherMessage {
   return {weather, message}
 }
 
-const weatherMessageMap = [
+export const weatherMessageMap = [
   createMapEntry(Weather.Clear, MESSAGE_WEATHER_CLEAR),
   createMapEntry(Weather.Blustery, MESSAGE_WEATHER_BLUSTERY),
   createMapEntry(Weather.Overcast, MESSAGE_WEATHER_OVERCAST),
