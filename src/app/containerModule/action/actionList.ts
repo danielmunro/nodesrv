@@ -21,6 +21,7 @@ import LoreAction from "../../../action/impl/info/loreAction"
 import OwnedAction from "../../../action/impl/info/ownedAction"
 import ScanAction from "../../../action/impl/info/scanAction"
 import ScoreAction from "../../../action/impl/info/scoreAction"
+import TimeAction from "../../../action/impl/info/timeAction"
 import WeatherAction from "../../../action/impl/info/weatherAction"
 import WhoAction from "../../../action/impl/info/whoAction"
 import DropAction from "../../../action/impl/item/dropAction"
@@ -122,6 +123,7 @@ export const actions = [
   OwnedAction,
   HelpAction,
   WeatherAction,
+  TimeAction,
 
   // rooms
   RoomInfoAction,

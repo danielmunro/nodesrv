@@ -166,6 +166,9 @@ export const Messages = {
   Sleep: {
     Success: "{requestCreator} {verb} down and {verb2} to sleep.",
   },
+  Time: {
+    Info: "The current time is {0} o'clock {1}.",
+  },
   Trade: {
     AlreadyInitialized: "A trade with {target} has already been initialized.",
     Initialized: "{requestCreator} would like to initiate a trade with {target}.",

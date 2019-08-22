@@ -86,6 +86,7 @@ export enum RequestType {
   Steal = "steal",
   Subscribe = "subscribe",
   Tell = "tell",
+  Time = "time",
   TradeRequest = "trade",
   Train = "train",
   Trip = "trip",
