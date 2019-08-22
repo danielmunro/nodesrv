@@ -25,4 +25,5 @@ export enum ActionPart {
   CCNumber = "credit card number",
   ExpMonth = "exp month",
   ExpYear = "exp year",
+  Password = "password",
 }

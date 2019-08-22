@@ -57,6 +57,7 @@ export enum RequestType {
   Noop = "noop",
   Open = "open",
   Owned = "owned",
+  Password = "password",
   Peek = "peek",
   Practice = "practice",
   Promote = "promote",

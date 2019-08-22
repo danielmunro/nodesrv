@@ -104,6 +104,11 @@ export const Messages = {
     NotOwnable: "{room} cannot be owned.",
     OwnableButNotOwned: "{room} does not have an owner.",
   },
+  Password: {
+    MustMatch: "Passwords do not match.",
+    Success: "Your password has been updated.",
+    TooShort: "Password is too short.",
+  },
   Practice: {
     CannotImproveAnymore: "You cannot improve anymore.",
     CannotPractice: "You can't practice that.",

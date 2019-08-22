@@ -58,6 +58,7 @@ import BanAction from "../../../action/impl/player/moderation/banAction"
 import DemoteAction from "../../../action/impl/player/moderation/demoteAction"
 import PromoteAction from "../../../action/impl/player/moderation/promoteAction"
 import UnbanAction from "../../../action/impl/player/moderation/unbanAction"
+import PasswordAction from "../../../action/impl/player/passwordAction"
 import QuitAction from "../../../action/impl/player/quitAction"
 import GossipAction from "../../../action/impl/player/social/gossipAction"
 import GroupTellAction from "../../../action/impl/player/social/groupTellAction"
@@ -178,6 +179,7 @@ export const actions = [
   AliasListAction,
   AliasRemoveAction,
   AliasResetAction,
+  PasswordAction,
 
   // subscriptions
   CcListAction,

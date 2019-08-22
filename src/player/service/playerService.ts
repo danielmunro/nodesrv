@@ -58,4 +58,8 @@ export default class PlayerService {
     }
     await this.playerRepository.save(player)
   }
+
+  public async save(player: PlayerEntity) {
+    return this.playerRepository.save(player)
+  }
 }
