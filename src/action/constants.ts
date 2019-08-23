@@ -8,6 +8,9 @@ export const Messages = {
     AliasDoesNotExist: "That alias does not exist.",
     TooManyAliases: "You already have too many aliases.",
   },
+  Attributes: {
+    Info: "Str: {0} Int: {1} Wis: {2} Dex: {3} Con: {4} Sta: {5}",
+  },
   Bounty: {
     NeedAmount: "How much gold do you want to set on that bounty?",
     NeedMoreGold: "You need more gold.",

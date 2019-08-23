@@ -12,6 +12,7 @@ import LevelAction from "../../../action/impl/improve/levelAction"
 import PracticeAction from "../../../action/impl/improve/practiceAction"
 import TrainAction from "../../../action/impl/improve/trainAction"
 import AffectsAction from "../../../action/impl/info/affectsAction"
+import AttributesAction from "../../../action/impl/info/attributesAction"
 import EquippedAction from "../../../action/impl/info/equippedAction"
 import ExitsAction from "../../../action/impl/info/exitsAction"
 import HelpAction from "../../../action/impl/info/helpAction"
@@ -125,6 +126,7 @@ export const actions = [
   HelpAction,
   WeatherAction,
   TimeAction,
+  AttributesAction,
 
   // rooms
   RoomInfoAction,
