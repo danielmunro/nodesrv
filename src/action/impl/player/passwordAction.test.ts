@@ -32,4 +32,12 @@ describe("password action", () => {
     // then
     expect(response.getMessageToRequestCreator()).toBe(Messages.Password.TooShort)
   })
+
+  it("requires passwords to match", async () => {
+    // when
+    const response = await testRunner.invokeAction(RequestType.Password, `password foo bar`)
+
+    // then
+    expect(response.getMessageToRequestCreator()).toBe(Messages.Password.MustMatch)
+  })
 })
