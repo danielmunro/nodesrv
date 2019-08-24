@@ -1,40 +1,26 @@
-import {injectable} from "inversify"
+import {inject, injectable} from "inversify"
 import {AffectEntity} from "../../../affect/entity/affectEntity"
-import Check from "../../../check/check"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {RequestType} from "../../../messageExchange/enum/requestType"
 import Response from "../../../messageExchange/response"
 import RequestService from "../../../messageExchange/service/requestService"
+import {Types} from "../../../support/types"
 import {Messages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class AffectsAction extends Action {
+export default class AffectsAction extends SimpleAction {
   private static reduceAffects(affects: AffectEntity[]) {
     return affects.reduce((previous: string, current: AffectEntity) =>
       previous + "\n" + current.affectType + ": " + current.timeout + " hour" + (current.timeout === 1 ? "" : "s"), "")
   }
 
-  public check(): Promise<Check> {
-    return Check.ok()
+  constructor(@inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory) {
+    super(checkBuilderFactory, RequestType.Affects, Messages.Help.NoActionHelpTextProvided)
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
     return requestService.respondWith()
       .info("Your affects:\n" + AffectsAction.reduceAffects(requestService.getAffects()))
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action ]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Affects
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
   }
 }
