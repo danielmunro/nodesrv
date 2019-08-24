@@ -7,6 +7,7 @@ export enum RequestType {
   AliasReset = "alias reset",
   Any = "any",
   Attributes = "attributes",
+  AutoAssist = "autoassist",
   Backstab = "backstab",
   Ban = "ban",
   Bash = "bash",

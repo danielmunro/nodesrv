@@ -84,5 +84,11 @@ export function createPlayerMob(): PlayerMobEntity {
   const playerMob = new PlayerMobEntity()
   playerMob.trainedAttributes = newEmptyAttributes()
   playerMob.aliases = []
+  playerMob.autoAssist = true
+  playerMob.autoExit = true
+  playerMob.autoList = true
+  playerMob.autoLoot = true
+  playerMob.autoSac = true
+  playerMob.autoSplit = true
   return playerMob
 }

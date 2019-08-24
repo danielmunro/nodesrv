@@ -66,6 +66,24 @@ export class PlayerMobEntity {
   @Column("json", { default: [] })
   public aliases: Aliases
 
+  @Column({ default: true })
+  public autoAssist: boolean
+
+  @Column({ default: true })
+  public autoExit: boolean
+
+  @Column({ default: true })
+  public autoList: boolean
+
+  @Column({ default: true })
+  public autoLoot: boolean
+
+  @Column({ default: true })
+  public autoSac: boolean
+
+  @Column({ default: true })
+  public autoSplit: boolean
+
   public customizations: Customization[] = []
 
   public getAliasCommand(alias: string) {
