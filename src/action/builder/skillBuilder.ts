@@ -15,8 +15,9 @@ import {Messages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
 import {ActionType} from "../enum/actionType"
 import {createApplyAbilityResponse} from "../factory/responseFactory"
-import {ApplyAbility, CheckComponentAdder} from "../impl/action"
 import Skill from "../impl/skill"
+import {ApplyAbility} from "../type/applyAbility"
+import {CheckComponentAdder} from "../type/checkComponentAdder"
 
 export default class SkillBuilder {
   private static createDefaultResponseMessage() {

@@ -20,7 +20,9 @@ import roll from "../../support/random/dice"
 import {Messages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
 import {ActionType} from "../enum/actionType"
-import Action, {ApplyAbility, CheckComponentAdder} from "./action"
+import {ApplyAbility} from "../type/applyAbility"
+import {CheckComponentAdder} from "../type/checkComponentAdder"
+import Action from "./action"
 
 export default class Spell extends Action {
   constructor(

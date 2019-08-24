@@ -19,7 +19,9 @@ import {SkillType} from "../../mob/skill/skillType"
 import {ActionPart} from "../enum/actionPart"
 import {ActionType} from "../enum/actionType"
 import ApplyAbilityResponse from "../response/applyAbilityResponse"
-import Action, {ApplyAbility, CheckComponentAdder} from "./action"
+import {ApplyAbility} from "../type/applyAbility"
+import {CheckComponentAdder} from "../type/checkComponentAdder"
+import Action from "./action"
 
 export default class Skill extends Action {
   constructor(

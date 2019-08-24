@@ -1,6 +1,4 @@
 import {injectable} from "inversify"
-import AffectBuilder from "../../affect/builder/affectBuilder"
-import CheckBuilder from "../../check/builder/checkBuilder"
 import Check from "../../check/check"
 import CheckedRequest from "../../check/checkedRequest"
 import {CheckStatus} from "../../check/enum/checkStatus"
@@ -9,12 +7,6 @@ import Request from "../../messageExchange/request"
 import Response from "../../messageExchange/response"
 import RequestService from "../../messageExchange/service/requestService"
 import {ActionPart} from "../enum/actionPart"
-import ApplyAbilityResponse from "../response/applyAbilityResponse"
-
-export type ApplyAbility = (requestService: RequestService, affectBuilder: AffectBuilder) =>
-  Promise<ApplyAbilityResponse | void>
-
-export type CheckComponentAdder = (request: Request, checkBuilder: CheckBuilder) => void
 
 @injectable()
 export default abstract class Action {

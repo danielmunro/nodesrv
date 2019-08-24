@@ -8,8 +8,9 @@ import {SpellType} from "../../mob/spell/spellType"
 import {Messages} from "../constants"
 import {ActionType} from "../enum/actionType"
 import {createApplyAbilityResponse} from "../factory/responseFactory"
-import {ApplyAbility, CheckComponentAdder} from "../impl/action"
 import Spell from "../impl/spell"
+import {ApplyAbility} from "../type/applyAbility"
+import {CheckComponentAdder} from "../type/checkComponentAdder"
 
 export default class SpellBuilder {
   private helpText: string
