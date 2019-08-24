@@ -5,7 +5,6 @@ import {RequestType} from "../../../messageExchange/enum/requestType"
 import Response from "../../../messageExchange/response"
 import RequestService from "../../../messageExchange/service/requestService"
 import {Types} from "../../../support/types"
-import {Messages} from "../../constants"
 import SimpleAction from "../simpleAction"
 
 @injectable()
@@ -16,7 +15,7 @@ export default class AffectsAction extends SimpleAction {
   }
 
   constructor(@inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory) {
-    super(checkBuilderFactory, RequestType.Affects, Messages.Help.NoActionHelpTextProvided)
+    super(checkBuilderFactory, RequestType.Affects)
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
