@@ -1,16 +1,15 @@
-import {injectable} from "inversify"
-import Check from "../../../check/check"
+import {inject, injectable} from "inversify"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {RequestType} from "../../../messageExchange/enum/requestType"
 import Response from "../../../messageExchange/response"
 import RequestService from "../../../messageExchange/service/requestService"
-import {Messages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import {Types} from "../../../support/types"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class ScoreAction extends Action {
-  public check(): Promise<Check> {
-    return Check.ok()
+export default class ScoreAction extends SimpleAction {
+  constructor(@inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory) {
+    super(checkBuilderFactory, RequestType.Score)
   }
 
   /* tslint:disable */
@@ -23,19 +22,5 @@ A ${mob.raceType} ${mob.specializationType}.
 Attributes: ${attributes.str} str, ${attributes.int} int, ${attributes.wis} wis, ${attributes.dex} dex, ${attributes.con} con, ${attributes.sta} sta
 You have ${mob.gold} gold.
 `)
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action ]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Score
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
   }
 }
