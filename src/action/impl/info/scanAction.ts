@@ -10,16 +10,16 @@ import {Disposition} from "../../../mob/enum/disposition"
 import MobService from "../../../mob/service/mobService"
 import match from "../../../support/matcher/match"
 import {Types} from "../../../support/types"
-import {ConditionMessages, Messages} from "../../constants"
+import {ConditionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class ScanAction extends Action {
+export default class ScanAction extends SimpleAction {
   constructor(
-    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory,
     @inject(Types.MobService) private readonly mobService: MobService) {
-    super()
+    super(checkBuilderFactory, RequestType.Scan)
   }
 
   public check(request: Request): Promise<Check> {
@@ -41,14 +41,5 @@ export default class ScanAction extends Action {
 
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.MobInArea ]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Scan
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
   }
 }

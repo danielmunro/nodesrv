@@ -9,7 +9,7 @@ import Action from "./action"
 
 export default abstract class SimpleAction extends Action {
   protected constructor(
-    private readonly checkBuilderFactory: CheckBuilderFactory,
+    protected readonly checkBuilderFactory: CheckBuilderFactory,
     @unmanaged() private readonly requestType: RequestType,
     @unmanaged() private readonly helpText: string = Messages.Help.NoActionHelpTextProvided) {
     super()
