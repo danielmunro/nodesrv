@@ -20,7 +20,7 @@ export default class MultiAction extends Action {
   public async check(request: Request): Promise<Check> {
     for (const action of this.actions) {
       const check = await action.check(request)
-      if (check.getCheckTypeResult(CheckType.HasTarget)) {
+      if (check.getCheckTypeResult(CheckType.HasTarget) || check.isOk()) {
         return Check.ok(action)
       }
     }

@@ -39,7 +39,7 @@ import SellAction from "../../../action/impl/merchant/sellAction"
 import FollowAction from "../../../action/impl/mob/followAction"
 import GroupAction from "../../../action/impl/mob/groupAction"
 import NoFollowAction from "../../../action/impl/mob/noFollowAction"
-import TradeRequestAction from "../../../action/impl/mob/tradeRequestAction"
+import TradeRequestAction from "../../../action/impl/mob/trade/tradeRequestAction"
 import DownAction from "../../../action/impl/move/downAction"
 import EastAction from "../../../action/impl/move/eastAction"
 import NorthAction from "../../../action/impl/move/northAction"
@@ -149,6 +149,8 @@ export const actions = [
   NoFollowAction,
   LevelAction,
   TradeRequestAction,
+  // TradeAddItemAction,
+  // TradeAddGoldAction,
   GroupAction,
   GroupTellAction,
 

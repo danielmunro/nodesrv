@@ -26,4 +26,5 @@ export enum CheckType {
   HasGold,
   Directive,
   Name,
+  Escrow,
 }

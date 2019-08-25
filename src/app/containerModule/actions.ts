@@ -17,7 +17,7 @@ export default new ContainerModule(bind => {
   actions.forEach(action => bind<Action>(Types.Actions).to(action))
 
   multiActions.forEach(multiAction => bind<Action>(Types.Actions).toDynamicValue(context =>
-    multiAction(context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory))))
+    multiAction(context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory), context.container)))
 
   skillActions.forEach(skillAction =>
     bind<Action>(Types.Actions).toDynamicValue(context =>

@@ -1,17 +1,17 @@
 import {inject, injectable} from "inversify"
-import Check from "../../../check/check"
-import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
-import {RequestType} from "../../../messageExchange/enum/requestType"
-import Request from "../../../messageExchange/request"
-import Response from "../../../messageExchange/response"
-import RequestService from "../../../messageExchange/service/requestService"
-import {MobEntity} from "../../../mob/entity/mobEntity"
-import Escrow from "../../../mob/trade/escrow"
-import EscrowService from "../../../mob/trade/escrowService"
-import {Types} from "../../../support/types"
-import {Messages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import Check from "../../../../check/check"
+import CheckBuilderFactory from "../../../../check/factory/checkBuilderFactory"
+import {RequestType} from "../../../../messageExchange/enum/requestType"
+import Request from "../../../../messageExchange/request"
+import Response from "../../../../messageExchange/response"
+import RequestService from "../../../../messageExchange/service/requestService"
+import {MobEntity} from "../../../../mob/entity/mobEntity"
+import Escrow from "../../../../mob/trade/escrow"
+import EscrowService from "../../../../mob/trade/escrowService"
+import {Types} from "../../../../support/types"
+import {Messages} from "../../../constants"
+import {ActionPart} from "../../../enum/actionPart"
+import Action from "../../action"
 
 @injectable()
 export default class TradeRequestAction extends Action {
@@ -26,13 +26,13 @@ export default class TradeRequestAction extends Action {
       .requireFromActionParts(this.getActionParts())
       .capture()
       .require(
-        () => !this.escrowService.findEscrowForMobs(request.mob, request.getTargetMobInRoom()),
+        () => !this.escrowService.findEscrowForMob(request.mob),
         Messages.Trade.AlreadyInitialized)
       .create()
   }
 
   public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action, ActionPart.Thing, ActionPart.MobInRoom ]
+    return [ ActionPart.Action, ActionPart.Directive, ActionPart.Thing, ActionPart.MobInRoom ]
   }
 
   /* istanbul ignore next */

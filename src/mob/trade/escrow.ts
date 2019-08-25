@@ -16,6 +16,30 @@ export default class Escrow {
     private readonly requester: MobEntity,
     private readonly trader: MobEntity) {}
 
+  public addItemForMob(mob: MobEntity, item: ItemEntity) {
+    if (this.requester.is(mob)) {
+      this.addItemForRequester(item)
+      return
+    } else if (this.trader.is(mob)) {
+      this.addItemForTrader(item)
+      return
+    }
+
+    throw new Error("mob not participating in trade")
+  }
+
+  public addGoldForMob(mob: MobEntity, gold: number) {
+    if (this.requester.is(mob)) {
+      this.addGoldForRequester(gold)
+      return
+    } else if (this.trader.is(mob)) {
+      this.addGoldForTrader(gold)
+      return
+    }
+
+    throw new Error("mob not participating in trade")
+  }
+
   public addItemForRequester(item: ItemEntity) {
     if (this.escrowStatus !== EscrowStatus.Live) {
       throw new Error()

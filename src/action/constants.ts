@@ -179,7 +179,10 @@ export const Messages = {
   },
   Trade: {
     AlreadyInitialized: "A trade with {target} has already been initialized.",
+    GoldAdded: "{gold} gold has been added to escrow.",
     Initialized: "{requestCreator} would like to initiate a trade with {target}.",
+    ItemAdded: "{item} has been added to escrow.",
+    NotInitialized: "A trade is not initialized with them. Try 'trade request'.",
   },
   Train: {
     Con: "Your constitution grows!",
@@ -229,6 +232,7 @@ export const ConditionMessages = {
       Eat: "What would you like to eat?",
       Lock: "What do you want to lock?",
       Open: "What do you want to open?",
+      Trade: "What do you want to trade?",
       Unlock: "What do you want to unlock?",
     },
     Disposition: "You must be standing to do that",
@@ -304,8 +308,8 @@ export const ConditionMessages = {
   },
   Open: {
     Fail: {
-      AlreadyOpen: "That has already open.",
-      Locked: "That has locked.",
+      AlreadyOpen: "That is already open.",
+      Locked: "That is locked.",
       NotAContainer: "That's not a container.",
       NotFound: "You can't find that.",
     },

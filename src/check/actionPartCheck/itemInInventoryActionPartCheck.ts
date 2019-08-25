@@ -10,9 +10,11 @@ export default class ItemInInventoryActionPartCheck implements ActionPartCheck {
     return ActionPart.ItemInInventory
   }
 
-  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request): void {
+  public addToCheckBuilder(checkBuilder: CheckBuilder, request: Request, actionParts: ActionPart[]): void {
+    const position = actionParts.indexOf(ActionPart.ItemInInventory)
+    const subject = request.getWord(position)
     checkBuilder.require(
-      request.mob.inventory.findItemByName(request.getSubject()),
+      request.mob.inventory.findItemByName(subject),
       ConditionMessages.All.Item.NotOwned,
       CheckType.HasItem)
       .capture()

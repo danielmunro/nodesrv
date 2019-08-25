@@ -10,7 +10,7 @@ export default class EscrowService {
     this.escrows.push(escrow)
   }
 
-  public findEscrowForMobs(mob1: MobEntity, mob2: MobEntity): Escrow | undefined {
-    return this.escrows.find(e => e.isParticipant(mob1) && e.isParticipant(mob2))
+  public findEscrowForMob(mob1: MobEntity): Escrow | undefined {
+    return this.escrows.find(e => e.isParticipant(mob1))
   }
 }

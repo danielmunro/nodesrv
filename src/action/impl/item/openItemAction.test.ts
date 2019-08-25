@@ -17,7 +17,7 @@ beforeEach(async () => {
   mobBuilder.addItem(item)
 })
 
-describe("open action", () => {
+describe("open item action", () => {
   it("should be able to open item containers", async () => {
     // when
     const response = await testRunner.invokeAction(RequestType.Open, "open satchel")
@@ -39,6 +39,6 @@ describe("open action", () => {
 
     // then
     expect(response.isError()).toBeTruthy()
-    expect(response.getMessageToRequestCreator()).toBe("That has already open.")
+    expect(response.getMessageToRequestCreator()).toBe("That is already open.")
   })
 })
