@@ -3,9 +3,9 @@ import Check from "../../check/check"
 import CheckBuilderFactory from "../../check/factory/checkBuilderFactory"
 import {RequestType} from "../../messageExchange/enum/requestType"
 import Request from "../../messageExchange/request"
+import {Messages} from "../constants"
 import {ActionPart} from "../enum/actionPart"
 import Action from "./action"
-import {Messages} from "../constants"
 
 export default abstract class SimpleAction extends Action {
   protected constructor(

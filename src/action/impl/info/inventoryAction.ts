@@ -1,16 +1,15 @@
-import {injectable} from "inversify"
-import Check from "../../../check/check"
+import {inject, injectable} from "inversify"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {ItemEntity} from "../../../item/entity/itemEntity"
 import {RequestType} from "../../../messageExchange/enum/requestType"
 import Response from "../../../messageExchange/response"
 import RequestService from "../../../messageExchange/service/requestService"
 import {MobEntity} from "../../../mob/entity/mobEntity"
-import {Messages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import {Types} from "../../../support/types"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class InventoryAction extends Action {
+export default class InventoryAction extends SimpleAction {
   private static getItemName(mob: MobEntity, item: ItemEntity): string {
     if (item.affect().isInvisible() && !mob.affect().canDetectInvisible()) {
       return "(something)"
@@ -19,8 +18,8 @@ export default class InventoryAction extends Action {
     return item.brief
   }
 
-  public check(): Promise<Check> {
-    return Check.ok()
+  constructor(@inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory) {
+    super(checkBuilderFactory, RequestType.Inventory)
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
@@ -29,19 +28,5 @@ export default class InventoryAction extends Action {
     return requestService.respondWith()
       .info("Your inventory:\n" +
         items.reduce((previous, current) => previous + InventoryAction.getItemName(mob, current) + "\n", ""))
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action ]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Inventory
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
   }
 }
