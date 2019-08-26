@@ -1,3 +1,4 @@
+import {InventoryEntity} from "../../item/entity/inventoryEntity"
 import {ItemEntity} from "../../item/entity/itemEntity"
 import {createInventory} from "../../item/factory/inventoryFactory"
 import {MobEntity} from "../entity/mobEntity"
@@ -16,6 +17,18 @@ export default class Escrow {
     private readonly requester: MobEntity,
     private readonly trader: MobEntity) {}
 
+  public approveForMob(mob: MobEntity) {
+    if (this.requester.is(mob)) {
+      this.requesterAccept()
+      return
+    } else if (this.trader.is(mob)) {
+      this.traderAccept()
+      return
+    }
+
+    throw new Error("mob cannot approve trade")
+  }
+
   public addItemForMob(mob: MobEntity, item: ItemEntity) {
     if (this.requester.is(mob)) {
       this.addItemForRequester(item)
@@ -25,7 +38,7 @@ export default class Escrow {
       return
     }
 
-    throw new Error("mob not participating in trade")
+    throw new Error("mob cannot add item to trade")
   }
 
   public addGoldForMob(mob: MobEntity, gold: number) {
@@ -37,7 +50,7 @@ export default class Escrow {
       return
     }
 
-    throw new Error("mob not participating in trade")
+    throw new Error("mob cannot add gold to trade")
   }
 
   public addItemForRequester(item: ItemEntity) {
@@ -78,10 +91,16 @@ export default class Escrow {
 
   public requesterAccept() {
     this.requesterAccepted = true
+    if (this.isReadyToResolve()) {
+      this.accept()
+    }
   }
 
   public traderAccept() {
     this.traderAccepted = true
+    if (this.isReadyToResolve()) {
+      this.accept()
+    }
   }
 
   public resolveTrade() {
@@ -97,17 +116,28 @@ export default class Escrow {
     return this.requester === mob || this.trader === mob
   }
 
+  public isResolved() {
+    return this.escrowStatus === EscrowStatus.Confirmed
+  }
+
   private accept() {
-    this.requester.gold += this.traderGold
-    this.requesterInventory.items.forEach(item => this.trader.inventory.addItem(item))
-    this.trader.gold += this.requesterGold
-    this.traderInventory.items.forEach(item => this.requester.inventory.addItem(item))
+    this.escrowStatus = EscrowStatus.Confirmed
+    this.giveTo(this.requester, this.traderGold, this.traderInventory)
+    this.giveTo(this.trader, this.requesterGold, this.requesterInventory)
   }
 
   private reject() {
-    this.requester.gold += this.requesterGold
-    this.requesterInventory.items.forEach(item => this.requester.inventory.addItem(item))
-    this.trader.gold += this.traderGold
-    this.traderInventory.items.forEach(item => this.trader.inventory.addItem(item))
+    this.escrowStatus = EscrowStatus.Cancelled
+    this.giveTo(this.requester, this.requesterGold, this.requesterInventory)
+    this.giveTo(this.trader, this.traderGold, this.traderInventory)
+  }
+
+  private giveTo(mob: MobEntity, gold: number, inventory: InventoryEntity) {
+    mob.gold += gold
+    inventory.items.forEach(item => mob.inventory.addItem(item))
+  }
+
+  private isReadyToResolve() {
+    return this.escrowStatus === EscrowStatus.Live && this.traderAccepted && this.requesterAccepted
   }
 }

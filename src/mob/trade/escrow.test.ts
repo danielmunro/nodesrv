@@ -25,11 +25,10 @@ describe("escrow", () => {
     escrow.addGoldForRequester(100)
     expect(requester.mob.gold).toBe(0)
     escrow.addItemForTrader(item)
-    escrow.requesterAccept()
-    escrow.traderAccept()
 
     // when
-    escrow.resolveTrade()
+    escrow.requesterAccept()
+    escrow.traderAccept()
 
     // then
     expect(requester.mob.gold).toBe(0)
