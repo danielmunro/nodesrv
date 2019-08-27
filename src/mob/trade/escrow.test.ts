@@ -4,6 +4,7 @@ import MobBuilder from "../../support/test/mobBuilder"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import Escrow from "./escrow"
+import EscrowParticipant from "./escrowParticipant"
 
 let testRunner: TestRunner
 let requester: MobBuilder
@@ -15,7 +16,7 @@ beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   requester = (await testRunner.createMob()).withGold(100)
   trader = await testRunner.createMob()
-  escrow = new Escrow(requester.mob, trader.mob)
+  escrow = new Escrow([new EscrowParticipant(requester.mob), new EscrowParticipant(trader.mob)])
   item = testRunner.createItem().asHelmet().addToMobBuilder(trader).build()
 })
 
@@ -51,5 +52,18 @@ describe("escrow", () => {
     expect(requester.mob.inventory.items).toHaveLength(0)
     expect(trader.mob.gold).toBe(0)
     expect(trader.mob.inventory.items).toHaveLength(1)
+  })
+
+  it("requires two participants", async () => {
+    expect(() => new Escrow([])).toThrowError()
+    expect(() => new Escrow([
+      new EscrowParticipant(requester.get()),
+    ])).toThrowError()
+    const thirdWheel = (await testRunner.createMob()).get()
+    expect(() => new Escrow([
+      new EscrowParticipant(requester.get()),
+      new EscrowParticipant(trader.get()),
+      new EscrowParticipant(thirdWheel),
+    ])).toThrowError()
   })
 })

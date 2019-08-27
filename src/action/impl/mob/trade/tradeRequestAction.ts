@@ -7,6 +7,7 @@ import Response from "../../../../messageExchange/response"
 import RequestService from "../../../../messageExchange/service/requestService"
 import {MobEntity} from "../../../../mob/entity/mobEntity"
 import Escrow from "../../../../mob/trade/escrow"
+import EscrowParticipant from "../../../../mob/trade/escrowParticipant"
 import EscrowService from "../../../../mob/trade/escrowService"
 import {Types} from "../../../../support/types"
 import {Messages} from "../../../constants"
@@ -46,7 +47,9 @@ export default class TradeRequestAction extends Action {
 
   public invoke(requestService: RequestService): Promise<Response> {
     const target = requestService.getTarget<MobEntity>()
-    const escrow = new Escrow(requestService.getMob(), target)
+    const escrow = new Escrow([
+      new EscrowParticipant(requestService.getMob()),
+      new EscrowParticipant(target)])
     this.escrowService.addEscrow(escrow)
     return requestService.respondWith().success(
       Messages.Trade.Initialized,

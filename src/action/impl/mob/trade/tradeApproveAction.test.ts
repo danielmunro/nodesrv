@@ -2,6 +2,7 @@ import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {ItemEntity} from "../../../../item/entity/itemEntity"
 import {RequestType} from "../../../../messageExchange/enum/requestType"
 import Escrow from "../../../../mob/trade/escrow"
+import EscrowParticipant from "../../../../mob/trade/escrowParticipant"
 import EscrowService from "../../../../mob/trade/escrowService"
 import MobBuilder from "../../../../support/test/mobBuilder"
 import TestRunner from "../../../../support/test/testRunner"
@@ -24,7 +25,9 @@ beforeEach(async () => {
   trader = await testRunner.createMob()
   shield = testRunner.createItem().asShield().addToMobBuilder(trader).build()
   trader.setGold(100)
-  escrow = new Escrow(requester.get(), trader.get())
+  escrow = new Escrow([
+    new EscrowParticipant(trader.get()),
+    new EscrowParticipant(requester.get())])
   const escrowService = app.get<EscrowService>(Types.EscrowService)
   escrowService.addEscrow(escrow)
 })
