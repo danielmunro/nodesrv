@@ -22,13 +22,13 @@ beforeEach(async () => {
 describe("escrow", () => {
   it("resolves a trade if both accepted", () => {
     // given
-    escrow.addGoldForRequester(100)
+    escrow.addGoldForMob(requester.get(), 100)
     expect(requester.mob.gold).toBe(0)
-    escrow.addItemForTrader(item)
+    escrow.addItemForMob(trader.get(), item)
 
     // when
-    escrow.requesterAccept()
-    escrow.traderAccept()
+    escrow.approveForMob(requester.get())
+    escrow.approveForMob(trader.get())
 
     // then
     expect(requester.mob.gold).toBe(0)
@@ -39,9 +39,9 @@ describe("escrow", () => {
 
   it("rejects a trade if not accepted when resolved", () => {
     // given
-    escrow.addGoldForRequester(100)
+    escrow.addGoldForMob(requester.get(), 100)
     expect(requester.mob.gold).toBe(0)
-    escrow.addItemForTrader(item)
+    escrow.addItemForMob(trader.get(), item)
 
     // when
     escrow.resolveTrade()

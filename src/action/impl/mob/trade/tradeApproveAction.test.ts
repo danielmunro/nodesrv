@@ -78,4 +78,17 @@ describe("trade approve action", () => {
     expect(trader.getItems()).toHaveLength(0)
     expect(trader.getGold()).toBe(85)
   })
+
+  it("modifying the trade resets approvals", async () => {
+    // setup
+    escrow.addItemForMob(trader.get(), shield)
+    escrow.approveForMob(trader.get())
+    escrow.addGoldForMob(trader.get(), 1)
+
+    // when
+    escrow.approveForMob(requester.get())
+
+    // then
+    expect(escrow.isResolved()).toBeFalsy()
+  })
 })

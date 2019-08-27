@@ -30,6 +30,7 @@ export default class Escrow {
   }
 
   public addItemForMob(mob: MobEntity, item: ItemEntity) {
+    this.resetAccept()
     if (this.requester.is(mob)) {
       this.addItemForRequester(item)
       return
@@ -42,6 +43,7 @@ export default class Escrow {
   }
 
   public addGoldForMob(mob: MobEntity, gold: number) {
+    this.resetAccept()
     if (this.requester.is(mob)) {
       this.addGoldForRequester(gold)
       return
@@ -51,56 +53,6 @@ export default class Escrow {
     }
 
     throw new Error("mob cannot add gold to trade")
-  }
-
-  public addItemForRequester(item: ItemEntity) {
-    if (this.escrowStatus !== EscrowStatus.Live) {
-      throw new Error()
-    }
-    this.requesterInventory.addItem(item)
-  }
-
-  public addItemForTrader(item: ItemEntity) {
-    if (this.escrowStatus !== EscrowStatus.Live) {
-      throw new Error()
-    }
-    this.traderInventory.addItem(item)
-  }
-
-  public addGoldForRequester(amount: number) {
-    if (this.escrowStatus !== EscrowStatus.Live) {
-      throw new Error()
-    }
-    if (this.requester.gold < amount) {
-      throw new Error()
-    }
-    this.requesterGold += amount
-    this.requester.gold -= amount
-  }
-
-  public addGoldForTrader(amount: number) {
-    if (this.escrowStatus !== EscrowStatus.Live) {
-      throw new Error()
-    }
-    if (this.trader.gold < amount) {
-      throw new Error()
-    }
-    this.traderGold += amount
-    this.trader.gold -= amount
-  }
-
-  public requesterAccept() {
-    this.requesterAccepted = true
-    if (this.isReadyToResolve()) {
-      this.accept()
-    }
-  }
-
-  public traderAccept() {
-    this.traderAccepted = true
-    if (this.isReadyToResolve()) {
-      this.accept()
-    }
   }
 
   public resolveTrade() {
@@ -118,6 +70,61 @@ export default class Escrow {
 
   public isResolved() {
     return this.escrowStatus === EscrowStatus.Confirmed
+  }
+
+  private addGoldForRequester(amount: number) {
+    if (this.escrowStatus !== EscrowStatus.Live) {
+      throw new Error()
+    }
+    if (this.requester.gold < amount) {
+      throw new Error()
+    }
+    this.requesterGold += amount
+    this.requester.gold -= amount
+  }
+
+  private addGoldForTrader(amount: number) {
+    if (this.escrowStatus !== EscrowStatus.Live) {
+      throw new Error()
+    }
+    if (this.trader.gold < amount) {
+      throw new Error()
+    }
+    this.traderGold += amount
+    this.trader.gold -= amount
+  }
+
+  private addItemForRequester(item: ItemEntity) {
+    if (this.escrowStatus !== EscrowStatus.Live) {
+      throw new Error()
+    }
+    this.requesterInventory.addItem(item)
+  }
+
+  private addItemForTrader(item: ItemEntity) {
+    if (this.escrowStatus !== EscrowStatus.Live) {
+      throw new Error()
+    }
+    this.traderInventory.addItem(item)
+  }
+
+  private requesterAccept() {
+    this.requesterAccepted = true
+    if (this.isReadyToResolve()) {
+      this.accept()
+    }
+  }
+
+  private traderAccept() {
+    this.traderAccepted = true
+    if (this.isReadyToResolve()) {
+      this.accept()
+    }
+  }
+
+  private resetAccept() {
+    this.traderAccepted = false
+    this.requesterAccepted = false
   }
 
   private accept() {
