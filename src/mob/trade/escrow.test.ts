@@ -66,4 +66,19 @@ describe("escrow", () => {
       new EscrowParticipant(thirdWheel),
     ])).toThrowError()
   })
+
+  it("third wheels cannot modify escrows", async () => {
+    // when
+    const mob = (await testRunner.createMob())
+      .setGold(10)
+      .get()
+
+    // then
+    expect(() => escrow.addGoldForMob(mob, 10)).toThrowError()
+  })
+
+  it("cannot add gold that is not owned", async () => {
+    // then
+    expect(() => escrow.addGoldForMob(requester.get(), 10000)).toThrowError()
+  })
 })

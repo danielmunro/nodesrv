@@ -21,9 +21,7 @@ export default class Escrow {
           this.accept()
         }
       })
-      .or(() => {
-        throw new Error("mob cannot approve trade")
-      })
+      .orThrow(new Error("mob cannot approve trade"))
       .get()
   }
 
@@ -31,9 +29,7 @@ export default class Escrow {
     this.resetAccept()
     this.maybeParticipant(mob)
       .do(participant => participant.addItem(item))
-      .or(() => {
-        throw new Error("mob cannot add item to trade")
-      })
+      .orThrow(new Error("mob cannot add item to trade"))
       .get()
   }
 
@@ -41,9 +37,7 @@ export default class Escrow {
     this.resetAccept()
     this.maybeParticipant(mob)
       .do(participant => participant.addGold(gold))
-      .or(() => {
-        throw new Error("mob cannot add gold to trade")
-      })
+      .orThrow(new Error("mob cannot add gold to trade"))
       .get()
   }
 

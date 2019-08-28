@@ -28,6 +28,9 @@ export default class EscrowParticipant {
   }
 
   public addGold(gold: number) {
+    if (this.mob.gold < gold) {
+      throw new Error("not enough gold")
+    }
     this.gold += gold
     this.mob.gold -= gold
   }

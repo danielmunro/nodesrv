@@ -36,6 +36,13 @@ export default class Maybe<MaybeObject extends any> {
     return this
   }
 
+  public orThrow(throwable: Error) {
+    this.or(() => {
+      throw throwable
+    })
+    return this
+  }
+
   public get(): MaybeObject {
     if (!this.doRegistered) {
       this.do(it => it)
