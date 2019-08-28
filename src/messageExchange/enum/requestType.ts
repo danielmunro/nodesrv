@@ -45,6 +45,7 @@ export enum RequestType {
   Hamstring = "hamstring",
   Heal = "heal",
   Help = "help",
+  HelpCommands = "help commands",
   Hit = "hit",
   Inventory = "inventory",
   Kill = "kill",

@@ -20,7 +20,8 @@ import Maybe from "../../support/functional/maybe/maybe"
 import withValue from "../../support/functional/withValue"
 import {Types} from "../../support/types"
 import Action from "../impl/action"
-import HelpAction from "../impl/info/helpAction"
+import HelpAction from "../impl/info/help/helpAction"
+import HelpCommandsAction from "../impl/info/help/helpCommandsAction"
 import Skill from "../impl/skill"
 import Spell from "../impl/spell"
 
@@ -34,9 +35,11 @@ export default class ActionService {
     @multiInject(Types.Actions) public readonly actions: Action[],
     @multiInject(Types.Skills) public readonly skills: Skill[],
     @multiInject(Types.Spells) public readonly spells: Spell[]) {
-    withValue(
-      this.actions.find(action => action instanceof HelpAction),
-      helpAction => helpAction.setActions(this.actions))
+    for (const action of this.actions) {
+      if (action instanceof HelpAction || action instanceof HelpCommandsAction) {
+        action.setActions(this.actions)
+      }
+    }
   }
 
   public async handleRequest(client: Client, request: Request): Promise<Response> {

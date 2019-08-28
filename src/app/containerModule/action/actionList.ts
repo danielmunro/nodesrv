@@ -14,7 +14,8 @@ import TrainAction from "../../../action/impl/improve/trainAction"
 import AffectsAction from "../../../action/impl/info/affectsAction"
 import AttributesAction from "../../../action/impl/info/attributesAction"
 import EquippedAction from "../../../action/impl/info/equippedAction"
-import HelpAction from "../../../action/impl/info/helpAction"
+import HelpAction from "../../../action/impl/info/help/helpAction"
+import HelpCommandsAction from "../../../action/impl/info/help/helpCommandsAction"
 import InventoryAction from "../../../action/impl/info/inventoryAction"
 import LookAction from "../../../action/impl/info/lookAction"
 import ScanAction from "../../../action/impl/info/scanAction"
@@ -126,6 +127,7 @@ export const actions = [
   ExitsAction,
   OwnedAction,
   HelpAction,
+  HelpCommandsAction,
   WeatherAction,
   TimeAction,
   AttributesAction,

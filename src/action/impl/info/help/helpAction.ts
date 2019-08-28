@@ -1,21 +1,22 @@
 import {injectable} from "inversify"
-import Check from "../../../check/check"
-import {RequestType} from "../../../messageExchange/enum/requestType"
-import Request from "../../../messageExchange/request"
-import Response from "../../../messageExchange/response"
-import RequestService from "../../../messageExchange/service/requestService"
-import Maybe from "../../../support/functional/maybe/maybe"
-import {Messages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import Check from "../../../../check/check"
+import {RequestType} from "../../../../messageExchange/enum/requestType"
+import Request from "../../../../messageExchange/request"
+import Response from "../../../../messageExchange/response"
+import RequestService from "../../../../messageExchange/service/requestService"
+import Maybe from "../../../../support/functional/maybe/maybe"
+import {Messages} from "../../../constants"
+import {ActionPart} from "../../../enum/actionPart"
+import Action from "../../action"
 
 @injectable()
 export default class HelpAction extends Action {
-  private actions: Action[]
+  protected actions: Action[]
 
   public setActions(actions: Action[]) {
     this.actions = actions
   }
+
   public async check(request: Request): Promise<Check> {
     return new Maybe<Check>(this.actions.find(
       (a: Action) => a.isAbleToHandleRequestType(request.getSubject() as RequestType)))
