@@ -1,4 +1,5 @@
 import {ItemEntity} from "../../item/entity/itemEntity"
+import Maybe from "../../support/functional/maybe/maybe"
 import {MobEntity} from "../entity/mobEntity"
 import EscrowParticipant from "./escrowParticipant"
 import {EscrowStatus} from "./escrowStatus"
@@ -13,48 +14,45 @@ export default class Escrow {
   }
 
   public approveForMob(mob: MobEntity) {
-    for (const participant of this.participants) {
-      if (participant.isMob(mob)) {
+    this.maybeParticipant(mob)
+      .do(participant => {
         participant.approve()
         if (this.isReadyToResolve()) {
           this.accept()
         }
-        return
-      }
-    }
-    throw new Error("mob cannot approve trade")
+      })
+      .or(() => {
+        throw new Error("mob cannot approve trade")
+      })
+      .get()
   }
 
   public addItemForMob(mob: MobEntity, item: ItemEntity) {
     this.resetAccept()
-    for (const participant of this.participants) {
-      if (participant.isMob(mob)) {
-        participant.addItem(item)
-        return
-      }
-    }
-    throw new Error("mob cannot add item to trade")
+    this.maybeParticipant(mob)
+      .do(participant => participant.addItem(item))
+      .or(() => {
+        throw new Error("mob cannot add item to trade")
+      })
+      .get()
   }
 
   public addGoldForMob(mob: MobEntity, gold: number) {
     this.resetAccept()
-    for (const participant of this.participants) {
-      if (participant.isMob(mob)) {
-        participant.addGold(gold)
-        return
-      }
-    }
-    throw new Error("mob cannot add gold to trade")
+    this.maybeParticipant(mob)
+      .do(participant => participant.addGold(gold))
+      .or(() => {
+        throw new Error("mob cannot add gold to trade")
+      })
+      .get()
   }
 
   public resolveTrade() {
-    for (const participant of this.participants) {
-      if (!participant.isApproved()) {
-        this.reject()
-        return
-      }
+    if (this.participants.every(participant => participant.isApproved())) {
+      this.accept()
+      return
     }
-    this.accept()
+    this.reject()
   }
 
   public isParticipant(mob: MobEntity) {
@@ -63,6 +61,10 @@ export default class Escrow {
 
   public isResolved() {
     return this.escrowStatus === EscrowStatus.Confirmed
+  }
+
+  private maybeParticipant(mob: MobEntity) {
+    return new Maybe<EscrowParticipant>(this.participants.find(p => p.isMob(mob)))
   }
 
   private resetAccept() {
