@@ -109,6 +109,7 @@ tell
 time
 trade add
 trade approve
+trade reject
 trade request
 train
 trip

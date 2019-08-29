@@ -25,6 +25,13 @@ export default class Escrow {
       .get()
   }
 
+  public rejectForMob(mob: MobEntity) {
+    this.maybeParticipant(mob)
+      .do(() => this.reject())
+      .orThrow(new Error("mob cannot reject trade"))
+      .get()
+  }
+
   public addItemForMob(mob: MobEntity, item: ItemEntity) {
     this.resetAccept()
     this.maybeParticipant(mob)
@@ -54,7 +61,7 @@ export default class Escrow {
   }
 
   public isResolved() {
-    return this.escrowStatus === EscrowStatus.Confirmed
+    return this.escrowStatus === EscrowStatus.Confirmed || this.escrowStatus === EscrowStatus.Cancelled
   }
 
   private maybeParticipant(mob: MobEntity) {

@@ -184,6 +184,8 @@ export const Messages = {
     ItemAdded: "{item} has been added to escrow.",
     NotInitialized: "A trade is not initialized with them. Try 'trade request'.",
     TradeApproved: "{requestCreator} {verb} this trade.",
+    TradeNotFound: "You don't have a trade with them.",
+    TradeRejected: "{requestCreator} {verb} the trade.",
     TradeResolved: "The trade is resolved.",
   },
   Train: {

@@ -93,6 +93,7 @@ export enum RequestType {
   Time = "time",
   TradeAdd = "trade add",
   TradeApprove = "trade approve",
+  TradeReject = "trade reject",
   TradeRequest = "trade request",
   Train = "train",
   Trip = "trip",
