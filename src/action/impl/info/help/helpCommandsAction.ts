@@ -5,7 +5,7 @@ import Response from "../../../../messageExchange/response"
 import RequestService from "../../../../messageExchange/service/requestService"
 import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
-import AllCommandsAction from "../../AllCommandsAction"
+import AllCommandsAction from "../../allCommandsAction"
 
 @injectable()
 export default class HelpCommandsAction extends AllCommandsAction {

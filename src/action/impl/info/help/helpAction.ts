@@ -8,7 +8,7 @@ import Maybe from "../../../../support/functional/maybe/maybe"
 import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
 import Action from "../../action"
-import AllCommandsAction from "../../AllCommandsAction"
+import AllCommandsAction from "../../allCommandsAction"
 
 @injectable()
 export default class HelpAction extends AllCommandsAction {
