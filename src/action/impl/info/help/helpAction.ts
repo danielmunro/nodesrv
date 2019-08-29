@@ -8,15 +8,10 @@ import Maybe from "../../../../support/functional/maybe/maybe"
 import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
 import Action from "../../action"
+import AllCommandsAction from "../../AllCommandsAction"
 
 @injectable()
-export default class HelpAction extends Action {
-  protected actions: Action[]
-
-  public setActions(actions: Action[]) {
-    this.actions = actions
-  }
-
+export default class HelpAction extends AllCommandsAction {
   public async check(request: Request): Promise<Check> {
     return new Maybe<Check>(this.actions.find(
       (a: Action) => a.isAbleToHandleRequestType(request.getSubject() as RequestType)))

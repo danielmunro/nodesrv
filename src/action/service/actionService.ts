@@ -20,12 +20,15 @@ import Maybe from "../../support/functional/maybe/maybe"
 import withValue from "../../support/functional/withValue"
 import {Types} from "../../support/types"
 import Action from "../impl/action"
-import HelpAction from "../impl/info/help/helpAction"
-import HelpCommandsAction from "../impl/info/help/helpCommandsAction"
+import AllCommandsAction from "../impl/allCommandsAction"
 import Skill from "../impl/skill"
 import Spell from "../impl/spell"
 
 const errorNoAssociatedAction = "No action found to handle input"
+
+function isAllCommandsAction(action: any): action is AllCommandsAction {
+  return (action as AllCommandsAction).setActions !== undefined
+}
 
 @injectable()
 export default class ActionService {
@@ -36,7 +39,7 @@ export default class ActionService {
     @multiInject(Types.Skills) public readonly skills: Skill[],
     @multiInject(Types.Spells) public readonly spells: Spell[]) {
     for (const action of this.actions) {
-      if (action instanceof HelpAction || action instanceof HelpCommandsAction) {
+      if (isAllCommandsAction(action)) {
         action.setActions(this.actions)
       }
     }

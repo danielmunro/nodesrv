@@ -5,16 +5,10 @@ import Response from "../../../../messageExchange/response"
 import RequestService from "../../../../messageExchange/service/requestService"
 import {Messages} from "../../../constants"
 import {ActionPart} from "../../../enum/actionPart"
-import Action from "../../action"
+import AllCommandsAction from "../../AllCommandsAction"
 
 @injectable()
-export default class HelpCommandsAction extends Action {
-  protected actions: Action[]
-
-  public setActions(actions: Action[]) {
-    this.actions = actions
-  }
-
+export default class HelpCommandsAction extends AllCommandsAction {
   public check(): Promise<Check> {
     return Check.ok()
   }
