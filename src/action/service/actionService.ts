@@ -38,11 +38,7 @@ export default class ActionService {
     @multiInject(Types.Actions) public readonly actions: Action[],
     @multiInject(Types.Skills) public readonly skills: Skill[],
     @multiInject(Types.Spells) public readonly spells: Spell[]) {
-    for (const action of this.actions) {
-      if (isAllCommandsAction(action)) {
-        action.setActions(this.actions)
-      }
-    }
+    this.setAllActionsWhereRequired()
   }
 
   public async handleRequest(client: Client, request: Request): Promise<Response> {
@@ -56,6 +52,11 @@ export default class ActionService {
         ResponseStatus.Error,
         new ResponseMessageBuilder(request.mob, errorNoAssociatedAction).create()))
       .get()
+  }
+
+  private setAllActionsWhereRequired() {
+    this.actions.filter<AllCommandsAction>(isAllCommandsAction)
+      .forEach(action => action.setActions(this.actions))
   }
 
   private async handleAuthenticatedRequest(client: Client, request: Request, action: Action) {
