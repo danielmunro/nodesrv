@@ -1,7 +1,7 @@
 import { interfaces } from "inversify/dts/interfaces/interfaces"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {RequestType} from "../../../messageExchange/enum/requestType"
-import EscrowService from "../../../mob/trade/escrowService"
+import EscrowService from "../../../mob/trade/service/escrowService"
 import {Types} from "../../../support/types"
 import {ConditionMessages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"

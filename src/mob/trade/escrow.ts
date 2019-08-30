@@ -1,8 +1,8 @@
 import {ItemEntity} from "../../item/entity/itemEntity"
 import Maybe from "../../support/functional/maybe/maybe"
 import {MobEntity} from "../entity/mobEntity"
+import {EscrowStatus} from "./enum/escrowStatus"
 import EscrowParticipant from "./escrowParticipant"
-import {EscrowStatus} from "./escrowStatus"
 
 export default class Escrow {
   private escrowStatus: EscrowStatus = EscrowStatus.Live
