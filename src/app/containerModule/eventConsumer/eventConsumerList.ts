@@ -10,10 +10,10 @@ import OrbOfTouchEventConsumer from "../../../affect/eventConsumer/orbOfTouchEve
 import ProtectionEventConsumer from "../../../affect/eventConsumer/protectionEventConsumer"
 import SanctuaryEventConsumer from "../../../affect/eventConsumer/sanctuaryEventConsumer"
 import WithstandDeathEventConsumer from "../../../affect/eventConsumer/withstandDeathEventConsumer"
+import ClientSessionEndedEventConsumer from "../../../client/eventConsumer/clientSessionEndedEventConsumer"
 import DisconnectedEventConsumer from "../../../client/eventConsumer/disconnectedEventConsumer"
 import LoggedInEventConsumer from "../../../client/eventConsumer/loggedInEventConsumer"
 import LookEventConsumer from "../../../client/eventConsumer/lookEventConsumer"
-import QuitEventConsumer from "../../../client/eventConsumer/quitEventConsumer"
 import SocialEventConsumer from "../../../client/eventConsumer/socialEventConsumer"
 import ItemCreatedEventConsumer from "../../../item/eventConsumer/itemCreatedEventConsumer"
 import ItemDestroyedEventConsumer from "../../../item/eventConsumer/itemDestroyedEventConsumer"
@@ -120,7 +120,7 @@ export default [
   MobUpdatedEventConsumer,
   DisconnectedEventConsumer,
   LoggedInEventConsumer,
-  QuitEventConsumer,
+  ClientSessionEndedEventConsumer,
   LookEventConsumer,
 
   // skills

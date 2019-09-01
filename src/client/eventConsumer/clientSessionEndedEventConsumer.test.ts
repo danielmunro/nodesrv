@@ -1,17 +1,18 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import {EventType} from "../../event/enum/eventType"
 import {createMobEvent} from "../../event/factory/eventFactory"
+import MobService from "../../mob/service/mobService"
 import ClientService from "../../server/service/clientService"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
-import QuitEventConsumer from "./quitEventConsumer"
+import ClientSessionEndedEventConsumer from "./clientSessionEndedEventConsumer"
 
-describe("quit client event consumer", () => {
+describe("client session ended event consumer", () => {
   it("should remove clients from the clientService that have disconnected", async () => {
     // setup
     const app = await createTestAppContainer()
     const clientService = app.get<ClientService>(Types.ClientService)
-    const quit = new QuitEventConsumer(clientService, jest.fn()())
+    const eventConsumer = new ClientSessionEndedEventConsumer(clientService, app.get<MobService>(Types.MobService))
     const mob = getTestMob()
     const mockClient = jest.fn(() => ({
       getSessionMob: () => mob,
@@ -22,7 +23,7 @@ describe("quit client event consumer", () => {
     clientService.add(client)
 
     // when
-    await quit.consume(createMobEvent(EventType.ClientDisconnected, client.getSessionMob()))
+    await eventConsumer.consume(createMobEvent(EventType.ClientDisconnected, client.getSessionMob()))
 
     // then
     expect(clientService.getClientCount()).toBe(0)

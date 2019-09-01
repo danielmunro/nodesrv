@@ -39,7 +39,7 @@ export default class ClientService {
   }
 
   public getClientByMob(mob: MobEntity): Client | undefined {
-    return this.clients.find((client: Client) => client.getSessionMob() === mob)
+    return this.clients.find((client: Client) => client.getSessionMob() && mob.is(client.getSessionMob()))
   }
 
   public getClientCount(): number {
