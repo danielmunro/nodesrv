@@ -1,12 +1,15 @@
+import { inject, injectable } from "inversify"
 import ClientEvent from "../../client/event/clientEvent"
 import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import ClientService from "../../server/service/clientService"
+import {Types} from "../../support/types"
 
+@injectable()
 export default class Disconnected implements EventConsumer {
-  constructor(private readonly clientService: ClientService) {}
+  constructor(@inject(Types.ClientService) private readonly clientService: ClientService) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.ClientDisconnected]

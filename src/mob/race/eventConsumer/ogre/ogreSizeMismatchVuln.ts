@@ -1,7 +1,9 @@
+import { injectable } from "inversify"
 import DamageEvent from "../../../event/damageEvent"
 import {RaceType} from "../../enum/raceType"
 import RaceDamageAbsorption from "../raceDamageAbsorption"
 
+@injectable()
 export default class OgreSizeMismatchVuln extends RaceDamageAbsorption {
   protected modifier = -0.1
 

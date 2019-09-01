@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import {createModifiedDamageEvent} from "../../../event/factory/eventFactory"
 import EventResponse from "../../../event/messageExchange/eventResponse"
 import ResponseMessage from "../../../messageExchange/responseMessage"
@@ -14,6 +15,7 @@ import WeaponEffectService from "../../service/weaponEffectService"
 import AbstractWeaponEffectEventConsumer from "./abstractWeaponEffectEventConsumer"
 import {WeaponEffectMessages} from "./constants"
 
+@injectable()
 export default class ShockingWeaponEffectEventConsumer extends AbstractWeaponEffectEventConsumer {
   private static calculateModifier(mob: MobEntity): number {
     return new Maybe<number>(WeaponEffectService.findDamageAbsorption(mob, DamageType.Electric))

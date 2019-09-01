@@ -181,7 +181,7 @@ export default class TestRunner {
         targetMobInRoom))
   }
 
-  public async invokeActionSuccessfully(
+  public async    invokeActionSuccessfully(
     requestType: RequestType, input?: string, targetMobInRoom?: MobEntity): Promise<Response> {
     const response = await this.invokeAction(requestType, input, targetMobInRoom)
     if (response.isFailure()) {

@@ -1,4 +1,5 @@
 import {injectable} from "inversify"
+import "reflect-metadata"
 import Check from "../../../../check/check"
 import {RequestType} from "../../../../messageExchange/enum/requestType"
 import Request from "../../../../messageExchange/request"

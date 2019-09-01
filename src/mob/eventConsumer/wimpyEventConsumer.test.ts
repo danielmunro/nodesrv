@@ -19,7 +19,7 @@ describe("wimpy event consumer", () => {
     const mob = (await testRunner.createMob()).get()
     const target = (await testRunner.createMob()).get()
     const fight = await testRunner.fight(target)
-    const wimpy = app.get<EventConsumer[]>(Types.EventConsumerTable).find(eventConsumer =>
+    const wimpy = app.getAll<EventConsumer>(Types.EventConsumerTable).find(eventConsumer =>
       eventConsumer instanceof WimpyEventConsumer) as WimpyEventConsumer
 
     // given

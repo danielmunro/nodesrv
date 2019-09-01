@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/interface/eventConsumer"
 import EventResponse from "../../../event/messageExchange/eventResponse"
@@ -6,6 +7,7 @@ import {MAX_PRACTICE_LEVEL} from "../../constants"
 import {MobEntity} from "../../entity/mobEntity"
 import SkillEvent from "../event/skillEvent"
 
+@injectable()
 export default class ImproveInvokedSkillsEventConsumer implements EventConsumer {
   private static getRollCheck(mob: MobEntity) {
     return Math.max(1, (mob.attribute().getInt() - 18)) * 2

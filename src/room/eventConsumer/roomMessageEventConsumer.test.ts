@@ -35,7 +35,7 @@ describe("room message event consumer", () => {
 
     // setup -- event consumer instance
     await withValue(
-      app.get<EventConsumer[]>(Types.EventConsumerTable).find(eventConsumer =>
+      app.getAll<EventConsumer>(Types.EventConsumerTable).find(eventConsumer =>
       eventConsumer instanceof RoomMessageEventConsumer),
       consumer =>
         consumer.consume(createRoomMessageEvent(

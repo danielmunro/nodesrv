@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import {createModifiedDamageEvent} from "../../../event/factory/eventFactory"
 import EventResponse from "../../../event/messageExchange/eventResponse"
 import ResponseMessage from "../../../messageExchange/responseMessage"
@@ -11,6 +12,7 @@ import WeaponEffectService from "../../service/weaponEffectService"
 import AbstractWeaponEffectEventConsumer from "./abstractWeaponEffectEventConsumer"
 import {WeaponEffectMessages} from "./constants"
 
+@injectable()
 export default class FrostWeaponEffectEventConsumer extends AbstractWeaponEffectEventConsumer {
   public getWeaponEffect(): WeaponEffect {
     return WeaponEffect.Frost

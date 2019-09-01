@@ -1,5 +1,6 @@
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {RequestType} from "../../../../messageExchange/enum/requestType"
+import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {SpellType} from "../../../../mob/spell/spellType"
 import MobBuilder from "../../../../support/test/mobBuilder"
 import TestRunner from "../../../../support/test/testRunner"
@@ -13,7 +14,7 @@ beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   caster = (await testRunner.createMob())
     .setLevel(40)
-    .withSpell(SpellType.DrawLife)
+    .withSpell(SpellType.DrawLife, MAX_PRACTICE_LEVEL)
   target = (await testRunner.createMob()).setLevel(40)
 })
 

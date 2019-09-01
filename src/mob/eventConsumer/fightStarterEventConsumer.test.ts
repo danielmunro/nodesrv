@@ -13,7 +13,7 @@ let mobService: MobService
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
-  fightStarter = app.get<EventConsumer[]>(Types.EventConsumerTable).find(eventConsumer =>
+  fightStarter = app.getAll<EventConsumer>(Types.EventConsumerTable).find(eventConsumer =>
     eventConsumer instanceof FightStarterEventConsumer) as FightStarterEventConsumer
   mobService = app.get<MobService>(Types.MobService)
 })

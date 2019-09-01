@@ -1,13 +1,16 @@
+import { inject, injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import {RoomEntity} from "../../room/entity/roomEntity"
+import {Types} from "../../support/types"
 import {MobEntity} from "../entity/mobEntity"
 import MobMoveEvent from "../event/mobMoveEvent"
 import LocationService from "../service/locationService"
 
+@injectable()
 export default class PetFollowsOwnerEventConsumer implements EventConsumer {
-  constructor(private readonly locationService: LocationService) {}
+  constructor(@inject(Types.LocationService) private readonly locationService: LocationService) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.MobMoved]

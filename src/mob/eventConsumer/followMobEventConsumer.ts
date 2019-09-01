@@ -1,3 +1,4 @@
+import { inject, injectable, multiInject } from "inversify"
 import Move from "../../action/impl/move"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
@@ -5,14 +6,16 @@ import EventResponse from "../../event/messageExchange/eventResponse"
 import EventContext from "../../messageExchange/context/eventContext"
 import {RequestType} from "../../messageExchange/enum/requestType"
 import Request from "../../messageExchange/request"
+import {Types} from "../../support/types"
 import {MobEntity} from "../entity/mobEntity"
 import MobMoveEvent from "../event/mobMoveEvent"
 import MobService from "../service/mobService"
 
+@injectable()
 export default class FollowMobEventConsumer implements EventConsumer {
   constructor(
-    private readonly mobService: MobService,
-    private readonly moveActions: Move[]) {}
+    @inject(Types.MobService) private readonly mobService: MobService,
+    @multiInject(Types.MoveActions) private readonly moveActions: Move[]) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.MobMoved]

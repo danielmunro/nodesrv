@@ -1,4 +1,5 @@
-import Action from "../../../action/impl/action"
+import {injectable, multiInject} from "inversify"
+import Skill from "../../../action/impl/skill"
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/interface/eventConsumer"
 import EventResponse from "../../../event/messageExchange/eventResponse"
@@ -7,16 +8,22 @@ import EventContext from "../../../messageExchange/context/eventContext"
 import {RequestType} from "../../../messageExchange/enum/requestType"
 import Request from "../../../messageExchange/request"
 import {RoomEntity} from "../../../room/entity/roomEntity"
+import {Types} from "../../../support/types"
 import {MobEntity} from "../../entity/mobEntity"
 import FightEvent from "../../fight/event/fightEvent"
 import {SkillType} from "../skillType"
 
+@injectable()
 export default class ShieldBlockEventConsumer implements EventConsumer {
   private static createRequest(mob: MobEntity, room: RoomEntity): Request {
     return new Request(mob, room, { requestType: RequestType.Noop } as EventContext)
   }
 
-  constructor(private readonly shieldBlock: Action) {}
+  private readonly skill: Skill
+
+  constructor(@multiInject(Types.Skills) skills: Skill[]) {
+    this.skill = skills.find(skill => skill.getSkillType() === SkillType.ShieldBlock) as Skill
+  }
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.AttackRoundStart ]
@@ -27,7 +34,7 @@ export default class ShieldBlockEventConsumer implements EventConsumer {
     if (!target.getSkill(SkillType.ShieldBlock) || !target.getFirstEquippedItemAtPosition(Equipment.Shield)) {
       return EventResponse.none(event)
     }
-    const result = await this.shieldBlock.handle(
+    const result = await this.skill.handle(
       ShieldBlockEventConsumer.createRequest(target, event.fight.room))
     if (result.isSuccessful()) {
       return EventResponse.satisfied(event, SkillType.ShieldBlock)

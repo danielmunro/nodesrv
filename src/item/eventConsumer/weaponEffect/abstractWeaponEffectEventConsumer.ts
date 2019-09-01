@@ -1,16 +1,20 @@
+import { inject, injectable } from "inversify"
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/interface/eventConsumer"
 import EventResponse from "../../../event/messageExchange/eventResponse"
 import DamageEvent from "../../../mob/event/damageEvent"
 import Maybe from "../../../support/functional/maybe/maybe"
+import {Types} from "../../../support/types"
 import {ItemEntity} from "../../entity/itemEntity"
 import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
 
+@injectable()
 export default abstract class AbstractWeaponEffectEventConsumer implements EventConsumer {
   public static defaultBonus = 0.15
 
-  constructor(protected readonly weaponEffectService: WeaponEffectService) {}
+  constructor(
+    @inject(Types.WeaponEffectService) protected readonly weaponEffectService: WeaponEffectService) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.DamageCalculation ]

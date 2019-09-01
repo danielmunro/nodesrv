@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import {EventType} from "../../../../event/enum/eventType"
 import {createModifiedMobMoveEvent} from "../../../../event/factory/eventFactory"
 import EventConsumer from "../../../../event/interface/eventConsumer"
@@ -6,6 +7,7 @@ import {Terrain} from "../../../../region/enum/terrain"
 import MobMoveEvent from "../../../event/mobMoveEvent"
 import {RaceType} from "../../enum/raceType"
 
+@injectable()
 export default class HalflingMvBonus implements EventConsumer {
   public static terrains = [ Terrain.Forest, Terrain.Plains ]
 

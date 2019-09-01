@@ -1,19 +1,22 @@
+import { inject, injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import ItemService from "../../item/service/itemService"
 import ClientService from "../../server/service/clientService"
+import {Types} from "../../support/types"
 import {MobEntity} from "../entity/mobEntity"
 import MobEvent from "../event/mobEvent"
 import LocationService from "../service/locationService"
 
 export const SCAVENGE_TIMEOUT_MS = 10000
 
+@injectable()
 export default class ScavengeEventConsumer implements EventConsumer {
   constructor(
-    private readonly clientService: ClientService,
-    private readonly itemService: ItemService,
-    private readonly locationService: LocationService,
+    @inject(Types.ClientService) private readonly clientService: ClientService,
+    @inject(Types.ItemService) private readonly itemService: ItemService,
+    @inject(Types.LocationService) private readonly locationService: LocationService,
     private readonly scavengeTimeoutMS: number = SCAVENGE_TIMEOUT_MS) {}
 
   public getConsumingEventTypes(): EventType[] {

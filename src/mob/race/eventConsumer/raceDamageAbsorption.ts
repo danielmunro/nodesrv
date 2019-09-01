@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import {EventType} from "../../../event/enum/eventType"
 import {createModifiedDamageEvent} from "../../../event/factory/eventFactory"
 import EventConsumer from "../../../event/interface/eventConsumer"
@@ -6,6 +7,7 @@ import DamageEvent from "../../event/damageEvent"
 import {DamageType} from "../../fight/enum/damageType"
 import {RaceType} from "../enum/raceType"
 
+@injectable()
 export default abstract class RaceDamageAbsorption implements EventConsumer {
   protected race: RaceType
   protected damageType: DamageType

@@ -40,7 +40,7 @@ describe("sanctuary action", () => {
       })
 
     // then
-    expect(attackDamage).toBeGreaterThan(counterDamage)
+    expect(attackDamage).toBeGreaterThan(counterDamage * 0.75)
   })
 
   it("generates accurate success messages on self", async () => {

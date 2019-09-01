@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
 import {createSkillEvent} from "../../event/factory/eventFactory"
 import EventConsumer from "../../event/interface/eventConsumer"
@@ -6,6 +7,7 @@ import SkillEvent from "../../mob/skill/event/skillEvent"
 import {percentRoll} from "../../support/random/helpers"
 import {AffectType} from "../enum/affectType"
 
+@injectable()
 export default class ForgetEventConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {
     return [EventType.SkillInvoked]

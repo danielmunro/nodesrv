@@ -1,3 +1,4 @@
+import { injectable, unmanaged } from "inversify"
 import {EventType} from "../../../event/enum/eventType"
 import {createModifiedDamageEvent} from "../../../event/factory/eventFactory"
 import EventConsumer from "../../../event/interface/eventConsumer"
@@ -8,10 +9,13 @@ import DamageEvent from "../../event/damageEvent"
 import {DamageType} from "../../fight/enum/damageType"
 import {SkillType} from "../skillType"
 
+@injectable()
 export default class DamageTypeEventConsumer implements EventConsumer {
   private static bonusAmount = 0.2
 
-  constructor(private readonly skillType: SkillType, private readonly damageType: DamageType) {}
+  constructor(
+    @unmanaged() private readonly skillType: SkillType,
+    @unmanaged() private readonly damageType: DamageType) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.DamageCalculation ]

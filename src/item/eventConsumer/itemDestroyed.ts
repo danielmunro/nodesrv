@@ -1,11 +1,14 @@
+import { inject, injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
+import {Types} from "../../support/types"
 import ItemEvent from "../event/itemEvent"
 import ItemService from "../service/itemService"
 
+@injectable()
 export default class ItemDestroyed implements EventConsumer {
-  constructor(private readonly itemService: ItemService) {}
+  constructor(@inject(Types.ItemService) private readonly itemService: ItemService) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.ItemDestroyed]

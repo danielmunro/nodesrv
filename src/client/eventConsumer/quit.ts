@@ -1,3 +1,4 @@
+import { inject, injectable } from "inversify"
 import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
@@ -7,12 +8,14 @@ import MobEvent from "../../mob/event/mobEvent"
 import MobService from "../../mob/service/mobService"
 import ClientService from "../../server/service/clientService"
 import withValue from "../../support/functional/withValue"
+import {Types} from "../../support/types"
 import {Client} from "../client"
 
+@injectable()
 export default class Quit implements EventConsumer {
   constructor(
-    private readonly clientService: ClientService,
-    private readonly mobService: MobService) {}
+    @inject(Types.ClientService) private readonly clientService: ClientService,
+    @inject(Types.MobService) private readonly mobService: MobService) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.ClientLogout ]

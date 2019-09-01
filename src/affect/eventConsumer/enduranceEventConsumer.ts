@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import Cost from "../../check/cost/cost"
 import {CostType} from "../../check/cost/costType"
 import {EventType} from "../../event/enum/eventType"
@@ -8,6 +9,7 @@ import {MobEntity} from "../../mob/entity/mobEntity"
 import CostEvent from "../../mob/event/costEvent"
 import {AffectType} from "../enum/affectType"
 
+@injectable()
 export default class EnduranceEventConsumer implements EventConsumer {
   private static reduceAmount(mob: MobEntity, cost: Cost) {
     if (typeof cost.amount === "function") {

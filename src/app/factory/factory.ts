@@ -1,9 +1,12 @@
 import {Container} from "inversify"
+import EventConsumer from "../../event/interface/eventConsumer"
+import EventService from "../../event/service/eventService"
+import {Types} from "../../support/types"
 import App from "../app"
 import {Timings} from "../constants"
 import actions from "../containerModule/actions"
 import constants from "../containerModule/constants"
-import eventConsumers from "../containerModule/eventConsumers"
+import eventConsumerList from "../containerModule/eventConsumer/eventConsumerList"
 import observers from "../containerModule/observers"
 import repositories from "../containerModule/repositories"
 import services from "../containerModule/services"
@@ -18,8 +21,13 @@ export default async function createAppContainer(
   port: number = 5151): Promise<App> {
   console.time(Timings.container)
   const container = new Container({ skipBaseClassChecks: true })
-  container.load(services, actions, eventConsumers, observers)
+  container.load(services, actions, observers)
+  eventConsumerList.forEach(eventConsumer =>
+    container.bind<EventConsumer>(Types.EventConsumerTable).to(eventConsumer))
   await container.loadAsync(tables, repositories, constants(stripeApiKey, stripePlanId, environment, startRoomId, port))
+  const eventService = container.get<EventService>(Types.EventService)
+  const eventConsumers = container.getAll<EventConsumer>(Types.EventConsumerTable)
+  eventConsumers.forEach(eventConsumer => eventService.addConsumer(eventConsumer))
   console.timeEnd(Timings.container)
   return new App(container)
 }

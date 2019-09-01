@@ -28,7 +28,7 @@ export default class App {
   }
 
   public getEventConsumerTable(): EventConsumer[] {
-    return this.container.get<EventConsumer[]>(Types.EventConsumerTable)
+    return this.container.getAll<EventConsumer>(Types.EventConsumerTable)
   }
 
   public getObservers(): Observers {

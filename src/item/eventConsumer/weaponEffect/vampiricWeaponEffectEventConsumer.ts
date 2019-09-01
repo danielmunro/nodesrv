@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import EventResponse from "../../../event/messageExchange/eventResponse"
 import ResponseMessage from "../../../messageExchange/responseMessage"
 import DamageEvent from "../../../mob/event/damageEvent"
@@ -7,6 +8,7 @@ import {WeaponEffect} from "../../enum/weaponEffect"
 import AbstractWeaponEffectEventConsumer from "./abstractWeaponEffectEventConsumer"
 import {WeaponEffectMessages} from "./constants"
 
+@injectable()
 export default class VampiricWeaponEffectEventConsumer extends AbstractWeaponEffectEventConsumer {
   public getWeaponEffect(): WeaponEffect {
     return WeaponEffect.Vampiric

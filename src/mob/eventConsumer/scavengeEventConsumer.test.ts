@@ -11,7 +11,7 @@ describe("scavenge", () => {
     const testRunner = app.get<TestRunner>(Types.TestRunner)
     const room = testRunner.getStartRoom()
     const mob = (await testRunner.createMob()).get()
-    const scavenge = app.get<EventConsumer[]>(Types.EventConsumerTable).find(eventConsumer =>
+    const scavenge = app.getAll<EventConsumer>(Types.EventConsumerTable).find(eventConsumer =>
       eventConsumer instanceof ScavengeEventConsumer) as ScavengeEventConsumer
 
     // given

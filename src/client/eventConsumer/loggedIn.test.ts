@@ -23,7 +23,7 @@ describe("logged in client event consumer", () => {
     const client = mockClient() as any
 
     // given
-    const loggedIn = app.get<EventConsumer[]>(Types.EventConsumerTable)
+    const loggedIn = app.getAll<EventConsumer>(Types.EventConsumerTable)
       .find(eventConsumer =>
         eventConsumer instanceof LoggedIn) as EventConsumer
 

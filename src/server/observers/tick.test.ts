@@ -48,12 +48,14 @@ describe("ticks", () => {
     client.getSessionMob().skills.push(newSkill(SkillType.FastHealing, MAX_PRACTICE_LEVEL))
     const clients = [client]
     const mockSkill = jest.fn(() => ({
+      getSkillType: () => SkillType.FastHealing,
       handle: jest.fn(() => ({
         isSuccessful: jest.fn(() => true),
       })),
     }))()
 
-    eventService.addConsumer(new FastHealingEventConsumer(mockSkill as any))
+    // @ts-ignore
+    eventService.addConsumer(new FastHealingEventConsumer([mockSkill]))
 
     // when
     await tick.notify(clients)

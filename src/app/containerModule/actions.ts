@@ -1,5 +1,13 @@
 import {ContainerModule} from "inversify"
 import Action from "../../action/impl/action"
+import FleeAction from "../../action/impl/fight/fleeAction"
+import LookAction from "../../action/impl/info/lookAction"
+import DownAction from "../../action/impl/move/downAction"
+import EastAction from "../../action/impl/move/eastAction"
+import NorthAction from "../../action/impl/move/northAction"
+import SouthAction from "../../action/impl/move/southAction"
+import UpAction from "../../action/impl/move/upAction"
+import WestAction from "../../action/impl/move/westAction"
 import Skill from "../../action/impl/skill"
 import weaponAction from "../../action/impl/skill/weaponAction"
 import Spell from "../../action/impl/spell"
@@ -15,6 +23,16 @@ import {weapons} from "./action/weaponList"
 
 export default new ContainerModule(bind => {
   actions.forEach(action => bind<Action>(Types.Actions).to(action))
+
+  // actions needed by other dependencies
+  bind<Action>(Types.FleeAction).to(FleeAction)
+  bind<Action>(Types.LookAction).to(LookAction)
+  bind<Action>(Types.MoveActions).to(NorthAction)
+  bind<Action>(Types.MoveActions).to(SouthAction)
+  bind<Action>(Types.MoveActions).to(EastAction)
+  bind<Action>(Types.MoveActions).to(WestAction)
+  bind<Action>(Types.MoveActions).to(UpAction)
+  bind<Action>(Types.MoveActions).to(DownAction)
 
   multiActions.forEach(multiAction => bind<Action>(Types.Actions).toDynamicValue(context =>
     multiAction(context.container.get<CheckBuilderFactory>(Types.CheckBuilderFactory), context.container)))

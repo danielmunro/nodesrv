@@ -1,17 +1,20 @@
+import { inject, injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
+import {Types} from "../../support/types"
 import {MobEntity} from "../entity/mobEntity"
 import MobMoveEvent from "../event/mobMoveEvent"
 import FightBuilder from "../fight/fightBuilder"
 import LocationService from "../service/locationService"
 import MobService from "../service/mobService"
 
+@injectable()
 export default class AggressiveMobEventConsumer implements EventConsumer {
   constructor(
-    private readonly mobService: MobService,
-    private readonly locationService: LocationService,
-    private readonly fightBuilder: FightBuilder) {}
+    @inject(Types.MobService) private readonly mobService: MobService,
+    @inject(Types.LocationService) private readonly locationService: LocationService,
+    @inject(Types.FightBuilder) private readonly fightBuilder: FightBuilder) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.MobMoved ]

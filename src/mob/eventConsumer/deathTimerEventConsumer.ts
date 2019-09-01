@@ -1,15 +1,18 @@
+import { inject, injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
 import {createRoomMessageEvent} from "../../event/factory/eventFactory"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import EventService from "../../event/service/eventService"
 import ResponseMessage from "../../messageExchange/responseMessage"
+import {Types} from "../../support/types"
 import {Disposition} from "../enum/disposition"
 import TickEvent from "../event/tickEvent"
 import {Messages} from "./constants"
 
+@injectable()
 export default class DeathTimerEventConsumer implements EventConsumer {
-  constructor(private readonly eventService: EventService) {}
+  constructor(@inject(Types.EventService) private readonly eventService: EventService) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.Tick ]

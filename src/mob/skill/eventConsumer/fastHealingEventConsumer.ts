@@ -1,3 +1,4 @@
+import {injectable, multiInject} from "inversify"
 import Skill from "../../../action/impl/skill"
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/interface/eventConsumer"
@@ -5,10 +6,17 @@ import EventResponse from "../../../event/messageExchange/eventResponse"
 import EventContext from "../../../messageExchange/context/eventContext"
 import {RequestType} from "../../../messageExchange/enum/requestType"
 import Request from "../../../messageExchange/request"
+import {Types} from "../../../support/types"
 import TickEvent from "../../event/tickEvent"
+import {SkillType} from "../skillType"
 
+@injectable()
 export default class FastHealingEventConsumer implements EventConsumer {
-  constructor(private readonly fastHealing: Skill) {}
+  private readonly skill: Skill
+
+  constructor(@multiInject(Types.Skills) skills: Skill[]) {
+    this.skill = skills.find(skill => skill.getSkillType() === SkillType.FastHealing) as Skill
+  }
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.Tick ]
@@ -16,7 +24,7 @@ export default class FastHealingEventConsumer implements EventConsumer {
 
   public async consume(event: TickEvent): Promise<EventResponse> {
     const request = new Request(event.mob, event.room, {requestType: RequestType.Noop } as EventContext)
-    await this.fastHealing.handle(request)
+    await this.skill.handle(request)
     return EventResponse.none(event)
   }
 }

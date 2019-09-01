@@ -1,6 +1,7 @@
 import {AffectType} from "../../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {RequestType} from "../../../../messageExchange/enum/requestType"
+import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {SkillType} from "../../../../mob/skill/skillType"
 import MobBuilder from "../../../../support/test/mobBuilder"
 import TestRunner from "../../../../support/test/testRunner"
@@ -11,7 +12,7 @@ let mob: MobBuilder
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-  mob = (await testRunner.createMob()).withSkill(SkillType.Endurance)
+  mob = (await testRunner.createMob()).withSkill(SkillType.Endurance, MAX_PRACTICE_LEVEL)
 })
 
 describe("endurance action", () => {

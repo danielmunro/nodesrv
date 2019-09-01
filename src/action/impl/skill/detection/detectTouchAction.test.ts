@@ -1,6 +1,7 @@
 import {AffectType} from "../../../../affect/enum/affectType"
 import {createTestAppContainer} from "../../../../app/factory/testFactory"
 import {RequestType} from "../../../../messageExchange/enum/requestType"
+import {MAX_PRACTICE_LEVEL} from "../../../../mob/constants"
 import {SkillType} from "../../../../mob/skill/skillType"
 import MobBuilder from "../../../../support/test/mobBuilder"
 import TestRunner from "../../../../support/test/testRunner"
@@ -12,7 +13,7 @@ let mobBuilder: MobBuilder
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   mobBuilder = (await testRunner.createMob())
-    .withSkill(SkillType.DetectTouch)
+    .withSkill(SkillType.DetectTouch, MAX_PRACTICE_LEVEL)
     .setLevel(30)
 })
 

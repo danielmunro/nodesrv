@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
 import {createDamageEvent} from "../../event/factory/eventFactory"
 import EventConsumer from "../../event/interface/eventConsumer"
@@ -9,6 +10,7 @@ export const ALIGNMENT_EVIL = -300
 export const ALIGNMENT_GOOD = 300
 const MODIFIER = -0.3
 
+@injectable()
 export default class ProtectionEventConsumer implements EventConsumer {
   public consume(event: DamageEvent): Promise<EventResponse> {
     const target = event.mob

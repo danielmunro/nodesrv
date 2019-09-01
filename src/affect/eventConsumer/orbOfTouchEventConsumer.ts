@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
@@ -6,6 +7,7 @@ import ResponseMessageBuilder from "../../messageExchange/builder/responseMessag
 import {AffectMessages} from "../constants"
 import {AffectType} from "../enum/affectType"
 
+@injectable()
 export default class OrbOfTouchEventConsumer implements EventConsumer {
   public async consume(event: MobInteractionEvent): Promise<EventResponse> {
     const aff = event.target.affect()

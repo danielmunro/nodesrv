@@ -1,3 +1,4 @@
+import {injectable, multiInject, unmanaged} from "inversify"
 import Skill from "../../../action/impl/skill"
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/interface/eventConsumer"
@@ -5,10 +6,17 @@ import EventResponse from "../../../event/messageExchange/eventResponse"
 import EventContext from "../../../messageExchange/context/eventContext"
 import {RequestType} from "../../../messageExchange/enum/requestType"
 import Request from "../../../messageExchange/request"
+import {Types} from "../../../support/types"
 import FightEvent from "../../fight/event/fightEvent"
+import {SkillType} from "../skillType"
 
-export default class ExtraAttackEventConsumer implements EventConsumer {
-  constructor(private readonly skill: Skill) {}
+@injectable()
+export default abstract class ExtraAttackEventConsumer implements EventConsumer {
+  private readonly skill: Skill
+
+  protected constructor(@multiInject(Types.Skills) skills: Skill[], @unmanaged() skillType: SkillType) {
+    this.skill = skills.find(skill => skill.getSkillType() === skillType) as Skill
+  }
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.AttackRound ]

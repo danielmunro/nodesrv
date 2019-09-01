@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import {EventType} from "../../../event/enum/eventType"
 import EventConsumer from "../../../event/interface/eventConsumer"
 import EventResponse from "../../../event/messageExchange/eventResponse"
@@ -5,6 +6,7 @@ import FightEvent from "../../../mob/fight/event/fightEvent"
 import {Equipment} from "../../enum/equipment"
 import {WeaponEffect} from "../../enum/weaponEffect"
 
+@injectable()
 export default class VorpalWeaponEffectEventConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.AttackRound ]

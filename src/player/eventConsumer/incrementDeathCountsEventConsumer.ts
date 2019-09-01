@@ -1,3 +1,4 @@
+import { inject, injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
@@ -5,9 +6,11 @@ import KafkaService from "../../kafka/kafkaService"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import DeathEvent from "../../mob/event/deathEvent"
 import Death from "../../mob/fight/death"
+import {Types} from "../../support/types"
 import {PlayerEntity} from "../entity/playerEntity"
 import PlayerRepository from "../repository/player"
 
+@injectable()
 export default class IncrementDeathCountsEventConsumer implements EventConsumer {
   private static isP2PDeath(death: Death) {
     const killer = death.killer
@@ -15,8 +18,8 @@ export default class IncrementDeathCountsEventConsumer implements EventConsumer 
   }
 
   constructor(
-    private readonly kafkaService: KafkaService,
-    private readonly playerRepository: PlayerRepository) {}
+    @inject(Types.KafkaService) private readonly kafkaService: KafkaService,
+    @inject(Types.PlayerRepository) private readonly playerRepository: PlayerRepository) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.MobDeath ]

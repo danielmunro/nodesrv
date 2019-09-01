@@ -1,13 +1,16 @@
+import { inject, injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import ClientService from "../../server/service/clientService"
+import {Types} from "../../support/types"
 import {Channel} from "../enum/channel"
 import SocialEvent from "../event/socialEvent"
 
+@injectable()
 export default class Social implements EventConsumer {
-  constructor(private readonly clientService: ClientService) {}
+  constructor(@inject(Types.ClientService) private readonly clientService: ClientService) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.Social]

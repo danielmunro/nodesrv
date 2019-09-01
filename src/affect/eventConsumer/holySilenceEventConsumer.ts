@@ -1,3 +1,4 @@
+import { injectable } from "inversify"
 import InputEvent from "../../client/event/inputEvent"
 import {EventType} from "../../event/enum/eventType"
 import {createInputEvent} from "../../event/factory/eventFactory"
@@ -10,6 +11,7 @@ import ResponseMessage from "../../messageExchange/responseMessage"
 import {SpellMessages} from "../../mob/spell/constants"
 import {AffectType} from "../enum/affectType"
 
+@injectable()
 export default class HolySilenceEventConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.ClientRequest ]

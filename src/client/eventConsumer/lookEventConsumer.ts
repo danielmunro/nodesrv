@@ -1,3 +1,4 @@
+import { inject, injectable } from "inversify"
 import Action from "../../action/impl/action"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
@@ -7,11 +8,13 @@ import {RequestType} from "../../messageExchange/enum/requestType"
 import Request from "../../messageExchange/request"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import ClientService from "../../server/service/clientService"
+import {Types} from "../../support/types"
 
+@injectable()
 export default class LookEventConsumer implements EventConsumer {
   constructor(
-    private readonly clientService: ClientService,
-    private readonly lookDefinition: Action) {}
+    @inject(Types.ClientService) private readonly clientService: ClientService,
+    @inject(Types.LookAction) private readonly lookDefinition: Action) {}
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.MobMoved ]
