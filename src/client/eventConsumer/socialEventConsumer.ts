@@ -9,7 +9,7 @@ import {Channel} from "../enum/channel"
 import SocialEvent from "../event/socialEvent"
 
 @injectable()
-export default class Social implements EventConsumer {
+export default class SocialEventConsumer implements EventConsumer {
   constructor(@inject(Types.ClientService) private readonly clientService: ClientService) {}
 
   public getConsumingEventTypes(): EventType[] {

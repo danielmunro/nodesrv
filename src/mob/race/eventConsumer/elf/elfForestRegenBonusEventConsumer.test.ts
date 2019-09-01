@@ -7,17 +7,17 @@ import {Types} from "../../../../support/types"
 import {MobEntity} from "../../../entity/mobEntity"
 import TickEvent from "../../../event/tickEvent"
 import {RaceType} from "../../enum/raceType"
-import ElfForestRegenBonus from "./elfForestRegenBonus"
+import ElfForestRegenBonusEventConsumer from "./elfForestRegenBonusEventConsumer"
 
 let testRunner: TestRunner
-let eventConsumer: ElfForestRegenBonus
+let eventConsumer: ElfForestRegenBonusEventConsumer
 let mob: MobEntity
 const regenModifier = 2
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   mob = (await testRunner.createMob()).setRace(RaceType.Elf).get()
-  eventConsumer = new ElfForestRegenBonus()
+  eventConsumer = new ElfForestRegenBonusEventConsumer()
 })
 
 describe("elf forest regen bonus event consumer", () => {

@@ -7,7 +7,7 @@ import ItemEvent from "../event/itemEvent"
 import ItemService from "../service/itemService"
 
 @injectable()
-export default class ItemDestroyed implements EventConsumer {
+export default class ItemDestroyedEventConsumer implements EventConsumer {
   constructor(@inject(Types.ItemService) private readonly itemService: ItemService) {}
 
   public getConsumingEventTypes(): EventType[] {

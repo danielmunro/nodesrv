@@ -7,7 +7,7 @@ import {Terrain} from "../../../../region/enum/terrain"
 import TickEvent from "../../../event/tickEvent"
 
 @injectable()
-export default class ElfForestRegenBonus implements EventConsumer {
+export default class ElfForestRegenBonusEventConsumer implements EventConsumer {
   public static bonusModifier = 0.2
 
   public getConsumingEventTypes(): EventType[] {
@@ -17,7 +17,7 @@ export default class ElfForestRegenBonus implements EventConsumer {
   public consume(tickEvent: TickEvent): Promise<EventResponse> {
     if (tickEvent.room.region.terrain === Terrain.Forest) {
       return EventResponse.modified(
-        createModifiedTickEvent(tickEvent, tickEvent.regenModifier + ElfForestRegenBonus.bonusModifier))
+        createModifiedTickEvent(tickEvent, tickEvent.regenModifier + ElfForestRegenBonusEventConsumer.bonusModifier))
     }
 
     return EventResponse.none(tickEvent)

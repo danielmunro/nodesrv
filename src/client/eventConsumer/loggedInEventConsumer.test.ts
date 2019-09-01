@@ -6,7 +6,7 @@ import StateService from "../../gameService/stateService"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
-import LoggedIn from "./loggedIn"
+import LoggedInEventConsumer from "./loggedInEventConsumer"
 
 describe("logged in client event consumer", () => {
   it("invokes 'look' action on login", async () => {
@@ -25,7 +25,7 @@ describe("logged in client event consumer", () => {
     // given
     const loggedIn = app.getAll<EventConsumer>(Types.EventConsumerTable)
       .find(eventConsumer =>
-        eventConsumer instanceof LoggedIn) as EventConsumer
+        eventConsumer instanceof LoggedInEventConsumer) as EventConsumer
 
     // when
     const eventResponse = await loggedIn.consume(createClientEvent(EventType.ClientLogin, client))

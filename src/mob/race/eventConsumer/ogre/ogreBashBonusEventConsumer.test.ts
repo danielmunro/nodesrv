@@ -6,13 +6,13 @@ import {Types} from "../../../../support/types"
 import {MobEntity} from "../../../entity/mobEntity"
 import {DamageType} from "../../../fight/enum/damageType"
 import {RaceType} from "../../enum/raceType"
-import OgreBashBonus from "./ogreBashBonus"
+import OgreBashBonusEventConsumer from "./ogreBashBonusEventConsumer"
 
 let testRunner: TestRunner
 let attacker: MobEntity
 let defender: MobEntity
 let weapon: ItemEntity
-let eventConsumer: OgreBashBonus
+let eventConsumer: OgreBashBonusEventConsumer
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
@@ -22,10 +22,10 @@ beforeEach(async () => {
     .equip(weapon)
     .get()
   defender = (await testRunner.createMob()).setRace(RaceType.Elf).get()
-  eventConsumer = new OgreBashBonus()
+  eventConsumer = new OgreBashBonusEventConsumer()
 })
 
-describe("ogre bash bonus", () => {
+describe("ogre bash bonus event consumer", () => {
   it("increases when wearing a bashing weapon", async () => {
     // when
     const eventResponse = await eventConsumer.consume(

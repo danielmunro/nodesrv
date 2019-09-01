@@ -4,14 +4,14 @@ import {createMobEvent} from "../../event/factory/eventFactory"
 import ClientService from "../../server/service/clientService"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
-import Quit from "./quit"
+import QuitEventConsumer from "./quitEventConsumer"
 
 describe("quit client event consumer", () => {
   it("should remove clients from the clientService that have disconnected", async () => {
     // setup
     const app = await createTestAppContainer()
     const clientService = app.get<ClientService>(Types.ClientService)
-    const quit = new Quit(clientService, jest.fn()())
+    const quit = new QuitEventConsumer(clientService, jest.fn()())
     const mob = getTestMob()
     const mockClient = jest.fn(() => ({
       getSessionMob: () => mob,

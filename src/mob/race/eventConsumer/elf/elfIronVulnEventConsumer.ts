@@ -7,7 +7,7 @@ import {RaceType} from "../../enum/raceType"
 import RaceDamageAbsorption from "../raceDamageAbsorption"
 
 @injectable()
-export default class ElfIronVuln extends RaceDamageAbsorption {
+export default class ElfIronVulnEventConsumer extends RaceDamageAbsorption {
   private static damageTypes = [DamageType.Slash, DamageType.Bash, DamageType.Pierce]
   protected race = RaceType.Elf
   protected modifier = 0.2
@@ -15,7 +15,7 @@ export default class ElfIronVuln extends RaceDamageAbsorption {
   protected doesConsumerApply(event: DamageEvent): boolean {
     const weapon = event.source.getFirstEquippedItemAtPosition(Equipment.Weapon)
     return (event.mob.raceType === this.race &&
-      ElfIronVuln.damageTypes.includes(event.damageType) &&
+      ElfIronVulnEventConsumer.damageTypes.includes(event.damageType) &&
       weapon &&
       weapon.material === MaterialType.Iron) as boolean
   }

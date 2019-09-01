@@ -12,7 +12,7 @@ import {Types} from "../../support/types"
 import {Client} from "../client"
 
 @injectable()
-export default class Quit implements EventConsumer {
+export default class QuitEventConsumer implements EventConsumer {
   constructor(
     @inject(Types.ClientService) private readonly clientService: ClientService,
     @inject(Types.MobService) private readonly mobService: MobService) {}

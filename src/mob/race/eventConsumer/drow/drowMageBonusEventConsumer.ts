@@ -10,7 +10,7 @@ import {SpecializationType} from "../../../specialization/enum/specializationTyp
 import {RaceType} from "../../enum/raceType"
 
 @injectable()
-export default class DrowMageBonus implements EventConsumer {
+export default class DrowMageBonusEventConsumer implements EventConsumer {
   public static bonusModifier = 3
 
   constructor(@multiInject(Types.Spells) private readonly spellTable: Spell[]) {}
@@ -26,7 +26,7 @@ export default class DrowMageBonus implements EventConsumer {
       castEvent.mob.specializationType === SpecializationType.Mage &&
       spell.getSpecializationType() === SpecializationType.Mage) {
       return EventResponse.modified(
-        createModifiedCastEvent(castEvent, castEvent.roll + DrowMageBonus.bonusModifier))
+        createModifiedCastEvent(castEvent, castEvent.roll + DrowMageBonusEventConsumer.bonusModifier))
     }
 
     return EventResponse.none(castEvent)

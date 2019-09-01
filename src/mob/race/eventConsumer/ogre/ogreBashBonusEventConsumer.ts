@@ -7,7 +7,7 @@ import {RaceType} from "../../enum/raceType"
 import RaceDamageAbsorption from "../raceDamageAbsorption"
 
 @injectable()
-export default class OgreBashBonus extends RaceDamageAbsorption {
+export default class OgreBashBonusEventConsumer extends RaceDamageAbsorption {
   protected modifier = 0.1
 
   protected doesConsumerApply(event: DamageEvent): boolean {

@@ -3,7 +3,7 @@ import {EventType} from "../../event/enum/eventType"
 import {createClientEvent} from "../../event/factory/eventFactory"
 import ClientService from "../../server/service/clientService"
 import {Types} from "../../support/types"
-import Disconnected from "./disconnected"
+import DisconnectedEventConsumer from "./disconnectedEventConsumer"
 
 const mockClient = jest.fn(() => ({ip: 123}))
 
@@ -12,7 +12,7 @@ describe("disconnected client event consumer", () => {
     // setup
     const app = await createTestAppContainer()
     const clientService = app.get<ClientService>(Types.ClientService)
-    const disconnected = new Disconnected(clientService)
+    const disconnected = new DisconnectedEventConsumer(clientService)
     const client = mockClient() as any
 
     // given

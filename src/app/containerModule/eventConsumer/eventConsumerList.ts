@@ -10,13 +10,13 @@ import OrbOfTouchEventConsumer from "../../../affect/eventConsumer/orbOfTouchEve
 import ProtectionEventConsumer from "../../../affect/eventConsumer/protectionEventConsumer"
 import SanctuaryEventConsumer from "../../../affect/eventConsumer/sanctuaryEventConsumer"
 import WithstandDeathEventConsumer from "../../../affect/eventConsumer/withstandDeathEventConsumer"
-import Disconnected from "../../../client/eventConsumer/disconnected"
-import LoggedIn from "../../../client/eventConsumer/loggedIn"
+import DisconnectedEventConsumer from "../../../client/eventConsumer/disconnectedEventConsumer"
+import LoggedInEventConsumer from "../../../client/eventConsumer/loggedInEventConsumer"
 import LookEventConsumer from "../../../client/eventConsumer/lookEventConsumer"
-import Quit from "../../../client/eventConsumer/quit"
-import Social from "../../../client/eventConsumer/social"
-import ItemCreated from "../../../item/eventConsumer/itemCreated"
-import ItemDestroyed from "../../../item/eventConsumer/itemDestroyed"
+import QuitEventConsumer from "../../../client/eventConsumer/quitEventConsumer"
+import SocialEventConsumer from "../../../client/eventConsumer/socialEventConsumer"
+import ItemCreatedEventConsumer from "../../../item/eventConsumer/itemCreatedEventConsumer"
+import ItemDestroyedEventConsumer from "../../../item/eventConsumer/itemDestroyedEventConsumer"
 import FavoredWeaponEffectEventConsumer from "../../../item/eventConsumer/weaponEffect/favoredWeaponEffectEventConsumer"
 import FlamingWeaponEffectEventConsumer from "../../../item/eventConsumer/weaponEffect/flamingWeaponEffectEventConsumer"
 import FrostWeaponEffectEventConsumer from "../../../item/eventConsumer/weaponEffect/frostWeaponEffectEventConsumer"
@@ -36,12 +36,12 @@ import MobUpdatedEventConsumer from "../../../mob/eventConsumer/mobUpdatedEventC
 import PetFollowsOwnerEventConsumer from "../../../mob/eventConsumer/petFollowsOwnerEventConsumer"
 import ScavengeEventConsumer from "../../../mob/eventConsumer/scavengeEventConsumer"
 import WimpyEventConsumer from "../../../mob/eventConsumer/wimpyEventConsumer"
-import DrowMageBonus from "../../../mob/race/eventConsumer/drow/drowMageBonus"
-import ElfForestRegenBonus from "../../../mob/race/eventConsumer/elf/elfForestRegenBonus"
-import ElfIronVuln from "../../../mob/race/eventConsumer/elf/elfIronVuln"
-import HalflingMvBonus from "../../../mob/race/eventConsumer/halfling/halflingMvBonus"
-import OgreBashBonus from "../../../mob/race/eventConsumer/ogre/ogreBashBonus"
-import OgreSizeMismatchVuln from "../../../mob/race/eventConsumer/ogre/ogreSizeMismatchVuln"
+import DrowMageBonusEventConsumer from "../../../mob/race/eventConsumer/drow/drowMageBonusEventConsumer"
+import ElfForestRegenBonusEventConsumer from "../../../mob/race/eventConsumer/elf/elfForestRegenBonusEventConsumer"
+import ElfIronVulnEventConsumer from "../../../mob/race/eventConsumer/elf/elfIronVulnEventConsumer"
+import HalflingMvBonusEventConsumer from "../../../mob/race/eventConsumer/halfling/halflingMvBonusEventConsumer"
+import OgreBashBonusEventConsumer from "../../../mob/race/eventConsumer/ogre/ogreBashBonusEventConsumer"
+import OgreSizeMismatchVulnEventConsumer from "../../../mob/race/eventConsumer/ogre/ogreSizeMismatchVulnEventConsumer"
 /*tslint:disable*/
 import BludgeonDamageTypeEventConsumer from "../../../mob/skill/eventConsumer/damageType/bludgeonDamageTypeEventConsumer"
 /*tslint:enable*/
@@ -91,19 +91,19 @@ export default [
   MobLeavesRoomEventConsumer,
 
   // race
-  ElfIronVuln,
-  ElfForestRegenBonus,
-  OgreSizeMismatchVuln,
-  OgreBashBonus,
-  HalflingMvBonus,
-  DrowMageBonus,
+  ElfIronVulnEventConsumer,
+  ElfForestRegenBonusEventConsumer,
+  OgreSizeMismatchVulnEventConsumer,
+  OgreBashBonusEventConsumer,
+  HalflingMvBonusEventConsumer,
+  DrowMageBonusEventConsumer,
 
   // room
   RoomMessageEventConsumer,
 
   // item
-  ItemCreated,
-  ItemDestroyed,
+  ItemCreatedEventConsumer,
+  ItemDestroyedEventConsumer,
 
   // weapon effects
   FlamingWeaponEffectEventConsumer,
@@ -114,13 +114,13 @@ export default [
   FavoredWeaponEffectEventConsumer,
 
   // social
-  Social,
+  SocialEventConsumer,
 
   // clients
   MobUpdatedEventConsumer,
-  Disconnected,
-  LoggedIn,
-  Quit,
+  DisconnectedEventConsumer,
+  LoggedInEventConsumer,
+  QuitEventConsumer,
   LookEventConsumer,
 
   // skills

@@ -13,7 +13,7 @@ import {RoomEntity} from "../../room/entity/roomEntity"
 import {Types} from "../../support/types"
 
 @injectable()
-export default class LoggedIn implements EventConsumer {
+export default class LoggedInEventConsumer implements EventConsumer {
   constructor(
     @inject(Types.StartRoom) private readonly startRoom: RoomEntity,
     @inject(Types.LookAction) private readonly lookDefinition: Action,

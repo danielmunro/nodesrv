@@ -7,16 +7,16 @@ import {Types} from "../../../../support/types"
 import {MobEntity} from "../../../entity/mobEntity"
 import MobMoveEvent from "../../../event/mobMoveEvent"
 import {RaceType} from "../../enum/raceType"
-import HalflingMvBonus from "./halflingMvBonus"
+import HalflingMvBonusEventConsumer from "./halflingMvBonusEventConsumer"
 
 let testRunner: TestRunner
-let consumer: HalflingMvBonus
+let consumer: HalflingMvBonusEventConsumer
 let mob: MobEntity
 
 beforeEach(async () => {
   testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
   mob = (await testRunner.createMob()).setRace(RaceType.Halfling).get()
-  consumer = new HalflingMvBonus()
+  consumer = new HalflingMvBonusEventConsumer()
 })
 
 describe("halfling mv bonus event consumer", () => {

@@ -10,16 +10,16 @@ import {SpecializationType} from "../../../specialization/enum/specializationTyp
 import {SpellEntity as SpellModel} from "../../../spell/entity/spellEntity"
 import {SpellType} from "../../../spell/spellType"
 import {RaceType} from "../../enum/raceType"
-import DrowMageBonus from "./drowMageBonus"
+import DrowMageBonusEventConsumer from "./drowMageBonusEventConsumer"
 
 let testRunner: TestRunner
-let eventConsumer: DrowMageBonus
+let eventConsumer: DrowMageBonusEventConsumer
 let mob: MobEntity
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
-  eventConsumer = new DrowMageBonus(app.getAll<Spell>(Types.Spells))
+  eventConsumer = new DrowMageBonusEventConsumer(app.getAll<Spell>(Types.Spells))
   mob = (await testRunner.createMob())
     .setRace(RaceType.Drow)
     .setSpecialization(SpecializationType.Mage)
@@ -28,7 +28,7 @@ beforeEach(async () => {
     .get()
 })
 
-describe("drow mage bonus", () => {
+describe("drow mage bonus event consumer", () => {
   it("provides a bonus when casting mage spells", async () => {
     const eventResponse = await eventConsumer.consume(
       createCastEvent(mob, mob.getSpell(SpellType.MagicMissile) as SpellModel, (await testRunner.createMob()).get(), 0))
