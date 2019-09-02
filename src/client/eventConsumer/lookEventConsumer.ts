@@ -8,7 +8,9 @@ import {RequestType} from "../../messageExchange/enum/requestType"
 import Request from "../../messageExchange/request"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
 import ClientService from "../../server/service/clientService"
+import AsyncMaybe from "../../support/functional/maybe/asyncMaybe"
 import {Types} from "../../support/types"
+import {Client} from "../client"
 
 @injectable()
 export default class LookEventConsumer implements EventConsumer {
@@ -21,14 +23,14 @@ export default class LookEventConsumer implements EventConsumer {
   }
 
   public async consume(event: MobMoveEvent): Promise<EventResponse> {
-    const client = this.clientService.getClientByMob(event.mob)
-    if (client) {
+    const maybe = new AsyncMaybe(this.clientService.getClientByMob(event.mob))
+    await maybe.doAsync(async (client: Client) => {
       const response = await this.lookDefinition.handle(
         new Request(event.mob,
           event.destination,
           { requestType: RequestType.Look } as EventContext))
       client.sendMessage(response.getMessageToRequestCreator())
-    }
+    })
     return EventResponse.none(event)
   }
 }
