@@ -38,7 +38,7 @@ export class PlayerMobEntity {
   @JoinColumn()
   public trainedAttributes: Attributes
 
-  @OneToOne(() => MobEntity, { eager: true })
+  @OneToOne(() => MobEntity)
   @JoinColumn()
   public lastTell: MobEntity
 

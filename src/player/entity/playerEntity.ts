@@ -62,8 +62,4 @@ export class PlayerEntity {
     return `${this.sessionMob.hp}/${combined.hp}hp `
       + `${this.sessionMob.mana}/${combined.mana}mana ${this.sessionMob.mv}/${combined.mv}mv -> `
   }
-
-  public ownsMob(mob: MobEntity): boolean {
-    return !!this.mobs.find(m => m.uuid === mob.uuid)
-  }
 }
