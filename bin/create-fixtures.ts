@@ -1,5 +1,5 @@
 import { readFileSync } from "fs"
-import * as minimist from "minimist"
+import minimist from "minimist"
 import File from "../src/import/file"
 import ItemBuilder from "../src/import/itemBuilder"
 import ExitImportService from "../src/import/service/exitImportService"
@@ -24,6 +24,7 @@ import { initializeConnection } from "../src/support/db/connection"
 
 const listFile = readFileSync("fixtures/areas/area.lst").toString()
 const areaFiles = listFile.split("\n")
+// @ts-ignore
 const args = minimist(process.argv.slice(2))
 const writeNewData = args.write === undefined ? false : args.write
 const fix = args.fix === undefined ? false : args.fix
