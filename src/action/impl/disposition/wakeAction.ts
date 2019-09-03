@@ -10,14 +10,13 @@ import {Disposition} from "../../../mob/enum/disposition"
 import {Types} from "../../../support/types"
 import {HelpMessages, Messages} from "../../constants"
 import {MESSAGE_FAIL_ALREADY_AWAKE} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class WakeAction extends Action {
+export default class WakeAction extends SimpleAction {
   constructor(
-    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory) {
-    super()
+    @inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory) {
+    super(checkBuilderFactory, RequestType.Wake, HelpMessages.ChangeDisposition)
   }
 
   public check(request: Request): Promise<Check> {
@@ -38,18 +37,5 @@ export default class WakeAction extends Action {
         .addReplacementForTarget("verb2", "stand")
         .setVerbToObservers("wakes")
         .addReplacementForObservers("verb2", "stands"))
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action ]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Wake
-  }
-
-  public getHelpText(): string {
-    return HelpMessages.ChangeDisposition
   }
 }

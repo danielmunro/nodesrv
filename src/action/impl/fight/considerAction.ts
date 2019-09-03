@@ -11,10 +11,10 @@ import {format} from "../../../support/string"
 import {Types} from "../../../support/types"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class ConsiderAction extends Action {
+export default class ConsiderAction extends SimpleAction {
   private static getMessageFromDifference(target: MobEntity, difference: number): string {
     if (difference <= -10) {
       return format(Messages.Consider.NakedAndWeaponless, target.name)
@@ -33,8 +33,8 @@ export default class ConsiderAction extends Action {
     }
   }
 
-  constructor(@inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory) {
-    super()
+  constructor(@inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory) {
+    super(checkBuilderFactory, RequestType.Consider)
   }
 
   public check(request: Request): Promise<Check> {
@@ -47,20 +47,10 @@ export default class ConsiderAction extends Action {
     return [ActionPart.Action, ActionPart.MobInRoom]
   }
 
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Consider
-  }
-
   public async invoke(requestService: RequestService): Promise<Response> {
     const mobInRoom = requestService.getResult<MobEntity>(CheckType.HasTarget)
     const mob = requestService.getMob()
     const difference = mobInRoom.level - mob.level
-
     return requestService.respondWith().success(ConsiderAction.getMessageFromDifference(mobInRoom, difference))
   }
 }

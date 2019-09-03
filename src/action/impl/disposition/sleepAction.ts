@@ -9,14 +9,13 @@ import {Disposition} from "../../../mob/enum/disposition"
 import {Types} from "../../../support/types"
 import {HelpMessages, Messages} from "../../constants"
 import {ConditionMessages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class SleepAction extends Action {
+export default class SleepAction extends SimpleAction {
   constructor(
-    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory) {
-    super()
+    @inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory) {
+    super(checkBuilderFactory, RequestType.Sleep, HelpMessages.ChangeDisposition)
   }
 
   public check(request: Request): Promise<Check> {
@@ -36,18 +35,5 @@ export default class SleepAction extends Action {
         .addReplacementForTarget("verb2", "go")
         .setVerbToObservers("lays")
         .addReplacementForObservers("verb2", "goes"))
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action ]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Sleep
-  }
-
-  public getHelpText(): string {
-    return HelpMessages.ChangeDisposition
   }
 }

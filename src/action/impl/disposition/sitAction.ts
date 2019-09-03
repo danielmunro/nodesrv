@@ -8,14 +8,13 @@ import RequestService from "../../../messageExchange/service/requestService"
 import {Disposition} from "../../../mob/enum/disposition"
 import {Types} from "../../../support/types"
 import {ConditionMessages, HelpMessages, Messages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class SitAction extends Action {
+export default class SitAction extends SimpleAction {
   constructor(
-    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory) {
-    super()
+    @inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory) {
+    super(checkBuilderFactory, RequestType.Sit, HelpMessages.ChangeDisposition)
   }
 
   public check(request: Request): Promise<Check> {
@@ -32,18 +31,5 @@ export default class SitAction extends Action {
         .setVerbToRequestCreator("sit")
         .setVerbToTarget("sit")
         .setVerbToObservers("sits"))
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action ]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Sit
-  }
-
-  public getHelpText(): string {
-    return HelpMessages.ChangeDisposition
   }
 }

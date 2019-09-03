@@ -16,7 +16,9 @@ export default abstract class SimpleAction extends Action {
   }
 
   public check(request: Request): Promise<Check> {
-    return this.checkBuilderFactory.createCheckBuilder(request).create()
+    return this.checkBuilderFactory.createCheckBuilder(request)
+      .requireFromActionParts(this.getActionParts())
+      .create()
   }
 
   public getActionParts(): ActionPart[] {
