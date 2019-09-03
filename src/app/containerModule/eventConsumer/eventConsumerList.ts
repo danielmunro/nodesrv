@@ -10,10 +10,12 @@ import OrbOfTouchEventConsumer from "../../../affect/eventConsumer/orbOfTouchEve
 import ProtectionEventConsumer from "../../../affect/eventConsumer/protectionEventConsumer"
 import SanctuaryEventConsumer from "../../../affect/eventConsumer/sanctuaryEventConsumer"
 import WithstandDeathEventConsumer from "../../../affect/eventConsumer/withstandDeathEventConsumer"
+import ClientDisconnectedEventConsumer from "../../../client/eventConsumer/clientDisconnectedEventConsumer"
 import ClientSessionEndedEventConsumer from "../../../client/eventConsumer/clientSessionEndedEventConsumer"
 import DisconnectedEventConsumer from "../../../client/eventConsumer/disconnectedEventConsumer"
 import LoggedInEventConsumer from "../../../client/eventConsumer/loggedInEventConsumer"
 import LookEventConsumer from "../../../client/eventConsumer/lookEventConsumer"
+import SendMessageToMobEventConsumer from "../../../client/eventConsumer/sendMessageToMobEventConsumer"
 import SocialEventConsumer from "../../../client/eventConsumer/socialEventConsumer"
 import ItemCreatedEventConsumer from "../../../item/eventConsumer/itemCreatedEventConsumer"
 import ItemDestroyedEventConsumer from "../../../item/eventConsumer/itemDestroyedEventConsumer"
@@ -26,13 +28,11 @@ import VampiricWeaponEffectEventConsumer from "../../../item/eventConsumer/weapo
 /* tslint:enable */
 import VorpalWeaponEffectEventConsumer from "../../../item/eventConsumer/weaponEffect/vorpalWeaponEffectEventConsumer"
 import AggressiveMobEventConsumer from "../../../mob/eventConsumer/aggressiveMobEventConsumer"
-import ClientDisconnectedEventConsumer from "../../../mob/eventConsumer/clientDisconnectedEventConsumer"
 import DamageModifierEventConsumer from "../../../mob/eventConsumer/damageModifierEventConsumer"
 import DeathTimerEventConsumer from "../../../mob/eventConsumer/deathTimerEventConsumer"
 import FightStarterEventConsumer from "../../../mob/eventConsumer/fightStarterEventConsumer"
 import FollowMobEventConsumer from "../../../mob/eventConsumer/followMobEventConsumer"
 import MobCreatedEventConsumer from "../../../mob/eventConsumer/mobCreatedEventConsumer"
-import MobUpdatedEventConsumer from "../../../mob/eventConsumer/mobUpdatedEventConsumer"
 import PetFollowsOwnerEventConsumer from "../../../mob/eventConsumer/petFollowsOwnerEventConsumer"
 import ScavengeEventConsumer from "../../../mob/eventConsumer/scavengeEventConsumer"
 import WimpyEventConsumer from "../../../mob/eventConsumer/wimpyEventConsumer"
@@ -117,7 +117,7 @@ export default [
   SocialEventConsumer,
 
   // clients
-  MobUpdatedEventConsumer,
+  SendMessageToMobEventConsumer,
   DisconnectedEventConsumer,
   LoggedInEventConsumer,
   ClientSessionEndedEventConsumer,

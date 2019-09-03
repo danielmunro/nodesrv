@@ -128,7 +128,7 @@ export function createModifiedMobMoveEvent(event: MobMoveEvent, mvCost: number):
 }
 
 export function createMobMessageEvent(mob: MobEntity, message: string): MobMessageEvent {
-  return { eventType: EventType.MobUpdated, mob, message }
+  return { eventType: EventType.SendMessageToMob, mob, message }
 }
 
 export function createFightEvent(

@@ -1,9 +1,9 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import {EventType} from "../../event/enum/eventType"
 import {createClientEvent} from "../../event/factory/eventFactory"
+import LocationService from "../../mob/service/locationService"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
-import LocationService from "../service/locationService"
 import ClientDisconnectedEventConsumer from "./clientDisconnectedEventConsumer"
 
 describe("client disconnected event consumer", () => {

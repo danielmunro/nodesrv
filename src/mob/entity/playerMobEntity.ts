@@ -69,18 +69,23 @@ export class PlayerMobEntity {
   @Column({ default: true })
   public autoAssist: boolean
 
+  // not implemented
   @Column({ default: true })
   public autoExit: boolean
 
+  // not implemented
   @Column({ default: true })
   public autoList: boolean
 
+  // not implemented
   @Column({ default: true })
   public autoLoot: boolean
 
+  // not implemented
   @Column({ default: true })
   public autoSac: boolean
 
+  // not implemented
   @Column({ default: true })
   public autoSplit: boolean
 

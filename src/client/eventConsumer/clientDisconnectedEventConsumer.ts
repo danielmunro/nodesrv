@@ -1,10 +1,10 @@
 import { inject, injectable } from "inversify"
-import ClientEvent from "../../client/event/clientEvent"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
+import LocationService from "../../mob/service/locationService"
 import {Types} from "../../support/types"
-import LocationService from "../service/locationService"
+import ClientEvent from "../event/clientEvent"
 
 @injectable()
 export default class ClientDisconnectedEventConsumer implements EventConsumer {

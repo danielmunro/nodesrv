@@ -2,13 +2,13 @@ import { inject, injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
+import MobMessageEvent from "../../mob/event/mobMessageEvent"
 import ClientService from "../../server/service/clientService"
 import Maybe from "../../support/functional/maybe/maybe"
 import {Types} from "../../support/types"
-import MobMessageEvent from "../event/mobMessageEvent"
 
 @injectable()
-export default class MobUpdatedEventConsumer implements EventConsumer {
+export default class SendMessageToMobEventConsumer implements EventConsumer {
   constructor(@inject(Types.ClientService) private readonly clientService: ClientService) {}
 
   public async consume(event: MobMessageEvent): Promise<EventResponse> {
@@ -19,6 +19,6 @@ export default class MobUpdatedEventConsumer implements EventConsumer {
   }
 
   public getConsumingEventTypes(): EventType[] {
-    return [ EventType.MobUpdated ]
+    return [ EventType.SendMessageToMob ]
   }
 }
