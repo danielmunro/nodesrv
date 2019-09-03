@@ -42,11 +42,11 @@ export default class ActionService {
   }
 
   public async handleRequest(client: Client, request: Request): Promise<Response> {
+    if (!client.isLoggedIn()) {
+      return this.handleUnauthenticatedRequest(client, request)
+    }
     return new Maybe(this.findActionForRequestType(request.getType()))
-      .do(action =>
-      client.isLoggedIn() ?
-        this.handleAuthenticatedRequest(client, request, action) :
-        this.handleUnauthenticatedRequest(client, request))
+      .do(action => this.handleAuthenticatedRequest(client, request, action))
       .or(() => new Response(
         request,
         ResponseStatus.Error,
