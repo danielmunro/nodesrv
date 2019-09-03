@@ -10,15 +10,13 @@ import RequestService from "../../../messageExchange/service/requestService"
 import {MobEntity} from "../../../mob/entity/mobEntity"
 import {Disposition} from "../../../mob/enum/disposition"
 import {Types} from "../../../support/types"
-import {Messages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class ListAction extends Action {
+export default class ListAction extends SimpleAction {
   constructor(
-    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory) {
-    super()
+    @inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory) {
+    super(checkBuilderFactory, RequestType.List)
   }
 
   public check(request: Request): Promise<Check> {
@@ -37,20 +35,5 @@ export default class ListAction extends Action {
         const item = itemQuantity.item
         return previousValue + "[ " + itemQuantity.quantity + " " + item.value + " ] " + item.brief + "\n"
       }, merchant.name + " has selling:\n[ quantity cost ]\n"))
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action ]
-  }
-
-  /* istanbul ignore next */
-  public getRequestType(): RequestType {
-    return RequestType.List
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
   }
 }

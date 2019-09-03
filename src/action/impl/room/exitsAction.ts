@@ -1,34 +1,19 @@
-import {injectable} from "inversify"
-import Check from "../../../check/check"
+import {inject, injectable} from "inversify"
+import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
 import {RequestType} from "../../../messageExchange/enum/requestType"
 import Response from "../../../messageExchange/response"
 import RequestService from "../../../messageExchange/service/requestService"
-import {Messages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import {Types} from "../../../support/types"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class ExitsAction extends Action {
-  public check(): Promise<Check> {
-    return Check.ok()
+export default class ExitsAction extends SimpleAction {
+  constructor(@inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory) {
+    super(checkBuilderFactory, RequestType.Exits)
   }
 
   public invoke(requestService: RequestService): Promise<Response> {
     return requestService.respondWith().success(
       "Your exits: " + requestService.getRoomExits().map(exit => exit.direction).join(", "))
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action ]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Exits
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
   }
 }
