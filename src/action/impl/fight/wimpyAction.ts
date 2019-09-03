@@ -10,12 +10,12 @@ import {format} from "../../../support/string"
 import {Types} from "../../../support/types"
 import {Messages} from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class WimpyAction extends Action {
-  constructor(@inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory) {
-    super()
+export default class WimpyAction extends SimpleAction {
+  constructor(@inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory) {
+    super(checkBuilderFactory, RequestType.Wimpy)
   }
 
   public check(request: Request): Promise<Check> {
@@ -28,14 +28,6 @@ export default class WimpyAction extends Action {
 
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.Amount ]
-  }
-
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Wimpy
   }
 
   public async invoke(requestService: RequestService): Promise<Response> {

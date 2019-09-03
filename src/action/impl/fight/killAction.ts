@@ -16,14 +16,14 @@ import {
   Messages,
 } from "../../constants"
 import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class KillAction extends Action {
+export default class KillAction extends SimpleAction {
   constructor(
-    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory,
     @inject(Types.EventService) private readonly eventService: EventService) {
-    super()
+    super(checkBuilderFactory, RequestType.Kill)
   }
 
   public check(request: Request): Promise<Check> {
@@ -51,14 +51,5 @@ export default class KillAction extends Action {
 
   public getActionParts(): ActionPart[] {
     return [ ActionPart.Action, ActionPart.Hostile ]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Kill
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
   }
 }

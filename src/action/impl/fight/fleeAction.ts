@@ -21,16 +21,15 @@ import {
   MESSAGE_FAIL_NOT_FIGHTING,
   Messages,
 } from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class FleeAction extends Action {
+export default class FleeAction extends SimpleAction {
   constructor(
-    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory,
     @inject(Types.MobService) private readonly mobService: MobService,
     @inject(Types.LocationService) private readonly locationService: LocationService) {
-    super()
+    super(checkBuilderFactory, RequestType.Flee, HelpMessages.Flee)
   }
 
   public check(request: Request): Promise<Check> {
@@ -64,18 +63,5 @@ export default class FleeAction extends Action {
       Messages.Flee.Success,
       { direction: exit.direction, verb: "flee" },
       { direction: exit.direction, verb: "flees" })
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action ]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Flee
-  }
-
-  public getHelpText(): string {
-    return HelpMessages.Flee
   }
 }

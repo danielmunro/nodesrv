@@ -9,29 +9,14 @@ import RequestService from "../../../messageExchange/service/requestService"
 import MobService from "../../../mob/service/mobService"
 import {Types} from "../../../support/types"
 import {Messages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class LevelAction extends Action {
+export default class LevelAction extends SimpleAction {
   constructor(
-    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory,
     @inject(Types.MobService) private readonly mobService: MobService) {
-    super()
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Level
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action ]
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
+    super(checkBuilderFactory, RequestType.Level)
   }
 
   public check(request: Request): Promise<Check> {

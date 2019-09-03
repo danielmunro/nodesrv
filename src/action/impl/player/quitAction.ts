@@ -9,16 +9,15 @@ import Request from "../../../messageExchange/request"
 import Response from "../../../messageExchange/response"
 import RequestService from "../../../messageExchange/service/requestService"
 import {Types} from "../../../support/types"
-import {ConditionMessages, Messages} from "../../constants"
-import {ActionPart} from "../../enum/actionPart"
-import Action from "../action"
+import {ConditionMessages} from "../../constants"
+import SimpleAction from "../simpleAction"
 
 @injectable()
-export default class QuitAction extends Action {
+export default class QuitAction extends SimpleAction {
   constructor(
-    @inject(Types.CheckBuilderFactory) private readonly checkBuilderFactory: CheckBuilderFactory,
+    @inject(Types.CheckBuilderFactory) checkBuilderFactory: CheckBuilderFactory,
     @inject(Types.EventService) private readonly eventService: EventService) {
-    super()
+    super(checkBuilderFactory, RequestType.Quit)
   }
 
   public check(request: Request): Promise<Check> {
@@ -30,19 +29,5 @@ export default class QuitAction extends Action {
   public async invoke(requestService: RequestService): Promise<Response> {
     await this.eventService.publish(createMobEvent(EventType.ClientLogout, requestService.getMob()))
     return requestService.respondWith().success()
-  }
-
-  /* istanbul ignore next */
-  public getActionParts(): ActionPart[] {
-    return [ ActionPart.Action ]
-  }
-
-  public getRequestType(): RequestType {
-    return RequestType.Quit
-  }
-
-  /* istanbul ignore next */
-  public getHelpText(): string {
-    return Messages.Help.NoActionHelpTextProvided
   }
 }
