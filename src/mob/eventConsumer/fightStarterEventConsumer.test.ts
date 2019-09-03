@@ -43,4 +43,33 @@ describe("fight starter", () => {
     // then
     expect(mobService.getFightCount()).toBe(1)
   })
+
+  it.each([
+    [ true, true, 2 ],
+    [ true, false, 2 ],
+    [ false, true, 1 ],
+    [ false, false, 1 ],
+  ])(
+    `testing attack rules when player 2 assist: %s, player attacks: %s, and expected number of fights: %s`,
+    // @ts-ignore
+    async (autoAssists: boolean, playerAttacks: boolean, expectedNumberOfFights: number) => {
+    // setup
+    const player1 = (await testRunner.createPlayer()).get()
+    const player2 = (await testRunner.createPlayer()).get()
+    player2.sessionMob.playerMob.autoAssist = autoAssists
+    const mob = (await testRunner.createMob()).get()
+
+    // given
+    mobService.addGroup([player1.sessionMob, player2.sessionMob])
+
+    // when
+    if (playerAttacks) {
+      await fightStarter.consume(createAttackEvent(player1.sessionMob, mob))
+    } else {
+      await fightStarter.consume(createAttackEvent(mob, player1.sessionMob))
+    }
+
+    // then
+    expect(mobService.getFightCount()).toBe(expectedNumberOfFights)
+  })
 })
