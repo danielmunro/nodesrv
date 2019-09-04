@@ -1,6 +1,7 @@
 // @ts-ignore
 import { Server } from "mock-socket"
 import {createTestAppContainer} from "../../app/factory/testFactory"
+import ClientService from "../../client/service/clientService"
 import EventService from "../../event/service/eventService"
 import { DontExecuteTestObserver } from "../../support/test/dontExecuteTestObserver"
 import { ExpectTestObserver } from "../../support/test/expectTestObserver"
@@ -8,7 +9,6 @@ import TestRunner from "../../support/test/testRunner"
 import { ImmediateTimer } from "../../support/timer/immediateTimer"
 import { ShortIntervalTimer } from "../../support/timer/shortIntervalTimer"
 import {Types} from "../../support/types"
-import ClientService from "./clientService"
 import { GameServerService } from "./gameServerService"
 
 let ws: any

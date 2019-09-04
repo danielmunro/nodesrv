@@ -3,10 +3,10 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import {MobEntity} from "../../mob/entity/mobEntity"
-import ClientService from "../../server/service/clientService"
 import {Types} from "../../support/types"
 import {Channel} from "../enum/channel"
 import SocialEvent from "../event/socialEvent"
+import ClientService from "../service/clientService"
 
 @injectable()
 export default class SocialEventConsumer implements EventConsumer {

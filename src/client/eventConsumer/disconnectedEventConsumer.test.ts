@@ -1,8 +1,8 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import {EventType} from "../../event/enum/eventType"
 import {createClientEvent} from "../../event/factory/eventFactory"
-import ClientService from "../../server/service/clientService"
 import {Types} from "../../support/types"
+import ClientService from "../service/clientService"
 import DisconnectedEventConsumer from "./disconnectedEventConsumer"
 
 const mockClient = jest.fn(() => ({ip: 123}))

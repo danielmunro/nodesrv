@@ -1,6 +1,7 @@
 import {inject, injectable} from "inversify"
 import {Server} from "ws"
 import {Client} from "../../client/client"
+import ClientService from "../../client/service/clientService"
 import Socket from "../../client/socket"
 import {EventType} from "../../event/enum/eventType"
 import {createClientEvent} from "../../event/factory/eventFactory"
@@ -13,7 +14,6 @@ import {Types} from "../../support/types"
 import {events} from "../constants"
 import {GameServerStatus} from "../enum/gameServerStatus"
 import {Observer} from "../observers/observer"
-import ClientService from "./clientService"
 
 @injectable()
 export class GameServerService {

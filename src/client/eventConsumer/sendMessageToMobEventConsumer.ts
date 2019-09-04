@@ -3,18 +3,16 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import MobMessageEvent from "../../mob/event/mobMessageEvent"
-import ClientService from "../../server/service/clientService"
 import Maybe from "../../support/functional/maybe/maybe"
 import {Types} from "../../support/types"
+import ClientService from "../service/clientService"
 
 @injectable()
 export default class SendMessageToMobEventConsumer implements EventConsumer {
   constructor(@inject(Types.ClientService) private readonly clientService: ClientService) {}
 
   public async consume(event: MobMessageEvent): Promise<EventResponse> {
-    new Maybe(this.clientService.getClientByMob(event.mob))
-      .do(client => client.sendMessage(event.message))
-      .get()
+    Maybe.doIf(this.clientService.getClientByMob(event.mob), client => client.sendMessage(event.message))
     return EventResponse.none(event)
   }
 

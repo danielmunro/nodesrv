@@ -1,10 +1,10 @@
 import { inject, injectable } from "inversify"
+import ClientService from "../../client/service/clientService"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
-import ClientService from "../../server/service/clientService"
 import {Types} from "../../support/types"
 
 @injectable()

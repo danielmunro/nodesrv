@@ -2,9 +2,9 @@ import {createTestAppContainer} from "../../app/factory/testFactory"
 import {EventType} from "../../event/enum/eventType"
 import {createMobEvent} from "../../event/factory/eventFactory"
 import MobService from "../../mob/service/mobService"
-import ClientService from "../../server/service/clientService"
 import {getTestMob} from "../../support/test/mob"
 import {Types} from "../../support/types"
+import ClientService from "../service/clientService"
 import ClientSessionEndedEventConsumer from "./clientSessionEndedEventConsumer"
 
 describe("client session ended event consumer", () => {

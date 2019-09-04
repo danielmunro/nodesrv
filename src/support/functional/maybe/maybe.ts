@@ -2,6 +2,10 @@ import {MaybeStatus} from "./maybeStatus"
 import {DoType, MaybeResult, OrType, Thing} from "./types"
 
 export default class Maybe<MaybeObject extends any> {
+  public static doIf(thing: Thing, doIt: DoType = it => it) {
+    return Maybe.if(thing, doIt).get()
+  }
+
   public static if(thing: Thing, doIt: DoType = it => it): MaybeResult {
     return new Maybe(thing).do(doIt)
   }

@@ -1,17 +1,18 @@
 import {inject, injectable} from "inversify"
-import {Client} from "../../client/client"
-import Socket from "../../client/socket"
 import RequestBuilder from "../../messageExchange/builder/requestBuilder"
 import Request from "../../messageExchange/request"
 import Response from "../../messageExchange/response"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
 import {RoomEntity} from "../../room/entity/roomEntity"
+import {Observer} from "../../server/observers/observer"
 import Email from "../../session/auth/authStep/login/email"
 import CreationService from "../../session/auth/service/creationService"
 import Session from "../../session/session"
+import Maybe from "../../support/functional/maybe/maybe"
 import {Types} from "../../support/types"
-import {Observer} from "../observers/observer"
+import {Client} from "../client"
+import Socket from "../socket"
 
 @injectable()
 export default class ClientService {
@@ -51,10 +52,7 @@ export default class ClientService {
   }
 
   public sendMessageToMob(mob: MobEntity, message: string) {
-    const client = this.clients.find(c => c.getSessionMob() === mob)
-    if (client) {
-      client.sendMessage(message)
-    }
+    Maybe.doIf(this.clients.find(c => c.getSessionMob() === mob), client => client.sendMessage(message))
   }
 
   public sendMessageInRoom(mob: MobEntity, message: string): void {
@@ -78,11 +76,8 @@ export default class ClientService {
   }
 
   public sendMessage(mob: MobEntity, message: string): void {
-    this.clients.forEach(c => {
-      if (c.getSessionMob() !== mob) {
-        c.sendMessage(message)
-      }
-    })
+    this.clients.filter(c => !c.getSessionMob().is(mob))
+      .forEach(c => c.sendMessage(message))
   }
 
   public getLoggedInMobs(): MobEntity[] {

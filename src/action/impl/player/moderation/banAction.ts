@@ -54,7 +54,7 @@ export default class BanAction extends Action {
       .requireSpecialAuthorization(request.getAuthorizationLevel())
       .require((m: MobEntity) => !isBanned(m.getStanding()), MESSAGE_FAIL_ALREADY_BANNED)
       .not().requireSpecialAuthorization(
-        Maybe.if(mob, () => mob.getAuthorizationLevel()).get(),
+        Maybe.doIf(mob, () => mob.getAuthorizationLevel()),
         MESSAGE_FAIL_CANNOT_BAN_ADMIN_ACCOUNTS)
       .create()
   }

@@ -7,10 +7,10 @@ import EventContext from "../../messageExchange/context/eventContext"
 import {RequestType} from "../../messageExchange/enum/requestType"
 import Request from "../../messageExchange/request"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
-import ClientService from "../../server/service/clientService"
 import AsyncMaybe from "../../support/functional/maybe/asyncMaybe"
 import {Types} from "../../support/types"
 import {Client} from "../client"
+import ClientService from "../service/clientService"
 
 @injectable()
 export default class LookEventConsumer implements EventConsumer {

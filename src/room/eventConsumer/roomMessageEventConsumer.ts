@@ -1,11 +1,11 @@
 import { inject, injectable } from "inversify"
+import ClientService from "../../client/service/clientService"
 import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import ResponseMessage from "../../messageExchange/responseMessage"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
-import ClientService from "../../server/service/clientService"
 import {Types} from "../../support/types"
 import RoomMessageEvent from "../event/roomMessageEvent"
 

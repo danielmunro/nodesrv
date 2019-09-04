@@ -1,10 +1,10 @@
 import {inject, injectable} from "inversify"
 import CheckBuilderFactory from "../../../check/factory/checkBuilderFactory"
+import ClientService from "../../../client/service/clientService"
 import {RequestType} from "../../../messageExchange/enum/requestType"
 import Response from "../../../messageExchange/response"
 import RequestService from "../../../messageExchange/service/requestService"
 import {MobEntity} from "../../../mob/entity/mobEntity"
-import ClientService from "../../../server/service/clientService"
 import {Types} from "../../../support/types"
 import SimpleAction from "../simpleAction"
 

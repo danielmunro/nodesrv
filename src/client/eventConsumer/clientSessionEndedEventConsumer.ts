@@ -6,9 +6,9 @@ import EventResponse from "../../event/messageExchange/eventResponse"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import MobEvent from "../../mob/event/mobEvent"
 import MobService from "../../mob/service/mobService"
-import ClientService from "../../server/service/clientService"
 import {Types} from "../../support/types"
 import {Client} from "../client"
+import ClientService from "../service/clientService"
 
 @injectable()
 export default class ClientSessionEndedEventConsumer implements EventConsumer {

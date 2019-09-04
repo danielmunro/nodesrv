@@ -1,4 +1,5 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
+import ClientService from "../../client/service/clientService"
 import Socket from "../../client/socket"
 import InputContext from "../../messageExchange/context/inputContext"
 import {RequestType} from "../../messageExchange/enum/requestType"
@@ -9,7 +10,6 @@ import { default as AuthRequest } from "../../session/auth/request"
 import {getTestPlayer} from "../../support/test/player"
 import {getTestRoom} from "../../support/test/room"
 import {Types} from "../../support/types"
-import ClientService from "../service/clientService"
 import {HandleClientRequests} from "./handleClientRequests"
 
 jest.mock("../../client/socket")
