@@ -67,22 +67,22 @@ export default class ClientService {
       .forEach(client => {
         if (client.getSessionMob().is(response.getMob())) {
           client.sendMessage(response.getMessageToRequestCreator())
-        } else if (client.getSessionMob().is(response.request.getMob())) {
-          client.sendMessage(response.getMessageToTarget())
-        } else {
-          client.sendMessage(response.getMessageToObservers())
+          return
         }
+        if (client.getSessionMob().is(response.request.getMob())) {
+          client.sendMessage(response.getMessageToTarget())
+          return
+        }
+        client.sendMessage(response.getMessageToObservers())
     })
   }
 
   public sendMessage(mob: MobEntity, message: string): void {
-    this.clients.filter(c => !c.getSessionMob().is(mob))
-      .forEach(c => c.sendMessage(message))
+    this.clients.filter(c => !c.getSessionMob().is(mob)).forEach(c => c.sendMessage(message))
   }
 
   public getLoggedInMobs(): MobEntity[] {
-    return this.clients.filter(client => client.isLoggedIn())
-      .map(client => client.getSessionMob())
+    return this.getLoggedInClients().map(client => client.getSessionMob())
   }
 
   private getRoomMobs(mob: MobEntity): MobEntity[] {
@@ -91,15 +91,16 @@ export default class ClientService {
   }
 
   private onMessage(client: Client, message: any) {
-    const mob = client.getSessionMob()
-    try {
-      const mobLocation = this.locationService.getLocationForMob(mob)
-      client.addRequest(this.getNewRequestFromMessageEvent(mob, message, mobLocation.room))
-      return
-    } catch (e) {
-      // fine
-    }
-    client.addRequest(this.getNewRequestFromMessageEvent(mob, message))
+    Maybe.if(client.getSessionMob(), mob => {
+      try {
+        const room = this.locationService.getRoomForMob(mob)
+        client.addRequest(this.getNewRequestFromMessageEvent(mob, message, room))
+        return
+      } catch (e) {
+        // fine
+      }
+      client.addRequest(this.getNewRequestFromMessageEvent(mob, message))
+    })
   }
 
   private getNewRequestFromMessageEvent(
@@ -107,5 +108,9 @@ export default class ClientService {
     const data = JSON.parse(messageEvent.data)
     const requestArgs = data.request.split(" ")
     return new RequestBuilder(this.locationService, mob, room).create(requestArgs[0], data.request)
+  }
+
+  private getLoggedInClients(): Client[] {
+    return this.clients.filter(c => c.isLoggedIn())
   }
 }
