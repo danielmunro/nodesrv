@@ -1,3 +1,4 @@
+import MessagePayload from "../client/type/messagePayload"
 import {MobEntity} from "../mob/entity/mobEntity"
 import ClientRequest from "./clientRequest"
 import {ResponseStatus} from "./enum/responseStatus"
@@ -33,7 +34,7 @@ export default class Response {
     return this.message.getMessageToObservers()
   }
 
-  public getPayload(): object {
+  public getPayload(): MessagePayload {
     return {
       message: this.message.getMessageToRequestCreator(),
       status: this.status,
