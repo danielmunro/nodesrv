@@ -57,13 +57,13 @@ export default class ClientService {
   }
 
   public sendMessageInRoom(mob: MobEntity, message: string): void {
-    const mobs = this.getRoomMobs(mob)
+    const mobs = this.locationService.getMobsInRoomWithMob(mob)
     this.clients.filter(c => mobs.includes(c.getSessionMob()) && !c.getSessionMob().is(mob))
       .forEach(c => c.sendMessage(message))
   }
 
   public sendResponseToRoom(response: Response): void {
-    const mobs = this.getRoomMobs(response.getMob())
+    const mobs = this.locationService.getMobsInRoomWithMob(response.getMob())
     this.clients.filter(c => mobs.includes(c.getSessionMob()))
       .forEach(client => {
         if (client.getSessionMob().is(response.getMob())) {
@@ -86,17 +86,12 @@ export default class ClientService {
     return this.getLoggedInClients().map(client => client.getSessionMob())
   }
 
-  private getRoomMobs(mob: MobEntity): MobEntity[] {
-    const location = this.locationService.getLocationForMob(mob)
-    return this.locationService.getMobsByRoom(location.room)
-  }
-
   private onMessage(client: Client, message: any) {
     const mob = client.getSessionMob()
-    Maybe.if(mob, () => {
+    Maybe.if(mob, () =>
       client.addRequest(
-        this.getNewRequestFromMessageEvent(mob, message, this.locationService.getRoomForMob(mob)))
-    }).or(() => client.addRequest(this.getNewRequestFromMessageEvent(mob, message)))
+        this.getNewRequestFromMessageEvent(mob, message, this.locationService.getRoomForMob(mob))))
+      .or(() => client.addRequest(this.getNewRequestFromMessageEvent(mob, message)))
       .get()
   }
 
