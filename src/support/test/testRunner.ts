@@ -6,6 +6,7 @@ import {Client} from "../../client/client"
 import ClientService from "../../client/service/clientService"
 import Socket from "../../client/socket"
 import mockIncomingRequest from "../../client/test/mockIncomingRequest"
+import mockWebSocket from "../../client/test/mockWebSocket"
 import StateService from "../../gameService/stateService"
 import ItemBuilder from "../../item/builder/itemBuilder"
 import WeaponBuilder from "../../item/builder/weaponBuilder"
@@ -36,12 +37,6 @@ import {getTestPlayer} from "./player"
 import PlayerBuilder from "./playerBuilder"
 import {getTestRoom} from "./room"
 import RoomBuilder from "./roomBuilder"
-
-const ws = jest.fn(() => ({
-  close: jest.fn(),
-  onmessage: jest.fn(),
-  send: jest.fn(),
-}))
 
 @injectable()
 export default class TestRunner {
@@ -93,8 +88,7 @@ export default class TestRunner {
 
   public async createPlayer(): Promise<PlayerBuilder> {
     const player = getTestPlayer()
-    const websocket = ws() as any
-    const client = this.clientService.createNewClient(new Socket(websocket), mockIncomingRequest())
+    const client = this.clientService.createNewClient(new Socket(mockWebSocket()), mockIncomingRequest())
     client.player = player
     await this.mobService.add(player.sessionMob, this.getStartRoom().room)
     this.playerTable.add(player)
@@ -105,7 +99,7 @@ export default class TestRunner {
   }
 
   public createClient(): Client {
-    return this.clientService.createNewClient(new Socket(ws() as any), mockIncomingRequest())
+    return this.clientService.createNewClient(new Socket(mockWebSocket()), mockIncomingRequest())
   }
 
   public async createLoggedInClient(): Promise<Client> {

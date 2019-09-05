@@ -2,6 +2,7 @@ import {createTestAppContainer} from "../../app/factory/testFactory"
 import ClientService from "../../client/service/clientService"
 import Socket from "../../client/socket"
 import mockIncomingRequest from "../../client/test/mockIncomingRequest"
+import mockWebSocket from "../../client/test/mockWebSocket"
 import {createRoomMessageEvent} from "../../event/factory/eventFactory"
 import EventConsumer from "../../event/interface/eventConsumer"
 import ResponseMessage from "../../messageExchange/responseMessage"
@@ -12,7 +13,6 @@ import {Types} from "../../support/types"
 import RoomMessageEventConsumer from "./roomMessageEventConsumer"
 
 jest.mock("../../client/socket")
-const mockWs = jest.fn()
 
 describe("room message event consumer", () => {
   it("notifies clients in the same room", async () => {
@@ -28,9 +28,9 @@ describe("room message event consumer", () => {
 
     // setup -- log in clients
     const clientService = app.get<ClientService>(Types.ClientService)
-    const client1 = clientService.createNewClient(new Socket(mockWs()), mockIncomingRequest())
+    const client1 = clientService.createNewClient(new Socket(mockWebSocket()), mockIncomingRequest())
     await client1.session.login(client1, player1.player)
-    const client2 = clientService.createNewClient(new Socket(mockWs()), mockIncomingRequest())
+    const client2 = clientService.createNewClient(new Socket(mockWebSocket()), mockIncomingRequest())
     await client2.session.login(client2, player2.player)
 
     // setup -- event consumer instance
