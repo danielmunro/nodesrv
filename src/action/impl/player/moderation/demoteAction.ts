@@ -37,7 +37,7 @@ export default class DemoteAction extends Action {
         CheckType.AuthorizationLevel)
       .requireImmortal(request.getAuthorizationLevel())
       .not().requireImmortal(
-        Maybe.if(mob, () => mob.getAuthorizationLevel()).get(),
+        Maybe.doIf(mob, () => mob.getAuthorizationLevel()),
         MESSAGE_FAIL_CANNOT_DEMOTE_IMMORTALS)
       .create()
   }

@@ -34,7 +34,7 @@ export default class UnbanAction extends Action {
       .requireSpecialAuthorization(request.getAuthorizationLevel())
       .require((m: MobEntity) => isBanned(m.getStanding()), MESSAGE_FAIL_NOT_BANNED)
       .not().requireSpecialAuthorization(
-        Maybe.if(mob, () => mob.getAuthorizationLevel()).get(),
+        Maybe.doIf(mob, () => mob.getAuthorizationLevel()),
         MESSAGE_FAIL_CANNOT_UNBAN_ADMIN_ACCOUNTS)
       .create()
   }

@@ -12,7 +12,7 @@ export default class SendMessageToMobEventConsumer implements EventConsumer {
   constructor(@inject(Types.ClientService) private readonly clientService: ClientService) {}
 
   public async consume(event: MobMessageEvent): Promise<EventResponse> {
-    Maybe.doIf(this.clientService.getClientByMob(event.mob), client => client.sendMessage(event.message))
+    Maybe.if(this.clientService.getClientByMob(event.mob), client => client.sendMessage(event.message))
     return EventResponse.none(event)
   }
 

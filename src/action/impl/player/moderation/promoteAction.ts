@@ -43,7 +43,7 @@ export default class PromoteAction extends Action {
       .requireImmortal(request.getAuthorizationLevel())
       .require((m: MobEntity) => !isBanned(m.getStanding()), MESSAGE_FAIL_BANNED)
       .not().requireImmortal(
-        Maybe.if(mob, () => mob.getAuthorizationLevel()).get(),
+        Maybe.doIf(mob, () => mob.getAuthorizationLevel()),
         MESSAGE_FAIL_CANNOT_PROMOTE_IMMORTALS)
       .create()
   }

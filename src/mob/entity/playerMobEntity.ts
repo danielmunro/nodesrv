@@ -92,7 +92,7 @@ export class PlayerMobEntity {
   public customizations: Customization[] = []
 
   public getAliasCommand(alias: string) {
-    return Maybe.if(this.aliases.find(a => a.alias === alias), a => a.command).get()
+    return Maybe.doIf(this.aliases.find(a => a.alias === alias), a => a.command)
   }
 
   public getCreationPoints(): number {

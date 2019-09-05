@@ -52,7 +52,7 @@ export default class ClientService {
   }
 
   public sendMessageToMob(mob: MobEntity, message: string) {
-    Maybe.doIf(this.clients.find(c => c.getSessionMob() === mob), client => client.sendMessage(message))
+    Maybe.if(this.clients.find(c => c.getSessionMob() === mob), client => client.sendMessage(message))
   }
 
   public sendMessageInRoom(mob: MobEntity, message: string): void {

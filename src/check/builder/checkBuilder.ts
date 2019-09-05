@@ -207,10 +207,9 @@ export default class CheckBuilder {
   public requireFight(failMessage: string = SkillMessages.All.NoTarget) {
     this.checks.push(this.newCheckComponent(
       CheckType.IsFighting,
-      Maybe.if(
+      Maybe.doIf(
         this.mobService.findFightForMob(this.mob).get(),
-        (f: Fight) => f.getOpponentFor(this.mob))
-        .get(),
+        (f: Fight) => f.getOpponentFor(this.mob)),
       failMessage))
     return this
   }
@@ -229,17 +228,15 @@ export default class CheckBuilder {
   }
 
   private findCostFail(): Check | void {
-    return Maybe.if(
+    return Maybe.doIf(
       this.costs.find(cost => !cost.canApplyTo(this.mob)),
       costFail => Check.fail(costFail.failMessage, this.checkResults, this.costs))
-      .get()
   }
 
   private findCheckFailure(): Check | void {
-    return Maybe.if(
+    return Maybe.doIf(
       this.checks.find(checkComponent => this.testCheckComponent(checkComponent)),
       checkFail => Check.fail(this.getFailMessage(checkFail.failMessage), this.checkResults, this.costs))
-      .get()
   }
 
   private testCheckComponent(checkComponent: CheckComponent<any>) {
