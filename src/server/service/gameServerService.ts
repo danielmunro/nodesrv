@@ -1,3 +1,4 @@
+import {IncomingMessage} from "http"
 import {inject, injectable} from "inversify"
 import {Server} from "ws"
 import {Client} from "../../client/client"
@@ -38,7 +39,7 @@ export class GameServerService {
     this.wss.close()
   }
 
-  public async addWS(ws: WebSocket, req: Request): Promise<void> {
+  public async addWS(ws: WebSocket, req: IncomingMessage): Promise<void> {
     const client = this.clientService.createNewClient(new Socket(ws), req)
     console.info("new client connected", { ip: client.ip })
     ws.onclose = () => this.removeClient(client)

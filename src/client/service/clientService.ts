@@ -1,6 +1,7 @@
+import {IncomingMessage} from "http"
 import {inject, injectable} from "inversify"
 import RequestBuilder from "../../messageExchange/builder/requestBuilder"
-import Request from "../../messageExchange/request"
+import { default as MessageExchangeRequest } from "../../messageExchange/request"
 import Response from "../../messageExchange/response"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import LocationService from "../../mob/service/locationService"
@@ -21,11 +22,11 @@ export default class ClientService {
     @inject(Types.LocationService) private readonly locationService: LocationService,
     private clients: Client[] = []) {}
 
-  public createNewClient(socket: Socket, req: any) {
+  public createNewClient(socket: Socket, req: IncomingMessage) {
     const client = new Client(
       new Session(new Email(this.creationService)),
       socket,
-      req ? req.connection.remoteAddress : null)
+      req.connection.remoteAddress as string)
     this.add(client)
     socket.onMessage(message => this.onMessage(client, message))
     return client
@@ -91,20 +92,16 @@ export default class ClientService {
   }
 
   private onMessage(client: Client, message: any) {
-    Maybe.if(client.getSessionMob(), mob => {
-      try {
-        const room = this.locationService.getRoomForMob(mob)
-        client.addRequest(this.getNewRequestFromMessageEvent(mob, message, room))
-        return
-      } catch (e) {
-        // fine
-      }
-      client.addRequest(this.getNewRequestFromMessageEvent(mob, message))
-    })
+    const mob = client.getSessionMob()
+    Maybe.if(mob, () => {
+      client.addRequest(
+        this.getNewRequestFromMessageEvent(mob, message, this.locationService.getRoomForMob(mob)))
+    }).or(() => client.addRequest(this.getNewRequestFromMessageEvent(mob, message)))
+      .get()
   }
 
   private getNewRequestFromMessageEvent(
-    mob: MobEntity, messageEvent: MessageEvent, room?: RoomEntity): Request {
+    mob: MobEntity, messageEvent: MessageEvent, room?: RoomEntity): MessageExchangeRequest {
     const data = JSON.parse(messageEvent.data)
     const requestArgs = data.request.split(" ")
     return new RequestBuilder(this.locationService, mob, room).create(requestArgs[0], data.request)
