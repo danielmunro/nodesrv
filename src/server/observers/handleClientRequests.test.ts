@@ -1,6 +1,7 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import ClientService from "../../client/service/clientService"
 import Socket from "../../client/socket"
+import mockIncomingRequest from "../../client/test/mockIncomingRequest"
 import InputContext from "../../messageExchange/context/inputContext"
 import {RequestType} from "../../messageExchange/enum/requestType"
 import Request from "../../messageExchange/request"
@@ -23,7 +24,6 @@ beforeEach(async () => {
 })
 
 const mockSocket = jest.fn()
-const mockRequest = jest.fn()
 const authStep = jest.fn(() => ({
   getStepMessage: () => "",
 }))
@@ -37,7 +37,7 @@ const mockInputRequest = jest.fn(() => ({
 describe("handleClientRequests", () => {
   it("should be able to handle requests on clients", async () => {
     // setup
-    const client = clientService.createNewClient(new Socket(mockSocket()), mockRequest())
+    const client = clientService.createNewClient(new Socket(mockSocket()), mockIncomingRequest())
 
     // given
     // @ts-ignore
@@ -55,7 +55,7 @@ describe("handleClientRequests", () => {
 
   it("should not notify a client if the client has a delay", async () => {
     // setup
-    const client = clientService.createNewClient(new Socket(mockSocket()), mockRequest())
+    const client = clientService.createNewClient(new Socket(mockSocket()), mockIncomingRequest())
     const player = getTestPlayer()
     await client.session.login(client, player)
 

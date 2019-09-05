@@ -17,6 +17,7 @@ import {Client} from "./client"
 import {MESSAGE_NOT_UNDERSTOOD} from "./constants"
 import ClientService from "./service/clientService"
 import Socket from "./socket"
+import mockIncomingRequest from "./test/mockIncomingRequest"
 
 function getNewTestMessageEvent(message = "hello world") {
   return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
@@ -26,7 +27,6 @@ let testRunner: TestRunner
 let client: Client
 let actionService: ActionService
 
-const mockReq = jest.fn()
 const mockWebSocket = jest.fn(() => ({
   onmessage: jest.fn(),
   send: jest.fn(),
@@ -36,7 +36,7 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   const clientService = app.get<ClientService>(Types.ClientService)
-  client = clientService.createNewClient(new Socket(mockWebSocket() as any), mockReq())
+  client = clientService.createNewClient(new Socket(mockWebSocket() as any), mockIncomingRequest())
   const player = (await testRunner.createPlayer()).get()
   await client.session.login(client, player)
   const mobService = app.get<MobService>(Types.MobService)
