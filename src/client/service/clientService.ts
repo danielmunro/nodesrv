@@ -69,7 +69,7 @@ export default class ClientService {
           client.sendMessage(response.getMessageToRequestCreator())
           return
         }
-        if (client.getSessionMob().is(response.request.getMob())) {
+        if (client.getSessionMob().is(response.request.getTargetMobInRoom())) {
           client.sendMessage(response.getMessageToTarget())
           return
         }
