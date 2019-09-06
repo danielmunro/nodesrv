@@ -1,4 +1,3 @@
-import {WebSocket} from "mock-socket"
 import ActionService from "../action/service/actionService"
 import {AffectType} from "../affect/enum/affectType"
 import {newAffect} from "../affect/factory/affectFactory"
@@ -17,8 +16,8 @@ import {Types} from "../support/types"
 import {Client} from "./client"
 import {MESSAGE_NOT_UNDERSTOOD} from "./constants"
 import ClientService from "./service/clientService"
-import Socket from "./socket"
 import mockIncomingRequest from "./test/mockIncomingRequest"
+import mockSocket from "./test/mockSocket"
 
 let testRunner: TestRunner
 let client: Client
@@ -28,7 +27,7 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   const clientService = app.get<ClientService>(Types.ClientService)
-  client = clientService.createNewClient(new Socket(new WebSocket("ws://127.0.0.1")), mockIncomingRequest())
+  client = clientService.createNewClient(mockSocket(), mockIncomingRequest())
   const player = (await testRunner.createPlayer()).get()
   await client.session.login(client, player)
   const mobService = app.get<MobService>(Types.MobService)
