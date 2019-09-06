@@ -20,27 +20,6 @@ beforeEach(async () => {
 })
 
 describe("ticks", () => {
-  it("should call tick on all clients", async () => {
-    // given
-    const clients = [
-      testRunner.createClient(),
-      testRunner.createClient(),
-      testRunner.createClient(),
-      testRunner.createClient(),
-      testRunner.createClient(),
-    ]
-    for (const client of clients) {
-      await client.session.login(client, (await testRunner.createPlayer()).get())
-    }
-
-    // when
-    await tick.notify(clients)
-
-    // then
-    // @ts-ignore
-    clients.forEach((client) => expect(client.socket.ws.send.mock.calls.length).toBeGreaterThan(1))
-  })
-
   it("should invoke fast healing on tick", async () => {
     // given
     const client = testRunner.createClient()

@@ -1,3 +1,4 @@
+import {WebSocket} from "mock-socket"
 import ActionService from "../action/service/actionService"
 import {AffectType} from "../affect/enum/affectType"
 import {newAffect} from "../affect/factory/affectFactory"
@@ -18,11 +19,6 @@ import {MESSAGE_NOT_UNDERSTOOD} from "./constants"
 import ClientService from "./service/clientService"
 import Socket from "./socket"
 import mockIncomingRequest from "./test/mockIncomingRequest"
-import mockWebSocket from "./test/mockWebSocket"
-
-function getNewTestMessageEvent(message = "hello world") {
-  return new MessageEvent("test", {data: "{\"request\": \"" + message + "\"}"})
-}
 
 let testRunner: TestRunner
 let client: Client
@@ -32,7 +28,7 @@ beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   const clientService = app.get<ClientService>(Types.ClientService)
-  client = clientService.createNewClient(new Socket(mockWebSocket()), mockIncomingRequest())
+  client = clientService.createNewClient(new Socket(new WebSocket("ws://127.0.0.1")), mockIncomingRequest())
   const player = (await testRunner.createPlayer()).get()
   await client.session.login(client, player)
   const mobService = app.get<MobService>(Types.MobService)
@@ -125,18 +121,6 @@ describe("client sanity checks", () => {
       // then
       expect(client.canHandleRequests()).toBeTruthy()
     })
-  })
-
-  it("on result sanity test", () => {
-    // expect
-    expect(client.hasRequests()).toBeFalsy()
-
-    // when
-    // @ts-ignore
-    client.socket.ws.onmessage(getNewTestMessageEvent("hello"))
-
-    // then
-    expect(client.hasRequests()).toBeTruthy()
   })
 })
 

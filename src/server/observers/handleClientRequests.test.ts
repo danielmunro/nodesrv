@@ -1,8 +1,8 @@
+import {WebSocket} from "mock-socket"
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import ClientService from "../../client/service/clientService"
 import Socket from "../../client/socket"
 import mockIncomingRequest from "../../client/test/mockIncomingRequest"
-import mockWebSocket from "../../client/test/mockWebSocket"
 import InputContext from "../../messageExchange/context/inputContext"
 import {RequestType} from "../../messageExchange/enum/requestType"
 import Request from "../../messageExchange/request"
@@ -38,7 +38,7 @@ const mockInputRequest = jest.fn(() => ({
 describe("handleClientRequests", () => {
   it("handles requests from clients", async () => {
     // setup
-    const client = clientService.createNewClient(new Socket(mockWebSocket()), mockIncomingRequest())
+    const client = clientService.createNewClient(new Socket(new WebSocket("ws://127.0.0.1")), mockIncomingRequest())
 
     // given
     // @ts-ignore
@@ -56,7 +56,7 @@ describe("handleClientRequests", () => {
 
   it("does not notify a client if the client has a delay", async () => {
     // setup
-    const client = clientService.createNewClient(new Socket(mockWebSocket()), mockIncomingRequest())
+    const client = clientService.createNewClient(new Socket(new WebSocket("ws://127.0.0.1")), mockIncomingRequest())
     const player = getTestPlayer()
     await client.session.login(client, player)
 

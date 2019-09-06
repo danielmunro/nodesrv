@@ -1,4 +1,5 @@
 import {inject, injectable, multiInject} from "inversify"
+import {WebSocket} from "mock-socket"
 import Action from "../../action/impl/action"
 import Skill from "../../action/impl/skill"
 import ActionService from "../../action/service/actionService"
@@ -6,7 +7,6 @@ import {Client} from "../../client/client"
 import ClientService from "../../client/service/clientService"
 import Socket from "../../client/socket"
 import mockIncomingRequest from "../../client/test/mockIncomingRequest"
-import mockWebSocket from "../../client/test/mockWebSocket"
 import StateService from "../../gameService/stateService"
 import ItemBuilder from "../../item/builder/itemBuilder"
 import WeaponBuilder from "../../item/builder/weaponBuilder"
@@ -88,7 +88,8 @@ export default class TestRunner {
 
   public async createPlayer(): Promise<PlayerBuilder> {
     const player = getTestPlayer()
-    const client = this.clientService.createNewClient(new Socket(mockWebSocket()), mockIncomingRequest())
+    const client = this.clientService.createNewClient(
+      new Socket(new WebSocket("ws://127.0.0.1")), mockIncomingRequest())
     client.player = player
     await this.mobService.add(player.sessionMob, this.getStartRoom().room)
     this.playerTable.add(player)
@@ -99,7 +100,7 @@ export default class TestRunner {
   }
 
   public createClient(): Client {
-    return this.clientService.createNewClient(new Socket(mockWebSocket()), mockIncomingRequest())
+    return this.clientService.createNewClient(new Socket(new WebSocket("ws://127.0.0.1")), mockIncomingRequest())
   }
 
   public async createLoggedInClient(): Promise<Client> {
