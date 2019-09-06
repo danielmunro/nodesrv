@@ -6,7 +6,7 @@ import MobService from "../../mob/service/mobService"
 import { getTestMob } from "../../support/test/mob"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
-import { attackMessage, createClientMobMap, FightRounds, getHealthIndicator } from "./fightRounds"
+import { attackMessage, FightRounds, getHealthIndicator } from "./fightRounds"
 
 describe("fight rounds", () => {
   it("should generate accurate attacks messages", () => {
@@ -41,20 +41,6 @@ describe("fight rounds", () => {
 
     // then
     expect(attackMessage(attack3, mob1)).toContain("UNSPEAKABLE")
-  })
-
-  it("should be able to create a map between clients and session mobs", async () => {
-    const testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
-    const clients = [
-      await testRunner.createLoggedInClient(),
-      await testRunner.createLoggedInClient(),
-      await testRunner.createLoggedInClient(),
-    ]
-    const map = createClientMobMap(clients)
-    const keys = Object.keys(map)
-    expect(keys.length).toBe(3)
-    // @ts-ignore
-    keys.forEach((key, i) => expect(map[key]).toBe(clients[i]))
   })
 
   it("should filter complete fights", async () => {

@@ -66,7 +66,11 @@ describe("new mob confirm auth step", () => {
     expect(mob.mv).toBe(100)
   })
 
-  it("should error out for any other input", async () => {
+  it.each([
+    "abc",
+    "123",
+    "yn",
+  ])("errors out for input: %s", async (input: string) => {
     // given
     const client = await testRunner.createLoggedInClient()
 
@@ -74,19 +78,10 @@ describe("new mob confirm auth step", () => {
     const newMobConfirm = new NewMobConfirm(mockAuthService(), client.player, "foo")
 
     // when
-    const inputs = [
-      "abc",
-      null,
-      "123",
-      "yn",
-    ]
+    const response = await newMobConfirm.processRequest(new Request(client, input))
 
     // then
-    return Promise.all([inputs.map(async (input) => {
-      const response = await newMobConfirm.processRequest(new Request(client, input as string))
-
-      expect(response.status).toBe(ResponseStatus.FAILED)
-      expect(response.authStep).toBeInstanceOf(NewMobConfirm)
-    })])
+    expect(response.status).toBe(ResponseStatus.FAILED)
+    expect(response.authStep).toBeInstanceOf(NewMobConfirm)
   })
 })

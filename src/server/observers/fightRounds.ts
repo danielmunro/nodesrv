@@ -128,17 +128,16 @@ function createMessageFromFightRound(round: Round, sessionMob: MobEntity): strin
   return messages.join("\n")
 }
 
-export function createClientMobMap(clients: Client[]): object {
-  const clientMobMap = {} as any
-  clients
-    .filter((c) => c.isLoggedIn())
-    .forEach((client) => clientMobMap[client.player.sessionMob.name] = client)
-
-  return clientMobMap
-}
-
 @injectable()
 export class FightRounds implements Observer {
+  private static createClientMobMap(clients: Client[]): object {
+    const clientMobMap: {[key: string]: Client} = {}
+    clients
+      .filter((c) => c.isLoggedIn())
+      .forEach((client) => clientMobMap[client.player.sessionMob.name] = client)
+    return clientMobMap
+  }
+
   private static updateClient(client: Client, mob: MobEntity, round: Round) {
     const message = createMessageFromFightRound(round, mob)
     client.send({ message })
@@ -148,7 +147,7 @@ export class FightRounds implements Observer {
 
   public async notify(clients: Client[]) {
     const rounds = await this.proceedAllFightRounds()
-    const clientMobMap = createClientMobMap(clients)
+    const clientMobMap = FightRounds.createClientMobMap(clients)
     this.mobService.filterCompleteFights()
     rounds.forEach(round => this.updateRound(round, clientMobMap))
   }

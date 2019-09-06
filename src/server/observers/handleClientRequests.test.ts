@@ -29,13 +29,14 @@ const authStep = jest.fn(() => ({
 }))
 const mockInputRequest = jest.fn(() => ({
   fail: jest.fn(),
+  getContextAsInput: () => new InputContext(RequestType.Any),
   input: "email@foo.com",
   // @ts-ignore
   ok: (request: AuthRequest) => createResponse(request, ResponseStatus.OK, authStep()),
 }))
 
 describe("handleClientRequests", () => {
-  it("should be able to handle requests on clients", async () => {
+  it("handles requests from clients", async () => {
     // setup
     const client = clientService.createNewClient(new Socket(mockWebSocket()), mockIncomingRequest())
 
@@ -53,7 +54,7 @@ describe("handleClientRequests", () => {
     expect(client.hasRequests()).toBe(false)
   })
 
-  it("should not notify a client if the client has a delay", async () => {
+  it("does not notify a client if the client has a delay", async () => {
     // setup
     const client = clientService.createNewClient(new Socket(mockWebSocket()), mockIncomingRequest())
     const player = getTestPlayer()

@@ -54,26 +54,22 @@ describe("new player confirm auth step", () => {
     expect(response.authStep).toBeInstanceOf(Password)
   })
 
-  it("should error out for any other input", async () => {
+  it.each([
+    "abc",
+    "123",
+    "yn",
+  ])("errors out for input: %s", async (input: string) => {
     // given
-    const email = TEST_EMAIL
-    const inputs = [
-      "abc",
-      "",
-      "123",
-      "yn",
-    ]
+    const client = await testRunner.createLoggedInClient()
 
     // setup
-    const client = testRunner.createClient()
-    const newPlayerConfirm = await getNewPlayerConfirm(email)
+    const newPlayerConfirm = await getNewPlayerConfirm(TEST_EMAIL)
 
-    // when/then
-    return Promise.all([inputs.map(async (input) => {
-      const response = await newPlayerConfirm.processRequest(new Request(client, input))
+    // when
+    const response = await newPlayerConfirm.processRequest(new Request(client, input))
 
-      expect(response.status).toBe(ResponseStatus.FAILED)
-      expect(response.authStep).toBeInstanceOf(NewPlayerConfirm)
-    })])
+    // then
+    expect(response.status).toBe(ResponseStatus.FAILED)
+    expect(response.authStep).toBeInstanceOf(NewPlayerConfirm)
   })
 })
