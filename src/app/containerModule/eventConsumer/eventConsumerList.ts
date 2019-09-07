@@ -10,9 +10,10 @@ import OrbOfTouchEventConsumer from "../../../affect/eventConsumer/orbOfTouchEve
 import ProtectionEventConsumer from "../../../affect/eventConsumer/protectionEventConsumer"
 import SanctuaryEventConsumer from "../../../affect/eventConsumer/sanctuaryEventConsumer"
 import WithstandDeathEventConsumer from "../../../affect/eventConsumer/withstandDeathEventConsumer"
-import ClientDisconnectedEventConsumer from "../../../client/eventConsumer/clientDisconnectedEventConsumer"
-import ClientSessionEndedEventConsumer from "../../../client/eventConsumer/clientSessionEndedEventConsumer"
-import DisconnectedEventConsumer from "../../../client/eventConsumer/disconnectedEventConsumer"
+/*tslint:disable*/
+import ClientDisconnectRemoveClientEventConsumer from "../../../client/eventConsumer/clientDisconnectRemoveClientEventConsumer"
+import ClientDisconnectRemoveMobEventConsumer from "../../../client/eventConsumer/clientDisconnectRemoveMobEventConsumer"
+/*tslint:enable*/
 import LoggedInEventConsumer from "../../../client/eventConsumer/loggedInEventConsumer"
 import LookEventConsumer from "../../../client/eventConsumer/lookEventConsumer"
 import SendMessageToMobEventConsumer from "../../../client/eventConsumer/sendMessageToMobEventConsumer"
@@ -79,48 +80,47 @@ export default [
   ScavengeEventConsumer,
   WimpyEventConsumer,
   FightStarterEventConsumer,
-  ClientDisconnectedEventConsumer,
   MobCreatedEventConsumer,
   DamageModifierEventConsumer,
   FollowMobEventConsumer,
   DeathTimerEventConsumer,
+  ResetPlayerMobOnDeathEventConsumer,
 
   // player
-  ResetPlayerMobOnDeathEventConsumer,
   MobArrivesInRoomEventConsumer,
   MobLeavesRoomEventConsumer,
+  ElfIronVulnEventConsumer,
 
   // race
-  ElfIronVulnEventConsumer,
   ElfForestRegenBonusEventConsumer,
   OgreSizeMismatchVulnEventConsumer,
   OgreBashBonusEventConsumer,
   HalflingMvBonusEventConsumer,
   DrowMageBonusEventConsumer,
-
-  // room
   RoomMessageEventConsumer,
 
-  // item
+  // room
   ItemCreatedEventConsumer,
+
+  // item
   ItemDestroyedEventConsumer,
+  FlamingWeaponEffectEventConsumer,
 
   // weapon effects
-  FlamingWeaponEffectEventConsumer,
   FrostWeaponEffectEventConsumer,
   VampiricWeaponEffectEventConsumer,
   VorpalWeaponEffectEventConsumer,
   ShockingWeaponEffectEventConsumer,
   FavoredWeaponEffectEventConsumer,
-
-  // social
   SocialEventConsumer,
 
-  // clients
+  // social
   SendMessageToMobEventConsumer,
-  DisconnectedEventConsumer,
+
+  // clients
+  ClientDisconnectRemoveMobEventConsumer,
+  ClientDisconnectRemoveClientEventConsumer,
   LoggedInEventConsumer,
-  ClientSessionEndedEventConsumer,
   LookEventConsumer,
 
   // skills

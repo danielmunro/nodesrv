@@ -7,7 +7,7 @@ import {Types} from "../../support/types"
 import ClientService from "../service/clientService"
 
 @injectable()
-export default class DisconnectedEventConsumer implements EventConsumer {
+export default class ClientDisconnectRemoveClientEventConsumer implements EventConsumer {
   constructor(@inject(Types.ClientService) private readonly clientService: ClientService) {}
 
   public getConsumingEventTypes(): EventType[] {

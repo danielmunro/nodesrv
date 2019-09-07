@@ -19,7 +19,7 @@ const mockPlayerRepository = jest.fn(() => ({
 }))
 const mockMobRepository = jest.fn(() => ({
   findOneByName: (name: string) => getTestMob(name),
-  save: async (mob: any) => mob,
+  save: jest.fn(),
 }))
 const mockTickRepository = jest.fn(() => ({
   save: async (tick: any) => tick,
