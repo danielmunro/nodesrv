@@ -10,12 +10,14 @@ import Request from "../../../messageExchange/request"
 import Response from "../../../messageExchange/response"
 import RequestService from "../../../messageExchange/service/requestService"
 import {MobEntity} from "../../../mob/entity/mobEntity"
+import {PlayerMobEntity} from "../../../mob/entity/playerMobEntity"
 import {onlyLiving} from "../../../mob/enum/disposition"
 import {isAbleToSee} from "../../../mob/race/sight"
 import LocationService from "../../../mob/service/locationService"
 import {RegionEntity} from "../../../region/entity/regionEntity"
 import {Weather} from "../../../region/enum/weather"
 import WeatherService from "../../../region/service/weatherService"
+import {RoomEntity} from "../../../room/entity/roomEntity"
 import withValue from "../../../support/functional/withValue"
 import {Types} from "../../../support/types"
 import Describeable from "../../../type/describeable"
@@ -25,9 +27,18 @@ import Action from "../action"
 
 @injectable()
 export default class LookAction extends Action {
-  protected static async createBuilderFromTarget(
+  private static async createBuilderFromTarget(
     request: Request, builder: ResponseBuilder, describeable?: Describeable): Promise<Response | undefined> {
     return describeable && request.mob.canSee(describeable) ? await builder.info(describeable.describe()) : undefined
+  }
+
+  private static getRoomDescription(room: RoomEntity, playerMob?: PlayerMobEntity): string {
+    const exitDescription = !playerMob || playerMob.autoExit ?
+      `\nExits [${room.getExitsString()}]` : ``
+    return `(${room.id}) ${room.name}
+
+${room.description}
+${exitDescription}`
   }
 
   constructor(
@@ -49,7 +60,7 @@ export default class LookAction extends Action {
       this.lookAtSubject(requestService.getRequest(), requestService.respondWith()) :
       withValue(requestService.getRequest(), request =>
         requestService.respondWith().info(
-          request.getRoom().toString()
+          LookAction.getRoomDescription(request.getRoom(), request.mob.playerMob)
           + this.reduceMobs(requestService.getMob(), this.locationService.getMobsByRoom(request.getRoom()))
           + request.getRoom().inventory.toString("is here.")))
   }

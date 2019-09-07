@@ -31,6 +31,6 @@ describe("logged in client event consumer", () => {
     const eventResponse = await loggedIn.consume(createClientEvent(EventType.ClientLogin, client))
 
     // then
-    expect(eventResponse.context.getMessageToRequestCreator()).toBe(room.toString())
+    expect(eventResponse.context.getMessageToRequestCreator()).toContain(room.name)
   })
 })

@@ -61,14 +61,6 @@ export class RoomEntity {
     return !this.exits.find((e) => e.direction === direction)
   }
 
-  public toString(): string {
-    return `(${this.id}) ${this.name}
-
-${this.description}
-
-Exits [${this.getExitsString()}]`
-  }
-
   public getMovementCost() {
     const terrain = this.region ? this.region.terrain : Terrain.Other
 
@@ -100,7 +92,7 @@ Exits [${this.getExitsString()}]`
     return this.isDirectionFree(direction) && destination.isDirectionFree(reverse(direction))
   }
 
-  private getExitsString(): string {
+  public getExitsString(): string {
     return this.exits.sort((a, b) =>
       a.direction > b.direction ? 1 : -1).reduce((combined: string, current: ExitEntity) => {
       return combined + current.direction.toString()[0]

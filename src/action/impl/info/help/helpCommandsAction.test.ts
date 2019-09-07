@@ -23,7 +23,8 @@ alias list
 alias remove
 alias reset
 attributes
-autoassist
+auto assist
+auto exit
 backstab
 ban
 bash
