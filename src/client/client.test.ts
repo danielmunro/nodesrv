@@ -9,7 +9,6 @@ import MobService from "../mob/service/mobService"
 import {SpellMessages} from "../mob/spell/constants"
 import {createPlayer} from "../player/factory/factory"
 import {default as AuthRequest} from "../session/auth/request"
-import Session from "../session/session"
 import {getTestRoom} from "../support/test/room"
 import TestRunner from "../support/test/testRunner"
 import {Types} from "../support/types"
@@ -65,30 +64,17 @@ describe("client sanity checks", () => {
   })
 
   describe("client sanity checks with mock services", () => {
-    let send: any
-
     beforeEach(() => {
-      send = jest.fn()
-      const ws = jest.fn(() => ({
-        send,
-      }))
-      client = new Client(
-        new Session(null as any),
-        ws() as any,
-        "127.0.0.1")
+      client = testRunner.createClient()
     })
 
     it("send sanity test", () => {
-      // expect
-      // @ts-ignore
-      expect(send.mock.calls.length).toBe(0)
-
       // when
       client.send({})
 
       // then
       // @ts-ignore
-      expect(send.mock.calls.length).toBe(1)
+      expect(client.socket.send.mock.calls.length).toBe(1)
     })
 
     it("should pass tick info through the socket", () => {
@@ -101,9 +87,9 @@ describe("client sanity checks", () => {
 
       // then
       // @ts-ignore
-      expect(send.mock.calls.length).toBe(1)
+      expect(client.socket.send.mock.calls.length).toBe(1)
       // @ts-ignore
-      expect(send.mock.calls[0][0]).toContain("tick")
+      expect(client.socket.send.mock.calls[0][0]).toContain("tick")
     })
 
     it("not logged in clients should always be able to handle requests if ones are available", () => {
