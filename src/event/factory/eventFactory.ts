@@ -168,6 +168,6 @@ export function createModifiedCastEvent(event: CastEvent, roll: number): CastEve
   return { ...event, roll }
 }
 
-export function createDeathEvent(death: Death): DeathEvent {
-  return { eventType: EventType.MobDeath, death }
+export function createDeathEvent(death: Death, corpse: ItemEntity): DeathEvent {
+  return { eventType: EventType.MobDeath, death, corpse }
 }
