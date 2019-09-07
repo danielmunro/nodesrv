@@ -13,7 +13,7 @@ import {Client} from "../client"
 import ClientService from "../service/clientService"
 
 @injectable()
-export default class LookEventConsumer implements EventConsumer {
+export default class AutoLookWhenPlayerMobMovesEventConsumer implements EventConsumer {
   constructor(
     @inject(Types.ClientService) private readonly clientService: ClientService,
     @inject(Types.LookAction) private readonly lookDefinition: Action) {}

@@ -11,11 +11,11 @@ import ProtectionEventConsumer from "../../../affect/eventConsumer/protectionEve
 import SanctuaryEventConsumer from "../../../affect/eventConsumer/sanctuaryEventConsumer"
 import WithstandDeathEventConsumer from "../../../affect/eventConsumer/withstandDeathEventConsumer"
 /*tslint:disable*/
+import AutoLookWhenPlayerMobMovesEventConsumer from "../../../client/eventConsumer/autoLookWhenPlayerMobMovesEventConsumer"
 import ClientDisconnectRemoveClientEventConsumer from "../../../client/eventConsumer/clientDisconnectRemoveClientEventConsumer"
 import ClientDisconnectRemoveMobEventConsumer from "../../../client/eventConsumer/clientDisconnectRemoveMobEventConsumer"
 /*tslint:enable*/
 import LoggedInEventConsumer from "../../../client/eventConsumer/loggedInEventConsumer"
-import LookEventConsumer from "../../../client/eventConsumer/lookEventConsumer"
 import SendMessageToMobEventConsumer from "../../../client/eventConsumer/sendMessageToMobEventConsumer"
 import SocialEventConsumer from "../../../client/eventConsumer/socialEventConsumer"
 import ItemCreatedEventConsumer from "../../../item/eventConsumer/itemCreatedEventConsumer"
@@ -34,8 +34,8 @@ import DeathTimerEventConsumer from "../../../mob/eventConsumer/deathTimerEventC
 import FightStarterEventConsumer from "../../../mob/eventConsumer/fightStarterEventConsumer"
 import FollowMobEventConsumer from "../../../mob/eventConsumer/followMobEventConsumer"
 import MobCreatedEventConsumer from "../../../mob/eventConsumer/mobCreatedEventConsumer"
+import MobScavengesRoomEventConsumer from "../../../mob/eventConsumer/mobScavengesRoomEventConsumer"
 import PetFollowsOwnerEventConsumer from "../../../mob/eventConsumer/petFollowsOwnerEventConsumer"
-import ScavengeEventConsumer from "../../../mob/eventConsumer/scavengeEventConsumer"
 import WimpyEventConsumer from "../../../mob/eventConsumer/wimpyEventConsumer"
 import DrowMageBonusEventConsumer from "../../../mob/race/eventConsumer/drow/drowMageBonusEventConsumer"
 import ElfForestRegenBonusEventConsumer from "../../../mob/race/eventConsumer/elf/elfForestRegenBonusEventConsumer"
@@ -77,7 +77,7 @@ export default [
   // mob actions
   AggressiveMobEventConsumer,
   PetFollowsOwnerEventConsumer,
-  ScavengeEventConsumer,
+  MobScavengesRoomEventConsumer,
   WimpyEventConsumer,
   FightStarterEventConsumer,
   MobCreatedEventConsumer,
@@ -89,42 +89,36 @@ export default [
   // player
   MobArrivesInRoomEventConsumer,
   MobLeavesRoomEventConsumer,
-  ElfIronVulnEventConsumer,
+  RoomMessageEventConsumer,
+  SendMessageToMobEventConsumer,
+  ClientDisconnectRemoveMobEventConsumer,
+  ClientDisconnectRemoveClientEventConsumer,
+  LoggedInEventConsumer,
+  AutoLookWhenPlayerMobMovesEventConsumer,
+  SocialEventConsumer,
+  ImproveInvokedSkillsEventConsumer,
 
   // race
+  ElfIronVulnEventConsumer,
   ElfForestRegenBonusEventConsumer,
   OgreSizeMismatchVulnEventConsumer,
   OgreBashBonusEventConsumer,
   HalflingMvBonusEventConsumer,
   DrowMageBonusEventConsumer,
-  RoomMessageEventConsumer,
-
-  // room
-  ItemCreatedEventConsumer,
 
   // item
   ItemDestroyedEventConsumer,
-  FlamingWeaponEffectEventConsumer,
+  ItemCreatedEventConsumer,
 
   // weapon effects
+  FlamingWeaponEffectEventConsumer,
   FrostWeaponEffectEventConsumer,
   VampiricWeaponEffectEventConsumer,
   VorpalWeaponEffectEventConsumer,
   ShockingWeaponEffectEventConsumer,
   FavoredWeaponEffectEventConsumer,
-  SocialEventConsumer,
-
-  // social
-  SendMessageToMobEventConsumer,
-
-  // clients
-  ClientDisconnectRemoveMobEventConsumer,
-  ClientDisconnectRemoveClientEventConsumer,
-  LoggedInEventConsumer,
-  LookEventConsumer,
 
   // skills
-  ImproveInvokedSkillsEventConsumer,
   DodgeEventConsumer,
   FastHealingEventConsumer,
   SecondAttackEventConsumer,

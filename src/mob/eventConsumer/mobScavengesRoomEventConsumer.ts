@@ -12,7 +12,7 @@ import LocationService from "../service/locationService"
 export const SCAVENGE_TIMEOUT_MS = 10000
 
 @injectable()
-export default class ScavengeEventConsumer implements EventConsumer {
+export default class MobScavengesRoomEventConsumer implements EventConsumer {
   constructor(
     @inject(Types.ClientService) private readonly clientService: ClientService,
     @inject(Types.ItemService) private readonly itemService: ItemService,
