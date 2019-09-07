@@ -57,6 +57,7 @@ import AliasRemoveAction from "../../../action/impl/player/alias/aliasRemoveActi
 import AliasResetAction from "../../../action/impl/player/alias/aliasResetAction"
 import AutoAssistAction from "../../../action/impl/player/auto/autoAssistAction"
 import AutoExitAction from "../../../action/impl/player/auto/autoExitAction"
+import AutoLootAction from "../../../action/impl/player/auto/autoLootAction"
 import BanAction from "../../../action/impl/player/moderation/banAction"
 import DemoteAction from "../../../action/impl/player/moderation/demoteAction"
 import PromoteAction from "../../../action/impl/player/moderation/promoteAction"
@@ -162,6 +163,7 @@ export const actions = [
   // auto
   AutoAssistAction,
   AutoExitAction,
+  AutoLootAction,
 
   // social
   GossipAction,

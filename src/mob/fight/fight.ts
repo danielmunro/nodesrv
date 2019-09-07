@@ -1,9 +1,10 @@
 import AffectService from "../../affect/service/affectService"
 import AttributesEntity from "../../attributes/entity/attributesEntity"
 import {EventType} from "../../event/enum/eventType"
-import {createDeathEvent, createFightEvent} from "../../event/factory/eventFactory"
+import {createDeathEvent, createFightEvent, createRoomMessageEvent} from "../../event/factory/eventFactory"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import EventService from "../../event/service/eventService"
+import ResponseMessageBuilder from "../../messageExchange/builder/responseMessageBuilder"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import roll, {simpleD4} from "../../support/random/dice"
 import {MobEntity} from "../entity/mobEntity"
@@ -165,7 +166,20 @@ export class Fight {
       vanquished.disposition = Disposition.Dead
     }
 
-    this.room.inventory.addItem(death.createCorpse())
+    const corpse = death.createCorpse()
+    this.room.inventory.addItem(corpse)
+    if (winner.playerMob && winner.playerMob.autoLoot) {
+      corpse.container.inventory.items.forEach(item => {
+        winner.inventory.addItem(item)
+        this.eventService.publish(createRoomMessageEvent(
+          this.room,
+          new ResponseMessageBuilder(winner, "{requestCreator} {verb} from {corpse}.")
+            .addReplacementForRequestCreator("verb", "loot")
+            .addReplacementForTarget("verb", "loots")
+            .addReplacement("corpse", corpse.toString())
+            .create()))
+      })
+    }
     simpleD4(() => death.createBodyPart())
 
     return death

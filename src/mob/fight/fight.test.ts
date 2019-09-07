@@ -2,23 +2,26 @@ import {createTestAppContainer} from "../../app/factory/testFactory"
 import EventService from "../../event/service/eventService"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
+import {MobEntity} from "../entity/mobEntity"
 import { Fight } from "./fight"
 import {Round} from "./round"
 
 let testRunner: TestRunner
 let eventService: EventService
+let aggressor: MobEntity
+let target: MobEntity
 
 beforeEach(async () => {
   const app = await createTestAppContainer()
   testRunner = app.get<TestRunner>(Types.TestRunner)
   eventService = app.get<EventService>(Types.EventService)
+  aggressor = (await testRunner.createMob()).get()
+  target = (await testRunner.createMob()).get()
 })
 
 describe("fight", () => {
   it("getOpponentFor should return null for mobs not in the fight", async () => {
     // setup
-    const aggressor = (await testRunner.createMob()).get()
-    const target = (await testRunner.createMob()).get()
     const bystander = (await testRunner.createMob()).get()
 
     // when
@@ -33,10 +36,6 @@ describe("fight", () => {
   })
 
   it("should stop when hit points reach zero", async () => {
-    // setup
-    const aggressor = (await testRunner.createMob()).get()
-    const target = (await testRunner.createMob()).get()
-
     // when - a fight has allowed to complete
     const fight = await testRunner.fight(target)
     expect(fight.isInProgress()).toBe(true)
@@ -60,30 +59,30 @@ describe("fight", () => {
   it("players gain experience after killing a mob", async () => {
     // setup
     const experienceToLevel = 1000
-    const aggressor = await testRunner.createPlayer()
+    const player = await testRunner.createPlayer()
 
     // given
-    aggressor.getMob().playerMob.experienceToLevel = experienceToLevel
+    player.getMob().playerMob.experienceToLevel = experienceToLevel
 
     // when
-    const fight = await testRunner.fight()
+    const fight = await testRunner.fightAs(player.getMob(), target)
     while (fight.isInProgress()) {
-      aggressor.setHp(20)
+      player.setHp(20)
       await fight.round()
     }
 
     // then
-    expect(aggressor.getMob().playerMob.experience).toBeGreaterThan(0)
-    expect(aggressor.getMob().playerMob.experienceToLevel).toBeLessThan(experienceToLevel)
+    expect(player.getMob().playerMob.experience).toBeGreaterThan(0)
+    expect(player.getMob().playerMob.experienceToLevel).toBeLessThan(experienceToLevel)
   })
 
   it("truthy sanity check for isP2P", async () => {
     // given
-    await testRunner.createPlayer()
-    const player = await testRunner.createPlayer()
+    const p1 = await testRunner.createPlayer()
+    const p2 = await testRunner.createPlayer()
 
     // when
-    const fight = await testRunner.fight(player.getMob())
+    const fight = await testRunner.fightAs(p1.getMob(), p2.getMob())
 
     // then
     expect(fight.isP2P()).toBeTruthy()
@@ -91,11 +90,10 @@ describe("fight", () => {
 
   it("falsy sanity check for isP2P", async () => {
     // given
-    await testRunner.createPlayer()
-    const mob = await testRunner.createMob()
+    const player = await testRunner.createPlayer()
 
     // when
-    const fight = await testRunner.fight(mob.get())
+    const fight = await testRunner.fightAs(player.getMob(), target)
 
     // then
     expect(fight.isP2P()).toBeFalsy()
@@ -103,13 +101,61 @@ describe("fight", () => {
 
   it("another falsy sanity check for isP2P", async () => {
     // given
-    await testRunner.createMob()
-    const mob = await testRunner.createMob()
+    const player = await testRunner.createPlayer()
 
     // when
-    const fight = await testRunner.fight(mob.get())
+    const fight = await testRunner.fightAs(aggressor, player.getMob())
 
     // then
     expect(fight.isP2P()).toBeFalsy()
+  })
+
+  it("transfers items to a corpse when death occurs", async () => {
+    // given
+    target.inventory.addItem(testRunner.createItem().asShield().build())
+    const fight = await testRunner.fight(target)
+
+    // when
+    while (fight.isInProgress()) {
+      aggressor.hp = 20
+      await fight.round()
+    }
+
+    // then
+    const room = testRunner.getStartRoom().get()
+    expect(room.inventory.items).toHaveLength(1)
+
+    const item = room.inventory.items[0]
+    expect(item.container.inventory.items).toHaveLength(1)
+  })
+
+  it.each([
+    [true, 0, 1],
+    [false, 1, 0],
+  ])(
+    "respects a player's auto loot option when killing a mob",
+    // @ts-ignore
+    async (autoloot: boolean, corpseItemCount: number, playerItemCount: number) => {
+    // setup
+    const player = await testRunner.createPlayer()
+    player.getMob().playerMob.autoLoot = autoloot
+
+    // given
+    target.inventory.addItem(testRunner.createItem().asShield().build())
+    const fight = await testRunner.fightAs(player.getMob(), target)
+
+    // when
+    while (fight.isInProgress()) {
+      player.setHp(20)
+      await fight.round()
+    }
+
+    // then
+    const room = testRunner.getStartRoom().get()
+    expect(room.inventory.items).toHaveLength(1)
+
+    const item = room.inventory.items[0]
+    expect(item.container.inventory.items).toHaveLength(corpseItemCount)
+    expect(player.getItems()).toHaveLength(playerItemCount)
   })
 })

@@ -69,11 +69,10 @@ export class PlayerMobEntity {
   @Column({ default: true })
   public autoAssist: boolean
 
-  // not implemented
   @Column({ default: true })
   public autoExit: boolean
 
-  // not implemented
+  // not implemented - lolwut?
   @Column({ default: true })
   public autoList: boolean
 

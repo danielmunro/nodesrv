@@ -25,6 +25,7 @@ alias reset
 attributes
 auto assist
 auto exit
+auto loot
 backstab
 ban
 bash

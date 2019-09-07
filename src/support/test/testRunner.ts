@@ -138,10 +138,17 @@ export default class TestRunner {
   }
 
   public async fight(target?: MobEntity): Promise<Fight> {
+    if (!this.firstMob) {
+      this.firstMob = (await this.createMob()).get()
+    }
     if (!target) {
       target = (await this.createMob()).get()
     }
-    const fight = this.fightBuilder.create(this.firstMob, target)
+    return this.fightAs(this.firstMob, target)
+  }
+
+  public async fightAs(mob: MobEntity, target: MobEntity): Promise<Fight> {
+    const fight = this.fightBuilder.create(mob, target)
     this.mobService.addFight(fight)
     return fight
   }
