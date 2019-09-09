@@ -2,6 +2,7 @@ import {createTestAppContainer} from "../../app/factory/testFactory"
 import {createDeathEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import Death from "../../mob/fight/death"
+import LocationService from "../../mob/service/locationService"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
@@ -22,9 +23,10 @@ beforeEach(async () => {
   startRoom = testRunner.getStartRoom().get()
   death = new Death(
     target.get(),
-    startRoom,
     player.sessionMob)
-  consumer = new AutoSacCorpseEventConsumer(app.get<EventService>(Types.EventService))
+  consumer = new AutoSacCorpseEventConsumer(
+    app.get<EventService>(Types.EventService),
+    app.get<LocationService>(Types.LocationService))
   startRoom.inventory.addItem(death.corpse)
 })
 

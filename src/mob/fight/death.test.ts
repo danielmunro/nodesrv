@@ -2,7 +2,6 @@ import {createTestAppContainer} from "../../app/factory/testFactory"
 import { ItemEntity } from "../../item/entity/itemEntity"
 import doNTimes from "../../support/functional/times"
 import { getTestMob } from "../../support/test/mob"
-import { getTestRoom } from "../../support/test/room"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import Death from "./death"
@@ -24,7 +23,7 @@ describe("death event consumer", () => {
       .build())
 
     // given
-    const death = new Death(mob, testRunner.getStartRoom().get())
+    const death = new Death(mob)
 
     // then
     expect(death.corpse.container.inventory.items.length).toBe(3)
@@ -33,13 +32,13 @@ describe("death event consumer", () => {
   })
 
   it("should not calculate kill xp for non-players", () => {
-    const death = new Death(getTestMob(), getTestRoom(), getTestMob())
+    const death = new Death(getTestMob(), getTestMob())
 
     expect(death.calculateKillerExperience()).toBe(0)
   })
 
   it("should generate random body parts", async () => {
-    const death = new Death(getTestMob(), getTestRoom(), getTestMob())
+    const death = new Death(getTestMob(), getTestMob())
     const bodyParts = await doNTimes(10, () => death.createBodyPart())
 
     bodyParts.forEach(bodyPart => expect(bodyPart).toBeInstanceOf(ItemEntity))

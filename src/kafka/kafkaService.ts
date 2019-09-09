@@ -34,8 +34,6 @@ export default class KafkaService {
           bounty: death.bounty,
           killed: death.mobKilled.uuid,
           killer: death.killer ? death.killer.uuid : undefined,
-          room: death.room.uuid,
-          roomName: death.room.name,
         }),
       }],
       topic: Topic.MobDeath,

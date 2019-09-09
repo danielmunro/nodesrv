@@ -1,6 +1,5 @@
 import { ItemEntity } from "../../item/entity/itemEntity"
 import { newContainer } from "../../item/factory/itemFactory"
-import { RoomEntity } from "../../room/entity/roomEntity"
 import { Messages } from "../../server/observers/constants"
 import {pickOne} from "../../support/random/helpers"
 import { format } from "../../support/string"
@@ -14,7 +13,6 @@ export default class Death {
 
   constructor(
     public readonly mobKilled: MobEntity,
-    public readonly room: RoomEntity,
     public readonly killer?: MobEntity,
     public readonly bounty?: number,
   ) {

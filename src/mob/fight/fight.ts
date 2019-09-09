@@ -155,7 +155,7 @@ export class Fight {
       vanquished.playerMob.bounty = 0
     }
 
-    const death = new Death(vanquished, this.room, winner, bounty)
+    const death = new Death(vanquished, winner, bounty)
 
     if (vanquished.traits.isNpc) {
       vanquished.disposition = Disposition.Dead
