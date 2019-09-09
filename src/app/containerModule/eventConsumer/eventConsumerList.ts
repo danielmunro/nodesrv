@@ -54,6 +54,7 @@ import FastHealingEventConsumer from "../../../mob/skill/eventConsumer/fastHeali
 import ImproveInvokedSkillsEventConsumer from "../../../mob/skill/eventConsumer/improveInvokedSkillsEventConsumer"
 import ParryEventConsumer from "../../../mob/skill/eventConsumer/parryEventConsumer"
 import ShieldBlockEventConsumer from "../../../mob/skill/eventConsumer/shieldBlockEventConsumer"
+import AddExperienceFromKillEventConsumer from "../../../player/eventConsumer/addExperienceFromKillEventConsumer"
 import AutoLootCorpseEventConsumer from "../../../player/eventConsumer/autoLootCorpseEventConsumer"
 import AutoSacCorpseEventConsumer from "../../../player/eventConsumer/autoSacCorpseEventConsumer"
 import IncrementDeathCountsEventConsumer from "../../../player/eventConsumer/incrementDeathCountsEventConsumer"
@@ -99,6 +100,7 @@ export default [
   LoggedInEventConsumer,
   AutoLookWhenPlayerMobMovesEventConsumer,
   SocialEventConsumer,
+  AddExperienceFromKillEventConsumer,
   ImproveInvokedSkillsEventConsumer,
   IncrementDeathCountsEventConsumer,
   AutoLootCorpseEventConsumer,

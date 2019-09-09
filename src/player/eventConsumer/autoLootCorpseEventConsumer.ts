@@ -17,9 +17,10 @@ export default class AutoLootCorpseEventConsumer implements EventConsumer {
   }
 
   public async consume(event: DeathEvent): Promise<EventResponse> {
-    const winner = event.death.killer
+    const death = event.death
+    const winner = death.killer
     if (winner && winner.playerMob && winner.playerMob.autoLoot) {
-      const corpse = event.corpse
+      const corpse = death.corpse
       await Promise.all(corpse.container.inventory.items.map(async item => {
         winner.inventory.addItem(item)
         await this.eventService.publish(createRoomMessageEvent(

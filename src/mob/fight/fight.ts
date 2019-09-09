@@ -136,10 +136,8 @@ export class Fight {
     const attackDeath = attacks.find(attack => !!attack.death)
     if (attackDeath) {
       const death = attackDeath.death as Death
-      const corpse = death.createCorpse()
-      this.room.inventory.addItem(corpse)
-      await this.eventService.publish(createDeathEvent(death, corpse))
-
+      this.room.inventory.addItem(death.corpse)
+      await this.eventService.publish(createDeathEvent(death))
       return attacks
     }
     await this.eventService.publish(createFightEvent(EventType.AttackRound, attacker, this, attacks))
@@ -159,10 +157,6 @@ export class Fight {
     }
 
     const death = new Death(vanquished, this.room, winner, bounty)
-
-    if (winner.playerMob) {
-      winner.playerMob.addExperience(death.calculateKillerExperience())
-    }
 
     if (vanquished.traits.isNpc) {
       vanquished.disposition = Disposition.Dead

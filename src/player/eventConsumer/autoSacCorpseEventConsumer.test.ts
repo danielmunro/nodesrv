@@ -1,7 +1,6 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
 import {createDeathEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
-import {ItemEntity} from "../../item/entity/itemEntity"
 import Death from "../../mob/fight/death"
 import {RoomEntity} from "../../room/entity/roomEntity"
 import TestRunner from "../../support/test/testRunner"
@@ -12,7 +11,6 @@ import AutoSacCorpseEventConsumer from "./autoSacCorpseEventConsumer"
 let testRunner: TestRunner
 let consumer: AutoSacCorpseEventConsumer
 let death: Death
-let corpse: ItemEntity
 let startRoom: RoomEntity
 let player: PlayerEntity
 
@@ -26,15 +24,14 @@ beforeEach(async () => {
     target.get(),
     startRoom,
     player.sessionMob)
-  corpse = death.createCorpse()
   consumer = new AutoSacCorpseEventConsumer(app.get<EventService>(Types.EventService))
-  startRoom.inventory.addItem(corpse)
+  startRoom.inventory.addItem(death.corpse)
 })
 
 describe("auto sac corpse event consumer", () => {
-  it("sacrifices a corpse if the player attributes say so", async () => {
+  it("sacrifices a corpse if the player's autosac says so", async () => {
     // when
-    await consumer.consume(createDeathEvent(death, corpse))
+    await consumer.consume(createDeathEvent(death))
 
     // then
     expect(startRoom.inventory.items).toHaveLength(0)
@@ -45,7 +42,7 @@ describe("auto sac corpse event consumer", () => {
     player.sessionMob.playerMob.autoSac = false
 
     // when
-    await consumer.consume(createDeathEvent(death, corpse))
+    await consumer.consume(createDeathEvent(death))
 
     // then
     expect(startRoom.inventory.items).toHaveLength(1)

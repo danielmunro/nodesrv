@@ -17,12 +17,13 @@ export default class AutoSacCorpseEventConsumer implements EventConsumer {
   }
 
   public async consume(event: DeathEvent): Promise<EventResponse> {
-    const winner = event.death.killer
+    const death = event.death
+    const winner = death.killer
     if (winner && winner.playerMob && winner.playerMob.autoSac) {
-      const corpse = event.corpse
+      const corpse = death.corpse
       await this.eventService.publish(createDestroyItemEvent(corpse))
       await this.eventService.publish(createRoomMessageEvent(
-        event.death.room,
+        death.room,
         new ResponseMessageBuilder(winner, "{requestCreator} {verb} {corpse} to {requestCreator2} diety.")
           .addReplacementForRequestCreator("verb", "sacrifice")
           .addReplacementForRequestCreator("requestCreator2", "your")

@@ -10,12 +10,16 @@ import {getBodyPartItem} from "../race/bodyParts"
 const EXPERIENCE_GAIN = 100
 
 export default class Death {
+  public readonly corpse: ItemEntity
+
   constructor(
     public readonly mobKilled: MobEntity,
     public readonly room: RoomEntity,
     public readonly killer?: MobEntity,
     public readonly bounty?: number,
-  ) {}
+  ) {
+     this.corpse = this.createCorpse()
+  }
 
   public calculateKillerExperience(): number {
     if (this.killer && !this.killer.traits.isNpc) {
@@ -25,7 +29,11 @@ export default class Death {
     return 0
   }
 
-  public createCorpse(): ItemEntity {
+  public createBodyPart(): ItemEntity {
+    return getBodyPartItem(this.mobKilled, pickOne(this.mobKilled.race().bodyParts))
+  }
+
+  private createCorpse(): ItemEntity {
     const corpse = newContainer(
       format(Messages.Fight.Corpse.Name, this.mobKilled.name),
       format(Messages.Fight.Corpse.Description, this.mobKilled.name))
@@ -35,9 +43,5 @@ export default class Death {
       corpse.container.getItemFrom(item, this.mobKilled.equipped))
 
     return corpse
-  }
-
-  public createBodyPart() {
-    return getBodyPartItem(this.mobKilled, pickOne(this.mobKilled.race().bodyParts))
   }
 }

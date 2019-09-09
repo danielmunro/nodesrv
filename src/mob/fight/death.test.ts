@@ -26,11 +26,8 @@ describe("death event consumer", () => {
     // given
     const death = new Death(mob, testRunner.getStartRoom().get())
 
-    // when
-    const corpse = death.createCorpse()
-
     // then
-    expect(corpse.container.inventory.items.length).toBe(3)
+    expect(death.corpse.container.inventory.items.length).toBe(3)
     expect(mob.inventory.items.length).toBe(0)
     expect(mob.equipped.items.length).toBe(0)
   })
