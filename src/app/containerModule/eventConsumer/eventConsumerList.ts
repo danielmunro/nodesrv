@@ -55,6 +55,7 @@ import ImproveInvokedSkillsEventConsumer from "../../../mob/skill/eventConsumer/
 import ParryEventConsumer from "../../../mob/skill/eventConsumer/parryEventConsumer"
 import ShieldBlockEventConsumer from "../../../mob/skill/eventConsumer/shieldBlockEventConsumer"
 import AutoLootCorpseEventConsumer from "../../../player/eventConsumer/autoLootCorpseEventConsumer"
+import AutoSacCorpseEventConsumer from "../../../player/eventConsumer/autoSacCorpseEventConsumer"
 import IncrementDeathCountsEventConsumer from "../../../player/eventConsumer/incrementDeathCountsEventConsumer"
 import MobArrivesInRoomEventConsumer from "../../../player/eventConsumer/mobArrivesInRoomEventConsumer"
 import MobLeavesRoomEventConsumer from "../../../player/eventConsumer/mobLeavesRoomEventConsumer"
@@ -101,6 +102,7 @@ export default [
   ImproveInvokedSkillsEventConsumer,
   IncrementDeathCountsEventConsumer,
   AutoLootCorpseEventConsumer,
+  AutoSacCorpseEventConsumer,
 
   // race
   ElfIronVulnEventConsumer,

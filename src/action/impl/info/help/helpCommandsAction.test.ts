@@ -26,6 +26,7 @@ attributes
 auto assist
 auto exit
 auto loot
+auto sac
 backstab
 ban
 bash

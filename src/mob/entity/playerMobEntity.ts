@@ -76,7 +76,6 @@ export class PlayerMobEntity {
   @Column({ default: true })
   public autoList: boolean
 
-  // not implemented
   @Column({ default: true })
   public autoLoot: boolean
 

@@ -10,6 +10,7 @@ export enum RequestType {
   AutoAssist = "auto assist",
   AutoExit = "auto exit",
   AutoLoot = "auto loot",
+  AutoSac = "auto sac",
   Backstab = "backstab",
   Ban = "ban",
   Bash = "bash",

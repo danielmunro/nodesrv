@@ -139,6 +139,7 @@ describe("fight", () => {
     // setup
     const player = await testRunner.createPlayer()
     player.getMob().playerMob.autoLoot = autoloot
+    player.getMob().playerMob.autoSac = false
 
     // given
     target.inventory.addItem(testRunner.createItem().asShield().build())
