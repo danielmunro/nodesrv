@@ -28,6 +28,7 @@ import ShockingWeaponEffectEventConsumer from "../../../item/eventConsumer/weapo
 import VampiricWeaponEffectEventConsumer from "../../../item/eventConsumer/weaponEffect/vampiricWeaponEffectEventConsumer"
 /* tslint:enable */
 import VorpalWeaponEffectEventConsumer from "../../../item/eventConsumer/weaponEffect/vorpalWeaponEffectEventConsumer"
+import AddCorpseToRoomOnDeathEventConsumer from "../../../mob/eventConsumer/addCorpseToRoomOnDeathEventConsumer"
 import AggressiveMobEventConsumer from "../../../mob/eventConsumer/aggressiveMobEventConsumer"
 import DamageModifierEventConsumer from "../../../mob/eventConsumer/damageModifierEventConsumer"
 import DeathTimerEventConsumer from "../../../mob/eventConsumer/deathTimerEventConsumer"
@@ -100,6 +101,7 @@ export default [
   LoggedInEventConsumer,
   AutoLookWhenPlayerMobMovesEventConsumer,
   SocialEventConsumer,
+  AddCorpseToRoomOnDeathEventConsumer,
   AddExperienceFromKillEventConsumer,
   ImproveInvokedSkillsEventConsumer,
   IncrementDeathCountsEventConsumer,

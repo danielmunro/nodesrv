@@ -136,7 +136,6 @@ export class Fight {
     const attackDeath = attacks.find(attack => !!attack.death)
     if (attackDeath) {
       const death = attackDeath.death as Death
-      this.room.inventory.addItem(death.corpse)
       await this.eventService.publish(createDeathEvent(death))
       return attacks
     }
