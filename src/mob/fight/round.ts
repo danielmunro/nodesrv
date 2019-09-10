@@ -1,4 +1,3 @@
-import { RoomEntity } from "../../room/entity/roomEntity"
 import {pickOne} from "../../support/random/helpers"
 import { MobEntity } from "../entity/mobEntity"
 import {BodyPart} from "../race/enum/bodyParts"
@@ -7,7 +6,6 @@ import Death from "./death"
 import { Fight } from "./fight"
 
 export class Round {
-  public readonly room: RoomEntity
   public readonly isFatality: boolean = false
   public readonly victor?: MobEntity
   public readonly vanquished?: MobEntity
@@ -20,7 +18,6 @@ export class Round {
     public readonly counters: Attack[] = []) {
     const fatalAttack = attacks.find(attack => !attack.isDefenderAlive)
     const fatalCounter = counters.find(attack => !attack.isDefenderAlive)
-    this.room = fight.room
     if (fatalAttack && !fatalAttack.isDefenderAlive) {
       this.isFatality = true
       this.victor = fatalAttack.attacker

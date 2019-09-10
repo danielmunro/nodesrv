@@ -3,7 +3,6 @@ import {EventType} from "../../event/enum/eventType"
 import {createDeathEvent, createFightEvent} from "../../event/factory/eventFactory"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import EventService from "../../event/service/eventService"
-import {RoomEntity} from "../../room/entity/roomEntity"
 import roll from "../../support/random/dice"
 import {MobEntity} from "../entity/mobEntity"
 import {Disposition} from "../enum/disposition"
@@ -52,8 +51,7 @@ export class Fight {
   constructor(
     public readonly eventService: EventService,
     public readonly aggressor: MobEntity,
-    public readonly target: MobEntity,
-    public readonly room: RoomEntity) {}
+    public readonly target: MobEntity) {}
 
   public isParticipant(mob: MobEntity): boolean {
     return mob.uuid === this.aggressor.uuid || mob.uuid === this.target.uuid

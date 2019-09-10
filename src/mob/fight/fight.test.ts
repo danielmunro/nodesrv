@@ -28,8 +28,7 @@ describe("fight", () => {
     const fight = new Fight(
       eventService,
       aggressor,
-      target,
-      testRunner.getStartRoom().get())
+      target)
 
     // then
     expect(() => fight.getOpponentFor(bystander)).toThrowError()
