@@ -91,7 +91,7 @@ export default class MobService {
   }
 
   public async doFightRounds() {
-    return await Promise.all(this.fightTable.getFights().map(async fight => await fight.round()))
+    return await Promise.all(this.fightTable.getFights().map(async fight => await fight.createFightRound()))
   }
 
   public pruneDeadMobs() {

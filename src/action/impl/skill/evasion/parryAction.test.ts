@@ -33,7 +33,7 @@ describe("parry event consumer", () => {
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)
       defender.setHp(20)
-      return fight.round()
+      return fight.createFightRound()
     })
 
     const parried = rounds.filter((round: Round) => {
@@ -48,7 +48,7 @@ describe("parry event consumer", () => {
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)
       defender.setHp(20)
-      return await fight.round()
+      return await fight.createFightRound()
     })
 
     const blocked = rounds.filter((round: Round) => {

@@ -31,7 +31,7 @@ describe("second attacks skill action", () => {
     const rounds = await doNTimes(iterations, () => {
       aggressor.setHp(maxHp)
       target.setHp(maxHp)
-      return fight.round()
+      return fight.createFightRound()
     })
 
     // then
@@ -43,7 +43,7 @@ describe("second attacks skill action", () => {
     const rounds = await doNTimes(iterations, () => {
       aggressor.setHp(maxHp)
       target.setHp(maxHp)
-      return fight.round()
+      return fight.createFightRound()
     })
 
     // then

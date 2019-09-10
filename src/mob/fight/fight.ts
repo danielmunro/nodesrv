@@ -67,7 +67,7 @@ export class Fight {
     return mob === this.aggressor ? this.target : this.aggressor
   }
 
-  public async round(): Promise<Round> {
+  public async createFightRound(): Promise<Round> {
     return new Round(
       this,
       this.status === FightStatus.InProgress ? await this.turnFor(this.aggressor, this.target) : [],
@@ -78,15 +78,11 @@ export class Fight {
     return this.status === FightStatus.InProgress
   }
 
-  public participantFled(mob: MobEntity) {
-    if (!this.isParticipant(mob)) {
-      throw new Error("Not part of the fight")
-    }
-
+  public endFight() {
     this.status = FightStatus.Done
   }
 
-  public async attack(attacker: MobEntity, defender: MobEntity): Promise<Attack> {
+  public async createAttack(attacker: MobEntity, defender: MobEntity): Promise<Attack> {
     const eventResponse = await this.publishAttackRoundStart(attacker)
 
     if (eventResponse.isSatisfied()) {
@@ -132,7 +128,7 @@ export class Fight {
   }
 
   private async turnFor(attacker: MobEntity, defender: MobEntity): Promise<Attack[]> {
-    const attacks = [await this.attack(attacker, defender)]
+    const attacks = [await this.createAttack(attacker, defender)]
     const attackDeath = attacks.find(attack => !!attack.death)
     if (attackDeath) {
       const death = attackDeath.death as Death

@@ -14,7 +14,7 @@ export default class HasteEventConsumer implements EventConsumer {
   public async consume(event: FightEvent): Promise<EventResponse> {
     if (event.mob.affect().has(AffectType.Haste)) {
       const fight = event.fight
-      event.attacks.push(await fight.attack(event.mob, fight.getOpponentFor(event.mob)))
+      event.attacks.push(await fight.createAttack(event.mob, fight.getOpponentFor(event.mob)))
     }
     return EventResponse.none(event)
   }

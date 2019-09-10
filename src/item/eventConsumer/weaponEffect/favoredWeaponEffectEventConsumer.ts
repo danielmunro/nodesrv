@@ -18,7 +18,7 @@ export default class FavoredWeaponEffectEventConsumer implements EventConsumer {
     if (weapon &&
       weapon.weaponEffects.includes(WeaponEffect.Favored) &&
       event.mob.specializationType === SpecializationType.Cleric) {
-      event.attacks.push(await event.fight.attack(event.mob, event.fight.getOpponentFor(event.mob)))
+      event.attacks.push(await event.fight.createAttack(event.mob, event.fight.getOpponentFor(event.mob)))
       return EventResponse.modified(event)
     }
     return EventResponse.none(event)

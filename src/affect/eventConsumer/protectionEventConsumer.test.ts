@@ -36,7 +36,7 @@ describe("protection event consumer", () => {
 
     // when
     while (fight.isInProgress()) {
-      const round = await fight.round()
+      const round = await fight.createFightRound()
       attackerDamage += round.getLastAttack().damage
       if (fight.isInProgress()) {
         defenderDamage += round.getLastCounter().damage

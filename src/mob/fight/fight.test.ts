@@ -39,10 +39,10 @@ describe("fight", () => {
     // when - a fight has allowed to complete
     const fight = await testRunner.fight(target)
     expect(fight.isInProgress()).toBe(true)
-    let round: Round = await fight.round()
+    let round: Round = await fight.createFightRound()
 
     while (fight.isInProgress()) {
-      round = await fight.round()
+      round = await fight.createFightRound()
     }
 
     // then - a winner will have > 1 hp and the other mob has dead
@@ -68,7 +68,7 @@ describe("fight", () => {
     const fight = await testRunner.fightAs(player.getMob(), target)
     while (fight.isInProgress()) {
       player.setHp(20)
-      await fight.round()
+      await fight.createFightRound()
     }
 
     // then
@@ -118,7 +118,7 @@ describe("fight", () => {
     // when
     while (fight.isInProgress()) {
       aggressor.hp = 20
-      await fight.round()
+      await fight.createFightRound()
     }
 
     // then
@@ -148,7 +148,7 @@ describe("fight", () => {
     // when
     while (fight.isInProgress()) {
       player.setHp(20)
-      await fight.round()
+      await fight.createFightRound()
     }
 
     // then

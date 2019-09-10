@@ -35,7 +35,7 @@ describe("shield block event consumer", () => {
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)
       defender.setHp(20)
-      return fight.round()
+      return fight.createFightRound()
     })
 
     // then
@@ -51,7 +51,7 @@ describe("shield block event consumer", () => {
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)
       defender.setHp(20)
-      return fight.round()
+      return fight.createFightRound()
     })
 
     // when

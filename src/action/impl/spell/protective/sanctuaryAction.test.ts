@@ -34,7 +34,7 @@ describe("sanctuary action", () => {
       async () => {
         caster.setHp(initialHp)
         target.setHp(initialHp)
-        const round = await fight.round()
+        const round = await fight.createFightRound()
         attackDamage += round.getLastAttack().damage
         counterDamage += round.getLastCounter().damage
       })

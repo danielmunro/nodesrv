@@ -60,7 +60,7 @@ describe("bounty action", () => {
     // when
     while (fight.isInProgress()) {
       player1.setHp(20)
-      lastRound = await fight.round()
+      lastRound = await fight.createFightRound()
     }
 
     // then

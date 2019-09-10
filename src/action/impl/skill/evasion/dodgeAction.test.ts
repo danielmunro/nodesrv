@@ -26,7 +26,7 @@ describe("dodge skill", () => {
     const results = await doNTimes(iterations, async () => {
       mob1.setHp(20)
       mob2.setHp(20)
-      return fight.round()
+      return fight.createFightRound()
     })
 
     // then

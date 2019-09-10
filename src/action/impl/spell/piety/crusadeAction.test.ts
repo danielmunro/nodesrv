@@ -36,7 +36,7 @@ describe("crusade spell action", () => {
     const rounds = await doNTimes(ITERATIONS, () => {
       caster.setHp(maxHp)
       target.setHp(maxHp)
-      return fight.round()
+      return fight.createFightRound()
     })
 
     // then

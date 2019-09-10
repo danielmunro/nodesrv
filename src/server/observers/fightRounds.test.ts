@@ -58,7 +58,7 @@ describe("fight rounds", () => {
     expect(fight.isInProgress()).toBe(true)
 
     // when
-    await fight.round()
+    await fight.createFightRound()
 
     // then
     mobService.filterCompleteFights()

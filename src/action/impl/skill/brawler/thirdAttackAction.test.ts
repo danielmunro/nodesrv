@@ -31,7 +31,7 @@ describe("third attack skill action", () => {
     const rounds = await doNTimes(ITERATIONS, () => {
       aggressor.setHp(maxHp)
       target.setHp(maxHp)
-      return fight.round()
+      return fight.createFightRound()
     })
 
     // then
@@ -43,7 +43,7 @@ describe("third attack skill action", () => {
     const rounds = await doNTimes(ITERATIONS, () => {
       aggressor.setHp(maxHp)
       target.setHp(maxHp)
-      return fight.round()
+      return fight.createFightRound()
     })
 
     // then
