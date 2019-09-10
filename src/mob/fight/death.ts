@@ -16,7 +16,7 @@ export default class Death {
     public readonly killer?: MobEntity,
     public readonly bounty?: number,
   ) {
-     this.corpse = this.createCorpse()
+    this.corpse = this.createCorpse()
   }
 
   public calculateKillerExperience(): number {

@@ -1,11 +1,10 @@
 import AffectService from "../../affect/service/affectService"
-import AttributesEntity from "../../attributes/entity/attributesEntity"
 import {EventType} from "../../event/enum/eventType"
 import {createDeathEvent, createFightEvent} from "../../event/factory/eventFactory"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import EventService from "../../event/service/eventService"
 import {RoomEntity} from "../../room/entity/roomEntity"
-import roll, {simpleD4} from "../../support/random/dice"
+import roll from "../../support/random/dice"
 import {MobEntity} from "../entity/mobEntity"
 import {Disposition} from "../enum/disposition"
 import {Trigger} from "../enum/trigger"
@@ -38,8 +37,9 @@ export class Fight {
     return new Attack(attacker, defender, result, 0)
   }
 
-  private static isTargetAcDefeated(
-    attackerAttributes: AttributesEntity, defenderAttributes: AttributesEntity): boolean {
+  private static isTargetAcDefeated(attacker: MobEntity, defender: MobEntity): boolean {
+    const attackerAttributes = attacker.attribute().combine()
+    const defenderAttributes = defender.attribute().combine()
     const dex = attackerAttributes.dex
     const hit = attackerAttributes.hit
     const defense = defenderAttributes.acSlash || 0
@@ -63,15 +63,14 @@ export class Fight {
     if (!this.isParticipant(mob)) {
       throw new Error("mob not fighting")
     }
-
     return mob === this.aggressor ? this.target : this.aggressor
   }
 
   public async createFightRound(): Promise<Round> {
     return new Round(
       this,
-      this.status === FightStatus.InProgress ? await this.turnFor(this.aggressor, this.target) : [],
-      this.status === FightStatus.InProgress ? await this.turnFor(this.target, this.aggressor) : [])
+      this.isInProgress() ? await this.turnFor(this.aggressor, this.target) : [],
+      this.isInProgress() ? await this.turnFor(this.target, this.aggressor) : [])
   }
 
   public isInProgress(): boolean {
@@ -84,15 +83,11 @@ export class Fight {
 
   public async createAttack(attacker: MobEntity, defender: MobEntity): Promise<Attack> {
     const eventResponse = await this.publishAttackRoundStart(attacker)
-
     if (eventResponse.isSatisfied()) {
       return Fight.attackDefeated(attacker, defender, getSuppressionAttackResultFromSkillType(eventResponse.context))
     }
 
-    const xAttributes = attacker.attribute().combine()
-    const yAttributes = defender.attribute().combine()
-
-    if (!Fight.isTargetAcDefeated(xAttributes, yAttributes)) {
+    if (!Fight.isTargetAcDefeated(attacker, defender)) {
       return Fight.attackDefeated(attacker, defender, AttackResult.Miss)
     }
 
@@ -129,36 +124,23 @@ export class Fight {
 
   private async turnFor(attacker: MobEntity, defender: MobEntity): Promise<Attack[]> {
     const attacks = [await this.createAttack(attacker, defender)]
-    const attackDeath = attacks.find(attack => !!attack.death)
-    if (attackDeath) {
-      const death = attackDeath.death as Death
-      await this.eventService.publish(createDeathEvent(death))
-      return attacks
-    }
     await this.eventService.publish(createFightEvent(EventType.AttackRound, attacker, this, attacks))
+    const attack = attacks.find(a => a.death)
+    if (attack) {
+      await this.eventService.publish(createDeathEvent(attack.death as Death))
+    }
     return attacks
   }
 
   private async createDeath(winner: MobEntity, vanquished: MobEntity): Promise<Death> {
     console.debug(`${vanquished.name} is killed by ${winner.name}`)
-
-    this.status = FightStatus.Done
-    let bounty = 0
-
-    if (!winner.traits.isNpc && !vanquished.traits.isNpc && vanquished.playerMob.bounty) {
-      bounty = vanquished.playerMob.bounty
-      winner.gold += bounty
-      vanquished.playerMob.bounty = 0
-    }
-
-    const death = new Death(vanquished, winner, bounty)
-
+    this.endFight()
     if (vanquished.traits.isNpc) {
       vanquished.disposition = Disposition.Dead
     }
-
-    simpleD4(() => death.createBodyPart())
-
-    return death
+    return new Death(
+      vanquished,
+      winner,
+      vanquished.playerMob && vanquished.playerMob.bounty ? vanquished.playerMob.bounty : 0)
   }
 }

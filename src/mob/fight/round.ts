@@ -8,7 +8,7 @@ import { Fight } from "./fight"
 
 export class Round {
   public readonly room: RoomEntity
-  public readonly isFatality: boolean
+  public readonly isFatality: boolean = false
   public readonly victor?: MobEntity
   public readonly vanquished?: MobEntity
   public readonly death?: Death
@@ -18,20 +18,19 @@ export class Round {
     public readonly fight: Fight,
     public readonly attacks: Attack[] = [],
     public readonly counters: Attack[] = []) {
-    const lastAttack = this.getLastAttack()
-    const lastCounter = this.getLastCounter()
+    const fatalAttack = attacks.find(attack => !attack.isDefenderAlive)
+    const fatalCounter = counters.find(attack => !attack.isDefenderAlive)
     this.room = fight.room
-    this.isFatality = lastAttack && !lastAttack.isDefenderAlive || lastCounter && !lastCounter.isDefenderAlive
-    if (lastAttack && !lastAttack.isDefenderAlive) {
+    if (fatalAttack && !fatalAttack.isDefenderAlive) {
       this.isFatality = true
-      this.victor = lastAttack.attacker
-      this.vanquished = lastAttack.defender
-      this.death = lastAttack.death
-    } else if (lastCounter && !lastCounter.isDefenderAlive) {
+      this.victor = fatalAttack.attacker
+      this.vanquished = fatalAttack.defender
+      this.death = fatalAttack.death
+    } else if (fatalCounter && !fatalCounter.isDefenderAlive) {
       this.isFatality = true
-      this.victor = lastCounter.attacker
-      this.vanquished = lastCounter.defender
-      this.death = lastCounter.death
+      this.victor = fatalCounter.attacker
+      this.vanquished = fatalCounter.defender
+      this.death = fatalCounter.death
     }
     if (this.death) {
       this.bodyParts = [pickOne(this.death.mobKilled.race().bodyParts)]

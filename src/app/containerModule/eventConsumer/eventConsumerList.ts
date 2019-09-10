@@ -58,6 +58,7 @@ import ShieldBlockEventConsumer from "../../../mob/skill/eventConsumer/shieldBlo
 import AddExperienceFromKillEventConsumer from "../../../player/eventConsumer/addExperienceFromKillEventConsumer"
 import AutoLootCorpseEventConsumer from "../../../player/eventConsumer/autoLootCorpseEventConsumer"
 import AutoSacCorpseEventConsumer from "../../../player/eventConsumer/autoSacCorpseEventConsumer"
+import CollectBountyOnKillEventConsumer from "../../../player/eventConsumer/collectBountyOnKillEventConsumer"
 import IncrementDeathCountsEventConsumer from "../../../player/eventConsumer/incrementDeathCountsEventConsumer"
 import MobArrivesInRoomEventConsumer from "../../../player/eventConsumer/mobArrivesInRoomEventConsumer"
 import MobLeavesRoomEventConsumer from "../../../player/eventConsumer/mobLeavesRoomEventConsumer"
@@ -101,6 +102,7 @@ export default [
   LoggedInEventConsumer,
   AutoLookWhenPlayerMobMovesEventConsumer,
   SocialEventConsumer,
+  CollectBountyOnKillEventConsumer,
   AddCorpseToRoomOnDeathEventConsumer,
   AddExperienceFromKillEventConsumer,
   ImproveInvokedSkillsEventConsumer,
