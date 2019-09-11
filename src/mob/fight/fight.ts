@@ -3,6 +3,7 @@ import {EventType} from "../../event/enum/eventType"
 import {createDeathEvent, createFightEvent} from "../../event/factory/eventFactory"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import EventService from "../../event/service/eventService"
+import withValue from "../../support/functional/withValue"
 import roll from "../../support/random/dice"
 import {MobEntity} from "../entity/mobEntity"
 import {Disposition} from "../enum/disposition"
@@ -84,21 +85,22 @@ export class Fight {
     if (eventResponse.isSatisfied()) {
       return Fight.attackDefeated(attacker, defender, getSuppressionAttackResultFromSkillType(eventResponse.context))
     }
-
     if (!Fight.isTargetAcDefeated(attacker, defender)) {
       return Fight.attackDefeated(attacker, defender, AttackResult.Miss)
     }
-
-    const event = await this.publishDamageEvent(attacker, defender, Fight.calculateDamageForOneHit(attacker, defender))
-    const damage = calculateDamageFromEvent(event)
-    defender.hp -= damage
-
-    return new Attack(
-      attacker,
-      defender,
-      AttackResult.Hit,
-      damage,
-      defender.hp < 0 ? await this.createDeath(attacker, defender) : undefined)
+    return withValue(
+      calculateDamageFromEvent(await this.publishDamageEvent(
+        attacker,
+        defender,
+        Fight.calculateDamageForOneHit(attacker, defender))), damage => {
+      defender.hp -= damage
+      return new Attack(
+        attacker,
+        defender,
+        AttackResult.Hit,
+        damage,
+        defender.hp < 0 ? this.createDeath(attacker, defender) : undefined)
+    })
   }
 
   public isP2P(): boolean {
@@ -130,10 +132,10 @@ export class Fight {
     return attacks
   }
 
-  private async createDeath(winner: MobEntity, vanquished: MobEntity): Promise<Death> {
+  private createDeath(winner: MobEntity, vanquished: MobEntity): Death {
     console.debug(`${vanquished.name} is killed by ${winner.name}`)
     this.endFight()
-    if (vanquished.traits.isNpc) {
+    if (!vanquished.isPlayerMob()) {
       vanquished.disposition = Disposition.Dead
     }
     return new Death(
