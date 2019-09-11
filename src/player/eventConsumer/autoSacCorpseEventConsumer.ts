@@ -22,7 +22,7 @@ export default class AutoSacCorpseEventConsumer implements EventConsumer {
   public async consume(event: DeathEvent): Promise<EventResponse> {
     const death = event.death
     const winner = death.killer
-    if (winner && winner.playerMob && winner.playerMob.autoSac) {
+    if (winner && winner.isPlayerMob() && winner.playerMob.autoSac) {
       const corpse = death.corpse
       const room = this.locationService.getRoomForMob(event.death.mobKilled)
       await this.eventService.publish(createDestroyItemEvent(corpse))

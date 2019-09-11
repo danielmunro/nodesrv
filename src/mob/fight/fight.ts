@@ -102,7 +102,7 @@ export class Fight {
   }
 
   public isP2P(): boolean {
-    return !!this.aggressor.playerMob && !!this.target.playerMob
+    return this.aggressor.isPlayerMob() && this.target.isPlayerMob()
   }
 
   private async publishAttackRoundStart(attacker: MobEntity): Promise<EventResponse> {
@@ -125,7 +125,7 @@ export class Fight {
     await this.eventService.publish(createFightEvent(EventType.AttackRound, attacker, this, attacks))
     const attack = attacks.find(a => a.death)
     if (attack) {
-      await this.eventService.publish(createDeathEvent(attack.death as Death))
+      await this.eventService.publish(createDeathEvent(attack.death as Death, this))
     }
     return attacks
   }
@@ -139,6 +139,6 @@ export class Fight {
     return new Death(
       vanquished,
       winner,
-      vanquished.playerMob && vanquished.playerMob.bounty ? vanquished.playerMob.bounty : 0)
+      vanquished.getBounty())
   }
 }

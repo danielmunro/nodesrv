@@ -22,7 +22,7 @@ export default class Request implements ClientRequest {
     private readonly room: RoomEntity,
     private readonly context: RequestContext,
     private readonly targetMobInRoom?: MobEntity) {
-    if (mob && mob.playerMob) {
+    if (mob && mob.isPlayerMob()) {
       const alias = this.getAlias()
       if (alias) {
         this.context = Request.getInputContextFromAlias(alias)
@@ -83,7 +83,7 @@ export default class Request implements ClientRequest {
   }
 
   public getAuthorizationLevel(): AuthorizationLevel {
-    if (this.mob && this.mob.playerMob) {
+    if (this.mob.isPlayerMob()) {
       return this.mob.playerMob.authorizationLevel
     }
 

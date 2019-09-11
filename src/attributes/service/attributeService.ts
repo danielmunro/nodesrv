@@ -11,7 +11,7 @@ export default class AttributeService {
     this.mob.attributes.forEach(a => attributes = attributes.combine(a))
     this.mob.equipped.items.forEach(i => attributes = attributes.combine(i.attributes))
     attributes = RaceService.combineAttributes(this.mob, attributes)
-    if (this.mob.playerMob) {
+    if (this.mob.isPlayerMob()) {
       attributes = attributes.combine(this.mob.playerMob.trainedAttributes)
     }
     this.mob.affects.filter(affect => affect.attributes)

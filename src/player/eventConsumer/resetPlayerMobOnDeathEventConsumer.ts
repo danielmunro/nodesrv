@@ -19,7 +19,7 @@ export default class ResetPlayerMobOnDeathEventConsumer implements EventConsumer
 
   public async consume(event: DeathEvent): Promise<EventResponse> {
     const mob = event.death.mobKilled
-    if (mob.playerMob) {
+    if (mob.isPlayerMob()) {
       mob.hp = 0
       await this.locationService.updateMobLocation(mob, this.startRoom)
     }

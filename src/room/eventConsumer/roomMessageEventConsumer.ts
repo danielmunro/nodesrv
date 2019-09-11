@@ -18,7 +18,7 @@ export default class RoomMessageEventConsumer implements EventConsumer {
 
   public consume(event: RoomMessageEvent): Promise<EventResponse> {
     this.locationService.getMobsByRoom(event.room)
-      .filter(mob => mob.playerMob !== undefined)
+      .filter(mob => mob.isPlayerMob())
       .forEach(mob => this.sendMessage(mob, event.message))
     return EventResponse.none(event)
   }

@@ -46,7 +46,7 @@ describe("bounty action", () => {
 
     // then
     expect(player1.getMob().gold).toBe(0)
-    expect(player2.getMob().playerMob.bounty).toBe(goldAmount)
+    expect(player2.getMob().getBounty()).toBe(goldAmount)
   })
 
   it("transfers the bounty to a killer when the target is killed", async () => {
@@ -64,7 +64,7 @@ describe("bounty action", () => {
     }
 
     // then
-    expect(player2.getMob().playerMob.bounty).toBe(0)
+    expect(player2.getMob().getBounty()).toBe(0)
     expect(player1.getMob().gold).toBe(goldAmount)
     // @ts-ignore
     expect(lastRound.death.bounty).toBe(goldAmount)

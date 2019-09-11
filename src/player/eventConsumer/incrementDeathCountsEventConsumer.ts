@@ -14,7 +14,7 @@ import PlayerRepository from "../repository/player"
 export default class IncrementDeathCountsEventConsumer implements EventConsumer {
   private static isP2PDeath(death: Death) {
     const killer = death.killer
-    return killer && killer.playerMob && death.mobKilled.playerMob
+    return killer && killer.isPlayerMob() && death.mobKilled.playerMob
   }
 
   constructor(

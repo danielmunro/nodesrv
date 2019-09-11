@@ -13,7 +13,7 @@ export default class AddExperienceFromKillEventConsumer implements EventConsumer
 
   public async consume(event: DeathEvent): Promise<EventResponse> {
     const winner = event.death.killer
-    if (winner && winner.playerMob && winner.playerMob.experienceToLevel > 0) {
+    if (winner && winner.isPlayerMob() && winner.playerMob.experienceToLevel > 0) {
       withValue(event.death.calculateKillerExperience(), experienceGain => {
         winner.playerMob.addExperience(experienceGain)
 

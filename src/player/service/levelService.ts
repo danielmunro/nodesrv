@@ -83,7 +83,7 @@ export default class LevelService {
   }
 
   public canMobLevel(): boolean {
-    return this.mob.playerMob && this.mob.playerMob.experienceToLevel <= 0
+    return this.mob.isPlayerMob() && this.mob.playerMob.experienceToLevel <= 0
       && this.mob.level < MAX_MOB_LEVEL
   }
 

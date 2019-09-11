@@ -33,7 +33,7 @@ export class Tick implements Observer {
     mob.hp += roll(8, (combined.hp * regenModifier) / 8)
     mob.mana += roll( 8, (combined.mana * regenModifier) / 8)
     mob.mv += roll(8, (combined.mv * regenModifier) / 8)
-    if (mob.playerMob) {
+    if (mob.isPlayerMob()) {
       mob.playerMob.regen()
     }
     mob.attribute().normalize()
@@ -71,7 +71,7 @@ export class Tick implements Observer {
       createTickEvent(mob, location.room, regenModifier))
     Tick.regen(mob, (eventResponse.event as TickEvent).regenModifier)
 
-    if (mob.playerMob && mob.playerMob.isHungry()) {
+    if (mob.isPlayerMob() && mob.playerMob.isHungry()) {
       client.sendMessage(MESSAGE_HUNGRY)
     }
 

@@ -154,6 +154,14 @@ export class MobEntity {
 
   public deathTimer: number = 0
 
+  public isPlayerMob(): boolean {
+    return !!this.playerMob
+  }
+
+  public getBounty(): number {
+    return this.isPlayerMob() ? this.playerMob.bounty : 0
+  }
+
   public getCreationPoints(): number {
     return this.playerMob.getCreationPoints() + this.race().creationPoints
   }
@@ -179,11 +187,11 @@ export class MobEntity {
   }
 
   public getAuthorizationLevel(): AuthorizationLevel {
-    return this.playerMob ? this.playerMob.authorizationLevel : AuthorizationLevel.None
+    return this.isPlayerMob() ? this.playerMob.authorizationLevel : AuthorizationLevel.None
   }
 
   public getStanding(): Standing {
-    return this.playerMob ? this.playerMob.standing : Standing.Good
+    return this.isPlayerMob() ? this.playerMob.standing : Standing.Good
   }
 
   public getSkill(skillType: SkillType): SkillEntity | undefined {
@@ -215,7 +223,7 @@ export class MobEntity {
   }
 
   public look(): string {
-    if (this.playerMob) {
+    if (this.isPlayerMob()) {
       return `${this.name} is here.`
     }
 

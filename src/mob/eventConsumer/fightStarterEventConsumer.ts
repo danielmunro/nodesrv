@@ -33,7 +33,8 @@ export default class FightStarterEventConsumer implements EventConsumer {
   }
 
   private groupAttackIfAutoAssisting(group: Group, excludingMob: MobEntity, mob: MobEntity) {
-    group.mobs.filter(groupMob => !groupMob.is(excludingMob) && (!groupMob.playerMob || groupMob.playerMob.autoAssist))
+    group.mobs.filter(groupMob =>
+      !groupMob.is(excludingMob) && (!groupMob.isPlayerMob() || groupMob.playerMob.autoAssist))
       .forEach(groupMob => this.mobService.addFight(this.fightBuilder.create(groupMob, mob)))
   }
 }

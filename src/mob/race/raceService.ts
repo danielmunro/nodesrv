@@ -8,7 +8,7 @@ import createRaceFromRaceType from "./factory"
 export default class RaceService {
   public static assignRaceToMob(mob: MobEntity, raceType: RaceType): void {
     mob.raceType = raceType
-    if (mob.playerMob) {
+    if (mob.isPlayerMob()) {
       const race = createRaceFromRaceType(raceType)
       mob.playerMob.appetite = race.appetite
       mob.playerMob.hunger = race.appetite
