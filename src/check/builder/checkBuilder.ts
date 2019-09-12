@@ -3,7 +3,6 @@ import {AffectType} from "../../affect/enum/affectType"
 import Request from "../../messageExchange/request"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {Disposition} from "../../mob/enum/disposition"
-import {Fight} from "../../mob/fight/fight"
 import MobService from "../../mob/service/mobService"
 import {ConditionMessages as SkillMessages} from "../../mob/skill/constants"
 import {SkillType} from "../../mob/skill/skillType"
@@ -11,6 +10,7 @@ import {SpellType} from "../../mob/spell/spellType"
 import {isSpecialAuthorizationLevel} from "../../player/authorizationLevels"
 import {AuthorizationLevel} from "../../player/enum/authorizationLevel"
 import Maybe from "../../support/functional/maybe/maybe"
+import withValue from "../../support/functional/withValue"
 import collectionSearch from "../../support/matcher/collectionSearch"
 import match from "../../support/matcher/match"
 import {format} from "../../support/string"
@@ -21,6 +21,7 @@ import CheckResult from "../checkResult"
 import {CheckMessages} from "../constants"
 import Cost from "../cost/cost"
 import {CheckType} from "../enum/checkType"
+import checkResultFactory from "../factory/checkResultFactory"
 import CheckComponent from "./checkComponent"
 
 export default class CheckBuilder {
@@ -207,9 +208,9 @@ export default class CheckBuilder {
   public requireFight(failMessage: string = SkillMessages.All.NoTarget) {
     this.checks.push(this.newCheckComponent(
       CheckType.IsFighting,
-      Maybe.doIf(
-        this.mobService.findFightForMob(this.mob).get(),
-        (f: Fight) => f.getOpponentFor(this.mob)),
+      this.mobService.findFightForMob(this.mob)
+        .do(fight => fight.getOpponentFor(this.mob))
+        .get(),
       failMessage))
     return this
   }
@@ -239,11 +240,12 @@ export default class CheckBuilder {
       checkFail => Check.fail(this.getFailMessage(checkFail.failMessage), this.checkResults, this.costs))
   }
 
-  private testCheckComponent(checkComponent: CheckComponent<any>) {
-    const checkResult = checkComponent.getThing(this.captured, this.lastCheckResult)
-    this.checkResults.push({ checkType: checkComponent.checkType, thing: checkResult })
-    this.lastCheckResult = checkResult
-    return !checkResult && checkComponent.isRequired
+  private testCheckComponent(checkComponent: CheckComponent<any>): boolean {
+    return withValue(checkComponent.getThing(this.captured, this.lastCheckResult), result => {
+      this.checkResults.push(checkResultFactory(checkComponent.checkType, result))
+      this.lastCheckResult = result
+      return !result && checkComponent.isRequired
+    })
   }
 
   private getFailMessage(failMessage: any) {
