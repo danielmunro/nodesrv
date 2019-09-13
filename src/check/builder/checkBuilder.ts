@@ -50,22 +50,18 @@ export default class CheckBuilder {
   }
 
   public requireMob(failMessage = CheckMessages.NoMob): CheckBuilder {
-    const subject = this.request.getSubject()
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
-      collectionSearch(this.mobService.mobTable.getMobs(), subject),
+      collectionSearch(this.mobService.mobTable.getMobs(), this.request.getSubject()),
       failMessage))
-
     return this
   }
 
   public requireMobInRoom(failMessage = CheckMessages.NoMob): CheckBuilder {
-    const lastArg = this.request.getLastArg()
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
-      this.mobService.findMobInRoomWithMob(this.mob, mob => match(mob.name, lastArg)),
+      this.mobService.findMobInRoomWithMob(this.mob, mob => match(mob.name, this.request.getLastArg())),
       failMessage))
-
     return this
   }
 
@@ -73,9 +69,7 @@ export default class CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.HasTarget,
       this.mobService.findMobInRoomWithMob(this.mob, (m: MobEntity) => m.isMerchant()),
-      CheckMessages.NoMerchant,
-    ))
-
+      CheckMessages.NoMerchant))
     return this
   }
 
@@ -86,7 +80,6 @@ export default class CheckBuilder {
 
   public optionalMob(mob?: MobEntity) {
     this.checks.push(this.newCheckComponent(CheckType.HasTarget, mob))
-
     return this
   }
 
@@ -95,7 +88,6 @@ export default class CheckBuilder {
       CheckType.IsPlayer,
       () => mob.isPlayerMob() ? mob : undefined,
       failMessage))
-
     return this
   }
 
@@ -105,17 +97,14 @@ export default class CheckBuilder {
       CheckType.AuthorizationLevel,
       isSpecialAuthorizationLevel(authorizationLevel),
       failMessage))
-
     return this
   }
 
-  public requireImmortal(
-    authorizationLevel: AuthorizationLevel, failMessage = CheckMessages.NotAuthorized) {
+  public requireImmortal(authorizationLevel: AuthorizationLevel, failMessage = CheckMessages.NotAuthorized) {
     this.checks.push(this.newCheckComponent(
       CheckType.AuthorizationLevel,
       authorizationLevel === AuthorizationLevel.Immortal,
       failMessage))
-
     return this
   }
 
@@ -124,26 +113,22 @@ export default class CheckBuilder {
       CheckType.HasArguments,
       this.request.getSubject(),
       failMessage))
-
     return this
   }
 
   public requireTarget(thing: any, failMessage: string) {
     this.checks.push(this.newCheckComponent(CheckType.HasTarget, thing, failMessage))
-
     return this
   }
 
   public require(thing: any, failMessage: string, checkType: CheckType = CheckType.Unspecified) {
     this.checks.push(this.newCheckComponent(checkType, thing, failMessage))
-
     return this
   }
 
   public capture(toCapture?: any) {
     this.checks.push(this.newCheckComponent(CheckType.Unspecified, (thing: any) =>
       this.captured = toCapture || thing))
-
     return this
   }
 
@@ -221,7 +206,6 @@ export default class CheckBuilder {
 
   public async create(): Promise<Check> {
     this.checkResults = []
-
     return Maybe.if(this.findCheckFailure())
       .or(() => this.findCostFail())
       .or(() => Check.ok(this.captured, this.checkResults, this.costs))
