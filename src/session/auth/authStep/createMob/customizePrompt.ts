@@ -29,28 +29,17 @@ export default class CustomizePrompt extends PlayerAuthStep implements AuthStep 
     const input = request.getContextAsInput()
     if (match(CustomizeCommand.Add, input.command)) {
       return this.add(mob, input.subject, request)
-    }
-
-    if (match(CustomizeCommand.Remove, input.command)) {
+    } else if (match(CustomizeCommand.Remove, input.command)) {
       return this.remove(mob, input.subject, request)
-    }
-
-    if (match(CustomizeCommand.Learned, input.command)) {
+    } else if (match(CustomizeCommand.Learned, input.command)) {
       return this.learned(mob, request)
-    }
-
-    if (match(CustomizeCommand.List, input.command)) {
+    } else if (match(CustomizeCommand.List, input.command)) {
       return this.list(mob, request)
-    }
-
-    if (match(CustomizeCommand.Done, input.command)) {
+    } else if (match(CustomizeCommand.Done, input.command)) {
       return this.done(mob, request)
-    }
-
-    if (match(CustomizeCommand.Help, input.command)) {
+    } else if (match(CustomizeCommand.Help, input.command)) {
       return request.ok(this, CreationMessages.Mob.Help)
     }
-
     return request.fail(this, CreationMessages.Mob.CustomizeFail)
   }
 
