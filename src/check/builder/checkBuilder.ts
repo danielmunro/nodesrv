@@ -41,11 +41,11 @@ export default class CheckBuilder {
   }
 
   public requireFromActionParts(actionParts: ActionPart[]): CheckBuilder {
-    const parts = actionParts.map(actionPart =>
+    actionParts.map(actionPart =>
       this.actionPartChecks.find(a => a.getActionPart() === actionPart))
-        .filter(Boolean) as ActionPartCheck[]
-    parts.forEach(actionPartCheck =>
-      actionPartCheck.addToCheckBuilder(this, this.request, actionParts))
+      .filter(Boolean)
+      // @ts-ignore
+      .forEach(actionPartCheck => actionPartCheck.addToCheckBuilder(this, this.request, actionParts))
     return this
   }
 
@@ -93,7 +93,7 @@ export default class CheckBuilder {
   public requirePlayer(mob: MobEntity, failMessage = CheckMessages.NotAPlayer): CheckBuilder {
     this.checks.push(this.newCheckComponent(
       CheckType.IsPlayer,
-      new Maybe(mob).do((m: MobEntity) => !m.traits.isNpc ? m : null).or(() => false).get(),
+      () => mob.isPlayerMob() ? mob : undefined,
       failMessage))
 
     return this
