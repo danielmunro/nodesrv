@@ -4,7 +4,6 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import EventContext from "../../messageExchange/context/eventContext"
-import {RequestType} from "../../messageExchange/enum/requestType"
 import Request from "../../messageExchange/request"
 import {Types} from "../../support/types"
 import {MobEntity} from "../entity/mobEntity"
@@ -22,12 +21,15 @@ export default class FollowMobEventConsumer implements EventConsumer {
   }
 
   public async consume(event: MobMoveEvent): Promise<EventResponse> {
+    if (!event.direction) {
+      return EventResponse.none(event)
+    }
     const action = this.moveActions.find((move: Move) => move.getDirection() === event.direction) as Move
     const followers = this.mobService.getFollowers(event.mob)
       .filter(follower => this.mobService.getLocationForMob(follower).room.uuid === event.source.uuid)
     await Promise.all(followers
       .map((mob: MobEntity) => action.handle(
-        new Request(mob, event.source, { requestType: RequestType.South } as EventContext))))
+        new Request(mob, event.source, { requestType: action.getRequestType() } as EventContext))))
     return EventResponse.none(event)
   }
 }

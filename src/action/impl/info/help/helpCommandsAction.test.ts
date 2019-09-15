@@ -27,6 +27,7 @@ auto assist
 auto exit
 auto loot
 auto sac
+auto split
 backstab
 ban
 bash

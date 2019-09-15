@@ -39,7 +39,8 @@ export default class Death {
       corpse.container.getItemFrom(item, this.mobKilled.inventory))
     this.mobKilled.equipped.items.forEach(item =>
       corpse.container.getItemFrom(item, this.mobKilled.equipped))
-
+    corpse.container.gold = this.mobKilled.gold
+    this.mobKilled.gold = 0
     return corpse
   }
 }

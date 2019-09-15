@@ -18,14 +18,17 @@ export default class ContainerEntity {
   @Column({ nullable: true })
   public isCloseable: boolean = false
 
-  @Column()
-  public weightCapacity: number = 0
+  @Column({ default: 0 })
+  public weightCapacity: number
 
-  @Column()
-  public itemCapacity: number = 0
+  @Column({ default: 0 })
+  public itemCapacity: number
 
-  @Column()
-  public maxWeightForItem: number = 0
+  @Column({ default: 0 })
+  public maxWeightForItem: number
+
+  @Column({ default: 0 })
+  public gold: number
 
   @OneToOne(() => InventoryEntity, { eager: true, cascade: true })
   @JoinColumn()
