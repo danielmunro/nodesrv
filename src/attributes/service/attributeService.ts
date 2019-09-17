@@ -16,8 +16,9 @@ export default class AttributeService {
     }
     this.mob.affects.filter(affect => affect.attributes)
       .forEach(affect => attributes = attributes.combine(affect.attributes))
-    if (this.mob.raceType) {
-      attributes = attributes.combine(this.mob.race().attributes)
+    const raceAttr = this.mob.race().attributes
+    if (raceAttr) {
+      attributes = attributes.combine(raceAttr)
     }
     return attributes
   }
