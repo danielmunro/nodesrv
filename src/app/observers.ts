@@ -3,7 +3,6 @@ import {DecrementAffects} from "../server/observers/decrementAffects"
 import {DecrementPlayerDelay} from "../server/observers/decrementPlayerDelay"
 import {FightRounds} from "../server/observers/fightRounds"
 import {HandleClientRequests} from "../server/observers/handleClientRequests"
-import {PersistPlayers} from "../server/observers/persistPlayers"
 import {RegionWeather} from "../server/observers/regionWeather"
 import Respawner from "../server/observers/respawner"
 import {Tick} from "../server/observers/tick"
@@ -23,10 +22,6 @@ export default class Observers {
 
   public getWanderObserver(): Wander {
     return this.container.get<Wander>(Types.WanderObserver)
-  }
-
-  public getPersistPlayersObserver(): PersistPlayers {
-    return this.container.get<PersistPlayers>(Types.PersistPlayersObservers)
   }
 
   public getRegionWeatherObserver(): RegionWeather {

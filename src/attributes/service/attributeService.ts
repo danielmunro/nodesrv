@@ -8,18 +8,11 @@ export default class AttributeService {
 
   public combine(): AttributesEntity {
     let attributes = newEmptyAttributes()
-    this.mob.attributes.forEach(a => attributes = attributes.combine(a))
-    this.mob.equipped.items.forEach(i => attributes = attributes.combine(i.attributes))
+    attributes = this.combineMobAttributes(attributes)
+    attributes = this.combineEquippedAttributes(attributes)
+    attributes = this.combineTrainedAttributes(attributes)
+    attributes = this.combineAffectsAttributes(attributes)
     attributes = RaceService.combineAttributes(this.mob, attributes)
-    if (this.mob.isPlayerMob()) {
-      attributes = attributes.combine(this.mob.playerMob.trainedAttributes)
-    }
-    this.mob.affects.filter(affect => affect.attributes)
-      .forEach(affect => attributes = attributes.combine(affect.attributes))
-    const raceAttr = this.mob.race().attributes
-    if (raceAttr) {
-      attributes = attributes.combine(raceAttr)
-    }
     return attributes
   }
 
@@ -67,5 +60,28 @@ export default class AttributeService {
     if (this.mob.mv > combined.mv) {
       this.mob.mv = combined.mv
     }
+  }
+
+  private combineMobAttributes(attributes: AttributesEntity): AttributesEntity {
+    this.mob.attributes.forEach(a => attributes = attributes.combine(a))
+    return attributes
+  }
+
+  private combineEquippedAttributes(attributes: AttributesEntity): AttributesEntity {
+    this.mob.equipped.items.forEach(i => attributes = attributes.combine(i.attributes))
+    return attributes
+  }
+
+  private combineTrainedAttributes(attributes: AttributesEntity): AttributesEntity {
+    if (this.mob.isPlayerMob()) {
+      attributes = attributes.combine(this.mob.playerMob.trainedAttributes)
+    }
+    return attributes
+  }
+
+  private combineAffectsAttributes(attributes: AttributesEntity): AttributesEntity {
+    this.mob.affects.filter(affect => affect.attributes)
+      .forEach(affect => attributes = attributes.combine(affect.attributes))
+    return attributes
   }
 }

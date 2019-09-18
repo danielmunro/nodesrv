@@ -49,6 +49,7 @@ export function assignSpecializationToMob(mob: MobEntity, specialization: Specia
     spec.specialization === SpecializationType.Any)
 
   specializations.forEach(spec => {
+    // @ts-ignore
     if (Object.values(SkillType).includes(spec.abilityType)) {
       mob.skills.push(createSkillFromSkillType(spec.abilityType as SkillType, spec.minimumLevel))
     } else {

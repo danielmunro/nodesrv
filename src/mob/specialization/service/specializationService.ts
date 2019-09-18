@@ -22,6 +22,7 @@ export default class SpecializationService {
   }
 
   private static addAbility(mob: MobEntity, specializationLevel: SpecializationLevel) {
+    // @ts-ignore
     if (Object.values(SkillType).includes(specializationLevel.abilityType)) {
       mob.skills.push(newSkill(
         specializationLevel.abilityType as SkillType,
@@ -30,6 +31,7 @@ export default class SpecializationService {
       return
     }
 
+    // @ts-ignore
     if (Object.values(SpellType).includes(specializationLevel.abilityType)) {
       mob.spells.push(newSpell(
         specializationLevel.abilityType as SpellType,

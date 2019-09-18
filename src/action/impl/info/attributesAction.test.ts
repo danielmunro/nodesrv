@@ -17,6 +17,6 @@ describe("attributes action", () => {
     const response = await testRunner.invokeAction(RequestType.Attributes)
 
     // then
-    expect(response.getMessageToRequestCreator()).toBe("Str: 11 Int: 19 Wis: 19 Dex: 17 Con: 11 Sta: 13")
+    expect(response.getMessageToRequestCreator()).toBe("Str: 13 Int: 17 Wis: 17 Dex: 16 Con: 13 Sta: 14")
   })
 })

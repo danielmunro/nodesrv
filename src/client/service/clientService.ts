@@ -86,6 +86,10 @@ export default class ClientService {
     return this.getLoggedInClients().map(client => client.getSessionMob())
   }
 
+  public getLoggedInClients(): Client[] {
+    return this.clients.filter(c => c.isLoggedIn())
+  }
+
   private onMessage(client: Client, message: any) {
     const mob = client.getSessionMob()
     Maybe.if(mob, () =>
@@ -100,9 +104,5 @@ export default class ClientService {
     const data = JSON.parse(messageEvent.data)
     const requestArgs = data.request.split(" ")
     return new RequestBuilder(this.locationService, mob, room).create(requestArgs[0], data.request)
-  }
-
-  private getLoggedInClients(): Client[] {
-    return this.clients.filter(c => c.isLoggedIn())
   }
 }

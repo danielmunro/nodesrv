@@ -63,6 +63,7 @@ import IncrementDeathCountsEventConsumer from "../../../player/eventConsumer/inc
 import MobArrivesInRoomEventConsumer from "../../../player/eventConsumer/mobArrivesInRoomEventConsumer"
 import MobLeavesRoomEventConsumer from "../../../player/eventConsumer/mobLeavesRoomEventConsumer"
 import ResetPlayerMobOnDeathEventConsumer from "../../../player/eventConsumer/resetPlayerMobOnDeathEventConsumer"
+import SaveEventConsumer from "../../../player/eventConsumer/saveEventConsumer"
 import RoomMessageEventConsumer from "../../../room/eventConsumer/roomMessageEventConsumer"
 
 export default [
@@ -109,6 +110,7 @@ export default [
   IncrementDeathCountsEventConsumer,
   AutoLootCorpseEventConsumer,
   AutoSacCorpseEventConsumer,
+  SaveEventConsumer,
 
   // race
   ElfIronVulnEventConsumer,
