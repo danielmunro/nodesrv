@@ -91,6 +91,7 @@ export default [
   DamageModifierEventConsumer,
   FollowMobEventConsumer,
   DeathTimerEventConsumer,
+  AddCorpseToRoomOnDeathEventConsumer,
   ResetPlayerMobOnDeathEventConsumer,
 
   // player
@@ -104,7 +105,6 @@ export default [
   AutoLookWhenPlayerMobMovesEventConsumer,
   SocialEventConsumer,
   CollectBountyOnKillEventConsumer,
-  AddCorpseToRoomOnDeathEventConsumer,
   AddExperienceFromKillEventConsumer,
   ImproveInvokedSkillsEventConsumer,
   IncrementDeathCountsEventConsumer,
