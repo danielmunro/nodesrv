@@ -29,6 +29,7 @@ import Death from "../../mob/fight/death"
 import {DamageType} from "../../mob/fight/enum/damageType"
 import FightEvent from "../../mob/fight/event/fightEvent"
 import {Fight} from "../../mob/fight/fight"
+import {Round} from "../../mob/fight/round"
 import {SkillEntity} from "../../mob/skill/entity/skillEntity"
 import SkillEvent from "../../mob/skill/event/skillEvent"
 import {SpellEntity} from "../../mob/spell/entity/spellEntity"
@@ -168,6 +169,6 @@ export function createModifiedCastEvent(event: CastEvent, roll: number): CastEve
   return { ...event, roll }
 }
 
-export function createDeathEvent(death: Death, fight?: Fight): DeathEvent {
-  return { eventType: EventType.MobDeath, death, fight }
+export function createDeathEvent(death: Death, fight?: Fight, round?: Round): DeathEvent {
+  return { eventType: EventType.MobDeath, death, round, fight }
 }

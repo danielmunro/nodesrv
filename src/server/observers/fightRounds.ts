@@ -10,14 +10,11 @@ import {Attack} from "../../mob/fight/attack"
 import {getPhysicalDamageDescriptor} from "../../mob/fight/damageDescriptor"
 import healthIndicator from "../../mob/fight/healthIndicator"
 import {Round} from "../../mob/fight/round"
-import {BodyPart} from "../../mob/race/enum/bodyParts"
 import MobService from "../../mob/service/mobService"
 import Maybe from "../../support/functional/maybe/maybe"
 import withValue from "../../support/functional/withValue"
-import {simpleD4} from "../../support/random/dice"
 import {format} from "../../support/string"
 import {Types} from "../../support/types"
-import {Messages, Messages as ServerObserverMessages} from "./constants"
 import {Observer} from "./observer"
 
 enum AttackLabel {
@@ -80,34 +77,6 @@ export function attackMessage(attack: Attack, mob: MobEntity): string {
   return roomMessage
 }
 
-function getFatalityMessages(round: Round): string[] {
-  const messages = []
-  const vanquished = round.vanquished as MobEntity
-  messages.push(format(Messages.Fight.DeathCry, vanquished.name))
-  simpleD4(() => messages.push(format(Messages.Fight.BloodSplatter, vanquished.name)))
-  if (round.bodyParts) {
-    messages.push(...round.bodyParts.map(bodyPart => getBodyPartMessage(vanquished, bodyPart)))
-  }
-
-  return messages
-}
-
-function getBodyPartMessage(mob: MobEntity, bodyPart: BodyPart): string {
-  const m = ServerObserverMessages.Fight.BodyParts
-  switch (bodyPart) {
-    case BodyPart.Guts:
-      return format(m.Guts, mob.name, mob.gender)
-    case BodyPart.Head:
-      return format(m.Head, mob.name, mob.gender)
-    case BodyPart.Heart:
-      return format(m.Heart, mob.name, mob.gender)
-    case BodyPart.Brains:
-      return format(m.Brains, mob.name, mob.gender)
-    default:
-      return format(m.Default, mob.name, bodyPart, mob.gender)
-  }
-}
-
 function createMessageFromFightRound(round: Round, sessionMob: MobEntity): string {
   const messages = []
   const lastAttack = round.getLastAttack()
@@ -119,9 +88,7 @@ function createMessageFromFightRound(round: Round, sessionMob: MobEntity): strin
   messages.push(...round.attacks.map(mapper))
   messages.push(...round.counters.map(mapper))
 
-  if (round.isFatality) {
-    messages.push(...getFatalityMessages(round))
-  } else if (round.isParticipant(sessionMob)) {
+  if (!round.isFatality && round.isParticipant(sessionMob)) {
     messages.push(withValue(attacker === sessionMob ? defender : attacker, (opponent: MobEntity) =>
       opponent.name + " " +
       getHealthIndicator(opponent.hp / opponent.attribute().getMaxHp()) + "."))
@@ -159,7 +126,7 @@ export class FightRounds implements Observer {
   private async updateRound(round: Round, clientMobMap: any) {
     const location = this.mobService.getLocationForMob(round.fight.aggressor)
     if (round.death) {
-      await this.eventService.publish(createDeathEvent(round.death, round.fight))
+      await this.eventService.publish(createDeathEvent(round.death, round.fight, round))
     }
     this.mobService.getMobsByRoom(location.room).forEach(mob =>
       new Maybe(clientMobMap[mob.name])
