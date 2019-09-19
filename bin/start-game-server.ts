@@ -53,19 +53,11 @@ initializeConnection().then(async () => {
     observers.getWanderObserver(),
   ]), new RandomTickTimer(
     new DiceRoller(tick.dice.sides, tick.dice.rolls, tick.dice.modifier)))
-  server.addObserver(observers.getPersistPlayersObserver(), new MinuteTimer())
   server.addObserver(observers.getRegionWeatherObserver(), new MinuteTimer())
   server.addObserver(observers.getFightRoundsObserver(), new SecondIntervalTimer())
   server.addObserver(observers.getRespawnerObserver(), new FiveMinuteTimer())
   server.addObserver(observers.getDecrementPlayerDelayObserver(), new SecondIntervalTimer())
   server.addObserver(observers.getHandleClientRequestsObserver(), new ShortIntervalTimer())
-
-  /**
-   * event service consumers
-   */
-  const eventConsumerTable = app.getEventConsumerTable()
-  const eventService = app.getEventService()
-  eventConsumerTable.forEach(eventConsumer => eventService.addConsumer(eventConsumer))
 
   /**
    * start the game
