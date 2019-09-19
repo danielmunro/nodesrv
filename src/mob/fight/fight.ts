@@ -1,9 +1,8 @@
 import AffectService from "../../affect/service/affectService"
 import {EventType} from "../../event/enum/eventType"
-import {createDeathEvent, createFightEvent} from "../../event/factory/eventFactory"
+import {createFightEvent} from "../../event/factory/eventFactory"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import EventService from "../../event/service/eventService"
-import AsyncMaybe from "../../support/functional/maybe/asyncMaybe"
 import withValue from "../../support/functional/withValue"
 import roll from "../../support/random/dice"
 import {MobEntity} from "../entity/mobEntity"
@@ -126,8 +125,6 @@ export class Fight {
   private async turnFor(attacker: MobEntity, defender: MobEntity): Promise<Attack[]> {
     const attacks = [await this.createAttack(attacker, defender)]
     await this.eventService.publish(createFightEvent(EventType.AttackRound, attacker, this, attacks))
-    await new AsyncMaybe(attacks.find(a => a.death)).doAsync(attack =>
-      this.eventService.publish(createDeathEvent(attack.death as Death, this)))
     return attacks
   }
 

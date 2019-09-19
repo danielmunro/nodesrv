@@ -1,5 +1,7 @@
 import {inject, injectable} from "inversify"
 import {Client} from "../../client/client"
+import {createDeathEvent} from "../../event/factory/eventFactory"
+import EventService from "../../event/service/eventService"
 import {ItemEntity} from "../../item/entity/itemEntity"
 import {Equipment} from "../../item/enum/equipment"
 import {MobEntity} from "../../mob/entity/mobEntity"
@@ -143,7 +145,9 @@ export class FightRounds implements Observer {
     client.send({ message })
     client.sendMessage(client.player.prompt())
   }
-  constructor(@inject(Types.MobService) private readonly mobService: MobService) {}
+  constructor(
+    @inject(Types.MobService) private readonly mobService: MobService,
+    @inject(Types.EventService) private readonly eventService: EventService) {}
 
   public async notify(clients: Client[]) {
     const rounds = await this.proceedAllFightRounds()
@@ -152,8 +156,11 @@ export class FightRounds implements Observer {
     rounds.forEach(round => this.updateRound(round, clientMobMap))
   }
 
-  private updateRound(round: Round, clientMobMap: any) {
+  private async updateRound(round: Round, clientMobMap: any) {
     const location = this.mobService.getLocationForMob(round.fight.aggressor)
+    if (round.death) {
+      await this.eventService.publish(createDeathEvent(round.death, round.fight))
+    }
     this.mobService.getMobsByRoom(location.room).forEach(mob =>
       new Maybe(clientMobMap[mob.name])
         .do(() => this.updateClientIfMobIsOwned(clientMobMap, mob, round)))
