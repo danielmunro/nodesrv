@@ -1,8 +1,10 @@
 import {createTestAppContainer} from "../../app/factory/testFactory"
+import {createDeathEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import TestRunner from "../../support/test/testRunner"
 import {Types} from "../../support/types"
 import {MobEntity} from "../entity/mobEntity"
+import Death from "./death"
 import { Fight } from "./fight"
 import {Round} from "./round"
 
@@ -65,10 +67,8 @@ describe("fight", () => {
 
     // when
     const fight = await testRunner.fightAs(player.getMob(), target)
-    while (fight.isInProgress()) {
-      player.setHp(20)
-      await fight.createFightRound()
-    }
+    const death = new Death(target, player.getMob())
+    await eventService.publish(createDeathEvent(death, fight))
 
     // then
     expect(player.getMob().playerMob.experience).toBeGreaterThan(0)
@@ -115,10 +115,8 @@ describe("fight", () => {
     const fight = await testRunner.fight(target)
 
     // when
-    while (fight.isInProgress()) {
-      aggressor.hp = 20
-      await fight.createFightRound()
-    }
+    const death = new Death(target, aggressor)
+    await eventService.publish(createDeathEvent(death, fight))
 
     // then
     const room = testRunner.getStartRoom().get()
@@ -145,10 +143,8 @@ describe("fight", () => {
     const fight = await testRunner.fightAs(player.getMob(), target)
 
     // when
-    while (fight.isInProgress()) {
-      player.setHp(20)
-      await fight.createFightRound()
-    }
+    const death = new Death(target, player.getMob())
+    await eventService.publish(createDeathEvent(death, fight))
 
     // then
     const room = testRunner.getStartRoom().get()

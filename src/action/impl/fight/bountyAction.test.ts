@@ -1,6 +1,9 @@
 import {createTestAppContainer} from "../../../app/factory/testFactory"
+import {createDeathEvent} from "../../../event/factory/eventFactory"
+import EventService from "../../../event/service/eventService"
 import {RequestType} from "../../../messageExchange/enum/requestType"
-import {Round} from "../../../mob/fight/round"
+import Death from "../../../mob/fight/death"
+import {Fight} from "../../../mob/fight/fight"
 import PlayerBuilder from "../../../support/test/playerBuilder"
 import TestRunner from "../../../support/test/testRunner"
 import {Types} from "../../../support/types"
@@ -9,10 +12,13 @@ import {Messages} from "../../constants"
 let testRunner: TestRunner
 let player1: PlayerBuilder
 let player2: PlayerBuilder
+let eventService: EventService
 const goldAmount = 100
 
 beforeEach(async () => {
-  testRunner = (await createTestAppContainer()).get<TestRunner>(Types.TestRunner)
+  const app = await createTestAppContainer()
+  testRunner = app.get<TestRunner>(Types.TestRunner)
+  eventService = app.get<EventService>(Types.EventService)
   player1 = await testRunner.createPlayer()
   player2 = await testRunner.createPlayer()
 })
@@ -50,23 +56,17 @@ describe("bounty action", () => {
   })
 
   it("transfers the bounty to a killer when the target is killed", async () => {
-    // setup
-    player2.setBounty(goldAmount).setHp(1)
-
     // given
-    const fight = await testRunner.fight(player2.getMob())
-    let lastRound: Round
+    player2.setBounty(goldAmount)
 
     // when
-    while (fight.isInProgress()) {
-      player1.setHp(20)
-      lastRound = await fight.createFightRound()
-    }
+    const fight = new Fight(eventService, player1.getMob(), player2.getMob())
+    const death = new Death(player2.getMob(), player1.getMob(), goldAmount)
+    await eventService.publish(createDeathEvent(death, fight))
 
     // then
     expect(player2.getMob().getBounty()).toBe(0)
     expect(player1.getMob().gold).toBe(goldAmount)
-    // @ts-ignore
-    expect(lastRound.death.bounty).toBe(goldAmount)
+    expect(death.bounty).toBe(goldAmount)
   })
 })
