@@ -1,4 +1,5 @@
 import { ItemEntity } from "../../item/entity/itemEntity"
+import {MaterialType} from "../../item/enum/materialType"
 import { newContainer } from "../../item/factory/itemFactory"
 import { Messages } from "../../server/observers/constants"
 import {pickOne} from "../../support/random/helpers"
@@ -35,6 +36,7 @@ export default class Death {
     const corpse = newContainer(
       format(Messages.Fight.Corpse.Name, this.mobKilled.name),
       format(Messages.Fight.Corpse.Description, this.mobKilled.name))
+    corpse.material = MaterialType.Corpse
     this.mobKilled.inventory.items.forEach(item =>
       corpse.container.getItemFrom(item, this.mobKilled.inventory))
     this.mobKilled.equipped.items.forEach(item =>

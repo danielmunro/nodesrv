@@ -29,7 +29,7 @@ export enum MaterialType {
   Copper = "copper",
   Coral = "coral",
   Cork = "cork",
-  Corspe = "corpse",
+  Corpse = "corpse",
   Cotton = "cotton",
   Crystal = "crystal",
   Diamond = "diamond",
