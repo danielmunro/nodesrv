@@ -1,9 +1,13 @@
 import {inject, injectable} from "inversify"
+import LookAction from "../../action/impl/info/lookAction"
 import {Client} from "../../client/client"
 import {createDeathEvent} from "../../event/factory/eventFactory"
 import EventService from "../../event/service/eventService"
 import {ItemEntity} from "../../item/entity/itemEntity"
 import {Equipment} from "../../item/enum/equipment"
+import InputContext from "../../messageExchange/context/inputContext"
+import {RequestType} from "../../messageExchange/enum/requestType"
+import Request from "../../messageExchange/request"
 import {MobEntity} from "../../mob/entity/mobEntity"
 import {AttackVerb} from "../../mob/enum/attackVerb"
 import {Attack} from "../../mob/fight/attack"
@@ -11,6 +15,7 @@ import {getPhysicalDamageDescriptor} from "../../mob/fight/damageDescriptor"
 import healthIndicator from "../../mob/fight/healthIndicator"
 import {Round} from "../../mob/fight/round"
 import MobService from "../../mob/service/mobService"
+import {RoomEntity} from "../../room/entity/roomEntity"
 import Maybe from "../../support/functional/maybe/maybe"
 import withValue from "../../support/functional/withValue"
 import {format} from "../../support/string"
@@ -114,7 +119,9 @@ export class FightRounds implements Observer {
   }
   constructor(
     @inject(Types.MobService) private readonly mobService: MobService,
-    @inject(Types.EventService) private readonly eventService: EventService) {}
+    @inject(Types.EventService) private readonly eventService: EventService,
+    @inject(Types.StartRoom) private readonly startRoom: RoomEntity,
+    @inject(Types.LookAction) private readonly lookAction: LookAction) {}
 
   public async notify(clients: Client[]) {
     const rounds = await this.proceedAllFightRounds()
@@ -131,6 +138,14 @@ export class FightRounds implements Observer {
     this.mobService.getMobsByRoom(location.room).forEach(mob =>
       new Maybe(clientMobMap[mob.name])
         .do(() => this.updateClientIfMobIsOwned(clientMobMap, mob, round)))
+    if (round.death && round.death.mobKilled.isPlayerMob()) {
+      const mobKilled = round.death.mobKilled
+      const response = await this.lookAction.handle(
+        new Request(mobKilled, this.startRoom, new InputContext(RequestType.Look)))
+      const client = clientMobMap[mobKilled.name] as Client
+      client.sendMessage(response.getMessageToRequestCreator())
+      client.sendMessage(client.player.prompt())
+    }
   }
 
   private async proceedAllFightRounds(): Promise<Round[]> {
