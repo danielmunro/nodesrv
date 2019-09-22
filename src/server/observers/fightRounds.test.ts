@@ -73,7 +73,7 @@ describe("fight rounds", () => {
     const mobBuilder = await testRunner.createMob()
     await testRunner.fight()
     const mobService = app.get<MobService>(Types.MobService)
-    const fightRounds = new FightRounds(mobService)
+    const fightRounds = app.get<FightRounds>(Types.FightRoundsObserver)
 
     // when
     await fightRounds.notify([])
