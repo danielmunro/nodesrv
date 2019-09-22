@@ -11,14 +11,17 @@ export default class CollectBountyOnKillEventConsumer implements EventConsumer {
     return [ EventType.MobDeath ]
   }
 
+  public async isEventConsumable(event: DeathEvent): Promise<boolean> {
+    const vanquished = event.death.mobKilled
+    const fight = event.fight
+    return !!fight && fight.isP2P() && !!vanquished.getBounty()
+  }
+
   public async consume(event: DeathEvent): Promise<EventResponse> {
     const killer = event.death.killer as MobEntity
     const vanquished = event.death.mobKilled
-    const fight = event.fight
-    if (fight && fight.isP2P() && vanquished.getBounty()) {
-      killer.gold += vanquished.getBounty()
-      vanquished.playerMob.bounty = 0
-    }
+    killer.gold += vanquished.getBounty()
+    vanquished.playerMob.bounty = 0
     return EventResponse.none(event)
   }
 }

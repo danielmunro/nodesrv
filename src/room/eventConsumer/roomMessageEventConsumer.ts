@@ -1,6 +1,7 @@
 import { inject, injectable } from "inversify"
 import ClientService from "../../client/service/clientService"
 import {EventType} from "../../event/enum/eventType"
+import EveryMessageEventConsumer from "../../event/eventConsumer/everyMessageEventConsumer"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import ResponseMessage from "../../messageExchange/responseMessage"
@@ -10,10 +11,11 @@ import {Types} from "../../support/types"
 import RoomMessageEvent from "../event/roomMessageEvent"
 
 @injectable()
-export default class RoomMessageEventConsumer implements EventConsumer {
+export default class RoomMessageEventConsumer extends EveryMessageEventConsumer implements EventConsumer {
   constructor(
     @inject(Types.ClientService) private readonly clientService: ClientService,
     @inject(Types.LocationService) private readonly locationService: LocationService) {
+    super()
   }
 
   public consume(event: RoomMessageEvent): Promise<EventResponse> {

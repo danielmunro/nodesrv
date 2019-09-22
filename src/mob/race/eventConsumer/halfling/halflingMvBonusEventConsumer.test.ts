@@ -26,13 +26,15 @@ describe("halfling mv bonus event consumer", () => {
     [ Terrain.Water ],
     [ Terrain.Other ],
   ])("does not reduce mv cost in settlements, mountains, and water", async () => {
-    const eventResponse = await consumer.consume(createMobMoveEvent(
+    // when
+    const consumable = await consumer.isEventConsumable(createMobMoveEvent(
       mob,
       testRunner.getStartRoom().get(),
       testRunner.createRoom().get(),
       1))
 
-    expect((eventResponse.event as MobMoveEvent).mvCost).toBe(1)
+    // then
+    expect(consumable).toBeFalsy()
   })
 
   it.each([

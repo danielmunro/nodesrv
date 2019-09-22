@@ -12,13 +12,15 @@ export default class WithstandDeathEventConsumer implements EventConsumer {
     return [EventType.DamageCalculation]
   }
 
+  public async isEventConsumable(event: DamageEvent): Promise<boolean> {
+    const target = event.mob
+    return target.hp < event.amount && target.affect().has(AffectType.WithstandDeath)
+  }
+
   public async consume(event: DamageEvent): Promise<EventResponse> {
     const target = event.mob
-    if (target.hp < event.amount && target.affect().has(AffectType.WithstandDeath)) {
-      target.affect().remove(AffectType.WithstandDeath)
-      return EventResponse.satisfied(
-        createDamageEvent(event.mob, event.amount, event.damageType, 0, event.source))
-    }
-    return EventResponse.none(event)
+    target.affect().remove(AffectType.WithstandDeath)
+    return EventResponse.satisfied(
+      createDamageEvent(event.mob, event.amount, event.damageType, 0, event.source))
   }
 }

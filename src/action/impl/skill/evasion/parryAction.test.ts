@@ -44,7 +44,7 @@ describe("parry event consumer", () => {
     expect(parried.length).toBeGreaterThan(1)
   })
 
-  it("should not change the outcome if no weapon has equipped", async () => {
+  it("does not change the outcome if no weapon has equipped", async () => {
     const rounds = await doNTimes(iterations, async () => {
       attacker.setHp(20)
       defender.setHp(20)

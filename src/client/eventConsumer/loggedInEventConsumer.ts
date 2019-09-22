@@ -3,6 +3,7 @@ import Action from "../../action/impl/action"
 import ClientEvent from "../../client/event/clientEvent"
 import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
+import EveryMessageEventConsumer from "../../event/eventConsumer/everyMessageEventConsumer"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import KafkaService from "../../kafka/kafkaService"
@@ -13,11 +14,13 @@ import {RoomEntity} from "../../room/entity/roomEntity"
 import {Types} from "../../support/types"
 
 @injectable()
-export default class LoggedInEventConsumer implements EventConsumer {
+export default class LoggedInEventConsumer extends EveryMessageEventConsumer implements EventConsumer {
   constructor(
     @inject(Types.StartRoom) private readonly startRoom: RoomEntity,
     @inject(Types.LookAction) private readonly lookDefinition: Action,
-    @inject(Types.KafkaService) private readonly kafkaService: KafkaService) {}
+    @inject(Types.KafkaService) private readonly kafkaService: KafkaService) {
+    super()
+  }
 
   public getConsumingEventTypes(): EventType[] {
     return [EventType.ClientLogin]

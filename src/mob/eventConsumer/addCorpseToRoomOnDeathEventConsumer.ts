@@ -1,5 +1,6 @@
 import {inject, injectable} from "inversify"
 import {EventType} from "../../event/enum/eventType"
+import EveryMessageEventConsumer from "../../event/eventConsumer/everyMessageEventConsumer"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import ItemService from "../../item/service/itemService"
@@ -8,10 +9,12 @@ import {Types} from "../../support/types"
 import LocationService from "../service/locationService"
 
 @injectable()
-export default class AddCorpseToRoomOnDeathEventConsumer implements EventConsumer {
+export default class AddCorpseToRoomOnDeathEventConsumer extends EveryMessageEventConsumer implements EventConsumer {
   constructor(
     @inject(Types.LocationService) private readonly locationService: LocationService,
-    @inject(Types.ItemService) private readonly itemService: ItemService) {}
+    @inject(Types.ItemService) private readonly itemService: ItemService) {
+    super()
+  }
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.MobDeath ]

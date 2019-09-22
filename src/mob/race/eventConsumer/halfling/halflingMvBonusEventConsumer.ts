@@ -15,11 +15,12 @@ export default class HalflingMvBonusEventConsumer implements EventConsumer {
     return [ EventType.MobMoved ]
   }
 
+  public async isEventConsumable(event: MobMoveEvent): Promise<boolean> {
+    return event.mob.raceType === RaceType.Halfling &&
+      HalflingMvBonusEventConsumer.terrains.includes(event.source.region.terrain)
+  }
+
   public consume(event: MobMoveEvent): Promise<EventResponse> {
-    if (event.mob.raceType === RaceType.Halfling &&
-      HalflingMvBonusEventConsumer.terrains.includes(event.source.region.terrain)) {
-      return EventResponse.modified(createModifiedMobMoveEvent(event, event.mvCost / 2))
-    }
-    return EventResponse.none(event)
+    return EventResponse.modified(createModifiedMobMoveEvent(event, event.mvCost / 2))
   }
 }

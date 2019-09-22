@@ -48,14 +48,14 @@ export default class FatalityMessagesEventConsumer implements EventConsumer {
     return [ EventType.MobDeath ]
   }
 
-  public async consume(event: DeathEvent): Promise<EventResponse> {
-    if (!event.fight || !event.round) {
-      return EventResponse.none(event)
-    }
-    const mobKilled = event.death.mobKilled
-    FatalityMessagesEventConsumer.getFatalityMessages(mobKilled, event.round)
-      .forEach(message => this.clientService.sendMessageInRoom(mobKilled, message))
+  public async isEventConsumable(event: DeathEvent): Promise<boolean> {
+    return !!event.fight && !!event.round
+  }
 
+  public async consume(event: DeathEvent): Promise<EventResponse> {
+    const mobKilled = event.death.mobKilled
+    FatalityMessagesEventConsumer.getFatalityMessages(mobKilled, event.round as Round)
+      .forEach(message => this.clientService.sendMessageInRoom(mobKilled, message))
     return EventResponse.none(event)
   }
 }

@@ -7,7 +7,6 @@ import EventContext from "../../messageExchange/context/eventContext"
 import {RequestType} from "../../messageExchange/enum/requestType"
 import Request from "../../messageExchange/request"
 import MobMoveEvent from "../../mob/event/mobMoveEvent"
-import AsyncMaybe from "../../support/functional/maybe/asyncMaybe"
 import {Types} from "../../support/types"
 import {Client} from "../client"
 import ClientService from "../service/clientService"
@@ -22,15 +21,17 @@ export default class AutoLookWhenPlayerMobMovesEventConsumer implements EventCon
     return [ EventType.MobMoved ]
   }
 
+  public async isEventConsumable(event: MobMoveEvent): Promise<boolean> {
+    return !!this.clientService.getClientByMob(event.mob)
+  }
+
   public async consume(event: MobMoveEvent): Promise<EventResponse> {
-    const maybe = new AsyncMaybe(this.clientService.getClientByMob(event.mob))
-    await maybe.doAsync(async (client: Client) => {
-      const response = await this.lookDefinition.handle(
-        new Request(event.mob,
-          event.destination,
-          { requestType: RequestType.Look } as EventContext))
-      client.sendMessage(response.getMessageToRequestCreator())
-    })
+    const client = this.clientService.getClientByMob(event.mob) as Client
+    const response = await this.lookDefinition.handle(
+      new Request(event.mob,
+        event.destination,
+        { requestType: RequestType.Look } as EventContext))
+    client.sendMessage(response.getMessageToRequestCreator())
     return EventResponse.none(event)
   }
 }

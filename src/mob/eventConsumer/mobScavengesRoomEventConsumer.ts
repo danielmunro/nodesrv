@@ -23,10 +23,12 @@ export default class MobScavengesRoomEventConsumer implements EventConsumer {
     return [EventType.MobMoved, EventType.ItemDropped]
   }
 
+  public async isEventConsumable(event: MobEvent): Promise<boolean> {
+    return event.mob.traits.scavenger
+  }
+
   public async consume(event: MobEvent): Promise<EventResponse> {
-    if (event.mob.traits.scavenger) {
-      setTimeout(() => this.scavenge(event.mob), this.scavengeTimeoutMS)
-    }
+    setTimeout(() => this.scavenge(event.mob), this.scavengeTimeoutMS)
     return EventResponse.none(event)
   }
 

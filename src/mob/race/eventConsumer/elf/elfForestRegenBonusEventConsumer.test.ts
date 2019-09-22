@@ -23,11 +23,11 @@ beforeEach(async () => {
 describe("elf forest regen bonus event consumer", () => {
   it("does not change the modifier if not in the forest", async () => {
     // when
-    const eventResponse = await eventConsumer.consume(
+    const consumable = await eventConsumer.isEventConsumable(
       createTickEvent(mob, testRunner.getStartRoom().get(), regenModifier))
 
     // then
-    expect((eventResponse.event as TickEvent).regenModifier).toBe(regenModifier)
+    expect(consumable).toBeFalsy()
   })
 
   it("does increase the modifier if in the forest", async () => {

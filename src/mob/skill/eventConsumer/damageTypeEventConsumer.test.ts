@@ -44,11 +44,11 @@ describe("bludgeon damage type event consumer", () => {
     attacker.equip(testRunner.createWeapon().asMace().build())
 
     // when
-    const eventResponse = await consumer.consume(
+    const consumable = await consumer.isEventConsumable(
       createDamageEvent(defender.get(), 1, DamageType.Bash, modifier, attacker.get()))
 
     // then
-    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
+    expect(consumable).toBeFalsy()
   })
 
   it("does not increase bludgeon bonus without a bludgeoning weapon", async () => {
@@ -60,11 +60,11 @@ describe("bludgeon damage type event consumer", () => {
     attacker.equip(testRunner.createWeapon().asAxe().build())
 
     // when
-    const eventResponse = await consumer.consume(
+    const consumable = await consumer.isEventConsumable(
       createDamageEvent(defender.get(), 1, DamageType.Bash, modifier, attacker.get()))
 
     // then
-    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
+    expect(consumable).toBeFalsy()
   })
 })
 
@@ -93,11 +93,11 @@ describe("cleave damage type event consumer", () => {
     attacker.equip(testRunner.createWeapon().asAxe().build())
 
     // when
-    const eventResponse = await consumer.consume(
+    const consumable = await consumer.isEventConsumable(
       createDamageEvent(defender.get(), 1, DamageType.Slash, modifier, attacker.get()))
 
     // then
-    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
+    expect(consumable).toBeFalsy()
   })
 
   it("does not increase damage bonus without a slashing weapon", async () => {
@@ -109,11 +109,11 @@ describe("cleave damage type event consumer", () => {
     attacker.equip(testRunner.createWeapon().asMace().build())
 
     // when
-    const eventResponse = await consumer.consume(
+    const consumable = await consumer.isEventConsumable(
       createDamageEvent(defender.get(), 1, DamageType.Slash, modifier, attacker.get()))
 
     // then
-    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
+    expect(consumable).toBeFalsy()
   })
 })
 
@@ -142,11 +142,11 @@ describe("gouge damage type event consumer", () => {
     attacker.equip(testRunner.createWeapon().asDagger().build())
 
     // when
-    const eventResponse = await consumer.consume(
+    const consumable = await consumer.isEventConsumable(
       createDamageEvent(defender.get(), 1, DamageType.Pierce, modifier, attacker.get()))
 
     // then
-    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
+    expect(consumable).toBeFalsy()
   })
 
   it("does not increase damage bonus without a piercing weapon", async () => {
@@ -158,10 +158,10 @@ describe("gouge damage type event consumer", () => {
     attacker.equip(testRunner.createWeapon().asMace().build())
 
     // when
-    const eventResponse = await consumer.consume(
+    const consumable = await consumer.isEventConsumable(
       createDamageEvent(defender.get(), 1, DamageType.Bash, modifier, attacker.get()))
 
     // then
-    expect(eventResponse.getDamageEvent().modifier).toBe(modifier)
+    expect(consumable).toBeFalsy()
   })
 })

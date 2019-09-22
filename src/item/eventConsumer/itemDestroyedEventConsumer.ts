@@ -1,5 +1,6 @@
 import { inject, injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
+import EveryMessageEventConsumer from "../../event/eventConsumer/everyMessageEventConsumer"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import {Types} from "../../support/types"
@@ -7,11 +8,13 @@ import ItemEvent from "../event/itemEvent"
 import ItemService from "../service/itemService"
 
 @injectable()
-export default class ItemDestroyedEventConsumer implements EventConsumer {
-  constructor(@inject(Types.ItemService) private readonly itemService: ItemService) {}
+export default class ItemDestroyedEventConsumer extends EveryMessageEventConsumer implements EventConsumer {
+  constructor(@inject(Types.ItemService) private readonly itemService: ItemService) {
+    super()
+  }
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.ItemDestroyed]
+    return [ EventType.ItemDestroyed ]
   }
 
   public async consume(event: ItemEvent): Promise<EventResponse> {

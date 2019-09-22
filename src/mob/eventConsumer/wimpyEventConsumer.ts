@@ -22,16 +22,19 @@ export default class WimpyEventConsumer implements EventConsumer {
     @inject(Types.FleeAction) private readonly fleeDefinition: Action) {}
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.AttackRound]
+    return [ EventType.AttackRound ]
+  }
+
+  public async isEventConsumable(event: FightEvent): Promise<boolean> {
+    const target = event.fight.getOpponentFor(event.mob)
+    return target && target.traits.wimpy && WimpyEventConsumer.isWimpy(event.mob, target)
   }
 
   public async consume(event: FightEvent): Promise<EventResponse> {
     const target = event.fight.getOpponentFor(event.mob)
-    if (target && target.traits.wimpy && WimpyEventConsumer.isWimpy(event.mob, target)) {
-      const response = await this.tryWimpy(target)
-      if (response.isSuccessful()) {
-        return EventResponse.satisfied(event)
-      }
+    const response = await this.tryWimpy(target)
+    if (response.isSuccessful()) {
+      return EventResponse.satisfied(event)
     }
     return EventResponse.none(event)
   }

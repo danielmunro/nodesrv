@@ -9,14 +9,14 @@ import {AffectType} from "../enum/affectType"
 @injectable()
 export default class SanctuaryEventConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.DamageCalculation]
+    return [ EventType.DamageCalculation ]
+  }
+
+  public async isEventConsumable(event: DamageEvent): Promise<boolean> {
+    return event.mob.affect().has(AffectType.Sanctuary)
   }
 
   public async consume(event: DamageEvent): Promise<EventResponse> {
-    if (!event.mob.affect().has(AffectType.Sanctuary)) {
-      return EventResponse.none(event)
-    }
-
     return EventResponse.modified(createDamageEvent(
       event.mob, event.amount, event.damageType, event.modifier - 0.5, event.source))
   }

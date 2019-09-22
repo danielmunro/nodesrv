@@ -32,11 +32,13 @@ export default class ShieldBlockEventConsumer implements EventConsumer {
     return [ EventType.AttackRoundStart ]
   }
 
+  public async isEventConsumable(event: FightEvent): Promise<boolean> {
+    const target = event.fight.getOpponentFor(event.mob)
+    return !!target.getSkill(SkillType.ShieldBlock) && !!target.getFirstEquippedItemAtPosition(Equipment.Shield)
+  }
+
   public async consume(event: FightEvent): Promise<EventResponse> {
     const target = event.fight.getOpponentFor(event.mob)
-    if (!target.getSkill(SkillType.ShieldBlock) || !target.getFirstEquippedItemAtPosition(Equipment.Shield)) {
-      return EventResponse.none(event)
-    }
     const room = this.locationService.getRoomForMob(event.mob)
     const result = await this.skill.handle(
       ShieldBlockEventConsumer.createRequest(target, room))

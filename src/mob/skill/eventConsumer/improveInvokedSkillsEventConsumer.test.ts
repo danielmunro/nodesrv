@@ -38,12 +38,14 @@ describe("skill invoked event consumer", () => {
     mob2.attributes[0].int = 0
 
     // when
+    let mob1Improve = 0
+    let mob2Improve = 0
     await doNTimes(iterations, async () => {
-      await skillInvokedEventConsumer.consume(createSkillEvent(skill1, mob1, true))
-      await skillInvokedEventConsumer.consume(createSkillEvent(skill2, mob2, true))
+      mob1Improve += await skillInvokedEventConsumer.isEventConsumable(createSkillEvent(skill1, mob1, true)) ? 1 : 0
+      mob2Improve += await skillInvokedEventConsumer.isEventConsumable(createSkillEvent(skill2, mob2, true)) ? 1 : 0
     })
 
     // then
-    expect(skill1.level).toBeGreaterThan(skill2.level)
+    expect(mob1Improve).toBeGreaterThan(mob2Improve)
   })
 })

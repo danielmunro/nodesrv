@@ -3,7 +3,6 @@ import {EventType} from "../../event/enum/eventType"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import {Types} from "../../support/types"
-import {MobEntity} from "../entity/mobEntity"
 import MobMoveEvent from "../event/mobMoveEvent"
 import FightBuilder from "../fight/fightBuilder"
 import LocationService from "../service/locationService"
@@ -20,14 +19,12 @@ export default class AggressiveMobEventConsumer implements EventConsumer {
     return [ EventType.MobMoved ]
   }
 
-  public async consume(event: MobMoveEvent): Promise<EventResponse> {
-    if (event.mob.isPlayerMob()) {
-      this.checkForAggressiveMobs(event.mob)
-    }
-    return EventResponse.none(event)
+  public async isEventConsumable(event: MobMoveEvent): Promise<boolean> {
+    return event.mob.isPlayerMob()
   }
 
-  private checkForAggressiveMobs(mob: MobEntity) {
+  public async consume(event: MobMoveEvent): Promise<EventResponse> {
+    const mob = event.mob
     const location = this.locationService.getLocationForMob(mob)
     const mobs = this.locationService.getMobsByRoom(location.room).filter(m => m !== mob)
     mobs.forEach(m => {
@@ -35,5 +32,6 @@ export default class AggressiveMobEventConsumer implements EventConsumer {
         this.mobService.addFight(this.fightBuilder.create(m, mob))
       }
     })
+    return EventResponse.none(event)
   }
 }

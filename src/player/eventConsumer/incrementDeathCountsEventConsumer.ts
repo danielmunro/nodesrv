@@ -12,11 +12,6 @@ import PlayerRepository from "../repository/player"
 
 @injectable()
 export default class IncrementDeathCountsEventConsumer implements EventConsumer {
-  private static isP2PDeath(death: Death) {
-    const killer = death.killer
-    return killer && killer.isPlayerMob() && death.mobKilled.playerMob
-  }
-
   constructor(
     @inject(Types.KafkaService) private readonly kafkaService: KafkaService,
     @inject(Types.PlayerRepository) private readonly playerRepository: PlayerRepository) {}
@@ -25,13 +20,12 @@ export default class IncrementDeathCountsEventConsumer implements EventConsumer 
     return [ EventType.MobDeath ]
   }
 
+  public async isEventConsumable(event: DeathEvent): Promise<boolean> {
+    return !!event.fight && event.fight.isP2P()
+  }
+
   public async consume(event: DeathEvent): Promise<EventResponse> {
-    const death = event.death
-
-    if (IncrementDeathCountsEventConsumer.isP2PDeath(death)) {
-      await this.incrementDeathCounts(death)
-    }
-
+    await this.incrementDeathCounts(event.death)
     return EventResponse.none(event)
   }
 

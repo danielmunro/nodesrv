@@ -26,10 +26,11 @@ export default abstract class ExtraAttackEventConsumer implements EventConsumer 
     return [ EventType.AttackRound ]
   }
 
+  public async isEventConsumable(event: FightEvent): Promise<boolean> {
+    return !!event.mob.skills.find(skill => skill.skillType === this.skill.getSkillType())
+  }
+
   public async consume(event: FightEvent): Promise<EventResponse> {
-    if (!event.mob.skills.find(skill => skill.skillType === this.skill.getSkillType())) {
-      return EventResponse.none(event)
-    }
     const fight = event.fight
     const room = this.locationService.getRoomForMob(event.mob)
     const result = await this.skill.handle(

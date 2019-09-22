@@ -44,9 +44,9 @@ describe("favored weapon effect event consumer", () => {
     const event = createFightEvent(EventType.AttackRound, mob2.get(), fight)
 
     // when
-    const eventResponse = await eventConsumer.consume(event)
+    const consumable = await eventConsumer.isEventConsumable(event)
 
     // then
-    expect((eventResponse.event as FightEvent).attacks).toHaveLength(0)
+    expect(consumable).toBeFalsy()
   })
 })

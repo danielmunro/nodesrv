@@ -19,17 +19,18 @@ export default class EnduranceEventConsumer implements EventConsumer {
     return cost.amount / 3
   }
 
+  public async isEventConsumable(event: CostEvent): Promise<boolean> {
+    return event.mob.affect().has(AffectType.Endurance)
+      && !!event.costs.find(cost => cost.costType === CostType.Mv)
+  }
+
   public async consume(event: CostEvent): Promise<EventResponse> {
-    if (event.mob.affect().has(AffectType.Endurance)
-      && event.costs.find(cost => cost.costType === CostType.Mv)) {
-      return EventResponse.modified(
-        createCostEvent(
-          event.mob,
-          event.costs.map(cost =>
-            cost.costType === CostType.Mv ?
-              new Cost(CostType.Mv, EnduranceEventConsumer.reduceAmount(event.mob, cost)) : cost)))
-    }
-    return EventResponse.none(event)
+    return EventResponse.modified(
+      createCostEvent(
+        event.mob,
+        event.costs.map(cost =>
+          cost.costType === CostType.Mv ?
+            new Cost(CostType.Mv, EnduranceEventConsumer.reduceAmount(event.mob, cost)) : cost)))
   }
 
   public getConsumingEventTypes(): EventType[] {

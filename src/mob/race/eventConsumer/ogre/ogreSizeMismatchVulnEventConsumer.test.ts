@@ -34,10 +34,10 @@ describe("ogre size mismatch vuln event consumer", () => {
     defender.raceType = RaceType.Ogre
 
     // when
-    const eventResponse = await eventConsumer.consume(
+    const consumable = await eventConsumer.isEventConsumable(
       createDamageEvent(defender, 1, DamageType.Slash, 1, attacker))
 
     // then
-    expect(eventResponse.getDamageEvent().modifier).toBe(1)
+    expect(consumable).toBeFalsy()
   })
 })

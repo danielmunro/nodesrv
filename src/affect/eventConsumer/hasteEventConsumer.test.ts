@@ -25,10 +25,10 @@ describe("haste event consumer", () => {
     const fightEvent = createFightEvent(EventType.AttackRound, mob.mob, fight, [])
 
     // when
-    await consumer.consume(fightEvent)
+    const consumable = await consumer.isEventConsumable(fightEvent)
 
     // then
-    expect(fightEvent.attacks.length).toBe(0)
+    expect(consumable).toBeFalsy()
   })
 
   it("generates extra attacks", async () => {

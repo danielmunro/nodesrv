@@ -26,12 +26,14 @@ export default class ParryEventConsumer implements EventConsumer {
     return [ EventType.AttackRoundStart ]
   }
 
+  public async isEventConsumable(event: FightEvent): Promise<boolean> {
+    const target = event.fight.getOpponentFor(event.mob)
+    return !!target.skills.find(skill => skill.skillType === SkillType.Parry)
+      && !!target.equipped.items.find(item => item.equipment === Equipment.Weapon)
+  }
+
   public async consume(event: FightEvent): Promise<EventResponse> {
     const target = event.fight.getOpponentFor(event.mob)
-    if (!target.skills.find(skill => skill.skillType === SkillType.Parry)
-      || !target.equipped.items.find(item => item.equipment === Equipment.Weapon)) {
-      return EventResponse.none(event)
-    }
     const room = this.locationService.getRoomForMob(event.mob)
     const request = new Request(target, room, { requestType: RequestType.Noop } as EventContext)
     const result = await this.skill.handle(request)

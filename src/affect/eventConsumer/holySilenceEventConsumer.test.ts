@@ -21,13 +21,13 @@ beforeEach(async () => {
 describe("holy silence event consumer", () => {
   it("does nothing if a mob is not affected", async () => {
     // when
-    const eventResponse = await consumer.consume(
+    const consumable = await consumer.isEventConsumable(
       createInputEvent(
         testRunner.createRequest(RequestType.Cast, "cast holy"),
         jest.fn()()))
 
     // then
-    expect(eventResponse.isSatisfied()).toBeFalsy()
+    expect(consumable).toBeFalsy()
   })
 
   it("satisfies event if caster is affected", async () => {

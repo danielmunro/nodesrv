@@ -8,11 +8,12 @@ import {AffectType} from "../enum/affectType"
 
 @injectable()
 export default class FlyEventConsumer implements EventConsumer {
+  public async isEventConsumable(event: MobMoveEvent): Promise<boolean> {
+    return event.mob.affect().has(AffectType.Fly)
+  }
+
   public async consume(event: MobMoveEvent): Promise<EventResponse> {
-    if (event.mob.affect().has(AffectType.Fly)) {
-      return EventResponse.modified(createModifiedMobMoveEvent(event, 0))
-    }
-    return EventResponse.none(event)
+    return EventResponse.modified(createModifiedMobMoveEvent(event, 0))
   }
 
   public getConsumingEventTypes(): EventType[] {

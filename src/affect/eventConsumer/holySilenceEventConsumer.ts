@@ -17,18 +17,18 @@ export default class HolySilenceEventConsumer implements EventConsumer {
     return [ EventType.ClientRequest ]
   }
 
+  public async isEventConsumable(event: InputEvent): Promise<boolean> {
+    return event.mob.affect().has(AffectType.HolySilence) && event.request.getType() === RequestType.Cast
+  }
+
   public async consume(event: InputEvent): Promise<EventResponse> {
-    const request = event.request
-    if (event.mob.affect().has(AffectType.HolySilence) && request.getType() === RequestType.Cast) {
-      return EventResponse.satisfied(
-        createInputEvent(
-          request,
-          event.action,
-          new Response(
-            request,
-            ResponseStatus.PreconditionsFailed,
-            new ResponseMessage(event.mob, SpellMessages.HolySilence.CastPrevented))))
-    }
-    return EventResponse.none(event)
+    return EventResponse.satisfied(
+      createInputEvent(
+        event.request,
+        event.action,
+        new Response(
+          event.request,
+          ResponseStatus.PreconditionsFailed,
+          new ResponseMessage(event.mob, SpellMessages.HolySilence.CastPrevented))))
   }
 }

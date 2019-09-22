@@ -1,5 +1,6 @@
 import { injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
+import EveryMessageEventConsumer from "../../event/eventConsumer/everyMessageEventConsumer"
 import {createDamageEvent} from "../../event/factory/eventFactory"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
@@ -8,7 +9,7 @@ import DamageEvent from "../../mob/event/damageEvent"
 import vulnerabilityModifier from "../../mob/fight/vulnerabilityModifier"
 
 @injectable()
-export default class DamageSourceEventConsumer implements EventConsumer {
+export default class DamageSourceEventConsumer extends EveryMessageEventConsumer implements EventConsumer {
   public getConsumingEventTypes(): EventType[] {
     return [EventType.DamageCalculation]
   }

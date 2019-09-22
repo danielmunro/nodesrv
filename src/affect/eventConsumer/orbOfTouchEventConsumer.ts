@@ -9,22 +9,22 @@ import {AffectType} from "../enum/affectType"
 
 @injectable()
 export default class OrbOfTouchEventConsumer implements EventConsumer {
+  public async isEventConsumable(event: MobInteractionEvent): Promise<boolean> {
+    return event.target.affect().has(AffectType.OrbOfTouch)
+  }
+
   public async consume(event: MobInteractionEvent): Promise<EventResponse> {
-    const aff = event.target.affect()
-    if (aff.has(AffectType.OrbOfTouch)) {
-      aff.remove(AffectType.OrbOfTouch)
-      return EventResponse.satisfied(event, new ResponseMessageBuilder(
-        event.mob,
-        AffectMessages.OrbOfTouch.Touched,
-        event.target)
-        .setVerbToRequestCreator("bounce")
-        .setVerbToTarget("bounces")
-        .setVerbToObservers("bounces")
-        .setPluralizeTarget()
-        .setTargetPossessive()
-        .create())
-    }
-    return EventResponse.none(event)
+    event.target.affect().remove(AffectType.OrbOfTouch)
+    return EventResponse.satisfied(event, new ResponseMessageBuilder(
+      event.mob,
+      AffectMessages.OrbOfTouch.Touched,
+      event.target)
+      .setVerbToRequestCreator("bounce")
+      .setVerbToTarget("bounces")
+      .setVerbToObservers("bounces")
+      .setPluralizeTarget()
+      .setTargetPossessive()
+      .create())
   }
 
   public getConsumingEventTypes(): EventType[] {

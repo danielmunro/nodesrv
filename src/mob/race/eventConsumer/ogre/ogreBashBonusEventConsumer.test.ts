@@ -40,10 +40,10 @@ describe("ogre bash bonus event consumer", () => {
     weapon.damageType = DamageType.Slash
 
     // when
-    const eventResponse = await eventConsumer.consume(
+    const consumable = await eventConsumer.isEventConsumable(
       createDamageEvent(defender, 1, DamageType.Slash, 1, attacker))
 
     // then
-    expect(eventResponse.getDamageEvent().modifier).toBe(1)
+    expect(consumable).toBeFalsy()
   })
 })

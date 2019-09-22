@@ -19,6 +19,14 @@ export default class DrowMageBonusEventConsumer implements EventConsumer {
     return [ EventType.Cast ]
   }
 
+  public async isEventConsumable(event: CastEvent): Promise<boolean> {
+    const spell = this.spellTable.find(sp =>
+      sp.getSpellType() === event.spell.spellType) as Spell
+    return event.mob.raceType === RaceType.Drow &&
+      event.mob.specializationType === SpecializationType.Mage &&
+      spell.getSpecializationType() === SpecializationType.Mage
+  }
+
   public consume(castEvent: CastEvent): Promise<EventResponse> {
     const spell = this.spellTable.find(sp =>
       sp.getSpellType() === castEvent.spell.spellType) as Spell

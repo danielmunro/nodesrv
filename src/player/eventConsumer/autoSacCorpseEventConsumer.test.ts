@@ -44,9 +44,9 @@ describe("auto sac corpse event consumer", () => {
     player.sessionMob.playerMob.autoSac = false
 
     // when
-    await consumer.consume(createDeathEvent(death))
+    const consumable = await consumer.isEventConsumable(createDeathEvent(death))
 
     // then
-    expect(startRoom.inventory.items).toHaveLength(1)
+    expect(consumable).toBeFalsy()
   })
 })

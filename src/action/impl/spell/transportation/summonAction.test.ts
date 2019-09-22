@@ -55,6 +55,10 @@ describe("summon spell action", () => {
     const testConsumer = class implements EventConsumer {
       public messages: RoomMessageEvent[] = []
 
+      public async isEventConsumable(): Promise<boolean> {
+        return true
+      }
+
       public consume(event: RoomMessageEvent): Promise<EventResponse> {
         this.messages.push(event)
         return EventResponse.none(event)

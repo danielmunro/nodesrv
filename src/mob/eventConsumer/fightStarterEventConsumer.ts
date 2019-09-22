@@ -20,15 +20,16 @@ export default class FightStarterEventConsumer implements EventConsumer {
     return [ EventType.Attack ]
   }
 
+  public async isEventConsumable(event: MobInteractionEvent): Promise<boolean> {
+    return !this.mobService.findFightForMob(event.mob).get()
+  }
+
   public async consume(event: MobInteractionEvent): Promise<EventResponse> {
-    const fight = this.mobService.findFightForMob(event.mob).get()
-    if (!fight) {
-      this.mobService.addFight(this.fightBuilder.create(event.mob, event.target))
-      Maybe.if(this.mobService.getGroupForMob(event.mob), group =>
-        this.groupAttackIfAutoAssisting(group, event.mob, event.target))
-      Maybe.if(this.mobService.getGroupForMob(event.target), group =>
-        this.groupAttackIfAutoAssisting(group, event.target, event.mob))
-    }
+    this.mobService.addFight(this.fightBuilder.create(event.mob, event.target))
+    Maybe.if(this.mobService.getGroupForMob(event.mob), group =>
+      this.groupAttackIfAutoAssisting(group, event.mob, event.target))
+    Maybe.if(this.mobService.getGroupForMob(event.target), group =>
+      this.groupAttackIfAutoAssisting(group, event.target, event.mob))
     return EventResponse.none(event)
   }
 

@@ -22,15 +22,19 @@ export default class AutoLootCorpseEventConsumer implements EventConsumer {
     return [ EventType.MobDeath ]
   }
 
-  public async consume(event: DeathEvent): Promise<EventResponse> {
+  public async isEventConsumable(event: DeathEvent): Promise<boolean> {
     const death = event.death
     const winner = death.killer
-    if (winner && winner.isPlayerMob() && winner.playerMob.autoLoot) {
-      const corpse = death.corpse
-      const location = this.mobService.getLocationForMob(event.death.mobKilled)
-      this.transferGoldFromCorpse(location.room, winner, corpse)
-      await this.transferItemsFromCorpse(location.room, winner, corpse)
-    }
+    return !!winner && winner.isPlayerMob() && winner.playerMob.autoLoot
+  }
+
+  public async consume(event: DeathEvent): Promise<EventResponse> {
+    const death = event.death
+    const winner = death.killer as MobEntity
+    const corpse = death.corpse
+    const location = this.mobService.getLocationForMob(event.death.mobKilled)
+    this.transferGoldFromCorpse(location.room, winner, corpse)
+    await this.transferItemsFromCorpse(location.room, winner, corpse)
     return EventResponse.none(event)
   }
 

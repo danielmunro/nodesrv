@@ -4,7 +4,6 @@ import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import LocationService from "../../mob/service/locationService"
 import MobService from "../../mob/service/mobService"
-import AsyncMaybe from "../../support/functional/maybe/asyncMaybe"
 import {Types} from "../../support/types"
 import ClientEvent from "../event/clientEvent"
 
@@ -15,14 +14,17 @@ export default class ClientDisconnectRemoveMobEventConsumer implements EventCons
     @inject(Types.LocationService) private readonly locationService: LocationService) {}
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.ClientDisconnected]
+    return [ EventType.ClientDisconnected ]
+  }
+
+  public async isEventConsumable(event: ClientEvent): Promise<boolean> {
+    return event.client.isLoggedIn()
   }
 
   public async consume(event: ClientEvent): Promise<EventResponse> {
-    new AsyncMaybe(event.client.getSessionMob()).doAsync(async mob => {
-      await this.mobService.save(mob)
-      this.locationService.removeMob(mob)
-    })
+    const mob = event.client.getSessionMob()
+    await this.mobService.save(mob)
+    this.locationService.removeMob(mob)
     return EventResponse.none(event)
   }
 }

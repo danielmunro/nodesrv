@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify"
 import ClientService from "../../client/service/clientService"
 import {EventResponseStatus} from "../../event/enum/eventResponseStatus"
 import {EventType} from "../../event/enum/eventType"
+import EveryMessageEventConsumer from "../../event/eventConsumer/everyMessageEventConsumer"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import {RoomEntity} from "../../room/entity/roomEntity"
@@ -12,11 +13,13 @@ import MobService from "../service/mobService"
 import {Messages} from "./constants"
 
 @injectable()
-export default class MobCreatedEventConsumer implements EventConsumer {
+export default class MobCreatedEventConsumer extends EveryMessageEventConsumer implements EventConsumer {
   constructor(
     @inject(Types.MobService) private readonly mobService: MobService,
     @inject(Types.ClientService) private readonly clientService: ClientService,
-    @inject(Types.StartRoom) private readonly startRoom: RoomEntity) {}
+    @inject(Types.StartRoom) private readonly startRoom: RoomEntity) {
+    super()
+  }
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.MobCreated ]

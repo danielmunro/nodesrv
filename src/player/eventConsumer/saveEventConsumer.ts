@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify"
 import {Client} from "../../client/client"
 import ClientService from "../../client/service/clientService"
 import {EventType} from "../../event/enum/eventType"
+import EveryMessageEventConsumer from "../../event/eventConsumer/everyMessageEventConsumer"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import TickEvent from "../../mob/event/tickEvent"
@@ -10,11 +11,13 @@ import {Types} from "../../support/types"
 import PlayerService from "../service/playerService"
 
 @injectable()
-export default class SaveEventConsumer implements EventConsumer {
+export default class SaveEventConsumer extends EveryMessageEventConsumer implements EventConsumer {
   constructor(
     @inject(Types.ClientService) private readonly clientService: ClientService,
     @inject(Types.PlayerService) private readonly playerService: PlayerService,
-    @inject(Types.MobService) private readonly mobService: MobService) {}
+    @inject(Types.MobService) private readonly mobService: MobService) {
+    super()
+  }
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.Tick ]

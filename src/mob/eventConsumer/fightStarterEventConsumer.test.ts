@@ -38,10 +38,10 @@ describe("fight starter", () => {
 
     // when
     await fightStarter.consume(createAttackEvent(mob1, mob2))
-    await fightStarter.consume(createAttackEvent(mob1, mob2))
+    const consumable = await fightStarter.isEventConsumable(createAttackEvent(mob1, mob2))
 
     // then
-    expect(mobService.getFightCount()).toBe(1)
+    expect(consumable).toBeFalsy()
   })
 
   it.each([

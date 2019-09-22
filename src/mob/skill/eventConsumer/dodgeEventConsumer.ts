@@ -25,10 +25,11 @@ export default class DodgeEventConsumer implements EventConsumer {
     return [EventType.AttackRoundStart]
   }
 
+  public async isEventConsumable(event: FightEvent): Promise<boolean> {
+    return !!event.mob.getSkill(SkillType.Dodge)
+  }
+
   public async consume(event: FightEvent): Promise<EventResponse> {
-    if (!event.mob.getSkill(SkillType.Dodge)) {
-      return EventResponse.none(event)
-    }
     const room = this.locationService.getRoomForMob(event.mob)
     const result = await this.skill.handle(
       new Request(event.mob, room, { requestType: RequestType.Noop } as EventContext))

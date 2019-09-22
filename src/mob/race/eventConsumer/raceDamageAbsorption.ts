@@ -17,12 +17,12 @@ export default abstract class RaceDamageAbsorption implements EventConsumer {
     return [ EventType.DamageCalculation ]
   }
 
-  public consume(event: DamageEvent): Promise<EventResponse> {
-    if (this.doesConsumerApply(event)) {
-      return EventResponse.modified(createModifiedDamageEvent(event, this.modifier))
-    }
+  public async isEventConsumable(event: DamageEvent): Promise<boolean> {
+    return this.doesConsumerApply(event)
+  }
 
-    return EventResponse.none(event)
+  public consume(event: DamageEvent): Promise<EventResponse> {
+    return EventResponse.modified(createModifiedDamageEvent(event, this.modifier))
   }
 
   protected doesConsumerApply(event: DamageEvent): boolean {

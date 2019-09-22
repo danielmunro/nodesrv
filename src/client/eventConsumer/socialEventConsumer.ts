@@ -1,5 +1,6 @@
 import { inject, injectable } from "inversify"
 import {EventType} from "../../event/enum/eventType"
+import EveryMessageEventConsumer from "../../event/eventConsumer/everyMessageEventConsumer"
 import EventConsumer from "../../event/interface/eventConsumer"
 import EventResponse from "../../event/messageExchange/eventResponse"
 import {MobEntity} from "../../mob/entity/mobEntity"
@@ -9,11 +10,13 @@ import SocialEvent from "../event/socialEvent"
 import ClientService from "../service/clientService"
 
 @injectable()
-export default class SocialEventConsumer implements EventConsumer {
-  constructor(@inject(Types.ClientService) private readonly clientService: ClientService) {}
+export default class SocialEventConsumer extends EveryMessageEventConsumer implements EventConsumer {
+  constructor(@inject(Types.ClientService) private readonly clientService: ClientService) {
+    super()
+  }
 
   public getConsumingEventTypes(): EventType[] {
-    return [EventType.Social]
+    return [ EventType.Social ]
   }
 
   public async consume(event: SocialEvent): Promise<EventResponse> {

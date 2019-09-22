@@ -14,12 +14,12 @@ export default class ElfForestRegenBonusEventConsumer implements EventConsumer {
     return [ EventType.Tick ]
   }
 
-  public consume(tickEvent: TickEvent): Promise<EventResponse> {
-    if (tickEvent.room.region.terrain === Terrain.Forest) {
-      return EventResponse.modified(
-        createModifiedTickEvent(tickEvent, tickEvent.regenModifier + ElfForestRegenBonusEventConsumer.bonusModifier))
-    }
+  public async isEventConsumable(event: TickEvent): Promise<boolean> {
+    return event.room.region.terrain === Terrain.Forest
+  }
 
-    return EventResponse.none(tickEvent)
+  public consume(tickEvent: TickEvent): Promise<EventResponse> {
+    return EventResponse.modified(
+      createModifiedTickEvent(tickEvent, tickEvent.regenModifier + ElfForestRegenBonusEventConsumer.bonusModifier))
   }
 }

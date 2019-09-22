@@ -20,10 +20,11 @@ export default class FollowMobEventConsumer implements EventConsumer {
     return [EventType.MobMoved]
   }
 
+  public async isEventConsumable(event: MobMoveEvent): Promise<boolean> {
+    return !!event.direction
+  }
+
   public async consume(event: MobMoveEvent): Promise<EventResponse> {
-    if (!event.direction) {
-      return EventResponse.none(event)
-    }
     const action = this.moveActions.find((move: Move) => move.getDirection() === event.direction) as Move
     const followers = this.mobService.getFollowers(event.mob)
       .filter(follower => this.mobService.getLocationForMob(follower).room.uuid === event.source.uuid)

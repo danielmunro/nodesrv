@@ -12,12 +12,14 @@ import {AffectType} from "../enum/affectType"
 export default class DetectTouchEventConsumer implements EventConsumer {
   constructor(@inject(Types.EventService) private readonly eventService: EventService) {}
 
-  public async consume(event: MobInteractionEvent): Promise<EventResponse> {
+  public async isEventConsumable(event: MobInteractionEvent): Promise<boolean> {
     const aff = event.target.affect()
-    if (aff.has(AffectType.DetectTouch)) {
-      await this.eventService.publish(
-        createMobMessageEvent(event.target, `${event.mob} is touching you.`))
-    }
+    return aff.has(AffectType.DetectTouch)
+  }
+
+  public async consume(event: MobInteractionEvent): Promise<EventResponse> {
+    await this.eventService.publish(
+      createMobMessageEvent(event.target, `${event.mob} is touching you.`))
     return EventResponse.none(event)
   }
 

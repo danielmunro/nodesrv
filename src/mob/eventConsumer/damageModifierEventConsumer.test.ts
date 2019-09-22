@@ -60,9 +60,9 @@ describe("damage modifier event consumer", () => {
     const event = new DamageEventBuilder(mob, initialDamage, DamageType.Poison).build()
 
     // when
-    const response = await consumer.consume(event)
+    const consumable = await consumer.isEventConsumable(event)
 
     // then
-    expect(calculateDamageFromEvent(response.getDamageEvent())).toBe(calculateDamageFromEvent(event))
+    expect(consumable).toBeFalsy()
   })
 })

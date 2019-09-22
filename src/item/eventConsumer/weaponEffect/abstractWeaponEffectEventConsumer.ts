@@ -1,5 +1,6 @@
 import { inject, injectable } from "inversify"
 import {EventType} from "../../../event/enum/eventType"
+import EveryMessageEventConsumer from "../../../event/eventConsumer/everyMessageEventConsumer"
 import EventConsumer from "../../../event/interface/eventConsumer"
 import EventResponse from "../../../event/messageExchange/eventResponse"
 import DamageEvent from "../../../mob/event/damageEvent"
@@ -10,11 +11,14 @@ import {WeaponEffect} from "../../enum/weaponEffect"
 import WeaponEffectService from "../../service/weaponEffectService"
 
 @injectable()
-export default abstract class AbstractWeaponEffectEventConsumer implements EventConsumer {
+// tslint:disable-next-line:max-line-length
+export default abstract class AbstractWeaponEffectEventConsumer extends EveryMessageEventConsumer implements EventConsumer {
   public static defaultBonus = 0.15
 
   constructor(
-    @inject(Types.WeaponEffectService) protected readonly weaponEffectService: WeaponEffectService) {}
+    @inject(Types.WeaponEffectService) protected readonly weaponEffectService: WeaponEffectService) {
+    super()
+  }
 
   public getConsumingEventTypes(): EventType[] {
     return [ EventType.DamageCalculation ]
