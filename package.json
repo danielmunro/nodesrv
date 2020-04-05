@@ -41,7 +41,7 @@
     "@types/ws": "^6.0.1",
     "jest": "^24.8.0",
     "jest-sonar-reporter": "^2.0.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.3",
     "mock-socket": "^9.0.0",
     "sillyname": "^0.1.0",
     "slugify": "^1.2.9",
