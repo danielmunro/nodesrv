@@ -58,7 +58,7 @@
     "is-uuid": "^1.0.2",
     "json-stringify-safe": "^5.0.1",
     "kafkajs": "^1.8.0",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.21",
     "password-hash": "^1.2.2",
     "pg": "^7.7.1",
     "stripe": "^7.4.0",
